@@ -1,0 +1,24 @@
+<html>
+  <body>
+    <p>As explained in {@link org.exolab.castor.jdo.persist}, 
+       {@link org.exolab.castor.persist.LockEngine} implements a persistence engine 
+       that caches objects in memory for performance reasons and thus eliminates the 
+       number of operations against the persistence storage.
+    
+    <dl>
+      <dt><b>Author: </b></dt><dd><a href="mailto:werner.guttmann@gmx.net">Werner Guttmann</a></dd>
+    </dl>
+
+    <p>The main component of this package is the interface {@link Cache.java}, which declares 
+       the external functionality of a performance cache. Existing (and future) cache engines
+       have to implement this interface, which is closely modelled after {@link java.util.Map}. 
+       To obtain an instance of a particular cache engine (from client code), client code is 
+       instructed to use {@link CacheFactory} as a factory.</p>
+
+    <p>The remainder of this package are exceptions associated with cache interaction, an 
+       enumeration of all (currently) available cache types and a prototype for an (abstract) 
+       base class to assist future cache engine additions.</p>
+
+    <p></p>
+  </body>
+</html>

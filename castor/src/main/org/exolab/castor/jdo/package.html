@@ -1,0 +1,64 @@
+<html>
+  <body>
+    <p><b>The Java Data Objects API</b></p>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date$</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:arkin@exoffice.com">Assaf Arkin</a></dd>
+    </dl>
+
+    <p>The class {@link org.exolab.castor.jdo.JDO} provides the Castor JDO engine used for
+       obtaining database connection. A JDO object is constructed with the name of a database
+       and other properties, and <tt>getDatabase}</tt> is used to obtain a new database connection.</p>
+
+    <p>The class {@link org.exolab.castor.jdo.Database} represents an open connection to the
+       database that can be used to perform transactional operations on the database.</p>
+
+    <p>Database operations can only be performed in the context of a transaction. Client
+       applications should begin and commit a transaction using the <tt>begin</tt> and <tt>commit</tt>
+       methods. Server applications should use implicit transaction demaraction by the container
+       or explicit transaction demarcation using <tt>javax.transaction.UserTransaction</tt>.</p>
+
+    <p>All objects queried and created during a transaction are persistent. Changes to persistent
+       objects will be stored in the database when the transaction commits. Changes will not be
+       stored if the transaction is rolled back or fails to commit.</p>
+
+    <p>The class {@link org.exolab.castor.jdo.OQLQuery} is obtained from the database and used to
+       construct and execute a query on that database. All query operations are bound to the database
+       transaction.</p>
+
+    <p>The following example opens a connection to the database 'mydb' configured from the
+       configuration file '<tt>database.xml</tt>', retrieves all the products in the specified
+       groups and marks them down with a 25% discount and on-sale status.</p>
+
+       <pre>
+  JDO          jdo;
+  Database     db;
+  Query        oql;
+  QueryResults results;
+
+  <font color="red">// Define a new database source</font>
+  jdo = new JDO( "mydb" );
+  jdo.setConfiguration( "database.xml" );
+
+  <font color="red">// Open a new database, begin a transaction</font>
+  db = jdo.getDatabase();
+  db.begin();
+
+  <font color="red">// Select all the products in a given group</font>
+  oql = db.getQuery( "SELECT p FROM Product p WHERE group=$" );
+  oql.bind( groupId );
+  results = oql.execute();
+  while ( results.hasMore() ) {
+    <font color="red">// A 25% mark down for each product and mark as sale</font>
+    prod = (Product) results.next();
+    prod.markDown( 0.25 );
+    prod.setOnSale( true );
+  }
+  <font color="red">// Commit all changes, close the database</font>
+  db.commit();
+  db.close();
+       </pre></p>
+
+  </body> 
+</html>
