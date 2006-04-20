@@ -1,0 +1,12 @@
+
+<mapping>
+        
+        <class name="C">
+                <map-to xml="C"/>
+                <field name="price"
+                       type="double">
+                        <bind-xml name="Price"/>
+                </field>
+        </class>
+        
+</mapping>

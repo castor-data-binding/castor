@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<document url="http://castor.exolab.org/index.xml">
+  <body>
+    <title>The Castor Project</title>
+
+    <header>
+
+      <p>
+         Castor is an open source data binding framework for Java[tm].
+         It's basically the shortest path between Java objects, XML documents and SQL tables.
+         Castor provides Java to XML binding, Java to SQL persistence, and then
+         some more.
+      </p>
+
+      <!-- include the latest news -->
+      <include href="news.xml"/>
+
+      <p><a href="origins.xml">About the origins of the name</a></p>
+
+      <p><b>Note:</b> Presently we are hosting two mailing lists. Traffic is not too high,
+         so if you are interested in keeping up to date with new releases, or have problems,
+         questions or feedback please <a href="lists.xml">subscribe
+         to the appropriate list</a>.</p>
+
+    </header>
+
+    <section title="Features">
+
+      <p>Short feature list (we haven't got all day):
+        <ul>
+          <li>
+             Castor XML: Java object model to and from XML
+             <br/>&#160;&#160; - Generate source code from an XML Schema
+             <br/>&#160;&#160; - Default introspector or mapping file for existing object models
+          </li>
+          <li>Castor JDO: Java object persistence to RDBMS
+              <li>Castor JDO is not the same-as or compatible with Sun's JDO. We have
+                  a different approach to handling data object to RDBMS mappings.
+                  Please see the <a href="jdo-faq.html">JDO FAQ</a> for more information.
+              </li>
+          </li>
+          <li>XML-based mapping file to specify bindings for existing object models</li>
+          <li>Support for schema-less Java to XML binding</li>
+          <li>In memory caching and write-at-commit reduces JDBC operations</li>
+          <li>Two phase commit transactions, object rollback and deadlock detection</li>
+          <li>OQL query mapping to SQL queries</li>
+          <li>EJB container managed persistence provider for OpenEJB</li>
+          <li>Ability to create base mapping from existing Java classes</li>
+          <li>Ability to create an XML Schema from an XML input document</li>
+        </ul>
+        See the <a href="status.xml">status page</a> for more information.</p>
+
+    </section>
+
+    <section title="About the Castor Project">
+
+
+      <p>The Castor project has been developed out of need: the need to get stuff done
+         and the need to write useful code. It has been designed and coded over many cups
+         of Dunkin Donut's Hazlenut coffee, Starbuck's Latte, and tall no-whip White Mochas,
+         as proof that coffee beans do come in handy.</p>
+
+      <p>For <a href="contributors.xml">a full list of contributors</a>.</p>
+
+      <p>The Castor Project was started and originally developed by
+         <a href="mailto:kvisco@intalio.com">Keith Visco</a> and
+         <a href="mailto:arkin@intalio.com">Assaf Arkin</a> of Intalio, Inc.
+         Contributors are welcome to join this project. Please join us on the
+         <a href="lists.xml">mailing list</a>.</p>
+       <p>
+         Castor includes software, such as Xerces, Jakarta ORO, and Jakarta Regexp,
+         developed by the <a href="http://www.apache.org/">Apache Software Foundation</a>.
+         Castor also includes <a href="http://www.junit.org">JUnit testing framework</a>.
+       </p>
+    </section>
+
+  </body>
+</document>

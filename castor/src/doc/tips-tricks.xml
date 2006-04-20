@@ -1,0 +1,273 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/tips-tricks.xml">
+  <body>
+    <title>Castor Tips &amp; Tricks</title>
+
+    <section title="Logging and Tracing">
+
+      <p>When developing using Castor it is recommended to use the various <tt>setLogWriter</tt>
+         methods to get detailed information and error messages.</p>
+
+      <p>Using a logger with <api>org.exolab.castor.mapping.Mapping</api> will provide detailed
+         information about mapping decisions made by Castor, as well as show the SQL statements
+         being used.</p>
+
+      <p>Using a logger with <api>org.exolab.castor.jdo.JDO</api> will provide trace messages
+         showing when Castor is loading, storing, creating and deleting objects. All database
+         operations will appear in the log. If an object is retrieved from the cache or not modified,
+         there will be no trace of load/store operations.</p>
+
+      <p>Using a logger with <api>org.exolab.castor.xml.Unmarshaller</api> will provide trace
+         messages showing conflicts between the XML document and loaded objects.</p>
+
+      <p>A simple trace logger can be obtained from <javadoc>org.exolab.castor.util.Logger</javadoc>.
+         This logger uses a standard output stream, but prefixs each line with a short message
+         that indicates who generated it. It can also print the time and date of each message.
+         Since logging is used for warning messages and simple tracing, Castor does not require
+         a sophisticated logging mechanism.</p>
+
+      <p>Interested in the integratation of Castor's logging with Log4J? Then see
+      <a href="jdo-faq.html#Integrating-Castor's-logging-with-Log4J">this question</a> in the JDO FAQ.</p>
+
+    </section>
+
+    <section title="JDO: Access Mode">
+
+      <p>If you are using JDO objects with the default access mode ('shared') and too many transactions
+         abort when attempting to commit due to locks, you should consider upgrading to an 'exclusive'
+         mode. When two transactions attempt to modify and store the same object at the same time,
+         lock issues arise. Upgrading to an 'exclusive' mode will prevent concurrent transactions
+         from modifying the same object at once.</p>
+
+      <p>If too many transactions abort when attempting to commit due to dirty checking, you should
+         consider upgrading to a 'locked' mode. When external database access modifies the same objects
+         being managed by Castor, Castor will complain that objects are dirty. Upgrading to a 'locked'
+         mode will prevent concurrent update.</p>
+
+      <p>Be advised that 'exclusive' mode introduces lock contention in the Castor persistence engine,
+         and 'locked' mode adds lock contention in the database. Lock contention has the affect of
+         slowing down the application and consuming more CPU.</p>
+
+      <p>If too many transaction abort due to deadlock detection, consider modifying the application
+         logic. Deadlock occurs when two transactions attempt to access the same objects but not in
+         the same order.</p>
+
+    </section>
+
+    <section title="JDO: Inheritence">
+
+      <p>There are two types of inheritence: Java inheritence and relational inheritence.</p>
+
+      <p>With Java inheritence two objects extend the same base class and map to two different
+         tables. The mapping file requires two different mappings for each of the objects.
+         For example, if <tt>Employee</tt> and <tt>Customer</tt> both extend <tt>Person</tt>,
+         but <tt>Employee</tt> maps to the table <tt>emp</tt> and <tt>Person</tt> to the table
+         <tt>person</tt>, the mapping file should map both of these objects separately.</p>
+
+      <p>With relation inheritence, one table provides the base information and another table
+         provides additional information using the same primary keys in both. Use the <tt>extends</tt>
+         attribute to specify such inheritence in the mapping file. For example, if <tt>Computer</tt>
+         extends <tt>Product</tt> and the table <tt>comp</tt> provides computer-specific columns
+         in addition to product columns in <tt>prod</tt>, the mapping for <tt>Computer</tt> will
+         specify <tt>Product</tt> as the extended class.</p>
+
+      <p>When a class just extends a generic base class or implements an interface, this form
+         of inheritence is not reflected in the mapping file.</p>
+
+    </section>
+
+    <section title="XML: Indentation">
+
+      <p>By default the marshaller writes XML documents without indentation. When developing
+         using Castor or debugging it might be desireable to use indentation to make the XML
+         documents more readable. To turn indentation on, modify the Castor properties file,
+         or create a new properties file in the classpath (named <tt>castor.properties</tt>)
+         with the following content:
+         <pre>
+org.exolab.castor.indent=true
+         </pre></p>
+
+      <p>Indentation inflates the size of the generated XML documents, and also consumes more
+         CPU. It is recommended not to use indentation in a production environment.</p>
+
+    </section>
+
+    <section title="XML:Marshall validation">
+    	<p>It is possible to disable the validation in the marshalling framework by
+    	   simply modifying the Castor properties file or create a new properties file in the classpath
+    	   (named <tt>castor.properties</tt>) with the following content:
+         <pre>
+org.exolab.castor.marshalling.validation=true
+         </pre></p>
+    </section>
+
+    <section title="JDO: Views of Same Object">
+
+      <p>It is possible to use different objects and mappings to the same tables. For example,
+         it is possible to define a subset of a table and load only several of the columns,
+         or load an object without it's relations.</p>
+
+      <p>To determine the first and last names and e-mail address of an object without loading
+         the entire person object, create a subset class and map that class to a portion of
+         the table. Such a class cannot be used to create a new person, but can be used to
+         delete or modify the person's details.</p>
+
+      <p>Use partial views with care. If you attempt to load the same record using a full
+         object and a subset object, changes to one of these objects are allowed, but
+         changes to both will result in a conflict and roll back the transaction.
+         Locking will not work properly between full and subset objects.
+         Also note, that each of the too objects will have its own cache, so
+         if you update the first object and load the second, you may obtain old values.
+         To avoid this situation you may turn off the cache for both objects:
+         <code><![CDATA[
+             <class ... >
+                <cache-type type="none">
+                ...
+             </class>
+         ]]></code>
+         </p>
+
+    </section>
+
+    <section title="JDO: Upgrading Locks">
+
+      <p>When an object is loaded into memory in the default access mode ('shared'),
+         a read lock is acquired on that object. When the transaction commits, if there
+         are changes to the object, a write lock will be required. There is no guarantee
+         that a write lock can be acquired, e.g. if another transaction attempts to
+         change the same object at the same time.</p>
+
+      <p>To assure concurrent access, you may upgrade the object's lock by calling the
+         <api class="org.exolab.castor.jdo.Database">lock(java.lang.Object)</api> method.
+         This method will acquire a write lock, or return if a timeout passed and the
+         lock could not be acquired. Once a lock has been acquired, no other transaction
+         can attempt to read the object until the current transaction completes.</p>
+
+      <p>Object locking is recommended only if concurrent access results in conflicts
+         and aborted transactions. Generally locks results in lock contention which has an
+         affect on performance.</p>
+
+    </section>
+
+    <section title="XML/JDO: NoClassDefFoundError">
+       <p>
+          Check your CLASSPATH, check it often, there is no reason not too!
+       </p>
+    </section>
+
+    <section title="XML: Mapping: auto-complete">
+       <p>
+          <b>Note: this only works with Castor-XML</b>
+       </p>
+       <p>
+          To save time when writing your mappings, try using the <i>auto-complete</i>
+          attribute of <i>class</i>. When using auto-complete, Castor will introspect
+          your class and automatically fill in any missing fields.
+       </p>
+       <p>
+          <b>Example:</b>
+          <code>&lt;class name="com.acme.Foo" auto-complete="true"/&gt;</code>
+       </p>
+    </section>
+
+    <section title="XML/JDO: Create method">
+      <p>
+         Castor requires that classes have a public, no-argument constructor
+         in order to provide the ability marshal &amp; unmarshal objects of that type.
+      </p>
+
+      <p>
+         create-method is an optional attribute to the &lt;field&gt; mapping
+         element that can be used to overcome this restriction in cases where you
+         have an existing object model that consists of, say, singleton classes,
+         where public, no-argument constructors must not be present by definition.
+      </p>
+
+      <p>
+         Assume for example that a class "A" that you want to be able to
+         unmarshal uses a singleton class as one of its properties.
+         When attempting to unmarshal class "A", you should get an exception,
+         because the singleton property has no public constructor.
+         Assume a reference to the singleton can be obtained via a static
+         getInstance() method, you can add a "create method" to class A like so:
+      </p>
+
+      <code>
+         <![CDATA[
+            public MySingleton getSingletonProperty()
+            {
+               return MySingleton.getInstance();
+            }
+         ]]>
+      </code>
+
+      <p>
+         and in the mapping file for class A, you can define the singleton
+         property like so:
+      </p>
+
+      <code>
+         <![CDATA[
+            <field name="mySingletonProperty"
+                  type="com.u2d.MySingleton"
+                  create-method="getSingletonProperty">
+               <bind-xml name="my-singleton-property" node="element" />
+            </field>
+         ]]>
+      </code>
+
+      <p>
+         This illustrates how the create-method attribute is quite a useful
+         mechanism for dealing with exception situations where you might
+         want to take advantage of marshaling even when some classes do not
+         have no-argument public constructors.
+      </p>
+
+      <p>
+        <b>Note:</b> As of this writing, the specified create-method must
+        exist as a method in the current class (i.e. the class being described
+        by the current &lt;class&gt; element). In the future it may be possible
+        to use external static factory methods.
+      </p>
+    </section>
+
+    <section title="XML: MarshalListener and UnmarshalListener">
+      <p>
+         Castor allows full control on the object being marshalled or unmarshalled by 
+         a set of two listener interfaces: MarshalListener and UnmarshalListener.
+      </p>
+
+      <p>
+         The MarshalListener interface located in <code>org.exolab.castor.xml</code> listens to 
+         two different that are intercepted by the following methods:
+         <ul> 
+             <li>preMarshal: this method is called before an object gets marshalled.</li>
+             <li>postMarshall: this method is called once an object has been marshalled.</li>
+         </ul>
+      </p>
+
+      <p>
+         The UnmarshalListener located also in <code>org.exolab.castor.xml</code>  offers the possibility 
+         to intercept more events with the four following methods:
+         <ul>
+             <li>initialized: this method is called once an object has been instantiated.</li>
+             <li>attributesProcessed: this method is called when the attributes have just been read and processed.</li>
+             <li>fieldAdded: this method is called when an object is added to a parent.</li>
+             <li>unmarshalled: this method is called when an object has been <b>fully</b> unmarshalled.</li>
+
+         </ul>
+      </p>
+
+    </section>
+
+  </body>
+</document>
+
+
+
+
+
+
+
+
+
