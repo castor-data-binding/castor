@@ -1,0 +1,37 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/about.xml">
+  <properties>
+    <title>About The Castor Project</title>
+    <abstract>
+       General information about the project
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>About The Castor Project</title>
+    <header>
+    </header>
+
+    <section title="About the Castor Project">
+
+      <p>The Castor project has been developed out of need: the need to get stuff done
+         and the need to write useful code. It has been designed and coded over many cups
+         of Dunkin Donut's Hazlenut coffee, Starbuck's Latte, and tall no-whip White Mochas,
+         as proof that coffee beans do come in handy.</p>
+
+      <p>For <a href="contributors.xml">a full list of contributors</a>.</p>
+
+      <p>The Castor Project was started and originally developed by
+         <a href="mailto:keith AT kvisco DOT com">Keith Visco</a> and
+         <a href="mailto:arkin@remove-no-spam.intalio.com">Assaf Arkin</a> of Intalio, Inc.
+         Contributors are welcome to join this project. Please join us on the
+         <a href="lists.xml">mailing list</a>.</p>
+       <p>
+         Castor includes software, such as Xerces, Jakarta ORO, and Jakarta Regexp,
+         developed by the <a href="http://www.apache.org/">Apache Software Foundation</a>.
+         Castor also includes <a href="http://www.junit.org">JUnit testing framework</a>.
+       </p>
+    </section>
+
+  </body>
+</document>

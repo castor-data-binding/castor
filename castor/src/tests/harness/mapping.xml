@@ -1,0 +1,15 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+  <class name="org.exolab.castor.jdo.JDO">
+    <map-to xml="jdo"/>
+    <description></description>
+    <field name="databaseName" type="string">
+      <bind-xml name="database-name" node="attribute" />
+    </field>
+    <field name="configuration" type="string">
+      <bind-xml name="configuration" node="attribute" />
+    </field>
+  </class>
+</mapping>
+

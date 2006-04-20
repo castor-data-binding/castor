@@ -1,0 +1,536 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/jdo-project.xml">
+  <properties>
+    <title>Castor JDO Project Plan</title>
+    <author email="ferret@frii.com">Bruce Snyder</author>
+    <abstract>
+    This document outlines all work that has been identified for Castor JDO. 
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+    <title>Castor JDO Refactoring Project Plan</title>
+
+    <section title="Introduction">
+
+      <p>
+      Below is a list of tasks that have been identified for refactoring
+      in Castor JDO. This list is continually evolving and should be checked
+      often. There are no scheduled release dates for these items. This
+      is because Castor JDO is entirely a volunteer effort and team members
+      contribute in their spare time. Some of these tasks are in progress 
+      and some have not been started at all.
+      </p>
+
+      <p>
+      There is always plenty of work to be done. If you would like to 
+      participate, please let us know. If you see a task that you would 
+      like to work on please let us know. I you see a task that you would 
+      like to work on but has already been assigned to someone, that doesn't 
+      mean that you can't help out or even take it over. Simply contact the 
+      JDO project leader (available <a href="http://www.castor.org/contributors.html">
+      here</a>). 
+      </p>
+
+    </section>
+
+    <section title="Tasks">
+
+        <section title="Modularization of Castor JDO">
+        <p>
+        <b>Description:</b><br />
+        Castor is very tightly coupled in it's design. This tight coupling
+        leads to maintainence trouble, difficult to understand code, etc. 
+        </p>
+        <p>
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        See the mail list threads titled 
+        <a href="http://www.mail-archive.com/castor-dev@exolab.org/msg06709.html">Castor JDO Status</a> and
+        <a href="http://www.mail-archive.com/castor-dev@exolab.org/msg06935.html">Strategy Proposal</a>. 
+        These threads are especially long and tend to be broken on
+        mail-archive.com. But there are some very good ideas amongst these two
+        threads concerning the modularization of Castor JDO.
+        <br />
+        <br />
+        This is a high-level architectural change that includes many of the
+        items in this list. 
+        </p>
+        </section>
+
+        <section title="Logging Refactoring">
+        <p>
+        <b>Description:</b><br />
+        Switching the logging mechanism in Castor 
+        over to using the <a href="http://jakarta.apache.org/commons/logging.html">
+        Jakarta Commons Logging</a> with Log4J as the default logger. 
+        Not only will this help to improve the logging quality, but it will
+        also allow users to choose their logging framework of choice. 
+        </p>
+        <p>
+        <b>Volunteer:</b> Bruce Snyder<br />
+        <b>Status:</b> completed<br />
+        <b>Date Started:</b> 5 May 2003<br />
+        <b>Notes:</b><br />
+        Not sure if Jakarta Commons Logging should be used in Castor
+        because of the inability to configure some finer features in Log4J.
+        See <a
+        href="http://www.zdnet.com.au/builder/program/java/story/0,2000034779,20272367,00.htm">this
+        article</a> for some info. This article may be talking about
+        programmatic configuration of Log4J which I'm not really worried
+        about. All of the configuration in Castor will take place in a
+        properties or XML file. <br />
+        <b>Post Mortem:</b><br />
+        Jakarta Commons Logging was used with Log4J as the default logger. Now
+        the amount of logging just needs to be increase and configurations
+        offered in the default properties files for ease of disabling stuff
+        that's spewing. I'll be adding a class to support the TRACE level as
+        well.<br />
+        </p>
+        </section>
+
+        <section title="CTF-JDO Improvements">
+        <p>
+        <b>Description:</b><br />
+        Writing test cases is a critical effort to the 
+        evolution of Castor JDO. All bug fixes and new functionality must contain 
+        test cases unless the bug fix is trivial. All test cases are written
+        using the Castor Test Framework for JDO 
+        (<a href="testing-framework.html">CTF-JDO</a>). 
+        </p>
+        <p>
+        The verison of <a href="http://junit.org">JUnit</a> used by Castor is
+        quite outdated (version 3.5). This needs to be updated to the latest
+        version (as of this writing, version 3.8.1). There is a certain amount
+        of work involved with this in changing all assert() calls to the
+        newer, more specific assert calls (e.g. assertTrue(), assertEquals(),
+        assertNull(), assertNotNull(), etc.). Also look into the use of 
+        <a href="http://www.openfuture.de/Log4Unit/">Log4Unit</a> as opposed
+        to JUnit. Log4Unit is an extension to JUnit that provides a logging
+        component to JUnit to provide better logging for both failures and
+        successes. 
+        </p>
+        <p>
+        In addition to using JUnit, a database specific extension to JUnit
+        called <a href="http://dbunit.sf.net/">DbUnit</a> should be
+        considered. DbUnit helps to manage test data sets by
+        importing/exporting flat XML data sets to/from a database for each
+        test or set of tests being executed. 
+        </p>
+        <p>
+        <b>Volunteer:</b> Bruce Snyder<br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <section title="Refactor for Correct Use of JDBC Tx Isolation Levels">
+        <p>
+        <b>Description:</b><br />
+        Currently Castor JDO does not make any use of JDBC tx isolation levels
+        and this needs to be corrected. 
+        </p>
+        <p>
+        <b>Volunteer:</b> <br />
+        <b>Status:</b> <br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        This impacts Connection duration and needs to be investigated further.
+        </p>
+        </section>
+
+        <section title="Query Engine Refactoring">
+        <p>
+        <b>Description:</b><br />
+        The Castor OQL engine should be refactored to make us of a parser
+        generator like <a href="http://antlr.org">ANTLR</a> or <a
+        href="http://www.experimentalstuff.com/Technologies/JavaCC/">JavaCC</a>. 
+        This will make maintenance and adding features incredibly easier. 
+        </p>
+        <p>
+        <b>Volunteer:</b> Paul Botta<br />
+        <b>Status:</b> ANTLR implemenation complete<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        Many thanks to Paul Botta for his hard work on the ANTLR implemenation. 
+        Now this implementation just needs some tests to prove it so that it can 
+        be committted it to CVS. 
+        </p>
+        <p>
+        This layer should also be made pluggable allowing one or more query 
+        engines to plugged in simultaneously (e.g. OQL, XQuery, EJBQL, etc.).
+        The <tt>tests.jdo.OqlTests</tt> class needs to be completed before
+        this work can take place. This will provide a baseline before the
+        removal of the current OQL engine. 
+        </p>
+
+        <p>
+        Tranql may be used to achieve this task. As a side affect, Tranql may
+        be also do a couple other jobs as well (e.g. caching and transaction
+        context). There will also be a programmtic query API for this.
+        </p>
+        </section>
+
+        <section title="Refactor the SQLTypeConvertors">
+        <p>
+        <b>Description:</b><br />
+        The SQLTypeConvertors inner class of SQLTypes should be refactored to 
+        make it easier to plug in additional convertors. 
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <section title="Query Externalization">
+        <p>
+        <b>Description:</b><br />
+        Castor should include a mechanism for queries to be externalized in the 
+        object mapping descriptor. 
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        This would allow for named queries that do not require recompilation 
+        for changes. These queries would be included automatically via the 
+        Castor XML unmarshalling of the object mapping descriptor via the 
+        &lt;includes> element.
+        </p>
+        <p>
+        This may not be able to be accomplished at all with new programmtic
+        query API.
+        </p>
+        </section>
+
+        <section title="ClassMolder Refactoring">
+        <p>
+        <b>Description:</b><br />
+        The ClassMolder should be broken up into several classes to make use 
+        of a dual <a
+        href="http://www.ootips.org/strategy-vs-case.html">strategy pattern</a>.
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        The relationship type (e.g. one-to-one, one-to-many, many-to-many) is 
+        the first strategy layer. The implementation type (e.g. interface,
+        abstract, concrete) is the second strategy layer.
+        </p>
+        </section>
+
+        <section title="J2EE Transaction Factory">
+        <p>
+        <b>Description:</b><br />
+        In 2002 I started adding an API for a TransactionManagerFactory so that 
+        Castor JDO can make use of a J2EE container's transaction manager 
+        (e.g. JBoss, Weblogic, Websphere, etc.).
+        </p>
+        <p>
+        <b>Volunteer:</b> Werner Guttmann/Bruce Snyder<br />
+        <b>Status:</b> completed<br />
+        <b>Date Started:</b> Apr 2004<br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <section title="Possible TransactionContext Replacement">
+        <p>
+        <b>Description:</b><br />
+        Investigate whether the TransactionContext class can be replaced
+        through the use of ThreadLocal. 
+        </p>
+        <p>
+        <b>Volunteer:</b> Bruce Snyder<br />
+        <b>Status:</b> completed<br />
+        <b>Date Started:</b> Apr 2004<br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <section title="Cache Engine Refactoring">
+        <p>
+        <b>Description:</b><br />
+        Castor's current cache implemenation is not very robust. It lacks any
+        procedure for manual object eviction and it should really be using
+        some sort of balanced tree (e.g. java.util.TreeMap) for reasons of
+        speed, etc., etc.
+        </p>
+        <p>
+        Note that Vince Adamo has posted a 
+        <a href="http://bugzilla.exolab.org/show_bug.cgi?id=1091">patch</a> for 
+        object eviction in the current Castor API. 
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> open<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        There should really be a cache API. This would abstract the entire cache 
+        engine allowing it to be made pluggable. In fact, I would much rather 
+        consider using a <a href="http://jcp.org/en/jsr/detail?id=107">JSR 107</a>
+        implementation than writing our own API. Because this layer will be
+        pluggable, a distributed cache implementation should be provided using
+        <a href="http://www.javagroups.com/">JavaGroups</a>.
+        <br />
+        <br />
+        Also, the dirty checking needs to be refactored so it's cleaner and
+        more straightforward in its duties. 
+        </p>
+
+        <p>
+        Tranql may be used to achieve this task. 
+        </p>
+        </section>
+
+        <section title="Polymorphism">
+        <p>
+        <b>Description:</b><br />
+        Handling of interfaces and abstract classes with regard to both object 
+        mapping and queries. 
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        Maybe this could be handled for the object mapping by using nested 
+        &lt;class> elements??? 
+        <br />
+        <i>Interface idea</i> - introduce the 'implements' attribute to the
+        &lt;class> element: 
+        <pre><![CDATA[
+<class name="myapp.Foo" ... >
+    <class name="myapp.FooBar" implements="myapp.Foo" ...>
+    </class>
+</class>]]>
+        </pre>
+        Obviously an interface can be determined by using <tt>java.lang.Class#isInterfaces()</tt> and/or
+        <tt>java.lang.Class#isInterface()</tt>. 
+        <br />
+        <br />
+        <i>Abstract class idea</i> - make use of the 'extends' element plus
+        some code testing: 
+        <pre><![CDATA[
+<class name="myapp.Foo" ... >
+    <class name="myapp.FooBar" extends="myapp.Foo" ...>
+    </class>
+</class>]]>
+        </pre>
+        The use of the 'extends' attribute for the abstract class is not
+        unique enough to determine that the class is abstract or concrete.
+        But by using <tt>java.lang.Class#isAssignableFrom()</tt> and/or 
+        <tt>java.lang.Class#getSuperclass()</tt> will work. 
+        </p>
+        <p>
+        <i>Queries</i> - objects should already be cast properly:
+        <pre><![CDATA[
+SELECT p FROM myapp.Product p]]>
+        </pre>
+        The above query would return all <tt>Product</tt>s including
+        <tt>Computer</tt>s, etc.
+        </p>
+        <p>
+        Another item that will need to be added is a mapping for interfaces
+        and abstract classes. The &lt;class> element could certainly be used
+        for this possibly by introducing another attribute to the &lt;class> 
+        element. I'm thinking about an attribute named 'abstract' that 
+        is simply a boolean whose default is false so that it won't affect 
+        concrete classes. Then it serves as a marker for interfaces and 
+        abstract classes only. 
+        </p>
+        <p>
+        Not sure if this will really work. It will need experimentation to 
+        determine.
+        </p>
+        </section>
+
+        <section title="Integrated Connection Pooling">
+        <p>
+        <b>Description:</b><br />
+        A database connection pooler should be integrated directly into
+        Castor. This would limit us to supporting <a href="">JDBC 3.0</a>
+        compliant drivers. Anything that's not JDBC 3.0 compliant would 
+        still be supported via an implemention within the driver for a 
+        pooled DataSource.
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        Here is a list of database connection poolers:
+        <ul type="bullet">
+            <li>
+                <a href="http://jakarta.apache.org/commons/dbcp/">DBCP</a>
+            </li>
+            <li>
+                <a
+                href="http://download-west.oracle.com/docs/cd/A91202_01/901_doc/java.901/a90211/connpoca.htm#1057365">
+                Oracle JDBC driver</a> (Unable to locate 9.2.x docs)
+            </li>
+            <li>
+                <a href="http://poolman.sf.net/">PoolMan</a> 
+            </li>
+            <li>
+                <a href="http://jdbc.postgresql.org">PostgreSQL JDBC driver</a> 
+            </li>
+            <li>
+                <a href="http://proxool.sf.net/">Proxool</a> 
+            </li>
+            <li>
+                <a href="http://sqlrelay.sourceforge.net/">SQL Relay</a>
+            </li>
+        </ul>
+        </p>
+        </section>
+
+        <section title="JCA Research">
+        <p>
+        <b>Description:</b><br />
+        Research the possibility of creating a JCA Connector for Castor to
+        hook into application servers that support JCA. 
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b><br />
+        <b>Date Started:</b> not started<br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <section title="Logos">
+        <p>
+        <b>Description:</b><br />
+        This task covers two topics: 
+        <ul type="1">
+            <li>Logos for Castor users to display on their websites</li>
+            <li>Logos of projects that Castor uses or with which Castor integrates</li>
+        </ul>
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b><br />
+        <b>Date Started:</b> not started<br />
+        <b>Notes:</b><br />
+        This is to increase awareness of Castor's use as well as Castor's
+        awareness of other projects. 
+        </p>
+        </section>
+
+        <section title="Timestampable Dynamic Proxy">
+        <p>
+        <b>Description:</b><br />
+        Remove the requirement of all objects to explicitly implement the
+        Timestampable interface.
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b><br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        Currently Castor requires all objects involved in a long transaction
+        to implement the <a
+        href="http://www.castor.org/javadoc/org/exolab/castor/jdo/TimeStampable.html">Timestampable</a>
+        interface. This requirement can easily be removed via a dymanic proxy
+        implementation. 
+        </p>
+        </section>
+
+        <section title="Must Fix Bugs">
+        <p>
+        <b>Description:</b><br />
+        There are a few bugs that *must* be fixed, specifically 
+        <a href="http://bugzilla.exolab.org/show_bug.cgi?id=986">986</a>, 
+        <a href="http://bugzilla.exolab.org/show_bug.cgi?id=925">925</a>, 
+        These bugs have been around for quite a while and should have been 
+        fixed long ago. 
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> not started<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <section title="Javadoc improvements">
+        <p>
+        <b>Description:</b><br />
+        This task surrounds the effort to continually improve the code
+        documentation including code examples, adding an <tt>@author</tt> tag 
+        to any class you modify, etc. This task must be carried 
+        out by everyone.
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b> ongoing<br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+
+        <!--
+        Items to be added to this list (in no particular order):
+
+        - Queries should check the cache before going to the database
+        - Query by example would be a good thing to consider (e.g. 
+          http://www.mail-archive.com/castor-dev%40exolab.org/msg06972.html )
+        - Loading/reloading of mapping descriptor should be simplified
+        - Support for sub-queries, joins, order by, group by, between, functions, 
+          is null, is not null (these two are already supported), named parameters, 
+          binary, logical and match operators, precedence via parens, etc. 
+        - Make it easier to use straight SQL (e.g. no AS <object-name> syntax
+          for certain cases)
+        - Support for the mapping of multiple classes to one table and one 
+          class to multiple tables
+        - Support the splitting of object mapping (this is highly dependent 
+          upon Castor XML)
+        - Best practices/patterns document
+        - Persistence of primitives and primitive wrappers
+        - Make it really easy to implement type convertors (e.g. Oracle JDBC
+          types, etc.)
+        - Cascading deletes of an object graph via the object mapping descriptor
+        - Lazy loading via either byte code manipulation or dynamic proxies
+        - Sorted Collections
+        - Support a choice of outer joins or ???
+        - Updated JBoss JMX MBean 
+        - Log4J CastorAppender
+        - Updated XDoclet exolab plug-in
+        - Better examples (e.g. servlet, EJB, client/server, etc.)
+        - xPetstore Castor implementation
+        - Castor tutorial document
+        - More engine support (e.g. native XML databases, SAP DB, FirstSQL, 
+          McKoi SQL, Pointbase, Pervasive, etc.)
+        -->
+
+        <!--
+        <section title="">
+        <p>
+        <b>Description:</b><br />
+        </p>
+        <p>
+        <b>Volunteer:</b><br />
+        <b>Status:</b><br />
+        <b>Date Started:</b><br />
+        <b>Notes:</b><br />
+        </p>
+        </section>
+        -->
+
+    </section>
+
+  </body>
+</document>
