@@ -1,9 +1,0 @@
-
----------------------------------------------------------------------
-The Xerces version in the lib directory of the Castor CVS is 
-the version 1.4.0 official release. 
-
-This version of Xerces is required to use Castor properly. 
-You can't use a former version of Xerces, it will affect the behaviour
-of the serializer and some parsing problems.
-----------------------------------------------------------------------
