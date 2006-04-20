@@ -1,0 +1,137 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/postgresql-blobs.xml">
+  <body>
+    <title>Blobs in PostgreSQL</title>
+
+    <section title="OID Support">
+      <p>
+      PostgreSQL's blob support has evolved over the years. Today
+      PostgreSQL fields can be of unlimited length. And there are
+      specific data types for character and binary large objects. The
+      current Castor support for blobs, however, uses an earlier
+      PostgreSQL blob support. This support places the blob data in
+      the pg_largeobject table and a object id in the referring
+      table. For most practical purposes using this earlier support
+      does not matter.
+      </p>
+      
+      <p>
+      Database version and the JDBC driver version matter greatly. To get
+      everything to work I eventually built and installed PostgreSQL 7.2.2 and
+      used the JDBC driver from this build (i.e. not the one from
+      <a href="http://jdbc.postgresql.org/">http://jdbc.postgresql.org</a>.
+      </p>
+
+      <p>
+      Since Castor is using the earlier blob support the JDBC has to be
+      placed in PostgreSQL 7.1 comparability mode. To do this use the
+      following JDBC URL
+      </p>
+
+      <code>
+      jdbc:postgresql://host:port/database?compatible=7.1
+      </code>
+
+      <p>
+      Once you have resolved the PostgreSQL version issues Castor
+      works as documented.
+      </p>
+      </section>
+      <section title="OID Example">
+      <p>
+      Here are the details of an example configuration.
+      </p>
+
+      <code>
+      Client Windows 2000, Sun Java Standard Edition 1.3.1_03, Castor 0.9.3.21
+      Server RedHat 7.2, PostgreSQL 7.2.2
+      </code>
+
+      <p>
+      The interface I am using is
+      </p>
+
+      <code>
+    public interface Document {
+        String      getTitle();
+        void        setTitle( String title );
+        Date        getCreatedOn();
+        void        setCreatedOn( Date createdOn );
+        String      getContentType();
+        void        setContentType( String contentType );
+        InputStream getContent();
+        void        setContent( InputStream content );
+    }
+      </code>
+
+      <p>
+      and this is implemented by the class DocumentImpl.
+      </p>
+
+      <p>
+      The mapping file is
+      </p>
+
+<code><![CDATA[
+  <?xml version="1.0"?>
+    <mapping>
+     <class
+         name="com.ingenta.DocumentImpl"
+         identity="id"
+         key-generator="SEQUENCE" >
+         <description />
+         <cache-type type="none" />  
+         <map-to table="documents" />
+         <field name="id" type="integer" >
+             <sql name="id" type="integer" dirty="check" required="true"/>
+         </field>
+         <field name="title" type="string">
+             <sql name="title" type="longvarchar" dirty="check" />
+         </field>
+         <field name="createdOn" type="date">
+             <sql name="createdon" type="date" dirty="check" />
+         </field>
+         <field name="contentType" type="string">
+             <sql name="contenttype" type="longvarchar" dirty="check" />
+         </field>
+         <field name="content" type="stream">
+             <sql name="content" type="blob" dirty="ignore" />
+         </field>
+     </class>
+ </mapping>
+]]></code>
+
+       <p>
+       Note that the blob is not dirty checked.
+       </p>
+
+       <p>
+       And the SQL is
+       </p>
+
+       <code>
+    create table documents (
+        id          serial    not null,
+        title       text      null,
+        createdon   timestamp null,
+        contenttype text      null,
+        content     oid       null,
+        primary key ( id )
+    );
+      </code>
+
+      <p>
+      Castor caches objects between transactions for performance. With
+      a blob however the cached object's InputStream is not
+      reusable. To workaround this I have told the cache to not cache
+      any objects of this class by adding to the class mapping, as
+      noted above.
+      </p>
+
+    </section>
+  </body>
+</document>
+
+
+
+
