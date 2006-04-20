@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/lists.xml">
+  <body>
+    <title>Castor Mailing Lists</title>
+    <header>
+    </header>
+    <section title="">
+
+      <p>
+         Try our <a href="http://virtuals.intalio.com:8080/castor-mlab/">new mailing list archive</a>
+         for castor-dev, it's still under development, but it's better than the
+         current one. Report any problems or suggestions to
+         <a href="mailto:webmaster@exolab.org">webmaster@exolab.org</a>.
+      </p>
+      
+      <p>
+         You can use a searchable archive of the list at <a href="http://www.mail-archive.com/castor-dev%40exolab.org">
+         mail-archive.</a></p>
+
+      <p>Moderate volume (possibly more than 15 messages a day) mailing list dedicated to the developers of Castor.</p>
+
+      <p><mailing-list name="castor-dev" description="The Castor Developer's Mailing List"
+                       server="exolab.org" manager="minimalist"
+                       archive="http://castor.exolab.org/list-archive/"/></p>
+
+      <p>Low volume (possibly more than 1 message per week)
+         mailing list for special announcements about Castor, such as
+         new releases.
+      </p>
+
+      <p><mailing-list name="castor-announce" description="The Castor Announcement Mailing List"
+                       server="exolab.org" manager="minimalist"/></p>
+    </section>
+
+  </body>
+</document>
