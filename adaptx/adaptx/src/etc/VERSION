@@ -1,0 +1,8 @@
+name=adaptx
+project=adaptx
+version=0.9.9
+build.compiler=classic
+release_date=October 1, 2003
+copyright= (C) 1998-2003 Keith Visco.  All rights reserved. \
+	Intalio Inc. (C) 1999-2003.  All rights reserved. http://www.intalio.com
+

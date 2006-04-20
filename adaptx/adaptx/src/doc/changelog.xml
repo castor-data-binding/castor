@@ -1,0 +1,839 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://xslp.exolab.org/changelog.xml">
+  <body>
+    <title>Change log</title>
+
+    <section title="Build Number 20001129  November, 29 2000"><pre>
+
+    Fixed bug in ExpressionParser to handle case when a function is missing
+    the closing ')', instead of crashing with a NullPointerException
+    (reported by Warner Onstine)
+
+    Fixed a some error reporting issues
+    (reported by Pascal Belloncle)
+
+    Add a few minor performance improvements 
+    </pre></section>
+
+    <section title="Build Number 20001009  October, 9 2000"><pre>
+
+    Fixed thread safety problem with sharing the DOMParser
+    (reported by David Blondeau)
+
+    Other miscellaneous changes have been commited over the
+    last serveral months.
+
+    </pre></section>
+
+    <section title="Build Number 20000501  May, 1 2000"><pre>
+
+    Fixed whitespace bug in StylesheetHandler 
+    (reported by Peter Armstrong).
+
+    </pre></section>
+
+    <section title="Build Number 20000428  April, 28 2000"><pre>
+
+    Fixed a new bug in PathExpr which was a result of doing some
+    peformance improvements, A null NodeSet was being returned under
+    certain circumstances. (reported by Assaf Arkin)
+
+    </pre></section>
+
+    <section title="Build Number 20000419  April, 19 2000"><pre>
+
+    Fixed bug in FormatterAdapter (Jacques-Alexandre Gerber)
+    In the constructor the passed in DocumentHandler was not getting set.
+
+    </pre></section>
+
+    <section title="Build Number 20000412  April, 12 2000"><pre>
+
+    Some more performance tuning...more to come.
+
+    </pre></section>
+
+    <section title="Build Number 20000301  March,  1 2000"><pre>
+
+    did some minor performance tuning
+    changed one of the values of the level attribute for xsl:number
+    from "multi" to "multiple"
+
+    </pre></section>
+
+    <section title="Build Number 20000224  February,  24 2000"><pre>
+
+    upgraded xsl:use-attrubute-sets element to the xsl:use-attribute-sets
+    attribute
+   
+    added the current() function call
+   
+    added some more namespace support
+   
+    fixed some bugs with the expression parser and lexer
+   
+    updated xsl:pi to xsl:processing-instruction
+
+    </pre></section>
+
+    <section title="Build Number 20000212  February,  12 2000"><pre>
+
+    Fixed bug with lexer, wild card was not properly handled when it appeared directly
+    after '/' (reported by Jason Mathews)
+   
+    Upgraded the Axis Indentifier syntax to the latest spec (sorry for the delay)
+   
+    Fixed top-level parameter support
+
+    </pre></section>
+
+   <section title="Build Number 20000201   February,   1 2000"><pre>
+
+   Changed the XSLReader to add SAX support
+   
+   Added internal SAX support for efficiency
+
+   </pre></section>
+
+   <section title="Build Number 20000121   January,   21 2000"><pre>
+
+   Updated variable, param, with-param to use the "select" attribute
+   instead of the "expr" attribute
+   
+   Changed param element to with-param, changed param-variable element to param
+
+   </pre></section>
+
+   <section title="Build Number 19991111   November,  11 1999"><pre>
+
+   separated out XPath into it's own package
+   
+   look for a new XPath package that supports the proposed recommendation soon.
+   
+   fixed bug with DefaultFormatter that was causing Triplicate output
+   submitted by tons of you! ;-)
+   
+   sorry for the delay in getting this fixed
+
+   </pre></section>
+
+   <section title="Build Number 19991017    October,  17 1999"><pre>
+
+   added support for xsl:output from the latest draft
+   supported attributes are:
+   doctype-public
+   doctype-system
+   indent
+   method
+   version
+
+   </pre></section>
+
+   <section title="Build Number 19990923    September, 23 1999"><pre>
+
+   fixed bug with xsl:entity-ref introduced in a recent version
+   Added fix for XML4J 2.0.15 (Jason Mathews)
+   Added fix for XMLPrinter with respect to &quot; inside attribute values
+   (Donald Ball)
+   fixed source code location of SimpleMessageObserver for proper compilation
+
+   </pre></section>
+
+   <section title="Build Number 19990823    August, 23 1999"><pre>
+
+   added MessageObserver interface to handle xsl:message
+
+   added SimpleMessageObserver to print xsl:messages to a writer
+
+   created a default MessageObserver, which will just dump messages
+   to the console. The default MessageObserver can be removed passing
+   XSLProcessor.DEFAULT_MESSAGE_OBSERVER, to the
+   XSLProcessor.removeMessageObserver() method.
+
+   </pre></section>
+
+   <section title="Build Number 19990822    August, 22 1999"><pre>
+
+   fixed bug pertaining to Entity and DocumentType Nodes
+   
+   When using entities, XSL:P did not filter Entity and
+   DocumentType nodes, from the DOM tree
+
+   </pre></section>
+
+   <section title="Build Number 19990820    August, 20 1999"><pre>
+
+   fixed bug with xsl:number
+   with level set to any, to many counts were being generated, instead of a list
+   of length one, containing one plus the number of nodes,
+   a list of length NodeSet#size was being created with each node count.
+   (reported by Jason Crickmer)
+
+   fixed whitespace bug, when whitespace appears before the document element,
+   under certain circumstances an &lt;xslp:result&gt; wrapper element would be
+   insterted.(reported by Eric van der Vlist)
+
+   </pre></section>
+
+   <section title="Build Number 19990818     August, 18 1999"><pre>
+
+   added support for global variables that reference other global variables
+   not yet declared.
+   
+   fixed a bug with processing global variables.
+   I am storing the global variable declarations in a hashtable.
+   This could cause the variables to be processed out of order, since
+   hashtables are not ordered. So if one variable referenced another one,
+   before it was defined, the result was "undefined".
+   I fixed this, by adding in the required support for out-of-order processing,
+   which I had not yet implemented.
+   
+   thanks a bunch to Roger for enabling me to find this bug.
+
+   </pre></section>
+
+   <section title="Build Number 19990817    August, 17 1999"><pre>
+
+   Fixed bug with operator precedence (submitted by Donald Ball)
+
+   Fixed bug with SelectExpr.java (submitted by Roger Costello)
+
+   </pre></section>
+
+   <section title="Build Number 19990816    August, 16 1999"><pre>
+
+   patched bug caused by XML for Java 1.1.x.
+   
+   Attr nodes with the same name, hash to the same value. This appears
+   to be fixed with IBM's 2.x version
+   
+   This causes the document order of attributes with the same name to be
+   the same, and therefor causes improper document order sorting, and
+   the same id was being generated for these nodes.
+  
+   Added Michel Casabianca's additions to HTMLPrinter for more HTML elements
+   that shouldn't print end elements
+
+   </pre></section>
+
+
+   <section title="Build Number 19990809     August,  9 1999"><pre>
+
+   fixed bug with XML4J_1xParser and using a custom EntityResolver
+   
+   Unfortunately their SAXDriver class wasn't working, so
+   I had to implement StreamProducer myself.
+
+   </pre></section>
+
+   <section title="Build Number 19990808     August, 8 1999"><pre>
+
+   fixed bug with '.' in CNames
+   the result of a bug report submitted by Dan Potter
+   
+   fixed bug when the result of a predicate is a Number,
+   sometimes this wouldn't use the default comparison of that Number
+   with the current Node's position within the current NodeSet
+
+   added catalog loading to some of the XML parsers
+   code sent by Michel Casabianca
+   
+   Only instantiate XML parsers once inside the DOM wrapper, if they
+   can be reused
+      Changes effect XML4J 2.0.x parsers, and Sun's ProjectX parser
+      code from Michel Casabianca
+   
+   Made some changes to the XSLReader class for performace improvements,
+   and simpler design
+
+   </pre></section>
+
+   <section title="Build Number 19990804     August, 4 1999"><pre>
+
+   Removed AVTComponent class, now that we have different types of
+   expression values, this class is no longer needed
+
+   Removed StringTokenizer from AttributeValueTemplate parsing
+      changed to use parsing code from MITRE's TransforMiiX (TM) processor,
+      a C++ XSL processor which I wrote for MITRE and will be released soon
+   
+   Fixed a bug I found with the ExprLexer
+
+   </pre></section>
+
+   <section title="Build Number 19990803     August,  3 1999"><pre>
+
+   added wrapper element for stylesheets that add text nodes before
+   adding a document element
+
+   fixed bug introduced in 19990729 build with ProcessorState#findParent
+   (submitted by Matt Hoskins)
+
+   </pre></section>
+
+   <section title="Build Number 19990729     July,   29 1999"><pre>
+
+   added generate-id()
+   
+   fixed bug with VariableReference names
+      longest token wasn't being returned by ExprLexer
+      if a '-' was encountered in the name
+      submitted by Edas Pazera
+
+   added default-space functionality...yikes, sorry I forgot about this
+      thanks for pointing this out, Roger (Costello)
+
+   </pre></section>
+
+   
+   <section title="Build Number 19990724      July,   24 1999"><pre>
+
+   added the xsl:cdata proprietary element back into XSLReader
+
+   updated XSLProcessor to make appropriate calls to XSLReader#setErrorStream
+   (submitted by Michel CASABIANCA and Mohan Embar)
+
+   </pre></section>
+   
+
+   <section title="Build Number 19990721      July,   21 1999"><pre>
+
+   fixed bug with NodeSet#copy
+
+   did some minor performance adjustments
+
+   added format-number function
+      uses default locale, does not yet support the optional locale argument
+
+   </pre></section>
+
+   <section title="Build Number 19990720      July,   20 1999"><pre>
+
+   added substring() function for use with XSLT WD 19990709  (XPath)
+   
+   added string-length function (XPath)
+      currently doesn't handle XPath Unicode surrogate pairs
+
+   </pre></section>
+   
+   <section title="Build Number 19990719      July,   19 1999"><pre>
+
+   added doc() and docref() function calls (
+      fragment identifiers not yet handled
+      also mapped these to document() function call for use with XSLT WD 19990709
+          second argument (used for BaseURI) not yet supported
+
+   changed the behavior of the HTMLPrinter to not use the
+   empty element shorthand (suggested by Donald Ball)
+
+   fixed null pointer bug with RuleProcessor#isStripSpaceAllowed
+   (submitted by Ray Powell)
+
+   </pre></section>
+
+   <section title="Build Number 19990718      July,   18 1999"><pre>
+
+   fixed bug with NodeSet.java (submitted by Frank Peters)
+      prevented NodeSet from growing beyond default size
+
+   fixed bug with ExpressionParser.java (submitted by Rolande Kendal)
+      prevented absolute path expressions from being evaluated properly
+
+   </pre></section>
+
+
+   <section title="Build Number 19990712      July,   12 1999"><pre>
+
+   added lang(), qname() and function-available() functions
+   
+   added ns attribute support to xsl:functions
+   
+   fixed bug with comment() (submitted by Roger Costello)
+   
+   fixed bug with parent axis (submitted by Xavier Faz)
+   
+   changed default format for xsl:number to always be 1 (Stefan Mintert)
+
+   </pre></section>
+
+  <section title="Build Number 19990711      July,   11 1999"><pre>
+
+   added xsl:copy-of
+   
+   fixed package name for NameSpaceUtil (submitted by Xavier Faz)
+  
+  </pre></section>
+
+
+  <section title="Build Number 19990708      July,    8 1999"><pre>
+
+  added ceiling(), round(), floor(), and sum() functions
+  
+  added system-property() function
+ 
+  </pre></section>
+
+
+  <section title="Build Number 19990706      July,    6 1999"><pre>
+
+   finished Axis Identifier support
+   
+   changed main package from "com.kav.*" to "com.kvisco.*"
+  
+  </pre></section>
+
+  <section title="Build Number 19990704      July,    4 1999"><pre>
+
+   updated xsl:number to support the expr attribute
+
+   added xsl:param and xsl:param-variable support
+  
+  </pre></section>
+
+  <section title="Build Number 19990703      July,    3 1999"><pre>
+
+   fixed a bug with parsing union expressions
+ 
+   added local-part function call
+
+   started adding namespace support
+  
+  </pre></section>
+
+  <section title="Build Number 19990702      July,    2 1999"><pre>
+
+  Added complete scoping for xsl:variable
+
+  Did a major overhaul of the ExprLexer (was called ExprTokenizer)
+  
+  Did some clean up on the ExpressionParser
+  
+  </pre></section>
+
+  
+  <section title="Build Number 19990621      June,   21 1999"><pre>
+
+   Added concat(), contains(), starts-with(), substring-after(),
+   substring-before(), and translate() functions
+  
+  </pre></section>
+
+
+  <section title="Build Number 19990611      June,   11 1999"><pre>
+
+   Added top-level xsl:variable
+   
+   Added additional functions
+  
+  </pre></section>
+
+
+  <section title="Build Number 19990519      May,    19 1999"><pre>
+
+   Added Mulitplicative and relational Expressions
+   
+   Added simple xsl:functions mapping to xsl:script
+
+   Added position() function
+ 
+   Removed Counter related code
+
+   Removed Macro related code
+
+   Integrated Peter Ciuffetti's Named Template code
+  
+  </pre></section>
+
+
+  <section title="Build Number 19990425     April,   25 1999"><pre>
+
+  STARTED SUPPORT FOR XSLT
+
+  Fixed bug with xsl:include
+    submitted by Kelly Holford
+
+  Fixed bug with ExpressionParser
+    discovered by Shane Hathaway
+
+  Added fix from Shane Hathaway for XSLImport#getDocumentBase
+    fixes a problem with mixing "/" and "\" file separators
+
+  Added support to the xslp.properties file for declaring Formatters
+    based on code from Franck Mangin
+
+  Added META to the list of elements not to print ending tags for when
+  HTML is specified.
+     based on feedback from Ian Davis
+
+  </pre></section>
+
+
+  <section title="Build Number 19990415      April,   15 1999"><pre>
+
+  Added support for addition URLs other than http and local files
+    suggested by Calle Wilund
+
+  Added Attribute Value Fix
+    based on code submitted by Shane Hathaway
+
+  Fixed bug with xsl:copy where attributes were automatically getting
+  copied when the context node was an element
+     This bug effected releases 19990326 and 19990406(a and b)
+     discovered by Stefano Bovone
+
+  Fixed bug when using xsl:counter within xsl:element
+     This bug effected releases 19990326 and 19990406(a and b)
+     discovered by Aaron Metzger
+
+  Fixed bug with priority
+     This bug affected releases 19990326 and 19990406(a and b)
+
+  When the result namespace is HTML, special characters within
+  CDATA sections are no longer mapped to their respective xml entities
+     suggested by a few people
+  
+  </pre></section>
+
+
+  <section title="Build Number 19990406b    April,   6 1999"><pre>
+
+   fixed xsl:counter bug
+     discovered by Aaron Metzger
+
+   fixed xsl:constant bug that effected releases 19990326 and 19990406a
+     discovered by Tim McCune
+
+   fixed XSLReader() default constructor to initialize the PrintWriter
+   it used for error reporting
+     discovered by Tim McCune
+   
+   fixed the xslp.jar file to include the updated xslp.properties file
+     discovered by too many people
+
+  </pre></section>
+
+  <section title="Build Number 19990406a    April,   6 1999"><pre>
+
+   fixed a bug with SelectExpr
+   A node could be selected twice
+     discovered by Stefano Bovone
+
+   Added XSLProcessor#setValidation to turn on/off xml validation
+     Validation is turned off by default
+
+   Added -val switch to command line to turn on xml validation
+      suggested by Olivier Brand
+
+   Added better whitespace handling
+
+   Added indent-size to the xslp.properties file
+      suggested by Aaron Metzger
+
+   changed the package for DOMPackage implementations to xslp.xml.parsers
+
+  </pre></section>
+
+  <section title="Build Number 19990326    March,   26 1999"><pre>
+
+   Added some basic pretty printing for indent-result="yes"
+
+   Core classes no longer extend DOM Elements
+      I made this decision so that it would be easy to support any
+      DOM package
+      They also run faster now
+
+   Added the xslp.properties file to the jar archive
+      this file is used to specify XSL:P properties
+      currently only the DOM package information is specified here
+
+   Added support for OpenXML
+
+   Added support for XML4J 2.0.3 and 2.0.4
+
+   Added support for Oracle XML Parser
+
+   XSLProcessor#process methods that used to return NodeList now return a
+   DOM Document
+      if you need the NodeList use the getChildNodes method from the returned
+      Document
+
+   Formatter now takes a Document instead of a NodeList as input
+      sorry it took me so long for this change, I should have done this sooner
+
+   Added XSLProcessor#process methods that take a Stylesheet as a DOM document.
+
+   Many changes to the internals of XSL:P (I hope I didn't cause many bugs! ;-)
+
+  </pre></section>
+
+
+  <section title="Build Number 19990318    March,   18 1999"><pre>
+
+   Added indent-result attribute to xsl:stylesheet
+      doesn't really indent yet but add's line breaks if set to "yes"
+      removed default behavior of adding line breaks
+   
+   Added fix from Peter Marks and David King Lassman for "Not"
+   printing line breaks when the first and last child of an element is
+   Text
+
+   Fixed bug in Absolute MatchExpr pointed out by Wayne Grunes
+
+  </pre></section>
+
+
+  <section title="Build Number 19990315    March,   15 1999"><pre>
+
+   Added fix from Majkel Kretschmar in Whitespace.class
+
+   Added fix from Majkel Kretschmar for proper UTF-8 encodings
+
+   Added Warren Hedley's fix for no stylesheet being
+   specified or possible error when opening the file
+
+   Added feature for dumping to StdOut if no output file is specifed
+      Warren Hedley
+
+   Fixed SelectExpr for ancestor expressions
+
+  </pre></section>
+
+
+  <section title="Build Number 19990305    March,    5 1999"><pre>
+
+   class archive is now a jar 
+   
+   Fixed bug with error printing
+ 
+   Fixed bug in BooleanTokenizer
+      keywords (and, or) were not being ignored inside of quotes
+
+  </pre></section>
+
+
+  <section title="Build Number 19990301    March,     1 1999"><pre>
+
+   Added changes from Domagoj Cosic for compatibility issues
+   between XML4J 1.1.9 and XML4J 1.1.14
+
+  </pre></section>
+
+
+  <section title="Build Number 19990226    February,  26 1999"><pre>
+
+   includes performance enhancements
+      I've finally done some performace tuning, you should notice
+      a significant speed increase for larger files.
+      More optimizations to come.
+
+   Added support for namespace quoting
+
+   Updated ScriptHandler
+      to allow scripting access for inserting nodes into the result tree
+      besides text nodes:
+         Three API methods were added to the scripting environment
+         XSLP.addToResultTree(Node),XSLP.createElement(name),XSLP.createText(data)
+
+   Updated DefaultFormatter
+      this Formatter is used by Default when no Formatter is specified
+      and the result-ns is not equal to "html" or begin with
+      "http://www.w3.org/TR/REC-html"
+      
+      all empty elements are printed using the empty element convention
+
+   Added BasicHTMLFormatter
+      this Formatter is used when the result-ns attribute equals "html"
+      or begins with "http://www.w3.org/TR/REC-html"
+      
+      this Formatter does not print closing tags for &lt;BR&gt;&lt;IMG&gt; and &lt;HR&gt;.
+      If a &lt;P&gt; element has no children it will not print the closing tag
+
+
+  </pre></section>
+
+
+  <section title="Build Number 19990215    February,  15 1999"><pre>
+
+   Added Numbering in the result tree
+       xsl:counter
+       xsl:counters
+       xsl:counter-increment
+       xsl:counter-reset
+       xsl:counter-scope
+       Note: for Number formatting, only the format attribute is currently
+             implemented
+   Fixed a bug when using pi() and text() Match expressions at the same time
+
+  </pre></section>
+
+  <section title="Build Number 19990205    February,   5 1999"><pre>
+
+  Added some more fixes
+      fixed a problem with context for literals
+      fixed xsl:attribute problem with whitespace
+
+  </pre></section>
+
+  <section title="Build Number 19990201    February,   1 1999"><pre>
+
+   Added some whitespace handling features
+      xsl:strip-space, xsl:preserve-space
+
+   Made some enhancements
+
+   Fixed some of the document ordering when using UnionExpr select patters
+      still need to fix out of order attributes
+
+  </pre></section>
+
+  
+  <section title="Build Number 19990130    January,   30 1999"><pre>
+
+   fixed a bug with IdentityExpr with FilterExpr (thanks Aaron)
+
+  </pre></section>
+
+
+  <section title="Build Number 19990127    January,   27 1999"><pre>
+
+  added xsl:sort!!!!
+     uses jdk 1.1 Collator so only languages supported by jdk1.1 are supported
+
+  fixed a bug with "importance"
+
+  fixed a bug when selecting on the document root
+
+  </pre></section>
+
+  <section title="Build Number 19990118    January,   18 1999"><pre>
+  
+   Added xsl:include support
+   
+   Made some minor modifications to the XSLReader and XSLStylesheet classes
+
+  </pre></section>
+
+
+  <section title="Build Number 19990112    January,   12 1999"><pre>
+
+   Added macro-arg support
+
+   Changed DefaultFormatter to print &lt;?xml version="1.0"?&gt;
+
+   Added support for &lt;?xsl:result-dtd ?&gt; processing instruction
+      This is proprietary pi that allows the DOCTYPE to be added to the
+      result document
+
+  </pre></section>
+
+  <section title="Build Number 19990111    January,   11 1999"><pre>
+
+  added xsl:script support as children of xsl:attribute
+
+  </pre></section>
+
+  <section title="Build Number 19990110    January,   10 1999"><pre>
+
+   added support for xsl:entity-ref which allows the creation of an
+   entity reference in the result
+   
+   changed the CDATA section serialization to replace the entities &amp; &lt; &gt;
+
+   incorporated new XslNumberFormat from Tim
+
+  </pre></section>
+
+  <section title="Build Number 19990107    January,    7 1999"><pre>
+
+   Added support for multi level and any level numbering
+
+   Incorporated support for number formatting
+      uses Tim Taylor's XslNumberFormat
+
+   Fixed a bug I ran across in MatchExpr
+      The // operator wasn't always match correctly when used in a MatchExpr.
+      SelectExpr's were unaffected. I may have broken this during my change
+      from the 19980818 draft.
+
+  </pre></section>
+
+  <section title="Build Number 19990106    January,    6 1999"><pre>
+
+   Added boolean expressions AndExpr, OrExpr and BooleanGroupExpr
+
+   Updated scripting support
+
+  </pre></section>
+
+  <section title="Build Number 19990102    January,    2 1999"><pre>
+
+  Did a little fine tuning, no feature changes
+
+  </pre></section>
+
+  <section title="Build Number 19981229    December,  29 1998"><pre>
+
+   Added more of WD19981216 changes
+      added pi,comment, and text functions
+      added xsl:copy
+
+  </pre></section>
+
+  <section title="Build Number 19981228    December,  28 1998"><pre>
+
+   I have incorporated many of the WD19981216 changes
+      changed xsl:process and xsl:process-children to xsl:apply-templates
+      added creation of XML nodes (comment,pi,element,attribute)
+      changed Select patterns and Match patterns to support new syntax changes
+      changed attribute to @
+      added processing modes
+      changed expr attribute to select for xsl:value-of
+      added ancestor-or-self
+      changed priorities to be a real number
+
+   xsl:text has been added
+
+  </pre></section>
+
+
+  <section title="Build Number 19981220    December,  20 1998"><pre>
+
+  Added xsl:choose
+
+  </pre></section>
+
+  <section title="Build Number 19981216    December,  16 1998"><pre>
+
+   Added documentBase fix provided by Tim Taylor
+   
+   Added Macro support
+
+  </pre></section>
+
+
+  <section title="Build Number 19981215    December,  15 1998"><pre>
+
+   Added proprietary support for xsl:script
+      Scripting language is ECMAScript (Uses FESI ECMAScript Interpreter)  
+
+  </pre></section>
+
+  <section title="Build Number 19981213    December,  13 1998"><pre>
+
+   Added Attribute Value Templates
+   
+   Added xsl:if
+   
+   Added Anchors to xsl:value-of
+
+  </pre></section>
+
+
+  <section title="Build Number 19981210    December,  10 1998"><pre>
+
+   Added xsl:value-of
+
+  </pre></section>
+
+  </body>
+</document>

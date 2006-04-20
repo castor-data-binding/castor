@@ -1,0 +1,176 @@
+<project name="Adaptx" default="main" basedir="..">
+  <target name="init">
+    <property name="project" value="adaptx" />
+
+    <property name="source" value="src" />
+    <property name="etc" value="src/etc" />
+    <property name="build" value="build" />
+    <property name="classes" value="${build}/classes" />
+    <property name="dist" value="dist" />
+    <property name="lib" value="lib" />
+    <property name="doc" value="src/doc" />
+
+    <property name="classpath" value="${classpath}:${classes}" />
+    <property name="build.compiler" value="classic" />
+    <property name="deprecation" value="false" />
+    <property file="${etc}/VERSION" />
+    <property name="archive" value="${project}_${version}" />
+  </target>
+
+  <target name="targets" depends="init">
+    <echo message=""/>
+    <echo message="ANT build for ${project} ${version}"/>
+    <echo message=""/>
+    <echo message="The following targets are available:"/>
+    <echo message="  targets  --> Lists the build targets"/>
+    <echo message="  clean    --> Cleans the build and distribution directories"/>
+    <echo message="  all      --> Cleans and builds all the packages "/>
+    <echo message="  release  --> Cleans and builds all the release packages"/>
+    <echo message="               (JAR, source, doc, tarball) in the dist directory"/>
+    <echo message="  main     --> Builds the main packages (including debugging info)"/>
+    <echo message="              (Default target)" />
+    <echo message="  jar      --> Builds the binary JAR in the dist directory"/>
+    <echo message="  javadoc  --> Builds the Full JavaDocs"/>
+    <echo message="  source   --> Builds the source tarball in the dist directory"/>
+    <echo message="  tarball  --> Builds the binary distribution in the dist directory"/>
+    <echo message="  cvs      --> Update the sources from the CVS"/>
+    <echo message=""/>
+  </target>
+
+
+  <!-- Prepare target directories -->
+  <target name="prepare" depends="init">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${classes}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <!-- Kill all the directories created in prepare -->
+  <target name="clean" depends="init">
+    <delete dir="${build}"/>
+    <delete dir="${dist}"/>
+  </target>
+
+
+  <!-- Build all the sources with debug and deprecation -->
+  <target name="main" depends="prepare">
+    <javac srcdir="${source}/main" destdir="${classes}"
+           classpath="${classpath}" debug="on" deprecation="${deprecation}" />
+  </target>
+
+  <!-- Same as main, but also cleans and additional targets -->
+  <target name="all" depends="clean,main"/>
+
+  <!-- Same as main, but no debug and no deprecation -->
+  <target name="no-debug" depends="prepare">
+    <javac srcdir="${source}/main" destdir="${classes}"
+           classpath="${classpath}" debug="off" deprecation="off" optimize="on"/>
+  </target>
+
+
+  <!-- Build a full release including JAR, zip/tarball, source and documentation -->
+  <target name="release" depends="clean,jar,tarball,source,javadoc">
+    <jar jarfile="${dist}/${archive}-doc.jar" basedir="${build}" includes="doc/**" />
+  </target>
+
+
+  <!-- Build the JAR file using no-debug -->
+  <target name="jar" depends="no-debug">
+    <delete file="${dist}/${archive}.jar" />
+
+    <copy file="${source}/etc/MANIFEST.MF" tofile="${classes}/MANIFEST.MF" />
+    <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
+    <copy file="${source}/etc/LICENSE" tofile="${classes}/LICENSE" />
+    <copy file="${source}/etc/README" tofile="${classes}/README" />
+    <copy file="${source}/etc/CHANGELOG" tofile="${classes}/CHANGELOG" />
+
+    <jar jarfile="${dist}/${archive}.jar" basedir="${classes}"
+         manifest="${classes}/MANIFEST.MF" includes="LICENSE,README,CHANGELOG,org/**" />
+  </target>
+
+
+   <target name="doc" depends="prepare">
+    <mkdir dir="${build}/doc" />
+    <style basedir="${doc}" destdir="${build}/doc" style="style/exolab.xsl"
+           includes="**.xml" excludes="style/**,project.xml"
+           processor="org.exolab.adaptx.util.JakartaAntAdapter"/>
+    <copy  todir="${build}/doc/images">
+      <fileset dir="${doc}/images" />
+    </copy>
+    <copy  todir="${build}/doc/images">
+      <fileset dir="${doc}/style/images" includes="*.gif" />
+    </copy>
+    <copy  todir="${build}/doc/">
+      <fileset dir="${doc}/style" includes="*.css"/>
+    </copy>
+    <replace file="${build}/doc/index.html" token="$$VERSION$$" value="${version}"/>
+    <replace file="${build}/doc/index.html" token="$$RELEASE_DATE$$" value="${release_date}"/>
+    <replace file="${build}/doc/download.html" token="$$VERSION$$" value="${version}"/>
+
+    <copy  todir="${build}/doc">
+      <fileset dir="${doc}" includes="license.txt,document.dtd,*.pdf"/>
+    </copy>
+
+ </target>
+
+
+  <!-- Build the API JavaDoc -->
+  <target name="javadoc" depends="prepare">
+    <mkdir   dir="${build}/doc" />
+    <delete dir="${build}/doc/javadoc" />
+    <mkdir   dir="${build}/doc/javadoc" />
+    <javadoc sourcepath="${source}/main" destdir="${build}/doc/javadoc"
+             doctitle="Adaptx" public="true" noindex="true" author="true"
+             packagenames="org.exolab.adaptx.*" />
+  </target>
+
+
+  <!-- Build the source distribution -->
+  <target name="source" depends="prepare">
+    <delete file="${dist}/${archive}-src.tgz" />
+    <delete file="${dist}/${archive}-src.zip" />
+    <tar includes="*.sh, *.bat ${source}/** ${lib}/**" basedir="."
+         tarfile="${dist}/${archive}-src.tar" defaultexcludes="true" />
+    <gzip src="${dist}/${archive}-src.tar" zipfile="${dist}/${archive}-src.tgz"/>
+    <delete file="${dist}/${archive}-src.tar" />
+    <zip zipfile="${dist}/${archive}-src.zip" basedir="." includes="*.sh *.bat ${source}/** ${lib}/**"
+         defaultexcludes="true" />
+  </target>
+
+  <!-- Build the tarball including JAR and all dependent packages -->
+  <target name="tarball" depends="prepare,jar">
+    <property name="bin" value="${build}/${archive}" />
+    <delete   file="${dist}/${archive}.tgz" />
+    <delete   file="${dist}/${archive}.zip" />
+    <delete   dir="${bin}" />
+    <mkdir    dir="${bin}" />
+    <copy     file="${etc}/README"
+              tofile="${bin}/README" />
+    <copy     file="${etc}/LICENSE"
+              tofile="${bin}/LICENSE" />
+    <copy     file="${etc}/CHANGELOG"
+              tofile="${bin}/CHANGELOG" />
+    <copy     file="${dist}/${archive}.jar"
+              tofile="${bin}/${archive}.jar" />
+    <copy     todir="${bin}">
+      <fileset dir="${lib}"/>
+    </copy>
+
+    <tar includes="${archive}/**" basedir="${build}"
+         tarfile="${dist}/${archive}.tar" defaultexcludes="true" />
+
+    <gzip src="${dist}/${archive}.tar" zipfile="${dist}/${archive}.tgz"/>
+    <delete file="${dist}/${archive}.tar" />
+
+    <zip zipfile="${dist}/${archive}.zip" basedir="${build}" includes="${archive}/**" />
+  </target>
+
+
+  <!-- Update the sources from the CVS -->
+  <target name="cvs" depends="clean">
+    <cvs cvsRoot=":pserver:anonymous@virtuals.intalio.com:/cvs/${project}"
+         dest="." package="${project}" />
+  </target>
+
+
+</project>
