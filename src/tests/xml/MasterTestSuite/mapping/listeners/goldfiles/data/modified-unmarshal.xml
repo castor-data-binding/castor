@@ -1,2 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<A Attribute="ARoot:X:X:X"><Element>A Element</Element><NumMods>4</NumMods><B Attribute="BChild"><Element>B Element:X:X:X:X</Element><NumMods>5</NumMods><C Attribute="CChild:X:X:X"><Element>C Element</Element><NumMods>4</NumMods></C></B></A>

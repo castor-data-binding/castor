@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2000/10/XMLSchema"
+        targetNamespace="http://www.castor.org/Include"
+        elementFormDefault="qualified">
+    
+    <xsd:include schemaLocation="../IncludeC.xsd"/>
+    
+    <xsd:element name="elementB">
+          <xsd:complexType>
+             <xsd:sequence>
+                 <xsd:element ref="elementC" minOccurs="1" maxOccurs="1"/>
+             </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+</xsd:schema>
