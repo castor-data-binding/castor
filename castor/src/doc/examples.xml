@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/examples.xml">
+  <body>
+    <title>Running The Examples</title>
+
+    <section title="Running The Examples">
+
+      <p>
+      In order to run the examples located in <tt>src/examples</tt>, there are
+      number of steps that must first take place. these steps are outlined below:
+
+      <ol type="1">
+          <li>Download the Castor source via either <a href="download.html">FTP</a>
+          or <a href="cvs.html">CVS</a>. If the source has been downloaded via FTP,
+          it must be decompressed. This is dependent on whether a gzipped tarball
+          has been downloaded or a zip file has been downloaded.<br /><br />
+
+          Steps for a gzipped tarball:
+
+          <br /><br />
+
+          <tt>tar zxvf castor-0.9.3.9-src.tgz</tt><br />
+
+          or<br />
+
+          <tt>gunzip &lt; castor-0.9.3.9-src.tgz | tar xvf -</tt>
+
+          <br /><br />
+
+          Steps for a zip file:
+
+          <br /><br />
+
+          <tt>unzip castor-0.9.3.9-src.zip</tt><br />
+
+          or<br />
+
+          <tt>jar xvf castor-0.9.3.9-src.zip</tt><br />
+
+          or<br />
+
+          Get a copy of <a href="http://www.powerarchiver.com/">PowerArchiver</a><br /><br />
+
+          </li>
+          <li>If you're using Unix/Linux, the shell scripts must be made executable
+          and the line endings must be changed. Use the following directions:
+
+          <br /><br />
+
+          <ol type="a">
+              <li>
+              Make the shell scripts executable:
+
+              <br /><br />
+
+              <tt>chmod +x *.sh</tt><br /><br />
+              </li>
+
+              <li>
+              Change the line endings on the shell scripts:
+
+              <br /><br />
+
+              <tt>for i in *.sh; do dos2unix $i $i; done</tt><br /><br />
+              </li>
+          </ol>
+
+          </li>
+
+          <li>
+          If it is not set yet, please set the <tt>JAVA_HOME</tt> environment variable.
+          </li>
+
+          <li>
+          Edit <tt>src/examples/jdo/database.xml</tt> for the database being used.
+          (There are examples for all supported databases in <tt>src/tests/jdo</tt>.)
+          </li>
+
+          <li>
+          Build the examples like so:
+
+          <br /><br />
+
+          <tt>build.[sh|bat] examples</tt>
+
+          <br /><br />
+
+          This will not only build the examples, but will also build the Castor classes.
+          </li>
+
+          <li>
+          Add the appropriate classes for the database driver to the <tt>CLASSPATH</tt>.
+          </li>
+
+          <li>
+          Run the examples using the directions in the next section.
+          </li>
+      </ol>
+
+      </p>
+
+      <p>The script files <tt>example.sh</tt> and <tt>example.bat</tt> can
+         be used to run the provided examples. The first argument is the example
+         package name. For example, to build and run the JDO example:
+<pre>
+  build.sh examples
+  example.sh jdo
+</pre>
+      </p>
+
+    </section>
+
+    <section title="Castor JDO">
+
+      <p>The JDO sample will test persistence between a set of Java classes
+         (Product, ProductGroup, ProductDetail) and a known SQL schema.
+         You can use the <tt>create.sql</tt> file to generate the database schema
+         for the purpose of this test.</p>
+
+      <p>The mapping between the Java objects and SQL schema is described in
+         the file <tt>mapping.xml</tt>. The JDBC connection to use is describes
+         in the file <tt>database.xml</tt>. The provided file uses PostgreSQL as
+         the database server and JDBC driver, you can modify this file for your database
+         server and use any JDBC 1.0 or 2.0 driver.</p>
+
+      <p>The database information and mapping are automatically read from the
+         JDO example directory, there is no need to provide any parameters on
+         the command line.</p>
+
+      <p>The performance test uses the ODMG engine as well as direct JDBC
+         access. You must provide the JDBC URI and class name to use for
+         this test on the command line.</p>
+
+      <p>Usage:
+         <code>
+  example.sh jdo
+         </code></p>
+    </section>
+
+    <section title="Castor DSML">
+
+      <p>Do not run this sample against a production LDAP server unless you
+         are sure it will not affect the information in your directory!</p>
+
+      <p>The DSML sample will attempt to import the supplied directory
+         information from the test.xml file using the import policy described
+         in the <tt>import.xml</tt>. file. It will then run a search against the
+         LDAP server using the search criteria in the search.xml file and dump it
+         to the console.</p>
+
+      <p>You must modify <tt>search.xml</tt>, <tt>import.xml</tt> and
+         <tt>test.xml</tt> and adapt them to your LDAP directory structure.
+         The default files assumes the root directory dc=intalio,dc=com and
+         includes some sample LDAP entries.</p>
+
+      <p>Usage:
+         <code><![CDATA[
+  test.sh dsml [jndi|mozilla] <host> <root-dn> <root-pwd>
+
+  jndi|mozilla  Selects whether to use the JNDI or Mozilla Directory
+	        SDK implementations
+  host          The LDAP host name (port number is optional)
+  rood-dn       The root DN used for authenticating when importing
+  root-pwd      The root password used for authenticating when importing
+]]></code>
+         For example:
+         <code>
+  example.sh dsml mozilla ldap.intalio.com dc=intalio,dc=com secret
+         </code></p>
+
+    </section>
+
+    <section title="External Examples">
+      <p>
+         This sections provides a place link external examples of using
+         Castor. If you have an example that you feel would be useful
+         please send us the URL. Also notify us if any links are
+         broken.
+      </p>
+      <section title="ebXMLsoft">
+         <p>Goran Zugic and Duka Krunic of ebXMLsoft Inc. have some samples
+            using Castor XML and Castor JDO. The examples use Castor 0.9.2
+            and offer good insight in using XML and JDO together.<br />
+         <url>http://www.ebxmlsoft.com/pilots/samples.html</url>
+         </p>
+      </section>
+    </section>
+
+  </body>
+</document>

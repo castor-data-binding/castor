@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/download.xml">
+  <body>
+    <title>Download</title>
+
+    <header>
+    </header>
+
+    <section title="License">
+      <include href="license.xml"/>
+    </section>
+
+    <section title="Release Candidates">
+      <ul><b>Castor 0.9.5.4 RC2</b>
+         <p>For FTP access use <url>ftp://ftp.exolab.org/pub/castor/castor_0.9.5.4/</url></p>
+      </ul>
+      <ul><b>Castor 0.9.6 RC1</b>
+         <p>For FTP access use <url>ftp://ftp.exolab.org/pub/castor/castor_0.9.6/</url></p>
+      </ul>
+   </section>
+
+    <section title="Latest Stable Release">
+      <ul><b>Lastest Released Version: Castor $VERSION$</b>
+        <li><a href="changelog.xml">What changed?</a></li>
+        <li>The Castor JAR (XML, JDO, DAX)<br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$.jar</url>
+            <br/>&#xA0;</li>
+        <li>The Castor JAR (XML only)<br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$-xml.jar</url>
+            <br/>&#xA0;</li>
+        <li>The Castor JARs, docs, DTDs, command line tools and examples<br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$.tgz</url><br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$.zip</url>
+            <br/>&#xA0;</li>
+        <li>Full documentation including all JavaDocs and specs (big)<br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$-doc.tgz</url><br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$-doc.zip</url>
+            <br/>&#xA0;</li>
+        <li>Full CVS snapshot: all sources, docs, libraries (big)<br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$-src.tgz</url><br/>
+            <url>ftp://ftp.exolab.org/pub/castor/castor_$VERSION$/castor-$VERSION$-src.zip</url>
+            <br/>&#xA0;</li>
+      </ul>
+
+         <p><small>The tarball and zips includes all the JARs required by Castor, the
+            docs and API JavaDocs. To fully install Castor, simply extract all the JARs
+            into your classpath.</small></p>
+
+         <p><small>The CVS snapshot includes additional JARs required to build Castor.
+            It is self sufficient and does not require any external components, except
+            for javac.</small></p>
+
+         <p><small>The documentation set includes JavaDocs for the API and JavaDocs
+            for the full source code, including class usage. A small documentation
+            set without the full source JavaDocs is available in the tarball and
+            zips.</small></p>
+
+         <p><small>All the JARs included with Castor and used for building Castor
+            are available for distribution free of charge, subject to the respective
+            license agreements.</small></p>
+
+         <p><small>All implementation JARs (i.e. non APIs) are available under an
+            open source license and available from our FTP server.
+            Open source licenses in use include Apache (ASF), Exolab, Mozilla (MPL),
+            and public domain. All licenses are fully compatible with each other.</small></p>
+
+      </section>
+
+
+      <section title="FTP Access">
+         <p>For FTP access use <url>ftp://ftp.exolab.org/pub/castor/</url></p>
+      </section>
+
+      <section title="Daily CVS Snapshot">
+         <p>
+            For Latest CVS version use our CVS server
+            (<a href="cvs.xml">CVS Information</a>) or
+            for those of you behind a firewall with the CVS port non-accessible, feel free to
+            use the daily-snapshot here:
+         <url>ftp://ftp.exolab.org/pub/castor/castor_daily_snapshot.tgz</url>
+         </p>
+    </section>
+
+      <section title="Past Releases">
+         You may be able some past releases on the FTP Server:
+         <p><url>ftp://ftp.exolab.org/pub/castor/</url></p>
+      </section>
+
+  </body>
+</document>
+
+
+

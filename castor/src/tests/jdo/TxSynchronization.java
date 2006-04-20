@@ -1,0 +1,166 @@
+/**
+ * Redistribution and use of this software and associated documentation
+ * ("Software"), with or without modification, are permitted provided
+ * that the following conditions are met:
+ *
+ * 1. Redistributions of source code must retain copyright
+ *    statements and notices.  Redistributions must also contain a
+ *    copy of this document.
+ *
+ * 2. Redistributions in binary form must reproduce the
+ *    above copyright notice, this list of conditions and the
+ *    following disclaimer in the documentation and/or other
+ *    materials provided with the distribution.
+ *
+ * 3. The name "Exolab" must not be used to endorse or promote
+ *    products derived from this Software without prior written
+ *    permission of Intalio, Inc.  For written permission,
+ *    please contact info@exolab.org.
+ *
+ * 4. Products derived from this Software may not be called "Exolab"
+ *    nor may "Exolab" appear in their names without prior written
+ *    permission of Intalio, Inc. Exolab is a registered
+ *    trademark of Intalio, Inc.
+ *
+ * 5. Due credit should be given to the Exolab Project
+ *    (http://www.exolab.org/).
+ *
+ * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
+ * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
+ * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
+ * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
+ * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
+ * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
+ * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
+ * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
+ * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
+ * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
+ * OF THE POSSIBILITY OF SUCH DAMAGE.
+ *
+ * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
+ *
+ * $Id$ 
+ */
+
+package jdo;
+
+import harness.CastorTestCase;
+import harness.TestHarness;
+
+import java.sql.SQLException;
+import java.util.ArrayList;
+import java.util.Properties;
+
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.OQLQuery;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryResults;
+import org.exolab.castor.persist.TxSynchronizable;
+import org.exolab.castor.util.LocalConfiguration;
+
+public class TxSynchronization extends CastorTestCase {
+    /**
+     * Property listing all the available {@link TxSynchronizable}
+     * implementations (<tt>org.exolab.castor.persit.TxSynchronizable</tt>).
+     */
+    private static final String TxSynchronizableProperty = 
+        "org.exolab.castor.persist.TxSynchronizable";
+
+    public static ArrayList	synchronizables = new ArrayList();
+
+    private JDOCategory _category;
+    private Database    _db;
+    private String 		_oldProperty;
+
+    /**
+     * Constructor
+     *
+     * @param category The test suite for these tests
+     */
+    public TxSynchronization(TestHarness category) {
+        super( category, "TC36", "Test TxSynchronizable interceptor" );
+        _category = ( JDOCategory ) category;
+        
+        synchronizables.clear();
+    }
+    
+    /**
+     * Get a JDO database
+     */
+    public void setUp() throws PersistenceException, SQLException {
+        LocalConfiguration config = LocalConfiguration.getInstance();
+        Properties props = config.getProperties();
+        _oldProperty = (String)props.setProperty(
+                TxSynchronizableProperty, 
+                TxSynchronizableImpl.class.getName() );
+
+        _db = _category.getDatabase();
+    }
+
+    public void runTest() throws PersistenceException, SQLException {
+	    _db.begin();
+	    OQLQuery query = _db.getOQLQuery("select o from jdo.TestObject o");
+	    QueryResults result = query.execute();
+	    while(result.hasMore()) _db.remove(result.next());
+	    result.close();
+	    _db.commit();
+
+	    synchronizables.clear();
+	    
+	    // create a default TestObject
+	    _db.begin();
+	    _db.create(new TestObject());
+	    _db.commit();
+
+	    // update TestObject the first time
+	    _db.begin();
+	    TestObject st = (TestObject)_db.load(TestObject.class, new Integer(TestObject.DefaultId));
+	    st.setValue1(TestObject.DefaultValue1 + TestObject.DefaultValue1);
+	    st.setValue2(TestObject.DefaultValue2 + TestObject.DefaultValue2);
+	    _db.commit();
+
+	    // update TestObject the second time
+	    _db.begin();
+	    TestObject lt = (TestObject)_db.load(TestObject.class, new Integer(TestObject.DefaultId));
+	    lt.setValue1(TestObject.DefaultValue1);
+	    lt.setValue2(TestObject.DefaultValue2);
+	    _db.commit();
+
+	    // create another default TestObject
+	    // should fail and rollback
+	    try {
+		    _db.begin();
+		    _db.create(new TestObject());
+		    _db.commit();
+	    } 
+	    catch(Exception ex) {
+	        _db.rollback();
+	    }
+
+	    // remove TestObject
+	    _db.begin();
+	    _db.remove(_db.load(TestObject.class, new Integer(TestObject.DefaultId)));
+	    _db.commit();
+
+	    assertTrue("TxSynchronizable should see 5 instead of " + synchronizables.size() + " changes", synchronizables.size()==5);
+	    assertTrue("1. change of TxSynchronizable is wrong", "created:3 / one / two".equals(synchronizables.get(0)));
+	    assertTrue("2. change of TxSynchronizable is wrong", "updated:3 / oneone / twotwo".equals(synchronizables.get(1)));
+	    assertTrue("3. change of TxSynchronizable is wrong", "updated:3 / one / two".equals(synchronizables.get(2)));
+	    assertTrue("4. change of TxSynchronizable is wrong", "rolledback".equals(synchronizables.get(3)));
+	    assertTrue("5. change of TxSynchronizable is wrong", "deleted:3 / one / two".equals(synchronizables.get(4)));
+	}
+	
+	public void tearDown() throws PersistenceException {
+        synchronizables.clear();
+	    _db.close();
+
+        LocalConfiguration config = LocalConfiguration.getInstance();
+        Properties props = config.getProperties();
+	    if( _oldProperty != null ) {
+	        props.setProperty( TxSynchronizableProperty, _oldProperty );
+	    } else {
+	        props.remove( TxSynchronizableProperty );
+	    }
+	}
+}

@@ -1,0 +1,319 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/locking.xml">
+  <properties>
+    <title>Transaction And Locking Modes</title>
+    <author email="arkin@exoffice.com">Assaf Arkin</author>
+    <status>Preliminary Draft</status>
+  </properties>
+  <body>
+    <section title="The JDO Model">
+
+      <p>In order to understand how the JDO transaction model affects applications
+         performance and transactional integrity, you must first understand the semantics
+         of the Java Data Objects. Java Data Objects are objects loaded from and stored
+         to the database, but are disassociated from the database itself. That is, once an
+         object has been loaded into memory, changes to the object in memory are not
+         reflect in the database until the transaction commits.</p>
+
+      <p>The following table shows a sample code and the state of the JDO object and
+         the relevant database field:</p>
+
+         <table border="1" cellpadding="4">
+           <tr>
+             <td><b>Code</b></td>
+             <td><b>Object value</b></td>
+             <td><b>Record value</b></td>
+           </tr>
+           <tr>
+             <td>results = oql.execute();</td>
+             <td align="center">N/A</td>
+             <td align="center">X</td>
+           </tr>
+           <tr>
+             <td>obj = results.next();</td>
+             <td align="center">X</td>
+             <td align="center">X</td>
+           </tr>
+           <tr>
+             <td>obj.setValue( Y );</td>
+             <td align="center">Y</td>
+             <td align="center">X</td>
+           </tr>
+           <tr>
+             <td>db.commit();</td>
+             <td align="center">Y</td>
+             <td align="center">Y</td>
+           </tr>
+         </table>
+
+       <p>Concurrency conflicts do not occur when an object is changed in memory,
+          but rather when the transaction commits and changes are saved back to the
+          database. No changes are saved if the transaction rolls back.</p>
+
+       <p>Conflicts could occur if two threads attempted to modify the same object,
+          or the same thread recieves two objects associated with the same
+          database record and performs different changes to each object.
+          Castor solves these issues through a transaction-object-identity association.</p>
+
+       <p>When the same transaction attempts to query the same database record twice,
+          (e.g. as the result of two different queries) the same object is returned,
+          assuring that different changes will be sychronized through the same object.</p>
+
+       <p>When two transactions attempt to query the same database record, each transaction
+          recieves a different object mapping to the same record, assuring that changes
+          done in one transaction are not visible to the other transactions. Changes should
+          only become visible when the transaction commits and all its changes are made
+          durable.</p>
+
+       <p>This approach places the responsibility of synchronization and deadlock detection
+          on the Castor persistence engine, easing the life of the developer.</p>
+
+    </section>
+
+    <section title="Locking Modes">
+
+      <p>Concurrent access requires use of locking to synchronize two transactions
+         attempting to work with the same object. The locking mechanism has to take into
+         account several possible use of objects, as well as help minimize database access
+         through caching and is-modified checking.</p>
+
+      <p>Locking modes are declared in the <a href="jdo-mapping.xml#The-&lt;class>-element">
+         class element</a> of the XML mapping on a per class basis.</p>
+
+      <section title="Access mode: Shared">
+
+        <p>The shared mode is the default for all objects, unless otherwise specified in the
+           mapping file. Shared mode allows two transactions to read the same record at the
+           same time. Each transaction will get it's own view of the record as a separate
+           object, to prevent in-memory changes from conflicting with each other. However,
+           the values loaded from the database are the same for both transactions.</p>
+
+        <p>When transactions query different objects or query the same objects but for
+           read-only purposes, shared access provides the most efficient means of access
+           in terms of performance, utilizing record caching and eliminating lock
+           contention. For example, when each transaction retrieves a different Customer
+           record and all transactions retrieved the same set of Department records but
+           hardly ever change them, both Customer and Department should be declared as
+           having a shared lock.</p>
+
+        <p>However, when two transactions attempt to access the same object, modify it,
+           and commit the changes, a concurrency conflict will occur. Some concurrency
+           conflicts can lead to one of the transactions aborting. For example, if two
+           transactions happen to load the same Account object with a balance of X,
+           one adds 50 and the other adds 60, if both were allowed to commit the changes
+           the new account balance will be either X+50 or X+60, but not X+110.</p>
+
+        <p>In the above case either exclusive or db-locked modes should be used to
+           reduce potential conflicts. However exclusive and db-locked modes may cause
+           the application to perform slower due to lock contention and should not be
+           used as the general case. In rare cases conflicts may occur where shared
+           locks are the preferred choice, e.g. when two transactions attempt to
+           modify the same Department object, or somehow get hold of the same Customer
+           records.</p>
+
+        <p>Castor detects such conflicts as they occur and uses two mechanisms to
+           deal with them: write locks and deadlock detection. When a transaction commits
+           Castor first tries to determine whether the object has been modified from
+           it's known state (i.e. during query). If the object has not been modified,
+           Castor will not attempt to store the object to the database. If the object 
+           has been modified, Castor acquires a write lock on the object preventing 
+           other transactions from accessing the object until the current transaction 
+           completes storing all changes to the database. A write lock prevents other 
+           transactions from acquiring either a write or read lock, preventing them 
+           from accidentally loading a dirty image of the object.</p>
+
+        <p>If the second transaction has a read lock on the object, the current
+           transaction will block until the second transaction releases the lock,
+           either by rolling back or by not modifying its object. If the other
+           transaction modifies the object and attempts to store it, a deadlock
+           occurs. If both transactions have a read lock, both require a write lock in
+           order to proceed and neither can proceed until the other terminates.</p>
+
+        <p>Castor detects such deadlock occurences and causes the second transaction
+           to rollback, allowing the first transaction to commit properly. Such
+           conflicts do not happen often, but when they happen some transactions will
+           fail. The application developer should either be aware of the possibility
+           of failing, or choose to use a more severe lock type.</p>
+
+        <p>Conflicts occur not just from other Castor transactions, but also from
+           direct database access. Consider another application modifying the exact
+           same record through direct JDBC access, or a remote server connecting to
+           the same database. To detect such conflicts Castor uses a dirty checking
+           mechanism.</p>
+
+        <p>When an object is about to be stored, Castor compares the current values
+           in the database records with those known when the object was originally
+           loaded from the database. Any changes are regarded as dirty fields and
+           cause the transaction to rollback with the proper error message.</p>
+
+        <p>Not all fields are necessarily sensitive to dirty checking. The balance
+           in a bank account is a sensitive field, but the date of the last transaction
+           might not be. Since the date does not depend on the original value of the
+           account, but on the last modification to it, dirty checking can be avoided.</p>
+
+        <p>A field marked with dirty="ignore" <!--(in the <a href="jdo-mapping.html#The-<sql>-element">
+           &lt;sql> element</a> of the mapping descriptor)-->will not take part in dirty 
+           checking. Furthermore, modifications to such a field will not require a 
+           write lock on the object, further improving throughput. Marking fields as 
+           non-dirty should be done with extreme care.</p>
+
+      </section>
+
+      <section title="Access mode: Exclusive">
+
+        <p>The exclusive mode assures that no two transactions can use the same
+           record at the same time. Exclusive mode works by acquiring a write lock in
+           memory and synchronizing transactions through a lock mechanism with configured
+           timeout.</p>
+
+        <p>Using in-memory locks, exclusive access provides some transaction synchronization
+           that is efficient in terms of performance and increases the chance of a commit
+           being successful. It does not, however, guarantee commit. Since the lock is
+           acquired by Castor, it can be used to synchronize Castor access, but other forms
+           of direct database access may still modify the database record.</p>
+
+        <p>When a transaction obtains an object that was specified as exclusive access
+           in the mapping file or when performing a query, Castor will always obtain a
+           write lock on that object. The write lock will prevent a second transaction
+           from being able to access the object either for read or write, until the current
+           transaction commits. If the object is already being accessed by another
+           transaction, the current transaction will block until the other transaction
+           commits and release the lock.</p>
+
+        <p>It is possible to upgrade from a shared to an exclusive lock by calling the
+           <api class="org.exolab.castor.jdo.Database">lock(java.lang.Object)</api>
+           method. This method can be used with shared objects when the application
+           wants to assure that other transactions will be blocked and changes can be
+           made to the current object.</p>
+
+        <p>Because direct database access can modify the same record as represented by
+           an exclusive locked object, Castor uses dirty checking when updating the
+           database. Dirty checking does not have a severe affect on performance, and can
+           be disabled by marking all the fields of the object with dirty="ignore".</p>
+
+        <p>To reduce the possibility of dirty reads, Castor will always synchronize
+           exclusive locked objects with the database at the beginning of a transaction.
+           That is, when an object is loaded the first time in a transaction with an
+           exclusive lock, Castor will retrieve a fresh copy of the object from the
+           database. Castor will not, however, refresh the object if the lock is upgraded
+           in the middle of a transaction using the <tt>lock</tt> method.</p>
+
+        <p>Exclusive mode does cause lock contention and can have an affect on application
+           performance when multiple transactions attempt to access the same record.
+           However, when used smartly with on a small set of objects it can help reduce
+           the possibility of concurrency conflicts. It can also be used to force an object
+           to be loaded from the database and the cache refreshed.</p>
+
+      </section>
+
+      <section title="Access mode: Database Locked">
+
+        <p>The locked mode performs optimistic locking using the underlying database
+           engine to assure that only one transaction has access to the record.
+           In addition to acquiring a write lock in memory, Castor performs a query
+           with a special SQL construct (FOR UPDATE in Oracle, HOLDLOCK in Sybase)
+           to guarantee access by one transaction.</p>
+
+        <p>In the event that the same database record will be accessed directly through
+           JDBC, stored procedure, or a second machine using Castor, the only way to
+           achieve object locking is through the database layer. However, such write
+           locks should be cooperative, that is, other forms of database access should
+           attempt to use the same locking mechanism.</p>
+
+        <p>In some isolation levels, when Castor acquires a write lock on the database
+           it will prevent other applications from accessing the same record until the
+           Castor transaction commits. However, certain isolation levels allow other 
+           applications to obtain a dirty image of the record.</p>
+
+        <p>Write locks on the database have a severe impact on application performance.
+           They incur overhead in the database manager, and increase lock contention.
+           It is recommended to use database locks with care, pay extra attention to the
+           isolation level being used, and follow good practices recommended by the
+           database vendor with regards to such locks.</p>
+
+        <p>In the future long transaction will be supported. Long transactions rely on
+           the dirty checking mechanism and only hold connections open for as long as
+           they are required for queries. Long transactions cannot be used with database
+           locking.</p>
+
+        <p>Locked mode must be specified for the object in the mapping file or when
+           conducting the query. It is not possible to upgrade to a locked lock in the
+           middle of a transaction.</p>
+
+        <p>Objects loaded in this mode are always synchronized with the database, that
+           is, they will never be obtained from the cache and always re-loaded for each
+           new transaction.</p>
+
+      </section>
+
+      <section title="Read-only Queries">
+
+        <p>When a query is performed in read-only mode or no mode is specified and the
+           object is marked as read-only in the database, Castor will return a transient
+           object. The returned object will not be locked and will not participate in the
+           transaction commit/rollback.</p>
+
+        <p>When the same object is queried twice in a transaction as read-only, Castor
+           will return two separate objects, allowing the caller to modify one object
+           without altering the other. Castor will utilize the cache and only perform
+           one load from the database to the cache.</p>
+
+        <p>Read-only access is recommended only when the object is intentionally queried
+           as read-only and changes to the object should not be reflected in the database.
+           If the object will not be modified, or modifications will be stored in the
+           database, it is recommended to use the shared mode. Shared mode allows the
+           same object to be returned twice in the same transaction.</p>
+
+      </section>
+
+    </section>
+
+    <section title="Visibility of Changes">
+
+      <p>The visibility of changes occuring in one transaction to other transactions
+         depends upon the transaction isolation level specified for the database connection.
+         Whether or not the changes are visible in the current transaction depends upon the
+         operation being done.</p>
+
+      <p>There are four types of changes, the following table summarizes the affect of
+         each change in one transaction on other queries in that transaction as well
+         as other transactions.</p>
+
+         <table border="1" cellpadding="4">
+           <tr>
+             <td><b>Type of change</b></td>
+             <td><b>Same transaction</b></td>
+             <td><b>Other transaction</b></td>
+           </tr>
+           <tr>
+             <td>Create new object</td>
+             <td>New object is visible and will be returned from a query</td>
+             <td>New object might be visible, depending on isolation level, but access
+                 is blocked until the first transaction completes</td>
+           </tr>
+           <tr>
+             <td>Delete existing object</td>
+             <td>Object is no longer visible and will not be returned from a query</td>
+             <td>Object might not be visible, depending on isolation level, but access
+                 is blocked until the first transaction completes</td>
+           </tr>
+           <tr>
+             <td>setXXX()</td>
+             <td>Change is visible in object itself</td>
+             <td>Change is not visible, object is accessible depending on lock</td>
+           </tr>
+           <tr>
+             <td>update()</td>
+             <td>Change is visible in object itself</td>
+             <td>Change might be visible, depending on isolation level, object might
+                 be accessible depending on lock</td>
+           </tr>
+         </table>
+
+    </section>
+
+  </body>
+</document>
+
+
+
