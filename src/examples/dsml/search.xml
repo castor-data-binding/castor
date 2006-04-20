@@ -1,4 +1,0 @@
-<dsml>
-   <search base="dc=intalio,dc=com" scope="subtree" filter="(objectclass=person)">
-   </search>
-</dsml>
