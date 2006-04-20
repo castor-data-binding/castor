@@ -1,0 +1,13 @@
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.xsd">
+
+<jdo-conf>
+    <database name="mysql" engine="mysql" >
+        <driver url="jdbc:mysql://localhost/castor_tests" class-name="org.gjt.mm.mysql.Driver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="jdo/mapping.xml" />
+    </database>
+    <transaction-demarcation mode="local" />
+</jdo-conf>
