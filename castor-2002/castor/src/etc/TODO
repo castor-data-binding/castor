@@ -1,0 +1,22 @@
+JDO
+---
+
+* ObjectDesc/PrimaryKeyDesc are cloning return arrays to assure it is immutable
+  and prevent the caller from changing their contents. This practice must be
+  deprecated and checks made to assure these arrays are not altered, or use an
+  immutable return collection.
+
+* Check that required fields are not null prior to storing object.
+  Use default values when creating a new empty object.
+
+* OID might need to clone the original primary key used at load, or
+  the dirty image should do that?
+
+
+XML
+---
+
+ * Finish built-in XML Schema datatypes
+
+ * Finish XML Schema Structures support
+

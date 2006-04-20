@@ -1,0 +1,33 @@
+<schema>
+
+  <element name="product">
+    <archetype content="elemOnly" order="seq">
+
+      <element ref="product-group" minOccurs="1" maxOccurs="1"/>
+      <element ref="product-inventory" minOccurs="1" maxOccurs="1"/>
+
+      <attribute name="id" type="ID" minOccurs="1"/>
+      <attribute name="name" type="string" minOccurs="1"/>
+      <attribute name="price" type="real" minOccurs="1"/>
+
+    </archetype>
+  </element>
+
+  <element name="product-group">
+    <archetype content="empty">
+
+      <attribute name="id" type="ID" minOccurs="1"/>
+      <attribute name="name" type="string" minOccurs="1"/>
+
+    </archetype>
+  </element>
+
+  <element name="product-inventory">
+    <archetype content="empty">
+
+      <attribute name="quantity" type="integer" minOccurs="1"/>
+
+    </archetype>
+  </element>
+
+</schema>
