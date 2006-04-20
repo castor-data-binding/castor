@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    targetNamespace="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/PrimitiveToWrapper"
+	    elementFormDefault="qualified"> 
+	
+	<xsd:element name="TestPrimitiveToWrapper">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="booleanTest" type="xsd:boolean" maxOccurs="1"/>
+				<xsd:element name="floatTest" type="xsd:float" maxOccurs="1"/>
+				<xsd:element name="doubleTest" type="xsd:double" maxOccurs="1"/>
+				<xsd:element name="intTest" type="xsd:int" maxOccurs="1"/>
+				<xsd:element name="integerTest" type="xsd:integer" maxOccurs="unbounded"/>
+			    <xsd:element name="longTest" type="xsd:long" maxOccurs="1"/>
+				<xsd:element name="shortTest" type="xsd:short" maxOccurs="1"/>
+			</xsd:sequence>
+			<xsd:attribute name="booleanTestAtt" type="xsd:boolean" maxOccurs="1"/>
+			<xsd:attribute name="floatTestAtt" type="xsd:float" maxOccurs="1"/>
+			<xsd:attribute name="doubleTestAtt" type="xsd:double" maxOccurs="1"/>
+	        <xsd:attribute name="intTestAtt" type="xsd:int" maxOccurs="1"/>
+			<xsd:attribute name="integerTestAtt" type="xsd:integer" maxOccurs="1"/>
+			<xsd:attribute name="longTestAtt" type="xsd:long" maxOccurs="1"/>
+			<xsd:attribute name="shortTestAtt" type="xsd:short" maxOccurs="1"/>
+		</xsd:complexType>
+	</xsd:element>
+</xsd:schema>
+	
+		

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema targetNamespace="http://www.ecma.ch/standards/ecma-323/csta" xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:csta="http://www.ecma.ch/standards/ecma-323/csta" elementFormDefault="qualified" attributeFormDefault="unqualified">
+  <xsd:include schemaLocation="device-identifiers.xsd"/>
+
+  <xsd:element name="ButtonPress">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element name="device" type="xsd:string"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+ 
+</xsd:schema>

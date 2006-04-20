@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foo xmlns="">
+    <bar>
+         <abc type="dt">
+            <content>Dream Theater!</content>
+         </abc>
+    </bar>
+</foo>

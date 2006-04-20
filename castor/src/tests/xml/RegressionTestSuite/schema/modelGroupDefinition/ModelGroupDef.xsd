@@ -1,0 +1,12 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.castor.org/tests/ModelGroupDef/" >
+           
+   <xsd:group name="foo">
+       <xsd:sequence>
+           <xsd:group ref='foo'/>
+       </xsd:sequence>
+   </xsd:group>
+   
+</xsd:schema>
