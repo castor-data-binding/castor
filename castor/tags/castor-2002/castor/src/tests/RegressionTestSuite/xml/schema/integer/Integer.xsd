@@ -1,0 +1,31 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.castor.org/tests/Integer/" >
+           
+   <xsd:element name="testInteger1" type="integerType1"/>
+   <xsd:element name="testInteger2" type="integerType2"/>
+   <xsd:element name="testInteger3" type="integerType3"/>
+   
+   <xsd:simpleType name="integerType1">
+       <xsd:restriction base='xsd:integer'>
+            <xsd:totalDigits value="10"/>
+            <xsd:fractionDigits value="2"/>
+            <xsd:maxInclusive value="300"/>
+            <xsd:minInclusive value="1"/>
+       </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="integerType2">
+       <xsd:restriction base='xsd:integer'>
+            <xsd:maxExclusive value="1000"/>
+            <xsd:minExclusive value="100"/>
+       </xsd:restriction>
+   </xsd:simpleType>
+   <xsd:simpleType name="integerType3">
+       <xsd:restriction base='xsd:integer'>
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="2"/>
+       </xsd:restriction>
+   </xsd:simpleType>
+   
+</xsd:schema>

@@ -1,0 +1,300 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/castor-one.xml">
+  <body>
+    <title>Using new features in castor 0.9 (Beta)</title>
+
+    <header>
+      <p>Reference: <api package="org.exolab.castor.jdo">The Java Data Objects API</api></p>
+    </header>
+
+    <!--
+    <section title="What is Castor JDO">
+    <p>
+       Castor JDO is an Object-Relational Mapping and Data-Binding Framework, which is written in 100% pure Java[tm].
+Castor can map relational database data into Java Data Object based on user-defined mapping schema. In the other
+point-of-view, it provides java data objects a persistence layer. </p>
+
+        <p>
+       It frees programmer from dealing with database directly and replacing the entire burden of composing updating the
+database. Proper SQL statements are automatically generated for loading, updating, creating and deleting. Changes
+to object in transaction automatically done to data source at commit time. Thus programmer can stay in pure-Java
+and without remember all the details in the backing database, after the creation of database tables and the
+mapping schema. The separation of persistence and programming logic also enable much clearer object-oriented
+design, which is important in larger projects. </p>
+    </section>-->
+
+    <section title="What is in Castor JDO 0.9">
+        <p>
+            Castor JDO is transactional. Data objects loaded in Castor are properly locked and isolated from other transactions. Castor supports full 2-phase commit via xa.Synchronzation. Castor supports several locking modes, including "shared", "exclusive", "database locked", and "read-only". </p>
+        <p>
+        <ul>
+            <li><b>Shared access</b>, the default, is useful for situations in which it is common for two or more transactions to read the same objects, and/or update different objects. </li>
+
+            <li><b>Exclusive access</b> uses in-memory locks implemented by Castor to force competing transactions to serialize access to an object. This is useful for applications in which it is common for more than one transaction to attempt to update the same object, and for which most, if not all access to the database is performed through Castor. </li>
+
+            <li><b>Database-Locked access</b> is often used for applications in which exclusive locking is required, but in which the database is frequently accessed from applications outside of Castor, bypassing Castor's memory-based locking mechanism used by "exclusive access" locking.</li>
+
+            <li><b>Read-Only access</b> performs no locking at all. Objects read using this access mode are not locked, and those objects do not participate in transaction commit/rollback.</li></ul></p>
+
+         <p>
+            In addition, Castor supports "long transactions", whichs allow objects to be read in one transaction, modified, and then committed in a second transaction, with built-in dirty-checking to prevent data that has been changed since the initial transaction from being overwritten.</p>
+         <p>
+            Through automatic dirty-checking and deadlock detection, Castor can be used to ensure data integrity and reduce unnecessary database updates. A subset of OQL, defined in the Object Management Group (OMG) 3.0 Object Query Language Specification, is supported for interacting with the database. OQL is similar to SQL, though operations are performed directly on Java objects instead of database tables, making the language more appropriate for use within a Java-based application. Castor implements a data cache to reduce database accesses, providing several alternative LRU-based caching strategies. </p>
+
+        <p>
+            Castor supports different cardinalities of relationship, including one-to-one, one-to-many and many-to-many. It also supports both object and database record inheritance. It distinguishes between related (i.e. association) and dependent (i.e. aggregation) relationships during an object's life cycle, automatically creating and deleting dependent objects at appropriate times in the independent object's life cycle. Multiple-column primary keys, and a variety of key generators are supported. </p>
+
+        <p>
+            Castor automatically manages persistence for objects that contain Java collection types, including array, Vector, Hashtable, Collection, Set, and Map. Lazy loading of collections is implemented to reduce unnecessary database loading. Lazy loading can be turned on or off for each individual field of any supported collection type. </p>
+
+        <p>
+            Other features include a type converter for all Java primitive types.  </p>
+
+        <p>
+            No pre-processor (aka pre-compiler), class enhancer (bytecodes modification) is needed or used for data-binding and object persistence.</p>
+
+        <p>
+            Castor JDO works in an application that uses multiple ClassLoaders, making it possible to use in an EJB container or servlet, for example. A Castor-defined callback interface, "Persistent", can be implemented if the objects wants to be notified on Castor events: jdoLoad(), jdoCreate(), jdoRemove() and jdoTransient(). This makes it possible to create user-defined actions to take at various times in an object's life cycle.</p>
+
+        <p>
+            The Java-XML Data-Binding Framework (Castor XML) has been merged with Castor JDO for users who need both O/R Mapping and Java-XML Data-Binding together. </p>
+
+        <p>
+            The following relational databases are supported: 
+            <ul>
+            <li>Oracle</li>
+            <li>Sybase</li>
+            <li>SQLServer</li>
+            <li>DB2</li>
+            <li>Informix</li>
+            <li>Hypersonic SQL</li>
+            <li>InstantDB</li>
+            <li>Interbase</li>
+            <li>MySQL</li>
+            <li>SAP DB</li>
+            <li>Generic DBMS</li>
+            </ul>
+            </p>
+        <p>
+            Database support includes Oracle 8.1.x and different versions of Sybase Enterprise and Anywhere. Users can implement the Driver interface (RKH - what Driver interface?) to adapt Castor to the differences in SQL syntax supported by different relational DBMS', as long as the DBMS supports JDBC 2.0, multiple ResultSet, and transactions. Thanks to many individual open source contributors, drivers for different database are available. [Links for all features will be added]</p>
+    </section>
+
+    <section title="LRU Cache">
+        <p>
+            (RKH - what is the difference between the dirty cache and the performance cache?) 
+            Castor maintains and properly locks one copy of the dirty checking cache for each object it loads from or creates into a persistence storage. Until all transactions involving the object are completed (See Design: Persistence), the cache is released. Starting from Castor 0.8.6, performance cache is implemented and developer can specify the mechanism and capacity of performance cache for each persistence capable type. Options includes none, count-limited, time-limited and unlimited. Performance cache is write-through, because all changes to objects of a transaction should be persisted at commit time without delay. </p>
+
+        <p>
+            Performance cache options do not affect the behavior of short transactions or locking. Nor do the options affect the dirty checking cache, because they’re maintained separately. (RKH - what does this sentence mean?) It only affects persistence object that is freed from any transaction. Performance cache enhances the performance by reducing the number of read operations done to persistence storage, by using the last read or committed values of the object. </p>
+
+        <p>
+            Performance cache is also (RKH - duded?) duded purpose as dirty checking cache for long transactions. The object's duration in the performance cache determines the allowed time span of a long transaction. ObjectModifedException will be thrown if an application trys to update an object that is disposed from performance cache. See the document "long-trans.html" for details. </p>
+
+
+        <p>The DTD declaration is as the following:
+            <code>
+&lt;!ATTLIST cache-type
+    type ( none | count-limited
+          | time-limited | unlimited ) "count-limited"
+    capacity NMTOKEN #IMPLIED>
+            </code>
+        </p>
+
+        <p>For example,
+            <code>
+&lt;mapping>
+    &lt;class name="com.xyz.MyObject">
+        &lt;cache-type type="time-limited" capacity="30"/>
+        &lt;field name= ... >
+               ...
+        &lt;/>
+    &lt;/>
+&lt;/>
+            </code>
+
+            defines time-limited least-recently-used algorithm as the caching algorithm for <i>com.xyz.MyObject</i> class and the cache will be disposed if it is not used within 30 second. (RKH - what does this mean?) (Note that the time-limit ticks after all transaction involved with the objects complete, but not start after it is loaded) </p>
+    </section>
+
+    <section title="Dependent and related relationships">
+        <p>
+            Castor distinguishes relationship of two objects as dependent or related, and maintains the life cycle differently for the two types of relationships. Starting from Castor 0.9, developer can explicitly define dependent relationship in the mapping file. </p>
+
+        <p>
+            Related objects’ life cycle is independent to each other, meaning that they have to be created, removed and (RKH - isn't this inconsistent with the response to my recent mailing list posting about locking behavior?) updated (for long transaction) independently. </p>
+
+        <p>
+            In dependent relations, one data object class must be declared as depends on one other data object class in the mapping file, and such object is called a dependent data object class. A data object class without <i>depends</i> declared in the mapping is called master object. A master object can be depended by zero or more dependent data object class. </p>
+
+        <p>
+            As of Castor 0.9, a dependent object class can be related to other master data object classes including extended classes, but cannot depend on more than one master class.</p>
+
+        <p>
+            If an object class declared as <i>depends</i> on other class, it may not be created, removed or updated separately. Attempting to create, remove or update an dependent object will be result in ObjectNotPersistcapableException. A note is that Castor doesn’t allow a dependent object instance to change its master object instance during a transaction. Each dependent object can have only one master object. Both dependent and master object must have identities, and may or may not associate with key-generators. </p>
+
+        <p>
+            Here is the DTD for declaring dependent object:
+             <code>
+&lt;!ATTLIST class     name ID  #REQUIRED
+             extends   IDREF    #IMPLIED
+             depends   IDREF    #IMPLIED
+             identity  CDATA   #IMPLIED
+             access    ( read-only | shared | exclusive
+                        | db-locked )  "shared"
+             key-generator   IDREF #IMPLIED>
+             </code></p>
+
+        <p>
+            For example,
+                <code>
+&lt;mapping>
+    &lt;class name="com.xyz.MyDependentObject"
+        depends="com.xyz.MyObject">
+        ...
+    &lt;/>
+&lt;/>
+                </code>
+                declares the data object classes of <i>com.xyz.MyDependentObject</i> as a dependent class of <i>com.xyz.MyObject</i>.</p>
+    </section>
+
+    <section title="Different cardinalities of relationship">
+         <p>
+            Castor supports different cardinalities of relationship, namely one-to-one, one-to-many, and many-to-many. Many-to-many is new to Castor 0.9. Many-to-many relationship must be related rather than dependent, because each dependent object can have only one master object. </p>
+
+        <p>
+            Many-to-many requires a separate table for storing the relations between two types of objects. Many-to-many introduces two attributes, namely many-key and many-table in &lt;sql> elements under &lt;field>. For all many-to-many relation, many-table must be specified. If the column name of the primary key of the class is different from the foreign keys columns of the class in the relation tables, then the relation table columns can be specified using the many-key attributes. Similarly, if the column name of the primary key of the related class is different from the foreign key columns of the related class, then the relation table columns can be specified using the name attribute. </p>
+
+        <p>
+            For many-table, (relations are stored in a separated relation table)
+                <code>
+&lt;mapping>
+    &lt;class>
+        &lt;field>
+            &lt;sql many-key="#OPTIONAL" name="#OPTIONAL"
+            many-table="#REQURIED">
+        &lt;/>
+    &lt;/>
+&lt;/>
+               </code></p>
+
+        <p>
+            So, for example if your SQL table is the following,
+            <center>
+                <b>employee_table</b></center>
+
+            <center><table BORDER="true" COLS="3" WIDTH="60%" >
+                <tr ALIGN="CENTER">
+                    <td><b>id</b></td>   <td><b>name</b></td>      <td><b>salary</b></td>
+                </tr>
+
+                <tr>
+                    <td>1482</td>        <td>Smith, Bob</td>       <td>$123,456</td>
+                </tr>
+
+                <tr>
+                    <td>628</td>         <td>Lee, John</td>        <td>$43,210</td>
+                </tr>
+
+                <tr>
+                    <td>1926</td>        <td>Arnold, Pascal</td>   <td>$24,680</td>
+                </tr></table></center>
+
+                <center>
+                <b>department_table</b></center>
+
+                <center><table BORDER="true" COLS="3" WIDTH="60%" >
+                    <tr ALIGN="CENTER">
+                        <td><b>id</b></td>   <td><b>name</b></td>      <td><b>comment</b></td>
+                    </tr>
+
+                    <tr>
+                         <td>3</td>          <td>Accounting</td>       <td></td>
+                    </tr>
+
+                    <tr>
+                         <td>7</td>          <td>Engineering</td>      <td>The very important department. :-)</td>
+                    </tr>
+                </table></center>
+
+                <center>
+                <b>employee_department</b></center>
+
+                <center><table BORDER="true" COLS="2" WIDTH="40%" >
+                    <tr ALIGN="CENTER">
+                         <td><b>e_id</b></td>  <td><b>d_id</b></td>
+                    </tr>
+
+                    <tr>
+                         <td>....</td>         <td>....</td>
+                    </tr>
+                </table></center></p>
+
+        <p>
+            Then, the mapping for employee data object would look like that,
+                <code>
+&lt;mapping>
+    &lt;class name="com.xyz.Employee" identity="id">
+        &lt;map-to table="employee_table"/>
+            &lt;field name="id" type="integer">
+                &lt;sql name="id"/
+            &lt;/field>
+            &lt;field>
+                &lt;sql many-table="employee_department"
+                        many-key="e_id" name="d_id"/>
+            &lt;/field>
+            field name="salary">
+                &lt;sql name="salary" type="integer">
+            &lt;/>
+        &lt;/>
+    &lt;/>
+&lt;/>
+                </code></p>
+    </section>
+
+    <section title="Lazy Loading">
+        <p>
+            Lazy loading of collection is also a new to castor 0.9. (As of writing, only java.util.Collection is supported. java.util.Set, java.util.HashMap, etc. will be added soon.) The elements in the collection are only loaded when the application asks for the object from the collection, using, for example, iterator.next(). (RKH - what do you mean by this?) The iterator in castor’s lazy collection is optimized to return a loaded object first. Lazy loading can be applied to both one-to-many and many-to-many relationship. </p>
+
+        <p>
+            In mapping file, lazy loading is specified in the element of the collection’s <i>&lt;field></i>, for example, 
+            <code>
+&lt;mapping>
+    &lt;class name="com.xzy.Department">
+       ...
+        &lt;field name="com.xyz.Employee" lazy="true"
+                collection="collection"/>
+    &lt;/>
+&lt;/></code>
+            declares that the collection of employee in a department is lazy loaded. </p>
+
+        <p>
+            If lazy loading is specified for a field of a class, Castor will set the field with a special collection which contains only the identities of the objects. (RKH - why is this necessary? If the initial collection with identities can be set without this method, why is it necessary to provide this method for the real collection to be set?) Because of that, it requires the data object to have the method setDepartment( Collection department ) in the data object class which is not required in previous versions. </p>
+     </section>
+
+     <section title="Mutliple columns primany keys">
+        <p>
+            The support of multiple columns primary keys is another major enhancement added into Castor 0.9. Specifying multiple primary keys is simple and straightforward, in the mapping file, 
+            <code>
+&lt;mapping>
+    &lt;class name="com.xyz.MyObject"
+                identity="firstName lastName">
+        &lt;field name="firstName" type="string">
+           &lt;sql name="fname"/>
+        &lt;/>
+        &lt;field name="lastName" type="string">
+           &lt;sql name="lname"/>
+        &lt;/>
+        &lt;field  ... />
+           ...
+    &lt;/>
+&lt;/>
+            </code></p>
+
+        <p>
+            Multiple column primary keys work with both master and dependent objects, all cardinalities of relationship, including one-to-one, one-to-many and many-to-many, as well as lazy loading. </p>
+
+        <p>
+            However, multiple column primary keys should only be used to adhere to an existing database design, not when designing a new database. In general, it is not a good idea to use an identity or identities which can be modified by the user, or which contain application-visible data. For example, if the system allows the user name to be changed, using user name as identity is highly discouraged, as this practice can require a major data migration to a new schema to update all foreign keys to adhere to a new primary key structure, should the user name no longer be adequate as a primary key. It should be noted that Castor doesn’t support identity change, as specified in the ODMG 3.0 specification. So, primary keys changes are almost certainly a large trade off between data integrity and performance. Well chosen primary keys are usually single (not multiple) column numeric or character fields for the reasons outlined above, as well as performance, as joining operations are faster for single column primary keys. </p>
+      </section>
+
+   </body>
+</document>

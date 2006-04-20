@@ -1,0 +1,256 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/database-conf.xml">
+  <body>
+    <title>Castor JDO Database Configuration</title>
+
+    <section title="The Castor configuration file">
+
+      <p>The database configuration specifies the means to obtain a connection
+         to the database server, the mapping between Java classes and tables
+         in that database server, and the service provider to use for talking
+         to that server.</p>
+
+      <p>The application will access the database by its given name
+         (<tt>database/name</tt>) and will be able to persist all objects specified
+         in the included mapping file(s).</p>
+
+      <p>The <tt>engine</tt> attribute specifies the persistence engine for this
+         database server. Different database servers vary in the SQL syntax and
+         capabilites they support, and this attribute names the service provider to use.</p>
+
+      <p>The following names are supported in Castor 1.0:
+         <table border="1" cellpadding="4">
+           <tr><td>generic</td><td>Generic JDBC support</td></tr>
+           <tr><td>oracle</td><td>Oracle 7 and Oracle 8</td></tr>
+           <tr><td>sybase</td><td>Sybase 11</td></tr>
+           <tr><td>sql-server</td><td>Microsoft SQL Server</td></tr>
+           <tr><td>db2</td><td>DB/2</td></tr>
+           <tr><td>informix</td><td>Informix</td></tr>
+           <tr><td>postgresql</td><td>PostgreSQL 6.5 and 7</td></tr>
+           <tr><td>hsql</td><td>Hypersonic SQL</td></tr>
+           <tr><td>instantdb</td><td>InstantDB</td></tr>
+           <tr><td>interbase</td><td>Interbase</td></tr>
+           <tr><td>mysql</td><td>MySQL</td></tr>
+         </table></p>
+      <p><small>Note: Castor do not work with JDBC-ODBC bridge from Sun,
+                therefore MS Access is not supported.
+                Old versions of MySQL don't work with Castor 
+                for lack of transaction support.</small></p>
+
+      <p>The means to acquire a database connection is specified in one of three
+         ways: as a JDBC 2.0 driver URL, as a JDBC 2.0 DataSource, or as a DataSource
+         to lookup through JNDI. When Castor is used inside a J2EE application server
+         it is recommended to use JNDI lookup (see the <tt>jndi</tt> element),
+         allowing the application server to manage connection pooling and distributed
+         transactions.</p>
+
+      <p>The class mapping is included from an external mapping file, allowing
+         multiple mappings to be included in the same database configuration, or two
+         databases to share the same mappings. For concurrency and integrity reasons,
+         two database configurations should never attempt to use overlapping mappings.
+         It is recommended to use one database configuration per database server.</p>
+
+      <p>The mapping file is specified using a URL, typically a <tt>file:</tt> URL.
+         If the database configuration file and mapping file reside in the same
+         directory, use a relative URL. Relative URLs also work if the database
+         configuration and mapping files are obtained from the application JAR and
+         reside in the same classpath.</p>
+
+      <p>The <tt>driver</tt> element specifies the JDBC 2.0 driver for obtaining
+         new connections to the database server. The driver is obtained from the JDBC
+         <tt>DriverManager</tt> and must be located in the class path. The JDBC URL
+         locates the driver and provides the access properties. Additional properties
+         may be specified using the <tt>param</tt> element (e.g. buffer size, network
+         protocol, etc).</p>
+
+      <p>Use the <tt>class-name</tt> attribute to specify the driver class for
+         automatic registration with the JDBC <tt>DriverManager</tt>. If missing,
+         the driver must be registered in any other means, including properties file,
+         <tt>Class.forName()</tt>, etc.</p>
+      
+      <p>For example, to configure an Oracle 8 thin driver, use:
+         <pre><![CDATA[
+  <driver class-name="oracle.jdbc.driver.OracleDriver"
+          url="jdbc:oracle:thin:@host:port:SID">
+    <param name="user" value="scott" />
+    <param name="password" value="tiger" />
+  </driver>]]>
+         </pre></p>
+
+      <p>The <tt>data-source</tt> element specifies the JDBC 2.0 DataSource for
+         obtaining new connections to the database server. DataSources are defined
+         in the JDBC 2.0 standard extension API which is included with Castor, and
+         implement the interface <tt>javax.sql.DataSource</tt>.</p>
+
+      <p>The DataSource implementation class name is specified by the <tt>class-name</tt>
+         attribute and configured through Bean-like accessor methods specified for
+         the <tt>param</tt> element. The DTD for the <tt>param</tt> element is undefined
+         and depends on the DataSource being used.</p>
+
+      <p>For example, to configure a PostgreSQL 7.0 DataSource, use:
+         <pre><![CDATA[
+  <data-source class-name="org.postgresql.PostgresqlDataSource">
+    <param host="host" database="db"
+           user="user" password="secret" />
+  </data-source>]]>
+         </pre></p>
+
+      <p>The <tt>jndi</tt> element specifies the JDBC 2.0 DataSource for obtaining
+         new connections to the database server through JNDI lookup. The JNDI environment
+         naming context (ENC) is used to obtain a suitable DataSource..</p>
+
+      <p>When running inside a J2EE application server, this is the preferred method
+         for obtaining database connections. It enables the J2EE application server to
+         configure the connection, maintain a connection pool, and manage distributed
+         transactions.</p>
+
+      <p>For example, to specify a J2EE DataSource, use:
+         <pre><![CDATA[
+  <jndi name="java:comp/env/jdbc/mydb" />]]>
+         </pre></p>
+
+    </section>
+
+    <section title="Sample Configuration File">
+
+      <p>The following configuration file uses an Oracle 8 thin JDBC driver and
+         three mapping files:
+         <pre><![CDATA[
+  <database name="ebiz" engine="oracle">
+    <driver class-name="oracle.jdbc.driver.OracleDriver"
+            url="jdbc:oracle:thin:@machine:post:SID?user=scott">
+      <param name="password" value="tiger" />
+    </driver>
+    <mapping href="products.xml" />
+    <mapping href="orders.xml" />
+    <mapping href="customers.xml" />
+  </database>]]>
+         </pre></p>
+
+      <p>The following configuration file uses a connection obtained from the
+         J2EE application server and a single mapping file:
+         <pre><![CDATA[
+  <database name="ebiz" engine="oracle">
+    <jndi name="java:comp/env/jdbc/mydb" />
+    <mapping href="ebiz.xml" />
+  </database>]]>
+         </pre></p>
+
+    </section>
+
+
+    <section title="Configuration For Various Databases">
+
+      <table border="1" cellpadding="4">
+        <tr>
+          <td><b>Driver</b></td>
+          <td><b>Configuration</b></td>
+        </tr>
+        <tr>
+          <td valign="top">Sybase jConnect</td>
+          <td valign="top"><pre><![CDATA[
+  <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource">
+    <params user="user" password="secret"
+            port-number="4100" server-name="host" />
+  </data-source>]]></pre></td>
+        </tr>
+<!-- JDBC-ODBC don't work with Castor!
+        <tr>
+          <td valign="top">JDBC-ODBC (Access, SQL Server)</td>
+          <td valign="top"><pre><![CDATA[
+  <driver class-name="sun.jdbc.odbc.JdbcOdbcDriver" 
+          url="jdbc:odbc:db">
+    <param name="user" value="user"/>
+    <param name="password" value="secret"/>
+  </driver>]]></pre></td>
+        </tr>
+-->
+        <tr>
+          <td valign="top">Oracle Thin Driver</td>
+          <td valign="top"><pre><![CDATA[
+  <driver class-name="oracle.jdbc.driver.OracleDriver"
+          url="jdbc:oracle:thin:@host:post:SID?user=scott">
+    <param name="password" value="tiger" />
+  </driver>]]></pre></td>
+        </tr>
+        <tr>
+          <td valign="top">PostgreSQL</td>
+          <td valign="top"><pre><![CDATA[
+  <data-source class-name="org.postgresql.PostgresqlDataSource">
+    <param host="host" database="db"
+           user="user" password="secret" />
+  </data-source>]]></pre></td>
+        </tr>
+        <tr>
+          <td valign="top">InstantDB</td>
+          <td valign="top"><pre><![CDATA[
+  <driver class-name="org.enhydra.instantdb.jdbc.idbDriver"
+          url="jdbc:idb:C:\\castor-0.8.8\\db\\test\\test.prp">
+    <param name="user" value="" />
+    <param name="password" value="" />
+  </driver>]]></pre></td>
+        </tr>
+       </table>
+
+    </section>
+
+
+    <section title="The JDO Configuration DTD">
+
+    <p>For validation, the configuration file should include the following
+       document type definition. For DTD validation use:
+      <pre><![CDATA[
+  <!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                             "http://castor.exolab.org/jdo-conf.dtd">
+      ]]></pre>
+      For XML Schema validation use:
+      <pre><![CDATA[
+  <!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration Schema Version 1.0//EN"
+                             "http://castor.exolab.org/jdo-conf.xtd">
+      ]]></pre>
+      The Castor namespace URI is <tt>http://castor.exolab.org/</tt>.</p>
+
+      <p>The Castor JDO database configuration DTD is:
+         <pre><![CDATA[
+  <!ELEMENT database ( ( driver | data-source | jndi )?,
+                       mapping+ )>
+  <!ATTLIST database
+            name ID      #REQUIRED
+            engine CDATA "generic">
+
+  <!ELEMENT mapping EMPTY>
+  <!ATTLIST mapping
+            href CDATA #REQUIRED>
+
+  <!ELEMENT driver ( param* )>
+  <!ATTLIST driver
+            url        CDATA #REQUIRED
+            class-name CDATA #IMPLIED>
+
+  <!ELEMENT param EMPTY>
+  <!ATTLIST param
+            name  CDATA #REQUIRED
+            value CDATA #REQUIRED>
+
+  <!ELEMENT data-source ( params )>
+  <!ATTLIST data-source
+            class-name CDATA #REQUIRED>
+
+  <!ELEMENT jndi ANY>
+  <!ATTLIST jndi
+            name CDATA #REQUIRED>
+      ]]></pre></p>
+
+    </section>
+
+  </body>
+</document>
+
+
+
+
+
+
+
+
+

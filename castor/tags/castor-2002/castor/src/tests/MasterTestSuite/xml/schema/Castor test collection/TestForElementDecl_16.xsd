@@ -1,0 +1,31 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.castor.org/Test"
+            xmlns:cst="http://www.castor.org/Test"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+   <!-- Test for element declaration with key -->
+
+
+   <xsd:element name="elem1">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="key" type="xsd:string"/>
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:element name="elem2">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element ref="elem1"/>
+         </xsd:sequence>
+      </xsd:complexType>
+      <xsd:key name="elem1">
+         <xsd:selector xpath="./elem1"/>
+         <xsd:field xpath="key"/>
+      </xsd:key>
+   </xsd:element>
+
+</xsd:schema>

@@ -1,0 +1,9 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+
+<database name="mssql" engine="sql-server" >
+    <data-source class-name="com.inet.tds.TdsDataSource"> 
+    <params user="test" password="test" server-name="localhost" database-name="test" port-number="1433"/>
+  </data-source>
+  <mapping href="mapping.xml" />
+</database>

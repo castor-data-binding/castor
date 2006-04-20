@@ -1,0 +1,36 @@
+<?xml version='1.0'?>
+<!--Example of a testDescriptor-->
+<TestDescriptor>
+
+	<Name>QName support for element or attribute value</Name>
+    <Author>Arnaud Blandin</Author>
+	<Comment>
+         The aim of this test is to ensure that QName values 
+         are supported inside the Marshalling Framework when used with a mapping file.
+         To enable the QName support the 'type' attribute of the 'bind-xml' element
+         must be set to 'QName' and an OPTIONAL 'QName-prefix' can bet set.
+         The in-memory value of a QName is '{Namespace URI}value'.
+        </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object>QName_Root</Root_Object>
+		        
+		        <UnitTestCase>
+                      <Name>Simple Test</Name>
+                      <Mapping_File>mapping.xml</Mapping_File>
+                      <Input>QName-input.xml</Input>
+                </UnitTestCase>
+		        
+		        <UnitTestCase>
+                      <Name>Comparison Test</Name>
+                      <Mapping_File>mapping.xml</Mapping_File>
+                      <Input>QName-input.xml</Input>
+                      <ObjectBuilder>QName_Builder</ObjectBuilder>
+		              <GoldFile>QName-input.xml</GoldFile>
+		        </UnitTestCase>
+		        
+	</MarshallingTest>
+</TestDescriptor>

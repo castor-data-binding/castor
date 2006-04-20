@@ -1,0 +1,378 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- $Id$ -->
+
+<document url="http://castor.exolab.org/xml-faq.html">
+  <body>
+    <title>Castor XML FAQ</title>
+
+
+    <section title="General">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="How do I set the encoding?">
+            <p>
+               Create a new instance of the Marshaller class and use the
+               setEncoding method. You'll also need to make sure the
+               encoding for the Writer is set properly as well:
+               <code>
+                  ...
+                  String encoding = "ISO-8859-1";
+                  FileOutputStream fos = new FileOutputStream("result.xml");
+                  OutputStreamWriter osw = new OuputStreamWriter(fos, encoding);
+                  Marshaller marshaller = new Marshaller(osw);
+                  marshaller.setEncoding(encoding);
+                  ...
+               </code>
+            </p>
+            </section>
+            <section title="I'm getting an error about 'xml' prefix already declared?">
+            <p>For Castor 0.9.5.2 only</p>
+            <p>
+            The issue occurs with newer versions of Xerces than the version 1.4 that ships
+            with Castor. The older version works ok. For some reason, when the newer
+            version of Xerces encounters an "xml" prefixed attribute, such as
+            "xml:lang" it tries to automatically start a prefix mapping for "xml".
+            Which, in my opinion, is technically incorrect. They shouldn't be doing
+            that. According to the w3c, the "xml" prefix should never be declared.
+            <p/>
+            The reason it started appearing in the new Castor (0.9.5.2), was because
+            of a switch to SAX 2 by default during unmarshalling.
+            </p>
+            <p>
+               <b>Solution:</b><br/>
+
+                A built in work-around has been checked into the Castor CVS and will
+                automatically exist in any post 0.9.5.2 releases. For those who are
+                using 0.9.5.2 and can't upgrade I found a simple workaround
+               (tested with Xerces 2.5) , at first I thought about disabling namespace
+               processing in Xerces, but then realized that it's already disabled by
+               default by Castor...so I have no idea why they call #startPrefixMapping
+               when namespace processing has been disabled. But in any event...
+               explicitly enabling namespace processing seems to fix the problem:
+               <p/>
+               <pre>
+      in the castor.properties file change the following line:
+
+      org.exolab.castor.parser.namespaces=false
+
+      to:
+
+      org.exolab.castor.parser.namespaces=true
+              </pre>
+              Note: that work-around has only been tested with Xerces 2.5.
+            </p>
+            </section>
+
+            <section title="Why is my 'get' method called twice?">
+            <p>
+               The get method will be called a second time during the
+               validation process. To prevent this from happening
+               simply disable validation on the Marshaller or Unmarshaller.
+            </p>
+            </section>
+
+            <section title="How can I speed up marshalling/unmarshalling performance?">
+            <p>
+
+               <ol>
+                  <li>Cache the descriptors!
+                   <p>
+                   <code>
+      import org.exolab.castor.xml.ClassDescriptorResolver;
+      import org.exolab.castor.xml.Unmarshaller;
+      import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
+
+      ...
+
+      ClassDescriptorResolver cdr = new ClassDescriptorResovlerImpl();
+
+      ...
+
+      Unmarshaller unm = new Unmarshaller(...);
+      unm.setResolver(cdr);
+                   </code>
+
+                   By reusing the same ClassDescriptorResolver any time you create an
+                   Unmarshaller instance, you will be reusing the existing class
+                   descriptors previously loaded.
+                   </p>
+                 </li>
+                 <li>Disable validation
+                     <p><code>unm.setValidation(false);</code></p>
+                 </li>
+                 <li>Reuse objects
+                     <p>
+                     To cut down on object creation, you can reuse an existing object
+                     model, but be careful this is an experimental feature.
+
+                     Create an Unmarshaller with your existing root object and set object
+                     reuse to true...
+
+                     <code>Unmarshaller unm = new Unmarshaller(myObjectRoot);</code>
+                     <code>unm.setReuseObjects(true);</code>
+                     </p>
+                  </li>
+                  <li>If you have enabled pretty-printing (indenting), then disable it. The
+                      Xerces Serializer is much slower with indenting enabled.
+                  </li>
+                  <li>Try changing parsers to something other than Xerces.</li>
+                </ol>
+
+                There are probably other approaches you can use as well, but those seem
+                to be the most popular ones.  Let us know if you have a solution that you
+                think we should add here.
+            </p>
+            </section>
+
+            <section title="How do I ignore elements during unmarshalling?">
+            <p>
+
+               <ol>
+                  <li>Use the Unmarshaller#setIgnoreExtraElements() method:
+                   <p>
+                   <code>
+      Unmarshaller unm = new Unmarshaller(...);
+      unm.setIgnoreExtraElements(true);
+                   </code>
+
+                   If any elements appear in the XML instance and Castor cannot find
+                   mappings for, they will be skipped.
+                   </p>
+                 </li>
+                 <li>You can also set the "org.exolab.castor.xml.strictelements" property in the
+                     castor.properties file:
+                     <p><code>org.exolab.castor.xml.strictelements=false</code></p>
+                 </li>
+                </ol>
+            </p>
+            </section>
+
+            <section
+                title="Where does Castor search for the castor.properties file?">
+            <p>
+               Castor loads the castor.properties in the following order:
+               <ol>
+                 <li>From classpath (usually from the jar file)</li>
+                 <li>From {java.home}/lib (if present)</li>
+                 <li>From the local working directory</li>
+               </ol>
+                Each properties file overrides the previous. So you don't have to come up
+                with a properties file with all the properties and values, just the ones you
+                want to change. This also means you don't have to touch the properties file
+                found in the jar file.
+            </p>
+            <p>
+                Note: You can also use LocalConfiguration.getInstance().getProperties() to change the
+                properties values programatically.
+            </p>
+            </section>
+
+            <section
+                title="Can I programmatically change the properties found in the castor.properties file?">
+
+            <p>
+                Yes, many of these properties can be set directly on the Marshaller or Unmarshaller, but
+                you can also use <i>LocalConfiguration.getInstance().getProperties()</i> to change the
+                properties values programatically.
+            </p>
+            </section>
+
+        </section>
+
+    </section>
+
+    <section title="Introspection">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="Can private methods be introspected?">
+            <p>
+               Castor does not currently support introspection of private
+               methods. Please make sure proper public accesssor methods
+               are available for all fields that you wish to be handled
+               by the Marshalling Framework.
+            </p>
+            </section>
+        </section>
+    </section>
+
+    <section title="Mapping">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="My mapping file seems to have no effect!">
+            <p>
+               Make sure you are not using one of the <i>static</i> methods
+               on the Marshaller/Unmarshaller. Any configuration changes
+               that you make to the Marshaller or Unmarshaller are not
+               available from the static methods.
+            </p>
+            </section>
+            <section title="Are there any tools to automatically create a mapping file?">
+            <p>
+               Yes! We provide one such tool, see org.exolab.castor.tools.MappingTool.
+               There are some <a href="extras.xml">3rd party</a> tools as well.
+            </p>
+            </section>
+            <section title="How do I specify a namespace in the mapping file?">
+            <p>
+               For a specific field you can use a QName for the value of the bind-xml name
+               attribute as such:
+               <code>
+  &lt;bind-xml name="foo:bar" xmlns:foo="http://www.acme.com/foo"/&gt;
+               </code>
+               Note: The namespace prefix is only used for qualification during the loading
+               of the mapping, it is not used during Marshalling. To map namespace prefixes
+               during marshalling you currently need to set these via the Marshaller directly.
+            </p>
+            <p>
+               For a class mapping, use the &lt;map-to&gt; element. For more information see
+               the <a href="xml-mapping.xml">XML Mapping documentation</a>.
+            </p>
+            </section>
+
+            <section title="How do I prevent a field from being marshalled?">
+            <p>
+               Set the <b>transient</b> attribute on the &lt;bind-xml&gt; element to true:
+               <code>
+  &lt;bind-xml transient="true"/&gt;
+               </code>
+               Note: You can also set transient="true" on the &lt;field&gt; element.
+            </p>
+            </section>
+
+        </section>
+
+    </section>
+
+    <section title="Marshalling">
+       <section>
+            <section title="The XML is marshalled on one line, how do I force line-breaks?">
+            <p>For all versions of Castor:</p>
+            <p>
+               To enable pretty-printing (indenting, line-breaks) just modify the
+               <i><b>castor.properties</b></i> file and uncomment the following:
+               <code>
+         # True if all documents should be indented on output by default
+         #
+         #org.exolab.castor.indent=true
+                </code>
+            </p>
+            <p>Note: This will slow down the marshalling process</p>
+            </section>
+        </section>
+
+        <section>
+            <section title="What is the order of the marshalled XML elements?">
+            <p>
+               <p>If you are using Castor's default introspection to automatically
+               map the objects into XML, then there is no guarantee on the order.
+               It simply depends on the order in which the fields are returned to
+               Castor using the Java reflection API.</p>
+
+               <p>Note: If you use a mapping file Castor will generate the XML in
+               the order in which the mapping file is specified.</p>
+            </p>
+            </section>
+        </section>
+
+    </section>
+
+    <section title="Source Code Generator">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="Can I use a DTD with the source generator?">
+            <p>
+                  Not directly, however you can convert your DTD to an XML Schema
+                  fairly easily. We provide a tool (org.exolab.castor.xml.dtd.Converter)
+                  to do this. You can also use any number of 3rd-party tools such as
+                  XML Spy or XML Authority.
+            </p>
+            </section>
+
+            <section title="My XML output looks incorrect, what could be wrong?">
+            <p>Also: I used the source code generator, but all my xml element names are getting
+               marshalled as lowercase with hyphens, what's up with that?
+            </p>
+            <p>
+               <b>Solution:</b><br/>
+               Are the generated class descriptors compiled? Make sure they
+               get compiled along with the source code for the object model.
+            </p>
+            </section>
+
+            <section title="The generated source code has incorrect or missing imports for imported schema types">
+            <p>
+               <b>Example:</b>
+               <br/>
+               Castor generates the following:
+               <br/>
+               <code>import types.Foo;</code>
+                 instead of:
+                <code>import com.acme.types.Foo;</code>
+                This usually happens when the namespaces for the imported schemas have not been mapped
+                to appropriate java packages in the <i>castorbuilder.properties</i> file.
+            </p>
+            <p>
+               <ul><b>Solution:</b>
+                  <li>
+                      Make sure the castorbuilder.properties is in your classpath when you run the SourceGenerator.
+                   </li>
+                  <li>
+                      Uncomment and edit the org.exolab.castor.builder.nspackages property.
+                      Make sure to copy the value of the imported namespace exactly as it's referred to
+                      in the schema (i.e. trailing slashes and case-sensitivity matter!).
+                  </li>
+               </ul>
+            </p>
+            <p>
+               For those using 0.9.5.1, you'll need to upgrade due to the following bug:
+               <a href="http://bugzilla.exolab.org/show_bug.cgi?id=1407">
+                  http://bugzilla.exolab.org/show_bug.cgi?id=1407</a>
+            </p>
+
+            </section>
+
+            <section title="How can I make the generated source code more JDO friendly?">
+            <p>For Castor 0.9.4 and above:</p>
+            <p>
+               Castor JDO requires a reference to the actual collection to be returned from
+               the get-method. By default the source generator does not provide such a
+               method. To enable such methods to be created, simple add the following
+               line to your <i><b>castorbuilder.properties</b></i> file:
+               <pre>
+                   org.exolab.castor.builder.extraCollectionMethods=true
+                </pre>
+                Note: The default castorbuilder.properties file has this line commented out, simply
+                uncomment it.
+            </p>
+            <p>Your mapping file will also need to be updated to include the proper set/get
+               method names.
+             </p>
+            </section>
+
+
+        </section>
+    </section>
+
+    <section title="Miscellaneous">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section
+                title="Is there a way to automatically create an XML Schema from an XML instance?">
+            <p>
+               Yes! We provide such a tool.
+               Please see org.exolab.castor.xml.schema.util.XMLInstance2Schema.
+               It's not 100% perfect, but it does a reasonable job.
+            </p>
+            </section>
+
+        </section>
+    </section>
+
+  </body>
+</document>

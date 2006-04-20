@@ -1,0 +1,203 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-limit-clause.xml">
+  <properties>
+    <title>How to use a LIMIT clause with OQL</title>
+    <abstract>
+       General information about using a LIMIT clause with OQL
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use a LIMIT claue with OQL</title>
+    <header>
+    </header>
+
+	<section title="Overview">
+
+        <p></p>
+        
+    </section>
+    
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to execute an OQL statement and limit the result size.</p>
+        
+        <p>The example given describes the addition of LIMIT/OFFEST clauses to an 
+           existing OQL statement.</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>You should have a valid class mapping for two Java classes <tt>Product</tt> and 
+        <tt>ProductGroup</tt>, similar to the following 
+        one:</p>
+
+                <code-panel>
+package myapp;
+
+public class Product 
+{
+    private int       _id;
+
+    private String    _name; 
+
+    private float     _price; 
+
+    private ProductGroup _group;
+
+
+    public int getId() { ... }
+
+    public void setId( int anId ) { ... }
+
+    public String getName() { ... }
+
+    public void setName( String aName ) { ... }
+
+    public float getPrice() { ... }
+
+    public void setPrice( float aPrice ) { ... }
+
+    public ProductGroup getProductGroup() { ... }
+
+    public void setProductGroup( ProductGroup aProductGroup ) { ... }
+}
+               </code-panel>
+
+      <p>The following fragment shows the Java class declaration for the ProductGroup class:</p>
+      
+                    <code-panel>
+
+
+public class ProductGroup
+{
+
+    private int       _id;
+
+    private String    _name;
+
+    public int getId() { ... }
+
+    public void setId( int id ) { ... }
+
+    public String getName() { ... }
+
+    public void setName( String name ) { ... }
+
+}
+                </code-panel>
+            
+    </section>
+
+    <section title="Steps">
+
+        <p>Here is how to proceed.</p>
+
+        <section title="Compose an OQL statement to obtain all ProductGroup instances">
+
+            <p>The following code fragment shows an OQL query to select the all 
+            ProductGroup instances.</p>
+                
+            <code-panel>
+OQLQuery query = db.getOQLQuery("select product from ProductGroup product");
+query.bind(10);
+OQLResults results = query.execute();
+            </code-panel>
+            
+        </section>
+        
+        <section title="Add LIMIT clause to OQL statement">
+
+            <p>The following code fragment shows the same OQL query as above, to this time 
+            the LIMIT keyword is added to select the first 10 ProductGroup instances only.</p>
+
+            <code-panel>
+OQLQuery query = db.getOQLQuery("select product from ProductGroup product <b><font color="red">LIMIT $1</font></b>");
+query.bind(10);
+OQLResults results = query.execute();
+            </code-panel>
+
+        </section>
+
+        <section title="Add OFFSET clause to OQL statement">
+
+            <p>Below is the same OQL query again, restricting the number of ProductGroup instances
+            returned to 10, though this time it is specified that the ProductGroup 
+            instances 11 to 20 should be returned.</p>
+
+            <code-panel>
+OQLQuery query = db.getOQLQuery ("select product from ProductGroup as product <b>LIMIT $1 <font color="red">OFFSET $2</font></b>");
+query.bind(10);
+OQLResults results = query.execute();
+            </code-panel>
+
+
+        </section>
+
+    </section>
+    
+    <section title="Limitations">
+        
+         <p>The following RDBMS fully/partially support LIMIT/OFFSET clauses.</p>
+
+         <table border="0" cellspacing="1" cellpadding="2" bgcolor="#7270c2">
+            <tr>
+                <td>
+                    <table border="0" cellspacing="1" cellpadding="8" bgcolor="#ededed">
+                        <tr bgcolor="#7270c2" style="color:#FFFFFF">
+                            <th align="left">RDBMS</th><th>LIMIT</th><th>OFFSET</th>
+                        </tr>
+                        <tr>
+                            <td>postgreSQL</td><td>Yes</td><td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>mySQL</td><td>Yes</td><td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>Oracle - 1)2)</td><td>Yes</td><td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>HSQL</td><td>Yes</td><td>Yes</td>
+                        </tr>
+                        <tr>
+                            <td>MS SQL</td><td>Yes</td><td>-</td>
+                        </tr>
+                        <tr>
+                            <td>DB2</td><td>Yes</td><td>-</td>
+                        </tr>
+                   </table>
+               </td>
+            </tr>
+         </table>
+
+         <p>1) Oracle has full support for LIMIT/OFFSET clauses for release 8.1.6 and
+            later.</p>
+         <p>2) For the LIMIT/OFFSET clauses to work properly the OQL query is required
+			to include a ORDER BY clause.</p>
+
+        
+    </section>
+    
+    <section title="Tips">
+
+        <ul>
+            <li>In the case a RDBMS does not support LIMIT/OFFSET clauses, a 
+                <tt>SyntaxNotSupportedException</tt> will be thrown.</li>
+                
+        </ul>    
+        
+    </section>
+
+
+    <section title="References">
+
+        <ul>
+            <li><a href="oql.html">Castor JDO's OQL</a></li>
+        </ul>
+        
+    </section>
+
+
+    </body>
+</document>

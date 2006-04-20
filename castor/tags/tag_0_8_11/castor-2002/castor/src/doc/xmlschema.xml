@@ -1,0 +1,378 @@
+<?xml version='1.0'?>
+
+<document url="http://castor.exolab.org/xmlschema.xml">
+
+  <properties>
+    <title>Castor XML Schema Support</title>
+    <author email="blandin@intalio.com">Arnaud Blandin</author>
+    <abstract>
+       Describe the features of the W3C XML Schema CR supported by
+       Castor Source Code Generator
+    </abstract>
+    <status>Preliminary Draft</status>
+  </properties>
+
+
+
+  <body>
+
+    <title>Castor XML Schema Support</title>
+    <header>
+    	<p></p>
+    </header>
+    
+    <section title="Introduction">
+
+      <p>
+       The <a href="sourcegen.xml">Source Code Generator</a> is supporting the 
+       <a href="http://www.w3.org/TR/xmlschema-1/">W3C XML Schema Candidate Recommendation document (10/24/2000).</a>
+	   Roughly speaking the Castor maps an XML Schema type to a  corresponding Java type.
+	   
+	   <p>But it happens that a Schema type does not have the corresponding one in Java. 
+	   Thus the Source Generator uses Castor implementation of these specific types (located in the <api package="org.exolab.castor.types"> types package</api>).
+	   For instance the <tt>TimeDuration</tt> type is implemented directly in Castor.
+	   Many built-in types are supported but not all of them. You will find next a detailed list of supported 
+	   built-in types.</p>
+	   
+	   <p>Remember that the representation of XML Schema datatypes does not try to fit exactly the W3C XML Schema specifications, 
+	   the aim is to map an XML Schema type to the java type that fit the most to the XML Schema type.</p>
+      </p>
+
+     
+    </section>
+
+    <section title="Supported XML Schema Built-in Datatypes">
+      	
+      	<p>The following is a list of the supported datatypes with the corresponding facets and
+      	the java mapping type.</p>
+      	
+         <section title="Primitive Datatypes">
+
+            <table>
+               <tr><th align="left">Type</th><th align="left">Supported Facets</th><th align="left">Java mapping type</th></tr>
+               <tr>
+                  <td valign="top">binary</td><td></td>
+               	  <td valign="top">primitive byte array</td>
+               </tr>
+               <tr>
+                  <td valign="top">boolean</td><td></td>
+               	  <td valign="top">primitive boolean type</td>
+               </tr>
+               <tr>
+                  <td valign="top">decimal</td>
+                  <td>
+                  	 maxExclusive<br/>
+                  	 minExclusive<br/>
+                  	 maxInclusive<br/>
+                  	 minInclusive<br/>
+                  	 precision<br/>
+                  	 scale<br/>
+                  </td>
+                  <td valign="top">java.math.BigDecimal</td>
+               </tr>
+               <tr>
+                  <td valign="top">double</td>
+                  <td>
+                     pattern<br/>
+                     maxExclusive<br/>
+                  	 minExclusive<br/>
+                  	 maxInclusive<br/>
+                  	 minInclusive<br/>
+                  </td>
+                  <td valign="top">double primitive type</td>
+               </tr>
+               <tr>
+               	<td valign="top">float</td>
+               	<td>
+               		 pattern<br/>
+               	     maxExclusive<br/>
+                  	 minExclusive<br/>
+                  	 maxInclusive<br/>
+                  	 minInclusive<br/>
+                </td>  	 
+                <td valign="top">primitive float type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">ID</td><td></td>
+                  <td valign="top">java.lang.String</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">IDREF</td><td></td>
+                  <td valign="top">java.lang.Object</td>
+               </tr>
+
+               <tr>
+               	 <td valign="top">QName</td>
+               	 <td>
+               	 	length<br/>
+               	 	maxLength<br/>
+               	 	minLength<br/>
+               	 	pattern<br/>
+               	 </td>
+               	 <td valign="top">
+               	 	java.lang.String
+               	 </td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">recurringDuration</td>
+                  <td>
+                  	  maxExclusive<br/>
+                  	  minExclusive<br/>
+                  	  maxInclusive<br/>
+                  	  minInclusive<br/>
+                  </td>
+                  <td>org.exolab.castor.types.RecurringDuration</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">string</td>
+                  <td>
+                     length<br/>
+                     minLength<br/>
+                     maxLength<br/>
+                     pattern<br/>
+                     enumeration<br/>
+                  </td>
+                  <td valign="top">java.lang.String</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">timeDuration</td>
+                  <td>
+                  	  maxExclusive<br/>
+                  	  minExclusive<br/>
+                  	  maxInclusive<br/>
+                  	  minInclusive<br/>
+                  </td>
+                  <td valign="top">org.exolab.castor.type.TimeDuration</td>
+               </tr>
+               <tr>
+                  <td valign="top">uriReference</td><td></td>
+               	  <td>java.lang.String</td>
+               </tr>
+            </table>
+         </section>
+
+         <section title="Derived Datatypes">
+            <table>
+               <tr><th align="left">Type</th><th align="left">Supported Facets</th><th align="left">Java mapping type</th></tr>
+               <tr>
+                  <td valign="top">century</td>
+                  <td>
+                  </td>
+                  <td valign="top">org.exolab.castor.types.century</td>
+               </tr>
+
+               <tr>
+               	 <td valign="top">CDATA</td>
+               	 <td>
+               	 	length<br/>
+               	 	maxLength<br/>
+               	 	minLength<br/>
+               	 	pattern<br/>
+               	 </td>
+               	 <td valign="top">java.lang.string</td>
+               </tr>
+               	 
+                <tr>
+                  <td valign="top">date</td>
+                  <td>
+                  </td>
+               	  <td valign="top">org.exolab.castor.types.Date</td>
+               </tr>
+          
+               <tr>
+                  <td valign="top">IDREFS</td><td></td>
+                  <td valign="top">java.util.Vector of IDREF</td>
+               </tr>
+               
+                <tr>
+                  <td valign="top">integer</td>
+                  <td>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+            
+               <tr>
+                  <td valign="top">NCName</td><td></td>
+                  <td valign="top">java.lang.String</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">NMToken</td><td></td>
+                  <td valign="top"> java.lang.String</td>
+               </tr>
+			   
+		       <tr>
+                  <td valign="top">NMTOKENS</td><td></td>
+                  <td valign="top">java.util.Vector of NMTOKEN</td>
+               </tr>
+              
+		       <tr>
+                  <td valign="top">long</td>
+                  <td>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+               	  <td valign="top">primitive long type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">month</td>
+                  <td>
+                  	maxExclusive<br/>
+                  	minExclusive<br/>
+                  	maxInclusive<br/>
+                  	minInclusive<br/>
+                 </td> 
+                 <td valign="top">org.exolab.castor.types.Month</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">negativeInteger</td>
+                  <td>
+                  	 maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">nonNegativeInteger</td>
+                  <td>
+                  	 maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">nonPositiveInteger</td>
+                  <td>
+                  	 maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">positiveInteger</td>
+                  <td>
+                  	 maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">short</td>
+                  <td>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">time</td>
+                  <td>
+                  </td>
+               	  <td valign="top">org.exolab.castor.types.Time</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">timeInstant</td>
+                  <td>
+                  </td>
+                  <td valign="top">java.util.Date</td>
+               </tr>
+               
+                <tr>
+                  <td valign="top">timePeriod</td>
+                  <td>
+                  	maxExclusive<br/>
+                  	minExclusive<br/>
+                  	maxInclusive<br/>
+                  	minInclusive<br/>
+                  </td>
+               	  <td valign="top">org.exolab.castor.type.TimePeriod</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">year</td>
+                  <td>
+                  	maxExclusive<br/>
+                  	minExclusive<br/>
+                  	maxInclusive<br/>
+                  	minInclusive<br/>
+                  </td>
+               	  <td valign="top">org.exolab.castor.type.Year</td>
+               </tr>
+              
+            </table>
+         </section>
+       </section>
+
+     <section title="Supported XML Schema Structures">
+
+         <p>The supported structures for XML Schema is currently limited to:</p>
+
+         <p>Structural elements:
+
+         <ul>
+            <li>annotation
+               <ul>
+                  <li>appinfo</li>
+                  <li>documentation</li>
+               </ul>
+            </li>
+            <li>simpleType</li>
+            <li>complexType</li>
+            <li>element</li>
+            <li>attribute</li>
+            <li>attributeGroup</li>
+         </ul>
+         </p>
+
+         <section title="Groups">
+            <p>
+               The source code generator <i>currently</i> does not support
+               groups (choice, sequence, all). If it finds a group, it
+               flattens the group and treats the children of the group
+               as if they were children of the containing structure.
+            </p>
+            <p>
+              Grouping support is a work in progress.
+            </p>
+         </section>
+   </section>
+
+   </body>
+</document>
+

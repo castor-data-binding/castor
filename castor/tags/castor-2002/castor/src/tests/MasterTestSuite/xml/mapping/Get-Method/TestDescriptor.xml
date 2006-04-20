@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<!--Example of a testDescriptor-->
+<TestDescriptor>
+
+	<Name>Get Method Specification</Name>
+
+	<Comment>
+        Specifying a set method in the mapping file (using set-method attribute)
+        should disable the get method, unless one is specified as well (using
+        the get-method attribute).
+
+        In particular, if either get-method or set-method is used, only one
+        method is supported. Both have to be used to support both get and set.
+
+        In this particular test we are specifying get-only fields in the object
+        model and we specify the name of the get-method in the mapping
+        file. Castor should NOT complain of the absence of the set-method in the
+        object model.
+    </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object>Get_Root</Root_Object>
+        <Mapping_File>mapping.xml</Mapping_File>
+
+		<UnitTestCase>
+            <Name>Simple Test</Name>
+            <Input>get-input.xml</Input>
+			<Output>get-output.xml</Output>
+		</UnitTestCase>
+
+	</MarshallingTest>
+</TestDescriptor>

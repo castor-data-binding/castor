@@ -1,0 +1,16 @@
+<?xml version="1.0"?>
+<document url="http://xslp.exolab.org/library.xml">
+  <body>
+    <title>Library</title>
+    <header>
+    <ul>
+      <li><a href="http://www.w3.org/Style/XSL/"> Extensible Stylesheet Language (XSL) at the W3C</a></li>
+      <li><a href="http://www.w3.org/XML/">Extensible Markup Language (XML) at the W3C</a></li>
+
+      <li><a href="http://xml.apache.org/xerces-j/index.html"> Xerces Java Parser at Apache XML </a></li>
+      <li><a href="http://home.worldcom.ch/jmlugrin/fesi/"> FESI - a Free EcmaScript Interpreter</a></li>
+
+    </ul>
+    </header>
+  </body>
+</document>

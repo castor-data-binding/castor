@@ -1,0 +1,106 @@
+<harness name="castor">
+
+  <category name="sybase" class="jdo.JDOCategory">
+    <description>JDO tests for Sybase 11</description>
+    <jdo database-name="sybase" configuration="sybase.xml" />
+    <case class="jdo.Concurrent" name="TC01" />
+    <case class="jdo.Deadlock" name="TC02" />
+    <case class="jdo.DuplicateKey" name="TC03" />
+    <case class="jdo.ReadOnly" name="TC04" />
+    <case class="jdo.TypeHandling" name="TC05" />
+    <case class="jdo.Join" name="TC06" />
+    <case class="jdo.KeyGenGeneric" name="TC07" />
+    <case class="jdo.KeyGenIdentity" name="TC08" />
+    <case class="jdo.StoredProcedure" name="TC10" />
+    <!--case class="jdo.CacheLeakage" name="TC17" /-->
+    <!--case class="jdo.Race" name="TC18" /-->
+    <case class="jdo.Dependent" name="TC15" />
+    <case class="jdo.Persistent" name="TC16" />
+    <case class="jdo.NestedFields" name="TC11" />
+    <!--Only for JDK 1.2
+    <case class="jdo.Collections" name="TC19" />
+    -->
+  </category>
+  <category name="oracle" class="jdo.JDOCategory">
+    <description>JDO tests for Oracle8i</description>
+    <jdo database-name="oracle" configuration="oracle.xml" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Join" />
+    <case class="jdo.TypeHandling" />
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenSequence" />
+    <!--case class="jdo.CacheLeakage" /-->
+    <!--case class="jdo.Race" /-->
+    <case class="jdo.KeyGenReturning" />
+    <case class="jdo.Persistent" name="TC16" />
+    <case class="jdo.NestedFields" name="TC11" />
+    <case class="jdo.StoredProcedure" name="TC10" />
+    <case class="jdo.Dependent" name="TC15" />
+    <!--Only for JDK 1.2
+    <case class="jdo.Collections" name="TC19" />
+    -->
+  </category>
+
+  <category name="sapdb" class="jdo.JDOCategory">
+    <description>JDO tests for SAP DB</description>
+    <jdo database-name="sapdb" configuration="sapdb.xml" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Join" />
+    <case class="jdo.TypeHandling" />
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenSequence" />
+    <!--case class="jdo.CacheLeakage" /-->
+    <!--case class="jdo.Race" /-->
+    <case class="jdo.Persistent" name="TC16" />
+    <case class="jdo.NestedFields" name="TC11" />
+    <case class="jdo.Dependent" name="TC15" />
+    <!--Only for JDK 1.2
+    <case class="jdo.Collections" name="TC19" />
+    -->
+  </category>
+
+  <category name="mysql" class="jdo.JDOCategory">
+    <description>JDO tests for MySQL</description>
+    <jdo database-name="mysql" configuration="mysql.xml" />
+    <case class="jdo.Concurrent" name="TC01" />
+    <case class="jdo.Deadlock" name="TC02" />
+    <case class="jdo.DuplicateKey" name="TC03" />
+    <case class="jdo.ReadOnly" name="TC04" />
+    <case class="jdo.TypeHandling" name="TC05" />
+    <case class="jdo.Join" name="TC06" />
+    <case class="jdo.KeyGenGeneric" name="TC07" />
+    <!--case class="jdo.CacheLeakage" name="TC17" /-->
+    <!--case class="jdo.Race" name="TC18" /-->
+    <case class="jdo.Dependent" name="TC15" />
+    <case class="jdo.Persistent" name="TC16" />
+    <case class="jdo.NestedFields" name="TC11" />
+  </category>
+
+  <category name="oleak" class="jdo.JDOCategory">
+    <description>JDO tests for Oracle8i</description>
+    <jdo database-name="oracle" configuration="oracle.xml" />
+    <case class="jdo.CacheLeakage" />
+  </category>
+
+  <category name="aleak" class="jdo.JDOCategory">
+    <description>JDO tests for MS Access</description>
+    <jdo database-name="test" configuration="access.xml" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.CacheLeakage" />
+  </category>
+
+
+  <category name="xml" class="xml.XMLCategory">
+    <description>Tests for XML marshalling framework</description>
+    <case class="xml.TypeHandling" />
+    <case class="xml.Inheritance" />
+  </category>
+
+</harness>
+

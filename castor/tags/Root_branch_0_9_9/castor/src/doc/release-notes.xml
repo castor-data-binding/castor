@@ -1,0 +1,3682 @@
+<?xml version="1.0"?>
+<document url="http://castor.exolab.org/release-notes.xml">
+  <body>
+    <title>Release notes</title>
+    <section title="Releases">
+
+        <p>For all releases prior to 0.9.6, the release notes can be found <a href="changelog.html">here</a>.</p>
+
+<!--
+                <bug id="">
+                    <description></description>
+                    <contributor>
+                        <name></name>
+                        <email></email>
+                    </contributor>
+                    <submitter>
+                        <name></name>
+                        <email></email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type></type>
+                    <module></module>
+                    <date></date>
+                </bug>
+-->
+	    <release version="CVS">
+	        <description>New and on-going development</description>
+    		<date>tbd</date>
+    		<managed-by>Werner Guttmann</managed-by>
+            <summary>
+				New and on-going development
+            </summary>
+			<bugs>
+			</bugs>
+		</release>
+			
+	    <release version="0.9.7">
+	        <description>Maintenance release for Castor XML and JDO</description>
+    		<date>June 8, 2005</date>
+    		<managed-by>Werner Guttmann</managed-by>
+            <summary>
+				<h2>Download &amp; installation instructions</h2>
+
+                <p>This is the final 0.9.7. release, mainly a maintenance release. We are currently 
+				   planning the next release which will be Castor 0.9.9, a feature release.</p>
+
+				<h2>Changes</h2>
+
+				<h3>Moved key generators to jdo.keygen package</h3>
+				
+				<p>Whilst this change is non-intrusive per se, please note that you might have to 
+				   change a local <tt>castor.properties</tt> file if you happened to re-specify key generators
+				   in there.</p>
+
+				<h3>Fixed problem with multiple &lt;database&gt; configurations</h3>
+				
+				<p>Support for multiple database configurations has been re-enabled.</p>
+				   
+            </summary>
+			<bugs>
+                <bug id="1147" tool="jira">
+                    <description>
+		                Reverted addition to src/tests/jdo/Collections due to problem with missing 
+					    setItem(ArrayList).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>General</module>
+                    <date>20050607</date>
+                </bug>
+                <bug id="1138" tool="jira">
+                    <description>
+                        Moved key generators to jdo.keygen package.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>General</module>
+                    <date>20050530</date>
+                </bug>
+                <bug id="881" tool="jira">
+                    <description>
+                        JDOManager can now handle more then one jdo-conf.
+                    </description>
+                    <contributor>
+                        <name>Nick Stuart</name>
+                        <email>nick@newtsplace.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Nick Stuart</name>
+                        <email>nick@newtsplace.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050530</date>
+                </bug>
+                <bug id="1131" tool="jira">
+                    <description>
+                        Update project documentation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>General</module>
+                    <date>20050525</date>
+                </bug>
+			</bugs>
+		</release>
+	    <release version="0.9.7M1">
+	        <description>Milestone release for 0.9.7</description>
+    		<date>May 25, 2005</date>
+    		<managed-by>Werner Guttmann</managed-by>
+            <summary>
+				<h2>Download &amp; installation instructions</h2>
+
+				<p>Please note that we are providing the usual suspect (binaries, docs and
+				   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.7.">
+				   the Codehaus</a>. We recommend, though, to download the complete package,
+				   as the HTML docs at <a href="http://castor.codehaus.org">the main Castor site</a> has
+				   not been updated, and to build the documentation yourself.</p>
+
+				<h2>Changes</h2>
+
+				<h3>Support for JDBC proxy classes</h3>
+				
+				<p>Proxy classes for <tt>java.sql.Connection</tt> and
+				   <tt>java.sql.PreparedStatement</tt> instances have been added, to allow for
+				   complete and better JDBC statements to be output to the log files. As this might impose
+				   a performance penalty at run-time, we have added a new property to the Castor
+				   property file (<tt>castor.properties</tt>) to allow configuration of this
+				   feature.</p>
+
+<code>				
+  # True if JDBC proxy classes should be used to enable more detailed logging output of SQL
+  # statements; false otherwise (logging will be turned off completely).
+  #
+  org.exolab.castor.persist.useProxy=true
+</code>				
+					
+				<p>When disabled, no logging of SQL statements will occur al all.</p>
+
+				<h3>Castor and Java 5</h3>
+				
+				<p>Several bugs have been fixed to allow use of Castor with a JDK 1.5. This
+				   mainly involved preventing compilation problems due to variable names et al.
+				   that were in conflict with new Java 5 naming conventions (e.g. use of enum as
+				   a variable name).</p>
+
+				<h3>Renamed JDO2 to JDOManager</h3>
+				
+				<p><tt>JDO2</tt> has been renamed to <tt>JDOManager</tt>. Please change your source 
+				   code accordingly. Please note that - going forward - any bug fixes/enhancements will 
+				   be committed against JDOManager only.</p>
+				   
+				<h3>Type of access mode constants changed</h3>
+				
+				<p>The type of the access mode constants (Shared / ReadOnly / Exclusive / DbLocked)
+				   defined in Database interface has changed from <code>short</code> to
+				   <code>org.exolab.castor.mapping.AccessMode</code>. To allow you to use previous
+				   short as well as new AccessMode constants we added new incarnations of the
+				   Database.load(..) and Query.execute(..) methods. In addition we needed to change
+				   the parameter types of Persistent.jdoLoad(..) and CallbackInterceptor.loaded(..)
+				   from short to AccessMode.</p>
+
+				<h3>Default field types</h3>
+				
+				<p>It is possible again - after disabling this feature in 0.9.6 - to not specify 
+				   a type in a field mapping. By default, a field defined as such will have a 
+				   type of 'java.lang.String'.</p>
+				
+				<h2>Additions</h2>
+				
+				<h3>Addition of RSS feed for announcements</h3>
+				
+				<p>An RSS feed has been added to the project documentation to allow
+				   users to be informed about additions/changes to Castor. This feed basically 
+				   mirrors the news items posted to <url>http://castor.codehaus.org/news.html</url></p>				
+
+				<h3>Specifying a binding file with the Source generator Ant task</h3>
+				
+                <p>Support for specifying a binding file with the Castor Source Generator Ant Task 
+				   has been added. Below is the example as provided with the 0.9.6 release notes 
+				   extended to cover the specification of a binding file:</p>
+
+                <code>
+  &lt;target name="castor:gen:src" depends="init"
+    description="Generate Java source files from XSD."&gt;
+
+    &lt;taskdef name="castor-srcgen"
+      classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+      classpathref="castor.class.path" /&gt;
+    &lt;mkdir dir="${gen.src.d}" /&gt;
+    &lt;castor-srcgen file="${schema.d}/books2.xsd"
+      todir="${gen.src.d}"
+      package="com.sourcebeat.castorlive.xmodel"
+      types="j2"
+      bindingfile="custom-binding.xml"
+      warnings="false" /&gt;
+  &lt;/target&gt;
+                </code>
+
+
+				<h2>Problems fixed</h2>
+				
+                <p>Since release 0.9.6, the following problem areas have been addressed.</p>
+
+            </summary>
+            <bugs>
+                <bug id="938" tool="jira">
+                    <description>
+                        Anonymous groups in complex types are disambiguated unnecessarily
+                    </description>
+                    <contributor>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Hendrik Schreiber</name>
+                        <email></email>
+                    </submitter>
+                    <reporter>
+                        <name>Hendrik Schreiber</name>
+                        <email></email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20050521</date>
+                </bug>
+                <bug id="664" tool="jira">
+                    <description>
+                        Extra element not ignored in UnmarshalHandler.startElement although it should be ignored.
+                    </description>
+                    <contributor>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Heri Bender</name>
+                        <email></email>
+                    </submitter>
+                    <reporter>
+                        <name>Heri Bender</name>
+                        <email></email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20050521</date>
+                </bug>
+                <bug id="1048" tool="jira">
+                    <description>
+                        Added support for multi-value attributes
+                    </description>
+                    <contributor>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20050521</date>
+                </bug>
+                <bug id="1134" type="jira">
+                    <description>
+				       Restore default behaviour when no type is specified for a field mapping
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050520</date>
+                </bug>
+                 <bug id="1129" type="jira">
+                    <description>
+				       Changed column names in SQL statement of CallSql to lower-case.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Stein M. Hugubakken</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050519</date>
+                </bug>
+                <bug id="1111" type="jira">
+                    <description>
+				       Changed documentation from JDO2 to JDOManager.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050517</date>
+                </bug>
+                <bug id="1116" type="jira">
+                    <description>
+				       Replaced Ant 1.5 with Ant 1.6.x.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050517</date>
+                </bug>
+                <bug id="1112" type="jira">
+                    <description>
+				       Added documentation about JDBC proxy classes (incl. property in castor.properties).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Brucy Snyder</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050517</date>
+                </bug>
+                 <bug id="973" type="jira">
+                    <description>
+						Changed column name 'num' to 'numb', as 'num' happens to be a keyword with SAPDB.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Emir Causevic</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050517</date>
+                </bug>
+                <bug id="65" type="jira">
+                    <description>Added patch to allow CastorSourceGenTask to specify a binding file.</description>
+                    <contributor>
+                        <name>Jene Jasper</name>
+                        <email>jjasper@abz.nl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Jene Jasper</name>
+                        <email>jjasper@abz.nl</email>
+                    </submitter>
+                    <reporter>Jene Jasper</reporter>
+                    <type>enhancement</type>
+                    <module>Tools</module>
+                    <date>20050511</date>
+                </bug>
+                <bug id="1063" type="jira">
+                    <description>
+                        Refactor CTF-JDO tests into subdirectories (part 1).
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Ref.</type>
+                    <module>JDO</module>
+                    <date>20050511</date>
+                </bug>
+                <bug id="973" type="jira">
+                    <description>
+                       build.xml now uses sourc generator Ant task definitio during code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Enh</type>
+                    <module>JDO</module>
+                    <date>20050511</date>
+                </bug>
+                <bug id="1105" tool="jira">
+                    <description>
+                        Issues with Namespace Handling in SAX2Any and AnyNode2SAX2
+                    </description>
+                    <contributor>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </reporter>
+                    <type>Enhancement</type>
+                    <module>XML</module>
+                    <date>20050509</date>
+                </bug>
+                <bug id="1104" tool="jira">
+                    <description>
+                        Added Java 5 "enum" support to Java Source API
+                    </description>
+                    <contributor>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </reporter>
+                    <type>Enhancement</type>
+                    <module>XML</module>
+                    <date>20050506</date>
+                </bug>
+                <bug id="1050" tool="jira">
+                    <description>
+                        Added ability to add exceptions to JConstructor.
+                    </description>
+                    <contributor>
+                        <name>Thomas Zooman</name>
+                        <email></email>
+                    </contributor>
+                    <submitter>
+                        <name>Andrew Fawcett</name>
+                        <email>andrew dot fawcett @ coda.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Thomas Zooman</name>
+                        <email></email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20050506</date>
+                </bug>
+                <bug id="1596" tool="jira">
+                    <description>
+                        Fixes issue with using location attribute with both
+                        attributes and text nodes the same location element.
+                    </description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Keith Visco</name>
+                        <email>keith AT kvisco DOT com</email>
+                    </submitter>
+                    <reporter>
+                        <name>George ??</name>
+                        <email>george76@hotmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20050503</date>
+                </bug>
+                <bug id="954" type="jira">
+                    <description>
+                       Added proxy classes for JDBC Connection and PreparedStatement to improve SQL
+                       statement logging.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050503</date>
+                </bug>
+                <bug id="1097" type="jira">
+                    <description>
+                        Added cast of null needed for some reflection methods for Java5.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050502</date>
+                </bug>
+                <bug id="1098" type="jira">
+                    <description>
+                        Fixed compile error on Java5 caused by the usage of "enum"
+                        as identifier in JDO tests.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050502</date>
+                </bug>
+                <bug id="1082" type="jira">
+                    <description>
+                        Improve the error messages related to the use of key generators.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050430</date>
+                </bug>
+                <bug id="1084" type="jira">
+                    <description>
+                        Reworked the Cache interface to be 100% compliant with java.util.Map.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050430</date>
+                </bug>
+                <bug id="1088" type="jira">
+                    <description>
+                        Improved the way Castor JDO logs error messages if a transaction fails.
+                    </description>
+                    <contributor>
+                        <name>Tim Telcik</name>
+                        <email>ttelcik@hbf.com.au</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Tim Telcik</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050429</date>
+                </bug>
+                <bug id="880" tool="jira">
+                    <description>
+                       Added java.sql.Connection getJdbcConnection() to Database interface
+                       to obtain a handle to the underlying JDBC connection.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>JDO</module>
+                    <date>20050427</date>
+                </bug>
+                <bug id="1081" tool="jira">
+                    <description>
+                    This required the refactoring of all key generators to extract
+                    the supportsSqlType() method which is now called early rather
+                    than late from within the SQLEngine constructor.
+                    </description>
+                    <contributor>
+                        <name>Bruce Snyder</name>
+                        <email>bruce DOT snyder AT gmail DOT com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Bruce Snyder</name>
+                        <email>bruce DOT snyder AT gmail DOT com</email>
+                    </submitter>
+                    <reporter>Bruce Snyder</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050425</date>
+                </bug>
+                <bug id="1086" tool="jira">
+                    <description>
+                        Added type casts to Types.java to overcome runtime exceptions with
+                        Java 1.4.x.
+                    </description>
+                    <contributor>
+                        <name>Bin Liu</name>
+                        <email>bliu72@yahoo.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050425</date>
+                </bug>
+                <bug id="1712">
+                    <description>
+                        Improved logging of exceptions related to security policy
+                        at Configuration.
+                    </description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20050424</date>
+                </bug>
+                <bug id="1781">
+                    <description>
+                        Added JDOManager.loadConfiguration(JdoConf).
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20050424</date>
+                </bug>
+                <bug id="1865">
+                    <description>
+                        Multiple &lt;database&gt; problems.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Nick Stuart</name>
+                        <email>nick@newtsplace.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20050421</date>
+                </bug>
+                <bug id="1933">
+                    <description>
+                        Refactor AccessMode.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Ref.</type>
+                    <module>All</module>
+                    <date>20050417</date>
+                </bug>
+                <bug id="1730">
+                    <description>
+                        Committed: more information on error when manipulating collections
+                    </description>
+                    <contributor>
+                        <name>Roy van der Kuil</name>
+                        <email>roy@vanderkuil.nl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Keith Visco</name>
+                        <email>keith AT kvisco DOT com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Roy van der Kuil</name>
+                        <email>roy@vanderkuil.nl</email>
+                    </reporter>
+                    <type>Enhancement</type>
+                    <module>XML</module>
+                    <date>20050408</date>
+                </bug>
+
+                <bug id="1929">
+                    <description>
+                        Fixed CastorException prints "Caused by: " to System.err in all cases.
+                    </description>
+                    <contributor>
+                        <name>Stefan Rotman</name>
+                        <email>srotman@factotummedia.nl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Stefan Rotman</name>
+                        <email>srotman@factotummedia.nl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20050408</date>
+                </bug>
+                <bug id="1491">
+                    <description>
+                        Test for open transaction before closing it.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </submitter>
+                    <reporter>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050407</date>
+                </bug>
+                <bug id="1860">
+                    <description>
+                        <b>Rename JDO2 to JDOManager.</b>
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Ref.</type>
+                    <module>JDO</module>
+                    <date>20050406</date>
+                </bug>
+                <bug id="1820">
+                    <description>
+                        Add template for submitting a bug report.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>All</module>
+                    <date>20050406</date>
+                </bug>
+                <bug id="1214">
+                    <description>
+                        Fixed problem in field molder when dealing with 'set'
+                        methods with more than one signature.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Howard Pelling</name>
+                        <email>howardpelling@earthlink.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050402</date>
+                </bug>
+                <bug id="1903">
+                    <description>
+                        Surrounded logging-statements with isDebugEnabled() if the
+                        logging-string is assembled.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </submitter>
+                    <reporter>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20050324</date>
+                </bug>
+                <bug id="1916">
+                    <description>
+                        Fixed typo in transaction manager class for WAS v4
+                        and add note that database pooling should be enabled
+                        for WAS v4 and v5.
+                    </description>
+                    <contributor>
+                        <name>Tim Telcik</name>
+                        <email>ttelcik@hbf.com.au</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tim Telcik</name>
+                        <email>ttelcik@hbf.com.au</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050330</date>
+                </bug>
+                <bug id="1917">
+                    <description>
+                        Fixed misleading error messages referencing to
+                        "javax.jta.TransactionManager" instead of
+                        "javax.transaction.TransactionManager".
+                    </description>
+                    <contributor>
+                        <name>Tim Telcik</name>
+                        <email>ttelcik@hbf.com.au</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tim Telcik</name>
+                        <email>ttelcik@hbf.com.au</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050330</date>
+                </bug>
+                <bug id="1691">
+                    <description>
+                        Extend FieldHandlerImpl to be able to handle multiple overloaded set methods.
+                        This now makes possible to specify the pooling parameter "cache-scheme"
+                        for Oracle connects.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050320</date>
+                </bug>
+                <bug id="1889">
+                    <description>
+                        Fixed bug with cryptic message at 1:m relation
+                        with depends relationship.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Hugo Ferreira</name>
+                        <email>hmf@inescporto.pt</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050318</date>
+                </bug>
+                <bug id="1882">
+                    <description>
+                        Fixed failure in hash code calculation of
+                        org.exolab.castor.persist.spi.Complex.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050312</date>
+                </bug>
+                <bug id="1851">
+                    <description>Added RSS news feed</description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Enh</type>
+                    <module>All</module>
+                    <date>20050307</date>
+                </bug>
+                <bug id="1852">
+                    <description>Fixed Compile issue on JDK 1.5.0_01.</description>
+                    <contributor>
+                        <name>Nick Stuart</name>
+                        <email>nick@newtsplace.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050307</date>
+                </bug>
+                <bug id="1896">
+                    <description>
+                        Elimination of unnecessary compiler warnings.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <module>Misc</module>
+                    <date>20050305</date>
+                </bug>
+                <bug id="1877">
+                    <description>
+                        Fixed wrong class and method name for Websphere 5.0 transaction manager factory.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Lilians Auvigne</reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20050217</date>
+                </bug>
+            </bugs>
+        </release>
+
+        <release version="0.9.6">
+         <description>Bug fixes in Castor JDO, XML.</description>
+            <date>February 9, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+              <h3>Status</h3>
+              <p>
+                This is the final 0.9.6. release. We are currently planning
+                the next milestone release which will be Castor 1.0.
+              </p>
+
+              <h3>New Documentation</h3>
+              <p>
+                - <a href="xml-fieldhandlers.xml">Creating Custom FieldHandlers</a>
+              </p>
+
+              <h3>Summary</h3>
+
+              <p>Final release. Since the third release candidate, the following problem areas
+                    have been addressed.</p>
+
+
+            </summary>
+            <bugs>
+                <bug id="1873">
+                    <description>
+                        Updated documentation to explain that no auto-mapping of
+                        java.util.Date takes place; users must decide whether to
+                        map a particular date field to java.sql.Date, java.sql.Time,
+                        or java.sql.Timestamp.
+                    </description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </submitter>
+                    <reporter>Gregory Block</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20050303</date>
+                </bug>
+
+                <bug id="1855">
+                    <description>
+                        Fixed problem with TransactionContext.getObjectEntry(Object) that was
+                        introduced as a result of adding support for lazy loading 1:1 relations.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Jon Wilmoth</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20050208</date>
+                </bug>
+
+                <bug id="1849">
+                    <description>
+                        Added F.A.Q. entry describing compatibility problems between various releases of
+                        mySQL 4.1.x and its JDBC drivers.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Stein M. Hugubakken</reporter>
+               <type>FAQ</type>
+               <project>JDO</project>
+                    <module>Docs</module>
+                    <date>20050204</date>
+                </bug>
+
+                <bug id="1848">
+                    <description>Reverted various DOCTYPE definitions in src/tests/jdo to use DTDs.</description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Bruce Snyder</reporter>
+               <type></type>
+               <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20050204</date>
+                </bug>
+
+            <bug id="">
+               <description>
+                   Fixed issue with GeneralizedFieldHandler not able to handle collections.
+                   Collections are now automatically iterated over during getValue() calls
+                   and each item in the collection is passed into the convertUponGet method.
+                   To retain the old behavior simply add a call to #setCollectionIteration
+                   with a value of false in the constructor of your GeneralizedFieldHandler.
+                   The behavior for setter methods is not changed since only one item at a
+                   time is passed into the setter already.
+               </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <type>Enh.</type>
+               <project>XML</project>
+               <module>Mapping</module>
+               <date>20050118</date>
+                </bug>
+
+
+            <bug id="1850">
+               <description>
+                  Fixed whitespace processing bug, where a ' ' was actually
+                  getting appended to the end of a string value if the parser
+                  was calling the #characters method again with only whitespace
+                  following a previous call to #characters method where valid
+                  content existed.
+               </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                  <name>Paul Spencer</name>
+                  <email>paulspencer@mindspring.com</email>
+               </reporter>
+               <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20050114</date>
+                </bug>
+
+            <bug id="">
+               <description>
+                  Fixed recent issue where ElementDecl#getType() method was always
+                  returning null for element references.
+               </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20050110</date>
+                </bug>
+
+            </bugs>
+
+        </release>
+
+        <release version="0.9.6 RC3">
+         <description>Bug fixes in Castor JDO, XML</description>
+            <date>January 11, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+                <p>Preparations for the final release have started. Since the second release candidate,
+                   the following problem areas have been addressed.</p>
+            </summary>
+            <bugs>
+                <bug id="1839">
+                    <description>Added getCacheManager() method in Database interface</description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Caching</module>
+                </bug>
+                <bug id="1798">
+                    <description>Fixed problem with loading mappings with relative path</description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </contributor>
+                    <reporter>Ralf Joachim</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                </bug>
+            <bug id="1372">
+               <description>
+                   Mapping.loadMapping(String) duplicates directory
+                   path. Fixed problem by making the given url a relative URL
+                   so that the document base isn't duplicated.
+               </description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+               </submitter>
+               <reporter>Jesus Menendez</reporter>
+                    <type>Bug</type>
+               <project>All</project>
+               <module>Core</module>
+               <date>20041217</date>
+                </bug>
+                <bug id="1824">
+                    <description>Fixed various problems that prevented compilation under JDK 1.3.</description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Sylvie Palluel</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                </bug>
+                <bug id="1827">
+                    <description>Fixed syntax error in src/tests/jdo/mysql.sql.</description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Stein M. Hugubakken</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                </bug>
+                <bug id="1815">
+                    <description>Improved exception handling during TransactionContext instantiation.</description>
+                    <contributor>
+                        <name>Patrick vanKann</name>
+                        <email>patrick.vankann@cookie-fortune.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Patrick van Kann</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1725">
+                    <description>Changed attribute type for 'name' attribute on key-generator element definition in mapping.dtd.</description>
+                    <contributor>
+                        <name>Jeff Bonevich</name>
+                        <email></email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Jeff Bonevich</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                </bug>
+                <bug id="1768">
+                    <description>Overloaded jdo.Size with Oracle-specific test case.</description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <reporter>Ralf Joachim</reporter>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                </bug>
+                <bug id="1812">
+                    <description>Various problems with classloader usage.</description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <reporter>Gregory Block</reporter>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+               <date>20041214</date>
+                </bug>
+                <bug id="1793">
+                    <description>SimleQueryExecutor and data visibility issues</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Sylvie Palluel</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+               <date>20041213</date>
+                </bug>
+
+            <bug id="1723">
+               <description>
+                   Added some additional support for nillable fields. There is still
+                   some more work needed in this area, but this gets us closer.
+               </description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+               </submitter>
+               <reporter></reporter>
+               <type>Enh.</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20041210</date>
+                </bug>
+
+            <bug id="">
+               <description>
+                   Added initial support to suppress namespaces during Marshalling. This
+                   has been a long asked for feature, so I figured it was about time I
+                   finally got around to doing this.
+               </description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+               </submitter>
+               <reporter></reporter>
+               <type>Enh.</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20041210</date>
+                </bug>
+            </bugs>
+        </release>
+
+        <release version="0.9.6 RC2">
+            <description>Mainly bug fixes, but also minor enhancements in Castor JDO.</description>
+            <date>December 03, 2004</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+                <h3>Open issues:</h3>
+
+                <p>There's an issue with Castor finding mapping files within JARs when the path to
+                   the mapping file is specified relatively to the JDO configuration file. We are working
+                   on this, but as there's a workaround (using InputSources as mentioned on the
+                   mailing lists recently), we have decided to go ahead and not hold back this
+                   second release candidate. Details on this bug can be found here.</p>
+
+                <p>Since the first release candidate, the following problem areas have been addressed.</p>
+            </summary>
+            <bugs>
+                <bug id="1560">
+                    <description>Fixed NullPointerException thrown during Castor Validation</description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Keith Visco</name>
+                        <email>keith@kvisco.com</email>
+                    </submitter>
+                    <reporter>Jeremy</reporter>
+                    <type>Bug</type>
+                    <project>XML</project>
+                    <module>XML</module>
+               <date>20041214</date>
+                </bug>
+                <bug id="1676">
+                    <description>Added support for lazy-loading simple 1:1 relations</description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Werner Guttmann</reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1777">
+                    <description>Status property of Castor's TransactionContext not set correctly in global transactions.</description>
+                    <contributor>
+                        <name>Patrick vanKann</name>
+                        <email>patrick.vankann@cookie-fortune.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Patrick van Kann</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1804">
+                    <description>Castor JDO test suite now uses log level "error" by default.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1795">
+                    <description>Fixed problem in CastorException? (String, Throwable) where the constructor of the superclass was not called.</description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Gregory Block</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                </bug>
+                <bug id="1797">
+                    <description>Fixed problem with resetting the capacity of CountLimited? cache.</description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Ralf Joachim</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1774">
+                    <description>Fixed problem with "sqltime" field type where it was incorrectly mapped to java.sql.Date rather than java.sql.Time.</description>
+                    <contributor>Werner Guttmann</contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Jon Wilmoth</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1790">
+                    <description>Added additional debug statements during binding of SQL parameters.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>JDO</module>
+                </bug>
+                <bug id="1785">
+                    <description>Adds configuration of JDO using an inline JDBC DataSource by providing configuration parameters using a Properties collection.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Configuration</module>
+                </bug>
+                <bug id="1784">
+                    <description>Fixed problem using JDOConfFactory with JDBC DataSources.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Configuration</module>
+                </bug>
+                <bug id="1791">
+                    <description>Added support for using constants in comparison expressions with bind values.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                </bug>
+                <bug id="1792">
+                    <description>Handling of SQL parameter binding and their order is now completely handled by SqlBindParser.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                </bug>
+                <bug id="1788">
+                    <description>Added support for SQL parameters as part of IN statements in WHERE clauses.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>Martin Fuchs</reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                </bug>
+            </bugs>
+        </release>
+
+        <release version="0.9.6 RC1">
+            <date>November 08, 2004</date>
+         <description>Mainly bug fixes, but also contains enhancements in Castor JDO, XML.</description>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+                <h2>Download &amp; installation instructions</h2>
+
+                <p>Please note that we are providing the usual suspect (binaries, docs and
+                   sources) for this release at <a href="ftp://ftp.exolab.org/pub/castor/castor_0.9.6.">
+                   the Exolab FTP server</a>. We recommend, though, to download the complete package,
+                   as the HTML docs at <a href="http://castor.codehaus.org">the main Castor site</a> have
+                   not been updated, and build the documentation yourself.</p>
+
+                <h2>Changes</h2>
+
+                <h3>Format of the JDO configuration file</h3>
+
+                <p>Due to various internal refactorings, we decide to change the syntax of the
+                   JDO configuration file, adding a new root element named &lt;jdo-conf&gt; and elements
+                   to declare transaction demarcation semantics. Here's a sample of Castor JDO
+                   running against mySQL (with local transactions).</p>
+
+                <code>
+&lt;?xml version="1.0"?&gt;
+&lt;!DOCTYPE jdo-conf PUBLIC
+    "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+    "http://castor.exolab.org/jdo-conf.dtd"&gt;
+
+&lt;jdo-conf&gt;
+    &lt;database name="test" engine="mysql" &gt;
+        &lt;driver url="jdbc:mysql://localhost/test"
+                class-name="org.gjt.mm.mysql.Driver"&gt;
+            &lt;param name="user" value="test" /&gt;
+            &lt;param name="password" value="test" /&gt;
+        &lt;/driver&gt;
+        &lt;mapping href="mapping.xml" /&gt;
+    &lt;/database&gt;
+    &lt;transaction-demarcation mode="local" /&gt;
+&lt;/jdo-conf&gt;
+                </code>
+
+                <h3>Configuration of JDBC Datasources</h3>
+
+                <p>When setting up JDBC DataSources to be used with Castor JDO, configuration
+                   of parameters now needs to occur as a sequence of &lt;param&gt; elements rather
+                   than one &lt;params&gt; element. This is to stream-line the way these JDBC resources
+                   are configured.</p>
+
+                <p>What used to be</p>
+
+                <code>
+&lt;data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource"&gt;
+    &lt;params user="thomas"
+            password="thomas"
+            port-number="2048"
+            server-name="Dual1"
+            database-name="thomas" /&gt;
+&lt;/data-source&gt;
+                </code>
+
+                <p>before this release, now needs to be specifed as follows:</p>
+
+                <code>
+&lt;data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource"&gt;
+    &lt;param name="user" value="thomas" /&gt;
+    &lt;param name="password" value="thomas" /&gt;
+    &lt;param name="port-number" value="2048" /&gt;
+    &lt;param name="server-name" value="Dual1" /&gt;
+    &lt;param name="database-name" value="thomas" /&gt;
+&lt;/data-source&gt;
+                </code>
+
+                <p>Please note the use of hyphens in the naming of properties. In other words,
+                   in order for Castor to set the value of the portNumber property of the
+                   SybDataSource to '2048', please use the following &lt;param&gt; element</p>
+
+                <code>
+    &lt;param name="port-number" value="2048" /&gt;
+                </code>
+
+                <p>rather than</p>
+
+                <code>
+    &lt;param name="portNumber" value="2048" /&gt;
+                </code>
+
+                <p>as shown in the pooling documentation for previous releases.</p>
+
+                <h3>Transaction demarcation</h3>
+
+                <p>A new way of configuring transaction demarcation has been added. This
+                   configuration is now part of the main JDO configuration file (jdo-conf)
+                   and mandates the specification of the transaction demarcation used within
+                   your application.</p>
+
+                <p>As part of this configuration file, the user has to specify which transaction
+                   demarcation to use. This can either be 'local' or 'global', and is supplied
+                   by the use of a &lt;transaction-demarcation&gt; element.</p>
+
+                <h4>Local Mode</h4>
+
+                <p>When using Castor JDO stand-alone and you want Castor to control
+                   transaction demarcation ('local' mode), please use this element
+                   as follows:</p>
+
+                <code>
+&lt;transaction-demarcation mode="local" /&gt;
+                </code>
+
+                <h4>Global Mode</h4>
+
+                <p>When running inside a J2EE application server, and you want to use
+                   container managed transactions ('global' transactions), please make
+                   sure you use this element as follows:</p>
+
+                <code>
+  &lt;transaction-demarcation mode="global"&gt;
+    &lt;transaction-manager name="jndi" /&gt;
+  &lt;/transaction-demarcation&gt;
+                </code>
+
+                <p>In this mode, the XML element &lt;transaction-manager&gt; specifies the
+                   transaction manager that is used by your application server/web container
+                   to control these transactions.</p>
+
+                <p>The following transaction managers are supported in Castor at the
+                   time of the release of Castor 0.9.6:</p>
+
+                <table border="0" cellspacing="1" cellpadding="2" bgcolor="#990033"><tr><td>
+                    <table border="0" cellspacing="1" cellpadding="8" bgcolor="#EDEDED">
+                  <tr bgcolor="#990033" style="color:#FFFFFF">
+                            <th align="left">Name</th><th align="left">Description</th>
+                        </tr><tr>
+                            <td>jndi</td><td>TM looked up in the JNDI ENC</td>
+                        </tr><tr>
+                            <td>websphere</td><td>IBM WebSphere 4 and previous releases</td>
+                        </tr><tr>
+                            <td>websphere5</td><td>IBM WebSphere 5</td>
+                        </tr><tr>
+                            <td>websphere51</td><td>IBM WebSphere 5.1</td>
+                        </tr>
+                    </table></td></tr>
+                </table>
+
+                <p>In addition to specifying the transaction manager name, it is possible
+                   to pass arbitrary name/value pairs to the transaction manager instance.</p>
+
+                <p><b>Note:</b>It should also be noted that "database pooling" must be enabled
+                    for the JDO instance when using the WAS v4 and v5 transaction managers, or
+                    the JDO "database" instance will fall outside the current transaction/thread,
+                    resulting in the error message "No transaction in progress for the current
+                    thread". For example:</p>
+    
+                <code>
+JDO myJdo = new JDO();
+myJdo.setDatabasePooling( true );
+                </code>
+    
+                <p><b>Note:</b> At the moment, only the JNDI transaction manager factory
+                   supports such an attribute. In this context, the jndiEnc attribute can be
+                   used to specify what JNDI ENC to use to lookup the transaction manager as
+                   shown below:</p>
+
+                <code>
+  &lt;transaction-demarcation mode="global"&gt;
+    &lt;transaction-manager name="jndi"&gt;
+      &lt;param name="jndiEnc" value="java:comp/env/TransactionManager" /&gt;
+    &lt;/transaction-manager&gt;
+  &lt;/transaction-demarcation&gt;
+                </code>
+
+                <h3>Using timezone information when accessing date/time/timestamp data</h3>
+
+                <p>Castor will use the JDBC ResultSet.getDate(int, Calendar) and related
+                   methods which take a Calendar object to specify the timezone of the
+                   data retrieved from the database when the timezone information is not
+                   already specified in the data; this ensures that the 'current' timezone
+                   is applied.</p>
+
+                <p>The default time zone can be configured in the castor.properties file; see
+                   the configuration section for details on how to configure Castor with
+                   information about your default time zone. To change the timezone to a different
+                   timezone than the default, please set a (different) value on the
+                   org.exolab.castor.jdo.defaultTimeZone property:</p>
+
+                <code>
+# Default time zone to apply to dates/times fetched from database fields,
+# if not already part of the data.  Specify same format as in
+# java.util.TimeZone.getTimeZone, or an empty string to use the computer's
+# local time zone.
+# org.exolab.castor.jdo.defaultTimeZone=
+org.exolab.castor.jdo.defaultTimeZone=GMT+8:00
+                </code>
+
+                <h2>New features</h2>
+
+                <h3>JDO configuration without a file and JDoConfFactory</h3>
+
+                <p>As part of this release, we have added a way to configure Castor JDO
+                   without the need to provide an XML configuration file. As such,</p>
+
+                <code>
+JDO.setConfiguration(JdoConf)
+                </code>
+
+                <p>has been provided to pass in an instance of JdoConf. Too assist users
+                   of this new approach in creating JdoConf instances, please have a look
+                   at org.exolab.castor.jdo.util.JdoConfFactory.</p>
+
+                <h3>Resetting database configurations</h3>
+
+                <p>In order to clear all previously registered Castor Database configurations
+                   you can now call the new function
+                   org.exolab.castor.jdo.engine.DatabaseRegistry.clear(). This is for
+                   example usefull, if you want to log on using a user supplied login name
+                   and database connection. It is especially needed if it's possible to change
+                   the login password of the database login account in interactive applications.</p>
+
+                <h3>CacheManager</h3>
+
+                <p>With this release, we have decided to remove several methods related to
+                   clearing caches (partially) from Database(impl).java. Instead, we have
+                   created a new CacheManager class in the util package that can be obtained from
+                   a Database instance as follows:</p>
+
+                <code>
+Database db = jdo.getDatabase();
+CacheManager manager = db.getCacheManager();
+                </code>
+
+                <p>Once such an instance has been obtained, cache content can be cleared
+                   (partially) using one of several CacheManager?.clearCache() methods. In
+                   addition, users might inquire about whether an object is currently cached
+                   (or not) by using CacheManager.isCached (Class, Object).</p>
+
+                <p>Details about the functionality provided by this new class can be found
+                   in the HTML docs and/or Javadocs.</p>
+
+                <h3>OQL - Support for LIMIT/OFFSET clauses</h3>
+
+                <p>On a selected number of RDBMS, Castor JDO now supports the use of LIMIT
+                   (and OFFSET clauses) as follows:</p>
+
+                <code>
+OQLQuery query =
+   db.getOQLQuery ("select a from Account order by id limit $1 offset $2");
+query.bind (10);
+query.bind (5);
+OQLResults results = query.execute();
+                </code>
+
+                <p>This will select accounts 6 to 15, given that numbers for account ids start
+                   at 1.</p>
+
+                <p>As per this release, the following RDBMS have full/partial support for this
+                   new feature.</p>
+
+                <table border="0" cellspacing="1" cellpadding="2" bgcolor="#990033"><tr><td>
+                    <table border="0" cellspacing="1" cellpadding="8" bgcolor="#EDEDED">
+                  <tr bgcolor="#990033" style="color:#FFFFFF">
+                            <th align="left">RDBMS</th><th>LIMIT</th><th>OFFSET</th>
+                        </tr><tr>
+                            <td>postgreSQL</td><td>Yes</td><td>Yes</td>
+                        </tr><tr>
+                            <td>mySQL</td><td>Yes</td><td>Yes</td>
+                        </tr><tr>
+                            <td>Oracle - 1)</td><td>Yes</td><td>Yes</td>
+                        </tr><tr>
+                            <td>HSQL</td><td>Yes</td><td>Yes</td>
+                        </tr><tr>
+                            <td>MS SQL</td><td>Yes</td><td>-</td>
+                        </tr><tr>
+                            <td>DB2</td><td>Yes</td><td>-</td>
+                        </tr>
+                    </table></td></tr>
+                </table>
+
+                <p>1) Oracle has full support for LIMIT/OFFSET clauses for release 8.1.6 and
+                   later.</p>
+
+                <h3>OQL - bind variables in combination with "IN" operators</h3>
+
+                <p>Previously it was only possible to use OQL WHERE statements with "IN"
+                   operators of the following form:</p>
+
+                <code>
+"... WHERE DNAME in list(1, 2, 3)"
+"... WHERE DNAME in list(\"SALES\", \"TEST\", \"ABC\")"
+"... WHERE DNAME in list(\"ABC\", nil)"
+                </code>
+
+                <p>To make it easier executing dynamic queries, it's now also allowed to
+                   use bind variables, for example:</p>
+
+                <code>
+"... WHERE DNAME in list($1, $2)"
+                </code>
+
+                <h3>Add your own cache implementation</h3>
+
+                <p>If you are not satisfied with Castor's set of performance caches, we've
+                   added a way for you to provide you own cache implementationa and register
+                   it with Castor.</p>
+
+                <p>To provide a custom cache implementation, you need to</p>
+
+                <ol>
+                    <li>Create a class that implements org.exolab.castor.persist.cache.Cache
+                       (we have provided an abstract base class that you can use at your
+                       convenience).</li>
+                    <li>Create a class that implements org.exolab.castor.persist.cache.CacheFactory
+                       (we have provided an abstract base class that you can use at your
+                       convenience).</li>
+                    <li>Register your custom cache implementation with Castor JDO in the
+                        castor.properties file.</li>
+                </ol>
+
+                <p>Detailed instructions can be found in the package.html file of the
+                   org.exolab.castor.persist.cache package.</p>
+
+                <h3>Castor Source Generator Ant Task</h3>
+
+                <p>The Castor Source Generator Ant Task has been added to the CVS tree. Below
+                   is an example of how to use it from within an Ant build descriptor:</p>
+
+                <code>
+  &lt;target name="castor:gen:src" depends="init"
+    description="Generate Java source files from XSD."&gt;
+
+    &lt;taskdef name="castor-srcgen"
+      classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+      classpathref="castor.class.path" /&gt;
+    &lt;mkdir dir="${gen.src.d}" /&gt;
+    &lt;castor-srcgen file="${schema.d}/books2.xsd"
+      todir="${gen.src.d}"
+      package="com.sourcebeat.castorlive.xmodel"
+      types="j2"
+      warnings="false" /&gt;
+  &lt;/target&gt;
+                </code>
+
+                <p>The only requirement is that the castor-srcgen-ant-task.jar must be on
+                   the CLASSPATH.</p>
+
+                <h2>New features - experimental</h2>
+
+                <h3>JDO2 - a new approach</h3>
+
+                <p>Due to a couple of inconsistencies in the interface of the JDO class, we
+                   have decided to refactor this class and provide users with a much improved
+                   way of configuring and instantiating JDO instances (as explained below).
+                   To provide backwards-compatibility, we have created a new JDO2 class
+                   and left the old untouched.</p>
+
+                <p>To create a Castor JDO instance (based upon a XML configuration file),
+                   users need to execute code similar to the following lines:</p>
+
+                <code>
+JDO2.loadConfiguration ("jdo-conf.xml");
+JDO2 jdo = JDO2.createInstance ("test");
+                </code>
+
+                <p>Similar to what the old interface used to be, a couple of overloaded
+                   loadConfiguration() methods are provided, to allow specification of
+                   class loaders and XML entity resolvers.</p>
+            </summary>
+
+            <bugs>
+                <bug id="">
+                    <description>
+                    </description>
+                    <contributor>
+                        <name></name>
+                        <email></email>
+                    </contributor>
+                    <submitter>
+                        <name></name>
+                        <email></email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type></type>
+                    <project></project>
+                    <module></module>
+                    <date></date>
+                </bug>
+
+            <bug id="">
+               <description>
+                   Added support for namespace to package mappings on the Unmarshaller
+                   and UnmarshalHandler. This basically fixes issues where Castor
+                   can't find the right package to look for classes during
+                   unmarshalling. This is main for those people using generated
+                   source code, as using a mapping file you must specify the
+                   packages and namespaces appropriately.
+               </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+                    <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20041104</date>
+                </bug>
+
+            <bug id="">
+               <description>
+                   Fixed bug in SourceGenerator where class names for SimpleType
+                   instances with Enumeration facets were not getting resolved properly.
+               </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+                    <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20041104</date>
+                </bug>
+
+                <bug id="1790">
+                    <description>Added additional debug statements during binding of SQL parameters.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                </bug>
+                <bug id="1517">
+                    <description>Added a new isCached() method to CacheManager.</description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Caching</module>
+                    <date>20041028</date>
+                </bug>
+                <bug id="1262">
+                    <description>
+                        Castor JDO now uses timezone information when reading
+                        date/timestamp/time data from the RDBMS.
+                    </description>
+                    <contributor>
+                        <name>Jack Warner</name>
+                        <email>jack.warner@agedwards.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041020</date>
+                </bug>
+                <bug id="1767">
+                    <description>
+                        Updated src/tests/jdo/oracle.xml and src/tests/jdo/postgresql.xml to be
+                        in-line with new grammar.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041019</date>
+                </bug>
+                <bug id="1764">
+                    <description>Extends new SQL parameter binding code to SimpleQueryExecutor.</description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20041018</date>
+                </bug>
+                <bug id="1763">
+                    <description>
+                        Improved exception handling in the persist.cache package, by ensuring
+                        proper exception chaining.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Caching</module>
+                    <date>20041013</date>
+                </bug>
+                <bug id="1628">
+                    <description>
+                        Brought configuration of &lt;data-source&gt; in line with &lt;driver&gt;, switching
+                        from &lt;params&gt; to a sequence of &lt;param&gt; elements.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Config</module>
+                    <date>20041011</date>
+                </bug>
+                <bug id="885">
+                    <description>
+                        Added the Castor Ant Task and an Ant target to the build jar.
+                    </description>
+                    <contributor>
+                        <name>Bruce Snyder</name>
+                        <email>ferret@frii.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Bruce Snyder</name>
+                        <email>ferret@frii.com</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041007</date>
+                </bug>
+                <bug id="1757">
+                    <description>
+                        Added core/** package and children to castor-xml.jar.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041006</date>
+                </bug>
+                <bug id="1755">
+                    <description>
+                        Brought jdo-conf.dtd in-line with XML Schema instance, making
+                        &lt;transaction-demarcation&gt; required.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Config</module>
+                    <date>20041006</date>
+                </bug>
+
+            <bug id="1685">
+               <description>
+                   Fixed StackOverflowError that was occuring at certain times
+                   during container processing if the input XML was invalid.
+               </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                    <name>qiu, hong</name>
+                    <email>hq828 AT gmx DOT de</email>
+               </reporter>
+                    <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20041005</date>
+                </bug>
+
+                <bug id="1594">
+                    <description>
+                        Added new (experimental) JDO2.java, adding factory method for
+                        instantiation, removing public constructor, changing way of
+                        loading configuration.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041005</date>
+                </bug>
+
+            <bug id="1592">
+               <description>
+                   DecimalValidator was not taking into account a leading
+                   sign ('+' or '-').
+               </description>
+                    <contributor>
+                   <email>technicallyrational@yahoo.com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                   <email>technicallyrational@yahoo.com</email>
+               </reporter>
+                    <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20041004</date>
+                </bug>
+
+                <bug id="1435">
+                    <description>
+                        Fixed problem with finding add&lt;FieldName&gt;() method.
+                    </description>
+                    <contributor>
+                        <name>Matt Caswell</name>
+                        <email>bugzilla.exolab.org@baggins.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041004</date>
+                </bug>
+                <bug id="">
+                    <description>
+                        Framed &lt;driver&gt;, &lt;data-source&gt; and &lt;jndi&gt; elements in
+                        jdo-conf.xsd with an &lt;xsd:choice&gt; to indicate that at any time only
+                        one should be present.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Config</module>
+                    <date>20041002</date>
+                </bug>
+                <bug id="1752">
+                    <description>
+                        Re-enabled support for LIMIT clauses for MS SQL Server.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20040928</date>
+                </bug>
+                <bug id="1548">
+                    <description>
+                        Changed Log4J configuration to use XML file (log4j.xml).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Config</module>
+                    <date>20040927</date>
+                </bug>
+
+            <bug id="1723">
+                    <description>
+                  Initial support for xsi:nil. xsi:nil support is not complete
+                  with these patches, but it was worth checking them in as it
+                  gets us closer to completion.
+                    </description>
+                    <contributor>
+                   <name>Marco Soeima</name>
+                   <email>marco.soeima AT siemens DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                   <name>Marco Soeima</name>
+               </reporter>
+                    <type>Enh.</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20040916</date>
+                </bug>
+
+            <bug id="1666">
+                    <description>
+                  UnmarshalState._markedList Vector is a performance
+                  bottleneck, replaced by a by HashSet.
+                    </description>
+                    <contributor>
+                   <name>David Thal</name>
+                   <email>dthal AT combimatrix DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                   <name>David Thal</name>
+                   <email>dthal AT combimatrix DOT com</email>
+               </reporter>
+                    <type>Enh.</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20040910</date>
+                </bug>
+
+            <bug id="1658">
+                    <description>
+                  Fixed Whitepspace handling where whitespace was not preserved for
+                  container objects.
+                    </description>
+                    <contributor>
+                   <name>Chris Giordano</name>
+                   <email>giordano AT more DOT net</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                   <name>Chris Giordano</name>
+                   <email>giordano AT more DOT net</email>
+               </reporter>
+               <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20040910</date>
+                </bug>
+
+            <bug id="1634">
+                    <description>
+                   Whilespace was not getting preserved correctly
+                   during unmarshalling when parser splits up calls
+                   to the UnmarshalHandler#characters method.
+                    </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <reporter>
+                   <name>David Green</name>
+                   <email>david.green AT maketechnologies DOT com</email>
+               </reporter>
+               <type>Bug</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20040910</date>
+                </bug>
+
+
+            <bug id="">
+                    <description>
+                   Updated the Marshaller to use ContentHandler directly instead
+                   of wrapping in a ParserAdapter. Users Marshalling to a
+                   ContentHandler should see a significant speed up when
+                   Marshalling.
+                    </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <type>Enh.</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20040910</date>
+                </bug>
+
+            <bug id="">
+                    <description>
+                   Fixed a bug in the Marshaller with the xsi:type logic not being
+                   strict enough. Sometimes the Marshaller was not adding xsi:type
+                   when it was needed. I've modified this logic a bit to make it
+                   output xsi:type more often in order to preserve round tripping.
+                    </description>
+                    <contributor>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </contributor>
+                    <submitter>
+                  <name>Keith Visco</name>
+                  <email>keith AT kvisco DOT com</email>
+                    </submitter>
+               <type>Enh.</type>
+               <project>XML</project>
+               <module>XML</module>
+               <date>20040910</date>
+                </bug>
+
+                <bug id="1727">
+                    <description>
+                        Added DB2-specifc support for the OQL LIMIT clause.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20040909</date>
+                </bug>
+                <bug id="1720">
+                    <description>
+                        In the case a RDBMS does not support the LIMIT/OFFSET clauses, a
+                        SyntaxNotSupportedException is thrown.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20040909</date>
+                </bug>
+                <bug id="1221">
+                    <description>
+                        Added the ability to specify an OFFSET clause with LIMIT clauses. This
+                        patch provides support for postgreSQL, mySQL and HSQL only.
+                    </description>
+                    <contributor>
+                        <name>Lance Lavandowska</name>
+                        <email>lance@aptura.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20040812</date>
+                </bug>
+                <bug id="????">
+                    <description>
+                        Added example to src/examples/MappingTool to demonstrate the use of
+                        the MappingTool.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>XML</project>
+                    <module>Mapping tool</module>
+                    <date>20040811</date>
+                </bug>
+                <bug id="1690">
+                    <description>
+                        Improved exception handling for the transactionmanager package.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040806</date>
+                </bug>
+                <bug id="1651">
+                    <description>
+                        Added XML prefixes to various files in src/examples and src/tests/jdo.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type></type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040607</date>
+                </bug>
+                <bug id="1402">
+                    <description>
+                        Added code to handle extend relationships where no additional fields are
+                        added. For such cases, no STORE SQL statement will be generated (and used).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040607</date>
+                </bug>
+                <bug id="1641">
+                    <description>
+                        Upgraded JUnit to version 3.8.1.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040607</date>
+                </bug>
+                <bug id="1534">
+                    <description>
+                               Added code to allow users to use their own cache implementation
+                               with Castor. In general, available cache implementations are now
+                               specified in castor.properties.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Caching</module>
+                    <date>20040513</date>
+                </bug>
+                <bug id="????">
+                    <description>
+                        Reworked the mailing list guidelines. Added various sections re:
+                        cross-posting, etc.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>ALL</project>
+                    <module>Core</module>
+                    <date>20040502</date>
+                </bug>
+                <bug id="1588">
+                    <description>
+                        Introduces various checks and additional exception handling wrt
+                        to using TimeStampables.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040406</date>
+                </bug>
+                <bug id="1585">
+                    <description>
+                        Added separate build folders for src/tests and src/examples
+                        to the Eclipse project files.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>ALL</project>
+                    <module>Build</module>
+                    <date>20040330</date>
+                </bug>
+                <bug id="1566">
+                    <description>
+                        Updated Eclipse related project files.
+                    </description>
+                    <contributor>
+                        <name>João Luis Pinto</name>
+                        <email>jpinto@inescporto.pt</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>All</project>
+                    <module>Build</module>
+                    <date>20040319</date>
+                </bug>
+
+                <bug id="1221">
+                    <description>
+                        Added support for LIMIT/OFFSET clauses for HSQL, and extended HSQL-specific test case.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20041001</date>
+                </bug>
+                <bug id="1737">
+                    <description>
+                        Added support for registering TxSynchronizable instances via castor.properties.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20041001</date>
+                </bug>
+                <bug id="1209">
+                    <description>
+                        Added a new converter boolean(true)->numeric(-1) to cover MS Access'
+                        way of storing boolean values.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040930</date>
+                </bug>
+                <bug id="1751">
+                    <description>
+                        Added Castor JDO test TC20b to mySQL and sapdb categoeries (incl.
+                        additions to the SQL DDL).
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040928</date>
+                </bug>
+                <bug id="1733">
+                    <description>
+                        Added support for RDBMS-specific meta data in general. This is currently
+                        used within OracleQueryExpression to support the LIMIT clause implementation
+                        for Oracle 8.1.6 and above only.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040927</date>
+                </bug>
+                <bug id="1732">
+                    <description>
+                        Added support for LIMIT/OFFSET clauses for Oracle, and fixed problems with
+                        mySQL implementation (ordering of parameters).
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>OQL</module>
+                    <date>20040927</date>
+                </bug>
+                <bug id="1689">
+                    <description>
+                       Added code to support is&lt;FieldName&gt;() methods for boolean properties in
+                       addition to standard getter.
+                    </description>
+                    <contributor>
+                        <name>Nick Stuart</name>
+                        <email>nick@newtsplace.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040923</date>
+                </bug>
+                <bug id="1655">
+                    <description>
+                        Improved debug statements during create operations, showing the
+                        actual SQL generated with values bound.
+                    </description>
+                    <contributor>
+                        <name>Dave Eccleston</name>
+                        <email>deccles@mitre.org</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>200409017</date>
+                </bug>
+                <bug id="1713">
+                    <description>
+                        Fixed problem in FieldMolder when dealing with addXXX() methods on fields
+                        of type collection.
+                    </description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>200409017</date>
+                </bug>
+                <bug id="1689">
+                    <description>
+                        FieldMolder now looks for is&lt;FieldName&gt;() methods for boolean properties,
+                        in addition to standard get&lt;FieldName&gt;() methods.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040917</date>
+                </bug>
+                <bug id="1704">
+                    <description>
+                        Fixed problem with loading classes (resulting in IllegalArgumentException)
+                        by properly handling ClassNotFoundExceptions.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040917</date>
+                </bug>
+                <bug id="1511">
+                    <description>
+                        Added functionality to clear/reset the database configuration.
+                        Added functionality to configure Castor JDO via an in-memory JDOConf
+                        instance (plus a factory class for creating JdoConf instances).
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040917</date>
+                </bug>
+                <bug id="1507">
+                    <description>
+                        Fixed problem using the HighLowKeyGenerator with the same-connection
+                        attribute set to 'true'.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040915</date>
+                </bug>
+                <bug id="1635">
+                    <description>
+                        Provided a patch to initialize array(s) with the correct size, rather
+                        than hardcoding the value '10'.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040901</date>
+                </bug>
+                <bug id="1518">
+                    <description>
+                        Fixed problem with delayed removal of cache entries when deleting objects.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040902</date>
+                </bug>
+                <bug id="1445">
+                    <description>
+                        Added clearCache() method to CastorTestCase, and fixed a problem in test
+                        data setup in src/tests/jdo/OqlExtends.java
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040911</date>
+                </bug>
+                <bug id="1595">
+                    <description>
+                        Added CacheManager (and DatabaseImpl.getCacheManager() method) to allow
+                        users to selectively flush the Castor performance cache(s).
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040906</date>
+                </bug>
+                <bug id="1722">
+                    <description>
+                        Moved CastorException to org.exolab.castore.core.exceptions. In addition,
+                        PersistenceException now derives from CastorException.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040901</date>
+                </bug>
+                <bug id="1696">
+                    <description>
+                        Fixed NPE in SQL CALL statements with master/detail relation.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040817</date>
+                </bug>
+                <bug id="1677">
+                    <description>
+                        Updated list of available mapping types.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040811</date>
+                </bug>
+                <bug id="1708">
+                    <description>
+                        Added (general JDO) Utils class.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040817</date>
+                </bug>
+                <bug id="1445">
+                    <description>
+                        Fixed various small problems with SQL DDLs in src/tests/jdo.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040607</date>
+                </bug>
+                <bug id="1508">
+                    <description>
+                        Refactored code, applying strategy pattern.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040629</date>
+                </bug>
+                <bug id="1554">
+                    <description>
+                        Fixes a memory leak with the linked-list implementation by removing
+                        LinkedList completely; uses the Hashtable directly, resulting in much
+                        better performance. ValuesEnumeration no longer use a Vector, but intercepts
+                        the initial enumeration to provide the values.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040420</date>
+                </bug>
+                <bug id="1573">
+                    <description>
+                        This improves code quality for the complete jdo package (except conf.*)
+                        by removing unused import statements and local variables.
+                    </description>
+                    <contributor>
+                        <name>Stein M. Hugubakken</name>
+                        <email>dulci@start.no</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040330</date>
+                </bug>
+                <bug id="1714">
+                    <description>
+                        Added log statement to identfy problems with missing collection.
+                    </description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040817</date>
+                </bug>
+                <bug id="1597">
+                    <description>
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type></type>
+                    <project></project>
+                    <module></module>
+                    <date>20040408</date>
+                </bug>
+                <bug id="1605">
+                    <description>
+                        Brought test setup for SAP DB in-line with test requirements.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040429</date>
+                </bug>
+                <bug id="1605">
+                    <description>
+                        Brought test config file for SAP DB in-line with XML Schema.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040429</date>
+                </bug>
+                <bug id="1607">
+                    <description>
+                        Added test for IdentityKeyGenerator to SAP DB test suite.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040428</date>
+                </bug>
+                <bug id="1606">
+                    <description>
+                        Fixed problem with incorrectly quoting non-function names for SAP DB.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040427</date>
+                </bug>
+                <bug id="1607">
+                    <description>
+                        Added support for SAB DB to IdentityKeyGenerator.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040427</date>
+                </bug>
+                <bug id="1605">
+                    <description>
+                        Fixed various problems related to the setup of JDO test data with SAP DB.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emirc@gawab.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Tests</module>
+                    <date>20040427</date>
+                </bug>
+                <bug id="1700">
+                    <description>
+                        Fixed problem with 'select count(*) ...' statement with HSQL.
+                    </description>
+                    <contributor>
+                        <name>unknown</name>
+                        <email>weitz@zimmerverpackungen.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040805</date>
+                </bug>
+                <bug id="1709">
+                    <description>
+                        Added new TransactionManagerFactory for IBM WebSphere 5.1.
+                    </description>
+                    <contributor>
+                        <name>Donnie Armstrong</name>
+                        <email>donnie@attempt4.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040806</date>
+                </bug>
+                <bug id="1648">
+                    <description>
+                        Added code to extend the message generated for ObjectModifiedExceptions.
+                    </description>
+                    <contributor>
+                        <name>Nick Stuart</name>
+                        <email>nick@newtsplace.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040607</date>
+                </bug>
+                <bug id="1067">
+                    <description>
+                        Fixed a problem with class loading in various places of ParamInfo by
+                        passing a ClassLoader instance during instantiation.
+                    </description>
+                    <contributor>
+                        <name></name>
+                        <email></email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040526</date>
+                </bug>
+                <bug id="">
+                    <description>
+                        Fixed an incorrectly coded equality check related to global transaction
+                        demarcation.
+                    </description>
+                    <contributor>
+                        <name>Patrick vanKann</name>
+                        <email>patrick.vankann@cookie-fortune.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040516</date>
+                </bug>
+                <bug id="1368">
+                    <description>
+                        Small (mostly syntactical) changes to src/doc/jdo-faq.xml. Added a
+                        reference to XPath as well.
+                    </description>
+                    <contributor>
+                        <name>Tim O'Brien</name>
+                        <email>tobrien@discursive.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>All</project>
+                    <module>Docu</module>
+                    <date>20040428</date>
+                </bug>
+                <bug id="1092">
+                    <description>
+                        Fixed default namespace declaration, changed some small syntax issues.
+                    </description>
+                    <contributor>
+                        <name>Rhett Sutphin</name>
+                        <email>rhett-sutphin@uiowa.edu</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date></date>
+                </bug>
+                <bug id="1615">
+                    <description>
+                        Fixed a typo in a debug statement (wrong message resource key used).
+                    </description>
+                    <contributor>
+                        <name>unknown</name>
+                        <email>frric@wmdata.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040426</date>
+                </bug>
+                <bug id="1601">
+                    <description>
+                        Added code to support org.exolab.castor.types.Duration as a native
+                        type in Castor JDO. Added convertors for type conversion
+                        org.exolab.castor.types.Duration &lt;-&gt; java.lang.Long.
+                    </description>
+                    <contributor>
+                        <name>Tomasz Piontek</name>
+                        <email>piontek@man.poznan.pl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040421</date>
+                </bug>
+                <bug id="1568">
+                    <description>
+                        Streamlines Eclipse related project files.
+                    </description>
+                    <contributor>
+                        <name>João Luis Pinto</name>
+                        <email>jpinto@inescporto.pt</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>All</project>
+                    <module>Eclipse</module>
+                    <date>20040319</date>
+                </bug>
+                <bug id="????">
+                    <description>
+                        Added many enhancements to the tx mgr API including code improvements,
+                        jdo-conf.xsd changes, dynamic code generation using Castor XML as well
+                        as a refactored Ant build descriptor.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Bruce Snyder</name>
+                        <email>ferret@frii.com</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Enh.</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040323</date>
+                </bug>
+                <bug id="1563">
+                    <description>
+                    </description>
+                    <contributor>
+                        <name>Keith Visco</name>
+                        <email>kvisco@intalio.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Bruce Snyder</name>
+                        <email>ferret@frii.com</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>All</project>
+                    <module>Core</module>
+                    <date>20040323</date>
+                </bug>
+                <bug id="1705">
+                    <description>
+                        DuplicateIdentityExceptions not reported correctly when using PostgreSQL.
+                    </description>
+                    <contributor>
+                        <name>Bruce Snyder</name>
+                        <email>ferret@frii.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Bruce Snyder</name>
+                        <email>ferret@frii.com</email>
+                    </submitter>
+                    <reporter></reporter>
+                    <type>Bug</type>
+                    <project>JDO</project>
+                    <module>Core</module>
+                    <date>20040804</date>
+                </bug>
+            </bugs>
+        </release>
+
+        <p>For all the previous releases, the release notes can be found <a href="changelog.html">here</a>.</p>
+
+    </section>
+  </body>
+</document>

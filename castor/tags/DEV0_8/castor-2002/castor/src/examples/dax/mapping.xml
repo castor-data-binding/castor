@@ -1,0 +1,27 @@
+<mapping>
+
+  <class name="dax.User" identity="uid">
+    <map-to ldap-oc="person" />
+    <field name="uid" type="string" required="true">
+      <ldap name="uid" />
+    </field>
+    <field name="full" type="string" required="true">
+      <ldap name="cn" />
+    </field>
+    <field name="first" type="string" required="true">
+      <ldap name="givenname" />
+    </field>
+    <field name="last" type="string" required="true">
+      <ldap name="sn" />
+    </field>
+    <field name="email" type="strings" required="true">
+      <ldap name="mail" />
+    </field>
+    <field name="ou" type="string" required="true">
+      <ldap name="ou" />
+    </field>
+  </class>
+
+</mapping>
+
+

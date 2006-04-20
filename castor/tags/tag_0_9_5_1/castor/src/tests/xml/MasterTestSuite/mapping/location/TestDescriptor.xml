@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+   <Name>Mapping-LocationPaths</Name>
+   <Author>Keith Visco</Author>
+
+	<Comment>
+      Tests the special handling of the location attribute.
+   </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>Foo</Root_Object>
+
+      <UnitTestCase>
+         <Name>Test01</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input.xml</Input>
+         <Output>output.xml</Output>
+         <GoldFile>input.xml</GoldFile>
+      </UnitTestCase>
+
+	</MarshallingTest>
+
+</TestDescriptor>

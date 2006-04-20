@@ -1,0 +1,5 @@
+<?xml version="1.0"?>
+<QName-root xmlns:foo="http://www.castor.org/Mapping/QName" name="foo:a name">
+        <Item xmlns:bar="http://www.fooshop.com/Items">bar:ball</Item>
+        <Value xmlns="http://blank.namespace.com">black</Value>
+</QName-root>

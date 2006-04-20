@@ -1,0 +1,93 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/cvs.xml">
+  
+    <properties>
+        <title>CVS access</title>
+        <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+        <abstract>
+            Outlines how to acess the CVS repository.
+        </abstract>
+        <status>Final</status>
+    </properties>
+  
+  <body>
+  
+    <title>CVS Access &amp; bug tracking</title>
+
+	<section title="Issue Reporting and Tracking - JIRA">
+	
+		<p>Please use <a href="http://jira.codehaus.org/browse/CASTOR">JIRA</a> for reporting 
+		   any issue and tracking their progress. In addition, Jira offers many additonal
+		   (more sophisticated) features that allow you to keep in touch with
+		   the project's current progress.</p>
+    		   
+  		<p>Before submitting issues, please read 
+  		   <a href="how-to-submit-a-bug.xml">'How to submit an issue'</a>.</p>
+      		   
+	</section>
+	
+	<section title="CVS access">
+
+		<p>To get the latest, most up-to-date source code, you'll need to use 
+		   CVS. Please see the section on <a href="#Anonymous-CVS-Access">anonymous CVS access</a> 
+		   below. If you wish to simply browse the CVS for specific files or to view 
+		   changes and commit logs use <a href="http://cvs.castor.codehaus.org/viewrep/castor/castor">FishEye access</a>
+		   to the CVS repository.</p>
+
+	    <p>Or as an altwernative, please <a href="download.xml">download</a> the full 
+	       source distribution for a given release.</p>
+
+		<section title="Anonymous CVS Access">
+
+			<p>The source code, documentation and libraries are available for anonymous 
+			   access from the <a href="www.codehaus.org">Codehaus CVS server</a>.</p>
+
+			<p>CVS is updated regularly and may contain unstable (untested) code when 
+			   you check it out - though in general this should not happen.</p>
+
+			<p>To access the Castor CVS repository, please use the following settings:</p>
+			
+			<ul>
+				<li><b>CVS root</b>: <tt>:pserver:anon@cvs.castor.codehaus.org:/home/projects/castor/scm</tt></li>
+				<li><b>password</b>: is not required, and should thus be left empty.</li>
+			</ul>
+
+      		<p>To, for example, login to CVS from the command line and checkout the most recent
+      		   code of Castor, use the following commands:</p>
+
+      		<code-panel>
+  $ cvs -d :pserver:anon@cvs.castor.codehaus.org:/home/projects/castor/scm login
+  password:
+  $ cvs -d :pserver:anon@cvs.castor.codehaus.org:/home/projects/castor/scm checkout castor
+      		</code-panel>
+
+    	</section>
+
+    	<section title="Behind A Firewall?">
+      
+			<p>Sometimes firewalls are configured in such a way that the ports used by CVS
+			   are blocked, and thus users behind the firewall cannot access the CVS 
+			   repository. If you fall into this category, there's some alternatives outlined 
+			   below.</p>
+
+    		<p><a href="www.codehaus.org">Codehaus</a> provides a HTTP interface to CVS 
+    		   repository using FishEye (tm). Using this tool, please download one of the
+    		   following CVS snapshots from the CVS server from 
+    		   <url>http://cvs.castor.codehaus.org</url>:</p>
+            
+			<ul>
+				<li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.zip">ZIP archive</a></li>
+				<li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.tgz">TGZ archive</a></li>
+				<li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.tbz2">TBZ2 archive</a></li>
+			</ul>
+
+			<p>Another option for accessing CVS from behind a firewall is to use 
+			   <a href="http://cvsgrab.sf.net/">CVSGrab</a>. It's designed as a
+			   solution for exactly this situation.</p>
+
+	    </section>
+
+	</section>
+    
+  </body>
+</document>

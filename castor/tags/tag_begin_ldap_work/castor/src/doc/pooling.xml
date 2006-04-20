@@ -1,0 +1,326 @@
+<document url="http://castor.exolab.org/pooling.xml">
+  <body>
+    <title>Using Pooled Database Connections</title>
+
+    <section title="News">
+       <ul>
+          <li><b>10/22/2004</b>: Added JDBC Datasource configuration for mySQL.</li>
+          <li><b>9/14/2004</b>: Added section about using Jakarta's DBCP with Castor.</li>
+       </ul>
+    </section>
+
+    <section title="Pooling Agents">
+
+      <p>There is no mechanism within Castor JDO to provide pooling of
+         JDBC drivers. Rather, Castor JDO relies on the drivers or
+         external driver wrappers to implement a pooling mechanism.
+         Some drivers, such as Oracle, provides a pooling mechanism in
+         the driver.  For those that do not, there are tools such as
+         <a
+         href="http://sourceforge.net/projects/poolman/">PoolMan</a>,
+         <a
+         href="http://sourceforge.net/projects/proxool/">Proxool</a>
+         and Jakarta's <a
+         href="http://jakarta.apache.org/commons/dbcp.html">DBCP</a>
+         project.</p>
+
+      <p>Although PoolMan is no longer being maintained, it is still
+         one of the best open-source JDBC poolers that can turn almost
+         any JDBC driver into a pooled data source.  The last released
+         version that is recommended is version 2.0.4, as the 2.1
+         version was still in development when the project stopped.
+         Here, I'll go over the various usage of the PostgreSQL driver
+         with Castor.  We start with the most basic configurations
+         that do not use any pooling, to those with pooling via
+         PoolMan. I'll include how to configure the upcoming
+         pooling version of the PostgreSQL JDBC driver ths will be
+         usable with PostgreSQL 7.3 and later, how to setup a Tomcat JNDI
+         context that Castor can use to get a pooled JDBC
+         connection.</p>
+         
+      <p>Finally, I'll explain how to configure a BasicDataSource from the
+         DBCP package using the &lt;data-source&gt; element.</p>
+
+      </section>
+
+      <section title="Standard Database Connections">
+
+        <p>A standard jdo-conf.xml entry for using PostgreSQL without pooling
+           looks like this:</p>
+           
+<code-panel>
+<code><![CDATA[
+  <driver class-name="org.postgresql.Driver"
+          url="jdbc:postgresql://localhost/app">
+    <param name="user" value="smith"/>
+    <param name="password" value="secret" />
+  </driver>
+]]></code>
+</code-panel>
+
+     <p>On the other hand, if you wanted to use the PostgresqlDataSource, you
+        would use the data-source tag instead, and the connection entry would
+        look like this:</p>
+<code-panel>        
+<code><![CDATA[
+  <data-source class-name="org.postgresql.PostgresqlDataSource">
+   <param name="server-name" value="localhost" />
+   <param name="database-name" value="app" />
+   <param name="user" value="smith" />
+   <param name="password" value="secret" />
+  </data-source>
+]]></code>
+</code-panel>
+
+      <p>(Note that only versions before 7.3 of the PostgreSQL JDBC driver
+         include this class)</p>
+
+    </section>
+
+    <section title="PoolMan Configuration">
+
+    <p>Now, the standard PostgresqlDataSource is not a pooling data
+       source, so it doesn't provide us much use here.  Instead, we'll
+       install poolman, and create a poolman.xml entry for our database
+       connection to get the pooling behavior.  In the poolman.xml, our
+       connection information would look like this:</p>
+       
+<code-panel>
+<code><![CDATA[
+    <datasource>
+      <dbname>appPool</dbname>
+      <driver>org.postgresql.Driver</driver>
+      <url>jdbc:postgresql://localhost/app</url>
+      <username>john</username>
+      <password>smith</password>
+      <initialConnections>2</initialConnections>
+      <minimumSize>2</minimumSize>
+      <maximumSize>10</maximumSize>
+      <cacheEnabled>false</cacheEnabled>
+    </datasource>
+]]></code>
+</code-panel>
+
+     <p>In this sample, poolman will have a datasource called appPool,
+        that will have a min of 2 connections for the database, and will
+        max out at 10 connections.  Now, can use poolman with Castor in
+        two ways.  The first is as a driver, and the second is as a data
+        source.  Here are the two possible entries for the jdo-conf.xml
+        file... first, the driver version:</p>
+        
+<code-panel>
+<code><![CDATA[
+  <driver class-name="com.codestudio.sql.PoolMan"
+          url="jdbc:poolman://appPool"/>
+]]></code>
+</code-panel>
+
+     <p>and now the data-source version:</p>
+     
+<code-panel>
+<code><![CDATA[
+  <data-source class-name="com.codestudio.sql.PoolManDataSource">
+    <param name="database-name" value="appPool" />
+  </data-source>
+]]></code>
+</code-panel>
+
+     <p>As you can see, we have placed all of the connection
+        information in the poolman.xml configuration file, so Castor just
+        needs to connect to poolman.  Either configuration will work, as
+        Castor does not care from where it gets the connection from.</p>
+
+     </section>
+     
+     <section title="Pooling and JDBC DataSources">
+     
+     	<section title="PostgreSQL 7.3 and later">
+
+     		<p>In the 7.3 release of PostgreSQL, they will start providing a
+        	   pooling mechanism with their driver.  The Castor CVS repository
+        	   includes a beta version of the driver with this functionality.
+               Here is the 'current' configuration needed for the upcoming 7.3
+               release of PostgreSQL. (Unless they change it.) Note that in this
+               pooling mechanism currently lacks some features of PoolMan, such
+               as timing out idle connections and removing failed connections
+               from the pool.  In this case, we can create the following
+               data-source entry in the jdo-conf.xml file to provide for our
+               connections with Castor.</p>
+
+<code-panel>        
+<code><![CDATA[
+  <data-source class-name="org.postgresql.jdbc2.optional.PoolingDataSource">
+   <param name="server-name" value="localhost" />
+   <param name="database-name" value="app" />
+   <param name="initial-connections" value="2" />
+   <param name="max-connections" value="10" />
+   <param name="user" value="smith" />
+   <param name="password" value="secret" />
+  </data-source>
+]]></code>
+</code-panel>
+
+	     </section>
+
+        <section title="Oracle">
+     
+           <p>Here is the configuration needed for using a connection pool
+              with the Oracle JDBC DataSource implementations.</p>
+
+<code-panel>        
+<code><![CDATA[
+   <data-source class-name="oracle.jdbc.pool.OracleConnectionCacheImpl">
+      <param name="URL" value="jdbc:oracle:thin:@localhost:1521:TEST" />
+      <param name="user" value="scott" />
+      <param name="password" value="tiger" />
+   </data-source>
+]]></code>
+</code-panel>
+
+        </section>
+
+        <section title="mySQL">
+     
+           <p>Here is the configuration needed for using a connection pool
+              with the mySQL JDBC DataSource implementations.</p>
+
+<code-panel>        
+<code><![CDATA[
+   <data-source class-name="com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource">
+      <param name="server-name" value="localhost" />
+      <param name="port" value="3306" />
+      <param name="user" value="scott" />
+      <param name="password" value="tiger" />
+      <param name="database-name" value="test" />
+   </data-source>
+]]></code>
+</code-panel>
+
+        </section>
+	
+     </section>
+
+     <section title="Configuring JDBC DataSources in Tomcat to be used with Castor">
+
+     <p>Finally, I want to show the configuration for using a pooling
+        data-source for Castor which is retrieved from a JNDI context
+        that Apache fills.  The first example is using the PostgreSQL
+        pooling data-source, and the second is using Castor.  The
+        information to gain here is that we did not need to change the
+        jdo-conf.xml file or the webapp's web.xml file to achieve
+        this.</p>
+
+     <p>First, we modify the deployment context for the webapp in Tomcat >= 4.0 for our 
+        webapp in the conf/server.xml directory. (With Tomcat/Catalina releases 4.0 and higher 
+        there's more than one way of adding a <tt>&lt;Resource&gt;</tt> entry. Please consult with the 
+        manuals for more and more detailed information).</p>
+     
+     <p>We add the following information (using the PostgreSQL JDBC DataSource 
+        implementations as introduced above.):</p>
+     
+     <code-panel>
+        <code><![CDATA[
+<Context path="/webapp" docBase="test" debug="10">
+ <Resource name="jdbc/appDb" auth="Container"
+            type="org.postgresql.jdbc2.optional.PoolingDataSource"/>
+   <ResourceParams name="jdbc/appDb">
+    <parameter>
+      <name>factory</name>
+      <value>org.postgresql.jdbc2.optional.PGObjectFactory</value>
+    </parameter>
+    <parameter>
+     <name>dataSourceName</name>
+     <value>appDb</value>
+    </parameter>
+    <parameter>
+     <name>initialConnections</name>
+     <value>2</value>
+    </parameter>
+    <parameter>
+      <name>maxConnections</name>
+      <value>5</value>
+    </parameter>
+    <parameter>
+      <name>databaseName</name>
+      <value>app</value>
+    </parameter>
+    <parameter>
+      <name>user</name>
+      <value>smith</value>
+    </parameter>
+    <parameter>
+      <name>password</name>
+      <value>secret</value>
+    </parameter>
+    <parameter>
+      <name>serverName</name>
+      <value>localhost</value>
+    </parameter>
+  </ResourceParams>
+</Context>
+]]></code>
+     </code-panel>
+
+     <p>Here, we are using the PostgreSQL PGObjectFactory which
+        provides the JNDI server (Tomcat) the ability to create the
+        correct data source.  Now, the web.xml file for the webapp
+        needs to be updated too.</p>
+
+     <code-panel>        
+        <code><![CDATA[
+<resource-env-ref>
+  <description>PostgreSQL pooling check</description>
+  <resource-env-ref-name>jdbc/appDb</resource-env-ref-name>
+  <resource-env-ref-type>javax.sql.DataSource</resource-env-ref-type>
+</resource-env-ref>
+]]></code>
+      </code-panel>
+
+      <p>Note that we are only calling the ref type a DataSource
+         object, not using the PostgreSQL class name.  This will
+         enable us to make changes easily.  Now, in the jdo-conf.xml
+         file that Castor uses, we no longer list the driver or
+         data-source tag, but use the JNDI one, and it is simply this:</p>
+         
+      <code-panel>
+         <code><![CDATA[
+    <jndi name="java:comp/env/jdbc/appDb"/>
+]]></code>
+     </code-panel>
+
+     </section>
+     
+     <section title="Jakarta Commons DBCP - BasicDataSource">
+
+       <p>Commons-DBCP provides database connection pooling services, and together 
+          with <a href="http://jakarta.apache.org/commons/pool/">Commons-Pool</a>
+          it is the default JNDI datasource provider for Tomcat.</p>
+        
+       <p>With release 1.1 of the Jakarta Commons DBCP component, one of the major 
+          new features of the JDBC 3.0 API has (finally) been added to 
+          BasicDataSource, support for prepared statement pooling.</p>
+                
+       <p>To configure Castor for the use of DBCP, please provide the following 
+          &lt;data-source&gt; entry in the jdo-conf.xml file.</p>
+        
+<code-panel>        
+<code><![CDATA[
+  <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
+    <param name="driver-class-name" value="com.mysql.jdbc.Driver" />
+    <param name="username" value="test" />
+    <param name="password" value="test" />
+    <param name="url" value="jdbc:mysql://localhost/test" />
+    <param name="max-active" value="10" />
+  </data-source>
+]]></code>
+</code-panel>        
+
+         <p>There's plenty of information on 
+            <a href="http://jakarta.apache.org/commons/dbcp/configuration.html">configuration </a>
+            of BasicDataSource, and examples are provided 
+            <a href="http://cvs.apache.org/viewcvs/jakarta-commons/dbcp/doc/">here</a>.</p>
+
+     </section>
+     
+  </body>
+</document>

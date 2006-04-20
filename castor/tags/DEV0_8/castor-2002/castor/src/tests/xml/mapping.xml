@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<mapping>
+    <description>Castor generated mapping file</description>
+    <class access="shared" name="xml.Root">
+        <description>Default mapping for class xml.Root</description>
+        <map-to/>
+        <field transient="false" type="java.lang.String"
+            required="false" name="Name">
+            <xml mode="attribute" name="name"/>
+        </field>
+    </class>
+</mapping>

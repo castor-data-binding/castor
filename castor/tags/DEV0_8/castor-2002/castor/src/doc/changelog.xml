@@ -1,0 +1,382 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/changelog.xml">
+  <body>
+    <title>Change log</title>
+    <section title="Version 0.8.2  April 7, 2000"><pre>
+JDO:     Added experimental update() method to Database interface.
+
+JDO:     Fixed some minor glitches in support for exclusive and db-locked
+         access, documented the available access modes.
+
+JDO:     Fixed synchronization support, disabled checkpoint method.
+         Fixed bugs in handling of default field values.
+
+JDO:     Fixed circular exception problem in ObjectLock.release.
+         (Contributed by Jason Weistein &lt;jasonw@reticular.com&gt;)
+
+Misc:    Documented the locking options in Castor and concurrency support.
+         Added the three locking mode to all the test cases.
+    </pre></section>
+    <section title="Version 0.8.1  April 5, 2000"><pre>
+XML:     Fixed long->object conversion which suffered from a cut and paste bug
+         from the integer type.
+
+XML:     Added back inheritence support inside XMLClassDescriptor,
+         which was in MarshalInfo, but removed during the upgrade.
+
+XML:     Fixed bug with creating default XML name in XMLClassDescriptorImpl
+
+XML:     Fixed bug with unmarshalling primitive String types.
+            -- reported by Remy Maucherat and Kevin Burton
+
+XML:     Fixed bug with namespace support during marshalling of primitive
+         and immutable types
+
+XML:     Added back namespace support, which was temporarily removed during
+         the upgrade
+
+JDO:     Added Locked mode to provide locking at the database level, as
+         opposed to Exclusive mode which provides locking at the cache
+         level. Added support for loading/querying with a given access mode.
+
+JDO:     Improved concurrency for shared mode by eliminating write locks when
+         modified field is not marked as dirty.
+
+JDO:     Added isOpen method to database. Deprecated checkpoint.
+
+JDO:     Added preliminary support for controlling cache size and removing
+         objects from cache.
+
+JDO:     Fixed bug in bind( String) method of OQLQuery.
+
+JDO:     Fixed bug with modified exception not removing copy from cache.
+
+JDO:     Fixed bug with reusing queries.
+
+Misc:    Upgraded test cases to run inside JTF as a test harness.
+    </pre></section>
+    <section title="Version 0.8  March 27, 2000"><pre>
+XML:     support for IDREF/ID has been added back in
+
+XML:     fixed circular reference bug
+           -  This was an indirect bug caused by a bug
+              in org.exolab.castor.util.Stack
+
+XML:     fixed bug in method naming when type is "ID"
+
+XML:     Updated the Source code generator to work with new Framework
+         - Note I currently removed validation support, this will be
+           back ASAP
+         - There is a known bug with using "binary" type...I'll have
+           this fixed ASAP also
+
+XML:     We are now one step closer to using the mapping files with
+         Castor XML. A lot of changes have gone into sharing the "descriptor"
+         framework between Castor XML and Castor JDO...I can't enumerate all
+         the changes in this log, but here are a few:
+
+         - MarshalInfo and MarshalDescriptor have been changed to
+           XMLClassDescriptor, and XMLFieldDescriptor respectively, and the
+           interfaces have changed so be careful
+         - We added the XMLFieldHandler
+         - Changed MarshalInfoResolver to ClassDescriptorResolver
+
+JDO:     Placed the ODMG API in the org.exolab.castor.jdo package,
+         to be included in the JavaDocs and to enable the introduction
+         of Castor (RDBMS) specific features.
+
+JDO:     Moved transaction handling into the Database interface, queries
+         are now created from the Database object, JDO servers at the
+         implementation factory.
+
+JDO:     Added preliminary support for many-many relations, improved
+         support for one-many relations, fixed bug in isModified with
+         relations.
+
+JDO:     Added support for pluggable SQL engines (PersistenceFactory),
+         listed in the Castor properties file and referenced from the
+         JDO configuration file, allowing each database configuration
+         file to select the most suitable engine.
+
+JDO:     Extended JDO configuration file to include engine name, plus
+         minor modifications to element and attribute names in DTD/Schema,
+         and documentation of the configuration file.
+
+JDO:     Upgraded to use QueryExpression to construct SQL query statements
+         in database specific syntax.
+
+JDO:     Implemented dirty checking on objects loaded with a shared lock.
+	 Dirty checking performed on fields within UPDATE statement requiring
+	 a single SQL operation to update/check dirtyness.
+
+SPI:     Added QueryExpression and KeyGenerator to the SPI. QueryExpression
+         is generated from PersistenceFactory. Added way to load factories
+         from the Castor properties file.
+
+Persist: No longer supports identity changes.
+
+Persist: Rollback of transaction no longer reverts object to their previous
+         state due to lock race condition that hampers efficiency. Eliminating
+         this feature improves concurrency with optimistic locks.
+
+Misc:    Documentation distribution includes API JavaDocs and JavaDocs for
+         all Java classes. Tarball/zip include just the API JavaDocs.
+         Web site has been revised accordingly and some links moved around.
+
+Misc:    Updated build.xml file now includes documentation in tarball and
+         zip, builds both API JavaDocs and all classes JavaDocs, and does
+         not include package.html files in JARs.
+    </pre></section>
+    <section title="Version 0.7.11  March 10, 2000"><pre>
+JDO:     Added support for one-many relations using the new mapping/persist
+         mechanisms. Retains support for one-one relations.
+
+Mapping: Introduced CollectionHandler and support for collection fields
+         (for one-one and one-many relations), with support for three basic
+         collection types: vectors, hashtable, and arrays.
+
+Persist: Added support for attached and non attached relations, singular and
+         multi, in both query and commit phase. Required new algorithm for
+         preparing the transaction to commit.
+
+Persist: Fixed bug in ObjectLock that could lead to deadlock detection when
+         there are more than two threads competing for the same object.
+         (contributed by Jim Alateras)
+
+Misc:    Updated build.xml file now builds docs tarball, and builds source
+         tarball/zip for expansion with a castor-x.x directory (contributed
+         by Kevin Burton)
+
+Examples: Upgraded the JDO example to produce XML output of the query results
+         using a Marshaller and the Xerces Serializer.
+
+Examples: Example of XML-Servlet using JDO to load products from the database,
+         XML to fire SAX events and the XML-Servlet to apply XSLT transformation
+         and produce the HTML page.
+    </pre></section>
+    <section title="Version 0.7.10  March 3, 2000"><pre>
+JDO:     Upgraded to use new cache mechanism, reducing memory overhead for
+         loading. Initial code base for one-many relation support.
+
+Persist: Optimization to the cache mechanism. Now uses fixed-size arrays to
+         hold cached objects, eliminating much of the use of handlers.
+         Also cleaned some of the API calls.
+
+Persist: The cache mechanism now supports class-level resolution, allowing
+         different cache properties for different class types.
+
+Persist: Added initial support for one-many relations. Currently not working,
+         but the query engine has been revised to deal with one-many
+         relations, and some tests have been working successfully.
+
+Persist: Query mechanism no longer supports scrolling to a particular point,
+         due to the need to efficiently retrieve related records.
+
+Mapping: Minor changes to accomodate better creation of relation handlers.
+    </pre></section>
+    <section title="Version 0.7.9  February 25, 2000"><pre>
+JDO:     Now loads JDO configuration file from ODMG.loadDatabase() which in
+         turn loads all the required mapping files. Added jdo-conf DTD which
+         has been separated from the mapping DTD. For more info see the JDO
+         example.
+
+JDO:     Supports the new mapping API, new mapping DTD. See the JDO example
+         for using the new mapping file.
+
+JDO:     Cleaned up SQLEngine query composer using QueryExpr. Will be able to
+         support different join and locking syntaxes in the future.
+
+JDO:     Access mode (shared, exclusive, read-only) is now specified at the
+         class level in the mapping file and not in the database level as
+         before. This allows one transaction to support multiple type of
+         locks depending on the object being used.
+
+XML:     A Castor JAR with just the XML module will be created from the
+         'jar' target (less than half the size) and also available from
+         the FTP.
+
+XML:     Better error reporting in exceptions.
+
+Mapping: The API for the mapping package has been finalized. Both JDO and DAX
+         use the new API, XML support is in the works.
+
+Persist: Added support for relations (one-one, one-many) in loading,
+         creating and deleting of objects. Related objects are now loaded
+         from the cache, reloaded only when necessary, locked appropriately.
+
+Misc:    New Ant and build.xml include 100% Java Tar task, improved Javadoc
+         task, now also generates zips for binary and source distribution,
+         new cvs task gets last snapshot from CVS.
+    </pre></section>
+    <section title="Version 0.7.8  February 10, 2000"><pre>
+XML:    If annotations are used within elements, or attributes, I add
+        these to the Javadoc comments of the generated source.
+        example:
+        &lt;attribute name="foo" type="string"&gt;
+           &lt;annotation&gt;
+              &lt;info&gt;
+                This comment will be included in the Java source
+              &lt;/info&gt;
+           &lt;/annotation&gt;
+        &lt;/attribute&gt;
+
+JDO:     Fixed bug in SQLEngine not deleting row. (Contributed by
+         Oleg Nitz)
+
+JDO:     Fixed examples not setting reference of related class for
+         Inventory (Contributed by Steve Muench)
+
+XML:     Fixed bug with package name for top-level types, reported by
+         Kevin Burton
+
+XML:     Added support for "annotation" as a child for most of the structures.
+
+XML:     Added more support for "datatype"
+    </pre></section>
+    <section title="Version 0.7.7  February 4, 2000"><pre>
+XML:     Changed "archetype" to "type" in accordance with the 19991217
+         XML Schema draft
+
+XML:     Added support for "datatype"
+
+XML:     Fixed a bug with the Base64 encoder which caused it to throw an
+         ArrayIndexOutOfBounds exception when it recieved a zero-length array
+
+JDO:     Test for duplicate primary key only if select operation failed
+         using either the SQL state (X/Open error code) or by running a
+         separate select statement. (Contributed by Oleg Nitz)
+
+Persist: Added scrolling capability to QueryResult and PersistenceQuery
+         allowing more efficient collection implementation on top of JDBC
+         drivers that support cursors. (Idea by Oleg Nitz)
+
+Persist: Application level APIs now deal with PersistenceEngine and not
+         with CacheEngine directly. All classes that extended CacheEngine
+         have been eliminated.
+
+Persist: Added an SPI package that defines interfaces for Castor
+         service providers (i.e. persistence implementations).
+
+Persist: Added support for XA transactions through an XAResouceImpl that
+         manages transaction context creation and association. Interface
+         initially used in DAX.
+
+Misc:    New verion of Xerces (1.0.2+) and XSL:P included in this build.
+         The Xerces update fixes several HTML printing problems, the XSL:P
+         build included in this release is 4x faster.
+    </pre></section>
+    <section title="Version 0.7.6  February 2, 2000"><pre>
+DAX:  First appearance of the DAX implementation based on the Mozilla
+      Directory SDK, using the persistence cache engine and the new
+      mapping DTD.
+
+Mapping: The mapping package has been upgraded to the new mapping DTD,
+      and gained an XML sub-package that can be used to serialize
+      mapping information. MappingResolver and MappingHelper are used
+      to convert mapping files into descriptors.
+
+Mapping: Added type strings (array of String) and big-integer
+      (java.math.BigInteger).
+
+Docs: Contents of readme file and changelog are now available from the
+      HTML documentation.
+    </pre></section>
+    <section title="Version 0.7.5  January 28, 2000"><pre>
+JDO:  Finalized the transaction and locking semantics and started working
+      on a document describing it. I would like to thank Chris Raber of
+      GemStone for validating some of the design choices.
+
+JDO:  SQLEngine now employs two schemes for detecting duplicate primary
+      keys. For some databases it will use a separate SELECT statement,
+      for those that properly return an SQL error it will use the X/Open
+      error code (contributed by Oleg Nitz).
+
+JDO:  Dirty check mechanism has been disabled since 0.7.4, although
+      the new API enables any number of approaches. The dirty check
+      mechanisms will be re-introduced in 0.7.6.
+
+JDO:  Duplicate keys are now only detected inside a transaction, unless
+      a similar object is locked by another transaction, fixing a
+      potential problem in duplicate key reporting when object is
+      removed from persistence storage directly.
+
+Persist: Fixed deadlock detection algorithm. Previous algorithm would
+      allow the second transaction to commit but rollback the first
+      one. New algorithm allows first transaction to complete, but
+      detects deadlock in second one and terminates it.
+
+CMP:  No CMP engine yet, but the design architecture has been reviewed
+      by RMH and supports the proper CMP semantics. Still need to
+      determine how to deal with out-of-transaction methods. New
+      architecture allows Castor to be used as CMP or BMP implementation.
+
+Docs: Finally there. Added an Ant taskdef (style) and a task (doc) to
+      produce documenation in build/doc and the doc JAR. Sources are
+      XML, output is HTML, magic is XSLT.
+
+Docs: Added document describing persistence architecture and started
+      working on document describing transaction and locking semantics.
+
+Misc: The examples have been broken to two packages: examples will contain
+      brief and illustrative code showing how to develop with Castor,
+      while tests will contain unit tests.
+    </pre></section>
+    <section title="Version 0.7.4  January 23, 2000"><pre>
+JDO:  New persistence engine. JDO package is now an ODMG API
+      implementation on top of the concurrency engine and an SQL 92
+      connector.
+
+JDO:  New query mechanism allows multiple objects to be retrieved as
+      an enumeration.
+
+JDO:  Revised concurrency engine with query mechanism, object caching,
+      transactions and locking, now resides in package
+      org.exolab.castor.persist.
+
+JDO:  Added SQL type conversion. A field mapping may now specify the
+      SQL datatype using SQL names (numeric, varchar, etc). If the SQL
+      type differs than the Java field type automatic conversion will
+      apply. Convertors are provided for short/int/long, float/double,
+      string, character/byte array, date and BigDecimal.
+
+JDO:  Added dirty check attribute to field mapping. Fields that are
+      marked for dirty check will be checked against the database to
+      prevent concurrent updates. A concurrent update attempt will
+      cause the transaction to rollback. When acquiring an exclusive
+      lock at the beginning of the transaction no dirty checking
+      occurs.
+
+XML:  Added support for positive-integer and negative-integer
+      (Source Generator)
+
+XML:  Added support for Validation during Unmarshalling. Enabled by
+      default.  (Marshalling Framework)
+
+XML:  Changed Exceptions from SAXException and IOException to
+      MarshalException and ValidationException (Framework + Source
+      Generator) -- Sorry for the inconvenience.
+
+Docs: This is the first release to see some documentation beyond the
+      README file. The docs are located in the directory src/doc in XML
+      and are transformed into HTML in the target directory build/doc.
+      The transformation stylesheets are contained in src/doc/style.
+
+Misc: Three layer persistence architecture introduced in this release.
+      Each package implements the top level applications API (EJB,
+      ODMG, DAX, JNDI), org.exolab.castor.persist implements the
+      concurrency layer (transaction, locking, caching) and connectors
+      are used to talk to the underlying persistent storage.
+
+Misc: ObjectDesc, FieldDesc and related classed have no been
+      consolidated from the three modules and placed in a single
+      package org.exolab.castor.mapping.
+
+Misc: FieldDesc adds required flag and readable/writeable flag.
+      ObjectDesc adds key field (formerly JDO primary key) that is
+      used across all the modules.
+
+Misc: Type conversion errors are now reported more accurately before,
+      and a type conversion mechanism is being concieved.
+    </pre></section>
+  </body>
+</document>

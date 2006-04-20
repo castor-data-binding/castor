@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.xsd">
+<jdo-conf>                         
+    <database name="sapdb" engine="sapdb" >
+        <driver url="jdbc:sapdb://localhost/test" class-name="com.sap.dbtech.jdbc.DriverSapDB">
+            <param name="user" value="DBA" />
+            <param name="password" value="DBA" />
+            <!--param name="sqlmode" value="ORACLE" /-->
+        </driver>
+        <mapping href="mapping.xml" />
+    </database>
+    <transaction-demarcation mode="local" />
+</jdo-conf>

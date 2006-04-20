@@ -1,0 +1,37 @@
+<?xml version='1.0'?>
+<!--Example of a testDescriptor-->
+<TestDescriptor>
+
+	<Name>Test the required attribute in the field member</Name>
+
+	<Comment>
+        The field element allows to specify if an element or an attribute is required 
+        or not. The aim of this test is to check that the validation is correct.    
+    </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object>Required_Root</Root_Object>
+        <Mapping_File>mapping.xml</Mapping_File>
+
+		<UnitTestCase>
+            <Name>Valid document</Name>
+            <Input>required_input.xml</Input>
+			<Output>required_input.xml</Output>
+		</UnitTestCase>
+		
+		<UnitTestCase>
+            <Name>Missing element</Name>
+            <Input>input_failure_element.xml</Input>
+            <Failure>true</Failure>
+		</UnitTestCase>
+        
+        <UnitTestCase>
+            <Name>Missing attribute</Name>
+            <Input>input_failure_attribute.xml</Input>
+            <Failure>true</Failure>
+		</UnitTestCase>
+	</MarshallingTest>
+</TestDescriptor>

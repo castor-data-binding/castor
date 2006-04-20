@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/howto/how-to-use-a-cache.xml">
+  <properties>
+    <title>How to use a (performance) cache with Castor</title>
+    <abstract>
+       General information about using performance caches with Castor
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use a (performance) cache with Castor</title>
+    <header>
+    </header>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to enable caching for classes already mapped with Castor JDO.</p>
+        
+        <p>This document addresses the basics to get people familiar with the basic concepts
+        and discusses some implementation details.</p>
+
+        <p>The example given describes the addition of a &lt;cache-type&gt; element to an existing 
+        class mapping.</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>You should have a valid class mapping for a Java class, similar to the following 
+        one:</p>
+
+                <code-panel>
+&lt;mapping&gt;
+    &lt;class name="com.xyz.MyOtherObject" identity="id"&gt;
+        &lt;field name="id" type="integer"&gt;
+               ...
+        &lt;/field&gt;
+        &lt;field name="description" type="string"&gt;
+               ...
+        &lt;/field&gt;
+    &lt;/class&gt;
+&lt;/mapping&gt;
+                </code-panel>
+            
+    </section>
+
+    <section title="Steps">
+
+        <p>Here is how to proceed.</p>
+
+        <section title="Add &lt;cache-type&gt; element to class mapping">
+
+            <p>Add a &lt;cache-type&gt; element as shown below, specifying the cache provider to 
+            use in the 'type' attribute.</p>
+
+                <code-panel>
+&lt;mapping&gt;
+    &lt;class name="com.xyz.MyOtherObject" identity="id"&gt;
+        <font color="red">&lt;cache-type type="time-limited"/&gt;</font>
+        &lt;field name="id" type="integer"&gt;
+               ...
+        &lt;/field&gt;
+        &lt;field name="description" type="string"&gt;
+               ...
+        &lt;/field&gt;
+    &lt;/class&gt;
+&lt;/mapping&gt;
+                </code-panel>
+
+            <p>This, for example, defines the 'time-limited' cache provider to be used for the 
+            <tt>com.xyz.MyOtherObject</tt>. This cache provider applies internally a time-limited 
+            least-recently-used algorithm for <tt>com.xyz.MyObject</tt> instances</p>.
+
+        </section>
+
+    </section>
+    
+    <section title="Tips">
+
+        <ul>
+            <li>With the current release, performance caches also serve a dual purpose as dirty checking 
+           caches for <a href="long-transact.html">long-transactions</a>. This limitation implies that 
+           the object's duration in the performance cache determines the allowed time span of a long 
+           transaction. This might become an issue when performance caches of type 'count-limited' or 
+           'time-limited' are being used, as objects will eventually be disposed. If an application 
+           tries to update an object that has been disposed from the dirty checking cache, 
+           an ObjectModifedException will be thrown.</li>
+                
+        </ul>    
+        
+    </section>
+
+
+    <section title="References">
+
+        <ul>
+            <li><a href="long-transact.html">Long transactions</a></li>
+            <li><a href="castor-one.html">Caching</a></li>
+            <li><a href="castor-one.html">Caching in clustered environments</a></li>
+        </ul>
+        
+    </section>
+
+
+    </body>
+</document>

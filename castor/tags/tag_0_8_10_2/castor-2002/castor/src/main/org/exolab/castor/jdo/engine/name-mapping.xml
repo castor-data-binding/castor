@@ -1,0 +1,29 @@
+<mapping>
+<!--
+    Maps to the following database schema:
+
+    create table castor_name_binding (
+      name   varchar not null,
+      type   varchar not null,
+      obj-id varchar not null
+    );
+    create unique index castor_name_binding_pk
+      on castor_name_binding ( name );
+  -->
+
+  <class type="org.exolab.castor.jdo.engine.NameBinding"
+         table="castor_name_binding">
+    <description>Support for ODMG name binding</description>
+    <identity field-ref="name" />
+    <field name="name" type="string">
+      <sql-info name="name" />
+    </field>
+    <field name="type" type="string">
+      <sql-info name="type" />
+    </field>
+    <field name="objectId" type="string"/>
+      <sql-info name="obj_id" />
+    </field>
+  </class>
+</mapping>
+

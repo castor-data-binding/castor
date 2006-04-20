@@ -1,0 +1,177 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- $Id$ -->
+
+<document url="http://castor.exolab.org/jdo-faq.html">
+  <body>
+    <title>Castor JDO FAQ</title>
+
+    <section title="Castor's relation to other specifications">
+	<p><b>Does Castor JDO comply with the SUN JSR-000012 specification?</b></p>
+
+	<p>No. Castor JDO doesn't comply with the JDO specification.</p>
+
+	<p>Although Castor JDO carries very similar goal as JSR's JDO, it has been developed Castor independently from JSR. In fact, Castor was started before the JSR specification, although at that time the project had not yet named.</p>
+
+	<p>Although it is not absolutely impossible to hammer Castor JDO into JSR's JDO specification, Between Castor and JSR, there are several major technical and design differences which make the merging unfavorable.</p>
+
+	<p>Castor is more RDBMS centric. Castor has the concept of object Lock. Each object loaded from the underneath database will be locked. Developer can specify and must aware the timeout of lock. Exception will be thrown if dead lock is detected and developer must handler that (normally buy abort the transaction and retry). But, JSR hide the lock detail and developer must avoid lock conflict and dead lock in some other way.</p>
+
+	<p>Castor caches and locks one copy of each loaded (or created) object into CacheEngine for all transaction; it acts as a proxy of the underneath database. The concept is essentially different in JSR.</p>
+
+	<p>Other differences include key generators, long transaction support and OQL query. Those features can not be found in JSR but are very important for O/R mapping.</p>
+
+	<p><b>Is Castor JDO better than EJB CMP?</b></p>
+
+	<p>The relation between JDO and EJB Entity Bean is sometimes more complicated than "one-is-better-than-the-other" issue.</p>
+
+	<p>First, Entity Bean may manage to persist itself. (EJB specification call it a Bean Managed Persistence, or bmp) Or, it can rely on its EJB container to persist the bean itself. (EJB call it Container Managed Persistence, or cmp). </p>
+
+	<p>Entity Bean can use Castor JDO as the bmp mechanism, or any other method to persist itself (for example, dealing with jdbc itself). </p>
+
+	<p>On the other hand, an EJB Container may uses Castor JDO as CMP mechanism for the Entity Bean.</p>
+
+	<p>If you would like take advantage of EJB's life-cycle management, security, written-one-deployed on any EJB app server (although they say deploy anyway, you can't run your apps without an app server), and other distributed business application facilities, then you may consider EJB server which provides you cmp.</p>
+
+	<p>Otherwise, the fact that Castor is simple, open source (you can always include Castor in your application or product), much less overhead, more freedom on design, and integrated with Castor XML may well be your reasons to choose Castor JDO.</p>
+
+    </section>
+
+    <section title="XML related questions">
+	<p><b>Is it possible to make xml marshalling transactional using Castor?</b></p>
+	<p>No. The decision of putting XML and JDO together is NOT to make XML marshalling transactional.</p>
+
+	<p>Instead, consider a client server suitation. A server receives a XML message from the client. It marshalls the message into data objects. Also, the server needs some information from the database as well. So, it loads some other data objects using JDO. In such way, all the computation can be done using object-oriented way. After the computation, the server stores the data objects into JDO transactionally, and XML message is replied to the client by unmarshalling some result data objects. Castor XML and JDO are put together to deal with suitation like it.</p>
+
+	<p><b>Is it possible to do query on a XML file using Castor?</b></p>
+
+	<p>No. At least not with Castor alone. One of the major advantage of using a DBMS is the quering capacity. If you need quering, you should consider using a DBMS to store your data and using Castor JDO to retireve it.</p>
+    </section>
+
+    <section title="Technical questions">
+    <p><b>I am using Oracle, I got ObjectModifiedException during commit. But, Castor is the only program access the database. Why?</b></p>
+
+	<p>The problem happens when some fields of a class contains null value. It dues to a bugs in Oracle's JDBC driver's setNull method. We're developing workaround to modify the SQLStatement to work around the problem. However, in the mean time, please set the potential null field to dirty="ignore" in the mapping file:
+         <code><![CDATA[
+<field name="...." type="....">
+   <sql name="...." dirty="ignore"/>
+</field>]]>
+         </code>
+       </p>
+
+    <p><b>I have encountered problems using Sun JDBC-ODBC bridge with Castor...</b></p>
+
+	<p>It cannot be used with Castor, because it doesn't allow to keep two open ResultSets at the same time.
+	   Either use JDBC driver of type &gt; 1, or use some other JDBC-ODBC bridge without such restriction
+	   (for example, from <a href="http://www.easysoft.com">Easysoft</a>).</p>
+	
+	<p><b>My get-method for the Collection of dependent objects returns <tt>null</tt>. Why?</b></p>
+
+	<p>You should initialize the Collection yourself:
+         <code>
+  private Collection _children = new ArrayList();
+
+  public Collection getChildren() {
+      return _children;
+  }
+         </code>
+    </p>
+		
+	<p><b>What features are supported in Castor's OQL?</b></p>
+
+	<p>Due to some accident, we lost the xml source of the OQL document. Before we recover it, please click
+	<a href="http://www.karpenstein.com/nissim/design-oql-parser.html">here</a> for the document</p>
+
+	<p><b>Should my JDO classes implement some special interface?</b></p>
+	
+	<p>In general, no. If you need some behavior that is not directly supported by Castor, you can implement interface org.exolab.castor.jdo.Persistent.
+	In order to use dirty checking for long transaction you should implement interface org.exolab.castor.jdo.TimeStampable.
+	If you need an example of use of these interfaces, see Persistent.java and TestPersistent.java among Castor JDO tests.</p>
+	
+	<p><b>Can Castor automatically create/remove related objects?</b></p>
+	
+	<p>First of all, let's agree upon terminology. We distinguish dependent and independent objects:
+	   <b>dependent</b> objects are bounded to the parent object's lifecycle,
+	   <b>independent</b> objects have independent lifecycle.
+	   Thus, dependent objects are created/removed automatically, when their parent object is created/removed,
+	   while all operations on independent objects should be performed explicitly.</p>
+	
+	<p>However, with Castor 0.8.x you cannot describe explicitly the kind of object.
+	   Instead, the following rule acts: if you have one-to-many relation, and each side of the relation
+	   refers to another (Collection attribute on "one" side, simple attribute on "many" side),
+	   then "many" side is a dependent object. All other objects are independent.
+	   In particular, related objects via one-to-one relation are not created/removed automatically.</p>
+	
+	<p>With Castor 0.9 dependent objects should be described via "depends" attribute of "class" element in mapping configuration file.</p>
+	
+	<p>If you wish some independent object was created and/or removed automatically on operations on other independent object,
+	   you may use interface Persistent to code the desired behavior.</p>
+	
+	<p><b>I am getting ClassNotFoundException for my JDO class, but it is in the class path. Why?</b></p>
+	
+	<p>Probably castor.jar file is in jre/lib/ext directory. In this case you should call
+         <code>
+  jdo.setClassLoader(getClass().getClassLoader());
+         </code>
+       before jdo.getDatabase().</p>
+	
+	<p><b>I am getting exception "the class ... is not persistence capable...". Why?</b></p>
+	
+	<p>In this case as well as in many others you can get more information with the help of logging. Call
+         <code>
+  jdo.setLogWriter(Logger.getSystemLogger());
+         </code>
+       and seek in the output for warnings and errors.</p>
+     </section>
+
+     <section title="Features requests">
+        <p><b>When will castor support multiple columns primary keys, lazy loading, dependent/related relationship and many to many relationship?</b></p>
+
+	<p>Those features are implemented and available in development branch of the cvs.</p>
+	<p><code>
+	$ cvs -d :pserver:anoncvs@castor.exolab.org:/cvs/castor login
+	password: anoncvs
+	$ cvs -d :pserver:anoncvs@castor.exolab.org:/cvs/castor checkout -r castorone castor
+	</code>
+	</p>
+	<p>Please type "build doc" in castor directory and see the document under build\doc\castor-one.html for features and limitations</p>
+
+     </section>
+
+     <section title="Design issues">
+        <p><b>How does Castor JDO work anyway?</b></p>
+
+	<p>Let's use object loading as an example.</p>
+
+	<p>When an object is loaded and if the object is in the transactionContext( tx), tx returns the perviously loaded object with the requested identities. Otherwise, tx creates a new instance of the object of the interested type and it asks LockEngine to load the object. </p>
+
+	<p>LockEngine acquires lock for the object, and it makes sure ClassMolder have a thread-safe enviroment for loading. In ClassMolder, SQLEngine will be called to load a set of field for that object, if the fields is not in cache yet. Then, ClassMolder binds the loaded or cached fields into the new instance, and asks tx to load the related and dependent objects. Eventually, object is returned after all relationship is resolved.</p>
+
+	<p>When commit is called, several states will be gone thur before it returns. In preStore state, each object in the tx will be checked for modification one by one, including dependent and related objects. Also, reachable object will be put into tx, if it's not yet in the tx. Object is marked dirty if modified. Also, if any modification is made which should cause related or dependent to be dirty, then method markModification will be made to tx for each of the affected related or dependent object. After all preStore state, all object mark modified should be updated will be properly stored. And, the connection is commited. Then, if the connection commit successfully, object cache in LockEngine is update and all lock is released.</p>
+     </section>
+
+     <section title="Working with open source databases">
+	<p><b>Does Castor support PosgreSQL?</b></p>
+
+	<p>No. Actually, there is Castor driver for PostgreSQL, but since PostgreSQL
+	   doesn't support outer joins, some basic operations work incorrectly.
+	   Once they add the support for outer joins, we shall provide full support for PostgreSQL.</p>
+
+	<p><b>Does Castor support MySQL?</b></p>
+	
+	<p>Yes, starting from MySQL version 3.23, where transaction support has been added.
+	   Note: if you use mm.MySQL JDBC driver, then you need version 2.0.3 or higher.</p>
+	
+	<p><b>Which open source database is supported better?</b></p>
+	
+	<p>For now only with <a href="http://www.sapdb.org">SAP DB</a> you get a full set of Castor features.
+	   PostgreSQL doesn't support outer joins, other open source databases doesn't support select with write lock,
+	   so db-locked locking mode doesn't work properly (it works in the same way as exclusive locking mode).
+	   All other Castor features are supported with <a href="http:/www.mysql.com">MySQL</a>,
+	   <a href="http://www.interbase2000.org">Interbase</a>, <a href="http://instantdb.enhydra.org">InstantDB</a>
+	   and <a href="http://www.hypersonicsql.com">Hypersonic SQL</a>.</p>
+	
+    </section>
+
+  </body>
+</document>

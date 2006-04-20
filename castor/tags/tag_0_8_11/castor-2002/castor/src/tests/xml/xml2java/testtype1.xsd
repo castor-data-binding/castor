@@ -1,0 +1,65 @@
+<?xml version="1.0"?>
+
+<schema targetNamespace="http://Test" xmlns="http://www.w3.org/2000/10/XMLSchema">
+	<annotation>
+		<documentation>
+         This is a test XML Schema for Castor XML.
+      </documentation>
+	</annotation>
+	<!--
+       A simple representation of an invoice. This is simply an example
+       and not meant to be an exact or even complete representation of an invoice.
+     -->
+	<element name="testtype1">
+		<annotation>
+			<documentation>
+             A simple schema for a test
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="date" type="date"/>
+				<element name="time" type="time"/>
+				<element name="timeDuration" type="timeDuration"/>
+				<element name="recurringDuration" type="recurringDurationType"/>
+				<element name="timeInstant" type="timeInstant"/>
+				<element name="timePeriod" type="timePeriodType"/>
+				<element name="month" type="month"/>
+				<element name="year" type="year"/>
+				<element name="century" type="century"/>
+				
+				<element name="string" type="string"/>
+				
+				<element name="integer" type="integer"/>
+				<element name="int" type="int"/>
+				<element name="long" type="long"/>
+				<element name="short" type="short"/>
+				
+				<element name="boolean" type="boolean"/>
+				<element name="float" type="float"/>
+				<element name="double" type="double"/>
+				<element name="decimal" type="decimal"/>
+				<element name="positiveInteger" type="positiveInteger"/>
+				<element name="negativeInteger" type="negativeInteger"/>
+				<element name="nonPositiveInteger" type="nonPositiveInteger"/>
+				<element name="nonNegativeInteger" type="nonNegativeInteger"/>
+				
+			</sequence>
+			<!-- not implemented 
+      	<element name="recurringDate" type="recurringDate"/>
+      	<element name="recurringDay" type="recurringDay"/>
+      -->
+		</complexType>
+	</element>
+	<simpleType name="recurringDurationType">
+		<restriction base="recurringDuration">
+			<period value="P1Y2M"/>
+			<duration value="P1M"/>
+		</restriction>
+	</simpleType>
+	<simpleType name="timePeriodType">
+		<restriction base="timePeriod">
+			<duration value="P10M"/>
+		</restriction>
+	</simpleType>
+</schema>

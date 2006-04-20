@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test XML Schema Nested Group</Name>
+    <Author>Arnaud Blandin</Author>
+	<Comment>Complex test that ensures that nested group (multivalued or not) are correctly handle</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		<Schema>nested-group.xsd</Schema> 	
+                <Root_Object random="false" dump="true">Report</Root_Object>
+		        <UnitTestCase>
+                      <Name>Test Generation</Name>
+                      <Input>nested-group-input.xml</Input>
+                </UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>

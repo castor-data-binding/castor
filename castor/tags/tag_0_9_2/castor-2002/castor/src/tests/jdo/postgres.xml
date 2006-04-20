@@ -1,0 +1,10 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+
+
+<database name="postgresql" engine="postgresql" >
+  <data-source class-name="org.postgresql.PostgresqlDataSource"> 
+    <params user="test" password="test" port-number="5432" server-name="localhost"  database-name="test" />
+  </data-source>
+  <mapping href="mapping.xml" />
+</database>

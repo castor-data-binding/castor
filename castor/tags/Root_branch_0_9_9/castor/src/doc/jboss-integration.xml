@@ -1,0 +1,247 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/jboss-integration.xml">
+    <properties>
+        <title>Castor JDO and JBoss</title>
+        <author email="patrick.vankann@fortune-cookie.com">Patrick van Kann</author>
+        <author email="ferret@frii.com">Bruce Snyder</author>
+        <abstract>
+        Outlines the use of Castor JDO with JBoss 3.x.
+        </abstract>
+        <status>Draft</status>
+    </properties>
+    <body>
+    <title>Castor JDO and JBoss</title>
+
+    <section title="Introduction">
+      <p>
+        This document describes the advantages of using Castor with
+        JBoss, an overview of the JBoss MBean approach and directions on
+        configuring JBoss to use Castor JDO. The advantage of using Castor
+        JDO within JBoss is that you have access to key J2EE features
+        such as JNDI, JDBC datasources and transaction management
+        (JTA). Although it is possible in principle to achieve this
+        with other commercial J2EE servers, a ready-to-use plug-in
+        is available to integrate Castor JDO within JBoss.
+      </p>
+
+      <p>
+      Once integrated, Castor JDO can be used with session beans and
+      BMP entity beans as an alternative to CMP entity beans and in many
+      cases is faster and more efficient. An example of using Castor JDO
+      with a stateless session bean has been created and is available <a
+      href="/castor/examples/CastorJDO/rooms2.zip">here</a>. This is a
+      demonstration of the transient entity design pattern, described <a
+      href="http://theserverside.com/patterns/thread.jsp?thread_id=8536&amp;article_count=19">here</a>.
+      </p>
+      <p>
+
+      Castor JDO is integrated with JBoss through the <a
+      href="http://www.jboss.org/index.html?module=html&amp;op=userdisplay&amp;id=developers/projects/jboss/jbossmx">JMX</a>
+      server environment provided by JBoss. The plug-in consists
+      of a JMX MBean or managed bean that implements the Castor <a
+      href="http://castor.codehaus.org/javadoc/org/exolab/castor/jdo/DataObjects.html">DataObjects</a>
+      interface by wrapping a <a
+      href="http://castor.codehaus.org/javadoc/org/exolab/castor/jdo/JDO.html">JDO</a>
+      object. The MBean accomplishes the following tasks at the startup
+      of JBoss 3.x:
+      <ol>
+        <li>
+        Creates a Castor <a href="http://castor.codehaus.org/javadoc/org/exolab/castor/jdo/JDO.html">JDO</a> 
+        object
+        </li>
+        <li>
+        Obtains the JDO configuration information (see below) and configures 
+        the JDO object.
+        </li>
+        <li>Registers itself in the JBoss JNDI tree using the name supplied in 
+        the configuration. As it implements DataObject, it therefore provides 
+        access to the JDO functionality.
+        </li>
+        <li>
+        Calls setTransactionManager() on the JDO object with the JNDI address of 
+        the JBoss TransactionManager to provide Container Managed Transactions.
+        </li>
+      </ol>
+      </p>
+    </section>
+
+    <section title="Dependencies">
+      <p>
+      There are two jars needed to use Castor JDO with JBoss:
+      <ul>
+        <li>
+        Castor 0.9.5 (<a href="http://www.castor.org/download.html">download</a>)
+        </li>
+        <li>
+        Castor JDO plugin for JBoss 3.2.1 (<a href="ftp://ftp.exolab.org/pub/castor/examples/CastorJDO/">download</a>)
+        </li>
+        
+      </ul> 
+      Note: Xerces is required also, but is distributed with JBoss 3.2.1.
+      </p>
+      </section>
+
+          <section title="Configuring JBoss 3.2.1">
+            <p>
+            This section details the steps required to integrate Castor JDO with JBoss 3.x.
+            In brief, these are:
+            <ol>
+                <li>Install the dependencies</li>
+                <li>Configuring a datasource in JBoss. Many people automatically assume that
+                it is necessary to get a <tt>java.sql.Datasource</tt> from JBoss. This 
+                is an incorrect assumption... Explain further</li>
+                <li>Put Castor's configuration files for your application in the correct location</li>
+                <li>Configuring the Castor JDO Mbean</li>
+                <li>Test and troubleshoot</li>
+            </ol>
+            </p>
+            <!--p>
+            Eventually we'll need to provide a section for JBoss 4.x, but this may
+            require a whole new MBean. I'm not sure how JBoss 4.x has changed the
+            JMX structure. 
+            </p-->
+            
+            <section title="Install The Dependencies">
+            <p>
+            Installing JBoss 3.x is outside of the scope of this discussion and is 
+            adequately covered by the JBoss documentation. Once JBoss is installed 
+            it is necessary to copy the two other dependencies (Castor and the Castor 
+            plugin) to the <tt>lib</tt> directory of the JBoss server instance you 
+            wish to install Castor for. The following path assumes you wish to install 
+            Castor on the "default" server: <tt>(JBOSS_HOME/server/default/lib)</tt>.
+            </p>
+          </section>
+
+          <section title="Create A Datasource">
+            <p>
+            It is desirable to use Castor with a javax.sql.Datasource as this will 
+            allow you to use connection pooling and distributed transactions, assuming 
+            your driver supports these. Datasources are configured by placing a config 
+            file ending in -ds.xml in the <tt>deploy</tt> directory of the server 
+            instance you wish to use. For example, to configure a Microsoft SQL Server 
+            XADatasource for the default server using the InetSoft Opta 2000 driver 
+            you would place a file with the information below in the <tt>JBOSS_HOME/server/default/deploy</tt> 
+            directory:
+<code>
+<![CDATA[
+<datasources>
+    <xa-datasource>
+        <jndi-name>MSSQLXaDS</jndi-name>
+        <xa-datasource-class>com.inet.tds.XDataSource</xa-datasource-class>
+        <xa-datasource-property name="ServerName">10.1.8.100</xa-datasource-property>
+        <xa-datasource-property name="DatabaseName">mydatabase</xa-datasource-property>
+        <xa-datasource-property name="SelectMethod">cursor</xa-datasource-property>
+        <user-name>secret</user-name>
+        <password>squirrel</password>
+    </xa-datasource>
+</datasources>
+]]>
+</code>
+            </p>    
+          </section>
+
+          <section title="Configure Castor">
+            <p>
+            Copy your database.xml and mapping.xml to the configuration directory for 
+            your JBoss server instance: for example, <tt>JBOSS_HOME/server/default/conf</tt>.
+            </p>
+            <p>
+            Your database.xml should reference the datasource you created in the 
+            previous step. For the datasource above:
+<code>
+<![CDATA[
+<database name="test" engine="sql-server" >
+    <jndi name="java:/MSSQLXaDS"/>
+    <mapping href="mapping.xml" />
+</database>
+]]>
+</code>
+            Note that if you are not using Microsoft SQL Server, you should not use 
+            the sql-server engine - consult the Castor documents 
+            <a href="http://www.castor.org/database-conf.html">here</a> to find out 
+            what engine you should use for your RDBMS. </p>    
+          </section>
+      
+          <section title="Configure Castor JDO MBean">
+            <p>
+            The JBoss MBean server looks for MBean configuration files in the deploy 
+            directory of a server instance: <tt>JBOSS_HOME/server/default/deploy</tt>. 
+            These files will end in -service.xml. The MBean parses the xml file, 
+            creates the MBean instance and uses introspection to set properties on the 
+            MBean based on the attributes in the configuration. 
+            </p>
+            <p>
+            To configure the JBoss MBean, place a file called <tt>castor-jdo-service.xml</tt> 
+            in <tt>JBOSS_HOME/server/default/deploy</tt> with the following contents:
+<code>
+<![CDATA[
+<server>
+    <mbean code="org.jboss.jdo.castor.CastorJDOImpl"  name="jboss:service=CastorJDO,name=CookietimeJDO">
+        <attribute name="Configuration">../conf/database.xml</attribute>
+        <attribute name="JndiName">MyAppJDO</attribute>
+        <attribute name="LockTimeout">10000</attribute>
+        <attribute name="LoggingEnabled">true</attribute>
+        <attribute name="CommonClassPath">false</attribute>
+        <attribute name="AutoStore">true</attribute>
+        <attribute name="DatabasePooling">true</attribute>
+    </mbean>
+</server>
+]]>
+</code>
+            Note the following features of the configuration:
+            <ul>
+                <li>the <tt>org.jboss.jdo.castor.CastorJDOImpl</tt> is inside the castor-jdo-plugin.jar.</li>
+                <li>the use of a relative path to the <tt>database.xml</tt> configuration from the previous step.</li>
+                <li>JndiName is the name by which you will obtain your JDO object from JNDI within your EJB or DAO.</li>
+                <li>Autostore will cause castor to automatically "walk" the object graph 
+                on updates in long transactions and attempt to persist every reachable class.</li>
+            </ul> 
+            </p>    
+        </section>
+      
+        <section title="Test And Troubleshoot">
+            <p>
+            To test your configuration, try and start the JBoss server instance you are 
+            attempting to configure. Watch the console carefully for any stacktraces 
+            or other error messages. With any luck, at some stage you should see something 
+            like:
+            <code>
+            11:12:59,025 INFO  [MainDeployer] Starting deployment of package: file:/C:/jboss
+            /server/default/deploy/castor-jdo-service.xml
+            11:12:59,181 INFO  [CastorJDOImpl] Creating
+            11:12:59,196 INFO  [CastorJDOImpl] Created
+            11:12:59,212 INFO  [CastorJDOImpl] Starting
+            11:13:00,759 INFO  [CastorJDOImpl] Started
+            </code>
+            Go to the JMX Console (http://localhost:8080/jmx-console) of your 
+            JBoss machine. You should see the following link under the jboss 
+            entry:
+            <code>name=MyAppJDO,service=CastorJDO</code>
+            Click on the link to see the status of the service. It should be started.
+            </p>
+            <p>
+            You can also check the status of your datasource by looking for 
+            it under the jca entry in the console.
+            </p>
+        </section>  
+
+     </section>
+        
+     <section title="Developing Applications With Castor JDO and JBoss 3.x">
+        <p>
+        To do:
+        <ol>
+            <li>Transient Entity (better description of Rooms example) </li>
+            <li>Entity Bean with delegates (An example of this needs to be created.)</li>
+        </ol>
+        </p>
+     </section>
+
+     <section title="Frequently Asked Questions">
+        <p>Check the JDO FAQ <a href="http://www.castor.org/jdo-faq.html">here</a> 
+        for common questions regarding JDO usage.
+        </p>
+     </section>
+
+  </body>
+</document>

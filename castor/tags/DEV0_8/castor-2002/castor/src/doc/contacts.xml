@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/contacts.xml">
+  <body>
+    <header>
+      <table cellpadding="3" cellspacing="0" border="0">
+        <tr>
+          <td align="right">Email:</td>
+          <td><email>info@exolab.org</email></td>
+        </tr>
+        <tr>
+          <td align="right">Address:</td>
+          <td>1860 El Camino Real, Suite 200, Burlingame, CA 94010</td>
+        </tr>
+        <tr>
+          <td align="right">Phone:</td>
+          <td>(650) 259-9796</td>
+        </tr>
+        <tr>
+          <td align="right">Fax:</td>
+          <td>(603) 719-9409</td>
+       </tr>
+     </table>
+    </header>
+  </body>
+</document>

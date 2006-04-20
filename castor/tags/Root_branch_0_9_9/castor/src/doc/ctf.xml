@@ -1,0 +1,383 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.exolab.org/sourcegen.xml">
+
+  <properties>
+    <title>The Castor Testing Framework</title>
+    <author email="blandin@intalio.com">Arnaud Blandin</author>
+    <abstract>
+       Describes how to use the Castor Testing Framework.
+    </abstract>
+    <status>Preliminary Draft</status>
+  </properties>
+
+
+
+  <body>
+
+    <title>Using the Castor Testing Frameworl</title>
+    <header>
+      <p>For a more detailed version of the Castor Testing Framework documentation, please download the 
+      <a href="./CTFdoc.pdf">Castor Testing Framework User Document(PDF).</a></p>
+    </header>
+    
+    <section title="Introduction">
+
+      <p>One of the main processes in the life cycle of software is the 'validation and verification' process. 
+         It is a control process which checks that the requisites functions are finally obtained and eliminates faults. 
+         It is also known as the non-popular 'testing' process. 
+         The reliability and the integrity of a software project are based on tests. 
+         Being 'open-source' does not mean avoiding writing tests thus we have chosen to give to Castor an 
+         Automation Testing Framework called the Castor Testing Framework (referenced as CTF).
+         This framework is built with <a href="http://www.junit.org">JUnit</a> and will help 
+         Castor developers but also users in several ways:
+         <ul>
+             <li>Improve Castor reliability.</li>
+             <li>Monitoring bugs will be easy since writing bug reports will be easy</li>
+             <li>Building an archive of fixed bugs</li>
+             <li>Test writing is easier.</li>
+         </ul>
+      </p>
+    </section>
+    
+    <section title="Test Descriptor">
+       <p>
+          CTF test case can be stored in a directory or in a jar. Test case must contain the <pre>TestDescriptor.xml</pre>
+          file. This file is located under the META-INF directory when using a jar file or 
+          directly under the directory that contains the test case files. 
+          This is a summary of the test cases contained in the directory or in the jar file.
+          The TestDescriptor can be divided as follows:
+       </p>
+       <section title="Header">
+          <table border="1" cellspacing="0">
+             <tr>
+               <th align="center">Tag</th><th>Description</th><th>Optional?</th>
+             </tr>
+             <tr>
+               <td align="center">Name</td>
+               <td>The name of the test</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Comment</td>
+               <td>Some comment on the test</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Category</td>
+               <td>The category in which this test falls:
+                   <ul>
+                      <li>basic capability</li>
+                      <li>special case </li>
+                   </ul>
+                </td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">BugFix</td>
+               <td>
+                  Used to report a bug and keep track of it
+                  It is defined as follows:
+                  <ul>
+                     <li>Name of the reporter</li>
+                     <li>Date of the report</li>
+                     <li>Name of the 'fixer'</li>
+                     <li>Date of the fix</li>
+                  </ul>
+               </td>
+               <td>Optional</td>
+             </tr>
+          </table>
+        </section>
+        
+        <section title="MarshallingTest">
+          <table border="1" cellspacing="0">
+             <tr>
+               <th align="center">Tag</th><th>Attribute</th><th>Description</th><th>Optional?</th>
+             </tr>
+             <tr>
+               <td align="center">Root_Object</td>
+               <td>
+                  <ul>
+                    <li><i>dump</i>: a boolean indicating  that dumpFields() method has been implemented in Root_Object.</li>
+                    <li><i>random</i>: a boolean indicating  that randomizeFields() method has been implemented in Root_Object.</li>
+                  </ul>
+               </td>
+               <td>The qualified name of the Root object in the generated object model</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Configuration</td>
+               <td>N/A</td>
+               <td>The configuration object (see below)</td>
+               <td>Optional</td>
+             </tr>
+             <tr>
+               <td align="center">Mapping_File</td>
+               <td>N/A</td>
+               <td>The name of the mapping file to (if any)</td>
+               <td>Optional</td>
+             </tr>
+            </table>
+        </section>
+           
+        <section title="SourceGeneratorTest">
+          <table border="1" cellspacing="0">
+             <tr>
+               <th align="center">Tag</th><th>Attribute</th><th>Description</th><th>Optional?</th>
+             </tr>
+             <tr>
+               <td align="center">Schema</td>
+               <td align="center">N/A</td>
+               <td>The name of the schema form which we generate sources</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Property_File</td>
+               <td align="center">N/A</td>
+               <td>The name of the Source Generator property file to use</td>
+               <td>Optional</td>
+             </tr>
+             <tr>
+               <td align="center">FieldInfoFactory</td>
+               <td align="center">N/A</td>
+               <td>The collection type to use (Vector or ArrayList)</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Root_Object</td>
+               <td>
+                  <ul>
+                    <li><i>dump</i>: a boolean indicating  that dumpFields() method has been implemented in Root_Object.</li>
+                    <li><i>random</i>: a boolean indicating  that randomizeFields() method has been implemented in Root_Object.</li>
+                  </ul>
+               </td>
+               <td>The qualified name of the Root object in the generated object model</td>
+               <td>Required</td>
+             </tr>
+            </table>
+        </section>
+
+        <section title="UnitTestCase">
+          <table border="1" cellspacing="0">
+             <tr>
+               <th align="center">Tag</th><th>Description</th><th>Optional?</th>
+             </tr>
+             <tr>
+               <td align="center">Name</td>
+               <td>The name of the specific test</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Input</td>
+               <td>The name of the input file used to create a specific Object Model while unmarshalling this file</td>
+               <td>Optional</td>
+             </tr>
+             <tr>
+               <td align="center">Output</td>
+               <td>The name of the output file which can be seen as a 'gold file'</td>
+               <td>Optional</td>
+             </tr>
+             <tr>
+               <td align="center">ObjectBuilder</td>
+               <td>The name of the class used to instantiate the Object Model used</td>
+               <td>Optional</td>
+             </tr>
+             <tr>
+               <td align="center">Failure</td>
+               <td>A boolean that indicates if set to true that the test case intents to fail (Exception thrown)</td>
+               <td>Optional</td>
+             </tr>
+              <tr>
+               <td align="center">Configuration</td>
+               <td>N/A</td>
+               <td>The configuration object (see below)</td>
+               <td>Optional</td>
+             </tr>
+            </table>
+        </section>
+      </section>
+      
+      <section title="Listener">
+          <table border="1" cellspacing="0">
+             <tr>
+               <th align="center">Tag</th><th>Description</th><th>Optional?</th>
+             </tr>
+             <tr>
+               <td align="center">ClassName</td>
+               <td>The name of the class to use for MarshalListener and/or UnmarshalListener</td>
+               <td>Required</td>
+             </tr>
+             <tr>
+               <td align="center">Type</td>
+               <td>Marshal, Unmarshal or Both.  Indicate how to use the provided ClassName.</td>
+               <td>Optional, defaults to "Both".</td>
+             </tr>
+             <tr>
+               <td align="center">GoldFile</td>
+               <td>The name of the output file which can be seen as a 'gold file'</td>
+               <td>Optional</td>
+             </tr>
+             </table>
+          </section>
+       
+       <section title="Configuration">
+          <table border="1" cellspacing="0">
+             <tr>
+               <th align="center">Tag</th><th>Description</th><th>Optional?</th>
+             </tr>
+             <tr>
+               <td align="center">Marshal</td>
+               <td>If present, the Marshaller will be configured</td>
+               <td>Optional</td>
+             </tr>
+             <tr>
+               <td align="center">Unmarshal</td>
+               <td>If present, the Unmarshaller will be configured</td>
+               <td>Optional</td>
+             </tr>
+           </table>
+	       <section title="Call-Method">
+	           <table border="1" cellspacing="0">
+	             <tr>
+	               <th align="center">Tag</th><th>Attributes</th><th>Description</th><th>Optional?</th>
+	             </tr>
+	             <tr>
+	               <td align="center">Call-Method</td>
+	               <td>
+	                  <ul>
+	                    <li><i>name</i>: the name of the method to call on the Marshaller or Unmarshaller.</li>
+	                  </ul>
+	               </td>
+	               <td>Root tag for defining a method call</td>
+	               <td>Required</td>
+	             </tr>
+	             <tr>
+	               <td align="center">Value</td>
+	               <td>
+	                  <ul>
+	                    <li><i>type</i>: the fully qualified name of the java type representing an argument of the method.</li>
+	                  </ul>
+	               </td>
+	               <td>The content of that tag represents the value to be passed in to the method called (this element can occur more than once).</td>
+	               <td>Optional</td>
+	             </tr>
+	           </table>
+	       </section>
+	       
+	       <p>The following code excerpt illustrates how to configure the Marshaller by suppressing all the XSITypes.</p>
+	       <code>
+&lt;Configuration>
+    &lt;Marshal>
+        &lt;Call-method name="setSuppressXSIType">
+            &lt;Value type="boolean">true&lt;/Value>
+         &lt;/Call-method>
+    &lt;/Marshal>
+&lt;/Configuration>
+	       </code>
+           
+           <p>Please note that the Configuration element can be present at the MarshallingTestCase level and at the UnitTestCase level, the highest priority
+           going to the Configuration element present at the UnitTestCase level.</p>
+       </section>
+
+      
+      <section title="Implementing CastorTestable">
+          <p>As you  may have noticed, while testing the SourceGenerator or the Marshalling Framework you have to provide 
+             the name of the 'Root Object' of your Object Model.
+             The Root Object simply represents the mapping of the root element of the XML document.
+             In order to be correctly used in CTF, the provided Root Object must implement 
+             the interface <pre>org.exolab.castor.tests.framework.CastorTestable</pre>.
+             Implementing this interface is simply implementing two methods: dumpFields() and randomizeFields().</p>
+             
+             <section title='dumpFields'>
+                <p> Here is the JavaDoc of the method:
+                <code>
+    /**
+     * Return a recursive dump of the content of the
+     * object fields in a user readable format. 
+     * This is used to retrieve the state of the object if
+     * castor fail to marshal the object for any reason.
+     *
+     * We don't rely on the toString() function as it could have
+     * been already implemented with another semantic.
+     */
+
+                </code>
+                </p>
+             </section>
+             
+             <section title='randomizeFields'>
+                 <p> Here is the JavaDoc of the method:
+                 <code>
+    /**
+     * The instance of the object will randomize the content 
+     * of its field. This is used to create an instance 
+     * of the object model without having to
+     * unmarshal anything.
+     */ 
+
+                 </code>
+                 </p>
+             </section>
+
+         <p>In order to tell the CTF that one (or both) of these methods is implemented you have to set the attributes 'dump' and 'random' 
+           to true in the Root_Object element: </p>
+           <pre>&lt;Root_Object dump='true' random='true'&gt;Root.java&lt;/Root_Object&gt;</pre>
+
+      </section>
+
+       <section title="Running the tests">
+       <p>You can run the tests by using the script <pre>CTFRun.bat</pre> under Windows platform or <pre>CTFRun.sh</pre>
+          under Linux/UNIX platform.
+          CTFRun path of a Castor Testing Framework test (JAR or Directory).</p>
+          <section title="Command Line options">
+             <table border="1" cellspacing="0">
+               <tr>
+                 <th align="center">Option</th><th>Args</th><th>Description</th><th>Optional?</th>
+               </tr>
+               <tr>
+                  <td><i>-verbose</i></td>
+                  <td align="center">N/A</td>
+                  <td>Give detailed information on the execution of each test.</td>
+                  <td>Optional</td>
+               </tr>
+               <tr>
+                  <td><i>-text</i></td>
+                  <td align="center">N/A</td>
+                  <td>Run the tests without using the JUnit GUI.</td>
+                  <td>Optional</td>
+               </tr>
+               <tr>
+                  <td><i>-printStack</i></td>
+                  <td align="center">N/A</td>
+                  <td>Run the tests by dumping the stack trace when an exception occurs.</td>
+                  <td>Optional</td>
+               </tr>
+               <tr>
+                  <td><i>-seed</i></td>
+                  <td>int value</td>
+                  <td>Specifies the use of a specific seed for the pseudo-random generator.</td>
+                  <td>Optional</td>
+               </tr>
+             </table>
+          </section>
+         <p>For instance to run all the tests from the MasterTestSuite:
+            <pre>CTFRun -verbose .src/tests/MasterTestSuite/xml/SourceGenerator</pre>
+            This command will execute in GUI mode (default mode) all the test cases written and will print detailed messages 
+            about the execution of the tests.
+          </p>
+       </section>
+       
+       <section title='Building the CTF'>
+          <p>Before trying to launch the test cases, please make sure that the CTF is compiled. To do so simply
+             build the Castor test cases by launching:
+             <pre>build tests</pre>
+             You can also build the CTF jar:
+             <pre>build CTFjar</pre>           
+          </p>
+       </section>
+         
+  </body>
+
+</document>
+

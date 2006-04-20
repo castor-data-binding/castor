@@ -1,0 +1,178 @@
+<?xml version="1.0"?>
+<document url="http://castor.exolab.org/news.xml">
+  <properties>
+    <title>Castor News</title>
+    <abstract>
+       News about the Castor Project
+    </abstract>
+    <status>Draft</status>
+  </properties>
+  <body>
+    <title>Castor News</title>
+    <header>
+    </header>
+
+    <section title="">
+
+      <!--table width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#990033"><tr><td>
+          <table width="100%" border="0" cellspacing="1" cellpadding="8" bgcolor="#EDEDED"><tr><td>
+              <span class="newsTitle">Latest Release</span><br/><br/>
+              <span class="newsSummary"-->
+        <news>
+            <release />
+            <title>Current Release</title>
+            <author>Keith Visco</author>
+            <date>$RELEASE_DATE$</date>
+            <time></time>
+            <summary>
+                Version $VERSION$ is now <a href="download.xml">available for download</a>.
+
+                <!-- Release Candidate Info  ** use when doing interim releases -->
+                <!--
+                <p>We've placed a copy of Castor X.Y.Z release candidate N on the ftp site:
+                <a href="ftp://ftp.exolab.org/pub/castor/castor_x.y.z/">ftp://ftp.exolab.org/pub/castor/castor_x.y.z/</a>.
+                Please try this release and report any regression issues (preferably via Bugzilla).
+                A regression is something that was working in a previous release (such as 0.9.5.2)
+                but doesn't work in this release candidate. Please do not report issues that already
+                have bug reports, but haven't been fixed yet in 0.9.5.3. These issues simply
+                did not make the X.Y.Z release due to time constraints.
+                </p>
+                -->
+                <br /><br />
+                <a href="changelog.xml">Changes in 0.9.5.3</a>
+            </summary>
+        </news>
+
+        <news>
+            <release />
+            <title>Next Release</title>
+            <author>Keith Visco</author>
+            <date>10 Mar 2004</date>
+            <time>04:19:15</time>
+            <summary>
+            Next scheduled release (0.9.6): June, 7 2004 (tentative).
+            </summary>
+        </news>
+
+        <news>
+            <release />
+            <title>Possible Interim Release</title>
+            <author>Keith Visco</author>
+            <date>10 Mar 2004</date>
+            <time>04:19:15</time>
+            <summary>
+            An interim release (0.9.5.4) may be released sooner for any 
+            regression issues still present in 0.9.5.3.
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Stein Hugubakken to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>01 May 2004</date>
+            <time>13:06:24</time>
+            <summary>
+            Please welcome Stein Hugubakken as the latest addition to team 
+            Castor! Stein has been active with Castor since early this year 
+            and we're very happy to have him on board. 
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Patrick van Kaan to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>15 Jan 2004</date>
+            <time>22:58:39</time>
+            <summary>
+            Please welcome Patrick van Kaan as the latest addition to team 
+            Castor! Patrick has been using Castor JDO for a while now and 
+            is the developer behind the <a href="http://castor-taglib.sourceforge.net/">Castor-Taglib</a> 
+            project.
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Werner Guttman to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>11 Nov 2003</date>
+            <time>18:38:10</time>
+            <summary>
+            Please welcome Werner Guttman as the newest committer to the Castor 
+            team! Werner's contributions moving forward with the Castor JDO 
+            refactoring are key, as is his experience with J2EE and IBM WebSphere.
+            </summary>
+        </news>
+
+        <news>
+            <title>CastorWiki Now Available</title>
+            <author>Keith Visco</author>
+            <date>19 Jun 2003</date>
+            <time>16:39:17</time>
+            <summary>
+            Can't find it here? Check out the 
+            <a href="http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main">CastorWiki</a>. 
+            An effort put together by a number of Castor users to document the 
+            undocumented! Hosted off site by Lance Lavandowska, and championed 
+            by Tek1 (whose real name is a mystery to us all!).
+            </summary>
+        </news>
+
+        <news>
+            <title>RefactorIt to Include Castor</title>
+            <author>Keith Visco</author>
+            <date>12 Mar 2003</date>
+            <time></time>
+            <summary>
+            We're pleased to announce that the folks at 
+            <a href="http://www.refactorit.com/index.html?id=649">RefactorIt</a> 
+            have included Castor as part of their Open Source Community License. 
+            This means anyone who works on the Castor code base can download a 
+            copy of RefactorIt and use it when working on the Castor code.
+            </summary>
+        </news>
+
+        <news>
+            <title>Congratulations Bruce!</title>
+            <author>Keith Visco</author>
+            <date>14 Nov 2002</date>
+            <time></time>
+            <summary>
+            <b>Congratulations</b> to Bruce Snyder and his family on the birth 
+            of their second daughter, the youngest member of the Castor team, 
+            we can't wait until she's old enough to start programming!
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Mickaël Guessant to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>24 Oct 2002</date>
+            <time></time>
+            <summary>
+            Please welcome our newest addition to the Castor team of committers, 
+            Mickaël Guessant! Mickaël is a very welcome addition to the Castor 
+            JDO team.
+            </summary>
+        </news>
+
+        <news>
+            <title>Bruce Snyder Promoted to Castor JDO Lead</title>
+            <author>Keith Visco</author>
+            <date>10 July 2002</date>
+            <time></time>
+            <summary>
+            Bruce Snyder has taken over for Thomas Yip as the Castor JDO Project 
+            Lead. Bruce's name should be very familar to most Castor users as he 
+            has been an active contributor and committer to Castor JDO for more 
+            than a year.
+            <br />
+            <br />
+            A very special Thanks to Thomas Yip for the great job he did and all 
+            the contributions he made to the project.
+            </summary>
+        </news>
+
+    </section>
+
+  </body>
+</document>

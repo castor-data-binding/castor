@@ -1,0 +1,8 @@
+name=Castor
+project=castor
+version=0.8.10.1
+release_date=November 29, 2000
+build.compiler=classic
+copyright=Intalio Inc. (C) 2000. All rights reserved  http://www.intalio.com
+
+

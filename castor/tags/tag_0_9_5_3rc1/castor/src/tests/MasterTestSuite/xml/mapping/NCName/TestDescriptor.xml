@@ -1,0 +1,41 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+   <Name>Mapping-NCName</Name>
+   <Author>Keith Visco</Author> 
+
+	<Comment>
+      Tests the support of being able to specify a type as NCName in the mapping file.
+   </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>NCName_Root</Root_Object>
+      
+      <!--  Tests a valid NCName mapping -->
+      <UnitTestCase>
+         <Name>Test01</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input_01.xml</Input>
+         <Output>output_01.xml</Output>
+      </UnitTestCase>
+
+      <!--  Tests an invalid NCName Element mapping -->
+      <UnitTestCase>
+         <Name>Test02</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input_02.xml</Input>
+         <Failure>true</Failure>
+      </UnitTestCase>
+
+	<!--  Tests an invalid NCName attribute mapping -->
+      <UnitTestCase>
+         <Name>Test03</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input_03.xml</Input>
+         <Failure>true</Failure>
+      </UnitTestCase>
+	</MarshallingTest>
+
+</TestDescriptor>

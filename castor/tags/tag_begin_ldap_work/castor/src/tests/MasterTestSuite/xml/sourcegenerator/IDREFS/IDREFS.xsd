@@ -1,0 +1,35 @@
+<?xml version='1.0'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	    targetNamespace="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/IDREFS"
+	    elementFormDefault="qualified"> 
+	
+    <xsd:element name="root">
+	<xsd:complexType>
+	    <xsd:sequence>
+		<xsd:element name="element1" type="el1Type"/>
+		<xsd:element name="element2" type="el2Type"/>
+		<xsd:element name="element3" type="el3Type"/>
+		<xsd:element name="elementRef" type="elementRefType"/>
+            </xsd:sequence> 
+	</xsd:complexType>
+    </xsd:element>
+	
+    <xsd:complexType name="el1Type">
+        <xsd:attribute name="id1" type="xsd:ID" />
+    </xsd:complexType>
+	
+    <xsd:complexType name="el2Type">
+        <xsd:attribute name="id2" type="xsd:ID" />
+    </xsd:complexType>
+
+    <xsd:complexType name="el3Type">
+        <xsd:attribute name="id3" type="xsd:ID" />
+    </xsd:complexType>
+	
+    <xsd:complexType name="elementRefType">
+        <xsd:attribute name="idref" type="xsd:IDREFS" />
+    </xsd:complexType>
+	
+</xsd:schema>
+	
+		

@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/lists.xml">
+  <body>
+    <title>Castor-Dev: Developers' Mailing List</title>
+    <header>
+      <p>Medium volume (possibly more than 5 messages a day) mailing list dedicated to the developers of Castor.</p>
+
+      <p><mailing-list name="castor-dev" description="The Castor Developer's Mailing List"
+                       server="exolab.org" manager="minimalist"/></p>
+
+    </header>
+  </body>
+</document>

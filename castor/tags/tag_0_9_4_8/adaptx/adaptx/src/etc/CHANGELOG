@@ -1,0 +1,756 @@
+Adaptx (C) 1998-2003 Intalio, Inc, Keith Visco and XSL:P contributors
+
+
+The following are changes from different versions of Adaptx
+
+
+Version 0.9.4.8, March 04, 2003
+-------------------------------
+
+-- The sum() function now throws an exception if any node
+   contained within the argument node-set contains a value
+   which cannot be converted to a numeric value. The old
+   behavior was simply to ignore non-numeric values.
+   (kvisco - 2003-02-26)
+
+-- Cleaned up exception handling in the ResultFormatter,
+   ResultHandler and DefaultHandler code.
+   (kvisco - 2003-02-25)
+
+
+
+Version 0.9.4.7, January 27, 2003
+---------------------------------
+
+-- Fixed NullPointerException when parsing an XPath expression that is
+   missing a closing parenthesis ')'.
+   (kvisco, 2003-01-24)
+
+-- Fixed Token#toString() to return "*" when Token is the Mulitply 
+   Operator. This issue only affects apps that are using the 
+   XPath Lexer directly.
+   (kvisco, 2003-01-24)
+
+Version 0.9.4.6, October 07, 2002
+---------------------------------
+
+-- Fixed issue with EqualityExpr not properly handling node-set
+   arguments.
+   (kvisco, 2002-09-19)
+
+-- Fixed issue with StylesheetHandler incorrectly interpreting some
+   literals as XSLT elements.
+   (kvisco, 2002-09-19)
+
+Version 0.9.4.5, May 31 2002
+----------------------------
+
+-- Fixed the XPNBuilder with respect to attribute namespaces. The 
+   current element must be added to it's parent before namespace 
+   resolution occurs for attributes, otherwise previously declared 
+   namespaces in the parent context will not be available.
+   (kvisco, 2002-05-30)
+
+
+-- Added support for declaring namespace/prefix bindings for XPathContext.
+   The only way to do it before was to extend XPathContext, provide the
+   necessary logic for declaring namespaces and then override the 
+   getNamespaceURI method.
+   (kvisco, 2002-05-30)
+
+-- Some improvements to loop detection. Sometimes a loop was incorrectly
+   detected due to a for-each statment changing the current context node.
+   This has now been fixed.
+   (kvisco, 2002-05-29)
+
+Version 0.9.4.4, March 27, 2002
+-------------------------------
+
+-- Changed the behavior of handling undefined extension functions.
+   An exception is now thrown instead of simply reporting the error
+   via a StringResult.
+   (kvisco, 2002-03-25)
+
+-- Changed the default behavior of XPathParser to throw an exception 
+   upon parse errors instead of wrapping the exception in an ErrorExpr.
+   This can be configured via a call to XPathParser#setUseErrorExpr.
+   (kvisco, 2002-02-28)
+
+-- Fix for descendants-or-self matching in PathExpr
+   (kvisco, 2002-02-25)
+
+-- Fix for wildcard in QName (NCName:*)
+   (kvisco, 2002-02-19)
+
+
+Version 0.9.4.3, February 12, 2002
+-----------------------------------
+
+
+-- Fixed priority calculation bug/namespace issue, reported by Bob Lojek 
+   and Eric Gaudet. (kvisco, 2002-02-12)
+
+
+Version 0.9.4.2, February 11, 2002
+-----------------------------------
+
+-- Added support for Literal Result Element (LRE) Stylesheets.
+   (kvisco, 2002-02-08)
+
+-- Fix for issue with namespace resolution when XPathContext uses child contexts.
+   This fixs bug #1901 (kvisco, 2002-02-08)
+
+-- Implemented attribute-set merging for attribute sets with the same name.
+   (kvisco, 2002-02-07)
+
+-- Implemented use-attribute-sets on xsl:copy (kvisco, 2002-02-07)
+
+-- Fixed built-in rules so that attributes values are copied through when no
+   matching template is found. (kvisco, 2002-02-07)
+
+-- Fixed a Path expression issue with matching a pattern with predicates.
+   (kvisco, 2002-02-07)
+
+-- Fixed bug with round function not properly handling NaN.
+   (kvisco, 2002-02-06)
+
+-- Fixed bug with substring function not properly handling the default length.
+   (kvisco, 2002-02-06)
+
+
+Version 0.9.4.1, February 05, 2002
+----------------------------------
+
+
+-- Fixed bug with top-level variables (kvisco, 2002-02-05)
+
+-- Added Text node normalization in default implementation of XPathNode 
+   (kvisco, 2002-02-05)
+
+-- Added support for ANT by providing an implementation of Ant's XSLTLiaison
+   interface, (see org.exolab.adaptx.util.JakartaAntAdapter).
+   (kvisco, 2002-02-04)
+
+-- Fixed a bug with ancestor operator, path expressions with the ancestor 
+   operator // were not always being matched properly due to misplaced {}
+   in a conditional statement. (kvisco, 2002-02-05) 
+
+-- Added XMLDiff for comparing XPathNode objects or XML files 
+   (kvisco, 2002-01-30)
+
+-- Fixed bug with namespace comparing in the getAttribute method of the
+   default implementation of XPathNode.
+   (kvisco, 2002-01-23)
+
+
+
+Version 0.9.4,  December 11, 2001
+---------------------------------
+
+-- Fixed bug #1478 NodeSet as parameter to a named operators (mod, div, etc) 
+   causes subsequent XPath expressions to break.
+   (kvisco)
+
+
+
+Version 0.9.3,  November 30, 2001
+---------------------------------
+
+
+-- Fixed bug with predicate expressions occuring before '/'. Reported by
+   Anthony Desportes.
+   (kvisco)
+   
+-- Fixed bug with operator names not being recognized if appearing after
+   a function (eg: "position() mod 2")  This bug occured after a previous 
+   fix was applied to make sure CNAMEs that clash with operator names were 
+   not being marked as operators.
+   (kvisco)
+
+-- Fixed bug 1443 [StackOverFlow when variable name is not defined]
+   (kvisco)
+
+-- Fixes bug with less-than-or-equal-to "<=", was being treated as ">="
+   instead. Reported by Thomas Yip.
+   (kvisco)
+
+
+-- Fix to URIResolverImpl for Jikes (submitted by Stefan Bodewig):
+    - changes a catch statement from catch(java.lang.Exception) to
+      catch(java.lang.RuntimeException).
+   (kvisco)
+
+-- Upgraded to latest ANT, build.xml patch from Stefan Bodewig.
+   (kvisco)
+
+
+Version 0.9.2,  September 28, 2001
+----------------------------------
+
+-- Changed org.exolab.adaptx.xpath.VariableSet to be an abstract class. 
+   This class now only has one abstract method #getVariable.
+   (kvisco)
+
+-- Created VariableSetImpl which is the default implementation of 
+   VariableSet (actually it's basically the old version of VariableSet 
+   with the addition of declaring that it extends VariableSet).
+   (kvisco)
+
+
+Version 0.9.1,  September 7, 2001 
+--------------------------------
+
+-- The VariableSet inner class is now marked as Serializable, which was preventing 
+   VariableSet from being properly serializable.
+   (Sebastien Sahuc)
+
+
+
+Version 0.9,  AUgust 1, 2001
+----------------------------
+
+-- Initial Release of Adaptx 0.9
+
+-- Fix for != operator
+
+-- Fix for namespace resolution in xpath/ExentionFunction.java   
+
+-- Fix for "/" match-expression 
+   - bug occurred during port of XPath library
+   - reported by Eric Gaudet
+
+Version 0.9-internal, July 16, 2001
+-------------------------
+
+-- Renamed project to Adaptx
+-- Many API changes
+
+
+########## Previous XSL:P versions ##########
+
+Build Number: 20010124
+
+-- Introduced URILocation, and URIResolver
+
+-- Fixed bug in current() function
+
+-- Improved handling of Namespaces
+   -- Thanks to Dimitri Laloue for his patience and
+      his test cases. :-)
+
+
+
+Build Number: 20001129
+
+-- Fixed bug in ExpressionParser to handle case when a function is missing
+   the closing ')', instead of crashing with a NullPointerException
+   - reported by Warner Onstine
+
+-- Fixed a some error reporting issues
+   - reported by Pascal Belloncle
+
+-- Add a few minor performance improvements 
+
+Build Number: 20001009
+
+-- Fixed thread safety problem with sharing the DOMParser
+   - reported by David Blondeau
+
+-- Other miscellaneous changes have been commited over the
+   last serveral months.
+
+Build Number: 20000501
+
+-- Fixed whitespace bug in StylesheetHandler (reported by Peter Armstrong).
+
+Build Number: 20000428
+
+-- Fixed a new bug in PathExpr which was a result of doing some
+   peformance improvements, A null NodeSet was being returned under
+   certain circumstances. (reported by Assaf Arkin)
+
+Build Number: 20000419
+
+-- fixed bug in FormatterAdapter (Jacques-Alexandre Gerber)
+   - In the constructor the passed in DocumentHandler was not getting set
+
+Build Number: 20000412
+-- Some more performance tuning...more to come
+
+Build Number: 20000301
+-- did some minor performance tuning
+-- changed one of the values of the level attribute for xsl:number
+   - from "multi" to "multiple"
+
+
+Build Number: 20000224
+-- upgraded xsl:use-attrubute-sets element to the xsl:use-attribute-sets
+   attribute
+-- added the current() function call
+-- added some more namespace support
+-- fixed some bugs with the expression parser and lexer
+-- updated xsl:pi to xsl:processing-instruction
+
+Build Number: 20000212
+-- Fixed bug with lexer, wild card was not properly handled when it appeared directly
+   after '/' (reported by Jason Mathews)
+-- Upgraded the Axis Indentifier syntax to the latest spec (sorry for the delay)
+-- Fixed top-level parameter support
+
+Build Number: 20000201
+-- Changed the XSLReader to add SAX support
+-- Added internal SAX support for efficiency
+
+Build Number: 20000121
+-- Updated variable, param, with-param to use the "select" attribute
+   instead of the "expr" attribute
+-- Changed param element to with-param, changed param-variable element to param
+
+Build Number: 19991111
+-- separated out XPath into it's own package
+   -- look for a new XPath package that supports the proposed recommendation soon.
+-- fixed bug with DefaultFormatter that was causing Triplicate output
+   -- submitted by tons of you! ;-)
+   -- sorry for the delay in getting this fixed
+
+
+Build Number: 19991017
+-- added support for xsl:output from the latest draft
+   -- supported attributes are:
+      -- doctype-public
+      -- doctype-system
+      -- indent
+      -- method
+      -- version
+
+Build Number: 19990923
+-- fixed bug with xsl:entity-ref introduced in a recent version
+-- Added fix for XML4J 2.0.15 (Jason Mathews)
+-- Added fix for XMLPrinter with respect to &quot; inside attribute values
+   (Donald Ball)
+-- fixed source code location of SimpleMessageObserver for proper compilation
+
+Build Number: 19990823
+-- added MessageObserver interface to handle xsl:message
+-- added SimpleMessageObserver to print xsl:messages to a writer
+-- created a default MessageObserver, which will just dump messages
+   to the console. The default MessageObserver can be removed passing
+   XSLProcessor.DEFAULT_MESSAGE_OBSERVER, to the
+   XSLProcessor.removeMessageObserver() method.
+
+
+Build Number: 19990822
+-- fixed bug pertaining to Entity and DocumentType Nodes
+   - When using entities, XSL:P did not filter Entity and
+     DocumentType nodes, from the DOM tree
+
+Build Number: 19990820
+-- fixed bug with xsl:number
+   with level set to any, to many counts were being generated, instead of a list
+   of length one, containing one plus the number of nodes,
+   a list of length NodeSet#size was being created with each node count.
+   -- reported by Jason Crickmer
+
+-- fixed whitespace bug, when whitespace appears before the document element,
+   under certain circumstances an <xslp:result> wrapper element would be
+   insterted.
+   -- reported by Eric van der Vlist
+
+Build Number: 19990818
+-- added support for global variables that reference other global variables
+   not yet declared.
+-- fixed a bug with processing global variables.
+   I am storing the global variable declarations in a hashtable.
+   This could cause the variables to be processed out of order, since
+   hashtables are not ordered. So if one variable referenced another one,
+   before it was defined, the result was "undefined".
+   I fixed this, by adding in the required support for out-of-order processing,
+   which I had not yet implemented.
+   -- thanks a bunch to Roger for enabling me to find this bug.
+
+
+Build Number: 19990817
+-- Fixed bug with operator precedence
+   -- submitted by Donald Ball
+-- Fixed bug with SelectExpr.java
+   -- submitted by Roger Costello
+
+Build Number: 19990816
+-- patched bug caused by XML for Java 1.1.x.
+   -- Attr nodes with the same name, hash to the same value. This appears
+      to be fixed with IBM's 2.x version
+      -- This causes the document order of attributes with the same name to be
+         the same, and therefor causes improper document order sorting, and
+         the same id was being generated for these nodes.
+-- Added Michel Casabianca's additions to HTMLPrinter for more HTML elements
+   that shouldn't print end elements
+
+Build Number: 19990809
+-- fixed bug with XML4J_1xParser and using a custom EntityResolver
+   -- Unfortunately their SAXDriver class wasn't working, so
+      I had to implement StreamProducer myself.
+
+Build Number: 19990808
+-- fixed bug with '.' in CNames
+   -- the result of a bug report submitted by Dan Potter
+-- fixed bug when the result of a predicate is a Number,
+   sometimes this wouldn't use the default comparison of that Number
+   with the current Node's position within the current NodeSet
+-- added catalog loading to some of the XML parsers
+   -- code sent by Michel Casabianca
+-- Only instantiate XML parsers once inside the DOM wrapper, if they
+   can be reused
+   -- Changes effect XML4J 2.0.x parsers, and Sun's ProjectX parser
+   -- code from Michel Casabianca
+-- Made some changes to the XSLReader class for performace improvements,
+   and simpler design
+
+Build Number: 19990804
+-- Removed AVTComponent class, now that we have different types of
+   expression values, this class is no longer needed
+-- Removed StringTokenizer from AttributeValueTemplate parsing
+   -- changed to use parsing code from MITRE's TransforMiiX (TM) processor,
+   -- a C++ XSL processor which I wrote for MITRE and will be released soon
+-- Fixed a bug I found with the ExprLexer
+
+Build Number: 19999803
+-- added wrapper element for stylesheets that add text nodes before
+   adding a document element
+-- fixed bug introduced in 19990729 build with ProcessorState#findParent
+   -- submitted by Matt Hoskins
+
+Build Number: 19990729
+-- added generate-id()
+-- fixed bug with VariableReference names
+   -- longest token wasn't being returned by ExprLexer
+      if a '-' was encountered in the name
+   -- submitted by Edas Pazera
+-- added default-space functionality...yikes, sorry I forgot about this
+   -- thanks for pointing this out, Roger (Costello)
+
+
+
+Build Number: 19990724
+-- added the xsl:cdata proprietary element back into XSLReader
+-- updated XSLProcessor to make appropriate calls to XSLReader#setErrorStream
+   -- submitted by Michel CASABIANCA and Mohan Embar
+
+Build Number: 19990721
+-- fixed bug with NodeSet#copy
+-- did some minor performance adjustments
+-- added format-number function
+   -- uses default locale, does not yet support the optional locale argument
+
+Build Number: 19990720
+-- added substring() function for use with XSLT WD 19990709  (XPath)
+-- added string-length function (XPath)
+   -- currently doesn't handle XPath Unicode surrogate pairs
+
+Build Number: 19990719
+
+-- added doc() and docref() function calls (
+   -- fragment identifiers not yet handled
+   -- also mapped these to document() function call for use with XSLT WD 19990709
+      -- second argument (used for BaseURI) not yet supported
+
+-- changed the behavior of the HTMLPrinter to not use the
+   empty element shorthand (suggested by Donald Ball)
+-- fixed null pointer bug with RuleProcessor#isStripSpaceAllowed
+   (submitted by Ray Powell)
+
+Build Number: 19990718
+-- fixed bug with NodeSet.java (submitted by Frank Peters)
+   -- prevented NodeSet from growing beyond default size
+-- fixed bug with ExpressionParser.java (submitted by Rolande Kendal)
+   -- prevented absolute path expressions from being evaluated properly
+
+Build Number: 19990712
+-- added lang(), qname() and function-available() functions
+-- added ns attribute support to xsl:functions
+-- fixed bug with comment() (submitted by: Roger Costello)
+-- fixed bug with parent axis (submitted by: Xavier Faz)
+-- changed default format for xsl:number to always be 1 (Stefan Mintert)
+
+Build Number: 19990711
+-- added xsl:copy-of
+-- fixed package name for NameSpaceUtil (submitted by: Xavier Faz)
+
+Build Number: 19990708
+-- added ceiling(), round(), floor(), and sum() functions
+-- added system-property() function
+
+Build Number: 19990706
+-- finished Axis Identifier support
+-- changed main package from "com.kav.*" to "com.kvisco.*"
+
+Build Number: 19990704
+-- updated xsl:number to support the expr attribute
+-- added xsl:param and xsl:param-variable support
+
+Build Number: 19990703
+-- fixed a bug with parsing union expressions
+-- added local-part function call
+-- started adding namespace support
+
+Build Number: 19990702
+-- Added complete scoping for xsl:variable
+-- Did a major overhaul of the ExprLexer (was called ExprTokenizer)
+-- Did some clean up on the ExpressionParser
+
+Build Number: 19990621
+-- Added concat(), contains(), starts-with(), substring-after(),
+   substring-before(), and translate() functions
+
+Build Number 19990611
+
+-- Added top-level xsl:variable
+-- Added additional functions
+
+Build Number 19990519
+
+-- Added Mulitplicative and relational Expressions
+-- Added simple xsl:functions mapping to xsl:script
+-- Added position() function
+-- Removed Counter related code
+-- Removed Macro related code
+-- Integrated Peter Ciuffetti's Named Template code
+
+
+//-- ^^ Started support for XSLT ^^ --/
+
+Build Number: 19990425
+
+-- Fixed bug with xsl:include
+   -- submitted by Kelly Holford
+-- Fixed bug with ExpressionParser
+   -- discovered by Shane Hathaway
+-- Added fix from Shane Hathaway for XSLImport#getDocumentBase
+   - fixes a problem with mixing "/" and "\" file separators
+-- Added support to the xslp.properties file for declaring Formatters
+   - based on code from Franck Mangin
+-- Added META to the list of elements not to print ending tags for when
+   HTML is specified.
+   - based on feedback from Ian Davis
+
+Build Number: 19990415
+
+-- Added support for addition URLs other than http and local files
+   -- suggested by Calle Wilund
+-- Added Attribute Value Fix
+   -- based on code submitted by Shane Hathaway
+-- Fixed bug with xsl:copy where attributes were automatically getting
+   copied when the context node was an element
+   -- This bug effected releases 19990326 and 19990406(a and b)
+   -- discovered by Stefano Bovone
+-- Fixed bug when using xsl:counter within xsl:element
+   -- This bug effected releases 19990326 and 19990406(a and b)
+   -- discovered by Aaron Metzger
+-- Fixed bug with priority
+   -- This bug affected releases 19990326 and 19990406(a and b)
+-- When the result namespace is HTML, special characters within
+   CDATA sections are no longer mapped to their respective xml entities
+   -- suggested by a few people
+
+Build Number: 19990406b
+
+-- fixed xsl:counter bug
+   - discovered by Aaron Metzger
+-- fixed xsl:constant bug that effected releases 19990326 and 19990406a
+   - discovered by Tim McCune
+-- fixed XSLReader() default constructor to initialize the PrintWriter
+   it used for error reporting
+   - discovered by Tim McCune
+-- fixed the xslp.jar file to include the updated xslp.properties file
+   - discovered by too many people
+
+Build Number: 19990406a
+-- fixed a bug with SelectExpr
+   A node could be selected twice
+   - discovered by Stefano Bovone
+-- Added XSLProcessor#setValidation to turn on/off xml validation
+   -- Validation is turned off by default
+-- Added -val switch to command line to turn on xml validation
+    - suggested by Olivier Brand
+-- Added better whitespace handling
+-- Added indent-size to the xslp.properties file
+    - suggested by Aaron Metzger
+-- changed the package for DOMPackage implementations to xslp.xml.parsers
+
+Build Number: 19990326
+
+-- Added some basic pretty printing for indent-result="yes"
+-- Core classes no longer extend DOM Elements
+   -- I made this decision so that it would be easy to support any
+      DOM package
+   -- They also run faster now
+-- Added the xslp.properties file to the jar archive
+   -- this file is used to specify XSL:P properties
+   -- currently only the DOM package information is specified here
+-- Added support for OpenXML
+-- Added support for XML4J 2.0.3 and 2.0.4
+-- Added support for Oracle XML Parser
+-- XSLProcessor#process methods that used to return NodeList now return a
+   DOM Document
+   -- if you need the NodeList use the getChildNodes method from the returned
+      Document
+-- Formatter now takes a Document instead of a NodeList as input
+   -- sorry it took me so long for this change, I should have done this sooner
+-- Added XSLProcessor#process methods that take a Stylesheet as a DOM document.
+-- Many changes to the internals of XSL:P (I hope I didn't cause many bugs! ;-)
+
+Build Number: 19990318
+-- Added indent-result attribute to xsl:stylesheet
+   -- doesn't really indent yet but add's line breaks if set to "yes"
+   -- removed default behavior of adding line breaks
+-- Added fix from Peter Marks and David King Lassman for "Not"
+   printing line breaks when the first and last child of an element is
+   Text
+-- Fixed bug in Absolute MatchExpr pointed out by Wayne Grunes
+
+Build Number: 19990315
+-- Added fix from Majkel Kretschmar in Whitespace.class
+-- Added fix from Majkel Kretschmar for proper UTF-8 encodings
+-- Added Warren Hedley's fix for no stylesheet being
+   specified or possible error when opening the file
+-- Added feature for dumping to StdOut if no output file is specifed
+   -- Warren Hedley
+-- Fixed SelectExpr for ancestor expressions
+
+Build Number: 19990305
+-- class archive is now a jar
+-- Fixed bug with error printing
+-- Fixed bug in BooleanTokenizer
+   -- keywords (and, or) were not being ignored inside of quotes
+
+Build Number: 19990301
+-- Added changes from Domagoj Cosic for compatibility issues
+   between XML4J 1.1.9 and XML4J 1.1.14
+
+Build Number: 19990226
+-- includes performance enhancements
+   -- I've finally done some performace tuning, you should notice
+   -- a significant speed increase for larger files.
+   -- More optimizations to come.
+-- Added support for namespace quoting
+-- updated ScriptHandler
+   -- to allow scripting access for inserting nodes into the result tree
+      besides text nodes:
+      -- Three API methods were added to the scripting environment
+         XSLP.addToResultTree(Node),XSLP.createElement(name),XSLP.createText(data)
+-- updated DefaultFormatter
+   -- this Formatter is used by Default when no Formatter is specified
+      and the result-ns is not equal to "html" or begin with
+      "http://www.w3.org/TR/REC-html"
+   -- all empty elements are printed using the empty element convention
+-- added BasicHTMLFormatter
+   -- this Formatter is used when the result-ns attribute equals "html"
+      or begins with "http://www.w3.org/TR/REC-html"
+   -- this Formatter does not print closing tags for <BR><IMG> and <HR>;
+      If a <P> element has no children it will not print the closing tag
+
+Build Number: 19990215
+-- Added Numbering in the result tree
+   --  xsl:counter
+   --  xsl:counters
+   --  xsl:counter-increment
+   --  xsl:counter-reset
+   --  xsl:counter-scope
+   --  Note: for Number formatting, only the format attribute is currently
+             implemented
+-- Fixed a bug when using pi() and text() Match expressions at the same time
+
+
+Build Number: 19990205
+-- Added some more fixes
+   -- fixed a problem with context for literals
+   -- fixed xsl:attribute problem with whitespace
+
+Build Number: 19990201
+-- Added some whitespace handling features
+   -- xsl:strip-space, xsl:preserve-space
+-- Made some enhancements
+-- Fixed some of the document ordering when using UnionExpr select patters
+   -- still need to fix out of order attributes
+
+Build Number: 19990130
+-- fixed a bug with IdentityExpr with FilterExpr (thanks Aaron)
+
+Build Number: 19990127
+-- added xsl:sort!!!!
+   -- uses jdk 1.1 Collator so only languages supported by jdk1.1 are supported
+-- fixed a bug with "importance"
+-- fixed a bug when selecting on the document root
+
+Build Number: 19990118
+-- added xsl:include support
+-- Made some minor modifications to the XSLReader and XSLStylesheet classes
+
+Build Number: 19990112
+-- added macro-arg support
+-- changed DefaultFormatter to print <?xml version="1.0"?>
+-- added support for <?xsl:result-dtd ?> processing instruction
+   -- This is proprietary pi that allows the DOCTYPE to be added to the
+   -- result document
+
+Build Number: 19990111
+-- added xsl:script support as children of xsl:attribute
+
+Build Number: 19990110
+-- added support for xsl:entity-ref which allows the creation of an
+   entity reference in the result
+-- changed the CDATA section serialization to replace the entities & < >
+-- incorporated new XslNumberFormat from Tim
+
+Build Number: 19990107
+-- added support for multi level and any level numbering
+-- incorporated support for number formatting
+   -- uses Tim Taylor's XslNumberFormat
+-- fixed a bug I ran across in MatchExpr
+   -- The // operator wasn't always match correctly when used in a MatchExpr.
+   -- SelectExpr's were unaffected. I may have broken this during my change
+   -- from the 19980818 draft.
+
+Build Number: 19990106
+-- added boolean expressions AndExpr, OrExpr and BooleanGroupExpr
+-- updated scripting support
+
+Build Number: 19990102
+-- did a little fine tuning, no feature changes
+
+Build Number: 19981229
+-- added more of WD19981216 changes
+   -- added pi,comment, and text functions
+   -- added xsl:copy
+
+Build Number: 19981228
+-- I have incorporated many of the WD19981216 changes
+   -- changed xsl:process and xsl:process-children to xsl:apply-templates
+   -- added creation of XML nodes (comment,pi,element,attribute)
+   -- changed Select patterns and Match patterns to support new syntax changes
+   -- changed attribute to @
+   -- added processing modes
+   -- changed expr attribute to select for xsl:value-of
+   -- added ancestor-or-self
+   -- changed priorities to be a real number
+-- xsl:text has been added
+
+Build Number: 19981220
+-- Added xsl:choose
+
+Build Number: 19981216
+-- Added documentBase fix provided by Tim Taylor
+-- Added Macro support
+
+Build Number: 19981215
+-- Added proprietary support for xsl:script
+     -- Scripting language is ECMAScript (Uses FESI ECMAScript Interpreter)
+
+Build Number: 19981213
+-- Added Attribute Value Templates
+-- Added xsl:if
+-- Added Anchors to xsl:value-of
+
+Build Number: 19981210
+-- Added xsl:value-of
+
+

@@ -1,0 +1,120 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/lists.xml">
+  <body>
+    <title>Castor Mailing Lists</title>
+    <header>
+    </header>
+    <section title="Mailing Lists">
+
+      <p>
+         <b>Note:</b> You can use a <b><font size="+1">searchable</font></b> archive of the castor-dev list at <a href="http://www.mail-archive.com/castor-dev%40exolab.org">
+         http://www.mail-archive.com/castor-dev%40exolab.org</a>  It appears there is a delay of one (1) or two (2) days for messages
+         to be archived at that site. You can also use the "unsearchable" archive listed below to look
+         at the very latest messages to the list.
+      </p>
+
+
+      <section title="castor-dev">
+         <p><b>castor-dev</b></p>
+         <p>Moderate volume (possibly more than 15 messages a day) mailing list dedicated
+            to the developers of Castor.</p>
+
+         <p><mailing-list name="castor-dev" description="The Castor Developer's Mailing List"
+                       server="exolab.org" manager="minimalist"/>
+
+            <p>
+                <b>Note:</b> please familiarize yourself with the <a href="#Guidelines">guidelines</a>
+                before posting to the list.
+            </p>
+
+            <b>Archives:</b>
+            <ul>
+               <li><url>http://marc.theaimsgroup.com/?l=castor-dev</url></li>
+               <li><url>http://www.mail-archive.com/castor-dev%40exolab.org</url></li>
+               <li><url>http://hypermail.linklord.com/castor-dev/</url></li>
+            </ul>
+         </p>
+      </section>
+
+      <section title="castor-announce">
+         <p><b>castor-announce</b></p>
+         <p>Low volume (possibly more than 1 message per week)
+            mailing list for special announcements about Castor, such as
+            new releases.
+         </p>
+
+         <p><mailing-list name="castor-announce" description="The Castor Announcement Mailing List"
+                       server="exolab.org" manager="minimalist"/></p>
+       </section>
+    </section>
+    <section title="Guidelines">
+    <p>
+The following are some general "common-sense" guidelines for using the
+mailing lists:</p>
+
+<p><pre>
+Most people are already following these guidelines. To those people, I
+thank you. For those of you who are not...please read carefully.
+
+1. Please refrain from using words and phrases like URGENT, IMPORTANT,
+   MY WIFE WILL LEAVE ME IF YOU DO NOT RESPOND, etc, in the subject line
+   of your postings. Or even in the body of the message for that matter.
+
+   You may think that things which are URGENT, or IMPORTANT to you,
+   are just as urgent and important to everyone else reading this
+   list. You'd be surprised at just how wrong an assumption like
+   that can be. As a matter of fact, I personally tend to read
+   all such postings last and give them a low priority.
+
+2. Please use meaningful subject lines. "Newbie Question",
+   is not meaningful what-so-ever.
+
+3. Please provide necessary information, where applicable.
+   Statements like, "I recieve a NullPointerException when
+   using Castor, what's up with that?", are not very helpful,
+   add unnecessary traffic on the list, and will probably
+   never get an answer.
+
+4. As a follow on to #3, when submitting examples, please try
+   to submit the smallest possible example which demonstrates
+   the problem. Short examples are easier to follow and will
+   get quicker responses from developers or other users than
+   long examples with lots of extraneous code/data.
+
+4. Please read the documentation before posting. One of the
+   biggest problems is that there is not a lot of documentation
+   to Castor. At the same time, because it doesn't take long,
+   everyone should read what is written before posting.
+
+5. Please check the mail archives before posting. Many questions
+   on this list have already been answered before. I am aware
+   that the current mail archive is not very good on a number
+   of issues (searching, reliability, etc). We are working
+   on these issues and hope to have a new archive system in
+   place shortly.
+
+6. Please refrain from posting confidential information. Once an
+   e-mail is sent to the list, it goes out to all subscribers,
+   including archive engines. We cannot remove or delete messages
+   sent to the list. Once sent they are available for the public
+   to see. If you are unsure about what is confidential or not,
+   check with your manager, supervisor, or the person in charge
+   at your company.
+
+7. Please be kind and respectful to your fellow castor users.
+   Remember, except for me, you were all newbies at one point.
+
+8. If you are going on vacation. Please enjoy yourself. We
+   really want you to have fun and get some much needed
+   rest and relaxation. With that we being said and to be
+   perfectly honest none of us really want to receive your
+   automated vacation responses. So please either add a filter
+   to your vacation response so it doesn't get sent to the
+   list or users posting to the list, or simply remove yourself
+   from the list before you go, and add yourself back when
+   you return.
+
+</pre></p>
+    </section>
+  </body>
+</document>

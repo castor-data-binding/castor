@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/contacts.xml">
+  <body>
+    <header>
+      <table cellpadding="3" cellspacing="0" border="0">
+        <tr>
+          <td align="right">Email:</td>
+          <td><email>info@exolab.org</email></td>
+        </tr>
+        <tr>
+          <td align="right">Address:</td>
+          <td>1900 South Norfolk St Suite 290 San Mateo, CA 94403</td>
+        </tr>
+        <tr>
+          <td align="right">Phone:</td>
+          <td>(650)577-4700</td>
+        </tr>
+        <tr>
+          <td align="right">Fax:</td>
+          <td>(603)577-4701</td>
+       </tr>
+     </table>
+    </header>
+  </body>
+</document>

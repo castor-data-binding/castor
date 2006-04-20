@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test Array support in the Source Generator and Marshalling Framework</Name>
+	<Comment>Test that array (maxOccurs != unbounded) is correctlyHandle</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		<Schema>array.xsd</Schema> 	
+                <Root_Object random="false" dump="true">ArrayTest</Root_Object>
+		        <UnitTestCase>
+                      <Name>Test Generation</Name>
+                      <Input>array-input.xml</Input>
+                </UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>

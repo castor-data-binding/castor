@@ -1,0 +1,511 @@
+<?xml version="1.0"?>
+<!-- This file contains a list of XSLP contributors -->
+<document url="http://xslp.exolab.org/contributors.xml">
+  <body>
+    <title>Contributors</title>
+    <header>
+
+<contributors>
+
+  <contributor type="Committer">
+    <name surname="Visco" given="Keith"/>
+    <email>kvisco@intalio.com</email>
+    <company id="intalio"/>
+    <description>
+      Project owner, Software design and most of the implementation. 
+    </description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Casabianca" given="Michel"/>
+    <email>casa@sdv.fr</email>
+    <description>
+       Enhancements to the XML Parser wrapper classes (DOMPackage). 
+              Created SimpleCatalog for catalog loading Added calls to XSLReader#setErrorStream in XSLProcessor. 
+    </description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Costello" given="Roger"/>
+    <email>costello@mitre.org</email>
+    <company id="mitre"/>
+    <description>
+       Roger has given lots of helpful feedback, and many bug reports over the different iterations of the XSL/XSLT Working Drafts. 
+              Thanks for your patience, and your persistence, Roger. 
+    </description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Metzger" given="Aaron"/>
+    <email>ametzger@erols.com</email>
+    <company id="varcom"/>
+    <description>
+              Working on JPython scripting environment, Achitectural Design influences, and much helpful feedback. 
+              Aaron has been a huge help in getting XSL:P to where it is today. Thanks Aaron!
+    </description>
+  </contributor>
+
+ <contributor type="Contributor">
+    <name surname="Arkin" given="Assaf"/>
+    <email>arkin@intalio.com</email>
+    <company id="intalio"/>
+    <description>
+              Architectural design influences
+    </description>
+  </contributor>
+
+ <contributor type="Contributor">
+    <name surname="Brand" given="Olivier"/>
+    <company id="Intraware"/>
+    <description>
+              ProjectXParser DOMPackage implementation. Code changes to turn validation off .
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Ciuffetti" given="Peter"/>
+    <company id="KnowledgeCite"/>
+    <description>
+              Contributed code for Named templates
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Cosic" given="Domagoj"/>
+    <company id="hyperCIS"/>
+    <description>
+              Provided changes for compatibility between XML4J 1.1.14 and 1.1.9
+    </description>
+  </contributor>
+
+ <contributor type="Contributor">
+    <name surname="Embar" given="Mohan"/>
+    <company id="NorthWesternMutualLife"/>
+    <description>
+              Added -e command line option for error file. Added calls to XSLReader#setErrorStream in XSLProcessor
+    </description>
+  </contributor>
+
+
+<contributor type="Contributor">
+    <name surname="Hathaway" given="Shane"/>
+    <company id="Hathaway"/>
+    <description>
+               Changes to AttributeValueTemplate to handle proper escape of the '{' and '}' characters.
+
+    </description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Hedley" given="Warren"/>
+    <company id="AucklandUniversity"/>
+    <description>
+               Added changes to XSLProcessor to gracefully handle errors when trying to open the XSL source file.
+               Provided stdout feature when no output file has been specified.
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Kretschmar" given="Majkel"/>
+    <description>
+               Fixed the Whitespace bug I introduced in a recent version
+               Provided proper UTF-8 character handling
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Lassman" given="David"/>
+    <company id="Lassman"/>	
+    <description>
+               Added code for better handling of line breaks in XMLPriner
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Los" given="Michael"/>
+    <email>mel@mitre.org</email>
+    <company id="mitre"/>	
+    <description>
+               Changes to XSLReader to close input streams when Exceptions occur. 
+    </description>
+  </contributor>
+
+ <contributor type="Contributor">
+    <name surname="Mangin" given="Franck"/>
+    <description>
+               Added code to allow specifying Formatters from the properties file
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Marks" given="Peter"/>
+    <company id="Lassman"/>	
+    <description>
+               Added code for better handling of line breaks in XMLPriner
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Mathews" given="Jason"/>
+    <email>mathews@mitre.org</email>
+    <company id="mitre"/>	
+    <description>
+               Added changes so that the XML4J_1xParser will also work with IBM's XML for Java 2.0.x, of course I still recommend using the XML4J_2xParser (by updating the xslp.properties file) since using the 1xParser will use the older IBM classes and not the faster new ones. 
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Mazzocchi" given="Stefano"/>
+    <email>stefano@apache.org</email>
+    <company id="Apache"/>	
+    <description>
+               Architectural design influences
+    </description>
+  </contributor>
+
+
+
+ <contributor type="Contributor">
+    <name surname="Powell" given="Ray"/>
+    <email>clrgp@lucs-01.novell.leeds.ac.uk</email>
+    <company id="UniversityofLeeds"/>	
+    <description>
+               Some bug fixes 
+    </description>
+  </contributor>
+
+
+
+ <contributor type="Contributor">
+    <name surname="Taylor" given="Tim"/>
+    <company id="mitre"/>	
+    <description>
+               Implemented Number to String Conversion
+    </description>
+  </contributor>
+
+
+ <contributor type="Contributor">
+    <name surname="Boag" given="Scott"/>
+    <description>
+             Allowed the use his test suite for testing the XSL:P version that supports the 19981216 XSL draft. 
+
+    </description>
+  </contributor>
+
+
+
+ <contributor type="Feedback">
+    <name surname="Ball" given="Donald"/>
+    <email>balld@webslingerZ.com</email>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Bennett" given="Chris"/>
+    <company id="UnisysCanada"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Blanchette" given="Larry"/>
+    <company id="WestGroup"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Bovone" given="Stefano"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Crickmer" given="Jason"/>
+    <email>jason@jedi.net</email>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Davis" given="Ian"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Faz" given="Xavier"/>
+    <description>
+    </description>
+  </contributor>
+
+
+ <contributor type="Feedback">
+    <name surname="Grunes" given="Wayne"/>
+    <company id="mitre"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Hedley" given="Warren"/>
+    <company id="AucklandUniversity"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Holford" given="Kelly"/>
+    <company id="NorthWesternMutualLife"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Hoskins" given="Matt"/>
+    <email>matt@nipltd.com</email>
+    <company id="NewInformationParidigms"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Kendal" given="Rolande"/>
+    <email>kendal@interlog.com</email>
+    <company id="Interlog"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Kneeland" given="Thomas"/>
+    <company id="mitre"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Kretschmar" given="Majkel"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="McCune" given="Tim"/>
+    <company id="ChannelPoint"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Merlino" given="Andrew"/>
+    <company id="mitre"/>	
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Minert" given="Stefan"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Pazera" given="Edas"/>
+    <email>edas@usa.net</email>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Peters" given="Frank"/>
+    <email>peters@signal7.de</email>
+    <company id="Signal7"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Potter" given="Dan"/>
+    <company id="mitre"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Rocha" given="Ricardo"/>
+    <email>rrocha@plenix.org</email>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Van der Vlist" given="Eric"/>
+    <email>vdv@dyomedea.com</email>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Weinander" given="Nils"/>
+    <description>
+    </description>
+  </contributor>
+
+ <contributor type="Feedback">
+    <name surname="Wilund" given="Calle"/>
+    <company id="AppealSoftwareSolutions"/>
+    <description>
+    </description>
+  </contributor>
+
+
+  <!--
+      Company Information, so we don't have to duplicate it for
+      mulitple contributors of the same company
+  -->
+  <company id="intalio">
+    <name>Intalio, Inc.</name>
+    <url>www.intalio.com</url>
+  </company>
+
+  <company id="mitre">
+    <name>Mitre Corporation.</name>
+    <url>www.mitre.com</url>
+  </company>
+
+  <company id="varcom">
+    <name>VARCOM Corporation </name>
+    <url>www.varcom.com</url>
+  </company>
+
+  <company id="Intraware">
+    <name>Intraware</name>
+    <url>www.intraware.com</url>
+  </company>
+
+  <company id="KnowledgeCite">
+    <name>KnowledgeCite</name>
+    <url></url>
+  </company>
+
+
+  <company id="hyperCIS">
+    <name>hyperCIS</name>
+    <url></url>
+  </company>
+
+  <company id="NorthWesternMutualLife">
+    <name>Northwestern Mutual Life</name>
+    <url></url>
+  </company>
+
+  <company id="Hathaway">
+    <name>Hathaway Technology Concepts, L.L.C.</name>
+    <url></url>
+  </company>
+
+
+  <company id="AucklandUniversity">
+    <name>Auckland University</name>
+    <url></url>
+  </company>
+
+  <company id="Lassman">
+    <name>Lassman Marks &amp; Web</name>
+    <url></url>
+  </company>
+
+  <company id="Apache">
+    <name>Apache </name>
+    <url>www.apache.org</url>
+  </company>
+
+  <company id="UniversityofLeeds">
+    <name>University of Leeds</name>
+    <url></url>
+  </company>
+
+
+  <company id="UnisysCanada">
+    <name>Unisys Canada</name>
+    <url></url>
+  </company>
+
+  <company id="WestGroup">
+    <name>West Group</name>
+    <url></url>
+  </company>
+
+
+  <company id="NewInformationParidigms">
+    <name>New Information Paridigms Ltd</name>
+    <url></url>
+  </company>
+
+  <company id="Interlog">
+    <name>Interlog</name>
+    <url></url>
+  </company>
+
+  <company id="ChannelPoint">
+    <name>ChannelPoint</name>
+    <url></url>
+  </company>
+
+
+  <company id="Signal7">
+    <name>Signal 7</name>
+    <url>www.signal7.com</url>
+  </company>
+
+  <company id="AppealSoftwareSolutions">
+    <name>Appeal Software Solutions AB</name>
+    <url></url>
+  </company>
+
+  <!-- description of contributor types -->
+
+  <type name="Committer">
+    Committers are contributors who have written lots of important code,
+    sacrificing all social events, and becoming a hermit at the expense
+    of providing good tools for people they don't even know. In return for
+    their love and devotion you may bug them with questions, bug fixes,
+    patches and offer them free beer.
+  </type>
+
+  <type name="Contributor">
+    Contributors are responsible for making this a better project and
+    we all end up benefiting from the bug fixes, design changees or features
+    they contributed. Contributors tend to live a balanced life and
+    hopefully eat a healthy diet.
+  </type>
+
+  <type name="Documentor">
+    Documentors do the impossible and actually explain how to use the
+    software in spite of all the complexity introduced by the committers
+    and contributors.
+  </type>
+
+  <type name="Feedback">
+    The following have offered valuable feedback (including bug reports) that has been beneficial
+    to the development and stability.
+  </type>
+
+</contributors>
+</header>
+</body></document>

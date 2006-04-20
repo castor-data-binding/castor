@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the reading of AnyAttribute under AttributeGroup</Name>
+    <Comment>Regression testing
+    </Comment>
+    <Category>basic capability</Category>
+    <SchemaTest>
+
+   		<!-- ******************** -->
+   		<!-- Schema Element Tests -->
+   		<!-- ******************** -->
+
+   		<UnitTestCase>
+      		<Schema>AnyAttribute_AttributeGroup.xsd</Schema>
+         </UnitTestCase>
+
+   		<UnitTestCase>
+      		<Schema>AnyAttribute_Annotation.xsd</Schema>
+      	</UnitTestCase>
+
+      </SchemaTest>
+ </TestDescriptor>

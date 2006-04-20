@@ -1,0 +1,15 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.xsd"> 
+
+<jdo-conf>
+    <database name="derby" engine="derby" >
+        <driver url="jdbc:derby://localhost:1527/tests;retrieveMessagesFromServerOnGetMessage=true" 
+            class-name="org.apache.derby.jdbc.ClientDriver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="jdo/mapping.xml" />
+    </database>
+    <transaction-demarcation mode="local" />
+</jdo-conf>

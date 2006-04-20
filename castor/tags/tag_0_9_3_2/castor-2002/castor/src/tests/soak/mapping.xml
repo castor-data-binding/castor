@@ -1,0 +1,54 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.exolab.org/mapping.dtd">
+
+<mapping>
+    <class identity="id" name="soak.model.Employee" access="exclusive" key-generator="SEQUENCE">
+        <map-to table="soakEmployee"/>
+        <field direct="true" name="id" type="java.lang.Integer">
+            <sql name="id" type="numeric"/>
+        </field>
+        <field direct="true" name="firstName" type="string">
+            <sql name="fname" type="varchar"/>
+        </field>
+        <field direct="true" name="lastName" type="string">
+            <sql name="lname" type="varchar"/>
+        </field>
+        <field direct="true" name="middleNameInitial" type="char">
+            <sql name="mi" type="char"/>
+        </field>
+        <field direct="true" name="gender" type="char">
+            <sql name="gender" type="char"/>
+        </field>
+        <field direct="true" name="isPerm" type="boolean">
+            <sql name="isPerm" type="numeric" />
+        </field>
+        <field direct="true" name="hourlyRate" type="java.math.BigDecimal">
+            <sql name="hourlyRate" type="numeric" />
+        </field>
+        <field direct="true" name="totalHours" type="java.math.BigDecimal">
+            <sql name="totalHours" type="numeric" />
+        </field>
+        <field direct="true" name="SSN" type="string">
+            <sql name="ssn" type="varchar"/>
+        </field>
+        <field direct="true" name="holiday" type="float">
+            <sql name="holiday" type="numeric"/>
+        </field>
+        <field direct="true" name="startDate" type="date">
+            <sql name="startDate" type="date"/>
+        </field>
+        <field direct="true" name="recordDate" type="date">
+            <sql name="recordDate" type="timestamp"/>
+        </field>
+        <field direct="true" name="homeAddress" type="serializable">
+            <sql name="homeAddress" type="binary" dirty="ignore"/>
+        </field>
+        <field direct="true" name="homePhone" type="serializable">
+            <sql name="homePhone" type="binary" dirty="ignore"/>
+        </field>
+        <field direct="true" name="skills" type="serializable">
+            <sql name="skills" type="binary" dirty="ignore"/>
+        </field>
+    </class>
+</mapping>

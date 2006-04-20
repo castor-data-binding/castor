@@ -1,0 +1,192 @@
+<project name="Castor" default="main" basedir=".">
+    <target name="init">
+        <property name="source" value="src"/>
+        <property name="main" value="${source}/main"/>
+        <property name="etc" value="${source}/etc"/>
+        <property name="build" value="build"/>
+        <property name="classes" value="${build}/classes"/>
+        <property name="dist" value="dist"/>
+        <property name="lib" value="lib"/>
+        <property name="doc" value="${source}/doc"/>
+        <property name="schema" value="${source}/schema"/>
+        <property file="${etc}/VERSION"/>
+        <property name="classpath" value="${classpath}:${classes}"/>
+        <property name="deprecation" value="false"/>
+        <property name="archive" value="${project}-${version}"/>
+        <property name="excludes" value="**/package.html"/>
+        <property name="testexcludes" value="**/package.html"/>
+        <property name="apipackagenames" value="
+            org.exolab.castor.jdo,
+            org.exolab.castor.dax,
+            org.exolab.castor.xml,
+            org.exolab.castor.dsml,
+            org.exolab.castor.mapping"
+        />
+        <property name="allpackagenames" value="org.*"/>
+    </target>
+    <!-- Display all the targets -->
+    <target name="targets">
+        <echo message=""/>
+        <echo message="ANT build for ${name} ${version}"/>
+        <echo message=""/>
+        <echo message="The following targets are available:"/>
+        <echo message="  targets  Lists the build targets"/>
+        <echo message="  clean    Cleans the build and distribution directories"/>
+        <echo message="  all      Cleans and builds all the packages and examples"/>
+        <echo message="  release  Cleans and builds all the release packages"/>
+        <echo message="           (JAR, source, doc, tarball) in the dist directory"/>
+        <echo message="  main     Builds the main packages (including debugging info)"/>
+        <echo message="  examples Builds the example packages (including debugging info)"/>
+        <echo message="  tests    Builds the test packages (including debugging info)"/>
+        <echo message="  jar      Builds the binary JAR in the dist directory"/>
+        <echo message="  doc      Builds the documentation"/>
+        <echo message="  api      Builds the API JavaDocs"/>
+        <echo message="  javadoc  Builds the full JavaDocs"/>
+        <echo message="  source   Builds the source tarball in the dist directory"/>
+        <echo message="  tarball  Builds the binary distribution in the dist directory"/>
+        <echo message="  cvs      Update the sources from the CVS"/>
+        <echo message=""/>
+    </target>
+    <!-- Prepare target directories -->
+    <target name="prepare">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <mkdir dir="${dist}"/>
+        <!-- Copy the DTD and schema to the schema directory -->
+        <deltree dir="${schema}"/>
+        <mkdir dir="${schema}"/>
+        <copydir src="${main}/org/exolab/castor/mapping" includes="*.dtd,*.xsd" dest="${schema}"/>
+        <copydir src="${main}/org/exolab/castor/jdo/conf" includes="*.dtd,*.xsd" dest="${schema}"/>
+        <copydir src="${main}/org/exolab/castor/dsml/schema" includes="*.dtd,*.xsd" dest="${schema}"/>
+    </target>
+    <!-- Kill all the directories created in prepare -->
+    <target name="clean">
+        <deltree dir="${build}"/>
+        <deltree dir="${dist}"/>
+        <deltree dir="${schema}"/>
+    </target>
+    <!-- Build all the sources with debug and deprecation -->
+    <target name="main" depends="prepare">
+        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}" classpath="${classpath}" debug="on" deprecation="${deprecation}"/>
+    </target>
+    <!-- Same as main, but also cleans and additional targets -->
+    <target name="all" depends="clean,main,examples,tests"/>
+    <!-- Same as main, but optimization, no debug and no deprecation -->
+    <target name="main-opt" depends="prepare">
+        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}" classpath="${classpath}" debug="off" deprecation="off" optimize="on"/>
+    </target>
+    <!-- Build the example packages -->
+    <target name="examples" depends="prepare">
+        <mkdir dir="${build}/examples"/>
+        <javac srcdir="${source}/examples" destdir="${build}/examples" classpath="${classpath}" debug="on" deprecation="${deprecation}"
+               excludes="SourceGenerator/*"/>
+    </target>
+    <!-- Build the test packages -->
+    <target name="tests" depends="prepare">
+        <mkdir dir="${build}/tests"/>
+        <javac srcdir="${source}/tests" destdir="${build}/tests" excludes="${testexcludes}" classpath="${classpath}" debug="on" deprecation="${deprecation}"/>
+    </target>
+    <!-- Build the JAR file using main-opt -->
+    <target name="jar" depends="main-opt">
+        <delete file="${dist}/${archive}.jar"/>
+        <delete file="${classes}/MANIFEST.MF"/>
+        <copyfile src="${source}/etc/MANIFEST.MF" dest="${classes}/MANIFEST.MF"/>
+        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
+        <copydir src="${source}/etc" dest="${classes}" includes="LICENSE,README"/>
+        <jar jarfile="${dist}/${archive}.jar" basedir="${classes}" manifest="${classes}/MANIFEST.MF" includes="LICENSE,README,org/**"/>
+        <jar jarfile="${dist}/${archive}-xml.jar" basedir="${classes}" manifest="${classes}/MANIFEST.MF" includes="LICENSE,README,
+              org/exolab/castor/xml/**,org/exolab/castor/mapping/**,org/exolab/castor/util/**,
+              org/exolab/castor/*"/>
+        <!--
+    <delete   file="${classes}/MANIFEST.MF" />
+    <delete   file="${dist}/sourceGen.jar" />
+    <copyfile src="${source}/etc/sourceGenMANIFEST.MF" dest="${classes}/MANIFEST.MF" />
+    <replace  file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}" />
+    <jar      jarfile="${dist}/sourceGen.jar" basedir="${classes}"
+              manifest="${classes}/MANIFEST.MF" includes="LICENSE,README" />
+-->
+    </target>
+    <!-- Build the documentation -->
+    <target name="doc" depends="prepare,main">
+        <mkdir dir="${build}/doc"/>
+        <style basedir="${doc}" destdir="${build}/doc" style="style/exolab.xsl" includes="**.xml" excludes="style/**,project.xml"/>
+        <copydir src="${doc}" dest="${build}/doc" includes="license.txt,document.dtd"/>
+        <copydir src="${doc}/images" dest="${build}/doc/images"/>
+        <copydir src="${doc}/style/images" dest="${build}/doc/images" includes="*.gif"/>
+        <copydir src="${doc}/style" dest="${build}/doc/" includes="*.css"/>
+        <copydir src="${schema}" includes="*.dtd,*.xsd" dest="${build}/doc"/>
+        <replace file="${build}/doc/index.html" token="$$VERSION$$" value="${version}"/>
+        <replace file="${build}/doc/index.html" token="$$RELEASE_DATE$$" value="${release_date}"/>
+        <replace file="${build}/doc/download.html" token="$$VERSION$$" value="${version}"/>
+        <mkdir dir="${build}/doc/ora-mar-2k"/>
+        <copydir src="${doc}/ora-mar-2k" dest="${build}/doc/ora-mar-2k"/>
+    </target>
+    <!-- Build the full JavaDocs -->
+    <target name="javadoc" depends="prepare">
+        <mkdir dir="${build}/doc"/>
+        <mkdir dir="${build}/doc/javadoc"/>
+        <javadoc sourcepath="${main}" destdir="${build}/doc/javadoc" dir="." doctitle="${name} JavaDoc" windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true" version="true" noindex="true" packagenames="${allpackagenames}"/>
+    </target>
+    <!-- Build the API JavaDocs -->
+    <target name="api" depends="prepare">
+        <mkdir dir="${build}/doc"/>
+        <mkdir dir="${build}/doc/api"/>
+        <javadoc sourcepath="${main}" destdir="${build}/doc/api" dir="." doctitle="${Name} API" windowtitle="${Name} API" bottom="${copyright}" public="true" author="true" packagenames="${apipackagenames}"/>
+    </target>
+    <!-- Build the docs, API and full JavaDocs, doc archives -->
+    <target name="docs" depends="doc,api,javadoc">
+        <zip zipfile="${dist}/${archive}-doc.zip" basedir="${build}" includes="doc/**"/>
+        <tar tarfile="${dist}/${archive}-doc.tar" basedir="${build}" includes="doc/**"/>
+        <gzip src="${dist}/${archive}-doc.tar" zipfile="${dist}/${archive}-doc.tgz"/>
+        <delete file="${dist}/${archive}-doc.tar"/>
+    </target>
+    <!-- Build the source distribution -->
+    <target name="source" depends="prepare">
+        <delete file="${dist}/${archive}-src.tgz"/>
+        <delete file="${dist}/${archive}-src.zip"/>
+        <deltree dir="${build}/${archive}"/>
+        <mkdir dir="${build}/${archive}"/>
+        <mkdir dir="${build}/${archive}/src"/>
+        <copydir src="${source}" dest="${build}/${archive}/src" defaultexcludes="true"/>
+        <mkdir dir="${build}/${archive}/lib"/>
+        <copydir src="${lib}" dest="${build}/${archive}/lib" defaultexcludes="true" excludes="jconn2.jar"/>
+        <copydir src="." dest="${build}/${archive}" includes="*.sh,*.bat"/>
+        <tar includes="${archive}/**" basedir="${build}" tarfile="${dist}/${archive}-src.tar"/>
+        <gzip src="${dist}/${archive}-src.tar" zipfile="${dist}/${archive}-src.tgz"/>
+        <delete file="${dist}/${archive}-src.tar"/>
+        <zip zipfile="${dist}/${archive}-src.zip" basedir="${build}" includes="${archive}/**"/>
+    </target>
+    <!-- Build a full release including JAR, zip/tarball, source and documentation -->
+    <target name="release" depends="clean,jar,source,docs,tarball"/>
+    <!-- Build the tarball including JAR and all dependent packages -->
+    <target name="tarball" depends="prepare,jar">
+        <delete file="${dist}/${archive}.tgz"/>
+        <delete file="${dist}/${archive}.zip"/>
+        <deltree dir="${build}/${archive}"/>
+        <mkdir dir="${build}/${archive}"/>
+        <copydir src="${etc}" dest="${build}/${archive}" includes="README,LICENSE,CHANGELOG,sourceGen*"/>
+        <copydir src="${dist}" dest="${build}/${archive}" includes="${archive}.jar,${archive}-xml.jar"/>
+        <copydir src="${lib}" dest="${build}/${archive}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
+        <copydir src="${schema}" dest="${build}/${archive}/schema"/>
+        <copydir src="${build}/doc" dest="${build}/${archive}/doc"/>
+        <deltree dir="${build}/${archive}/doc/javadoc"/>
+        <tar tarfile="${build}/${archive}/examples.tar" basedir="${source}" includes="examples/**" defaultexcludes="true"/>
+        <gzip src="${build}/${archive}/examples.tar" zipfile="${build}/${archive}/examples.tgz"/>
+        <tar tarfile="${dist}/${archive}.tar" basedir="${build}" includes="${archive}/**" excludes="${archive}/*.tar,${archive}/*.zip"/>
+        <gzip src="${dist}/${archive}.tar" zipfile="${dist}/${archive}.tgz"/>
+        <delete file="${dist}/${archive}.tar"/>
+        <zip zipfile="${build}/${archive}/examples.zip" basedir="${source}" includes="examples/**" defaultexcludes="true"/>
+        <zip zipfile="${dist}/${archive}.zip" basedir="${build}" includes="${archive}/**" excludes="${archive}/*.tar,${archive}/*.tgz"/>
+    </target>
+    <!-- Update the sources from the CVS -->
+    <target name="cvs" depends="clean">
+        <cvs cvsRoot=":pserver:anoncvs@${project}.exolab.org:/cvs/${project}" dest="." package="${project}"/>
+    </target>
+    <target name="oes" depends="prepare,main">
+        <ant antfile="${source}/xsdcomp.xml" target="xsdcomp">
+            <property name="schema" value="${source}/examples/oes/imports.xsd"/>
+            <property name="package" value="oes.imports"/>
+            <property name="dest" value="${build}/examples/oes"/>
+        </ant>
+    </target>
+</project>

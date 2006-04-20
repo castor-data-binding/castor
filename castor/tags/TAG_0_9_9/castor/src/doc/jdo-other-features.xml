@@ -1,0 +1,452 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/jdo-other-features.xml">
+  <properties>
+    <title>Castor JDO - Advanced features</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+       Castor JDO - Advanced features
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>Castor JDO - Advanced features</title>
+
+    <header>
+      <p>Reference: <api package="org.exolab.castor.jdo">The Java Data Objects API</api></p>
+    </header>
+
+    <section title="Introduction">
+        
+        <p>As explained at <a href="jdo-introduction.html">the introduction to Castor JDO</a>,
+           Castor has support for many advanced features such as caching, depend relations, 
+           inheritance, polymorphism, etc. The below sections detail these features, as their
+           understanding is required to use Castor JDO in a performant and secure way.</p>
+    </section>
+
+    <section title="Caching">
+    
+        <p>Castor maintains and properly locks one copy of the dirty checking cache for each 
+           object it loads from or creates into persistence storage. Until all transactions 
+           involving the object are completed (See 
+           <a href="design-persist.html#Persistence">Design: Persistence</a>), the cache is released. 
+           Starting from Castor 0.8.6, performance cache is implemented and developer can specify the 
+           mechanism and capacity of performance cache for each persistence capable type. Options includes 
+           'none', 'count-limited', 'time-limited' and 'unlimited'. Starting from Castor 0.9.9, the cache 
+           types 'coherence', 'jcs', 'jcache' and 'fkcache' have been added as explaind below. Performance 
+           cache is write-through, because all changes to objects of a transaction should be persisted 
+           at commit time without delay.</p>
+
+        <p>Performance caches enhance the application performance by reducing the number of read 
+           operations against the persistence storage, by storing and reusing the last read or 
+           committed values of the object. Performance caches do not affect the behavior of 
+           short transactions or locking. It only affects persistence objects that have been released 
+           from any transactional context. </p>
+
+        <p>With the current release, performance caches also serve a dual purpose as dirty checking 
+           caches for <a href="long-transact.html">long-transactions</a>. This limitation implies that 
+           the object's duration in the performance cache determines the allowed time span of a long 
+           transaction. This might become an issue when performance caches of type 'count-limited' or 
+           'time-limited' are being used, as objects will eventually be disposed. If an application 
+           tries to update an object that has been disposed from the dirty checking cache, 
+           an ObjectModifedException will be thrown.</p>
+
+        <p>The DTD declaration is as the following:
+            <code-panel><![CDATA[
+<!ATTLIST cache-type
+    type ( none | count-limited
+          | time-limited | unlimited | coherence | fkcache | jcache | jcs ) "count-limited"
+    capacity NMTOKEN #IMPLIED>]]></code-panel>
+        </p>
+
+        <p>For example,
+            <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.MyObject">
+        <cache-type type="time-limited" capacity="30"/>
+        <field name= ... >
+               ...
+        </field>
+    </class>
+</mapping>]]></code-panel>
+
+            defines the time-limited least-recently-used algorithm as the caching algorithm for <i>com.xyz.MyObject</i> class and the cache will be disposed of if it is not used within 30 seconds. (Note that the time-limit ticks after all transaction involved with the objects complete, but not start after it is loaded.) </p>
+
+        <p><b>NOTE:</b> The default cache-type is <tt>count-limited</tt> with a capacity of 100. This will 
+           be used when no cache-type is specified in the mapping for a class.</p>
+        
+        <p><b>NOTE:</b> As of release 0.9.6, Castor allows for the addition of user-defined cache 
+           implementations. Instructions can be found <a href="jdo-caching.html">here</a></p>
+
+        <p><b>NOTE:</b> As of release 0.9.9, four new cache types have been added to Castor, three
+            of them open source and one commercial:</p>
+            
+        <ctable>
+            <cheader>
+                <th>name</th>
+                <th>Vendor</th>
+                <th>Version</th>
+            </cheader>
+            <crow>
+                <td>coherence</td>
+                <td><url href="http://www.tangosol.com/coherence.jsp">Tangosol Coherence</url></td>
+                <td>2.5</td>
+            </crow>
+            <crow>
+                <td>jcs</td>
+                <td><url href="http://jakarta.apache.org/jcs">JCS</url></td>
+                <td>1.2.5</td>
+            </crow>
+<!--
+            <crow>
+                <td>jcache</td>
+                <td><url href="http://jcache.sourceforge.net/">JCache</url></td>
+                <td>???</td>
+            </crow>
+-->            
+            <crow>
+                <td>fkcache</td>
+                <td><url href="http://jcache.sourceforge.net/">FKCache</url></td>
+                <td>1.0-beta6</td>
+            </crow>
+        </ctable>
+        
+        <p>As some of these cache providers allow for allow you to use it in a <b>distributed</b> 
+           mode, this allows Castor JDO to be used in a clustered (multi-JVM) environment. Please see
+           the section below for short summayr fo this feature.</p>
+        
+        <p>For problems related to the use of performance caches, please consult with the relevant 
+           entries in the <a href="jdo-faq.html#Castor and performance caches">JDO F.A.Q.</a>.</p>
+        
+        <section title="Caching and clustered environments">
+    
+            <p>All of the cache providers added with release 0.9.9 are distributed caches per se or can be 
+            configured to operate in such a mode. This effectively allows Castor JDO to be used in a 
+            clustered J2EE (multi-JVM) environment, where Castor JDO runs on each of the cluster instances,
+            and where cache state is automatically snychronized between these instances.</p>
+            
+            <p>In such an environment, Castor JDO wil make use of the underlying cache provider 
+            to replicate/distribute the content of a specific cache between the various 
+            JDOManager instances. Through the distribution mechanism of the cache provider, a client
+            of a Castor JDO instance on one JVM will see any updates made to domain objects performed 
+            against any other JVM/JDO instance.</p>
+    
+            <p>The following class mapping, for example, ... </p>
+            
+                <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.MyOtherObject">
+        <cache-type type="coherence" />
+        <field name= ... >
+               ...
+        </field>
+    </class>
+</mapping>]]></code-panel>
+    
+                <p>defines that for all objects of type <tt>com.xyz.MyOtherObject</tt> Tangosol's 
+                <i>Coherence</i> cache provider should be used.</p>
+            
+        </section>
+    
+        <section title="Custom cache provider">
+     
+           <p>Castor provides a set of pre-built cache providers, offering a variety
+              of different cache algorithms. Nevertheless, special needs might
+              require the application developer to implement a custom cache 
+              algorithm. Castor facilitates such need by making available standardized
+              interfaces and an easy to understand recipe for integrating a custom 
+              cache provider with Castor.</p>
+            
+           <p>The main component of Castor's cache system is the interface 
+              <api class="org.exolab.castor.persist.cache.Cache"><tt>Cache</tt></api>, 
+              which declares required functionality of a performance cache provider. 
+              Existing (and future) cache implementations have to implement this 
+              interface, which is closely modelled after <tt>java.util.Map</tt>.</p>
+              
+           <p>Below are defined the steps to build a custom cache provider and register
+              it with Castor JDO.</p>
+    
+           <p><ol>
+                <li>Create a class that implements 
+                    <api class="org.exolab.castor.persist.cache.Cache"><tt>Cache</tt></api>
+                   (we have provided an abstract base class that you can use at your
+                   convenience).</li>
+                <li>Create a class that implements 
+                    <api class="org.exolab.castor.persist.cache.CacheFactory">CacheFactory</api>
+                   (we have provided an abstract base class that you can use at your
+                   convenience).</li>
+                <li>Register your custom cache implementation with Castor JDO in the
+                    <tt>castor.properties</tt> file.</li>
+            </ol></p>
+    
+            <p>Detailed instructions can be found in one of the 
+               <a href="jdo-howto.html">Castor JDO HOW-TO</a> documents.</p>
+            
+        </section>
+        
+    </section>
+    
+    <section title="Dependent and related relationships">
+        
+        <p>Castor distinguishes the relationship of two objects as dependent or related, and 
+           maintains the life cycle independently for the two types of relationships. Starting 
+           from Castor 0.9, the developer can explicitly define a dependent relationship in 
+           the mapping file.</p>
+
+        <p>When using independent relations, related objects’ life cycle is independent of each 
+           other, meaning that they have to be created, removed and updated (for long 
+           transaction) independently.</p>
+
+        <p>When using dependent relations, one data object class must be declared as 
+           <b>depends</b> on one other data object class in the mapping file, and such an object 
+           is called a dependent data object class. A data object class without 
+           <i>depends</i> declared in the mapping is called a master object. A master object can 
+           be depended upon by zero or more dependent data object class.</p>
+
+        <p>As of Castor 0.9, a dependent object class can be related to other master data 
+           object classes including extended classes, but cannot depend on more than one 
+           master class.</p>
+
+        <p>If an object class declared as <i>depends</i> on another class, it may not be 
+           created, removed or updated separately. Attempting to create, remove or update a 
+           dependent object will result in ObjectNotPersistcapableException. Note that Castor 
+           doesn'’t allow a dependent object instance to change its master object instance during 
+           a transaction. Each dependent object can have only one master object. Both dependent and 
+           master objects must have identities, and may or may not make use of key-generators.</p>
+
+        <p>
+            Here is the DTD for declaring dependent object:
+            
+             <code-panel><![CDATA[
+<!ATTLIST class     name ID  #REQUIRED
+          extends   IDREF    #IMPLIED
+          depends   IDREF    #IMPLIED
+          identity  CDATA   #IMPLIED
+          access    ( read-only | shared | exclusive | db-locked )  "shared"
+          key-generator   IDREF #IMPLIED]]></code-panel></p>
+
+        <p>
+            For example,
+            
+                <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.MyDependentObject"
+        depends="com.xyz.MyObject">
+        ...
+    </class>
+</mapping>]]></code-panel>
+                declares the data object class <tt>com.xyz.MyDependentObject</tt> as a dependent 
+                upon class <tt>com.xyz.MyObject</tt>.</p>
+    </section>
+
+    <section title="Different cardinalities of relationship">
+        
+         <p>Castor supports different cardinalities of relationship, namely one-to-one, 
+            one-to-many, and many-to-many. Many-to-many relationship must be related rather than 
+            dependent, because each dependent object can have only one master object. </p>
+
+        <p>Many-to-many requires a separate table for storing the relations between two types of 
+           objects. Many-to-many introduces two attributes, namely many-key and many-table that reside 
+           in the <tt>&lt;sql&gt;</tt> element which is a sub-element of the <tt>&lt;field&gt;</tt>
+           element. For all many-to-many relations, a many-table must be specified. If the column 
+           name of the primary key of the class is different from the foreign keys columns of the 
+           class in the relation tables, then the relation table columns can be specified using the 
+           many-key attributes. Similarly, if the column name of the primary key of the related class 
+           is different from the foreign key columns of the related class, then the relation table 
+           columns can be specified using the name attribute. </p>
+
+        <p>The many-table is used to store relations in a separate table
+            
+                <code-panel><![CDATA[
+<mapping>
+    <class>
+        <field>
+            <sql many-key="#OPTIONAL" name="#OPTIONAL"
+                 many-table="#REQURIED">
+        </field>
+    </class>
+</mapping>]]></code-panel>
+        </p>
+
+        <p>
+            So, for example, if the SQL table is the following,
+            <center>
+                <b>employee_table</b></center>
+
+            <center><table BORDER="true" COLS="3" WIDTH="60%" >
+                <tr ALIGN="CENTER">
+                    <td><b>id</b></td>   <td><b>name</b></td>      <td><b>salary</b></td>
+                </tr>
+
+                <tr>
+                    <td>1482</td>        <td>Smith, Bob</td>       <td>$123,456</td>
+                </tr>
+
+                <tr>
+                    <td>628</td>         <td>Lee, John</td>        <td>$43,210</td>
+                </tr>
+
+                <tr>
+                    <td>1926</td>        <td>Arnold, Pascal</td>   <td>$24,680</td>
+                </tr></table></center>
+
+                <center>
+                <b>department_table</b></center>
+
+                <center><table BORDER="true" COLS="3" WIDTH="60%" >
+                    <tr ALIGN="CENTER">
+                        <td><b>id</b></td>   <td><b>name</b></td>      <td><b>comment</b></td>
+                    </tr>
+
+                    <tr>
+                         <td>3</td>          <td>Accounting</td>       <td></td>
+                    </tr>
+
+                    <tr>
+                         <td>7</td>          <td>Engineering</td>      <td>The very important department. :-)</td>
+                    </tr>
+                </table></center>
+
+                <center>
+                <b>employee_department</b></center>
+
+                <center><table BORDER="true" COLS="2" WIDTH="40%" >
+                    <tr ALIGN="CENTER">
+                         <td><b>e_id</b></td>  <td><b>d_id</b></td>
+                    </tr>
+
+                    <tr>
+                         <td>....</td>         <td>....</td>
+                    </tr>
+                </table></center></p>
+
+        <p>
+            Then, the mapping for employee data object would look like this
+                <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.Employee" identity="id">
+        <map-to table="employee_table"/>
+            <field name="id" type="integer">
+                <sql name="id"/>
+            </field>
+            <field>
+                <sql many-table="employee_department"
+                     many-key="e_id" name="d_id"/>
+            </field>
+            <field name="salary">
+                <sql name="salary" type="integer">
+            </field>
+    </class>
+</mapping>]]></code-panel></p>
+
+    </section>
+
+    <section title="Lazy Loading">
+
+		<p>As of release 0.9.6, Castor has full support for lazy loading object instances referenced
+		   as part of all relation types currently supported:</p>
+		   
+		<ul>
+			<li>1:1 relations</li>
+			<li>1:m relations</li>
+			<li>M:N relations.</li>
+		</ul>
+		   
+        <section title="1:1 relations">
+        
+        	<p>As of release 0.9.6, Castor supports lazy-loading of 1:1 relations. Imagine the 
+        	   following class mapping:</p>
+
+			<code><![CDATA[
+<mapping>
+    <class name="com.xzy.Department">
+       ...
+       <field "employee" type="com.xyz.Employee" lazy="true" />
+       ...
+    </class>
+</mapping>]]></code>
+        	   
+			<p>Per definition, when an instance of Department is loaded through e.g. Database.load(),
+			   Castor will not (pre-)load the Employee instance referenced (as such reducing the size
+			   pf the initial query as well as the size of the result set returned). Only when the 
+			   Emplyoee instance is accessed through Department.getEmployee(), Castor will load 
+			   the actual object into memory from the persistence store.</p>
+			   
+			<p>This means that if the Employee instance is not accessed at all, not only will 
+			   the initial query to load the Department object have had its complexity reduced, 
+			   but no performance penalty will be incurred for the additional access to the 
+			   persistence store either.</p>
+			   
+        </section>
+    
+        <section title="1:M and M:N relations">
+    
+           <p>The elements in the collection are only loaded when the application asks for 
+              the object from the collection, using, for example, iterator.next(). The 
+              iterator in Castor’s lazy collection is optimized to return a loaded object 
+              first.</p>
+  
+           <p>In the mapping file, lazy loading is specified in the element of the collection’s 
+              <tt>&lt;field></tt>, for example,</p>
+           
+            <code-panel><![CDATA[
+<mapping>
+    <class name="com.xzy.Department">
+       ...
+        <field name="employee" type="com.xyz.Employee" lazy="true"
+               collection="collection"/>
+    </class>
+</mapping>]]></code-panel>
+
+            <p>declares that the collection of type Employee in a Department is lazy loaded.</p>
+
+           <p>If lazy loading is specified for a field of a class, Castor will set the field with a 
+              special collection which contains only the identities of the objects. Because of 
+              that, it requires the data object to have the method setDepartment( Collection 
+              department) in the data object class which was not required in previous 
+              versions.</p>
+
+           <p><b>Note:</b> Please note that currently <b>only</b> the <tt><b>java.util.Collection</b></tt> 
+              type is supported. <!--The following collection types are supported:
+              java.util.Array, java.util.Vector, java.util.Hashtable, java.util.Collection, 
+              java.util.Set and java.util.Map. --></p>
+              
+           </section>
+           
+     </section>
+
+     <section title="Multiple columns primary keys">
+        <p>
+            The support of multiple column primary keys (also called compound primary keys) was another major enhancement added into Castor 0.9. Specifying multiple column primary keys is simple and straightforward, in the mapping file, 
+            <code-panel><![CDATA[
+<mapping>
+    <class name="com.xyz.MyObject" identity="firstName lastName">
+        <field name="firstName" type="string">
+           <sql name="fname"/>
+        </field>
+        <field name="lastName" type="string">
+           <sql name="lname"/>
+        </field>
+           ...
+    </class>
+</mapping>]]></code-panel></p>
+
+        <p>Multiple column primary keys work with both master and dependent objects, all 
+           cardinalities of relationship, including one-to-one, one-to-many and many-to-many, 
+           as well as lazy loading. </p>
+
+        <p>However, multiple column primary keys should only be used to adhere to an existing 
+           database design, not when designing a new database. In general, it is not a good 
+           idea to use an identity or identities which can be modified by the user, or which 
+           contain application-visible data. For example, if the system allows the user name to 
+           be changed, using user name as identity is highly discouraged, as this practice can require 
+           a major data migration to a new schema to update all foreign keys to adhere to a 
+           new primary key structure, should the user name no longer be adequate as a primary key. It should 
+           be noted that Castor doesn’t support identity change, as specified in the ODMG 3.0 
+           specification. So, primary keys changes are almost certainly a large trade off between 
+           data integrity and performance. Well chosen primary keys are usually single (not 
+           multiple) column numeric or character fields for the reasons outlined above, as well as 
+           performance, as joining operations are faster for single column primary keys. </p>
+      </section>
+
+   </body>
+</document>

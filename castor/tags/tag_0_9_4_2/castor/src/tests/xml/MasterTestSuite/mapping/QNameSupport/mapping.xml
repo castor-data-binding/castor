@@ -1,0 +1,23 @@
+
+<mapping>
+
+        <class name="QName_Root">
+                <map-to xml="QName-root"/>
+
+                <field name="Name"
+                       type="string"> 
+                        <bind-xml name="name" node="attribute" type="QName" QName-prefix="foo"/>
+                </field>
+
+                <field name="Item"
+                       type="string"> 
+                        <bind-xml name="Item" node="element" type="QName" QName-prefix="bar"/>
+                </field>
+
+                <field name="Value"
+                       type="string"> 
+                        <bind-xml name="Value" node="element" type="QName" QName-prefix=""/>
+                </field>
+        </class>
+
+</mapping>

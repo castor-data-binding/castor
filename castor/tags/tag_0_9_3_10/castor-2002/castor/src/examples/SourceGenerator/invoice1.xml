@@ -1,0 +1,32 @@
+<?xml version="1.0"?>
+<invoice>
+
+   <ship-to>
+      <name>Ryan Madden</name>
+      <address>
+         <street1>2000 Alameda de las Pulgas</street1>
+         <city>San Mateo</city>
+         <state>CA</state>
+         <zip-code>94403</zip-code>
+      </address>
+      <phone>650-345-2777</phone>
+   </ship-to>
+
+   <item Id="0.9.3" InStock="true" Category="Open Source Project">
+   		<Quantity>1</Quantity>
+   		<Price>100.00</Price>
+   	</item>
+   	
+   <shipping-method>
+      <carrier>UPS</carrier>
+      <option>Ground Trak</option>
+      <estimated-delivery>P1D</estimated-delivery>
+   </shipping-method>
+   
+   <shipping-date>
+   		<date>2000-10-24</date>
+   		<time>12:30:00</time>
+   </shipping-date>
+
+
+</invoice>

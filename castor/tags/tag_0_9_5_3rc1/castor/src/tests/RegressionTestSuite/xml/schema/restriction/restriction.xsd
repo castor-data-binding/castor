@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema elementFormDefault="qualified" xmlns:vcml="http://www.vcml.net/1.1" 
+             targetNamespace="foo"
+             xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+  
+  <xsd:complexType name="element">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+        <xsd:attribute name="desc"/>
+        <xsd:attribute name="valueDesc" type="xsd:string"/>
+      </xsd:extension>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="ID">
+    <xsd:simpleContent>
+      <xsd:restriction base="element">
+        <xsd:pattern value="[A-Z\d]*"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="D_I01">
+    <xsd:simpleContent>
+      <xsd:restriction base="ID">
+        <xsd:minLength value="2"/>
+        <xsd:maxLength value="2"/>
+        <xsd:attribute fixed="Authorization Information Qualifier" name="desc"/>
+      </xsd:restriction>
+    </xsd:simpleContent>
+  </xsd:complexType>
+  
+  <xsd:complexType name="foo">
+   <xsd:simpleContent>
+      <xsd:extension base="xsd:string">
+      </xsd:extension>
+   </xsd:simpleContent>
+</xsd:complexType>
+
+</xsd:schema>

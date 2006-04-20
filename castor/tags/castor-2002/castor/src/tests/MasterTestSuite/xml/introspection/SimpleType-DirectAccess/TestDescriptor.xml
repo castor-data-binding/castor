@@ -1,0 +1,46 @@
+<?xml version='1.0'?>
+<!--Example of a testDescriptor-->
+<TestDescriptor>
+
+	<Name>Simple type handling with direct field access with introspection</Name>
+
+	<Comment>
+        This test check the proper handling of simple type for introspected
+        classes. All the field are accessed directly (and should be public...).
+
+        The Type tested are:
+           - String
+           - int
+           - long
+           - boolean
+           - double
+           - float
+           - java.math.BigDecimal // Problem...
+           - byte
+           - date // Problem...
+           - char
+
+    </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object random="true" dump="true">Root</Root_Object>
+
+		<UnitTestCase>
+            <Name>Element node</Name>
+			<Input>input-element.xml</Input>
+			<ObjectBuilder>Builder</ObjectBuilder>
+			<Output>output.xml</Output>
+		</UnitTestCase>
+
+		<UnitTestCase>
+            <Name>Attribute node</Name>
+			<Input>input-attribute.xml</Input>
+			<ObjectBuilder>Builder</ObjectBuilder>
+			<Output>output.xml</Output>
+		</UnitTestCase>
+
+	</MarshallingTest>
+</TestDescriptor>

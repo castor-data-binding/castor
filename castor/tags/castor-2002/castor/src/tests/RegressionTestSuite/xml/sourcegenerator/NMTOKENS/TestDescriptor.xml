@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the NMTOKENS support in the Source Generator</Name>
+	<Comment>This is a regression test case</Comment>
+	<Category>basic capability</Category>
+	<BugFix>
+        <Reporter>Steve Vaughan [snmvaughan92@yahoo.com]</Reporter>
+        <Date_Report>2001-09-21</Date_Report>
+        <Fixer>Arnaud Blandin [blandin@intalio.com]</Fixer>
+        <Date_Fix>2002-03-11</Date_Fix>
+        <Comment>The solution chosen is to give a validator to the CollectionFieldHandler</Comment>
+    </BugFix>
+
+	<SourceGeneratorTest>
+		<Schema>NMTOKENS.xsd</Schema> 	
+        <Root_Object random="false" dump="true">Test_NMTOKENS</Root_Object>
+		<UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input1.xml</Input>
+            <ObjectBuilder>NMTOKENS_Builder</ObjectBuilder>
+        </UnitTestCase>
+        <UnitTestCase>
+              <Name>Test failure attributes</Name>
+              <Input>input_attributes.xml</Input>
+              <Failure>true</Failure>
+        </UnitTestCase>
+        <UnitTestCase>
+              <Name>Test failure elements</Name>
+              <Input>input_elements.xml</Input>
+              <Failure>true</Failure>
+        </UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>

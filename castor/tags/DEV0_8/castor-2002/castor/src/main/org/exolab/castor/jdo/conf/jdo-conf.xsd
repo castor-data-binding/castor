@@ -1,0 +1,68 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE schema PUBLIC "-//W3C/DTD XML Schema Version 1.0//EN"
+                          "http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.dtd"-->
+<!--
+
+    The Castor JDO database configuration file XML Schema
+
+    Namespace: http://castor.exolab.org/
+    System:    http://castor.exolab.org/jdo-conf.xsd
+    Public:    -//EXOLAB/Castor JDO Configuration Schema Version 1.0//EN
+
+    Note: This schema is under evolution and subject to change.
+
+ -->
+
+<schema>
+
+  <element name="database">
+    <type content="elemOnly" order="seq">
+      <element ref="driver" maxOccurs="1" />
+      <element ref="data-source" maxOccurs="1" />
+      <element ref="jndi" maxOccurs="1" />
+      <element ref="mapping" minOccurs="1" />
+      <attribute name="name" type="ID" minOccurs="1" />
+      <attribute name="engine" type="string" minOccurs="0" default="generic" />
+    </type>
+  </element>
+
+  <element name="mapping">
+    <type content="empty">
+      <attribute name="href" type="string" minOccurs="1" />
+    </type>
+  </element>
+
+  <element name="driver">
+    <type content="elemOnly" order="seq">
+      <element ref="param" minOccurs="0" />
+      <attribute name="url" type="string" minOccurs="1" />
+      <attribute name="class-name" type="string" minOccurs="0" />
+    </type>
+  </element>
+
+  <element name="param">
+    <type content="empty">
+      <attribute name="name" type="string" minOccurs="1" />
+      <attribute name="value" type="string" minOccurs="1" />
+    </type>
+  </element>
+
+  <element name="data-source">
+    <type content="elemOnly" order="seq">
+      <element ref="params" minOccurs="1" maxOccurs="1" />
+      <attribute name="class-name" type="string" minOccurs="1" />
+    </type>
+  </element>
+
+  <element name="params">
+    <type content="any">
+    </type>
+  </element>
+
+  <element name="jndi">
+    <type content="empty">
+      <attribute name="name" type="string" minOccurs="1" />
+    </type>
+  </element>
+
+</schema>

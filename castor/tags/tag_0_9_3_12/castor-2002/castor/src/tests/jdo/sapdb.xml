@@ -1,0 +1,10 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+<database name="sapdb" engine="sapdb" >
+    <driver url="jdbc:sapdb://localhost/TST" class-name="com.sap.dbtech.jdbc.DriverSapDB">
+                <param name="user" value="DBA" />
+                <param name="password" value="DBA" />
+                <!--param name="sqlmode" value="ORACLE" /-->
+    </driver>
+    <mapping href="mapping.xml" />
+</database>

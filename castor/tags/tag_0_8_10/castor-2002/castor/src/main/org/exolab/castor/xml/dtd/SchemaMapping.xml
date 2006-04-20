@@ -1,0 +1,95 @@
+<?xml version="1.0" ?>
+
+<mapping>
+
+  <class name="org.exolab.castor.xml.schema.Schema">
+    <map-to xml="schema" />
+    <field name="schemaNS" get-method="getSchemaNamespace"
+                           type="java.lang.String">
+      <xml name="xmlns" node="attribute" />
+    </field>
+    <field name="targetNS" get-method="getTargetNamespace"
+                           type="java.lang.String">
+      <xml name="targetNamespace" node="attribute" />
+    </field>
+    <field name="_annotations" get-method="getAnnotations"
+                               type="java.util.Enumeration">
+      <xml node="element" />
+    </field>
+    <!-- complexTypes -->
+    <field name="elements" get-method="getElementDecls"
+                           type="java.util.Enumeration">
+      <xml node="element" />
+    </field>
+  </class>
+
+  <class name="org.exolab.castor.xml.schema.Annotation">
+    <map-to xml="annotation" />
+    <field name="documentationList" get-method="getDocumentation"
+                                    type="java.util.Enumeration">
+      <xml node="element" />
+    </field>
+    <field name="appInfoList" get-method="getAppInfo"
+                                    type="java.util.Enumeration">
+      <xml node="element" />
+    </field>
+  </class>
+
+  <class name="org.exolab.castor.xml.schema.Documentation">
+    <map-to xml="documentation" />
+    <field name="base" get-method="getBase" type="java.lang.String">
+      <xml name="source" node="attribute" />
+    </field>
+    <field name="content" get-method="getContent" type="java.lang.String">
+      <xml node="text" />
+    </field>
+    <field name="objects" get-method="getObjects" type="java.util.Enumeration">
+      <xml node="element" />
+    </field>
+  </class>
+
+  <!-- class AppInfo -->
+
+  <class name="org.exolab.castor.xml.dtd.GeneralEntity">
+    <map-to xml="generalEntity" />
+    <field name="name" get-method="getName" type="java.lang.String">
+      <xml name="name" node="attribute" />
+    </field>
+    <field name="pubIdentifier" get-method="getPubIdentifier"
+                                type="java.lang.String">
+      <xml name="public" node="attribute" />
+    </field>
+    <field name="sysIdentifier" get-method="getSysIdentifier"
+                                type="java.lang.String">
+      <xml name="system" node="attribute" />
+    </field>
+    <field name="ndata" get-method="getNotation"
+                                type="java.lang.String">
+      <xml name="notation" node="attribute" />
+    </field>
+    <field name="value" get-method="getValue" type="java.lang.String">
+      <xml node="text" />
+    </field>
+  </class>
+
+<!--
+  <class name="org.exolab.castor.xml.schema.ElementDecl">
+    <map-to xml="element" />
+    <field name="name" get-method="getName" type="java.lang.String">
+      <xml name="name" node="attribute" />
+    </field>
+    <field name="isAbstract" get-method="isAbstract" type="boolean">
+      <xml name="abstract" node="attribute" />
+    </field>
+    <field name="typeRef" get-metod="getTypeRef" type="java.lang.String">
+      <xml name="type" node="attribute" />
+    </field>
+
+    <field name="elementRef" get-method="getName" type="java.lang.String">
+      <xml name="ref" node="attribute" />
+    </field>
+    <field >
+
+  </class>
+-->
+</mapping>

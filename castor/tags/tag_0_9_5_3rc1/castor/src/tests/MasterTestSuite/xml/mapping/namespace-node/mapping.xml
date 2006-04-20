@@ -1,0 +1,12 @@
+<?xml version="1.0"?>
+<mapping>
+   <class name="Namespaces_Root">
+      <map-to xml="root"/>
+      <field name="namespaces" collection="hashtable" type="string">
+            <bind-xml node="namespace"/>
+      </field>
+      <field name="content" type="string">
+            <bind-xml node="text"/>
+      </field>
+   </class>
+</mapping>

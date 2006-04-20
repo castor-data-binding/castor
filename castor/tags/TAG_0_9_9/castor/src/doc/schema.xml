@@ -1,0 +1,66 @@
+<?xml version="1.0"?>
+<document url="http://castor.org/schema.xml">
+  <body>
+    <title>Castor DTD and XML Schema</title>
+    <header>
+
+      <table border="1" cellpadding="4">
+        <tr>
+          <td>Castor Namespace</td>
+          <td nowrap="nowrap"><tt>http://castor.exolab.org</tt></td>
+        </tr>
+        <tr>
+          <td>Mapping DTD</td>
+          <td>
+            <tt>-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN</tt><br/>
+            <a href="mapping.dtd"><tt>http://castor.exolab.org/mapping.dtd</tt></a>
+          </td>
+        </tr>
+        <tr>
+          <td>Mapping XML Schema</td>
+          <td>
+            <tt>-//EXOLAB/Castor Object Mapping Schema Version 1.0//EN</tt><br/>
+            <a href="mapping.xsd"><tt>http://castor.exolab.org/mapping.xsd</tt></a>
+          </td>
+        </tr>
+        <tr>
+          <td>JDO Configuration DTD</td>
+          <td>
+            <tt>-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN</tt><br/>
+            <a href="jdo-conf.dtd"><tt>http://castor.exolab.org/jdo-conf.dtd</tt></a>
+          </td>
+        </tr>
+        <tr>
+          <td>JDO Configuration Schema</td>
+          <td>
+            <tt>-//EXOLAB/Castor JDO Configuration Schema Version 1.0//EN</tt><br/>
+            <a href="jdo-conf.xsd"><tt>http://castor.exolab.org/jdo-conf.xsd</tt></a>
+          </td>
+        </tr>
+        <tr>
+          <td>SourceGenerator Binding file Namespace</td>
+          <td><tt>http://castor.exolab.org/SourceGenerator/Binding</tt></td>
+        </tr>
+        <tr>
+          <td>Source Generator Binding File</td>
+          <td>
+            <tt> -//EXOLAB/Castor Binding Schema Version 1.0//EN</tt><br/>
+            <a href="binding.xsd"><tt>http://castor.exolab.org/binding.xsd</tt></a>
+          </td>
+        </tr>
+        <tr>
+          <td>DSML Namespace</td>
+          <td><tt>http://www.dsml.org/DSML</tt></td>
+        </tr>
+        <tr>
+          <td>DSML DTD and Schema</td>
+          <td>
+            <a href="dsml.dtd"><tt>dsml.dtd</tt></a><nbsp/><a href="dsml.xsd"><tt>dsml.xsd</tt></a><nbsp/>
+            <a href="dsml-import.dtd"><tt>dsml-import.dtd</tt></a><nbsp/><a href="dsml-search.dtd"><tt>dsml-search.dtd</tt></a>
+          </td>
+        </tr>
+      </table>
+
+    </header>
+  </body>
+</document>

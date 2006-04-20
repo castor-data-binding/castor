@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+                           
+<jdo-conf>
+   <database name="test" engine="postgresql">
+      <data-source class-name="postgresql.PostgresqlDataSource">
+         <param name="user" value="test" />
+         <param name="password" value="test" />
+         <param name="databaseName" value="test" />
+      </data-source>
+      <mapping href="mapping.xml" />
+   </database>
+   <transaction-demarcation mode="local" />
+</jdo-conf>
+
+
