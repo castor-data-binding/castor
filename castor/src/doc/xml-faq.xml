@@ -1,0 +1,134 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- $Id$ -->
+
+<document url="http://castor.exolab.org/xml-faq.html">
+  <body>
+    <title>Castor XML FAQ</title>
+
+
+    <section title="General">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="How do I set the encoding?">
+            <p>
+               Create a new instance of the Marshaller class and use the
+               setEncoding method. You'll also need to make sure the
+               encoding for the Writer is set properly as well:
+               <code>
+                  ...
+                  String encoding = "ISO-8859-1";
+                  FileOutputStream fos = new FileOutputStream("result.xml");
+                  OutputStreamWriter osw = new OuputStreamWriter(fos, encoding);
+                  Marshaller marshaller = new Marshaller(osw);
+                  marshaller.setEncoding(encoding);
+                  ...
+               </code>
+            </p>
+            </section>
+            <section title="Why is my 'get' method called twice?">
+            <p>
+               The get method will be called a second time during the
+               validation process. To prevent this from happening
+               simply disable validation on the Marshaller or Unmarshaller.
+            </p>
+            </section>
+
+        </section>
+    </section>
+
+    <section title="Introspection">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="Can private methods be introspected?">
+            <p>
+               Castor does not currently support introspection of private
+               methods. Please make sure proper public accesssor methods
+               are available for all fields that you wish to be handled
+               by the Marshalling Framework.
+            </p>
+            </section>
+        </section>
+    </section>
+
+    <section title="Mapping">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="My mapping file seems to have no effect!">
+            <p>
+               Make sure you are not using one of the <i>static</i> methods
+               on the Marshaller/Unmarshaller. Any configuration changes
+               that you make to the Marshaller or Unmarshaller are not
+               available from the static methods.
+            </p>
+            </section>
+            <section title="Are there any tools to automatically create a mapping file?">
+            <p>
+               Yes! We provide one such tool, see org.exolab.castor.tools.MappingTool.
+               There are some <a href="extras.xml">3rd party</a> tools as well.
+            </p>
+            </section>
+        </section>
+
+    </section>
+
+    <section title="Source Code Generator">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="Can I use a DTD with the source generator?">
+            <p>
+                  Not directly, however you can convert your DTD to an XML Schema
+                  fairly easily. We provide a tool (org.exolab.castor.xml.dtd.Converter)
+                  to do this. You can also use any number of 3rd-party tools such as
+                  XML Spy or XML Authority.
+            </p>
+            </section>
+
+            <section title="My XML output looks incorrect, what could be wrong?">
+            <p>
+               Are the generated class descriptors compiled? Make sure they
+               get compiled along with the source code for the object model.
+            </p>
+            </section>
+            <section title="How can I make the generated source code more JDO friendly?">
+            <p>For Castor 0.9.4 and above:</p>
+            <p>
+               Castor JDO requires a reference to the actual collection to be returned from
+               the get-method. By default the source generator does not provide such a
+               method. To enable such methods to be created, simple add the following
+               line to your <i><b>castorbuilder.properties</b></i> file:
+               <pre>
+                   org.exolab.castor.builder.extraCollectionMethods=true
+                </pre>
+                Note: The default castorbuilder.properties file has this line commented out, simply
+                uncomment it.
+            </p>
+            <p>Your mapping file will also need to be updated to include the proper set/get
+               method names.
+             </p>
+            </section>
+
+        </section>
+    </section>
+
+    <section title="Miscellaneous">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section
+                title="Is there a way to automatically create an XML Schema from an XML instance?">
+            <p>
+               Yes! We provide such a tool.
+               Please see org.exolab.castor.xml.schema.util.XMLInstance2Schema.
+               It's not 100% perfect, but it does a reasonable job.
+            </p>
+            </section>
+        </section>
+    </section>
+
+  </body>
+</document>
