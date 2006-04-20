@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd"> 
+
+<jdo-conf>
+    <database name="db2" engine="db2" >
+        <driver url="jdbc:db2:TEST" class-name="COM.ibm.db2.jdbc.app.DB2Driver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="jdo/mapping.xml" />
+    </database>
+    <transaction-demarcation mode="local" />
+</jdo-conf>

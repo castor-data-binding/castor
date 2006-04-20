@@ -1,0 +1,444 @@
+<document url="http://castor.org/jdo-mapping.xml">
+  <properties>
+    <title>Castor JDO Mapping</title>
+    <author email="ferret@frii.com">Bruce Snyder</author>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+        Outlines the use the Castor XML Mapping with regard to Castor JDO.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+    <title>Castor JDO Mapping</title>
+
+    <section title="Introduction">
+
+      <p>The Castor mapping file also provides a mechanism for binding a Java
+         object model to a relational database model. This is usually referred to
+         as object-to-relational mapping (O/R mapping). O/R mapping bridges the gap
+         between an object model and a relational model.</p>
+
+      <p>The mapping file provides a description of the Java object model to
+         Castor JDO. Via Castor XML, Castor JDO uses the information in the mapping
+         file to map Java objects to relational database tables. The
+         following is a high-level example of a mapping file:</p>
+
+      <code-panel><![CDATA[
+  <mapping>
+      <class ... >
+          <map-to ... />
+          <field ... >
+              <sql ... />
+          </field>
+          ...
+      </class>
+  </mapping>]]></code-panel>
+
+      <p>Each Java object is represented by a &lt;class> element composed of attributes,
+         a &lt;map-to> element and &lt;field> elements. The &lt;map-to> element
+         contains a reference to the relational table to which the Java object maps.
+         Each &lt;field> element represents either a public class variable or the
+         variable's accessor/mutator methods (depending upon the mapping info). Each
+         &lt;field> element is composed of attributes and one &lt;sql> element.
+         The &lt;sql> element represents the field in the relational table to which
+         the &lt;field> element maps.</p>
+
+      <p>It is possible to use the mapping file and Castor's default behavior in
+         conjunction. When Castor handles an object but is unable to locate
+         information about it in the mapping file, it will rely upon its default
+         behavior. Castor makes use of the Java programming language
+         <a href="http://java.sun.com/j2se/1.4.1/docs/api/java/lang/reflect/package-summary.html">
+         Reflection API</a> to introspect the Java objects to determine the methods
+         to use. This is the reason some attributes are not required in the mapping
+         file.</p>
+
+    </section>
+
+    <section title="The Mapping File">
+
+      <section title="The &lt;mapping> element">
+
+        <code-panel><![CDATA[
+  <!ELEMENT mapping ( description?, include*, class*, key-generator* )>]]></code-panel>
+
+        <p>The &lt;mapping> element is the root element of a mapping file. It contains:</p>
+
+        <ul>
+          <li>an optional description</li>
+          <li>zero or more &lt;include> which facilitates reusing mapping files</li>
+          <li>zero or more &lt;class> descriptions: one for each class we intend to give
+            mapping information</li>
+          <li>zero or more &lt;key-generator>: not used for XML mapping</li>
+        </ul>
+
+        <p>A mapping file look like this:</p>
+
+        <code-panel><![CDATA[
+  <?xml version="1.0"?>
+  <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+
+  <mapping>
+     <description>Description of the mapping&lt;/description>
+     <include href="other_mapping_file.xml"/>
+
+     <class name="A">
+         ...
+     </class>
+
+     <class name="B">
+        ...
+     </class>
+  </mapping>]]></code-panel>
+
+      </section>
+
+      <section title="The &lt;class> element">
+
+        <code-panel><![CDATA[
+  <!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
+  <!ATTLIST class
+            name            ID       #REQUIRED
+            extends         IDREF    #IMPLIED
+            depends         IDREF    #IMPLIED
+            auto-complete   ( true |false ) "false"
+            identity        CDATA    #IMPLIED
+            access          ( read-only | shared | exclusive | db-locked )  "shared"
+            key-generator   IDREF    #IMPLIED >]]></code-panel>
+
+
+        <p>
+        The  &lt;class> element contains all the information used to map a Java object
+        to a relational database. The content of &lt;class> is mainly used to describe
+        the fields that will be mapped.
+        </p>
+
+        <p>
+        Description of the attributes:
+        </p>
+
+        <ul>
+          <li><b>name:</b> The fully qualified package name of the Java object to map to.</li>
+
+          <li><b>extends:</b> Should be used <b>only</b> if this Java object extends another Java
+          object for which mapping information is provided. It should <b>not</b> be used if the
+          extended Java object is not referenced in the mapping file.</li>
+
+          <li><b>depends:</b> For more information on this field, please see
+          <a href="jdo-other-features.html#Dependent-and-related-relationships">
+          Dependent and related relationships</a>.</li>
+
+          <li><b>identity:</b> For more information on this field, please see
+          <a href="design-persist.html#Persistence">Design -> Persistence</a>.</li>
+
+          <li><b>access:</b> For more information on this field, please see
+          <a href="locking.html#Locking-Modes">Locking Modes</a>.</li>
+
+          <li><b>key-generator</b>: For more information on this field, please see
+          <a href="key-generator.html">KeyGen</a>.</li>
+        </ul>
+
+        <p>Description of the elements:</p>
+
+        <ul>
+             <li><b>&lt;description></b>: An optional description.</li>
+
+             <li><b>&lt;cache-type></b>: For more information on this field please see
+             <a href="long-transact.html#Bounded-dirty-checking">Bounded Dirty Checking</a>
+             and <a href="jdo-other-features.html#Caching">Caching</a>.</li>
+
+             <li><b>&lt;map-to></b>: Used to tell Castor the name of the relational
+             table to which to map.</li>
+
+             <li><b>&lt;field></b>: Zero or more &lt;field> elements are used to describe properties
+             of each Java object.</li>
+        </ul>
+
+      </section>
+
+      <section title="The &lt;map-to> element">
+
+        <code-panel><![CDATA[
+  <!ELEMENT map-to EMPTY>
+  <!ATTLIST map-to
+            table      NMTOKEN  #IMPLIED
+            xml        NMTOKEN  #IMPLIED
+            ns-uri     NMTOKEN  #IMPLIED
+            ns-prefix  NMTOKEN  #IMPLIED
+            ldap-dn    NMTOKEN  #IMPLIED
+            ldap-oc    NMTOKEN  #IMPLIED>]]></code-panel>
+
+        <p>&lt;map-to> is used to specify the name of the item that should be associated
+          with the given Java object. The &lt;map-to> element is only used for the root
+          Java object.</p>
+
+        <p>Description of the attributes:</p>
+
+        <ul>
+          <li><b>table:</b> The name of the relational database table to which the
+          Java object is associated.</li>
+        </ul>
+
+      </section>
+
+      <section title="The &lt;field> element">
+
+        <code-panel><![CDATA[
+  <!ELEMENT field ( description?, sql?, xml?, ldap? )>
+  <!ATTLIST field
+            name           NMTOKEN  #REQUIRED
+            type           NMTOKEN  #IMPLIED
+            required       ( true | false )  "false"
+            direct         ( true | false )  "false"
+            lazy           ( true | false )  "false"
+            transient      ( true | false )  "false"
+            get-method     NMTOKEN  #IMPLIED
+            set-method     NMTOKEN  #IMPLIED
+            create-method  NMTOKEN  #IMPLIED
+            collection     ( array | enumerate | collection | set | 
+                             arraylist | vector | map | hashtable )  #IMPLIED>]]></code-panel>
+
+        <p>The &lt;field> element is used to describe a property of a Java object. It provides:</p>
+        <ul>
+          <li>the identity ('name') of the property</li>
+          <li>the type of the property (inferred from 'type' and 'collection')</li>
+          <li>the access method of the property (inferred from 'direct', 'get-method', 'set-method')</li>
+        </ul>
+
+        <p>From this information, Castor is able to access a given property in the Java
+          object.</p>
+
+        <p>In order to determine the signature that Castor expects, there are two easy
+          rules to apply.</p>
+
+        <p><b>1. Determine &lt;type>.</b></p>
+
+        <li><p><b>If there is no 'collection' attribute</b>, the object type is the value
+           of the 'type' attribute. The value of the type attribute can be a fully qualified Java
+           object like 'java.lang.String' or one of the allowed aliases:</p>
+
+         <table border="0" cellspacing="1" cellpadding="2" bgcolor="#7270c2">
+            <tr>
+               <td>
+                  <table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+                     <tr bgcolor="#7270c2" style="color:#000000">
+                        <th align="left">short name</th>
+                        <th align="left">Primitive type?</th>
+                        <th align="left">Java Class</th>
+                     </tr>
+                     <tr bgcolor="#DEDEDE"><td>big-decimal</td><td>N</td><td>java.math.BigDecimal</td></tr>
+                     <tr><td>big-integer</td><td>Y</td><td>java.math.BigInteger</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>boolean</td><td>Y</td><td>java.lang.Boolean.TYPE</td></tr>
+                     <tr><td>byte</td><td>Y</td><td>java.lang.Byte.TYPE</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>bytes</td><td>N</td><td>byte[]</td></tr>
+                     <tr><td>char</td><td>Y</td><td>java.lang.Character.TYPE</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>chars</td><td>N</td><td>char[]</td></tr>
+                     <tr><td>clob</td><td>N</td><td>java.sql.Clob</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>date</td><td>N</td><td>java.util.Date</td></tr>
+                     <tr><td>double</td><td>Y</td><td>java.lang.Double.TYPE</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>float</td><td>Y</td><td>java.lang.Float.TYPE</td></tr>
+                     <tr><td>int</td><td>Y</td><td>java.lang.Integer.TYPE</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>integer</td><td>Y</td><td>java.lang.Integer</td></tr>
+                     <tr><td>locale</td><td>N</td><td>java.util.Locale</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>long</td><td>Y</td><td>java.lang.Long.TYPE</td></tr>
+                     <tr><td>other</td><td>N</td><td>java.lang.Object</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>serializable</td><td>Y</td><td>java.io.Serializable</td></tr>
+                     <tr><td>short</td><td>Y</td><td>java.lang.Short.TYPE</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>sqldate</td><td>Y</td><td>java.sql.Date</td></tr>
+                     <tr><td>sqltime</td><td>Y</td><td>java.sql.Date</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>string</td><td>N</td><td>java.lang.String</td></tr>
+                     <tr><td>strings</td><td>N</td><td>String[]</td></tr>                
+                     <tr bgcolor="#DEDEDE"><td>stream</td><td>N</td><td>java.io.InputStream</td></tr>
+                     <tr><td>timestamp</td><td>N</td><td>java.sql.Timestamp</td></tr>
+                  </table>
+               </td>
+            </tr>
+         </table>
+
+         <p>Castor will try to cast the data in the mapping file to the proper Java 
+            type.</p></li>
+
+
+      <li><p><b>If there is a collection attribute</b>, the items in the following table can be
+         used:</p>
+
+         <table border="0" cellspacing="1" cellpadding="2" bgcolor="#7270c2">
+            <tr>
+               <td>
+                  <table border="0" cellspacing="0" cellpadding="6" bgcolor="#ededed">
+                     <tr bgcolor="#7270c2" style="color:#000000">
+                        <th align="left">name</th>
+                        <th align="left">type</th>
+                        <th align="left">default implementation</th>
+                     </tr>
+                     <tr bgcolor="#DEDEDE"><td>array</td><td>&lt;type_attribute>[]</td><td>&lt;type_attribute>[]</td></tr>
+                     <tr><td>enumerate</td><td>java.util.Enumeration</td><td>-</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>collection</td><td>java.util.Collection</td><td>java.util.ArrayList </td></tr>
+                     <tr><td>set</td><td>java.util.Set</td><td>java.util.HashSet</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>arraylist</td><td>java.util.ArrayList</td><td>java.util.ArrayList </td></tr>
+                     <tr><td>vector</td><td>java.util.Vector</td><td>java.util.Vector</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>map</td><td>java.util.Map</td><td>java.util.HashMap</td></tr>
+                     <tr><td>hashtable</td><td>java.util.Hashtable</td><td>java.util.Hashtable</td></tr>
+                  </table>
+               </td>
+            </tr>
+         </table>
+
+        <p>The type of the object inside the collection is the 'type' attribute. The 'default
+           implementation' is the type used if the object holding the collection is found
+           to be null and needs to be instantiated.</p>
+
+        <p>For hashtable and map, Castor will add an object using the put(object, object) 
+           method - the object is both the key and the value. This will be improved in the future.</p></li>
+
+        <p>It is necessary to use a collection when the content model of the element expects more 
+           than one element of the specified type. This is how the 'to-many' portion of a relationship 
+           is described.</p>
+
+
+        <p><b>2. Determine the signature of the method</b></p>
+
+        <li><p><b>If 'direct' is set to true</b>, Castor expects to find a public Java 
+           object variable with the given signature:</p>
+
+        <code-panel><![CDATA[  public <type> <name>;]]></code-panel>
+        </li>
+
+        <li><p><b>If 'direct' is set to false or omitted</b>, Castor will access the property
+           though accessor methods. Castor determines the signature of the accessors and mutators 
+           as follows: If the 'get-method' or 'set-method' attributes are supplied, it will
+           try to find a function with the following signature:</p>
+
+        <code-panel><![CDATA[  public <type> <get-method>();]]></code-panel>
+        <p>or</p>
+        <code-panel><![CDATA[  public void <set-method>(<type> value);]]></code-panel>
+
+        <p>If 'get-method' or 'set-method' attributes are not provided, Castor will try to
+           find the following functions:</p>
+	
+        <code-panel><![CDATA[  public <type> is<capitalized-name>();]]></code-panel>
+        <p>or</p>
+        <code-panel><![CDATA[  public <type> get<capitalized-name>();]]></code-panel>
+		
+		<p>the former for boolean types, the latter for all other types (or if the 
+           'is&lt;capitalized-name>()' method is not defined for a boolean type), and 
+           a standard set method of</p>
+        
+        <code-panel><![CDATA[  public void set<capitalized-name>(<type> value);]]></code-panel>
+	
+	    <p>If there are more than one set&lt;capitalized-name> method it first tries to find the one
+           that exactly matches &lt;type>. If no such method is available and &lt;type> is a java
+           primitive type it tries to find a method with the corresponing java object type.</p>
+	
+        <p>&lt;capitalized-name> means that Castor uses the &lt;name> attribute by changing its first
+           letter to uppercase without modifying the other letters.</p>
+
+        <p>The content of the &lt;field> element will contain the information about how to map 
+           this field to the relational table.</p>
+        </li>
+
+        <p>Description of the attributes: </p>
+
+        <ul>
+          <li><b>name:</b> If 'direct' access is used, 'name' should be the name of a public
+             variable in the object we are mapping (the field must be public, not
+             static and not transient). If no direct access and no 'get-/set-method'
+             is specified, this name will be used to infer the name of the accessor and 
+             mutator methods.</li>
+
+          <li><b>type:</b> The Java type of the field. This is used to access the
+             field. Castor will use this information to cast the data type(e.g. string 
+             into integer). It is also used to define the signature of the accessor and 
+             mutator methods. If a collection is specified, this is used to specify the 
+             type of the object inside the collection. See description above for more 
+             details.</li>
+
+          <li><b>required:</b> If true, the field is not optional.</li>
+
+          <li><b>transient:</b> If true, the field will be ignored during persistence (and 
+             XML un-/marshalling). If you want this field to be ignored during any 
+             persistence-related operations only, please use the 'transient' attribute at the 
+             &lt;sql&gt; level.</li>
+
+          <li><b>direct:</b> If true, Castor expects a public variable in the object
+             and will modify it directly.</li>
+
+          <li><b>collection:</b> If a parent object expects more than one occurrence of
+             one of its fields, it is necessary to specify which collection type Castor will 
+             use to handle them. The type specified is used to define the type of the 
+             content inside the collection.</li>
+
+          <li><b>get-method:</b> An optional name of the accessor method Castor should 
+             use. If this attribute is not set, Castor will try to guess the name with the
+             algorithm described above.</li>
+
+
+          <li><b>set-method:</b> An optional name of the mutator method Castor should 
+             use. If this attribute is not set, Castor will try to guess the name with the
+             algorithm described above.</li>
+
+          <li><b>create-method:</b> Factory method for instantiation of the object.</li>
+        </ul>
+
+      </section>
+
+      <section title="The &lt;sql> element">
+
+        <code-panel><![CDATA[
+  <!ELEMENT sql EMPTY>
+  <!ATTLIST sql
+            name        NMTOKENS  #IMPLIED
+            type        NMTOKENS  #IMPLIED
+            many-key    NMTOKENS  #IMPLIED
+            many-table  NMTOKEN   #IMPLIED
+            transient   ( true | false )    "false"
+            read-only   ( true | false )    "false"
+            dirty       ( check | ignore )  "check">]]></code-panel>
+  
+        <p>The &lt;sql> element is used to denote information about the 
+           database column to which a Java object is mapped. It should be declared 
+           for all &lt;field> elements. Each &lt;field> element contains one &lt;sql> 
+           element. The &lt;sql> element correlates directly to the &lt;map-to> 
+           element for the containing &lt;class> element. The &lt;sql> elements 
+           contains the following attributes:</p>
+
+        <ul>
+           <li><b>name:</b> The name of the column in the database table.</li>
+  
+           <li><b>type:</b> The JDBC type of the column. It is inferred from the object
+              when the type of this field is a persistent Java class that is defined
+              elsewhere in the mapping.  The complete list of automatic type conversions, and
+              which values require manual mapping (e.g, java.util.Date) is listed in the
+              <a href="types.html#SQL-Type-Conversion">SQL Type Conversion section of the 
+              Type Support</a> document.</li>
+  
+           <li><b>read-only:</b> If true, the column in the relational database
+              table will only be read, not updated or deleted.</li>
+  
+           <li><b>transient (as of 0.9.9):</b> If true, the field will be ignored during persistence 
+              only. If you want this field to be ignored during XML un-/marshalling as well, 
+              please use the 'transient' attribute at the &lt;field&gt; level.</li>
+          
+           <li><b>dirty:</b> If the value is 'ignore', the field will not be checked
+              against the database for modification.</li>
+        </ul>
+          
+        <p>There are two more attributes used <b>only</b> with 'to-many' relations.</p>
+             
+        <ul>
+            <li><b>many-key:</b> Specifies the name of the column that holds the 
+            foreign key to this object. That column is in the database table
+            that stores objects of the Java type of this field.</li>
+  
+            <li><b>many-table:</b> Specifies the name of the bridge table that contains
+            the primary keys of the object on each side of the relationship. This is <em>only</em>
+            used for many-to-many relationships.</li>
+        </ul>
+
+      </section>
+
+    </section>
+
+  </body>
+</document>

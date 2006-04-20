@@ -1,0 +1,364 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+  <class name="ctf.jdo.tc1x.TimeStampableObject" access="shared" identity="id">
+    <description>Table used for concurrency and performance testing</description>
+    <map-to table="tc1x_sample" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.NestedObject" access="shared" identity="id">
+    <description>nested fields testing</description>
+    <map-to table="tc1x_sample" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="nested1.value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="nested2.nested3.value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc1x.PersistentObject" access="shared" identity="id">
+    <description>Test Persistent interface handling</description>
+    <map-to table="tc1x_persist" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="creationTime" type="java.util.Date" required="true">
+      <sql name="ctime" type="timestamp" />
+    </field>
+    <field name="modificationTime" type="java.util.Date" required="false">
+      <sql name="mtime" type="timestamp" dirty="ignore" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="parentId" type="integer" required="false">
+      <sql name="parent_id" type="integer" dirty="ignore" />
+    </field>
+    <field name="group" type="ctf.jdo.tc1x.PersistentGroup" required="true">
+      <sql name="group_id" />
+    </field>
+    <field name="related" type="ctf.jdo.tc1x.PersistentRelated" required="false">
+      <sql many-key="persist_id" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.PersistentGroup" access="shared" identity="id">
+    <description>Test Persistent interface handling</description>
+    <map-to table="tc1x_group" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.PersistentRelated" access="shared" identity="id" key-generator="MAX">
+    <description>Test Persistent interface handling</description>
+    <map-to table="tc1x_related" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="persistent" type="ctf.jdo.tc1x.PersistentObject">
+      <sql name="persist_id" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.TypeHandling" access="shared" identity="id">
+    <description>Test type handling</description>
+    <cache-type type="none"/>
+    <map-to table="tc1x_handling" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="date" type="date">
+      <sql name="tdt" type="timestamp" />
+    </field>
+    <field name="time" type="date">
+      <sql name="ttm" type="timestamp" dirty="ignore" />
+    </field>
+    <field name="intValue" type="integer" required="false" >
+      <sql name="int_val" type="integer" />
+    </field>
+    <field name="longValue" type="long" required="false" >
+      <sql name="long_val" type="numeric" />
+    </field>
+    <field name="charValue" type="char" required="false" >
+      <sql name="char_val" type="char" />
+    </field>
+    <field name="boolValue" type="boolean" required="true" >
+      <sql name="bool_val" type="char[01]" />
+    </field>
+    <field name="boolIsMethod" type="boolean" required="true" >
+      <sql name="bool_is_method" type="char[01]" />
+    </field>
+    <field name="date2" type="date" >
+      <sql name="int_date" type="integer[YMD]" />
+    </field>
+    <field name="time2" type="date" >
+      <sql name="str_time" type="char[yyyy/MM/dd HH:mm:ss.SSS]" />
+    </field>
+    <field name="timestamp2" type="date" >
+      <sql name="num_date" type="numeric[YMDhmsS]" />
+    </field>
+    <!--
+    <field name="timestamp3" type="string" >
+      <sql name="date_str" type="timestamp" />
+    </field>
+    -->
+    <field name="doubleValue" type="double" >
+      <sql name="real_val" type="real" />
+    </field>
+    <field name="floatValue" type="float" >
+      <sql name="float_val" type="float" />
+    </field>
+    <field name="date3" type="date">
+      <sql name="long_date" type="bigint" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.TypeLOB" access="db-locked" identity="id">
+    <description>Test type handling of CLOB and BLOB</description>
+    <map-to table="tc1x_lob" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="blob" type="bytes" >
+      <sql name="blob_val" type="blob" dirty="ignore" />
+    </field>
+    <field name="clob" type="string" >
+      <sql name="clob_val" type="clob" dirty="ignore" />
+    </field>
+    <!-- <field name="blob2" type="stream" >
+      <sql name="blob_val2" type="blob" dirty="ignore" />
+    </field> -->
+    <field name="clob2" type="clob" >
+      <sql name="clob_val2" type="clob" dirty="ignore" />
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc1x.TypeConversion" access="shared" identity="id">
+    <description>Test various type conversions</description>
+    <cache-type type="none"/>
+    <map-to table="tc1x_conv"/>
+    <field name="id" type="integer" >
+      <sql name="id" type="integer" />
+    </field>
+    <!--
+    <field name="boolByte" type="boolean">
+      <sql name="bool_byte" type="tinyint" />
+    </field>
+    <field name="boolShort" type="boolean">
+      <sql name="bool_short" type="smallint" />
+    </field>
+    <field name="boolShortMinus" type="boolean">
+      <sql name="bool_short_minus" type="smallint[-]" />
+    </field>
+    -->
+    <field name="boolInt" type="boolean">
+      <sql name="bool_int" type="integer" />
+    </field>
+    <field name="boolIntMinus" type="boolean">
+      <sql name="bool_int_minus" type="integer[-]" />
+    </field>
+    <field name="boolBigdec" type="boolean">
+      <sql name="bool_bigdec" type="numeric" />
+    </field>
+    <field name="boolBigdecMinus" type="boolean">
+      <sql name="bool_bigdec_minus" type="numeric[-]" />
+    </field>
+    <field name="byteInt" type="byte">
+      <sql name="byte_int" type="integer" />
+    </field>
+    <field name="shortInt" type="short">
+      <sql name="short_int" type="integer" />
+    </field>
+    <field name="longInt" type="long">
+      <sql name="long_int" type="integer" />
+    </field>
+    <field name="doubleInt" type="double">
+      <sql name="double_int" type="integer" />
+    </field>
+    <field name="floatInt" type="float">
+      <sql name="float_int" type="integer" />
+    </field>
+    <!--
+    <field name="byteBigdec" type="byte">
+      <sql name="byte_bigdec" type="numeric" />
+    </field>
+    <field name="shortBigdec" type="short">
+      <sql name="short_bigdec" type="numeric" />
+    </field>-->
+    <field name="intBigdec" type="integer">
+      <sql name="int_bigdec" type="numeric" />
+    </field>
+    <field name="floatBigdec" type="float">
+      <sql name="float_bigdec" type="numeric" />
+    </field>
+    <field name="doubleBigdec" type="double">
+      <sql name="double_bigdec" type="numeric" />
+    </field>
+    <!--
+    <field name="byteString" type="byte">
+      <sql name="byte_string" type="varchar" />
+    </field>
+    <field name="shortString" type="short">
+      <sql name="short_string" type="varchar" />
+    </field>-->
+    <field name="intString" type="integer">
+      <sql name="int_string" type="varchar" />
+    </field>
+    <field name="longString" type="long">
+      <sql name="long_string" type="varchar" />
+    </field>
+    <field name="bigdecString" type="big-decimal">
+      <sql name="bigdec_string" type="varchar" />
+    </field>
+    <field name="floatString" type="float">
+      <sql name="float_string" type="varchar" />
+    </field>
+    <field name="doubleString" type="double">
+      <sql name="double_string" type="varchar" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.SerializableReferer" identity="id">
+    <description>test serializable field</description>
+    <map-to table="tc1x_serial" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="serializableObject" type="serializable">
+      <sql name="dep" type="blob" dirty="ignore"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.RollbackObject" access="shared" identity="id">
+    <description>primitive rollback testing</description>
+    <map-to table="tc1x_rollback" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+    <field name="number" type="long">
+      <sql name="numb" type="numeric" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.PrimaryKeysPerson" identity="firstName lastName">
+    <description>testing multiple primary key</description>
+    <map-to table="tc1x_pks_person" />
+    <field name="firstName" type="string"  required="true">
+      <sql name="fname" type="varchar" />
+    </field>
+    <field name="lastName" type="string" required="true">
+      <sql name="lname" type="varchar" />
+    </field>
+    <field name="birthday" type="date"  >
+      <sql name="bday" type="date" />
+    </field>
+    <field name="address" type="ctf.jdo.tc1x.PrimaryKeysAddress" collection="arraylist" />
+  </class>
+
+  <class name="ctf.jdo.tc1x.PrimaryKeysAddress" depends="ctf.jdo.tc1x.PrimaryKeysPerson" identity="id">
+    <description>testing multiple primary key</description>
+    <map-to table="tc1x_pks_address" />
+    <field name="id" type="integer" >
+      <sql name="id" type="integer" />
+    </field>
+    <field name="street" type="string" >
+      <sql name="street" type="varchar"/>
+    </field>
+    <field name="city" type="string" >
+      <sql name="city" type="varchar" />
+    </field>
+    <field name="state" type="string" >
+      <sql name="state" type="varchar" />
+    </field>
+    <field name="zip" type="string" >
+      <sql name="zip" type="varchar" />
+    </field>
+    <field name="Person" type="ctf.jdo.tc1x.PrimaryKeysPerson" >
+      <sql name="fname lname"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.PrimaryKeysEmployee" extends="ctf.jdo.tc1x.PrimaryKeysPerson">
+    <description>testing multiple primary key</description>
+    <map-to table="tc1x_pks_employee" />
+    <field name="startDate" type="date" >
+      <sql name="start_date" type="date" />
+    </field>
+    <field name="payRoll" type="ctf.jdo.tc1x.PrimaryKeysPayRoll" />
+    <field name="contract" type="ctf.jdo.tc1x.PrimaryKeysContract" />
+  </class>
+
+  <class name="ctf.jdo.tc1x.PrimaryKeysContract" depends="ctf.jdo.tc1x.PrimaryKeysEmployee" identity="policyNo contractNo">
+    <description>testing multiple primary key</description>
+    <map-to table="tc1x_pks_contract" />
+    <field name="policyNo" type="integer" >
+      <sql name="policy_no" type="integer"/>
+    </field>
+    <field name="contractNo" type="integer">
+      <sql name="contract_no" type="integer"/>
+    </field>
+    <field name="comment" type="string">
+      <sql name="c_comment" type="varchar"/>
+    </field>
+    <field name="category" type="ctf.jdo.tc1x.PrimaryKeysCategory" collection="arraylist" >
+      <sql many-table="tc1x_pks_category_contract" many-key="policy_no contract_no" name="cate_id" />
+    </field>
+    <field name="employee" type="ctf.jdo.tc1x.PrimaryKeysEmployee" >
+      <sql name="fname lname" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.PrimaryKeysCategory" identity="id" >
+    <description>testing multiple primary key</description>
+    <map-to table="tc1x_pks_category" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="varchar" />
+    </field>
+    <field name="contract" type="ctf.jdo.tc1x.PrimaryKeysContract" collection="arraylist" >
+      <sql many-table="tc1x_pks_category_contract" many-key="cate_id" name="policy_no contract_no" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc1x.PrimaryKeysPayRoll" depends="ctf.jdo.tc1x.PrimaryKeysEmployee" identity="id">
+    <description>testing multiple primary key</description>
+    <map-to table="tc1x_pks_payroll" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="holiday" type="integer" >
+      <sql name="holiday" type="integer" />
+    </field>
+    <field name="hourlyRate" type="integer" >
+      <sql name="hourly_rate" type="integer" />
+    </field>
+    <field name="employee" type="ctf.jdo.tc1x.PrimaryKeysEmployee" >
+      <sql name="fname lname" />
+    </field>
+  </class>
+</mapping>

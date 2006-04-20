@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/jdo-howto.xml">
+  <body>
+    <section title="Castor JDO - How To's">
+
+      <section title="Introduction">
+
+        <p>This is a collection of How-tos. The Castor project is actively seeking 
+           additional How-to contributors to expand this collection. For information 
+           on how to do that, please see How to write a How-to.</p>
+        
+      </section>
+	
+		<section title="Documentation">
+		
+		    <ul>
+		        <li>How to Author a How-To</li>
+		        <li>How to Author an FAQ</li>
+		        <li>How to Author a Code Snippet</li>
+		        <li>How to Author Core Documentation</li>
+		    </ul>
+		    
+		</section>
+		
+		
+		<section title="Contribution">
+	        <ul>
+                <li><a href="how-to-submit-a-bug.html">How to submit a bug report</a></li>
+	            <li>How to Prepare a Patch</li>
+	            <li>How to Contribute a Patch via Jira</li>
+	        </ul>
+		</section>
+        
+        <section title="OQL">
+            <ul>
+                <li><a href="how-to-use-limit-clause.html">How to use a LIMIT clause</a></li>
+            </ul>
+        </section>
+
+        <section title="Core fatures">
+            <ul>
+                <li><a href="how-to-use-a-cache.html">How to use a cache</a></li>
+                <li><a href="how-to-map-enums.html">How to map enums</a></li>
+                <li><a href="how-to-connection-proxies.html">How to log SQL statements</a></li>
+            </ul>
+        </section>
+
+        <section title="Caches">
+            <ul>
+                <li><a href="how-to-create-custom-cache.html">How to create a custom cache provider</a></li>
+                <li><a href="how-to-use-castor-in-a-j2ee-cluster.html">How to use Castor in a J2EE cluster</a></li>
+            </ul>
+        </section>
+        
+        <section title="Connection pooling">
+            <ul>
+                <li><a href="how-to-use-jakarta-dbcp.html">How to use Jakarta DBCP with Castor</a></li>
+            </ul>
+        </section>
+
+        <section title="Use of Castor in J2EE applications">
+            <ul>
+                <li><a href="how-to-use-castor-with-distributed-transactions.html">How to use Castor with distributed transaction</a></li>
+            </ul>
+        </section>
+        
+        <section title="Database specifica">
+            <ul>
+                <li>How to connect to a Apache Derby instance in network server mode</li>
+            </ul>
+        </section>
+        
+	 </section>
+  </body>
+</document>

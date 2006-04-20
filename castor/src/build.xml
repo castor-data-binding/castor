@@ -1,0 +1,720 @@
+<!-- =================== Build for Castor using Ant 1.5 =================== -->
+
+<!-- $Id$ -->
+
+<project name="Castor" default="compile" basedir="..">
+
+        <!-- ================================================================== -->
+        <!--                            Properties                              -->
+        <!-- ================================================================== -->
+
+        <!--
+        Optionally read a properties file from the user's home dir to override
+        properties in this build descriptor.
+        -->
+        <property file="${user.home}/castor-build.properties"/>
+
+        <property environment="env" />
+        <property name="build.sh.class.path" value="${env.CLASSPATH}" />
+        <property name="name" value="Castor"/>
+        <property name="source" value="src"/>
+        <property name="main" value="${source}/main"/>
+        <property name="etc" value="${source}/etc"/>
+        <property name="check" value="check"/>
+        <property name="build" value="build"/>
+        <property name="build-doc" value="build/doc"/>
+        <property name="build-howto" value="build/doc/howto"/>
+        <property name="classes" value="${build}/classes"/>
+        <property name="dist" value="dist"/>
+        <property name="lib" value="lib"/>
+        <property name="doc" value="${source}/doc"/>
+        <property name="howto" value="${source}/howto"/>
+        <property name="schema" value="${build}/schema"/>
+        <property name="tests" value="${build}/tests"/>
+        <property name="gen.src" value="${build}/gen-src"/>
+        <property name="project.eclipse" value="${source}/tools/ide/eclipse" />
+        <property file="${etc}/VERSION"/>
+        <property name="deprecation" value="false"/>
+        <property name="main.opt.debug" value="true"/>
+        <property name="archive.name" value="${project}-${version}"/>
+        <property name="srcgen.ant.task.name" value="${project}-${version}-srcgen-ant-task"/>
+        <property name="exampleexcludes" value="SourceGenerator/*,**/dax/**"/>
+        <property name="excludes" value="**/package.html,**/dax/**,**/dax/engine/**"/>
+        <property name="testexcludes" value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
+        <property name="apipackagenames" value="
+            org.exolab.castor.types,
+            org.exolab.castor.jdo,
+            org.exolab.castor.jdo.util,
+            org.exolab.castor.xml,
+            org.exolab.castor.dsml,
+            org.exolab.castor.mapping,
+            org.exolab.castor.util,
+            org.exolab.castor.builder"
+        />
+        <!--    org.exolab.castor.dax, -->
+        <property name="allpackagenames" value="org.*"/>
+
+        <path id="build.classpath">
+            <pathelement location="${classes}"/>
+            <pathelement location="tests"/>
+            <pathelement location="${tests}" />
+            <fileset dir="${lib}">
+                <include name="*.jar"/>
+            </fileset>
+            <fileset dir="${lib}/tests">
+                <include name="*.jar"/>
+            </fileset>
+        </path>
+
+
+    <!-- ================================================================== -->
+    <!--            The pattern for the support files that need             -->
+    <!--                to be copied when compiling classes                 -->
+    <!-- ================================================================== -->
+    <patternset id="support.files">
+        <include name="**/*.xsd" />
+        <include name="**/*.xml" />
+        <include name="**/*.xsl" />
+        <include name="**/*.properties" />
+        <include name="**/*.dtd" />
+        <include name="**/*.gif" />
+        <exclude name="**/MasterTestSuite/**" />
+        <exclude name="**/RegressionTestSuite/**" />
+    </patternset>
+
+    <property name="castor.xml.files" value="**/org/exolab/castor/*,
+                                              org/exolab/castor/builder/**/*.java,
+                                              org/exolab/castor/mapping/**/*.java,
+                                              org/exolab/castor/net/**/*.java,
+                                              org/exolab/castor/tools/**/*.java,
+                                              org/exolab/castor/types/**/*.java,
+                                              org/exolab/castor/util/**/*.java,
+                                              org/exolab/castor/xml/**/*.java,
+                                              org/exolab/javasource/**/*.java" />
+
+    <property name="castor.jdo.files" value="**/org/exolab/castor/dsml/**/*.java,
+                                              org/exolab/castor/dtx/**/*.java,
+                                              org/exolab/castor/gui/**/*.java,
+                                              org/exolab/castor/jdo/conf/**/*.java,
+                                              org/exolab/castor/jdo/**/*.java,
+                                              org/exolab/castor/persist/**/*.java,
+                                              org/exolab/castor/types/**/*.java,
+    										  org/castor/util/*.java,
+											  org/castor/persist/**/*.java" />
+
+    <target name="targets" description="Prints static list of available targets">
+        <echo>
+        -----------------------------------------------------------
+        ANT build for ${name} ${version}
+        -----------------------------------------------------------
+
+        The following targets are available:
+
+            targets          Lists the build targets
+            clean            Cleans the build and distribution directories
+            all              Cleans and builds all the packages and examples
+            release          Cleans and builds all the release packages
+                             (JAR, source, doc, tarball) in the dist directory
+            main             Builds the main packages (including debugging info)
+            tests            (shorthand for compile.tests)
+            checkstyle.jdo   Check code conventions of Castor JDO packages
+            checkstyle.tests Check code conventions of the test packages
+            compile.xml      Compile the Castor XML packages
+            compile.jdo      Compile the Castor JDO packages
+            compile.examples Builds the example packages (including debugging info)
+            compile.tests    Builds the test packages (including debugging info)
+            jdo.tests        Executes the JUnit tests for Castor JDO (CTF-JDO)
+            jar              Builds the binary JAR in the dist directory
+            CTFjar           Builds the JAR of the Castor Testing Framework in the dist directory
+            doc              Builds the documentation
+            api              Builds the API JavaDocs
+            javadoc          Builds the full JavaDocs
+            source           Builds the source tarball in the dist directory
+            tarball          Builds the binary distribution in the dist directory
+            cvs              Update the sources from the CVS
+
+            gen.jdo.conf     Use the Source Generator to create the Java classes for jdo-conf.xsd
+            gen.mapping      Use the Source Generator to create the Java classes for mapping.xsd
+            gen.pvd          Use the Source Generator to create the Java classes for the pvd.xsd
+
+            prepare-eclipse  Put Eclipse project files into place (src/main only).
+            prepare-eclipse-complete  Put Eclipse project files into place.
+        -----------------------------------------------------------
+        </echo>
+    </target>
+
+    <!-- Prepare target directories -->
+    <target name="prepare" unless="prepare.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <mkdir dir="${dist}"/>
+        <!-- Copy the DTD and schema to the schema directory -->
+        <delete dir="${schema}"/>
+        <mkdir dir="${schema}"/>
+        <copy todir="${schema}">
+            <fileset dir="${main}/org/exolab/castor/mapping">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+        <copy todir="${schema}">
+            <fileset dir="${main}/org/exolab/castor/jdo/conf">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+        <copy todir="${schema}">
+            <fileset dir="${main}/org/exolab/castor/dsml/schema">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+        <available property="castor-build.present" file="${user.home}/castor-build.properties" />
+        <antcall target="-castor-build.check" />
+        <property name="prepare.executed" value="true" />
+    </target>
+
+    <target name="-castor-build.check"
+            description="An internal target to echo a message if a castor-build.properties exists in the user's home dir"
+            if="castor-build.present">
+        <echo message="Using ${user.home}/castor-build.properties" />
+    </target>
+
+    <target name="clean" description="Removes the build, check, dist and schema dirs">
+        <delete dir="${build}"/>
+        <delete dir="${check}"/>
+        <delete dir="${dist}"/>
+        <delete dir="${schema}"/>
+        <delete dir="${gen.src}"/>
+    </target>
+	
+    <taskdef resource="checkstyletask.properties"
+             classpath="lib/build/checkstyle-all-3.5.jar"/>
+	
+    <target name="checkstyle.jdo" depends="jar"
+	        description="Check coding conventions of Castor JDO packages">
+    	<mkdir dir="${check}"/>
+    	<checkstyle config="src/tools/checkstyle/castor-source-checks.xml"
+    		        maxWarnings="0"
+    	            failOnViolation="false"
+    	            failureProperty="checkstyle.failure"
+                    classpath="${dist}/${archive.name}.jar">
+    		<fileset dir="${main}">
+    			<include name="org/castor/**/*.java"/>
+    			<exclude name="org/castor/persist/TransactionContext.java"/>
+    			<include name="org/exolab/castor/jdo/JDO.java"/>
+    			<include name="org/exolab/castor/jdo/JDOManager.java"/>
+    			<include name="org/exolab/castor/jdo/util/*.java"/>
+    		</fileset>
+    		<formatter type="xml" toFile="${check}/checkstyle.jdo.xml"/>
+        </checkstyle>
+		<antcall target="checkstyle.jdo.results"/>
+    </target>
+
+    <target name="checkstyle.jdo.results" if="checkstyle.failure">
+    	<available file="${check}/checkstyle.jdo.xml" property="checkstyle.executed"/>
+    	<fail message="You need to run the target checkstyle first."
+    	      unless="checkstyle.executed"/>
+		<fail message="Some java files violate checkstyle rules."/>
+    </target>
+
+    <target name="checkstyle.tests" depends="compile.tests,jar"
+	        description="Check code conventions of the test packages">
+    	<mkdir dir="${check}"/>
+    	<checkstyle config="src/tools/checkstyle/castor-test-checks.xml"
+    		        maxWarnings="0"
+    	            failOnViolation="false"
+    	            failureProperty="checkstyle.failure"
+                    classpath="${dist}/${archive.name}.jar">
+    		<fileset dir="${source}/tests">
+    			<include name="ctf/**/*.java"/>
+    			<include name="ptf/**/*.java"/>
+    			<include name="utf/**/*.java"/>
+    		</fileset>
+    		<formatter type="xml" toFile="${check}/checkstyle.tests.xml"/>
+        </checkstyle>
+		<antcall target="checkstyle.tests.results"/>
+    </target>
+
+    <target name="checkstyle.tests.results" if="checkstyle.failure">
+    	<available file="${check}/checkstyle.tests.xml" property="checkstyle.executed"/>
+    	<fail message="You need to run the target checkstyle first."
+    	      unless="checkstyle.executed"/>
+		<fail message="Some java files violate checkstyle rules."/>
+    </target>
+
+    <target name="compile"
+            description="The default target for compilation; includes debug and deprecation info">
+        <antcall target="compile.jdo" />
+    </target>
+
+    <target name="compile.xml" depends="prepare"
+            description="Compile the Castor XML packages">
+        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}"
+               debug="on" deprecation="${deprecation}"
+               includes="${castor.xml.files}">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main}">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.jdo" depends="prepare,compile.xml"
+            description="Compile the Castor JDO packages">
+        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}"
+               debug="on" deprecation="${deprecation}"
+               includes="${castor.jdo.files}">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main}">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+        <replace dir="${classes}" token="$$VERSION$$" value="${version}">
+            <include name="**/*.xsd" />
+            <include name="**/*.xml" />
+            <include name="**/*.properties" />
+            <include name="**/*.dtd" />
+        </replace>
+    </target>
+
+    <target name="all" depends="clean,compile,compile.examples,compile.tests"
+            description="Same as the default target, but also calls clean, compile, compile.examples and compile.tests targets"/>
+
+    <target name="main.opt" depends="prepare"
+            description="Same as the default target, but with optimization, no debug and no deprecation">
+        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main}">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.examples" depends="prepare, compile"
+            description="Builds the example packages (including debugging info) and creates the webapp war file for the servlet example">
+        <mkdir dir="${build}/examples"/>
+        <javac srcdir="${source}/examples" destdir="${build}/examples" debug="on" deprecation="${deprecation}" excludes="${exampleexcludes}">
+        <classpath refid="build.classpath"/>
+    </javac>
+
+        <copy todir="${build}/examples">
+            <fileset dir="${source}/examples">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+
+        <!-- Make a webapp out of the servlet example -->
+        <available property="project_jar.present" file="${dist}/${archive.name}.jar" />
+        <mkdir dir="${build}/examples/webapp"/>
+        <copy toDir="${build}/examples/webapp/WEB-INF/classes">
+            <fileset dir="${build}/examples">
+                <include name="servlet/*.*"/>
+                <include name="myapp/*.*"/>
+            </fileset>
+            <fileset dir="${classes}">
+                <exclude name="**" if="project_jar.present"/>
+            </fileset>
+        </copy>
+
+        <copy todir="${build}/examples/webapp/WEB-INF/lib">
+            <fileset dir="${lib}">
+                <include name="*.jar"/>
+                <exclude name="ant*.jar"/>
+                <exclude name="optional*.jar"/>
+                <exclude name="junit*.jar"/>
+                <exclude name="servlet*.jar"/>
+
+            </fileset>
+            <fileset dir="${dist}">
+                <include name="${archive.name}.jar" if="project_jar.present"/>
+            </fileset>
+        </copy>
+
+        <jar jarfile="${build}/examples/webapp-example-${project}.war" basedir="${build}/examples/webapp" includes="**"/>
+
+    </target>
+
+    <target name="compile.tests" depends="prepare,compile" description="Build the tests packages">
+        <mkdir dir="${build}/tests"/>
+        <javac srcdir="${source}/tests" destdir="${build}/tests" excludes="${testexcludes}" debug="on" deprecation="${deprecation}">
+            <classpath refid="build.classpath"/>
+        </javac>
+
+        <copy todir="${build}/tests">
+            <fileset dir="${source}/tests">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="compile.bugs" depends="prepare,compile" description="Build the tests packages">
+        <mkdir dir="${build}/bugs"/>
+        <javac srcdir="${source}/bugs" destdir="${build}/bugs" debug="on" deprecation="${deprecation}">
+            <classpath refid="build.classpath"/>
+        </javac>
+
+        <copy todir="${build}/bugs">
+            <fileset dir="${source}/bugs">
+                <patternset refid="support.files" />
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="tests" depends="compile.bugs,compile.tests" description="Build the tests packages"/>
+
+    <target name="-test.category.test"
+        description="An internal target to test if the test.category property is set">
+        <condition property="test.category.present">
+            <isset property="test.category" />
+        </condition>
+    </target>
+
+    <target name="-test.category.isset" depends="-test.category.test"
+        if="test.category.present" description="An internal target to check the state of the test.category.present property">
+        <echo>Executing test category: ${test.category}</echo>
+    </target>
+
+    <target name="-test.category.isnotset" depends="-test.category.test"
+        unless="test.category.present" description="An internal target to check the state of the test.category.present property">
+        <fail>
+        -
+        +-------------------------------------------------------------------------------
+        | FAILURE CAUSE: Please set the test.category property to the test(s) to execute.
+        |                (examples: -Dtest.category=castor.mysql
+        |                        or -Dtest.category=castor.mysql.TC01)
+        +-------------------------------------------------------------------------------
+        </fail>
+    </target>
+
+    <target name="jdo.tests" depends="compile.tests, -test.category.isset, -test.category.isnotset"
+        description="Executes the JUnit tests for Castor JDO">
+        <java classname="Main" classpathref="build.classpath" fork="true">
+            <arg line="-verbose ${test.category}" />
+        </java>
+    </target>
+
+    <target name="jar.all" depends="release,srcgen.anttask.jar,jar.jdotests"
+            description="An alias to call the release and jar.jdotests targets"/>
+
+    <target name="jar.jdotests" depends="compile.tests" description="Creates a JAR file of the JDO tests">
+        <delete file="${dist}/${archive.name}-tests.jar"/>
+
+        <copy todir="${build}/tests">
+            <fileset dir="${source}/etc" includes="MANIFEST.MF" />
+        </copy>
+
+        <jar jarfile="${dist}/${archive.name}-tests.jar" basedir="${build}/tests" manifest="${build}/tests/MANIFEST.MF"
+        includes="LICENSE,README,jdo/**,harness/**,*" excludes="xml" />
+
+    </target>
+
+    <target name="srcgen.anttask.jar" depends="compile" description="Build the castor-srcgen-ant-task.jar files">
+        <jar jarfile="${dist}/${srcgen.ant.task.name}.jar" basedir="${classes}"
+              includes="org/exolab/castor/tools/ant/taskdefs/*,
+                        org/exolab/castor/util/Version.class" />
+    </target>
+
+    <target name="jar" depends="compile" description="Build the castor.jar and castor-xml.jar files">
+        <delete file="${dist}/${archive.name}.jar"/>
+        <delete file="${dist}/${archive.name}-xml.jar"/>
+        <!-- <delete file="${dist}/${archive.name}-sourceGen.jar"/> -->
+        <delete file="${classes}/MANIFEST.MF"/>
+
+        <copy todir="${classes}">
+            <fileset dir="${source}/etc" includes="LICENSE,README,log4j.properties" />
+        </copy>
+
+    	<!-- copy and filter MANIFEST file for Castor JDO -->
+    	<copy file="${source}/etc/MANIFEST.JDO.MF" tofile="${classes}/MANIFEST.MF"/>
+        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
+        
+    	<!-- create CASTOR JDO JAR -->
+    	<jar jarfile="${dist}/${archive.name}.jar" basedir="${classes}" manifest="${classes}/MANIFEST.MF"
+             includes="LICENSE,README,org/**,log4j.properties"/>
+
+    	<!-- copy and filter MANIFEST file for Castor JDO -->
+        <delete   file="${classes}/MANIFEST.MF" />
+    	<copy file="${source}/etc/MANIFEST.XML.MF" tofile="${classes}/MANIFEST.MF"/>
+        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
+
+        <!-- create Castor XML Only Jar -->
+        <jar jarfile="${dist}/${archive.name}-xml.jar" basedir="${classes}" manifest="${classes}/MANIFEST.MF"
+              includes="LICENSE,README,
+              org/exolab/castor/*,
+              org/exolab/castor/builder/**,
+              org/exolab/castor/core/**,
+              org/exolab/castor/mapping/**,
+              org/exolab/castor/net/**,
+              org/exolab/castor/tools/**,
+              org/exolab/castor/types/**,
+              org/exolab/castor/util/**,
+              org/exolab/castor/xml/**,
+              org/exolab/javasource/**"/>
+
+    	<!-- copy and filter MANIFEST file for Source generator -->
+<!--    	
+        <delete   file="${classes}/MANIFEST.MF" />
+        <copyfile src="${source}/etc/MANIFEST.SG.MF" dest="${classes}/MANIFEST.MF" />
+        <replace  file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}" />
+-->    	
+    	<!-- create JAR for source generator -->
+<!--    	
+        <jar      jarfile="${dist}/${archive-name}-sourceGen.jar" basedir="${classes}"
+                  manifest="${classes}/MANIFEST.MF" includes="LICENSE,README" />
+-->
+    </target>
+
+    <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file">
+        <delete file="${dist}/CTF-${version}.jar"/>
+        <copy todir="${classes}">
+            <fileset dir="${source}/etc" includes="MANIFEST.MF" />
+        </copy>
+        <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
+        <copy todir="${classes}">
+            <fileset dir="${source}/etc" includes="LICENSE,README" />
+        </copy>
+        <jar jarfile="${dist}/CTF-${version}.jar" basedir="${build}/tests" manifest="${classes}/MANIFEST.MF" includes="LICENCE,README,org/**"/>
+     </target>
+
+    <target name="rss" depends="prepare" description="Copy the RSS feeds">
+        <delete dir="${build}/doc/rss" />   
+        <mkdir dir="${build}/doc/rss" />   
+        <copy todir="${build}/doc/rss">
+           <fileset dir="${source}/rss" includes="*.xml"/>
+        </copy>
+    </target>   
+    
+    <target name="doc" depends="prepare" description="Build the HTML docs">
+        <delete dir="${build}/doc"/>
+        <mkdir dir="${build}/doc"/>
+        <style basedir="${doc}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
+            classpathref="build.classpath" includes="**.xml" excludes="style/**,project.xml"
+            processor="org.exolab.adaptx.util.JakartaAntAdapter">
+         </style>
+        <style basedir="${howto}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
+            classpathref="build.classpath" includes="**.xml" excludes="style/**,project.xml"
+            processor="org.exolab.adaptx.util.JakartaAntAdapter">
+         </style>
+         <copy todir="${build}/doc">
+            <fileset dir="${doc}" includes="license.txt,document.dtd,*.pdf"/>
+         </copy>
+         <copy todir="${build}/doc">
+            <fileset dir="${main}/org/exolab/castor/mapping"
+                     includes="mapping.dtd,mapping.xsd"/>
+         </copy>
+         <copy todir="${build}/doc">
+            <fileset dir="${main}/org/exolab/castor/builder/binding"
+                     includes="binding.xsd"/>
+         </copy>
+         <copy todir="${build}/doc/images">
+            <fileset dir="${doc}/images" />
+         </copy>
+         <copy todir="${build}/doc/images">
+            <fileset dir="${doc}/style/images" includes="*.gif"/>
+         </copy>
+        <copy todir="${build}/doc/">
+            <fileset dir="${doc}/style" includes="*.css"/>
+         </copy>
+
+        <replace dir="${build-doc}" token="$$VERSION$$" value="${version}">
+           <include name="index.html"/>
+           <include name="download.html" />
+        </replace>
+
+        <replace dir="${build-doc}" token="$$RELEASE_DATE$$" value="${release_date}">
+           <include name="index.html"/>
+        </replace>
+
+        <mkdir dir="${build}/doc/ora-mar-2k"/>
+
+        <copy todir="${build}/doc/ora-mar-2k">
+            <fileset dir="${doc}/ora-mar-2k" />
+        </copy>
+
+    </target>
+
+    <target name="javadoc" depends="prepare" description="Build the full javadocs">
+        <mkdir dir="${build}/doc"/>
+        <mkdir dir="${build}/doc/javadoc"/>
+        <javadoc sourcepath="${main}" destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc" windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true" version="true" noindex="true" packagenames="${allpackagenames}"/>
+    </target>
+
+    <target name="api" depends="prepare" description="Build the public API javadocs">
+        <mkdir dir="${build}/doc"/>
+        <mkdir dir="${build}/doc/api"/>
+        <javadoc sourcepath="${main}" destdir="${build}/doc/api" doctitle="${name} API" windowtitle="${name} API" bottom="${copyright}" public="true" author="true" packagenames="${apipackagenames}"/>
+    </target>
+
+    <target name="docs" depends="doc,api,javadoc,rss" description="Build the HTML docs, full and API javadocs">
+        <zip zipfile="${dist}/${archive.name}-doc.zip" basedir="${build}" includes="doc/**"/>
+        <tar tarfile="${dist}/${archive.name}-doc.tar" basedir="${build}" includes="doc/**"/>
+        <gzip src="${dist}/${archive.name}-doc.tar" zipfile="${dist}/${archive.name}-doc.tgz"/>
+        <delete file="${dist}/${archive.name}-doc.tar"/>
+    </target>
+
+    <target name="source" depends="prepare" description="Build the source distributions (tarball and zip archive.names)">
+        <delete file="${dist}/${archive.name}-src.tgz"/>
+        <delete file="${dist}/${archive.name}-src.zip"/>
+        <delete dir="${build}/${archive.name}"/>
+        <mkdir dir="${build}/${archive.name}"/>
+        <mkdir dir="${build}/${archive.name}/src"/>
+        <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
+        <copy todir="${build}/${archive.name}/src">
+        <fileset dir="${source}" />
+    </copy>
+        <mkdir dir="${build}/${archive.name}/lib"/>
+
+        <copy todir="${build}/${archive.name}/lib">
+        <fileset dir="${lib}" excludes="jconn2.jar"/>
+    </copy>
+
+        <copy todir="${build}/${archive.name}">
+        <fileset dir="." includes="*.sh,*.bat"/>
+    </copy>
+
+        <tar includes="${archive.name}/**" basedir="${build}" tarfile="${dist}/${archive.name}-src.tar"/>
+        <gzip src="${dist}/${archive.name}-src.tar" zipfile="${dist}/${archive.name}-src.tgz"/>
+        <delete file="${dist}/${archive.name}-src.tar"/>
+        <zip zipfile="${dist}/${archive.name}-src.zip" basedir="${build}" includes="${archive.name}/**"/>
+    </target>
+
+    <target name="release" depends="clean,jar,srcgen.anttask.jar,source,docs,tarball"
+            description="An alias to call the clean, jar, source, docs and tarball targets"/>
+
+    <target name="tarball" depends="prepare,doc,jar,srcgen.anttask.jar" description="Build the binary distrutions (tarball and zip archive.names)">
+        <delete file="${dist}/${archive.name}.tgz"/>
+        <delete file="${dist}/${archive.name}.zip"/>
+        <delete dir="${build}/${archive.name}"/>
+        <mkdir dir="${build}/${archive.name}"/>
+        <copy todir="${build}/${archive.name}">
+            <fileset dir="${etc}" includes="README,LICENSE,CHANGELOG,sourceGen*"/>
+        </copy>
+        <copy todir="${build}/${archive.name}">
+            <fileset dir="${dist}"
+            includes="${archive.name}.jar,${archive.name}-xml.jar,${srcgen.ant.task.name}.jar"/>
+        </copy>
+        <copy todir="${build}/${archive.name}">
+            <fileset dir="${lib}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
+        </copy>
+        <copy todir="${build}/${archive.name}/schema">
+            <fileset dir="${schema}" />
+        </copy>
+        <copy todir="${build}/${archive.name}/doc">
+            <fileset dir="${build}/doc" />
+        </copy>
+
+        <delete dir="${build}/${archive.name}/doc/javadoc"/>
+        <tar tarfile="${build}/${archive.name}/examples.tar" basedir="${source}" includes="examples/**" defaultexcludes="true"/>
+        <gzip src="${build}/${archive.name}/examples.tar" zipfile="${build}/${archive.name}/examples.tgz"/>
+        <tar tarfile="${dist}/${archive.name}.tar" basedir="${build}" includes="${archive.name}/**" excludes="${archive.name}/*.tar,${archive.name}/*.zip"/>
+        <gzip src="${dist}/${archive.name}.tar" zipfile="${dist}/${archive.name}.tgz"/>
+        <delete file="${dist}/${archive.name}.tar"/>
+        <zip zipfile="${build}/${archive.name}/examples.zip" basedir="${source}" includes="examples/**" defaultexcludes="true"/>
+        <zip zipfile="${dist}/${archive.name}.zip" basedir="${build}" includes="${archive.name}/**" excludes="${archive.name}/*.tar,${archive.name}/*.tgz"/>
+    </target>
+
+    <target name="cvs" depends="clean"
+            description="Update the working directory from the CVS repository using the anoncvs login">
+        <cvs
+        cvsRoot=":pserver:anon@cvs.castor.codehaus.org:/home/projects/castor/scm" dest="." package="${project}"/>
+    </target>
+
+    <target name="oes" depends="prepare,compile" description="Call the XSDCompiler (org.exolab.castor.tools.XSDCompiler)">
+        <ant antfile="${source}/xsdcomp.xml" target="xsdcomp">
+            <property name="schema" value="${source}/examples/oes/imports.xsd"/>
+            <property name="package" value="oes.imports"/>
+            <property name="dest" value="${build}/examples/oes"/>
+        </ant>
+    </target>
+
+   <target name="automated_build" depends="jar,compile.tests">
+      <!-- this mimics the CTFRun.sh script -->
+         <delete includeEmptyDirs="true">
+            <fileset dir="build/tests" includes="output/**"/>
+         </delete>
+      <java classname="org.exolab.castor.tests.framework.CastorTestSuiteRunner"
+            failonerror="true" fork="yes">
+         <arg line="-verbose -printStack -text src/tests/MasterTestSuite"/>
+            <classpath>
+               <fileset dir="lib">
+                  <include name="**/*.jar"/>
+               </fileset>
+               <pathelement path="build/classes"/>
+               <pathelement path="build/tests"/>
+            </classpath>
+      </java>
+   </target>
+
+    <target name="gen.jdo.conf" depends="jar,srcgen.anttask.jar"
+        description="Use the Source Generator to create the Java classes for jdo-conf.xsd">
+        <delete dir="${gen.src}/jdo-conf"/>
+        <mkdir dir="${gen.src}/jdo-conf"/>
+        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask" 
+                 classpathref="build.classpath"/>          
+            <castor-srcgen file="${main}/org/exolab/castor/jdo/conf/jdo-conf.xsd" 
+                todir="${gen.src}/jdo-conf" 
+                package="org.exolab.castor.jdo.conf" 
+                lineseparator="unix"
+                types="j2" 
+                warnings="false"/>
+        <javac destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
+            <src path="${gen.src}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+
+    <target name="gen.mapping" depends="jar,srcgen.anttask.jar"
+            description="Use the Source Generator to create the Java classes for mapping.xsd">
+        <delete dir="${gen.src}/mapping"/>
+        <mkdir dir="${gen.src}/mapping"/>
+        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask" 
+                 classpathref="build.classpath"/>          
+            <castor-srcgen file="${main}/org/exolab/castor/mapping/mapping.xsd" 
+                todir="${gen.src}/mapping" 
+                package="org.exolab.castor.mapping.xml" 
+                lineseparator="unix"
+                bindingfile="${main}/org/exolab/castor/mapping/mapping-binding.xml"
+                types="j2" 
+                warnings="false"/>
+        <javac destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
+            <src path="${gen.src}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+
+    <target name="gen.pvd"
+            description="Use the Source Generator to create the classes for the pvd.xsd">
+        <java classname="org.exolab.castor.builder.SourceGenerator">
+            <arg value="-i"/>
+            <arg value="pvd/pvd.xsd"/>
+            <arg value="-package"/>
+            <arg value="com.digitalglobe.mp.pvd"/>
+            <arg value="-dest"/>
+            <arg value="pvd"/>
+            <arg value="-line-separator"/>
+            <arg value="unix"/>
+            <arg value="-types"/>
+            <arg value="j2"/>
+        </java>
+    </target>
+
+    <target name="prepare-eclipse-base" description="Copy base Eclipse project files to the root directory">
+        <copy file="${project.eclipse}/project.template" tofile="${basedir}/.project" overwrite="true"/>
+    </target>
+
+    <target name="prepare-eclipse" depends="prepare-eclipse-base"
+                  description="Copy Eclipse project files to the root directory">
+        <copy file="${project.eclipse}/classpath.template" tofile="${basedir}/.classpath" overwrite="true"/>
+    </target>
+
+    <target name="prepare-eclipse-complete" depends="prepare-eclipse-base"
+            description="Copy Eclipse project files to the root directory">
+        <copy file="${project.eclipse}/classpath.template.complete" tofile="${basedir}/.classpath" overwrite="true"/>
+        <copy file="${project.eclipse}/checkstyle.template" tofile="${basedir}/.checkstyle" overwrite="true"/>
+    </target>
+
+</project>
