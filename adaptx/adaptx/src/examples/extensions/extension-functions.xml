@@ -1,0 +1,11 @@
+<?xml version="1.0"?>
+<?xml-stylesheet href="extension-functions.xsl" type="text/xsl"?>
+<!--
+  This is a sample XML document supplied with XSL:P. It's primary
+  purpose is to show usage of extension functions
+  @author Keith Visco
+-->
+<sample>
+   The data for this document is not important
+   please see extension-functions.xsl
+</sample>

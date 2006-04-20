@@ -1,0 +1,9 @@
+Manifest-Version: 1.0
+Specification-Title: XSLT Recommendation 1.0, XPath 1.0, SAX 1.0, DOM 1.0
+Specification-Vendor: W3C, SAX
+Specification-Version: 1.0
+Implementation-Title: Adaptx
+Implementation-Vendor: Keith Visco
+Implementation-Version: $VERSION$
+
+
