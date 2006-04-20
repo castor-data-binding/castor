@@ -1,5 +1,0 @@
-<?xml version="1.0"?>
-<castor-echo-test id="myID">
-  <placeholder>string value</placeholder>
-  <foo>another string</foo>
-</castor-echo-test>
