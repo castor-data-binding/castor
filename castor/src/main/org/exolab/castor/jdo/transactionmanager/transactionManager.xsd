@@ -1,0 +1,32 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--DOCTYPE schema PUBLIC "-//W3C/DTD XML Schema Version 1.0//EN"
+                        "http://www.w3.org/TR/2000/WD-xmlschema-1-20000225/structures.dtd"-->
+<!--
+    Castor Object Mapping XML Schema
+
+    Namespace: http://castor.exolab.org/
+    System:    http://castor.exolab.org/mapping.xsd
+    Public:    -//EXOLAB/Castor Object Mapping Schema Version 1.0//EN
+
+    *Note*: This schema is under evolution and subject to change.
+
+ -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  targetNamespace="http://castor.exolab.org/"
+  version="0.9.3.21">
+
+  <xsd:element name="transactionManager">
+    <xsd:complexType>
+       <xsd:documentation>
+            The 'factory' attribute is used to specify the
+            org.exolab.castor.jdo.spi.TransactionManagerFactory to use for
+            acquiring a javax.transaction.TransactionManager from a J2EE
+            container. 
+       </xsd:documentation>
+      <xsd:sequence>
+        <xsd:attribute name="factory" type="xsd:string" use="required" />
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

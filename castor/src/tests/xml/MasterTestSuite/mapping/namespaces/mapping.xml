@@ -1,0 +1,19 @@
+<?xml version="1.0"?>
+<mapping xmlns:xyz="http://www.acme.org/xyz">
+   <class name="Root">
+      <map-to xml="root" ns-prefix="xyz" ns-uri="http://www.acme.org/xyz"/>
+      <field name="name" type="string">
+            <bind-xml name="xyz:name" node="attribute"/>
+      </field>
+      <field name="child" type="Child">
+            <bind-xml name="xyz:child" node="element"/>
+      </field>
+   </class>
+
+   <class name="Child">
+      <field name="content" type="string">
+            <bind-xml node="text"/>
+      </field>
+   </class>
+
+</mapping>

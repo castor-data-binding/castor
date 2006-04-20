@@ -1,0 +1,319 @@
+<?xml version="1.0"?>
+<document url="http://castor.exolab.org/news.xml">
+  <properties>
+    <title>Castor News</title>
+    <abstract>
+       News about the Castor Project
+    </abstract>
+    <status>Draft</status>
+  </properties>
+  <body>
+    <title>Castor News</title>
+    <header>
+    </header>
+
+    <section title="">
+
+      <!--table width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#990033"><tr><td>
+          <table width="100%" border="0" cellspacing="1" cellpadding="8" bgcolor="#EDEDED"><tr><td>
+              <span class="newsTitle">Latest Release</span><br/><br/>
+              <span class="newsSummary"-->
+
+        <news>
+            <title>Castor 0.9.6 - Final release</title>
+            <author>Werner Guttmann</author>
+            <date>09 Feb 2005</date>
+            <time>22:22:22</time>
+            <summary>
+                I've placed a copy of Castor 0.9.6 (final) on the
+                <a href="http://dist.codehaus.org/castor/0.9.6/">FTP Server</a>.<br/><br/>
+
+                This is mainly a bug fix release, but includes a couple of new features as
+                well. For details about the bugs fixed and features provided, please have
+                a look at the
+                <a href="release-notes.html">release notes</a>.<br/><br/>
+				
+				Please report any issues through the project's 
+				<a href="http://bugzilla.exolab.org">bug tracking site</a> and/or the 
+				mailing lists.
+            </summary>
+        </news>
+
+        <news>
+            <title>Castor 0.9.6 - 3rd release candidates</title>
+            <author>Werner Guttmann</author>
+            <date>11 Jan 2005</date>
+            <time>23:25:00</time>
+            <summary>
+                I've placed a copy of the <b>3rd</b> and <b>final</b> Castor 0.9.6 release candidate on the
+                <a href="http://dist.codehaus.org/castor/0.9.6/">FTP Server</a>.<br/><br/>
+
+                This is a bug fix release only. For details about the bugs fixed sinc the last 
+                release candidate, please have a look at (an interim version of) the
+                <a href="http://brainopolis.dnsalias.com/castorwiki/Wiki.jsp?page=ReleaseNotes096">release notes</a>.<br/><br/>
+
+                The release candidate will be replaced by the official version within about a week, 
+                so please try this version and report any regression issues (where applicable).
+            </summary>
+        </news>
+
+        <news>
+            <title>Castor 0.9.5.4 Final Release</title>
+            <author>Keith Visco</author>
+            <date>18 Nov 2004</date>
+            <time>17:45:00</time>
+            <summary>
+                I've placed a copy of Castor 0.9.5.4 final on the
+                <a href="http://dist.codehaus.org/castor/0.9.5.4/">FTP Server</a>.
+
+                This is a bug fix release, so please do not expect new features
+                slated for 0.9.6 to appear in this release.
+
+                Sorry for the delay in officially announcing the release, it's actually been
+                available on the FTP Server for a couple weeks now!
+            </summary>
+        </news>
+
+        <news>
+            <title>Castor 0.9.6 Release Candidates</title>
+            <author>Werner Guttmann</author>
+            <date>28 Oct 2004</date>
+            <time>23:55:00</time>
+            <summary>
+                I've placed a copy of the first Castor 0.9.6 release candidate on the
+                <a href="http://dist.codehaus.org/castor/0.9.6/">FTP Server</a>.<br/><br/>
+
+                This is mainly a bug fix release, but includes a couple of new features as
+                well. For details about the bugs fixed and features provided, please have
+                a look at (an interim version of) the
+                <a href="http://brainopolis.dnsalias.com/castorwiki/Wiki.jsp?page=ReleaseNotes096">release notes</a>.<br/><br/>
+
+                The release candidate will be replaced by the official version within the
+                next three or four weeks, so please try this version and report any
+                regression issues (where applicable). A regression for this release is something
+                that was working in 0.9.5.4 but no longer is working in this 0.9.6 release
+                candidate. Only regression issues will be considered for fixing before the final
+                0.9.6 release.<br/><br/>
+
+                All other bugs will be moved out to 0.9.7, or a 0.9.6.x sub-release if necessary.
+            </summary>
+        </news>
+
+        <news>
+            <title>Castor 0.9.5.4 Release Candidates</title>
+            <author>Keith Visco</author>
+            <date>18 Oct 2004</date>
+            <time>22:00:00</time>
+            <summary>
+
+                I've placed a copy of the latest Castor 0.9.5.4 release candidate on the
+                <a href="http://dist.codehaus.org/castor/0.9.5.4/">FTP Server</a>.
+
+                This is a bug fix release, so please do not expect new features
+                slated for 0.9.6 to appear in this release. The release candidate
+                will be replaced by the official version by end of the week, so
+                please try this version and report any regression issues. A
+                regression for this release is something that was working in 0.9.5.3
+                but no longer working in this 0.9.5.4 release candidate. Only
+                regression issues will be considered for fixing before the final
+                release. All other bugs will be moved out to 0.9.6, or a 0.9.5.5
+                release if necessary.
+
+            </summary>
+        </news>
+
+        <news>
+            <title>Castor Message Board</title>
+            <author>Keith Visco</author>
+            <date>04 Jul 2004</date>
+            <time>05:00:00</time>
+            <summary>
+               The Castor site now has a new
+               <a href="http://castor.exolab.org/phpBB2">message board</a>.
+               <br/>
+               <br/>
+               Message boards are typically more user-friendly than mailing lists
+               as they keeps the information in a much more organized fashion and don't
+               add to our ever increasing inboxes.
+               <br/>
+               The mailing lists will continue to remain open and you can choose which
+               ever communication method you prefer.
+            </summary>
+        </news>
+        <news>
+            <title>CastorLive Book in the Works</title>
+            <author>Bruce Snyder</author>
+            <date>20 Jun 2004</date>
+            <time>08:15:44</time>
+            <summary>
+            Bruce Snyder is now authoring <a href="http://www.sourcebeat.com/TitleAction.do?id=8">Castor
+            Live</a> for <a href="http://www.sourcebeat.com/">SourceBeat
+            Publishing</a>. The first cut of the book will be out by the end
+            of the July containing the first few chapters.
+            <br />
+            <br />
+            The SourceBeat model is very different from traditional publishing because books
+            are published online and <i>updated every month</i> by the author! Subscribers to
+            a book receive a one year subscription and receive all updates to the title for that
+            year. Also check out the <a href="http://jroller.org/page/CastorLive">Castor Live blog</a>
+            for additional information.
+            </summary>
+        </news>
+        <news>
+            <release />
+            <title>Current Release</title>
+            <author>Keith Visco</author>
+            <date>$RELEASE_DATE$</date>
+            <time></time>
+            <summary>
+                Version $VERSION$ is now <a href="download.xml">available for download</a>.
+
+                <!-- Release Candidate Info  ** use when doing interim releases -->
+                <!--
+                <p>We've placed a copy of Castor X.Y.Z release candidate N on the ftp site:
+                <a href="ftp://ftp.exolab.org/pub/castor/castor_x.y.z/">ftp://ftp.exolab.org/pub/castor/castor_x.y.z/</a>.
+                Please try this release and report any regression issues (preferably via Bugzilla).
+                A regression is something that was working in a previous release (such as 0.9.5.2)
+                but doesn't work in this release candidate. Please do not report issues that already
+                have bug reports, but haven't been fixed yet in 0.9.5.3. These issues simply
+                did not make the X.Y.Z release due to time constraints.
+                </p>
+                -->
+                <br /><br />
+                <a href="changelog.xml">Changes in 0.9.5.3</a>
+            </summary>
+        </news>
+
+        <news>
+            <release />
+            <title>Next Release</title>
+            <author>Keith Visco</author>
+            <date>10 Mar 2004</date>
+            <time>04:19:15</time>
+            <summary>
+            Next scheduled release (0.9.6): June, 7 2004 (tentative).
+            </summary>
+        </news>
+
+        <news>
+            <release />
+            <title>Possible Interim Release</title>
+            <author>Keith Visco</author>
+            <date>10 Mar 2004</date>
+            <time>04:19:15</time>
+            <summary>
+            An interim release (0.9.5.4) may be released sooner for any
+            regression issues still present in 0.9.5.3.
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Stein Hugubakken to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>01 May 2004</date>
+            <time>13:06:24</time>
+            <summary>
+            Please welcome Stein Hugubakken as the latest addition to team
+            Castor! Stein has been active with Castor since early this year
+            and we're very happy to have him on board.
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Patrick van Kaan to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>15 Jan 2004</date>
+            <time>22:58:39</time>
+            <summary>
+            Please welcome Patrick van Kaan as the latest addition to team
+            Castor! Patrick has been using Castor JDO for a while now and
+            is the developer behind the <a href="http://castor-taglib.sourceforge.net/">Castor-Taglib</a>
+            project.
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Werner Guttman to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>11 Nov 2003</date>
+            <time>18:38:10</time>
+            <summary>
+            Please welcome Werner Guttman as the newest committer to the Castor
+            team! Werner's contributions moving forward with the Castor JDO
+            refactoring are key, as is his experience with J2EE and IBM WebSphere.
+            </summary>
+        </news>
+
+        <news>
+            <title>CastorWiki Now Available</title>
+            <author>Keith Visco</author>
+            <date>19 Jun 2003</date>
+            <time>16:39:17</time>
+            <summary>
+            Can't find it here? Check out the
+            <a href="http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main">CastorWiki</a>.
+            An effort put together by a number of Castor users to document the
+            undocumented! Hosted off site by Lance Lavandowska, and championed
+            by Tek1 (whose real name is a mystery to us all!).
+            </summary>
+        </news>
+
+        <news>
+            <title>RefactorIt to Include Castor</title>
+            <author>Keith Visco</author>
+            <date>12 Mar 2003</date>
+            <time></time>
+            <summary>
+            We're pleased to announce that the folks at
+            <a href="http://www.refactorit.com/index.html?id=649">RefactorIt</a>
+            have included Castor as part of their Open Source Community License.
+            This means anyone who works on the Castor code base can download a
+            copy of RefactorIt and use it when working on the Castor code.
+            </summary>
+        </news>
+
+        <news>
+            <title>Congratulations Bruce!</title>
+            <author>Keith Visco</author>
+            <date>14 Nov 2002</date>
+            <time></time>
+            <summary>
+            <b>Congratulations</b> to Bruce Snyder and his family on the birth
+            of their second daughter, the youngest member of the Castor team,
+            we can't wait until she's old enough to start programming!
+            </summary>
+        </news>
+
+        <news>
+            <title>Welcome Micka�l Guessant to the Team</title>
+            <author>Bruce Snyder</author>
+            <date>24 Oct 2002</date>
+            <time></time>
+            <summary>
+            Please welcome our newest addition to the Castor team of committers,
+            Micka�l Guessant! Micka�l is a very welcome addition to the Castor
+            JDO team.
+            </summary>
+        </news>
+
+        <news>
+            <title>Bruce Snyder Promoted to Castor JDO Lead</title>
+            <author>Keith Visco</author>
+            <date>10 July 2002</date>
+            <time></time>
+            <summary>
+            Bruce Snyder has taken over for Thomas Yip as the Castor JDO Project
+            Lead. Bruce's name should be very familar to most Castor users as he
+            has been an active contributor and committer to Castor JDO for more
+            than a year.
+            <br />
+            <br />
+            A very special Thanks to Thomas Yip for the great job he did and all
+            the contributions he made to the project.
+            </summary>
+        </news>
+
+    </section>
+
+  </body>
+</document>

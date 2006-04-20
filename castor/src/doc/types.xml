@@ -1,0 +1,301 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!DOCTYPE document SYSTEM "document.dtd">
+<document url="http://castor.exolab.org/types.xml">
+  <body>
+    <title>Type Support</title>
+
+    <section title="Types">
+
+      <p>The Castor type mechanism assures proper conversion between Java types and
+         external types.
+         </p>
+
+      <section title="Castor XML">
+
+        <p>Castor XML converts all Java fields into XML element and attribute values.
+           </p>
+
+      </section>
+
+      <section title="Castor JDO">
+
+        <p>Castor JDO converts Java fields into SQL columns which are persisted through
+           the JDBC driver. Due to implementation details, the field type expected by
+           the JDBC driver is not always the field type defined for the mapped object.</p>
+
+        <p>The most common occurrences of mistyping is when using fields of type FLOAT,
+           DOUBLE, NUMERIC and DECIMAL. SQL type FLOAT actually maps to Java type Double.
+           SQL type NUMERIC and DECIMAL map to Java type BigDecimal.</p>
+
+        <p>When such an inconsistency occurs, Castor JDO will throw an <tt>IllegalArgumentException</tt>
+           during object persistence with a message indicating the two conflicting type.</p>
+
+        <p>In order to avoid runtime exceptions we recommend explicitly specifying types in
+           the mapping file using the SQL typing convention, see
+           <a href="#SQL Type Conversion">SQL Type Conversion</a></p>
+
+      </section>
+
+      <section title="Castor DAX">
+
+        <p>Castor DAX converts all Java fields into LDAP attribute values. LDAP attribute
+           values are always textual and represented as the string value of the field,
+           e.g. &quot;5&quot; or &quot;true&quot;.</p>
+
+        <p>LDAP attributes may also contain binary values. When storing byte arrays or
+           serialized Java objects, DAX will store them as byte arrays.</p>
+
+      </section>
+
+    </section>
+
+    <section title="The Field Mapping">
+
+      <p>The field element includes an optional attribute called <i>type</i> which can
+         be used to specify the Java type of the field. This attribute is optional since
+         Castor can always derive the exact Java type from the class definition.</p>
+
+      <p>We highly recommend that developers use the type field in their mapping file as
+         a means to provide static type checking. When loading a mapping file Castor will
+         compare the actual Java type with the type specified in the mapping and complain
+         about inconsistencies.</p>
+
+      <p>The field type can be specified either given the full class name (e.g.
+         <tt>java.lang.Integer</tt>) or using a short name. The following table lists all
+         the acceptable short names and the Java types they represent:</p>
+
+      <table border="1" cellpadding="4">
+        <tr><th>short name</th><th>Primitive type?</th><th>Java Class</th></tr>
+        <tr><td>big-decimal</td><td>N</td><td>java.math.BigDecimal</td></tr>
+        <tr><td>boolean</td><td>Y</td><td>java.lang.Boolean.TYPE</td></tr>
+        <tr><td>byte</td><td>Y</td><td>java.lang.Byte.TYPE</td></tr>
+        <tr><td>bytes</td><td>N</td><td>byte[]</td></tr>
+        <tr><td>char</td><td>Y</td><td>java.lang.Character.TYPE</td></tr>
+        <tr><td>chars</td><td>N</td><td>char[]</td></tr>
+        <tr><td>clob</td><td>N</td><td>java.sql.Clob</td></tr>
+        <tr><td>date</td><td>N</td><td>java.util.Date</td></tr>
+        <tr><td>double</td><td>Y</td><td>java.lang.Double.TYPE</td></tr>
+        <tr><td>float</td><td>Y</td><td>java.lang.Float.TYPE</td></tr>
+        <tr><td>integer</td><td>Y</td><td>java.lang.Integer.TYPE</td></tr>
+        <tr><td>locale</td><td>N</td><td>java.util.Locale</td></tr>
+        <tr><td>long</td><td>Y</td><td>java.lang.Long.TYPE</td></tr>
+        <tr><td>other</td><td>N</td><td>java.lang.Object</td></tr>
+        <tr><td>short</td><td>Y</td><td>java.lang.Short.TYPE</td></tr>
+        <tr><td>string</td><td>N</td><td>java.lang.String</td></tr>
+        <tr><td>strings</td><td>N</td><td>String[]</td></tr>                
+        <tr><td>stream</td><td>N</td><td>java.io.InputStream</td></tr>
+      </table>
+
+      <p>In addition, support for the following Castor-internal field types 
+         has been added:</p>
+
+      <table border="1" cellpadding="4">
+        <tr><th>short name</th><th>Primitive type?</th><th>Java Class</th></tr>
+        <tr><td>duration</td><td>N</td><td>org.exolab.castor.types.Duration</td></tr>
+      </table>
+
+    </section>
+
+    <section title="SQL Dates and Default Timezones">
+      <p>Castor will use the JDBC <tt>ResultSet.getDate(int, Calendar)</tt> and
+         related methods which take a Calendar object to specify the timezone of
+         the data retrieved from the database when the timezone information is not
+         already specified in the data; this ensures that the &quot;current&quot;
+         timezone is applied.</p>
+
+      <p>The default time zone can be configured in the castor.properties file;
+         see the <a href="conf-lib.html">configuration section</a> for details on how to configure Castor with
+         information about your default time zone.</p>
+         
+      <p>To change the timezone to a different timezone than the default, please
+         set a (different) value on the <tt>org.exolab.castor.jdo.defaultTimeZone</tt>
+         property:</p>
+         
+      <code-block caption="castor.properties">
+         <code>
+# Default time zone to apply to dates/times fetched from database fields, 
+# if not already part of the data.  Specify same format as in 
+# java.util.TimeZone.getTimeZone, or an empty string to use the computer's 
+# local time zone.
+org.exolab.castor.jdo.defaultTimeZone=
+#org.exolab.castor.jdo.defaultTimeZone=GMT+8:00
+         </code>
+      </code-block>
+         
+    </section>
+
+    <section title="SQL Type Conversion">
+
+      <p>Castor JDO uses the JDBC <tt>getObject/setObject</tt> methods in order to
+         retrieve and set fields. These methods do not perform automatic type
+         conversion, often resulting in unexpected behavior. For example, when
+         using a NUMERIC field with direct JDBC access, application developers
+         tend to call <tt>getInteger()</tt> or <tt>getFloat()</tt>, but the
+         Java object returned from a call to <tt>getObject</tt> is often a
+         <tt>java.math.BigDecimal</tt>.</p>
+
+      <p>Castor JDO implements automatic type conversion between Java and SQL.
+         For this mechanism to work, the mapping file must specify the SQL type
+         being used for Castor to employ the proper convertor. If no SQL type
+         is specified, no conversion will occur, possibly resulting in an
+         <tt>IllegalArgumentException</tt> being thrown.</p>
+
+      <p>SQL types are specified with the <i>sql-type</i> attribute using either
+         the default Java type returned by the JDBC driver (e.g. <tt>java.lang.Integer</tt>
+         or the proper SQL type name (without precision). The following table lists
+         the supported SQL type names and the corresponding Java types:</p>
+
+      <table border="1" cellpadding="4">
+        <tr><td><b>SQL Type</b></td><td><b>Java Type</b></td></tr>
+        <tr><td>bigint</td><td>java.lang.Long</td></tr>
+        <tr><td>binary</td><td>byte[]</td></tr>
+        <tr><td>bit</td><td>java.lang.Boolean</td></tr>
+        <tr><td>blob</td><td>java.io.InputStream</td></tr>
+        <tr><td>char</td><td>java.lang.String</td></tr>
+        <tr><td>clob</td><td>java.sql.Clob</td></tr>
+        <tr><td>date</td><td>java.sql.Date</td></tr>
+        <tr><td>decimal</td><td>java.math.BigDecimal</td></tr>
+        <tr><td>double</td><td>java.lang.Double</td></tr>
+        <tr><td>float</td><td>java.lang.Double</td></tr>
+        <tr><td>integer</td><td>java.lang.Integer</td></tr>
+        <tr><td>longvarbinary</td><td>byte[]</td></tr>
+        <tr><td>longvarchar</td><td>java.lang.String</td></tr>
+        <tr><td>numeric</td><td>java.math.BigDecimal</td></tr>
+        <tr><td>real</td><td>java.lang.Float</td></tr>
+        <tr><td>smallint</td><td>java.lang.Short</td></tr>
+        <tr><td>time</td><td>java.sql.Time</td></tr>
+        <tr><td>timestamp</td><td>java.sql.Timestamp</td></tr>
+        <tr><td>tinyint</td><td>java.lang.Byte</td></tr>
+        <tr><td>varbinary</td><td>byte[]</td></tr>
+        <tr><td>varchar</td><td>java.lang.String</td></tr>
+      </table>
+
+      <p>The following example illustrates how to specify SQL type in field mapping:</p>
+      <pre><![CDATA[
+  <field name="prodId" type"integer">
+    <sql name="prod_id" type="numeric"/>
+  </field>]]></pre>
+
+    </section>
+
+
+    <section title="Parameterized Type Convertors">
+      <p>Some of the type convertors may have a string parameter, which
+         changes the conversion algorithm. The parameter is specified in
+         square brackets after the SQL type, for example:
+      <pre><![CDATA[
+  <field name="active" type="boolean">
+    <sql name="acc_active" type="char[01]"/>
+  </field>]]></pre>
+         where "0" is the character value for <b>false</b> and "1" is
+         the character value for <b>true</b></p>
+      <p>In the above example the first of six parameterized type convertors
+         is used, "boolean->char" convertor.
+         The parameter must have length 2, the first character is the value
+         for <b>false</b>, the second character is the value for <b>true</b>.
+         The default value is "FT".
+         The actual SQL type should be char(1).</p>
+      <p>The second and third convertors are "boolean->integer" and
+         "boolean->numeric". Its parameter must be <b>+</b> for +1 or <b>-</b>
+         for -1 representing true. False is always converted to 0.
+         
+         For example:</p>
+      <pre><![CDATA[
+  <field name="flagWithMinusOneForTrue" type="boolean">
+    <sql name="flag" type="integer[-]"/>
+  </field>]]></pre>
+      <p>If the parameter is not specified, true is converted to +1.</p>
+      <p>The forth convertor is "date->char".
+         Its parameter must be a correct pattern for SimpleDateFormat.
+
+         For example:</p>
+      <pre><![CDATA[
+  <field name="dateOfBirth" type="date">
+    <sql name="pers_dob" type="char[MMM d, yyyy]"/>
+  </field>]]></pre>
+      <p>If the parameter is not specified, the conversion is performed
+         using toString() method of the Date class.</p>
+      <p>The fifth and the sixth convertors are "date->integer" and
+         "date->numeric".
+         Their parameters are also patterns having syntax based on the
+         SimpleDateFormat syntax, but repeated characters are eliminated.
+         The following table shows the substitution rules that are used
+         to obtain the SimpleDateFormat pattern from the parameter.
+         <table border="1" cellpadding="4">
+           <tr><td>Y,y</td><td>yyyy</td><td>year</td></tr>
+           <tr><td>M</td><td>MM</td><td>month in year</td></tr>
+           <tr><td>D,d</td><td>dd</td><td>day in month</td></tr>
+           <tr><td>h,H</td><td>HH</td><td>hour in day (0~23)</td></tr>
+           <tr><td>m</td><td>mm</td><td>minute in hour</td></tr>
+           <tr><td>s</td><td>ss</td><td>second in minute</td></tr>
+           <tr><td>S</td><td>SSS</td><td>millisecond</td></tr>
+         </table>
+         For example, "YMD" parameter is expanded to "yyyyMMdd"
+         SimpleDateFormat pattern,
+         "YMDhmsS" parameter is expanded to "yyyyMMddHHmmssSSS"
+         SimpleDateFormat pattern.
+         The length of the expanded parameter gives the minimal number of
+         decimal digits that the actual SQL type must support.
+         The default value of the parameter is "YMD".</p>
+    </section>
+    <section title="BLOB and CLOB Types">
+      <p>BLOB and CLOB stand for binary and character large objects (in Sybase IMAGE and TEXT types,
+         respectively), which means that most likely you don't want to load the whole objects into memory,
+         but to read/write them as streams.
+         Usually these types are not comparable via WHERE clause of SQL statement, that is why you should
+         disable dirty checking for such fields, e.g.
+      <pre><![CDATA[
+  <field name="text" type="string">
+    <sql name="text" type="clob" dirty="ignore" />
+  </field>]]></pre>
+         In this example CLOB field will be read as String. This may cause OutOfMemoryError, if the text
+         is really large, but in many cases mapping CLOB to String is acceptable.
+         The advantage of this way is that we obtain Serializable value that can be passed via RMI.
+         Similarly you can map BLOB and CLOB to byte[] and char[] types, respectively:
+      <pre><![CDATA[
+  <field name="photo" type="bytes">
+    <sql name="photo" type="blob" dirty="ignore" />
+  </field>
+  <field name="resume" type="chars">
+    <sql name="resume" type="clob" dirty="ignore" />
+  </field>]]></pre>
+         </p>
+      <p>Now assume that this way is not acceptable.
+         The natual mapping for BLOB type is java.io.InputStream, and it is supported by Castor:
+      <pre><![CDATA[
+  <field name="cdImage" type="stream">
+    <sql name="cd_image" type="blob" dirty="ignore" />
+  </field>]]></pre>
+         The natual mapping for CLOB type is java.io.Reader, but it is not supported by Castor, because
+         java.io.Reader doesn't provide information about the length of the stream, which is necessary
+         for JDBC driver (at least for Oracle driver) to write the value to the database.
+         This is why CLOB type is mapped to java.sql.Clob:
+      <pre><![CDATA[
+  <field name="novel" type="clob">
+    <sql name="novel" type="clob" dirty="ignore" />
+  </field>]]></pre>
+         When you read data from the database, you can use getCharacterStream() method to obtain
+         java.io.Reader from java.sql.Clob.
+         When you write data to the database, you can either use the helper class
+         org.exolab.castor.jdo.engine.ClobImpl to construct java.sql.Clob from java.io.Reader and the length:
+         <pre>
+  object.setClob(new ClobImpl(new FileReader(file), file.length());</pre>
+         or implement java.sql.Clob interface yourself.</p>
+      <p>But we aware of the followng restriction: if you map BLOB to java.io.InputStream or
+         CLOB to java.sql.Clob, you should set turn caching off for the Java class containing
+         those values, e.g.:
+      <pre><![CDATA[
+  <class ...>
+    <cache-type type="none"/>
+      ...
+      <field name="novel" type="clob">
+        <sql name="novel" type="clob" dirty="ignore" />
+      </field>
+  </class>]]></pre>
+         Blob and Clob values cannot be cached, because they are alive only while the ResultSet that
+         produced them is open.
+         In particular this means that you cannot use dirty checking for long transactions with such
+         classes.</p>
+    </section>
+  </body>
+</document>

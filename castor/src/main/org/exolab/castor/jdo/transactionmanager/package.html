@@ -1,0 +1,189 @@
+<html>
+  <body>
+    <h1>Implementation of the Castor JDO transaction manager factory.</h1>
+
+    <p>
+    	With the release 0.9.6 of Castor, a new way of configuring transaction 
+        demarcation has been added. This configuration is now part of the
+        main JDO configuration file and mandates the specification of the 
+        transaction demarcation used within your application.
+     </p>
+        
+    <p>
+    	As part of this configuration file, the user has to specify which 
+	    transaction demarcation to use. This can either be 'local' or 
+	    'global', and is supplied by the use of a <code>&lt;transaction-demarcation&gt;</code>
+	    element.
+	 </p>
+
+	<h4>Local mode</h4>
+
+	<p>
+    	When using Castor JDO stand-alone and you want Castor to control 
+   		transaction demarcation ('local' mode), please use this element 
+   		as follows:
+   	</p>
+
+	<pre>
+       &lt;transaction-demarcation mode="local" /&gt;
+     </pre>
+     
+	<h4>Global mode</h4>
+     
+    <p>
+    	When running inside a J2EE application server, and you want to use 
+	    container managed transactions ('global' transactions), please make 
+	    sure you use this element as follows:
+    
+    <pre>
+       &lt;transaction-demarcation mode="global"&gt;
+          &lt;transaction-manager name="jndi" /&gt;
+       &lt;/transaction-demarcation&gt;
+    </pre>
+
+
+	<p>
+		In this mode, the XML element <code>&lt;transaction-manager&gt;</code> specifies
+    	the transaction manager that is used by your application server/web 
+    	container to control these transactions. The following transaction 
+    	manager (names) are supported in Castor at the time of the release 
+    	of Castor 0.9.6:
+    </p>
+
+	<table>
+		<tr>
+			<td><b>jndi</b>:</td><td>TM looked up in the JNDI ENC</td>
+		</tr>
+		<tr>
+			<td><b>websphere</b>:</td><td>WebSphere 4 and previous releases.</td>
+		</tr>
+		<tr>
+			<td><b>websphere5:</b></td><td>WebSphere 5</td>
+		</tr>
+		<tr>
+			<td><b>websphere51:</b></td><td>WebSphere 5.1</td>
+		</tr>
+	</table>
+
+	<p>
+		In addition to specifying the transaction manager <i>name</i>,
+		it is possible to pass arbitrary <i>name</i>/<i>value</i> pairs 
+		to the transaction manager instance. 
+	</p>
+	
+	<p>
+		<b>Note:</b>At the moment, only  the JNDI transaction manager factory
+		supports such an attribute. In this context, the <em>jndiEnc</em> attribute 
+		can be used to specify what JNDI ENC to use to lookup the transaction 
+		manager as shown below:
+	</p>
+	
+	<pre>
+       &lt;transaction-demarcation mode="global"&gt;
+          &lt;transaction-manager name="jndi"&gt;
+            &lt;param name="jndiEnc" value="java:comp/env/TransactionManager" /&gt;
+          &lt;/transaction-manager&gt;
+       &lt;/transaction-demarcation&gt;
+    </pre>
+    
+    <h2>Sample configurations</h2>
+    
+    <h3>Local transaction demarcation (minimal)</h3>
+    
+    <pre>
+	&lt;!DOCTYPE jdo-config PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd"&gt;
+
+	&lt;jdo-config&gt;
+    	&lt;database name="test" engine="mysql" &gt;
+        	&lt;driver url="jdbc:mysql://localhost/castor_foreign" class-name="com.mysql.jdbc.Driver" &gt;
+           		&lt;param name="user" value="..." /&gt;
+           		&lt;param name="password" value="..." /&gt;
+        	&lt;/driver&gt;
+    	&lt;/database&gt;
+    	&lt;transaction-demarcation mode="local" /&gt;
+    	&lt;mapping href="mapping.xml" /&gt;
+	&lt;/jdo-config&gt;
+    </pre>
+
+    <h3>Local transaction demarcation (eloborated)</h3>
+    
+    <pre>
+    &lt;!DOCTYPE jdo-config PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd"&gt;
+
+    &lt;jdo-config&gt;
+        &lt;database name="test" engine="mysql" &gt;
+            &lt;driver url="jdbc:mysql://localhost/castor_foreign" class-name="com.mysql.jdbc.Driver" &gt;
+                &lt;param name="user" value="..." /&gt;
+                &lt;param name="password" value="..." /&gt;
+            &lt;/driver&gt;
+        &lt;/database&gt;
+        &lt;transaction-demarcation mode="local"&gt;
+            &lt;transaction-manager name="local"&gt;
+        &lt;/transaction-demarcation&gt;
+        &lt;mapping href="mapping.xml" /&gt;
+    &lt;/jdo-config&gt;
+    </pre>
+
+    <h3>Global transaction demarcation (JNDI)</h3>
+    
+    <pre>
+    &lt;!DOCTYPE jdo-config PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd"&gt;
+
+    &lt;jdo-config&gt;
+        &lt;database name="test" engine="mysql" &gt;
+            &lt;driver url="jdbc:mysql://localhost/castor_foreign" class-name="com.mysql.jdbc.Driver" &gt;
+                &lt;param name="user" value="..." /&gt;
+                &lt;param name="password" value="..." /&gt;
+            &lt;/driver&gt;
+        &lt;/database&gt;
+        &lt;transaction-demarcation mode="global"&gt;
+            &lt;transaction-manager name="jndi"/&gt;
+        &lt;/transaction-demarcation&gt;
+        &lt;mapping href="mapping.xml" /&gt;
+    &lt;/jdo-config&gt;
+    </pre>
+    
+    <p>
+    	Please note that in this sample, Castor will try to load the transaction
+    	manager from the default location "java:comp/transaction/TransactionManager";
+    	
+    <h3>Global transaction demarcation (JNDI, with parameters)</h3>
+    
+    <p>
+    	In this sample, we want to indicate that the 
+    	<code>javax.jta.TransactionManager</code> instance
+    	is bound to the JNDI ENC 
+    	'java:comp/env/transaction/TransactionManager' rather than the default 
+    	value as shown in the previous sample.
+    </p>
+    
+    <pre>
+    &lt;!DOCTYPE jdo-config PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd"&gt;
+
+    &lt;jdo-config&gt;
+        &lt;database name="test" engine="mysql" &gt;
+            &lt;driver url="jdbc:mysql://localhost/castor_foreign" class-name="com.mysql.jdbc.Driver" &gt;
+                &lt;param name="user" value="..." /&gt;
+                &lt;param name="password" value="..." /&gt;
+            &lt;/driver&gt;
+        &lt;/database&gt;
+        &lt;transaction-demarcation mode="global"&gt;
+            &lt;transaction-manager name="jndi"&gt;
+                &lt;param name="jndiEnc" value="java:comp/env/transaction/TransactionManager" /&gt;
+            &lt;/transaction-manager&gt;
+        &lt;/transaction-demarcation&gt;
+        &lt;mapping href="mapping.xml" /&gt;
+    &lt;/jdo-config&gt;
+    </pre>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date$</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a></dd>
+    </dl>
+
+  </body>
+</html

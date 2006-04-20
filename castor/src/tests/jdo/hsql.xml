@@ -1,0 +1,11 @@
+<?xml version="1.0" ?>
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+
+<jdo-conf>
+  <database name="hsql" engine="hsql" >
+    <driver url="jdbc:hsqldb:hsql://localhost/" class-name="org.hsqldb.jdbcDriver"/>
+    <mapping href="mapping.xml" />
+  </database>
+  <transaction-demarcation mode="local" />
+</jdo-conf>
