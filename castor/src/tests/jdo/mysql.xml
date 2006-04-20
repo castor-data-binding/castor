@@ -1,0 +1,12 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+<!-- Database file for Sybase 11 - required jConnect 5.2 -->
+<database name="mysql" engine="mysql" >
+    <driver url="jdbc:mysql://localhost/test"
+            class-name="org.gjt.mm.mysql.Driver">
+         <param name="user" value="test" />
+         <param name="password" value="test" />
+    </driver>
+  <mapping href="mapping.xml" />
+</database>
+

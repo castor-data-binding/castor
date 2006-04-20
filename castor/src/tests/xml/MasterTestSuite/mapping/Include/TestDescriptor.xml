@@ -1,0 +1,42 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+	<Name>Mapping Include Test</Name>
+     <Author>Arnaud Blandin</Author>
+	<Comment>
+        This test checks the behavior of the include tag that allows to include mapping documents
+        inside a mapping.
+    </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object random="false" dump="true">A</Root_Object>
+        
+		<UnitTestCase>
+            <Name>Simple Test</Name>
+			<Mapping_File>mapping.xml</Mapping_File>
+			<Input>input.xml</Input>			
+			<ObjectBuilder>Builder</ObjectBuilder>
+			<GoldFile>output.xml</GoldFile>
+		</UnitTestCase>
+        
+        <UnitTestCase>
+            <Name>Failure Test Endless Loop 1</Name>
+			<Mapping_File>bad_mapping1.xml</Mapping_File>
+			<Input>input.xml</Input>			
+			<ObjectBuilder>Builder</ObjectBuilder>
+			<Failure exception="org.exolab.castor.mapping.MappingException">true</Failure>
+		</UnitTestCase>
+
+       <UnitTestCase>
+            <Name>Failure Test Endless Loop 2</Name>
+			<Mapping_File>bad_mapping2.xml</Mapping_File>
+			<Input>input.xml</Input>			
+			<ObjectBuilder>Builder</ObjectBuilder>
+			<Failure exception="org.exolab.castor.mapping.MappingException">true</Failure>
+		</UnitTestCase>
+
+	</MarshallingTest>
+</TestDescriptor>
