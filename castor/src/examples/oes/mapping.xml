@@ -1,0 +1,70 @@
+<?xml version="1.0" ?>
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+  <class name="oes.Categories">
+    <map-to xml="categories" />
+    <field name="categories" type="oes.Category" collection="vector" >
+      <xml name="category" node="element" />
+    </field>
+  </class>
+
+  <class name="oes.Category" identity="categoryId">
+    <map-to table="oes_category" xml="category" />
+    <field name="categoryId" type="integer" >
+      <sql name="categ_id" type="smallint" />
+      <xml name="id" node="element" />
+    </field>
+    <field name="shortName" type="string" >
+      <sql name="short" type="char" dirty="ignore" />
+      <xml name="short" node="element" />
+    </field>
+    <field name="description" type="string" >
+      <sql name="desc" type="varchar" dirty="ignore"  />
+      <xml name="description" node="element" />
+    </field>
+  </class>
+
+  <class name="oes.Discount" identity="discountId">
+    <map-to table="oes_discount" />
+    <field name="discountId" type="integer" >
+      <sql name="discount_id" type="numeric" />
+    </field>
+    <field name="price" type="oes.Price" >
+      <sql name="price_id" />
+    </field>
+    <field name="minimum" type="integer" >
+      <sql name="minimum" type="integer" />
+    </field>
+    <field name="discount" type="integer" >
+      <sql name="discount" type="integer" />
+    </field>
+    <field name="effectiveFrom" type="date" required="false" >
+      <sql name="effect_from" type="date" />
+    </field>
+    <field name="effectiveTo" type="date" required="false" >
+      <sql name="effect_to" type="date" />
+    </field>
+  </class>
+
+  <class name="oes.Price" identity="priceId">
+    <map-to table="oes_price" />
+    <field name="priceId" type="integer" >
+      <sql name="price_id" type="numeric" />
+    </field>
+    <field name="msrp" type="double" >
+      <sql name="msrp" type="numeric" />
+    </field>
+    <field name="cost" type="double" required="false" >
+      <sql name="cost" type="numeric" />
+    </field>
+    <field name="currency" type="string" >
+      <sql name="cut_unit" type="char" />
+    </field>
+    <field name="discounts" type="oes.Discount" collection="collection" >
+    </field>
+  </class>
+
+</mapping>
+
