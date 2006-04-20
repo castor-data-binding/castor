@@ -1,0 +1,17 @@
+<domain>
+<name>tyrexDomain</name>
+ <resources>
+  <dataSource>
+       <name>castor-datasource</name>
+       <jar>lib/tests/mysql-connector-java-3.0.11-stable-bin.jar</jar>
+       <class>com.mysql.jdbc.jdbc2.optional.MysqlConnectionPoolDataSource</class>
+        <config>
+          <user>root</user>
+          <password>uLive2C</password>
+          <serverName>localhost</serverName>
+          <port>3306</port>
+          <databaseName>test</databaseName>
+        </config>
+     </dataSource>
+ </resources>
+</domain>
