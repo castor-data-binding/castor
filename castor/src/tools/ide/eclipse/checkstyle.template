@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<fileset-config file-format-version="1.0.0">
+    <fileset name="src/tests/ctf" enabled="true" check-config-name="Castor test checks">
+        <file-match-pattern match-pattern="ctf/jdo" include-pattern="true"/>
+    </fileset>
+    <fileset name="src/tests/ptf" enabled="true" check-config-name="Castor test checks">
+        <file-match-pattern match-pattern="ptf/jdo" include-pattern="true"/>
+    </fileset>
+    <fileset name="src/tests/utf" enabled="true" check-config-name="Castor test checks">
+        <file-match-pattern match-pattern="utf/org/castor" include-pattern="true"/>
+    </fileset>
+    <fileset name="src/main/org/exolab" enabled="true" check-config-name="Castor source checks (strict)">
+        <file-match-pattern
+            match-pattern="org/exolab/castor/jdo/JDOManager.java" include-pattern="true"/>
+        <file-match-pattern
+            match-pattern="org/exolab/castor/jdo/JDO.java" include-pattern="true"/>
+        <file-match-pattern
+            match-pattern="org/exolab/castor/jdo/transactionmanager" include-pattern="true"/>
+    </fileset>
+    <fileset name="src/main/org/castor" enabled="true" check-config-name="Castor source checks (strict)">
+        <file-match-pattern match-pattern="org/castor" include-pattern="true"/>
+        <file-match-pattern match-pattern="utf/org/castor" include-pattern="false"/>
+    </fileset>
+</fileset-config>

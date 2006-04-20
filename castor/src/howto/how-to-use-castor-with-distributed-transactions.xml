@@ -1,0 +1,121 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/tutorial/how-to-use-castor-with-distributed-transactions.xml">
+  <properties>
+    <title>How to use Castor with(in) distributed J2EE transactions</title>
+    <abstract>
+       General information about using Castor with(in) distributed J2EE transactions
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use Castor with(in) distributed J2EE transactions</title>
+    <header>
+    </header>
+    <section title="Overview">
+        
+        <p>J2EE applications depend on the J2EE container (hosting Servlet, 
+           EJB, etc) to configure a database connection (as well as other resource
+           managers) and use JNDI to look it up. This model allows the 
+           application deployer to configure the database properties from a 
+           central place, and gives the J2EE container the ability to manage 
+           distributed transactions across multiple data sources.</p>
+           
+        <p>This HOW-TO shows how to seamlessly use Castor JDO in such a managed 
+           environment, and how to make Castor participate in a distributed 
+           transaction.</p>
+        
+    </section>
+    
+    <section title="Intended audience">
+        
+        <p>Anyone who wants to use Castor JDO with(in) distributed J2EE transactions.</p>
+    
+    </section>
+    
+    <section title="Steps">
+        
+        <p>The following sections highlight the steps necessary to use Castor JDO 
+           seamlessly in such a (managed) environment, and how to make Castor 
+           participate in a distributed transaction.</p>
+
+      <section title="Make Castor participate in a J2EE transaction">
+
+        <p>The following code fragment shows how to use JNDI to lookup a 
+           database and how to use a JTA <tt>UserTransaction</tt> instance to 
+           manage the J2EE (aka distributed) transaction:</p>
+           
+		<code-panel>
+<comment>// Lookup databse in JNDI</comment>
+Context ctx = new InitialContext();
+Database db = (Database) ctx.lookup( "java:comp/env/jdo/mydb" );
+
+<comment>// Begin a transaction</comment>
+<font color="red">UserTransaction ut = (UserTransaction) ctx.lookup( "java:comp/UserTransaction" );</font>
+<font color="red">ut.begin();</font>
+<comment>// Do something</comment>
+. . .
+<comment>// Commit the transaction, close database</comment>
+<font color="red">ut.commit();</font>
+db.close();
+           </code-panel>
+
+      </section>
+      
+      <section title="Make Castor participate in container-managed J2EE transaction">
+        
+        <p>If the transaction is managed by the container, a common case with 
+           EJB beans and in particular entity beans, there is no need to 
+           begin/commit the transaction explicitly. Instead the application server 
+           takes care of enlisting the database used by Castor JDO to insert
+           domain entities into a database in the ongoing transaction and 
+           commiting/rolling back at the relevant time.</p>
+
+        <p>The following code snippet relies on the container to manage the 
+           transaction.</p>
+           <code-panel>
+InitialContext  ctx;
+UserTransaction ut;
+Database        db;
+
+<comment>// Lookup databse in JNDI</comment>
+ctx = new InitialContext();
+db = (Database) ctx.lookup( "java:comp/env/jdo/mydb" );
+
+<comment>// Do something</comment>
+. . .
+<comment>// Close the database</comment>
+db.close();
+           </code-panel>
+           
+           <p>As transaction enregistration is dealt with at the J2EE container,
+              it is not necessary anymore to obtain a <tt>UserTransaction</tt>
+              and start/commit the transaction manually.</p>
+
+      </section>
+      
+      <section title="Resource enlisting">
+        
+        <p>Instead of constructing required resources directly, a typical J2EE
+           application uses the JNDI API to look up resources from centrally managed
+           place such as a naming and directory service. In such an environment,
+           Castor JDO takes on the role of a managed resource as well. It follows 
+           that, instead of constructing a <api>org.exolab.castor.jdo.JDOManager</api> 
+           directly, a typical J2EE application should use JNDI to look 
+           it up.</p>
+           
+        <p>We thus recommend enlisting the <tt>JDOManager</tt> object 
+           under the <tt>java:comp/env/jdo</tt> namespace, compatible with 
+           the convention for listing JDBC resources.</p>
+        
+      </section>
+      
+     </section>
+
+     <section title="References">
+        <ul>
+            <li><a href="pooling.html">Other pooling examples</a></li>
+        </ul>
+     </section>
+    
+   </body>
+</document>
