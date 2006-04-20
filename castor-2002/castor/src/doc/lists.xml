@@ -1,0 +1,86 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/lists.xml">
+  <body>
+    <title>Castor Mailing Lists</title>
+    <header>
+    </header>
+    <section title="Mailing Lists">
+
+      <p>
+         <b>Note:</b> You can use a searchable archive of the castor-dev list at <a href="http://www.mail-archive.com/castor-dev%40exolab.org">
+         http://www.mail-archive.com/castor-dev%40exolab.org</a>  It appears there is a delay of one (1) or two (2) days for messages
+         to be archived at that site. You can also use the "unsearchable" archive listed below to look
+         at the very latest messages to the list.
+      </p>
+
+
+      <p><b>castor-dev</b></p>
+      <p>Moderate volume (possibly more than 15 messages a day) mailing list dedicated to the developers of Castor.</p>
+
+      <p><mailing-list name="castor-dev" description="The Castor Developer's Mailing List"
+                       server="exolab.org" manager="minimalist"
+                       archive="http://castor.exolab.org/list-archive/"/>
+      </p>
+       <p>
+         <b>Note:</b> please familiarize yourself with the <a href="#Guidelines">guidelines</a>
+         before posting to the list.
+      </p>
+
+      <p><b>castor-announce</b></p>
+      <p>Low volume (possibly more than 1 message per week)
+         mailing list for special announcements about Castor, such as
+         new releases.
+      </p>
+
+      <p><mailing-list name="castor-announce" description="The Castor Announcement Mailing List"
+                       server="exolab.org" manager="minimalist"/></p>
+    </section>
+    <section title="Guidelines">
+    <p>
+The following are some general "common-sense" guidelines for using the
+mailing lists:</p>
+
+<p><pre>
+Most people are already following these guidelines. To those people, I
+thank you. For those of you who are not...please read carefully.
+
+1. Please refrain from using words and phrases like URGENT, IMPORTANT,
+   MY WIFE WILL LEAVE ME IF YOU DO NOT RESPOND, etc, in the subject line
+   of your postings. Or even in the body of the message for that matter.
+
+   You may think that things which are URGENT, or IMPORTANT to you,
+   are just as urgent and important to everyone else reading this
+   list. You'd be surprised at just how wrong an assumption like
+   that can be. As a matter of fact, I personally tend to read
+   all such postings last and give them a low priority.
+
+2. Please use meaningful subject lines. "Newbie Question",
+   is not meaningful what-so-ever.
+
+3. Please provide necessary information, where applicable.
+   Statements like, "I recieve a NullPointerException when
+   using Castor, what's up with that?", are not very helpful,
+   add unnecessary traffic on the list, and will probably
+   never get an answer.
+
+4. As a follow on to #3, when submitting examples, please try
+   to submit the smallest possible example which demonstrates
+   the problem. Short examples are easier to follow and will
+   get quicker responses from developers or other users than
+   long examples with lots of extraneous code/data.
+
+4. Please read the documentation before posting. One of the
+   biggest problems is that there is not a lot of documentation
+   to Castor. At the same time, because it doesn't take long,
+   everyone should read what is written before posting.
+
+5. Please check the mail archives before posting. Many questions
+   on this list have already been answered before. I am aware
+   that the current mail archive is not very good on a number
+   of issues (searching, reliability, etc). We are working
+   on these issues and hope to have a new archive system in
+   place shortly.
+</pre></p>
+    </section>
+  </body>
+</document>

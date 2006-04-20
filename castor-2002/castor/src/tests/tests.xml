@@ -1,0 +1,207 @@
+<harness name="castor">
+  <!-- Category
+      A) 0 - 19  : core - concurrency, locks, transaction mode etc.
+      B) 20 - 39 : data type - type, relationship, identities
+      C) 40 - 59 : features - key generators, persistent interface
+      D) 60 - 79 : misc
+      E) 80 - 99 : resevered
+    -->
+  <category name="sybase" class="jdo.JDOCategory">
+    <description>JDO tests for Sybase 11</description>
+    <jdo database-name="sybase" configuration="sybase.xml" />
+
+    <!-- A -->
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.Race" />
+    <case class="jdo.CacheLeakage" />
+
+    <!-- B -->
+    <case class="jdo.TypeHandling" />
+    <case class="jdo.TypeConversion" />
+    <case class="jdo.MultiPKs" />
+    <case class="jdo.ManyToMany" />
+    <case class="jdo.Dependent" />
+    <case class="jdo.DependentUpdate" />
+    <case class="jdo.DependentKeyGen" />
+    <case class="jdo.DependentKeyGenUpdate" />
+    <case class="jdo.LazyLoading" />
+    <case class="jdo.NestedFields" />
+    <case class="jdo.Collections" />
+    <case class="jdo.OqlExtends" />
+    <case class="jdo.ManyToManyKeyGen" />
+
+    <!-- C -->
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenUuid" />
+    <!-- -->
+    <case class="jdo.KeyGenIdentity" />
+    <!-- -->
+    <!-- -->
+    <case class="jdo.Persistent" />
+    <!-- <case class="jdo.StoredProcedure" /> -->
+
+    <!-- D -->
+    <!-- jdo.ListTypes is a helper class for
+              writing castor jdo driver      -->
+    <!-- <case class="jdo.ListTypes" /> -->
+  </category>
+
+  <category name="oracle" class="jdo.JDOCategory">
+    <description>JDO tests for Oracle8i</description>
+    <jdo database-name="oracle" configuration="oracle.xml" />
+    <!-- A -->
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.Race" />
+    <case class="jdo.CacheLeakage" />
+
+    <!-- B -->
+    <case class="jdo.TypeHandling" />
+    <case class="jdo.TypeConversion" />
+    <case class="jdo.TypeLOB" />
+    <case class="jdo.MultiPKs" />
+    <case class="jdo.ManyToMany" />
+    <case class="jdo.Dependent" />
+    <case class="jdo.DependentUpdate" />
+    <case class="jdo.DependentKeyGen" />
+    <case class="jdo.DependentKeyGenUpdate" />
+    <case class="jdo.LazyLoading" />
+    <case class="jdo.NestedFields" />
+    <case class="jdo.Collections" />
+    <case class="jdo.SerializableObject" />
+    <case class="jdo.OqlExtends" />
+    <case class="jdo.ManyToManyKeyGen" />
+
+    <!-- C -->
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenUuid" />
+    <!-- -->
+    <case class="jdo.KeyGenSequence" />
+    <case class="jdo.KeyGenReturning" />
+    <!-- -->
+    <case class="jdo.Persistent" />
+
+    <!-- D -->
+    <!-- jdo.ListTypes is a helper class for
+              writing castor jdo driver      -->
+    <!-- <case class="jdo.ListTypes" /> -->
+  </category>
+  <category name="mysql" class="jdo.JDOCategory">
+    <description>JDO tests for MySQL</description>
+    <jdo database-name="mysql" configuration="mysql.xml" />
+    <!-- A -->
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.Race" />
+    <case class="jdo.CacheLeakage" />
+
+    <!-- B -->
+    <case class="jdo.TypeHandling" />
+    <case class="jdo.MultiPKs" />
+    <case class="jdo.ManyToMany" />
+    <case class="jdo.Dependent" />
+    <case class="jdo.DependentUpdate" />
+    <case class="jdo.DependentKeyGen" />
+    <case class="jdo.DependentKeyGenUpdate" />
+    <case class="jdo.LazyLoading" />
+    <case class="jdo.NestedFields" />
+    <case class="jdo.Collections" />
+    <case class="jdo.OqlExtends" />
+
+    <!-- C -->
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenUuid" />
+    <!-- -->
+    <case class="jdo.KeyGenIdentity" />
+    <!-- -->
+    <case class="jdo.Persistent" />
+
+    <!-- D -->
+    <!-- <case class="jdo.ListTypes" /> -->
+  </category>
+
+  <category name="sapdb" class="jdo.JDOCategory">
+    <description>JDO tests for SAP DB</description>
+    <jdo database-name="sapdb" configuration="sapdb.xml" />
+    <!-- A -->
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.Race" />
+    <case class="jdo.CacheLeakage" />
+
+    <!-- B -->
+    <case class="jdo.TypeHandling" />
+    <!-- <case class="jdo.Join" /> -->
+    <case class="jdo.MultiPKs" />
+    <case class="jdo.ManyToMany" />
+    <case class="jdo.Dependent" />
+    <case class="jdo.DependentUpdate" />
+    <case class="jdo.DependentKeyGen" />
+    <case class="jdo.DependentKeyGenUpdate" />
+    <case class="jdo.LazyLoading" />
+    <case class="jdo.NestedFields" />
+    <case class="jdo.Collections" />
+    <case class="jdo.OqlExtends" />
+
+    <!-- C -->
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenUuid" />
+    <!-- -->
+    <case class="jdo.KeyGenSequence" />
+    <!-- -->
+    <case class="jdo.Persistent" />
+
+    <!-- D -->
+    <!-- jdo.ListTypes is a helper class for
+              writing castor jdo driver      -->
+    <!-- <case class="jdo.ListTypes" /> -->
+  </category>
+
+  <category name="postgresql" class="jdo.JDOCategory">
+    <description>JDO tests for PostgreSQL</description>
+    <jdo database-name="postgresql" configuration="postgres.xml" />
+
+    <!-- A -->
+    <case class="jdo.DuplicateKey" />
+    <case class="jdo.Concurrent" />
+    <case class="jdo.ReadOnly" />
+    <case class="jdo.Deadlock" />
+    <case class="jdo.Race" />
+    <case class="jdo.CacheLeakage" />
+
+    <!-- B -->
+    <case class="jdo.TypeHandling" />
+    <case class="jdo.MultiPKs" />
+    <case class="jdo.ManyToMany" />
+    <case class="jdo.Dependent" />
+    <case class="jdo.DependentUpdate" />
+    <case class="jdo.DependentKeyGen" />
+    <case class="jdo.DependentKeyGenUpdate" />
+    <case class="jdo.LazyLoading" />
+    <case class="jdo.NestedFields" />
+    <case class="jdo.Collections" />
+    <case class="jdo.OqlExtends" />
+
+    <!-- C -->
+    <case class="jdo.KeyGenGeneric" />
+    <case class="jdo.KeyGenUuid" />
+    <!-- -->
+    <case class="jdo.KeyGenSequence" />
+    <!-- -->
+    <!-- -->
+    <case class="jdo.Persistent" />
+
+    <!-- D -->
+  </category>
+
+</harness>
+

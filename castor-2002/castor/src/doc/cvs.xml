@@ -1,0 +1,163 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/cvs.xml">
+  <body>
+    <title>CVS Access</title>
+
+    <section title="WebCVS, Snapshots, Bugzilla">
+
+      <p><a href="http://virtuals.intalio.com/cgi-bin/cvsweb.cgi/castor/?cvsroot=castor">WebCVS access to the repository.</a></p>
+
+      <p>Or, <a href="download.xml">download the full source distribution</a>
+         containing the latest snapshot of the CVS.</p>
+
+      <p><a href="http://bugzilla.exolab.org">Use Bugzilla for bug tracking.</a></p>
+
+    </section>
+
+    <section title="Anonymous Access">
+
+      <p>The source code, documentation and libraries are available for anonymous access
+         from the Exolab CVS server.</p>
+
+      <p>The CVS is updated regularly and may contain an unstable version when you
+         check it out. We commit working code to the CVS immediately prior to putting
+         out a release.</p>
+
+      <p>The CVS root is <tt>:pserver:anoncvs@castor.exolab.org:/cvs/castor</tt>
+         and the password <tt>anoncvs</tt>.</p>
+
+      <p>To login to CVS from the command line and checkout a version of Castor
+         use the following commands:</p>
+
+      <pre>
+  $ cvs -d :pserver:anoncvs@castor.exolab.org:/cvs/castor login
+  password: anoncvs
+  $ cvs -d :pserver:anoncvs@castor.exolab.org:/cvs/castor checkout castor
+      </pre>
+
+      <p><b>Note:</b> There have been reports of problems using jCVS with ours CVS servers.
+         Please use an alternative CVS client until this problem is resolved.</p>
+
+    </section>
+
+    <section title="Behind A Firewall?">
+      <p>
+         Sometimes firewalls are configured in such a way that users behind the firewall
+         cannot access the CVS port. If you fall into this category, don't worry, we're
+         thinking about you! Just download the latest daily snapshot of the CVS at:
+         <url>ftp://ftp.exolab.org/pub/castor/castor_daily_snapshot.tgz</url>
+      </p>
+    </section>
+
+    <section title="Guidelines For Code Contribution">
+
+      <p>All code contributions must be under the license and copyright of the
+         project to which you contribute. By contributing code you agree that we
+         can distribute the contribution under the terms of the license, that it
+         can be distributed without any royalties, copyright, trademark, patent or
+         other legal lock ups. Open source means no discrimination against any
+         group or individual that may wish to use the code.</p>
+
+      <p>When making a contribution you are granting us a world wide, royalty free,
+         unlimited in time license to re-distribute the code under the Exolab license.
+         In case you wonder, you remain the original author and copyright holder
+         of the contribution, you just give other people a license to use it as well.
+         Thank you.</p>
+
+      <p>It's perfectly ok to put your name and e-mail address in the code.</p>
+
+      <p>When sending patches, diff files with context (3 lines before, 3 lines
+         after) work best:
+<pre><![CDATA[
+  cvs diff -u <file>]]></pre>
+againsts the up-to-date cvs version, or
+<pre><![CDATA[
+  diff -u <file>
+]]></pre></p>
+
+      <p>It is very important for sending test cases along with the patch of a 
+         new feature and a bug fix.</p>
+
+      <p>A test case, showing a feature being added, a bug being fixed, 
+         proves that the patch plays along nicely with other code, ensures 
+         the committer understands what the patch does and also encourages 
+         promptly reviewing and checking in.</p>
+
+      <p>Committer commits a patch only if s/he fully understands the patch.</p>
+
+      <p>Also, a test case is the easiest way to ensure your contribution will 
+         not be broken by another patch later. It becomes even more important 
+         if your project depends on a feature that you're contributing.</p>
+
+    </section>
+
+    <section title="Guidelines For Committers">
+
+      <p><i>Familiarize yourself.</i> Take some time to understand the directory
+         structure, build environment, interaction between components, coding and commenting
+         style. Nothing out of the ordinary, but still not all projects are identical.</p>
+
+      <p><i>Before starting to work please advertise.</i> It's pointless to have two people
+         working on the same feature. Send an e-mail to the developer mailing list and
+         announce what and how. If you don't get a reply within a day, you can assume the
+         coast is clear.</p>
+
+      <p><i>Test before you commit.</i> Before committing any changes run a <tt>cvs update</tt>
+         to make sure you have the latest code base. Run the test cases to make sure nothing
+         is broken.</p>
+
+      <p><i>Commit all at once.</i> If the change involves more than a single file, make sure
+         to commit all the changes together. A partially committed CVS tree is not a pretty
+         sight. No lunch breaks, meetings or sleep during commits.</p>
+
+      <p><i>Be ready to receive complaints.</i> Hopefully all works fine, but if changes
+         to break existing code, people will complain. Be ready to answer their e-mails
+         and apply the proper fixes. No going on vacation five minutes after a commit.</p>
+
+      <p><i>Put your name so people know who to credit.</i> (Also who to blame). Initials
+         work just fine, your full name and e-mail address are already on the main page.
+         If you've added a new file, feel free to put your name and e-mail address as the
+         author. If you're fixing a file, put your initials on the comment.</p>
+
+      <p><i>Observe release time.</i> We're going to announce a new release five hours prior
+         to making it. That gives you four hours to commit any changes, make sure nothing
+         breaks. Don't leave the computer before the release is done. If you can't make
+         it, there's alway the next release.</p>
+
+      <p><i>Document what you've done.</i> In-code documentation, CVS commit messages,
+         and the changelog. Major changes should always be recorded in the changelog.</p>
+
+      <p><i>Use the document DTD.</i> When adding new documentation use the document DTD.
+         Specify the proper document URL, properties, body and section. Everything
+         inside the body/header/section is XHTML. That means well formed HTML.
+         If it's not, you won't be able to build the docs.</p>
+
+      <p>We don't have a particular style for documentation, and we do appreciate
+         a sense of humor, sarcasm and literary expression. Just don't overdue it,
+         and please, no cliche.</p>
+
+    </section>
+
+    <section title="Licensing Policy">
+
+      <p>We have a simple policy regarding distributable code. Either it's open source
+         and compatible in license, or it's an API that is freely distributable.</p>
+
+      <p>BSD-like and MPL-like licenses are compatible and can be mixed in the
+         same code base. Liberal licenses and public domain are also fine.</p>
+
+      <p>APIs need not be open source, but they must be freely distributable.
+         As a policy we like to stick with standard APIs and never modify them,
+         so the license has little affect. We do favor public domains APIs like
+         SAX over tightly controlled APIs, and hopefully we can all do something
+         about that.</p>
+
+      <p>Pay special attention to pre-release availability and trademark issues.
+         Several committees and companies require proper trademark acknowledgement in
+         the documentation. Some of them are available for distribution only
+         once they have been formally released. This policy applies to all APIs
+         coming from Sun.</p>
+
+    </section>
+  </body>
+</document>
