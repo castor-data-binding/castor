@@ -1,0 +1,187 @@
+<?xml version='1.0'?>
+<!--
+    Castor Testing Framework Test Descriptor XML Schema
+    Namespace: http://castor.exolab.org/Test
+
+    This schema is used to generate the
+    org.exolab.castor.tests.framework.testdescriptor package
+    *Note*: This schema is under evolution and subject to change.
+ 	This schema is under the Exolab license
+ -->
+<!-- $Id$ -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+  			targetNamespace="http://castor.exolab.org/Test"
+  			elementFormDefault="qualified">
+
+  	<!-- The root element which contains an header and a test element-->
+	<xsd:element name="TestDescriptor">
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- The name of the test -->
+				<xsd:element name="Name" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+				<!-- The author of the tests -->
+                <xsd:element name="Author" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+                <!-- Some comments for describing the test -->
+				<xsd:element name="Comment" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+				<!-- Define the category of the test -->
+				<xsd:element name="Category" type="CategoryType" minOccurs="1" maxOccurs="1"/>
+				<!-- Is it a bug fix?-->
+				<xsd:element ref="BugFix" minOccurs="0" maxOccurs="1"/>
+				<!-- Test for the SourceGenerator OR the Marshalling Framework-->
+				<xsd:choice>
+					<!-- Test case for the SourceGenerator-->
+					<xsd:element ref="SourceGeneratorTest" minOccurs="0" maxOccurs="1"/>
+					<!-- Test case for the Marshalling Framework-->
+					<xsd:element ref="MarshallingTest" minOccurs="0" maxOccurs="1"/>
+                    <!-- Test case for the Schema Object Model-->
+                    <xsd:element ref="SchemaTest" minOccurs="0" maxOccurs="1"/>
+				</xsd:choice>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="BugFix">
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- the reporter name -->
+				<xsd:element name="Reporter" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+				<!-- date of the report-->
+				<xsd:element name="Date_Report" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+				<!-- date of the fix-->
+				<xsd:element name="Date_Fix" type="xsd:date" minOccurs="1" maxOccurs="1"/>
+				<!-- Some comments on the fix or the bug -->
+				<xsd:element name="Comment" type="xsd:string" minOccurs="1" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="SourceGeneratorTest">
+		<xsd:complexType>
+			<xsd:sequence>
+					<!-- the name of the schema file -->
+					<!-- assume that the Testing Framework will try to match the name -->
+					<!-- by looking in all the JARs - directories -->
+					<xsd:element name="Schema" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+					<!-- The name of the properties file used with this SourceGenerator test case-->
+					<xsd:element name="Property_File" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+					<!-- The name of the collection type used with this SourceGenerator test case-->
+					<xsd:element name="FieldInfoFactory" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+					<!-- the qualified name of the root Object -->
+					<!-- later: define a pattern to describe a Java quailified name-->
+					<xsd:element name="Root_Object" type="RootType" minOccurs="1" maxOccurs="1"/>
+					<!-- the test cases for the SourceGenerator-->
+					<!-- for the moment it is shared with the test cases-->
+					<xsd:element ref="UnitTestCase" minOccurs="1" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="MarshallingTest">
+		<xsd:complexType>
+			<xsd:sequence>
+					<!-- the qualified name of the root Object -->
+					<!-- later: define a pattern to describe a Java quailified name-->
+					<xsd:element name="Root_Object" type="RootType" minOccurs="1" maxOccurs="1"/>
+					<!-- the test cases for the Marshalling Framework-->
+					<!-- for the moment it is shared with the test cases-->
+					<!-- for the SourceGenerator-->
+					<xsd:element ref="UnitTestCase" minOccurs="1" maxOccurs="unbounded"/>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+    <xsd:element name="SchemaTest">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="UnitTestCase" minOccurs="1" maxOccurs="unbounded"/>
+            </xsd:sequence>
+        </xsd:complexType>
+    </xsd:element>
+
+	<xsd:element name="UnitTestCase">
+		<xsd:complexType>
+			<xsd:sequence>
+    		    <!-- The name of the test -->
+                <xsd:element name="Name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+    		    <xsd:choice minOccurs="0">
+                    <!-- the mapping file used (if any) -->
+					<xsd:element name="Mapping_File" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+					<!-- the name of the schema to read/write -->
+                    <!-- a '*' will indicate that the CTF will try to read/write -->
+                    <!-- all the schemas present in the directory or jar -->
+                    <xsd:element name="Schema" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				</xsd:choice>
+                <!-- the input XML file for unmarshalling-->
+				<xsd:element name="Input" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				<!-- the output file for marshalling -->
+				<xsd:element name="GoldFile" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+				<!-- the name of the file that contained the result of the marshalling -->
+                <xsd:element name="Output" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                <!-- the ObjectBuilder class used for this test case -->
+				<xsd:element name="ObjectBuilder" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+			    <!-- a boolean that indicates if the test case intents to fail (Exception thrown)-->
+                <xsd:element name="Failure" type="FailureType" default="false" minOccurs="0" maxOccurs="1"/>
+                <!-- will cause the test to be ignored -->
+                <xsd:element name="Skip"   type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
+                <!-- the listener to use for unmarshalling, marshalling or both -->
+                <xsd:element name="Listener" type="ListenerType" minOccurs="0" maxOccurs="1"/>
+            </xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="CategoryType">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="basic capability"/>
+			<xsd:enumeration value="special case"/>
+			<!-- Extensible-->
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!--A root object in an object model-->
+	<xsd:complexType name="RootType">
+		<xsd:complexContent>
+			<xsd:extension base="StringType">
+				<!--set to true to generate randomly the given Object Model-->
+				<xsd:attribute name="random" type="xsd:boolean" default="false"/>
+				<!--set to true to dump the given Object Model states in specific files-->
+				<xsd:attribute name="dump"   type="xsd:boolean" default="false"/>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+
+    <xsd:complexType name="StringType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string"/>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <!-- The failure type -->
+    <xsd:complexType name="FailureType">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:boolean">
+                <!-- the exception expected -->
+                <xsd:attribute name="exception" type="xsd:string"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+    
+    <!-- Marshal/Unmarshal Listener type -->
+    <xsd:complexType name="ListenerType">
+      <xsd:sequence>
+        <xsd:element name="GoldFile" type="xsd:string" maxOccurs="1"/>
+        <!-- the fully qualified name for the listener -->
+        <xsd:element name="ClassName" type="xsd:string" use="required" maxOccurs="1"/>
+        <!-- The type of listener: Marshal, Unmarshal or Both -->
+        <xsd:element name="Type" maxOccurs="1" default="Both">
+            <xsd:simpleType>
+                <xsd:restriction base="xsd:string">
+                    <xsd:enumeration value="Marshal"/>
+                    <xsd:enumeration value="Unmarshal"/>
+                    <xsd:enumeration value="Both"/>
+                </xsd:restriction>
+            </xsd:simpleType>
+        </xsd:element>
+      </xsd:sequence>
+    </xsd:complexType>
+
+</xsd:schema>

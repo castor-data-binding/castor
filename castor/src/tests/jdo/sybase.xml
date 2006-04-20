@@ -1,0 +1,18 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+<!-- Database file for Sybase 11 - required jConnect 5.2 -->
+<!--
+<database name="sybase" engine="sybase" >
+  <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource">
+    <params user="test" password="secret" port-number="4100" server-name="arkin" />
+  </data-source>
+  <mapping href="mapping.xml" />
+</database>
+-->
+
+<database name="sybase" engine="sybase" >
+  <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource"> 
+    <params user="thomas" password="thomas" port-number="2048" server-name="Dual1" database-name="thomas" />
+  </data-source>
+  <mapping href="mapping.xml" />
+</database>
