@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://xslp.exolab.org/lists.xml">
+  <body>
+    <title>XSL:P Mailing Lists</title>
+    <header>
+    </header>
+       <section>
+      <p>Moderate volume (possibly more than 15 messages a day) mailing list dedicated to the developers of XSL:P.</p>
+
+      <mailing-list name="xslp-dev" description="The XSL:P Developer's Mailing List"
+                       server="exolab.org" manager="minimalist"
+                       archive="http://xslp.exolab.org/list-archive/"/>
+
+      <p>Low volume (possibly more than 1 message per week)
+         mailing list for special announcements about XSL:P, such as
+         new releases.
+      </p>
+
+      <mailing-list name="xslp-announce" description="The XSL:P Announcement Mailing List"
+                       server="exolab.org" manager="minimalist"
+                       archive="http://xslp.exolab.org/list-archive/"/>
+
+      </section>		       
+  </body>
+</document>

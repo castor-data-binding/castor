@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://xslp.exolab.org/status.xml">
+  <body>
+    <title>Status</title>
+
+    <section title="Supported Features">
+
+      <section title="XSLT">
+        <ul>
+          <li></li>
+
+        </ul>
+      </section>
+
+      <section title="Scripting">
+        <ul>
+          <li></li>
+
+        </ul>
+      </section>
+
+    </section>
+
+
+    <section title="What's missing">
+      <ul>
+        <li></li>
+      </ul>
+    </section>
+
+    <section title="TODO">
+       <section title="XSLT">
+         <ul>
+            <li></li>
+
+         </ul>
+       </section>
+       <section title="XPath">
+         <ul>
+            <li></li>
+
+         </ul>
+       </section>
+    </section>
+
+
+  </body>
+</document>
+
+
+
+

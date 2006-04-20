@@ -1,0 +1,60 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/support.xml">
+  <body>
+    <title>Castor Support</title>
+
+    <section title="Introduction">
+       <p>
+       Castor is an open-source product. This means that the source code is
+       available at no charge and may be obtained using <a href="cvs.xml">CVS</a> or
+       <a href="download.xml">downloaded</a>
+       via our ftp server.
+       </p>
+       <p>
+       Since castor is freely available, including the source code,
+       there is no guaranteed level of support available. The online
+       <a href="#Documentation">documentation</a> is
+       the best place to start. If you have trouble or have more advanced
+       questions not available in the online documentation then please subscribe
+       to the <a href="lists.xml">castor-dev mailing list</a>. The list is the best
+       place to ask questions about the product.
+       </p>
+    </section>
+
+    <section title="Documentation">
+       <p>
+          The online documentation is available throughout the website. To get started
+          simply click on the appropriate sections listed in the menu bar located to the
+          left side of this page.
+      </p>
+      <p>
+         If you can't find something in the documentation, try looking through the
+         examples.
+      </p>
+      <p>
+        There are also numerious <a href="presentations.xml">presentations and articles</a>
+        about Castor to help get you started.
+      </p>
+
+    </section>
+
+    <section title="Reporting Bugs">
+       <p>
+       If you find a bug, please file a report in our Bugzilla server at:
+       <url>http://bugzilla.exolab.org</url>
+       </p>
+    </section>
+
+    <section title="Commercial Support">
+       <p>
+       Commercial support is not provided at this time. We are also not aware
+       of any third-party companies providing such support.
+      </p>
+    </section>
+
+  </body>
+</document>
+
+
+
+

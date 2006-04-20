@@ -1,0 +1,95 @@
+<?xml version="1.0"?>
+<document url="http://castor.exolab.org/index.xml">
+  <body>
+    <title>The Castor Project</title>
+
+    <header>
+
+      <p>
+         Castor is an open source data binding framework for Java[tm].
+         It's basically the shortest path between Java objects, XML documents and SQL tables.
+         Castor provides Java to XML binding, Java to SQL persistence, and then
+         some more.
+      </p>
+
+      <p><b>News:</b>
+        <br />
+        <b>$RELEASE_DATE$</b> Version $VERSION$ is now <a href="download.xml">available for download</a>.
+        <ul>
+            <li><b>14 Nov 2002</b> - <b>Congratulations</b>
+               to Bruce Synder and his family on the birth of their baby daughter,
+               the youngest member of the Castor team, we can't wait until she's old enough
+               to start programming!
+            </li>
+
+            <li><b>24 Oct 2002</b> - Please welcome our newest addition to the Castor team of
+                committers, Mickaël Guessant! Mickaël is a very welcome addition to the
+                Castor JDO team.</li>
+
+            <li><b>10 July 2002</b> - Bruce Snyder has taken over for Thomas Yip as the Castor JDO
+                Project Lead. Bruce's name should be very familar to most Castor users as
+                he has been an active contributor and committer to Castor JDO for more than
+                a year.
+                <br />
+                A special Thanks to Thomas Yip for the great job he did and all the contributions
+                he made to the project.</li>
+        </ul>
+      </p>
+
+      <p><a href="origins.xml">About the origins of the name</a></p>
+
+      <p><b>Note:</b> Presently we are hosting two mailing lists. Traffic is not too high,
+         so if you are interested in keeping up to date with new releases, or have problems,
+         questions or feedback please <a href="lists.xml">subscribe
+         to the appropriate list</a>.</p>
+
+    </header>
+
+    <section title="Features">
+
+      <p>Short feature list (we haven't got all day):
+        <ul>
+          <li>
+             Castor XML: Java object model to and from XML
+             <br/>&#160;&#160; - Generate source code from an XML Schema
+          </li>
+          <li>Castor JDO: Java object persistence to RDBMS</li>
+          <li>Castor DAX: Java object persistence to LDAP</li>
+          <li>Castor DSML: LDAP directory exchange through XML</li>
+          <li>XML-based mapping file specify the mapping between one model and another</li>
+          <li>Support for schema-less Java to XML binding</li>
+          <li>In memory caching and write-at-commit reduces JDBC operations</li>
+          <li>Two phase commit transactions, object rollback and deadlock detection</li>
+          <li>OQL query mapping to SQL queries</li>
+          <li>EJB container managed persistence provider for OpenEJB</li>
+          <li>Ability to create base mapping from existing Java classes</li>
+          <li>Ability to create an XML Schema from an XML input document</li>
+        </ul>
+        See the <a href="status.xml">status page</a> for more information.</p>
+
+    </section>
+
+    <section title="About the Castor Project">
+
+
+      <p>The Castor project has been developed out of need: the need to get stuff done
+         and the need to write useful code. It has been designed and coded over many cups
+         of Dunkin Donut's Hazlenut coffee, Starbuck's Latte, and tall no-whip White Mochas,
+         as proof that coffee beans do come in handy.</p>
+
+      <p>For <a href="contributors.xml">a full list of contributors</a>.</p>
+
+      <p>The Castor Project was started and originally developed by
+         <a href="mailto:kvisco@intalio.com">Keith Visco</a>, Chief XML Architect,
+         Intalio Inc. and <a href="mailto:arkin@intalio.com">Assaf Arkin</a>.
+         Contributors are welcome to join this project. Please join us on the
+         <a href="lists.xml">mailing list</a>.</p>
+       <p>
+         Castor includes software, such as Xerces, Jakarta ORO, and Jakarta Regexp,
+         developed by the <a href="http://www.apache.org/">Apache Software Foundation</a>.
+         Castor also includes <a href="http://www.junit.org">JUnit testing framework</a>.
+       </p>
+    </section>
+
+  </body>
+</document>
