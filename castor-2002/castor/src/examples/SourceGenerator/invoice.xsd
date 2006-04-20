@@ -1,0 +1,140 @@
+<?xml version="1.0"?>
+<schema xmlns="http://www.w3.org/2001/XMLSchema" 
+		targetNamespace="http://castor.exolab.org/Test/Invoice">
+
+   <annotation>
+      <documentation>
+         This is a test XML Schema for Castor XML.
+      </documentation>
+   </annotation>
+
+   <!--
+       A simple representation of an invoice. This is simply an example
+       and not meant to be an exact or even complete representation of an invoice.
+     -->
+   <element name="invoice">
+      <annotation>
+         <documentation>
+             A simple representation of an invoice
+         </documentation>
+      </annotation>
+
+      <complexType>
+      	 <sequence>
+      		<element name="ship-to">
+            	<complexType>
+                 	<sequence>
+                 		<element name="name" type="string"/>
+                 		<element ref="address"/>
+                 		<element name="phone" type="TelephoneNumber"/>
+             		</sequence>
+             	</complexType>
+         	</element>
+        	<element ref="item" maxOccurs="unbounded" minOccurs="1"/>
+        	<element ref="shipping-method"/>
+        	<element ref="shipping-date"/>
+      	</sequence>
+      </complexType>
+   </element>
+
+   <!-- Description of an item -->
+   <element name="item">
+   		<complexType>
+   			<sequence>
+   				<element name="Id" type="ID" minOccurs="1" maxOccurs="1"/>
+   		    	<element name="Quantity" type="integer" minOccurs="1" maxOccurs="1"/>
+        		<element name="Price" type="PriceType" minOccurs="1" maxOccurs="1"/>
+    		</sequence>
+    		<attributeGroup ref="ItemAttributes"/>
+    	</complexType>
+   	</element>
+   	
+   <!-- Shipping Method -->
+   <element name="shipping-method">
+      <complexType>
+      	  <sequence>
+          	<element name="carrier" type="string"/>
+          	<element name="option"  type="string"/>
+          	<element name="estimated-delivery" type="duration"/>
+      	  </sequence>
+      </complexType>
+   </element>
+
+   <!-- Shipping date -->
+   <element name="shipping-date">
+   		<complexType>
+   			<sequence>
+   				<element name="date" type="date"/>
+   				<element name="time" type="time"/>
+   			</sequence>
+   		</complexType>
+   	</element>
+   
+   <!-- A simple U.S. based Address structure -->
+   <element name="address">
+      <annotation>
+         <documentation>
+            Represents a U.S. Address
+         </documentation>
+      </annotation>
+
+      <complexType>
+      	 <sequence>
+         	<!-- street address 1 -->
+         	<element name="street1" type="string"/>
+         	<!-- optional street address 2 -->
+         	<element name="street2" type="string" minOccurs="0"/>
+         	<!-- city-->
+         	<element name="city" type="string"/>
+         	<!-- state code -->
+         	<element name="state" type="state-code"/>
+         	<!-- zip-code -->
+         	<element ref="zip-code"/>
+      	</sequence>
+      </complexType>
+   </element>
+
+   <!-- A U.S. Zip Code -->
+   <element name="zip-code">
+      <simpleType>
+         <restriction base="string">
+        	 <pattern value="[0-9]{5}(-[0-9]{4})?"/>
+      	 </restriction>
+      </simpleType>
+   </element>
+
+   <!-- State Code
+        obviously not a valid state code....but this is just
+        an example and I don't feel like creating all the valid
+        ones.
+    -->
+	<simpleType name="state-code">
+		<restriction base="string">
+      		<pattern value="[A-Z]{2}"/>
+   		</restriction>
+   </simpleType>
+   
+   <!-- Telephone Number -->
+   <simpleType name="TelephoneNumber">
+   		<restriction base="string">
+   			<length value="12"/>
+   			<pattern value="[0-9]{3}-[0-9]{3}-[0-9]{4}"/>
+   		</restriction>
+   </simpleType> 
+
+   <!-- Cool price type -->
+   <simpleType name="PriceType">
+   		<restriction base="decimal">
+   			<fractionDigits value="2"/>
+    		<totalDigits value="5"/>
+    		<minInclusive value="1"/>
+   			<maxInclusive value="100"/>
+   		</restriction>
+   </simpleType>
+
+   <!-- The attributes for an Item -->
+   <attributeGroup name="ItemAttributes">
+   		<attribute name="InStock" type="boolean" use="default" value="false"/>
+   		<attribute name="Category" type="string" use="required"/>
+    </attributeGroup>
+</schema>
