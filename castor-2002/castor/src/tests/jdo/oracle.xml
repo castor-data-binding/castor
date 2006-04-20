@@ -1,0 +1,21 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+<database name="oracle" engine="oracle" >
+    <driver url="jdbc:oracle:thin:@127.0.0.1:1521:TEST"
+            class-name="oracle.jdbc.driver.OracleDriver">
+      <param name="user" value="SYSTEM"/>
+      <param name="password" value="manager"/>
+    </driver>
+  <mapping href="mapping.xml" />
+</database>
+<!--
+<database name="oracle" engine="oracle" >
+    <driver url="jdbc:oracle:oci8:@YIP"	
+            class-name="oracle.jdbc.driver.OracleDriver">
+
+      <param name="user" value="SYSTEM"/>
+      <param name="password" value="manager"/>
+    </driver>
+  <mapping href="mapping.xml" />
+</database>
+-->

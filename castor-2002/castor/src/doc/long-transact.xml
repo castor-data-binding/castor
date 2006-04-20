@@ -1,0 +1,106 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/long-transact.xml">
+  <body>
+    <title>Castor JDO Long Transactions Support</title>
+
+    <section title="Introduction">
+      <p>The usual Castor transactions are called here short 
+         transactions: an object is read, modified and written within the 
+         bounds of one transaction.
+         Long transactions consist of two Castor transactions: 
+         an object is read in the first and written in the second. 
+         Between them the object is sent "outwards" and modified there.
+         For example, the object may be send to a client application and 
+         dispayed to a user, or it may be sent to a servlet engine and is 
+         displayed on a web page. After that the modified object returns 
+         back and is written to the database in the second transaction. 
+         At this point the object is usually not the same physical instance 
+         as one that was read in the first transaction. 
+         The example code for writing the object in the second Castor 
+         transaction follows: 
+         <pre>
+             db.begin();
+             db.update(object);
+             db.commit();
+         </pre>
+         Note, that if the object doesn't exist in the database, 
+         db.update(object) is equivalent to 
+         db.create(object).
+         Also note, that it is natural to read the object in the first
+         transaction in the read-only mode.
+      </p>
+      <p>Since the time interval between the first and the second 
+         transaction is relatively big, it is desirable to perform dirty 
+         checking, i.e. to check that the object has not been modified
+         in the database during the long transaction. 
+         For that the object must hold a timestamp: it is set by 
+         Castor during the first Castor transaction and is checked during 
+         the second one. 
+         In order to enable the dirty checking for long transactions, 
+         the object should implement the interface 
+         org.exolab.castor.jdo.TimeStampable
+         having two methods: <code>long jdoGetTimeStamp()</code> and 
+         <code>void jdoSetTimeStamp(long timeStamp)</code>
+         Note, that for a new objects jdoGetTimeStamp() must 
+         return 0, in this case db.update(object) acts as db.create(object).
+         There are two types of timestamps: local (in the Castor cache) and 
+         global (in the database). 
+         Respectively, the are two dirty checking algorithms: 
+         bounded and reliable. 
+         They are decribed below in details.
+         The reliable dirty checking isn't implemented yet.
+      </p>
+    </section>
+
+    <section title="Bounded dirty checking">
+      <p>The advantage of the bounded dirty checking is that it doesn't need 
+         any changes to the database schema, because it uses the Castor 
+         cache to store object timestamps. 
+         The disadvantage of this algorithm is that it is bounded by 
+         a lifetime of the cached copy of the object. 
+         After the cached copy has been purged, db.update() 
+         causes ObjectModifiedException.
+      </p>
+      <p>Thus, parameters of the cache define dirty checking capabilities.
+         Let's consider the existing cache types:
+         <ul>
+           <li>none - the bounded dirty checking is impossible
+           </li>
+           <li>count-limited - the count limit for the cache is a count 
+           limit for the objects of this class that can participate in long 
+           and short transactions simultaneously.
+           </li>
+           <li>time-limited - the time limit for the cache is a time limit 
+           for the long transaction.
+           </li>
+           <li>unlimited - the bounded dirty checking gives correct results
+           while the cache exists, i.e. until the crash of the server.
+           </li>
+         </ul>
+       </p>
+    </section>
+
+    <!--section title="Reliable dirty checking">
+      <p>In order to use the reliable dirty checking, you have to add a 
+         timestamp field to the database table. 
+         Some database servers (e.g., Sybase and MS SQL Server) support 
+         timestamp fields automatically.
+         For other databases you should add a NUMERIC field and a 
+         trigger that increases the field's value on UPDATE.
+         And the last possibility is to tell Castor to increase the field 
+         value on UPDATEs.
+      </p>
+    </section-->
+
+
+  </body>
+</document>
+
+
+
+
+
+
+
+
+
