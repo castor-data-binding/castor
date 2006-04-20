@@ -1,0 +1,13 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema  targetNamespace="http://foo.bar/"
+         xmlns="http://www.w3.org/2001/XMLSchema"
+         xmlns:tns="http://foo.bar/">
+   <element name="element1">
+      <complexType>
+         <sequence>
+            <element ref="tns:element2"/>
+         </sequence>
+      </complexType>
+   </element>
+   <element name="element2" type="string"/>
+</schema>

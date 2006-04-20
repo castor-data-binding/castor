@@ -1,0 +1,244 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/extras.xml">
+  <body>
+    <title>Castor Extra Features and 3rd Party Tools</title>
+
+    <header>
+       <p>
+          - <b><font color="red">New</font></b> - Shelly Mujtaba's <a href="#JDOMapper">JDOMapper</a>
+       </p>
+    </header>
+
+    <section title="3rd Party Tools">
+       <p>
+          This section contains pointers to 3rd party tools.
+       </p>
+       <p>
+          <b>Note: We do not provide
+          support for these tools, please visit their respective websites for
+          support, questions, or concerns.
+          </b>
+       </p>
+       <section title="Castor-Doclet">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        Castor-Doclet is a tool for generating the Castor JDO mapping file from
+                        javadoc tags added in the source code. It also has the ability to generate
+                        a DDL file for different databases.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Mickael Guessant</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://castordoclet.sourceforge.net</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="Castor-Oil">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        Castor Oil is a GUI tool for generating the Castor mapping file from
+                        from existing data base tables. To my knowledge Castor Oil was the
+                        first GUI tool written for Castor. It was originally written by
+                        Lance Lavandowska, but has recently found a new maintainer and
+                        developer, Peter Kasson, who has been actively working to bring
+                        Oil back up to compatibility with the latest version of Castor.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Peter Kasson</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://vintech.no-ip.org:8181/oss/index.jsp</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+
+       <section title="O2XMapper">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        This tool is a GUI front end to Castor's MappingTool. It allows
+                        automatic creation and customization of mapping files. This tool
+                        is primarily for Castor XML, but check out
+                        <a href="#JDOMapper">JDOMapper</a> from the same author.
+                     </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Shelly Mujtaba</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://o2xmapper.sourceforge.net</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="JDOMapper">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                       JDOMapper provides a user interface for creating Castor JDO mapping files.
+                       The application allows user to import Java classes and map them to an relational
+                       schema . The tool performs series of validations to ensure that classes and fields
+                       are correctly mapped. Existing mapping files can also be imported into the tool.
+                       <br/>
+                       JDOMapper will pre-fill most of the options for a class or field. Finally,
+                       the User interface provides a more manageable view of the Mapping configuration,
+                       especially as the number of mapped classes grows large.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Shelly Mujtaba</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://o2xmapper.sourceforge.net/jdomapper/</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="Raccoon">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                       Another tool that allows one to automatically create a Castor mapping
+                       file for a given set of Java Beans. This tool also provides a host of
+                       other functionality which is geared towards integration with TIBCO
+                       products.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Cedric Rouvrais</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://raccoon.sourceforge.net</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="SchemaWizard">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                      SchemaWizard is a tool which automates building user interfaces to generate and modify XML instances following a XML schema.
+                      SchemaWizard achieves this by mapping XML Schema types to HTML form elements with a series of Velocity templates, JSP pages and Javabeans.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Ozgur Balsoy</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://ptlportal.communitygrids.iu.edu/schemawizard/index.html</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="Castor Doclet">
+        <p>
+            <table border="0">
+                <tr>
+                    <td align="top">Description:</td>
+                    <td>
+                     The purpose of the castor doclet is to generate this mapping 
+                     file from simple Javadoc tags added in the source code.
+                    </td>
+                </tr>
+                <tr>
+                    <td align="top">Author:</td>
+                    <td>Mickael Guessant</td>
+                </tr>
+                <tr>
+                    <td align="top">URL:</td>
+                    <td><url>http://castordoclet.sourceforge.net/</url></td>
+                </tr>
+            </table>
+        </p>
+       </section>
+
+       <section title="XDoclet">
+        <p>
+            <table border="0">
+                <tr>
+                    <td align="top">Description:</td>
+                    <td>
+                     XDoclet is a code generation engine. It enables 
+                     Attribute-Oriented Programming for Java. It provides 
+                     tags for Castor under the @exolab moniker.
+                    </td>
+                </tr>
+                <tr>
+                    <td align="top">Author:</td>
+                    <td>See the <a href="http://xdoclet.sourceforge.net/1.2beta/team-list.html">Team List</a></td>
+                </tr>
+                <tr>
+                    <td align="top">URL:</td>
+                    <td><url>http://xdoclet.sourceforge.net/1.2beta/index.html</url></td>
+                </tr>
+            </table>
+        </p>
+       </section>
+
+        <section title="Xtreme Space">
+            <p>
+                <table border="0">
+                    <tr>
+                        <td align="top">Description:</td>
+                        <td>
+                          Xtreme Space is a JavaSpaces implementation using a RDBMS or a native XML
+                          database as a backend. It is based on Castor for mapping between Java objects
+                          and the tables.
+                        </td>
+                     </tr>
+                     <tr>
+                        <td align="top">Author:</td>
+                        <td>Jerome Bernard</td>
+                     </tr>
+                     <tr>
+                        <td align="top">URL:</td>
+                        <td><url>http://www.kalixia.com/projects/XtremeSpace/</url></td>
+                     </tr>
+                  </table>
+               </p>
+        </section>
+
+    </section>
+  </body>
+</document>
+
+
+
+

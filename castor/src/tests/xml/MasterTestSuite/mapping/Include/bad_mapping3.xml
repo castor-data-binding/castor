@@ -1,0 +1,20 @@
+
+<mapping>
+        <!--include a local mapping -->
+        <include href="./src/tests/MasterTestSuite/xml/mapping/Include/bad_mapping2.xml"/>
+        
+        <class name="B">
+                <map-to xml="B"/>
+                <field name="name"
+                       type="string">
+                        <bind-xml name="Name" node="attribute"/>
+                </field>
+                
+                <field name="Celement" type="C">
+                   <bind-xml name="Celement"/>
+                </field>
+
+        </class>
+        
+        
+</mapping>
