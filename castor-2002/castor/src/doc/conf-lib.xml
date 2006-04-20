@@ -1,0 +1,211 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/conf-lib.xml">
+  <body>
+    <title>Configuration, Libraries and Building Castor</title>
+
+    <section title="The Castor configuration file">
+
+      <p>Castor uses a configuration file for environmental properties that are
+         shared across all the Castor sub systems. The configuration file is
+         specified as a Java properties file with the name <tt>castor.properties</tt>.</p>
+
+      <p>The Castor JAR includes a default configuration file. A configuration
+         file in the Java library directory (e.g. <tt>/jdk1.2/lib</tt>) can be used to
+         override the default configuration file with system wide properties.
+         In addition, a configuration file can be placed in the classpath and
+         will override both the system wide properties and default
+         configuration.</p>
+
+      <p>When running the provided examples, Castor will use the configuration
+         file located in the examples directory which specifies additional
+         debugging information and pretty printing of all produced XML
+         documents.</p>
+
+      <p>The following properties are currently supported in the configuration
+         file:</p>
+<pre>
+  # Defines the default XML parser to be used by castor
+  # The parser must implement org.xml.sax.Parser
+  #
+  org.exolab.castor.parser=org.apache.xerces.parsers.SAXParser
+
+  # Defines the default XML serializer to be used by castor
+  # The serializer must implement org.apache.xml.serialize.Serializer
+  #
+  org.exolab.castor.serializer=org.apache.xml.serialize.XMLSerializer
+
+  # True if all documents should be indented on output by default
+  #
+  org.exolab.castor.indent=false
+
+  # True if all documents should be validated on input by default
+  #
+  org.exolab.castor.validation=true
+
+  # Comma separated list of SAX 2 features that should be enabled
+  # for the default parser
+  #
+  org.exolab.castor.features=
+
+  # True if should produce verbose messages
+  #
+  org.exolab.castor.debug=false
+
+  # List of collection handlers for Java 1.1 and Java 1.2 run-times
+  #
+  org.exolab.castor.mapping.collections=\
+    org.exolab.castor.mapping.loader.J1CollectionHandlers,\
+    org.exolab.castor.mapping.loader.J2CollectionHandlers
+
+  # List of persistence factories for the supported database servers
+  #
+  org.exolab.castor.jdo.engines=\
+    org.exolab.castor.jdo.drivers.OracleFactory,\
+    org.exolab.castor.jdo.drivers.PostgreSQLFactory,\
+    org.exolab.castor.jdo.drivers.SybaseFactory,\
+    org.exolab.castor.jdo.drivers.SQLServerFactory,\
+    org.exolab.castor.jdo.drivers.DB2Factory,\
+    org.exolab.castor.jdo.drivers.GenericFactory
+
+  # List of key generator factories 
+  #
+  org.exolab.castor.jdo.keyGeneratorFactories=\
+    org.exolab.castor.jdo.drivers.MaxKeyGeneratorFactory,\
+    org.exolab.castor.jdo.drivers.HighLowKeyGeneratorFactory,\
+    org.exolab.castor.jdo.drivers.IdentityKeyGeneratorFactory,\
+    org.exolab.castor.jdo.drivers.SequenceKeyGeneratorFactory
+
+  # Collection handlers for the source code generator
+  #
+  org.exolab.castor.builder.type.j2=\
+    org.exolab.castor.builder.FieldInfoFactoryJ2
+  org.exolab.castor.builder.type.j1=\
+    org.exolab.castor.builder.FieldInfoFactory
+  org.exolab.castor.builder.type.odmg=\
+    org.exolab.castor.builder.FieldInfoFactoryODMG30
+</pre>
+    </section>
+
+    <section title="Dependent Libraries">
+
+      <p>JARs required to build Castor and dependencies for various packages
+         are contained in the <tt>lib</tt> directory. JARs required for
+         distribution are marked with bold text:</p>
+
+         <table cellpadding="4" border="1">
+           <tr><td>ant.jar</td><td>The Ant build tool</td></tr>
+           <tr><td><b>jdbc-se2.0.jar</b></td><td>JDBC 2.0 standard extension (JDO)</td></tr>
+           <tr><td><b>jndi.jar</b></td><td>The JNDI API (DSML/JNDI)</td></tr>
+           <tr><td><b>jta1.0.1.jar</b></td><td>The JTA API (transactions)</td></tr>
+           <tr><td>jtf-0.1.jar</td><td>The Java Testing Framework</td></tr>
+           <tr><td><b>ldapjdk.jar</b></td><td>Mozilla Directory SDK (DSML/MDS)</td></tr>
+           <tr><td>ldapsp.jar</td><td>JNDI LDAP service provider from Mozilla</td></tr>
+           <tr><td>postgresql-6.3.jar</td><td>PostgreSQL 6.3 driver with DataSource
+                                              support (used in default example)</td></tr>
+           <tr><td>servlet.jar</td><td>Used by the Servlet examples</td></tr>
+           <tr><td><b>xerces.jar</b></td><td>Xerces XML library</td></tr>
+           <tr><td>xslp.jar</td><td>XSL processor, used for documentation</td></tr>
+         </table>
+
+      <section title="Castor XML">
+        <p>Castor XML is dependent on the latest release of Xerces available from
+           the library directory and XML Apache. Other XML parser may be used
+           instead of Xerces, however, Xerces is required to provide the XML
+           serializer package for XML document production.</p>
+      </section>
+
+      <section title="Castor JDO">
+        <p>Castor JDO uses Castor XML for processing the XML mapping file and
+           has the same dependency on Xerces.</p>
+
+        <p>In addition applications that use Castor JDO must include
+           <tt>jdbc-se2.0.jar</tt> or any alternative JAR that includes the
+           <tt>javax.sql.DataSource</tt> interface.</p>
+
+        <p>The JDO example uses the PostgreSQL database and depends on the
+           provided JDBC driver which includes <tt>javax.sql.DataSource</tt> support.
+           This driver is not required for distribution or if a different
+           database server is used.</p>
+      </section>
+
+      <section title="Castor DSML">
+        <p>Castor DSML is dependent on the latest release of Xerces available from
+           the library directory and XML Apache. Other XML parser may be used
+           instead of Xerces, however, Xerces is required to provide the XML
+           serializer package for XML document production.</p>
+
+        <p>Castor DSML has two implementations, one that uses JNDI and one that
+           uses the Mozilla Directory SDK. Applications that use the JNDI package
+           (<tt>org.exolab.castor.dsml.jndi</tt>) are required to include <tt>jndi.jar</tt>
+           or any alternative JAR that includes the JNDI 1.2 API. Applications that use
+           the Mozilla Directory SDK (<tt>org.exolab.castor.dsml.mozilla</tt>) are required
+           to include <tt>ldapjdk.jar</tt> or any alternative JAR that includes version 4.0
+           of the Mozilla Directory SDK.</p>
+
+        <p>We recommend using the Mozilla Directory SDK as the JNDI LDAP service
+           provider and have positive experience using it with OpenLDAP. The JNDI
+           LDAP service provider is included in the <tt>ldapsp.jar</tt>.</p>
+     </section>
+
+   </section>
+
+   <section title="Building Castor">
+
+     <p>Castor uses Ant as the build environment. To build Castor from the
+        source run <tt>build.sh</tt> or <tt>build.bat</tt> in the Castor root
+        directory with one (or any) of the following targets:</p>
+
+         <table cellpadding="4" border="1">
+           <tr><td>targets</td><td>Lists the build targets</td></tr>
+           <tr><td>clean</td><td>Cleans the build and distribution directories</td></tr>
+           <tr><td>all</td><td>Cleans and builds all the packages and examples</td></tr>
+           <tr><td>release</td><td>Cleans and builds all the release packages
+                                  (JAR, source, doc, tarball) in the dist directory</td></tr>
+           <tr><td>main</td><td>Builds the main packages (including debugging info)</td></tr>
+           <tr><td>examples</td><td>Builds the example packages (including debugging info)</td></tr>
+           <tr><td>tests</td><td>Builds the test packages (including debugging info)</td></tr>
+           <tr><td>jar</td><td>Builds the binary JAR in the dist directory</td></tr>
+           <tr><td>doc</td><td>Builds the documentation</td></tr>
+           <tr><td>api</td><td>Builds the API JavaDocs</td></tr>
+           <tr><td>javadoc</td><td>Builds the full JavaDocs</td></tr>
+           <tr><td>source</td><td>Builds the source tarball in the dist directory</td></tr>
+           <tr><td>tarball</td><td>Builds the binary distribution in the dist directory</td></tr>
+           <tr><td>cvs</td><td>Update the sources from the CVS</td></tr>
+         </table>
+
+     <p>The tarball will includes the Castor JAR, all dependent library
+        JARs, readme and license files, and all DTDs and XML schemas in
+        the <tt>schema</tt> directory.</p>
+
+   </section>
+
+   <section title="Directory Structure">
+
+         <table cellpadding="4" border="1">
+           <tr><td>src/main</td><td>The source base for all the Castor modules</td></tr>
+           <tr><td>src/doc</td><td>Documentation (in XML form)</td></tr>
+           <tr><td>src/schema</td><td>DTD and XML schema for Castor mapping files</td></tr>
+           <tr><td>src/examples</td><td>Examples for the various packages</td></tr>
+           <tr><td>src/tests</td><td>Test cases for the various packages</td></tr>
+           <tr><td>src/etc</td><td>Additional files that are not part of the code base</td></tr>
+           <tr><td>lib</td><td>JARs required to build Castor and distributable JARs</td></tr>
+           <tr><td>build/classes</td><td>When using Ant the Java classes are build in this directory</td></tr>
+           <tr><td>build/doc</td><td>When using Ant the HTML documentation is build in this directory</td></tr>
+           <tr><td>build/examples</td><td>When using the examples are build in this directory</td></tr>
+           <tr><td>build/test</td><td>When using the test cases are build in this directory</td></tr>
+           <tr><td>dist</td><td>The distribution directory</td></tr>
+         </table>
+
+   </section>
+
+  </body>
+</document>
+
+
+
+
+
+
+
+
+
