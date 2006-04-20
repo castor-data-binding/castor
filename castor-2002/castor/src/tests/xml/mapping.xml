@@ -1,0 +1,62 @@
+<?xml version="1.0"?>
+<mapping>
+
+  <class name="xml.Foo">
+    <map-to xml="foo" />
+    <field name="bar" type="xml.Bar" collection="vector" >
+      <xml name="bar" />
+    </field>
+  </class>
+
+  <class name="xml.Bar">
+    <map-to xml="bar" />
+    <field name="baz" type="string" >
+      <xml name="baz-0" />
+    </field>
+  </class>
+
+  <class name="xml.Bar1" extends="xml.Bar" >
+    <map-to xml="bar1" />
+    <field name="baz1" type="integer" >
+      <xml name="baz-1" />
+    </field>
+  </class>
+
+  <class name="xml.Bar2" extends="xml.Bar" >
+    <map-to xml="bar2" />
+    <field name="baz2" type="boolean" >
+      <xml name="baz-2" />
+    </field>
+  </class>
+
+
+
+  <class name="xml.Types">
+    <map-to xml="types" />
+    <field name="boolean" >
+      <xml name="boolean" node="element" type="boolean" />
+    </field>
+    <field name="bytes" >
+      <xml name="bytes" node="element" />
+    </field>
+    <field name="integer" >
+      <xml name="integer" node="element" />
+    </field>
+    <field name="float" >
+      <xml name="float" node="element" />
+    </field>
+    <field name="string" >
+      <xml name="string" node="element" />
+    </field>
+    <field name="date" >
+      <xml name="date" node="element" />
+    </field>
+    <field name="vector" collection="vector" type="string" >
+      <xml name="vector" node="element" />
+    </field>
+    <field name="hashtable" collection="hashtable" type="string" >
+      <xml name="hashtable" node="element" />
+    </field>
+  </class>
+
+</mapping>
