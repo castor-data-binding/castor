@@ -1,0 +1,35 @@
+Version 0.7  January 7, 2000
+----------------------------
+
+- First release of Castor JDO (Java Data Objects) supporting the
+  ODMG API for object persistence over RDBMS.
+
+- Changed MarshalDescriptor to better hide the reflection
+  - uses #setValue, #getValue, instead of #getReadMethod, #getWriteMethod
+
+- Changed the way validation is handled, added numerous
+  validation related classes to org.exolab.castor.xml .
+
+- Fixed bug with using primitives as PCDATA content of elements.
+
+- Added timeInstant, NMToken and NCName types
+
+=======
+
+Version 0.6  December 20, 1999
+------------------------------
+
+- Marshaller package name changed to org.exolab.castor.xml
+  (was org.exolab.xml.marshal).
+
+- DSML implementation supporting JNDI and Mozilla Directory SDK.
+  Importer/exporter sets for both directory APIs and XML-based
+  search and import descriptors.
+
+- Added configuration file support (castor.properties) specifying
+  parser and serializer to use and default modes of operation.
+
+- Change build environment to Ant.
+
+
+

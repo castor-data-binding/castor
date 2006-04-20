@@ -1,0 +1,431 @@
+CASTOR
+======
+
+Copyright (c) 2000, Exoffice Technology, Inc.
+
+
+Castor integrates Java objects, XML documents, SQL relational
+databases and LDAP directories in a unified model that allows
+information to be exchanged, persisted and manipulated in a
+variety of ways.
+
+The Castor moto is simplifying the exchange and persistence
+of information.
+
+This release of Castor includes the following persistence/
+exchange packages:
+
+Castor XML  -- Java object to XML document mapping
+
+Castor JDO  -- Java object to SQL relational database
+               (aka object/ relational) mapping
+
+Castor DSML -- LDAP directory exchange through XML
+
+
+
+Supported Features
+==================
+
+Castor XML
+----------
+
+* Java to XML mapping automates transformation of Java objects from
+  and into XML documents and provides Java object validation
+
+* Java to XML mapping uses an XML document to specify the mapping
+  textually (release 0.8), Bean-like descriptors to specify them
+  programattically, and introspection to create default mappings
+
+* Code generator can produce Java objects, validation and the proper
+  mapping based on an XML schema
+
+* Supports XML schema data types including integer, real (float/double),
+  NMTOKEN, NCName, timeInstant, ID/IDREF, boolean and binary (base 64 encoded)
+
+* Supports arbitrary object marshalling when object type is known at
+  run-time and XML schema is determined dynamically based on the
+  object type
+
+* Supports for creation of objects based on class name attribute
+
+
+Castor JDO
+----------
+
+* Java to SQL mapping (object/relational) automates Java persistence
+  into any relational database server using JDBC
+
+* Java to SQL mapping uses an XML document to specify the mapping
+  textually, and provides an API to specify them programatically
+
+* Supports one-one and one-many relation types (release 0.8),
+  SQL/Java inheritence, object graph to single row mapping, and
+  multiple column primary keys
+
+* Provides an ODMG compliant API for OODMBS-like persistence,
+  XML-based datasource definition, name binding
+
+* Optimistic and pessimistic locking modes, in-memory concurrency
+  engine, and dead-lock detection
+
+* Provides support for EJB 1.1 CMP entity beans (release 0.8)
+  and CMP finder declaration using OQL
+
+* Efficient implementation incurs little overhead compared to
+  direct JDBC access
+
+* Support for JTA transaction demaraction, inclusion as resource
+  in transactional environment, and JDBC connection pooling
+  (release 0.8 integrated with Tyrex)
+
+
+Castor DSML
+-----------
+
+* Import/export an LDAP directory or search results to/from XML
+  based on the industry standard DSML schema
+
+* XML document for specifying LDAP queries and import rules
+
+* Supports both JNDI service providers and the Mozilla Directory SDK
+
+
+The Castor Mapping Files
+========================
+
+Castor XML
+----------
+
+
+Castor JDO
+----------
+
+The Castor JDO mapping file is available in both DTD (jdo-mapping.dtd)
+and XML schema (jdo-mapping.xsd) in the schema directory.
+
+To use the DTD in your mapping documents use the following document
+type declaration:
+
+  <!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Java/SQL Mapping DTD Version 1.0//EN"
+                             "http://castor.exolab.org/jdo-mapping.dtd"
+
+You can find information about the document structure in
+schema/jdo-mapping.dtd and usage sample in the examples/jdo
+directory.
+
+
+Castor DSML
+-----------
+
+Castor DSML uses the industry standard DSML DTD (dsml.dtd) and XML
+schema (dsml.xsd) provided by dsml.org, which are available in the
+schema directory.
+
+Two additional DTD are included for specifying LDAP queries
+(dsml-search.dtd) and import policy (dsml-import.dtd). These documents
+are not defined by dsml.org and the DTD is subject to change.
+
+
+The Castor configuration file
+=============================
+
+Castor uses a configuration file for environmental properties that are
+shared across all the Castor sub systems. The configuration file is
+specified as a Java properties file with the name castor.properties.
+
+The Castor JAR includes a default configuration file. A configuration
+file in the Java library directory (e.g. /jdk1.2/lib) can be used to
+override the default configuration file with system wide properties.
+In addition, a configuration file can be placed in the classpath and
+will override both the system wide properties and default
+configuration.
+
+When running the provided examples, Castor will use the configuration
+file located in the examples directory which specifies additional
+debugging information and pretty printing of all produced XML
+documents.
+
+The following properties are currently supported in the configuration
+file:
+
+  # Defines the default XML parser to be used by castor
+  # The parser must implement org.xml.sax.Parser
+  #
+  org.exolab.castor.parser=org.apache.xerces.parsers.SAXParser
+
+
+  # Defines the default XML serializer to be used by castor
+  # The serializer must implement org.apache.xml.serialize.Serializer
+  #
+  org.exolab.castor.serializer=org.apache.xml.serialize.XMLSerializer
+
+
+  # True if all documents should be indented on output by default
+  #
+  org.exolab.castor.indent=false
+
+
+  # True if all documents should be validated on input by default
+  #
+  org.exolab.castor.validation=true
+
+
+  # Comma separated list of SAX 2 features that should be enabled
+  # for the default parser
+  #
+  org.exolab.castor.features=
+
+
+  # True if should produce verbose messages
+  #
+  org.exolab.castor.debug=false
+
+
+Dependent Libraries
+===================
+
+Castor XML
+---------
+
+Castor XML is dependent on the latest release of Xerces available from
+the library directory and Java Apache. Other XML parser may be used
+instead of Xerces, however, Xerces is required to provide the XML
+serializer package for XML document production.
+
+
+Castor JDO
+----------
+
+Castor JDO uses Castor XML for processing the XML mapping file and
+has the same dependency on Xerces.
+
+In addition applications that use Castor JDO must include the
+jdbc-se2.0.jar or any alternative JAR that includes the javax.sql
+package (DataSource) and odmg-3.0.jar or any alternative JAR that
+includes the ODMG 3.0 API.
+
+The JDO example uses the PostgreSQL database and depends on the
+provided JDBC driver which includes javax.sql.DataSource support.
+This driver is not required for distribution or if a different
+database server is used.
+
+
+Castor DSML
+-----------
+
+Castor DSML is dependent on the latest release of Xerces available from
+the library directory and Java Apache. Other XML parser may be used
+instead of Xerces, however, Xerces is required to provide the XML
+serializer package for XML document production.
+
+Castor DSML has two implementations, one that uses JNDI and one that
+uses the Mozilla Directory SDK. Applications that use the JNDI package
+(org.exolab.castor.dsml.jndi) are required to include jndi.jar or any
+alternative JAR that includes the JNDI 1.2 API. Applications that use
+the Mozilla Directory SDK (org.exolab.castor.dsml.mozilla) are required
+to include ldapjdk.jar or any alternative JAR that includes version 4.0
+of the Mozilla Directory SDK.
+
+We recommend using the Mozilla Directory SDK as the JNDI LDAP service
+provider and have positive experience using it with OpenLDAP. The JNDI
+LDAP service provider is included in the ldapsp.jar.
+
+
+Building Castor
+===============
+
+Castor uses Ant as the build environment. To build Castor from the
+source run build.sh in the Castor root directory with one (or any)
+of the following targets:
+
+  targets  Lists the build targets
+  clean    Cleans the build and distribution directories
+  all      Cleans and builds all the packages and examples
+  release  Cleans and builds all the release packages
+           (JAR, source, doc, tarball) in the dist directory
+           binary JAR file and optimizes the bytecode
+  main     Builds the main packages (including debugging info)
+  examples Builds the example packages (including debugging info)
+  jar      Builds the binary JAR in the dist directory
+  javadoc  Builds the API JavaDocs and JAR in the dist directory
+  source   Builds the source tarball in the dist directory
+  tarball  Builds the binary distribution (Castor and all
+           dependent libraries) in the dist directory
+
+For example to build a new release:
+
+  build.sh release
+
+The tarball will inclues the Castor JAR, all dependent library
+JARs, readme and license files, and all DTDs and XML schemas in
+the schema directory.
+
+
+Directory Structure
+-------------------
+
+src/main
+  The source base including the following main packages:
+
+    org/exolab/castor/builder  Java source code builder
+    org/exolab/castor/dsml     DSML importer/exporter
+    org/exolab/castor/jdo      Castor JDO
+    org/exolab/castor/xml      Castor XML
+    org/exolab/castor/util     common utility classes
+
+src/examples
+  Examples for the various packages.
+
+src/etc
+  Additional files that are not part of the code base
+
+src/schema
+  DTD and XML schema for Castor mapping documents
+
+lib
+  Libraries required to build Castor and dependencies for various
+  packages. Files required for distribution are marked with an
+  asterisk:
+
+     ant.jar             The Ant build tool
+    *jdbc-se2.0.jar      JDBC 2.0 standard extension (JDO)
+    *jndi.jar            The JNDI API (DSML/JNDI)
+    *ldapjdk.jar         Mozilla Directory SDK (DSML/MDS)
+     ldapsp.jar          JNDI LDAP service provider from Mozilla
+    *odmg-3.0.jar        ODMG 3.0 API (JDO)
+     postgresql-6.3.jar  PostgreSQL 6.3 driver with DataSource
+                         support (used in default example)
+    *xerces.jar          Xerces XML library
+     utils-0.5.jar       Required for JDO performance testing
+
+build
+  When using Ant the Java classes are build in this directory,
+  under build/classes for the main code base and build/examples
+
+dist
+  When using Ant builds the binary JAR, JavaDoc JAR and source
+  package in this directory
+
+
+Running The Examples
+====================
+
+The script file test.sh can be used to run the provided examples. The
+first argument is the example package name. For example, to build and
+run the JDO example:
+
+  build.sh examples
+  test.sh jdo odmg
+
+
+Castor JDO
+----------
+
+The JDO sample will test persistence between a set of Java classes
+(Product, ProductGroup, ProductInventory) and a known SQL schema.
+You can use the create.sql file to generate the database schema for
+the purpose of this test.
+
+The mapping between the Java objects and SQL schema is described in
+the file mapping.xml. The JDBC connection to use is describes in the
+file database.xml. The provided file uses PostgreSQL as the database
+server and JDBC driver, you can modify this file for your database
+server and use any JDBC 1.0 or 2.0 driver.
+
+The database information and mapping are automatically read from the
+JDO example directory, there is no need to provide any parameters on
+the command line.
+
+The performance test uses the ODMG engine as well as direct JDBC
+access. You must provide the JDBC URI and class name to use for
+this test on the command line.
+
+Usage:
+
+  test.sh jdo [mapping|odmg|perf <driver-class> <jdbc-uri>]
+
+  mapping  Reads the Java/SQL mapping from the mapping files and
+           displays the SQL statements used by the engine
+
+  odmg     Performs a persistence test using the ODMG API
+           Will attempt to query, deleter and create product,
+           group and computer objects in the database
+
+  perf     Performs a performance test comparing direct JDBC
+           query performance with ODMG query performance.
+           Requires the JDBC driver class name and JDBC URI
+           to be specified.
+
+For example:
+
+  test.sh jdo odmg
+  test.sh jdo perf postgresql.Driver "jdbc:postgresql:test?user=test&password=test"
+
+
+Castor DSML
+-----------
+
+Do not run this sample against a production LDAP server unless you
+are sure it will not affect the information in your directory!
+
+The DSML sample will attempt to import the supplied directory
+information from the test.xml file using the import policy described
+in the import.xml file. It will then run a search against the LDAP
+server using the search criteria in the search.xml file and dump it
+to the console.
+
+You must modify search.xml, import.xml and test.xml and adapt them
+to your LDAP directory structure. The default files assumes the
+root directory dc=exoffice,dc=com and includes some sample LDAP
+entries.
+
+Usage:
+
+  test.sh dsml [jndi|mozilla] <host> <root-dn> <root-pwd>
+
+  jndi|mozilla  Selects whether to use the JNDI or Mozilla Directory
+	        SDK implementations
+  host          The LDAP host name (port number is optional)
+  rood-dn       The root DN used for authenticating when importing
+  root-pwd      The root password used for authenticating when importing
+
+For example:
+
+  test.sh dsml mozilla ldap.exoffice.org dc=exoffice,dc=com secret
+
+
+What's missing
+==============
+
+* This release of Castor JDO provides only preliminary support for OQL
+  queries with simple syntax and single object retrieval.
+
+* This release supports one-one relations but not one-many relations
+  (collections). Preliminary one-many relations will be introduced
+  in release 0.8.
+
+* The EJB CMP implementation will be available for public review
+  prior to release 0.8 and will include a CMP engine, integration
+  with the transaction manager, and finder definition in the XML
+  mapping file.
+
+* This release of Castor JDO does not rupport JTA transactional
+  environments, support for JTA/XA and integration with Tyrex/Tomcat
+  will be introduced in release 0.8.
+
+* Support for dirty checks, default values, validation, and additional
+  data types (binary, XML, streams) will be introduced in release 0.8.
+  Validation will be based on XML schemas using Castor XML.
+
+* Upgraded XML Schema support for Decemeber 17th versions of the
+  XML Schema working drafts, currently based of November 5th versions.
+
+* Castor XML is lacking many of the XML Schema Datatypes, the built-in
+  datatypes should be complete by release 0.8.
+
+* Castor XML Source Generator doesn't support the complete XML Schema
+  Structures, more will be added for release 0.8
+
+
+

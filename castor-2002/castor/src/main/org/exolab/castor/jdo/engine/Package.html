@@ -1,0 +1,80 @@
+Implements the persistence engine.
+
+The persistence engine is made up of several sub-engines thar perform specific aspects
+of object persistence. These engines are layered together in different combinations
+based on the designed behavior.
+
+ODMGEngine and CMPEngine are top level engines providing ODMG and CMP related semantics.
+They rely on lower level engines, specifically CacheEngine and SQLEngine.
+
+<h2>ODMGEngine<h2>
+
+An object is loaded from the database in three steps. First, the object's primary key is used to look up the object in the in-memory cache. TransactionEngine implements the transactional cache the holds all the objects used, created and deleted during the transaction. The returned objects are only relevant to the current transaction between transaction begin and transaction commit/abort.
+
+If the object is not found there, alternatively another cache (in optimistic locking mode only) can be queried, CacheEngine. ODMGEngine regards CacheEngine as any other engine and is unaware of the caching semantics. Once retrieved the object is marked with a read lock.
+
+Object creation is mapped to (makePersistent). When an object is created, the transaction and the underlying engine are checked for a duplicate primary key. If no duplicate is found, the object is stored in the transaction cache until the transaction is flushed.
+
+
+Load
+----
+
+DatabaseImpl looks up the current transaction and uses the transaction to load the object. If no transaction is open, a TransactionNotInProgressException is thrown. Otherwise TransactionEngine is used to obtain an instance of the object based on its primary key.
+
+If an object is cached in memory, TransactionEngine will return its contents. If the object has been marked for deletion with a previous call to deletePersistent, an ObjectDeletedException is thrown. If the object is not cached in memory, the underlying engine is used to return an instance of the object, the object is locked for read-only access and returned.
+
+All loaded objects are stored in the TransactionEngine memory cache for subsequent access and for persisting when the transaction terminates.
+
+CacheEngine is the second stage used to retieve an object from the database. If the object is found in the cache, the cache copy is used to populate the object. If no object is found in cache, the object is either loaded directly (pessimistic locking) through PessimisticEngine, or is loaded and cached prior to returning it.
+
+Database
+
+
+
+
+ODMG Create
+-----------
+
+Calling makePersistent on Database creats a new object in the database. The object must be provided and may or may not have a primary key. If the underlying engine can create a primary key for the object, one will be assigned to the object after creation. If not, the underlying engine will complain about lack of primary key.
+
+ODMGEngine will look at the current transaction context (TransactionEngine) and ask it to create the object. The transaction will look up the matching database (DatabaseEngine) and determine if an object with such a primary key already exists. If it does, it will throw a DuplicatePrimaryKeyException. DatabaseEngine in turn will look at all the associated transactions to assure that the same object is not created twice across transactions.
+
+If no duplicate primary key is found, the transaction engine will invoke the proper SQL engine (SQLEngine) and create the corresponding table row. This enforces a lock at the database level, and proper checking is done against the RDBMS to assure no duplication in primary keys.
+
+The object is then added to the transaction cache and can be used in susequent queries within the same transaction only.
+
+Upon completion of the transaction, the object is stored to the database like any other object. However, a special check is done prior to storing making sure the primary key used for creation and storing are consistent. If a discrepency is found, a runtime exception is flagged.
+
+
+ODMG Load
+---------
+
+DatabaseImpl initiates a load with the object type, primary key and database mode. The load is initiated against the current transaction using the underlying database engine.
+
+In read-only mode, the image returned is not locked, can be modified and will never be stored in the database. This is done by TransactionImpl retrieving a copy from DatabaseEngine and returning a new copy, without registering that copy in the transaction cache. The object will not be returned if it has been deleted.
+
+In read-write mode, the image returned is not locked, can be modified and will be stored in the database. This is done by TransactionImpl retrieving a copy from DatabaseEngine, getting a read lock on that object, and registering the object with the transaction. The object will not be returned if it has been deleted.
+
+
+
+
+
+
+
+
+
+
+
+
+DatabaseImpl -- An interface into the underlying DatabaseEngine with access mode semantics (read only, read write, exclusive). Multiple DatabaseImpl may acess the same DatabaseEngine, but a single DatabaseImpl always maps to the same DatabaseEngine with the same access mode.
+
+DatabaseEngine -- An interface into the underlying JDBC driver (or DatabaseSource). Only one engine will be used for a given datasource and multiple DatabaseImpl will map to the same DatabaseEngine. Contains multiple instances of SQLEngine for each object type.
+
+TransactionImpl -- An interface into an active transaction. An active transaction may span multiple databases (DatabaseImpl) with different access mode and the same DatabaseEngine, as well as multiple DatabaseEngine. The transaction synchronized access across all the different database engines.
+
+An object is associated with a type, primary key and engine. A primary key is known to be unique for a type, a primary key/type combination is unique in an engine, and a primary key/type/engine is unique throughout the system. Multiple DatabaseEngine might persist the same type using the same primary key, the same primary key may be used with different objects types, and different types will be persisted using the same DatabaseEngine. Throughout its life time an object has a single association and cannot change that association.
+
+The OID of an object comprises of the DatabaseEngine used to persist that object, the type of the object and the object's primary key. If the object has no primary key (i.e. just created), the object itself is used as the primary key. This system ensures that an OID will be unique throughout the system.
+
+
+

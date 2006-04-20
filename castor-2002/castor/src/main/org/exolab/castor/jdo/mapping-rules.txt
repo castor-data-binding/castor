@@ -1,0 +1,72 @@
+
+The Castor JDBC mapping supports mapping between a number of related objects and a number of related tables. In many cases mapping is implemented directly between an object and a table, in other cases a set of objects is mapped into a table relation.
+
+A set of objects exists as a graph with one root objects and any number of objects referenced by that root object. The set of table consists of a primary table and secondary tables mapped from that primary table. At the minimum, a mapping will always describe a root object and primary table.
+
+All mapped Java objects must implement the following traits: they must be a public non-abstract class, must have a public default constructor and a set of public, non-transient, non-static fields.
+
+Root objects can only map to database tables if the table includes a unique primary key that allows one primary record to be retrieved and updated. The primary key may or may not exist in the object itself, but is required to exist in the primary table.
+
+If the primary key is a single column, it is represented by a primitive Java datatype. If the primary key is multiple columns, it is represented by an object with public variables for all the primary key's columns.
+
+
+
+
+One-One relation:
+
+  Primary table is mapped to secondary table
+
+
+Many-One relation:
+
+  One field in the primary table relates to one field in the secondary table, but any number of fields in the primary table may relate to the same field in the secondary table. For example, if the primary table is a product and the secondary table the product group, many products will relate to the same group.
+
+  The secondary table can only be updated directly through a root object mapping to the secondary table. The same object will also be used from the root object to retrieve the related object, but changes to that object will not be reflected in the database.
+
+  The second object must include a primary key (i.e. internal to the object). The primary object should not attempt to map the foreign key in the primary table. The relation is described using the primary table's foreign key name (SQL since not Java field exists).
+
+  For example, consider the following SQL schema:
+
+  create table prod (
+    prod_id int not null,
+    . . . 
+    group_id int not null
+  );
+
+  create table prod_group (
+    id int not null,
+    . . .
+  );
+
+  and the following Java objects:
+
+  public class Product
+  {
+
+    public int  id;
+
+    . . .
+
+    public ProductGroup group;
+
+  };
+
+  public class ProductGroup
+  {
+
+    public int  id;
+
+    . . .
+
+  }
+
+  The relation is created as follows:
+
+  productDesc = new ObjectDesc( Product.class, "prod", null );
+  productDesc.setPrimaryKey( "id" );
+  groupDesc = new ObjectDesc( ProductGroup.class, "prod_group", null );
+  groupDesc.setPrimaryKey( "id" );
+  productDesc.addRelation( Relation.ManyToOne, "group", groupDesc, "group_id" );
+
+
+
