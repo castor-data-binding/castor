@@ -1,9 +1,0 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<array-list xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="java:java.util.ArrayList">
-   <foo xsi:type="java:org.acme.Foo">
-      <content>Some text content</content>
-   </foo>
-   <foo>
-      <content>Some more text content</content>
-   </foo>
-</array-list>
