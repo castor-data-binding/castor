@@ -1,0 +1,845 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/oql.xml">
+    <body>
+        <title>OQL to SQL translator</title>
+        <header>
+            <p>
+                Reference: <api package="org.exolab.castor.jdo.oql">The Java OQL to SQL translator</api></p>
+        </header>
+
+        <section title="Status">
+            <p>
+                This documentation is not yet finished</p>
+        </section>
+
+        <section title="Introduction">
+            <p>
+                This document describes an OQL to SQL translator to be added to the
+                Castor JDO Java object persistence API. The translator will accept OQL
+                queries passed as strings, and generate a parse tree of the OQL. It will
+                then traverse the tree creating the appropriate SQL. The user will then
+                be able to bind parameters to parameterized queries. Type checking will
+                be performed on the bound parameters. When the user executes the query,
+                the system will submit the query to the SQL database, and then
+                postprocess the SQL resultset to create the appropriate result as a Java
+                Object or literal. The current
+                <api package="org.exolab.castor.mapping">mapping</api> and
+                <api package="org.exolab.castor.persist">persistence</api>
+                packages will be used for metadata and RDBMS communication.</p>
+            <p>
+                Four of the SourceXchange milestones for this project call for java
+                source code. These milestones will be refered to here as phase 1, 2, 3,
+                and 4. There are many possible OQL features that can be supported, but
+                weren't discussed in the proposal or RFP. Many of these are probably
+                unwanted. These additional features are specified as phase 5, which is
+                out of the scope of this SourceXChange project.</p>
+        </section>
+
+        <section title="Overview">
+            <p>
+                The parser will construct a parse tree as output from an OQL query
+                string given as input. The OQL syntax is a subset of the syntax
+                described in the ODMG 3.0 specification section 4.12, with some
+                additional constructs. Following is a description of the supported OQL
+                syntax, and its SQL equivalent.</p>
+
+
+            <p>
+                Certain features of OQL may not be directly translatable to SQL, but
+                may still be supported, by post processing the query. For example, the
+                <b>first()</b> and <b>last()</b> collection functions supported in OQL
+                are not directly translatable to standard SQL, but a resultset can be
+                post-processed to return the appropriate values. Features requiring
+                post-processing of SQL resultsets will be documented as such
+                below.</p>
+
+            <p>
+                Currently the OQLQuery checks for corect syntax at the same time as
+                it does type checking and other types of error checking. The new code
+                will involve a multiple pass strategy, with the following passes:
+                <ol>
+                    <li>
+                        Parse the String query checking for syntax errors, and return
+                        a parse tree.</li>
+
+                    <li>
+                        Traverse the parse tree checking for correct types, valid member
+                        and method identifiers, and use of features which are unsupported.
+                        This pass may also generate some data necessary for creating the SQL.</li>
+
+                    <li>
+                        Traverse the tree one final time, creating the equivalent SQL
+                        statement to the OQL Query originally passed</li></ol></p>
+        </section>
+        <section title="Syntax">
+            <p>
+                This section describes the first pass which will be done by the
+                parser. The parser will create a StringTokenizer like this:
+                <code>
+StringTokenizer tokenizer
+    = new StringTokenizer(oql,
+    "\n\r\t,.()[]+-*/&lt;&gt;=:|$", true);</code>
+                This will create a tokenizer with the delimiter
+                characters listed in the second argument, and it will return delimeters
+                as well as tokens. The parser will also create a Vector to be used as a
+                token buffer. As tokens are returned from the tokenizer they will be
+                added to the vector. Older tokens will be removed from the vector when
+                it reaches a certain size. The vector will also be modified when the
+                tokenizer returns multi character operators as seperate tokens, for
+                example the -&gt; method invocation operator.</p>
+
+            <p>
+                The parser will consume tokens from the StringTokenizer, generating a
+                ParseTree. Each ParseTree node will have a nodeType coresponding to its
+                symbol in the OQL syntax. After each node is created it will look to the
+                next token, and act acordingly, either modifying its properties (i.e.
+                for DISTINCT property of selectExpr), creating a new child node, or
+                returning an error. If the error travels up to the root node of the
+                tree, there is a syntax error in the OQL submitted. At the end of this
+                pass, the tree will contain an apropriate representation of the query,
+                which will be analyzed, and used to create SQL. Below is the modified
+                EBNF which will be the castor OQL syntax.</p>
+
+            <p>
+                <code>
+query                   ::= selectExpr
+                            | expr
+
+selectExpr              ::= <B>select</B> [<B>distinct</B>] 
+                            projectionAttributes
+                            fromClause
+                            [whereClause]
+                            [groupClause]
+                            [orderClause]
+
+projectionAttributes    ::= projectionList
+                          | *
+
+projectionList          ::= projection {, projection }
+
+projection              ::= field
+                          | expr [<B>as</B> identifier]
+
+fromClause              ::= <B>from</B> iteratorDef {, iteratorDef}
+
+iteratorDef             ::= identifier [ [<B>as</B> ] identifier ]
+                          | identifier <B>in</B> identifier
+
+whereClause             ::= <B>where</B> expr
+
+groupClause             ::= <B>group by</B> fieldList {havingClause}
+
+havingClause            ::= <B>having</B> expr
+
+orderClause             ::= <B>order by</B> sortCriteria
+
+sortCriteria            ::= sortCriterion {, sortCriterion }
+
+sortCriterion           ::= expr [ (<B>asc</B> | <B>desc</B>) ]
+
+expr                    ::= castExpr
+
+castExpr                ::= orExpr
+                            | <B>(</B> type <B>)</B> castExpr
+
+orExpr                  ::= andExpr {<B>or</B> andExpr}
+
+andExpr                 ::= quantifierExpr {<B>and</B> quantifierExpr}
+
+quantifierExpr          ::= equalityExpr
+                            | <B>for all</B> inClause <B>:</B> equalityExpr
+                            | <B>exists</B> inClause <B>:</B> equalityExpr
+
+inClause                ::= identifier <B>in</B> expr
+
+equalityExpr            ::= relationalExpr
+                            {(<B>=</B> | <B>!=</B>) 
+                                [compositePredicate] relationalexpr }
+                            | relationalExpr {<B>like</B> relationalExpr}
+
+relationalExpr          ::= additiveExpr
+                            {(<B>&lt;</B> | <B>&lt;=</B> 
+                                | <B>&gt;</B> | <B>&gt;=</B> ) 
+                                    [ compositePredicate ] additiveExpr }
+                                | additiveExpr <B>between</B> 
+                                    additiveExpr <B>and</B> additiveExpr
+
+compositePredicate      ::= <B>some</B> | <B>any</B> | <B>all</B>
+
+additiveExpr            ::= multiplicativeExpr
+                                {<B>+</B> multiplicativeExpr}
+                            | multiplicativeExpr
+                                {<B>-</B> multiplicativeExpr}
+                            | multiplicativeExpr
+                                {<B>union</B> multiplicativeExpr}
+                            | multiplicativeExpr
+                                {<B>except</B> multiplicativeExpr}
+                            | multiplicativeExpr
+                                {<B>||</B> multiplicativeExpr}
+
+multiplicativeExpr      ::= inExpr {<B>*</B> inExpr}
+                            | inExpr {<B>/</B> inExpr}
+                            | inExpr {<B>mod</B> inExpr}
+                            | inExpr {<B>intersect</B> inExpr}
+
+inExpr                  ::= unaryExpr {<B>in</B> unaryExpr}
+
+unaryExpr               ::= <B>+</B> unaryExpr
+                            | <B>-</B> unaryExpr
+                            | <B>abs</B> unaryExpr
+                            | <B>not</B> unaryExpr
+                            | postfixExpr
+
+postfixExpr             ::= primaryExpr{<B>[</B> index <B>]</B>}
+                            | primaryExpr
+                            {(<B>.</B> | <B>-&gt;</B>)identifier[arglist]}
+
+index                   ::= expr {<B>,</B> expr}
+                            | expr <B>:</B> expr
+
+argList                 ::= <B>(</B>[ valueList ]<B>)</B>
+
+primaryExpr             ::= conversionExpr
+                            | collectionExpr
+                            | aggregateExpr
+                            | undefinedExpr
+                            | collectionConstruction
+                            | identifier[ arglist ]
+                            | queryParam
+                            | literal
+                            | <B>(</B> query <B>)</B>
+
+conversionExpr          ::= <B>listtoset(</B> query <B>)</B>
+                            | <B>element(</B> query <B>)</B>
+                            | <B>distinct(</B> query <B>)</B>
+                            | <B>flatten(</B> query <B>)</B>
+
+collectionExpr          ::= <B>first(</B> query <B>)</B>
+                            | <B>last(</B> query <B>)</B>
+                            | <B>unique(</B> query <B>)</B>
+                            | <B>exists(</B> query <B>)</B>
+
+aggregateExpr           ::= <B>sum(</B> query <B>)</B>
+                            | <B>min(</B> query <B>)</B>
+                            | <B>max(</B> query <B>)</B>
+                            | <B>avg(</B> query <B>)</B>
+                            | <B>count(</B>( query | * )<B>)</B>
+
+undefinedExpr           ::= <B>is_undefined(</B> query <B>)</B>
+                            | <B>is_defined(</B> query <B>)</B>
+
+fieldList               ::= field {, field}
+
+field                   ::= identifier<B>:</B> expr
+
+collectionConstruction  ::= <B>array(</B>[valueList]<B>)</B>
+                            | <B>set(</B>[valueList]<B>)</B>
+                            | <B>bag(</B>[valueList]<B>)</B>
+                            | <B>list(</B>[valueList]<B>)</B>
+                            | <B>list(</B>listRange<B>)</B>
+
+valueList               ::= expr {, expr}
+
+listRange               ::= expr..expr
+
+queryParam              ::= <B>$</B>[(type)]longLiteral
+
+type                    ::= [<B>unsigned</B>] <B>short</B>
+                            | [<B>unsigned</B>] <B>long</B>
+                            | <B>long long</B>
+                            | <B>float</B>
+                            | <B>double</B>
+                            | <B>char</B>
+                            | <B>string</B>
+                            | <B>boolean</B>
+                            | <B>octet</B>
+                            | <B>enum</B> [identifier.]identifier
+                            | <B>date</B>
+                            | <B>time</B>
+                            | <B>interval</B>
+                            | <B>timestamp</B>
+                            | <B>set &lt;</B>type<B>&gt;</B>
+                            | <B>bag &lt;</B>type<B>&gt;</B>
+                            | <B>list &lt;</B>type<B>&gt;</B>
+                            | <B>array &lt;</B>type<B>&gt;</B>
+                            | <B>dictionary &lt;</B>type, type<B>&gt;</B>
+                            | <B>identifier</B>
+
+identifier              ::= letter{letter| digit| _}
+
+literal                 ::= booleanLiteral
+                            | longLiteral
+                            | doubleLiteral
+                            | charLiteral
+                            | stringLiteral
+                            | dateLiteral
+                            | timeLiteral
+                            | timestampLiteral
+                            | <B>nil</B>
+                            | <B>undefined</B>
+
+booleanLiteral          ::= <B>true</B>
+                            | <B>false</B>
+
+longLiteral             ::= digit{digit}
+
+doubleLiteral           ::= digit{digit}.digit{digit}
+                            [(<B>E</B> | <B>e</B>)[<B>+</B>|<B>-</B>]digit{digit}]
+
+charLiteral             ::= 'character'
+
+stringLiteral           ::= "{character}"
+
+dateLiteral             ::= <B>date</B>
+                                'longliteral-longliteral-longliteral'
+
+timeLiteral             ::= <B>time</B>
+                                'longliteral:longLiteral:floatLiteral'
+
+timestampLiteral        ::= <B>timestamp</B>
+                                'longLiteral-longLiteral-longLiteral
+                                longliteral:longLiteral:floatLiteral'
+
+character               ::= letter
+                            | digit
+                            | special-character
+
+letter                  ::= <B>A</B>|<B>B</B>|...|<B>Z</B>|
+                            <B>a</B>|<B>b</B>|...|<B>z</B>
+
+digit                   ::= <B>0</B>|<B>1</B>|...|<B>9</B>
+
+special-character       ::= <B>?</B>|<B>_</B>|<B>*</B>|<B>%</B>|<B>\</B>
+                </code></p>
+
+        <p>
+            The following symbols were removed from the standard OQL Syntax for
+            the following reasons:
+
+            <ul>
+                <li>
+                    <B>andthen</B>: Cannot be implemented in
+                    a single SQL query. </li>
+
+                <li>
+                    <B>orelse</B>: Same as above. </li>
+
+                <li>
+                    <B>import</B>: This is advanced
+                    functionality which may be added later. This phase will use the
+                    castor mapping mechanism to define the namespace. </li>
+
+                <li>
+                    Defined Queries: This is another feature
+                    which can be added later. It is unclear where the queries would be
+                    stored, and what their scope would be seeing as how this project
+                    is an OQL to SQL translator, and not an ODBMS. </li>
+
+                <li>
+                    iteratorDef was changed so that all
+                    instances of expr were replaced by identifier. This means that the
+                    from clause can only contain extent names (class names), rather
+                    than any expression. This is the most common case and others could
+                    create complicated SQL sub-queries or post-processing
+                    requirements. </li>
+                <li>
+
+                    objectConstruction and
+                    structConstruction were removed. What is the scope of the
+                    constructed object or struct, and how is a struct defined in Java? </li>
+                    </ul></p>
+
+        <p>
+            The following symbols were added or modified.
+            <ul>
+                <li>
+                    <B>between</B> added to relationalExpr. </li>
+
+                <li>
+                    Optional type specification added to
+                    queryParam. </li></ul></p>
+        <p>
+            The rest of the standard OQL
+            syntax remains unchanged. Certain syntactically correct queries may not
+            be supported in Castor. For example, top level expressions which do not
+            contain a selectExpr anywhere in the query may not be supported. This
+            will be discussed further in the next section.</p>
+    </section>
+
+    <section title="Type and validity checking">
+        <p>
+            The first pass over the tree will do type checking, and create some
+            structures used in the SQL generation pass. It will also check whether
+            the identifiers used are valid, and whether the query uses unsupported
+            features. The following table describes the each type of tree node, and
+            how it will be processed in the first pass.</p>
+
+        <p>
+            <TABLE cellpadding="4" border="1">
+              <TBODY>
+              <TR>
+                <TD>expr</TD>
+                <TD>
+                    <ul><li>
+                            A query whose top level element is an expr, rather than a
+                            selectExpr will not be supported within the scope of this project.
+                            These queries can either be stated as a selectExpr, like
+                            aggregateExpr's, or they would require post-processing of the SQL
+                            results, like <B>element()</B><B>first()</B> and <B>last()</B>.</li></ul></TD>
+                <TD>Phase 5</TD></TR>
+              <TR>
+                <TD>projectionAttributes</TD>
+                <TD>
+                    <ul><li>
+                            select * will return a Collection of Arrays of Objects.</li></ul></TD>
+
+                <TD>Phase 5</TD></TR>
+              <TR>
+                <TD>projectionList</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            Selecting multiple fields will
+                            return a Collection of Arrays of Objects.</li>
+
+                        <li>
+                            When there are multiple fields
+                            selected, a list of field names and aliases will be kept for
+                            checking validity of expr's in the whereClause, groupClause,
+                            and orderClause.</li>
+                    </ul></TD>
+                <TD>Phase 5</TD></TR>
+              <TR>
+                <TD>projection</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            Alias identifier will be stored.</li>
+
+                        <li>
+                            expr in projection may only be identifier, without an arglist.</li>
+                    </ul></TD>
+                <TD>Phase 1</TD></TR>
+              <TR>
+                <TD>projection</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            expr in projection may only be
+                            identifier (with optional argList), aggregateExpr,
+                            undefinedExpr, and postfixExpr (for selecting fields and
+                            accessors).</li>
+
+                        <li>
+                            The subquery in aggregateExpr and
+                            undefinedExpr can be identifier (with optional arglist), or
+                            postfixExpr for applying these functions to fields and
+                            accessors.</li>
+
+                        <li>
+                            If an identifier before the
+                            <B>.</B> or <B>-&gt;</B> contains an arglist, it will be
+                            considered a SQL function, and passed through to the
+                            RDBMS.</li>
+                        <li>
+                            If the postfixExpr contains one of
+                            the above operators, the mapping mechanism will be used to
+                            determine if the path expression is valid and to generate a
+                            list of required join tables, using the manyKey and
+                            manyTable from the JDOFieldDescriptor.</li></ul></TD>
+
+                <TD>Phase 2</TD></TR>
+              <TR>
+                <TD>fromClause</TD>
+                <TD>
+                    <ul><li>
+                            The class of the extent being selected from will be stored,
+                            and ClassDescriptor objects will be instantiated.</li></ul></TD>
+                <TD>Phase 1</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            expr in whereClause may only
+                            contain orExpr, andExpr, equalityExpr (without
+                            compositePredicate), relationalExpr, additiveExpr (without
+                            set operators <B>union</B> and <B>except</B>),
+                            multiplicativeExpr (without set operator <B>intersect</B>),
+                            unaryExpr, postFixExpr (must be only primaryExpr, no array
+                            or property reference or method calls).</li>
+
+                        <li>
+                            primaryExpr may only contain
+                            identifier (without an argList), literal and queryParam.
+                            Identifier will be checked against object name and alias in
+                            projectionList.</li>
+
+                        <li>
+                            For equalityExpr, relationalExpr,
+                            aditiveExpr, multiplicativeExpr, the left side and right
+                            side expr's must evaluate to comparable types.</li>
+
+                        <li>
+                            For unaryExpr, simple type
+                            checking for numerical or character based types will be
+                            performed.</li>
+
+                        <li>
+
+                            If the operands for any of the
+                            relational, equality, additive, multiplicative, or unary
+                            operators is a query parameter, an expected type will be
+                            determined. If the parameter included a specified type which
+                            is incompatible with the system determined type, an error
+                            will be generated.</li></ul></TD>
+
+                <TD>Phase 1</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            Support for built in OQL functions
+                            will be added to the whereClause: is_defined,
+                            is_undefined.</li>
+
+                        <li>
+                            inExpr will be supported in whereClause.</li>
+
+                        <li>
+                            inExpr will only allow collectionConstruction for
+                            the right side argument to <B>in</B>. No subQueries
+                            will be allowed.</li></ul></TD>
+
+                <TD>Phase 2</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            identifiers will be able to
+                            contain an optional arglist. If the arglist is before a
+                            <B>.</B> or <B>-&gt;</B> the identifier will be considered a
+                            SQL function and will be passed through to the DBMS.
+                            Otherwise, the identifier will be for an accessor method, or
+                            a property name.</li>
+                        <li>
+                            Accessor methods and property
+                            references will cause a check through the ClassDescriptor
+                            and FieldDescriptors for the object type, and the required
+                            join tables.</li></ul></TD>
+
+                <TD>Phase 3</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            compositePredicate will be
+                            suported in equalityExpr.</li>
+                        <li>
+                            exists(query) will be supported.</li>
+
+                        <li>
+                            quantifierExpr will support <B>for
+                            all</B> and <B>exists</B>.</li>
+
+                        <li>
+                            Subqueries will be supported on the right side of
+                            the <B>in</B> operator</li></ul></TD>
+
+                <TD>Phase 4</TD></TR>
+              <TR>
+                <TD>groupClause, havingClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            Will identify appropriate fields
+                            in SQL schema for each expr.</li>
+
+                        <li>
+                            aggregateExpr will be supported.</li>
+
+                        <li>
+                            Only expr's which translate to SQL
+                            columns whcih are already being selected will be
+                            supported.</li></ul></TD>
+
+                <TD>Phase 4</TD></TR>
+              <TR>
+                <TD>orderClause</TD>
+                <TD>
+                        <ul><li>
+                            May only contain expr's which translate into SQL columns which
+                            are already being selected.</li></ul></TD>
+                <TD>Phase 3</TD></TR></TBODY></TABLE></p>
+    </section>
+
+    <section title="SQL Generation">
+        <p>
+            After the first pass, the parse tree is free of errors, and ready for
+            the SQL generation step. The existing implementation of the OQLParser
+            uses the persistence API for SQL generation. This API lacks the
+            necessary features to generate SQL from any OQL. The SQLEngine class
+            which implements Persistence is used to create a JDBCQueryExpression.
+            The SQL is derived from the finder, which is a JDBCQueryExpression
+            produced by the SQLEngine. The problem is that the SQLEngine only
+            supports single objects. It cannot generate SQL for path expressions
+            like this:
+            <code>
+select p.address from Person p </code>
+
+            This query requires a SQL statement like this:
+            <code>
+select address.* from person, address
+    where person.address_id = address.address_id</code></p>
+
+        <p>
+            The buildFinder method should not be used to generate a
+            queryExpression. The SQLEngine should be used to get a ClassDescriptor,
+            and to create a new QueryExpression. The OQLParser should use the
+            methods in the QueryExpression to generate the SQL. The
+            JDBCQueryExpression which is an implementation of QueryExpression is
+            also lacking in necessary features. This class should continue to be
+            used, but the following features will need to be added:
+            <DL>
+              <DT>addColumn(String)</DT>
+              <DD>For adding something to select without specifying the tablename,
+              for use with functions (i.e. select count(*))</DD>
+              <DT>addTable(String)</DT>
+              <DD>For when the table has to be added manually.</DD>
+              <DT>addCondition(String)</DT>
+              <DD>Add a condition created outside the class, for nested expressions,
+              and other expressions that are not of the form table.column op
+              table.column.</DD>
+              <DT>setDistinct(boolean)</DT>
+              <DD>Used for select distinct.</DD>
+              <DT>addOrderColumn(String tableName, String columnName, boolean desc)</DT>
+              <DD>Used for order by</DD>
+              <DT>addGroupExpr(String)</DT>
+              <DD>Used for group by</DD>
+              <DT>addHavingExpr(String)</DT>
+              <DD>Used for having.</DD></DL></p>
+
+        <p>
+            The following table lists each type of
+            tree node, and how it will be processed in the SQL generation pass.</p>
+
+        <p>
+            <TABLE cellpadding="4" border="1">
+              <TBODY>
+              <TR>
+                <TD>selectExpr</TD>
+                <TD>
+                    <ul><li>
+                        distinct in the selectExpr will result in a call to
+                        setDistinct(true) in the queryExpr.</li></ul></TD>
+                <TD>Phase 2</TD></TR>
+              <TR>
+                <TD>projection</TD>
+                <TD>
+                    <ul><li>
+                        The queryExpr will be populated with the columns and tables
+                        necessary to retrieve the object. This will use code similar to
+                        SQLEngine.addLoadSql(...). </li></ul></TD>
+                <TD>Phase 1</TD></TR>
+              <TR>
+                <TD>projection</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            aggregateExpr and SQL functions
+                            will be passed to addColumn.</li>
+
+                        <li>
+                            undefinedExpr will be translated
+                            to <B>is null</B> and <B>is not null</B></li>
+
+                        <li>
+                            postfixExpr (for selecting fields
+                            and accessors) will result in a different group of select
+                            expressions and "from tables" being
+                            generated.</li></ul></TD>
+
+                <TD>Phase 2</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            Entire expr in where clause will be translated, and then added
+                            to the QueryExpr, using a single call to addCondition(String), and
+                            multiple calls to addTable(String).</li></ul></TD>
+                <TD>Phase 1</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            <B>is_defined()</B> will translate
+                            into <B>is not null</B> and <B>is_undefined()</B> will
+                            translate into <B>is null</B>.</li>
+
+                        <li>
+                            inExpr will translate directly,
+                            with the collectionConstruction
+                            removed.</li></ul></TD>
+
+                <TD>Phase 2</TD></TR>
+              <TR>
+                <TD>whereClause</TD>
+                <TD>
+                    <ul>
+                        <li>
+                            compositePredicate and
+                            exists(query) translate directly to SQL.</li>
+                        <li>
+                            For quantifierExpr, <B>exists</B>
+                            will translate into an exists() SQL subquery. <B>for all</B>
+                            will translate into the contrapositive(?) exists query, for
+                            example:
+
+                            <code>
+for all x in teachers:
+    x.name = 'Nis'</code>
+                            translates to:
+                            <code>
+not exists (select * from teachers
+    where name != 'Nis')</code>
+                            </li></ul></TD>
+
+                <TD>Phase 4</TD></TR></TBODY></TABLE></p>
+    </section>
+
+    <section title="Summary">
+        <p>
+            The parser and parse tree classes will be improved through the phases
+            of this project. The top level of OQL to SQL translation will look very
+            simple, like this:
+            <code>
+OQLParser parser = new OQLParser(query);
+ParseTree pt = parser.getParseTree();
+pt.checkPass();
+<comment>//the SQL generation pass</comment>
+_expr = pt.getQueryExpr();
+            </code>
+
+            These methods will have some additional parameters passed
+            for storing and retrieving data relevant to the query. Following is a
+            table containing a list of what will be introduced in each coding phase
+            of the project.</p>
+
+        <p>
+                <TABLE cellpadding="4" border="1">
+                  <TBODY>
+                  <TR>
+                    <TD>Phase 1</TD>
+                    <TD>
+                        <ul>
+                            <li>
+                                New parser structure which
+                                generates symbol tree</li>
+
+                            <li>
+                                Parser still supports only limited OQL</li>
+
+                            <li>
+                                selected field aliases</li>
+
+                            <li>
+                                whereClause supports or, and,
+                                equality, additive, multiplicative, and unary
+                                Operators.</li>
+
+                            <li>
+                                support for specifying parameter types</li>
+
+                            <li>
+                                check specified parameter type
+                                against system determined type</li>
+
+                            <li>
+                                specifying ordered parameters.</li>
+
+                            <li>
+                                JDBCQueryExpression must support
+                                addCondition(String condition)</li></ul></TD></TR>
+
+                  <TR>
+                    <TD>Phase 2</TD>
+                    <TD>
+                        <ul>
+                            <li>
+                                Distinct keyword will be supported
+                                in selectExpr</li>
+
+                            <li>
+                                aggregateExpr and undefinedExpr
+                                supported in projection (Select statement)</li>
+
+                            <li>
+                                isDefined, isUndefined in whereClause</li>
+
+                            <li>
+                                inExpr in whereClause</li>
+
+                            <li>
+                                type checking/conversion in bind()</li>
+
+                            <li>
+                                fields and accessors in the
+                                projection. Mapping mechanism may need some additional
+                                features.</li>
+
+                            <li>
+                                SQL functions in the projection</li>
+
+                            <li>
+                                order by</li></ul></TD></TR>
+                  <TR>
+                    <TD>Phase 3</TD>
+                    <TD>
+                        <ul>
+                            <li>
+                                fields and accessors in whereClause</li>
+
+                            <li>
+                                SQL functions in the where clause</li></ul></TD></TR>
+
+                  <TR>
+                    <TD>Phase 4</TD>
+                    <TD>
+                        <ul>
+                            <li>
+                                sub queries</li>
+
+                            <li>
+                                exists()</li>
+
+                            <li>
+                                compositePredicate</li>
+
+                            <li>
+                                quantifierExpr's: for all and exists</li>
+
+                            <li>
+                                group by</li>
+
+                            <li>
+                                having</li></ul></TD></TR>
+
+                  <TR>
+                    <TD>Phase 5:</TD>
+                    <TD>
+                        <ul>
+                            <li>
+                                expr as top level symbol</li>
+
+                            <li>
+                                queries selecting multiple fields or as
+                                comma separated list or * </li></ul></TD></TR>
+            </TBODY></TABLE></p>
+    </section>
+</body>
+</document>

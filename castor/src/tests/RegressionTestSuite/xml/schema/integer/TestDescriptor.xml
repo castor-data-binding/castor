@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the reading of the Integer simpleType with all the facets set</Name>
+    <Comment>Regression testing
+    </Comment>
+    <Category>basic capability</Category>
+    
+    <BugFix>
+        <Reporter>James Winfield [James.Winfield@Metaserver.com]</Reporter>
+        <Date_Report>2002-04-18</Date_Report>
+        <Fixer>Arnaud Blandin [blandin@intalio.com]</Fixer>
+        <Date_Fix>2002-04-18</Date_Fix>
+        <Comment>Changed the simpleType.properties mapping</Comment>
+    </BugFix>
+    <SchemaTest>
+
+   		<!-- ******************** -->
+   		<!-- Schema Element Tests -->
+   		<!-- ******************** -->
+
+   		<UnitTestCase>
+      		<Schema>Integer.xsd</Schema>
+         </UnitTestCase>
+
+      </SchemaTest>
+ </TestDescriptor>

@@ -1,0 +1,22 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the handling of IDREFS and IDREF</Name>
+    <Comment>Only the type xsd:IDREFS is used. The IDREF mechanism
+             is tested via the resolution of the different IDREF contained
+             in the IDREFS.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+	<Schema>IDREFS.xsd</Schema> 	
+        <Root_Object random="false" dump="true">Root</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input1.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Marshalling with the generated Descriptors</Name>
+	        <Input>input1.xml</Input>
+	        <ObjectBuilder>IDREFSBuilder</ObjectBuilder>
+        </UnitTestCase>
+     </SourceGeneratorTest>
+</TestDescriptor>

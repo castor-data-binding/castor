@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<!-- $Id$ -->
+
+<document url="http://castor.exolab.org/xml-faq.html">
+  <body>
+    <title>Castor XML FAQ</title>
+
+    <section title="Introspection">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="Can private methods be introspected?">
+            <p>
+               Castor does not currently support introspection of private
+               methods. Please make sure proper public accesssor methods
+               are available for all fields that you wish to be handled
+               by the Marshalling Framework.
+            </p>
+            </section>
+        </section>
+    </section>
+
+    <section title="Mapping">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="My mapping file seems to have no effect!">
+            <p>
+               Make sure you are not using one of the <i>static</i> methods
+               on the Marshaller/Unmarshaller. Any configuration changes
+               that you make to the Marshaller or Unmarshaller are not
+               available from the static methods.
+            </p>
+            </section>
+        </section>
+    </section>
+
+    <section title="Source Code Generator">
+        <!-- note: this extra section is to cause an indent to occur in the
+             table of contents -->
+        <section>
+            <section title="Can I use a DTD with the source generator?">
+            <p>
+                  Not directly, however you can convert your DTD to an XML Schema
+                  fairly easily. We provide a tool (org.exolab.castor.xml.dtd.Converter)
+                  to do this. You can also use any number of 3rd-party tools such as
+                  XML Spy or XML Authority.
+            </p>
+            </section>
+
+            <section title="My XML output looks incorrect, what could be wrong?">
+            <p>
+               Are the generated class descriptors compiled? Make sure they
+               get compiled along with the source code for the object model.
+            </p>
+            </section>
+
+        </section>
+    </section>
+
+
+  </body>
+</document>

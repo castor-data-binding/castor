@@ -1,0 +1,159 @@
+<!--
+
+    The Castor JDO database configuration file DTD
+
+    <!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                               "http://castor.exolab.org/jdo-conf.dtd">
+
+    Note: This DTD is under evolution and subject to change.
+
+ -->
+
+
+<!--
+    The database configuration specifies the means to obtain a connection
+    to the database server, the mapping between Java classes and tables
+    in that database server, and the service provider to use for talking
+    to that server.
+
+    The application will access the database by its given name (name)
+    and will be able to persist all objects specified  in the included
+    mapping file(s).
+
+    The means to acquire a database connection is specified in one of
+    three ways: as a JDBC 2.0 driver and URL, as a JDBC 2.0 DataSource,
+    or as a DataSource to lookup through JNDI. When Castor is used inside
+    a J2EE application server it is recommended to use the JNDI lookup,
+    allowing the application server to manage connection pooling and
+    distributed transaction.
+
+    The class mapping is included from an external mapping file,
+    allowing multiple mappings to be included in the same database
+    configuration, as well as two database to share the same mappings.
+
+    For concurrency and integrity reasons, two database definitions
+    should never attempt to use overlapping mappings. It is recommended
+    to use one database configuration per database server.
+
+    The engine attribute specifies the persistence engine for this database
+    server. Different  database servers vary in the SQL syntax and capabilites
+    they support, and this attribute names the service provider to use.
+
+    The following names are supported in Castor 1.0:
+
+    generic     Generic JDBC engine
+    oracle      Oracle 7 and Oracle 8
+    sybase      Sybase 11 and SQL Anywhere
+    sql-server  Microsoft SQL Server
+    postgresql  PostgreSQL 6.5 and 7
+ -->
+
+<!ELEMENT database ( ( driver | data-source | jndi )?,
+                     mapping+ )>
+<!ATTLIST database
+          name ID      #REQUIRED
+          engine CDATA "generic">
+
+
+<!--
+    Includes class mapping from the specified mapping file.
+
+    The href attribute may be an absolute URL (typically a file: URL)
+    or a name relative to the base URL of the database configuration
+    file (typically in the same path).
+
+    Relative URLs also work if the database configuration and mapping
+    files are obtained from the application JAR or classpath.
+ -->
+
+<!ELEMENT mapping EMPTY>
+<!ATTLIST mapping
+          href CDATA #REQUIRED>
+
+
+<!--
+    Specifies the JDBC 2.0 driver for obtaining new connections to
+    the database server. The driver is obtained from the JDBC
+    DriverManager and must be located in the class path.
+
+    The JDBC URL locates the driver and provides the access properties.
+    Additional properties may be specified using the param element
+    (e.g. buffer size, network protocol, etc).
+
+    Use the class-name attribute to specify the driver class for
+    automatic registration with the JDBC DriverManager. If missing,
+    the driver must be registered in any other means, including
+    properties file, Class.forName(), etc.
+
+    For example, to configure an Oracle 8 thin driver, use:
+
+    <driver class-name="oracle.jdbc.driver.OracleDriver"
+            url="jdbc:oracle:thin:@machine:port:SID">
+      <param name="user" value="scott" />
+      <param name="password" value="tiger" />
+    </driver>
+
+    When running Castor inside a J2EE application server, it is
+    recommended to use jndi.
+ -->
+
+<!ELEMENT driver ( param* )>
+<!ATTLIST driver
+          url        CDATA #REQUIRED
+          class-name CDATA #IMPLIED>
+
+<!ELEMENT param EMPTY>
+<!ATTLIST param
+          name  CDATA #REQUIRED
+          value CDATA #REQUIRED>
+
+
+<!--
+    Specifies the JDBC 2.0 DataSource for obtaining new connections
+    to the database server. DataSources are defined in the JDBC 2.0
+    standard extension API which is included with Castor, and implement
+    the interface javax.sql.DataSource.
+
+    The DataSource implementation class name is specified in the
+    class-name attribute and configured through Bean-like accessor
+    methods specified in the param element.
+
+    The DTD for the param element is undefined and depends on the
+    DataSource being used.
+
+    For example, to configure a PostgreSQL 7.0 DataSource, use:
+
+    <data-source class-name="org.postgresql.PostgresqlDataSource">
+      <param host="host" database="db"
+             user="user" password="secret" />
+    </data-source>
+
+    When running Castor inside a J2EE application server, it is
+    recommended to use jndi.
+ -->
+
+<!ELEMENT data-source ( params )>
+<!ATTLIST data-source
+          class-name CDATA #REQUIRED>
+
+
+<!--
+    Specifies the JDBC 2.0 DataSource for obtaining new connections
+    to the database server through JNDI lookup. The JNDI environment
+    naming context is used to obtain a suitable DataSource.
+
+    When running inside a J2EE application server, this is the
+    preferred method for obtaining database connections. It enables
+    the J2EE application server to configure the connection, maintain
+    a connection pool, and manage distributed transactions.
+
+    For example, to specify a J2EE DataSource, use:
+
+      <jndi name="java:comp/env/jdbc/mydb" />
+ -->
+
+<!ELEMENT jndi ANY>
+<!ATTLIST jndi
+          name CDATA #REQUIRED>
+
+

@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test XML Schema component that are  self-referenced</Name>
+	<Comment>The tested component are 'element' and 'group' that contained the 'ref' attribute</Comment>
+	<Comment>'complexTypes' are also tested through elements whose type is a global complexType.</Comment>
+	<Comment>hexBinary and base64Binary are not tested</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		<Schema>references.xsd</Schema> 	
+                <Root_Object random="false" dump="true">TestReference</Root_Object>
+		        <UnitTestCase>
+                      <Name>Test Generation</Name>
+                      <Input>input1.xml</Input>
+                </UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>
