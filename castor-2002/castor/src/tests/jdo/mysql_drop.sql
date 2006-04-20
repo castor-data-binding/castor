@@ -1,0 +1,14 @@
+drop table   test_table;
+drop table test_table_ex;
+drop table test_race;
+drop table   test_master;
+drop table   test_detail;
+drop table test_detail2;
+drop table   test_group;
+drop table test_smaster;
+drop table test_sdetail;
+drop table   test_types;
+drop table   test_keygen;
+drop table test_keygen_ext;
+drop table   test_seqtable;
+drop table test_persistent;
