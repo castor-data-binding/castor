@@ -1,0 +1,128 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.exolab.org/sourcegen.xml">
+
+  <properties>
+    <title>The Source Code Generator</title>
+    <author email="kvisco@exoffice.com">Keith Visco</author>
+    <abstract>
+       Describes using the Source Code Generator, and what
+       is currently supported.
+    </abstract>
+    <status>Preliminary Draft</status>
+  </properties>
+
+
+
+  <body>
+
+    <title>Using the Source Code Generator</title>
+    <header>
+      <p>Reference: <api package="org.exolab.castor.builder">The Source Builder API</api></p>
+    </header>
+
+    <section title="Introduction">
+
+      <p>Castor's source code generator creates a set of Java classes
+         which represent an object model for an XML Schema
+         (W3C XML Schema, 19991217 Working Draft), as well as the
+         necessary Class Descriptors used by the
+         <a href="xml-framework.xml">marshalling framework</a>
+         to obtain information about the generated classes.
+         <note>
+            Currently the generated source files will need to be compiled. We
+            will be adding an Ant taskdef eventually to handle this automatically.
+         </note>
+     </p>
+
+      <p>Example:
+        <pre>java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd -package com.xyz</pre></p>
+
+      <p>This will generate a set of source files from the the XML Schema, foo-schema.xsd,
+
+         and place them in the com/xyz/* package.</p>
+
+
+
+      <p>To compile the generated classes simply run javac, or your favorite compiler:
+
+         <pre>javac com/xyz/*.java</pre></p>
+
+      <p>Created class will have marshal and unmarshal methods which are used to go back
+
+         and forth between XML and an Object instance.</p>
+
+    </section>
+
+    <section title="Supported Types" ref-id="types">
+
+      <p>The following is a list of supported XML Schema types.</p>
+
+      <p>Base (primitive) datatypes
+         <ul>
+            <li>binary</li>
+            <li>boolean</li>
+            <li>integer</li>
+            <li>double</li>
+            <li>string</li>
+            <li>timeInstant</li>
+         </ul>
+      </p>
+
+      <p>Generated datatypes
+         <ul>
+            <li>ID</li>
+            <li>IDREF</li>
+            <li>NCName</li>
+            <li>NMToken</li>
+            <li>positive-integer</li>
+            <li>negative-integer</li>
+
+         </ul>
+      </p>
+
+  </section>
+
+  <section title="Supported XML Schema Structures">
+
+    <p>The supported structures for XML Schema is currently limited to:</p>
+
+    <p>Structural elements:
+
+    <ul>
+      <li>annotation
+         <ul>
+            <li>appinfo</li>
+            <li>info</li>
+         </ul>
+      </li>
+      <li>type</li>
+      <li>element</li>
+      <li>attribute</li>
+      <li>datatype
+          - not complete (see <a href="#Supported Types">Supported Types</a>)
+      </li>
+    </ul>
+   </p>
+
+    <p>Supported facets:
+
+    <ul>
+
+      <li>enumeration</li>
+      <li>maxExclusive</li>
+      <li>minExclusive</li>
+      <li>maxInclusive</li>
+      <li>minInclusive</li>
+
+    </ul></p>
+
+
+
+    <body-note>Grouping support will be added in release 0.8.2</body-note>
+
+    </section>
+  </body>
+
+</document>
+

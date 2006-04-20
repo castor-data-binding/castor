@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Specification-Title: Castor XML, JDO, DAX, DSML
+Specification-Vendor: Exoffice Technologies Inc.
+Specification-Version: 0.8
+Implementation-Title: Castor
+Implementation-Vendor: Exoffice Technologies Inc.
+Implementation-Version: $VERSION$
+Class-path: xerces.jar, jdbc-se2.0.jar, odmg-3.0.jar, jndi.jar, jta1.0.1.jar
+
+Name: org/exolab/castor
+Sealed: true
+
+

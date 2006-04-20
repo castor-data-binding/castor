@@ -1,0 +1,82 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/examples.xml">
+  <body>
+    <title>Running The Examples</title>
+
+    <section title="Running The Examples">
+
+      <p>The script files <tt>example.sh</tt> and <tt>example.bat</tt> can
+         be used to run the provided examples. The first argument is the example
+         package name. For example, to build and run the JDO example:
+<pre>
+  build.sh examples
+  example.sh jdo
+  example.sh xml
+  example.sh dax
+</pre>
+      </p>
+
+    </section>
+
+    <section title="Castor JDO">
+
+      <p>The JDO sample will test persistence between a set of Java classes
+         (Product, ProductGroup, ProductDetail) and a known SQL schema.
+         You can use the <tt>create.sql</tt> file to generate the database schema
+         for the purpose of this test.</p>
+
+      <p>The mapping between the Java objects and SQL schema is described in
+         the file <tt>mapping.xml</tt>. The JDBC connection to use is describes
+         in the file <tt>database.xml</tt>. The provided file uses PostgreSQL as
+         the database server and JDBC driver, you can modify this file for your database
+         server and use any JDBC 1.0 or 2.0 driver.</p>
+
+      <p>The database information and mapping are automatically read from the
+         JDO example directory, there is no need to provide any parameters on
+         the command line.</p>
+
+      <p>The performance test uses the ODMG engine as well as direct JDBC
+         access. You must provide the JDBC URI and class name to use for
+         this test on the command line.</p>
+
+      <p>Usage:
+         <code>
+  example.sh jdo
+         </code></p>
+    </section>
+
+    <section title="Castor DSML">
+
+      <p>Do not run this sample against a production LDAP server unless you
+         are sure it will not affect the information in your directory!</p>
+
+      <p>The DSML sample will attempt to import the supplied directory
+         information from the test.xml file using the import policy described
+         in the <tt>import.xml</tt>. file. It will then run a search against the
+         LDAP server using the search criteria in the search.xml file and dump it
+         to the console.</p>
+
+      <p>You must modify <tt>search.xml</tt>, <tt>import.xml</tt> and
+         <tt>test.xml</tt> and adapt them to your LDAP directory structure.
+         The default files assumes the root directory dc=exoffice,dc=com and
+         includes some sample LDAP entries.</p>
+
+      <p>Usage:
+         <code><![CDATA[
+  test.sh dsml [jndi|mozilla] <host> <root-dn> <root-pwd>
+
+  jndi|mozilla  Selects whether to use the JNDI or Mozilla Directory
+	        SDK implementations
+  host          The LDAP host name (port number is optional)
+  rood-dn       The root DN used for authenticating when importing
+  root-pwd      The root password used for authenticating when importing
+]]></code>
+         For example:
+         <code>
+  example.sh dsml mozilla ldap.exoffice.org dc=exoffice,dc=com secret
+         </code></p>
+
+    </section>
+
+  </body>
+</document>

@@ -1,0 +1,74 @@
+<!--DOCTYPE databases PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd"-->
+<mapping>
+
+  <!--  Mapping for ProductGroup  -->
+  <class class-name="myapp.ProductGroup">
+    <sql-table table-name="prod_group"/>
+    <description>Product group</description>
+    <identity field-ref="id"/>
+    <field name="id">
+      <sql-info name="id" />
+    </field>
+    <field name="name">
+      <sql-info name="name" dirty="check" />
+    </field>
+  </class>
+
+
+  <!--  Mapping for Product  -->
+  <class class-name="myapp.Product">
+    <sql-table table-name="prod"/>
+    <description>Product definition</description>
+    <identity field-ref="id"/>
+    <field name="id">
+      <sql-info name="id"/>
+    </field>
+    <field name="name">
+      <sql-info name="name"/>
+    </field>
+    <field name="price" type="float">
+      <sql-info name="price" type="double"/>
+    </field>
+
+    <!--  Product has reference to ProductGroup,
+          many products may reference same group  -->
+    <field name="group" type="myapp.ProductGroup">
+      <sql-info name="group_id" />
+    </field>
+
+    <!-- Product has reference to ProductDetail
+         many details per product  -->
+    <field name="detail" type="myapp.ProductDetail" required="true"
+           collection="vector" />
+  </class>
+
+
+  <!--  Mapping for Computer, extending Product  -->
+  <class class-name="myapp.Computer" extends="myapp.Product">
+    <sql-table table-name="computer"/>
+    <description>Computer definition, extends generic product</description>
+    <field name="cpu">
+      <sql-info name="cpu"/>
+    </field>
+  </class>
+
+
+  <!--  Mapping for Product Detail -->
+  <class class-name="myapp.ProductDetail">
+    <sql-table table-name="prod_detail"/>
+    <description>Product detail</description>
+    <identity field-ref="id"/>
+    <field name="id">
+      <sql-info name="id"/>
+    </field>
+    <field name="product" type="myapp.Product">
+      <sql-info name="prod_id"/>
+    </field>
+    <field name="name">
+      <sql-info name="name"/>
+    </field>
+  </class>
+
+</mapping>
+

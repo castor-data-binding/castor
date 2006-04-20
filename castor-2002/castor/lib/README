@@ -1,0 +1,7 @@
+This directory contains some libraries required to build and run the
+transaction manager and all it's components. Some of these libraries
+(especially Xerces, Castor, PostgreSQL) will change from time to time.
+Make sure you have the latest and greatest from:
+
+    http://www.exolab.org/ftp/jars
+

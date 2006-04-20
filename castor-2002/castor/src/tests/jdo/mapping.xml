@@ -1,0 +1,22 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+  <!-- Mapping for TestObject to test_table
+       Single object mapping, shared access, dirty checking on all fields -->
+  <class name="jdo.TestObject" access="shared" identity="id">
+    <description>Table used for concurrency and performance testing</description>
+    <map-to table="test_table" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="first" type="string">
+      <sql name="first" type="varchar"/>
+    </field>
+    <field name="second" type="string">
+      <sql name="second" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+
+</mapping>
+

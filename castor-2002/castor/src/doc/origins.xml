@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/origins.xml">
+  <body>
+    <title>About The Origins Of The Name</title>
+    <header>
+      <p><i>Why did you decide to call it Castor?</i></p>
+
+      <p>First, let me say you are not the first to ask this question, and you won't be the last.
+         For many, the term "Castor" has a mysterious aura which leaves the user with a craving,
+         a necessity if you must, of wanting an explanation. The need to understand has plagued
+         people of the human race for some time now.</p>
+
+      <p>Some have speculated that Castor comes from the heavens. Either being an astronomer or
+         having flipped through the pages of a Merriam Webster dictionary you may have run across
+         the reference to Castor. Castor in this context is part of a "double star" within the
+         Gemini constellation, the twin star is called Pollux. For all those looking to the sky
+         for the answer, let me reassure you that we do not use Castor in this context. Actually
+         with all the smog here in California, the developers of Castor rarely look to the sky
+         for anything.</p>
+
+      <p>Some have speculated that some how the name comes from the act of "casting" one type into
+         another. This is a rather interesting speculation. Castor is a pretty advanced "Casting"
+         framework, however, this speculation is as far from the truth as is the distance from earth
+         to Castor and Pollux.</p>
+
+      <p>Other more intuitive people, perhaps by looking at the Castor logo, have deduced that
+         Castor is actually a Beaver. Yes it's true. Castor is the more formal or scientific name
+         for a simple little Beaver. This raises a more interesting question.</p>
+
+      <p><i>Why did you name your software after a beaver?</i></p>
+
+      <p>The truth of the matter is that it's highly classified, and on a need-to-know basis.
+         Even members of our own team do not know. However we are allowed to post more speculations
+         on this topic. The most common speculation is that a beaver is well know for it's
+         engineering skills. It cut's down trees, and builds dams and lodges. Since Castor builds
+         source code, using blue prints (an XML Schema), then it too is an engineer.</p>
+
+      <p>A more abstract yet rather interesting speculation that builds on the previous reads as
+         follows. XML is based on "trees" or "groves". A beaver cuts down trees. Therefore Castor
+         removes the notion of trees from processing XML documents. This is an interesting observation
+         in that Castor does just that. Castor eliminates the "tree" methodology when dealing with XML.
+         It is an XML data binding framework which allows you to deal directly with your data, instead
+         of thinking in terms of a "tree".</p>
+
+      <p>Another equally good speculation is that a beaver is one of the cutest little animals in
+         the world, and we just couldn't resist giving it some due attention.</p>
+
+      <p>There are other speculations, some of which we can not in good nature add to this page.
+         We cannot comment on which speculation may be closer to the truth. We let each user decide
+         on his or her own. Simply choose the speculation which most reduces your craving for more
+         understanding, and feel free to come up with your own speculations.</p>
+
+      <p>Keith "Castor" Visco, Chief XML Architect [<email>kvisco@exoffice.com</email>]</p>
+    </header>
+  </body>
+</document>

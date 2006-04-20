@@ -1,0 +1,417 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/cmp.xml">
+  <properties>
+    <title>Understanding EJB CMP</title>
+    <abstract></abstract>
+    <author email="arkin@exoffice.com">Assaf Arkin</author>
+    <status>Preliminary Draft</status>
+  </properties>
+  <body>
+
+    <section title="Introduction">
+      <ul>Common terms for first time readers:
+        <li><b>BMP - Bean managed persistence</b> The bean is responsible for loading/storing itself</li>
+        <li><b>CMP - Container managed persistence</b> The container is responsible for loading/storing
+            the bean based on some mapping to the database server.</li>
+        <li><b>O/R mapping - Object relational mapping</b> Being able to persist Java objects into a
+            relational database by mapping objects and references into tables and relations</li>
+      </ul>
+    </section>
+
+    <section title="What CMP Is Not">
+      <p>There have been a lot of misunderstanding about CMP and EJB entity beans in general.
+         People are encouraged to read the archives of the EJB interest mailing list and follow
+         some of the discussions there.</p>
+
+      <p><i>CMP is not just O/R mapping.</i> Object/relational mapping solutions are a solution
+         for dealing with relational databases using the Java object model. EJB servers use
+         O/R mapping technology to implement persistence for CMP, and O/R mapping can be used
+         well outside of the EJB environment. JavaSoft is currently working on specifying the
+         Java binding for O/R mapping as part of the Java community process (see
+         <a href="http://java.sun.com/aboutJava/communityprocess/jsr/jsr_031_xmld.html">JSR-000031
+         XML Data Binding Specification at java.sun.com</a>).</p>
+
+      <p>CMP was designed to model business logic on top of O/R mapping (or other persistence
+         mechanisms). EJB adds the benefit of synchronization, transactions and TP monitoring to
+         business methods, but at the cost of remote method calls. Even when running in the same
+         VM, the EJB calling semantics introduce an overhead to each method call.</p>
+
+      <p>Application developers that are interested in business process modeling for their data
+         should pursue the EJB entity bean model, while application developers that are interesting
+         in Java object persistence should use O/R mapping directly.</p>
+
+      <p><i>CMP has no monopoly on JDBC connection pooling and distributed transactions.</i> One of
+         the benefits of the J2EE environment are JDBC connection pooling, which can significantly
+         speed application performance. JDBC pooling is available to all code and libraries running
+         inside a J2EE environment using the JNDI environment naming context, and that includes
+         session beans, Servlets and traditional O/R mapping.</p>
+
+      <p>The same applies to distributed transactions. All JDBC connections obtained from the JNDI
+         environment naming context are automatically enlisted in a distributed transaction.
+         We have been running Castor JDO inside the Tomcat Web server benefiting from both JDBC
+         connection pooling and distributed transactions without the use of EJB.</p>
+
+      <p><i>CMP does not save JDBC operations.</i> A smart CMP implementation will attempt to
+         cache entity beans in memory and to persist changes only at the end of the transaction.
+         However, there is nothing magical there that one cannot do with direct JDBC access.
+         Caching only applies to optimistic locking and deferred persistence only when multiple
+         methods calls are used in the same transaction.</p>
+
+      <p>By contrast CMP does require that objects be loaded from the database, modified in
+         memory and stored back. That means at least one SELECT and UPDATE per modification, or
+         set of modifications. In many cases, a direct UPDATE on the the table row, or bulk
+         update on multiple rows from a session bean or direct JDBC access will perform
+         considerable faster.</p>
+
+      <p><i>CMP is a good way to model database objects.</i> Hardly. CMP does not deal well
+         with fine grained objects for a variety of reasons, including O/R limitations,
+         concurrency and lock latency, and method call overhead. CMP is only efficient for
+         implementing coarse grained business objects, while fine grained objects should
+         rely on straight O/R mapping.</p>
+
+      <p><i>CMP allows for application portability.</i> Yes, but not quite there. The obvious
+         benefit of CMP is in reusing the same bean across multiple database servers and
+         schema, leaving the mapping details to deployment time. Yet, the EJB model is not
+         mature enough for all practical uses. Furthermore, not all EJB servers support enough
+         features to enable deployment of complex applications, implement them in the same
+         manner, or are scalable enough.</p>
+
+      <p>Further definition of the CMP model and more strict specification is required in
+         order to bring all EJB servers to the same level. In addition, many applications
+         will benefit from an alternative API for Java object persistence, as proposed by
+         the JDO JSR.</p>
+
+    </section>
+
+    <section title="Locking And Concurrency">
+
+      <p>CMP entity beans typically run in one of two locking mode, specific to the bean type, not the
+         transaction or database connection in which the bean is used. The locking mode is determined
+         based on the type of concurrent access to the database objects represented by the entity bean.</p>
+
+      <section title="Pessimistic Locking">
+
+        <p>In pessimistic locking mode, it is assumed that concurrent access to the same object will be
+           frequent, or might prevent the transaction from properly completion. Objects must be locked
+           to prevent other transactions from attempting to modify them, thus, potentially preventing the
+           transaction from completing. As a side effect of locking objects, other transactions are never
+           presented with an inconsistent view of the database.</p>
+
+        <p>With direct JDBC access, pessimistic locking is achieved by setting the transaction isolation
+           level to serializable. Since CMP cannot rely on the isolation level (see <a href="#Transaction Isolation">
+           Transaction Isolation</a> below), objects are directly locked by executing a <tt>SELECT FOR
+           UPDATE</tt> (or equivalent SQL statement).</p>
+
+        <p>While pessimistic locking assures better concurrency and assures that a transaction will complete,
+           it introduces the overhead of locking and lock contention. Some databases do not support row-level
+           locking, causing a lock on one row to lock transactions waiting to lock a different row in the
+           same page. In addition, transactions waiting to access the object are blocked until the first
+           transaction commits, resulting in transaction serialization. While transaction serialization has
+           little effect on overall application performance, it can extend the response time for any particular
+           client.</p>
+
+        <p>To assure proper concurrency, the CMP engine must keep the entity beans synchronized with the
+           database engine, and not rely on object caching which could potentially lead to the transaction
+           accessing dirty objects, that is objects that have been modified outside the scope of the CMP engine.
+           The CMP engine has no efficient way of telling whether an object has been updated outside of the
+           engine and must resort to loading the object prior to accessing it within a transaction. This has
+           the effect of a SELECT operation each time an entity bean is being accessed inside a transaction,
+           and not when the bean is first loaded (through a finder) from the database.</p>
+
+      </section>
+
+      <section title="Optimistic Locking">
+
+        <p>In optimistic locking mode, it is assumed that concurrent access to the same object will be
+           a rare case, or that most types of access involve read only and not updates. Therefore, it is
+           likely the concurrent access will not occur, and performance can be improved through the use of
+           object caching and read locks. The down side is the possibility that a transaction will fail to
+           commit due to concurrent access.</p>
+
+        <p>Entity beans loaded within one transaction can be cached in memory and reused across multiple
+           transactions without reloading the objects, thus eliminating needless SELECT operations. Since
+           entity beans are saved at commit time only if they were modified, this approach can save both
+           SELECT and UPDATE operations. Multiple transactions may read the same entity bean concurrently
+           in an efficient manner without locking contention, provided that only one transaction attempts
+           to change the entity bean.</p>
+
+        <p>When two transactions attempt to to load the same entity bean at once, the first transaction will
+           succeed in obtaining a write lock on the object, if the entity bean has been modified, but will be
+           blocked until the second transaction commits releasing it's read lock on the object. If the second
+           transaction modifies the object and attempts to commit the transaction, a deadlock situation will
+           occur, cause the second transaction to fail and rollback, but allowing the first transaction to
+           complete.</p>
+
+        <p>If two transactions attempt to load the same entity bean, modify and commit the changes in a
+           serial manner, both commits will succeed and the entity bean can be reused from the memory cache.
+           The locking semantics are similar to the read committed transaction isolation mode.</p>
+
+        <p>Since no lock was acquired in persistence storage, it is possible that another form of access
+           (e.g. direct JDBC from a session bean or different application) has modified or even deleted the
+           object while the first transaction was using it. In order to detect such occurrences, dirty
+           checking occurs prior to storing the object at commit time. Dirty checking is efficiently implemented
+           in the same UPDATE statement, however, it does imply that a transaction may fail and rollback.</p>
+
+        <p>Optimistic locking is efficient in scenarios where concurrent updates are rare or never happen,
+           and that the majority of transactions either do not access the same object, or access the same
+           object for read only. The application developer must be aware of the possibility of dirty access
+           and develop the application accordingly, dealing with the possibility of failure to commit.</p>
+
+      </section>
+
+      <section title="Deadlocks">
+
+        <p>In both optimistic and pessimistic locking deadlocks may occur. By itself CMP has no effect on
+           the possibility of deadlock, however, the use of entity beans and in particular where mapping to
+           database records is only determined at deployment time, may increase the possibility of deadlock.
+           Understanding where deadlock may occur in a complex environment with a variety of decoupled
+           entity and session beans is rather complex. Application developers must always assume the possibility
+           of deadlock and failure of transactions to commit due to deadlock situations.</p>
+
+        <p>CMP engines that cache entity beans in memory must include a proper locking mechanism that includes
+           deadlock detection. Relying on simple Java synchronization has the side effect of deadlocks that
+           will prevent the application from ever completing and keep the server threads handing.</p>
+
+      </section>
+
+      <section title="Mixing Locks">
+
+        <p>As note above, the locking mode for an entity bean depends on the type of the bean and the access
+           to that bean from both CMP, session beans and applications running outside of the EJB server.
+           When entity beans are used for a graph of objects mapping into a number of tables, each object in
+           the graph (and corresponding table) may have different lock semantics. The CMP engine may (and
+           should) implement different locking modes for each object in the graph.</p>
+
+        <p>Mixing of locking modes can lead to unpredictable situations, e.g. the entity bean may be used
+           in pessimistic locking, but the transaction may fail to commit since an object related to the
+           bean is used in optimistic locking mode and update to that object occurred outside of the CMP engine.</p>
+
+        <p>It is recommended that the locking semantics be properly identified for each object persisted
+           from the entity bean. If the root object is running in optimistic locking, than there will be
+           few surprises. However, if the root object is running in pessimistic locking, related objects
+           should be read-only (e.g. Department from an Employee, Country from Address)  or defined as
+           pessimistic locking.</p>
+
+      </section>
+
+      <section title="Caching">
+
+        <p>An efficient CMP engine will cache entity beans in memory to save synchronization with the
+           database. Caching can only occur if the entity bean is accessed with optimistic locking.
+           Pessimistic locking dictates that the entity bean is always synchronized with the database,
+           invalidating any cached copy.</p>
+
+        <p>When multiple servers are used, a CMP engine may implement a distributed cache across all
+           servers. However, such a cache can only be used in optimistic locking, where concurrent
+           changes are infrequent. In addition, in most scenarios different entity beans are loaded
+           in different servers, or the same bean is loaded once in the life time of the server.
+           Synchronizing objects and retaining locks across multiple VMs introduces and adds little
+           benefit. While it may track concurrent modification to the same bean, if concurrent
+           modifications occur often, pessimistic locking should be used, invalidating the cache.
+           Since the cache cannot deal with updates occurring from session beans or applications running
+           outside the EJB server, dirty checking must always occur. Therefore enabling a distributed
+           cache is only recommended in specialized applications where the cost/benefit turns in
+           favor of the cache.</p>
+
+      </section>
+
+      <section title="Rolling Back The Entity Bean State">
+
+        <p>The EJB specification does not define what happens to the state of the entity bean if the
+           transaction has been rolled back. However, one can assume that a rollback of the transaction will
+           result in one of the following: either the entity bean is invalidated, and when it is reused
+           by the application the EJB server reloads it, or the entity bean's state is rolled back based
+           on a previous known state. While the second approach is more efficient and in-line with O/R
+           mapping solutions, typically rolls back are far and few in between to make a difference.</p>
+
+      </section>
+
+    </section>
+
+    <section title="Finders (or Queries">
+
+      <p>Although the term finder is used in both cases, EJB actually defines two distinct types of
+         finders. The <tt>findByPrimaryKey</tt> is used to load an entity bean into memory given its
+         primary key. All other finders are used to return one or more primary keys based on a
+         selection criteria. They do not load the actual beans, requiring a separate <tt>findByPrimaryKey</tt>
+         call.</p>
+
+      <p>With BMP, if a finder returns N results and the application is interested in the entity beans
+         for these N results, N+1 queries must occur.</p>
+
+    </section>
+
+<!--
+
+Mixing ejbLoad/ejbStore with CMP
+
+Session bean persistence
+
+Fine vs. coarse grained
+
+Business methods
+-->
+
+    <section title="Calling Entity Methods Outside A Transaction">
+
+      <p>Many developers have asked how entity beans can deal with method calls that modify the state
+         of the entity bean but occur outside of the transaction. While these requests were invariably
+         the same, they expressed different needs that are met by different solutions.</p>
+
+      <p><i>Eliminating unnecessary updates.</i> An efficient CMP engine does not perform updates until
+         the transaction commits. Therefore, multiple method calls within a transaction do not result
+         in multiple update operations, but a single update operation when the transaction commits.</p>
+
+      <p><i>Updating the entity bean first, saving it second.</i> This requirement is often seen in
+         applications that accumulate changes from the GUI and persist them all at once. GUI operations
+         should never occur inside a transaction, yet entity bean operations should always occur inside
+         a transaction. Performing a transaction per update is not only inefficient, it will lead to
+         inconsistency if the user decides to abandon the transaction without completing all the updates.</p>
+
+      <p>There are three solutions to this problem, depending on the type and complexity of the application.
+         To explain why entity beans should not be modified outside of the transaction, consider the scenario
+         where a bean is loaded by one user and changes are accumulated from the GUI, a process which might
+         take minutes or hours. Until the entity bean is stored, another transaction may modify the original
+         values or even delete the entity bean. Without the transaction, the CMP engine has no way of tracking
+         these concurrent updates and assuring transactional integrity.</p>
+
+      <p><i>Solution 1: Use a separate object for accumulating modifications.</i> This is my favorite
+         recommendation. A GUI object is used to accumulate all the changes in a separate object and
+         running one update at the very end. This allows the user to work in incremental changes (e.g.
+         a multiple form GUI), go back and make changes to the information before committing it, and
+         even cancel the operation. This approach works best in most, but not all applications, and retains
+         entity bean consistency.</p>
+
+      <p><i>Solution 2: Use a session bean.</i> If these changes are part of a business process, or require
+         database access, it will be wise to use a session bean instead of a GUI object. The session bean
+         can be created, updated and asked to persist the changes in the context of a transaction. It can
+         deal with the possibility of the entity bean being modified or deleted by a second transaction,
+         and abstract all the logic required to complete the change.</p>
+
+      <p><i>Solution 3: Using a separate entity bean.</i> The session bean approach has the drawback of
+         not persisting the changes. Failure of the server will result in loss of the session bean
+         forcing the user to re-apply all the changes. A possible solution is to use a separate entity
+         bean for persisting these changes and assuring proper fail over. For example, an entity bean
+         will persist changes into a shopping_cart table and produce a new order entity bean one the
+         user has completed the checking.</p>
+
+      <p><i>Solution 4: Cluster persistence and soft locks.</i> In clustered environment, the temporary
+         entity bean need not persist into a database server, but can be persisted into a shared object
+         cache. If one server fails, another server can pick the bean from it's local copy of the shared
+         cache and carry over. This approach also allows temporary objects to be discarded after a period
+         of inactivity. For the curious, such a CMP engine will follow the same design guidelines of JavaSpace
+         (but need not use JavaSpace itself).</p>
+
+      <p>Note that none of these approaches allow you to lock the entity bean against concurrent transaction
+         while the user is potentially changing the entity bean. Unfortunately, it is impossible to implement
+         such locking without a transaction, and no approach (EJB or other) can address this requirement.
+         Such is the nature of dealing with concurrency.</p>
+
+    </section>
+
+    <section title="Transaction Isolation">
+
+      <p>Transaction isolation allows the application developer to control the concurrency mode of the
+         database server and the type of locking in use. The transaction isolation can be set only once
+         within a transaction, and all EJB beans and methods in that transaction must run in the same
+         isolation level. This is an inherit RDBMS limitation and the reason for deprecating the per-bean
+         isolation level specification in EJB 1.0.</p>
+
+      <p>Due to this limitation, all entity beans must be made to run in the same isolation level,
+         regardless of their locking mode. This is not an issue for write-at-commit (WAC) CMP engines.</p>
+
+      <p>Write-at-commit CMP only performs database updates when the transaction commits during commit
+         time. Updates are not visible to other transactions until commit time, whether the isolation
+         level is serializable or read uncommitted.</p>
+
+      <p>In pessimistic locking mode, all loaded objects are locked directly in the database server,
+         preventing other transactions from updating or deleting them. In optimistic locking mode,
+         loaded objects are not locked and concurrent updates may occur. Updates are not persisted
+         until transaction commit time, and are not viewable to other transactions until the transaction
+         commit regardless of isolation level.</p>
+
+      <p>Isolation level does have an affect on objects created during the transaction or modified
+         by another transaction not through the CMP engine. Objects created in a transaction by the
+         CMP engine might be visible to other transactions in read uncommitted mode, and objects
+         modified by other transactions may be visible to the CMP engine in read uncommitted mode.</p>
+
+      <p>In order to prevent these scenarios, it is recommended that all database access be restricted
+         to two isolation levels: serializable and read committed, based on the requirements of the
+         session beans. That will assure proper concurrency control, with CMP entity beans running at
+         a locking mode depending on the bean type.</p>
+
+    </section>
+
+
+
+    <section title="Finders">
+
+      <p>Entity beans define two types of finders. <tt>findByPrimaryKey</tt> is used to load an
+         entity bean's identity based on the primary key. It loads only one entity bean and loads
+         it fully, therefore there is alway one <tt>findByPrimaryKey</tt> per each entity bean type.
+         For simple beans, <tt>findByPrimaryKey</tt> maps to a single SELECT statement fetching a
+         single row, and calling <tt>ejbLoad</tt> once (with a transaction).</p>
+
+      <p>The other finders defined for the entity bean are used to identify which entity beans
+         should be loaded, but not load them directly. In selecting the same name for both type
+         of finders, the EJB specification can lead to some confusion. The other finders are
+         asked to return a collection of primary keys that identify which entity beans match a
+         particular criteria. Given that collection, the application may access any of the beans,
+         which are subsequently loaded through individual calls to <tt>findByPrimaryKey</tt>.</p>
+
+      <p>For simple beans, a finder maps to a single SELECT statement returning only the primary
+         keys on any number of rows, and never calling <tt>ejbLoad</tt> directly.</p>
+
+      <p>When the application calls a business method on any of the beans returned from a finder,
+         the EJB server will attempt to load that bean (only once in a transaction) by issuing
+         an <tt>findByPrimaryKey</tt>. It's up to the server to determine whether all the beans
+         are loaded as a result of a finder, or whether beans are incrementally loaded as they
+         are accessed by the application.</p>
+
+      <p>Since the application has no way of determining from the primary key whether it is
+         interested in a particular bean from a collection, we can assume that the application
+         will always load all the beans returned by a collection. An application that calls
+         <tt>findAllAccounts</tt> will have to traverse all the returned beans to determine
+         which one is in overdraft. A simple optimization, a <tt>findAllOverdraftAccounts</tt>
+         finder will perform better but you can still expect the application to traverse through
+         all the accounts returned.</p>
+
+      <body-bar>Finders that return too many results are inefficient. Finders should be optimized
+                to return just that subset of entity beans that the application will be interested
+                in, and assume that the application will always load all the returned beans.
+                The bean developer might now know which finders will be required by the application,
+                and this is where CMP allows finders to be easily added at deployment time.
+                Finders should be created for all cases, even the trivial ones, like different
+                sort order, or returning just the first(n) rows.</body-bar>
+
+
+
+It is important to understand that the collection returned form an EJB finder returns rows that
+were accessible to the EJB server at the time the finder was called. Subsequent operations on the
+database might have locked, deleted or added new identities to the database. An attempt to access
+an entity bean that has been deleted or locked will typically end with an exception, although the
+application, if it chooses so, may still attempt to access the remaining entity beans returned in
+the collection. This scenario only happens when lazy loading is implemented.
+
+    </section>
+
+
+    <section title="References">
+      <ul>
+        <li><a href="http://java.sun.com/aboutJava/communityprocess/jsr/jsr_031_xmld.html">JSR-000031
+            XML Data Binding Specification at java.sun.com</a></li>
+        <li><a href="http://java.sun.com/products/ejb">The EJB specifications and related resources
+            from JavaSoft</a></li>
+        <li><a href="http://castor.exolab.org">Castor, an open source JDO implementation and EJB
+            persistence engine.</a></li>
+        <li><a href="http://castor.exolab.org/design-persist.xml">The design of the persistence
+            architecture in Castor.</a></li>
+        <li><a href="http://www.ejbnow.com">Richard Monson-Haefel's book Enterprise JavaBeans provides
+            guidelines for developing scalable EJB applications including BMP/CMP.</a></li>
+        <li>The EJB interest mailing list includes some interesting discussions about the subject,
+            including user experience, rants about EJB limitations, and vendor know how.</li>
+      </ul>
+    </section>
+
+  </body>
+</document>

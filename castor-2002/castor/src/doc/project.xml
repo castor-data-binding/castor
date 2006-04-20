@@ -1,0 +1,62 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project name="Castor" repository="castor"
+         href="http://castor.exolab.org" image="images/castor.gif">
+
+  <title>The Castor Project</title>
+
+  <links>
+    <link name="Home" href="index.xml"
+          image="style/images/links/home.gif" height="19" width="39"/>
+    <link name="License" href="license.xml"
+          image="style/images/links/license.gif" height="19" width="47"/>
+    <link name="CVS" href="cvs.xml"
+          image="style/images/links/cvs.gif" height="19" width="30"/>
+    <link name="Download" href="download.xml"
+          image="style/images/links/download.gif" height="19" width="64"/>
+    <link name="Lists" href="lists.xml"
+          image="style/images/links/lists.gif" height="19" width="35"/>
+    <link name="Library" href="library.xml"
+          image="style/images/links/library.gif" height="19" width="47"/>
+    <link name="Contact" href="contacts.xml"
+          image="style/images/links/contacts.gif" height="19" width="57"/>
+    <link name="Exolab" href="http://www.exolab.org"
+          image="style/images/links/exolab.gif" height="19" width="47"/>
+  </links>
+
+  <menu>
+    <item name="Index" href="index.xml"/>
+    <item name="API" href="api/overview-summary.html"/>
+    <item name="DTDs" href="schema.xml"/>
+  </menu>
+  <menu name="Using">
+    <item name="Using XML" href="xml-framework.xml"/>
+    <item name="Using JDO" href="jdo.xml"/>
+    <item name="Tips &amp; Tricks" href="tips-tricks.xml"/>
+    <item name="JDO Config" href="database-conf.xml"/>
+    <item name="Types" href="types.xml"/>
+    <item name="Source generator" href="sourcegen.xml"/>
+    <item name="Running The Examples" href="examples.xml"/>
+  </menu>
+  <menu name="Advanced">
+    <item name="Configuration, Libs, Building" href="conf-lib.xml"/>
+    <item name="Transactions &amp; Locks" href="locking.xml"/>
+    <item name="Design: Persistence" href="design-persist.xml"/>
+  </menu>
+  <menu name="Misc">
+    <item name="JavaDoc" href="javadoc/overview-summary.html"/>
+    <item name="Presentation" href="ora-mar-2k/castor.htm"/>
+    <item name="Status, Todo" href="status.xml"/>
+    <item name="Changelog" href="changelog.xml"/>
+  </menu>
+
+  <notice>
+    Java, Enterprise JavaBeans, JDBC, JNDI, Sun, Sun Microsystems and other Java related APIs are trademarks or
+    registered trademarks of Sun Microsystems, Inc. in the United States and in other countries. XML, XML schema,
+    XSLT and related standards are trademarks or registered trademarks of MIT, INRIA, Keio or others, and a product
+    of the World Wide Web Consortium. All other product names mentioned herein are trademarks of their respective owners.
+  </notice>
+  <notice>
+    Copyright 2000 (C) <a href="http://www.exoffice.com">Exoffice Technologies Inc</a>. All Rights Reserved.
+  </notice>
+
+</project>

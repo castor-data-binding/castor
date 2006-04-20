@@ -1,0 +1,78 @@
+<?xml version="1.0"?>
+<document url="http://castor.exolab.org/index.xml">
+  <body>
+    <title>The Castor Project</title>
+
+    <header>
+      <p>Castor is the shortest path between Java[tm] objects, XML documents, SQL tables and LDAP
+         directories. It provides Java to XML binding, Java to SQL/LDAP persistence, and then
+         some more.</p>
+
+      <p><a href="ora-mar-2k/castor.htm">The presentation we did at the Java O'Reilly Conference
+         is now available online</a>. For those who could not attend we promise to make another
+         one during the JavaOne conference.</p>
+
+      <p><a href="origins.xml">About the origins of the name</a></p>
+
+      <p><b>Note:</b> Presently we are only hosting one mailing list. Traffic is not high, so if
+         you are interested in keeping up to date with new releases, please <a href="lists.xml">subscribe
+         to this list</a>.</p>
+
+    </header>
+
+    <section title="Features">
+
+      <p>Short feature list (we haven't got all day):
+        <ul>
+          <li>Castor XML: Java object to XML document</li>
+          <li>Castor JDO: Java object persistence to RDBMS</li>
+          <li>Castor DAX: Java object persistence to LDAP</li>
+          <li>Castor DSML: LDAP directory exchange through XML</li>
+          <li>XML-based mapping file specify the mapping between one model and another</li>
+          <li>Support for schema-less Java to XML binding</li>
+          <li>In memory caching and write-at-commit reduces JDBC operations</li>
+          <li>Two phase commit transactions, object rollback and deadlock detection</li>
+          <li>OQL query mapping to SQL queries</li>
+          <li>EJB container managed persistence provider for OpenEJB</li>
+        </ul>
+        See the <a href="status.xml">status page</a> for more information.</p>
+
+    </section>
+
+    <section title="News">
+      <p>Version $VERSION$ is now <a href="download.xml">available for download</a>.
+      <ul>
+        <li>Apr 7, 2000: Version 0.8.2, Minor bug fixes</li>
+        <li>Apr 5, 2000: Version 0.8.1, JDO API useability, new mapping file, improved lock mechanism</li>
+        <li>Mar 24, 2000: Version 0.8, unified mapping model, pluggable DB engine, dirty checking</li>
+        <li>Mar 10, 2000: Version 0.7.11, supports one-many relations, XML-Servlet</li>
+        <li>Mar 3, 2000: Version 0.7.10, addresses performance of the cache engine</li>
+        <li>Jan 7, 2000: Version 0.7, first to include JDO</li>
+        <li>Dec 21, 1999: Version 0.6</li>
+      </ul>
+      See the <a href="changelog.xml">change log page</a> for more information.</p>
+
+    </section>
+
+    <section title="About the Castor Project">
+
+      <p>The Castor project has been developed out of need: the need to get stuff done
+         and the need to write useful code. It has been designed and coded over many cups
+         of Latte and tall Americano, as proof that coffe beans do come in handy.</p>
+
+      <p>Contributors:
+        <ul>
+          <li>Oleg Nitz <email>on@ibis.odessa.ua</email></li>
+          <li>Stefan Liebner <email>MailLiebner@gmx.ne</email></li>
+          <li>Venkatakrishnan Sundaranatha <email>ssvk@msn.com</email></li>
+        </ul>
+      </p>
+
+      <p>Most of the code released through the Castor Project has been developed by Keith Visco,
+         Chief XML Architect, Exoffice Technologies, Inc. &lt;<email>visco@exoffice.com</email>&gt;
+         and Assaf Arkin, CTO &lt;<email>arkin@exoffice.com</email>&gt;. Contributors are welcome
+         to join this project. Please join us on the <a href="lists.xml">mailing list</a>.</p>
+    </section>
+
+  </body>
+</document>

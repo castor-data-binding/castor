@@ -1,0 +1,10 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+<database name="test" engine="generic" >
+  <data-source class-name="postgresql.PostgresqlDataSource">
+    <params user="test" password="test" database-name="test"/>
+  </data-source>
+  <mapping href="mapping.xml" />
+</database>
+
+

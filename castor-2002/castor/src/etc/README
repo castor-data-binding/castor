@@ -1,0 +1,31 @@
+CASTOR
+======
+
+Copyright (c) 2000, Exoffice Technology, Inc.
+
+
+Castor integrates Java objects, XML documents, SQL relational
+databases and LDAP directories in a unified model that allows
+information to be exchanged, persisted and manipulated in a
+variety of ways.
+
+The Castor moto is simplifying the exchange and persistence
+of information.
+
+This release of Castor includes the following persistence/
+exchange modules:
+
+Castor XML  -- Java object to XML document mapping
+
+Castor JDO  -- Java object to SQL relational database
+               (aka object/ relational) mapping
+
+Castor DSML -- LDAP directory exchange through XML
+
+Castor DAX  -- Java directory access (JNDI/LDAP)
+
+
+More information is available at http://castor.exolab.org
+
+
+
