@@ -1,0 +1,242 @@
+<?xml version="1.0"?>
+<!-- This file contains a list of Castor contributors -->
+<document url="http://castor.exolab.org/contributors.xml">
+  <body>
+    <title>Contributors</title>
+    <header>
+
+<contributors>
+
+  <contributor type="Committer">
+    <name surname="Arkin" given="Assaf"/>
+    <email>arkin@intalio.com</email>
+    <company id="intalio"/>
+    <description>Responsible for all things wrong in JDO</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Visco" given="Keith"/>
+    <email>kvisco@intalio.com</email>
+    <company id="intalio"/>
+    <description>Responsible for all things wrong in Castor XML</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Nitz" given="Oleg"/>
+    <email>on@ibis.odessa.ua</email>
+    <company id="ibis"/>
+    <description>Key generators, stored procedures, Sybase 11/12 support and
+     a variety of other design contributions.</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Karpenstein" given="Nissim"/>
+    <email>nissim@nksystems.com</email>
+    <company id="nksystems"/>
+    <description>Develops the new OQL query parser.</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Fritz" given="Markus"/>
+    <email>mfritz@justis.de</email>
+    <company id="justis"/>
+    <description>JDO bugfixes, enhancements.</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Yip" given="Thomas"/>
+    <email>yip@intalio.com</email>
+    <company id="intalio"/>
+    <description>JDO enhancements.</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Blandin" given="Arnaud"/>
+    <email>blandin@intalio.com</email>
+    <company id="intalio"/>
+    <description>XML enhancements/Bug Fixes</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Maucherat" given="Remy"/>
+    <email>remm@apache.org</email>
+    <company id="apache"/>
+    <description>XML enhancements, lots of testing.</description>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Fawcett" given="Andrew"/>
+    <email>Andrew.Fawcett@coda.com</email>
+    <company id="coda"/>
+    <description>XML enhancements.</description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Beloff" given="Rostislav"/>
+    <email>ros@domainforfree.com</email>
+    <description>
+       Patch to prevent instropection of static methods.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Thelen" given="Frank"/>
+    <email>Frank.Thelen@poet.de</email>
+    <company id="poet"/>
+    <description>
+       Submitted code for allowing subclassing of the special types used
+       by the Source Generator, and for supporting ODMG 3.0 collections.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Liebner" given="Stefan"/>
+    <email>MailLiebner@gmx.ne</email>
+    <description>Submitted code for generating mapping file from existing SQL database.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Arriaga" given="Santiago"/>
+    <email>santiago@catnet.com.mx</email>
+    <description>Added Informix and Hypersonic SQL to the list of supported databases.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Higgins" given="Patrick"/>
+    <email>phiggins@transzap.com</email>
+    <description>
+        Enhancements to the javasource classes to fix support for abstract
+        methods. Some changes for Java 2 types compatibiliy.
+    </description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Sahuc" given="Sebastien"/>
+    <email>ssahuc@imediation.com</email>
+    <description>Testing for Oracle and Castor XML.</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Skolnik" given="Radovan"/>
+    <email>rskolnik@inmail.sk</email>
+    <description>
+       Testing/Feedback on mapping file usage related to Castor XML
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Stewart" given="George"/>
+    <email>georgestewartiv@yahoo.com</email>
+    <description>
+       Enhancement to give mapping loader higher priority than compiled descriptors
+    </description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Sundaranatha" given="Venkatakrishnan"/>
+    <email>ssvk@msn.com</email>
+    <description>Testing for Oracle and type conversion for Oracle JDBC driver.</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Eitan" given="Suez"/>
+    <email>eitan@uptodata.com</email>
+    <description>Responsible for uncovering bugs that no one else noticed.</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Arias" given="Luis"/>
+    <email>luis@elysia.com</email>
+    <description>XML Schema related issues</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Ozyurt" given="Burak"/>
+    <email>bozyurt@san.rr.com</email>
+    <description>Added InstantDB to the list of supported databases.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Child" given="Terry"/>
+    <email>tmchild@gmx.net</email>
+    <description>Contributed Interbase driver.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bueno" given="Leonardo"/>
+    <email>leonardo@itera.com.br</email>
+    <description>Contributed MySQL driver.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Wise" given="Nic"/>
+    <email>nicw@xerxes.co.nz</email>
+    <description>Contributed SEQUENCE key generator for Interbase.</description>
+  </contributor>
+
+  <!--
+      Company Information, so we don't have to duplicate it for
+      mulitple contributors of the same company
+  -->
+  <company id="intalio">
+    <name>Intalio, Inc.</name>
+    <url>www.intalio.com</url>
+  </company>
+
+  <company id="coda">
+    <name>CODA</name>
+    <url>www.coda.com</url>
+  </company>
+
+  <company id="apache">
+    <name>Apache Software Foundation</name>
+    <url>www.apache.org</url>
+  </company>
+
+  <company id="poet">
+    <name>Poet Software</name>
+    <url>www.poet.com</url>
+  </company>
+
+  <company id="ibis">
+    <name>Integrated Banking Information Systems</name>
+    <url></url>
+  </company>
+
+  <company id="nksystems">
+    <name>NK Systems</name>
+    <url>www.nksystems.com</url>
+  </company>
+
+  <!-- description of contributor types -->
+
+  <type name="Committer">
+    Committers are contributors who have written lots of important code,
+    sacrificing all social events, and becoming a hermit at the expense
+    of providing good tools for people they don't even know. In return for
+    their love and devotion you may bug them with questions, bug fixes,
+    patches and offer them free beer.
+  </type>
+
+  <type name="Contributor">
+    Contributors are responsible for making this a better project and
+    we all end up benefiting from the bug fixes, design changees or features
+    they contributed. Contributors tend to live a balanced life and
+    hopefully eat a healthy diet.
+  </type>
+
+  <type name="Documentor">
+    Documentors do the impossible and actually explain how to use the
+    software in spite of all the complexity introduced by the committers
+    and contributors.
+  </type>
+
+  <type name="Feedback">
+    The following have offered valuable feedback (including bug reports) that has been beneficial
+    to the development and stability.
+  </type>
+
+</contributors>
+</header>
+</body></document>

@@ -1,0 +1,16 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Java/SQL Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-mapping.dtd">
+<databases>
+  <!-- Database 'test' is using Java-SQL mapping
+       defined in database 'test-schema'
+
+       This sample uses the PostgreSQL driver -->
+  <database db-name="test">
+    <data-source class-name="postgresql.PostgresqlDataSource">
+      <params user="test" password="test" database-name="test"/>
+    </data-source>
+    <include db-name="test-schema"/>
+  </database>
+</databases>
+
+

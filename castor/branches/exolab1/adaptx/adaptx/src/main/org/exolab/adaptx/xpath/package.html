@@ -1,0 +1,66 @@
+<!-- $Id$ -->
+<html>
+  <body>
+    <h1><b>XPath API</b></h1>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date$</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:kvisco@intalio.com">Keith Visco</a></dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:arkin@intalio.com">Assaf Arkin</a></dd>
+    </dl>
+
+
+    <h2>Expressions And Results</h2>
+
+    <p>An XPath expression is compiled using the XPath parser. To obtain a new parser instance
+       use the static method {@link com.intalio.n3.xpath.XPathParser#newInstance newInstance}.
+       Once obtained, the parser can be used to create XPath expressions using the {@link
+       com.intalio.n3.xpath.XPathParser#createExpression createExpression} method. Expressions
+       are compiled and can be reused multiple times. The parser is thread-safe and can be
+       used to create multiple expressions concurrently.</p>
+
+    <p>{@link com.intalio.n3.xpath.XPathExpression} is an abstract class representing an
+       XPath expression. The primary method is {@link com.intalio.n3.xpath.XPathExpression#evaluate
+       evaluate} that is used to evaluates the expression and returns the XPath result.</p>
+
+    <p>An XPath result is represented by the abstract class {@link com.intalio.n3.xpath.XPathResult}.
+       An XPath result can be one of the following four types:
+       <ul>
+         <li>A boolean result of type {@link com.intalio.n3.xpath.XPathResult#BOOLEAN} represented
+              by an object of type {@link com.intalio.n3.xpath.BooleanResult}.</li>
+         <li>A string result of type {@link com.intalio.n3.xpath.XPathResult#STRING} represented
+             by an object of type {@link com.intalio.n3.xpath.StringResult}.</li>
+         <li>A number result of type {@link com.intalio.n3.xpath.XPathResult#NUMBER} represented
+             by an object of type {@link com.intalio.n3.xpath.NumberResult}.</li>
+         <li>A node-set result of type {@link com.intalio.n3.xpath.XPathResult#NODE_SET} represented
+             by an object of type {@link com.intalio.n3.xpath.NodeSet}.</li>
+       </ul>
+    </p>
+
+
+    <h2>XPath Context</h2>
+
+    <p>In order to evaluate an XPath expression, an XPath context is required. An XPath context
+       provides a way to manage a stock of node-sets, resolve variable and function names, and
+       return the size and position of the context. {@link com.intalio.n3.xpath.XPathContext}
+       provides a base implementation of an XPath context. This implementation is not thread-safe,
+       care must be taken not to use the same context when evaluating expressions concurrently.</p>
+
+    <p>Impelementations may wish to extend this class and provide additional facilities
+       for locating the document order of a node, or providing a function library.
+       {@link com.intalio.n3.xpath.Variables} provides variable bindings that can be used when
+       evaluating an XPath expression, and {@link com.intalio.n3.xpath.XPathFunction} can be used
+       to implement extension functions.</p>
+
+
+    <h2>XPath Node</h2>
+
+    <p>{@link com.intalio.n3.xpath.XPathNode} is an abstract class representing a node in
+       a document tree, on which XPath expressions can be evaluated. This abstract class provides
+       all the services required by XPath, and enables multiple implementations to exist.
+       It does not make use of iterators or traversals, but assumes double-linked lists are
+       used to maintain node lists.</p>
+
+
+  </body>
+</html>

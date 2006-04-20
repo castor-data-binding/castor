@@ -1,0 +1,30 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+
+<!--
+<database name="test" engine="mysql" >
+    <driver url="jdbc:mysql://localhost/castor_examples" class-name="org.gjt.mm.mysql.Driver">
+         <param name="user" value="test" />
+         <param name="password" value="test" />
+    </driver>
+  <mapping href="mapping.xml" />
+</database>
+-->
+
+<!--
+<database name="test" engine="postgresql" >
+    <driver class-name="org.postgresql.Driver" url="jdbc:postgresql://localhost/castor_examples"> 
+        <param name="user" value="test"/>
+        <param name="password" value="test" />
+    </driver>
+  <mapping href="mapping.xml" />
+</database>
+-->
+
+<database name="test" engine="postgresql" >
+    <data-source class-name="org.postgresql.jdbc2.optional.PoolingDataSource">
+        <params server-name="localhost" database-name="castor_examples" port-number="5432" user="test" password="test" />
+    </data-source>
+
+  <mapping href="mapping.xml" />
+</database>

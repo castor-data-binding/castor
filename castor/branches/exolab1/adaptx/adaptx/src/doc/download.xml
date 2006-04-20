@@ -1,0 +1,49 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://xslp.exolab.org/download.xml">
+  <body>
+    <title>Download</title>
+    <header>
+      <ul>For FTP access use <url>ftp://ftp.exolab.org/pub</url>.
+        <li>The XSLP JAR, docs, DTDs, command line tools and examples.<br/>
+            <url>http://ftp.exolab.org/ftp/jars/xslp-$VERSION$.jar</url>
+            <br/>&#xA0;</li>
+        <li>Full documentation including all JavaDocs and specs (big)<br/>
+            <url>http://ftp.exolab.org/ftp/doc/xslp-$VERSION$-doc.tgz</url><br/>
+            <url>http://ftp.exolab.org/ftp/doc/xslp-$VERSION$-doc.zip</url>
+            <br/>&#xA0;</li>
+        <li>Full CVS snapshot: all sources, docs, libraries (big)<br/>
+            <url>http://ftp.exolab.org/ftp/src/xslp-$VERSION$-src.tgz</url><br/>
+            <url>http://ftp.exolab.org/ftp/src/xslp-$VERSION$-src.zip</url>
+            <br/>&#xA0;</li>
+      </ul>
+
+      <p>Notes:</p>
+
+      <p><small>The tarball and zips includes all the JARs required by XSL:P, the
+         docs and API JavaDocs. To fully install XSL:P, simply extract all the JARs
+         into your classpath.</small></p>
+
+      <p><small>The CVS snapshot includes additional JARs required to build XSL:P.
+         It is self sufficient and does not require any external components, except
+         for javac.</small></p>
+
+      <p><small>The documentation set includes JavaDocs for the API and JavaDocs
+         for the full source code, including class usage. A small documentation
+         set without the full source JavaDocs is available in the tarball and
+         zips.</small></p>
+
+      <p><small>All the JARs included with XSL:P and used for building XSL:P
+         are available for distribution free of charge, subject to the respective
+         license agreements.</small></p>
+
+      <p><small>All implementation JARs (i.e. non APIs) are available under an
+         open source license and available from our FTP server.
+         Open source licenses in use include Apache (ASF), Exolab, Mozilla (MPL),
+         and public domain. All licenses are fully compatible with each other.</small></p>
+
+    </header>
+  </body>
+</document>
+
+
+

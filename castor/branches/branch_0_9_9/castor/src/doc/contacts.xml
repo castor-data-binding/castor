@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/contacts.xml">
+  <body>
+    <section title="How to contact us">
+
+      <p>
+         The best way to get in touch with us is via the dev and user lists.
+         For more information, please see <a href="lists.xml">Mailing Lists</a>. You may also
+         get in touch with various <a href="contributors.xml">contributors and committers</a>.
+      </p>
+
+    </section>
+  </body>
+</document>

@@ -1,0 +1,67 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/jdo-faq.html">
+  <body>
+    <title>Castor JDO FAQ</title>
+
+    <section title="JSR-000012 and Castor JDO">
+	<p><b>Is Castor JDO comply the SUN JSR-000012 specification?</b></p>
+
+	<p>No. Castor JDO doesn't comply with the JDO specification.</p>
+
+	<p>Although Castor JDO carries very similar goal as JSR's JDO, it have been developed Castor independently from JSR. In fact, Castor was started before the JSR specification, although at that time the project had not yet named.</p>
+
+	<p>Although it is not absolutely impossible to hammer Castor JDO into JSR's JDO specification, Between Castor and JSR, there are several major technical and design differences which make the merging unfavorable.</p>
+
+	<p>Castor is more RDBMS centric. Castor has the concept of object Lock. Each object loaded from the underneath database will be locked. Developer can specify and must aware the timeout of lock. Exception will be thrown if dead lock is detected and developer must handler that (normally buy abort the transaction and retry). But, JSR hide the lock detail and developer must avoid lock conflict and dead lock in some other way.</p>
+
+	<p>Castor caches and locks one copy of each loaded (or created) object into CacheEngine for all transaction; it acts as a proxy of the underneath database. The concept is essentially different in JSR.</p>
+
+	<p>Other differences include key generators, long transaction support and OQL query. Those features can not be found in JSR but are very important for O/R mapping.</p>
+    </section>
+
+    <section title="Technical questions">
+        <p><b>I am using Oracle, I got ObjectModifiedException during commit. But, Castor is the only program access the database. Why?</b></p>
+
+	<p>The problem happens when some fields of a class contains null value. It dues to a bugs in Oracle's JDBC driver's setNull method. We're developing workaround to modify the SQLStatement to work around the problem. However, in the mean time, please set the potential null field to dirty="ignore" in the mapping file.</p>
+	
+	<p><b>How do I declare dependent object in Castor 0.8.x?</b></p>
+
+	<p></p>
+
+	<p>What featues are supported in Castor's OQL?</p>
+
+	<p>Due to some accident, we lost the xml source of the OQL document. Before we recover it, please click 
+	<a href="http://www.karpenstein.com/nissim/design-oql-parser.html">here</a> for the document</p>
+
+
+<field name="...." type="....">
+   <sql name="...." dirty="ignore"/>
+</field>
+	</p>
+     </section>
+     <section title="Featues requests">
+        <p><b>When will castor support multiple columns primary keys, lazy loading, dependent/related relationship and many to many relationship?<b></p>
+
+	<p>Those features are implemented and available in development branch of the cvs.<p>
+	<p><code>
+	$ cvs -d :pserver:anoncvs@castor.exolab.org:/cvs/castor login
+	password: anoncvs
+	$ cvs -d :pserver:anoncvs@castor.exolab.org:/cvs/castor checkout -r castorone castor
+	</code>
+	</p>
+	<p>Please type "build doc" in castor directory and see the document under build\doc\castor-one.html for featues and limitations</p>
+
+     </section>
+
+    <section title="Working with open source databases">
+	<p><b>Does Castor support PosgreSQL?</b></p>
+               
+	<p>Outter join.........[Oleg, could you answer this one]</p>
+
+	<p><b>Does Castor support MySQL</b></p>
+	
+	<p>mySQL beta 4........[Oleg, could you answer this one, too]</p>
+    </section>
+
+  </body>
+</document>

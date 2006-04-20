@@ -1,0 +1,24 @@
+<?xml version='1.0' encoding='UTF-8' ?>
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+           targetNamespace="http://www.castor.org/tests/AnyAttribute/" >
+           
+  <xsd:element name="Attribute" type="AttributeType"/> 
+  <xsd:complexType name="AttributeType"> 
+      <xsd:sequence> 
+          <xsd:element ref="AttributeValue" maxOccurs="unbounded"/> 
+      </xsd:sequence> 
+  </xsd:complexType> 
+  
+  <xsd:element name="AttributeValue" type="xsd:anyType"/> 
+        
+  <xsd:complexType name="TYPE_COMPLEX_EMPTY_1">
+	   <xsd:complexContent>
+		    <xsd:restriction base="xsd:anyType">
+			     <xsd:attribute name="currency" type="xsd:string"/>
+				 <xsd:attribute name="value" type="xsd:decimal"/>
+			</xsd:restriction>
+	    </xsd:complexContent>
+   </xsd:complexType>
+  
+</xsd:schema>

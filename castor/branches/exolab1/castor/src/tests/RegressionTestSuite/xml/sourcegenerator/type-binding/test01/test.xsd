@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<schema
+        targetNamespace="urn:test:namespace"
+        xmlns="http://www.w3.org/2001/XMLSchema"
+        elementFormDefault="qualified"
+        attributeFormDefault="unqualified">
+
+        <complexType name="Test1Type">
+                <sequence>
+                        <element name="Test2">
+                                <complexType>
+                                        <sequence>
+                                                <element name="Test3" type="string"/>
+                                        </sequence>
+                                </complexType>
+                        </element>
+                </sequence>
+        </complexType>
+</schema>

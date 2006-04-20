@@ -1,0 +1,66 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Java/SQL Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-mapping.dtd">
+<databases>
+<database db-name="test-schema">
+<mapping>
+
+  <!--  Mapping for ProductGroup  -->
+  <object type="myapp.ProductGroup"
+          table="prod_group">
+    <description>Product group</description>
+    <field name="id" sql-name="id" />
+    <field name="name" sql-name="name" />
+    <primary-key type="java.lang.Integer">
+      <field-ref name="id"/>
+    </primary-key>
+  </object>
+
+  <!--  Mapping for Product  -->
+  <object type="myapp.Product"
+          table="prod">
+    <description>Product definition</description>
+    <field name="id" sql-name="id"/>
+    <field name="name" sql-name="name" />
+    <field name="price" sql-name="price" />
+    <primary-key type="java.lang.Integer">
+      <field-ref name="id"/>
+    </primary-key>
+
+    <!--  Product has reference to ProductGroup,
+          many products may reference same group  -->
+    <relation name="group" type="many-one">
+      <object-ref type="myapp.ProductGroup"/>
+      <foreign-key>
+        <sql-column sql-name="group_id"/>
+      </foreign-key>
+    </relation>
+
+    <!-- Product has reference to ProductInventory
+         one inventory per product  -->
+    <relation name="inventory" type="one-one">
+      <object type="myapp.ProductInventory"
+              table="prod_inv">
+        <description>Inventory for product</description>
+        <field name="quantity" sql-name="quant" />
+        <field name="product" type="myapp.Product" sql-name="prod_id"/>
+        <primary-key type="myapp.Product">
+	  <field-ref name="product" />
+        </primary-key>
+      </object>
+      <foreign-key>
+        <sql-column sql-name="id" />
+      </foreign-key>
+    </relation>
+
+  </object>
+
+  <!--  Mapping for Computer, extending Product  -->
+  <object type="myapp.Computer" extends="myapp.Product"
+          table="computer">
+    <description>Computer definition, extends generic product</description>
+    <field name="cpu" sql-name="cpu"/>
+  </object>
+
+</mapping>
+</database>
+</databases>

@@ -1,0 +1,29 @@
+<?xml version='1.0'?>
+<!--Example of a testDescriptor-->
+<TestDescriptor>
+
+	<Name>Inheritance Regression testing#1</Name>
+    <Author>Arnaud Blandin</Author>
+	<Comment>
+        Given the following situation: a class A maps to 
+        the xml-name "tagA", a class B EXTENDS the Class A.
+        When setting in A an object B, Castor should put the tag name
+        to "tagA" and output the relevant 'xsi-type' information.
+        (No auto-naming used)
+    </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object>A</Root_Object>
+        
+
+		<UnitTestCase>
+            <Name>Simple Test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+		</UnitTestCase>
+
+	</MarshallingTest>
+</TestDescriptor>

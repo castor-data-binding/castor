@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<foo xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:type="java:org.acme.Foo">
+   <content>abc &amp; xyz</content>
+</foo>

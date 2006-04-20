@@ -1,0 +1,168 @@
+<project name="Castor" default="main" basedir=".">
+
+  <property name="source" value="src" />
+  <property name="etc" value="src/etc" />
+  <property name="build" value="build" />
+  <property name="classes" value="${build}/classes" />
+  <property name="dist" value="dist" />
+  <property name="lib" value="lib" />
+  <property name="doc" value="doc" />
+
+  <property name="classpath" value="${classpath}:${classes}" />
+  <property name="build.compiler" file="classic" />
+  <property file="${source}/VERSION" />
+
+  <property name="jar.name" value="castor-${version}"/>
+
+
+  <target name="targets">
+    <echo message="ANT build for Castor ${version}\n
+\nThe following targets are available:\n
+\n  targets  Lists the build targets
+\n  clean    Cleans the build and distribution directories
+\n  all      Cleans and builds all the packages and examples
+\n  release  Cleans and builds all the release packages
+\n           (JAR, source, doc, tarball) in the dist directory
+\n  main     Builds the main packages (including debugging info)
+\n  examples Builds the example packages (including debugging info)
+\n  jar      Builds the binary JAR in the dist directory
+\n  javadoc  Builds the API JavaDocs and JAR in the dist directory
+\n  source   Builds the source tarball in the dist directory
+\n  tarball  Builds the binary distribution (Castor and all
+\n           dependent libraries) in the dist directory\n" />
+  </target>
+
+  <!-- Prepare target directories -->
+  <target name="prepare">
+    <mkdir dir="${build}"/>
+    <mkdir dir="${classes}"/>
+    <mkdir dir="${dist}"/>
+  </target>
+
+  <!-- Kill all the directories created in prepare -->
+  <target name="clean">
+    <deltree dir="${build}"/>
+    <deltree dir="${dist}"/>
+  </target>
+
+  <!-- Same as core, but also cleans -->
+  <target name="all" depends="clean,main,examples"/>
+
+  <target name="release" depends="jar,tarball,source,javadoc">
+  </target>
+
+
+  <!-- Build all the sources with debug and deprecation -->
+  <target name="main" depends="prepare">
+    <javac srcdir="${source}/main" destdir="${classes}"
+           classpath="${classpath}" debug="on" deprecation="${deprecation}" />
+  </target>
+
+  <!-- Same as main, but no debug and no deprecation -->
+  <target name="all.release" depends="prepare">
+    <javac srcdir="${source}/main" destdir="${classes}"
+           classpath="${classpath}" debug="off" deprecation="off"/>
+  </target>
+
+  
+  <target name="jar" depends="clean,all.release,examples">
+    <deltree dir="${dist}/${jar.name}.jar" />
+    <deltree dir="${dist}/${jar.name}-example.jar" />
+
+    <copyfile src="${source}/etc/MANIFEST.MF" dest="${classes}/MANIFEST.MF" />
+    <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
+    <copyfile src="${source}/etc/LICENSE" dest="${classes}/LICENSE" />
+    <copyfile src="${source}/etc/README" dest="${classes}/README" />
+    <copyfile src="${source}/etc/CHANGELOG" dest="${classes}/CHANGELOG" />
+
+    <jar jarfile="${dist}/${jar.name}.jar" basedir="${classes}"
+         manifest="${classes}/MANIFEST.MF" items="LICENSE,README,CHANGELOG,org" />
+    <jar jarfile="${dist}/${jar.name}-example.jar" basedir="${build}/examples"
+         items="castor.properties,dsml,jdo,xml" />
+
+    <java class="Install" args="${dist}/${jar.name}.jar -n" />
+  </target>
+
+
+  <target name="install">
+    <java class="Install" args="${dist}/${jar.name}.jar -i -v" />
+  </target>
+
+
+  <target name="javadoc" depends="prepare">
+    <mkdir dir="${build}/javadoc" />
+    <exec command="javadoc -sourcepath ${source}/main -d ${build}/javadoc
+                           -doctitle Castor -public -noindex -author
+                           org.exolab.castor.xml
+			   org.exolab.castor.jdo org.exolab.castor.jdo.desc
+			   org.exolab.castor.jdo.engine
+			   org.exolab.castor.dsml org.exolab.castor.dsml.jndi
+			   org.exolab.castor.dsml.mozilla org.exolab.castor.dsml.tools
+			   org.exolab.castor.util" />
+
+    <jar jarfile="${dist}/${jar.name}-doc.jar" basedir="${build}"
+         items="javadoc" />
+  </target>
+
+
+  <target name="examples" depends="prepare">
+    <mkdir dir="${build}/examples" />
+    <javac srcdir="${source}/examples" destdir="${build}/examples"
+           classpath="${classpath}" debug="on" deprecation="${deprecation}"/>
+  </target>
+
+
+  <!-- Targets for individual packages -->
+  <target name="castor.xml" depends="prepare">
+    <javac srcdir="${source}/main/org/exolab/xml" destdir="${classes}/org/exolab/txm"
+           classpath="${classpath}" debug="on"/>
+  </target>
+  <target name="castor.dsml" depends="prepare">
+    <javac srcdir="${source}/main/org/exolab/castor/dsml"
+           destdir="${class}/org/exolab/castor/dsml"
+           classpath="${classpath}" debug="on"/>
+  </target>
+
+
+  <target name="source" depends="prepare">
+    <deltree dir="${dist}/castor-${version}-src.tar.gz" />
+    <exec command="tar --create --exclude-from ${source}/etc/exclude
+                   build.sh test.sh ${source} ${lib}"
+          output="${dist}/castor-${version}-src.tar" />
+    <exec command="gzip ${dist}/castor-${version}-src.tar" />
+  </target>
+
+
+  <target name="tarball" depends="prepare">
+    <property name="bin" value="${build}/castor-${version}" />
+    <deltree  dir="${dist}/castor-${version}.tar.gz" />
+    <deltree  dir="${bin}" />
+    <mkdir dir="${bin}" />
+    <copyfile src="${etc}/README"
+              dest="${bin}/README" />
+    <copyfile src="${etc}/LICENSE"
+              dest="${bin}/LICENSE" />
+    <copyfile src="${etc}/CHANGELOG"
+              dest="${bin}/CHANGELOG" />
+    <copyfile src="${dist}/castor-${version}.jar"
+              dest="${bin}/castor-${version}.jar" />
+    <copyfile src="${lib}/jdbc-se2.0.jar"
+              dest="${bin}/jdbc-se2.0.jar" />
+    <copyfile src="${lib}/jndi.jar"
+              dest="${bin}/jndi.jar" />
+    <copyfile src="${lib}/ldapjdk.jar"
+              dest="${bin}/ldapjdk.jar" />
+    <copyfile src="${lib}/ldapsp.jar"
+              dest="${bin}/ldapsp.jar" />
+    <copyfile src="${lib}/odmg-3.0.jar"
+              dest="${bin}/odmg-3.0.jar" />
+    <copyfile src="${lib}/xerces.jar"
+              dest="${bin}/xerces.jar" />
+    <copydir  src="${source}/schema" dest="${bin}/schema" />
+    <exec command="tar --create --directory ${build} castor-${version}"
+          output="${dist}/castor-${version}.tar" />
+    <exec command="gzip ${dist}/castor-${version}.tar" />
+  </target>
+
+
+</project>

@@ -1,0 +1,4 @@
+<dsml>
+   <search base="dc=exoffice,dc=com" scope="subtree" filter="(objectclass=person)">
+   </search>
+</dsml>

@@ -1,0 +1,14 @@
+<?xml version='1.0'?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2000/10/XMLSchema"
+        targetNamespace="http://www.castor.org/Include"
+        elementFormDefault="qualified">
+    
+    <xsd:element name="elementC">
+        <xsd:simpleType>
+          <xsd:restriction base="xsd:integer">
+          	<xsd:maxInclusive value="1000"/>
+          </xsd:restriction>
+        </xsd:simpleType>
+    </xsd:element>
+
+</xsd:schema>

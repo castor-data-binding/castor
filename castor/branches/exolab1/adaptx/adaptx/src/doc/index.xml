@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<document url="http://xslp.exolab.org/index.xml">
+  <body>
+    <title>The XSL:P Project</title>
+
+    <header>
+      <p> XSL:P is a free, open-source <a href="http://www.w3.org/style/xsl">XSLT </a> processor written in Java.
+          Currently the processor implements the <a href="http://www.w3.org/TR/1999/REC-xslt-19991116">XSLT 1.0 Recommendation (19991116)</a> .
+
+      </p>
+	<p>
+          The goal is to not only to create a free XSL processor, but make it fast and reliable.
+	    We plan on doing that with the help of those using the processor. We encourage people to download,
+          use, and enhance the processor. If you any comments, find a bug, or need a feature implemented,
+          that is currently not, please send an e-mail  to <a href="mailto:kvisco@intalio.com">Keith Visco </a>.
+          We will prioritize the implementation of features and enhancements based on feedback.
+          If you download the processor and make changes to it, please send them along so that They can be reviewed
+          and incorporated.
+      </p>
+
+      <p><b>$RELEASE_DATE$</b> Version $VERSION$ is now <a href="download.xml">available for download</a>.</p>
+
+      <p><b>Note:</b> Presently we are hosting two mailing lists. Traffic is not high, so if
+         you are interested in keeping up to date with new releases, please <a href="lists.xml">subscribe
+         to this list</a>.</p>
+
+    </header>
+
+
+  <section title="Features">
+
+      <p>Short feature list:
+        <ul>
+          <li>Includes support for the XSLT 1.0 recommendation </li>
+          <li>Improved, faster design </li>
+          <li>Includes SAX 1.0 support (2.0 support on the way)  </li>
+        </ul>
+        See the <a href="status.xml">status page</a> for more information.</p>
+
+    </section>
+
+
+
+    <section title="About the XSL:P Project">
+
+
+      <p>Keith Visco got the inspiration for the processor from Sean Russell's Docproc back in mid 1998.
+         Without Docproc he probably never would have started using XSL at such an early stage.
+         He started making lots of modifications to it, such as adding ECMAScript support using FESI
+         (Free ECMAScript Interpreter), changing the XML parser to IBM's XML for Java, instead of Textuality's Lark,
+         so that he could make use of the DOM. He fixed bugs, added functionality, and he did my best at optimizing!
+         All in all, he ended up re-writing the majority of it. Once the XSL Working Draft 1.0 19980818 was released, he
+         decided to start fresh, so he re-wrote the processor.
+
+         He has re-implemented many portions of XSL:P as the XSL Working Group has been releasing
+         the new versions of the XSL Working Draft.
+      </p>
+
+      <p>For <a href="contributors.xml">a full list of contributors</a>.</p>
+
+      <p>Most of the code released through the XSL:P Project has been developed by
+         <a href="mailto:kvisco@intalio.com">Keith Visco</a>.
+         Contributors are welcome to join this project. Please join us on the
+         <a href="lists.xml">mailing list</a>.</p>
+    </section>
+
+  </body>
+</document>

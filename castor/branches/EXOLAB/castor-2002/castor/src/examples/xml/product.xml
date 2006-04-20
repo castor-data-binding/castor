@@ -1,0 +1,5 @@
+<product id="4" name="new product" price="55">
+  <product-group id="3" name="new group"/>
+  <product-inventory quantity="50"/>
+</product>
+

@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<TestPrimitives xmlns="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/Primitives"
+                booleanTestAtt="false"   intTestAtt="23" integerTestAtt="12"
+                floatTestAtt="3.141526" 
+                doubleTestAtt="1.171077"
+                longTestAtt="23121311"
+                shortTestAtt="2">
+    <booleanTest>true</booleanTest>
+    <floatTest>1234567899876543210</floatTest>
+    <doubleTest>0.6385682166079459</doubleTest>
+    <intTest>12</intTest>
+    <integerTest>325325</integerTest>
+    <longTest>98998989898</longTest>
+    <shortTest>34</shortTest>
+</TestPrimitives>
