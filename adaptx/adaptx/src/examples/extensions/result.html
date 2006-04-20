@@ -1,0 +1,29 @@
+<!DOCTYPE HTML PUBLIC "-//W3C//DTD HTML 4.0//EN"
+                      "http://www.w3.org/TR/WD-html-in-xml/DTD/xhtml1-strict.dtd">
+<HTML>
+    <HEAD>
+        <TITLE>Extension Function Example</TITLE>
+    </HEAD>
+    <BODY xmlns:ext="http://www.adaptx.org/functions/Samples">
+        This is a simple example which shows how to use extension
+        functions.       I've created an extension function (see
+            <a
+        href="SampleFunctionResolver.java">SampleFunctionResolver.java</a>)
+        which contains the implementation for a function called
+        &quot;result-type&quot;.       This function returns, as a
+        String, the type of the parameter which is       passed as the
+        argument to the function.       <P>
+            <B>Tips on usage:</B>
+            <UL>
+                <LI>To use extension functions you make sure you declare
+                    the namespace of the extension functions
+                <LI>Make sure you add your FunctionResolver to the XSLTProcessor
+            </UL>
+        </P>
+        <HR>
+        <B>Results:</B>
+        <P></P>       The result type of test1 is:       string<P></P>
+        The result type of test2 is:       boolean<P></P>       The
+        result type of test3 is:       number<P></P>
+    </BODY>
+</HTML>
