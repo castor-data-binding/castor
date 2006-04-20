@@ -1,0 +1,109 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/howto/how-to-use-castor-in-a-j2ee-cluster.xml">
+  <properties>
+    <title>How to use Castor in a J2EE cluster</title>
+    <abstract>
+       General information about using Castor in a J2EE cluster
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to use Castor in a J2EE cluster</title>
+    <header>
+    </header>
+
+    <section title="Introduction">
+
+       <p>With release 0.9.9, several cache providers have been added that are distributed caches 
+       per se or can be configured to operate in such a mode. This effectively allows Castor JDO 
+       to be used in a clustered J2EE (multi-JVM) environment, where Castor JDO runs on each of 
+       the cluster instances, and where cache state is automatically snychronized between these 
+       instances.</p>
+       
+       <p>In such an environment, Castor JDO will make use of the underlying cache provider 
+       to replicate/distribute the content of a specific cache between the various 
+       JDOManager instances. Through the distribution mechanism of the cache provider, a client
+       of a Castor JDO instance on one JVM will see any updates made to domain objects performed 
+       against any other JVM/JDO instance.</p>
+        
+    </section>
+
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to use Castor JDO in a J2EE cluster.</p>
+        
+        <p>The example given describes the use of the <i>Coherence</i> cache provider to enable
+        distributed caching.</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>You should have a valid class mapping for a Java class, similar to the following 
+        one:</p>
+
+                <code-panel>
+&lt;mapping&gt;
+    &lt;class name="com.xyz.MyOtherObject" identity="id"&gt;
+        &lt;field name="id" type="integer"&gt;
+               ...
+        &lt;/field&gt;
+        &lt;field name="description" type="string"&gt;
+               ...
+        &lt;/field&gt;
+    &lt;/class&gt;
+&lt;/mapping&gt;
+                </code-panel>
+            
+    </section>
+
+    <section title="Steps">
+
+        <p>Here is how to proceed.</p>
+
+        <section title="Add &lt;cache-type&gt; element to class mapping">
+
+            <p>Add a &lt;cache-type&gt; element as shown below, specifying the cache provider to 
+            use in the 'type' attribute.</p>
+
+                <code-panel>
+&lt;mapping&gt;
+    &lt;class name="com.xyz.MyOtherObject" identity="id"&gt;
+        <font color="red">&lt;cache-type type="coherence"/&gt;</font>
+        &lt;field name="id" type="integer"&gt;
+               ...
+        &lt;/field&gt;
+        &lt;field name="description" type="string"&gt;
+               ...
+        &lt;/field&gt;
+    &lt;/class&gt;
+&lt;/mapping&gt;
+                </code-panel>
+
+            <p>This instructs Castor JDO to use the 'coherence' cache provider for objects of type
+            <tt>com.xyz.MyOtherObject</tt>. It is the cache provider that is responsible to distribute
+            any changes to the cache state to all other Castor JDO instances within the same cluster.</p>
+
+        </section>
+        
+        <section title="Add Coherence JARs to CLASSPATH">
+            
+            <p>Add the Coherence JARs to the class path of your e.g. web application by 
+            putting the JARs into the WEB-INF/lib folder of your web application.</p>
+        </section>
+
+    </section>
+    
+    <section title="References">
+
+        <ul>
+            <li><a href="castor-one.html">Caching</a></li>
+            <li><a href="castor-one.html">Caching in clustered environments</a></li>
+            <li><a href="http://www.tangosol.com/coherence.jsp">Tangosol Coherence</a></li>
+        </ul>
+        
+    </section>
+
+
+    </body>
+</document>

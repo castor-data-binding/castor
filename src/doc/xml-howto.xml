@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/xml-howto.xml">
+  <body>
+    <section title="Castor XML - HOW TO's">
+
+      <section title="Introduction">
+
+        <p>This is a collection of HOW-TOs. The Castor project is actively seeking 
+           additional HOW-To contributors to expand this collection. For information 
+           on how to do that, please see 'How to write a How-to'.</p>
+        
+      </section>
+	
+		<section title="Documentation">
+		
+		    <ul>
+		        <li><font color="lightgrey">How to Author a How-To</font></li>
+		        <li><font color="lightgrey">How to Author an FAQ</font></li>
+		        <li><font color="lightgrey">How to Author a Code Snippet</font></li>
+		        <li><font color="lightgrey">How to Author Core Documentation</font></li>
+		    </ul>
+		    
+		</section>
+		
+		
+		<section title="Contribution">
+	        <ul>
+                <li><a href="how-to-submit-an-xml-bug.html">How to submit an XML-specific bug report</a></li>
+	            <li><a href="how-to-prepare-a-patch.html">How to prepare a patch</a></li>
+	            <li><font color="lightgrey">How to Contribute a Patch via Jira</font></li>
+                <li><a href="how-to-run-xml-ctf-suite.html">How to run Castor XML's test suite</a></li>
+	        </ul>
+		</section>
+        
+        <section title="Mapping">
+            <ul>
+                <li><a href="how-to-map-a-collection.html">How to map a collection of elements</a></li>
+                <li><a href="how-to-map-a-hashtable.html">How to map a map/hashtable of elements</a></li>
+                <li><a href="how-to-unmarshal-raw-xml.html">How to Unmarshal raw XML segments into arbitrary types</a></li>
+                <li><a href="how-to-use-references-in-xml.html">How to use references in XML and Castor</a></li>
+                <li><a href="how-to-wrap-a-collection-with-a-wrapper-element.html">How to wrap a collection with a wrapper element</a></li>
+            </ul>
+        </section>
+        
+        <section title="Validation">
+            <ul>
+                <li><a href="how-to-enable-xml-validation.html">How to use XML validation</a></li>
+            </ul>
+        </section>
+
+        <section title="Source generation">
+            <ul>
+                <li><a href="how-to-use-a-binding-file-with-source-generation.html">How to use a binding file with source generation</a></li>
+            </ul>
+        </section>
+        
+        <section title="Others">
+            <ul>
+                <li><a href="how-to-implement-custom-serializer.html">How to implement a custom serializer</a></li>
+                <li><a href="how-to-fetch-dtds-and-schemas-from-jars.html">How to fetch DTDs and XML Schemas from JAR files</a></li>
+            </ul>
+        </section>
+        
+	 </section>
+  </body>
+</document>

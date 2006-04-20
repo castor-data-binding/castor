@@ -1,0 +1,26 @@
+CASTOR
+======
+
+Castor integrates Java objects, XML documents and SQL relational
+databases in a unified model that allows information to be exchanged, 
+persisted and manipulated in a variety of ways.
+
+Castor - simplifying the exchange and persistence of information!
+
+This release of Castor includes the following persistence/
+exchange modules:
+
+Castor XML  -- Java data binding / object to XML document 
+               mapping. Source Code Generation. 
+
+Castor JDO  -- Java object to SQL relational database
+               (aka object/ relational) mapping
+
+Note: There are individuals who are working on reviving
+the DSML module and hopefully it'll be back in a future
+release.
+
+More information is available at http://castor.codehaus.org
+
+
+

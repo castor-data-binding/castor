@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/jdo-caching.xml">
+  <body>
+    <title>Caching</title>
+
+    <header>
+      <p>Reference: <api package="org.castor.cache">API documentation</api></p>
+    </header>
+
+    <section title="News">
+       <p><b>Release 0.9.6</b>:<br/>
+          <ul>
+             <li>Added information about inquiring whether objects are cached (or not) to the 
+                 <a href="#CacheManager---monitoring-and-clearing-caches">CacheManager</a> section.</li>
+             <li>Added a section about (selectively) expiring caches, using the CacheManager interface.</li>
+          </ul>
+       </p>
+    </section>
+
+    <section title="Introduction">
+    
+       <p>As explained in <api package="org.exolab.castor.jdo.persist">API docs for the persists package</api>,
+          <api class="org.exolab.castor.persist.LockEngine">LockEngine</api> implements 
+          a persistence engine that caches objects in memory for performance reasons and thus 
+          eliminates the number of operations against the persistence storage.</p>
+    
+       <p>The main component of this package is the interface 
+          <api class="org.castor.cache.Cache">Cache</api>, which declares 
+          the external functionality of a performance cache. Existing (and future) cache implementations
+          have to implement this interface, which is closely modelled after java.util.Map.</p>
+
+    </section>
+    
+    <section title="Configuration">
+    
+       <p>Castor (as of release 0.9.6) allows for addition of user-defined cache implementations.</p>
+
+       <p>By default, the file <i>castor.properties</i> includes a section as follows:</p>    
+
+       <code-panel>
+          <code>
+# 
+# Cache implementations
+# 
+org.castor.cache.Factories=\
+  org.castor.cache.simple.NoCacheFactory,\
+  org.castor.cache.simple.TimeLimitedFactory,\
+  org.castor.cache.simple.CountLimitedFactory,\
+  org.castor.cache.simple.UnlimitedFactory,\
+  org.castor.cache.distributed.FKCacheFactory,\
+  org.castor.cache.distributed.JcsCacheFactory,\
+  org.castor.cache.distributed.JCacheFactory,\
+  org.castor.cache.distributed.CoherenceCacheFactory,\
+  org.castor.cache.distributed.OsCacheFactory,\
+  org.castor.cache.hashbelt.FIFOHashbeltFactory,\
+  org.castor.cache.hashbelt.LRUHashbeltFactory
+          </code>
+       </code-panel>
+
+       <p>To add your own performance cache implementation, please append the fully-qualified
+          class name to this list as shown here:</p>
+       
+       <code-panel>
+          <code>
+# 
+# Cache implementations
+# 
+org.castor.cache.Factories=\
+  org.castor.cache.simple.NoCacheFactory,\
+  org.castor.cache.simple.TimeLimitedFactory,\
+  org.castor.cache.simple.CountLimitedFactory,\
+  org.castor.cache.simple.UnlimitedFactory,\
+  org.castor.cache.distributed.FKCacheFactory,\
+  org.castor.cache.distributed.JcsCacheFactory,\
+  org.castor.cache.distributed.JCacheFactory,\
+  org.castor.cache.distributed.CoherenceCacheFactory,\
+  org.castor.cache.distributed.OsCacheFactory,\
+  org.castor.cache.hashbelt.FIFOHashbeltFactory,\
+  org.castor.cache.hashbelt.LRUHashbeltFactory,\
+  <b>org.whatever.somewhere.nevermind.CustomCache</b>
+          </code>
+       </code-panel>
+       
+       <p>In addition, you will have to provide the implementations of 
+          <api class="org.castor.cache.Cache">Cache</api> and 
+          <api class="org.castor.cache.CacheFactory">CacheFactory</api>
+          for your new cache instance.</p>
+          
+       <section title="CacheFactory implementation">
+          
+          <p>For this, please add an implementation 
+             of <api class="org.castor.cache.CacheFactory">CacheFactory</api> and 
+             make sure that you provide valid values for the two properties <i>name</i> and 
+             <i>className</i>.</p>    
+       
+          <p>To assist users in this task, a 
+             <api class="org.castor.cache.AbstractCacheFactory">AbstractCacheFactory</api> 
+             class has been supplied, which users should derive their custom 
+             <api class="org.castor.cache.CacheFactory">CacheFactory</api> instances 
+             from, if they wish so. Please consult existing 
+             <api class="org.castor.cache.CacheFactory">CacheFactory</api> implementations 
+             such as <api class="org.castor.cache.simple.TimeLimitedFactory">TimeLimitedFactory</api>} or 
+             <api class="org.castor.cache.simple.CountLimitedFactory">CountLimitedFactory</api> 
+             for code samples.</p>    
+
+          <code-panel>
+             <code>
+/**
+ * My own cache factory implementation
+ */ 
+ public class <b>CustomCacheFactory</b> extends <b>AbstractCacheFactory</b> {
+ 
+    /**
+     * The name of the factory
+     */
+    <b>private static final String NAME = "custom"</b>;
+
+    /**
+     * Full class name of the underlying cache implementation.
+     */
+    <b>private static final String CLASS_NAME = "my.company.project.CustomCache"</b>; 
+    
+    /**
+     * Returns the short alias for this factory instance.
+     * @return The short alias name. 
+     */
+    <b>public String getName()</b> {
+        return NAME;
+    }
+    
+    /**
+     * Returns the full class name of the underlying cache implementation.
+     * @return The full cache class name. 
+     */
+    <b>public String getCacheClassName()</b> {
+        return CLASS_NAME;   
+    }
+    
+ }
+             </code>
+          </code-panel>
+                 
+       </section>
+       
+       <section title="Cache implementation">
+
+          <p>For this, please create an implementation 
+             of <api class="org.exolab.castor.persist.cache.Cache">Cache</api>.</p>    
+       
+          <p>To assist users in this task, a 
+             <api class="org.castor.cache.AbstractBaseCache">AbstractBaseCache</api> 
+             class has been supplied, which users should derive their custom 
+             <api class="org.castor.cache.Cache">Cache</api> instances 
+             from, if they wish so. Please consult existing 
+             <api class="org.castor.cache.Cache">Cache</api> implementations 
+             such as <api class="org.castor.cache.simple.TimeLimited">TimeLimited</api>} or 
+             <api class="org.castor.cache.simple.CountLimited">CountLimited</api> 
+             for code samples.</p>
+          <code-panel>
+             <code>
+/**
+ * My own cache implementation
+ */ 
+ public class <b>CustomCache</b> extends <b>AbstractBaseCache</b> {
+ 
+    ...
+    
+ }
+             </code>
+          </code-panel>
+       </section>
+
+   </section>
+   
+   <section title="CacheManager - monitoring and clearing caches">
+   
+	  <p>Sometimes it is necessary to interact with Castor's performance caches to e.g.  
+	     (selectively) clear a Castor performance cache of its content, or inquire about whether 
+	     a particular object instance (as identified by its identity) is cached already.</p>
+	     
+	  <p>For this purpose a <api class="org.exolab.castor.jdo.CacheManager">CacheManager</api> can 
+	     be obtained from a <api class="org.exolab.castor.jdo.Database">Database</api> instance by 
+	     issuing the following code:</p>
+	  
+	  <code-panel>
+	     <code>
+JDO jdo = ....;
+Database db = jdo.getDatabase();
+CacheManager manager = ((DatabaseImpl) db.getCacheManager();
+	     </code>
+	  </code-panel>
+	
+	  <p>This instance can subsequently be used to selectively clear the Castor performance 
+	     cache using one of the following methods:</p>
+	     
+	  <p><ul>
+	        <li><api class="org.exolab.castor.jdo.CacheManager">expireCache()</api></li>
+	        <li><api class="org.exolab.castor.jdo.CacheManager">expireCache(Class,Object)</api></li>
+	        <li><api class="org.exolab.castor.jdo.CacheManager">expireCache(Class,Object[])</api></li>
+	        <li><api class="org.exolab.castor.jdo.CacheManager">expireCache(Class[])</api></li>
+	     </ul></p>
+	     
+	  <p>To inquire whether an object has already been cached, please use the following method:</p>
+
+	  <p><ul>
+	        <li><api class="org.exolab.castor.jdo.CacheManager">isCached (Class, Object);</api></li>
+	     </ul></p>
+	     
+	  <p>Please note that once you have closed the Database instance from which you have obtained 
+	     the CacheManager, the CacheManager cannot  be used anymore and will throw a 
+	     <api class="org.exolab.castor.jdo.PersistenceException">PersistenceException</api>.</p>
+   
+   </section>
+       
+   </body>       
+</document>

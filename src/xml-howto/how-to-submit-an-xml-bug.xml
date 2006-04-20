@@ -1,0 +1,130 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/tutorial/how-to-sumit-an-xml-bug/main.xml">
+  <properties>
+    <title>Submitting an XML bug report</title>
+    <abstract>
+       General information about submitting a bug report specific to Castor XML
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>Submitting a bug report</title>
+
+	<section title="Submitting a problem report">
+
+		<section title="Driver">
+			<p>Most of the traffic on the Castor Users mailing list is about people asking for help on 
+			   various features of Castor (whether JDO or XML). Whilst there is nothing wrong about asking 
+			   questions and looking for help if you are stuck, it seems that there is room to improve 
+			   the structure of this 'conversation'.</p>
+				
+			<p>If you have a look at some of these threads (e.g. at the 
+			   <a class="external" href="http://www.mail-archive.com/castor-dev%40exolab.org">searchable mailing list archive</a>), 
+				it's quite easy to see that most of the time ...</p>
+					
+			<ol>
+				<li><p>An initial question is posted.</p></li>
+				<li><p>An initial reply is posted with some follow-up questions, e.g. request for 
+				     code fragments, mapping files, etc.</p></li>
+				<li><p>One or more code fragments, mapping files, etc. are being posted.</p></li>
+				<li><p>etc.</p></li>
+			</ol>
+			
+			<p>This document will establish guidelines with regards to step 3) above.</p>
+	
+		</section>
+		
+		<section title="Introduction">
+			
+			<p>This document provides step-by-step instructions on how to submit a problem 
+			  report (when being asked to do so). It does so by walking you through a fictive
+			  problem and its resulting bug report, and providing instructions based upon this 
+			  scenario.</p>
+				
+			<p>Per definition, any problem report submitted (in other words, most likely attached 
+			   to a bug report at http://jira.codehaus.org/browse/CASTOR) by the means of a patch 
+			   should include one of the following artefacts:</p>
+				
+			<ul>
+				<li>A JUnit test case that 'showcases' your problem.</li>
+				<li>Castor XML mapping file.</li>
+				<li>One or more 'entity' classes required to run your test case.</li>
+				<li>An XML Schema instance.</li>
+				<li>An Ant build script to generate classes from the XMl Schema provided.</li>
+				<li>A <tt>README</tt> file (with any additional information/instructions required to understand
+				     /run your test case.</li>
+			</ul>
+	
+			<p><b>Note</b>: Whilst we can and will not impose these guidelines in their strictest 
+			   sense, I think that the use of the aforementioned artefacts will simplify problem 
+			   resolution and as a result lead to shorter turn-around times. Which is ultimately where 
+			   you, the user, gains.</p>
+			   
+		</section>			
+			
+		<section title="Templates">
+				
+				<p>To facilitate creation of a fully featured patch as discussed above, we have 
+				   provided you with an already existing bug template at 'src/bugs/xml/template'.</p>
+				   
+				<p><b>Note:</b>Please note that this directory is distributed only as part of the 
+				   source archive(s).</p>
+					
+				<p>This directory holds some of the artefacts mentioned above, and is structured 
+				   as follows:</p>
+				   
+				<ctable cellpadding="3">	
+                    <crow><td><i>src</i></td><td>Source code</td></crow>
+                    <crow><td><i>src/bugs</i></td><td>Common root for bug reports</td></crow>
+                    <crow><td><i>src/bugs/xml</i></td><td>Common root for XML bug reports</td></crow>
+                    <crow><td><i>src/bugs/xml/template</i></td><td>Patch template</td></crow>
+                    <crow><td>src/bugs/xml/template/TestTemplate.java</td><td>JUnit test case.</td></crow>
+                    <crow><td>src/bugs/xml/template/Entity.java</td><td>Entity required by the test case</td></crow>
+                    <crow><td>src/bugs/xml/template/mapping.xml</td><td>Castor XML mapping file</td></crow>
+                    <crow><td>src/bugs/xml/template/README</td><td>Test instructions</td></crow>
+				</ctable>
+				
+				<p>To create you own bug report, please copy '<tt>template</tt>' to e.g. <tt>bug1368</tt>, 
+				   assuming that 1368 is the number assigned to your Jira issue). Subsequently, please
+				   amend the files provided to match your own requirements. After you have consolidated your 
+				   changes, the original directory structure in src/bugs could look as follows:</p>
+				   
+				<ctable cellpadding="3">	
+                    <crow><td><i>src</i></td><td>Source code</td></crow>
+                    <crow><td><i>src/bugs</i></td><td>Common root for bug reports</td></crow>
+                    <crow><td><i>src/bugs/xml</i></td><td>Common root for XML bug reports</td></crow>
+                    <crow><td>src/bugs/xml/template</td><td>Patch template</td></crow>
+                    <crow><td>src/bugs/xml/template/TestTemplate.java</td><td>JUnit test case.</td></crow>
+                    <crow><td>src/bugs/xml/template/Entity.java</td><td>Entity required by the test case</td></crow>
+                    <crow><td>src/bugs/xml/template/mapping.xml</td><td>Castor mapping file</td></crow>
+                    <crow><td>src/bugs/xml/template/README</td><td>Test instructions</td></crow>
+                    <crow><td>src/bugs/xml/bug1368</td><td>Your specific bug (as per Jira bug number)</td></crow>
+                    <crow><td>src/bugs/xml/bug1368/build.xml</td><td>Ant build script.</td></crow>
+                    <crow><td>src/bugs/xml/bug1368/custom.xsd</td><td>XML Schema instance</td></crow>
+                    <crow><td>src/bugs/xml/bug1368/README</td><td>Test instructions</td></crow>
+				</ctable>
+				
+			</section>
+
+			<section title="Creating the patch">
+				
+				<p>As a last step, we ask you submit your code changes in the form of  a unified patch 
+				   by attaching it to the relevant Jira issue. Please simply follow the instructions provided
+				   <a href="how-to-prepare-a-patch.html">here</a>.</p>
+				   
+			</section>
+			
+			<section title="References">
+				<p>Whilst we cannot assume that every Castor (XML) user is an expert in the use of 
+				   JUnit, we do believe that they are quite easy to get acquainted with. As a 
+				   starting point, please find below some references:</p>
+	
+				<ul>
+					<li><a href="http://www.junit.org/">JUnit</a> - A well-known framework for 
+						writing integration-level and functional tests.</li>
+				</ul>
+				</section>
+		
+		</section>
+	</body>
+</document>

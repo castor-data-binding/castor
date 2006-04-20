@@ -1,0 +1,26 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                          "http://castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+    <database name="oracle" engine="oracle" >
+        <driver url="jdbc:oracle:thin:@localhost:1521:TEST"
+                class-name="oracle.jdbc.driver.OracleDriver">
+            <param name="user" value="test"/>
+            <param name="password" value="secret"/>
+        </driver>
+<!--
+        <data-source class-name="oracle.jdbc.pool.OracleConnectionCacheImpl">
+            <param name="URL" value="jdbc:oracle:thin:@localhost:1521:TEST" />
+            <param name="user" value="test" />
+            <param name="password" value="secret" />
+            <param name="min-limit" value="5" />
+            <param name="max-limit" value="10" />
+            <param name="cache-scheme" value="1" />
+        </data-source>
+-->        
+		<mapping href="jdo/mapping.xml" />
+    </database>
+    <transaction-demarcation mode="local" />
+</jdo-conf>
+

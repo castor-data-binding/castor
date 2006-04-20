@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>bug907i</Name>
+    <Author>Keith Visco</Author>
+    <Comment>
+        Regression Test for Bug 907 (Intalio CVS)
+    </Comment>
+
+   <BugFix>
+      <Reporter>Arnaud Blandin</Reporter>
+      <Date_Report>2001-09-26</Date_Report>
+      <Date_Fix>2002-09-26</Date_Fix>
+      <Comment>Bug 907 (Intalio CVS)</Comment>
+   </BugFix>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>Foo</Root_Object>
+		<UnitTestCase>
+         <Name>Test unmarshalling namespace prefixed attributes</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input.xml</Input>
+         <GoldFile>output.xml</GoldFile>
+		</UnitTestCase>
+	</MarshallingTest>
+
+</TestDescriptor>

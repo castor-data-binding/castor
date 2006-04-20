@@ -1,0 +1,10 @@
+<project name="Castor-XSD-Comp" default="xsdcomp" basedir=".">
+
+  <!-- Run the XML schema compiler -->
+  <target name="xsdcomp">
+    <taskdef name="compile" classname="org.exolab.castor.tools.XSDCompiler" />
+    <mkdir    dir="${dest}" />
+    <compile  schema="${schema}" package="${package}" destdir="${dest}" />
+  </target>
+
+</project>

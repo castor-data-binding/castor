@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Specification-Title: Castor XML, JDO, DAX, DSML
+Specification-Vendor: Intalio Inc.
+Specification-Version: 0.8
+Implementation-Title: Castor
+Implementation-Vendor: Intalio Inc.
+Implementation-Version: $VERSION$$RELEASE$
+Class-Path: xerces-J_1.4.0.jar commons-logging.jar
+
+Name: org/exolab/castor
+Sealed: true
+
+

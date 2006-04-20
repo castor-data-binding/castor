@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<classpath>
+	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/bugs"/>
+	<classpathentry excluding="xml/MasterTestSuite/|xml/RegressionTestSuite/|main/" kind="src" path="src/tests"/>
+	<classpathentry kind="src" path="src/tests/main"/>
+	<classpathentry excluding="SourceGenerator/" kind="src" path="src/examples"/>
+	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
+	<classpathentry kind="lib" path="lib/adaptx-0.9.13.jar"/>
+	<classpathentry kind="lib" path="lib/ant-1.6.jar"/>
+	<classpathentry kind="lib" path="lib/ant-1.6-launcher.jar"/>
+	<classpathentry kind="lib" path="lib/commons-logging.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
+	<classpathentry kind="lib" path="lib/jakarta-regexp-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/jdbc-se2.0.jar"/>
+	<classpathentry kind="lib" path="lib/jndi_1.2.1.jar"/>
+	<classpathentry kind="lib" path="lib/jta1.0.1.jar"/>
+	<classpathentry kind="lib" path="lib/jtf-0.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit_3.8.1.jar"/>
+	<classpathentry kind="lib" path="lib/ldapjdk_4.1.jar"/>
+	<classpathentry kind="lib" path="lib/log4j-1.2.8.jar"/>
+	<classpathentry kind="lib" path="lib/servlet.jar"/>
+	<classpathentry kind="lib" path="lib/xerces-J_1.4.0.jar"/>
+	<classpathentry kind="lib" path="lib/cglib-full-2.0.2.jar"/>
+	<classpathentry kind="lib" path="lib/tests/geronimo-spec-j2ee-1.4-rc2.jar"/>
+	<classpathentry kind="lib" path="lib/tests/mockejb.jar"/>
+	<classpathentry kind="lib" path="lib/tests/ots-jts_1.0.jar"/>
+	<classpathentry kind="lib" path="lib/tests/tyrex-1.0.jar"/>
+	<classpathentry kind="lib" path="lib/derby-10.1.2.1.jar"/>
+	<classpathentry kind="output" path="eclipse"/>
+</classpath>
