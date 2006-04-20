@@ -1,0 +1,11 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+<database name="test" engine="sybase" >
+  <data-source class-name="com.sybase.jdbc2.jdbc.SybDataSource">
+    <params user="test" password="secret" 
+            port-number="4100" server-name="arkin" />
+  </data-source>
+  <mapping href="mapping.xml" />
+</database>
+
+
