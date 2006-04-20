@@ -1,0 +1,11 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.exolab.org/jdo-conf.dtd">
+
+
+<database name="postgresql" engine="postgresql" >
+  <driver class-name="org.postgresql.Driver" url="jdbc:postgresql:test"> 
+    <param name="user" value="root"/>
+    <param name="password" value="" />
+  </driver>
+  <mapping href="mapping.xml" />
+</database>
