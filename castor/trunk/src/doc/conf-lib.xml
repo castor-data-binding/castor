@@ -1,0 +1,165 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/conf-lib.xml">
+  <body>
+    <title>Configuration, Libraries and Building Castor</title>
+
+	<section title="News">
+		<ul>
+			<li><b>Release 0.9.7:</b> Added new org.exolab.castor.persist.useProxies property to allow
+				configuration of JDBC proxy classes. If enabled, JDBC proxy classes will be used to wrap
+				<tt>java.sql.Connection</tt> and <tt>java.sql.PreparedStatement</tt>
+				instances, to allow for more detailed and complete JDBC statements to be output
+				during logging. When turned off, no logging statements will be generated at all.</li>
+		</ul>	
+	</section>
+
+    <section title="The Castor configuration file">
+
+      <p>Castor uses a configuration file for environmental properties that are
+         shared across all the Castor sub systems. The configuration file is
+         specified as a Java properties file with the name <tt>castor.properties</tt>.</p>
+
+      <p>The Castor JAR includes a default configuration file. A configuration
+         file in the Java library directory (e.g. <tt>/jdk1.2/lib</tt>) can be used to
+         override the default configuration file with system wide properties.
+         In addition, a configuration file can be placed in the classpath and
+         will override both the system wide properties and default
+         configuration.</p>
+
+      <p>When running the provided examples, Castor will use the configuration
+         file located in the examples directory which specifies additional
+         debugging information and pretty printing of all produced XML
+         documents.</p>
+
+      <p>The following properties are currently supported in the configuration
+         file:</p>
+<pre>
+  # Defines the default XML parser to be used by castor
+  # The parser must implement org.xml.sax.Parser
+  #
+  org.exolab.castor.parser=org.apache.xerces.parsers.SAXParser
+
+  # Defines the (default) XML serializer factory to use by Castor, 
+  # which must implement org.exolab.castor.xml.SerializerFactory;
+  # default is org.exolab.castor.xml.XercesXMLSerializerFactory  
+  org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesXMLSerializerFactory
+
+  # True if all documents should be indented on output by default
+  #
+  org.exolab.castor.indent=false
+
+  # True if all documents should be validated on input by default
+  #
+  org.exolab.castor.validation=true
+
+  # Comma separated list of SAX 2 features that should be enabled
+  # for the default parser
+  #
+  org.exolab.castor.features=
+
+  # True if should produce verbose messages
+  #
+  org.exolab.castor.debug=false
+
+  # List of collection handlers for Java 1.1 and Java 1.2 run-times
+  #
+  org.exolab.castor.mapping.collections=\
+    org.exolab.castor.mapping.loader.J1CollectionHandlers,\
+    org.exolab.castor.mapping.loader.J2CollectionHandlers
+
+  # List of persistence factories for the supported database servers
+  #
+  org.exolab.castor.jdo.engines=\
+    org.exolab.castor.jdo.drivers.OracleFactory,\
+    org.exolab.castor.jdo.drivers.PostgreSQLFactory,\
+    org.exolab.castor.jdo.drivers.SybaseFactory,\
+    org.exolab.castor.jdo.drivers.SQLServerFactory,\
+    org.exolab.castor.jdo.drivers.DB2Factory,\
+    org.exolab.castor.jdo.drivers.GenericFactory
+
+  # List of key generator factories 
+  #
+  org.exolab.castor.jdo.keyGeneratorFactories=\
+    org.exolab.castor.jdo.keygen.MaxKeyGeneratorFactory,\
+    org.exolab.castor.jdo.keygen.HighLowKeyGeneratorFactory,\
+    org.exolab.castor.jdo.keygen.IdentityKeyGeneratorFactory,\
+    org.exolab.castor.jdo.keygen.SequenceKeyGeneratorFactory,\
+	org.exolab.castor.jdo.keygen.UUIDKeyGeneratorFactory
+
+  # Collection handlers for the source code generator
+  #
+  org.exolab.castor.builder.type.j2=\
+    org.exolab.castor.builder.FieldInfoFactoryJ2
+  org.exolab.castor.builder.type.j1=\
+    org.exolab.castor.builder.FieldInfoFactory
+  org.exolab.castor.builder.type.odmg=\
+    org.exolab.castor.builder.FieldInfoFactoryODMG30
+
+  # Default time zone to apply to dates/times fetched from database fields, if not
+  # already part of the data.  Specify same format as in java.util.TimeZone.getTimeZone, or
+  # an empty string to use the computer's local time zone. Please see
+  # http://de.wikipedia.org/wiki/Zeitzone for detailed information about time zones.
+  #
+  org.exolab.castor.jdo.defaultTimeZone=
+  #org.exolab.castor.jdo.defaultTimeZone=GMT-8:00
+
+  #
+  # List of TxSynchronizeable implementations
+  #
+  #org.exolab.castor.persist.TxSynchronizable=
+
+  #
+  # True if JDBC proxy classes should be used to enable more detailed logging output of SQL
+  # statements; false otherwise (logging will be turned off completely).
+  #
+  org.exolab.castor.perists.useProxies=true
+
+  #
+  # List of available cache implementations; please expand this list to add
+  # any custom performance caches.
+  #
+  org.castor.cache.Factories=\
+    org.castor.cache.simple.NoCacheFactory,\
+    org.castor.cache.simple.TimeLimitedFactory,\
+    org.castor.cache.simple.CountLimitedFactory,\
+    org.castor.cache.simple.UnlimitedFactory,\
+    org.castor.cache.distributed.FKCacheFactory,\
+    org.castor.cache.distributed.JcsCacheFactory,\
+    org.castor.cache.distributed.JCacheFactory,\
+    org.castor.cache.distributed.CoherenceCacheFactory,\
+    org.castor.cache.distributed.OsCacheFactory,\
+    org.castor.cache.hashbelt.FIFOHashbeltFactory,\
+    org.castor.cache.hashbelt.LRUHashbeltFactory
+
+  #
+  # List of supported TransactionManagerFactory implementations; please expand
+  # this list to add any custom transaction manager fatories.
+  #
+  org.castor.transactionmanager.Factories=\
+    org.castor.transactionmanager.LocalTransactionManagerFactory,\
+    org.castor.transactionmanager.JNDIENCTransactionManagerFactory,\
+    org.castor.transactionmanager.JOTMTransactionManagerFactory,\
+    org.castor.transactionmanager.WebSphereTransactionManagerFactory,\
+    org.castor.transactionmanager.WebSphere5TransactionManagerFactory,\
+    org.castor.transactionmanager.WebSphere51TransactionManagerFactory
+    
+  #
+  # Shell the TransactionManager be initialized at registration or lazily when
+  # requested for the first time? Defaults to false.
+  #
+  org.castor.transactionmanager.InitializeAtRegistration=false
+  
+</pre>
+    </section>
+
+  </body>
+</document>
+
+
+
+
+
+
+
+
+

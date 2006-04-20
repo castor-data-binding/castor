@@ -1,0 +1,610 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/extras.xml">
+  <body>
+    <title>Castor Extra Features and 3rd Party Tools</title>
+
+    <header>
+       <p>
+          - <b><font color="red">New</font></b> - <a href="#XFire">XFire</a><br/>
+          - <b><font color="red">New</font></b> - Apple's <a href="#Apple WebObjects">Apple WebObjects</a>
+       </p>
+    </header>
+
+    <section title="3rd Party Tools">
+       <p>
+          This section contains pointers to 3rd party tools.
+       </p>
+       <p>
+          <b>Note: We do not provide support for these tools, please visit their respective 
+             websites for support, questions, or concerns.</b>
+       </p>
+
+       <section title="Apple WebObjects">
+       <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    WebObjects is Apple's suite of tools and object-oriented
+                    frameworks for creating and deploying scalable, reusable
+                    web and Java applications for the Internet and intranets.
+                    WebObjects supports the development, deployment, and
+                    extension of standards-based web services without the need
+                    to write low-level SOAP, XML or WSDL code. Tools enable
+                    code-free generation, configuration, and testing of
+                    applications from existing data assets.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Company:</td>
+                    <td>Apple</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td>
+                        <url>
+                        http://developer.apple.com/documentation/WebObjects/Enterprise_JavaBeans/ContainerConfiguration/chapter_6_section_4.html
+                        </url>
+                    </td>
+                </tr>
+            </table>
+       </p>
+       </section>
+
+       <section title="Phantom-Castor">
+       <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    Phantom-Castor contains components to ease the construction
+                    of JDO applications using Castor. It provides easier use of
+                    mappings with building OQL queries.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Alexey Efimov</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://sf.net/projects/phantom-castor</url></td>
+                </tr>
+            </table>
+       </p>
+       </section>
+
+       <section title="Castor-Eclipse-Plugin">
+       <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                       An Eclipse plugin for Castor's source code generator.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Peter Nehrer</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://xdoclipse.sourceforge.net/cep.html</url></td>
+                </tr>
+            </table>
+       </p>
+       </section>
+
+       <section title="Castor-Taglib">
+       <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        The Castor Taglib allows you to execute OQL queries in
+                        your JSP page (using Castor JDO). It also helps you to
+                        integrate Castor JDO with Java application servers like
+                        Tomcat, making use of JNDI and Tyrex for managed transactions.
+                        <br />
+                        <br />
+                        It is intended that support for more servlet containers
+                        will be added.
+                        <br />
+                        <br />
+                        The taglib is compatible with JSTL 1.0, and allows you
+                        to use expression language (EL) to pass values dynamically
+                        to the attributes of certain tags.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Patrick van Kaan</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://castor-taglib.sourceforge.net</url></td>
+                </tr>
+            </table>
+        </p>
+       </section>
+
+       <section title="Castor Doclet">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        Castor-Doclet is a tool for generating the Castor JDO mapping file from
+                        javadoc tags added in the source code. It also has the ability to generate
+                        a DDL file for different databases.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Mickael Guessant</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://castordoclet.sourceforge.net</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="Castor Oil">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        Castor Oil is a GUI tool for generating the Castor mapping file from
+                        from existing data base tables. To my knowledge Castor Oil was the
+                        first GUI tool written for Castor. It was originally written by
+                        Lance Lavandowska, but has recently found a new maintainer and
+                        developer, Peter Kasson, who has been actively working to bring
+                        Oil back up to compatibility with the latest version of Castor.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Current Author:</td>
+                    <td>Peter Kasson</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://www.kasstek.com/opensource/app.jsp</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+
+       <section title="O2XMapper">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                        This tool is a GUI front end to Castor's MappingTool. It allows
+                        automatic creation and customization of mapping files. This tool
+                        is primarily for Castor XML, but check out
+                        <a href="#JDOMapper">JDOMapper</a> from the same author.
+                     </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Shelly Mujtaba</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://o2xmapper.sourceforge.net</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="JDOMapper">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                       JDOMapper provides a user interface for creating Castor JDO mapping files.
+                       The application allows user to import Java classes and map them to an relational
+                       schema . The tool performs series of validations to ensure that classes and fields
+                       are correctly mapped. Existing mapping files can also be imported into the tool.
+                       <br/>
+                       JDOMapper will pre-fill most of the options for a class or field. Finally,
+                       the User interface provides a more manageable view of the Mapping configuration,
+                       especially as the number of mapped classes grows large.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Shelly Mujtaba</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://o2xmapper.sourceforge.net/jdomapper/</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="Raccoon">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                       Another tool that allows one to automatically create a Castor mapping
+                       file for a given set of Java Beans. This tool also provides a host of
+                       other functionality which is geared towards integration with TIBCO
+                       products.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Cedric Rouvrais</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://raccoon.sourceforge.net</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="SchemaWizard">
+         <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                      SchemaWizard is a tool which automates building user interfaces to generate and modify XML instances following a XML schema.
+                      SchemaWizard achieves this by mapping XML Schema types to HTML form elements with a series of Velocity templates, JSP pages and Javabeans.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Ozgur Balsoy</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td> <url>http://ptlportal.communitygrids.iu.edu/schemawizard/index.html</url></td>
+                </tr>
+            </table>
+         </p>
+       </section>
+
+       <section title="XDoclet">
+        <p>
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                     XDoclet is a code generation engine. It enables 
+                     Attribute-Oriented Programming for Java. It provides 
+                     tags for Castor under the @exolab moniker.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>See the <a href="http://xdoclet.sourceforge.net/1.2beta/team-list.html">Team List</a></td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://xdoclet.sourceforge.net/1.2beta/index.html</url></td>
+                </tr>
+            </table>
+        </p>
+       </section>
+
+        <section title="Xtreme Space">
+            <p>
+                <table border="0">
+                    <tr>
+                        <td valign="top">Description:</td>
+                        <td>
+                          Xtreme Space is a JavaSpaces implementation using a RDBMS or a native XML
+                          database as a backend. It is based on Castor for mapping between Java objects
+                          and the tables.
+                        </td>
+                     </tr>
+                     <tr>
+                        <td valign="top">Author:</td>
+                        <td>Jerome Bernard</td>
+                     </tr>
+                     <tr>
+                        <td valign="top">URL:</td>
+                        <td><url>http://www.kalixia.com/weblogs/space/XtremeSpace</url></td>
+                     </tr>
+                  </table>
+               </p>
+        </section>
+
+        <section title="TogMap">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    TogMap is a module for the CASE Tool Together which generates 
+                    XML-mapping-files for OR-Mappers. It takes an existing object 
+                    model, which you can augment by OR-specific markers, and 
+                    produces an XML-mapping file. Currently only for Castor-JDO.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Markus Blaurock</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td>http://sourceforge.net/projects/togmap/</td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="CastorWizard">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    JBuilder Wizard OpenTool which offers one facilitated way 
+                    to generate java source code through O/R mapping, such as 
+                    Exolab's Castor JDO, DAO etc. It may also generate other 
+                    adjunction files according to your needs, such as Castor 
+                    JDO mapping file.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">Author:</td>
+                    <td>Andy Laun</td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td>http://sourceforge.net/projects/castorwizard/</td>
+                </tr>
+            </table>
+        </section>
+
+    </section>
+
+    <section title="Products that make use of Castor">
+    <p>
+    <font color="red">
+    Does your project or product make use of Castor, but it's not listed here?
+    Please tell us about it one of the <link>lists.xml</link> and we'll post it. 
+    </font>
+    </p>
+
+		<section title="XFire">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+						XFire is a next-generation Java SOAP framework. XFire makes service oriented 
+						development approachable through its easy to use API and support for standards. 
+						It is also highly performant since it is built on a low memory StAX based model.                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://xfire.codehaus.org/</url></td>
+                </tr>
+            </table>
+		</section>
+		
+        <section title="OpenEJB">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    OpenEJB is an Open Source implementation of version 1.1 of 
+                    the EJB specification, which supports both session and 
+                    entity beans in addition to an enhanced security model.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://openejb.sf.net/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="Roller Weblogger">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    Roller is server-based weblogging software, a web application 
+                    that is designed to support multiple simultaneous weblog 
+                    users and visitors.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://www.rollerweblogger.com/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="InfoGlue">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    InfoGlue is a free, open and competent content management 
+                    platform suitable for a wide range of applications and 
+                    organisations.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://www.infoglue.org/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="Altoweb Xpi">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    With AltoWeb Xpi, anyone who understands fundamental 
+                    application design and development concepts can quickly 
+                    assemble enterprise-level Java applications, while J2EE 
+                    experts maintain full access to the standard Java code and 
+                    descriptors that are generated. NOTE: AltoWeb is now out
+                    of business. 
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://www.altoweb.com/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="Borland JBuilder">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    This step-by-step tutorial explains how to use JBuilder's 
+                    XML databinding features using schema and Castor to generate 
+                    Java classes.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://info.borland.com/techpubs/jbuilder/jbuilder6/xml/xml_data_castor.html</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="jwma">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                     With the delivered basic view, which is based on standard 
+                     HTML 4.0 and does not require any Java functionality on the 
+                     client side, jwma is primarily a webmail package, enabling 
+                     the user to access, manage and compose email using a standard 
+                     web browser. However, due to it's flexible architecture, 
+                     that allows to replace elements with other implementations 
+                     (like for example a WAP view), jwma can be seen as multi-session 
+                     server side email client software based on Java technologies.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://jwma.sourceforge.net/overview.html</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="JAXBBuilder">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    JAXBBuilder is an eclipse plugin for generating Java classes 
+                    directly from XML schema, the generated classes can then 
+                    marshall to/from XML via Castor API. The plug-in includes a 
+                    JAXB project wizard, JAXB builder and property pages for 
+                    JAXB configuration.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://sourceforge.net/projects/jaxb-builder/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="JAFFA">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    An Enterprise Focused Java Framework For Rapid Application 
+                    Development. JAFFA build up existing projects like Tomcat, 
+                    Struts, Castor, Ant etc and glues them all together for a 
+                    complete web based componentized development environment.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://jaffa.sourceforge.net/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="JOrganizer">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    JOrganizer is a webbased PIM (Personal Information Manager), 
+                    written in Java. With it, you can manage your contacts, 
+                    emails, time and more. It is based on JSP, Servlets, Struts, 
+                    Castor, the xml.apache.org API's and other Open Source projects.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://jorganizer.sourceforge.net/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="Java Web Application Framework (JWAF)">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    Java Web Application Framework (JWAF) is a framework 
+                    designed to extend existing per-tier frameworks such as 
+                    Struts and Castor, to provide a complete 5-tier framework 
+                    and toolset that can be used to rapidly build business 
+                    process application and more.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://jwaf.sourceforge.net/</url></td>
+                </tr>
+            </table>
+        </section>
+
+        <section title="BlueGlue">
+            <table border="0">
+                <tr>
+                    <td valign="top">Description:</td>
+                    <td>
+                    BlueGlue is an intelligent distribution of over 
+                    100 (and counting) Open Source projects for Java and LAMP 
+                    developers. It provides instant infrastructure with all the 
+                    things developers need to be productive: web server, web app 
+                    container, application server, database, database browser, 
+                    source code control system, source code browser, bug tracker, 
+                    discussion forum, mail server, web logger, template engine, 
+                    full text search engine, wiki site, charting package, and 
+                    many more utilities.
+                    </td>
+                </tr>
+                <tr>
+                    <td valign="top">URL:</td>
+                    <td><url>http://www.openlogic.com/</url></td>
+                </tr>
+            </table>
+        </section>
+
+    </section>
+
+  </body>
+</document>
+
+
+
+
