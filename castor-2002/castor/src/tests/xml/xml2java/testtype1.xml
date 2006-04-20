@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<testtype1>
+<date>2000-12-22</date>
+<time>16:30:00</time>
+<timeDuration>P1Y2M3DT10H30M</timeDuration>
+<recurringDuration>2000-12-22T16:30:00.0</recurringDuration>
+<timeInstant>1999-05-31T13:20:00.0</timeInstant>
+<timePeriod>2000-12-22T16:30:00.0</timePeriod>
+<month>2000-12</month>
+<year>2000</year>
+<century>20</century>
+
+<!-- not implemented yet -->
+<!-- <recurringDate>12-22</recurringDate> -->
+<!-- <recurringDay>22</recurringDay>  -->
+
+<string>A test text</string>
+<integer>1234</integer>
+<int>1234</int>
+<long>1234</long>
+<short>125</short>
+<boolean>true</boolean>
+<float>123.456</float>
+<double>123456789</double>
+<decimal>1234.56789</decimal>
+
+
+<positiveInteger>12</positiveInteger>
+<negativeInteger>-7</negativeInteger>
+<nonPositiveInteger>-12</nonPositiveInteger>
+<nonNegativeInteger>7</nonNegativeInteger>
+
+</testtype1>

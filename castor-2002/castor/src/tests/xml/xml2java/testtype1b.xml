@@ -1,0 +1,34 @@
+<?xml version='1.0'?>
+<testtype1>
+<date>1999-07-22</date>
+<time>00:00:00</time>
+<timeDuration>P1Y2M3DT10H30M</timeDuration>
+<recurringDuration>2001-12-22T16:30:00.0</recurringDuration>
+<timeInstant>2001-05-31T13:20:00.0</timeInstant>
+<timePeriod>2001-12-22T16:30:00.0</timePeriod>
+<month>1999-07</month>
+<year>1999</year>
+<century>21</century>
+
+<!-- not implemented yet -->
+<!-- <recurringDate>12-22</recurringDate> -->
+<!-- <recurringDay>22</recurringDay>  -->
+
+<string>A test text</string>
+
+<integer>-1000000</integer> <!-- min value not defined by the W3C -->
+<int>-2147483648</int>
+<long>-1000</long>   <!-- +-9223372036854775808 is too big for the java long type used by castor -->
+<short>-32768</short>
+<boolean>false</boolean>
+<float>-10</float>  <!-- INF not recognized by the unmarshaller -->
+<double>-10</double> <!-- INF not recognized by the unmarshaller -->
+<decimal>-1000000</decimal> <!-- min value not defined by the W3C -->
+
+
+<positiveInteger>1</positiveInteger>
+<negativeInteger>-1000000</negativeInteger> <!-- min value not defined by the W3C -->
+<nonPositiveInteger>-1000000</nonPositiveInteger> <!-- min value not defined by the W3C -->
+<nonNegativeInteger>1</nonNegativeInteger>
+
+</testtype1>

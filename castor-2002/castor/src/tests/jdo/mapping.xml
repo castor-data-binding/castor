@@ -1,0 +1,375 @@
+<!DOCTYPE databases PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.exolab.org/mapping.dtd">
+<mapping>
+
+  <!-- Mapping for TestObject to test_table
+       Single object mapping, shared access, dirty checking on all fields -->
+  <class name="jdo.TestObject" access="shared" identity="id">
+    <description>Table used for concurrency and performance testing</description>
+    <map-to table="test_table" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestObjectEx" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <map-to table="test_table_ex" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestRace" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <map-to table="test_race" />
+    <cache-type type="count-limited" value="30"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="jdo.TestRaceCount" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <map-to table="test_race" />
+    <cache-type type="count-limited" value="10"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="jdo.TestRaceTime" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <map-to table="test_race" />
+    <cache-type type="time-limited" value="5"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="jdo.TestRaceUnlimited" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <map-to table="test_race" />
+    <cache-type type="unlimited"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+  <class name="jdo.TestRaceNone" access="shared" identity="id">
+    <description>Table used for cache testing</description>
+    <map-to table="test_race" />
+    <cache-type type="none"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="value1" type="integer">
+      <sql name="value1" type="integer" />
+    </field>
+  </class>
+
+
+  <class name="jdo.TestMaster" access="shared" identity="id">
+    <description>Test master table</description>
+    <map-to table="test_master" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="group" type="jdo.TestGroup" required="false">
+      <sql name="group_id" />
+    </field>
+    <field name="details" type="jdo.TestDetail" collection="vector" 
+           required="false"> </field>
+  </class>
+
+
+  <class name="jdo.TestDetail" access="shared" identity="id">
+    <description>Test detail table</description>
+    <map-to table="test_detail" />
+    <field name="id" type="integer">
+      <sql name="detail_id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="master" type="jdo.TestMaster" required="true">
+      <sql name="master_id" />
+    </field>
+    <field name="details2" type="jdo.TestDetail2" collection="vector" required="false">
+    </field>
+  </class>
+
+
+  <class name="jdo.TestDetail2" access="shared" identity="id">
+    <description>Test detail2 table</description>
+    <map-to table="test_detail2" />
+    <field name="id" type="integer">
+      <sql name="detail2_id" type="numeric" />
+    </field>
+    <field name="value1" type="string" required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="detail" type="jdo.TestDetail" required="true">
+      <sql name="detail_id" />
+    </field>
+  </class>
+
+
+  <class name="jdo.TestGroup" access="shared" identity="id">
+    <description>Test groups table</description>
+    <map-to table="test_group" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+  </class>
+
+
+  <!-- Classes for testing set collections -->
+  <!-- Only for JDK 1.2
+  <class name="jdo.TestSetMaster" access="shared" identity="id">
+    <description>Test set master table</description>
+    <map-to table="test_smaster" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="details" type="jdo.TestSetDetail" collection="set"
+           required="false"> </field>
+  </class>
+
+
+  <class name="jdo.TestSetDetail" access="shared" identity="id">
+    <description>Test set detail table</description>
+    <map-to table="test_sdetail" />
+    <field name="id" type="integer">
+      <sql name="detail_id" type="numeric" />
+    </field>
+    <field name="master" type="jdo.TestSetMaster" required="true">
+      <sql name="master_id" />
+    </field>
+  </class>
+  -->
+
+
+  <!-- Classes for testing type handling -->
+  <class name="jdo.TestTypes" access="shared" identity="id">
+    <description>Test various type handling and conversions</description>
+    <map-to table="test_types" />
+    <field name="id" type="long">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="date" type="java.util.Date">
+      <sql name="tdt" type="timestamp" />
+    </field>
+    <field name="time" type="java.util.Date">
+      <sql name="ttm" type="timestamp" dirty="ignore"/>
+    </field>
+    <field name="intValue" type="integer" required="false" >
+      <sql name="int_val" type="integer" dirty="ignore" />
+    </field>
+    <field name="longValue" type="long" required="false" >
+      <sql name="long_val" type="numeric" dirty="ignore" />
+    </field>
+    <field name="charValue" type="char" required="false" >
+      <sql name="char_val" type="char" />
+    </field>
+    <field name="boolValue" type="boolean" required="true" >
+      <sql name="bool_val" type="char[01]" />
+    </field>
+    <field name="doubleValue" type="double" required="true" >
+      <sql name="dbl_val" type="numeric" />
+    </field>
+    <field name="date2" type="java.util.Date" >
+      <sql name="int_date" type="integer[YMD]" />
+    </field>
+    <field name="time2" type="java.util.Date" >
+      <sql name="str_time" type="char[HH:mm:ss.SSS]" />
+    </field>
+    <field name="timestamp2" type="java.util.Date" >
+      <sql name="num_date" type="numeric[YMDhmsS]" />
+    </field>
+  </class>
+
+
+  <!-- Classes for key generator testing -->
+  <class name="jdo.TestMaxObject" identity="id" key-generator="MAX">
+    <description>Table used for MAX key generator testing</description>
+    <map-to table="test_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestMaxExtends" extends="jdo.TestMaxObject">
+    <description>Table used for MAX key generator testing</description>
+    <map-to table="test_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <key-generator name="HIGH/LOW">
+    <param name="table" value="test_seqtable"/>
+    <param name="key-column" value="table_name"/>
+    <param name="value-column" value="max_id"/>
+    <param name="grab-size" value="1000"/>
+  </key-generator>
+
+  <class name="jdo.TestHighLowObject" identity="id" key-generator="HIGH/LOW">
+    <description>Table used for HIGH/LOW key generator testing</description>
+    <map-to table="test_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestHighLowExtends" extends="jdo.TestHighLowObject">
+    <description>Table used for HIGH/LOW key generator testing</description>
+    <map-to table="test_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+
+  <class name="jdo.TestSequenceObject" identity="id" key-generator="SEQUENCE">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestSequenceExtends" extends="jdo.TestSequenceObject">
+    <description>Table used for SEQUENCE key generator testing</description>
+    <map-to table="test_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestIdentityObject" identity="id" key-generator="IDENTITY">
+    <description>Table used for IDENTITY key generator testing</description>
+    <map-to table="test_identity" />
+    <field name="id" type="integer">
+      <sql name="id" type="numeric" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestIdentityExtends" extends="jdo.TestIdentityObject">
+    <description>Table used for IDENTITY key generator testing</description>
+    <map-to table="test_identity_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+  <key-generator name="SEQUENCE" alias="RETURNING">
+    <param name="returning" value="true"/>
+  </key-generator>
+
+  <class name="jdo.TestReturningObject" identity="id" key-generator="RETURNING">
+    <description>Table used for SEQUENCE key generator testing in RETURNING
+        mode for Oracle8i
+    </description>
+    <map-to table="test_keygen" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="attr" type="string" required="true">
+      <sql name="attr" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="jdo.TestReturningExtends" extends="jdo.TestReturningObject">
+    <description>Table used for SEQUENCE key generator testing in RETURNING
+        mode for Oracle8i
+    </description>
+    <map-to table="test_keygen_ext" />
+    <field name="ext" type="string" required="true">
+      <sql name="ext" type="varchar"/>
+    </field>
+  </class>
+
+
+  <class name="jdo.TestPersistent" access="shared" identity="id">
+    <description>Test Persistent interface handling</description>
+    <map-to table="test_persistent" />
+    <field name="id" type="integer">
+      <sql name="id" />
+    </field>
+    <field name="creationTime" type="java.util.Date" required="true">
+      <sql name="ctime" type="timestamp" />
+    </field>
+    <field name="modificationTime" type="java.util.Date" required="false">
+      <sql name="mtime" type="timestamp" dirty="ignore" />
+    </field>
+    <field name="value1" type="string"  required="true">
+      <sql name="value1" type="varchar" />
+    </field>
+    <field name="parentId" type="integer" required="false">
+      <sql name="parent_id" dirty="ignore" />
+    </field>
+    <field name="group" type="jdo.TestGroup" required="true">
+      <sql name="group_id" />
+    </field>
+  </class>
+
+
+  <class name="jdo.TestNestedFields" access="shared" identity="id">
+    <description>Table used for nested fields testing</description>
+    <map-to table="test_table" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="nested1.value1" type="string" required="true">
+      <sql name="value1" type="varchar"/>
+    </field>
+    <field name="nested2.nested3.value2" type="string">
+      <sql name="value2" type="varchar" dirty="ignore"/>
+    </field>
+  </class>
+
+</mapping>
+
