@@ -1,0 +1,139 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.exolab.org/status.xml">
+  <body>
+    <title>Status</title>
+
+    <section title="Supported Features">
+
+      <section title="Castor XML">
+        <ul>
+          <li>Java to XML mapping automates transformation of Java objects from
+              and into XML documents and provides Java object validation</li>
+
+          <li>Java to XML mapping uses an XML document to specify the mapping
+              textually, Bean-like descriptors to specify them programatically,
+              and introspection to create default mappings</li>
+
+          <li>Code generator can produce Java objects, validation and the proper
+              mapping based on an XML schema</li>
+
+          <li>Supports XML schema data types including integer, real (float/double),
+              NMTOKEN, NCName, timeInstant, ID/IDREF, boolean and binary (base 64 encoded).
+              For an updated list see <a href="sourcegen.xml">Source Generator</a>
+          </li>
+
+          <li>Supports arbitrary object marshalling when object type is known at
+              run-time and XML schema is determined dynamically based on the
+              object type</li>
+
+          <li>Supports for creation of objects based on class name attribute</li>
+        </ul>
+      </section>
+
+      <section title="Castor JDO">
+        <ul>
+          <li>Java to SQL mapping (object/relational) automates Java persistence
+              into any relational database server using JDBC</li>
+
+          <li>Java to SQL mapping uses an XML document to specify the mapping
+              textually, and provides an API to specify them programatically</li>
+
+          <li>Supports one-one and one-many relation types, SQL/Java inheritance,
+              object graph to single row mapping, and multiple column primary
+              keys and automatic type conversion</li>
+
+          <li>Optimistic and pessimistic locking modes, in-memory concurrency
+              engine, and dead-lock detection</li>
+
+          <li>Provides support for EJB 1.1 CMP entity beans (release 0.9)
+              and CMP finder declaration using OQL</li>
+
+          <li>Efficient implementation incurs little overhead compared to
+              direct JDBC access</li>
+
+          <li>Support for JTA transaction demarcation, inclusion as resource
+              in transactional environment, and JDBC connection pooling
+              (release 0.9 integrated with Tyrex)</li>
+
+          <li>Cache control at JDO configuration and mapping file specification - no-cache option,
+              cache object limit, cache time limit, LRU removal deamon</li>
+        </ul>
+      </section>
+
+      <section title="Castor DSML">
+        <ul>
+          <li>Import/export an LDAP directory or search results to/from XML
+              based on the industry standard DSML schema</li>
+
+          <li>XML document for specifying LDAP queries and import rules</li>
+
+          <li>Supports both JNDI service providers and the Mozilla Directory SDK</li>
+        </ul>
+      </section>
+
+    </section>
+
+    <section title="What's missing">
+      <ul>
+        <li>Work is under way on a direct SQL->XML bridge which uses the same
+            mapping file but does not involve any Java objects in the process.</li>
+
+        <li>The EJB CMP implementation is now developed in the scope of the
+            OpenEJB project.</li>
+
+        <li>Consolidation between the SQL and LDAP engine through a shared
+            DataStore API, potentially supporting other relational back-ends.</li>
+
+        <li>Mapping file supporting object dependency and relations. More generic
+            mapping API and mapping tools.</li>
+
+        <li>Stored procedures, BLOBs, XML content.</li>
+      </ul>
+    </section>
+
+    <section title="TODO">
+       <section title="JDO">
+         <ul>
+            <li>Add type convertors to bind parameters and load() method</li>
+
+            <li>New architecture separating the responsibility of the CacheEngine from
+                  that of the persistent object, in order to better support relations
+                  (especially many-many) and better handle dependency object commits.</li>
+
+            <li>Multi column primary keys and contained objects.</li>
+
+            <li>DataStore API replacing existing persist SPI. Consolidation of JDO and DAX.</li>
+
+            <li>New mapping DTD</li>
+
+            <li>Remove excessive methods in source code generator</li>
+
+            <li>Support for read-only fields</li>
+
+            <li>Serializable, SQLData, DOM field types</li>
+
+            <li>Stored procedures</li>
+         </ul>
+       </section>
+       <section title="XML">
+          <section title="Source Code Generator">
+            <ul>
+               <li>Finish support for XML Schema (Grouping, remaining datatypes, etc)</li>
+               <li>Create "customization" input file</li>
+               <li>Extensibility API</li>
+            </ul>
+         </section>
+         <section title="Mapping">
+            <p>
+               Finish mapping/binding file support. Collection support in the mapping
+               is currently limited on the XML side.
+            </p>
+         </section>
+       </section>
+    </section>
+  </body>
+</document>
+
+
+
+

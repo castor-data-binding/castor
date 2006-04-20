@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+
+<schema targetNamespace="http://Test" xmlns="http://www.w3.org/2000/10/XMLSchema">
+	<annotation>
+		<documentation>
+         This is a test XML Schema for Castor XML.
+      </documentation>
+	</annotation>
+	<element name="MinOccurs2">
+		<annotation>
+			<documentation>
+             A simple schema for a test
+         </documentation>
+		</annotation>
+		<complexType>
+			<sequence>
+				<element name="tag" type="string" minOccurs="2" />
+			</sequence>
+		</complexType>
+	</element>
+</schema>
