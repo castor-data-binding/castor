@@ -127,7 +127,7 @@
 
         <section title="Where can I find some examples to start with?">
             <p>
-            Download the full CVS snapshot and look into the src/tests/jdo 
+            Download the full SVN snapshot and look into the src/tests/jdo 
             directory.
             </p>
         </section>

@@ -17,18 +17,18 @@
          Some drivers, such as Oracle, provides a pooling mechanism in
          the driver.  For those that do not, there are tools such as
          <a href="http://sourceforge.net/projects/proxool/">Proxool</a> and 
-		 Jakarta's <a href="http://jakarta.apache.org/commons/dbcp.html">DBCP</a>
+         Jakarta's <a href="http://jakarta.apache.org/commons/dbcp.html">DBCP</a>
          project.</p>
 
       <p>Here, I'll go over the various usage of the PostgreSQL driver
          with Castor.  We start with the most basic configurations
          that do not use any pooling, to those with pooling via
          DBCP. I'll include how to configure the pooling version of the 
-		 PostgreSQL JDBC driver ths will be usable with PostgreSQL 7.3 and 
-		 later, how to setup a Tomcat JNDI context that Castor can use to get 
-		 a pooled JDBC connection. Finally, I'll explain how to configure a 
-		 <tt>BasicDataSource</tt> from the DBCP package using the 
-		 &lt;data-source&gt; element.</p>
+         PostgreSQL JDBC driver ths will be usable with PostgreSQL 7.3 and 
+         later, how to setup a Tomcat JNDI context that Castor can use to get 
+         a pooled JDBC connection. Finally, I'll explain how to configure a 
+         <tt>BasicDataSource</tt> from the DBCP package using the 
+         &lt;data-source&gt; element.</p>
 
       </section>
 
@@ -124,18 +124,18 @@
 -->     
      <section title="Pooling and JDBC DataSources">
      
-     	<section title="PostgreSQL 7.3 and later">
+        <section title="PostgreSQL 7.3 and later">
 
-     		<p>In the 7.3 release of PostgreSQL, they will start providing a
-        	   pooling mechanism with their driver.  The Castor CVS repository
-        	   includes a beta version of the driver with this functionality.
+            <p>In the 7.3 release of PostgreSQL, they will start providing a
+               pooling mechanism with their driver.  The Castor SVN repository
+               includes a beta version of the driver with this functionality.
                Here is the 'current' configuration needed for the upcoming 7.3
                release of PostgreSQL. (Unless they change it.) Note that in this
                pooling mechanism currently lacks some features of standrd pooling 
-			   packages such as DBCP, such as timing out idle connections and removing 
-			   failed connections from the pool.  In this case, we can create the 
-			   following  data-source entry in the jdo-conf.xml file to provide 
-			   for our connections with Castor.</p>
+               packages such as DBCP, such as timing out idle connections and removing 
+               failed connections from the pool.  In this case, we can create the 
+               following  data-source entry in the jdo-conf.xml file to provide 
+               for our connections with Castor.</p>
 
 <code-panel>        
 <code><![CDATA[
@@ -150,7 +150,7 @@
 ]]></code>
 </code-panel>
 
-	     </section>
+         </section>
 
         <section title="Oracle">
      
@@ -187,7 +187,7 @@
 </code-panel>
 
         </section>
-	
+    
      </section>
 
      <section title="Configuring JDBC DataSources in Tomcat to be used with Castor">

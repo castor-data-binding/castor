@@ -32,7 +32,7 @@
                 work and move it over to SVN. Be aware that we will switch off CVS soon.
 
                 For details about SVN access please have a look at: 
-				<a href="cvs.html">SVN/JIRA</a>.
+                <a href="cvs.html">SVN/JIRA</a>.
             </summary>
         </news>
         <news id="39">
@@ -45,7 +45,7 @@
                 <a href="http://dist.codehaus.org/castor/1.0/">Codehaus</a>.<br/><br/>
 
                 For details about features added and bugs fixed, please have a look at the 
-				<a href="release-notes.html">release notes</a>.
+                <a href="release-notes.html">release notes</a>.
             </summary>
         </news>
         <news id="38">
@@ -58,11 +58,11 @@
                 <a href="http://dist.codehaus.org/castor/1.0/">Codehaus</a>.<br/><br/>
 
                 This is the fourth (and last) milestone build for the upcoming 1.0 release. For details about 
-				the features added and the bugs fixed, please have a look at the 
-				<a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
-				
-				Please note that we are imposing a feature/code freeze in preparation for the 
-				final 1.0 release, which is currently scheduled for April 6, 2006.
+                the features added and the bugs fixed, please have a look at the 
+                <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
+                
+                Please note that we are imposing a feature/code freeze in preparation for the 
+                final 1.0 release, which is currently scheduled for April 6, 2006.
             </summary>
         </news>
         <news id="37">
@@ -75,12 +75,12 @@
                 <a href="http://dist.codehaus.org/castor/1.0/">Codehaus</a>.<br/><br/>
 
                 This is the third milestone build for the upcoming 1.0 release. For details about 
-				the features added and the bugs fixed, please have a look at the 
-				<a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
-					
-				At the moment, we are planning for a last milestone release at the end of
-				March 2006, after which we will impose a code freeze in preparation for the 
-				final 1.0 release.
+                the features added and the bugs fixed, please have a look at the 
+                <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
+                    
+                At the moment, we are planning for a last milestone release at the end of
+                March 2006, after which we will impose a code freeze in preparation for the 
+                final 1.0 release.
             </summary>
         </news>
         <news id="36">
@@ -93,11 +93,11 @@
                 <a href="http://dist.codehaus.org/castor/1.0/">Codehaus</a>.<br/><br/>
 
                 This is the second milestone build for the upcoming 1.0 release. For details about 
-				the features added and the bugs fixed, please have a look at the 
-				<a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
-					
-				At the moment, we are planning for a third milestone release at the end of
-				February 2006.
+                the features added and the bugs fixed, please have a look at the 
+                <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
+                    
+                At the moment, we are planning for a third milestone release at the end of
+                February 2006.
             </summary>
         </news>
         <news id="35">
@@ -110,11 +110,11 @@
                 <a href="http://dist.codehaus.org/castor/1.0/">Codehaus</a>.<br/><br/>
 
                 This is milestone build for the upcoming 1.0 release, as has no correlation 
-				to Christmas at all .. ;-). For details about the features added and the 
-				bugs fixed, please have a look at the 
-				<a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
-					
-				We are still planning for a final <b>Castor 1.0</b> release in January 2006.
+                to Christmas at all .. ;-). For details about the features added and the 
+                bugs fixed, please have a look at the 
+                <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
+                    
+                We are still planning for a final <b>Castor 1.0</b> release in January 2006.
             </summary>
         </news>
         <news id="34">
@@ -127,10 +127,10 @@
                 <a href="http://dist.codehaus.org/castor/0.9.9.1/">Codehaus</a>.<br/><br/>
 
                 This is a maintenance release. For details about the features added and the bugs 
-				fixed, please have a look at the 
+                fixed, please have a look at the 
                 <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
-					
-				We are still planning for a <b>Castor 1.0</b> release in about 8+ weeks.
+                    
+                We are still planning for a <b>Castor 1.0</b> release in about 8+ weeks.
             </summary>
         </news>
         <news id="33">
@@ -143,17 +143,17 @@
                 <a href="http://dist.codehaus.org/castor/0.9.9/">Codehaus</a>.<br/><br/>
 
                 This is a major feature release. For details about the features added and the bugs 
-				fixed, please have a look at the 
+                fixed, please have a look at the 
                 <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
-					
-				We are currently planning for a <b>Castor 1.0</b> release in about 8+ weeks, 
-				which we mainly see as a bug fix release and a one-time opportunity 
-				to get the HTML documentation into a better shape .. ;-). Please have a look 
-				at <a href="http://jira.codehaus.org/browse/CASTOR">the project roadmap</a> for
-				details.<br/><br/>
+                    
+                We are currently planning for a <b>Castor 1.0</b> release in about 8+ weeks, 
+                which we mainly see as a bug fix release and a one-time opportunity 
+                to get the HTML documentation into a better shape .. ;-). Please have a look 
+                at <a href="http://jira.codehaus.org/browse/CASTOR">the project roadmap</a> for
+                details.<br/><br/>
 
                 Please report any issues at <a href="http://jira.codehaus.org/browse/CASTOR">the 
-				Castor Jira site</a>.
+                Castor Jira site</a>.
             </summary>
         </news>
         <news id="32">
@@ -182,7 +182,7 @@
                 <a href="http://dist.codehaus.org/castor/0.9.9/">Codehaus</a>.<br/><br/>
 
                 This is a major feature release. For details about the features added and the bugs 
-				fixed, please have a look at <a href="http://jira.codehaus.org/browse/CASTOR">the 
+                fixed, please have a look at <a href="http://jira.codehaus.org/browse/CASTOR">the 
                 project roadmap</a> and the interim version of the 
                 <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
                 <br/><br/>
@@ -201,7 +201,7 @@
                 <a href="http://dist.codehaus.org/castor/0.9.7/">The Codehaus</a>.<br/><br/>
 
                 This is mainly a maintenance release. For details about the bugs fixed and features 
-				provided, please have a look at the <a href="release-notes.html">release notes</a>.<br/><br/>
+                provided, please have a look at the <a href="release-notes.html">release notes</a>.<br/><br/>
                 
                 Please report any issues through the project's 
                 <a href="http://jira.codehaus.org/browse/CASTOR">issue tracking system</a> and/or the 
@@ -218,9 +218,9 @@
                 <a href="http://dist.codehaus.org/castor/0.9.7/">Codehaus</a>.<br/><br/>
 
                 This is a maintenance release for release 0.9.6 only. For details about the bugs 
-				fixed, please have a look at <a href="http://jira.codehaus.org/browse/CASTOR">the project roadmap</a>
+                fixed, please have a look at <a href="http://jira.codehaus.org/browse/CASTOR">the project roadmap</a>
                 and the interim version of the <a href="http://castor.codehaus.org/release-notes.html">release 
-				notes</a>.<br/><br/>
+                notes</a>.<br/><br/>
 
                 This milestone will be replaced by a second milestone within a week,
                 so please try this version and report any regression issues (where applicable).

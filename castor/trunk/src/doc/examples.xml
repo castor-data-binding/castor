@@ -10,8 +10,8 @@
       number of steps that must first take place. these steps are outlined below:
 
       <ol type="1">
-          <li>Download the Castor source via either <a href="download.html">FTP</a>
-          or <a href="cvs.html">CVS</a>. If the source has been downloaded via FTP,
+          <li>Download the Castor source via either <a href="download.xml">FTP</a>
+          or <a href="scm.xml">SVN</a>. If the source has been downloaded via FTP,
           it must be decompressed. This is dependent on whether a gzipped tarball
           has been downloaded or a zip file has been downloaded.<br /><br />
 
