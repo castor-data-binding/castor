@@ -83,7 +83,7 @@
         <display>Mailing Lists</display>
       </navLink>
       <navLink>
-        <url>cvs.xml</url>
+        <url>scm.xml</url>
         <display>SVN/JIRA</display>
       </navLink>
       <navLink>
