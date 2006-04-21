@@ -94,8 +94,9 @@
                   <img border="0" height="10" hspace="0" src="images/dotTrans.gif"/>
               </td>
           <td width="120" height="5" valign="top" align="right">
-              <a href="http://www.exolab.org"><img
-              src="images/logo_exolab.gif" hspace="0" vspace="10" width="77" height="20" border="0"/></a>
+              <!--<a href="http://www.exolab.org"><img
+              src="images/logo_exolab.gif" hspace="0" vspace="10" width="77"
+              height="20" border="0"/></a>-->
           </td>
           </tr>
           </table><p/><p/><br/>

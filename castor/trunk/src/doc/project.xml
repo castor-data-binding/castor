@@ -7,20 +7,16 @@
   <href>http://castor.codehaus.org</href>
 
   <topNav>
-      <navLink>
-        <url>license.xml</url>
-        <display>License</display>
-      </navLink>
+    <navLink>
+      <url>license.xml</url>
+      <display>License</display>
+    </navLink>
     <navLink>
       <url>http://www.codehaus.org</url>
       <display>Codehaus</display>
     </navLink>
     <navLink>
-      <url>http://www.exolab.org</url>
-      <display>ExoLab</display>
-    </navLink>
-    <navLink>
-      <url>http://openejb.codehaus.org</url>
+      <url>http://openejb.org</url>
       <display>OpenEJB</display>
     </navLink>
 
@@ -32,11 +28,6 @@
     <navLink>
       <url>http://openorb.sf.net</url>
       <display>OpenORB</display>
-    </navLink>
-
-    <navLink>
-      <url>http://castor.codehaus.org</url>
-      <display>Castor</display>
     </navLink>
 
     <navLink>
