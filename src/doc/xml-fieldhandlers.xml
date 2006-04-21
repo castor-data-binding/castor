@@ -304,7 +304,7 @@ Root#getDate : Mon May 10 00:00:00 CDT 2004
          <b>Note:</b>
          Currently the GeneralizedFieldHandler cannot be used from a
          <i>binding-file</i> for use with the SourceGenerator, an
-         enhancement patch will be checked into CVS for this feature,
+         enhancement patch will be checked into SVN for this feature,
          shortly after 0.9.6 final is released.
        </body-note>
       <p>
@@ -687,7 +687,7 @@ public class Test {
 
     <section title="Collections and FieldHandlers">
        <p>
-         <body-note>The <i>GeneralizedFieldHandler</i> checked into the CVS
+         <body-note>The <i>GeneralizedFieldHandler</i> checked into the SVN
          version (main branch / 0.9.6 Final) of Castor automatically supports iterating over
          the items of a collection and passing them one-by-one to the
          <i>convertUponGet</i>. For backward compatibility or to handle

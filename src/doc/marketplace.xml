@@ -15,7 +15,7 @@
 
        <p>As <a href="support.html">already</a> explained, Castor is an 
           open-source product. This means that the source code is available at 
-          no charge and may be obtained using <a href="scm.xml">CVS</a> or
+          no charge and may be obtained using <a href="scm.xml">SVN</a> or
          <a href="download.xml">downloaded</a> via 
          <url>http://dist.codehaus.org/castor</url>.</p>
 

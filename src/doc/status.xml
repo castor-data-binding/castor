@@ -199,7 +199,7 @@
        for a particular release.  An interim release alls the community to take
        advantage of the new features and bug fixes, without needing to wait until
        all features of the release have been finished. An interim release can
-       be done at any time that the CVS is in a stable state and especially if
+       be done at any time that the SVN is in a stable state and especially if
        some important bug fixes are available.
        </p>
        <p>

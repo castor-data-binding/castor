@@ -43,7 +43,7 @@
             <p>
                <b>Solution:</b><br/>
 
-                A built in work-around has been checked into the Castor CVS and will
+                A built in work-around has been checked into the Castor SVN and will
                 automatically exist in any post 0.9.5.2 releases. For those who are
                 using 0.9.5.2 and can't upgrade I found a simple workaround
                (tested with Xerces 2.5) , at first I thought about disabling namespace

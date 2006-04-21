@@ -24,10 +24,10 @@
                 </bug>
 -->
 <!-- 
-	    <release version="CVS">
-	        <description>New and on-going development</description>
-    		<date>tbd</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="CVS">
+            <description>New and on-going development</description>
+            <date>tbd</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
             </summary>
             <bugs>
@@ -35,12 +35,12 @@
         </release>
 -->
 
-	    <release version="CVS">
-	        <description>New and on-going development</description>
-    		<date>tbd</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="CVS">
+            <description>New and on-going development</description>
+            <date>tbd</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Development environment</h2>
+                <h2>Development environment</h2>
 
                 <p>On April 14. 2006 we have migrated Castor source repository from CVS
                    to SVN. At the moment we still provide read only access to CVS but this
@@ -49,12 +49,12 @@
                    work and move it over to SVN. Be aware that we will switch off CVS soon.</p>
 
                 <p>For details about SVN access please have a look at: 
-				<a href="cvs.html">SVN/JIRA</a>.</p>
+                <a href="cvs.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
                 <bug id="1380" tool="jira">
                     <description>
-		                Migrated Castor repository from CVS to SVN.
+                        Migrated Castor repository from CVS to SVN.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -74,7 +74,7 @@
                 </bug>
                 <bug id="1401" tool="jira">
                     <description>
-		                Added project specific settings for use with Eclipse.
+                        Added project specific settings for use with Eclipse.
                     </description>
                     <contributor>
                         <name>Henk van Voorthujsen</name>
@@ -94,7 +94,7 @@
                 </bug>
                 <bug id="1395" tool="jira">
                     <description>
-		                Fixed compiler warnings: 268 unused imports.
+                        Fixed compiler warnings: 268 unused imports.
                     </description>
                     <contributor>
                         <name>Henk van Voorthujsen</name>
@@ -114,7 +114,7 @@
                 </bug>
                 <bug id="1388" tool="jira">
                     <description>
-		                Refactored ClassMolder.update() to complete transfer to strategy pattern.
+                        Refactored ClassMolder.update() to complete transfer to strategy pattern.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -134,7 +134,7 @@
                 </bug>
                 <bug id="1394" tool="jira">
                     <description>
-		                Fixed compiler warnings: 104 instance of instance access to static fields/methods.
+                        Fixed compiler warnings: 104 instance of instance access to static fields/methods.
                     </description>
                     <contributor>
                         <name>Henk van Voorthujsen</name>
@@ -154,7 +154,7 @@
                 </bug>
                 <bug id="1393" tool="jira">
                     <description>
-		                Fixed compiler warnings: 103 unnecessary casts.
+                        Fixed compiler warnings: 103 unnecessary casts.
                     </description>
                     <contributor>
                         <name>Henk van Voorthujsen</name>
@@ -174,7 +174,7 @@
                 </bug>
                 <bug id="1391" tool="jira">
                     <description>
-		                Upgrad checkstyle configuration from version 3.5 to 4.1.0beta3.
+                        Upgrad checkstyle configuration from version 3.5 to 4.1.0beta3.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -194,7 +194,7 @@
                 </bug>
                 <bug id="1370" tool="jira">
                     <description>
-		                Refactored ProposedObject (and renamed it to ProposedEntity).
+                        Refactored ProposedObject (and renamed it to ProposedEntity).
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -214,7 +214,7 @@
                 </bug>
                 <bug id="1355" tool="jira">
                     <description>
-		                Fixed problem related to lazy loading objects part of an 1:1 relation.
+                        Fixed problem related to lazy loading objects part of an 1:1 relation.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -234,7 +234,7 @@
                 </bug>
                 <bug id="1379" tool="jira">
                     <description>
-		                Fixed problem related to loading object hierarchies with access mode DB_LOCKED.
+                        Fixed problem related to loading object hierarchies with access mode DB_LOCKED.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -254,7 +254,7 @@
                 </bug>
                 <bug id="1389" tool="jira">
                     <description>
-		                Replaced org.exolab.castor.util.Messages by org.castor.util.Messages.
+                        Replaced org.exolab.castor.util.Messages by org.castor.util.Messages.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -274,7 +274,7 @@
                 </bug>
                 <bug id="1387" tool="jira">
                     <description>
-		                Removed postgreSQL JAR from Eclipse templates
+                        Removed postgreSQL JAR from Eclipse templates
                     </description>
                     <contributor>
                         <name>Henk van Voorthujsen</name>
@@ -294,7 +294,7 @@
                 </bug>
                 <bug id="1386" tool="jira">
                     <description>
-		                Extracted all keys of JDO properties into org.castor.util.ConfigKeys.
+                        Extracted all keys of JDO properties into org.castor.util.ConfigKeys.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -314,7 +314,7 @@
                 </bug>
                 <bug id="1385" tool="jira">
                     <description>
-		                Removed dependecy of JDO on org.exolab.castor.util.LocalConfiguration.
+                        Removed dependecy of JDO on org.exolab.castor.util.LocalConfiguration.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -334,7 +334,7 @@
                 </bug>
                 <bug id="1381" tool="jira">
                     <description>
-		                Removed org.exolab.castor.util.Logger.
+                        Removed org.exolab.castor.util.Logger.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -354,24 +354,24 @@
                 </bug>
             </bugs>
         </release>
-	    <release version="1.0">
-	        <description>New and on-going development</description>
-    		<date>April 6, 2006</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="1.0">
+            <description>New and on-going development</description>
+            <date>April 6, 2006</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Requirements</h2>
+                <h2>Requirements</h2>
 
-				<h3>Introduced <font color="red">Java 1.4</font> as a dependecy</h3>
-				
-				<p>This is a reminder that we have started to add some features that more or less depend 
-				   on features made available with Java 1.4 (only), such as the JDBC 3.0 API enhancements. As
-				   such, we have made Java 1.4 a key requirement for the upcoming Castor 1.0 release.</p>
-				   
+                <h3>Introduced <font color="red">Java 1.4</font> as a dependecy</h3>
+                
+                <p>This is a reminder that we have started to add some features that more or less depend 
+                   on features made available with Java 1.4 (only), such as the JDBC 3.0 API enhancements. As
+                   such, we have made Java 1.4 a key requirement for the upcoming Castor 1.0 release.</p>
+                   
             </summary>
             <bugs>
                 <bug id="1371" tool="jira">
                     <description>
-		                Fixed problem in SchemaWriter related to annotations.
+                        Fixed problem in SchemaWriter related to annotations.
                     </description>
                     <contributor>
                         <name>Hristo Ganev</name>
@@ -391,7 +391,7 @@
                 </bug>
                 <bug id="972" tool="jira">
                     <description>
-		                Fixed lock conflict in TransactionContext.rollback when using dbLocked.
+                        Fixed lock conflict in TransactionContext.rollback when using dbLocked.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -411,7 +411,7 @@
                 </bug>
                 <bug id="1376" tool="jira">
                     <description>
-		                Added HOW-TO Unmarshal raw XML segments into arbitrary types.
+                        Added HOW-TO Unmarshal raw XML segments into arbitrary types.
                     </description>
                     <contributor>
                         <name>Matt Secoske</name>
@@ -431,7 +431,7 @@
                 </bug>
                 <bug id="1039" tool="jira">
                     <description>
-		                Fixed Castor being unable to find FieldDescriptor when using
+                        Fixed Castor being unable to find FieldDescriptor when using
                         auto-naming with location.
                     </description>
                     <contributor>
@@ -452,7 +452,7 @@
                 </bug>
                 <bug id="1346" tool="jira">
                     <description>
-		                Fixed notifyPropertyChangeListeners not being called when
+                        Fixed notifyPropertyChangeListeners not being called when
                         bound properties is set true.
                     </description>
                     <contributor>
@@ -473,7 +473,7 @@
                 </bug>
                 <bug id="1340" tool="jira">
                     <description>
-		                Fixed unmarshaller error with generated code when using groups.
+                        Fixed unmarshaller error with generated code when using groups.
                     </description>
                     <contributor>
                         <name>Barbara Prechtl</name>
@@ -493,7 +493,7 @@
                 </bug>
                 <bug id="1164" tool="jira">
                     <description>
-		                Refactored CTF-JDO tests into subdirectories (part 3).
+                        Refactored CTF-JDO tests into subdirectories (part 3).
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -513,22 +513,22 @@
                 </bug>
             </bugs>
         </release>
-	    <release version="1.0M4">
-	        <description>4th milestone release for Castor 1.0</description>
-    		<date>March 23, 2006</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="1.0M4">
+            <description>4th milestone release for Castor 1.0</description>
+            <date>March 23, 2006</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Requirements</h2>
+                <h2>Requirements</h2>
 
-				<h3>Introduced <font color="red">Java 1.4</font> as a dependecy</h3>
-				
-				<p>This is a reminder that we have started to add some features that more or less depend 
-				   on features made available with Java 1.4 (only), such as the JDBC 3.0 API enhancements. As
-				   such, we have made Java 1.4 a key requirement for the upcoming Castor 1.0 release.</p>
-				   
-				<h2>Additions</h2>
+                <h3>Introduced <font color="red">Java 1.4</font> as a dependecy</h3>
                 
-				<h3>Updated/Added to XML Documentation</h3>
+                <p>This is a reminder that we have started to add some features that more or less depend 
+                   on features made available with Java 1.4 (only), such as the JDBC 3.0 API enhancements. As
+                   such, we have made Java 1.4 a key requirement for the upcoming Castor 1.0 release.</p>
+                   
+                <h2>Additions</h2>
+                
+                <h3>Updated/Added to XML Documentation</h3>
                 
                 <p>Two new XML how-tos have been added to the XML HOW-TOs page,
                    one on fetching XML dependencies (DTDs and schemas) from JAR
@@ -538,8 +538,8 @@
                    in Castor's DTDResolver (this aids in fetching the DTD from the 
                    Castor JAR rather than the web address).</p>
                 
-				<h3>Added cache implementation for high volunm and high performance</h3>
-				
+                <h3>Added cache implementation for high volunm and high performance</h3>
+                
                 <p>The cache types <b>fifo</b> and <b>lru</b> are based on a set of articles in the
                    O'Reilly Network by William Grosso, to implement a simplified and 1.3-compatible
                    implementation of a Hashbelt algorithm.</p>
@@ -560,7 +560,7 @@
                    A pluggable "expire behavior" handler allows you to determine what action is taken
                    on something which drops off of the bottom of the conveyor belt.</p>
 
-				<p>As of release 1.0 Castor knows of 11 cache types. To use this cache types, their
+                <p>As of release 1.0 Castor knows of 11 cache types. To use this cache types, their
                    factories need to be configured in castor.properties file. If you use a custom
                    castor.properties file you need to add the new cache factories to be able to use
                    the new cache types.</p>
@@ -598,7 +598,7 @@ org.castor.cache.Factories=\
           name   NMTOKEN  #REQUIRED
           value  NMTOKEN  #REQUIRED>]]></code-panel></p>
 
-				<p>In difference to all other cache types the <b>fifo</b> and <b>lru</b> cache
+                <p>In difference to all other cache types the <b>fifo</b> and <b>lru</b> cache
                    types offer various configuration options. Both of them have 6 parameters to
                    configure their behaviour.</p>
 
@@ -713,7 +713,7 @@ org.castor.cache.Factories=\
 </cache-type>]]></code-panel></p>
 
                 <h2>Code cleanup</h2>
-				
+                
                 <p>We removed following classes and methods that had been deprecated for
                    a while now. </p>
                    
@@ -755,7 +755,7 @@ org.castor.cache.Factories=\
             <bugs>
                 <bug id="1368" tool="jira">
                     <description>
-		                Extract creation and execution of SQL satements from SQLEngine.
+                        Extract creation and execution of SQL satements from SQLEngine.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -775,7 +775,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1369" tool="jira">
                     <description>
-		                Fixed NPE in case of extension of union.
+                        Fixed NPE in case of extension of union.
                     </description>
                     <contributor>
                         <name>Stoil Valchkov</name>
@@ -795,7 +795,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="824" tool="jira">
                     <description>
-		                Improved exception handling in UnmarshallHandler
+                        Improved exception handling in UnmarshallHandler
                     </description>
                     <contributor>
                         <name>Benoit Maisonny</name>
@@ -815,7 +815,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1281" tool="jira">
                     <description>
-		                Introduced new org.castor.util.Configuration.
+                        Introduced new org.castor.util.Configuration.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -835,7 +835,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1356" tool="jira">
                     <description>
-		                Fixed false alarm log message at DatabaseImpl.finalize.
+                        Fixed false alarm log message at DatabaseImpl.finalize.
                     </description>
                     <contributor>
                         <name>Bruce Snyder</name>
@@ -855,7 +855,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1363" tool="jira">
                     <description>
-		                Removed deprecated classes and methods.
+                        Removed deprecated classes and methods.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -875,7 +875,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1364" tool="jira">
                     <description>
-		                Fixed wrong generation of 'setFixed(String)'-method for XSNormalizeStrings.
+                        Fixed wrong generation of 'setFixed(String)'-method for XSNormalizeStrings.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -895,7 +895,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1360" tool="jira">
                     <description>
-		                Fixed problem with missing class file in XML jar.
+                        Fixed problem with missing class file in XML jar.
                     </description>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -915,7 +915,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="867" tool="jira">
                     <description>
-		                Added cache implementation for large cache sizes.
+                        Added cache implementation for large cache sizes.
                     </description>
                     <contributor>
                         <name>Gregory Block</name>
@@ -955,7 +955,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1089" tool="jira">
                     <description>
-		                Revised SQL statement used by IdentityKeyGenerator for IBM DB2.
+                        Revised SQL statement used by IdentityKeyGenerator for IBM DB2.
                     </description>
                     <contributor>
                         <name>Tim Telcik</name>
@@ -995,7 +995,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1354" tool="jira">
                     <description>
-		                Add HOW-TO on using identities and references in XML
+                        Add HOW-TO on using identities and references in XML
                     </description>
                     <contributor>
                         <name>Stephen Bash</name>
@@ -1015,7 +1015,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1353" tool="jira">
                     <description>
-		                Fixed incorrect DOCTYPE references in various XML Mapping docs.
+                        Fixed incorrect DOCTYPE references in various XML Mapping docs.
                     </description>
                     <contributor>
                         <name>Stephen Bash</name>
@@ -1035,7 +1035,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1352" tool="jira">
                     <description>
-		                Add HOW-TO on how to fetch DTDs from JAR file
+                        Add HOW-TO on how to fetch DTDs from JAR file
                     </description>
                     <contributor>
                         <name>Stephen Bash</name>
@@ -1055,7 +1055,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1350" tool="jira">
                     <description>
-		                Added UTF test of IdentityMap.entrySet.
+                        Added UTF test of IdentityMap.entrySet.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -1075,7 +1075,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1347" tool="jira">
                     <description>
-		                Fixed issue with XMLDescriptor generating wrong method name
+                        Fixed issue with XMLDescriptor generating wrong method name
                         'getElementDefinition' instead of 'isElementDefinition'.
                     </description>
                     <contributor>
@@ -1096,84 +1096,84 @@ org.castor.cache.Factories=\
                 </bug>
             </bugs>
         </release>
-	    <release version="1.0M3">
-	        <description>3rd milestone release for Castor 1.0</description>
-    		<date>March 07, 2006</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="1.0M3">
+            <description>3rd milestone release for Castor 1.0</description>
+            <date>March 07, 2006</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Requirements</h2>
+                <h2>Requirements</h2>
 
-				<h3>Introduced <font color="red">Java 1.4</font> as a dependecy</h3>
-				
-				<p>As we have started to add some features that more or less depend on features made
-				   available with Java 1.4 (only), such as the JDBC 3.0 API enhancements, we have
-				   made Java 1.4 a key requiremnt for the upcoming Castor 1.0 release.</p>
-				   
-				<p>This decision is a result of a discussion on the mailing lists a couple of months 
-				   ago, where nobody was voicing any objections.</p>
-				
-				<h2>Additions</h2>
-				
-				<h3>Added support for OSCache</h3>
-				
-				<p>By specifing
+                <h3>Introduced <font color="red">Java 1.4</font> as a dependecy</h3>
+                
+                <p>As we have started to add some features that more or less depend on features made
+                   available with Java 1.4 (only), such as the JDBC 3.0 API enhancements, we have
+                   made Java 1.4 a key requiremnt for the upcoming Castor 1.0 release.</p>
+                   
+                <p>This decision is a result of a discussion on the mailing lists a couple of months 
+                   ago, where nobody was voicing any objections.</p>
+                
+                <h2>Additions</h2>
+                
+                <h3>Added support for OSCache</h3>
+                
+                <p>By specifing
                    <code-panel><![CDATA[
 <cache-type type="oscache"/>]]></code-panel>
                    at class mapping you can now use OSCache with Castor JDO.</p>
-				
-				<h3>Added 'abstract/concrete' annotation to XMLDescriptor</h3>
-				
-				<p>With this addition, it is now possibel to query whether a particular XML element (represented
-				   by an XMLClassDesscriptor internally) is <i>abstract</i> or <i>concrete</i>, that is (in the 
-				   context of source generation) a result of a &lt;complexType&gt; definition or an 
-				   &lt;element&gt; declaration. This is particularly relevant for tool providers who need to 
-				   integrate with Castor XML, and as a result of this addition can now use the new
-				   <tt>isElementDefinition()</tt> method to query an artefact's state.</p>
-				
-				<h3>New XML HOW-TOs added</h3>
-				
-				<p>Added XML HOW-TOs for mapping collections and maps.</p>
-				
-				<h3>Added new SAX2EventProducer interface</h3>
-				
-				<p>Added new <api>org.exolab.castor.xml.SAX2EventProducer</api> interface to allow passing 
-				   SAX 2 events to Castor XML, deprecating the existing 
-				   <api>org.exolab.castor.xml.EventProducer</api> interface at the same time. At the same time,
-				   a new <api class="org.exolab.castor.xml.Unmarshaller">unmarshal(SAX2EventProducer)</api>
-				    method has been added to <api>org.exolab.castor.xml.Unmarshaller</api>, deprecating 
-				    the existing <api class="org.exolab.castor.xml.Unmarshaller">unmarshal(EventProducer)</api> 
-				   method at the same time.</p>
-				
-				<h3>Added support for postgreSQL to identity key generator</h3>
-				
-				<p>Added support for the postgreSQL column type 'SERIAL' to the 
-				   identity key generator. With this change, it's now possible to use
-				   the identity key generator with postgreSQL on columns with type 
-				   'SERIAL'. Castor internally will issue a call to</p>
-				   
-				<code-panel>
-   SELECT currval('&lt;table_name&gt;_id_seq')			
-				</code-panel>
-				
-				<p>to automatically retrieve the value assigned due to 'SERIAL' column 
-				   during the insert operation.</p>
+                
+                <h3>Added 'abstract/concrete' annotation to XMLDescriptor</h3>
+                
+                <p>With this addition, it is now possibel to query whether a particular XML element (represented
+                   by an XMLClassDesscriptor internally) is <i>abstract</i> or <i>concrete</i>, that is (in the 
+                   context of source generation) a result of a &lt;complexType&gt; definition or an 
+                   &lt;element&gt; declaration. This is particularly relevant for tool providers who need to 
+                   integrate with Castor XML, and as a result of this addition can now use the new
+                   <tt>isElementDefinition()</tt> method to query an artefact's state.</p>
+                
+                <h3>New XML HOW-TOs added</h3>
+                
+                <p>Added XML HOW-TOs for mapping collections and maps.</p>
+                
+                <h3>Added new SAX2EventProducer interface</h3>
+                
+                <p>Added new <api>org.exolab.castor.xml.SAX2EventProducer</api> interface to allow passing 
+                   SAX 2 events to Castor XML, deprecating the existing 
+                   <api>org.exolab.castor.xml.EventProducer</api> interface at the same time. At the same time,
+                   a new <api class="org.exolab.castor.xml.Unmarshaller">unmarshal(SAX2EventProducer)</api>
+                    method has been added to <api>org.exolab.castor.xml.Unmarshaller</api>, deprecating 
+                    the existing <api class="org.exolab.castor.xml.Unmarshaller">unmarshal(EventProducer)</api> 
+                   method at the same time.</p>
+                
+                <h3>Added support for postgreSQL to identity key generator</h3>
+                
+                <p>Added support for the postgreSQL column type 'SERIAL' to the 
+                   identity key generator. With this change, it's now possible to use
+                   the identity key generator with postgreSQL on columns with type 
+                   'SERIAL'. Castor internally will issue a call to</p>
+                   
+                <code-panel>
+   SELECT currval('&lt;table_name&gt;_id_seq')          
+                </code-panel>
+                
+                <p>to automatically retrieve the value assigned due to 'SERIAL' column 
+                   during the insert operation.</p>
 
-				<h3>Added fully self-contained Castor JDO sample application</h3>
+                <h3>Added fully self-contained Castor JDO sample application</h3>
 
-				<p>Added new ZIP archive to distribution that contains a fully self-contained Castor JDO 
-				   sample applicationthat runs against an embedded Apache Derby database.</p>
-				   
-				<p>Simply download the the archive, unpack it, and in the target directory created, execute
-				   'java -jar castor-1.0M2-examples.jar' to have the test executed. This will (magically)
-				   create a Derby database (on-the-fly) and use it to execute the Castor JDO code against it.</p>
+                <p>Added new ZIP archive to distribution that contains a fully self-contained Castor JDO 
+                   sample applicationthat runs against an embedded Apache Derby database.</p>
+                   
+                <p>Simply download the the archive, unpack it, and in the target directory created, execute
+                   'java -jar castor-1.0M2-examples.jar' to have the test executed. This will (magically)
+                   create a Derby database (on-the-fly) and use it to execute the Castor JDO code against it.</p>
 
-				<h3>Added additional syntax for specifying identity columns</h3>
-				
-				<p>In addition to the current way of specifying the identity column(s) for a given
-				   class, it is now possible to declare a field to be part of the identity 
-				   as shown below:</p>
-				   
-				<code-panel>
+                <h3>Added additional syntax for specifying identity columns</h3>
+                
+                <p>In addition to the current way of specifying the identity column(s) for a given
+                   class, it is now possible to declare a field to be part of the identity 
+                   as shown below:</p>
+                   
+                <code-panel>
   &lt;class name="ctf.jdo.tc1x.Parent"&gt;
     &lt;description&gt;Entite one&lt;/description&gt;
     &lt;map-to table="tc1x_entity1" xml="entity1" /&gt;
@@ -1184,9 +1184,9 @@ org.castor.cache.Factories=\
       &lt;sql name="name" type="char" /&gt;
     &lt;/field&gt;
   &lt;/class>
-				</code-panel>
+                </code-panel>
 
-				<h3>Added collection type 'iterator' (java.util.Iterator) to Castor JDO</h3>
+                <h3>Added collection type 'iterator' (java.util.Iterator) to Castor JDO</h3>
                 
                 <p>It is now possible to define a one-to-many relation with a collection
                    type of 'iterator'. This allows the access of custom collection classes
@@ -1199,7 +1199,7 @@ org.castor.cache.Factories=\
    &lt;/field&gt;                    
                 </code-panel>
 
-				<h3>Added collection type 'enumerate' (java.util.Enumeration) to Castor JDO</h3>
+                <h3>Added collection type 'enumerate' (java.util.Enumeration) to Castor JDO</h3>
                 
                 <p>It is now possible to define a one-to-many relation with a collection
                    type of 'enumerate'.</p>
@@ -1210,7 +1210,7 @@ org.castor.cache.Factories=\
    &lt;/field&gt;                    
                 </code-panel>
 
-				<h3>Added WeblogicXMLSerializerFactory</h3>
+                <h3>Added WeblogicXMLSerializerFactory</h3>
                 
                 <p>To use the Xerces implementation delivered with Weblogic 7 and 8 you
                    have to change castor.properties file to contain the following entry:</p>
@@ -1221,11 +1221,11 @@ org.castor.cache.Factories=\
 # default is org.exolab.castor.xml.XercesXMLSerializerFactory  
 org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXercesXMLSerializerFactory
                 </code>
-			</summary>
-			<bugs>
+            </summary>
+            <bugs>
                 <bug id="1330" tool="jira">
                     <description>
-		                Fixed problem with prioritizing delete operations.
+                        Fixed problem with prioritizing delete operations.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -1245,7 +1245,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1341" tool="jira">
                     <description>
-		                Fixed issue with bad dates being persisted in Oracle 9.2.
+                        Fixed issue with bad dates being persisted in Oracle 9.2.
                     </description>
                     <contributor>
                         <name>August Detlefsen</name>
@@ -1265,7 +1265,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1186" tool="jira">
                     <description>
-		                Added support for OSCache.
+                        Added support for OSCache.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -1285,7 +1285,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1333" tool="jira">
                     <description>
-				    	Fixed inconsistency related to not calling setPreserveWhiteSpace(true) in Unmarshaller.unmarshal(Class, Node)
+                        Fixed inconsistency related to not calling setPreserveWhiteSpace(true) in Unmarshaller.unmarshal(Class, Node)
                     </description>
                     <contributor>
                         <name>Thomas Tatzel</name>
@@ -1305,7 +1305,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="962" tool="jira">
                     <description>
-				       Improved code quality of DataObjectAccessException.
+                       Improved code quality of DataObjectAccessException.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1325,7 +1325,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1328" tool="jira">
                     <description>
-				    	Added property to XMLClassDescriptor to distinguish whether XML
+                        Added property to XMLClassDescriptor to distinguish whether XML
                         artefact represented is abstract/concrete
                     </description>
                     <contributor>
@@ -1346,7 +1346,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1159" tool="jira">
                     <description>
-				    	Fixed problem with range checking in code generated for collections.
+                        Fixed problem with range checking in code generated for collections.
                     </description>
                     <contributor>
                         <name>Martin Kleppmann</name>
@@ -1366,7 +1366,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1329" tool="jira">
                     <description>
-				    	Added XML HOW-TOs for mapping collections and maps.
+                        Added XML HOW-TOs for mapping collections and maps.
                     </description>
                     <contributor>
                         <name>Robby Pelssers</name>
@@ -1386,7 +1386,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1326" tool="jira">
                     <description>
-				    	Added new EventProducer2 interface to allow streaming of SAX 2 events into Castor XML
+                        Added new EventProducer2 interface to allow streaming of SAX 2 events into Castor XML
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1406,7 +1406,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1127" tool="jira">
                     <description>
-				    	Added support for non-numeric identities to sequence key generator
+                        Added support for non-numeric identities to sequence key generator
                     </description>
                     <contributor>
                         <name>Tim Telcik</name>
@@ -1426,7 +1426,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1323" tool="jira">
                     <description>
-		                Fixed failure in MappingTool that always caused a NullPointerException.
+                        Fixed failure in MappingTool that always caused a NullPointerException.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -1446,8 +1446,8 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="998" tool="jira">
                     <description>
-				    	Added new ZIP file to distribution that contains fully self-containd Castor JDO sample 
-       					code running against Apache Derby (embedded).
+                        Added new ZIP file to distribution that contains fully self-containd Castor JDO sample 
+                        code running against Apache Derby (embedded).
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1467,7 +1467,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1325" tool="jira">
                     <description>
-		                Added how to wrap a collection with a wrapper element.
+                        Added how to wrap a collection with a wrapper element.
                     </description>
                     <contributor>
                         <name>James Adams</name>
@@ -1487,7 +1487,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1324" tool="jira">
                     <description>
-		                Added WeblogicXMLSerializerFactory.
+                        Added WeblogicXMLSerializerFactory.
                     </description>
                     <contributor>
                         <name>Thierry Guerin</name>
@@ -1507,7 +1507,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1322" tool="jira">
                     <description>
-				       Fixed problem in Windows batch files related to directory names with spaces.
+                       Fixed problem in Windows batch files related to directory names with spaces.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1527,7 +1527,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1293" tool="jira">
                     <description>
-		                Fixed NullPointerException in ClassDescriptorImpl caused by
+                        Fixed NullPointerException in ClassDescriptorImpl caused by
                         Class.getClassLoader() returning null in some situations.
                     </description>
                     <contributor>
@@ -1548,7 +1548,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1232" tool="jira">
                     <description>
-				       Added additional snytax for specifying identity columns
+                       Added additional snytax for specifying identity columns
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1568,7 +1568,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1314" tool="jira">
                     <description>
-				       Added Castor JDO collection type 'enumerate' (java.util.Enumeration).
+                       Added Castor JDO collection type 'enumerate' (java.util.Enumeration).
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1588,7 +1588,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1321" tool="jira">
                     <description>
-		                Checkstyled recently added classes under org.castor.jdo.driver.
+                        Checkstyled recently added classes under org.castor.jdo.driver.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -1608,7 +1608,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1315" tool="jira">
                     <description>
-				       Added Castor JDO collection type 'iterator' (java.util.Iterator).
+                       Added Castor JDO collection type 'iterator' (java.util.Iterator).
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1628,7 +1628,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1316" tool="jira">
                     <description>
-				       Added SQL statement logging support for JDBC CallableStatements
+                       Added SQL statement logging support for JDBC CallableStatements
                     </description>
                     <contributor>
                         <name>Raúl Sanz de Acedo Pérez</name>
@@ -1648,8 +1648,8 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1317" tool="jira">
                     <description>
-				       Prevented DatabaseImpl.finalize() from logging when used with global transactions and
-                       database pooling enabled.	
+                       Prevented DatabaseImpl.finalize() from logging when used with global transactions and
+                       database pooling enabled.    
                     </description>
                     <contributor>
                         <name>Raúl Sanz de Acedo Pérez</name>
@@ -1669,8 +1669,8 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="475" tool="jira">
                     <description>
-				       Fixed problem with wrongly generated SQL with self-referential objects that are part of 
-				       an extend hierarchy.
+                       Fixed problem with wrongly generated SQL with self-referential objects that are part of 
+                       an extend hierarchy.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1690,9 +1690,9 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                 </bug>
                 <bug id="1128" tool="jira">
                     <description>
-		                Fixed problem related to the use of 'depend' relations and identity
-						key generators. At the same time, support for postgreSQL has been 
-						added to the identity key generator.
+                        Fixed problem related to the use of 'depend' relations and identity
+                        key generators. At the same time, support for postgreSQL has been 
+                        added to the identity key generator.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1710,31 +1710,31 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                     <module>JDO</module>
                     <date>20060203</date>
                 </bug>
-				<bug id="1310" tool="jira">
-					<description>Added identity key generator support for Borland Pointbase to Castor JDO.</description>
-					<contributor>
-						<name>Werner Guttmann</name>
-						<email>werner.guttmann@gmx.net</email>
-					</contributor>
-					<submitter>
-						<name>Werner Guttmann</name>
-						<email>werner.guttmann@gmx.net</email>
-					</submitter>
-					<reporter>
-						<name>Werner Guttmann</name>
-						<email>werner.guttmann@gmx.net</email>
-					</reporter>
-					<type>Bug</type>
-					<module>JDO</module>
-					<date>20060206</date>
-					</bug>
+                <bug id="1310" tool="jira">
+                    <description>Added identity key generator support for Borland Pointbase to Castor JDO.</description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060206</date>
+                    </bug>
                 
-			</bugs>
-		</release>
-	    <release version="1.0M2">
-	        <description>2nd milestone release for Castor 1.0</description>
-    		<date>Febraury 03, 2006</date>
-    		<managed-by>Werner Guttmann</managed-by>
+            </bugs>
+        </release>
+        <release version="1.0M2">
+            <description>2nd milestone release for Castor 1.0</description>
+            <date>Febraury 03, 2006</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
                 <h2>Additions</h2>
                 
@@ -1766,8 +1766,8 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                    now able to instruct Castor to use case insensitive lookups for
                    enumerated type values.</p>
                    
-				<h2>Changes</h2>
-				
+                <h2>Changes</h2>
+                
                 <p>As a result of this refactoring, we had to change the way a XMLSerializer
                    is created (instantiated). Rather than letting Castor know about the 
                    XMLSerializer to use, as in</p>
@@ -1812,7 +1812,7 @@ org.castor.cache.Factories=\
   org.castor.cache.distributed.JCacheFactory,\
   org.castor.cache.distributed.CoherenceCacheFactory
                 </code>
-				
+                
                 <p>Note: By also moving CacheFactoryRegistry to org.castor.cache
                    package the property has been renamed from 1.0M1 a second time.</p>
 
@@ -1894,12 +1894,12 @@ org.castor.cache.Factories=\
                    mapping to cache we again changed the way debugging is enabled. The
                    property in castor.properties file from relaese 1.0M1 is no longer
                    supported.</p>
-			</summary>
+            </summary>
             <bugs>
 
                 <bug id="1310" tool="jira">
                     <description>
-		                Added identity key generator support for Borland Pointbase to Castor JDO.
+                        Added identity key generator support for Borland Pointbase to Castor JDO.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1919,7 +1919,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1305" tool="jira">
                     <description>
-		                Added support for Borland Pointbase to Castor JDO.
+                        Added support for Borland Pointbase to Castor JDO.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1939,7 +1939,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1238" tool="jira">
                     <description>
-		                Allowed restricting an complexType with complexContent to
+                        Allowed restricting an complexType with complexContent to
                         complexType with simpleContent.
                     </description>
                     <contributor>
@@ -1960,7 +1960,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="903" tool="jira">
                     <description>
-		                Added documentation about Castor JDO Persistence interface.
+                        Added documentation about Castor JDO Persistence interface.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -1980,7 +1980,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1288" tool="jira">
                     <description>
-		                Allowed case insensitive lookups for enumerated type values.
+                        Allowed case insensitive lookups for enumerated type values.
                     </description>
                     <contributor>
                         <name>Will McKinley</name>
@@ -2000,7 +2000,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1308" tool="jira">
                     <description>
-		                Fixed NullPointerException in MappingTool.
+                        Fixed NullPointerException in MappingTool.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2020,7 +2020,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="785" tool="jira">
                     <description>
-		                Move class loading code for Castor JDO to a single utility class
+                        Move class loading code for Castor JDO to a single utility class
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2040,7 +2040,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1282" tool="jira">
                     <description>
-		                Added HOW-TO document for enabling XML parser validation.
+                        Added HOW-TO document for enabling XML parser validation.
                     </description>
                     <contributor>
                         <name>Stephen Bash</name>
@@ -2060,7 +2060,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1139" tool="jira">
                     <description>
-		                Added Database.isLocked(Class, Object) method.
+                        Added Database.isLocked(Class, Object) method.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2080,7 +2080,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1304" tool="jira">
                     <description>
-		                Fixed some errors in some XML files.
+                        Fixed some errors in some XML files.
                     </description>
                     <contributor>
                         <name>Clovis Wichosky</name>
@@ -2100,7 +2100,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1268" tool="jira">
                     <description>
-		                Replaced incorrect use of URL.toString() with URL.toExternalForm().
+                        Replaced incorrect use of URL.toString() with URL.toExternalForm().
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2120,7 +2120,7 @@ org.castor.cache.Factories=\
                 </bug>
                <bug id="379" tool="jira">
                     <description>
-		                Improved exception handling by chaining original exception.
+                        Improved exception handling by chaining original exception.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2140,7 +2140,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1267" tool="jira">
                     <description>
-		                Fixed bug in SourceGenerator that caused xsd:enumeration values
+                        Fixed bug in SourceGenerator that caused xsd:enumeration values
                         for NMTOKENS and integer being created with wrong type.
                     </description>
                     <contributor>
@@ -2161,7 +2161,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1303" tool="jira">
                     <description>
-		                Code cleanup at SQLEngine.
+                        Code cleanup at SQLEngine.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -2181,7 +2181,7 @@ org.castor.cache.Factories=\
                 </bug>
                <bug id="1301" tool="jira">
                     <description>
-		                De-deprecated getDatabasePooling() and setDatabasePooling(boolean) methods.
+                        De-deprecated getDatabasePooling() and setDatabasePooling(boolean) methods.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2201,7 +2201,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1292" tool="jira">
                     <description>
-		                Fixed problem with SQL generated for classes that are part of an extend hierarchy.
+                        Fixed problem with SQL generated for classes that are part of an extend hierarchy.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2221,7 +2221,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1273" tool="jira">
                     <description>
-		                Removed compile &amp; runtime dependencies for Apache Xerces.
+                        Removed compile &amp; runtime dependencies for Apache Xerces.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2241,7 +2241,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1300" tool="jira">
                     <description>
-		                Fixed NPE in SourceCodeGenerator.
+                        Fixed NPE in SourceCodeGenerator.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -2261,7 +2261,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1272" tool="jira">
                     <description>
-		                Added support for List interface during marshalling of collections 
+                        Added support for List interface during marshalling of collections 
                     </description>
                     <contributor>
                         <name>Kevin Taylor</name>
@@ -2274,14 +2274,14 @@ org.castor.cache.Factories=\
                     <reporter>
                         <name>Kevin Taylor</name>
                         <email>code@obtiva.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>XML</module>
                     <date>20060113</date>
                 </bug>
                 <bug id="1299" tool="jira">
                     <description>
-		                Allowed to specify individual parameters for cache initialization
+                        Allowed to specify individual parameters for cache initialization
                         in mapping.
                     </description>
                     <contributor>
@@ -2302,7 +2302,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1280" tool="jira">
                     <description>
-		                Made CacheRegistry non static.
+                        Made CacheRegistry non static.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -2322,7 +2322,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1298" tool="jira">
                     <description>
-		                Added ReadWriteLock's and ConcurrentHashMap from Doug Lea.
+                        Added ReadWriteLock's and ConcurrentHashMap from Doug Lea.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -2342,7 +2342,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="551" tool="jira">
                     <description>
-		                Removed exception-dependency in Parser and Lexer
+                        Removed exception-dependency in Parser and Lexer
                         including some code improvements.
                     </description>
                     <contributor>
@@ -2363,7 +2363,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1289" tool="jira">
                     <description>
-		                Fixed problem with generated ClassChoice instances.
+                        Fixed problem with generated ClassChoice instances.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2383,7 +2383,7 @@ org.castor.cache.Factories=\
                 </bug>
                 <bug id="1218" tool="jira">
                     <description>
-		                Moved all script/batch files to new bin directory.
+                        Moved all script/batch files to new bin directory.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2402,29 +2402,29 @@ org.castor.cache.Factories=\
                     <date>20051228</date>
                 </bug>
             </bugs>
-		</release>
-	    <release version="1.0M1">
-	        <description>Milestone release for Castor XML and JDO</description>
-    		<date>December 22, 2005</date>
-    		<managed-by>Werner Guttmann</managed-by>
-			<summary>
+        </release>
+        <release version="1.0M1">
+            <description>Milestone release for Castor XML and JDO</description>
+            <date>December 22, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
                 <h2>New features</h2>
-				
-				<h3>Support for collections of type 'SortedSet' (incl. use of Comparator)</h3>
-				
-				<p>Support has been added for the new collection type 'sortedset'. This allows users
-				of Castor (XML and JDO) to use collections of type <tt>java.util.SortedSet</tt> to allow
-				for automatic ordering of the collection upon e.g. insertion of the data.</p>
-				
-				<p>User can either specify a <tt>java.util.Comparator</tt
+                
+                <h3>Support for collections of type 'SortedSet' (incl. use of Comparator)</h3>
+                
+                <p>Support has been added for the new collection type 'sortedset'. This allows users
+                of Castor (XML and JDO) to use collections of type <tt>java.util.SortedSet</tt> to allow
+                for automatic ordering of the collection upon e.g. insertion of the data.</p>
+                
+                <p>User can either specify a <tt>java.util.Comparator</tt
                 > instance using the <i>comparator</i>
-				attribute on the field mapping, or make the entities stored within the <tt>SortedSet</tt> 
-				implement <tt>java.util.Comparable</tt>.</p>
+                attribute on the field mapping, or make the entities stored within the <tt>SortedSet</tt> 
+                implement <tt>java.util.Comparable</tt>.</p>
                     
-				<h2>Changes</h2>
-				
+                <h2>Changes</h2>
+                
                 <h3>Moved JDO configuration from org.exolab.castor to org.castor package</h3>
-				
+                
                 <p>With this refactoring JDOConfFactory has also been moved from
                    <b>org.exolab.castor.jdo.util</b> to <b>org.castor.jdo.util</b> package.
                    In addition we allowed to specify a name attribute on the jdo-conf tag that
@@ -2449,7 +2449,7 @@ org.castor.jdo.cacheFactories=\
   org.castor.cache.distributed.JCacheFactory,\
   org.castor.cache.distributed.CoherenceCacheFactory
                 </code>
-				
+                
                 <h3>Added debugging of cache access</h3>
                 
                 <p>By setting the property <b>org.castor.jdo.cacheDebug</b> to
@@ -2465,7 +2465,7 @@ org.castor.jdo.cacheFactories=\
                 </code>
 
                 <h3>Moved transaction manager from org.exolab.castor to org.castor package</h3>
-				
+                
                 <p>Take care to adjust your custom castor.properties file to reflect
                    the changed packages of TransactionManagerFactories.</p>
                    
@@ -2493,8 +2493,8 @@ org.castor.transactionmanager.Factories=\
 #
 org.castor.transactionmanager.InitializeAtRegistration=false
                 </code>
-			</summary>
-			<bugs>
+            </summary>
+            <bugs>
                 <bug id="1274" tool="jira">
                     <description>
                         Made TransactionManagerRegistry non static and moved it
@@ -2579,7 +2579,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1240" tool="jira">
                     <description>
-		                Added support for specifying a java.util.Comparator instance for sortedset collections.
+                        Added support for specifying a java.util.Comparator instance for sortedset collections.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2620,8 +2620,8 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1271" tool="jira">
                     <description>
-		                Fixed problem with special mappings that have a 'foreign' relation as first 
-						field mapping.
+                        Fixed problem with special mappings that have a 'foreign' relation as first 
+                        field mapping.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2634,7 +2634,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Sean</name>
                         <email>mailto:xiaoyong.liang@1cm.com.cn</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20051201</date>
@@ -2661,7 +2661,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1265" tool="jira">
                     <description>
-		                Fixed problem with OQL queries and CALL SQL statements
+                        Fixed problem with OQL queries and CALL SQL statements
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2674,7 +2674,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Sean</name>
                         <email>mailto:xiaoyong.liang@1cm.com.cn</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug.</type>
                     <module>JDO</module>
                     <date>20051125</date>
@@ -2722,7 +2722,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1233" tool="jira">
                     <description>
-		                Added support for collections of type java.util.SortedSet.
+                        Added support for collections of type java.util.SortedSet.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -2735,7 +2735,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Werner Guttmann</name>
                         <email>werner.guttmann@gmx.net</email>
-				    </reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>All</module>
                     <date>20051021</date>
@@ -2760,74 +2760,74 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <module>JDO</module>
                     <date>20051119</date>
                 </bug>
-			</bugs>
-		</release>
-	    <release version="0.9.9.1">
-	        <description>Maintenance release for Castor XML and JDO</description>
-    		<date>November 15, 2005</date>
-    		<managed-by>Werner Guttmann</managed-by>
-			<summary>
-				<h2>New features</h2>
-				
-				<h3>Added support for JOTM as transaction manager</h3>
-				
-				<p>Added support for JOTM as transaction co-ordinator. As a result, the 
-				   following transaction managers are supported.</p>
-				   
+            </bugs>
+        </release>
+        <release version="0.9.9.1">
+            <description>Maintenance release for Castor XML and JDO</description>
+            <date>November 15, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+                <h2>New features</h2>
+                
+                <h3>Added support for JOTM as transaction manager</h3>
+                
+                <p>Added support for JOTM as transaction co-ordinator. As a result, the 
+                   following transaction managers are supported.</p>
+                   
                 <ctable>
-					<cheader>
-						<th align="left">Name</th><th align="left">Description</th>
-					</cheader>
-					<crow>
-						<td>jndi</td><td>TM looked up in the JNDI ENC</td>
-					</crow>
-					<crow>
-						<td>websphere</td><td>IBM WebSphere 4 and previous releases</td>
-					</crow>
-					<crow>
-						<td>websphere5</td><td>IBM WebSphere 5</td>
-					</crow>
-					<crow>
-						<td>websphere51</td><td>IBM WebSphere 5.1</td>
-					</crow>
-					<crow>
-						<td>jotm</td><td>Java Object Transaction Monitor</td>
-					</crow>
+                    <cheader>
+                        <th align="left">Name</th><th align="left">Description</th>
+                    </cheader>
+                    <crow>
+                        <td>jndi</td><td>TM looked up in the JNDI ENC</td>
+                    </crow>
+                    <crow>
+                        <td>websphere</td><td>IBM WebSphere 4 and previous releases</td>
+                    </crow>
+                    <crow>
+                        <td>websphere5</td><td>IBM WebSphere 5</td>
+                    </crow>
+                    <crow>
+                        <td>websphere51</td><td>IBM WebSphere 5.1</td>
+                    </crow>
+                    <crow>
+                        <td>jotm</td><td>Java Object Transaction Monitor</td>
+                    </crow>
                 </ctable>
 
                 <h3>Improved Database.getIdentity(Object)</h3>
-				
+                
                 <p>The new implementation of the Database.getIdentity(Object) does not rely on the
                    object being loaded in the same transaction anymore. It is even not required to
                    have an active transaction. The identity will now be determined by calling the
                    getters of the fields defined as identities in the mapping. If a mapping for the
                    objects class could not be found a ClassNotPersistenceCapableException will be
                    thrown. Null is only returned if the objects identity is null.</p>
-				   
+                   
                 <p><b>Note:</b>Care should be take if you previously used the null return of
                    Database.getIdentity(Object) to determine if the object has been loaded in
                    the current transaction before.</p>
-				   
+                   
                 <h3>Added helper method to close database</h3>
-				
+                
                 <p>Added org.castor.jdo.util.JDOUtils.closeDatabase() method to close an open
                    database instance without throwing exceptions. Any active transaction will be
                    silently rolled back.</p>
-				   
-				<h2>Bugs</h2>
-				
-				<h3>Improved 'caching' of Castor DTDs/XML Schemas</h3>
-				
-				<p>Added code to DTDResolver so that any URL/URIs against http://castor.org/... will
-				   be resolved against (local) files from within the Castor JAR(s).</p>
-				   
-				<h3>Problem obtaining underlying JDBC connections</h3>
-				
-				<p>Fixed a problem with obtaining the underlying JDBC connection used by Castor 
-				   internally when there was no valud transaction. The code has been changed so that 
-				   a <i>PersistenceException</i> will be thrown to indicate the lack of a valid 
-				   transaction.</p>
-				   
+                   
+                <h2>Bugs</h2>
+                
+                <h3>Improved 'caching' of Castor DTDs/XML Schemas</h3>
+                
+                <p>Added code to DTDResolver so that any URL/URIs against http://castor.org/... will
+                   be resolved against (local) files from within the Castor JAR(s).</p>
+                   
+                <h3>Problem obtaining underlying JDBC connections</h3>
+                
+                <p>Fixed a problem with obtaining the underlying JDBC connection used by Castor 
+                   internally when there was no valud transaction. The code has been changed so that 
+                   a <i>PersistenceException</i> will be thrown to indicate the lack of a valid 
+                   transaction.</p>
+                   
             </summary>
             <bugs>
                 <bug id="1024" tool="jira">
@@ -2845,7 +2845,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Peter Wyngaard</name>
                         <email>peter@wyngaard.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>XML</module>
                     <date>20051230</date>
@@ -2865,14 +2865,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Vish Madan</name>
                         <email>vishal.madan@wipro.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20051113</date>
                 </bug>
                 <bug id="1247" tool="jira">
                     <description>
-		                Fixed problem with releasing object lock due to a 
+                        Fixed problem with releasing object lock due to a 
                         LockNotGrantedException.
                     </description>
                     <contributor>
@@ -2886,7 +2886,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Vish Madan</name>
                         <email>vishal.madan@wipro.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20051112</date>
@@ -2894,7 +2894,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 <bug id="1239" tool="jira">
                     <description>
                         Improved Database.getIdentity(Object) to be able to resolve identity without
-						relying on the object been loaded from the database in the same transaction.
+                        relying on the object been loaded from the database in the same transaction.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -2907,7 +2907,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Henk van Voorthujsen</name>
                         <email>voorth@xs4all.nl</email>
-				    </reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20051110</date>
@@ -2927,7 +2927,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-				    </reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20051110</date>
@@ -2947,15 +2947,15 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-				    </reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20051110</date>
                 </bug>
                 <bug id="1249" tool="jira">
                     <description>
-		                Included new implementations of Base64Encoder/-Decoder with
-						castor-0.9.9-xml.jar.
+                        Included new implementations of Base64Encoder/-Decoder with
+                        castor-0.9.9-xml.jar.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -2968,14 +2968,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>XML</module>
                     <date>20051107</date>
                 </bug>
                 <bug id="1253" tool="jira">
                     <description>
-		                Fixed problem with with using count() in OQL queries that 
+                        Fixed problem with with using count() in OQL queries that 
                         involve extend relations.
                     </description>
                     <contributor>
@@ -2989,14 +2989,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Sean</name>
                         <email>aoyong.liang@1cm.com.cn</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20051105</date>
                 </bug>
                 <bug id="1254" tool="jira">
                     <description>
-		                Added support for distinct keyword in count() functions.
+                        Added support for distinct keyword in count() functions.
                     </description>
                     <contributor>
                         <name>Sean</name>
@@ -3009,14 +3009,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Sean</name>
                         <email>aoyong.liang@1cm.com.cn</email>
-				    </reporter>
+                    </reporter>
                     <type>New feature</type>
                     <module>JDO</module>
                     <date>20051103</date>
                 </bug>
                 <bug id="1256" tool="jira">
                     <description>
-		                Added non-trivial sample for usage of binding file
+                        Added non-trivial sample for usage of binding file
                     </description>
                     <contributor>
                         <name>Martin Graney</name>
@@ -3029,14 +3029,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Martin Graney</name>
                         <email>martin.graney@leanapps.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Addition</type>
                     <module>XML</module>
                     <date>20051103</date>
                 </bug>
                 <bug id="1223" tool="jira">
                     <description>
-		                Added TransactionManagerFactory for JOTM.
+                        Added TransactionManagerFactory for JOTM.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3049,14 +3049,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Werner Guttmann</name>
                         <email>werner.guttmann@gmx.net</email>
-				    </reporter>
+                    </reporter>
                     <type>New feature</type>
                     <module>JDO</module>
                     <date>20051020</date>
                 </bug>
                 <bug id="1220" tool="jira">
                     <description>
-		                Added config entries for http://castor.org/* to DTDResolver.
+                        Added config entries for http://castor.org/* to DTDResolver.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3069,14 +3069,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20051013</date>
                 </bug>
                 <bug id="1219" tool="jira">
                     <description>
-		                Changed many references to http://castor.exolab.org to http://castor.org
+                        Changed many references to http://castor.exolab.org to http://castor.org
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3089,15 +3089,15 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>All</module>
                     <date>20051012</date>
                 </bug>
                 <bug id="1224" tool="jira">
                     <description>
-		                Fixed problem with obtaining JDBC connection when no transaction 
-						in progress.
+                        Fixed problem with obtaining JDBC connection when no transaction 
+                        in progress.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3110,15 +3110,15 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Brian Schlining</name>
                         <email>bschlining@gmail.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20051013</date>
                 </bug>
                  <bug id="1231" tool="jira">
                     <description>
-		                Fixed problem with SQL generated for OQL queries where only id fields 
-						are present.
+                        Fixed problem with SQL generated for OQL queries where only id fields 
+                        are present.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3131,14 +3131,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Minh Tran-LeJeremy Whitlock</name>
                         <email>tranle@gmail.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20051013</date>
                 </bug>
                 <bug id="1216" tool="jira">
                     <description>
-		                Generated java source files won't compile.
+                        Generated java source files won't compile.
                     </description>
                     <contributor>
                         <name>Keith Visco</name>
@@ -3151,14 +3151,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Bill Leng</name>
                         <email>wleng@metatomix.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>XML</module>
                     <date>20051011</date>
                 </bug>
                 <bug id="1153" tool="jira">
                     <description>
-		                Unable to generate binding using SourceGen.
+                        Unable to generate binding using SourceGen.
                     </description>
                     <contributor>
                         <name>Keith Visco</name>
@@ -3171,14 +3171,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Neil Taylor</name>
                         <email>neiltaylor@mac.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>XML</module>
                     <date>20051010</date>
                 </bug>
                 <bug id="1152" tool="jira">
                     <description>
-		                PropertyChangeListeners for bound properties should not be serialized.
+                        PropertyChangeListeners for bound properties should not be serialized.
                     </description>
                     <contributor>
                         <name>Andrew Fawcett</name>
@@ -3191,52 +3191,52 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>David Green</name>
                         <email></email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>XML</module>
                     <date>20051010</date>
                 </bug>
             </bugs>
         </release>
-	    <release version="0.9.9">
-	        <description>Feature release for Castor XML and JDO</description>
-    		<date>September 22, 2005</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="0.9.9">
+            <description>Feature release for Castor XML and JDO</description>
+            <date>September 22, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Download &amp; installation instructions</h2>
+                <h2>Download &amp; installation instructions</h2>
 
                 <p>This is the final 0.9.9 release, a feature release for Castor JDO and XML.</p>
 
-				<p>Please note that we are providing the usual suspects (binaries, docs and
-				   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.9.">
-				   the Codehaus</a>.</p>
-				   
+                <p>Please note that we are providing the usual suspects (binaries, docs and
+                   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.9.">
+                   the Codehaus</a>.</p>
+                   
 
-				<p>We are currently planning for a <b>Castor 1.0</b> release in about 8+ weeks, 
-				which we mainly see as a bug fix release and a one-time opportunity 
-				to get the HTML documentation into a better shape .. ;-).</p>
-				   
-				<p>Please note that we have - in addition to the features added and bugs fixed
-				   as documented with 0.9.9M1 and 0.9.9M2 - started to makes substantial changes
-				   to the project documentation as follows:</p>
-				   
-				<p>
-					<ul>
-						<li>Addition of the first Castor JDO HOW-TO pages</li>
-						<li>Addition of an initial (hence draft) Castor JDO best practice
-							document</li>
-						<li>Addition of a Castor JDO feature page</li>
-					</ul>
-				</p>
-				
-				<p>As mentioned above, these pages are work in progress and shall be expanded
-				   for the upcoming 1.0 release.</p>
-				   
+                <p>We are currently planning for a <b>Castor 1.0</b> release in about 8+ weeks, 
+                which we mainly see as a bug fix release and a one-time opportunity 
+                to get the HTML documentation into a better shape .. ;-).</p>
+                   
+                <p>Please note that we have - in addition to the features added and bugs fixed
+                   as documented with 0.9.9M1 and 0.9.9M2 - started to makes substantial changes
+                   to the project documentation as follows:</p>
+                   
+                <p>
+                    <ul>
+                        <li>Addition of the first Castor JDO HOW-TO pages</li>
+                        <li>Addition of an initial (hence draft) Castor JDO best practice
+                            document</li>
+                        <li>Addition of a Castor JDO feature page</li>
+                    </ul>
+                </p>
+                
+                <p>As mentioned above, these pages are work in progress and shall be expanded
+                   for the upcoming 1.0 release.</p>
+                   
             </summary>
-			<bugs>
+            <bugs>
                 <bug id="1215" tool="jira">
                     <description>
-		                Fixed JDO.getDatabase()NullPointerException.
+                        Fixed JDO.getDatabase()NullPointerException.
                     </description>
                     <contributor>
                         <name>Gregory Block</name>
@@ -3249,25 +3249,25 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Jeremy Whitlock</name>
                         <email>jcscoobyrs@gmail.com</email>
-				    </reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050919</date>
                 </bug>
-			</bugs>
-		</release>
-	    <release version="0.9.9M2">
-	        <description>2nd Milestone release for 0.9.9</description>
-    		<date>Sep 13, 2005</date>
-    		<managed-by>Werner Guttmann</managed-by>
+            </bugs>
+        </release>
+        <release version="0.9.9M2">
+            <description>2nd Milestone release for 0.9.9</description>
+            <date>Sep 13, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Download &amp; installation instructions</h2>
+                <h2>Download &amp; installation instructions</h2>
 
-				<p>Please note that we are providing the usual suspects (binaries, docs and
-				   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.9.">
-				   the Codehaus</a>. We recommend, though, to download the complete package,
-				   as the HTML docs at <a href="http://castor.codehaus.org">the main Castor site</a> has
-				   not been updated, and to build the documentation yourself.</p>
+                <p>Please note that we are providing the usual suspects (binaries, docs and
+                   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.9.">
+                   the Codehaus</a>. We recommend, though, to download the complete package,
+                   as the HTML docs at <a href="http://castor.codehaus.org">the main Castor site</a> has
+                   not been updated, and to build the documentation yourself.</p>
 
                 <p>Preparations for the final release have started. Since the last release candidate,
                    the following problem areas have been addressed.</p>
@@ -3275,7 +3275,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
             <bugs>
                 <bug id="1210" tool="jira">
                     <description>
-		                Removed references to Poolman from documentation on pooling.
+                        Removed references to Poolman from documentation on pooling.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3292,7 +3292,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1195" tool="jira">
                     <description>
-		                Integrated original test case provided into Castor CTF.
+                        Integrated original test case provided into Castor CTF.
                     </description>
                     <contributor>
                         <name>Nicholas Stuart</name>
@@ -3310,7 +3310,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 <bug id="1207" tool="jira">
                     <description>
                         Prefer to use setter with reference type before setter with primitive
-						type if multiple setters are available.
+                        type if multiple setters are available.
                     </description>
                     <contributor>
                         <name>Clovis Wichosky</name>
@@ -3323,14 +3323,14 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                     <reporter>
                         <name>Clovis Wichosky</name>
                         <email>clovis.wichoski@gmail.com</email>
-					</reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050907</date>
                 </bug>
                 <bug id="1195" tool="jira">
                     <description>
-		                Fixed problem with class resolution during loading polymorphic objects.
+                        Fixed problem with class resolution during loading polymorphic objects.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3347,7 +3347,7 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
                 <bug id="1071" tool="jira">
                     <description>
-		                Added marketplace section
+                        Added marketplace section
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3364,22 +3364,22 @@ org.castor.transactionmanager.InitializeAtRegistration=false
                 </bug>
             </bugs>
         </release>
-	    <release version="0.9.9M1">
-	        <description>Milestone release for 0.9.9</description>
-    		<date>Aug 24, 2005</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="0.9.9M1">
+            <description>Milestone release for 0.9.9</description>
+            <date>Aug 24, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Download &amp; installation instructions</h2>
+                <h2>Download &amp; installation instructions</h2>
 
-				<p>Please note that we are providing the usual suspects (binaries, docs and
-				   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.9.">
-				   the Codehaus</a>. We recommend, though, to download the complete package,
-				   as the HTML docs at <a href="http://castor.codehaus.org">the main Castor site</a> has
-				   not been updated, and to build the documentation yourself.</p>
+                <p>Please note that we are providing the usual suspects (binaries, docs and
+                   sources) for this release at <a href="http://dist.codehaus.org/castor/0.9.9.">
+                   the Codehaus</a>. We recommend, though, to download the complete package,
+                   as the HTML docs at <a href="http://castor.codehaus.org">the main Castor site</a> has
+                   not been updated, and to build the documentation yourself.</p>
 
-				<h2>Changes</h2>
+                <h2>Changes</h2>
 
-				<h3>Support for polymorphism</h3>
+                <h3>Support for polymorphism</h3>
                 
                 <p>Support for polymorphism has been completely rewritten, allowing you
                    to load objects that are part of an extend relationship by their base 
@@ -3403,12 +3403,12 @@ SELECT product FROM Product product
                    <tt>Server</tt> instances. For a complete set of code examples,
                    please review <tt>src/tests/ctf/jdo/tc9x/TestPolymorphism.java</tt>.</p>
                 
-				<h3>Updated MANIFEST files</h3>
+                <h3>Updated MANIFEST files</h3>
                 
                 <p>Both castor-0.x.y.jar and castor-0.x.y-xml.jar now carry an updated
                    and up-to-date MANIFEST file.</p>
 
-				<h2>New features</h2>
+                <h2>New features</h2>
 
                 <h3>Support for Derby</h3>
 
@@ -3463,12 +3463,12 @@ SELECT product FROM Product product
                 <h3>Support for typesafe enumerations</h3>
 
                 <p>Enumerations are a common method for ensuring data integrity, both in software and
-				   in relational databases. As a platform for linking the two, we added support for
-				   persisting class fields whose type is a Java typesafe enumeration to Castor JDO.</p>
-					
+                   in relational databases. As a platform for linking the two, we added support for
+                   persisting class fields whose type is a Java typesafe enumeration to Castor JDO.</p>
+                    
                 <p>To use this new feature your typesafe enumeration should follow the enum pattern
-				   commonly used and provide a <tt>static valueOf(String)</tt> method. An enum of
-				   different kinds of computer equipment may look like:</p>
+                   commonly used and provide a <tt>static valueOf(String)</tt> method. An enum of
+                   different kinds of computer equipment may look like:</p>
 
                 <code>
 public class KindEnum {
@@ -3488,7 +3488,7 @@ public class KindEnum {
     }
 
     public static KindEnum valueOf(final String kind) {
-	    return (KindEnum) KINDS.get(kind);
+        return (KindEnum) KINDS.get(kind);
     }
 
     public String toString() { return _kind; }
@@ -3496,7 +3496,7 @@ public class KindEnum {
                 </code>
 
                 <p>At your Product class you may want to have a property that tells you what kind of
-				   computer equipment a product is of.</p>
+                   computer equipment a product is of.</p>
 
                 <code>
 public class Product {
@@ -3536,23 +3536,23 @@ public class Product {
                 </code>
                 
                 <p>To add this new feature we added an additional check when searching for field types.
-				   Like before Castor first searches for know types and thereafter for a mapping for
-				   the class you specified as type. If both of them do not match it now checks if the
-				   class specified as type is available at classpath and has a static valueOf(String)
-				   method. Only if all of this conditions are met it will be viewed as a valid mapping.</p>
+                   Like before Castor first searches for know types and thereafter for a mapping for
+                   the class you specified as type. If both of them do not match it now checks if the
+                   class specified as type is available at classpath and has a static valueOf(String)
+                   method. Only if all of this conditions are met it will be viewed as a valid mapping.</p>
 
                 <h3>Parametrized boolean-&gt;char type converter</h3>
                 
                 <p>Pre patch we always returned a boolean value even if the database contained a value
-				   which does not conform to the rules defined. This behaviour caused that we could
-				   load records with wrong values without problems but got a ObjectModifiedException
-				   when we tried to update these values as our update statment includes checking of
-				   all old values in the where clause of SQL statement.</p>
+                   which does not conform to the rules defined. This behaviour caused that we could
+                   load records with wrong values without problems but got a ObjectModifiedException
+                   when we tried to update these values as our update statment includes checking of
+                   all old values in the where clause of SQL statement.</p>
 
                 <p>With the patch this behavier changes to strict checking if the loaded char/string
-				   value matches one of the boolean characters defined by conversion rule. If the value
-				   does not match a ClassCastException explaing the fail reason will be thrown.</p>
-				   
+                   value matches one of the boolean characters defined by conversion rule. If the value
+                   does not match a ClassCastException explaing the fail reason will be thrown.</p>
+                   
                 <h3>Performance improvements</h3>
                 
                 <p>Several code areas of Castor JDO have been severly refactored or rewritten 
@@ -3562,10 +3562,10 @@ public class Product {
 
                    
             </summary>
-			<bugs>
+            <bugs>
                 <bug id="1204" tool="jira">
                     <description>
-		                Added release notes for 0.9.9M1.
+                        Added release notes for 0.9.9M1.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3595,7 +3595,7 @@ public class Product {
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>ALL</module>
                     <date>20050823</date>
@@ -3616,14 +3616,14 @@ public class Product {
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-					</reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050823</date>
                 </bug>
                 <bug id="920" tool="jira">
                     <description>
-		                Changed argument handling code.
+                        Changed argument handling code.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3640,7 +3640,7 @@ public class Product {
                 </bug>
                 <bug id="1151" tool="jira">
                     <description>
-		                Completely refactored ClassMolder, introducing strategy objects for field resolution.
+                        Completely refactored ClassMolder, introducing strategy objects for field resolution.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3679,7 +3679,7 @@ public class Product {
                 </bug>
                 <bug id="1179" tool="jira">
                     <description>
-						Refactored how transaction managers are maintained.
+                        Refactored how transaction managers are maintained.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3692,14 +3692,14 @@ public class Product {
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050817</date>
                 </bug>
                 <bug id="1158" tool="jira">
                     <description>
-						Stricter checking at type conversion from string to boolean.
+                        Stricter checking at type conversion from string to boolean.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3712,15 +3712,15 @@ public class Product {
                     <reporter>
                         <name>Nick Stuart</name>
                         <email>nick@newtsplace.com</email>
-					</reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050808</date>
                 </bug>
                 <bug id="943" tool="jira">
                     <description>
-		                Created a test case for configuring JDO DataSource using a Properties
-						collection.
+                        Created a test case for configuring JDO DataSource using a Properties
+                        collection.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3733,14 +3733,14 @@ public class Product {
                     <reporter>
                         <name>Martin Fuchs</name>
                         <email>martin-fuchs@gmx.net</email>
-					</reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050806</date>
                 </bug>
                 <bug id="1190" tool="jira">
                     <description>
-		                Fix syntax failures in sapdb.sql script and improve sapdb test coverage.
+                        Fix syntax failures in sapdb.sql script and improve sapdb test coverage.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3753,15 +3753,15 @@ public class Product {
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-					</reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050806</date>
                 </bug>
                 <bug id="1185" tool="jira">
                     <description>
-		                Replaced MimeBase64Encoder/Decoder with new implementation
-						Base64Encoder/Decoder.
+                        Replaced MimeBase64Encoder/Decoder with new implementation
+                        Base64Encoder/Decoder.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3774,14 +3774,14 @@ public class Product {
                     <reporter>
                         <name>Bruce Snyder</name>
                         <email>bruce DOT snyder AT gmail DOT com</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>All</module>
                     <date>20050805</date>
                 </bug>
                 <bug id="799" tool="jira">
                     <description>
-		                Refactored MANIFEST files and their usage within Castor
+                        Refactored MANIFEST files and their usage within Castor
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3798,7 +3798,7 @@ public class Product {
                 </bug>
                 <bug id="1102" tool="jira">
                     <description>
-		                Added support for various distributed caches.
+                        Added support for various distributed caches.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3815,7 +3815,7 @@ public class Product {
                 </bug>
                 <bug id="300" tool="jira">
                     <description>
-		                JDO support for typesafe enumerations.
+                        JDO support for typesafe enumerations.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3828,14 +3828,14 @@ public class Product {
                     <reporter>
                         <name>Rhett Sutphin</name>
                         <email>rhett-sutphin@uiowa.edu</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050730</date>
                 </bug>
                 <bug id="1178" tool="jira">
                     <description>
-		                Added code to set identity upon registering objects with ObjectTracker
+                        Added code to set identity upon registering objects with ObjectTracker
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3852,7 +3852,7 @@ public class Product {
                 </bug>
                 <bug id="1183" tool="jira">
                     <description>
-		                Allow to initialize JDOManager with a preconfigured DataSource.
+                        Allow to initialize JDOManager with a preconfigured DataSource.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3865,15 +3865,15 @@ public class Product {
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050803</date>
                 </bug>
                 <bug id="1173" tool="jira">
                     <description>
-		                Solved problem using JDOConfFactory and transaction demarcation
-						specification.
+                        Solved problem using JDOConfFactory and transaction demarcation
+                        specification.
                     </description>
                     <contributor>
                         <name>Gregory Block</name>
@@ -3886,14 +3886,14 @@ public class Product {
                     <reporter>
                         <name>Gregory Block</name>
                         <email>gblock@ctoforaday.com</email>
-					</reporter>
+                    </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
                     <date>20050801</date>
                 </bug>
                 <bug id="755" tool="jira">
                     <description>
-		                Place all JDO unit tests in a new src/tests/utf/org/exolab/castor/ tree.
+                        Place all JDO unit tests in a new src/tests/utf/org/exolab/castor/ tree.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3906,14 +3906,14 @@ public class Product {
                     <reporter>
                         <name>Bruce Snyder</name>
                         <email>bruce DOT snyder AT gmail DOT com</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050731</date>
                 </bug>
                 <bug id="1114" tool="jira">
                     <description>
-		                Update docs on the limit clause support for OQL.
+                        Update docs on the limit clause support for OQL.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3926,15 +3926,15 @@ public class Product {
                     <reporter>
                         <name>Bruce Snyder</name>
                         <email>bruce DOT snyder AT gmail DOT com</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050731</date>
                 </bug>
                 <bug id="1169" tool="jira">
                     <description>
-		                Refactored access to caches, adding CacheEntry class and making OID and
-		                CacheEntry implement java.io.Serializable.
+                        Refactored access to caches, adding CacheEntry class and making OID and
+                        CacheEntry implement java.io.Serializable.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3951,7 +3951,7 @@ public class Product {
                 </bug>
                 <bug id="778" tool="jira">
                     <description>
-		                Remove deleteExtend method from ClassMolder.
+                        Remove deleteExtend method from ClassMolder.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -3968,7 +3968,7 @@ public class Product {
                 </bug>
                 <bug id="1135" tool="jira">
                     <description>
-		                Refactor how JDBC connection factories are maintained.
+                        Refactor how JDBC connection factories are maintained.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -3981,14 +3981,14 @@ public class Product {
                     <reporter>
                         <name>Werner Guttmann</name>
                         <email>werner.guttmann@gmx.net</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050724</date>
                 </bug>
                 <bug id="1018" tool="jira">
                     <description>
-		                Added support for polymorphism.
+                        Added support for polymorphism.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -4005,7 +4005,7 @@ public class Product {
                 </bug>
                 <bug id="1110" tool="jira">
                     <description>
-		                Refactor CTF-JDO tests into subdirectories (part 2).
+                        Refactor CTF-JDO tests into subdirectories (part 2).
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -4018,14 +4018,14 @@ public class Product {
                     <reporter>
                         <name>Ralf Joachim</name>
                         <email>ralf.joachim@syscon-world.de</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050705</date>
                 </bug>
                 <bug id="874" tool="jira">
                     <description>
-		                Added DB2 category to src/tests/tests.xml.
+                        Added DB2 category to src/tests/tests.xml.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -4042,7 +4042,7 @@ public class Product {
                 </bug>
                 <bug id="1085" tool="jira">
                     <description>
-		                Complete rewrite of TransactionContext with regards to obejct tracking.
+                        Complete rewrite of TransactionContext with regards to obejct tracking.
                     </description>
                     <contributor>
                         <name>Gregory Block</name>
@@ -4059,7 +4059,7 @@ public class Product {
                 </bug>
                 <bug id="1155" tool="jira">
                     <description>
-		                Added org.castor package to src/main.
+                        Added org.castor package to src/main.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -4076,7 +4076,7 @@ public class Product {
                 </bug>
                 <bug id="732" tool="jira">
                     <description>
-		                Added performance test-suite for 1:n relations of JDO.
+                        Added performance test-suite for 1:n relations of JDO.
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
@@ -4089,14 +4089,14 @@ public class Product {
                     <reporter>
                         <name>Stein M. Hugubakken</name>
                         <email>dulci@start.no</email>
-					</reporter>
+                    </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
                     <date>20050616</date>
                 </bug>
                 <bug id="352" tool="jira">
                     <description>
-		                Added support for transient attribute at the &lt;sql&gt; element.
+                        Added support for transient attribute at the &lt;sql&gt; element.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -4113,7 +4113,7 @@ public class Product {
                 </bug>
                 <bug id="633" tool="jira">
                     <description>
-		                Removed hidden catch-block in LockEngine.updateCache().
+                        Removed hidden catch-block in LockEngine.updateCache().
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -4126,42 +4126,42 @@ public class Product {
                     <reporter>
                         <name>Stein M. Hugubakken</name>
                         <email>dulci@start.no</email>
-					</reporter>
+                    </reporter>
                     <type>Ref.</type>
                     <module>JDO</module>
                     <date>20050614</date>
                 </bug>
-			</bugs>
-		</release>
+            </bugs>
+        </release>
 
-	    <release version="0.9.7">
-	        <description>Maintenance release for Castor XML and JDO</description>
-    		<date>June 8, 2005</date>
-    		<managed-by>Werner Guttmann</managed-by>
+        <release version="0.9.7">
+            <description>Maintenance release for Castor XML and JDO</description>
+            <date>June 8, 2005</date>
+            <managed-by>Werner Guttmann</managed-by>
             <summary>
-				<h2>Download &amp; installation instructions</h2>
+                <h2>Download &amp; installation instructions</h2>
 
                 <p>This is the final 0.9.7. release, mainly a maintenance release. We are currently
-				   planning the next release which will be Castor 0.9.9, a feature release.</p>
+                   planning the next release which will be Castor 0.9.9, a feature release.</p>
 
-				<h2>Changes</h2>
+                <h2>Changes</h2>
 
-				<h3>Moved key generators to jdo.keygen package</h3>
+                <h3>Moved key generators to jdo.keygen package</h3>
 
-				<p>Whilst this change is non-intrusive per se, please note that you might have to
-				   change a local <tt>castor.properties</tt> file if you happened to re-specify key generators
-				   in there.</p>
+                <p>Whilst this change is non-intrusive per se, please note that you might have to
+                   change a local <tt>castor.properties</tt> file if you happened to re-specify key generators
+                   in there.</p>
 
-				<h3>Fixed problem with multiple &lt;database&gt; configurations</h3>
+                <h3>Fixed problem with multiple &lt;database&gt; configurations</h3>
 
-				<p>Support for multiple database configurations has been re-enabled.</p>
+                <p>Support for multiple database configurations has been re-enabled.</p>
 
             </summary>
-			<bugs>
+            <bugs>
                 <bug id="1147" tool="jira">
                     <description>
-		                Reverted addition to src/tests/jdo/Collections due to problem with missing
-					    setItem(ArrayList).
+                        Reverted addition to src/tests/jdo/Collections due to problem with missing
+                        setItem(ArrayList).
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -4230,9 +4230,9 @@ public class Product {
                     <module>General</module>
                     <date>20050525</date>
                 </bug>
-			</bugs>
-		</release>
-		
+            </bugs>
+        </release>
+        
         <p>For all the releases prior to 0.9.7, the release notes can be found 
            at <a href="release-notes-0.9.7pre.html">here</a> or <a href="changelog.html">here</a>.</p>
 

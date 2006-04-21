@@ -55,7 +55,7 @@
             <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.tgz</url><br/>
             <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.zip</url>
             <br/>&#xA0;</li>
-        <li>Full CVS snapshot: all sources, docs, libraries (big)<br/>
+        <li>Full SVN snapshot: all sources, docs, libraries (big)<br/>
             <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.tgz</url><br/>
             <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.zip</url>
             <br/>&#xA0;</li>
@@ -84,7 +84,7 @@
             docs and API JavaDocs. To fully install Castor, simply extract all the JARs
             into your classpath.</small></p>
 
-         <p><small>The CVS snapshot includes additional JARs required to build Castor.
+         <p><small>The SVN snapshot includes additional JARs required to build Castor.
             It is self sufficient and does not require any external components, except
             for javac.</small></p>
 
@@ -138,7 +138,7 @@
             <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.tgz</url><br/>
             <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.zip</url>
             <br/>&#xA0;</li>
-        <li>Full CVS snapshot: all sources, docs, libraries (big)<br/>
+        <li>Full SVN snapshot: all sources, docs, libraries (big)<br/>
             <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
             <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.zip</url>
             <br/>&#xA0;</li>
@@ -187,15 +187,15 @@
         
     </section>
 
-      <section title="CVS Snapshots">
+      <section title="SVN Snapshots">
         
-         <p>To obtain the latest CVS version, please use a CVS-enabled client to 
-            access our CVS server. Instructions for doing so can be found 
+         <p>To obtain the latest SVN version, please use a SVN-enabled client to 
+            access our SVN server. Instructions for doing so can be found 
             <a href="scm.xml">here</a>.</p>
             
-         <p>For those of you behind a firewall with the CVS port non-accessible, please 
-            download Castor from the CVS server using the HTTP interface at 
-            <url>http://cvs.castor.codehaus.org</url> as provided by FishEye 
+         <p>For those of you behind a firewall with the SVN port non-accessible, please 
+            download Castor from the SVN server using the HTTP interface at 
+            <url>http://cvs.castor.codehaus.org/viewrep/castor/castor/trunk</url> as provided by FishEye 
             (tm):</p>
             
          <ul>
