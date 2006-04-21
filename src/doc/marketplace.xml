@@ -14,92 +14,92 @@
     <section title="Introduction">
 
        <p>As <a href="support.html">already</a> explained, Castor is an 
-	      open-source product. This means that the source code is available at 
-		  no charge and may be obtained using <a href="cvs.xml">CVS</a> or
+          open-source product. This means that the source code is available at 
+          no charge and may be obtained using <a href="scm.xml">CVS</a> or
          <a href="download.xml">downloaded</a> via 
-		 <url>http://dist.codehaus.org/castor</url>.</p>
+         <url>http://dist.codehaus.org/castor</url>.</p>
 
        <p>Due to the nature of the project, there is no guaranteed level of 
-		  support (of commercial quality) offered by the project and its 
-		  community. As outlined <a href="support.html">here</a>, the online
+          support (of commercial quality) offered by the project and its 
+          community. As outlined <a href="support.html">here</a>, the online
           <a href="index.html">documentation</a> is the best place to 
-		  start.</p>
+          start.</p>
 
        <p>Having said that, it is noteworthy to mention that there's plenty of 
-		companies out there that offer ...</p>
-		
-		<ul>
-			<li>(commercial) products based on Castor</li>
-			<li>consulting services related to various aspects of Castor</li>
-			<li>commercial support related to Castor</li>
-		</ul>
+        companies out there that offer ...</p>
+        
+        <ul>
+            <li>(commercial) products based on Castor</li>
+            <li>consulting services related to various aspects of Castor</li>
+            <li>commercial support related to Castor</li>
+        </ul>
 
-		<p>This page provides you with various reference points, addressing 
-		   most of the above areas. This includes a directory of companies
-		   offering (commercial) services, a directory of success-stories 
-		   (highlighting the (commercial) use of Castor in the industry), etc.</p>		
-		   
-		<p>We hope that the information provided is of value to you, our customers,
-		   and we are more than happy to discuss any suggestions/recommendations
-		   related to this offering.</p>
+        <p>This page provides you with various reference points, addressing 
+           most of the above areas. This includes a directory of companies
+           offering (commercial) services, a directory of success-stories 
+           (highlighting the (commercial) use of Castor in the industry), etc.</p>      
+           
+        <p>We hope that the information provided is of value to you, our customers,
+           and we are more than happy to discuss any suggestions/recommendations
+           related to this offering.</p>
 
     </section>
 
-	<section title="Use of Castor in other open source projects">
-		
-		<p>This section identifies various (mainly) open source projects where 
-		   Castor is used and/or that offer tight integration with Castor or
-		   parts thereof.</p>
-		   
+    <section title="Use of Castor in other open source projects">
+        
+        <p>This section identifies various (mainly) open source projects where 
+           Castor is used and/or that offer tight integration with Castor or
+           parts thereof.</p>
+           
         <h3><a href="http://cocoon.apache.org">Apache Cocoon</a></h3>
-			
-			<p>Apache Cocoon is a web publishing framework built around the 
-			   concepts of separation of concerns and component-based web 
-			   development.</p>
+            
+            <p>Apache Cocoon is a web publishing framework built around the 
+               concepts of separation of concerns and component-based web 
+               development.</p>
 
-			<p>As part of this framework, Cocoon provides a component, the 
-			   <b>CastorTransformer</b>, that marshalls an object hierarchy (for 
-			   which a mapping file or a class descriptor hierarchy exists) to 
-			   XML and inserts it as a stream of SAX events into a Cocoon 
-			   pipeline.</p>
+            <p>As part of this framework, Cocoon provides a component, the 
+               <b>CastorTransformer</b>, that marshalls an object hierarchy (for 
+               which a mapping file or a class descriptor hierarchy exists) to 
+               XML and inserts it as a stream of SAX events into a Cocoon 
+               pipeline.</p>
 
-			<p>Further information on the integration of Apache Cocoon and
-			   Castor can be found <a href="projects.xml">here</a>.</p>
-		
-	</section>
-	<section title="Companies and their commercial offerings">
+            <p>Further information on the integration of Apache Cocoon and
+               Castor can be found <a href="projects.xml">here</a>.</p>
+        
+    </section>
+    <section title="Companies and their commercial offerings">
 
       <companies>
         
-		<company id="anecon">
-			<name>ANECON Software Design und Beratung Ltd.</name>
-			<url><a href="http://www.anecon.com">http://www.anecon.com</a></url>
-			<contact>
-				<name>Werner Guttmann</name>
-				<email><a href="mailto:werner.guttmann@anecon.com">werner.guttmann@anecon.com</a></email>
-				<phone>+43 1 409 59 90 </phone>
-				<description>Technical architect, Castor JDO technical lead</description>
-			</contact>
-			<description>
-				ANECON offers expertise in the area of J2EE applications, with 
+        <company id="anecon">
+            <name>ANECON Software Design und Beratung Ltd.</name>
+            <url><a href="http://www.anecon.com">http://www.anecon.com</a></url>
+            <contact>
+                <name>Werner Guttmann</name>
+                <email><a href="mailto:werner.guttmann@anecon.com">werner.guttmann@anecon.com</a></email>
+                <phone>+43 1 409 59 90 </phone>
+                <description>Technical architect, Castor JDO technical lead</description>
+            </contact>
+            <description>
+                ANECON offers expertise in the area of J2EE applications, with 
                 a strong emphasis on the integration of persistence frameworks, object/relational 
                 mapping tools and XML data binding frameworks in general and Castor JDO and 
-				XML in particular; it supports clients in their focus to integrate such 
+                XML in particular; it supports clients in their focus to integrate such 
                 frameworks into their enterprise computing platforms.
-			</description>
-		</company>
+            </description>
+        </company>
 
-		<company id="codo">
-			<name>CODA: Financial Intelligence</name>
-			<url>http://www.coda.com</url>
-			<contact>
-				<name>Andrew Fawcett</name>
-				<email>andrew.fawcett@coda.com</email>
-				<phone></phone>
-				<description>Technical Architect
-				</description>
-			</contact>
-			<description>
+        <company id="codo">
+            <name>CODA: Financial Intelligence</name>
+            <url>http://www.coda.com</url>
+            <contact>
+                <name>Andrew Fawcett</name>
+                <email>andrew.fawcett@coda.com</email>
+                <phone></phone>
+                <description>Technical Architect
+                </description>
+            </contact>
+            <description>
                 "As a developer of international financial management and
                 procurement systems, CODA started a project to XML-enable our Financials
                 application server," noted Andrew Fawcett of CODA. "We made two major
@@ -119,31 +119,31 @@
                 source code produced by the Castor source code generator is used to
                 dynamically bind data to our Web forms. The resulting data can then be
                 marshaled directly between our Web applications and application server."
-			</description>
-		</company>
+            </description>
+        </company>
 
-		<company id="syscon">
-			<name>Syscon Ingenieurbüro für Meß- und Datentechnik GmbH</name>
-			<url>http://www.syscon-world.de</url>
-			<contact>
-				<name>Ralf Joachim</name>
-				<email>ralf.joachim@syscon-world.de</email>
-				<phone>+49 7071 369098</phone>
-				<description>CEO, Technical architect</description>
-			</contact>
-			<description>
-				Syscon is primarily concerned with the developement of custom-build/purpose-build
-				software solutions and the design of database systems since its foundation in 1996.
-				For 4 years we have been developing Java applications in enterprise environment.
-				For these applications, we frequently use our own client/server framework side by
-				side with open source projects such as the data binding framework Castor, where
-				one of our engineers is an active committer.
-			</description>
-		</company>
+        <company id="syscon">
+            <name>Syscon Ingenieurbüro für Meß- und Datentechnik GmbH</name>
+            <url>http://www.syscon-world.de</url>
+            <contact>
+                <name>Ralf Joachim</name>
+                <email>ralf.joachim@syscon-world.de</email>
+                <phone>+49 7071 369098</phone>
+                <description>CEO, Technical architect</description>
+            </contact>
+            <description>
+                Syscon is primarily concerned with the developement of custom-build/purpose-build
+                software solutions and the design of database systems since its foundation in 1996.
+                For 4 years we have been developing Java applications in enterprise environment.
+                For these applications, we frequently use our own client/server framework side by
+                side with open source projects such as the data binding framework Castor, where
+                one of our engineers is an active committer.
+            </description>
+        </company>
 
       </companies>
       
-	</section>
+    </section>
 
   </body>
 </document>

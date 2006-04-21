@@ -5,7 +5,7 @@
 
     <section title="Introduction">
        <p>Castor is an open-source product. This means that the source code is
-          available at no charge and may be obtained using <a href="cvs.xml">CVS</a> or
+          available at no charge and may be obtained using <a href="scm.xml">CVS</a> or
          <a href="download.xml">downloaded</a> via our ftp server.</p>
 	   
        <p>Since castor is freely available, including the source code,
