@@ -29,7 +29,7 @@
          see the section on <a href="#Anonymous-SVN-Access">anonymous SVN access</a>
          below. If you wish to simply browse the SVN for specific files or to view
          changes and commit logs use
-         <a href="http://cvs.castor.codehaus.org/viewrep/castor/castor">FishEye access</a>
+         <a href="http://cvs.castor.codehaus.org/viewrep/castor/castor/trunk">FishEye access</a>
          to the SVN repository.</p>
 
       <p>Or as an alternative, please <a href="download.xml">download</a> the full source
@@ -48,14 +48,14 @@
       <p>To access the Castor SVN repository, please use the following URL:</p>
 
       <code-panel>
-  svn://svn.castor.codehaus.org/castor/scm
+  $ svn://svn.castor.codehaus.org/castor/scm/castor/trunk
       </code-panel>
 
       <p>To, for example, checkout the most recent code of Castor, use the following
          command:</p>
 
       <code-panel>
-  $ svn checkout svn://svn.castor.codehaus.org/castor/scm/trunk/castor mycastor
+  $ svn checkout svn://svn.castor.codehaus.org/castor/scm/castor/trunk castor
       </code-panel>
 
       <p>For more information about Subversion and various tools to access SVN
