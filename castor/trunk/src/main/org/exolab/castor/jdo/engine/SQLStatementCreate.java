@@ -320,7 +320,7 @@ public final class SQLStatementCreate {
 
             isDupKey = _factory.isDuplicateKeyException(except);
             if (Boolean.TRUE.equals(isDupKey)) {
-                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, identity));
+                throw new DuplicateIdentityException(Messages.format("persist.duplicateIdentity", _type, identity), except);
             } else if (Boolean.FALSE.equals(isDupKey)) {
                 throw new PersistenceException(Messages.format("persist.nested", except), except);
             }

@@ -112,7 +112,7 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
                 _log.error(msg, ex);
             }
             throw new ObjectNotFoundException("lazy loading error - "
-                    + ex.getMessage());
+                    + ex.getMessage(), ex);
         }
     }
     

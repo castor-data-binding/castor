@@ -52,6 +52,26 @@
                 <a href="cvs.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1402" tool="jira">
+                    <description>
+		                Improved exception reporting for various JDO-related exceptions.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Yegor Borovikov</name>
+                        <email>yegorb@intresys.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060413</date>
+                </bug>
                 <bug id="1403" tool="jira">
                     <description>
                         Fixed documentation for 'sortedset' collection type in the JDO mapping section.

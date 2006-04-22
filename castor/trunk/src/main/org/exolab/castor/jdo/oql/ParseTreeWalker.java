@@ -275,7 +275,7 @@ public class ParseTreeWalker {
                 _objClass = _classLoader.loadClass(_fromClassName);
             }
         } catch (ClassNotFoundException except) {
-            throw new QueryException("Could not find class " + _fromClassName);
+            throw new QueryException("Could not find class " + _fromClassName, except);
         }
         _engine = (SQLEngine) _dbEngine.getPersistence(_objClass);
         if (_engine == null) {
