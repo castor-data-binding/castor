@@ -52,6 +52,26 @@
                 <a href="cvs.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1403" tool="jira">
+                    <description>
+                        Fixed documentation for 'sortedset' collection type in the JDO mapping section.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Artur Brinkmann</name>
+                        <email>artur.brinkmann@gmx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060422</date>
+                </bug>
                 <bug id="1380" tool="jira">
                     <description>
                         Migrated Castor repository from CVS to SVN.

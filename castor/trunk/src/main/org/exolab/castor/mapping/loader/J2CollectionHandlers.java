@@ -261,38 +261,7 @@ public final class J2CollectionHandlers
             }
         } ),
         // For SortedSet (1.2 aka 1.4)
-        new CollectionHandlers.Info( "sortedset", SortedSet.class, false, new CollectionHandler() {
-            public Object add( Object collection, Object object ) {
-                if ( collection == null ) {
-                    collection = new HashSet();
-                    ( (Set) collection ).add( object );
-                    return collection;
-                } else {
-                    //if ( ! ( (Set) collection ).contains( object ) )
-                    ( (Set) collection ).add( object );
-                    return null;
-                }
-            }
-            public Enumeration elements( Object collection ) {
-                if ( collection == null )
-                    return new CollectionHandlers.EmptyEnumerator();
-                return new IteratorEnumerator( ( (Set) collection ).iterator() );
-            }
-            public int size( Object collection )
-            {
-                if ( collection == null )
-                    return 0;
-                return ( (Set) collection ).size();
-            }
-            public Object clear( Object collection ) {
-                if ( collection != null )
-                    ( (Set) collection ).clear();
-                return null;
-            }
-            public String toString() {
-                return "SortedSet";
-            }
-        } ),
+        new CollectionHandlers.Info("sortedset", SortedSet.class, false, new SortedSetCollectionHandler()),
 
         // For java.util.Iterator
         new CollectionHandlers.Info( "iterator", Iterator.class, false, new CollectionHandler() {
@@ -318,6 +287,62 @@ public final class J2CollectionHandlers
         } )
 
     };
+
+
+    private static final class SortedSetCollectionHandler implements CollectionHandler {
+        
+        /**
+         * @inheritDoc
+         */
+        public Object add(Object collection, final Object object) {
+            if (collection == null) {
+                collection = new HashSet();
+                ((Set) collection).add(object);
+                return collection;
+            }
+            // if (!((Set) collection).contains(object))
+            ((Set) collection).add(object);
+            return null;
+            
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public Enumeration elements(final Object collection) {
+            if (collection == null) {
+                return new CollectionHandlers.EmptyEnumerator();
+            }
+            return new IteratorEnumerator(((Set) collection).iterator());
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public int size(final Object collection) {
+            if (collection == null) {
+                return 0;
+            }
+            return ((Set) collection).size();
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public Object clear(final Object collection) {
+            if (collection != null) {
+                ((Set) collection).clear();
+            }
+            return null;
+        }
+
+        /**
+         * @inheritDoc
+         */
+        public String toString() {
+            return "SortedSet";
+        }
+    }
 
 
     /**
