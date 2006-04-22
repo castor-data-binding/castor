@@ -76,11 +76,6 @@ public final class OID implements Serializable {
     private final String _name;
 
     /**
-     * The LockEngine of the object
-     */
-    private final transient LockEngine _engine;
-
-    /**
      * The ClassMolder of the object
      */
     private final transient ClassMolder _molder;
@@ -123,7 +118,6 @@ public final class OID implements Serializable {
     private OID() {
         _identity = null;
         _name = null;
-        _engine = null;
         _molder = null;
         _depends = null;
         _hashCode = 0;
@@ -132,20 +126,17 @@ public final class OID implements Serializable {
     /**
      * Constructor
      */
-    public OID(LockEngine engine, ClassMolder molder, Object identity) {
-        this(engine, molder, null, identity);
+    public OID(ClassMolder molder, Object identity) {
+        this(molder, null, identity);
     }
 
     /**
      * Constructor
      */
-    public OID(LockEngine engine, ClassMolder molder, OID depends,
+    public OID(ClassMolder molder, OID depends,
             Object identity) {
         ArrayList superClassNames = null;
 
-        if (engine == null) {
-            throw new IllegalArgumentException("engine can't be null");
-        }
         if (molder == null) {
             throw new IllegalArgumentException("molder can't be null");
         }
@@ -154,7 +145,6 @@ public final class OID implements Serializable {
                     "identity can't be object array!");
             throw e;
         }
-        _engine = engine;
         _molder = molder;
         _identity = identity;
         _name = molder.getName();
@@ -193,17 +183,8 @@ public final class OID implements Serializable {
      * 
      * @return the ClassMolder of this object
      */
-    ClassMolder getMolder() {
+    public ClassMolder getMolder() {
         return _molder;
-    }
-
-    /**
-     * Get the LockEngine of this object
-     * 
-     * @return the LockEngine of this object.
-     */
-    public LockEngine getLockEngine() {
-        return _engine;
     }
 
     /**

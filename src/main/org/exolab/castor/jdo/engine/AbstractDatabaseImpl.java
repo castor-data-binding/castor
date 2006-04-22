@@ -285,10 +285,9 @@ public abstract class AbstractDatabaseImpl
     throws TransactionNotInProgressException, ObjectNotFoundException,
     LockNotGrantedException, PersistenceException {
         TransactionContext tx = getTransaction();
-        PersistenceInfo info = _scope.getPersistenceInfo(type);
-
-        ProposedEntity proposedObject = new ProposedEntity();
-        return tx.load(info.engine, info.molder, identity, proposedObject, mode);
+        ClassMolder molder = _scope.getClassMolder(type);
+        ProposedEntity proposedObject = new ProposedEntity(molder);
+        return tx.load(identity, proposedObject, mode);
     }
 
     /**
@@ -298,13 +297,9 @@ public abstract class AbstractDatabaseImpl
     public void create(final Object object)
             throws ClassNotPersistenceCapableException, DuplicateIdentityException,
             TransactionNotInProgressException, PersistenceException {
-        TransactionContext tx;
-        PersistenceInfo    info;
-
-        tx = getTransaction();
-        info = _scope.getPersistenceInfo(object.getClass());
-
-        tx.create(info.engine, info.molder, object, null);
+        TransactionContext tx = getTransaction();
+        ClassMolder molder = _scope.getClassMolder(object.getClass());
+        tx.create(molder, object, null);
     }
     
     /**
@@ -326,13 +321,9 @@ public abstract class AbstractDatabaseImpl
         throws ClassNotPersistenceCapableException, ObjectModifiedException,
                TransactionNotInProgressException, PersistenceException
     {
-        TransactionContext tx;
-        PersistenceInfo    info;
-
-        tx = getTransaction();
-        info = _scope.getPersistenceInfo(object.getClass());
-
-        tx.update(info.engine, info.molder, object, null);
+        TransactionContext tx = getTransaction();
+        ClassMolder molder = _scope.getClassMolder(object.getClass());
+        tx.update(molder, object, null);
     }
 
     /**
@@ -343,11 +334,8 @@ public abstract class AbstractDatabaseImpl
         throws ObjectNotPersistentException, LockNotGrantedException, 
                TransactionNotInProgressException, PersistenceException
     {
-        TransactionContext tx;
-        
-        tx = getTransaction();
-        _scope.getPersistenceInfo(object.getClass());
-
+        TransactionContext tx = getTransaction();
+        _scope.getClassMolder(object.getClass());
         tx.delete(object);
     }
 
@@ -376,8 +364,8 @@ public abstract class AbstractDatabaseImpl
             throw new IllegalStateException(Messages.message("jdo.dbClosed"));
         }
 
-        PersistenceInfo info = _scope.getPersistenceInfo(object.getClass());
-        return info.molder.getActualIdentity(_classLoader, object);
+        ClassMolder molder = _scope.getClassMolder(object.getClass());
+        return molder.getActualIdentity(_classLoader, object);
     }
 
 

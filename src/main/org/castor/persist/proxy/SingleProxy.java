@@ -29,7 +29,6 @@ import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
-import org.exolab.castor.persist.LockEngine;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -42,7 +41,6 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
     private static Log _log = LogFactory.getFactory().getInstance(SingleProxy.class);
     
     private TransactionContext _tx;
-    private LockEngine _engine;
     private ClassMolder _classMolder;
     private Class _clazz;
     private Object _identity;
@@ -62,14 +60,12 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
      * @param accessMode Access mode identifier.
      */
     private SingleProxy(final TransactionContext tx,
-            final LockEngine engine,
             final ClassMolder classMolder,
             final Class clazz,
             final Object identity,
             final Object object,
             final AccessMode accessMode) {
         _tx = tx;
-        _engine = engine;
         _classMolder = classMolder;
         _clazz = clazz;
         _identity = identity;
@@ -94,13 +90,13 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
      * @throws ObjectNotFoundException
      */
     public static synchronized Object getProxy(final TransactionContext tx,
-            final LockEngine engine, final ClassMolder classMolder,
+            final ClassMolder classMolder,
             final Object identity, final Object object,
             final AccessMode accessMode) 
     throws ObjectNotFoundException {
         try {
             Class clazz = Class.forName(classMolder.getName());
-            SingleProxy sp = new SingleProxy(tx, engine, classMolder, clazz,
+            SingleProxy sp = new SingleProxy(tx, classMolder, clazz,
                     identity, object, accessMode);
             return Enhancer.create(clazz, new Class[] {LazyCGLIB.class}, sp);
         } catch (Throwable ex) {
@@ -165,8 +161,6 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
             return _identity;
         } else if ("interceptedClassMolder".equals(methodName)) {
             return _classMolder;
-        } else if ("interceptedLockEngine".equals(methodName)) {
-            return _engine;
         } else if ("interceptedIdentity".equals(methodName)) {
             return _identity;
         } else if ("getClass".equals(methodName)) {
@@ -223,11 +217,10 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
             _log.debug("load object " + _classMolder.getName() + " with id "
                     + _identity);
         }
-        ProposedEntity proposedValue = new ProposedEntity();
+        ProposedEntity proposedValue = new ProposedEntity(_classMolder);
         proposedValue.setProposedEntityClass(_clazz);
         proposedValue.setEntity(_object);
-        instance = _tx.load(_engine, _classMolder, _identity, proposedValue,
-                _accessMode);
+        instance = _tx.load(_identity, proposedValue, _accessMode);
         _hasMaterialized = true;
         return instance;
     }

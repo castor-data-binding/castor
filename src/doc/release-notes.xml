@@ -52,6 +52,26 @@
                 <a href="cvs.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1407" tool="jira">
+                    <description>
+		                Use ClassMolder.getLockEngine() instead of passing around LockEngine everywhere.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060425</date>
+                </bug>
                 <bug id="1402" tool="jira">
                     <description>
 		                Improved exception reporting for various JDO-related exceptions.

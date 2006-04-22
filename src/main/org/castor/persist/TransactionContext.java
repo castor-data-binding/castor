@@ -171,7 +171,7 @@ public interface TransactionContext {
      */
     DbMetaInfo getConnectionInfo(final LockEngine engine) throws PersistenceException;
 
-    Object fetch(final LockEngine engine, final ClassMolder molder,
+    Object fetch(final ClassMolder molder,
             final Object identity, final AccessMode suggestedAccessMode)
     throws PersistenceException;
 
@@ -194,8 +194,6 @@ public interface TransactionContext {
      * Attempting to load the object twice in the same transaction, once with
      * exclusive lock and once with read-write lock will result in an exception.
      * 
-     * @param engine The persistence engine.
-     * @param molder The class persistence molder.
      * @param identity The object's identity.
      * @param proposedObject The object to fetch (single instance per transaction).
      * @param suggestedAccessMode The access mode (see {@link AccessMode}) the values
@@ -205,7 +203,7 @@ public interface TransactionContext {
      *         lock on object. The object was not found in persistent storage. An error
      *         reported by the persistence engine.
      */
-    Object load(final LockEngine engine, final ClassMolder molder, final Object identity,
+    Object load(final Object identity,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode) 
     throws PersistenceException;
 
@@ -217,8 +215,6 @@ public interface TransactionContext {
      * In addition to {@link #load(LockEngine,ClassMolder,Object,Object,AccessMode)}
      * a QueryResults can be specified.
      * 
-     * @param engine The persistence engine.
-     * @param molder The class persistence molder.
      * @param identity The object's identity.
      * @param proposedObject The object to fetch (single instance per transaction).
      * @param suggestedAccessMode The access mode (see {@link AccessMode}) the values
@@ -229,7 +225,7 @@ public interface TransactionContext {
      *         lock on object. The object was not found in persistent storage. An error
      *         reported by the persistence engine.
      */
-    Object load(final LockEngine engine, final ClassMolder molder, final Object identity,
+    Object load(final Object identity,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode, 
             final QueryResults results)
     throws PersistenceException;
@@ -256,7 +252,6 @@ public interface TransactionContext {
      * Walk a data object tree starting from the specified object, and mark all
      * objects to be created.
      * 
-     * @param engine The persistence engine.
      * @param molder The class persistence molder.
      * @param object The object to persist.
      * @param rootObjectOID The OID of the root object to start walking.
@@ -264,7 +259,7 @@ public interface TransactionContext {
      *         persistent storage. The class is not persistent capable. An error
      *         reported by the persistence engine.
      */
-    void markCreate(final LockEngine engine, final ClassMolder molder,
+    void markCreate(final ClassMolder molder,
             final Object object, final OID rootObjectOID)
     throws PersistenceException;
 
@@ -275,7 +270,6 @@ public interface TransactionContext {
      * duplicate identity check occurs when the transaction completes and the
      * object is not visible in this transaction.
      * 
-     * @param engine The persistence engine.
      * @param molder The molder of the creating class.
      * @param object The object to persist.
      * @param depended The master object's OID if exist.
@@ -283,8 +277,7 @@ public interface TransactionContext {
      *         persistent storage. The class is not persistent capable. An error
      *         reported by the persistence engine.
      */
-    void create(final LockEngine engine, final ClassMolder molder, final Object object,
-            final OID depended) 
+    void create(final ClassMolder molder, final Object object, final OID depended) 
     throws PersistenceException;
 
     /**
@@ -297,7 +290,6 @@ public interface TransactionContext {
      * Update will also mark objects to be created if the TIMESTAMP equals to
      * NO_TIMESTAMP.
      * 
-     * @param engine The persistence engine.
      * @param molder The object's molder.
      * @param object The object to persist.
      * @param depended The master objects of the specified object to be created if
@@ -309,7 +301,7 @@ public interface TransactionContext {
      *         database during the long transaction. An error reported by the
      *         persistence engine.
      */
-    boolean markUpdate(final LockEngine engine, final ClassMolder molder,
+    boolean markUpdate(final ClassMolder molder,
             final Object object, final OID depended) 
     throws PersistenceException;
     
@@ -323,7 +315,6 @@ public interface TransactionContext {
      * Update will also mark objects to be created if the TIMESTAMP equals to
      * NO_TIMESTAMP.
      * 
-     * @param engine The persistence engine.
      * @param molder The object's molder.
      * @param object The object to persist.
      * @param depended The master objects of the specified object to be created if
@@ -334,7 +325,7 @@ public interface TransactionContext {
      *         database during the long transaction. An error reported by the persistence
      *         engine.
      */
-    void update(final LockEngine engine, final ClassMolder molder, final Object object,
+    void update(final ClassMolder molder, final Object object,
             final OID depended) 
     throws PersistenceException;
     
@@ -514,8 +505,7 @@ public interface TransactionContext {
      */
     boolean isReadOnly(final Object object);
 
-    boolean isCached(final LockEngine engine, final ClassMolder molder, final Class cls,
-            final Object identity)
+    boolean isCached(final ClassMolder molder, final Class cls, final Object identity)
     throws PersistenceException;
     
     /**
@@ -529,8 +519,7 @@ public interface TransactionContext {
      * @throws PersistenceException If identity is null or any problem that happens
      *         during expiration of cache values.
      */
-    void expireCache(final LockEngine engine, final ClassMolder molder,
-            final Object identity)
+    void expireCache(final ClassMolder molder, final Object identity)
     throws PersistenceException;
     
     /**

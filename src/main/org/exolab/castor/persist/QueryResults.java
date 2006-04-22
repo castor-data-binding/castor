@@ -215,9 +215,9 @@ public final class QueryResults {
         handler = _engine.getClassMolder(_query.getResultType());
 
         // load the object thur the transaction of the query
-        ProposedEntity proposedValue = new ProposedEntity();
+        ProposedEntity proposedValue = new ProposedEntity(handler);
         proposedValue.setProposedEntityClass(_query.getResultType());
-        object = _tx.load(_engine, handler, _lastIdentity, proposedValue, _accessMode, this);
+        object = _tx.load(_lastIdentity, proposedValue, _accessMode, this);
         if (proposedValue.isExpanded()) { object = proposedValue.getEntity(); }
         
         return object;

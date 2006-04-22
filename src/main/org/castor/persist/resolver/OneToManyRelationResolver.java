@@ -31,7 +31,6 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.Lazy;
-import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
 
 /**
@@ -65,7 +64,6 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
         boolean updateCache = false;
         // create dependent objects if exists
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
             Iterator itor = ClassMolderHelper.getIterator(o);
@@ -74,7 +72,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                 if (_fieldMolder.isDependent()) {
                     if (!tx.isRecorded(oo)) {
                         // autoCreated = true;
-                        tx.markCreate(fieldEngine, fieldClassMolder, oo, oid);
+                        tx.markCreate(fieldClassMolder, oo, oid);
                         if (fieldClassMolder.isKeyGenUsed()) {
                             updateCache = true;
                         }
@@ -88,7 +86,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     }
                 } else if (tx.isAutoStore()) {
                     if (!tx.isRecorded(oo)) {
-                        tx.markCreate(fieldEngine, fieldClassMolder, oo, null);
+                        tx.markCreate(fieldClassMolder, oo, null);
                         if (fieldClassMolder.isKeyGenUsed()) {
                             updateCache = true;
                         }
@@ -109,7 +107,6 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
             final Object field) 
     throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         // markDelete mix with prestore
         // so, store is not yet called, and only the loaded (or created)
         // relation have to be deleted.
@@ -122,8 +119,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     Object fid = alist.get(j);
                     Object fetched = null;
                     if (fid != null) {
-                        fetched = tx.fetch(fieldEngine, fieldClassMolder, fid,
-                                null);
+                        fetched = tx.fetch(fieldClassMolder, fid, null);
                         if (fetched != null) {
                             tx.delete(fetched);
                         }
@@ -146,8 +142,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     Object fid = alist.get(j);
                     Object fetched = null;
                     if (fid != null) {
-                        fetched = tx.fetch(fieldEngine, fieldClassMolder, fid,
-                                null);
+                        fetched = tx.fetch(fieldClassMolder, fid, null);
                         if (fetched != null) {
                             fieldClassMolder.removeRelation(tx, fetched,
                                     fieldClassMolder, object);
@@ -179,7 +174,6 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
     throws PersistenceException {
         UpdateFlags flags = new UpdateFlags();
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         ArrayList orgFields = (ArrayList) field;
         if (!(value instanceof Lazy)) {
@@ -194,8 +188,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
             }
             while (removedItor.hasNext()) {
                 Object removedId = removedItor.next();
-                Object reldel = tx.fetch(fieldEngine, fieldClassMolder,
-                        removedId, null);
+                Object reldel = tx.fetch(fieldClassMolder, removedId, null);
                 if (reldel != null) {
                     if (_fieldMolder.isDependent()) {
                         tx.delete(reldel);
@@ -223,8 +216,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                 Object addedValue = addedItor.next();
                 if (_fieldMolder.isDependent()) {
                     if (!tx.isRecorded(addedValue)) {
-                        tx.markCreate(fieldEngine, fieldClassMolder,
-                                addedValue, oid);
+                        tx.markCreate(fieldClassMolder, addedValue, oid);
 //                    } else {
 //                        // should i notify user that the object does not exist?
 //                        // user can't create dependent object himself. So, must
@@ -233,8 +225,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     }
                 } else if (tx.isAutoStore()) {
                     if (!tx.isRecorded(addedValue)) {
-                        tx.markCreate(fieldEngine, fieldClassMolder,
-                                addedValue, null);
+                        tx.markCreate(fieldClassMolder, addedValue, null);
                     }
                 }
             }
@@ -286,8 +277,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     while (itor.hasNext()) {
                         Object toBeAdded = lazy.find(itor.next());
                         if (toBeAdded != null) {
-                            tx.markCreate(fieldEngine, fieldClassMolder,
-                                    toBeAdded, oid);
+                            tx.markCreate(fieldClassMolder, toBeAdded, oid);
 //                        } else {
 //                            // what to do if it happens?
                         }
@@ -298,8 +288,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         Object toBeAdded = lazy.find(itor.next());
                         if (toBeAdded != null) {
                             if (!tx.isRecorded(toBeAdded)) {
-                                tx.markCreate(fieldEngine, fieldClassMolder,
-                                        toBeAdded, null);
+                                tx.markCreate(fieldClassMolder, toBeAdded, null);
                             }
                         }
                     }
@@ -322,7 +311,6 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
             final Object field)
     throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         if (_fieldMolder.isDependent()) {
             if (!_fieldMolder.isLazy()) {
                 Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
@@ -338,8 +326,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     newSetOfIds.add(actualIdentity);
                     if (v != null && v.contains(actualIdentity)) {
                         if (!tx.isRecorded(element)) {
-                            tx.markUpdate(fieldEngine, fieldClassMolder,
-                                    element, oid);
+                            tx.markUpdate(fieldClassMolder, element, oid);
                         }
 //                    } else {
 //                        // if ( !tx.isRecorded( element ) ) tx.markCreate(
@@ -352,18 +339,14 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                             // load all the dependent object in cache for
                             // modification
                             // check at commit time.
-                            ProposedEntity proposedValue = new ProposedEntity();
-                            tx
-                                    .load(oid.getLockEngine(),
-                                            fieldClassMolder, v.get(j),
-                                            proposedValue, suggestedAccessMode);
+                            ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                            tx.load(v.get(j), proposedValue, suggestedAccessMode);
                         }
                     }
                 }
             } else {
                 // ArrayList avlist = (ArrayList) fields[i];
                 fieldClassMolder = _fieldMolder.getFieldClassMolder();
-                fieldEngine = _fieldMolder.getFieldLockEngine();
                 // RelationCollection relcol = new RelationCollection( tx, oid,
                 // fieldEngine, fieldClassMolder, accessMode, avlist );
             }
@@ -381,13 +364,11 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                 newSetOfIds.add(actualIdentity);
                 if (v != null && v.contains(actualIdentity)) {
                     if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldEngine, fieldClassMolder, element,
-                                null);
+                        tx.markUpdate(fieldClassMolder, element, null);
                     }
                 } else {
                     if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldEngine, fieldClassMolder, element,
-                                null);
+                        tx.markUpdate(fieldClassMolder, element, null);
                     }
                 }
             }
@@ -398,9 +379,8 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                         // load all the dependent object in cache for
                         // modification
                         // check at commit time.
-                        ProposedEntity proposedValue = new ProposedEntity();
-                        tx.load(oid.getLockEngine(), fieldClassMolder,
-                                v.get(j), proposedValue, suggestedAccessMode);
+                        ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                        tx.load(v.get(j), proposedValue, suggestedAccessMode);
                     }
                 }
             }
@@ -432,7 +412,6 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
         boolean updateCache = false;
         // create dependent objects if exists
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
             Iterator itor = ClassMolderHelper.getIterator(o);
@@ -441,7 +420,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                 if (_fieldMolder.isDependent()) {
                     if (!tx.isRecorded(oo)) {
                         // autoCreated = true;
-                        tx.markCreate(fieldEngine, fieldClassMolder, oo, oid);
+                        tx.markCreate(fieldClassMolder, oo, oid);
                         if (fieldClassMolder._isKeyGenUsed)
                             updateCache = true;
                     } else
@@ -453,8 +432,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                                 "Dependent object may not change its master");
                 } else if (tx.isAutoStore()) {
                     if (!tx.isRecorded(oo)) {
-                        boolean creating = tx.markUpdate(fieldEngine,
-                                fieldClassMolder, oo, null);
+                        boolean creating = tx.markUpdate(fieldClassMolder, oo, null);
                         if (creating && fieldClassMolder._isKeyGenUsed)
                             updateCache = true;
                     }
