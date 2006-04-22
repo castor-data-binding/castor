@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1403 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed documentation for 'sortedset' collection type in the JDO mapping section.
+       Details: http://jira.codehaus.org/browse/CASTOR-1403
+       (Werner - 20060422)
+
 All:   Fixed bug CASTOR-1380 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Migrated Castor repository from CVS to SVN.
        Details: http://jira.codehaus.org/browse/CASTOR-1380
