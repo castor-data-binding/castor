@@ -32,7 +32,6 @@ import org.castor.persist.TransactionContext;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.Lazy;
-import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.TxSynchronizable;
 import org.exolab.castor.jdo.LockNotGrantedException;
@@ -52,11 +51,6 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
      * Transaction to fetch an element on the fly if needed.
      */
     private TransactionContext _tx;
-
-    /**
-     * The LockEngine which the elements belong to.
-     */
-    private LockEngine _engine;
 
     /**
      * The ClassMolder of the elemtns.
@@ -91,11 +85,10 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
      * @param ids Set of identifiers.
      */
     public RelationCollection(final TransactionContext tx, final OID enclosing,
-            final LockEngine engine, final ClassMolder molder,
+            final ClassMolder molder,
             final AccessMode amode, final ArrayList ids) {
         _tx = tx;
         _molder = molder;
-        _engine = engine;
         _ids = (ids != null) ? ids : new ArrayList();
         _size = _ids.size();
         _deleted = new ArrayList();
@@ -257,7 +250,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
             }
             // make sure the object is not deleted in
             // the current transaction outside this class
-            OID oid = new OID(_parent._engine, _parent._molder, id);
+            OID oid = new OID(_parent._molder, id);
             return _parent._tx.isDeletedByOID(oid);
         }
         private Object lazyLoad(final Object ids) {
@@ -268,9 +261,8 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
             }
 
             try {
-                ProposedEntity proposedValue = new ProposedEntity();
-                o = _parent._tx.load(_parent._engine, _parent._molder, ids,
-                        proposedValue, null);
+                ProposedEntity proposedValue = new ProposedEntity(_parent._molder);
+                o = _parent._tx.load(ids, proposedValue, null);
                 _parent._loaded.put(ids, o);
                 return o;
             } catch (LockNotGrantedException e) {

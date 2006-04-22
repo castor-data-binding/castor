@@ -60,7 +60,11 @@ public final class ProposedEntity {
     /**
      * Creates an default instance.
      */
-    public ProposedEntity () { }
+//    public ProposedEntity() { }
+    
+    public ProposedEntity(final ClassMolder actualClassMolder) {
+        setActualClassMolder(actualClassMolder);
+    }
 
     /**
      * Creates an instance of this class based upon the values passed in.

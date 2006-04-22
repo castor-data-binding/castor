@@ -31,7 +31,6 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
-import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
 
 /**
@@ -107,12 +106,11 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         boolean updateCache = false;
         
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
             if (_fieldMolder.isDependent()) {
                 if (!tx.isRecorded(o)) {
-                    tx.markCreate(fieldEngine, fieldClassMolder, o, oid);
+                    tx.markCreate(fieldClassMolder, o, oid);
                     if (!_fieldMolder.isStored() && fieldClassMolder.isKeyGenUsed()) {
                         updateCache = true;
                     }
@@ -126,7 +124,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 }
             } else if (tx.isAutoStore()) {
                 if (!tx.isRecorded(o)) {
-                    tx.markCreate(fieldEngine, fieldClassMolder, o, null);
+                    tx.markCreate(fieldClassMolder, o, null);
                     if (!_fieldMolder.isStored() && fieldClassMolder.isKeyGenUsed()) {
                         updateCache = true;
                     }
@@ -146,7 +144,6 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         UpdateFlags flags = new UpdateFlags();
         
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         Object newField = null;
         if (value != null) {
@@ -193,7 +190,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     flags.setUpdatePersist(true);
                 }
                 flags.setUpdateCache(true);
-                tx.markCreate(fieldEngine, fieldClassMolder, value, oid);
+                tx.markCreate(fieldClassMolder, value, oid);
             }
             
             //TODO [WG]: can anybody please explain to me the meaning of the next two lines.
@@ -211,7 +208,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             }
 
             if (tx.isAutoStore() || _fieldMolder.isDependent()) {
-                if (value != tx.fetch(fieldEngine, fieldClassMolder, field, null)) {
+                if (value != tx.fetch(fieldClassMolder, field, null)) {
                     throw new DuplicateIdentityException("");
                 }
             }
@@ -223,30 +220,30 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
 
             if (_fieldMolder.isDependent()) {
                 if (field != null) {
-                    Object reldel = tx.fetch(fieldEngine, fieldClassMolder, field, null);
+                    Object reldel = tx.fetch(fieldClassMolder, field, null);
                     if (reldel != null) {
                         tx.delete(reldel);
                     }
                 }
 
                 if ((value != null) && !tx.isRecorded(value)) {
-                    tx.markCreate(fieldEngine, fieldClassMolder, value, oid);
+                    tx.markCreate(fieldClassMolder, value, oid);
                 }
 
             } else if (tx.isAutoStore()) {
                 if (field != null) {
-                    Object deref = tx.fetch(fieldEngine, fieldClassMolder, field, null);
+                    Object deref = tx.fetch(fieldClassMolder, field, null);
                     if (deref != null) {
                         fieldClassMolder.removeRelation(tx, deref, this._classMolder, object);
                     }
                 }
 
                 if ((value != null) && !tx.isRecorded(value)) {
-                    tx.markCreate(fieldEngine, fieldClassMolder, value, null);
+                    tx.markCreate(fieldClassMolder, value, null);
                 }
             } else {
                 if (field != null) {
-                    Object deref = tx.fetch(fieldEngine, fieldClassMolder, field, null);
+                    Object deref = tx.fetch(fieldClassMolder, field, null);
                     if (deref != null) {
                         fieldClassMolder.removeRelation(tx, deref, this._classMolder, object);
                     }
@@ -287,30 +284,29 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     public void update(final TransactionContext tx, final OID oid, final Object object, final AccessMode suggestedAccessMode, final Object field)
     throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (_fieldMolder.isDependent()) {
             // depedent class won't have persistenceInfo in LockEngine
             // must look at fieldMolder for it
 
             if ((o != null) && !tx.isRecorded(o)) {
-                tx.markUpdate(fieldEngine, fieldClassMolder, o, oid);
+                tx.markUpdate(fieldClassMolder, o, oid);
             }
 
             // load the cached dependent object from the data store.
             // The loaded will be compared with the new one
             if (field != null) {
-                ProposedEntity proposedValue = new ProposedEntity ();
-                tx.load(fieldEngine, fieldClassMolder, field, proposedValue, suggestedAccessMode);
+                ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                tx.load(field, proposedValue, suggestedAccessMode);
             }
         } else if (tx.isAutoStore()) {
             if ((o != null) && !tx.isRecorded(o)) {
-                tx.markUpdate(fieldEngine, fieldClassMolder, o, null);
+                tx.markUpdate(fieldClassMolder, o, null);
             }
 
             if (field != null) {
-                ProposedEntity proposedValue = new ProposedEntity ();
-                tx.load(fieldEngine, fieldClassMolder, field, proposedValue, suggestedAccessMode);
+                ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                tx.load(field, proposedValue, suggestedAccessMode);
             }
         }
     }
@@ -340,12 +336,11 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     throws PersistenceException {
             // persistanceCapable include many_to_one
             ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-            LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
             if (_fieldMolder.isDependent()) {
                 Object fid = field;
                 Object fetched = null;
                 if (fid != null) {
-                    fetched = tx.fetch(fieldEngine, fieldClassMolder, fid, null);
+                    fetched = tx.fetch(fieldClassMolder, fid, null);
                     if (fetched != null) {
                         tx.delete(fetched);
                     }
@@ -360,7 +355,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 Object fid = field;
                 Object fetched = null;
                 if (fid != null) {
-                    fetched = tx.fetch(fieldEngine, fieldClassMolder, field, null);
+                    fetched = tx.fetch(fieldClassMolder, field, null);
                     if (fetched != null) {
                         fieldClassMolder.removeRelation(tx, fetched, this._classMolder, object);
                     }
@@ -374,12 +369,11 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     public void revertObject(final TransactionContext tx, final OID oid, final Object object, final Object field)
     throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         
         Object value;
 
         if (field != null) {
-            value = tx.fetch(fieldEngine, fieldClassMolder, field, null);
+            value = tx.fetch(fieldClassMolder, field, null);
             _fieldMolder.setValue(object, value, tx.getClassLoader());
         } else {
             _fieldMolder.setValue(object, null, tx.getClassLoader());
@@ -394,11 +388,10 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         // field is not primitive type. Related object will be expired
 
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
 
         if (field != null) {
             // use the corresponding Persistent fields as the identity
-            tx.expireCache(fieldEngine, fieldClassMolder, field);
+            tx.expireCache(fieldClassMolder, field);
         }
     }
 
@@ -411,7 +404,6 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         // thru the transaction in action if needed.
 
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
 
         Object fieldValue = proposedObject.getField(_fieldIndex);
         if (fieldValue != null) {
@@ -421,10 +413,10 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             try {
                 // should I use lazy loading for this object?
                 if (_fieldMolder.isLazy()) {
-                    temp = SingleProxy.getProxy(tx, fieldEngine, fieldClassMolder, fieldValue, null, suggestedAccessMode);
+                    temp = SingleProxy.getProxy(tx, fieldClassMolder, fieldValue, null, suggestedAccessMode);
                 } else {
-                    ProposedEntity proposedTemp = new ProposedEntity();
-                    temp = tx.load(fieldEngine, fieldClassMolder, fieldValue, proposedTemp, suggestedAccessMode);
+                    ProposedEntity proposedTemp = new ProposedEntity(fieldClassMolder);
+                    temp = tx.load(fieldValue, proposedTemp, suggestedAccessMode);
                 }
             } catch (ObjectNotFoundException ex) {
                 temp = null;
@@ -481,7 +473,6 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         boolean updateCache = false;
         // create dependent object if exists
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
             if (_fieldMolder.isDependent()) {
@@ -496,7 +487,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 // OQL Query will not able to include the newly generated
                 // dependent object.
                 if ( !tx.isRecorded( o ) ) {
-                    tx.markCreate( fieldEngine, fieldClassMolder, o, oid );
+                    tx.markCreate(fieldClassMolder, o, oid);
                     if ( !_fieldMolder.isStored() && fieldClassMolder._isKeyGenUsed ) {
                         updateCache = true;
                     }
@@ -511,7 +502,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     // is enabled, to obtain a database lock on the row. If both side
                     // uses keygenerator, the current object will be updated in the
                     // store state.
-                    boolean creating = tx.markUpdate( fieldEngine, fieldClassMolder, o, null );
+                    boolean creating = tx.markUpdate(fieldClassMolder, o, null);
                     // if _fhs[i].isStore is true for this field,
                     // and if key generator is used
                     // and if the related object is replaced this object by null

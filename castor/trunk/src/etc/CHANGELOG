@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1407 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Use ClassMolder.getLockEngine() instead of passing around LockEngine everywhere.
+       Details: http://jira.codehaus.org/browse/CASTOR-1407
+       (Ralf - 20060422)
+
 JDO:   Fixed bug CASTOR-1402 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improved exception reporting for various JDO-related exceptions.
        Details: http://jira.codehaus.org/browse/CASTOR-1402

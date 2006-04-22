@@ -56,7 +56,7 @@ public class PersistenceInfoGroup {
         this.engines = engines;
     }
     
-    public PersistenceInfo getPersistenceInfo( Class type ) throws ClassNotPersistenceCapableException {
+    public ClassMolder getClassMolder(final Class type) throws ClassNotPersistenceCapableException {
         ClassMolder molder = null;
         int i = 0;
         while ( (i<engines.length) && (molder == null) ) {
@@ -69,7 +69,7 @@ public class PersistenceInfoGroup {
             throw new ClassNotPersistenceCapableException( Messages.format("persist.classIsDependent", type.getName(), molder.getDepends().getName()) );
         }
         
-        return new PersistenceInfo( engines[--i], molder );
+        return molder;
     }
     
     public LockEngine getLockEngine() {

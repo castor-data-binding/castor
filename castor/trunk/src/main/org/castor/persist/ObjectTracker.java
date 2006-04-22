@@ -55,9 +55,6 @@ import org.exolab.castor.persist.OID;
 public final class ObjectTracker {
     //--------------------------------------------------------------------------
 
-    /** Map of Object->LockEngine. */
-    private final Map _objectToEngine = new IdentityMap();
-    
     /** Map of Object->ClassMolder. */
     private final Map _objectToMolder = new IdentityMap();
     
@@ -110,11 +107,11 @@ public final class ObjectTracker {
                 }
             }
             return found;
-        } else {
-            // We don't know about this engine in this transaction.
-            // Hence, to us, there is no mapping.  Yet.
-            return null;
         }
+        
+        // We don't know about this engine in this transaction.
+        // Hence, to us, there is no mapping.  Yet.
+        return null;
     }
     
     public boolean isReadWrite(final Object object) {
@@ -133,7 +130,6 @@ public final class ObjectTracker {
         _creatingMap.clear();
         _deletedMap.clear();
         _engineToOIDToObject.clear();
-        _objectToEngine.clear();
         _objectToMolder.clear();
         _objectToOID.clear();
         _readOnlySet.clear();
@@ -331,27 +327,6 @@ public final class ObjectTracker {
         return (ClassMolder) _objectToMolder.get(object);
     }
     
-    public LockEngine getLockEngineForObject(final Object o) {
-        Object object = supportCGLibObject(o);
-        return (LockEngine) _objectToEngine.get(object);
-    }
-    
-    public void setLockEngineForObject(final Object obj, final LockEngine engine) {
-        _operation++;
-        Object object = supportCGLibObject(obj);
-        
-        // remove if exists
-        removeLockEngineForObject(object);
-        // Update objectToEngine (handles both new and pre-existing mappings)
-        _objectToEngine.put(object, engine);
-    }
-    
-    private void removeLockEngineForObject(final Object obj) {
-        _operation++;
-        Object object = supportCGLibObject(obj);
-        _objectToEngine.remove(object);
-    }
-    
     private void setMolderForObject(final Object obj, final ClassMolder molder) {
         _operation++;
         Object object = supportCGLibObject(obj);
@@ -404,16 +379,15 @@ public final class ObjectTracker {
         return returnedList;
     }
     
-    public void trackObject(final LockEngine engine, 
+    public void trackObject(
             final ClassMolder molder, 
             final OID oid, 
             final Object object) {
         _operation++;
         Object aObject = supportCGLibObject(object);
         
-        setLockEngineForObject(aObject, engine);
         setMolderForObject(aObject, molder);
-        setOIDForObject(aObject, engine, oid);
+        setOIDForObject(aObject, molder.getLockEngine(), oid);
         _readWriteSet.add(aObject);
     }
     
@@ -424,11 +398,10 @@ public final class ObjectTracker {
         
         // Grab any lockengine/OID information for removal of the nested 
         // engine-oid-object maps.
-        LockEngine engine = getLockEngineForObject(aObject);
+        LockEngine engine = getMolderForObject(aObject).getLockEngine();
         OID oid = getOIDForObject(aObject);
         
         removeMolderForObject(aObject);
-        removeLockEngineForObject(aObject);
         removeOIDForObject(engine, oid);
         
         _deletedMap.remove(aObject);
@@ -509,20 +482,20 @@ public final class ObjectTracker {
                 // here if the instance has not been materialized yet.
                 Object identity = cgObject.interceptedIdentity();
                 ClassMolder molder = cgObject.interceptedClassMolder();
-                LockEngine engine = cgObject.interceptedLockEngine();
+                LockEngine engine = molder.getLockEngine();
                 
                 // Get the OID we're looking for.
-                OID oid = new OID(engine, molder, identity);
+                OID oid = new OID(molder, identity);
                 
                 // Retrieve the object for this OID.
                 return getObjectForOID(engine, oid, true);
-            } else {
-                // Object has not been materialized; not a whole lot of point in looking.
-                return null;
             }
-        } else {
-            return object;
+            
+            // Object has not been materialized; not a whole lot of point in looking.
+            return null;
         }
+
+        return object;
     }
     
     public String allObjectStates() {

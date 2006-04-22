@@ -48,7 +48,6 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 import org.exolab.castor.persist.ClassMolder;
-import org.exolab.castor.persist.LockEngine;
 
 /**
  * <tt>Lazy</tt> is a place holder interface to indicate that a data object or
@@ -90,12 +89,6 @@ public interface LazyCGLIB extends Serializable {
      * @return ClassMolder of the object intercepted.
      */
     ClassMolder interceptedClassMolder();
-    
-    /**
-     * Returns the LockEngine of the object intercepted.
-     * @return LockEngine of the object intercepted.
-     */
-    LockEngine interceptedLockEngine();
     
     /**
      * @return true if the object has been materialized; otherwise, returns false.

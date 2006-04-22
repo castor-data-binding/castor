@@ -562,7 +562,7 @@ public class ClassMolder
                 stamp = results.getQuery().fetch(proposedObject,
                         oid.getIdentity());
             } else {
-                Connection conn = (Connection) tx.getConnection(oid.getLockEngine());
+                Connection conn = (Connection) tx.getConnection(oid.getMolder().getLockEngine());
                 stamp = _persistence.load(conn, proposedObject, 
                         oid.getIdentity(), accessMode);
             }
@@ -691,7 +691,7 @@ public class ClassMolder
         
         // ask Persistent to create the object into the persistence storage
         Object createdId = _persistence.create(tx.getDatabase(), tx
-                .getConnection(oid.getLockEngine()), fields, ids);
+                .getConnection(oid.getMolder().getLockEngine()), fields, ids);
 
         if (createdId == null) {
             throw new PersistenceException("Identity can't be created!");
@@ -840,7 +840,7 @@ public class ClassMolder
         }
         
         Object stamp = _persistence.store(
-                tx.getConnection(oid.getLockEngine()), newfields, oid
+                tx.getConnection(oid.getMolder().getLockEngine()), newfields, oid
                         .getIdentity(), fields, oid.getStamp());
         oid.setStamp(stamp);
     }
@@ -897,9 +897,9 @@ public class ClassMolder
             if ( !_timeStampable && isDependent() && fields == null  ) {
                 // allow a dependent object not implements timeStampable
                 fields = new Object[_fhs.length];
-                Connection conn = tx.getConnection(oid.getLockEngine());
+                Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
                 
-                ProposedEntity proposedObject = new ProposedEntity();
+                ProposedEntity proposedObject = new ProposedEntity(this);
                 proposedObject.setProposedEntityClass(object.getClass());
                 proposedObject.setEntity(object);
                 proposedObject.setFields(fields);
@@ -1011,11 +1011,11 @@ public class ClassMolder
         for( int i=0; i < _fhs.length; i++ ) {
             if( _fhs[i].isManyToMany() ) {
                 _fhs[i].getRelationLoader().deleteRelation(
-                  tx.getConnection(oid.getLockEngine()), ids);
+                  tx.getConnection(oid.getMolder().getLockEngine()), ids);
             }
         }
 
-        _persistence.delete( tx.getConnection(oid.getLockEngine()), ids );
+        _persistence.delete( tx.getConnection(oid.getMolder().getLockEngine()), ids );
 
         // All field along the extend path will be deleted by transaction
         // However, everything off the path must be deleted by ClassMolder.

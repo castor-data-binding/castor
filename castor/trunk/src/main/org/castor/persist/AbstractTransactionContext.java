@@ -336,10 +336,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#fetch(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.exolab.castor.mapping.AccessMode)
      */
-    public final synchronized Object fetch(final LockEngine engine,
+    public final synchronized Object fetch(
             final ClassMolder molder, final Object identity,
             final AccessMode suggestedAccessMode)
     throws PersistenceException {
@@ -352,7 +352,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             throw new PersistenceException("Identities can't be null!");
         }
 
-        oid = new OID(engine, molder, identity);
+        LockEngine engine = molder.getLockEngine();
+        
+        oid = new OID(molder, identity);
         accessMode = molder.getAccessMode(suggestedAccessMode);
         if (accessMode == AccessMode.ReadOnly) {
             objectInTransaction = _tracker.getObjectForOID(engine, oid, true);
@@ -368,7 +370,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             // deleted in this transaction, it cannot be re-loaded. If the
             // object has been created in this transaction, it cannot be
             // re-loaded but no error is reported.
-            if (engine != _tracker.getLockEngineForObject(objectInTransaction)) {
+            if (engine != _tracker.getMolderForObject(objectInTransaction).getLockEngine()) {
                 throw new PersistenceException(Messages.format(
                         "persist.multipleLoad", molder.getName(), identity));
             }
@@ -416,26 +418,24 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#load(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.castor.persist.ProposedEntity,
      *      org.exolab.castor.mapping.AccessMode)
      */
-    public final synchronized Object load(final LockEngine engine,
-            final ClassMolder molder, final Object identity,
+    public final synchronized Object load(
+            final Object identity,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode) 
     throws PersistenceException {
-        return load(engine, molder, identity, proposedObject, suggestedAccessMode, null);
+        return load(identity, proposedObject, suggestedAccessMode, null);
     }
 
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#load(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.castor.persist.ProposedEntity,
      *      org.exolab.castor.mapping.AccessMode, org.exolab.castor.persist.QueryResults)
      */
-    public final synchronized Object load(final LockEngine engine,
-            final ClassMolder molder, final Object identity,
+    public final synchronized Object load(
+            final Object identity,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode, 
             final QueryResults results)
     throws PersistenceException {
@@ -443,6 +443,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         Object objectInTransaction;
         OID oid;
         AccessMode accessMode;
+
+        ClassMolder molder = proposedObject.getActualClassMolder();
+        LockEngine engine = molder.getLockEngine();
 
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
@@ -456,8 +459,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             throw new PersistenceException(Messages.format("persist.typeMismatch",
                     molder.getName(), proposedObject.getProposedEntityClass()));
         }
-
-        oid = new OID(engine, molder, identity);
+        
+        oid = new OID(molder, identity);
         accessMode = molder.getAccessMode(suggestedAccessMode);
         if (accessMode == AccessMode.ReadOnly) {
             objectInTransaction = _tracker.getObjectForOID(engine, oid, true);
@@ -484,7 +487,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             // deleted in this transaction, it cannot be re-loaded. If the
             // object has been created in this transaction, it cannot be
             // re-loaded but no error is reported.
-            if (engine != _tracker.getLockEngineForObject(objectInTransaction)) {
+            if (engine != _tracker.getMolderForObject(objectInTransaction).getLockEngine()) {
                 throw new PersistenceException(Messages.format(
                         "persist.multipleLoad", molder.getName(), identity));
             }
@@ -558,7 +561,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             }
 
             molder.setIdentity(this, objectInTransaction, identity);
-            _tracker.trackObject(engine, molder, oid, objectInTransaction);
+            _tracker.trackObject(molder, oid, objectInTransaction);
             OID newoid = engine.load(this, oid, proposedObject,
                     suggestedAccessMode, _lockTimeout, results);
                     
@@ -569,7 +572,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 // Create new OID
                 ClassMolder actualClassMolder = engine.getClassMolder(
                         proposedObject.getActualEntityClass());
-                OID actualOID = new OID(engine, actualClassMolder, identity);
+                OID actualOID = new OID(actualClassMolder, identity);
                 actualClassMolder.setIdentity(this, proposedObject.getEntity(), identity);
 
                 // Create instance of 'expanded object'
@@ -583,7 +586,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 }
 
                 // Add new OID to ObjectTracker
-                _tracker.trackObject(engine, molder, actualOID, expandedObject);
+                _tracker.trackObject(molder, actualOID, expandedObject);
                 
                 ProposedEntity proposedExpanded = new ProposedEntity(proposedObject);
                 proposedExpanded.setEntity(expandedObject);
@@ -673,10 +676,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#markCreate(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.exolab.castor.persist.OID)
      */
-    public final synchronized void markCreate(final LockEngine engine,
+    public final synchronized void markCreate(
             final ClassMolder molder, final Object object,  final OID rootObjectOID)
     throws PersistenceException {
 
@@ -688,6 +691,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                     "Attempted to mark a null object as created.");
         }
 
+        LockEngine engine = molder.getLockEngine();
+        
         // Make sure the object has not beed persisted in this transaction.
         identity = molder.getIdentity(this, object);
 
@@ -712,7 +717,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         // Note that the oid which is created is for a dependent object;
         // this is not a change to the rootObjectOID, and therefore doesn't get
         // trackOIDChange()d.
-        oid = new OID(engine, molder, rootObjectOID, identity);
+        oid = new OID(molder, rootObjectOID, identity);
 
         // You shouldn't be able to modify an object marked read-only in this
         // transaction.
@@ -730,7 +735,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         }
 
         try {
-            _tracker.trackObject(engine, molder, oid, object);
+            _tracker.trackObject(molder, oid, object);
             _tracker.markCreating(object);
 
             if (_callback != null) {
@@ -759,16 +764,16 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#create(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.exolab.castor.persist.OID)
      */
-    public final synchronized void create(final LockEngine engine,
+    public final synchronized void create(
             final ClassMolder molder, final Object object, final OID depended)
     throws PersistenceException {
 
         // markCreate will walk the object tree starting from the specified
         // object and mark all the object to be created.
-        markCreate(engine, molder, object, depended);
+        markCreate(molder, object, depended);
         walkObjectsToBeCreated();
         walkObjectsWhichNeedCacheUpdate();
     }
@@ -792,11 +797,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             // Must perform creation after object is recorded in transaction
             // to prevent circular references.
             Object toBeCreated = creatableIterator.next();
-            LockEngine toBeCreatedLockEngine = _tracker
-                    .getLockEngineForObject(toBeCreated);
             OID toBeCreatedOID = _tracker.getOIDForObject(toBeCreated);
-            ClassMolder toBeCreatedMolder = _tracker
-                    .getMolderForObject(toBeCreated);
+            ClassMolder toBeCreatedMolder = _tracker.getMolderForObject(toBeCreated);
+            LockEngine toBeCreatedLockEngine = toBeCreatedMolder.getLockEngine();
 
             try {
                 // Allow users to create inside the callback.
@@ -808,8 +811,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                     if (_callback != null) {
                         _callback.creating(toBeCreated, _db);
                     } else if (toBeCreatedMolder.getCallback() != null) {
-                        toBeCreatedMolder.getCallback().creating(toBeCreated,
-                                _db);
+                        toBeCreatedMolder.getCallback().creating(toBeCreated, _db);
                     }
 
                     OID oid = toBeCreatedLockEngine.create(this,
@@ -864,11 +866,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             Object toCacheUpdate = it.next();
             if (_tracker.isCreated(toCacheUpdate)) {
                 OID toCacheUpdateOID = _tracker.getOIDForObject(toCacheUpdate);
-                LockEngine toCacheUpdateLockEngine = _tracker
-                        .getLockEngineForObject(toCacheUpdate);
+                LockEngine toCacheUpdateLockEngine = _tracker.getMolderForObject(toCacheUpdate).getLockEngine();
 
-                toCacheUpdateLockEngine.updateCache(this, toCacheUpdateOID,
-                        toCacheUpdate);
+                toCacheUpdateLockEngine.updateCache(this, toCacheUpdateOID, toCacheUpdate);
                 _tracker.unmarkUpdateCacheNeeded(toCacheUpdate);
             }
         }
@@ -877,10 +877,10 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#markUpdate(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.exolab.castor.persist.OID)
      */
-    public final boolean markUpdate(final LockEngine engine,
+    public final boolean markUpdate(
             final ClassMolder molder, final Object object, final OID depended)
     throws PersistenceException {
 
@@ -891,12 +891,14 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             throw new NullPointerException();
         }
 
+        LockEngine engine = molder.getLockEngine();
+        
         identity = molder.getActualIdentity(this, object);
         if (molder.isDefaultIdentity(identity)) {
             identity = null;
         }
 
-        oid = new OID(engine, molder, depended, identity);
+        oid = new OID(molder, depended, identity);
 
         // Check the object is in the transaction.
         Object foundInTransaction = _tracker.getObjectForOID(engine, oid, false);
@@ -910,14 +912,14 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 throw new ObjectDeletedException(Messages.format(
                         "persist.objectDeleted", object.getClass(),
                         identity));
-            } else {
-                throw new DuplicateIdentityException(
-                        "update object which is already in the transaction");
             }
+            
+            throw new DuplicateIdentityException(
+                    "update object which is already in the transaction");
         }
 
         try {
-            _tracker.trackObject(engine, molder, oid, object);
+            _tracker.trackObject(molder, oid, object);
             if (engine.update(this, oid, object, null, 0)) {
                 _tracker.markCreating(object);
                 // yip: there is one issue here. Because object might be marked
@@ -966,14 +968,14 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#update(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object, org.exolab.castor.persist.OID)
      */
-    public final synchronized void update(final LockEngine engine,
+    public final synchronized void update(
             final ClassMolder molder, final Object object, final OID depended)
     throws PersistenceException {
 
-        markUpdate(engine, molder, object, depended);
+        markUpdate(molder, object, depended);
         walkObjectsToBeCreated();
         walkObjectsWhichNeedCacheUpdate();
     }
@@ -996,7 +998,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         }
 
         ClassMolder molder = _tracker.getMolderForObject(object);
-        LockEngine engine = _tracker.getLockEngineForObject(object);
+        LockEngine engine = molder.getLockEngine();
         OID oid = _tracker.getOIDForObject(object);
 
         // Cannot delete same object twice
@@ -1063,13 +1065,12 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                     "persist.objectNotPersistent", object.getClass().getName()));
         }
 
-        LockEngine engine = _tracker.getLockEngineForObject(object);
+        LockEngine engine = _tracker.getMolderForObject(object).getLockEngine();
         OID oid = _tracker.getOIDForObject(object);
 
         if (_tracker.isDeleted(object)) {
             throw new ObjectDeletedException(Messages.format(
-                    "persist.objectDeleted", object.getClass(), oid
-                            .getIdentity()));
+                    "persist.objectDeleted", object.getClass(), oid.getIdentity()));
         }
 
         try {
@@ -1125,8 +1126,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                             .getClass()));
         }
 
-        LockEngine engine = _tracker.getLockEngineForObject(object);
         ClassMolder molder = _tracker.getMolderForObject(object);
+        LockEngine engine = molder.getLockEngine();
         OID oid = _tracker.getOIDForObject(object);
 
         if (_tracker.isDeleted(object)) {
@@ -1201,16 +1202,13 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                     // consider for store.
                     if ((!_tracker.isDeleted(object))
                             && (!_tracker.isCreating(object))) {
-                        LockEngine engine = _tracker
-                                .getLockEngineForObject(object);
+                        LockEngine engine = _tracker.getMolderForObject(object).getLockEngine();
                         //_tracker.getMolderForObject(object);
                         OID oid = _tracker.getOIDForObject(object);
 
-                        OID newoid = engine.preStore(this, oid, object,
-                                _lockTimeout);
+                        OID newoid = engine.preStore(this, oid, object, _lockTimeout);
                         if (newoid != null) {
-                            _tracker
-                                    .trackOIDChange(object, engine, oid, newoid);
+                            _tracker.trackOIDChange(object, engine, oid, newoid);
                             _tracker.markUpdateCacheNeeded(object);
                         }
                     }
@@ -1254,8 +1252,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             boolean needsPersist = _tracker.isUpdatePersistNeeded(toPrepare);
             boolean needsCache = _tracker.isUpdateCacheNeeded(toPrepare);
 
-            LockEngine engine = _tracker.getLockEngineForObject(toPrepare);
             ClassMolder molder = _tracker.getMolderForObject(toPrepare);
+            LockEngine engine = molder.getLockEngine();
             OID oid = _tracker.getOIDForObject(toPrepare);
 
             if (!isDeleted && !isCreating) {
@@ -1294,7 +1292,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
 
         while (it.hasNext()) {
             Object object = it.next();
-            LockEngine engine = _tracker.getLockEngineForObject(object);
+            LockEngine engine = _tracker.getMolderForObject(object).getLockEngine();
             OID oid = _tracker.getOIDForObject(object);
             engine.delete(this, oid);
         }
@@ -1335,8 +1333,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         while (it.hasNext()) {
             Object toCommit = it.next();
 
-            LockEngine engine = _tracker.getLockEngineForObject(toCommit);
             ClassMolder molder = _tracker.getMolderForObject(toCommit);
+            LockEngine engine = molder.getLockEngine();
             OID oid = _tracker.getOIDForObject(toCommit);
 
             if (_tracker.isDeleted(toCommit)) {
@@ -1407,7 +1405,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             // First revert all objects
             while (it.hasNext()) {
                 Object object = it.next();
-                LockEngine engine = _tracker.getLockEngineForObject(object);
+                LockEngine engine = _tracker.getMolderForObject(object).getLockEngine();
                 oid = _tracker.getOIDForObject(object);
                 if (!_tracker.isCreating(object)) {
                     engine.revertObject(this, oid, object);
@@ -1418,8 +1416,8 @@ public abstract class AbstractTransactionContext implements TransactionContext {
             it = readWriteObjects.iterator();
             while (it.hasNext()) {
                 Object object = it.next();
-                LockEngine engine = _tracker.getLockEngineForObject(object);
                 ClassMolder molder = _tracker.getMolderForObject(object);
+                LockEngine engine = molder.getLockEngine();
                 oid = _tracker.getOIDForObject(object);
 
                 if (!_tracker.isCreating(object)) {
@@ -1582,7 +1580,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      *      org.exolab.castor.persist.OID)
      */
     public final boolean isDeletedByOID(final OID oid) {
-        Object o = _tracker.getObjectForOID(oid.getLockEngine(), oid, false);
+        Object o = _tracker.getObjectForOID(oid.getMolder().getLockEngine(), oid, false);
         if (o != null) {
             return _tracker.isDeleted(o);
         }
@@ -1601,19 +1599,21 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#expireCache(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Object)
      */
-    public final synchronized void expireCache(final LockEngine engine,
+    public final synchronized void expireCache(
             final ClassMolder molder, final Object identity)
     throws PersistenceException {
         OID oid;
+        
+        LockEngine engine = molder.getLockEngine();
 
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
         }
 
-        oid = new OID(engine, molder, identity);
+        oid = new OID(molder, identity);
         Object trackedObject = _tracker.getObjectForOID(engine, oid, false);
         if (trackedObject == null) {
             try {
@@ -1621,7 +1621,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 // recursive call to this.expireCache, therefore,
                 // an entry is added to the object list to prevent
                 // infinite loops due to bi-directional references
-                _tracker.trackObject(engine, molder, oid, identity);
+                _tracker.trackObject(molder, oid, identity);
 
                 if (engine.expireCache(this, oid, _lockTimeout)) {
                     engine.releaseLock(this, oid);
@@ -1637,18 +1637,18 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#isCached(
-     *      org.exolab.castor.persist.LockEngine, org.exolab.castor.persist.ClassMolder,
+     *      org.exolab.castor.persist.ClassMolder,
      *      java.lang.Class, java.lang.Object)
      */
-    public final boolean isCached(final LockEngine engine, final ClassMolder molder,
+    public final boolean isCached(final ClassMolder molder,
             final Class cls, final Object identity)
     throws PersistenceException {
         if (identity == null) {
             throw new PersistenceException("Identities can't be null!");
         }
 
-        OID oid = new OID(engine, molder, identity);
-        return engine.isCached(cls, oid);
+        OID oid = new OID(molder, identity);
+        return molder.getLockEngine().isCached(cls, oid);
     }
 
     /**
@@ -1677,7 +1677,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      */
     public final boolean isLocked(final Class cls, final Object identity,
             final LockEngine lockEngine) {
-        OID oid = new OID(lockEngine, lockEngine.getClassMolder(cls), identity);
+        OID oid = new OID(lockEngine.getClassMolder(cls), identity);
         return lockEngine.isLocked(cls, oid);
     }
 }

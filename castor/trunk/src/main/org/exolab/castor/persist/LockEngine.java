@@ -515,36 +515,36 @@ public final class LockEngine {
                 if ( lock != null ) 
                     lock.confirm( tx, succeed );
             }
-        } else {    // identity is null
+        }
+        // identity is null
 
-            succeed = false;
+        succeed = false;
 
-            try {
-                if (_log.isDebugEnabled()) {
-                	_log.debug( Messages.format( "jdo.creating.with.id", typeInfo.molder.getName(), oid.getIdentity() ) );
-                }
-
-                lock = typeInfo.acquire( oid, tx, ObjectLock.ACTION_CREATE, 0 );
-
-                oid = lock.getOID();
-
-                Object newids = typeInfo.molder.create( tx, oid, lock, object );
-                succeed = true;
-
-                oid.setDbLock( true );
-
-                newoid = new OID( oid.getLockEngine(), oid.getMolder(), oid.getDepends(), newids );
-
-                typeInfo.rename( oid, newoid, tx );
-
-                return newoid;
-            } catch ( LockNotGrantedException e ) {
-                e.printStackTrace();
-                throw new PersistenceException( Messages.format("persist.nested","Key Generator Failure. Duplicated Identity is generated!") );
-            } finally {
-                if ( lock != null )
-                    lock.confirm( tx, succeed );
+        try {
+            if (_log.isDebugEnabled()) {
+                _log.debug( Messages.format( "jdo.creating.with.id", typeInfo.molder.getName(), oid.getIdentity() ) );
             }
+
+            lock = typeInfo.acquire( oid, tx, ObjectLock.ACTION_CREATE, 0 );
+
+            oid = lock.getOID();
+
+            Object newids = typeInfo.molder.create( tx, oid, lock, object );
+            succeed = true;
+
+            oid.setDbLock( true );
+
+            newoid = new OID(oid.getMolder(), oid.getDepends(), newids );
+
+            typeInfo.rename( oid, newoid, tx );
+
+            return newoid;
+        } catch ( LockNotGrantedException e ) {
+            e.printStackTrace();
+            throw new PersistenceException( Messages.format("persist.nested","Key Generator Failure. Duplicated Identity is generated!") );
+        } finally {
+            if ( lock != null )
+                lock.confirm( tx, succeed );
         }
     }
 
@@ -738,7 +738,7 @@ public final class LockEngine {
         // Acquire a read lock first. Only if the object has been modified
         // do we need a write lock.
 
-        oid = new OID( this, typeInfo.molder, oid.getIdentity() );
+        oid = new OID(typeInfo.molder, oid.getIdentity() );
 
         // acquire read lock
         // getLockedField();
@@ -826,7 +826,7 @@ public final class LockEngine {
      *  persistence engine
      */
     public void writeLock( TransactionContext tx, OID oid, int timeout )
-            throws ObjectDeletedException, LockNotGrantedException, PersistenceException {
+            throws LockNotGrantedException, PersistenceException {
 
         TypeInfo   typeInfo;
 

@@ -31,7 +31,6 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.Lazy;
-import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
 
 /**
@@ -67,7 +66,6 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
         boolean updateCache = false;
         // create relation if the relation table
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
             Iterator itor = ClassMolderHelper.getIterator(o);
@@ -75,7 +73,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             while (itor.hasNext()) {
                 Object oo = itor.next();
                 if (tx.isAutoStore() && !tx.isRecorded(oo)) {
-                    tx.markCreate(fieldEngine, fieldClassMolder, oo, null);
+                    tx.markCreate(fieldClassMolder, oo, null);
                     updateCache = true;
                 }
             }
@@ -99,7 +97,6 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
          */
 
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         // markDelete mix with prestore
         // so, store is not yet called, and only the loaded (or created)
         // relation have to be deleted.
@@ -111,8 +108,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 Object fid = alist.get(j);
                 Object fetched = null;
                 if (fid != null) {
-                    fetched = tx
-                            .fetch(fieldEngine, fieldClassMolder, fid, null);
+                    fetched = tx.fetch(fieldClassMolder, fid, null);
                     if (fetched != null) {
                         fieldClassMolder.removeRelation(tx, fetched,
                                 _classMolder, object);
@@ -144,7 +140,6 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
     throws PersistenceException {
         UpdateFlags flags = new UpdateFlags();
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         ArrayList orgFields = (ArrayList) field;
         if (!(value instanceof Lazy)) {
@@ -161,17 +156,14 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 Object id = removedItor.next();
                 // must be loaded thur transaction, so that the related object
                 // is properly locked and updated before we delete it.
-                if (!tx.isDeletedByOID(new OID(fieldEngine, fieldClassMolder,
-                        id))) {
-
-                    ProposedEntity proposedValue = new ProposedEntity();
-                    Object reldel = tx.load(fieldEngine, fieldClassMolder, id,
-                            proposedValue, null);
+                if (!tx.isDeletedByOID(new OID(fieldClassMolder, id))) {
+                    ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                    Object reldel = tx.load(id, proposedValue, null);
                     if (reldel != null && tx.isPersistent(reldel)) {
                         tx.writeLock(reldel, tx.getLockTimeout());
 
                         _fieldMolder.getRelationLoader().deleteRelation(
-                                tx.getConnection(oid.getLockEngine()),
+                                tx.getConnection(oid.getMolder().getLockEngine()),
                                 oid.getIdentity(), id);
 
                         fieldClassMolder.removeRelation(tx, reldel,
@@ -196,14 +188,13 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
 
                 if (tx.isPersistent(addedField)) {
                     _fieldMolder.getRelationLoader().createRelation(
-                            tx.getConnection(oid.getLockEngine()),
+                            tx.getConnection(oid.getMolder().getLockEngine()),
                             oid.getIdentity(),
                             fieldClassMolder.getIdentity(tx, addedField));
                 } else {
                     if (tx.isAutoStore()) {
                         if (!tx.isDeleted(addedField)) {
-                            tx.markCreate(fieldEngine, fieldClassMolder,
-                                    addedField, null);
+                            tx.markCreate(fieldClassMolder, addedField, null);
                         }
                     }
                 }
@@ -234,7 +225,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                             tx.writeLock(toBeDeleted, 0);
 
                             _fieldMolder.getRelationLoader().deleteRelation(
-                                    tx.getConnection(oid.getLockEngine()),
+                                    tx.getConnection(oid.getMolder().getLockEngine()),
                                     oid.getIdentity(), deletedId);
 
                             fieldClassMolder.removeRelation(tx, toBeDeleted,
@@ -260,13 +251,12 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                     if (toBeAdded != null) {
                         if (tx.isPersistent(toBeAdded)) {
                             _fieldMolder.getRelationLoader().createRelation(
-                                    tx.getConnection(oid.getLockEngine()),
+                                    tx.getConnection(oid.getMolder().getLockEngine()),
                                     oid.getIdentity(), addedId);
                         } else {
                             if (tx.isAutoStore()) {
                                 if (!tx.isRecorded(toBeAdded)) {
-                                    tx.markCreate(fieldEngine,
-                                            fieldClassMolder, toBeAdded, null);
+                                    tx.markCreate(fieldClassMolder, toBeAdded, null);
                                 }
                             }
                         }
@@ -290,7 +280,6 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             final Object field)
     throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         if (tx.isAutoStore()) {
             Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
                     .getValue(object, tx.getClassLoader()));
@@ -305,13 +294,11 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 newSetOfIds.add(actualIdentity);
                 if (v != null && v.contains(actualIdentity)) {
                     if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldEngine, fieldClassMolder, element,
-                                null);
+                        tx.markUpdate(fieldClassMolder, element, null);
                     }
                 } else {
                     if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldEngine, fieldClassMolder, element,
-                                null);
+                        tx.markUpdate(fieldClassMolder, element, null);
                     }
                 }
             }
@@ -322,9 +309,8 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                         // load all the dependent object in cache for
                         // modification
                         // check at commit time.
-                        ProposedEntity proposedValue = new ProposedEntity();
-                        tx.load(oid.getLockEngine(), fieldClassMolder,
-                                v.get(j), proposedValue, suggestedAccessMode);
+                        ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                        tx.load(v.get(j), proposedValue, suggestedAccessMode);
                     }
                 }
             }
@@ -352,7 +338,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 Object oo = itor.next();
                 if (tx.isPersistent(oo)) {
                     _fieldMolder.getRelationLoader().createRelation(
-                            tx.getConnection(oid.getLockEngine()), createdId,
+                            tx.getConnection(oid.getMolder().getLockEngine()), createdId,
                             fieldClassMolder.getIdentity(tx, oo));
                 }
             }
@@ -372,7 +358,6 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
         boolean updateCache = false;
         // create relation if the relation table
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (o != null) {
             Iterator itor = ClassMolderHelper.getIterator(o);
@@ -380,8 +365,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             while (itor.hasNext()) {
                 Object oo = itor.next();
                 if (tx.isAutoStore() && !tx.isRecorded(oo)) {
-                    boolean creating = tx.markUpdate(fieldEngine,
-                            fieldClassMolder, oo, null);
+                    boolean creating = tx.markUpdate(fieldClassMolder, oo, null);
                     if (creating) {
                         updateCache = true;
                     }

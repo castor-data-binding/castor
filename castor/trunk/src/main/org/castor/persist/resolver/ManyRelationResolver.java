@@ -32,7 +32,6 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.Lazy;
-import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
 
 /**
@@ -169,8 +168,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             .newInstance(collectionType.getComponentType(), v
                                     .size());
                     for (int j = 0, l = v.size(); j < l; j++) {
-                        arrayValue[j] = tx.fetch(oid.getLockEngine(),
-                                fieldClassMolder, v.get(j), null);
+                        arrayValue[j] = tx.fetch(fieldClassMolder, v.get(j), null);
                     }
                     _fieldMolder.setValue(object, arrayValue, tx
                             .getClassLoader());
@@ -182,8 +180,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             .getClassLoader());
 
                     for (int j = 0, l = v.size(); j < l; j++) {
-                        Object obj = tx.fetch(oid.getLockEngine(),
-                                fieldClassMolder, v.get(j), null);
+                        Object obj = tx.fetch(fieldClassMolder, v.get(j), null);
                         if (obj != null) {
                             cp.add(v.get(j), obj);
                         }
@@ -197,10 +194,9 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
         } else {
             ArrayList list = (ArrayList) field;
             ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-            LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
 
             RelationCollection relcol = new RelationCollection(tx, oid,
-                    fieldEngine, fieldClassMolder, null, list);
+                    fieldClassMolder, null, list);
             _fieldMolder.setValue(object, relcol, tx.getClassLoader());
         }
     }
@@ -214,12 +210,11 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
         // objects will be expired
 
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
 
         ArrayList v = (ArrayList) field;
         if (v != null) {
             for (int j = 0, l = v.size(); j < l; j++) {
-                tx.expireCache(fieldEngine, fieldClassMolder, v.get(j));
+                tx.expireCache(fieldClassMolder, v.get(j));
             }
         }
     }
@@ -235,7 +230,6 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
         // object will be loaded and put in a Collection. And, the
         // collection will be set as the field.
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        LockEngine fieldEngine = _fieldMolder.getFieldLockEngine();
 
         if (!_fieldMolder.isLazy()) {
             // lazy loading is not specified, load all objects into
@@ -250,10 +244,8 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             .newInstance(collectionType.getComponentType(), v
                                     .size());
                     for (int j = 0, l = v.size(); j < l; j++) {
-                        ProposedEntity proposedValue = new ProposedEntity();
-                        value[j] = tx.load(oid.getLockEngine(),
-                                fieldClassMolder, v.get(j), proposedValue,
-                                suggestedAccessMode);
+                        ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                        value[j] = tx.load(v.get(j), proposedValue, suggestedAccessMode);
                     }
                     _fieldMolder.setValue(proposedObject.getEntity(), value, tx
                             .getClassLoader());
@@ -261,10 +253,8 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                     CollectionProxy cp = CollectionProxy.create(_fieldMolder,
                             proposedObject.getEntity(), tx.getClassLoader());
                     for (int j = 0, l = v.size(); j < l; j++) {
-                        ProposedEntity proposedValue = new ProposedEntity();
-                        cp.add(v.get(j), tx.load(oid.getLockEngine(),
-                                fieldClassMolder, v.get(j), proposedValue,
-                                suggestedAccessMode));
+                        ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                        cp.add(v.get(j), tx.load(v.get(j), proposedValue, suggestedAccessMode));
                     }
                     cp.close();
                 }
@@ -278,7 +268,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
             // will constructed and set as the data object's field.
             ArrayList list = (ArrayList) proposedObject.getField(_fieldIndex);
             RelationCollection relcol = new RelationCollection(tx, oid,
-                    fieldEngine, fieldClassMolder, suggestedAccessMode, list);
+                    fieldClassMolder, suggestedAccessMode, list);
             _fieldMolder.setValue(proposedObject.getEntity(), relcol, tx
                     .getClassLoader());
         }
