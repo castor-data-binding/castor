@@ -406,9 +406,9 @@ public final class LockEngine {
                     _log.debug(Messages.format("jdo.loading.with.id", typeInfo.molder.getName(), oid.getIdentity()));
                 }
             }
-        } catch ( ObjectDeletedWaitingForLockException except ) {
+        } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object does not exist
-            throw new ObjectNotFoundException( Messages.format("persist.objectNotFound", oid.getName(), oid.getIdentity()));
+            throw new ObjectNotFoundException(Messages.format("persist.objectNotFound", oid.getName(), oid.getIdentity()), except);
         } catch (LockNotGrantedException e) {
             if (lock != null) {
                 lock.release(tx);
@@ -501,11 +501,11 @@ public final class LockEngine {
 
                 return oid;
                 // should catch some other exception if destory is not succeed
-            } catch ( LockNotGrantedException except ) {
+            } catch (LockNotGrantedException except) {
                 // Someone else is using the object, definite duplicate key
-                throw new DuplicateIdentityException( Messages.format( 
+                throw new DuplicateIdentityException(Messages.format( 
                     "persist.duplicateIdentity", object.getClass().getName(), 
-                    oid.getIdentity() ) );
+                    oid.getIdentity()), except);
             } catch ( DuplicateIdentityException except ) {
                 // we got a write lock and the persistence storage already
                 // recorded. Should destory the lock
@@ -684,11 +684,11 @@ public final class LockEngine {
             if ( accessMode == AccessMode.ReadOnly )
                 typeInfo.release( oid, tx );
             */
-        } catch ( ObjectModifiedException e ) {
+        } catch (ObjectModifiedException e) {
             throw e;
-        } catch ( ObjectDeletedWaitingForLockException except ) {
+        } catch (ObjectDeletedWaitingForLockException except) {
             // This is equivalent to object not existing
-            throw new ObjectNotFoundException( Messages.format("persist.objectNotFound", oid.getName(), oid.getIdentity()) );
+            throw new ObjectNotFoundException(Messages.format("persist.objectNotFound", oid.getName(), oid.getIdentity()), except);
         } finally {
             if ( lock != null )
                 lock.confirm( tx, succeed );

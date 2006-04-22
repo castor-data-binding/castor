@@ -394,8 +394,8 @@ public final class ObjectLock implements DepositBox {
                     try {
                         _waitCount++;
                         wait();                        
-                    } catch ( InterruptedException e ) {
-                        throw new LockNotGrantedException("Thread interrupted acquiring lock!");
+                    } catch (InterruptedException e) {
+                        throw new LockNotGrantedException("Thread interrupted acquiring lock!", e);
                     } finally {
                         _waitCount--;
                     }
@@ -463,10 +463,10 @@ public final class ObjectLock implements DepositBox {
                     try {
                         long waittime = endtime - System.currentTimeMillis();
                         wait( waittime<0? 0: waittime );
-                    } catch ( InterruptedException except ) {
+                    } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
-                        throw new LockNotGrantedException( write ? "persist.writeLockTimeout" :
-                                                               "persist.readLockTimeout" + _oid + "/" + _id + " by " + tx );
+                        throw new LockNotGrantedException(write ? "persist.writeLockTimeout" :
+                                                               "persist.readLockTimeout" + _oid + "/" + _id + " by " + tx, except);
                     }
 
                     if ( _deleted )
@@ -506,8 +506,8 @@ public final class ObjectLock implements DepositBox {
                     while ( _deleted ) {
                         wait();
                     }
-                } catch ( InterruptedException e ) {
-                    throw new LockNotGrantedException("Thread interrupted acquiring lock!");
+                } catch (InterruptedException e) {
+                    throw new LockNotGrantedException("Thread interrupted acquiring lock!", e);
                 } finally {
                     _waitCount--;
                 }
@@ -543,8 +543,8 @@ public final class ObjectLock implements DepositBox {
                         if ( _deleted ) {
                             throw new ObjectDeletedWaitingForLockException("Object deleted!");
                         }*/
-                    } catch ( InterruptedException e ) {
-                        throw new LockNotGrantedException("Thread interrupted acquiring lock!");
+                    } catch (InterruptedException e) {
+                        throw new LockNotGrantedException("Thread interrupted acquiring lock!", e);
                     } finally {
                         _waitCount--;
                     }
@@ -581,9 +581,9 @@ public final class ObjectLock implements DepositBox {
                     try {
                         long waittime = endtime - System.currentTimeMillis();
                         wait( waittime<0? 0: waittime );
-                    } catch ( InterruptedException except ) {
+                    } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
-                        throw new LockNotGrantedException( Messages.message ("persist.writeLockTimeout") + _oid + "/" + _id + " by " + tx );
+                        throw new LockNotGrantedException(Messages.message("persist.writeLockTimeout") + _oid + "/" + _id + " by " + tx, except);
                     }
 
                     if ( _deleted )
@@ -791,9 +791,9 @@ public final class ObjectLock implements DepositBox {
                     try {
                         long waittime = endtime - System.currentTimeMillis();
                         wait( waittime<0? 0: waittime );
-                    } catch ( InterruptedException except ) {
+                    } catch (InterruptedException except) {
                         // If the thread is interrupted, come out with the proper message
-                        throw new LockNotGrantedException( "persist.writeLockTimeout" );
+                        throw new LockNotGrantedException("persist.writeLockTimeout", except);
                     }
 
                     if ( _deleted )

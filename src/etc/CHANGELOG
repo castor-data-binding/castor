@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1402 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Improved exception reporting for various JDO-related exceptions.
+       Details: http://jira.codehaus.org/browse/CASTOR-1402
+       (Werner - 20060422)
+       
 JDO:   Fixed bug CASTOR-1403 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed documentation for 'sortedset' collection type in the JDO mapping section.
        Details: http://jira.codehaus.org/browse/CASTOR-1403

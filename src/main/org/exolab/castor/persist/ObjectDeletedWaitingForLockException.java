@@ -63,15 +63,18 @@ public class ObjectDeletedWaitingForLockException extends LockNotGrantedExceptio
     private static final long serialVersionUID = 1774245493143153091L;
 
 
-    ObjectDeletedWaitingForLockException()
-    {
-        super( Messages.message( "persist.deletedWaitingForLock" ) );
+    ObjectDeletedWaitingForLockException() {
+        super(Messages.message("persist.deletedWaitingForLock"));
     }
 
-
-    ObjectDeletedWaitingForLockException( String msg ) {
+    ObjectDeletedWaitingForLockException(String msg) {
         super( msg );
     }
 
+    public ObjectDeletedWaitingForLockException(String message, Throwable exception) {
+        super(message, exception);
+    }
+
+    
 }
 
