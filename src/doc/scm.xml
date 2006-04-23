@@ -3,7 +3,6 @@
 
   <properties>
     <title>SVN Access &amp; bug tracking</title>
-    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
     <abstract>Outlines how to access the SVN repository.</abstract>
     <status>Final</status>
   </properties>
@@ -75,12 +74,12 @@
       <p><a href="www.codehaus.org">Codehaus</a> provides a HTTP interface to SVN
          repository using FishEye (tm). Using this tool, please download one of the
          following SVN snapshots from the SVN server from
-         <url>http://cvs.castor.codehaus.org</url>:</p>
+         <url>http://svn.castor.codehaus.org</url>:</p>
 
       <ul>
-        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.zip">ZIP archive</a></li>
-        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.tgz">TGZ archive</a></li>
-        <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.tbz2">TBZ2 archive</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.zip">ZIP archive</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tgz/castor/castor/trunk/trunk.tgz">TGZ archive</a></li>
+        <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tbz2/castor/castor/trunk/trunk.tbz2">TBZ2 archive</a></li>
       </ul>
 
     </section>
