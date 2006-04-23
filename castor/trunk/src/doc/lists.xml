@@ -6,82 +6,115 @@
     </header>
     <section title="Mailing Lists">
 
-      <p><b>Note:</b> Presently we are hosting three mailing lists. Traffic is not too high,
-         so if you are interested in keeping up to date with new releases, or have problems,
-         questions or feedback please <a href="lists.xml">subscribe
-         to the appropriate list</a>.
-      </p>
+        <section title="Announcements">
+        
+            <p><mailing-list name="announce" 
+                             description="The Castor announcement mailing list"
+                             server="codehaus.org"/></p>
+                             
+            <p>This list is a <b>read-only</b> low volume (possibly about 1 message 
+               per week) mailing list for special announcements related to Castor, 
+               such as new releases.</p>
 
-      <section title="announce">
-         <p><b>announce</b></p>
-         <p>Low volume (possibly more than 1 message per week) mailing list for special
-            announcements about Castor, such as new releases.</p>
+        </section>
 
-         <p><mailing-list name="announce" description="The Castor Announcement Mailing List"
-                       server="codehaus.org"/></p>
-       </section>
+        <section title="User mailing list">
 
-      <section title="user">
-         <p><b>user</b></p>
-         <p>Moderate volume expected (possibly more than 15 messages a day) mailing list dedicated
-            to the <b>users</b> of Castor.</p>
+            <p><mailing-list name="user" 
+                             description="The Castor user's mailing list"
+                             server="codehaus.org" /></p>
+        
+            <p>This list is a moderate volume (between 10 and 25 messages a day) 
+               mailing list for the <b>users</b> of Castor. It should be used to 
+               discuss general questions related to the use of Castor, problems you 
+               are having getting Castor to work, etc.</p>
 
-         <p>This list will be used by users and committers equally to discuss the following
-            items (amongst many others):</p>
+            <note>Please familiarize yourself with the 
+               <a href="#Guidelines">guidelines</a> before posting to the list.</note>
 
-         <ul>
-           <li>General usage questions.</li>
-           <li>Problems using Castor.</li>
-         </ul>
+            <p><b>Archives:</b></p>
+            <ul>
+                <li><a href="http://archive.castor.codehaus.org/user">The Codehaus</a></li>
+                <li><a href="http://www.mail-archive.com/user@castor.codehaus.org/">mail-archive.com</a></li>
+                <li><a href="http://marc.theaimsgroup.com/?l=castor-user&amp;r=1&amp;w=2">The Aims Group</a></li>
+                <li><a href="http://news.gmane.org/gmane.comp.java.castor.user">GMANE</a></li>
+            </ul>
+         
+            <note>Make sure you are subscribed to this list prior to posting, by sending a 
+                  blank email to the subscription address mentioned above. Although mails 
+                  from non-subscribers are manually moderated through if applicable, our 
+                  policy is to reject mails from regular posters who fail to properly 
+                  subscribe. All this is to prevent spam, and to reduce the workload of 
+                  the moderators.</note>
 
-         <p><mailing-list name="user" description="The Castor User's Mailing List"
-                       server="codehaus.org" /></p>
+        </section>
 
-         <p><b>Note:</b> Please familiarize yourself with the <a href="#Guidelines">guidelines</a>
-             before posting to the list.</p>
+        <section title="Development mailing list">
+        
+            <p><mailing-list name="dev" 
+                             description="The Castor developer's mailing list"
+                             server="codehaus.org" /></p>
 
-         <p><b>Archives:</b></p>
-         <ul>
-            <li><a href="http://archive.castor.codehaus.org/user">The Codehaus</a></li>
-            <li><a href="http://www.mail-archive.com/user@castor.codehaus.org/">mail-archive.com</a></li>
-            <li><a href="http://marc.theaimsgroup.com/?l=castor-user&amp;r=1&amp;w=2">The Aims Group</a></li>
-            <li><a href="http://news.gmane.org/gmane.comp.java.castor.user">GMANE</a></li>
-         </ul>
+            <p>This list is a moderate volume (possibly less than 15 messages a 
+               day) mailing list for developers working on or wanting to work on 
+               Castor itself (not developers merely working with Castor), for code 
+               patches to Castor to be posted (please use diff -u format), and for 
+               general Castor questions.</p>
 
-      </section>
+            <p>Note this is NOT for general Castor questions like "Why isn't Castor 
+               working for me?" - please ask those sorts of questions on 
+               the user mailing list (after reading the FAQ first, of course).</p>
 
-      <section title="dev">
-         <p>Moderate volume (possibly more than 15 messages a day) mailing list dedicated
-            to the <b>developers</b> of Castor.</p>
+            <p>This list will be used by the main committers to discuss the following 
+               items:
+            <ul>
+                <li>Bug reports/enhancement requests.</li>
+                <li>On-going development activities.</li>
+                <li>Potential new features to be incorporated into the product.</li>
+                <li>Upcoming releases</li>
+            </ul></p>
 
-         <p>This list will be used by the main committers to discuss the following items:</p>
+            <p>Please subscribe to this mailing list, as we believe that feedback 
+               from the user community on many of these issues is essential for 
+               the progress of the project.</p>
 
-         <ul>
-           <li>Bug reports/enhancement requests.</li>
-           <li>On-going development activities.</li>
-           <li>New features to be incorporated into the product.</li>
-         </ul>
+            <note>Please familiarize yourself with the <a href="#Guidelines">guidelines</a> 
+                  before posting to the list.</note>
 
-         <p>We invite everybody (interested) to subscribe to this mailing list, as we
-            believe that feedback from the user community on many of these issues is
-            essential for the progress of the project.</p>
+            <p><b>Archives:</b>
+            <ul>
+                <li><a href="http://archive.castor.codehaus.org/dev">The Codehaus</a></li>
+                <li><a href="http://www.mail-archive.com/dev@castor.codehaus.org/">mail-archive.com</a></li>
+                <li><a href="http://marc.theaimsgroup.com/?l=castor-dev&amp;r=1&amp;w=2">The Aims Group</a></li>
+                <li><a href="http://news.gmane.org/gmane.comp.java.castor.devel">GMANE</a></li>
+            </ul></p>
 
-         <p><mailing-list name="dev" description="The Castor Developer's Mailing List"
-                       server="codehaus.org" /></p>
+            <note>Make sure you are subscribed to this list prior to posting, by sending a 
+                  blank email to the subscription address mentioned above. Although mails 
+                  from non-subscribers are manually moderated through if applicable, our 
+                  policy is to reject mails from regular posters who fail to properly 
+                  subscribe. All this is to prevent spam, and to reduce the workload of 
+                  the moderators.</note>
+        </section>
 
-         <p><b>Note:</b> Please familiarize yourself with the <a href="#Guidelines">guidelines</a>
-            before posting to the list.</p>
+        <section title="SCM mailing list">
+            
+            <p><mailing-list name="scm" 
+                             description="The Castor SCM mailing list"
+                             server="codehaus.org" /></p>
 
-         <p><b>Archives:</b></p>
-         <ul>
-            <li><a href="http://archive.castor.codehaus.org/dev">The Codehaus</a></li>
-            <li><a href="http://www.mail-archive.com/dev@castor.codehaus.org/">mail-archive.com</a></li>
-            <li><a href="http://marc.theaimsgroup.com/?l=castor-dev&amp;r=1&amp;w=2">The Aims Group</a></li>
-            <li><a href="http://news.gmane.org/gmane.comp.java.castor.devel">GMANE</a></li>
-         </ul>
+            <p>This <b>read-only</b> list sends out notification messages detailing any change 
+               made to the Subversion (SVN) repository where all the source code and 
+               libraries are stored for development purposes. The average user probably 
+               doesn't need to subscribe to this list.</p>
 
-      </section>
-
+            <p><b>Archives:</b></p>
+            <ul>
+                <li><a href="http://archive.castor.codehaus.org/scm">The Codehaus</a></li>
+            </ul>
+               
+        </section>
+        
     </section>
 
     <section title="user vs. dev">
@@ -92,10 +125,10 @@
        <p>By all means, please avoid <b>cross-posting</b> messages to both lists,
           as it will decrease the quality of service we would like to offer.</p>
 
-       <p><b>Note</b>: Having said that, there might be a valid case for cross-posting
-          a message (e.g. us confirming that a problem is a result of a bug, and hence
-          referring you to 'dev' for further discussions), but in general
-          the use of this should be restricted as much as possible.</p>
+       <note>Having said that, there might be a valid case for cross-posting
+             a message (e.g. us confirming that a problem is a result of a bug, and hence
+             referring you to 'dev' for further discussions), but in general
+             the use of this should be restricted as much as possible.</note>
     </section>
 
     <section title="Interaction and acronyms">

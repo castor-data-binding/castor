@@ -105,14 +105,16 @@
            of a single class. In addition to setting this attribut to <b>true</b> you
            also need to set logging level of <b>org.castor.cache.Cache</b> to debug.</p>
 
-        <p><b>NOTE:</b> The default cache-type is <tt>count-limited</tt> with a capacity of 30. This will 
-           be used when no cache-type is specified in the mapping for a class.</p>
+        <note>The default cache-type is <tt>count-limited</tt> with a capacity of 30. 
+              This will be used when no cache-type is specified in the mapping for 
+              a class.</note>
         
-        <p><b>NOTE:</b> As of release 0.9.6, Castor allows for the addition of user-defined cache 
-           implementations. Instructions can be found <a href="jdo-caching.html">here</a></p>
+        <note>As of release 0.9.6, Castor allows for the addition of user-defined cache 
+           implementations. Instructions can be found <a href="jdo-caching.html">here</a>
+           </note>
 
-        <p><b>NOTE:</b> As of release 0.9.9, three new cache types have been added to Castor, three
-            of them open source and one commercial.</p>
+        <note>As of release 0.9.9, three new cache types have been added to Castor, two
+            of them open source and one commercial.</note>
             
         <ctable>
             <cheader>
@@ -144,9 +146,9 @@
         <p>For problems related to the use of performance caches, please consult with the relevant 
            entries in the <a href="jdo-faq.html#Castor and performance caches">JDO F.A.Q.</a>.</p>
         
-        <p><b>NOTE:</b> As of release 1.0, another three new cache types have been added to Castor,
+        <note>As of release 1.0, another three new cache types have been added to Castor,
             one being a distributed open source cache and two new internal cache implementations
-            intended for high volunm and high performance.</p>
+            intended for high volunm and high performance.</note>
             
         <ctable>
             <cheader>
@@ -597,10 +599,10 @@
               department) in the data object class which was not required in previous 
               versions.</p>
 
-           <p><b>Note:</b> Please note that currently <b>only</b> the <tt><b>java.util.Collection</b></tt> 
+           <note>Please note that currently <b>only</b> the <tt><b>java.util.Collection</b></tt> 
               type is supported. <!--The following collection types are supported:
               java.util.Array, java.util.Vector, java.util.Hashtable, java.util.Collection, 
-              java.util.Set and java.util.Map. --></p>
+              java.util.Set and java.util.Map. --></note>
               
            </section>
            
