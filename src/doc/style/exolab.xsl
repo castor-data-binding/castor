@@ -400,6 +400,27 @@
   <xsl:template match="body-note">
     <hr size="1" noshadow=""/><span class="bodyGrey"><xsl:apply-templates/><hr size="1" noshadow=""/></span>
   </xsl:template>
+  
+  <xsl:template match="note">
+    <p>
+    <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#7270c2">
+      <tr>
+        <td><span class="noteHeader">Note</span></td>
+      </tr>
+      <tr>
+        <td>
+          <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#ededed">
+        	<tr>
+            	<td><span class="noteBody">
+                    <xsl:apply-templates/>
+                </span></td>
+            </tr>
+        </table>
+       </td>
+      </tr>
+    </table>
+    </p>
+  </xsl:template>
 
   <xsl:template match="code-panel">
     <p/>

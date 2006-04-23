@@ -313,9 +313,8 @@
            than one element of the specified type. This is how the 'to-many' portion of a relationship 
            is described.</p>
            
-        <p><b>Note</b>: It is not possible to use a collection of type 'iterator' or 'enumerate' 
-           with lazy loading enabled.</p>
-
+        <note>It is not possible to use a collection of type 'iterator' or 'enumerate' 
+           with lazy loading enabled.</note>
 
         <p><b>2. Determine the signature of the method</b></p>
 
