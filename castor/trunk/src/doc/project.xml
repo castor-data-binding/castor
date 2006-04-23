@@ -177,6 +177,10 @@
 
     <section name="Advanced JDO">
       <navLink>
+        <url>jdo-caching-detail.xml</url>
+        <display>Caching</display>
+      </navLink>
+      <navLink>
         <url>oql.xml</url>
         <display>OQL</display>
       </navLink>
