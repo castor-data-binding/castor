@@ -114,8 +114,7 @@ public class BindingException extends Exception {
 
     	if (message == null && _exception != null)
     	    return _exception.getMessage();
-    	else
-    	    return message;
+      return message;
     }
 
 
@@ -152,7 +151,6 @@ public class BindingException extends Exception {
     	    return
 
 			 _exception.toString();
-    	else
-    	    return super.toString();
+        return super.toString();
     }
 }

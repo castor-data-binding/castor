@@ -175,12 +175,8 @@ public final class SchemaLocation extends URILocation {
 	 * @return the String representation of this URILocation
 	**/
 	public String toString() {
-	    if (_absoluteURI != null) {
-	        return _absoluteURI;
-	    }
-	    else {
-	        return "URILocation: " + _schema.toString();
-	    }
+	    if (_absoluteURI != null) return _absoluteURI;
+		return "URILocation: " + _schema.toString();
 	}
 
 } //-- SchemaLocation

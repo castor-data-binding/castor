@@ -188,30 +188,29 @@ public final class CountLimited extends AbstractBaseCache {
             _values[intPos] = value;
             _status[intPos] = LRU_NEW;
             return old;
-        } else {
-            // skip to first position with LRU_OLD status.
-            while (_status[_cur] == LRU_NEW) {
-                _status[_cur] = LRU_OLD;
-                _cur++;
-                if (_cur >= _capacity) { _cur = 0; }
-            }
-            
-            if (_keys[_cur] != null) {
-                pos = (Integer) _mapKeyPos.remove(_keys[_cur]);
-            } else {
-                pos = new Integer(_cur);
-            }
-            
-            _keys[_cur] = key;
-            _values[_cur] = value;
-            _status[_cur] = LRU_NEW;
-            _mapKeyPos.put(key, pos);
-            
+        }
+        // skip to first position with LRU_OLD status.
+        while (_status[_cur] == LRU_NEW) {
+            _status[_cur] = LRU_OLD;
             _cur++;
             if (_cur >= _capacity) { _cur = 0; }
-            
-            return null;
         }
+        
+        if (_keys[_cur] != null) {
+            pos = (Integer) _mapKeyPos.remove(_keys[_cur]);
+        } else {
+            pos = new Integer(_cur);
+        }
+        
+        _keys[_cur] = key;
+        _values[_cur] = value;
+        _status[_cur] = LRU_NEW;
+        _mapKeyPos.put(key, pos);
+        
+        _cur++;
+        if (_cur >= _capacity) { _cur = 0; }
+        
+        return null;
     }
 
     /**

@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Fixed bug CASTOR-1397 using contribution from Henk van Voorthujsen [voorth@xs4all.nl]
+       Fixed compiler warnings: 212 unnecessary else clauses.
+       Details: http://jira.codehaus.org/browse/CASTOR-1397
+       (Ralf - 20060425)
+
 JDO:   Fixed bug CASTOR-1407 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Use ClassMolder.getLockEngine() instead of passing around LockEngine everywhere.
        Details: http://jira.codehaus.org/browse/CASTOR-1407

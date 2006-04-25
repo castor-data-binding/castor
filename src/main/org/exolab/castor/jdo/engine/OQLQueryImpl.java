@@ -700,14 +700,11 @@ public class OQLQueryImpl
             Object identity;
 
             if ( _lastObject != null ) {
-                Object result;
+                Object result = _lastObject;
 
-                result = _lastObject;
                 _lastObject = null;
-                if ( _pathInfo == null )
-                    return result;
-                else
-                    return followPath( result );
+                if ( _pathInfo == null ) return result;
+                return followPath( result );
             }
             if ( _results == null )
                 throw new NoSuchElementException();
@@ -715,14 +712,11 @@ public class OQLQueryImpl
                 identity = _results.nextIdentity();
                 while ( identity != null ) {
                     try {
-                        Object result;
+                        Object result = _results.fetch();
 
-                        result = _results.fetch();
                         if ( result != null )
-                            if ( _pathInfo == null )
-                                return result;
-                            else
-                                return followPath( result );
+                            if ( _pathInfo == null ) return result;
+                        return followPath( result );
                     } catch ( ObjectNotFoundException except ) {
                         // Object not found, deleted, etc. Just skip to next one.
                     } catch ( PersistenceException except ) {

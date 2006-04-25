@@ -241,7 +241,7 @@ public class XSInteger extends XSPatternBase {
      public void setTotalDigits(int totalDig) {
           if (totalDig <= 0)
               throw new IllegalArgumentException(this.getName()+": the totalDigits facet must be positive");
-          else _totalDigits = totalDig;
+          _totalDigits = totalDig;
      }
 
 
@@ -291,14 +291,12 @@ public class XSInteger extends XSPatternBase {
      * to an Object
     **/
     public String createToJavaObjectCode(String variableName) {
-        if (_asWrapper)
-           return super.createToJavaObjectCode(variableName);
-        else {
-            StringBuffer sb = new StringBuffer("new java.lang.Integer(");
-            sb.append(variableName);
-            sb.append(")");
-            return sb.toString();
-        }
+        if (_asWrapper) return super.createToJavaObjectCode(variableName);
+        
+        StringBuffer sb = new StringBuffer("new java.lang.Integer(");
+        sb.append(variableName);
+        sb.append(")");
+        return sb.toString();
     } //-- toJavaObject
 
     /**

@@ -465,7 +465,7 @@ public abstract class RecurringDurationBase
                 return false;
             }
         }
-        else return false;
+        return false;
     }
     /**
      * <p> Returns true if the present instance of Recurring Duration Base is equal to

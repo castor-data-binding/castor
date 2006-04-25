@@ -345,8 +345,7 @@ public final class ObjectLock implements DepositBox {
     public Object getObject() { 
         if ( (_expiredObject != null) && (_object == null) )
             return _expiredObject;
-        else
-            return _object; 
+        return _object; 
     }
    
     /**
@@ -414,10 +413,9 @@ public final class ObjectLock implements DepositBox {
                         _confirmWaiting = tx;
                         _confirmWaitingAction = ACTION_READ;
                         return;
-                    } else {
-                        _readLock = new LinkedTx( tx, null );
-                        return;
                     }
+                    _readLock = new LinkedTx( tx, null );
+                    return;
                 } else if ( _readLock != null && !write ) {
                     // already a transaction holding read lock, can acquire read lock
                     LinkedTx linked = _readLock;

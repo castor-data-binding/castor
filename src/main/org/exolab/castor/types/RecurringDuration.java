@@ -685,7 +685,7 @@ public class RecurringDuration extends RecurringDurationBase{
                 return false;
             }
         }
-        else return false;
+        return false;
     }
 
     /**

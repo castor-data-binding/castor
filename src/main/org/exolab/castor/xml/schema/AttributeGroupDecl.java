@@ -262,13 +262,12 @@ public final class AttributeGroupDecl extends AttributeGroup {
      * @param attr the attribute to remove.
     **/
     public boolean removeAttribute(AttributeDecl attr) {
-        if (attr == null )
-           return false;
+        if (attr == null )   return false;
         if (_attributes.contains(attr)) {
             _attributes.removeElement(attr);
             return true;
         }
-        else return false;
+        return false;
     } //-- removeAttribute
 
     /**
@@ -276,13 +275,12 @@ public final class AttributeGroupDecl extends AttributeGroup {
      * @param attrGroup the AttributeGroupReference to remove.
     **/
     public boolean removeReference(AttributeGroupReference attrGroupReference) {
-         if (attrGroupReference == null )
-            return false;
+         if (attrGroupReference == null ) return false;
          if (_references.contains(attrGroupReference)) {
             _references.removeElement(attrGroupReference);
             return true;
          }
-         else return false;
+         return false;
     } //-- removeReference
 
     /**

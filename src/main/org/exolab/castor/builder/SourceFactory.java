@@ -1613,10 +1613,9 @@ public class SourceFactory {
 	                        handleField(fieldInfo, state);
                         }
                         break;
-                    } else {
-                        //--else we just flatten the group
-                        processContentModel(modelgroup.getContentModelGroup(), state);
                     }
+                    //--else we just flatten the group
+                    processContentModel(modelgroup.getContentModelGroup(), state);
                     break;
 
                 case Structure.WILDCARD:
@@ -2020,10 +2019,9 @@ public class SourceFactory {
         
         try {
             int intVal = Integer.parseInt(enumValue);
-            if (intVal >= 0)
-                return "VALUE_" + intVal;
-            else
-                return "VALUE_NEG_" + Math.abs(intVal);
+            if (intVal >= 0) return "VALUE_" + intVal;
+            
+            return "VALUE_NEG_" + Math.abs(intVal);
         } catch (NumberFormatException e) {
             // just keep going
         }

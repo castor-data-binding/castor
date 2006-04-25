@@ -104,8 +104,8 @@ public class ReentrantWriterPreferenceReadWriteLock
                 activeWriter_ = Thread.currentThread();
                 writeHolds_ = 1;
                 return true;
-            } else
-                return false;
+            }
+            return false;
         } else
             return false;
     }
@@ -120,31 +120,28 @@ public class ReentrantWriterPreferenceReadWriteLock
             Integer ih = (h == 1) ? IONE : new Integer(h);
             readers_.put(t, ih);
             return null;
-        } else {
-            readers_.remove(t);
-
-            if(writeHolds_ > 0) // a write lock is still held by current thread
-                return null;
-            else if(activeReaders_ == 0 && waitingWriters_ > 0)
-                return writerLock_;
-            else
-                return null;
         }
+        readers_.remove(t);
+
+        if(writeHolds_ > 0) // a write lock is still held by current thread
+            return null;
+        else if(activeReaders_ == 0 && waitingWriters_ > 0)
+            return writerLock_;
+        else
+            return null;
     }
 
     protected synchronized Signaller endWrite() {
         --writeHolds_;
         if(writeHolds_ > 0) // still being held
             return null;
-        else {
-            activeWriter_ = null;
-            if(waitingReaders_ > 0 && allowReader())
-                return readerLock_;
-            else if(waitingWriters_ > 0)
-                return writerLock_;
-            else
-                return null;
-        }
+        activeWriter_ = null;
+        if(waitingReaders_ > 0 && allowReader())
+            return readerLock_;
+        else if(waitingWriters_ > 0)
+            return writerLock_;
+        else
+            return null;
     }
 
 }

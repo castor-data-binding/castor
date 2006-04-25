@@ -130,7 +130,7 @@ public class CastorException extends Exception {
         //-- to prevent null pointer exceptions while printing
         //-- error message, return ""
         if (_message == null) return "";
-        else return _message;
+        return _message;
     } //-- getMessage
     
     

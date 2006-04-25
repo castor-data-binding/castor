@@ -313,23 +313,20 @@ public class GMonthDay extends Date {
                  case 'Z' :
                       if (flags != 3)
                           throw new ParseException(BAD_GMONTHDAY+str+"\n'Z' "+WRONGLY_PLACED,idx);
-                      else
-                          result.setUTC();
+                      result.setUTC();
                       break;
 
                 case '+' :
                     if (flags != 3)
-                        throw new ParseException(BAD_GMONTHDAY+str+"\n'+' "+WRONGLY_PLACED,idx);
-                    else {
-                        if (has2Digits) {
-                          result.setDay(number);
-                          result.setUTC();
-                          flags = 1;
-                          hasNumber = false;
-                          has2Digits = false;
-                      }
-                      else throw new ParseException(BAD_GMONTHDAY+str+"\nTthe day field must have 2 digits.",idx);
-                    }
+                      throw new ParseException(BAD_GMONTHDAY+str+"\n'+' "+WRONGLY_PLACED,idx);
+                    if (!has2Digits)
+                      throw new ParseException(BAD_GMONTHDAY+str+"\nTthe day field must have 2 digits.",idx);
+                    
+                    result.setDay(number);
+                    result.setUTC();
+                    flags = 1;
+                    hasNumber = false;
+                    has2Digits = false;
                     break;
 
                  case ':' :

@@ -522,19 +522,17 @@ public final class XMLInstance2SchemaHandler
         //-- Make sure types are not null and if so create them
         if (e1Type == null) {
             if (e2Type == null) return; //-- nothing to merge
-            else {
-                if (e2Type.isSimpleType()) {
-                    e1.setType(e2Type);
-                }
-                else {
-                    ComplexType cType = new ComplexType(_schema);
-                    Group group = new Group();
-                    group.setOrder(_defaultGroupOrder);
-                    cType.addGroup(group);
-                    e1.setType(cType);
-                    e1Type = cType;
-                }
-            }
+			if (e2Type.isSimpleType()) {
+			    e1.setType(e2Type);
+			}
+			else {
+			    ComplexType cType = new ComplexType(_schema);
+			    Group group = new Group();
+			    group.setOrder(_defaultGroupOrder);
+			    cType.addGroup(group);
+			    e1.setType(cType);
+			    e1Type = cType;
+			}
         }
         else if (e2Type == null) {
             if (e1Type.isSimpleType()) {

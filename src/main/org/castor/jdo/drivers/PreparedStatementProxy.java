@@ -102,9 +102,8 @@ public final class PreparedStatementProxy implements PreparedStatement {
 
         if (!_useProxies) {
             return statement;
-        } else {
-            return new PreparedStatementProxy(statement, sql, connection);
         }
+        return new PreparedStatementProxy(statement, sql, connection);
     }
     
     /**

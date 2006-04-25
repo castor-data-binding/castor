@@ -207,8 +207,7 @@ public class SimpleTypesFactory {
     public String getBuiltInTypeName(int builtInTypeCode) {
         Type type= getType(builtInTypeCode);
         if (type == null) return null;
-        else
-            return type.getName();
+        return type.getName();
     }
 
 
@@ -256,8 +255,7 @@ public class SimpleTypesFactory {
 	            result.setTypeCode(USER_TYPE);
 	            return result;
              }
-            else
-                return null;
+            return null;
         }
 
         return createUserSimpleType(schema, name, baseType, derivation);
@@ -341,12 +339,11 @@ public class SimpleTypesFactory {
                    sendToLog(Messages.format("schema.noBuiltInParent",
                                              internalName) );
                    return null;
-                } else {
-                    //creates the instance of a class derived from SimpleType representing the new type.
-                    result= createInstance(schema, builtInBase.getName());
-                    if (result == null) {
-                        throw new SimpleTypesFactoryException( Messages.message("schema.cantLoadBuiltInTypes") );
-                    }
+                }
+                //creates the instance of a class derived from SimpleType representing the new type.
+                result= createInstance(schema, builtInBase.getName());
+                if (result == null) {
+                    throw new SimpleTypesFactoryException( Messages.message("schema.cantLoadBuiltInTypes") );
                 }
             }
         }
@@ -546,8 +543,7 @@ public class SimpleTypesFactory {
                 implClass= type.getImplClass();
                 break;
             }
-            else
-                type= getType(type.getBase());
+            type= getType(type.getBase());
         }
 
         if (implClass == null) return null;

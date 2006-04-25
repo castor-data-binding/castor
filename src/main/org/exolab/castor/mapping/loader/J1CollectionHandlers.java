@@ -147,10 +147,9 @@ public final class J1CollectionHandlers
                     collection = new Vector();
                     ( (Vector) collection ).addElement( object );
                     return collection;
-                } else {
-                        ( (Vector) collection ).addElement( object );
-                    return null;
                 }
+                ( (Vector) collection ).addElement( object );
+          return null;
             }
             public Enumeration elements( Object collection ) {
                 if ( collection == null )
@@ -194,10 +193,9 @@ public final class J1CollectionHandlers
                     collection = new Hashtable();
                     ( (Hashtable) collection ).put( key, value );
                     return collection;
-                } else {
-                        ( (Hashtable) collection ).put( key, value );
-                    return null;
                 }
+                ( (Hashtable) collection ).put( key, value );
+          return null;
             }
             
             public Enumeration elements( Object collection ) {

@@ -168,13 +168,12 @@ public abstract class Producer
     }
 
 
-    protected String prefix( String tagName )
-    {
-	if ( _namespace )
-	    return XML.Namespace.Prefix + ":" + tagName;
-	else
-	    return tagName;
-    }
+  protected String prefix( String tagName )
+  {
+    if ( _namespace )
+      return XML.Namespace.Prefix + ":" + tagName;
+    return tagName;
+  }
 
 
 }

@@ -181,10 +181,9 @@ public class TimeLimited extends AbstractBaseCache {
         QueueItem item = (QueueItem) _map.get(key);
         if (item != null) {
             return item.update(value, _ttl);
-        } else {
-            _map.put(key, new QueueItem(key, value, _ttl));
-            return null;
         }
+        _map.put(key, new QueueItem(key, value, _ttl));
+        return null;
     }
     
     /**

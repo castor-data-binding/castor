@@ -195,9 +195,8 @@ public final class TransactionManagerRegistry {
                            + "has already been registered.";
                 LOG.error(msg);
                 throw new TransactionManagerAcquireException(msg);
-            } else {
-                _managers.put(managerName, loader);
             }
+            _managers.put(managerName, loader);
         }
     }
     

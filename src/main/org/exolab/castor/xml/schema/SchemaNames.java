@@ -247,9 +247,8 @@ public class SchemaNames {
                 SchemaNames.NAMESPACE_LOCAL.equals(name) ||
                 SchemaNames.NAMESPACE_OTHER.equals(name)   ||
                 SchemaNames.NAMESPACE_TARGET.equals(name));
-        if (result)
-            return result;
-        else try {
+        if (result) return result;
+        try {
             java.net.URL temp = new java.net.URL(name);
             temp = null;
             result = true;

@@ -102,9 +102,8 @@ public final class CallableStatementProxy implements CallableStatement {
 
         if (!_useProxies) {
             return statement;
-        } else {
-            return new CallableStatementProxy(statement, sql, connection);
         }
+        return new CallableStatementProxy(statement, sql, connection);
     }
 
     /**

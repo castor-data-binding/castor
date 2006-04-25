@@ -142,22 +142,19 @@ public final class FinalList {
      * @return the String representation of this FinalList.
     **/
     public String toString() {
-        if (_all) {
-            return ALL;
+        if (_all) return ALL;
+
+        StringBuffer value = new StringBuffer();
+        if (_extension) {
+            value.append(EXTENSION);
         }
-        else {
-            StringBuffer value = new StringBuffer();
-            if (_extension) {
-                value.append(EXTENSION);
+        if (_restriction) {
+            if (value.length() > 0) {
+                value.append(' ');
             }
-            if (_restriction) {
-                if (value.length() > 0) {
-                    value.append(' ');
-                }
-                value.append(RESTRICTION);
-            }
-            return value.toString();
+            value.append(RESTRICTION);
         }
+        return value.toString();
     } //-- toString
     
     //-------------------/

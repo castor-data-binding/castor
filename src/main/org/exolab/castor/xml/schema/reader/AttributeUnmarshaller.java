@@ -119,7 +119,7 @@ public class AttributeUnmarshaller extends ComponentReader {
                 String err = "An attribute cannot have a 'name' attribute and a 'ref' attribute at the same time.";
                 throw new IllegalStateException(err);
             }
-            else _attribute.setName(attValue);
+            _attribute.setName(attValue);
         }
 
         //-- @default

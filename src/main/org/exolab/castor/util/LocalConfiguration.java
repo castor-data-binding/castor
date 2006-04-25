@@ -472,12 +472,9 @@ public final class LocalConfiguration extends Configuration {
             return _values.primitiveNodeType;
             
         String prop = getProperty(Property.PrimitiveNodeType, null);
-        if (prop == null) 
-            return null;
-        else {
-            _values.primitiveNodeType = NodeType.getNodeType(prop);
-            return _values.primitiveNodeType;
-        }
+        if (prop == null) return null;
+        _values.primitiveNodeType = NodeType.getNodeType(prop);
+        return _values.primitiveNodeType;
     } //-- getPrimitiveNodeType
     
     /**
@@ -493,20 +490,16 @@ public final class LocalConfiguration extends Configuration {
 
         RegExpEvaluator regex = null;
 
-        if ( prop == null ) {
-            return null;
+        if ( prop == null ) return null;
+        try {
+            if (_values.regExpEvalClass == null) {
+                _values.regExpEvalClass = Class.forName( prop );
+            }
+            regex = (RegExpEvaluator) _values.regExpEvalClass.newInstance();
         }
-        else {
-            try {
-                if (_values.regExpEvalClass == null) {
-                    _values.regExpEvalClass = Class.forName( prop );
-                }
-                regex = (RegExpEvaluator) _values.regExpEvalClass.newInstance();
-            }
-            catch ( Exception except ) {
-                throw new RuntimeException( Messages.format( "conf.failedInstantiateRegExp",
-                                                             prop, except ) );
-            }
+        catch ( Exception except ) {
+            throw new RuntimeException( Messages.format( "conf.failedInstantiateRegExp",
+                                                         prop, except ) );
         }
 
         return regex;

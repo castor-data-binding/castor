@@ -512,24 +512,22 @@ public class MemberFactory {
             //-- just use first annotation
             return createComment((Annotation) enumeration.nextElement());
         }
-        else {
-            //-- there were no annotations...try possible references
-            switch(annotated.getStructureType()) {
-                case Structure.ELEMENT:
-                    ElementDecl elem = (ElementDecl)annotated;
-                    if (elem.isReference()) {
-                        return createComment(elem.getReference());
-                    }
-                    break;
-                case Structure.ATTRIBUTE:
-                    AttributeDecl att = (AttributeDecl)annotated;
-                    if (att.isReference()) {
-                        return createComment(att.getReference());
-                    }
-                    break;
-                default:
-                    break;
-            }
+        //-- there were no annotations...try possible references
+        switch(annotated.getStructureType()) {
+            case Structure.ELEMENT:
+                ElementDecl elem = (ElementDecl)annotated;
+                if (elem.isReference()) {
+                    return createComment(elem.getReference());
+                }
+                break;
+            case Structure.ATTRIBUTE:
+                AttributeDecl att = (AttributeDecl)annotated;
+                if (att.isReference()) {
+                    return createComment(att.getReference());
+                }
+                break;
+            default:
+                break;
         }
         return null;
     } //-- createComment

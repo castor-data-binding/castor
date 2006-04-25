@@ -146,33 +146,28 @@ public class ImportDescriptor extends HandlerBase implements Serializable {
 	Integer  policy;
 
 	policy = (Integer) _policies.get( name );
-	if ( policy != null ) {
-	    return policy.intValue();
-	} else {
-	    return Policy.DefaultPolicy;
+	if ( policy != null ) return policy.intValue();
+	
+  return Policy.DefaultPolicy;
 	}
-    }
+ 
 
 
     public int getPolicy( String name )
     {
-	DN       dn;
-	Integer  policy;
-	int      i;
-	
-	policy = (Integer) _policies.get( name );
-	if ( policy != null ) {
-	    return policy.intValue();
-	} else {
-	    dn = new DN( name );
-	    for ( i = 1 ; i < dn.size() ; ++i ) {
-		name = dn.suffix( i );
-		policy = (Integer) _policies.get( name );
-		if ( policy != null )
-		    return policy.intValue();
-	    }
-	}
-	return Policy.DefaultPolicy;
+      DN       dn;
+      Integer  policy;
+      int      i;
+      
+      policy = (Integer) _policies.get( name );
+      if ( policy != null ) return policy.intValue();
+      dn = new DN( name );
+      for ( i = 1 ; i < dn.size() ; ++i ) {
+        name = dn.suffix( i );
+        policy = (Integer) _policies.get( name );
+        if ( policy != null ) return policy.intValue();
+      }
+      return Policy.DefaultPolicy;
     }
 
 

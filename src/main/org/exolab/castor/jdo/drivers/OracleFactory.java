@@ -129,9 +129,8 @@ public class OracleFactory
     {
         if (sqlType == java.lang.Integer.class) {
             return java.math.BigDecimal.class;
-        } else {
-            return sqlType;
         }
+        return sqlType;
     }
 }
 

@@ -137,9 +137,8 @@ public final class ParseTreeNode {
     public Iterator children() {
         if ((_children == null) || (_children.size() == 0)) {
             return NULL_ITERATOR;
-        } else {
-            return _children.iterator();
         }
+        return _children.iterator();
     }
 
     /**
@@ -158,11 +157,8 @@ public final class ParseTreeNode {
      * @return the number of children of this node.
      */
     public int getChildCount() {
-        if (_children == null) {
-            return 0;
-        } else {
-            return _children.size();
-        }
+        if (_children == null) return 0;
+        return _children.size();
     }
 
     /**

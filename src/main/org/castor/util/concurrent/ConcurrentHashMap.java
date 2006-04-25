@@ -392,8 +392,7 @@ public class ConcurrentHashMap extends AbstractMap
                 Object value = e.value;
                 if(value != null)
                     return value;
-                else
-                    break;
+                break;
             }
         }
 
@@ -1070,8 +1069,8 @@ public class ConcurrentHashMap extends AbstractMap
                         currentKey = entry.key;
                         currentValue = v;
                         return true;
-                    } else
-                        entry = entry.next;
+                    }
+                    entry = entry.next;
                 }
 
                 while(entry == null && index >= 0)

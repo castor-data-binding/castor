@@ -334,21 +334,19 @@ public class GYearMonth extends Date {
                  case 'Z' :
                       if (flags != 3)
                          throw new ParseException(BAD_GYEARMONTH+str+"'Z' "+WRONGLY_PLACED,idx);
-                      else result.setUTC();
+                      result.setUTC();
                       break;
 
                  case '+' :
                     if (flags != 3)
                         throw new ParseException(BAD_GYEARMONTH+str+"'+' "+WRONGLY_PLACED,idx);
-                    else {
-                          if ((has2Digits) && (number2 == -1)){
-                               result.setMonth(number);
-                               flags = 1;
-                               result.setUTC();
-                           } else throw new ParseException(BAD_GYEARMONTH+str+"\nThe month field must have 2 digits.",idx);
-                          hasNumber = false;
-                          has2Digits = false;
-                    }
+                    if (has2Digits && number2 == -1){
+                         result.setMonth(number);
+                         flags = 1;
+                         result.setUTC();
+                     } else throw new ParseException(BAD_GYEARMONTH+str+"\nThe month field must have 2 digits.",idx);
+                    hasNumber = false;
+                    has2Digits = false;
                     break;
 
                  case ':' :

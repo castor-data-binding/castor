@@ -122,7 +122,7 @@ public class CastorException extends Exception {
     private static Throwable getNestedException(Throwable e) {
         // Deal with the myriad ways of getting a nested exception.
         if (e instanceof CastorException) return ((CastorException) e).getCause();
-        else return null;
+        return null;
     }
 
     /**

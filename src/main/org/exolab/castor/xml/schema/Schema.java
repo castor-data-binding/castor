@@ -755,12 +755,10 @@ public class Schema extends Annotated {
         	}
         	return tempAtt;
         }
-        else {
-            Schema schema = getImportedSchema(ns);
-            if (schema!=null) {
-                AttributeDecl att = schema.getAttribute(canonicalName);
-                return att;
-            }
+        Schema schema = getImportedSchema(ns);
+        if (schema!=null) {
+            AttributeDecl att = schema.getAttribute(canonicalName);
+            return att;
         }
 
         return null;
@@ -1627,10 +1625,8 @@ public class Schema extends Annotated {
      * @return the imported schema
      */
     public Schema getImportedSchema(String ns, boolean localOnly) {
-        if (localOnly) 
-            return (Schema) _importedSchemas.get(ns);
-        else
-            return getImportedSchema(ns, null);
+        if (localOnly) return (Schema) _importedSchemas.get(ns);
+        return getImportedSchema(ns, null);
     } //-- getImportedSchema
     
     /**

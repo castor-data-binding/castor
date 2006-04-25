@@ -94,9 +94,8 @@ public abstract class CollectionProxy {
                     throw new IllegalArgumentException("Problem instantiating instance of " + comparatorClassName);
                 }
                 return new ColProxy(fieldMolder, object, classLoader, new TreeSet(comparator));
-            } else {
-                return new ColProxy(fieldMolder, object, classLoader, new TreeSet());
             }
+            return new ColProxy(fieldMolder, object, classLoader, new TreeSet());
         } else {
             throw new IllegalArgumentException(
                     "Collection Proxy doesn't exist for this type : " + cls);

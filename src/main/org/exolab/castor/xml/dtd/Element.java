@@ -237,7 +237,8 @@ public class Element {
          String err = "Element \"" + name + "\" already contains child element ";
          err += "\"" + child + "\".";
          throw new DTDException(err);
-      } else mixedChildren.add(child);
+      }
+      mixedChildren.add(child);
    } //-- addChild
 
    /**

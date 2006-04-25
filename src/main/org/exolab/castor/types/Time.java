@@ -369,36 +369,32 @@ public class Time extends DateTimeBase {
                  case 'Z' :
                       if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
                          throw new ParseException(BAD_TIME+str+"\n'Z'"+DateTimeBase.WRONGLY_PLACED,idx);
-                      else result.setUTC();
+                      result.setUTC();
                       break;
 
                  case '-' :
                      if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
                         throw new ParseException(BAD_TIME+str+"\n'-'"+DateTimeBase.WRONGLY_PLACED,idx);
-                    else {
-                        if (flags == SECOND_FLAG)
-                            result.setSecond(currentNumber, (short)0);
-                        else if (flags == MILLI_FLAG)
-                            result.setSecond(savedNumber, currentNumber);
-                        result.setUTC();
-                        result.setZoneNegative(true);
-                        flags = 1;
-                    }
+                    if (flags == SECOND_FLAG)
+                        result.setSecond(currentNumber, (short)0);
+                    else if (flags == MILLI_FLAG)
+                        result.setSecond(savedNumber, currentNumber);
+                    result.setUTC();
+                    result.setZoneNegative(true);
+                    flags = 1;
                     hasNumber = false;
                     has2Digits = false;
                     break;
 
                  case '+' :
-                     if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
+                    if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
                         throw new ParseException(BAD_TIME+str+"\n'+'"+DateTimeBase.WRONGLY_PLACED,idx);
-                    else {
-                        if (flags == SECOND_FLAG)
-                            result.setSecond(currentNumber, (short)0);
-                        else if (flags == MILLI_FLAG)
-                            result.setSecond(savedNumber, currentNumber);
-                        result.setUTC();
-                        flags = TIMEZONE_FLAG;
-                    }
+                    if (flags == SECOND_FLAG)
+                        result.setSecond(currentNumber, (short)0);
+                    else if (flags == MILLI_FLAG)
+                        result.setSecond(savedNumber, currentNumber);
+                    result.setUTC();
+                    flags = TIMEZONE_FLAG;
                     hasNumber = false;
                     has2Digits = false;
                     break;

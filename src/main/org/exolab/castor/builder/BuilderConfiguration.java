@@ -510,8 +510,7 @@ public class BuilderConfiguration {
 		String javaPackage = (String) _nspackages.get(nsURL);
 		if(javaPackage==null)
 			return "";
-		else
-			return javaPackage;
+    return javaPackage;
 	} //-- lookupPackageNamespace
 
     /**

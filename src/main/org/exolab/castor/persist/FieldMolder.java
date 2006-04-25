@@ -187,19 +187,15 @@ public class FieldMolder {
     }*/
     public short getFieldType() {
         if ( ! isPersistanceCapable() )
-            if ( ! isSerializable() )
-                return PRIMITIVE;
-            else
-                return SERIALIZABLE;
+            return isSerializable() 
+                   ? SERIALIZABLE 
+                   : PRIMITIVE;
+ 
+        if ( ! isMulti() ) return PERSISTANCECAPABLE;
 
-        if ( ! isMulti() )
-            return PERSISTANCECAPABLE;
+        if ( ! isManyToMany() ) return ONE_TO_MANY;
 
-        if ( ! isManyToMany() )
-            return ONE_TO_MANY;
-
-        else
-            return MANY_TO_MANY;
+        return MANY_TO_MANY;
     }
 
     public SQLRelationLoader getRelationLoader() {
@@ -214,15 +210,14 @@ public class FieldMolder {
         return _manyToManyLoader != null;
     }
     public boolean isDependent() {
-        if ( _fMold == null )
-            return false;
+        if ( _fMold == null ) return false;
         ClassMolder extendPath = _eMold;
         ClassMolder depends = _fMold.getDepends();
         while ( extendPath != null ) {
             if ( extendPath == depends ) {
                 return true;
-            } else
-                extendPath = extendPath.getExtends();
+            } 
+            extendPath = extendPath.getExtends();
         }
         return false;
     }
@@ -297,8 +292,7 @@ public class FieldMolder {
                 if (  object == null ||
                         ( rf._hasMethod != null && ! ( (Boolean) rf._hasMethod.invoke( object, (Object[]) null ) ).booleanValue() ) )
                     return null;
-                else
-                    return rf._getMethod.invoke( object, (Object[]) null );
+                return rf._getMethod.invoke( object, (Object[]) null );
             } else
                 return null;
         } catch ( IllegalAccessException except ) {
@@ -358,10 +352,8 @@ public class FieldMolder {
                             // the object in the sequence
                             if ( value == null || rf._setSequence[ i ] == null )
                                 break;
-                            else {
-                                object = Types.newInstance( rf._getSequence[ i ].getReturnType() );
-                                rf._setSequence[ i ].invoke( last, new Object[] { object } );
-                            }
+                            object = Types.newInstance( rf._getSequence[ i ].getReturnType() );
+                            rf._setSequence[ i ].invoke( last, new Object[] { object } );
                         }
                     }
                 if ( object != null ) {
@@ -377,10 +369,8 @@ public class FieldMolder {
             // If this is a problem, identity it someplace else.
         } catch ( IllegalArgumentException except ) {
             // Graceful way of dealing with unwrapping exception
-            if ( value == null )
-                throw new DataObjectAccessException( Messages.format( "mapping.typeConversionNull", toString() ) );
-            else
-                throw new DataObjectAccessException( Messages.format( "mapping.typeConversion",
+            if ( value == null ) throw new DataObjectAccessException( Messages.format( "mapping.typeConversionNull", toString() ) );
+            throw new DataObjectAccessException( Messages.format( "mapping.typeConversion",
                                                             toString(), value.getClass().getName() ) );
         } catch ( IllegalAccessException except ) {
             // This should never happen
@@ -694,10 +684,9 @@ public class FieldMolder {
                 	if ( fieldMap.getType().compareTo("boolean") == 0){
                 		throw new MappingException( "mapping.accessorNotFound",
                 				METHOD_GET_PREFIX + "/" + METHOD_IS_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
-                	} else {
-                		throw new MappingException( "mapping.accessorNotFound",
-                				METHOD_GET_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
                 	}
+                  throw new MappingException( "mapping.accessorNotFound",
+                  		METHOD_GET_PREFIX + capitalize( name ), fieldMap.getType(), eMold.getName() );
                 }
                 
                 // update fClass, because we can't tell between primitive

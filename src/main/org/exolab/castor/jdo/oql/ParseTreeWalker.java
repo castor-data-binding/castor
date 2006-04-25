@@ -409,9 +409,8 @@ public class ParseTreeWalker {
                 if (onlySimple) {
                     throw new QueryException("Only primitive values are allowed to be "
                             + "passed as parameters to Aggregate and SQL functions.");
-                } else {
-                    return null;
                 }
+                return null;
             }
         } else {
             int tokenType = projection.getToken().getTokenType();
@@ -1193,12 +1192,11 @@ public class ParseTreeWalker {
             if (exprTree.getChildCount() == 1) {
                 return exprTree.getToken().getTokenValue() + " "
                        + getSQLExpr( exprTree.getChild(0) );
-            } else {
-                //this was binary PLUS or MINUS
-                return getSQLExpr( exprTree.getChild(0) ) + " "
-                       + exprTree.getToken().getTokenValue() + " "
-                       + getSQLExpr( exprTree.getChild(1) );
             }
+            //this was binary PLUS or MINUS
+            return getSQLExpr( exprTree.getChild(0) ) + " "
+                   + exprTree.getToken().getTokenValue() + " "
+                   + getSQLExpr( exprTree.getChild(1) );
         case TokenType.KEYWORD_AND:
         case TokenType.KEYWORD_OR:
         case TokenType.EQUAL:
@@ -1280,62 +1278,61 @@ public class ParseTreeWalker {
                     sb.append(") ");
                 }
                 return sb.toString();
-            } else {
-                //a field
-                Vector path = (Vector) getPathInfo().get(exprTree);
-                if (tokenType == TokenType.DOT) {
-                    if (path == null) {
-                        System.err.println("exprTree=" + exprTree.toStringEx()
-                                + "\npathInfo = {");
-                        Iterator iter = getPathInfo().keySet().iterator();
-                        ParseTreeNode n;
-                        while (iter.hasNext()) {
-                            n = (ParseTreeNode) iter.next();
-                            System.err.println( "\t" + n.toStringEx() );
-                        }
-                        // Exception follows in addJoinsForPathExpression()
-                    }
-                    addJoinsForPathExpression( path );
-                }
-
-                JDOFieldDescriptor field =
-                    (JDOFieldDescriptor) getFieldInfo().get(exprTree);
-                if (field == null) {
-                    throw new IllegalStateException("fieldInfo for "
-                            + exprTree.toStringEx() + " not found");
-                }
-
-                JDOClassDescriptor clsDesc =
-                    (JDOClassDescriptor) field.getContainingClassDescriptor();
-                if (clsDesc == null) {
-                    throw new IllegalStateException("ContainingClass of "
-                            + field.toString()+" is null !");
-                }
-
-                String clsTableAlias;
-                if ((tokenType == TokenType.DOT) && (path != null) && (path.size() > 2)) {
-                    clsTableAlias = buildTableAlias(
-                            clsDesc.getTableName(), path, path.size() - 2);
-                    JDOClassDescriptor srcDesc = _clsDesc;
-                    for (int i = 1; i < path.size(); i++) {
-                        Object[] fieldAndClass = getFieldAndClassDesc(
-                                (String) path.elementAt(i),
-                                srcDesc, _queryExpr, path, i - 1);
-                        if (fieldAndClass == null) {
-                            throw new IllegalStateException("Field not found: "
-                                    + path.elementAt(i) + " class "
-                                    + srcDesc.getJavaClass());
-                        }
-                        JDOFieldDescriptor fieldDesc =
-                            (JDOFieldDescriptor) fieldAndClass[0];
-                        srcDesc = (JDOClassDescriptor) fieldDesc.getClassDescriptor();
-                    }
-                } else {
-                    clsTableAlias = buildTableAlias(clsDesc.getTableName(), path, 9999);
-                }
-
-                return _queryExpr.encodeColumn(clsTableAlias, field.getSQLName()[0]);
             }
+            //a field
+            Vector path = (Vector) getPathInfo().get(exprTree);
+            if (tokenType == TokenType.DOT) {
+              if (path == null) {
+                System.err.println("exprTree=" + exprTree.toStringEx()
+                                   + "\npathInfo = {");
+                Iterator iter = getPathInfo().keySet().iterator();
+                ParseTreeNode n;
+                while (iter.hasNext()) {
+                  n = (ParseTreeNode) iter.next();
+                  System.err.println( "\t" + n.toStringEx() );
+                }
+                // Exception follows in addJoinsForPathExpression()
+              }
+              addJoinsForPathExpression( path );
+            }
+            
+            JDOFieldDescriptor field =
+              (JDOFieldDescriptor) getFieldInfo().get(exprTree);
+            if (field == null) {
+              throw new IllegalStateException("fieldInfo for "
+                                              + exprTree.toStringEx() + " not found");
+            }
+            
+            JDOClassDescriptor clsDesc =
+              (JDOClassDescriptor) field.getContainingClassDescriptor();
+            if (clsDesc == null) {
+              throw new IllegalStateException("ContainingClass of "
+                                              + field.toString()+" is null !");
+            }
+            
+            String clsTableAlias;
+            if (tokenType == TokenType.DOT && path != null && path.size() > 2) {
+              clsTableAlias = buildTableAlias(
+                                              clsDesc.getTableName(), path, path.size() - 2);
+              JDOClassDescriptor srcDesc = _clsDesc;
+              for (int i = 1; i < path.size(); i++) {
+                Object[] fieldAndClass = getFieldAndClassDesc(
+                                                              (String) path.elementAt(i),
+                                                              srcDesc, _queryExpr, path, i - 1);
+                if (fieldAndClass == null) {
+                  throw new IllegalStateException("Field not found: "
+                                                  + path.elementAt(i) + " class "
+                                                  + srcDesc.getJavaClass());
+                }
+                JDOFieldDescriptor fieldDesc =
+                  (JDOFieldDescriptor) fieldAndClass[0];
+                srcDesc = (JDOClassDescriptor) fieldDesc.getClassDescriptor();
+              }
+            } else {
+              clsTableAlias = buildTableAlias(clsDesc.getTableName(), path, 9999);
+            }
+            
+            return _queryExpr.encodeColumn(clsTableAlias, field.getSQLName()[0]);
         case TokenType.DOLLAR:
             //parameters
             //return a question mark with the parameter number.

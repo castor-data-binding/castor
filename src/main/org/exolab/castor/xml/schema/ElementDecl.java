@@ -332,26 +332,16 @@ public class ElementDecl extends Particle implements Referable {
             if (element != null) {
             	return element.getType();
             }
-            else
-            	return null;
+            return null;
         }
 
         
         
         if (_xmlType == null) return null;
-        else {
-        	//-- here we might need to
-        	//-- relink the complexType or simpleType 
-        	//-- to a possible redefinition.
-        	
-        	//1--Anonymous types
-        	if (_xmlType.getName() == null)
-        	     return _xmlType.getType();
-        	else {
-        		//--we look in the parent schema if we have redefinitions of types.
-        		result = _xmlType.getType();
-        	}
-        }
+        //1--Anonymous types
+        if (_xmlType.getName() == null) return _xmlType.getType();
+        //--we look in the parent schema if we have redefinitions of types.
+        result = _xmlType.getType();
         
         //-- the current XML schema might have a MasterSchema where all the
         //-- type definitions have a higher priority [this is useful when

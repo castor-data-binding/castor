@@ -627,12 +627,10 @@ public abstract class Configuration {
             return _defaultValues.primitiveNodeType;
             
         String prop = getDefaultProperty(Property.PrimitiveNodeType, null);
-        if (prop == null) 
-            return null;
-        else {
-            _defaultValues.primitiveNodeType = NodeType.getNodeType(prop);
-            return _defaultValues.primitiveNodeType;
-        }
+        if (prop == null) return null;
+        
+        _defaultValues.primitiveNodeType = NodeType.getNodeType(prop);
+        return _defaultValues.primitiveNodeType;
     } //-- getDefaultPrimitiveNodeType
 
     
@@ -773,22 +771,18 @@ public abstract class Configuration {
     public static RegExpEvaluator getDefaultRegExpEvaluator() {
 
         String prop = getDefault().getProperty( Property.RegExp );
+        if ( prop == null ) return null;
 
         RegExpEvaluator regex = null;
 
-        if ( prop == null ) {
-            return null;
+        try {
+            Class cls = _defaultValues.regExpEvalClass;
+            if (cls == null) cls = Class.forName( prop );
+            regex = (RegExpEvaluator) cls.newInstance();
         }
-        else {
-            try {
-                Class cls = _defaultValues.regExpEvalClass;
-                if (cls == null) cls = Class.forName( prop );
-                regex = (RegExpEvaluator) cls.newInstance();
-            }
-            catch ( Exception except ) {
-                throw new RuntimeException( Messages.format( "conf.failedInstantiateRegExp",
-                                                             prop, except ) );
-            }
+        catch ( Exception except ) {
+            throw new RuntimeException( Messages.format( "conf.failedInstantiateRegExp",
+                                                         prop, except ) );
         }
 
         return regex;

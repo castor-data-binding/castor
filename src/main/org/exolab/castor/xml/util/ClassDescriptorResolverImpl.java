@@ -757,9 +757,7 @@ public class ClassDescriptorResolverImpl
                 throw new ResolverException(iox);
             }
         }
-        else {
-            _packageCDList.put(packageName, NULL_CDR_FILE);
-        }
+		_packageCDList.put(packageName, NULL_CDR_FILE);
         return false;
         
     } //-- loadPackageList

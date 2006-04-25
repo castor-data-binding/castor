@@ -955,14 +955,12 @@ public abstract class AbstractTransactionContext implements TransactionContext {
                 release(object);
                 if (except instanceof PersistenceException) {
                     throw (PersistenceException) except;
-                } else {
-                    throw new PersistenceException(except.getMessage(), except);
                 }
+                throw new PersistenceException(except.getMessage(), except);
             }
             return false;
-        } else {
-            return true;
-        }
+        } 
+        return true;
     }
 
     /**

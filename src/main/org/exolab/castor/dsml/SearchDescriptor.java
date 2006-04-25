@@ -163,24 +163,21 @@ public class SearchDescriptor extends HandlerBase implements Serializable {
     {
 	if ( _returnAttrs == null )
 	    return null;
-	else {
-	    String[] array;
+  String[] array;
 
-	    array = new String[ _returnAttrs.size() ];
-	    _returnAttrs.copyInto( array );
-	    return array;
-	}
+  array = new String[ _returnAttrs.size() ];
+  _returnAttrs.copyInto( array );
+  return array;
     }
 
 
     public Enumeration listReturnAttrs()
     {
-	if ( _returnAttrs == null )
-	    return new Vector().elements();
-	else
-	    return _returnAttrs.elements();
+      if ( _returnAttrs == null ) return new Vector().elements();
+      
+      return _returnAttrs.elements();
     }
-
+    
 
     public void addReturnAttr( String attrName )
     {
