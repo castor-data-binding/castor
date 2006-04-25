@@ -12,8 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * $Id$
  */
 package org.castor.cache.hashbelt;
 
@@ -24,7 +22,7 @@ import org.castor.cache.AbstractCacheFactory;
  * of {@link Cache}.
  *
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Id$
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public final class LRUHashbeltFactory extends AbstractCacheFactory {
