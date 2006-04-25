@@ -12,8 +12,6 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * $Id$
  */
 package org.castor.cache;
 
@@ -27,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Id$
+ * @version $Revision$ $Date$
  * @since 1.0
  */
 public abstract class AbstractCacheFactory implements CacheFactory {
