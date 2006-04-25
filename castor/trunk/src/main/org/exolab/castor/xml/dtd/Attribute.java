@@ -390,7 +390,8 @@ public class Attribute {
          String err = "The value \"" + value + "\" is already contained in the set";
          err += " of possible values of \"" + name + "\" attribute.";
          throw new DTDException(err);
-      } else values.add(value);
+      }
+      values.add(value);
    } //-- addvalue
 
 } //-- Attribute

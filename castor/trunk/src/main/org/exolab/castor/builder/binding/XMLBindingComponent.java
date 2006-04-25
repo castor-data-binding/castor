@@ -980,7 +980,7 @@ public class XMLBindingComponent implements BindingComponent {
         if (getType() == CLASS) {
             return _class.getExtends();
         }
-        else return _config.getProperty(BuilderConfiguration.Property.SUPER_CLASS, null);
+        return _config.getProperty(BuilderConfiguration.Property.SUPER_CLASS, null);
     } //-- getExtends
 
     /**
@@ -993,7 +993,7 @@ public class XMLBindingComponent implements BindingComponent {
         if (getType() == CLASS) {
             return _class.getImplements();
         }
-        else return null;
+        return null;
 
     }
 
@@ -1071,7 +1071,7 @@ public class XMLBindingComponent implements BindingComponent {
         if (getType() == CLASS) {
             return _class.getFinal();
         }
-        else return false;
+        return false;
     }
 
     /**

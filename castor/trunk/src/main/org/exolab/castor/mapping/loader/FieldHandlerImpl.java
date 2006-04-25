@@ -416,8 +416,7 @@ public final class FieldHandlerImpl
         if (( _colHandler != null ) && (_convertFrom == null)) {
             if ( value == null )
                 return new CollectionHandlers.EmptyEnumerator();
-            else
-                return _colHandler.elements( value );
+            return _colHandler.elements( value );
         }
 
         // If there is a convertor, apply it
@@ -475,12 +474,9 @@ public final class FieldHandlerImpl
                                 if ( object == null ) {
                                     // if the value is not null, we must instantiate
                                     // the object in the sequence
-                                    if ( value == null || _setSequence[ i ] == null )
-                                        break;
-                                    else {
-                                        object = Types.newInstance( _getSequence[ i ].getReturnType() );
-                                        _setSequence[ i ].invoke( last, new Object[] { object } );
-                                    }
+                                    if ( value == null || _setSequence[ i ] == null ) break;
+                                    object = Types.newInstance( _getSequence[ i ].getReturnType() );
+                                    _setSequence[ i ].invoke( last, new Object[] { object } );
                                 }
                             }
                         if ( object != null ) {
@@ -497,9 +493,8 @@ public final class FieldHandlerImpl
                 // Graceful way of dealing with unwrapping exception
                 if ( value == null )
                     throw new IllegalArgumentException( Messages.format( "mapping.typeConversionNull", toString() ) );
-                else 
-                    throw new IllegalArgumentException( Messages.format( "mapping.typeConversion",
-                                                                         toString(), value.getClass().getName() ) );
+                throw new IllegalArgumentException( Messages.format( "mapping.typeConversion",
+                                                                     toString(), value.getClass().getName() ) );
             } catch ( IllegalAccessException except ) {
                 // This should never happen
                 throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
@@ -717,8 +712,7 @@ public final class FieldHandlerImpl
         if ( _handler != null ) {
             if (_handler instanceof ExtendedFieldHandler)
                 return ((ExtendedFieldHandler)_handler).newInstance( parent, args );
-            else
-                return _handler.newInstance( parent );
+            return _handler.newInstance( parent );
         }
         // If we have a create method and parent object, call the create method.
         if ( _createMethod != null && parent != null ) {

@@ -123,18 +123,16 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
         AccessMode mode = (AccessMode) NAMES.get(accessMode);
         if (mode != null) {
             return mode;
-        } else {
-            throw new IllegalArgumentException("Unrecognized access mode");
         }
+        throw new IllegalArgumentException("Unrecognized access mode");
     }
 
     public static AccessMode valueOf(final short accessMode) {
         AccessMode mode = (AccessMode) IDS.get(new Short(accessMode));
         if (mode != null) {
             return mode;
-        } else {
-            throw new IllegalArgumentException("Unrecognized access mode");
         }
+        throw new IllegalArgumentException("Unrecognized access mode");
     }
 
     //-------------------------------------------------------------------------

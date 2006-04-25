@@ -103,47 +103,45 @@ public class GroupNaming {
         String name = group.getName(); 
         if (name != null) { 
             return JavaNaming.toJavaClassName(name); 
+        }
+        name = getGroupName(group, packageName); 
+        if (name != null) return name; 
+
+        Structure parent = group.getParent(); 
+        if (parent == null) return null; 
+
+        boolean addOrder = true; 
+        switch(parent.getStructureType()) { 
+            case Structure.GROUP: 
+                name = createClassName((Group)parent, packageName); 
+                break; 
+            case Structure.MODELGROUP: 
+                name = ((ModelGroup)parent).getName(); 
+                name = JavaNaming.toJavaClassName(name); 
+                addOrder = false; 
+                break; 
+            case Structure.COMPLEX_TYPE: 
+                name = getClassName((ComplexType)parent); 
+                addOrder = false; 
+                break; 
+            default: 
+                break; 
         } 
-        else { 
-            name = getGroupName(group, packageName); 
-            if (name != null) return name; 
 
-            Structure parent = group.getParent(); 
-            if (parent == null) return null; 
+        if (name != null) { 
 
-            boolean addOrder = true; 
-            switch(parent.getStructureType()) { 
-                case Structure.GROUP: 
-                    name = createClassName((Group)parent, packageName); 
-                    break; 
-                case Structure.MODELGROUP: 
-                    name = ((ModelGroup)parent).getName(); 
-                    name = JavaNaming.toJavaClassName(name); 
-                    addOrder = false; 
-                    break; 
-                case Structure.COMPLEX_TYPE: 
-                    name = getClassName((ComplexType)parent); 
-                    addOrder = false; 
-                    break; 
-                default: 
-                    break; 
+            if (addOrder) { 
+                String order = group.getOrder().toString(); 
+                name += JavaNaming.toJavaClassName(order); 
             } 
 
-            if (name != null) { 
-
-                if (addOrder) { 
-                    String order = group.getOrder().toString(); 
-                    name += JavaNaming.toJavaClassName(order); 
-                } 
-
-                int count = 2; 
-                String tmpName = name; 
-                while (containsGroupName(packageName, name)) { 
-                    name = tmpName + count; 
-                    ++count; 
-                } 
-                putGroupName(group, packageName, name); 
+            int count = 2; 
+            String tmpName = name; 
+            while (containsGroupName(packageName, name)) { 
+                name = tmpName + count; 
+                ++count; 
             } 
+            putGroupName(group, packageName, name); 
         } 
         return name; 
     } //-- createClassName 

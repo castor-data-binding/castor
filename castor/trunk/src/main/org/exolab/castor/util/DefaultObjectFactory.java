@@ -91,8 +91,7 @@ public class DefaultObjectFactory implements ObjectFactory {
             }
             return type.newInstance();
         }
-        else 
-            return createInstance(type, null, args);
+        return createInstance(type, null, args);
     } //-- createInstance
     
     /**

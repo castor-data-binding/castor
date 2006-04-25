@@ -555,18 +555,17 @@ public final class ObjectTracker {
             if (pri1 == pri2) {
                 if (oper1 > oper2) {
                     return 1;
-                } else if (oper1 < oper2) {
+                } 
+                if (oper1 < oper2) {
                     return -1;
-                } else {
-                    return 0;
-                }
+                }    
+                return 0;
             }
             
             if (_reverseOrder) {
                 return (pri1 < pri2) ? 1 : -1;
-            } else {
-                return (pri1 < pri2) ? -1 : 1;
             }
+            return (pri1 < pri2) ? -1 : 1;
         }
     }
 

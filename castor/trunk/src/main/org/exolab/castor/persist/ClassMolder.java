@@ -1213,9 +1213,8 @@ public class ClassMolder
         // the value of identity is dummy, set it to null
         if (isKeyGeneratorUsed() && !(tx.isPersistent(o) || tx.isReadOnly(o))) {
             return null;
-        } else {
-            return getActualIdentity(tx, o);
         }
+        return getActualIdentity(tx, o);
     }
 
     /**
@@ -1250,11 +1249,8 @@ public class ClassMolder
             for (int i = 0; i < osIds.length; i++) {
                 osIds[i] = _ids[i].getValue(o, loader);
             }
-            if (osIds[0] == null) {
-                return null;
-            } else {
-                return new Complex(osIds);
-            }
+            if (osIds[0] == null) return null;
+            return new Complex(osIds);
         }
     }
 

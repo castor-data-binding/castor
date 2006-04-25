@@ -117,8 +117,7 @@ public class WriterPreferenceReadWriteLock implements ReadWriteLock {
     protected synchronized Signaller endRead() {
         if( --activeReaders_ == 0 && waitingWriters_ > 0)
             return writerLock_;
-        else
-            return null;
+        return null;
     }
 
     /**
@@ -205,13 +204,11 @@ public class WriterPreferenceReadWriteLock implements ReadWriteLock {
                         }
                         if(startReadFromWaitingReader())
                             return true;
-                        else {
-                            waitTime = msecs
-                                    - (System.currentTimeMillis() - start);
-                            if(waitTime <= 0) {
-                                cancelledWaitingReader();
-                                break;
-                            }
+                        waitTime = msecs
+                                - (System.currentTimeMillis() - start);
+                        if(waitTime <= 0) {
+                            cancelledWaitingReader();
+                            break;
                         }
                     }
                 }
@@ -220,8 +217,7 @@ public class WriterPreferenceReadWriteLock implements ReadWriteLock {
             writerLock_.signalWaiters();
             if(ie != null)
                 throw ie;
-            else
-                return false; // timed out
+            return false; // timed out
         }
 
     }
@@ -287,14 +283,12 @@ public class WriterPreferenceReadWriteLock implements ReadWriteLock {
                         }
                         if(startWriteFromWaitingWriter())
                             return true;
-                        else {
-                            waitTime = msecs
-                                    - (System.currentTimeMillis() - start);
-                            if(waitTime <= 0) {
-                                cancelledWaitingWriter();
-                                WriterLock.this.notify();
-                                break;
-                            }
+                        waitTime = msecs
+                                - (System.currentTimeMillis() - start);
+                        if(waitTime <= 0) {
+                            cancelledWaitingWriter();
+                            WriterLock.this.notify();
+                            break;
                         }
                     }
                 }
@@ -303,8 +297,7 @@ public class WriterPreferenceReadWriteLock implements ReadWriteLock {
             readerLock_.signalWaiters();
             if(ie != null)
                 throw ie;
-            else
-                return false; // timed out
+            return false; // timed out
         }
 
     }

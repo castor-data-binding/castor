@@ -227,11 +227,8 @@ public final class XAResourceImpl
             // Can only prepare an active transaction. And error
             // is reported as vote to rollback the transaction.
             try {
-                if ( tx.prepare() ) {
-                    return XA_OK;
-                } else {
-                    return XA_RDONLY;
-                }
+              return tx.prepare() ? XA_OK : XA_RDONLY;
+                
             } catch ( TransactionAbortedException except ) {
                 throw new XAException( XAException.XA_RBROLLBACK );
             } catch ( IllegalStateException except ) {
@@ -352,8 +349,8 @@ public final class XAResourceImpl
         if ( tx != null && tx.isOpen() ) {
             tx.setTransactionTimeout( timeout );
             return true;
-        } else
-            return false;
+        }
+        return false;
     }
 
 
@@ -364,8 +361,7 @@ public final class XAResourceImpl
         tx = _xaSource.getTransactionContext();
         if ( tx != null && tx.isOpen() )
             return tx.getTransactionTimeout();
-        else
-            return 0;
+        return 0;
     }
 
 

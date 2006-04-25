@@ -211,12 +211,9 @@ public class Complex {
         if ( i >= _size || i < 0 )
             throw new ArrayIndexOutOfBoundsException();
         if ( _size <= 2 )
-            if ( i == 0 )
-                return _first;
-            else
-                return _second;
-        else
-            return _all[i];
+          return i == 0  ? _first : _second;
+
+        return _all[i];
     }
     
     /* 

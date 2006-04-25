@@ -624,7 +624,7 @@ public class TimeDuration implements java.io.Serializable {
      public boolean equals(Object object) {
         if (object instanceof TimeDuration)
                return equal( (TimeDuration) object);
-        else return false;
+        return false;
     }
     /**
      * Returns true if the instance of TimeDuration has the same fields

@@ -137,12 +137,9 @@ public final class ContainerFieldHandler implements FieldHandler
             container = (ContainerElement)parent;
             return _handler.newInstance(container.getParent());
         }
-        //-- MODE_PARENT_LINK
-        else {
-            container = new ContainerElement();
-            container.setParent( parent );
-            return container;
-        }
+        container = new ContainerElement();
+        container.setParent( parent );
+        return container;
     } //-- newInstance
         
     /**

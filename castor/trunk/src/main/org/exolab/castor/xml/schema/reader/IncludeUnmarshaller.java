@@ -143,19 +143,16 @@ public class IncludeUnmarshaller extends ComponentReader
 		if (parser == null) {
 		    throw new SchemaException("Error failed to create parser for include");
 		}
-		else
-		{
-			SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(true, state, getURIResolver());
+		SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(true, state, getURIResolver());
 
-			if (state.cacheIncludedSchemas)
-			    schemaUnmarshaller.setSchema(includedSchema);
-            else
-            	schemaUnmarshaller.setSchema(schema);
-            
-		    Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
-			parser.setDocumentHandler(handler);
-			parser.setErrorHandler(handler);
-		}
+		if (state.cacheIncludedSchemas)
+		    schemaUnmarshaller.setSchema(includedSchema);
+		else
+			schemaUnmarshaller.setSchema(schema);
+		
+		Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
+		parser.setDocumentHandler(handler);
+		parser.setErrorHandler(handler);
 
 		try {
             InputSource source = new InputSource(uri.getReader());

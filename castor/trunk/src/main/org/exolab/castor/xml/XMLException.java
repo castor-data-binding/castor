@@ -157,10 +157,8 @@ public class XMLException extends CastorException {
         else
             message = t.getMessage();
         
-        if (_location == null)
-            return message;
-        else
-            return message + "{" + _location.toString() + "}";
+        if (_location == null) return message;
+        return message + "{" + _location.toString() + "}";
     } //-- toString
 
     /**

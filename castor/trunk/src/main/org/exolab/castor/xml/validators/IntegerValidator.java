@@ -235,7 +235,7 @@ public class IntegerValidator extends PatternValidator
      public void setTotalDigits(int totalDig) {
           if (totalDig <= 0)
               throw new IllegalArgumentException("IntegerValidator: the totalDigits facet must be positive");
-          else _totalDigits = totalDig;
+          _totalDigits = totalDig;
      }
 
     public void validate(int i, ValidationContext context)

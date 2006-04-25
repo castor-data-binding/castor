@@ -726,58 +726,57 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
             // We are in LOCAL mode and need only to return a new database instance.
             return new LocalDatabaseImpl(_databaseName, _lockTimeout,
                     _callbackInterceptor, _instanceFactory, _classLoader, _autoStore);
-        } else {
-            // We are in J2EE mode and need a valid Transaction.
-            Transaction tx = null;
-            int status = -1;
-            try {
-                tx = transactionManager.getTransaction();
-                if (tx != null) { status = tx.getStatus(); }
-            } catch (Exception ex) { // SystemException
-                // Failed to get transaction from transaction manager or failed to get
-                // status information from transaction.
-                String msg = Messages.message("jdo.manager.failCreateTransaction");
-                LOG.error(msg, ex);
-                throw new PersistenceException(msg, ex);
-            }
-            
-            if ((tx == null) || (status != Status.STATUS_ACTIVE)) {
-                String msg = Messages.message("jdo.manager.failGetTransaction");
-                LOG.error(msg);
-                throw new PersistenceException(msg);
-            }
-
-            // If we have a database pool that contains a database for this transaction
-            // we can reuse this one.
-            if ((_txDbPool != null) && (_txDbPool.containsTx(tx))) {
-                return _txDbPool.get(tx);
-            }
-
-            // In all other cases we need to create a new database instance.
-            GlobalDatabaseImpl dbImpl;
-            dbImpl = new GlobalDatabaseImpl(_databaseName, _lockTimeout,
-                    _callbackInterceptor, _instanceFactory, tx, _classLoader,
-                    _autoStore, getDatabasePooling());
-
-            // We have to register the database at the transaction next.
-            try {
-                tx.registerSynchronization(dbImpl);
-            } catch (Exception ex) { // RollbackException, SystemException
-                // Failed to register database at transaction manager for
-                // synchronization.
-                String msg = Messages.message("jdo.manager.failRegisterTransaction");
-                LOG.error(msg, ex);
-                throw new PersistenceException(msg, ex);
-            }
-
-            // If we have a database pool we put the new database into this pool.
-            if (_txDbPool != null) {
-                _txDbPool.put(tx, dbImpl);
-            }
-            
-            // Now we have managed to create a valid database with transaction.
-            return dbImpl;
         }
+        // We are in J2EE mode and need a valid Transaction.
+        Transaction tx = null;
+        int status = -1;
+        try {
+            tx = transactionManager.getTransaction();
+            if (tx != null) { status = tx.getStatus(); }
+        } catch (Exception ex) { // SystemException
+            // Failed to get transaction from transaction manager or failed to get
+            // status information from transaction.
+            String msg = Messages.message("jdo.manager.failCreateTransaction");
+            LOG.error(msg, ex);
+            throw new PersistenceException(msg, ex);
+        }
+        
+        if (tx == null || status != Status.STATUS_ACTIVE) {
+            String msg = Messages.message("jdo.manager.failGetTransaction");
+            LOG.error(msg);
+            throw new PersistenceException(msg);
+        }
+
+        // If we have a database pool that contains a database for this transaction
+        // we can reuse this one.
+        if (_txDbPool != null && (_txDbPool.containsTx(tx))) {
+            return _txDbPool.get(tx);
+        }
+
+        // In all other cases we need to create a new database instance.
+        GlobalDatabaseImpl dbImpl;
+        dbImpl = new GlobalDatabaseImpl(_databaseName, _lockTimeout,
+                _callbackInterceptor, _instanceFactory, tx, _classLoader,
+                _autoStore, getDatabasePooling());
+
+        // We have to register the database at the transaction next.
+        try {
+            tx.registerSynchronization(dbImpl);
+        } catch (Exception ex) { // RollbackException, SystemException
+            // Failed to register database at transaction manager for
+            // synchronization.
+            String msg = Messages.message("jdo.manager.failRegisterTransaction");
+            LOG.error(msg, ex);
+            throw new PersistenceException(msg, ex);
+        }
+
+        // If we have a database pool we put the new database into this pool.
+        if (_txDbPool != null) {
+            _txDbPool.put(tx, dbImpl);
+        }
+        
+        // Now we have managed to create a valid database with transaction.
+        return dbImpl;
     }
     
     /**

@@ -199,37 +199,34 @@ public class Wildcard extends Particle {
                 AttributeGroup tempRef = ((AttributeGroupReference)_attGroup).resolveReference();
                 if (tempRef instanceof AttributeGroupDecl)
                     return ((AttributeGroupDecl)tempRef).getSchema();
-                else {
-                     tempRef = null;
-                     return null;
-                }
+                tempRef = null;
+                return null;
             }
         }
-        else if (_group != null) {
-            Structure parent = _group.getParent();
-            Schema result = null;
-            if (parent != null) {
-                while (result == null) {
-                    switch (parent.getStructureType()) {
-                        case Structure.COMPLEX_TYPE:
-                           result = ((ComplexType)parent).getSchema();
-                            break;
-                        case Structure.MODELGROUP:
-                            result = ((ModelGroup)parent).getSchema();
-                            break;
-                        case Structure.GROUP:
-                            parent = ((Group)parent).getParent();
-                            break;
-                        default:
-                            String err = "A group can only be child of a complexType";
-                            err += " or a ModelGroup or a group.";
-                            throw new IllegalStateException(err);
-                    }
-                }
-            }//--if
-            return result;
+        if (_group == null) return null;
+        
+        Structure parent = _group.getParent();
+        if (parent == null) return null;
+        
+        Schema result = null;
+        while (result == null) {
+            switch (parent.getStructureType()) {
+                case Structure.COMPLEX_TYPE:
+                    result = ((ComplexType)parent).getSchema();
+                    break;
+                case Structure.MODELGROUP:
+                    result = ((ModelGroup)parent).getSchema();
+                    break;
+                case Structure.GROUP:
+                    parent = ((Group)parent).getParent();
+                    break;
+                default:
+                    String err = "A group can only be child of a complexType";
+                    err += " or a ModelGroup or a group.";
+                    throw new IllegalStateException(err);
+            }
         }
-        return null;
+        return result;
     }
     /**
      * Returns an enumeration that contains the different namespaces

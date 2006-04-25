@@ -151,7 +151,7 @@ public class JType {
     public String toString() {
         
         if (_isArray) return _componentType.toString()+"[]";
-        else return this.name;
+        return this.name;
         
     } //-- toString
     

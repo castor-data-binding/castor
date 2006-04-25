@@ -212,10 +212,9 @@ final public class SqlBindParser
     {
         int idx = _bindPos + 1;
 
-        if (idx < _pos)
-            return Integer.parseInt(_sql.substring(idx, _pos));
-        else
-            return 0;	// no numbered bind variable
+        return (idx < _pos) 
+               ? Integer.parseInt(_sql.substring(idx, _pos))
+               : 0;	// no numbered bind variable
     }
 
 

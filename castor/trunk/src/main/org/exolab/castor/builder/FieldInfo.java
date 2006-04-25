@@ -566,8 +566,7 @@ public class FieldInfo extends XMLInfo {
     public String getWriteMethodName() {
         if (isMultivalued())
             return METHOD_PREFIX_ADD + methodSuffix();
-        else
-            return METHOD_PREFIX_SET + methodSuffix();
+        return METHOD_PREFIX_SET + methodSuffix();
     } //-- getWriteMethodName
 
    /**
@@ -847,8 +846,7 @@ public class FieldInfo extends XMLInfo {
     protected String methodSuffix() {
         if (name.startsWith("_"))
             return JavaNaming.toJavaClassName(name.substring(1));
-        else
-            return JavaNaming.toJavaClassName(name);
+        return JavaNaming.toJavaClassName(name);
     }
 
 } //-- FieldInfo

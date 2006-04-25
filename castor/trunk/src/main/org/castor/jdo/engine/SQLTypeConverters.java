@@ -315,9 +315,8 @@ public final class SQLTypeConverters {
                 boolean val = ((Boolean) obj).booleanValue();
                 if ((pm == null) || (pm.length() != 1) || (pm.charAt(0) != '-')) {
                     return new Integer(val ? 1 : 0);
-                } else {
-                    return new Integer(val ? -1 : 0);
                 }
+                return new Integer(val ? -1 : 0);
             }
         },
         new Convertor(Byte.class, Integer.class) {
@@ -406,9 +405,8 @@ public final class SQLTypeConverters {
                 boolean val = ((Boolean) obj).booleanValue();
                 if ((pm == null) || (pm.length() != 1) || (pm.charAt(0) != '-')) {
                     return new Short(val ? (byte) 1 : (byte) 0);
-                } else {
-                    return new Short(val ? (byte) -1 : (byte) 0);
                 }
+                return new Short(val ? (byte) -1 : (byte) 0);
             }
         },
         new Convertor(Byte.class, Short.class) {
@@ -516,9 +514,8 @@ public final class SQLTypeConverters {
                 boolean val = ((Boolean) obj).booleanValue();
                 if ((pm == null) || (pm.length() != 1) || (pm.charAt(0) != '-')) {
                     return BigDecimal.valueOf(val ? 1 : 0);
-                } else {
-                    return BigDecimal.valueOf(val ? -1 : 0);
                 }
+                return BigDecimal.valueOf(val ? -1 : 0);
             }
         },
         new Convertor(Byte.class, BigDecimal.class) {
@@ -583,9 +580,8 @@ public final class SQLTypeConverters {
                 boolean val = ((Boolean) obj).booleanValue();
                 if ((pm == null) || (pm.length() != 2)) {
                     return val ? "T" : "F";
-                } else {
-                    return val ? pm.substring(1, 2) : pm.substring(0, 1);
                 }
+                return val ? pm.substring(1, 2) : pm.substring(0, 1);
             }
         },
         new Convertor(Character.class, String.class) {
@@ -597,11 +593,10 @@ public final class SQLTypeConverters {
             public Object convert(final Object obj, final String pm) {
                 if ((pm == null) || (pm.length() == 0)) {
                     return obj.toString();
-                } else {
-                    SimpleDateFormat paramDateFormat = getParamDateFormat();
-                    paramDateFormat.applyPattern(pm);
-                    return paramDateFormat.format((Date) obj);
                 }
+                SimpleDateFormat paramDateFormat = getParamDateFormat();
+                paramDateFormat.applyPattern(pm);
+                return paramDateFormat.format((Date) obj);
             }
         },
         new Convertor(Double.class, String.class) {
@@ -697,11 +692,10 @@ public final class SQLTypeConverters {
                 try {
                     if ((pm == null) || (pm.length() == 0)) {
                         return getDefaultDateFormat().parse((String) obj);
-                    } else {
-                        SimpleDateFormat paramDateFormat = getParamDateFormat();
-                        paramDateFormat.applyPattern(pm);
-                        return paramDateFormat.parse((String) obj);
                     }
+                    SimpleDateFormat paramDateFormat = getParamDateFormat();
+                    paramDateFormat.applyPattern(pm);
+                    return paramDateFormat.parse((String) obj);
                 } catch (ParseException ex) {
                     throw new IllegalArgumentException(ex.toString());
                 }

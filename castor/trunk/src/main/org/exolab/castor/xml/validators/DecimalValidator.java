@@ -193,7 +193,7 @@ public class DecimalValidator implements TypeValidator
      public void setTotalDigits(int totalDig) {
           if (totalDig <= 0)
               throw new IllegalArgumentException("DecimalValidator: the totalDigits facet must be positive");
-          else _totalDigits = totalDig;
+          _totalDigits = totalDig;
      }
 
     /**
@@ -204,7 +204,7 @@ public class DecimalValidator implements TypeValidator
      public void setFractionDigits(int fractionDig) {
           if (fractionDig < 0)
               throw new IllegalArgumentException("DecimalValidator: the fractionDigits facet must be positive");
-          else _fractionDigits = fractionDig;
+          _fractionDigits = fractionDig;
      }
 
     /**

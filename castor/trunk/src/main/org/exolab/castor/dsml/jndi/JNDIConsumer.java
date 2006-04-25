@@ -72,10 +72,8 @@ public class JNDIConsumer
 
     public Enumeration getResults()
     {
-	if ( _entries == null )
-	    return null;
-	else
-	    return _entries.getSearchResults();
+      if ( _entries == null ) return null;
+      return _entries.getSearchResults();
     }
 
     public DocumentHandler getEntryConsumer()

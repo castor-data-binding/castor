@@ -202,10 +202,9 @@ public final class Lexer {
         if (retToken == null) {
             throw (new InvalidCharException(
                     "An invalid character was found in the query at position " + _pos));
-        } else {
-            _pos++;
-            return retToken;
-        } 
+        }
+        _pos++;
+        return retToken; 
     }
 
     /**
@@ -356,9 +355,8 @@ public final class Lexer {
     private char getChar() {
         if(_pos < _queryString.length()) {
             return _queryString.charAt(_pos);
-        } else {
-            return 0;
         }
+        return 0;
     }
 
     /**
@@ -428,27 +426,24 @@ public final class Lexer {
                     if (isExponentSigned) {
                         throw new InvalidCharException("Digit expected after sign in "
                                 + "exponent (double literal).  Position: " + _pos);
-                    } else {
-                        throw new InvalidCharException("Digit expected after exponent "
-                                + "character (double literal).  Position: " + _pos);
                     }
-                } else {
+                    throw new InvalidCharException("Digit expected after exponent "
+                            + "character (double literal).  Position: " + _pos);
+                }
+                sb.append(curChar);
+                _pos++;
+                curChar = getChar();
+                while (isDigit(curChar)) {
                     sb.append(curChar);
                     _pos++;
                     curChar = getChar();
-                    while (isDigit(curChar)) {
-                        sb.append(curChar);
-                        _pos++;
-                        curChar = getChar();
-                    }
                 }
             }
             
             return new Token(TokenType.DOUBLE_LITERAL, sb.toString());
-        } else {
-            //it's a long
-            return new Token(TokenType.LONG_LITERAL, sb.toString());
         }
+        //it's a long
+        return new Token(TokenType.LONG_LITERAL, sb.toString());
     }
 
     /**

@@ -259,23 +259,19 @@ public class GDay extends GMonthDay {
                  case 'Z' :
                       if (flags != 3)
                          throw new ParseException(BAD_GDAY+str+"\n'Z' "+WRONGLY_PLACED,idx);
-                      else
-                          result.setUTC();
+                      result.setUTC();
                       break;
 
                  case '+' :
                     if (flags != 3)
                         throw new ParseException(BAD_GDAY+str+"\n'+' "+WRONGLY_PLACED,idx);
-                    else {
-                        if (has2Digits) {
-                          result.setDay(number);
-                          result.setUTC();
-                          flags = 1;
-                          hasNumber = false;
-                          has2Digits = false;
-                      }
-                      else throw new ParseException(BAD_GDAY+str+"\nThe day field must have 2 digits.",idx);
-                    }
+                    if (!has2Digits)
+                        throw new ParseException(BAD_GDAY+str+"\nThe day field must have 2 digits.",idx);
+                    result.setDay(number);
+                    result.setUTC();
+                    flags = 1;
+                    hasNumber = false;
+                    has2Digits = false;
                     break;
 
                  case ':' :

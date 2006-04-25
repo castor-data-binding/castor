@@ -381,23 +381,21 @@ public class Date extends DateTimeBase{
                  case 'Z' :
                       if (flags != DAY_FLAG)
                          throw new ParseException("'Z' "+DateTimeBase.WRONGLY_PLACED,idx);
-                      else
-                          result.setUTC();
+
+                      result.setUTC();
                       break;
 
                  case '+' :
                     if (flags != DAY_FLAG)
                         throw new ParseException("'+' "+DateTimeBase.WRONGLY_PLACED,idx);
-                    else {
-                        if ((has2Digits)&& (number2 == -1) ) {
-                          result.setDay(number);
-                          result.setUTC();
-                          flags = TIMEZONE_FLAG;
-                          hasNumber = false;
-                          has2Digits = false;
-                      }
-                      else throw new ParseException(BAD_DATE+str+"\nThe day field must have 2 digits.",idx);
+                    if (has2Digits && number2 == -1 ) {
+                      result.setDay(number);
+                      result.setUTC();
+                      flags = TIMEZONE_FLAG;
+                      hasNumber = false;
+                      has2Digits = false;
                     }
+                    else throw new ParseException(BAD_DATE+str+"\nThe day field must have 2 digits.",idx);
                     break;
 
                  case ':' :

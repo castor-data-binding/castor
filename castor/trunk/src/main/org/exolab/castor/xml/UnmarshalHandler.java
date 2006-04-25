@@ -711,11 +711,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 endElement(name);
                 return;
             }
-            else {
-                String err = "error in xml, expecting </" + state.elementName;
-                err += ">, but received </" + name + "> instead.";
-                throw new SAXException(err);
-            }
+            String err = "error in xml, expecting </" + state.elementName;
+            err += ">, but received </" + name + "> instead.";
+            throw new SAXException(err);
         }
         
         
@@ -1488,9 +1486,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         name + "' could not be found.";
                     throw new SAXException(err);
                 }
-                else {
-                    _cdResolver = new ClassDescriptorResolverImpl(_loader);
-                }
+                _cdResolver = new ClassDescriptorResolverImpl(_loader);
             }
 
             _topState = getState();            
@@ -1569,13 +1565,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (classDesc == null) {
                 //-- report error
 			    if ((!isPrimitive(_topClass)) &&
-                    (!Serializable.class.isAssignableFrom( _topClass )))
-                    throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
-                else {
-                    String err = "unable to create XMLClassDescriptor " +
-                                 "for class: " + _topClass.getName();
-                    throw new SAXException(err);
-                }
+             (!Serializable.class.isAssignableFrom( _topClass )))
+             throw new SAXException(MarshalException.NON_SERIALIZABLE_ERR);
+          String err = "unable to create XMLClassDescriptor " +
+                       "for class: " + _topClass.getName();
+          throw new SAXException(err);
             }
             _topState.classDesc = classDesc;
             _topState.type = _topClass;
@@ -1838,10 +1832,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             else if (descriptor != null) {
                 String tmpPath = descriptor.getLocationPath();
                 if (tmpPath == null) tmpPath = "";
-                if (path.equals(tmpPath)) 
-                	break; //-- found
-                else
-                	descriptor = null; //-- not found, try again
+                if (path.equals(tmpPath))break; //-- found
+                descriptor = null; //-- not found, try again
             }
             else {
                 if (pathBuf == null) 
@@ -2515,11 +2507,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
       * @return a free state from the state pool
       */
      private UnmarshalState getState() {
-        if (_statePool.isEmpty()) 
-            return new UnmarshalState();
-        else {
-            return (UnmarshalState) _statePool.remove(_statePool.size()-1);
-        }
+        if (_statePool.isEmpty()) return new UnmarshalState();
+        return (UnmarshalState) _statePool.remove(_statePool.size()-1);
      } //-- freeState
      
      

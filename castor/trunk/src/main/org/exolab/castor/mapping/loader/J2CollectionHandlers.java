@@ -89,10 +89,9 @@ public final class J2CollectionHandlers
                  collection = new ArrayList();
                  ((Collection) collection).add(object);
                  return collection;
-             } else {
-                 ((Collection) collection).add(object);
-                 return null;
              }
+            ((Collection) collection).add(object);
+             return null;
           }
           public Enumeration elements(final Object collection) {
               if (collection == null) {
@@ -122,10 +121,9 @@ public final class J2CollectionHandlers
                     collection = new ArrayList();
                     ( (Collection) collection ).add( object );
                     return collection;
-                } else {
-                    ( (Collection) collection ).add( object );
-                    return null;
                 }
+                ( (Collection) collection ).add( object );
+                return null;
             }
             public Enumeration elements( Object collection ) {
                 if ( collection == null )
@@ -154,10 +152,9 @@ public final class J2CollectionHandlers
                     collection = new ArrayList();
                     ( (Collection) collection ).add( object );
                     return collection;
-                } else {
-                    ( (Collection) collection ).add( object );
-                    return null;
                 }
+                ( (Collection) collection ).add( object );
+                return null;
             }
             public Enumeration elements( Object collection ) {
                 if ( collection == null )
@@ -186,11 +183,10 @@ public final class J2CollectionHandlers
                     collection = new HashSet();
                     ( (Set) collection ).add( object );
                     return collection;
-                } else {
-                    //if ( ! ( (Set) collection ).contains( object ) )
-                    ( (Set) collection ).add( object );
-                    return null;
                 }
+                //if ( ! ( (Set) collection ).contains( object ) )
+                ( (Set) collection ).add( object );
+                return null;
             }
             public Enumeration elements( Object collection ) {
                 if ( collection == null )
@@ -235,10 +231,9 @@ public final class J2CollectionHandlers
                     collection = new HashMap();
                     ( (Map) collection ).put( key, value );
                     return collection;
-                } else {
-                    ( (Map) collection ).put( key, value );
-                    return null;
                 }
+                ( (Map) collection ).put( key, value );
+                return null;
             }
             public Enumeration elements( Object collection ) {
                 if ( collection == null )

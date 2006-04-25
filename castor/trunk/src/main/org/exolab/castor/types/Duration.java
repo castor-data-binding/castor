@@ -692,7 +692,7 @@ public class Duration implements java.io.Serializable {
      public boolean equals(Object object) {
         if (object instanceof Duration)
                return equal( (Duration) object);
-        else return false;
+        return false;
     }
 
     /**

@@ -107,24 +107,20 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
                 _changecount++;
                 _size++;
                 return true;
-            } else {
-                return (_loaded.put(id, o) != o);
             }
-        } else {
-            if (_deleted.contains(id)) {
-                throw new RuntimeException("Illegal Internal State.");
-            }
-
-            if (_added.add(id)) {
-                _loaded.put(id, o);
-                _changecount++;
-                _size++;
-                return true;
-            } else {
-            return (_loaded.put(id, o) != o);
-            }
-            
+            return _loaded.put(id, o) != o;
         }
+        if (_deleted.contains(id)) {
+            throw new RuntimeException("Illegal Internal State.");
+        }
+
+        if (_added.add(id)) {
+            _loaded.put(id, o);
+            _changecount++;
+            _size++;
+            return true;
+        }
+        return _loaded.put(id, o) != o;
     }
 
     public boolean addAll(final Collection c) {
@@ -233,16 +229,15 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
                     return o;
                 }
                 return lazyLoad(id);
-            } else {
-                // the deleted ids were skipped by hasNext(), get is safe
-                id = _ids.get(_cursor++ - _added.size());
-
-                o = _loaded.get(id);
-                if (o != null) {
-                    return o;
-                }
-                return lazyLoad(id);
             }
+            // the deleted ids were skipped by hasNext(), get is safe
+            id = _ids.get(_cursor++ - _added.size());
+
+            o = _loaded.get(id);
+            if (o != null) {
+                return o;
+            }
+            return lazyLoad(id);
         }
         private boolean isSkipped(final Object id) {
             if (_deleted.contains(id)) {

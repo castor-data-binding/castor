@@ -86,9 +86,8 @@ public final class ConnectionProxy implements java.sql.Connection {
         
         if (!_useProxies) {
             return connection;
-        } else {
-            return new ConnectionProxy(connection, calledBy);
         }
+        return new ConnectionProxy(connection, calledBy);
     }
 
     /**

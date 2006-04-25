@@ -136,7 +136,7 @@ public class AnyNode2SAX implements EventProducer {
     public void start() throws org.xml.sax.SAXException {
         if ( (_node == null) || (_handler == null) )
            return;
-        else processAnyNode(_node, _handler);
+        processAnyNode(_node, _handler);
     }
 
     private void processAnyNode(AnyNode node, DocumentHandler handler)

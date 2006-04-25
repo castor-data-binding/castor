@@ -94,8 +94,8 @@ public class Types
             Class aClass = loader.loadClass (typeName);
             // _log.debug ("Loaded class " + aClass);
             return aClass;
-        } else
-            return Class.forName( typeName );
+        }
+        return Class.forName( typeName );
     }
 
 

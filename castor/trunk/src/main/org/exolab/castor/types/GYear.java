@@ -312,25 +312,24 @@ public class GYear extends GYearMonth {
                  case 'Z' :
                       if (flags != 3)
                          throw new ParseException(BAD_GYEAR+str+"'Z'"+WRONGLY_PLACED,idx);
-                      else result.setUTC();
+                      result.setUTC();
                       break;
 
                 case '+' :
                     if (flags != 3)
                         throw new ParseException(BAD_GYEAR+str+"'+' "+WRONGLY_PLACED,idx);
-                    else {
-                        if ((number != 0) || (number2 != 0)) {
-                            if (has2Digits)
-                                result.setCentury(number);
-                            else throw new ParseException(BAD_GYEAR+str+"\nThe Century field must have 2 digits.",idx);
-                            //must test number2
-                            result.setYear(number2);
-                        } else throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.",idx);
-                        result.setUTC();
-                        flags = 1;
-                        hasNumber = false;
-                        has2Digits = false;
-                      }
+                    if (number == 0 && number2 == 0)
+                      throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.",idx);
+                    if (!has2Digits)
+                      throw new ParseException(BAD_GYEAR+str+"\nThe Century field must have 2 digits.",idx);
+                    
+                    result.setCentury(number);
+                    //must test number2
+                    result.setYear(number2);
+                    result.setUTC();
+                    flags = 1;
+                    hasNumber = false;
+                    has2Digits = false;
                     break;
 
                  case ':' :

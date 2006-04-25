@@ -180,15 +180,13 @@ public class ImportUnmarshaller extends ComponentReader
 		if (parser == null) {
 		    throw new SchemaException("Error failed to create parser for import");
 		}
-		else {
-			//-- Create Schema object and setup unmarshaller
-			SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(state);
-            schemaUnmarshaller.setURIResolver(getURIResolver());
-			schemaUnmarshaller.setSchema(importedSchema);
-			Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
-			parser.setDocumentHandler(handler);
-			parser.setErrorHandler(handler);
-		}
+    //-- Create Schema object and setup unmarshaller
+    SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(state);
+          schemaUnmarshaller.setURIResolver(getURIResolver());
+    schemaUnmarshaller.setSchema(importedSchema);
+    Sax2ComponentReader handler = new Sax2ComponentReader(schemaUnmarshaller);
+    parser.setDocumentHandler(handler);
+    parser.setErrorHandler(handler);
 
 		try {
 		    InputSource source = new InputSource(uri.getReader());

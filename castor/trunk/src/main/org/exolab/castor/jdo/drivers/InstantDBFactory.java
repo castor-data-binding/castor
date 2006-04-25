@@ -82,10 +82,7 @@ public class InstantDBFactory extends GenericFactory {
         {
             return java.lang.Double.class;
         }
-        else
-        {
-            return sqlType;
-        }
+        return sqlType;
     }
 
 }

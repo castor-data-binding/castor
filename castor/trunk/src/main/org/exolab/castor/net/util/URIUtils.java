@@ -128,8 +128,8 @@ public class URIUtils {
 	    // Try local files
 	    File iFile = new File(href);
 	    if (iFile.isAbsolute()) return new FileInputStream(iFile);
-	    else iFile = new File(xHref);
-
+	    
+      iFile = new File(xHref);
 	    return new FileInputStream(iFile);
 
 	} //-- getInputStream

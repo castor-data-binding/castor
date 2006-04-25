@@ -146,7 +146,7 @@ public class ModelGroup extends Group {
      public ContentModelGroup getContentModelGroup() {
         if (_groupRef != null)
             return getReference().getContentModelGroup();
-        else return super.getContentModelGroup();
+        return super.getContentModelGroup();
      }
     /**
      * Returns the name of this ModelGroup.
@@ -265,9 +265,9 @@ public class ModelGroup extends Group {
       * @returns true if this ModelGroup is referencing another one
       */
      public boolean hasReference() {
-         if (_groupRef != null)
-             return (_groupRef.length() !=0);
-         else return false;
+       return (_groupRef != null)
+               ? (_groupRef.length() !=0)
+               : false;
      }
 
     /**

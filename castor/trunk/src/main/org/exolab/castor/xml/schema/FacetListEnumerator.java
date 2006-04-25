@@ -98,13 +98,11 @@ class FacetListEnumerator implements Enumeration {
         }
         
         if (facets == null) return false;
-        
         if (mask == null) return (currentIdx < facets.size());
-        else {
-            for (; currentIdx < facets.size(); currentIdx++) {
-                Facet facet = facets.get(currentIdx);
-                if (mask.equals(facet.getName())) return true;
-            }
+
+        for (; currentIdx < facets.size(); currentIdx++) {
+            Facet facet = facets.get(currentIdx);
+            if (mask.equals(facet.getName())) return true;
         }
         return false;
     } //-- hasMoreElements

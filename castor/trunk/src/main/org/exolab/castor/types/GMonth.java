@@ -263,17 +263,16 @@ public class GMonth extends GMonthDay {
                  case 'Z' :
                         if (flags != 3)
                          throw new ParseException(BAD_GMONTH+str+"\n'Z' "+WRONGLY_PLACED,idx);
-                      else
-                          result.setUTC();
+                      result.setUTC();
                       break;
 
                 case '+' :
                     if (flags != 3)
                         throw new ParseException(BAD_GMONTH+str+"\n'+' "+WRONGLY_PLACED,idx);
-                    else {
-                          result.setUTC();
-                          flags = 1;
-                    }
+                    
+                    result.setUTC();
+                    flags = 1;
+                    
                     hasNumber = false;
                     has2Digits = false;
                     break;

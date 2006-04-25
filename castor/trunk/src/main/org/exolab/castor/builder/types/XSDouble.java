@@ -260,14 +260,11 @@ public final class XSDouble extends XSPatternBase {
      * to an Object
     **/
     public String createToJavaObjectCode(String variableName) {
-        if (_asWrapper)
-            return super.createToJavaObjectCode(variableName);
-        else {
-            StringBuffer sb = new StringBuffer("new java.lang.Double(");
-            sb.append(variableName);
-            sb.append(")");
-            return sb.toString();
-        }
+        if (_asWrapper) return super.createToJavaObjectCode(variableName);
+        StringBuffer sb = new StringBuffer("new java.lang.Double(");
+        sb.append(variableName);
+        sb.append(")");
+        return sb.toString();
     } //-- toJavaObject
 
     /**

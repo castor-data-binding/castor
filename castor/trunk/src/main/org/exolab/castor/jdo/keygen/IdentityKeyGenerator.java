@@ -222,9 +222,8 @@ implements KeyGenerator
     		ResultSet rs = stmt.executeQuery();
     		if (rs.next()) {
     			return identityValue.getValue(rs.getInt(1));
-    		} else {
-    			throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
     		}
+        throw new PersistenceException(Messages.format("persist.keyGenFailed", getClass().getName()));
     	}
 
     	Object getValue(String sql, Connection conn) throws PersistenceException {

@@ -161,25 +161,23 @@ public final class BlockList {
         if (_all) {
             return ALL;
         }
-        else {
-            StringBuffer value = new StringBuffer();
-            if (_extension) {
-                value.append(EXTENSION);
-            }
-            if (_restriction) {
-                if (value.length() > 0) {
-                    value.append(' ');
-                }
-                value.append(RESTRICTION);
-            }
-            if (_substitution) {
-                if (value.length() > 0) {
-                    value.append(' ');
-                }
-                value.append(RESTRICTION);
-            }
-            return value.toString();
+        StringBuffer value = new StringBuffer();
+        if (_extension) {
+            value.append(EXTENSION);
         }
+        if (_restriction) {
+            if (value.length() > 0) {
+                value.append(' ');
+            }
+            value.append(RESTRICTION);
+        }
+        if (_substitution) {
+            if (value.length() > 0) {
+                value.append(' ');
+            }
+            value.append(RESTRICTION);
+        }
+        return value.toString();
     } //-- toString
     
     //-------------------/

@@ -103,11 +103,9 @@ public class ChangeLog2XML {
                    changelog.addRelease(release);
                    continue;
                 }
-                else {
-                    inEntry = true;
-                    buffer = new StringBuffer();
-                    buffer.append(prevLine.trim());
-                }
+              inEntry = true;
+              buffer = new StringBuffer();
+              buffer.append(prevLine.trim());
             }
             
             //-- empty line is either end of entry or ignorable

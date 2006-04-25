@@ -205,17 +205,15 @@ public final class AnyNode implements java.io.Serializable {
             String err = "This node can not have a local name";
             throw new IllegalArgumentException(err);
          }
-         else _localName = localName;
+         _localName = localName;
 
          //for comment, pi or text we should have no namespaces
          if ((type>NAMESPACE) && ( (uri != null) || (prefix != null)) ) {
             String err = "This node can not handle namespace";
             throw new IllegalArgumentException(err);
          }
-         else {
-              _uri = uri;
-              _prefix = prefix;
-         }
+        _uri = uri;
+        _prefix = prefix;
 
          //attributes can not be namespaces
          if (type == AnyNode.ATTRIBUTE)
@@ -229,7 +227,7 @@ public final class AnyNode implements java.io.Serializable {
             String err = "You can't set a value for this node type";
             throw new IllegalArgumentException(err);
          }
-         else _value = value;
+         _value = value;
     }
 
 

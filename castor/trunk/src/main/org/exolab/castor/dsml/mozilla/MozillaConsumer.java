@@ -73,10 +73,8 @@ public class MozillaConsumer
 
     public Enumeration getResults()
     {
-	if ( _entries == null )
-	    return null;
-	else
-	    return _entries.getEntries();
+      if ( _entries == null ) return null;
+      return _entries.getEntries();
     }
 
 

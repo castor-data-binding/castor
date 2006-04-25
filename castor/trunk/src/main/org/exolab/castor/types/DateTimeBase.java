@@ -698,10 +698,8 @@ public abstract class DateTimeBase
             return 30;
         }
         else if ( month == 2 ) {
-            if ( isLeap(century,year) )
-                return 29;
-            else
-                return 28;
+            if ( isLeap(century,year) ) return 29;
+            return 28;
         }
         else
             return 31;
@@ -778,14 +776,12 @@ public abstract class DateTimeBase
             int result = compareFields(tempDate1, tempDate2);
             if (result == LESS_THAN)
                 return result;
-            else {
-                tempDate2.setZone((short)14,(short)0);
-                tempDate2.setZoneNegative(true);
-                tempDate2.normalize();
-                result = compareFields(tempDate1, tempDate2);
-                if (result == GREATER_THAN)
-                    return result;
-            }
+            tempDate2.setZone((short)14,(short)0);
+            tempDate2.setZoneNegative(true);
+            tempDate2.normalize();
+            result = compareFields(tempDate1, tempDate2);
+            if (result == GREATER_THAN)
+                return result;
             return INDETERMINATE;
         }
 
@@ -793,16 +789,13 @@ public abstract class DateTimeBase
             tempDate1.setZone((short)14,(short)0);
             tempDate1.normalize();
             int result = compareFields(tempDate1, tempDate2);
-            if (result == GREATER_THAN)
-                return result;
-            else {
-                tempDate1.setZone((short)14,(short)0);
-                tempDate1.setZoneNegative(true);
-                tempDate1.normalize();
-                result = compareFields(tempDate1, tempDate2);
-                if (result == LESS_THAN)
-                    return result;
-            }
+            if (result == GREATER_THAN) return result;
+            
+            tempDate1.setZone((short)14,(short)0);
+            tempDate1.setZoneNegative(true);
+            tempDate1.normalize();
+            result = compareFields(tempDate1, tempDate2);
+            if (result == LESS_THAN) return result;
             return INDETERMINATE;
         }
         tempDate1 = null;
@@ -936,7 +929,7 @@ public abstract class DateTimeBase
         //is not the same false will be return by #equal).
         if (object instanceof DateTimeBase)
             return equal( (DateTimeBase) object);
-        else return false;
+        return false;
     }
 
     /**
@@ -947,10 +940,7 @@ public abstract class DateTimeBase
      * @return true if the present instance is equal to the parameter false if not
      */
      protected boolean equal(DateTimeBase dateTime) {
-        int result = this.compareTo(dateTime);
-        if (result == EQUALS)
-            return true;
-        else return false;
+        return EQUALS == this.compareTo(dateTime);
 
     }//equals
 
