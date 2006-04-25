@@ -122,6 +122,11 @@ public class ConcurrentHashMap extends AbstractMap
      */
 
     /**
+     * Serial version UID.
+     */
+    private static final long serialVersionUID = 2266888196918479570L;
+
+    /**
      * The hash table data.
      */
     protected transient Entry[] table;
@@ -147,6 +152,11 @@ public class ConcurrentHashMap extends AbstractMap
      * use of a Segment is for its lock.
      */
     protected final static class Segment implements Serializable {
+        /**
+         * Serial version UID.
+         */
+        private static final long serialVersionUID = 766824745157353578L;
+        
         /**
          * The number of elements in this segment's region. It is always updated
          * within synchronized blocks.
