@@ -206,11 +206,9 @@ public class Main extends TestHarness {
             if ( !infoOnly ) {
                 usage();
                 return;
-            } else {
-                junit.textui.TestRunner.run( new Main( verbose, infoOnly, gui, res, file, url, null ) );
-                return;
-
             }
+			junit.textui.TestRunner.run( new Main( verbose, infoOnly, gui, res, file, url, null ) );
+			return;
         }
         if ( cur < (args.length-1) ) {
             System.out.println( "argument(s) ignored:" );

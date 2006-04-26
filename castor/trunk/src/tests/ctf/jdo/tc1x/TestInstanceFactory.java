@@ -308,11 +308,8 @@ public final class TestInstanceFactory extends CastorTestCase {
             _coverage.allow(CallbacksInvoked.INSTANTIATE);
 
             try {
-                if (loader != null) {
-                    return loader.loadClass(className).newInstance();
-                } else {
-                    return Class.forName(className).newInstance();
-                }
+                if (loader != null) return loader.loadClass(className).newInstance();
+				return Class.forName(className).newInstance();
             } catch (ClassNotFoundException ex) {
             } catch (IllegalAccessException ex) {
             } catch (InstantiationException ex) {

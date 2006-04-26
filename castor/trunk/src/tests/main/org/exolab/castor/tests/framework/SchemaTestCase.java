@@ -189,19 +189,17 @@ public class SchemaTestCase extends XMLTestCase {
                             assertTrue(_failure.getContent());
                             return null;
                         }
-                        else {
-                            StringWriter sw = new StringWriter();
-                            PrintWriter pw = new PrintWriter(sw);
-                            pw.print("Received: '");
-                            pw.print(actualExceptionClass.getName());
-                            pw.print("' but expected: '");
-                            pw.print(expectedExceptionName);
-                            pw.println("'.");
-                            pw.println("Actual exception stacktrace:");
-                            actualException.printStackTrace(pw);
-                            pw.flush();
-                        	fail(sw.toString());
-                        }
+						StringWriter sw = new StringWriter();
+						PrintWriter pw = new PrintWriter(sw);
+						pw.print("Received: '");
+						pw.print(actualExceptionClass.getName());
+						pw.print("' but expected: '");
+						pw.print(expectedExceptionName);
+						pw.println("'.");
+						pw.println("Actual exception stacktrace:");
+						actualException.printStackTrace(pw);
+						pw.flush();
+						fail(sw.toString());
                     } catch (ClassNotFoundException ex) {
                         fail("The exception specified: '" + expectedExceptionName + 
                                 "' cannot be found in the CLASSPATH");
@@ -252,8 +250,7 @@ public class SchemaTestCase extends XMLTestCase {
                            assertTrue(_failure.getContent());
                            return null;
                        }
-                       else 
-                       	fail("Received:'"+sx+"' but expected:'"+exceptionName+"'.");
+                       fail("Received:'"+sx+"' but expected:'"+exceptionName+"'.");
                    } catch (ClassNotFoundException ex) {
                         //Class#forName
                         fail("The exception specified:"+exceptionName+" cannot be found in the CLASSPATH");
