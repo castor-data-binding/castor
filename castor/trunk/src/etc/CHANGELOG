@@ -2,6 +2,10 @@
 Version (SVN)
 -------------
 
+XML:   Fixed bug CASTOR-1382 using contribution from David Buschman [dbuschman7@yahoo.com]
+       Fixed wrongly coded boolean expresions.
+       Details: http://jira.codehaus.org/browse/CASTOR-1382
+       (Werner - 20060426)
 
 All:   Fixed bug CASTOR-1397 using contribution from Martin Fuchs [martin.fuchs@gmx.net]
        Fixed broken links to cvs.html (replaced with scm.html).
