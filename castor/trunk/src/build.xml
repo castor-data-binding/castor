@@ -542,18 +542,16 @@
     <target name="doc" depends="prepare" description="Build the HTML docs">
         <delete dir="${build}/doc"/>
         <mkdir dir="${build}/doc"/>
+
         <style basedir="${doc}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
-            classpathref="build.classpath" includes="**.xml" excludes="style/**,project.xml"
-            processor="org.exolab.adaptx.util.JakartaAntAdapter">
-         </style>
+            includes="**.xml" excludes="style/**,project.xml" />
+
         <style basedir="${howto}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
-            classpathref="build.classpath" includes="**.xml" excludes="style/**,project.xml"
-            processor="org.exolab.adaptx.util.JakartaAntAdapter">
-         </style>
+            includes="**.xml" excludes="style/**,project.xml" />
+
         <style basedir="${xml-howto}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
-            classpathref="build.classpath" includes="**.xml" excludes="style/**,project.xml"
-            processor="org.exolab.adaptx.util.JakartaAntAdapter">
-         </style>
+            includes="**.xml" excludes="style/**,project.xml" />
+
          <copy todir="${build}/doc">
             <fileset dir="${doc}" includes="license.txt,document.dtd,*.pdf"/>
          </copy>

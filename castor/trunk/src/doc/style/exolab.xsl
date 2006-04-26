@@ -853,12 +853,14 @@
 						  </xsl:choose>
 	 				  </xsl:when>
 					  <xsl:otherwise>
+						<xsl:choose>
 						 <xsl:when test="@id > 0">
 							<a href="http://bugzilla.exolab.org/show_bug.cgi?id={@id}"><xsl:value-of select="@id" /></a>
 						 </xsl:when>
 						 <xsl:otherwise>
 							<xsl:value-of select="@id"/>
 						 </xsl:otherwise>
+						</xsl:choose>
 					  </xsl:otherwise>
 				  </xsl:choose>
                </xsl:when>

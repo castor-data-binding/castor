@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Fixed bug CASTOR-1412 using contribution from Martin Fuchs [martin-fuchs@gmx.net]
+       Remove dependency to Adaptx and Xerces from the documentation build step.
+       Details: http://jira.codehaus.org/browse/CASTOR-1412
+       (Martin - 20060426)
+
 JDO:   Fixed bug CASTOR-1411 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Replaced Object[] parameters at SQLEngine by ProposedEntity.
        Details: http://jira.codehaus.org/browse/CASTOR-1411
@@ -12,7 +17,7 @@ XML:   Fixed bug CASTOR-1382 using contribution from David Buschman [dbuschman7@
        Details: http://jira.codehaus.org/browse/CASTOR-1382
        (Werner - 20060426)
 
-All:   Fixed bug CASTOR-1397 using contribution from Martin Fuchs [martin.fuchs@gmx.net]
+All:   Fixed bug CASTOR-1397 using contribution from Martin Fuchs [martin-fuchs@gmx.net]
        Fixed broken links to cvs.html (replaced with scm.html).
        Details: http://jira.codehaus.org/browse/CASTOR-1410
        (Werner - 20060426)
