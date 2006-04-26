@@ -76,11 +76,8 @@ public class TestLazyAddress {
 
         if ( o instanceof TestLazyAddress ) {
             TestLazyAddress other = (TestLazyAddress) o;
-            if ( other._id == _id )
-                return true;
-            else
-                return false;
-        } else
-            return false;
+            return ( other._id == _id );
+        }
+		return false;
     }
 }

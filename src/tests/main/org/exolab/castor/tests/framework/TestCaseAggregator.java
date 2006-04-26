@@ -147,9 +147,9 @@ public class TestCaseAggregator extends TestCase {
             if (_directory.getName().endsWith(".jar")) {
                 CastorTestCase tc = new CastorTestCase(_directory, _testOutputRoot);
                 return tc.suite();
-            } else
-                // Nothing to do
-                return suite;
+            }
+			// Nothing to do
+			return suite;
         } //!directory
 
         String outputRoot = _testOutputRoot;

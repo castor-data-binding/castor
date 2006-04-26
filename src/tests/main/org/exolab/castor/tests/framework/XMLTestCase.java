@@ -364,8 +364,7 @@ public abstract class XMLTestCase extends TestCase {
                            assertTrue(_failure.getContent());
                            return;
                        }
-                       else 
-                       	fail("Received:'"+ex+"' but expected:'"+exceptionName+"'.");
+                       fail("Received:'"+ex+"' but expected:'"+exceptionName+"'.");
                    } catch (ClassNotFoundException cnfex) {
                         //Class#forName
                         fail("The exception specified:"+exceptionName+" cannot be found in the CLASSPATH");
@@ -536,7 +535,7 @@ public abstract class XMLTestCase extends TestCase {
                            assertTrue(_failure.getContent());
                            return;
                        }
-                       else fail("Received:'"+ex+"' but expected:'"+exceptionName+"'.");
+                       fail("Received:'"+ex+"' but expected:'"+exceptionName+"'.");
                    } catch (ClassNotFoundException cnfex) {
                         //Class#forName
                         fail("The exception specified:"+exceptionName+" cannot be found in the CLASSPATH");

@@ -374,11 +374,10 @@ public final class TestRaceCondition extends CastorTestCase {
                     tr.incValue1();
                     _db.commit();
                     return true;
-                } else {
-                    LOG.error("Error: element not found!! missed in cache?\n");
-                    rollback(_db);
-                    throw new NoSuchElementException("No element found (a).");
                 }
+				LOG.error("Error: element not found!! missed in cache?\n");
+				rollback(_db);
+				throw new NoSuchElementException("No element found (a).");
             } else if ((i % 4) == 1) {
                 _db.begin();
                 OQLQuery oql = _db.getOQLQuery("SELECT object FROM "
@@ -390,11 +389,10 @@ public final class TestRaceCondition extends CastorTestCase {
                     tr.incValue1();
                     _db.commit();
                     return true;
-                } else {
-                    LOG.error("Error: element not found!! missed in cache?\n");
-                    rollback(_db);
-                    throw new NoSuchElementException("No element found (b).");
                 }
+				LOG.error("Error: element not found!! missed in cache?\n");
+				rollback(_db);
+				throw new NoSuchElementException("No element found (b).");
             } else if ((i % 4) == 2) {
                 _db.begin();
                 LOG.debug("trying Database.load()");
@@ -404,11 +402,10 @@ public final class TestRaceCondition extends CastorTestCase {
                     tr.incValue1();
                     _db.commit();
                     return true;
-                } else {
-                    LOG.error("Error: element not found!! missed in cache?\n");
-                    rollback(_db);
-                    throw new NoSuchElementException("No element found (c).");
                 }
+				LOG.error("Error: element not found!! missed in cache?\n");
+				rollback(_db);
+				throw new NoSuchElementException("No element found (c).");
             } else if ((i % 4) == 3) {
                 _db.begin();
                 LOG.debug("trying Database.load()");
@@ -418,11 +415,10 @@ public final class TestRaceCondition extends CastorTestCase {
                     tr.incValue1();
                     _db.commit();
                     return true;
-                } else {
-                    LOG.error("Error: element not found!! missed in cache?\n");
-                    rollback(_db);
-                    throw new NoSuchElementException("No element found (c).");
                 }
+				LOG.error("Error: element not found!! missed in cache?\n");
+				rollback(_db);
+				throw new NoSuchElementException("No element found (c).");
             } else {
                 throw new IllegalArgumentException("??????????????");
             }
