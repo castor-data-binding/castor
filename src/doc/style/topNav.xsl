@@ -2,7 +2,7 @@
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
 <xsl:variable name="leftTopNavPos" select="5"/>
-<xsl:template match="$project/topNav">
+<xsl:template match="/project/topNav">
   <xsl:for-each select="navLink">
     <xsl:variable name="url" select="url"/>
     <xsl:choose>

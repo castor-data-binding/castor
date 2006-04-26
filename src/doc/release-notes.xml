@@ -24,7 +24,7 @@
                 </bug>
 -->
 <!-- 
-        <release version="CVS">
+        <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
@@ -35,7 +35,7 @@
         </release>
 -->
 
-        <release version="CVS">
+        <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
@@ -51,6 +51,27 @@
                 <p>For details about SVN access please have a look at: 
                 <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
+            <bugs>
+                <bug id="1412" tool="jira">
+                    <description>
+		                Remove dependency to Adaptx and Xerces from the documentation build step.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>General</module>
+                    <date>20060426</date>
+                </bug>
                 <bug id="1411" tool="jira">
                     <description>
 		                Replaced Object[] parameters at SQLEngine by ProposedEntity.
@@ -71,7 +92,6 @@
                     <module>JDO</module>
                     <date>20060426</date>
                 </bug>
-            <bugs>
                 <bug id="1382" tool="jira">
                     <description>
                         Fixed wrongly coded boolean expressions.
