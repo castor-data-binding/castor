@@ -295,7 +295,7 @@
                      <tr><td>vector</td><td>java.util.Vector</td><td>java.util.Vector</td><td></td></tr>
                      <tr bgcolor="#DEDEDE"><td>map</td><td>java.util.Map</td><td>java.util.HashMap</td><td></td></tr>
                      <tr><td>hashtable</td><td>java.util.Hashtable</td><td>java.util.Hashtable</td><td></td></tr>
-                     <tr bgcolor="#DEDEDE"><td>sortedset</td><td>java.util.SortedSet</td><td>java.util.HashSet</td><td>1.0 M2</td></tr>
+                     <tr bgcolor="#DEDEDE"><td>sortedset</td><td>java.util.SortedSet</td><td>java.util.TreeSet</td><td>1.0 M2</td></tr>
                      <tr><td>iterator</td><td>java.util.Iterator</td><td> n/a </td><td><font color="red">1.0 M3</font></td></tr>
                   </table>
                </td>

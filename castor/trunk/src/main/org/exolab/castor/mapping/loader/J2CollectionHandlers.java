@@ -57,6 +57,7 @@ import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.SortedSet;
+import java.util.TreeSet;
 
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MapItem;
@@ -291,7 +292,7 @@ public final class J2CollectionHandlers
          */
         public Object add(Object collection, final Object object) {
             if (collection == null) {
-                collection = new HashSet();
+                collection = new TreeSet();
                 ((Set) collection).add(object);
                 return collection;
             }
