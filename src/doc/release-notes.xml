@@ -49,9 +49,29 @@
                    work and move it over to SVN. Be aware that we will switch off CVS soon.</p>
 
                 <p>For details about SVN access please have a look at: 
-                <a href="cvs.html">SVN/JIRA</a>.</p>
+                <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1410" tool="jira">
+                    <description>
+                        Fixed broken links to cvs.html (replaced with scm.html).
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin.fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Fuchs</name>
+                        <email>martin.fuchs@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060426</date>
+                </bug>
                 <bug id="1397" tool="jira">
                     <description>
                         Fixed compiler warnings: 212 unnecessary else clauses.

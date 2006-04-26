@@ -27,7 +27,7 @@
            to hear how others make contibutions.</p>
 
         <p>You can get your local working copy of the current code base (or any particular 
-           release) from the <a href="cvs.html">Castor SVN repository</a>. Review the todo list at
+           release) from the <a href="scm.html">Castor SVN repository</a>. Review the todo list at
            <a href="http://jira.codehaus.org/browse/CASTOR">Jira</a>, choose a task 
            (or perhaps you have noticed something that needs patching). Make the changes, 
            do the testing, generate a patch (if you need then discuss it on the dev mailing 

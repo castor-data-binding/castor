@@ -35,7 +35,7 @@
         <section title="Changes/improvements">
 
             <ul>
-                <li>Modified <a href="cvs.html">SVN/JIRA</a> and various other areas
+                <li>Modified <a href="scm.html">SVN/JIRA</a> and various other areas
                     of documentation to reflect migration of Castor repository from
                     CVS to SVN.</li>
                 <li>The <a href="download.html">download page</a> now holds information

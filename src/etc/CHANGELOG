@@ -2,6 +2,12 @@
 Version (SVN)
 -------------
 
+
+All:   Fixed bug CASTOR-1397 using contribution from Martin Fuchs [martin.fuchs@gmx.net]
+       Fixed broken links to cvs.html (replaced with scm.html).
+       Details: http://jira.codehaus.org/browse/CASTOR-1410
+       (Werner - 20060426)
+       
 All:   Fixed bug CASTOR-1397 using contribution from Henk van Voorthujsen [voorth@xs4all.nl]
        Fixed compiler warnings: 212 unnecessary else clauses.
        Details: http://jira.codehaus.org/browse/CASTOR-1397
