@@ -562,7 +562,7 @@ public class ClassMolder
                 stamp = results.getQuery().fetch(proposedObject,
                         oid.getIdentity());
             } else {
-                Connection conn = (Connection) tx.getConnection(oid.getMolder().getLockEngine());
+                Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
                 stamp = _persistence.load(conn, proposedObject, 
                         oid.getIdentity(), accessMode);
             }
@@ -668,7 +668,8 @@ public class ClassMolder
                     + oid.getName());
         }
 
-        Object[] fields = new Object[_fhs.length];
+        ProposedEntity entity = new ProposedEntity();
+        entity.initializeFields(_fhs.length);
         Object ids = oid.getIdentity();
 
         // copy the object to cache should make a new field now,
@@ -681,7 +682,7 @@ public class ClassMolder
             case FieldMolder.SERIALIZABLE:
             case FieldMolder.ONE_TO_MANY:
             case FieldMolder.MANY_TO_MANY:
-                fields[i] = _resolvers[i].create(tx, object);
+                entity.setField(_resolvers[i].create(tx, object), i);
                 break;
 
             default:
@@ -690,15 +691,15 @@ public class ClassMolder
         }
         
         // ask Persistent to create the object into the persistence storage
-        Object createdId = _persistence.create(tx.getDatabase(), tx
-                .getConnection(oid.getMolder().getLockEngine()), fields, ids);
+        Object createdId = _persistence.create(tx.getDatabase(),
+                tx.getConnection(oid.getMolder().getLockEngine()), entity, ids);
 
         if (createdId == null) {
             throw new PersistenceException("Identity can't be created!");
         }
 
         // set the field values into the cache
-        locker.setObject(tx, fields);
+        locker.setObject(tx, entity.getFields());
         oid.setDbLock(true);
 
         // set the new timeStamp into the data object
@@ -711,8 +712,8 @@ public class ClassMolder
         // after successful creation, add the entry in the relation table for
         // all many-to-many relationship
         for (int i = 0; i < _fhs.length; i++) {
-            fields[i] = _resolvers[i].postCreate(tx, oid, object, fields[i],
-                    createdId);
+            entity.setField(_resolvers[i].postCreate(
+                    tx, oid, object, entity.getField(i), createdId), i);
         }
 
         return createdId;
@@ -827,22 +828,22 @@ public class ClassMolder
         }
 
         // load field values from cache (if availabe)
-        Object[] fields = (Object[]) locker.getObject(tx);
+        ProposedEntity oldentity = new ProposedEntity();
+        oldentity.setFields((Object[]) locker.getObject(tx));
 
-        if (fields == null) {
+        if (oldentity.getFields() == null) {
             throw new PersistenceException(
                     Messages.format("persist.objectNotFound", _name, oid));
         }
 
-        Object[] newfields = new Object[_fhs.length];
-        for (int i = 0; i < newfields.length; i++) {
-            newfields[i] = _resolvers[i].store(tx, object, fields[i]);
+        ProposedEntity newentity = new ProposedEntity();
+        newentity.initializeFields(_fhs.length);
+        for (int i = 0; i < _fhs.length; i++) {
+            newentity.setField(_resolvers[i].store(tx, object, oldentity.getField(i)), i);
         }
         
-        Object stamp = _persistence.store(
-                tx.getConnection(oid.getMolder().getLockEngine()), newfields, oid
-                        .getIdentity(), fields, oid.getStamp());
-        oid.setStamp(stamp);
+        Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
+        oid.setStamp(_persistence.store(conn, oid.getIdentity(), newentity, oldentity));
     }
 
     /**
@@ -1113,22 +1114,6 @@ public class ClassMolder
     }
 
     /**
-     * Acquire a write lock on an object of the base type with the specified
-     * identity from the persistence storage.
-     *
-     * @param tx - Transaction in action
-     * @param oid - the object identity of the target object
-     * @param locker - the dirty checking cache of the object
-     * @param object - the target object
-     */
-    public void writeLock( TransactionContext tx, OID oid, DepositBox locker, Object object )
-            throws PersistenceException {
-        // TODO [WG]: remove as never used ? 
-        // call SQLEngine to lock an record
-    }
-
-
-    /**
      * Return a new instance of the base class with the provided ClassLoader object
      *
      * @param loader the ClassLoader object to use to create a new object
@@ -1249,7 +1234,7 @@ public class ClassMolder
             for (int i = 0; i < osIds.length; i++) {
                 osIds[i] = _ids[i].getValue(o, loader);
             }
-            if (osIds[0] == null) return null;
+            if (osIds[0] == null) { return null; }
             return new Complex(osIds);
         }
     }

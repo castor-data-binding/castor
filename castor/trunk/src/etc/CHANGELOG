@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1411 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Replaced Object[] parameters at SQLEngine by ProposedEntity.
+       Details: http://jira.codehaus.org/browse/CASTOR-1411
+       (Ralf - 20060426)
+
 XML:   Fixed bug CASTOR-1382 using contribution from David Buschman [dbuschman7@yahoo.com]
        Fixed wrongly coded boolean expresions.
        Details: http://jira.codehaus.org/browse/CASTOR-1382

@@ -28,6 +28,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.ConnectionFactory;
 import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.jdo.engine.SQLTypeInfos;
+import org.castor.persist.ProposedEntity;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
@@ -68,18 +69,7 @@ public final class SQLStatementCreate {
         _type = engine.getDescriptor().getJavaClass().getName();
         _mapTo = engine.getDescriptor().getTableName();
         
-        _keyGen = null;
-        if (engine.getDescriptor().getExtends() == null) {
-            KeyGeneratorDescriptor keyGenDesc = engine.getDescriptor().getKeyGeneratorDescriptor();
-            if (keyGenDesc != null) {
-                int[] tempType = ((JDOFieldDescriptor) engine.getDescriptor().getIdentity()).getSQLType();
-                _keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
-                        _factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
-
-                // Does the key generator support the sql type specified in the mapping?
-                _keyGen.supportsSqlType(tempType[0]);
-            }
-        }
+        _keyGen = getKeyGenerator(engine, factory);
 
         Configuration config = Configuration.getInstance();
         _useJDBC30 = config.getProperty(ConfigKeys.USE_JDBC30, false);
@@ -87,6 +77,23 @@ public final class SQLStatementCreate {
         _lookupStatement = new SQLStatementLookup(engine, factory);
         
         buildStatement();
+    }
+    
+    private KeyGenerator getKeyGenerator(final SQLEngine engine,
+            final PersistenceFactory factory) throws MappingException {
+        KeyGenerator keyGen = null;
+        if (engine.getDescriptor().getExtends() == null) {
+            KeyGeneratorDescriptor keyGenDesc = engine.getDescriptor().getKeyGeneratorDescriptor();
+            if (keyGenDesc != null) {
+                int[] tempType = ((JDOFieldDescriptor) engine.getDescriptor().getIdentity()).getSQLType();
+                keyGen = keyGenDesc.getKeyGeneratorRegistry().getKeyGenerator(
+                        factory, keyGenDesc, (tempType == null) ? 0 : tempType[0]);
+
+                // Does the key generator support the sql type specified in the mapping?
+                keyGen.supportsSqlType(tempType[0]);
+            }
+        }
+        return keyGen;
     }
     
     private void buildStatement() {
@@ -157,8 +164,8 @@ public final class SQLStatementCreate {
         }
     }
     
-    public Object executeStatement(final Database database, final Object conn,
-                                   Object identity, final Object[] fields)
+    public Object executeStatement(final Database database, final Connection conn,
+                                   Object identity, final ProposedEntity entity)
     throws PersistenceException {
         SQLEngine extended = _engine.getExtends();
         if ((extended == null) && (_keyGen == null) && (identity == null)) {
@@ -172,22 +179,24 @@ public final class SQLStatementCreate {
             if (extended != null) {
                 // | quick and very dirty hack to try to make multiple class on the same table work
                 if (!extended.getDescriptor().getTableName().equals(_mapTo)) {
-                    identity = extended.create(database, conn, fields, identity);
+                    identity = extended.create(database, conn, entity, identity);
                 }
-            } else if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
+            }
+            
+            if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
                 // Generate key before INSERT
                 // genKey return identity in JDO type
                 identity = generateKey(database, conn, null);
             }
 
             if ((_keyGen != null) && (_keyGen.getStyle() == KeyGenerator.DURING_INSERT)) {
-                stmt = ((Connection) conn).prepareCall(_statement);
+                stmt = conn.prepareCall(_statement);
             } else {
                 
                 if (_useJDBC30) {
-                    stmt = ((Connection) conn).prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
+                    stmt = conn.prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
                 } else {
-                    stmt = ((Connection) conn).prepareStatement(_statement);
+                    stmt = conn.prepareStatement(_statement);
                 }
             }
              
@@ -225,7 +234,7 @@ public final class SQLStatementCreate {
                 LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
             }
 
-            count = bindFields(fields, stmt, count);
+            count = bindFields(entity, stmt, count);
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
@@ -353,18 +362,16 @@ public final class SQLStatementCreate {
      * @return The generated key
      * @throws PersistenceException If no key can be generated 
      */
-    private Object generateKey(final Database database, final Object conn,
+    private Object generateKey(final Database database, final Connection conn,
                                final PreparedStatement stmt)
     throws PersistenceException {
         SQLColumnInfo id = _engine.getColumnInfoForIdentities()[0];
 
         // TODO [SMH]: Change KeyGenerator.isInSameConnection to KeyGenerator.useSeparateConnection?
         // TODO [SMH]: Move "if (_keyGen.isInSameConnection() == false)" out of SQLEngine and into key-generator?
-        Connection connection;
-        if (_keyGen.isInSameConnection() == false) {
+        Connection connection = conn;
+        if (!_keyGen.isInSameConnection()) {
             connection = getSeparateConnection(database);
-        } else {
-            connection = (Connection) conn;
         }
 
         Properties prop = null;
@@ -402,25 +409,26 @@ public final class SQLStatementCreate {
      * @throws SQLException If the fields cannot be bound successfully.
      * @throws PersistenceException
      */
-    private int bindFields(final Object[] values, final PreparedStatement stmt, int count) 
+    private int bindFields(final ProposedEntity entity, final PreparedStatement stmt, int count) 
     throws SQLException, PersistenceException {
         SQLFieldInfo[] fields = _engine.getInfo();
         for (int i = 0 ; i < fields.length ; ++i) {
             SQLColumnInfo[] columns = fields[i].getColumnInfo();
             if (fields[i].isStore()) {
-                if (values[i] == null) {
+                Object value = entity.getField(i);
+                if (value == null) {
                     for (int j = 0; j < columns.length; j++) {
                         stmt.setNull(count++, columns[j].getSqlType());
                     }
 
-                } else if (values[i] instanceof Complex) {
-                    Complex complex = (Complex) values[i];
+                } else if (value instanceof Complex) {
+                    Complex complex = (Complex) value;
                     if (complex.size() != columns.length) {
                         throw new PersistenceException("Size of complex field mismatch!");
                     }
 
                     for (int j = 0; j < columns.length; j++) {
-                        Object value = (complex == null) ? null : complex.get(j);
+                        value = (complex == null) ? null : complex.get(j);
                         SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(value), columns[j].getSqlType());
                     }
                 } else {
@@ -428,7 +436,7 @@ public final class SQLStatementCreate {
                         throw new PersistenceException("Complex field expected!");
                     }
 
-                    SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(values[i]), columns[0].getSqlType());
+                    SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
                 }
             }
         }

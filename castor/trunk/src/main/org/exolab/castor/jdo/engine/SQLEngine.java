@@ -17,6 +17,7 @@
  */
 package org.exolab.castor.jdo.engine;
 
+import java.sql.Connection;
 import java.util.Stack;
 import java.util.Vector;
 
@@ -306,26 +307,22 @@ public final class SQLEngine implements Persistence {
         return col.getConvertTo().convert(object, col.getConvertParam());
     }
 
-    /**
-     * @see org.exolab.castor.persist.spi.Persistence
-     *      #create(org.exolab.castor.jdo.Database, java.lang.Object,
-     *              java.lang.Object[], java.lang.Object)
-     */
     public Object create(final Database database, final Object conn,
-                         final Object[] fields, Object identity)
+                         final ProposedEntity entity, Object identity)
     throws PersistenceException {
-        return _createStatement.executeStatement(database, conn, identity, fields);
+        return _createStatement.executeStatement(database, (Connection) conn, identity, entity);
     }
 
-    public Object store(final Object conn, final Object[] fields, final Object identity,
-                        final Object[] original, final Object stamp)
+    public Object store(final Object conn, final Object identity,
+                        final ProposedEntity newentity,
+                        final ProposedEntity oldentity)
     throws PersistenceException {
-        return _storeStatement.executeStatement(conn, identity, fields, original, stamp);
+        return _storeStatement.executeStatement((Connection) conn, identity, newentity, oldentity);
     }
 
     public void delete(final Object conn, final Object identity)
     throws PersistenceException {
-        _removeStatement.executeStatement(conn, identity);
+        _removeStatement.executeStatement((Connection) conn, identity);
     }
 
     /**
@@ -345,10 +342,10 @@ public final class SQLEngine implements Persistence {
      * @throws ObjectNotFoundException The object was not found in persistent storage
      * @throws PersistenceException A persistence error occured
      */
-    public Object load(final Object conn, final ProposedEntity proposedObject,
+    public Object load(final Object conn, final ProposedEntity entity,
                        final Object identity, final AccessMode accessMode)
     throws PersistenceException {
-        return _loadStatement.executeStatement(conn, identity, proposedObject, accessMode);
+        return _loadStatement.executeStatement((Connection) conn, identity, entity, accessMode);
     }
     
     public String toString() { return _clsDesc.toString(); }
