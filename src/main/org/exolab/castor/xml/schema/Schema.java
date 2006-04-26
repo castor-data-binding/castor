@@ -1815,7 +1815,7 @@ public class Schema extends Annotated {
             _attributes.remove(attribute.getName());
             result = true;
         }
-    	if (result = false) {
+    	if (result == false) {
     		//--check the cached included schemas
     		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
     		while (cacheIncluded.hasMoreElements() &&!result) {
@@ -1872,7 +1872,7 @@ public class Schema extends Annotated {
     		_attributeGroups.remove(group.getName());
     		result = true;
     	}
-    	if (result = false) {
+    	if (result == false) {
     		//--check the cached included schemas
     		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
     		while (cacheIncluded.hasMoreElements() &&!result) {
@@ -1977,7 +1977,7 @@ public class Schema extends Annotated {
             _simpleTypes.remove(simpleType.getName());
             result = true;
         }
-    	if (result = false) {
+    	if (result == false) {
     		//--check the cached included schemas
     		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
     		while (cacheIncluded.hasMoreElements() &&!result) {

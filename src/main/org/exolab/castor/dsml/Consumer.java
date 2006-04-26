@@ -122,7 +122,7 @@ public abstract class Consumer
 	    // This is the only case where we expect the root element
 	    // to be closed.
 	    if ( tagName.equals( XML.Namespace.Root ) ) {
-		if ( _insideRoot = true )
+		if ( _insideRoot == true )
 		    _insideRoot = false;
 		else
 		    throw new SAXException( Messages.format( "dsml.closingOutsideRoot",
