@@ -51,6 +51,26 @@
                 <p>For details about SVN access please have a look at: 
                 <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
+                <bug id="1411" tool="jira">
+                    <description>
+		                Replaced Object[] parameters at SQLEngine by ProposedEntity.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060426</date>
+                </bug>
             <bugs>
                 <bug id="1382" tool="jira">
                     <description>

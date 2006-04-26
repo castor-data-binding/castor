@@ -74,12 +74,12 @@ public final class SQLStatementLookup {
       }
     }
     
-    public Object executeStatement(final Object conn, Object identity)
+    public Object executeStatement(final Connection conn, Object identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         PreparedStatement stmt = null;
         try {
-            stmt = ((Connection) conn).prepareStatement(_statement);
+            stmt = conn.prepareStatement(_statement);
 
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.duplicateKeyCheck", _statement));

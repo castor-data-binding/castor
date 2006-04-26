@@ -251,8 +251,8 @@ public final class SQLStatementLoad {
         return (QueryExpression) _queryExpression.clone();
     }
 
-    public Object executeStatement(final Object conn, final Object identity,
-                                   final ProposedEntity proposedObject,
+    public Object executeStatement(final Connection conn, final Object identity,
+                                   final ProposedEntity entity,
                                    final AccessMode accessMode)
     throws PersistenceException {
         PreparedStatement stmt  = null;
@@ -263,7 +263,7 @@ public final class SQLStatementLoad {
         
         try {
             String sqlString = (accessMode == AccessMode.DbLocked) ? _statementLock : _statementNoLock; 
-            stmt = ((Connection) conn).prepareStatement(sqlString);
+            stmt = conn.prepareStatement(sqlString);
                         
             if (LOG.isDebugEnabled()) {
                 LOG.debug(Messages.format("jdo.loading", _type, stmt.toString()));
@@ -313,9 +313,9 @@ public final class SQLStatementLoad {
                 if ((potentialLeafDescriptor != null)
                         && !potentialLeafDescriptor.getJavaClass().getName().equals(_type)) {
                     
-                    proposedObject.initializeFields(potentialLeafDescriptor.getFields().length);
-                    proposedObject.setActualEntityClass(potentialLeafDescriptor.getJavaClass());
-                    proposedObject.setExpanded(true);
+                    entity.initializeFields(potentialLeafDescriptor.getFields().length);
+                    entity.setActualEntityClass(potentialLeafDescriptor.getJavaClass());
+                    entity.setExpanded(true);
                 }
 
                 // make sure that we only return early (as described above), if we actually
@@ -347,7 +347,7 @@ public final class SQLStatementLoad {
                 if (!field.isMulti()) {
                     notNull = false;
                     if (columns.length == 1) {
-                        proposedObject.setField(columns[0].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[0].getSqlType())), i);
+                        entity.setField(columns[0].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[0].getSqlType())), i);
                         fieldIndex++;
                     } else {
                         for (int j = 0; j < columns.length; j++) {
@@ -358,9 +358,9 @@ public final class SQLStatementLoad {
                             }
                         }
                         if (notNull) {
-                            proposedObject.setField(new Complex(columns.length, temp), i);
+                            entity.setField(new Complex(columns.length, temp), i);
                         } else {
-                            proposedObject.setField(null, i);
+                            entity.setField(null, i);
                         }
                     }
                 } else {
@@ -381,7 +381,7 @@ public final class SQLStatementLoad {
                             res.add(new Complex(columns.length, temp));
                         }
                     }
-                    proposedObject.setField(res, i);
+                    entity.setField(res, i);
                 }
                 
                 tableNameOld = tableName;
@@ -403,7 +403,7 @@ public final class SQLStatementLoad {
                     }
                     
                     if (field.isMulti()) {
-                        ArrayList res = (ArrayList) proposedObject.getField(i);
+                        ArrayList res = (ArrayList) entity.getField(i);
                         notNull = false;
                         for (int j = 0; j < columns.length; j++) {
                             temp[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));

@@ -26,6 +26,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 
 import org.castor.jdo.engine.SQLTypeInfos;
+import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
@@ -144,9 +145,9 @@ public final class SQLStatementStore {
         } 
     }
     
-    public Object executeStatement(final Object conn, final Object identity,
-                                   final Object[] values, final Object[] original,
-                                   final Object stamp)
+    public Object executeStatement(final Connection conn, final Object identity,
+                                   final ProposedEntity newentity,
+                                   final ProposedEntity oldentity)
     throws PersistenceException {
         PreparedStatement stmt = null;
         int count;
@@ -158,7 +159,7 @@ public final class SQLStatementStore {
         if (extended != null) {
             // | quick and very dirty hack to try to make multiple class on the same table work
             if (!extended.getDescriptor().getTableName().equals(_mapTo)) {
-                extended.store(conn, values, identity, original, stamp);
+                extended.store(conn, identity, newentity, oldentity);
             }
         }
 
@@ -166,8 +167,8 @@ public final class SQLStatementStore {
         // fields to persist.
         if (_hasFieldsToPersist) {
             try {
-                storeStatement = getStoreStatement(original);
-                stmt = ((Connection) conn).prepareStatement(storeStatement);
+                storeStatement = getStoreStatement(oldentity);
+                stmt = conn.prepareStatement(storeStatement);
                 
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(Messages.format("jdo.storing", _type, stmt.toString()));
@@ -180,13 +181,14 @@ public final class SQLStatementStore {
                 for (int i = 0 ; i < fields.length ; ++i) {
                     if (fields[i].isStore()) {
                         SQLColumnInfo[] columns = fields[i].getColumnInfo();
-                        if (values[i] == null) {
+                        Object value = newentity.getField(i);
+                        if (value == null) {
                             for (int j = 0; j < columns.length; j++) {
                                 stmt.setNull(count++, columns[j].getSqlType());
                             }
                             
-                        } else if (values[i] instanceof Complex) {
-                            Complex complex = (Complex) values[i];
+                        } else if (value instanceof Complex) {
+                            Complex complex = (Complex) value;
                             if (complex.size() != columns.length) {
                                 throw new PersistenceException("Size of complex field mismatch!");
                             }
@@ -199,7 +201,7 @@ public final class SQLStatementStore {
                                 throw new PersistenceException("Complex field expected!");
                             }
                             
-                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(values[i]), columns[0].getSqlType());
+                            SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
                         }
                     }
                 }
@@ -230,20 +232,21 @@ public final class SQLStatementStore {
                 }
                 
                 // bind the old fields of the row to be stored into the preparedStatement
-                if (original != null) {
+                if (oldentity.getFields() != null) {
                     boolean supportsSetNull = ((BaseFactory) _factory).supportsSetNullInWhere();
                     
                     for (int i = 0 ; i < fields.length ; ++i) {
                         if (fields[i].isStore() && fields[i].isDirtyCheck()) {
                             SQLColumnInfo[] columns = fields[i].getColumnInfo();
-                            if (original[i] == null) {
+                            Object value = oldentity.getField(i);
+                            if (value == null) {
                                 if (supportsSetNull) {
                                     for (int j = 0; j < columns.length; j++) {
                                         stmt.setNull(count++, columns[j].getSqlType());
                                     }
                                 }
-                            } else if (original[i] instanceof Complex) {
-                                Complex complex = (Complex) original[i];
+                            } else if (value instanceof Complex) {
+                                Complex complex = (Complex) value;
                                 if (complex.size() != columns.length) {
                                     throw new PersistenceException("Size of complex field mismatch!");
                                 }
@@ -260,10 +263,10 @@ public final class SQLStatementStore {
                                     throw new PersistenceException("Complex field expected!");
                                 }
                                 
-                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(original[i]), columns[0].getSqlType() );
+                                SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType() );
                             
                                 if (LOG.isDebugEnabled()) {
-                                    LOG.debug(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(original[i])));
+                                    LOG.debug(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(value)));
                                 }
                             }
                         }
@@ -279,8 +282,9 @@ public final class SQLStatementStore {
                     // removed from persistent storage or has been modified if
                     // dirty checking. Determine which is which.
                     stmt.close();
-                    if (original != null) {
-                        stmt = ((Connection) conn).prepareStatement(_statementLoad);
+
+                    if (oldentity.getFields() != null) {
+                        stmt = conn.prepareStatement(_statementLoad);
                         
                         if (LOG.isDebugEnabled()) {
                             LOG.debug(Messages.format("jdo.storing", _type, stmt.toString()));
@@ -301,24 +305,21 @@ public final class SQLStatementStore {
                         if (res.next()) {                     
                             StringBuffer enlistFieldsNotMatching = new StringBuffer();
                             
-                            Object currentField = null;
                             int numberOfFieldsNotMatching = 0;
                             for (int i = 0; i < fields.length; i++) {
                                 SQLColumnInfo[] columns = fields[i].getColumnInfo();
-                                currentField = columns[0].toJava(res.getObject(columns[0].getName()));
+                                Object value = oldentity.getField(i);
+                                Object currentField = columns[0].toJava(res.getObject(columns[0].getName()));
                                 if (fields[i].getTableName().compareTo(_mapTo) == 0) {
-                                    if ((original[i] == null && currentField != null)
-                                            || (currentField == null && original[i] != null)
-                                            || (original[i] == null && currentField == null)) {
-                                        
+                                    if ((value == null) || ((value != null) && (currentField == null))) {
                                         enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + original[i] + "/" + currentField + "]"); 
-                                    } else if (!original[i].equals(currentField) ) {
+                                        enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
+                                    } else if (!value.equals(currentField) ) {
                                         if (numberOfFieldsNotMatching >= 1) {
                                             enlistFieldsNotMatching.append(", ");
                                         }
                                         enlistFieldsNotMatching.append("(" + _type + ")." + columns[0].getName() + ": ");
-                                        enlistFieldsNotMatching.append("[" + original[i] + "/" + currentField + "]"); 
+                                        enlistFieldsNotMatching.append("[" + value + "/" + currentField + "]"); 
                                         numberOfFieldsNotMatching++;
                                     }
                                 }
@@ -348,9 +349,9 @@ public final class SQLStatementStore {
      * If the RDBMS doesn't support setNull for "WHERE fld=?" and requires
      * "WHERE fld IS NULL", we need to modify the statement.
      */
-    private String getStoreStatement(final Object[] original)
+    private String getStoreStatement(final ProposedEntity oldentity)
     throws PersistenceException {
-        if (original == null) {
+        if (oldentity.getFields() == null) {
             return _statementLazy;
         } else if (((BaseFactory) _factory).supportsSetNullInWhere()) {
             return _statementDirty;
@@ -364,12 +365,13 @@ public final class SQLStatementStore {
             for (int i = _fields.length - 1; i >= 0; i--) {
                 if (_fields[i].isStore() && _fields[i].isDirtyCheck()) {
                     SQLColumnInfo[] columns = _fields[i].getColumnInfo();
-                    if (original[i] == null) {
+                    Object value = oldentity.getField(i);
+                    if (value == null) {
                         for (int j = columns.length - 1; j >= 0; j--) {
                             pos = nextParameter(true, sql, pos);
                         }
-                    } else if (original[i] instanceof Complex) {
-                        Complex complex = (Complex) original[i];
+                    } else if (value instanceof Complex) {
+                        Complex complex = (Complex) value;
                         if (complex.size() != columns.length) {
                             throw new PersistenceException("Size of complex field mismatch!");
                         }

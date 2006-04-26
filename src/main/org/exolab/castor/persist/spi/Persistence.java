@@ -94,14 +94,15 @@ public interface Persistence {
      * by this method.
      *
      * @param conn An open connection
-     * @param fields The fields to store
+     * @param entity The fields to store
      * @param identity The object's identity
      * @return The object's identity
      * @throws PersistenceException An object with the same identity already
      *         exists in persistent storage or any other persistence error
      *         occured.
      */
-    public Object create(Database database, Object conn, Object[] fields, Object identity)
+    public Object create(Database database, Object conn,
+                         ProposedEntity entity, Object identity)
     throws PersistenceException;
 
     /**
@@ -144,18 +145,17 @@ public interface Persistence {
      * retrieved with an exclusive lock.
      *
      * @param conn An open connection
-     * @param fields The fields to store
+     * @param newentity The fields to store
      * @param identity The object's identity
-     * @param original The original fields, or null
-     * @param stamp The object's stamp, or null
+     * @param oldentity The original fields, or null
      * @return The object's stamp, or null
      * @throws PersistenceException The object has been modified in
      *         persistence storage since it was last loaded or has been
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    public Object store(Object conn, Object[] fields, Object identity,
-                        Object[] original, Object stamp)
+    public Object store(Object conn, Object identity,
+                        ProposedEntity newentity, ProposedEntity oldentity)
     throws PersistenceException;
 
     /**
