@@ -2,8 +2,13 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1409 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with read-only lazy-loaded 1:1 relations.
+       Details: http://jira.codehaus.org/browse/CASTOR-1409
+       (Werner - 20060427)
+
 All:   Fixed bug CASTOR-1412 using contribution from Martin Fuchs [martin-fuchs@gmx.net]
-       Remove dependency to Adaptx and Xerces from the documentation build step.
+       Removed dependencies on Adaptx and Xerces from the documentation build step.
        Details: http://jira.codehaus.org/browse/CASTOR-1412
        (Martin - 20060426)
 

@@ -23,6 +23,7 @@ import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateAndRemovedFlags;
 import org.castor.persist.UpdateFlags;
+import org.castor.persist.proxy.LazyCGLIB;
 import org.castor.persist.proxy.SingleProxy;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
@@ -320,6 +321,12 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
         if (value != null) {
             Object fid = fieldClassMolder.getIdentity(tx, value);
+            if (_fieldMolder.isLazy() && (value instanceof LazyCGLIB)) {
+                boolean hasMaterialized = ((LazyCGLIB) value).interceptedHasMaterialized();
+                if (!hasMaterialized) {
+                    fid = fieldClassMolder.getActualIdentity(tx, value);
+                }
+            }
             if (fid != null) {
                 field = fid;
             }
