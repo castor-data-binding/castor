@@ -30,6 +30,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.QueryResults;
+import org.exolab.castor.mapping.AccessMode;
 
 /**
  * @author < a href="werner.guttmann@hmx.net">Werner Guttmann</a>
@@ -114,6 +115,19 @@ public class TestLazy1to1 extends CastorTestCase {
 		db.close();
 	}
 
+    public void testLoadChildReadOnly() throws Exception {
+        Lazy1to1Child child = null;
+
+        Database db = _category.getDatabase();
+
+        db.begin();
+        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (1), AccessMode.ReadOnly);
+        assertChild (child, 1, "child 1");
+        db.commit();
+        
+        db.close();
+    }
+
     public void testLoadParentWhereChildIsNull() throws Exception {
         Lazy1to1Parent parent = null;
         
@@ -144,6 +158,57 @@ public class TestLazy1to1 extends CastorTestCase {
         db.close();
     }
 
+    public void testLoadParentReadOnlyWithAccessWithoutChange() throws Exception {
+        Lazy1to1Parent parent = null;
+        
+        Database db = _category.getDatabase();
+        
+        db.begin();
+        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1), AccessMode.ReadOnly);
+        db.commit();
+
+        assertParent (parent, 1, "parent 1");
+        Lazy1to1Child nature = parent.getChild();
+        assertChild (nature, 1, "child 1");
+
+        // re-load to assert that nothing has changed
+        db.begin();
+        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        db.commit();
+
+        assertParent (parent, 1, "parent 1");
+        assertChild (parent.getChild(), 1, "child 1");
+
+        db.close();
+    }
+
+    public void testLoadParentReadOnlyWithAccessWithChange() throws Exception {
+        Lazy1to1Parent parent = null;
+        
+        Database db = _category.getDatabase();
+        
+        db.begin();
+        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1), AccessMode.ReadOnly);
+
+        assertParent (parent, 1, "parent 1");
+        Lazy1to1Child nature = parent.getChild();
+        assertChild (nature, 1, "child 1");
+
+        parent.getChild().setDescription("child changed");
+
+        db.commit();
+
+        // re-load to assert that nothing has changed
+        db.begin();
+        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        db.rollback();
+
+        assertParent (parent, 1, "parent 1");
+        assertChild (parent.getChild(), 1, "child 1");
+
+        db.close();
+    }
+
     public void testLoadParentWithoutAccess() throws Exception {
         Lazy1to1Parent parent = null;
         
@@ -151,6 +216,20 @@ public class TestLazy1to1 extends CastorTestCase {
         
         db.begin();
         parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        assertParent (parent, 1, "parent 1");
+        db.commit();
+        
+        db.close();
+    }
+
+    public void testLoadParentReadOnlyWithoutAccess() throws Exception {
+        
+        Lazy1to1Parent parent = null;
+        
+        Database db = _category.getDatabase();
+        
+        db.begin();
+        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1), AccessMode.ReadOnly);
         assertParent (parent, 1, "parent 1");
         db.commit();
         

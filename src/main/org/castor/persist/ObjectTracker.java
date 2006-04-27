@@ -475,24 +475,17 @@ public final class ObjectTracker {
         if (object instanceof LazyCGLIB) {
             LazyCGLIB cgObject = (LazyCGLIB) object;
             
-            // Test for materialization.
-            boolean hasMaterialized = cgObject.interceptedHasMaterialized().booleanValue();
-            if (hasMaterialized) {
-                // TODO [WG] We still might have an option for some serious optimization
-                // here if the instance has not been materialized yet.
-                Object identity = cgObject.interceptedIdentity();
-                ClassMolder molder = cgObject.interceptedClassMolder();
-                LockEngine engine = molder.getLockEngine();
-                
-                // Get the OID we're looking for.
-                OID oid = new OID(molder, identity);
-                
-                // Retrieve the object for this OID.
-                return getObjectForOID(engine, oid, true);
-            }
+            // TODO [WG] We still might have an option for some serious optimization
+            // here if the instance has not been materialized yet.
+            Object identity = cgObject.interceptedIdentity();
+            ClassMolder molder = cgObject.interceptedClassMolder();
+            LockEngine engine = molder.getLockEngine();
             
-            // Object has not been materialized; not a whole lot of point in looking.
-            return null;
+            // Get the OID we're looking for.
+            OID oid = new OID(molder, identity);
+            
+            // Retrieve the object for this OID; returns null if there ain't such object 
+            return getObjectForOID(engine, oid, true);
         }
 
         return object;

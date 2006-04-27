@@ -52,6 +52,26 @@
                 <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1409" tool="jira">
+                    <description>
+		                Fixed problem with read-only lazy-loaded 1:1 relations.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jon Wilmoth</name>
+                        <email>jonwilmoth@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060427</date>
+                </bug>
                 <bug id="1412" tool="jira">
                     <description>
 		                Remove dependency to Adaptx and Xerces from the documentation build step.
