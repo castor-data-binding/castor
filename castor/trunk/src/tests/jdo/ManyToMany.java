@@ -39,13 +39,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
-
 package jdo;
-
 
 import java.util.Iterator;
 import java.util.Collection;
@@ -57,7 +52,6 @@ import java.util.ArrayList;
 
 import harness.TestHarness;
 import harness.CastorTestCase;
-
 
 /**
  * Test for many-to-many relationship. A many to many relationship
@@ -96,7 +90,6 @@ public class ManyToMany extends CastorTestCase {
         TestManyPerson temp;
         ArrayList al, bl;
         OQLQuery oql;
-        OQLQuery oqlp;
         QueryResults enumeration;
         int groupAId = 201, groupBId = 202;
         int person1Id = 1, person2Id = 2, person3Id = 3, person4Id = 4;
@@ -135,7 +128,6 @@ public class ManyToMany extends CastorTestCase {
         // This test for null collection handling
         _db.begin();
         oql = _db.getOQLQuery( "SELECT object FROM jdo.TestManyGroup object WHERE id = $1" );
-        oqlp = _db.getOQLQuery( "SELECT object FROM jdo.TestManyPerson object WHERE id = $1" );
         stream.println("Creating new group with people!");
         person1 = new TestManyPerson();
         person1.setValue1("I am person 1");
@@ -204,7 +196,6 @@ public class ManyToMany extends CastorTestCase {
         _db.create( groupB );
 
         stream.println("object created: " + groupA);
-        Collection ppl = groupA.getPeople();
         _db.commit();
 
         // load the object and modify it

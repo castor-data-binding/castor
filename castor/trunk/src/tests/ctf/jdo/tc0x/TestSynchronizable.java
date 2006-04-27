@@ -39,14 +39,12 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$ 
  */
-
 package ctf.jdo.tc0x;
 
 import java.sql.SQLException;
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
 
 import harness.CastorTestCase;
@@ -63,11 +61,15 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
 public final class TestSynchronizable extends CastorTestCase {
-    public static ArrayList     _synchronizables = new ArrayList();
+    private static ArrayList     _synchronizables = new ArrayList();
 
     private JDOCategory         _category;
     private Database            _db;
     private String              _oldProperty;
+    
+    public static List getSynchronizableList() {
+        return _synchronizables;
+    }
 
     /**
      * Constructor

@@ -39,9 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
- *
  */
-
 package jdo;
 
 import harness.CastorTestCase;

@@ -39,12 +39,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2002 (C) Intalio, Inc. All Rights Reserved.
- *
  */
-
-
 package jdo;
-
 
 import java.sql.Timestamp;
 import java.text.DateFormat;
@@ -53,12 +49,10 @@ import java.text.SimpleDateFormat;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeConverters;
-import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 
 import junit.framework.TestCase;
-
 
 /**
  * Unit test for SQLTypes.
@@ -83,9 +77,7 @@ public class TestSQLTypes
     /**
      * Simple test to convert a java.sql.Timestamp to java.util.Date
      */
-    public void testTimestamp2Date()
-            throws PersistenceException, MappingException {
-
+    public void testTimestamp2Date() throws MappingException {
         DateFormat format = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
         Timestamp timeStamp = new Timestamp (new java.util.Date().getTime());
         log.debug ("time stamp = " + format.format (timeStamp));
@@ -100,9 +92,7 @@ public class TestSQLTypes
     /**
      * Simple test to convert a java.sql.Timestamp to java.util.Date
      */
-    public void testDate2Timestamp()
-    throws PersistenceException, MappingException {
-
+    public void testDate2Timestamp() throws MappingException {
         DateFormat format = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
         java.util.Date date = new java.util.Date();
         log.debug("date = " + format.format(date));
