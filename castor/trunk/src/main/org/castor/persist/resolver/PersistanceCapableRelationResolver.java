@@ -322,7 +322,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         if (value != null) {
             Object fid = fieldClassMolder.getIdentity(tx, value);
             if (_fieldMolder.isLazy() && (value instanceof LazyCGLIB)) {
-                boolean hasMaterialized = ((LazyCGLIB) value).interceptedHasMaterialized();
+                boolean hasMaterialized = ((LazyCGLIB) value).interceptedHasMaterialized().booleanValue();
                 if (!hasMaterialized) {
                     fid = fieldClassMolder.getActualIdentity(tx, value);
                 }
