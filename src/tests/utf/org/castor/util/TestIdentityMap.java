@@ -57,7 +57,6 @@ public final class TestIdentityMap extends TestCase {
     
     public void testConstructor() {
         IdentityMap map = new IdentityMap();
-        assertTrue(map instanceof IdentityMap);
         assertTrue(map.isEmpty());
         assertTrue(map.size() == 0);
     }

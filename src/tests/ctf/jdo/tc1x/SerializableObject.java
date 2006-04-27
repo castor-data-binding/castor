@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2000 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package ctf.jdo.tc1x;
 
 import java.io.Serializable;

@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package ctf.jdo.tc2x;
 
 import java.sql.Connection;
@@ -197,7 +194,7 @@ public final class TestDependentUpdate extends CastorTestCase {
         LOG.debug("Created master with details: " + master);
     }
     
-    private void change() throws PersistenceException, SQLException {
+    private void change() throws PersistenceException {
         Master master;
         Detail detail;
 

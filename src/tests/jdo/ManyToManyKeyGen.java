@@ -39,13 +39,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
-
 package jdo;
-
 
 import java.util.Iterator;
 import java.util.Collection;
@@ -57,7 +52,6 @@ import org.exolab.castor.jdo.PersistenceException;
 
 import harness.TestHarness;
 import harness.CastorTestCase;
-
 
 /**
  * Test for many to many relationship with key generators being used in both
@@ -110,7 +104,6 @@ public class ManyToManyKeyGen extends CastorTestCase {
         TestManyPersonKeyGen temp;
         ArrayList al, bl;
         OQLQuery oql;
-        OQLQuery oqlp;
         QueryResults enumeration;
         int groupAId, groupBId;
         int person1Id, person2Id, person3Id, person4Id;
@@ -150,7 +143,6 @@ public class ManyToManyKeyGen extends CastorTestCase {
         // This test for null collection handling
         _db.begin();
         oql = _db.getOQLQuery( "SELECT object FROM jdo.TestManyGroupKeyGen object WHERE id = $1" );
-        oqlp = _db.getOQLQuery( "SELECT object FROM jdo.TestManyPersonKeyGen object WHERE id = $1" );
         stream.println("Creating new group with people!");
         person1 = new TestManyPersonKeyGen();
         person1.setValue1("I am person 1");
@@ -164,7 +156,6 @@ public class ManyToManyKeyGen extends CastorTestCase {
         // create new group with two people
         _db.begin();
         oql = _db.getOQLQuery( "SELECT object FROM jdo.TestManyGroupKeyGen object WHERE id = $1" );
-        oqlp = _db.getOQLQuery( "SELECT object FROM jdo.TestManyPersonKeyGen object WHERE id = $1" );
         stream.println("Creating new group with people!");
         person1 = (TestManyPersonKeyGen) _db.load( TestManyPersonKeyGen.class, new Integer(person1Id) );
         person1.setValue1("I am person 1");
@@ -215,7 +206,6 @@ public class ManyToManyKeyGen extends CastorTestCase {
         _db.create( groupB );
 
         stream.println("object created: " + groupA);
-        Collection ppl = groupA.getPeople();
         _db.commit();
 
         groupAId = groupA.getId();

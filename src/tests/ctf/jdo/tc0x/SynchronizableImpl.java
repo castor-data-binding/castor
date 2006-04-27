@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$ 
  */
-
 package ctf.jdo.tc0x;
 
 import java.util.Iterator;
@@ -56,7 +53,7 @@ public final class SynchronizableImpl implements TxSynchronizable {
     public void committed(final TransactionContext tx) {
         Iterator it = tx.iterateReadWriteObjectsInTransaction();
         if (it.hasNext()) {
-            List syncs = TestSynchronizable._synchronizables;
+            List syncs = TestSynchronizable.getSynchronizableList();
             while (it.hasNext()) {
                 Object object = it.next();
                 boolean isDeleted = tx.isDeleted(object);
@@ -74,6 +71,6 @@ public final class SynchronizableImpl implements TxSynchronizable {
         }
     }
     public void rolledback(final TransactionContext tx) {
-        TestSynchronizable._synchronizables.add("rolledback");
+        TestSynchronizable.getSynchronizableList().add("rolledback");
     }
 }

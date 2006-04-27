@@ -12,12 +12,9 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
- *
- * $Id$
  */
 package jdo;
 
-import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.exolab.castor.jdo.Database;
@@ -35,8 +32,6 @@ import harness.TestHarness;
 public class IsLockedTest extends CastorTestCase {
 
     private Database       _db;
-
-    private Connection     _conn;
 
     private JDOCategory    _category;
 

@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package utf.org.exolab.castor.jdo.oql;
 
 import java.util.Iterator;

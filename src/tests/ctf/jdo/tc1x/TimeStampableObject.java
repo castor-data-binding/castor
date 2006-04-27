@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package ctf.jdo.tc1x;
 
 import org.apache.commons.logging.Log;

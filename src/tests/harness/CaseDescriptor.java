@@ -52,7 +52,6 @@ public class CaseDescriptor implements org.exolab.castor.xml.XMLClassDescriptor 
         xmlName = "Case";
         nsPrefix = "jtf";
         XMLFieldDescriptorImpl desc = null;
-        XMLFieldHandler handler = null;
         //-- initialize attribute descriptors
         
         attributes = new XMLFieldDescriptorImpl[1];

@@ -39,7 +39,6 @@ public final class TestLocalTransactionManager extends TestCase {
 
     public void test() {
         LocalTransactionManager ltm = new LocalTransactionManager();
-        assertTrue(ltm instanceof javax.transaction.TransactionManager);
         
         try {
             ltm.begin();

@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2001 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package ctf.jdo.tc2x;
 
 /**

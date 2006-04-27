@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package ctf.jdo.tc0x;
 
 import java.util.Enumeration;
@@ -222,8 +219,7 @@ public final class TestDeadlock extends CastorTestCase {
     /**
      * Creates threads to test for deadlock detection behaviors.
      */
-    public void runOnce(final AccessMode accessMode) 
-    throws PersistenceException, InterruptedException {
+    public void runOnce(final AccessMode accessMode) throws InterruptedException {
         LOG.debug("Note: this test uses a 2 seconds delay between "
                 + "threads. CPU and database load might cause the test to not "
                 + "perform synchronously, resulting in erroneous results. Make "

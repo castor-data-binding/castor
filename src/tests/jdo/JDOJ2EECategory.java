@@ -39,11 +39,8 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
  */
-
 package jdo;
-
 
 import harness.TestHarness;
 
@@ -74,7 +71,6 @@ import tyrex.resource.Resources;
 import tyrex.tm.DomainConfigurationException;
 import tyrex.tm.RecoveryException;
 import tyrex.tm.TransactionDomain;
-
 
 /**
  * This Category is intended to allow developers to test Castor in a J2EE 

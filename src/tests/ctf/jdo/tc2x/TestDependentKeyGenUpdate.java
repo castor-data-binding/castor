@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package ctf.jdo.tc2x;
 
 import java.sql.Connection;
@@ -211,7 +208,7 @@ public final class TestDependentKeyGenUpdate extends CastorTestCase {
         LOG.debug("Created master with details: " + master);
     }
     
-    private void change() throws PersistenceException, SQLException {
+    private void change() throws PersistenceException {
         MasterKeyGen master;
         DetailKeyGen3 detail3;
         DetailKeyGen detail6, detail8, detail9;
@@ -335,7 +332,7 @@ public final class TestDependentKeyGenUpdate extends CastorTestCase {
         }
     }
     
-    private void test() throws PersistenceException, SQLException {
+    private void test() throws PersistenceException {
         MasterKeyGen master;
         DetailKeyGen detailA;
         DetailKeyGen3 detail3;

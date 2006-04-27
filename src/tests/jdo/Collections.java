@@ -105,8 +105,6 @@ public class Collections extends CastorTestCase {
     public void runOnce( Class masterClass ) 
             throws PersistenceException, SQLException, Exception {
 
-        String masterName = masterClass.getName();
-
         stream.println( "Running..." );
         stream.println( "" );
 
@@ -189,8 +187,6 @@ public class Collections extends CastorTestCase {
 
     public void runSortedSet( Class masterClass ) 
     throws PersistenceException, SQLException, Exception {
-    	
-    	String masterName = masterClass.getName();
     	
     	stream.println( "Running..." );
     	stream.println( "" );

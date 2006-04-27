@@ -54,12 +54,10 @@ public final class TestIdentitySet extends TestCase {
     
     public void testConstructor() {
         IdentitySet set1 = new IdentitySet();
-        assertTrue(set1 instanceof IdentitySet);
         assertTrue(set1.isEmpty());
         assertTrue(set1.size() == 0);
 
         IdentitySet set2 = new IdentitySet(123);
-        assertTrue(set2 instanceof IdentitySet);
         assertTrue(set2.isEmpty());
         assertTrue(set2.size() == 0);
     }
