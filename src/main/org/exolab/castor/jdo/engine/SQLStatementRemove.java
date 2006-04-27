@@ -67,8 +67,8 @@ public final class SQLStatementRemove {
         }
         _statement = sql.toString();
         
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.format("jdo.removing", _type, _statement));
+        if (LOG.isInfoEnabled()) {
+            LOG.info(Messages.format("jdo.removing", _type, _statement));
         }
     }
 
@@ -81,8 +81,8 @@ public final class SQLStatementRemove {
         try {
             stmt = conn.prepareStatement(_statement);
             
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.removing", _type, stmt.toString()));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.removing", _type, stmt.toString()));
             }
 
             int count = 1;

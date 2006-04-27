@@ -173,8 +173,8 @@ public final class SQLStatementLoad {
                 for (Iterator iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
                     classDescriptor = (JDOClassDescriptor) iter.next();
                     
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug("Adding outer left join for "
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace("Adding outer left join for "
                                 + classDescriptor.getJavaClass().getName() + " on table "
                                 + classDescriptor.getTableName());
                     }
@@ -232,10 +232,10 @@ public final class SQLStatementLoad {
 
             _queryExpression = find;
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.loading", _type, _statementNoLock));
-                LOG.debug(Messages.format("jdo.loading.with.lock", _type, _statementLock));
-                LOG.debug(Messages.format("jdo.finding", _type, _queryExpression));
+            if (LOG.isInfoEnabled()) {
+                LOG.info(Messages.format("jdo.loading", _type, _statementNoLock));
+                LOG.info(Messages.format("jdo.loading.with.lock", _type, _statementLock));
+                LOG.info(Messages.format("jdo.finding", _type, _queryExpression));
             }
         } catch (QueryException ex) {
             LOG.warn("Problem building SQL", ex);
@@ -265,8 +265,8 @@ public final class SQLStatementLoad {
             String sqlString = (accessMode == AccessMode.DbLocked) ? _statementLock : _statementNoLock; 
             stmt = conn.prepareStatement(sqlString);
                         
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.loading", _type, stmt.toString()));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.loading", _type, stmt.toString()));
             }
             
             int fieldIndex = 1;

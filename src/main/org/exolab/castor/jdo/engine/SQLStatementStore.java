@@ -79,8 +79,8 @@ public final class SQLStatementStore {
             }
         }
 
-        if(LOG.isDebugEnabled()) {
-            LOG.debug("hasFieldsToPersist = " + _hasFieldsToPersist);
+        if(LOG.isTraceEnabled()) {
+            LOG.trace("hasFieldsToPersist = " + _hasFieldsToPersist);
         }
 
         buildStatement();
@@ -122,8 +122,8 @@ public final class SQLStatementStore {
 
             _statementLazy = sql.toString();
             
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.updating", _type, _statementLazy));
+            if (LOG.isInfoEnabled()) {
+                LOG.info(Messages.format("jdo.updating", _type, _statementLazy));
             }
 
             for (int i = 0 ; i < fields.length ; ++i) {
@@ -139,8 +139,8 @@ public final class SQLStatementStore {
             
             _statementDirty = sql.toString();
             
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.updating", _type, _statementDirty));
+            if (LOG.isInfoEnabled()) {
+                LOG.info(Messages.format("jdo.updating", _type, _statementDirty));
             }
         } 
     }
@@ -170,8 +170,8 @@ public final class SQLStatementStore {
                 storeStatement = getStoreStatement(oldentity);
                 stmt = conn.prepareStatement(storeStatement);
                 
-                if (LOG.isDebugEnabled()) {
-                    LOG.debug(Messages.format("jdo.storing", _type, stmt.toString()));
+                if (LOG.isTraceEnabled()) {
+                    LOG.trace(Messages.format("jdo.storing", _type, stmt.toString()));
                 }
                 
                 count = 1;
@@ -216,8 +216,8 @@ public final class SQLStatementStore {
                     
                     for (int i = 0; i < ids.length; i++) {
                         stmt.setObject(count++, ids[i].toSQL(id.get(i)));
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug(Messages.format("jdo.bindingIdentity", ids[i].getName(), ids[i].toSQL(id.get(i))));
+                        if (LOG.isTraceEnabled()) {
+                            LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(), ids[i].toSQL(id.get(i))));
                         }
                     }                    
                 } else {
@@ -226,8 +226,8 @@ public final class SQLStatementStore {
                     }
                     
                     stmt.setObject(count++, ids[0].toSQL(identity));
-                    if (LOG.isDebugEnabled()) {
-                        LOG.debug(Messages.format("jdo.bindingIdentity", ids[0].getName(), ids[0].toSQL(identity)));
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[0].getName(), ids[0].toSQL(identity)));
                     }
                 }
                 
@@ -254,8 +254,8 @@ public final class SQLStatementStore {
                                 for (int j = 0; j < columns.length; j++) {
                                     SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(complex.get(j)), columns[j].getSqlType());
                                     
-                                    if (LOG.isDebugEnabled()) {
-                                        LOG.debug(Messages.format("jdo.bindingField", columns[j].getName(), columns[j].toSQL(complex.get(j))));
+                                    if (LOG.isTraceEnabled()) {
+                                        LOG.trace(Messages.format("jdo.bindingField", columns[j].getName(), columns[j].toSQL(complex.get(j))));
                                     }
                                 }
                             } else {
@@ -265,8 +265,8 @@ public final class SQLStatementStore {
                                 
                                 SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType() );
                             
-                                if (LOG.isDebugEnabled()) {
-                                    LOG.debug(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(value)));
+                                if (LOG.isTraceEnabled()) {
+                                    LOG.trace(Messages.format("jdo.bindingField", columns[0].getName(), columns[0].toSQL(value)));
                                 }
                             }
                         }
@@ -286,8 +286,8 @@ public final class SQLStatementStore {
                     if (oldentity.getFields() != null) {
                         stmt = conn.prepareStatement(_statementLoad);
                         
-                        if (LOG.isDebugEnabled()) {
-                            LOG.debug(Messages.format("jdo.storing", _type, stmt.toString()));
+                        if (LOG.isTraceEnabled()) {
+                            LOG.trace(Messages.format("jdo.storing", _type, stmt.toString()));
                         }
                         
                         // bind the identity to the prepareStatement

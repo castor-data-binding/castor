@@ -52,6 +52,26 @@
                 <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1318" tool="jira">
+                    <description>
+		                Allowed to separately en-/disable logging of executed SQL statments.
+                    </description>
+                    <contributor>
+                        <name>Raúl Sanz de Acedo Pérez</name>
+                        <email>rsanz@cein.es</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Raúl Sanz de Acedo Pérez</name>
+                        <email>rsanz@cein.es</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060427</date>
+                </bug>
                 <bug id="1414" tool="jira">
                     <description>
 		                Upgraded log4j from 1.2.8 to 1.2.13.
