@@ -52,6 +52,26 @@
                 <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1414" tool="jira">
+                    <description>
+		                Upgraded log4j from 1.2.8 to 1.2.13.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060427</date>
+                </bug>
                 <bug id="1409" tool="jira">
                     <description>
 		                Fixed problem with read-only lazy-loaded 1:1 relations.

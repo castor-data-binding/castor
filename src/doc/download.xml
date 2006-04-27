@@ -224,7 +224,7 @@
            <crow><td>junit_3.8.1.jar</td><td>JUnit testing framework (for CTF suites)</td></crow>
            <crow><td><b>ldapjdk.jar</b></td><td>Mozilla Directory SDK (DSML/MDS)</td></crow>
            <crow><td>ldapsp.jar</td><td>JNDI LDAP service provider from Mozilla</td></crow>
-           <crow><td><b>log4j-1.2.8.jar</b></td><td>Log4J</td></crow>
+           <crow><td><b>log4j-1.2.13.jar</b></td><td>Log4J</td></crow>
            <crow><td>servlet.jar</td><td>Used by the Servlet examples</td></crow>
            <crow><td><b>xerces-J_1.4.0.jar</b></td><td>Xerces XML library</td></crow>
            <crow><td>adaptx-0.9.13.jar</td><td>XSL(T) processor, used for building documentation</td></crow>

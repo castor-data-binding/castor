@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Fixed bug CASTOR-1414 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Upgraded log4j from 1.2.8 to 1.2.13.
+       Details: http://jira.codehaus.org/browse/CASTOR-1414
+       (Ralf - 20060427)
+
 JDO:   Fixed bug CASTOR-1409 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with read-only lazy-loaded 1:1 relations.
        Details: http://jira.codehaus.org/browse/CASTOR-1409
