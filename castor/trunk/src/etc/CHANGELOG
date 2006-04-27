@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1318 using contribution from Raúl Sanz de Acedo Pérez [rsanz@cein.es]
+       Allowed to separately en-/disable logging of executed SQL statments.
+       Details: http://jira.codehaus.org/browse/CASTOR-1318
+       (Ralf - 20060427)
+
 All:   Fixed bug CASTOR-1414 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Upgraded log4j from 1.2.8 to 1.2.13.
        Details: http://jira.codehaus.org/browse/CASTOR-1414

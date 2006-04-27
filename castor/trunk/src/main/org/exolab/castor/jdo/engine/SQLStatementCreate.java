@@ -159,8 +159,8 @@ public final class SQLStatementCreate {
             }
         }
 
-        if (LOG.isDebugEnabled()) {
-            LOG.debug(Messages.format("jdo.creating", _type, _statement));
+        if (LOG.isInfoEnabled()) {
+            LOG.info(Messages.format("jdo.creating", _type, _statement));
         }
     }
     
@@ -200,8 +200,8 @@ public final class SQLStatementCreate {
                 }
             }
              
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
             }
             
             // Must remember that SQL column index is base one
@@ -230,14 +230,14 @@ public final class SQLStatementCreate {
                 }
             }
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
             }
 
             count = bindFields(entity, stmt, count);
 
-            if (LOG.isDebugEnabled()) {
-                LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.creating", _type, stmt.toString()));
             }
 
             // Generate key during INSERT
@@ -250,7 +250,7 @@ public final class SQLStatementCreate {
                 
                 // [WG]: TODO: Verify that this really works !!!
                 if (LOG.isDebugEnabled()) {
-                      LOG.debug(Messages.format("jdo.creating.bound", _type, cstmt));
+                      LOG.debug(Messages.format("jdo.creating", _type, cstmt.toString()));
                 }
                 
                 cstmt.execute();
@@ -314,9 +314,7 @@ public final class SQLStatementCreate {
 
             return identity;
         } catch (SQLException except) {
-            if (LOG.isInfoEnabled()) {
-                LOG.info(Messages.format("jdo.storeFatal",  _type,  _statement), except);
-            }
+            LOG.fatal(Messages.format("jdo.storeFatal",  _type,  _statement), except);
 
             // [oleg] Check for duplicate key based on X/Open error code
             // Bad way: all validation exceptions are reported as DuplicateKey
