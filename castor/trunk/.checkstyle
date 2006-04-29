@@ -12,14 +12,14 @@
     <fileset name="src/tests/ptf" enabled="true" check-config-name="castor-test-checks" local="true">
         <file-match-pattern match-pattern="src\\tests\\ptf\\jdo\\.*\.java" include-pattern="true"/>
     </fileset>
-    <fileset name="src/main/org/castor" enabled="true" check-config-name="castor-main-checks" local="true">
+    <fileset name="src/main/java" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="src\\main\\java\\org\\exolab\\castor\\jdo\\JDOManager\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\exolab\\castor\\jdo\\JDO\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\.*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\util\\concurrent\\.*\.java" include-pattern="false"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\jdo\\conf\\.*\.java" include-pattern="false"/>
     </fileset>
-    <fileset name="src/tests/utf" enabled="true" check-config-name="castor-test-checks" local="true">
-        <file-match-pattern match-pattern="src\\test\\java\\utf\\org\\castor\\.*\.java" include-pattern="true"/>
+    <fileset name="src/test/java" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="src\\test\\java\\org\\castor\\.*\.java" include-pattern="true"/>
     </fileset>
 </fileset-config>
