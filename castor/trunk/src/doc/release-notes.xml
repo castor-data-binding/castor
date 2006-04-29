@@ -52,6 +52,26 @@
                 <a href="scm.html">SVN/JIRA</a>.</p>
             </summary>
             <bugs>
+                <bug id="1406" tool="jira">
+                    <description>
+		                Fixed EmptyStackException at SAX2ANY.
+                    </description>
+                    <contributor>
+                        <name>David Green</name>
+                        <email>david.green@maketechnologies.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>David Green</name>
+                        <email>david.green@maketechnologies.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060429</date>
+                </bug>
                 <bug id="1318" tool="jira">
                     <description>
 		                Allowed to separately en-/disable logging of executed SQL statments.
