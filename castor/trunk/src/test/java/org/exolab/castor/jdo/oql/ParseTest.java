@@ -42,16 +42,11 @@
  */
 package org.exolab.castor.jdo.oql;
 
-import java.util.Iterator;
 import java.util.Hashtable;
+import java.util.Iterator;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.exolab.castor.jdo.oql.Lexer;
-import org.exolab.castor.jdo.oql.ParseTreeNode;
-import org.exolab.castor.jdo.oql.Parser;
-import org.exolab.castor.jdo.oql.Token;
-import org.exolab.castor.jdo.oql.TokenType;
 
 /**
  * Test class for {@link Parser}. 

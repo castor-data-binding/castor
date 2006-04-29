@@ -16,8 +16,8 @@
 package org.castor.cache.simple;
 
 import java.util.Collection;
-import java.util.Map;
 import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 import java.util.Set;
 
@@ -27,7 +27,6 @@ import junit.framework.TestSuite;
 
 import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
-import org.castor.cache.simple.CountLimited;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

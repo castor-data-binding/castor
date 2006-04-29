@@ -23,9 +23,6 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import org.castor.transactionmanager.TransactionManagerAcquireException;
-import org.castor.transactionmanager.TransactionManagerRegistry;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 

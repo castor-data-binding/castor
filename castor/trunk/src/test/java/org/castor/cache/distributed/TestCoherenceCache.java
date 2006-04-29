@@ -23,10 +23,8 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
 import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
-import org.castor.cache.distributed.CoherenceCache;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

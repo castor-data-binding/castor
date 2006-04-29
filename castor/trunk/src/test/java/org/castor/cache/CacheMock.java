@@ -20,8 +20,6 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Set;
 
-import org.castor.cache.AbstractBaseCache;
-
 /**
  * Cache to test AbstractBaseCache and DebuggingCacheProxy.
  * 

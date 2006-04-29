@@ -15,12 +15,10 @@
  */
 package org.castor.jdo.drivers;
 
-import org.castor.jdo.drivers.PointbaseFactory;
-import org.castor.jdo.drivers.PointbaseQueryExpression;
+import junit.framework.TestCase;
+
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
-
-import junit.framework.TestCase;
 
 /**
  * UTF test case for {@see org.castor.jdo.drivers.PointbaseFactory}.

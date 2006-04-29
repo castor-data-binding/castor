@@ -24,9 +24,6 @@ import junit.framework.TestSuite;
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
 
-import org.castor.transactionmanager.JOTMTransactionManagerFactory;
-import org.castor.transactionmanager.TransactionManagerAcquireException;
-
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date$

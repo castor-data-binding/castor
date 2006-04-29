@@ -15,7 +15,6 @@
  */
 package org.castor.cache;
 
-import org.castor.cache.AbstractCacheFactory;
 
 /**
  * Cache to test access to distributed caches (Coherence, FKCache and JCache)

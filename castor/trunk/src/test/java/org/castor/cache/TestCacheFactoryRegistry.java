@@ -25,10 +25,6 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import org.castor.cache.Cache;
-import org.castor.cache.CacheAcquireException;
-import org.castor.cache.CacheFactoryRegistry;
 import org.castor.cache.distributed.CoherenceCache;
 import org.castor.cache.distributed.CoherenceCacheFactory;
 import org.castor.cache.distributed.FKCache;

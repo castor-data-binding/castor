@@ -18,8 +18,6 @@ package org.castor.cache.hashbelt.reaper;
 import java.util.ArrayList;
 import java.util.List;
 
-import org.castor.cache.hashbelt.reaper.NotifyingReaper;
-
 /**
  * Mock object for testing of NotifyingReaper.
  * 

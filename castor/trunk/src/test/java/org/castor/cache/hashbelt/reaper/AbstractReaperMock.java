@@ -16,7 +16,6 @@
 package org.castor.cache.hashbelt.reaper;
 
 import org.castor.cache.hashbelt.container.Container;
-import org.castor.cache.hashbelt.reaper.AbstractReaper;
 
 /**
  * Mock object for testing of AbstractReaper.

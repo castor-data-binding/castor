@@ -17,9 +17,6 @@ package org.castor.cache.hashbelt.container;
 
 import java.util.Iterator;
 
-import org.castor.cache.hashbelt.container.Container;
-import org.castor.cache.hashbelt.container.MapContainer;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

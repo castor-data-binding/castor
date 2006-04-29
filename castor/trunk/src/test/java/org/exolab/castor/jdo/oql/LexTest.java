@@ -46,9 +46,6 @@ import java.util.Hashtable;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.exolab.castor.jdo.oql.Lexer;
-import org.exolab.castor.jdo.oql.Token;
-import org.exolab.castor.jdo.oql.TokenType;
 
 /**
  * Test class for {@link Lexer}. 
