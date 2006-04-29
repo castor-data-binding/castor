@@ -232,10 +232,10 @@ public final class SQLStatementLoad {
 
             _queryExpression = find;
 
-            if (LOG.isInfoEnabled()) {
-                LOG.info(Messages.format("jdo.loading", _type, _statementNoLock));
-                LOG.info(Messages.format("jdo.loading.with.lock", _type, _statementLock));
-                LOG.info(Messages.format("jdo.finding", _type, _queryExpression));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.loading", _type, _statementNoLock));
+                LOG.trace(Messages.format("jdo.loading.with.lock", _type, _statementLock));
+                LOG.trace(Messages.format("jdo.finding", _type, _queryExpression));
             }
         } catch (QueryException ex) {
             LOG.warn("Problem building SQL", ex);

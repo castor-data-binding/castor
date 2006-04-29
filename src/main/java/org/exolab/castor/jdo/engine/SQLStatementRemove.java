@@ -67,8 +67,8 @@ public final class SQLStatementRemove {
         }
         _statement = sql.toString();
         
-        if (LOG.isInfoEnabled()) {
-            LOG.info(Messages.format("jdo.removing", _type, _statement));
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.removing", _type, _statement));
         }
     }
 

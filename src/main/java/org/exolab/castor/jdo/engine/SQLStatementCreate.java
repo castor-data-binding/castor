@@ -159,8 +159,8 @@ public final class SQLStatementCreate {
             }
         }
 
-        if (LOG.isInfoEnabled()) {
-            LOG.info(Messages.format("jdo.creating", _type, _statement));
+        if (LOG.isTraceEnabled()) {
+            LOG.trace(Messages.format("jdo.creating", _type, _statement));
         }
     }
     
