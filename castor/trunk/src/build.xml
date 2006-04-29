@@ -18,7 +18,7 @@
         <property name="build.sh.class.path" value="${env.CLASSPATH}" />
         <property name="name" value="Castor"/>
         <property name="source" value="src"/>
-        <property name="main" value="${source}/main"/>
+        <property name="java" value="${source}/main/java"/>
         <property name="etc" value="${source}/etc"/>
         <property name="check" value="check"/>
         <property name="build" value="build"/>
@@ -154,17 +154,17 @@
         <delete dir="${schema}"/>
         <mkdir dir="${schema}"/>
         <copy todir="${schema}">
-            <fileset dir="${main}/org/exolab/castor/mapping">
+            <fileset dir="${java}/org/exolab/castor/mapping">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
         <copy todir="${schema}">
-            <fileset dir="${main}/org/castor/jdo/conf">
+            <fileset dir="${java}/org/castor/jdo/conf">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
         <copy todir="${schema}">
-            <fileset dir="${main}/org/exolab/castor/dsml/schema">
+            <fileset dir="${java}/org/exolab/castor/dsml/schema">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -194,7 +194,7 @@
 
     <target name="compile.commons" depends="prepare"
             description="Compile the Castor COMMONS packages">
-        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}"
+        <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" deprecation="${deprecation}"
                includes="${castor.commons.files}">
             <classpath refid="build.classpath"/>
@@ -203,13 +203,13 @@
 
     <target name="compile.xml" depends="prepare,compile.commons"
             description="Compile the Castor XML packages">
-        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}"
+        <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" deprecation="${deprecation}"
                includes="${castor.xml.files}">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
-            <fileset dir="${main}">
+            <fileset dir="${java}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -217,13 +217,13 @@
 
     <target name="compile.jdo" depends="prepare,compile.commons,compile.xml"
             description="Compile the Castor JDO packages">
-        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}"
+        <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
                debug="on" deprecation="${deprecation}"
                includes="${castor.jdo.files}">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
-            <fileset dir="${main}">
+            <fileset dir="${java}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -246,11 +246,11 @@
 
     <target name="main.opt" depends="prepare"
             description="Same as the default target, but with optimization, no debug and no deprecation">
-        <javac srcdir="${main}" destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
+        <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
-            <fileset dir="${main}">
+            <fileset dir="${java}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -556,11 +556,11 @@
             <fileset dir="${doc}" includes="license.txt,document.dtd,*.pdf"/>
          </copy>
          <copy todir="${build}/doc">
-            <fileset dir="${main}/org/exolab/castor/mapping"
+            <fileset dir="${java}/org/exolab/castor/mapping"
                      includes="mapping.dtd,mapping.xsd"/>
          </copy>
          <copy todir="${build}/doc">
-            <fileset dir="${main}/org/exolab/castor/builder/binding"
+            <fileset dir="${java}/org/exolab/castor/builder/binding"
                      includes="binding.xsd"/>
          </copy>
          <copy todir="${build}/doc/images">
@@ -613,13 +613,13 @@
     <target name="javadoc" depends="prepare" description="Build the full javadocs">
         <mkdir dir="${build}/doc"/>
         <mkdir dir="${build}/doc/javadoc"/>
-        <javadoc sourcepath="${main}" destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc" windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true" version="true" noindex="true" packagenames="${allpackagenames}"/>
+        <javadoc sourcepath="${java}" destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc" windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true" version="true" noindex="true" packagenames="${allpackagenames}"/>
     </target>
 
     <target name="api" depends="prepare" description="Build the public API javadocs">
         <mkdir dir="${build}/doc"/>
         <mkdir dir="${build}/doc/api"/>
-        <javadoc sourcepath="${main}" destdir="${build}/doc/api" doctitle="${name} API" windowtitle="${name} API" bottom="${copyright}" public="true" author="true" packagenames="${apipackagenames}"/>
+        <javadoc sourcepath="${java}" destdir="${build}/doc/api" doctitle="${name} API" windowtitle="${name} API" bottom="${copyright}" public="true" author="true" packagenames="${apipackagenames}"/>
     </target>
 
     <target name="docs" depends="doc,api,javadoc,rss" description="Build the HTML docs, full and API javadocs">
@@ -723,7 +723,7 @@
         <mkdir dir="${gen.src}/jdo-conf"/>
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask" 
                  classpathref="build.classpath"/>          
-            <castor-srcgen file="${main}/org/castor/jdo/conf/jdo-conf.xsd" 
+            <castor-srcgen file="${java}/org/castor/jdo/conf/jdo-conf.xsd" 
                 todir="../${gen.src}/jdo-conf" 
                 package="org.castor.jdo.conf" 
                 lineseparator="unix"
@@ -741,11 +741,11 @@
         <mkdir dir="${gen.src}/mapping"/>
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask" 
                  classpathref="build.classpath"/>          
-            <castor-srcgen file="${main}/org/exolab/castor/mapping/mapping.xsd" 
+            <castor-srcgen file="${java}/org/exolab/castor/mapping/mapping.xsd" 
                 todir="../${gen.src}/mapping" 
                 package="org.exolab.castor.mapping.xml" 
                 lineseparator="unix"
-                bindingfile="../${main}/org/exolab/castor/mapping/mapping-binding.xml"
+                bindingfile="../${java}/org/exolab/castor/mapping/mapping-binding.xml"
                 types="j2" 
                 warnings="false"/>
         <javac destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
