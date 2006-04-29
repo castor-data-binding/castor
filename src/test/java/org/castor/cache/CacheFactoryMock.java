@@ -15,7 +15,6 @@
  */
 package org.castor.cache;
 
-
 /**
  * Cache to test access to distributed caches (Coherence, FKCache and JCache)
  * without having their implementations available.

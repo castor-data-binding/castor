@@ -56,22 +56,14 @@ import org.exolab.castor.mapping.TypeConvertor;
 /**
  * Unit test for SQLTypes.
  */
-public class TestSQLTypes 
-    extends TestCase
-{
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
-    private static Log log = LogFactory.getFactory().getInstance(TestSQLTypes.class);
+public final class TestSQLTypes extends TestCase {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(TestSQLTypes.class);
     
-    /**
-	 * @param arg0
-	 */
-	public TestSQLTypes(String arg0) {
-		super(arg0);
-		// TODO Auto-generated constructor stub
-	}
+    public TestSQLTypes(final String arg0) {
+        super(arg0);
+    }
 
     /**
      * Simple test to convert a java.sql.Timestamp to java.util.Date
@@ -79,13 +71,13 @@ public class TestSQLTypes
     public void testTimestamp2Date() throws MappingException {
         DateFormat format = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
         Timestamp timeStamp = new Timestamp (new java.util.Date().getTime());
-        log.debug ("time stamp = " + format.format (timeStamp));
-        TypeConvertor convertor = SQLTypeConverters.getConvertor(Timestamp.class, java.util.Date.class);
+        LOG.debug ("time stamp = " + format.format (timeStamp));
+        TypeConvertor convertor = SQLTypeConverters.getConvertor(
+                Timestamp.class, java.util.Date.class);
         java.util.Date date = (java.util.Date) convertor.convert(timeStamp, null);
-        log.debug("date = " + format.format(date));
+        LOG.debug("date = " + format.format(date));
         
         assertEquals(timeStamp.getTime(), date.getTime());
-        
     }
 
     /**
@@ -94,13 +86,13 @@ public class TestSQLTypes
     public void testDate2Timestamp() throws MappingException {
         DateFormat format = new SimpleDateFormat ("yyyy-MM-dd hh:mm:ss.SSS");
         java.util.Date date = new java.util.Date();
-        log.debug("date = " + format.format(date));
-        TypeConvertor convertor = SQLTypeConverters.getConvertor(java.util.Date.class, Timestamp.class);
+        LOG.debug("date = " + format.format(date));
+        TypeConvertor convertor = SQLTypeConverters.getConvertor(
+                java.util.Date.class, Timestamp.class);
         Timestamp timeStamp = (Timestamp) convertor.convert(date, null);
-        log.debug ("time stamp = " + format.format (timeStamp));
+        LOG.debug ("time stamp = " + format.format (timeStamp));
         
         assertEquals(timeStamp.getTime(), date.getTime());
     }
-
 }
 

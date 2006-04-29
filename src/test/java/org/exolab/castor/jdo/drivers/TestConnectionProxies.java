@@ -33,41 +33,42 @@ import org.castor.jdo.drivers.ConnectionProxy;
  * To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-public class TestConnectionProxies extends TestCase {
+public final class TestConnectionProxies extends TestCase {
 
-	private static final String JDBC_URL = "jdbc:mysql://localhost:3306/test";
+    private static final String JDBC_URL = "jdbc:mysql://localhost:3306/test";
     private static final String PASSWORD = "test";
     private static final String USER_NAME = "test";
     private static final String DRIVER_NAME = "com.mysql.jdbc.Driver";
     
-    private static final Log log = LogFactory.getLog (TestConnectionProxies.class);
-	
-	private Connection connectionProxy = null;
-	
-	/* (non-Javadoc)
-	 * @see junit.framework.TestCase#setUp()
-	 */
-	protected void setUp() throws Exception {
-		super.setUp();
-		
-		Class.forName (DRIVER_NAME);
-		Properties properties = new Properties();
-		properties.put("user", USER_NAME);
-		properties.put ("password", PASSWORD);
-		this.connectionProxy = ConnectionProxy.newConnectionProxy(DriverManager.getConnection(JDBC_URL, properties), getClass().getName());
-		
-	}
-	
-	public void testSomething () throws Exception {
-		log.debug (this.connectionProxy.toString());
-	}
+    private static final Log LOG = LogFactory.getLog (TestConnectionProxies.class);
+    
+    private Connection _connectionProxy = null;
+    
+    /* (non-Javadoc)
+     * @see junit.framework.TestCase#setUp()
+     */
+    protected void setUp() throws Exception {
+        super.setUp();
+        
+        Class.forName (DRIVER_NAME);
+        Properties properties = new Properties();
+        properties.put("user", USER_NAME);
+        properties.put ("password", PASSWORD);
+        _connectionProxy = ConnectionProxy.newConnectionProxy(
+                DriverManager.getConnection(JDBC_URL, properties), getClass().getName());
+        
+    }
+    
+    public void testSomething () throws Exception {
+        LOG.debug (this._connectionProxy.toString());
+    }
     
     public void testPreparedStatementProxy () throws Exception {
-        PreparedStatement preparedStatement = 
-            this.connectionProxy.prepareStatement("select * from test_item where iid = ?");
+        PreparedStatement preparedStatement = _connectionProxy.prepareStatement(
+                "select * from test_item where iid = ?");
         preparedStatement.setInt(1, 100);
         
-        log.debug (preparedStatement);
+        LOG.debug (preparedStatement);
         
         ResultSet results = preparedStatement.executeQuery();
         assertNotNull(results);
