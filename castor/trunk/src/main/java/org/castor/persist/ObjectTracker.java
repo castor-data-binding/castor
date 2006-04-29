@@ -93,11 +93,14 @@ public final class ObjectTracker {
     /**
      * Retrieve the object for a given OID.
      * 
+     * @param engine Lock engine mapped to oid
+     * @param oid Object id specified
      * @param allowReadOnly Allow (or ignore, if false) read-only objects to be returned.
      * @return The object associated with this oid.
      */
-    public Object getObjectForOID(final LockEngine engine, final OID oid, 
-                                  final boolean allowReadOnly) {
+    public Object getObjectForOID(final LockEngine engine, 
+            final OID oid, 
+            final boolean allowReadOnly) {
         Map oidToObject = (Map) _engineToOIDToObject.get(engine);
         if (oidToObject != null) {
             Object found = oidToObject.get(oid);
@@ -114,6 +117,12 @@ public final class ObjectTracker {
         return null;
     }
     
+    /**
+     * Returns true if the specified object is tracked as a read-write object.
+     * @param object Object instance for which it should be determined whether 
+     * it's tracked as read-write object
+     * @return True if the specified object is tracked as a read-write object
+     */
     public boolean isReadWrite(final Object object) {
         Object aObject = supportCGLibObject(object);
         return (_readWriteSet.contains(aObject));
@@ -124,6 +133,9 @@ public final class ObjectTracker {
         _deletedMap.clear();
     }
     
+    /**
+     * Reset ObjectTracker's state.
+     */
     public void clear() {
         _operation++;
         _createdSet.clear();
@@ -138,11 +150,21 @@ public final class ObjectTracker {
         _updatePersistNeededSet.clear();
     }
     
+    /**
+     * Returns true if the cache needs to be updated for the given object
+     * @param object An object instance
+     * @return true if the cache needs to be updated; false, otherwise.
+     */
     public boolean isUpdateCacheNeeded(final Object object) {
         Object aObject = supportCGLibObject(object);
         return _updateCacheNeededSet.contains(aObject);
     }
     
+    /**
+     * Returns true if the given object needs to be written to the persistence store
+     * @param object An object instance
+     * @return true if the object needs to be written to the persistence store
+     */
     public boolean isUpdatePersistNeeded(final Object object) {
         Object aObject = supportCGLibObject(object);
         return _updatePersistNeededSet.contains(aObject);
@@ -229,8 +251,8 @@ public final class ObjectTracker {
     
     /**
      * Determine whether an object is being tracked within this tracking manager.
-     * @param object
-     * @return
+     * @param object The object for which it should be determined whether it is tracked.
+     * @return True if the object specified is tracked; false otherwise
      */
     public boolean isTracking(final Object object) {
         Object aObject = supportCGLibObject(object);
@@ -289,7 +311,6 @@ public final class ObjectTracker {
     /**
      * For a given lockengine and OID, remove references to an object in the maps.
      * This eliminates both the engine->oid->object and the object->oid.
-     * @param obj The object to stop tracking on
      * @param engine The engine to stop tracking the OID for
      * @param oid The oid of the object to stop tracking on.
      */
@@ -321,7 +342,11 @@ public final class ObjectTracker {
         return _deletedMap.containsKey(object);
     }
     
-    /** Retrieve the ClassMolder associated with a specific object. */
+    /** 
+     * Retrieve the ClassMolder associated with a specific object. 
+     * @param o Object instance the associated ClassMolder should be retrieved. 
+     * @return The ClassMolder instance associated with the Object instance specified.
+     */
     public ClassMolder getMolderForObject(final Object o) {
         Object object = supportCGLibObject(o);
         return (ClassMolder) _objectToMolder.get(object);
@@ -343,20 +368,30 @@ public final class ObjectTracker {
         _objectToMolder.remove(object);
     }
     
-    /** Retrieve the list of all read-write objects being tracked. */
+    /** 
+     * Retrieve the list of all read-write objects being tracked. 
+     * @return List of all read-write objects being currently tracked.
+     */
     public Collection getReadWriteObjects() {
         ArrayList returnedList = new ArrayList(_readWriteSet);
         return returnedList;
     }
     
-    /** Retrieve the list of all read-only objects being tracked. */
+    /** 
+     * Retrieve the list of all read-only objects being tracked. 
+     * @return List of all read-only objects being currently tracked
+     */
     public Collection getReadOnlyObjects() {
         ArrayList returnedList = new ArrayList(_readOnlySet);
         return returnedList;
     }
     
-    /** Retrieve the list of creating objects, sorted in the order they should be 
-     * created. */
+    /** 
+     * Retrieve the list of 'creating' objects (to be created), sorted in the 
+     * order they should be created. 
+     * @return List of objects to be created, sorted in the order they should 
+     * be created. 
+     */
     public Collection getObjectsWithCreatingStateSortedByLowestMolderPriority() {
         ArrayList entryList = new ArrayList(_creatingMap.entrySet());
         Collections.sort(entryList, new ObjectMolderPriorityComparator(this, false));
@@ -367,8 +402,12 @@ public final class ObjectTracker {
         return returnedList;
     }
     
-    /** Retrieve the list of deleted objects, sorted in the order they should be 
-     * deleted. */
+    /** 
+     * Retrieve the list of 'deleted' objects, sorted in the order they should be 
+     * deleted. 
+     * @return List of 'deleted' objects, sorted in the order they should be 
+     * deleted. 
+     */
     public Collection getObjectsWithDeletedStateSortedByHighestMolderPriority() {
         ArrayList entryList = new ArrayList(_deletedMap.entrySet());
         Collections.sort(entryList, new ObjectMolderPriorityComparator(this, true));
@@ -501,21 +540,37 @@ public final class ObjectTracker {
         return sb.toString();
     }
     
+    /**
+     * Returns the object's state.
+     * @param obj Object for which its state should be output.
+     * @return The state of the object specified
+     */
     public String objectStateToString(final Object obj) {
         StringBuffer sb = new StringBuffer();
         sb.append(getOIDForObject(obj));
-        sb.append('\t'); sb.append("deleted: ");  sb.append(_deletedMap.containsKey(obj));
-        sb.append('\t'); sb.append("creating: "); sb.append(_creatingMap.containsKey(obj));
-        sb.append('\t'); sb.append("created: ");  sb.append(_createdSet.contains(obj));
+        sb.append('\t'); 
+        sb.append("deleted: ");  
+        sb.append(_deletedMap.containsKey(obj));
+        sb.append('\t'); sb.append("creating: "); 
+        sb.append(_creatingMap.containsKey(obj));
+        sb.append('\t'); 
+        sb.append("created: ");  
+        sb.append(_createdSet.contains(obj));
         return sb.toString();
     }
     
     //--------------------------------------------------------------------------
 
     private static final class ObjectMolderPriorityComparator implements Comparator {
+        
         private ObjectTracker _tracker;
         private boolean _reverseOrder;
         
+        /**
+         * Creates an instance if this class.
+         * @param tracker The asociated ObjectTracker instance
+         * @param reverseOrder True if reverse order should be applied.
+         */
         public ObjectMolderPriorityComparator(
                 final ObjectTracker tracker, final boolean reverseOrder) {
             _tracker = tracker;
