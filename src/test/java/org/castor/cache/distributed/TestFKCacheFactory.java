@@ -22,8 +22,6 @@ import junit.framework.TestSuite;
 import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
-import org.castor.cache.distributed.FKCache;
-import org.castor.cache.distributed.FKCacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

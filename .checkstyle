@@ -20,6 +20,6 @@
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\jdo\\conf\\.*\.java" include-pattern="false"/>
     </fileset>
     <fileset name="src/test/java" enabled="true" check-config-name="castor-test-checks" local="true">
-        <file-match-pattern match-pattern="src\\test\\java\\org\\castor\\.*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="src\\test\\java\\.*\.java" include-pattern="true"/>
     </fileset>
 </fileset-config>

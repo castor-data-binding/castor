@@ -15,16 +15,17 @@
  */
 package org.exolab.castor.jdo.drivers;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.castor.jdo.drivers.ConnectionProxy;
-
-import junit.framework.TestCase;
 import java.sql.Connection;
 import java.sql.DriverManager;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.util.Properties;
+
+import junit.framework.TestCase;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.jdo.drivers.ConnectionProxy;
 
 /**
  * @author Administrator

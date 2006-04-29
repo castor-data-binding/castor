@@ -21,9 +21,6 @@ import java.util.Iterator;
 import java.util.Map;
 import java.util.Set;
 
-import org.castor.cache.hashbelt.container.Container;
-import org.castor.cache.hashbelt.container.FastIteratingContainer;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

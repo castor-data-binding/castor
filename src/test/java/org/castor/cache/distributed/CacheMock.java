@@ -17,8 +17,6 @@ package org.castor.cache.distributed;
 
 import java.util.HashMap;
 
-import org.castor.cache.distributed.AbstractDistributedCache;
-
 /**
  * Cache to test AbstractDistributedCache.
  * 

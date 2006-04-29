@@ -15,8 +15,6 @@
  */
 package org.castor.util;
 
-import org.castor.util.Base64Decoder;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;

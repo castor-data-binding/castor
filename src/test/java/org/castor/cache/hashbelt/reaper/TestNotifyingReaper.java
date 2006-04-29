@@ -17,13 +17,12 @@ package org.castor.cache.hashbelt.reaper;
 
 import java.util.List;
 
-import org.castor.cache.hashbelt.container.Container;
-import org.castor.cache.hashbelt.container.MapContainer;
-import org.castor.cache.hashbelt.reaper.AbstractReaper;
-
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
+
+import org.castor.cache.hashbelt.container.Container;
+import org.castor.cache.hashbelt.container.MapContainer;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

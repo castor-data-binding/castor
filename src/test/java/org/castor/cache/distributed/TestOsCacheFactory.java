@@ -24,8 +24,6 @@ import org.apache.log4j.Logger;
 import org.castor.cache.Cache;
 import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
-import org.castor.cache.distributed.OsCache;
-import org.castor.cache.distributed.OsCacheFactory;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

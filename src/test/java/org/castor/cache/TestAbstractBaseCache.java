@@ -21,9 +21,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.castor.cache.Cache;
-import org.castor.cache.CacheAcquireException;
-
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date$

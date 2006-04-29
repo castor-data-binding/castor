@@ -24,8 +24,6 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.castor.util.IdentityMap;
-
 /**
  * Run tests of the org.castor.util.IdentityMap.
  * 

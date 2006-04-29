@@ -21,11 +21,9 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
-import org.castor.persist.cache.CacheEntry;
-
 import org.exolab.castor.jdo.TimeStampable;
-import org.exolab.castor.persist.ObjectLock;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.ObjectLock;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

@@ -15,10 +15,9 @@
  */
 package org.exolab.castor.util;
 
-import org.exolab.castor.util.DTDResolver;
-import org.xml.sax.InputSource;
-
 import junit.framework.TestCase;
+
+import org.xml.sax.InputSource;
 
 public class TestDTDResolver extends TestCase {
 

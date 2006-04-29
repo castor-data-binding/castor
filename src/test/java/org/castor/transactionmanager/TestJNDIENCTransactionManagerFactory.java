@@ -16,6 +16,7 @@
 package org.castor.transactionmanager;
 
 import java.util.Properties;
+
 import javax.naming.NotContextException;
 
 import junit.framework.Test;
@@ -24,9 +25,6 @@ import junit.framework.TestSuite;
 
 import org.apache.log4j.Level;
 import org.apache.log4j.Logger;
-
-import org.castor.transactionmanager.JNDIENCTransactionManagerFactory;
-import org.castor.transactionmanager.TransactionManagerAcquireException;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

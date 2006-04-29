@@ -15,7 +15,6 @@
  */
 package org.castor.transactionmanager;
 
-import org.castor.transactionmanager.AbstractTransactionManagerFactory;
 
 /**
  * Dummy transaction manager factory to test AbstractTransactionManagerFactory.
