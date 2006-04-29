@@ -122,8 +122,8 @@ public final class SQLStatementStore {
 
             _statementLazy = sql.toString();
             
-            if (LOG.isInfoEnabled()) {
-                LOG.info(Messages.format("jdo.updating", _type, _statementLazy));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.updating", _type, _statementLazy));
             }
 
             for (int i = 0 ; i < fields.length ; ++i) {
@@ -139,8 +139,8 @@ public final class SQLStatementStore {
             
             _statementDirty = sql.toString();
             
-            if (LOG.isInfoEnabled()) {
-                LOG.info(Messages.format("jdo.updating", _type, _statementDirty));
+            if (LOG.isTraceEnabled()) {
+                LOG.trace(Messages.format("jdo.updating", _type, _statementDirty));
             }
         } 
     }
