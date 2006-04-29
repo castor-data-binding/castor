@@ -1,6 +1,9 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
-	<classpathentry kind="src" path="src/main"/>
+	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" path="src/main/resources"/>
+	<classpathentry kind="src" path="src/test/java"/>
+	<classpathentry kind="src" path="src/test/resources"/>
 	<classpathentry kind="src" path="src/bugs"/>
 	<classpathentry excluding="xml/MasterTestSuite/|xml/RegressionTestSuite/|main/" kind="src" path="src/tests"/>
 	<classpathentry kind="src" path="src/tests/main"/>
