@@ -285,7 +285,7 @@ public final class TestTimeLimited extends TestCase {
         try {
             Properties params = new Properties();
             params.put(Cache.PARAM_NAME, "dummy");
-            params.put(TimeLimited.PARAM_TTL, "5");
+            params.put(TimeLimited.PARAM_TTL, "3");
             cache.initialize(params);
         } catch (CacheAcquireException ex) {
             fail("Unexpected CacheAcquireException at initialization.");
@@ -297,20 +297,20 @@ public final class TestTimeLimited extends TestCase {
         assertEquals(1, cache.size());
         assertTrue(cache.containsKey("a"));
         
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         assertEquals("#a", cache.put("a", "#a"));
         assertEquals(1, cache.size());
         assertTrue(cache.containsKey("a"));
 
-        Thread.sleep(100);
+        Thread.sleep(500);
 
         assertNull(cache.put("b", "#b"));
         assertEquals(2, cache.size());
         assertTrue(cache.containsKey("a"));
         assertTrue(cache.containsKey("b"));
 
-        Thread.sleep(200);
+        Thread.sleep(500);
 
         assertNull(cache.put("c", "#c"));
         assertEquals(3, cache.size());
@@ -318,7 +318,7 @@ public final class TestTimeLimited extends TestCase {
         assertTrue(cache.containsKey("b"));
         assertTrue(cache.containsKey("c"));
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         assertNull(cache.put("d", "#d"));
         assertEquals(4, cache.size());
@@ -337,7 +337,7 @@ public final class TestTimeLimited extends TestCase {
         assertTrue(cache.containsKey("d"));
         assertTrue(cache.containsKey("e"));
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         assertNull(cache.put("f", "#f"));
         assertEquals(6, cache.size());
@@ -348,7 +348,7 @@ public final class TestTimeLimited extends TestCase {
         assertTrue(cache.containsKey("e"));
         assertTrue(cache.containsKey("f"));
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
 
         assertNull(cache.put("g", "#g"));
         assertEquals(7, cache.size());
@@ -360,7 +360,7 @@ public final class TestTimeLimited extends TestCase {
         assertTrue(cache.containsKey("f"));
         assertTrue(cache.containsKey("g"));
 
-        Thread.sleep(1000);
+        Thread.sleep(500);
         
         assertNull(cache.put("h", "#h"));
         assertEquals(8, cache.size());
@@ -373,46 +373,22 @@ public final class TestTimeLimited extends TestCase {
         assertTrue(cache.containsKey("g"));
         assertTrue(cache.containsKey("h"));
 
-        Thread.sleep(950);
         
-        assertEquals(7, cache.size());
-        assertTrue(cache.containsKey("b"));
-        assertTrue(cache.containsKey("c"));
-        assertTrue(cache.containsKey("d"));
-        assertTrue(cache.containsKey("e"));
-        assertTrue(cache.containsKey("f"));
-        assertTrue(cache.containsKey("g"));
-        assertTrue(cache.containsKey("h"));
-
-        Thread.sleep(1000);
-        
-        assertEquals(5, cache.size());
-        assertTrue(cache.containsKey("d"));
-        assertTrue(cache.containsKey("e"));
-        assertTrue(cache.containsKey("f"));
-        assertTrue(cache.containsKey("g"));
-        assertTrue(cache.containsKey("h"));
-
-        Thread.sleep(1100);
-        
-        assertEquals(3, cache.size());
-        assertTrue(cache.containsKey("f"));
-        assertTrue(cache.containsKey("g"));
-        assertTrue(cache.containsKey("h"));
-
-        Thread.sleep(1000);
-        
-        assertEquals(2, cache.size());
-        assertTrue(cache.containsKey("g"));
-        assertTrue(cache.containsKey("h"));
-
-        Thread.sleep(1000);
-        
-        assertEquals(1, cache.size());
-        assertTrue(cache.containsKey("h"));
-
-        Thread.sleep(1000);
-        
-        assertEquals(0, cache.size());
+        while (cache.size() > 0) {
+            Thread.sleep(500);
+            checkKeys(cache);
+        }
+    }
+    
+    private void checkKeys(final Cache cache) {
+        int size = cache.size();
+        if (size >= 8) { assertTrue(cache.containsKey("a")); }
+        if (size >= 7) { assertTrue(cache.containsKey("b")); }
+        if (size >= 6) { assertTrue(cache.containsKey("c")); }
+        if (size >= 5) { assertTrue(cache.containsKey("d")); }
+        if (size >= 4) { assertTrue(cache.containsKey("e")); }
+        if (size >= 3) { assertTrue(cache.containsKey("f")); }
+        if (size >= 2) { assertTrue(cache.containsKey("g")); }
+        if (size >= 1) { assertTrue(cache.containsKey("h")); }
     }
 }

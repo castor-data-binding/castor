@@ -53,12 +53,10 @@ import org.apache.commons.logging.LogFactory;
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
  * @version $Revision$ $Date$
  */
-public class LexTest {
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
-    private static Log _log = LogFactory.getLog( LexTest.class );
+public final class LexTest {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(LexTest.class);
 
     /**
      * Main function.  Takes OQL query string as command line parameter
@@ -66,7 +64,7 @@ public class LexTest {
      *
      * @param args Pass an OQL query string on the command line.
      */
-    public static void main (String args[]) {
+    public static void main(final String[] args) {
         Hashtable tokenTypes = new Hashtable();
         tokenTypes.put(new Integer(TokenType.END_OF_QUERY), "END_OF_QUERY");
         tokenTypes.put(new Integer(TokenType.KEYWORD_SELECT), "KEYWORD_SELECT");
@@ -118,13 +116,15 @@ public class LexTest {
         while (lexer.hasMoreTokens()) {
             try {
                 Token theToken = lexer.nextToken();
-                String tokenType = (String)tokenTypes.get(new Integer(theToken.getTokenType()));
-                _log.debug (tokenType + " : " + theToken.getTokenValue());
-            }
-            catch (Exception e) {
-                _log.error (e.getClass().getName(), e);
+                String tokenType = (String) tokenTypes.get(
+                        new Integer(theToken.getTokenType()));
+                LOG.debug (tokenType + " : " + theToken.getTokenValue());
+            } catch (Exception e) {
+                LOG.error (e.getClass().getName(), e);
                 break;
             }
         }
     }
+    
+    private LexTest() { }
 }
