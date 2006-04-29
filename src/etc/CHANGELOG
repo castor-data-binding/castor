@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Fixed bug CASTOR-1406 using contribution from David Green [david.green@maketechnologies.com]
+       Fixed EmptyStackException at SAX2ANY.
+       Details: http://jira.codehaus.org/browse/CASTOR-1406
+       (Ralf - 20060427)
+
 JDO:   Fixed bug CASTOR-1318 using contribution from Raúl Sanz de Acedo Pérez [rsanz@cein.es]
        Allowed to separately en-/disable logging of executed SQL statments.
        Details: http://jira.codehaus.org/browse/CASTOR-1318

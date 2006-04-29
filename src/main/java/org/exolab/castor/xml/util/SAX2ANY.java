@@ -340,10 +340,11 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         String name = null;
         //-- if namespace processing is disabled then the localName might be null, in that case
         //-- we use the QName
-        if (localName != null && localName.length() > 0)
+        if (localName != null && localName.length() > 0) {
             name = localName;
-        else
-             name = qName;
+        } else {
+            name = getLocalPart(qName);
+        }
         
         //--if it is the starting element just returns
         if (_startingNode.getLocalName().equals(name) && _nodeStack.empty())
