@@ -248,7 +248,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.mockejb</groupId>
 			<artifactId>mockejb</artifactId>
-			<version>0.9.1</version>
+			<version>0.5</version>
 		</dependency>
 
 		<dependency>
