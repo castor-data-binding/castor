@@ -19,6 +19,33 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+
+        <news id="41">
+            <title>Castor and Google Summer of Code</title>
+            <author>Werner Guttmann</author>
+            <date>May 05 2006</date>
+            <time>20:07:43</time>
+            <summary>
+                We are proud to participate in the 
+                <a href="http://code.google.com/soc/">Summer of Code initiative</a>
+                sponsored by <a href="http://www.google.com">Google</a>, and you 
+                are invited to join in the fun.<br/><br/>
+                
+                At 
+                <a href="http://docs.codehaus.org/display/CASTOR/CastorSocProjects">Codehaus</a>,
+                you'll find some suggestions we find suitable for the program, and per
+                definition we would be glad to support a few projects.<br/><br/>
+                
+                Please understand, though, that mentoring capacities will be limited,
+                though we will try to dedicate as much time as possible to the suggested
+                projects. That implies that we depend on your dedication during the
+                preparation of the detailed specification and description of the outcome.<br/><br/>
+                
+                The timeframe for applications is May 1 - May 8. So have a look at the
+                projects at offer, before you are sign up to the program and apply as a
+                student to be mentored by us.
+            </summary>
+        </news>
         <news id="40">
             <title>New source repository</title>
             <author>Ralf Joachim</author>
