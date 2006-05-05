@@ -343,9 +343,7 @@
       <xsl:when test="not(contains($href,'.xml'))">
         <xsl:value-of select="$href"/>
       </xsl:when>
-      <xsl:otherwise>
-        <xsl:value-of select="substring-before($href, '.xml')"/>.html
-      </xsl:otherwise>
+      <xsl:otherwise><xsl:value-of select="substring-before($href, '.xml')"/>.html</xsl:otherwise>
     </xsl:choose>
   </xsl:template>
 
