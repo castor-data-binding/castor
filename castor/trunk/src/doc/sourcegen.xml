@@ -87,6 +87,7 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
     </section>
     
     <section title="Source Generator Options">
+
       <tip>For additional information about the Source Generator and
           options, You can download the
       <a href="./SourceGeneratorUser.pdf">Source Generator User Document(PDF).
@@ -94,32 +95,33 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
         Note: The binding-file is not dicussed in that document.
       </tip>
 
-       <p>
-          The source code generator has a number of different options which
-          may be set. Some of these are done using the command line, and others
-          are done using a properties file located at <pre>"org/exolab/castor/builder/castorbuilder.properties"</pre>.
-       </p>
+       <p>The source code generator has a number of different options which
+          may be set. Some of these are done using the command line, and 
+          others are done using a properties file located at 
+          <tt>"org/exolab/castor/builder/castorbuilder.properties"</tt>.</p>
+
        <section title="Command Line Options">
-          <table border="1" cellspacing="0">
-             <tr>
+        
+          <ctable border="1" cellspacing="0">
+             <cheader>
                <th align="center">Option</th><th>Args</th><th>Description</th><th>Optional?</th>
-             </tr>
-             <tr>
+             </cheader>
+             <crow>
                <td align="center">i</td><td><i>filename</i></td>
                <td>The input XML Schema file</td>
                <td>Required</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">package</td><td><i>package-name</i></td>
                <td>The package for the generated source</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">dest</td><td><i>path</i></td>
                <td>The destination in which to put the generated source</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">line-separator</td><td><i>unix | mac | win</i></td>
                <td>
                   Sets the line separator style for the desired platform. This is
@@ -127,8 +129,8 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
                   be compiling/modifying on another platform.
                </td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">types</td><td><i>type-factory</i></td>
                <td>Sets which type factory to use. This is useful if you
                    you want JDK 1.2 collections instead of JDK 1.1 or if you want
@@ -136,111 +138,114 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
                    (see <a href="#Collection Types">Collection types</a>)
                </td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">h</td><td><br/></td>
                <td>Shows the help/usage screen</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">f</td><td><br/></td>
                <td>
                   Forces the source generator to supress all non-fatal errors, such
                   as overwriting of pre-existing files.
                </td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">nodesc</td><td><br/></td>
-               <td>
-                  Do not generate the class descriptors
-                </td>
+               <td>Do not generate the class descriptors</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">nomarshall</td><td><br/></td>
-               <td>
-                  Do not generate the marshalling framework methods (marshall, unmarshall, validate)
-                </td>
+               <td>Do not generate the marshalling framework methods (marshall, 
+                   unmarshall, validate)</td>
                <td>Optional</td>
-             </tr>
-			 <tr>
+             </crow>
+			 <crow>
                <td align="center">testable</td><td><br/></td>
-               <td>
-                  Generate the specific methods used by the Castor Marshalling Framework
-                </td>
+               <td>Generate the specific methods used by the Castor Marshalling Framework</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">sax1</td><td><br/></td>
-               <td>
-                  Generate marshalling methods that are using SAX1 framework (default is false).
-                </td>
+               <td>Generate marshalling methods that are using SAX1 framework (default is false).</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">binding-file</td><td>The binding file name.</td>
-               <td>
-                  Allows the setting of a Binding File to allow a fine-grained control the classes generated
-                </td>
+               <td>Allows the setting of a Binding File to allow a fine-grained control 
+                   the classes generated</td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">generateImportedSchemas</td><td><br/></td>
                <td>
                   Generates automatically sources for imported XML Schemas (default is false).
                 </td>
                <td>Optional</td>
-             </tr>
-             <tr>
+             </crow>
+             <crow>
                <td align="center">case-insensitive</td><td><br/></td>
                <td>
                   The generated classes will use a case insensitive method for looking up enumerated type values.
                 </td>
                <td>Optional</td>
-             </tr>
-          </table>
+             </crow>
+          </ctable>
 
          <section title="Collection Types">
-         <p>
-            The source code generator has the ability to use the following
-            types of collections when generating source code:
-            <ul>
-               <li>Java 1.1 (default): java.util.Vector</li>
-               <li>Java 1.2: use the option <tt>-types j2</tt>, collection type is java.util.Collection</li>
-               <li>ODMG 3.0: use the option <tt>-types odmg</tt>, collection tyoe is odmg.DArray</li>
-            </ul>
-            You can also write your own FieldInfoFactory to handle specific collection types. All you have to do is to
-            pass in the fully qualified name of that FieldInfoFactory: <tt>-types com.personal.MyCoolFactory</tt>
-
-         </p>
+            
+             <p>The source code generator has the ability to use the following types 
+                of collections when generating source code:
+      
+                <ul>
+                   <li>Java 1.1 (default): java.util.Vector</li>
+                   <li>Java 1.2: use the option <tt>-types j2</tt>, collection type is java.util.Collection</li>
+                   <li>ODMG 3.0: use the option <tt>-types odmg</tt>, collection tyoe is odmg.DArray</li>
+                </ul>
+                
+                You can also write your own FieldInfoFactory to handle specific collection 
+                types. All you have to do is to pass in the fully qualified name of 
+                that FieldInfoFactory as follows:</p>
+                
+             <code-panel>-types com.personal.MyCoolFactory</code-panel>
+    
          </section>
 
        </section>
 
        <!-- Builder.propteries -->
        <section title="Advanced Options">
-         <section title="Bound Properties">
-            <p>Since version: 0.8.9</p>
-            <p>
-               Bound properties are "properties" of a class, which when updated the
-               class will send out a java.beans.PropertyChangeEvent to all
-               registered java.beans.PropertyChangeListeners.
-            </p>
-            <p>To enable bound properties uncomment the appropriate line in the
-               "org/exolab/castor/builder/castorbuilder.properties" file:
-               <code-panel>
+
+            <p>Please find below a list of properties that can be set in the
+               castor-builder.properties file to control various advanced
+               options of the source generator.</p>
+                       
+            <section title="Bound Properties (since 0.8.9)">
+
+                <p>Bound properties are "properties" of a class, which when 
+                   updated the class will send out a <api>java.beans.PropertyChangeEvent</api> 
+                   to all registered <api>java.beans.PropertyChangeListeners</api>.</p>
+                   
+                <p>To enable bound properties, uncomment the appropriate line in the
+                   <tt>org/exolab/castor/builder/castorbuilder.properties</tt> file:</p>
+                   
+                <code-panel>
 # To enable bound properties uncomment the following line. Please
 # note that currently *all* fields will be treated as bound properties
 # when enabled. This will change in the future when we introduce
 # fine grained control over each class and it's properties.
 #
 #org.exolab.castor.builder.boundproperties=true</code-panel>
-               <p>
-                  When enabled, <b>all</b> properties will be treated as bound properties.
-                  For each class that is generated a <b>setPropertyChangeListener</b>
-                  method is created as follows:
-                 <code>
+
+                <p>When enabled, <b>all</b> properties will be treated as bound 
+                   properties. For each class that is generated a 
+                   <tt>setPropertyChangeListener</tt> method is created as 
+                   follows:</p>
+                
+                <code-panel>
     <comment>
     /**
      * Registers a PropertyChangeListener with this class.
@@ -251,62 +256,54 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
         (java.beans.PropertyChangeListener pcl)
     {
         propertyChangeListeners.addElement(pcl);
-    } //-- void addPropertyChangeListener
-                 </code>
-                 Whenever a property of the class is changed, a <b>PropertyChangeEvent</b>
-                 will be sent to all registered listeners. The property name, the old
-                 value, and the new value will be set in the <b>PropertyChangeEvent</b>.
-                 <p>
-                    <b>
-                       Note: To prevent unnecessary overhead, if the property is a
-                       collection, the old value will be <i>null</i>.
-                    </b>
-                 </p>
-
-               </p>
-            </p>
+    } //-- void addPropertyChangeListener</code-panel>
+    
+                <p>Whenever a property of the class is changed, a 
+                   <api>java.beans.PropertyChangeEvent</api> will be sent to 
+                   all registered listeners. The property name, the old value and 
+                   
+                   the new value will be set in the <b>java.beans.PropertyChangeEvent</b>.</p>
+                    
+                <note>To prevent unnecessary overhead, if the property is a collection, 
+                      the old value will be <i>null</i>.</note>
+                   
          </section>
-         <section title="Class Creation/Mapping">
-            <p>Since version: 0.8.9</p>
-            <p>
-               The source generator can treat the XML Schema structures such
+            
+         <section title="Class Creation/Mapping (since 0.8.9)">
+
+            <p>The source generator can treat the XML Schema structures such
                as complexType and element in two main ways. The first, and
                currently default method is called the "element" method. The
-               other is called the "type" method.
-            </p>
+               other is called the "type" method.</p>
+               
             <section title="The 'element' method">
-               <p>
-                  The "element" method creates classes for all elements whose
+                
+               <p>The "element" method creates classes for all elements whose
                   type is a complexType. Abstract classes are created for all
                   top-level complexTypes. Any elements whose type is a top-level
                   type will have a new class create that extends the abstract class
-                  which was generated for that top-level complexType.
-               </p>
-               <p>
-                  Classes are not created for elements whose type is a simpleType.
-               </p>
+                  which was generated for that top-level complexType.</p>
+               
+                <p>Classes are not created for elements whose type is a simpleType.</p>
+                
             </section>
+            
             <section title="The 'type' method">
-               <p>
-                  The "type" method creates classes for all top-level complexTypes, or
-                  elements that contain an "anonymous" (in-lined) complexType.
-               </p>
-               <p>
-                  Classes will not be generated for elements whose type is a top-level
-                  type.
-               </p>
+
+               <p>The "type" method creates classes for all top-level complexTypes, or
+                  elements that contain an "anonymous" (in-lined) complexType.</p>
+                  
+               <p>Classes will not be generated for elements whose type is a top-level
+                  type.</p>
             </section>
-            <p>
-               More information on this is forth coming.
-            </p>
-            <p>
-              To change the "method" of class creation simple edit the
-                <b>castorbuilder.properties</b> file:
-              <code-panel>
+
+            <p>To change the "method" of class creation, simple edit the
+               <tt>castorbuilder.propertie</tt> file:</p>
+               
+            <code-panel>
 # Java class mapping of &lt;xsd:element&gt;'s and &lt;xsd:complexType&gt;'s
 #
 #org.exolab.castor.builder.javaclassmapping=element</code-panel>
-            </p>
          </section>
 
          <section title="Setting a super class">
