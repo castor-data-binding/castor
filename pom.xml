@@ -26,11 +26,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<source>1.4</source>
 					<target>1.4</target>
 					<excludes>
-						<exclude implementation="java.lang.String">xml/MasterTestSuite/**/*.java</exclude>
-						<exclude implementation="java.lang.String">xml/RegressionTestSuite/**/*.java</exclude>
 						<exclude implementation="java.lang.String">SourceGenerator/**</exclude>
-                        <exclude implementation="java.lang.String">org/exolab/castor/jdo/oql/LexTest.java</exclude>
 					</excludes>
+                    <testExcludes>
+                        <exclude implementation="java.lang.String">xml/MasterTestSuite/**</exclude>
+						<exclude implementation="java.lang.String">xml/RegressionTestSuite/**</exclude>
+                    </testExcludes>
 				</configuration>
 			</plugin>
 
@@ -51,6 +52,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 							</sources>
 						</configuration>
 					</execution>
+<!-- to include JDO CTF suite, below execution needs to be (partially ) uncommented -->                   
 <!--
 					<execution>
 						<id>add-test-source</id>
@@ -65,11 +67,28 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 							</sources>
 						</configuration>
 					</execution>
--->
+-->                    
 				</executions>
 			</plugin>
 
-
+            <plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-clover-plugin</artifactId>
+                <version>2.1</version>        
+                <configuration>          
+                  <jdk>1.4</jdk>
+                  <cloverDatabase>target/clover-db</cloverDatabase>          
+                  <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>     
+                </configuration>
+                <executions>
+                  <execution>
+                    <phase>pre-site</phase>
+                    <goals>
+                      <goal>instrument</goal>
+                    </goals>
+                  </execution>
+                </executions>
+            </plugin>       
 		</plugins>
 	</build>
 
@@ -198,6 +217,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		</dependency>
 
 		<dependency>
+			<groupId>com.cenqua.clover</groupId>
+			<artifactId>clover</artifactId>
+			<version>1.3.12</version>
+		</dependency>
+
+		<dependency>
 			<groupId>oro</groupId>
 			<artifactId>oro</artifactId>
 			<version>2.0.8</version>
@@ -277,7 +302,18 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                         <exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
                         <exclude>org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
                         <exclude>**/TestAll.java</exclude>
+                        <exclude>xml/**/*.java</exclude>
+                        <exclude>harness/**</exclude>
+                        <exclude>soak/**</exclude>
+                        <exclude>jdo/**</exclude>
+                        <exclude>ctf/**</exclude>
+                        <!-- test harness -->
+                        <exclude>org/exolab/castor/tests/framework/**</exclude>
                     </excludes>
+                    <includes>
+                        <include>org/exolab/castor/**/Test*.java</include>
+                        <include>org/castor/**/Test*.java</include>
+                    </includes>
                 </configuration>
             </plugin>            
 
@@ -323,6 +359,16 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<groupId>org.codehaus.mojo</groupId>
                 <artifactId>taglist-maven-plugin</artifactId>
 			</plugin>
+            
+            <plugin> 
+            <artifactId>maven-clover-plugin</artifactId>
+            <version>2.1</version>
+            <configuration>          
+                <jdk>1.4</jdk>
+                <cloverDatabase>target/clover-db</cloverDatabase>          
+                <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>     
+            </configuration>        
+      </plugin>    
 
 		</plugins>
 	</reporting>
