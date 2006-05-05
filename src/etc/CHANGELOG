@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1413 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for ehcache as Castor (performance) cache
+       Details: http://jira.codehaus.org/browse/CASTOR-1413
+       (Werner - 20060505)
+
 XML:   Fixed bug CASTOR-1406 using contribution from David Green [david.green@maketechnologies.com]
        Fixed EmptyStackException at SAX2ANY.
        Details: http://jira.codehaus.org/browse/CASTOR-1406

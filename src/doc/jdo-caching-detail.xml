@@ -134,6 +134,15 @@
                 <td align="center">Yes</td>
                 <td align="center">1.0</td>
             </crow>
+            <crow>
+                <td>ehcache</td>
+                <td>Built-in</td>
+                <td>-</td>
+                <td align="center">Yes</td>
+                <td>Open Source</td>
+                <td align="center">?</td>
+                <td align="center">1.0.1</td>
+            </crow>
         </ctable>
 
         <p>As some of these cache providers allow for allow you to use it 

@@ -129,7 +129,8 @@
     org.castor.cache.distributed.CoherenceCacheFactory,\
     org.castor.cache.distributed.OsCacheFactory,\
     org.castor.cache.hashbelt.FIFOHashbeltFactory,\
-    org.castor.cache.hashbelt.LRUHashbeltFactory
+    org.castor.cache.hashbelt.LRUHashbeltFactory,\
+    org.castor.cache.distributed.EHCacheFactory
 
   #
   # List of supported TransactionManagerFactory implementations; please expand
