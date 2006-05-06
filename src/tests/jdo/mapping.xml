@@ -7,8 +7,6 @@
   <include href="../ctf/jdo/tc3x/mapping.xml"/>
   <include href="../ctf/jdo/tc8x/mapping.xml"/>
   <include href="../ctf/jdo/tc9x/mapping.xml"/>
-  <include href="tc166/mapping.xml"/>
-  <include href="tc167/mapping.xml"/>
   
 
   <!-- Mapping for TestObject to test_table
@@ -85,121 +83,6 @@
     <field name="group" type="jdo.TestManyGroupKeyGen" collection="collection"
     required="false">
       <sql many-table="test_group_person"/>
-    </field>
-  </class>
-
-  <!-- Test lazy loading -->
-  <class name="jdo.TestLazyPerson" identity="firstName lastName">
-    <description>Table used for testing lazy loading</description>
-    <map-to table="test_pks_person" />
-    <field name="firstName" type="string"  required="true">
-      <sql name="fname" type="varchar" />
-    </field>
-    <field name="lastName" type="string" required="true">
-      <sql name="lname" type="varchar" />
-    </field>
-    <field name="birthday" type="date"  >
-      <sql name="bday" type="date" />
-    </field>
-    <field name="address" type="jdo.TestLazyAddress" collection="collection" lazy="true" 
-           set-method="setAddress" get-method="getAddress"/>
-  </class>
-
-  <class name="jdo.TestLazyAddress" depends="jdo.TestLazyPerson" identity="id">
-    <description>Table used for testing lazy loading</description>
-    <map-to table="test_pks_address" />
-    <field name="id" type="integer" >
-      <sql name="id" type="integer" />
-    </field>
-    <field name="street" type="string" >
-      <sql name="street" type="varchar"/>
-    </field>
-    <field name="city" type="string" >
-      <sql name="city" type="varchar" />
-    </field>
-    <field name="state" type="string" >
-      <sql name="state" type="varchar" />
-    </field>
-    <field name="zip" type="string" >
-      <sql name="zip" type="varchar" />
-    </field>
-    <field name="Person" type="jdo.TestLazyPerson">
-      <sql name="fname lname"/>
-    </field>
-  </class>
-
-  <class name="jdo.TestLazyEmployee" extends="jdo.TestLazyPerson">
-    <description>Table used for testing lazy loading for extends</description>
-    <map-to table="test_pks_employee" />
-    <field name="startDate" type="date" >
-      <sql name="start_date" type="date" />
-    </field>
-    <field name="payRoll" type="jdo.TestLazyPayRoll" />
-    <field name="contract" type="jdo.TestLazyContract" />
-    <field name="projects" type="jdo.TestLazyProject" collection="collection" lazy="true"/>
-  </class>
-
-  <class name="jdo.TestLazyProject" identity="id">
-    <description>Table used for testing lazy loading</description>
-    <map-to table="test_pks_project" />
-    <field name="id" type="integer">
-      <sql name="id" type="integer" />
-    </field>
-    <field name="owner" type="jdo.TestLazyEmployee">
-      <sql name="fname lname"/>
-    </field>
-    <field name="name" type="string">
-      <sql name="name" type="varchar"/>
-    </field>
-  </class>
-
-  <class name="jdo.TestLazyContract" depends="jdo.TestLazyEmployee" identity="policyNo contractNo">
-    <description>Table used for testing multiple primary keys for extends</description>
-    <map-to table="test_pks_contract" />
-    <field name="policyNo" type="integer" >
-      <sql name="policy_no" type="integer"/>
-    </field>
-    <field name="contractNo" type="integer">
-      <sql name="contract_no" type="integer"/>
-    </field>
-    <field name="comment" type="string">
-      <sql name="c_comment" type="varchar"/>
-    </field>
-    <field name="category" type="jdo.TestLazyContractCategory" collection="collection" >
-      <sql many-table="test_pks_category_contract" many-key="policy_no contract_no" name="cate_id" />
-    </field>
-    <field name="employee" type="jdo.TestLazyEmployee" >
-      <sql name="fname lname" />
-    </field>
-  </class>
-
-  <class name="jdo.TestLazyContractCategory" identity="id" >
-    <map-to table="test_pks_category" />
-    <field name="id" type="integer">
-      <sql name="id" type="integer" />
-    </field>
-    <field name="name" type="string">
-      <sql name="name" type="varchar" />
-    </field>
-    <field name="contract" type="jdo.TestLazyContract" collection="collection" >
-      <sql many-table="test_pks_category_contract" many-key="cate_id" name="policy_no contract_no" />
-    </field>
-  </class>
-
-  <class name="jdo.TestLazyPayRoll" depends="jdo.TestLazyEmployee" identity="id">
-    <description>Table used for testing lazy loading</description>
-    <map-to table="test_pks_payroll" />
-    <field name="id" type="integer">
-      <sql name="id" type="integer"/>
-    </field>
-    <field name="holiday" type="integer" >
-      <sql name="holiday" type="integer" />
-    </field>
-    <field name="hourlyRate" type="integer" >
-      <sql name="hourly_rate" type="integer" />
-    </field>
-    <field name="employee" type="jdo.TestLazyEmployee" >
-      <sql name="fname lname" />
     </field>
   </class>
 
@@ -363,33 +246,6 @@
     </field>
   </class>
 
-  <!-- Test many-to-many from entityA to entityB (but not from entityB to
-       entityA) with lazy loading -->
-
-  <class name="jdo.TestLazyNToNA" identity="idA">
-    <description>Source table used for testing lazy loading many-to-many</description>
-    <map-to table="test_nton_a" />
-    <field name="idA" type="string"  required="true">
-      <sql name="id" type="varchar" />
-    </field>
-    <field name="statusA" type="integer" required="true">
-      <sql name="status" type="integer" />
-    </field>
-    <field name="refsToB" type="jdo.TestLazyNToNB" collection="collection" lazy="true" 
-           set-method="setRefs" get-method="getRefs"/>
-  </class>
-
-  <class name="jdo.TestLazyNToNB" identity="idB">
-    <description>Destination table used for testing lazy loading many-to-many</description>
-    <map-to table="test_nton_a" />
-    <field name="idB" type="string"  required="true">
-      <sql name="id" type="varchar" />
-    </field>
-    <field name="statusB" type="integer" required="true">
-      <sql name="status" type="integer" />
-    </field>
-  </class>
-
   <class name="jdo.Master" key-generator="MAX" identity="id">
     <map-to table="master" />
     <field name="depend1" type="jdo.Depend1">
@@ -425,76 +281,6 @@
       <bind-xml name="id" />
     </field>
   </class>
-
-  <class name="jdo.Brother" identity="id" key-generator="SEQUENCE">
-    <map-to table="circ_brother" />
-    <field name="id" type="long">
-      <sql name="brother_id" type="integer" />
-    </field>
-    <field name="sister" type="jdo.Sister">
-      <sql name="brother_sibling" />
-    </field>
-  </class>
-
-  <class name="jdo.Sister" identity="id" key-generator="SEQUENCE">
-    <map-to table="circ_sister" />
-    <field name="id" type="long">
-      <sql name="sister_id" type="integer" />
-    </field>
-    <field name="brother" type="jdo.Brother">
-      <sql name="sister_sibling" />
-    </field>
-  </class>
-  
-  <!-- test objects for TestTransientAttribute -->
-  <class name="jdo.TransientMaster" identity="id">
-    <description>Entite one</description>
-    <map-to table="trans_master" xml="entity1" />
-    <field name="id" type="integer" >
-      <sql name="id" type="integer"/>
-    </field>
-    <field name="name" type="string">
-      <sql name="name" type="char" />
-    </field>
-    <field name="property1" type="integer">
-      <sql name="propty1" type="integer" transient="true"/>
-    </field>
-    <field name="property2" type="integer">
-      <sql name="propty2" type="integer"/>
-    </field>
-    <field name="property3" type="integer" transient="true">
-      <sql name="propty3" type="integer"/>
-    </field>
-    <field name="entityTwo" type="jdo.TransientChildOne">
-      <sql name="ent2" transient="true" />
-    </field>
-    <field name="entityThrees" type="jdo.TransientChildTwo" collection="collection">
-      <sql many-key="entityOneId" transient="true" />
-    </field>
-  </class>
-
-  <class name="jdo.TransientChildOne" identity="id">
-    <description>Entite one</description>
-    <map-to table="trans_child1" xml="entity1" />
-    <field name="id" type="integer" >
-      <sql name="id" type="integer"/>
-    </field>
-    <field name="description" type="string">
-      <sql name="descr" type="char" />
-    </field>
-  </class>
-
-  <class name="jdo.TransientChildTwo" identity="id">
-    <description>Entite one</description>
-    <map-to table="trans_child2" xml="entity1" />
-    <field name="id" type="integer" >
-      <sql name="id" type="integer"/>
-    </field>
-    <field name="description" type="string">
-      <sql name="descr" type="char" />
-    </field>
-  </class>
-  <!-- key generator definitions -->
 
 	<!-- TC129 -->
     <class identity="id" name="jdo.Container">

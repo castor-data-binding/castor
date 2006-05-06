@@ -15,9 +15,8 @@
  */
 package ctf.jdo.tc8x;
 
-import harness.TestHarness;
 import harness.CastorTestCase;
-
+import harness.TestHarness;
 import jdo.JDOCategory;
 
 import org.exolab.castor.jdo.Database;

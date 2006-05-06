@@ -45,10 +45,10 @@
 package jdo;
 
 import java.util.ArrayList;
-import java.util.Enumeration;
-import java.util.List;
-import java.util.Iterator;
 import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 
 /**
  * Test object for collection types 'iterator' (java.util.Iterator).

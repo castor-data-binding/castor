@@ -46,17 +46,17 @@
 
 package jdo;
 
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.QueryResults;
-import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.PersistenceException;
-
-import harness.TestHarness;
 import harness.CastorTestCase;
+import harness.TestHarness;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.OQLQuery;
+import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryResults;
 
 public class QueryFinalize extends CastorTestCase 
 {
@@ -74,7 +74,7 @@ public class QueryFinalize extends CastorTestCase
      */
     public QueryFinalize( TestHarness category ) 
     {
-        super( category, "tempTC100", "Query garbage collected" );
+        super( category, "TC77", "Query garbage collected" );
         _category = (JDOCategory) category;
     }
 

@@ -13,18 +13,18 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.tc166;
+package ctf.jdo.tc8x;
 
 import harness.CastorTestCase;
 import harness.TestHarness;
-
-import jdo.JDOCategory;
 
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
+
+import jdo.JDOCategory;
 
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
@@ -35,17 +35,12 @@ import org.exolab.castor.mapping.AccessMode;
 /**
  * @author < a href="werner.guttmann@hmx.net">Werner Guttmann</a>
  */
-public class TestLazy1to1 extends CastorTestCase {
+public final class TestLazy1to1 extends CastorTestCase {
     private JDOCategory     _category;
     private Database        _wrapper;
 
-    public TestLazy1to1( TestHarness category ) {
-        super( category, "tempTC166", "TestLazy1to1" );
-        _category = (JDOCategory) category;
-    }
-
-    public TestLazy1to1( TestHarness category, String name, String description ) {
-        super( category, name, description );
+    public TestLazy1to1(final TestHarness category) {
+        super(category, "TC87", "TestLazy1to1");
         _category = (JDOCategory) category;
     }
 
@@ -68,9 +63,9 @@ public class TestLazy1to1 extends CastorTestCase {
         testLoadBookWithLazyAuthorProperty();
     }
 
-	protected void tearDown() throws Exception {
-		super.tearDown();
-	}
+    protected void tearDown() throws Exception {
+        super.tearDown();
+    }
 
     public void testCreateParent () throws Exception {
         Lazy1to1Parent parent = null;
@@ -79,41 +74,41 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (1));
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (1));
         parent = new Lazy1to1Parent();
         parent.setId(new Integer(20000));
         parent.setDescription ("parent 20000");
-        parent.setChild (child);
-        db.create (parent);
+        parent.setChild(child);
+        db.create(parent);
         db.commit();
         
         db.begin();
-        parent = (Lazy1to1Parent ) db.load (Lazy1to1Parent.class, new Integer (20000));
+        parent = (Lazy1to1Parent ) db.load(Lazy1to1Parent.class, new Integer (20000));
         child = parent.getChild();
-        assertNotNull (child);
-        assertEquals (1, child.getId().intValue());
+        assertNotNull(child);
+        assertEquals(1, child.getId().intValue());
         db.rollback();
         
         db.begin();
-        parent = (Lazy1to1Parent ) db.load (Lazy1to1Parent.class, new Integer (20000));
-        db.remove (parent);
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (20000));
+        db.remove(parent);
         db.commit();
         
         db.close();
     }
 
     public void testLoadChild() throws Exception {
-		Lazy1to1Child child = null;
+        Lazy1to1Child child = null;
 
-		Database db = _category.getDatabase();
+        Database db = _category.getDatabase();
 
-		db.begin();
-		child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (1));
-		assertChild (child, 1, "child 1");
-		db.commit();
-		
-		db.close();
-	}
+        db.begin();
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (1));
+        assertChild(child, 1, "child 1");
+        db.commit();
+        
+        db.close();
+    }
 
     public void testLoadChildReadOnly() throws Exception {
         Lazy1to1Child child = null;
@@ -121,8 +116,9 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
 
         db.begin();
-        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (1), AccessMode.ReadOnly);
-        assertChild (child, 1, "child 1");
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (1),
+                                        AccessMode.ReadOnly);
+        assertChild(child, 1, "child 1");
         db.commit();
         
         db.close();
@@ -134,9 +130,9 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (5));
-        assertParent (parent, 5, "parent 5");
-        assertNull (parent.getChild());
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (5));
+        assertParent(parent, 5, "parent 5");
+        assertNull(parent.getChild());
         db.commit();
         
         db.close();
@@ -148,12 +144,12 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
         db.commit();
 
-        assertParent (parent, 1, "parent 1");
+        assertParent(parent, 1, "parent 1");
         Lazy1to1Child nature = parent.getChild();
-        assertChild (nature, 1, "child 1");
+        assertChild(nature, 1, "child 1");
 
         db.close();
     }
@@ -164,20 +160,21 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1), AccessMode.ReadOnly);
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1),
+                                          AccessMode.ReadOnly);
         db.commit();
 
-        assertParent (parent, 1, "parent 1");
+        assertParent(parent, 1, "parent 1");
         Lazy1to1Child nature = parent.getChild();
-        assertChild (nature, 1, "child 1");
+        assertChild(nature, 1, "child 1");
 
         // re-load to assert that nothing has changed
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
         db.commit();
 
-        assertParent (parent, 1, "parent 1");
-        assertChild (parent.getChild(), 1, "child 1");
+        assertParent(parent, 1, "parent 1");
+        assertChild(parent.getChild(), 1, "child 1");
 
         db.close();
     }
@@ -188,11 +185,12 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1), AccessMode.ReadOnly);
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1),
+                                          AccessMode.ReadOnly);
 
-        assertParent (parent, 1, "parent 1");
+        assertParent(parent, 1, "parent 1");
         Lazy1to1Child nature = parent.getChild();
-        assertChild (nature, 1, "child 1");
+        assertChild(nature, 1, "child 1");
 
         parent.getChild().setDescription("child changed");
 
@@ -200,11 +198,11 @@ public class TestLazy1to1 extends CastorTestCase {
 
         // re-load to assert that nothing has changed
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
         db.rollback();
 
-        assertParent (parent, 1, "parent 1");
-        assertChild (parent.getChild(), 1, "child 1");
+        assertParent(parent, 1, "parent 1");
+        assertChild(parent.getChild(), 1, "child 1");
 
         db.close();
     }
@@ -215,8 +213,8 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
         db.commit();
         
         db.close();
@@ -229,8 +227,9 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1), AccessMode.ReadOnly);
-        assertParent (parent, 1, "parent 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1),
+                                          AccessMode.ReadOnly);
+        assertParent(parent, 1, "parent 1");
         db.commit();
         
         db.close();
@@ -244,9 +243,9 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
-        assertChild (parent.getChild(), 1, "child 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
+        assertChild(parent.getChild(), 1, "child 1");
         db.commit();
         
         out.writeObject (parent);
@@ -254,33 +253,33 @@ public class TestLazy1to1 extends CastorTestCase {
 
         ObjectInputStream in = new ObjectInputStream (new FileInputStream (file));
         Lazy1to1Parent accountDeserialized = (Lazy1to1Parent) in.readObject ();
-        assertNotNull (accountDeserialized);
-        assertEquals (1, accountDeserialized.getId().intValue());
+        assertNotNull(accountDeserialized);
+        assertEquals(1, accountDeserialized.getId().intValue());
         assertChild(accountDeserialized.getChild(), 1, "child 1");
         
         db.close();
     }
     
     public void testSerializeParentWithoutAccess () throws Exception {
-        File file = new File ("serialized.out");
-        ObjectOutputStream out = new ObjectOutputStream (new FileOutputStream (file));
+        File file = new File("serialized.out");
+        ObjectOutputStream out = new ObjectOutputStream(new FileOutputStream (file));
         
         Lazy1to1Parent parent = null;
         
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
         assertParent (parent, 1, "parent 1");
         db.commit();
         
         out.writeObject (parent);
         out.close();
         
-        ObjectInputStream in = new ObjectInputStream (new FileInputStream (file));
+        ObjectInputStream in = new ObjectInputStream(new FileInputStream (file));
         parent = (Lazy1to1Parent) in.readObject ();
-        assertNotNull (parent);
-        assertEquals (1, parent.getId().intValue());
+        assertNotNull(parent);
+        assertEquals(1, parent.getId().intValue());
         assertChild(parent.getChild(), 1, "child 1");
         
         db.close();
@@ -292,25 +291,25 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
 
         db.begin();
-        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (2));
-        assertChild (child, 2, "child 2");
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (2));
+        assertChild(child, 2, "child 2");
         child.setDescription ("child 22");
         db.commit();
 
         db.begin();
-        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (2));
-        assertChild (child, 2, "child 22");
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (2));
+        assertChild(child, 2, "child 22");
         db.rollback();
 
         db.begin();
-        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (2));
-        assertChild (child, 2, "child 22");
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (2));
+        assertChild(child, 2, "child 22");
         child.setDescription("child 2");
         db.commit();
 
         db.begin();
-        child = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (2));
-        assertChild (child, 2, "child 2");
+        child = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (2));
+        assertChild(child, 2, "child 2");
         db.rollback();
 
         db.close();
@@ -323,33 +322,33 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
         child = parent.getChild();
-        assertChild (child, 1, "child 1");
-        parent.setDescription ("parent 11");
+        assertChild(child, 1, "child 1");
+        parent.setDescription("parent 11");
         db.commit();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 11");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 11");
         child = parent.getChild();
-        assertChild (child, 1, "child 1");
+        assertChild(child, 1, "child 1");
         db.rollback();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 11");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 11");
         child = parent.getChild();
-        assertChild (child, 1, "child 1");
-        parent.setDescription ("parent 1");
+        assertChild(child, 1, "child 1");
+        parent.setDescription("parent 1");
         db.commit();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
         child = parent.getChild();
-        assertChild (child, 1, "child 1");
+        assertChild(child, 1, "child 1");
         db.rollback();
 
         db.close();
@@ -361,25 +360,25 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
-        parent.setDescription ("parent 11");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
+        parent.setDescription("parent 11");
         db.commit();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 11");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 11");
         db.commit();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 11");
-        parent.setDescription ("parent 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 11");
+        parent.setDescription("parent 1");
         db.commit();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
         db.commit();
 
         db.close();
@@ -392,46 +391,48 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
-        assertChild (parent.getChild(), 1, "child 1");
-        parent.setChild (null);
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
+        assertChild(parent.getChild(), 1, "child 1");
+        parent.setChild(null);
         db.commit();
         
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
-        assertNull (parent.getChild());
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
+        assertNull(parent.getChild());
         db.rollback();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
-        childNew = (Lazy1to1Child) db.load (Lazy1to1Child.class, new Integer (1));
-        assertChild (childNew, 1, "child 1");
-        parent.setChild (childNew);
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
+        childNew = (Lazy1to1Child) db.load(Lazy1to1Child.class, new Integer (1));
+        assertChild(childNew, 1, "child 1");
+        parent.setChild(childNew);
         db.commit();
 
         db.begin();
-        parent = (Lazy1to1Parent) db.load (Lazy1to1Parent.class, new Integer (1));
-        assertParent (parent, 1, "parent 1");
-        assertChild (parent.getChild(), 1, "child 1");
+        parent = (Lazy1to1Parent) db.load(Lazy1to1Parent.class, new Integer (1));
+        assertParent(parent, 1, "parent 1");
+        assertChild(parent.getChild(), 1, "child 1");
         db.rollback();
 
         db.close();
     }
 
-	private void assertParent (Lazy1to1Parent account, int id, String description) {
-		assertNotNull (account);
-		assertEquals (id, account.getId().intValue());
-		assertEquals (description, account.getDescription());
-	}
+    private void assertParent(final Lazy1to1Parent account,
+                              final int id, final String description) {
+        assertNotNull(account);
+        assertEquals(id, account.getId().intValue());
+        assertEquals(description, account.getDescription());
+    }
 
-	private void assertChild (Lazy1to1Child nature, int id, String description) {
-		assertNotNull (nature);
-		assertEquals (id, nature.getId().intValue());
-		assertEquals (description, nature.getDescription());
-	}
+    private void assertChild(final Lazy1to1Child nature,
+                             final int id, final String description) {
+        assertNotNull(nature);
+        assertEquals(id, nature.getId().intValue());
+        assertEquals(description, nature.getDescription());
+    }
     
     public void testLoadBookWithLazyAuthorProperty() throws Exception {
         _wrapper = _category.getDatabase();
@@ -446,17 +447,18 @@ public class TestLazy1to1 extends CastorTestCase {
         Database db = _category.getDatabase();
         db.begin();
 
-        OQLQuery qry = db.getOQLQuery("SELECT o FROM " + Lazy1to1Book.class.getName() + " o");
+        OQLQuery qry = db.getOQLQuery(
+                "SELECT o FROM " + Lazy1to1Book.class.getName() + " o");
         QueryResults results = qry.execute();
-        assertTrue("Should have a book in db, but couldn't find one: ", results.hasMore());
+        assertTrue("Should have a book in db, but couldn't it: ", results.hasMore());
 
         Lazy1to1Book book = null;
-        if (results.hasMore()){
+        if (results.hasMore()) {
             book = (Lazy1to1Book) results.next();
             Lazy1to1Author currentAuthor = book.getAuthor();
 
             assertNotNull("book should have author", currentAuthor);
-            assertNotNull("book's author should have a last name", currentAuthor.getLastName());
+            assertNotNull("author should have a last name", currentAuthor.getLastName());
         }
 
         db.commit();
@@ -467,8 +469,8 @@ public class TestLazy1to1 extends CastorTestCase {
                 _wrapper.commit();
             } catch (Exception ex) {
                 ex.printStackTrace();
-                fail("Unexpected exception committing wrapper db txn: " + ex.getMessage());
-            } finally{
+                fail("Unexpected exception committing wrapper db: " + ex.getMessage());
+            } finally {
                 _wrapper.close();
             }
         }

@@ -1,17 +1,16 @@
 package jdo;
 
+import harness.CastorTestCase;
+import harness.TestHarness;
+
 import java.util.Iterator;
 import java.util.SortedSet;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
-
-import harness.CastorTestCase;
-import harness.TestHarness;
 
 /**
  * Test for different collection types supported by Castor JDO.
@@ -25,7 +24,7 @@ public class TestSortedContainer extends CastorTestCase {
     private JDOCategory _category;
 
     public TestSortedContainer(TestHarness category) {
-        super(category, "tempTC128a", "Test sorted collections");
+        super(category, "TC72", "Test sorted collections");
         _category = (JDOCategory) category;
     }
 

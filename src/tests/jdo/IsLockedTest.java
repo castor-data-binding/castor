@@ -15,13 +15,13 @@
  */
 package jdo;
 
+import harness.CastorTestCase;
+import harness.TestHarness;
+
 import java.sql.SQLException;
 
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-
-import harness.CastorTestCase;
-import harness.TestHarness;
 
 
 /**
@@ -36,7 +36,7 @@ public class IsLockedTest extends CastorTestCase {
     private JDOCategory    _category;
 
     public IsLockedTest ( TestHarness category ) {
-        super( category, "tempTC247", "Test the use of Database.isLocked()" );
+        super( category, "TC79", "Test the use of Database.isLocked()" );
         _category = (JDOCategory) category;
     }
 

@@ -46,13 +46,13 @@
 
 package jdo;
 
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
-
-import harness.TestHarness;
 import harness.CastorTestCase;
+import harness.TestHarness;
 
 import java.sql.Connection;
+
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.PersistenceException;
 
 public class TestGetJdbcConnection extends CastorTestCase {
     private JDOCategory    _category;
@@ -67,7 +67,7 @@ public class TestGetJdbcConnection extends CastorTestCase {
      */
     public TestGetJdbcConnection( TestHarness category ) 
     {
-        super( category, "tempTC202", "JDBC connection" );
+        super( category, "TC78", "JDBC connection" );
         _category = (JDOCategory) category;
     }
 

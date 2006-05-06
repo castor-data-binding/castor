@@ -15,11 +15,11 @@
  */
 package ctf.jdo.tc8x;
 
-import org.exolab.castor.jdo.Database;
-
 import harness.CastorTestCase;
 import harness.TestHarness;
 import jdo.JDOCategory;
+
+import org.exolab.castor.jdo.Database;
 
 /**
  * Tests that modification to read only objects are not persist in the 

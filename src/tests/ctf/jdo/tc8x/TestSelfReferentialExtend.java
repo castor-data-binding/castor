@@ -15,6 +15,9 @@
  */
 package ctf.jdo.tc8x;
 
+import harness.CastorTestCase;
+import harness.TestHarness;
+
 import java.util.Iterator;
 import java.util.List;
 
@@ -23,9 +26,6 @@ import jdo.JDOCategory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
-
-import harness.CastorTestCase;
-import harness.TestHarness;
 
 /**
  * Tests that modification to read only objects are not persist in the 

@@ -39,12 +39,15 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$ 
  */
+package ctf.jdo.tc8x;
 
+import harness.CastorTestCase;
+import harness.TestHarness;
 
-package jdo;
+import java.sql.SQLException;
+
+import jdo.JDOCategory;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
@@ -53,14 +56,8 @@ import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
-import harness.TestHarness;
-import harness.CastorTestCase;
-
-import java.sql.SQLException;
-
-public class TestTransientAttribute extends CastorTestCase {
-
-    private static final Log _log = LogFactory.getLog (TestTransientAttribute.class);
+public final class TestTransientAttribute extends CastorTestCase {
+    private static final Log LOG = LogFactory.getLog(TestTransientAttribute.class);
     
     private JDOCategory    _category;
 
@@ -71,63 +68,60 @@ public class TestTransientAttribute extends CastorTestCase {
      *
      * @param category The test suite for these tests
      */
-    public TestTransientAttribute( TestHarness category ) 
-    {
-        super( category, "tempTC84a", "Transient attribute" );
+    public TestTransientAttribute(final TestHarness category) {
+        super(category, "TC84", "Transient attribute");
         _category = (JDOCategory) category;
     }
 
     /**
      * Get a JDO database
      */
-    public void setUp() 
-        throws PersistenceException, SQLException
-    {
+    public void setUp() throws PersistenceException, SQLException {
         _db = _category.getDatabase();
     }
 
-    public void tearDown() throws PersistenceException 
-    {
-        if ( _db.isActive() ) _db.rollback();
-        if ( _db.isActive()) _db.close();
+    public void tearDown() throws PersistenceException {
+        if (_db.isActive()) { _db.rollback(); }
+        if (_db.isActive()) { _db.close(); }
     }
     
-    public void runTest() throws Exception 
-    {
+    public void runTest() throws Exception {
         _db.begin();
         
-        TransientMaster entity = (TransientMaster) _db.load(TransientMaster.class, new Integer (1));
+        TransientMaster entity = (TransientMaster) _db.load(
+                TransientMaster.class, new Integer(1));
         assertNotNull(entity);
-        assertEquals (new Integer(1), entity.getId());
-        assertEquals ("entity1", entity.getName());
-        _log.debug ("loadedEntity.getProperty1() = " + entity.getProperty1());
-        assertNull (entity.getProperty1());
-        _log.debug ("loadedEntity.getProperty2() = " + entity.getProperty1());
-        assertEquals (new Integer (2), entity.getProperty2());
-        assertNull (entity.getProperty3());
-        assertNull (entity.getEntityTwo());
-        assertNull (entity.getEntityThrees());
+        assertEquals(new Integer(1), entity.getId());
+        assertEquals("entity1", entity.getName());
+        LOG.debug("loadedEntity.getProperty1() = " + entity.getProperty1());
+        assertNull(entity.getProperty1());
+        LOG.debug("loadedEntity.getProperty2() = " + entity.getProperty1());
+        assertEquals(new Integer (2), entity.getProperty2());
+        assertNull(entity.getProperty3());
+        assertNull(entity.getEntityTwo());
+        assertNull(entity.getEntityThrees());
         
         _db.rollback();
     
         _db.begin();
         
-        OQLQuery query = _db.getOQLQuery("SELECT entity FROM jdo.TransientMaster entity WHERE id = $1");
+        OQLQuery query = _db.getOQLQuery("SELECT entity FROM "
+                + TransientMaster.class.getName() + " entity WHERE id = $1");
         query.bind(new Integer(1));
         QueryResults results = query.execute();
         
         entity = (TransientMaster) results.next();
 
         assertNotNull(entity);
-        assertEquals (new Integer(1), entity.getId());
-        assertEquals ("entity1", entity.getName());
-        _log.debug ("loadedEntity.getProperty1() = " + entity.getProperty1());
-        assertNull (entity.getProperty1());
-        _log.debug ("loadedEntity.getProperty2() = " + entity.getProperty1());
-        assertEquals (new Integer (2), entity.getProperty2());
-        assertNull (entity.getProperty3());
-        assertNull (entity.getEntityTwo());
-        assertNull (entity.getEntityThrees());
+        assertEquals(new Integer(1), entity.getId());
+        assertEquals("entity1", entity.getName());
+        LOG.debug("loadedEntity.getProperty1() = " + entity.getProperty1());
+        assertNull(entity.getProperty1());
+        LOG.debug("loadedEntity.getProperty2() = " + entity.getProperty1());
+        assertEquals(new Integer (2), entity.getProperty2());
+        assertNull(entity.getProperty3());
+        assertNull(entity.getEntityTwo());
+        assertNull(entity.getEntityThrees());
         
         _db.rollback();
 
@@ -145,24 +139,26 @@ public class TestTransientAttribute extends CastorTestCase {
         entity.setProperty3(new Integer (300));
         entity.setEntityTwo(entityTwo);
         _db.create(entity);
+        
         _db.commit();
 
         _db.begin();
-        TransientMaster loadedEntity = 
-            (TransientMaster) _db.load(TransientMaster.class, new Integer (100));
+        
+        TransientMaster loadedEntity = (TransientMaster) _db.load(
+                TransientMaster.class, new Integer (100));
         assertNotNull(loadedEntity);
-        assertEquals (new Integer(100), loadedEntity.getId());
-        assertEquals ("entity100", loadedEntity.getName());
+        assertEquals(new Integer(100), loadedEntity.getId());
+        assertEquals("entity100", loadedEntity.getName());
         
-        _log.debug ("loadedEntity.getProperty() = " + loadedEntity.getProperty1());
+        LOG.debug("loadedEntity.getProperty() = " + loadedEntity.getProperty1());
         
-        assertNull (loadedEntity.getProperty1());
-        _log.debug ("loadedEntity.getProperty2() = " + loadedEntity.getProperty2());
-        assertEquals (new Integer (200), loadedEntity.getProperty2());
-        _log.debug ("loadedEntity.getProperty3() = " + loadedEntity.getProperty3());
-        assertNull (loadedEntity.getProperty3());
-        assertNull (loadedEntity.getEntityTwo());
-        assertNull (loadedEntity.getEntityThrees());
+        assertNull(loadedEntity.getProperty1());
+        LOG.debug("loadedEntity.getProperty2() = " + loadedEntity.getProperty2());
+        assertEquals(new Integer (200), loadedEntity.getProperty2());
+        LOG.debug("loadedEntity.getProperty3() = " + loadedEntity.getProperty3());
+        assertNull(loadedEntity.getProperty3());
+        assertNull(loadedEntity.getEntityTwo());
+        assertNull(loadedEntity.getEntityThrees());
         
         _db.commit();
 
@@ -170,12 +166,12 @@ public class TestTransientAttribute extends CastorTestCase {
         
         entity = (TransientMaster) _db.load(TransientMaster.class, new Integer (1));
         assertNotNull(entity);
-        assertEquals (new Integer(1), entity.getId());
-        assertEquals ("entity1", entity.getName());
-        assertNull (entity.getProperty1());
-        assertEquals (new Integer (2), entity.getProperty2());
-        assertNull (entity.getEntityTwo());
-        assertNull (entity.getEntityThrees());
+        assertEquals(new Integer(1), entity.getId());
+        assertEquals("entity1", entity.getName());
+        assertNull(entity.getProperty1());
+        assertEquals(new Integer (2), entity.getProperty2());
+        assertNull(entity.getEntityTwo());
+        assertNull(entity.getEntityThrees());
         
         entity.setProperty2(new Integer (-2));
         
@@ -185,17 +181,16 @@ public class TestTransientAttribute extends CastorTestCase {
         
         entity = (TransientMaster) _db.load(TransientMaster.class, new Integer (1));
         assertNotNull(entity);
-        assertEquals (new Integer(1), entity.getId());
-        assertEquals ("entity1", entity.getName());
-        assertNull (entity.getProperty1());
-        assertEquals (new Integer (-2), entity.getProperty2());
-        assertNull (entity.getProperty3());
-        assertNull (entity.getEntityTwo());
-        assertNull (entity.getEntityThrees());
+        assertEquals(new Integer(1), entity.getId());
+        assertEquals("entity1", entity.getName());
+        assertNull(entity.getProperty1());
+        assertEquals(new Integer (-2), entity.getProperty2());
+        assertNull(entity.getProperty3());
+        assertNull(entity.getEntityTwo());
+        assertNull(entity.getEntityThrees());
         
         entity.setProperty2(new Integer (2));
         
         _db.commit();
     }
-
 }
