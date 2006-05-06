@@ -47,24 +47,23 @@ package jdo;
 import java.io.BufferedReader;
 import java.io.InputStreamReader;
 import java.net.URL;
-import java.util.Properties;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import java.sql.DriverManager;
 import java.sql.Connection;
+import java.sql.DriverManager;
 import java.sql.SQLException;
 import java.sql.Statement;
-import javax.sql.DataSource;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.Properties;
+
 import javax.naming.InitialContext;
+import javax.sql.DataSource;
 
-import org.xml.sax.InputSource;
-
-import org.castor.jdo.engine.DataSourceConnectionFactory;
-
-import org.exolab.castor.xml.Unmarshaller;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Param;
+import org.castor.jdo.engine.DataSourceConnectionFactory;
 import org.exolab.castor.util.DTDResolver;
+import org.exolab.castor.xml.Unmarshaller;
+import org.xml.sax.InputSource;
 
 /**
  * BatchUpdateSQL is a command line utility that helps a user to execute a 

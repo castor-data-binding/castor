@@ -20,7 +20,7 @@ public class TestSpecialCollections extends CastorTestCase {
     private JDOCategory _category;
 
     public TestSpecialCollections(TestHarness category) {
-        super(category, "tempTC129", "Test special collections");
+        super(category, "TC71", "Test special collections");
         _category = (JDOCategory) category;
     }
 

@@ -46,15 +46,15 @@
 
 package jdo;
 
-import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
-
-import harness.TestHarness;
 import harness.CastorTestCase;
+import harness.TestHarness;
 
 import java.sql.Connection;
 import java.sql.SQLException;
 import java.sql.Statement;
+
+import org.exolab.castor.jdo.Database;
+import org.exolab.castor.jdo.PersistenceException;
 
 public class CachedOid extends CastorTestCase 
 {
@@ -72,7 +72,7 @@ public class CachedOid extends CastorTestCase
      */
     public CachedOid( TestHarness category ) 
     {
-        super( category, "tempTC37", "Cached OID with db-locked" );
+        super( category, "TC76", "Cached OID with db-locked" );
         _category = (JDOCategory) category;
     }
 

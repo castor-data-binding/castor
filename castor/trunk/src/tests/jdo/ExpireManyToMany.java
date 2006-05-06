@@ -46,11 +46,13 @@ package jdo;
 
 import harness.CastorTestCase;
 import harness.TestHarness;
+
 import java.sql.Connection;
 import java.sql.PreparedStatement;
 import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Iterator;
+
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.CacheManager;
@@ -94,7 +96,7 @@ public class ExpireManyToMany extends CastorTestCase {
      * Constructor
      */
     public ExpireManyToMany(TestHarness category) {
-        super( category, "tempTC71", "Expire Many-To-Many" );
+        super( category, "TC75", "Expire Many-To-Many" );
         _category = (JDOCategory) category;
     }
 

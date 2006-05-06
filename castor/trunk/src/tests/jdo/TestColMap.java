@@ -46,9 +46,9 @@
 
 package jdo;
 
-import java.util.Map;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.Map;
 
 /**
  * Test object for different collection types.

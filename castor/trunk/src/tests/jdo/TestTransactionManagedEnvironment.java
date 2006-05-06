@@ -49,9 +49,11 @@
 
 package jdo;
 
-import harness.TestHarness;
 import harness.CastorTestCase;
+import harness.TestHarness;
 
+import javax.naming.Context;
+import javax.naming.InitialContext;
 import javax.transaction.UserTransaction;
 
 import org.apache.commons.logging.Log;
@@ -60,9 +62,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.jdo.TransactionNotInProgressException;
-import org.mockejb.jndi.*;
-
-import javax.naming.*;
+import org.mockejb.jndi.MockContextFactory;
 
 /**
  * @author Administrator

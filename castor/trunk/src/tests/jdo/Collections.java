@@ -47,14 +47,14 @@
 package jdo;
 
 
+import harness.CastorTestCase;
+import harness.TestHarness;
+
 import java.sql.Connection;
 import java.sql.SQLException;
 
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-
-import harness.CastorTestCase;
-import harness.TestHarness;
 
 
 /**
@@ -71,7 +71,7 @@ public class Collections extends CastorTestCase {
     private JDOCategory    _category;
 
     public Collections( TestHarness category ) {
-        super( category, "tempTC128", "Collections" );
+        super( category, "TC70", "Collections" );
         _category = (JDOCategory) category;
     }
 

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.tc167;
+package ctf.jdo.tc8x;
 
 import java.io.Serializable;
 import java.util.HashMap;

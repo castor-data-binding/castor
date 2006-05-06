@@ -39,30 +39,16 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
  */
-package jdo;
+package ctf.jdo.tc8x;
 
-public class Brother {
-    private long id;
-    private Sister sister;
+public final class TransientChildOne {
+    private Integer _id;
+    private String _description;
 
-    public Brother() {
-    }
+    public Integer getId() { return _id; }
+    public void setId(final Integer id) { _id = id; }
 
-    public long getId() {
-        return id;
-    }
-
-    public void setId(long pId) {
-        id = pId;
-    }
-
-    public Sister getSister() {
-        return sister;
-    }
-
-    public void setSister(Sister pSister) {
-        sister = pSister;
-    }
+    public String getDescription() { return _description; }
+    public void setDescription(final String description) { _description = description; }
 }

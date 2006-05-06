@@ -42,16 +42,17 @@
  */
 package jdo;
 
-import java.util.Iterator;
-import java.util.Collection;
+import harness.CastorTestCase;
+import harness.TestHarness;
+
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Iterator;
+
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.jdo.PersistenceException;
-
-import harness.TestHarness;
-import harness.CastorTestCase;
+import org.exolab.castor.jdo.QueryResults;
 
 /**
  * Test for many to many relationship with key generators being used in both
@@ -74,7 +75,7 @@ public class ManyToManyKeyGen extends CastorTestCase {
      * @param category The test suite of these test cases.
      */
     public ManyToManyKeyGen( TestHarness category ) {
-        super( category, "tempTC31a", "ManyToManyKeyGen" );
+        super( category, "TC74", "ManyToManyKeyGen" );
         _category = (JDOCategory) category;
     }
 

@@ -55,28 +55,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer" />
-	<case id="tempTC129" class="jdo.TestSpecialCollections" />
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <case id="tempTC32" class="jdo.CircularRef"/>
-    <!-- <case id="tempTC37" class="jdo.CachedOid"/> -->
-    <!-- <case id="tempTC71" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="tempTC72" class="jdo.ExpireLazyEmployee"/> -->
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/>
-    <!-- <case id="tempTC167" class="jdo.tc167.TestEnum"/> -->
-    <!-- <case id="tempTC84a" class="jdo.TestTransientAttribute"/> -->
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
-	
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
+
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
+    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -150,28 +150,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="tempTC126" class="jdo.LazyLoading"/> -->
-    <!-- <case id="tempTC128" class="jdo.Collections"/> -->
-	<!--  <case id="tempTC128a" class="jdo.TestSortedContainer" /> -->
-	<!-- <case id="tempTC129" class="jdo.TestSpecialCollections" /> -->
-    <!-- <case id="tempTC123" class="jdo.ManyToMany"/> -->
-    <!-- <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/> -->
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <!-- <case id="tempTC37" class="jdo.CachedOid"/> -->
-    <!-- <case id="tempTC71" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="tempTC72" class="jdo.ExpireLazyEmployee"/> -->
-    <!-- <case id="tempTC10" class="jdo.QueryFinalize"/> -->
-    <!-- <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/> -->
-    <!-- <case id="tempTC167" class="jdo.tc167.TestEnum"/> -->
-    <!-- <case id="tempTC84a" class="jdo.TestTransientAttribute"/> -->
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <!-- <case id="TC70" class="jdo.Collections"/> -->
+	<!-- <case id="TC71" class="jdo.TestSpecialCollections"/> -->
+	<!-- <case id="TC72" class="jdo.TestSortedContainer"/> -->
+    <!-- <case id="TC73" class="jdo.ManyToMany"/> -->
+    <!-- <case id="TC74" class="jdo.ManyToManyKeyGen"/> -->
+    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
+    <!-- <case id="TC77" class="jdo.QueryFinalize"/> -->
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
+    <!-- <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/> -->
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -238,28 +238,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer" />
-	<case id="tempTC129" class="jdo.TestSpecialCollections" />
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <!-- <case id="tempTC37" class="jdo.CachedOid"/> -->
-    <!-- <case id="tempTC71" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="tempTC72" class="jdo.ExpireLazyEmployee"/> -->
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <!-- <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/> -->
-    <!-- <case id="tempTC167" class="jdo.tc167.TestEnum"/> -->
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
@@ -326,28 +326,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
     
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer" />
-	<case id="tempTC129" class="jdo.TestSpecialCollections" />
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <case id="tempTC37" class="jdo.CachedOid"/>
-    <case id="tempTC71" class="jdo.ExpireManyToMany"/>
-    <case id="tempTC72" class="jdo.ExpireLazyEmployee"/>
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/>
-    <case id="tempTC167" class="jdo.tc167.TestEnum"/>
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <case id="TC75" class="jdo.ExpireManyToMany"/>
+    <case id="TC76" class="jdo.CachedOid"/>
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -414,22 +414,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer" />
-	<case id="tempTC129" class="jdo.TestSpecialCollections" />
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <case id="tempTC32" class="jdo.CircularRef"/>
-    <case id="tempTC37" class="jdo.CachedOid"/>
-    <case id="tempTC71" class="jdo.ExpireManyToMany"/>
-    <case id="tempTC72" class="jdo.ExpireLazyEmployee"/>
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/>
-    <!-- <case id="tempTC167" class="jdo.tc167.TestEnum"/> -->
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <case id="TC75" class="jdo.ExpireManyToMany"/>
+    <case id="TC76" class="jdo.CachedOid"/>
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -439,6 +433,12 @@
 		 reproduces the original problem -->
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
+    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
@@ -506,28 +506,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer"/>
-	<case id="tempTC129" class="jdo.TestSpecialCollections"/>
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <case id="tempTC32" class="jdo.CircularRef"/>
-    <!-- <case id="tempTC37" class="jdo.CachedOid"/> -->
-    <case id="tempTC71" class="jdo.ExpireManyToMany"/>
-    <!-- <case id="tempTC72" class="jdo.ExpireLazyEmployee"/> -->
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <!-- <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/> -->
-    <!-- <case id="tempTC167" class="jdo.tc167.TestEnum"/> -->
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <case id="TC75" class="jdo.ExpireManyToMany"/>
+    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
+    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
@@ -594,28 +594,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer"/>
-	<case id="tempTC129" class="jdo.TestSpecialCollections"/>
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <case id="tempTC37" class="jdo.CachedOid"/>
-    <case id="tempTC71" class="jdo.ExpireManyToMany"/>
-    <case id="tempTC72" class="jdo.ExpireLazyEmployee"/>
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <!-- <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/> -->
-    <case id="tempTC167" class="jdo.tc167.TestEnum"/>
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <case id="TC75" class="jdo.ExpireManyToMany"/>
+    <case id="TC76" class="jdo.CachedOid"/>
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -682,28 +682,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer"/>
-	<case id="tempTC129" class="jdo.TestSpecialCollections"/>
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <!-- <case id="tempTC37" class="jdo.CachedOid"/> -->
-    <!-- <case id="tempTC71" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="tempTC72" class="jdo.ExpireLazyEmployee"/> -->
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <!-- <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/> -->
-    <!-- <case id="tempTC167" class="jdo.tc167.TestEnum"/> -->
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
@@ -775,28 +775,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <case id="tempTC128" class="jdo.Collections"/>
-	<case id="tempTC128a" class="jdo.TestSortedContainer" />
-	<case id="tempTC129" class="jdo.TestSpecialCollections" />
-    <case id="tempTC123" class="jdo.ManyToMany"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <case id="tempTC37" class="jdo.CachedOid"/>
-    <case id="tempTC71" class="jdo.ExpireManyToMany"/>
-    <case id="tempTC72" class="jdo.ExpireLazyEmployee"/>
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/>
-    <case id="tempTC167" class="jdo.tc167.TestEnum"/>
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
-	<case id="tempTC247" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="jdo.Collections"/>
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <case id="TC73" class="jdo.ManyToMany"/>
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <case id="TC75" class="jdo.ExpireManyToMany"/>
+    <case id="TC76" class="jdo.CachedOid"/>
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
@@ -868,26 +868,28 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="tempTC126" class="jdo.LazyLoading"/>
-    <!--  <case id="tempTC128" class="jdo.Collections"/> -->
-	<case id="tempTC128a" class="jdo.TestSortedContainer"/>
-	<case id="tempTC129" class="jdo.TestSpecialCollections"/>
-    <case id="tempTC31a" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="tempTC32" class="jdo.CircularRef"/> -->
-    <case id="tempTC37" class="jdo.CachedOid"/>
-    <case id="tempTC71" class="jdo.ExpireManyToMany"/>
-    <case id="tempTC72" class="jdo.ExpireLazyEmployee"/>
-    <case id="tempTC100" class="jdo.QueryFinalize"/>
-    <case id="tempTC166" class="jdo.tc166.TestLazy1to1"/>
-    <case id="tempTC167" class="jdo.tc167.TestEnum"/>
-    <case id="tempTC84a" class="jdo.TestTransientAttribute"/>
-	<case id="tempTC202" class="jdo.TestGetJdbcConnection"/>
+    <!-- <case id="TC70" class="jdo.Collections"/> -->
+	<case id="TC71" class="jdo.TestSpecialCollections"/>
+	<case id="TC72" class="jdo.TestSortedContainer"/>
+    <!-- <case id="TC73" class="jdo.ManyToMany"/> -->
+    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
+    <case id="TC75" class="jdo.ExpireManyToMany"/>
+    <case id="TC76" class="jdo.CachedOid"/>
+    <case id="TC77" class="jdo.QueryFinalize"/>
+	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
+	<case id="TC79" class="jdo.IsLockedTest"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
     <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
     <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
+    <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
+    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>

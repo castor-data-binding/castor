@@ -38,71 +38,43 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2000 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
+ * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  */
+package ctf.jdo.tc8x;
 
+import java.util.Collection;
 
-package jdo;
+public final class TransientMaster {
+    private Integer _id;
+    private String _name;
+    private Integer _property1;
+    private Integer _property2;
+    private Integer _property3;
+    private TransientChildOne _entityTwo;
+    private Collection _entityThrees;
+    
+    public Integer getId() { return _id; }
+    public void setId(final Integer id) { _id = id; }
+    
+    public String getName() { return _name; }
+    public void setName(final String name) { _name = name; }
 
+    public Integer getProperty1() { return _property1; }
+    public void setProperty1(final Integer property) { _property1 = property; }
+    
+    public Integer getProperty2() { return _property2; }
+    public void setProperty2(final Integer property2) { _property2 = property2; }
 
-import java.util.Iterator;
-import java.util.Vector;
-
-
-/**
- * Test object for different collection types.
- */
-public class TestColVector extends TestCol {
-
-    private Vector _item;
-
-    public TestColVector() {
-        super();
+    public Integer getProperty3() { return _property3; }
+    public void setProperty3(final Integer property3) { _property3 = property3; }
+    
+    public TransientChildOne getEntityTwo() { return _entityTwo; }
+    public void setEntityTwo(final TransientChildOne entityTwo) {
+        _entityTwo = entityTwo;
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
-
-        return _item.contains( item );
-    }
-
-    public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
-        return _item.iterator();
-    }
-
-    public void removeItem( TestItem item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
-        }
-    }
-
-    public int itemSize() {
-        if ( _item == null )
-            return 0;
-
-        return _item.size();
-    }
-
-    public Vector getItem() {
-        return _item;
-    }
-
-    public void setItem( Vector item ) {
-        _item = item;
-    }
-
-    public void addItem( TestItem item ) {
-        if ( _item == null )
-            _item = new Vector();
-
-        _item.add( item );
-        item.setTestCol( this );
+    public Collection getEntityThrees() { return _entityThrees; }
+    public void setEntityThrees(final Collection entityThrees) {
+        _entityThrees = entityThrees;
     }
 }

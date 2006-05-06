@@ -13,19 +13,19 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.tc166; 
+package ctf.jdo.tc8x; 
 
-public class Lazy1to1Book { 
-	private Long id; 
-	private String name; 
-	private Lazy1to1Author author;
-	
-	public Long getId() { return id; } 
-	public void setId(Long id) { this.id = id; } 
+public final class Lazy1to1Book { 
+    private Long _id; 
+    private String _name; 
+    private Lazy1to1Author _author;
+    
+    public Long getId() { return _id; } 
+    public void setId(final Long id) { _id = id; } 
 
-    public String getName() { return name; } 
-    public void setName(String name) { this.name = name; } 
+    public String getName() { return _name; } 
+    public void setName(final String name) { _name = name; } 
 
-    public Lazy1to1Author getAuthor() { return author; } 
-	public void setAuthor(Lazy1to1Author author) { this.author = author; } 
+    public Lazy1to1Author getAuthor() { return _author; } 
+    public void setAuthor(final Lazy1to1Author author) { _author = author; } 
 }

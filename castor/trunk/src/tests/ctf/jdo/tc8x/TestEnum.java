@@ -13,26 +13,21 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package jdo.tc167;
+package ctf.jdo.tc8x;
 
-import jdo.JDOCategory;
 import harness.CastorTestCase;
 import harness.TestHarness;
+import jdo.JDOCategory;
 
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 
-public class TestEnum extends CastorTestCase  {
+public final class TestEnum extends CastorTestCase  {
     private JDOCategory     _category;
 
-    public TestEnum( TestHarness category ) {
-        super( category, "tempTC167", "TestEnum" );
-        _category = (JDOCategory) category;
-    }
-
-    public TestEnum( TestHarness category, String name, String description ) {
-        super( category, name, description );
+    public TestEnum(final TestHarness category) {
+        super(category, "TC85", "TestEnum");
         _category = (JDOCategory) category;
     }
 
@@ -67,7 +62,7 @@ public class TestEnum extends CastorTestCase  {
         database.begin();
         
         Product pl1 = new Product(1, "LCD", KindEnum.MONITOR);
-        Product pl2 = (Product)database.load(Product.class, new Integer(1));
+        Product pl2 = (Product) database.load(Product.class, new Integer(1));
         assertEquals(pl1, pl2);
 
         database.commit();
@@ -77,7 +72,7 @@ public class TestEnum extends CastorTestCase  {
         database = _category.getDatabase();
         database.begin();
         
-        Product pu = (Product)database.load(Product.class, new Integer(1));
+        Product pu = (Product) database.load(Product.class, new Integer(1));
         pu.setName("Laser");
         pu.setKind(KindEnum.PRINTER);
 
@@ -89,7 +84,7 @@ public class TestEnum extends CastorTestCase  {
         database.begin();
         
         Product pl3 = new Product(1, "Laser", KindEnum.PRINTER);
-        Product pl4 = (Product)database.load(Product.class, new Integer(1));
+        Product pl4 = (Product) database.load(Product.class, new Integer(1));
         assertEquals(pl3, pl4);
 
         database.commit();
@@ -99,7 +94,7 @@ public class TestEnum extends CastorTestCase  {
         database = _category.getDatabase();
         database.begin();
         
-        Product pd = (Product)database.load(Product.class, new Integer(1));
+        Product pd = (Product) database.load(Product.class, new Integer(1));
         database.remove(pd);
 
         database.commit();
@@ -127,7 +122,7 @@ public class TestEnum extends CastorTestCase  {
         
         Product pq;
         OQLQuery query = database.getOQLQuery("select p from "
-                + jdo.tc167.Product.class.getName() + " p order by p.id");
+                + ctf.jdo.tc8x.Product.class.getName() + " p order by p.id");
         QueryResults results = query.execute();
         
         pq = (Product) results.next();

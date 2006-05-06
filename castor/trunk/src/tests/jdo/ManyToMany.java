@@ -42,16 +42,17 @@
  */
 package jdo;
 
-import java.util.Iterator;
+import harness.CastorTestCase;
+import harness.TestHarness;
+
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Iterator;
+
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.QueryResults;
 import org.exolab.castor.jdo.PersistenceException;
-import java.util.ArrayList;
-
-import harness.TestHarness;
-import harness.CastorTestCase;
+import org.exolab.castor.jdo.QueryResults;
 
 /**
  * Test for many-to-many relationship. A many to many relationship
@@ -69,7 +70,7 @@ public class ManyToMany extends CastorTestCase {
      * @param category The test suite of these tests
      */
     public ManyToMany( TestHarness category ) {
-        super( category, "tempTC123", "ManyToMany" );
+        super( category, "TC73", "ManyToMany" );
         _category = (JDOCategory) category;
     }
 
