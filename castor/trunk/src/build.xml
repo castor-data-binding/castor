@@ -19,6 +19,7 @@
         <property name="name" value="Castor"/>
         <property name="source" value="src"/>
         <property name="java" value="${source}/main/java"/>
+		<property name="test-resources" value="${source}/test/resources" />
         <property name="etc" value="${source}/etc"/>
         <property name="check" value="check"/>
         <property name="build" value="build"/>
@@ -35,6 +36,7 @@
         <property name="gen.src" value="${build}/gen-src"/>
         <property name="project.eclipse" value="${source}/tools/ide/eclipse" />
         <property file="${etc}/VERSION"/>
+		<property name="verbose" value="off" />
         <property name="deprecation" value="false"/>
         <property name="main.opt.debug" value="true"/>
         <property name="archive.name" value="${project}-${version}${release}"/>
@@ -186,6 +188,10 @@
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
     </target>
+    	
+    <target name="clean.tests" description="Removes the build artefacts related to test">
+    	<delete dir="${build}/tests" />
+	</target>
 	
     <target name="compile"
             description="The default target for compilation; includes debug and deprecation info">
@@ -306,14 +312,28 @@
 
     </target>
 
-    <target name="compile.tests" depends="prepare,compile" description="Build the tests packages">
+    <target name="compile.tests" depends="prepare,compile" 
+    	    description="Build the tests packages">
+    	
+    	<!-- create directory for tests in ${build} directory -->
         <mkdir dir="${build}/tests"/>
-        <javac srcdir="${source}/tests" destdir="${build}/tests" excludes="${testexcludes}" debug="on" deprecation="${deprecation}">
+        	
+      	<!-- compile tests to ${build}/tests -->
+        <javac srcdir="${source}/tests" 
+        	   destdir="${build}/tests" 
+        	   excludes="${testexcludes}" 
+        	   debug="on" 
+        	   deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
         </javac>
 
-        <copy todir="${build}/tests">
+    	<!-- copy resource files to ${build}/tests -->
+        <copy todir="${build}/tests" verbose="${verbose}">
             <fileset dir="${source}/tests">
+                <patternset refid="support.files" />
+            </fileset>
+			<!-- Maven 2: copy resources from src/test/resources -->        	
+            <fileset dir="${test-resources}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
