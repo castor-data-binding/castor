@@ -59,6 +59,7 @@ public class Main extends TestHarness {
             final String tests)
             throws Exception {
         super(null, "Castor", "Root");
+        init (false, false, false, null, null, null, tests);
     }
 
     private void init (final boolean verbose, 
