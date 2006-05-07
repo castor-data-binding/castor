@@ -1180,230 +1180,230 @@ insert into tc8x_child_compound (id1, id2, descr) values (1, 1, 'childCompound1'
 
 -- tc9x TESTS
 
-drop table  poly_ordr;
-create table poly_ordr (
+drop table  tc9x_poly_ordr;
+create table tc9x_poly_ordr (
   id int not null,
   name varchar (20) not null
 );
 
-drop table  poly_detail;
-create table poly_detail (
+drop table  tc9x_poly_detail;
+create table tc9x_poly_detail (
   id int not null,
   category varchar (20) not null,
   location varchar (20) not null
 );
 
-drop table  poly_owner;
-create table poly_owner (
+drop table  tc9x_poly_owner;
+create table tc9x_poly_owner (
   id int not null,
   name varchar (20) not null,
   product int not null
 );
 
-drop table  poly_prod;
-create table poly_prod (
+drop table  tc9x_poly_prod;
+create table tc9x_poly_prod (
   id        int not null,
   name      varchar(200) not null,
   detail	int not null,
   owner		int
 );
 
-drop table  poly_computer;
-create table poly_computer (
+drop table  tc9x_poly_computer;
+create table tc9x_poly_computer (
   id   int not null,
   cpu  varchar(200) not null
 );
 
-drop table  poly_laptop;
-create table poly_laptop (
+drop table  tc9x_poly_laptop;
+create table tc9x_poly_laptop (
   id   int not null,
   weight  int not null,
   resolution varchar(19) not null
 );
 
-drop table  poly_server;
-create table poly_server (
+drop table  tc9x_poly_server;
+create table tc9x_poly_server (
   id   int not null,
   numberOfCPUs  int not null,
   support int not null
 );
 
-drop table  poly_car;
-create table poly_car (
+drop table  tc9x_poly_car;
+create table tc9x_poly_car (
   id   int not null,
   kw   int not null,
   make  varchar(200) not null
 );
 
-drop table  poly_truck;
-create table poly_truck (
+drop table  tc9x_poly_truck;
+create table tc9x_poly_truck (
   id   int not null,
   max_weight   int not null
 );
 
-drop table  poly_prod_multi;
-create table poly_prod_multi (
+drop table  tc9x_poly_prod_multi;
+create table tc9x_poly_prod_multi (
   id1        int not null,
   id2        int not null,
   name      varchar(200) not null,
   detail	int not null
 );
 
-drop table  poly_computer_multi;
-create table poly_computer_multi (
+drop table  tc9x_poly_computer_multi;
+create table tc9x_poly_computer_multi (
   id1   int not null,
   id2        int not null,
   cpu  varchar(200) not null
 );
 
-drop table  poly_laptop_multi;
-create table poly_laptop_multi (
+drop table  tc9x_poly_laptop_multi;
+create table tc9x_poly_laptop_multi (
   id1   int not null,
   id2        int not null,
   weight  int not null,
   resolution varchar(19) not null
 );
 
-drop table  poly_server_multi;
-create table poly_server_multi (
+drop table  tc9x_poly_server_multi;
+create table tc9x_poly_server_multi (
   id1   int not null,
   id2        int not null,
   numberOfCPUs  int not null,
   support int not null
 );
 
-drop table  poly_order_product;
-create table poly_order_product (
+drop table  tc9x_poly_order_product;
+create table tc9x_poly_order_product (
   order_id	int not null,
   product_id int not null
 );
 
-drop table  poly_table_m;
-create table poly_table_m (
+drop table  tc9x_poly_table_m;
+create table tc9x_poly_table_m (
   id	int not null,
   name	varchar(20) not null
 );
 
-drop table  poly_table_n;
-create table poly_table_n (
+drop table  tc9x_poly_table_n;
+create table tc9x_poly_table_n (
   id	int not null,
   name	varchar(20) not null
 );
 
-drop table  poly_m_n;
-create table poly_m_n (
+drop table  tc9x_poly_m_n;
+create table tc9x_poly_m_n (
   m_id	int not null,
   n_id int not null
 );
 
 
-insert into poly_detail (id, category, location) values (1, 'category 1', 'location 1');
-insert into poly_detail (id, category, location) values (2, 'category 2', 'location 2');
-insert into poly_detail (id, category, location) values (3, 'category 3', 'location 3');
-insert into poly_detail (id, category, location) values (4, 'category 4', 'location 4');
-insert into poly_detail (id, category, location) values (5, 'category 5', 'location 5');
+insert into tc9x_poly_detail (id, category, location) values (1, 'category 1', 'location 1');
+insert into tc9x_poly_detail (id, category, location) values (2, 'category 2', 'location 2');
+insert into tc9x_poly_detail (id, category, location) values (3, 'category 3', 'location 3');
+insert into tc9x_poly_detail (id, category, location) values (4, 'category 4', 'location 4');
+insert into tc9x_poly_detail (id, category, location) values (5, 'category 5', 'location 5');
 
-insert into poly_prod (id, name, detail, owner) values (1, 'laptop 1', 1, 1);
-insert into poly_computer (id, cpu) values (1, 'centrino');
-insert into poly_laptop (id, weight, resolution) values (1, 2800, '1280');
+insert into tc9x_poly_prod (id, name, detail, owner) values (1, 'laptop 1', 1, 1);
+insert into tc9x_poly_computer (id, cpu) values (1, 'centrino');
+insert into tc9x_poly_laptop (id, weight, resolution) values (1, 2800, '1280');
 
-insert into poly_prod (id, name, detail, owner) values (2, 'laptop 2', 2, 2);
-insert into poly_computer (id, cpu) values (2, 'centrino');
-insert into poly_laptop (id, weight, resolution) values (2, 2700, '1024');
+insert into tc9x_poly_prod (id, name, detail, owner) values (2, 'laptop 2', 2, 2);
+insert into tc9x_poly_computer (id, cpu) values (2, 'centrino');
+insert into tc9x_poly_laptop (id, weight, resolution) values (2, 2700, '1024');
 
-insert into poly_prod (id, name, detail, owner) values (3, 'server 3', 3, 3);
-insert into poly_computer (id, cpu) values (3, 'pentium 4');
-insert into poly_server (id, numberOfCPUs, support) values (3, 4, 3);
+insert into tc9x_poly_prod (id, name, detail, owner) values (3, 'server 3', 3, 3);
+insert into tc9x_poly_computer (id, cpu) values (3, 'pentium 4');
+insert into tc9x_poly_server (id, numberOfCPUs, support) values (3, 4, 3);
 
-insert into poly_prod (id, name, detail, owner) values (4, 'server 4', 4, 4);
-insert into poly_computer (id, cpu) values (4, 'pentium 4');
-insert into poly_server (id, numberOfCPUs, support) values (4, 16,5);
+insert into tc9x_poly_prod (id, name, detail, owner) values (4, 'server 4', 4, 4);
+insert into tc9x_poly_computer (id, cpu) values (4, 'pentium 4');
+insert into tc9x_poly_server (id, numberOfCPUs, support) values (4, 16,5);
 
-insert into poly_prod (id, name, detail, owner) values (5, 'truck 5', 5, 5);
-insert into poly_car (id, kw, make) values (5, 60, 'make 5');
-insert into poly_truck (id, max_weight) values (5, 4);
+insert into tc9x_poly_prod (id, name, detail, owner) values (5, 'truck 5', 5, 5);
+insert into tc9x_poly_car (id, kw, make) values (5, 60, 'make 5');
+insert into tc9x_poly_truck (id, max_weight) values (5, 4);
 
-insert into poly_prod_multi (id1, id2, name, detail) values (1, 1, 'laptop 1', 1);
-insert into poly_computer_multi (id1, id2, cpu) values (1, 1, 'centrino');
-insert into poly_laptop_multi (id1, id2, weight, resolution) values (1, 1, 2800, '1280');
+insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (1, 1, 'laptop 1', 1);
+insert into tc9x_poly_computer_multi (id1, id2, cpu) values (1, 1, 'centrino');
+insert into tc9x_poly_laptop_multi (id1, id2, weight, resolution) values (1, 1, 2800, '1280');
 
-insert into poly_prod_multi (id1, id2, name, detail) values (2, 2, 'laptop 2', 2);
-insert into poly_computer_multi (id1, id2, cpu) values (2, 2, 'centrino');
-insert into poly_laptop_multi (id1, id2, weight, resolution) values (2, 2, 2700, '1024');
+insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (2, 2, 'laptop 2', 2);
+insert into tc9x_poly_computer_multi (id1, id2, cpu) values (2, 2, 'centrino');
+insert into tc9x_poly_laptop_multi (id1, id2, weight, resolution) values (2, 2, 2700, '1024');
 
-insert into poly_prod_multi (id1, id2, name, detail) values (3, 3, 'server 3', 3);
-insert into poly_computer_multi (id1, id2, cpu) values (3, 3, 'pentium 4');
-insert into poly_server_multi (id1,  id2, numberOfCPUs, support) values (3, 3, 4, 3);
+insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (3, 3, 'server 3', 3);
+insert into tc9x_poly_computer_multi (id1, id2, cpu) values (3, 3, 'pentium 4');
+insert into tc9x_poly_server_multi (id1,  id2, numberOfCPUs, support) values (3, 3, 4, 3);
 
-insert into poly_prod_multi (id1, id2, name, detail) values (4, 4, 'server 4', 4);
-insert into poly_computer_multi (id1, id2, cpu) values (4, 4, 'pentium 4');
-insert into poly_server_multi (id1, id2, numberOfCPUs, support) values (4, 4, 16,5);
+insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (4, 4, 'server 4', 4);
+insert into tc9x_poly_computer_multi (id1, id2, cpu) values (4, 4, 'pentium 4');
+insert into tc9x_poly_server_multi (id1, id2, numberOfCPUs, support) values (4, 4, 16,5);
 
-insert into poly_owner (id, name, product) values (1, 'owner 1', 1);
-insert into poly_owner (id, name, product) values (2, 'owner 2', 2);
-insert into poly_owner (id, name, product) values (3, 'owner 3', 3);
-insert into poly_owner (id, name, product) values (4, 'owner 4', 4);
-insert into poly_owner (id, name, product) values (5, 'owner 5', 5);
+insert into tc9x_poly_owner (id, name, product) values (1, 'owner 1', 1);
+insert into tc9x_poly_owner (id, name, product) values (2, 'owner 2', 2);
+insert into tc9x_poly_owner (id, name, product) values (3, 'owner 3', 3);
+insert into tc9x_poly_owner (id, name, product) values (4, 'owner 4', 4);
+insert into tc9x_poly_owner (id, name, product) values (5, 'owner 5', 5);
 
-insert into poly_ordr (id, name) values (1, 'order 1');
+insert into tc9x_poly_ordr (id, name) values (1, 'order 1');
 
-insert into poly_order_product (order_id, product_id) values (1, 1);
-insert into poly_order_product (order_id, product_id) values (1, 2);
+insert into tc9x_poly_order_product (order_id, product_id) values (1, 1);
+insert into tc9x_poly_order_product (order_id, product_id) values (1, 2);
 
-insert into poly_m_n (m_id, n_id) values (1, 1);
-insert into poly_m_n (m_id, n_id) values (1, 2);
+insert into tc9x_poly_m_n (m_id, n_id) values (1, 1);
+insert into tc9x_poly_m_n (m_id, n_id) values (1, 2);
 
-insert into poly_table_m (id, name) values (1, 'm1');
-insert into poly_table_m (id, name) values (2, 'm2');
+insert into tc9x_poly_table_m (id, name) values (1, 'm1');
+insert into tc9x_poly_table_m (id, name) values (2, 'm2');
 
-insert into poly_table_n (id, name) values (1, 'n1');
-insert into poly_table_n (id, name) values (2, 'n2');
+insert into tc9x_poly_table_n (id, name) values (1, 'n1');
+insert into tc9x_poly_table_n (id, name) values (2, 'n2');
 
-DROP TABLE  poly_base;
-CREATE TABLE poly_base (
+DROP TABLE  tc9x_poly_base;
+CREATE TABLE tc9x_poly_base (
   id varchar(64) NOT NULL default '',
   color varchar(64) default NULL,
   PRIMARY KEY  (ID)
 ) ;
 
-INSERT INTO poly_base VALUES ('100','red');
+INSERT INTO tc9x_poly_base VALUES ('100','red');
 
-DROP TABLE  poly_derived;
-CREATE TABLE poly_derived (
+DROP TABLE  tc9x_poly_derived;
+CREATE TABLE tc9x_poly_derived (
   id varchar(64) NOT NULL default '',
   scent varchar(64) default NULL,
   PRIMARY KEY  (ID)
 ) ;
-INSERT INTO poly_derived VALUES ('100','vanilla');
+INSERT INTO tc9x_poly_derived VALUES ('100','vanilla');
 
 
-DROP TABLE  poly_container;
-CREATE TABLE poly_container (
+DROP TABLE  tc9x_poly_container;
+CREATE TABLE tc9x_poly_container (
   id varchar(64) NOT NULL default '',
   reference varchar(64) default NULL,
   PRIMARY KEY  (ID)
 ) ;
-INSERT INTO poly_container VALUES ('200','100');
+INSERT INTO tc9x_poly_container VALUES ('200','100');
 
-DROP TABLE  poly_Product;
-CREATE TABLE poly_Product(
+DROP TABLE  tc9x_poly_Product;
+CREATE TABLE tc9x_poly_Product(
   IdProd NUMERIC(10) not null PRIMARY KEY,
   NameProd   VARCHAR(30) default NULL,
   DescProd   VARCHAR(30) default NULL);
 
-DROP TABLE  poly_ActProduct;
-CREATE TABLE poly_ActProduct(
-  IdAct NUMERIC(10) not null PRIMARY KEY REFERENCES poly_Product (IdProd),
+DROP TABLE  tc9x_poly_ActProduct;
+CREATE TABLE tc9x_poly_ActProduct(
+  IdAct NUMERIC(10) not null PRIMARY KEY REFERENCES tc9x_poly_Product (IdProd),
   BestSeason VARCHAR(30) default NULL);
 
-DROP TABLE  poly_ComposedOffer;
-CREATE TABLE poly_ComposedOffer(
-  IdCOffer NUMERIC(10) not null PRIMARY KEY REFERENCES poly_Product (IdProd),
+DROP TABLE  tc9x_poly_ComposedOffer;
+CREATE TABLE tc9x_poly_ComposedOffer(
+  IdCOffer NUMERIC(10) not null PRIMARY KEY REFERENCES tc9x_poly_Product (IdProd),
   NameCO   VARCHAR(30) default NULL,
   DescCO   VARCHAR(30) default NULL);
 
-DROP TABLE  poly_OfferComposition;
-CREATE TABLE poly_OfferComposition(
+DROP TABLE  tc9x_poly_OfferComposition;
+CREATE TABLE tc9x_poly_OfferComposition(
   Offer NUMERIC(10) not null,
   Product NUMERIC(10) not null, 
   CONSTRAINT unique_rel UNIQUE (Offer, Product) );
