@@ -2,6 +2,7 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                          "http://castor.org/mapping.dtd">
 <mapping>
+    
     <class name="ctf.jdo.tc8x.SelfReferentialParent" identity="id">
         <map-to table="tc8x_self_refer_parent" xml="entity1" />
         <field name="id" type="integer" >
@@ -129,7 +130,7 @@
 
 
     <class name="ctf.jdo.tc8x.TransientMaster" identity="id">
-        <map-to table="trans_master"/>
+        <map-to table="tc8x_trans_master"/>
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
@@ -154,7 +155,7 @@
     </class>
 
     <class name="ctf.jdo.tc8x.TransientChildOne" identity="id">
-        <map-to table="trans_child1" xml="entity1" />
+        <map-to table="tc8x_trans_child1" xml="entity1" />
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
@@ -164,7 +165,7 @@
     </class>
 
     <class name="ctf.jdo.tc8x.TransientChildTwo" identity="id">
-        <map-to table="trans_child2" xml="entity1" />
+        <map-to table="tc8x_trans_child2" xml="entity1" />
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
@@ -174,7 +175,7 @@
     </class>
     
     <class name="ctf.jdo.tc8x.Product" identity="id">
-        <map-to table="enum_prod"/>
+        <map-to table="tc8x_enum_prod"/>
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
@@ -187,7 +188,7 @@
     </class>
 
     <class name="ctf.jdo.tc8x.CircBrother" identity="id" key-generator="SEQUENCE">
-        <map-to table="circ_brother" />
+        <map-to table="tc8x_circ_brother" />
         <field name="id" type="long">
             <sql name="brother_id" type="integer" />
         </field>
@@ -197,7 +198,7 @@
     </class>
 
     <class name="ctf.jdo.tc8x.CircSister" identity="id" key-generator="SEQUENCE">
-        <map-to table="circ_sister" />
+        <map-to table="tc8x_circ_sister" />
         <field name="id" type="long">
             <sql name="sister_id" type="integer" />
         </field>
@@ -207,7 +208,7 @@
     </class>
 
     <class name="ctf.jdo.tc8x.Lazy1to1Parent" identity="id">
-        <map-to table="lazy_11_par" />
+        <map-to table="tc8x_lazy_11_par" />
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
@@ -220,7 +221,7 @@
     </class>
   
     <class name="ctf.jdo.tc8x.Lazy1to1Child" identity="id" >
-        <map-to table="lazy_11_chd" />
+        <map-to table="tc8x_lazy_11_chd" />
         <field name="id" type="integer" >
             <sql name="id" type="integer" />
         </field>
@@ -231,7 +232,7 @@
   
     <class name="ctf.jdo.tc8x.Lazy1to1Author" identity="id">
         <cache-type type="unlimited" capacity="0"/>
-        <map-to table="lazy_11_author"/>
+        <map-to table="tc8x_lazy_11_author"/>
         <field name="id" type="long">
             <sql name="ID" type="bigint"/>
         </field>
@@ -248,7 +249,7 @@
 	
     <class name="ctf.jdo.tc8x.Lazy1to1Book" identity="id">
         <cache-type type="unlimited" capacity="0"/>
-        <map-to table="lazy_11_book"/>
+        <map-to table="tc8x_lazy_11_book"/>
         <field name="id" type="long">
             <sql name="ID" type="bigint"/>
         </field>
@@ -262,7 +263,7 @@
 
     <class name="ctf.jdo.tc8x.LazyPerson" identity="firstName lastName">
         <description>Table used for testing lazy loading</description>
-        <map-to table="test_pks_person" />
+        <map-to table="tc8x_pks_person" />
         <field name="firstName" type="string"  required="true">
             <sql name="fname" type="varchar" />
         </field>
@@ -278,7 +279,7 @@
 
     <class name="ctf.jdo.tc8x.LazyAddress" depends="ctf.jdo.tc8x.LazyPerson" identity="id">
         <description>Table used for testing lazy loading</description>
-        <map-to table="test_pks_address" />
+        <map-to table="tc8x_pks_address" />
         <field name="id" type="integer" >
             <sql name="id" type="integer" />
         </field>
@@ -301,7 +302,7 @@
 
     <class name="ctf.jdo.tc8x.LazyEmployee" extends="ctf.jdo.tc8x.LazyPerson">
         <description>Table used for testing lazy loading for extends</description>
-        <map-to table="test_pks_employee" />
+        <map-to table="tc8x_pks_employee" />
         <field name="startDate" type="date" >
             <sql name="start_date" type="date" />
         </field>
@@ -312,7 +313,7 @@
 
     <class name="ctf.jdo.tc8x.LazyProject" identity="id">
         <description>Table used for testing lazy loading</description>
-        <map-to table="test_pks_project" />
+        <map-to table="tc8x_pks_project" />
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
@@ -326,7 +327,7 @@
 
     <class name="ctf.jdo.tc8x.LazyContract" depends="ctf.jdo.tc8x.LazyEmployee" identity="policyNo contractNo">
         <description>Table used for testing multiple primary keys for extends</description>
-        <map-to table="test_pks_contract" />
+        <map-to table="tc8x_pks_contract" />
         <field name="policyNo" type="integer" >
             <sql name="policy_no" type="integer"/>
         </field>
@@ -337,7 +338,7 @@
             <sql name="c_comment" type="varchar"/>
         </field>
         <field name="category" type="ctf.jdo.tc8x.LazyContractCategory" collection="collection" >
-            <sql many-table="test_pks_category_contract" many-key="policy_no contract_no" name="cate_id" />
+            <sql many-table="tc8x_pks_category_contract" many-key="policy_no contract_no" name="cate_id" />
         </field>
         <field name="employee" type="ctf.jdo.tc8x.LazyEmployee" >
             <sql name="fname lname" />
@@ -345,7 +346,7 @@
     </class>
 
     <class name="ctf.jdo.tc8x.LazyContractCategory" identity="id" >
-        <map-to table="test_pks_category" />
+        <map-to table="tc8x_pks_category" />
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
@@ -353,13 +354,13 @@
             <sql name="name" type="varchar" />
         </field>
         <field name="contract" type="ctf.jdo.tc8x.LazyContract" collection="collection" >
-            <sql many-table="test_pks_category_contract" many-key="cate_id" name="policy_no contract_no" />
+            <sql many-table="tc8x_pks_category_contract" many-key="cate_id" name="policy_no contract_no" />
         </field>
     </class>
 
     <class name="ctf.jdo.tc8x.LazyPayRoll" depends="ctf.jdo.tc8x.LazyEmployee" identity="id">
         <description>Table used for testing lazy loading</description>
-        <map-to table="test_pks_payroll" />
+        <map-to table="tc8x_pks_payroll" />
         <field name="id" type="integer">
             <sql name="id" type="integer"/>
         </field>
@@ -376,7 +377,7 @@
     
     <class name="ctf.jdo.tc8x.LazyNToNA" identity="idA">
         <description>Source table used for testing lazy loading many-to-many</description>
-        <map-to table="test_nton_a" />
+        <map-to table="tc8x_nton_a" />
         <field name="idA" type="string"  required="true">
             <sql name="id" type="varchar" />
         </field>
@@ -389,7 +390,7 @@
 
     <class name="ctf.jdo.tc8x.LazyNToNB" identity="idB">
         <description>Destination table used for testing lazy loading many-to-many</description>
-        <map-to table="test_nton_a" />
+        <map-to table="tc8x_nton_b" />
         <field name="idB" type="string"  required="true">
             <sql name="id" type="varchar" />
         </field>

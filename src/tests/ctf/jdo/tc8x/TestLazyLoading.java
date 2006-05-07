@@ -90,14 +90,14 @@ public final class TestLazyLoading extends CastorTestCase {
         // delete everything directly
         LOG.info("Delete everything");
         Statement stmt = _conn.createStatement();
-        stmt.executeUpdate("DELETE FROM test_pks_person");
-        stmt.executeUpdate("DELETE FROM test_pks_employee");
-        stmt.executeUpdate("DELETE FROM test_pks_payroll");
-        stmt.executeUpdate("DELETE FROM test_pks_address");
-        stmt.executeUpdate("DELETE FROM test_pks_category_contract");
-        stmt.executeUpdate("DELETE FROM test_pks_contract");
-        stmt.executeUpdate("DELETE FROM test_pks_category");
-        stmt.executeUpdate("DELETE FROM test_pks_project");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_person");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_employee");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_payroll");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_address");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_category_contract");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_contract");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_category");
+        stmt.executeUpdate("DELETE FROM tc8x_pks_project");
         _conn.commit();
 
         createDataObjects();

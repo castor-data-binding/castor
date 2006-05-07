@@ -676,35 +676,35 @@ grant all on test_group_person to test
 go
 
 -- test multiple pk
-drop table test_pks_person
+drop table tc8x_pks_person
 go
-create table test_pks_person (
+create table tc8x_pks_person (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   bday  datetime
 )
 go
-create unique index test_pks_person_pk on test_pks_person( fname, lname )
+create unique index tc8x_pks_person_pk on tc8x_pks_person( fname, lname )
 go
-grant all on test_pks_person to test
+grant all on tc8x_pks_person to test
 go
 
-drop table test_pks_employee
+drop table tc8x_pks_employee
 go
-create table test_pks_employee (
+create table tc8x_pks_employee (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   start_date datetime null
 )
 go
-create unique index test_pks_person_employee_pk on test_pks_employee( fname, lname )
+create unique index tc8x_pks_person_employee_pk on tc8x_pks_employee( fname, lname )
 go
-grant all on test_pks_employee to test
+grant all on tc8x_pks_employee to test
 go
 
-drop table test_pks_payroll
+drop table tc8x_pks_payroll
 go
-create table test_pks_payroll (
+create table tc8x_pks_payroll (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   id int               not null,
@@ -712,30 +712,30 @@ create table test_pks_payroll (
   hourly_rate int
 )
 go
-create unique index test_pks_payroll_fk on test_pks_payroll( fname, lname )
+create unique index tc8x_pks_payroll_fk on tc8x_pks_payroll( fname, lname )
 go
-create unique index test_pks_payroll_pk on test_pks_payroll( id )
+create unique index tc8x_pks_payroll_pk on tc8x_pks_payroll( id )
 go
-grant all on test_pks_payroll to test
+grant all on tc8x_pks_payroll to test
 go
 
-drop table test_pks_project
+drop table tc8x_pks_project
 go
-create table test_pks_project (
+create table tc8x_pks_project (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   id    int             not null,
   name  varchar(100)
 )
 go
-create unique index test_pks_project_pk on test_pks_project( id )
+create unique index tc8x_pks_project_pk on tc8x_pks_project( id )
 go
-grant all on test_pks_payroll to test
+grant all on tc8x_pks_payroll to test
 go
 
-drop table test_pks_address
+drop table tc8x_pks_address
 go
-create table test_pks_address (
+create table tc8x_pks_address (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   id int               not null,
@@ -745,14 +745,14 @@ create table test_pks_address (
   zip varchar(6) null
 )
 go
-create unique index test_pks_address_pk on test_pks_address( id )
+create unique index tc8x_pks_address_pk on tc8x_pks_address( id )
 go
-grant all on test_pks_address to test
+grant all on tc8x_pks_address to test
 go
 
-drop table test_pks_contract
+drop table tc8x_pks_contract
 go
-create table test_pks_contract (
+create table tc8x_pks_contract (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   policy_no int        not null,
@@ -760,34 +760,34 @@ create table test_pks_contract (
   c_comment varchar(100)  null
 )
 go
-create unique index test_pks_contract_fk on test_pks_contract( fname, lname )
+create unique index tc8x_pks_contract_fk on tc8x_pks_contract( fname, lname )
 go
-create unique index test_pks_contract_pk on test_pks_contract( policy_no, contract_no )
+create unique index tc8x_pks_contract_pk on tc8x_pks_contract( policy_no, contract_no )
 go
-grant all on test_pks_contract to test
+grant all on tc8x_pks_contract to test
 go
 
-drop table test_pks_category_contract
+drop table tc8x_pks_category_contract
 go
-create table test_pks_category_contract (
+create table tc8x_pks_category_contract (
   policy_no int        not null,
   contract_no int      not null,
   cate_id int          not null
 )
 go
-grant all on test_pks_category_contract to test
+grant all on tc8x_pks_category_contract to test
 go
 
-drop table test_pks_category
+drop table tc8x_pks_category
 go
-create table test_pks_category (
+create table tc8x_pks_category (
   id  int              not null,
   name varchar(100)     not null
 )
 go
-create unique index test_pks_category_pk on test_pks_category( id )
+create unique index tc8x_pks_category_pk on tc8x_pks_category( id )
 go
-grant all on test_pks_category to test
+grant all on tc8x_pks_category to test
 go
 
 -- base class
@@ -913,33 +913,33 @@ go
 grant all on list_types to test
 go
 
-drop table test_nton_a
+drop table tc8x_nton_a
 go
 
-create table test_nton_a (
+create table tc8x_nton_a (
   id         varchar(20)      not null,
   status     int              not null
 )
 go
 
-grant all on test_nton_a to test
+grant all on tc8x_nton_a to test
 go
 
-drop table test_nton_b
+drop table tc8x_nton_b
 go
 
-create table test_nton_b (
+create table tc8x_nton_b (
   id         varchar(20)      not null,
   status     int              not null
 )
 go
 
-grant all on test_nton_b to test
+grant all on tc8x_nton_b to test
 go
 
-drop table enum_prod
+drop table tc8x_enum_prod
 go
-create table enum_prod (
+create table tc8x_enum_prod (
   id        int not null,
   name      varchar(200) not null,
   kind      varchar(200) not null
@@ -948,9 +948,9 @@ go
 
 -- test objects for TestTransientAttribute 
 
-drop table trans_master
+drop table tc8x_trans_master
 go
-create table trans_master (
+create table tc8x_trans_master (
   id        int not null,
   name      varchar(200) not null,
   propty1	int,
@@ -960,32 +960,32 @@ create table trans_master (
 )
 go
 
-drop table trans_child1
+drop table tc8x_trans_child1
 go
-create table trans_child1 (
+create table tc8x_trans_child1 (
   id        int not null,
   descr     varchar(200) not null
 )
 go
 
-drop table trans_child2
+drop table tc8x_trans_child2
 go
-create table trans_child2 (
+create table tc8x_trans_child2 (
   id        int not null,
   entityOneId int not null,
   descr     varchar(200) not null
 )
 go
 
-insert into trans_master (id, name, propty1, propty2, ent2) values (1, 'entity1', 1, 2, 1)
+insert into tc8x_trans_master (id, name, propty1, propty2, ent2) values (1, 'entity1', 1, 2, 1)
 go
-insert into trans_child1 (id, descr) values (1, 'description1')
+insert into tc8x_trans_child1 (id, descr) values (1, 'description1')
 go
-insert into trans_child2 (id, descr, entityOneId) values (1, 'description1', 1)
+insert into tc8x_trans_child2 (id, descr, entityOneId) values (1, 'description1', 1)
 go
-insert into trans_child2 (id, descr, entityOneId) values (2, 'description2', 1)
+insert into tc8x_trans_child2 (id, descr, entityOneId) values (2, 'description2', 1)
 go
-insert into trans_child2 (id, descr, entityOneId) values (3, 'description3', 1)
+insert into tc8x_trans_child2 (id, descr, entityOneId) values (3, 'description3', 1)
 go
 
 

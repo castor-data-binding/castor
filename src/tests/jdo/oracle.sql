@@ -573,35 +573,35 @@ create index test_group_person_g_pk on test_group_person ( gid );
 
 
 -- test multiple pk
-drop table test_pks_person;
+drop table tc8x_pks_person;
 
-create table test_pks_person (
+create table tc8x_pks_person (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   bday  date null
 );
 
-create unique index test_pks_person_pk on test_pks_person( fname, lname );
+create unique index tc8x_pks_person_pk on tc8x_pks_person( fname, lname );
 
--- grant all on test_pks_person to test;
+-- grant all on tc8x_pks_person to test;
 
 
-drop table test_pks_employee;
+drop table tc8x_pks_employee;
 
-create table test_pks_employee (
+create table tc8x_pks_employee (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   start_date date null
 );
 
-create unique index test_pks_person_employee_pk on test_pks_employee( fname, lname );
+create unique index tc8x_pks_person_employee_pk on tc8x_pks_employee( fname, lname );
 
--- grant all on test_pks_employee to test;
+-- grant all on tc8x_pks_employee to test;
 
 
-drop table test_pks_payroll;
+drop table tc8x_pks_payroll;
 
-create table test_pks_payroll (
+create table tc8x_pks_payroll (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   id int               not null,
@@ -609,30 +609,30 @@ create table test_pks_payroll (
   hourly_rate int
 );
 
-create unique index test_pks_payroll_fk on test_pks_payroll( fname, lname );
+create unique index tc8x_pks_payroll_fk on tc8x_pks_payroll( fname, lname );
 
-create unique index test_pks_payroll_pk on test_pks_payroll( id );
+create unique index tc8x_pks_payroll_pk on tc8x_pks_payroll( id );
 
--- grant all on test_pks_payroll to test;
+-- grant all on tc8x_pks_payroll to test;
 
 
-drop table test_pks_project;
+drop table tc8x_pks_project;
 
-create table test_pks_project (
+create table tc8x_pks_project (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   id    int             not null,
   name  varchar(100)
 );
 
-create unique index test_pks_project_pk on test_pks_project( id );
+create unique index tc8x_pks_project_pk on tc8x_pks_project( id );
 
--- grant all on test_pks_payroll to test;
+-- grant all on tc8x_pks_payroll to test;
 
 
-drop table test_pks_address;
+drop table tc8x_pks_address;
 
-create table test_pks_address (
+create table tc8x_pks_address (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   id int               not null,
@@ -642,14 +642,14 @@ create table test_pks_address (
   zip varchar(6)       null
 );
 
-create unique index test_pks_address_pk on test_pks_address( id );
+create unique index tc8x_pks_address_pk on tc8x_pks_address( id );
 
--- grant all on test_pks_address to test;
+-- grant all on tc8x_pks_address to test;
 
 
-drop table test_pks_contract;
+drop table tc8x_pks_contract;
 
-create table test_pks_contract (
+create table tc8x_pks_contract (
   fname varchar(100)    not null,
   lname varchar(100)    not null,
   policy_no int        not null,
@@ -657,34 +657,34 @@ create table test_pks_contract (
   c_comment varchar(100)  null
 );
 
-create unique index test_pks_contract_fk on test_pks_contract( fname, lname );
+create unique index tc8x_pks_contract_fk on tc8x_pks_contract( fname, lname );
 
-create unique index test_pks_contract_pk on test_pks_contract( policy_no, contract_no );
+create unique index tc8x_pks_contract_pk on tc8x_pks_contract( policy_no, contract_no );
 
--- grant all on test_pks_contract to test;
+-- grant all on tc8x_pks_contract to test;
 
 
-drop table test_pks_category_contract;
+drop table tc8x_pks_category_contract;
 
-create table test_pks_category_contract (
+create table tc8x_pks_category_contract (
   policy_no int        not null,
   contract_no int      not null,
   cate_id int          not null
 );
 
--- grant all on test_pks_category_contract to test;
+-- grant all on tc8x_pks_category_contract to test;
 
 
-drop table test_pks_category;
+drop table tc8x_pks_category;
 
-create table test_pks_category (
+create table tc8x_pks_category (
   id  int              not null,
   name varchar(100)     not null
 );
 
-create unique index test_pks_category_pk on test_pks_category( id );
+create unique index tc8x_pks_category_pk on tc8x_pks_category( id );
 
--- grant all on test_pks_category to test;
+-- grant all on tc8x_pks_category to test;
 
 
 -- base class
@@ -824,23 +824,19 @@ create index test_oqltag_fk2 on test_oqltag( id2 );
 -- grant all on test_oqltag to test;
 
 
-drop table test_nton_a;
-
-create table test_nton_a (
+drop table tc8x_nton_a;
+create table tc8x_nton_a (
   id         varchar(20)      not null,
   status     int              not null
 );
+-- grant all on tc8x_nton_a to test;
 
--- grant all on test_nton_a to test;
-
-drop table test_nton_b;
-
-create table test_nton_b (
+drop table tc8x_nton_b;
+create table tc8x_nton_b (
   id         varchar(20)      not null,
   status     int              not null
 );
-
--- grant all on test_nton_b to test;
+-- grant all on tc8x_nton_b to test;
 
 
 drop table master cascade constraints;
@@ -879,69 +875,69 @@ alter table depend2
 	add constraint fk_depend2_master
 	foreign key (master_id) references master(id);
 
-drop sequence circ_brother_seq;
-drop sequence circ_sister_seq;
+drop sequence tc8x_circbrother_seq;
+drop sequence tc8x_circsister_seq;
 
-drop table circ_brother;
-drop table circ_sister;
+drop table tc8x_circbrother;
+drop table tc8x_circsister;
 
-create sequence circ_brother_seq;
-create sequence circ_sister_seq;
+create sequence tc8x_circbrother_seq;
+create sequence tc8x_circsister_seq;
 
-create table circ_brother (
+create table tc8x_circbrother (
 	brother_id int not null,
 	brother_sibling int,
 	constraint pk_brother primary key (brother_id));
 
-create table circ_sister (
+create table tc8x_circsister (
 	sister_id int not null,
 	sister_sibling int,
 	constraint pk_sister primary key (sister_id));
 
 -- tc166.TestLazy1to1
-drop table lazy_11_chd;
-create table lazy_11_chd (
+drop table tc8x_lazy_11_chd;
+create table tc8x_lazy_11_chd (
   id        int not null,
   descr     varchar(20) not null
 );
 
-insert into lazy_11_chd (id, descr) values (1, 'child 1');
-insert into lazy_11_chd (id, descr) values (2, 'child 2');
-insert into lazy_11_chd (id, descr) values (3, 'child 3');
-insert into lazy_11_chd (id, descr) values (4, 'child 4');
-
-drop table lazy_11_par;
-create table lazy_11_par (
+drop table tc8x_lazy_11_par;
+create table tc8x_lazy_11_par (
   id        int not null,
   descr     varchar(20) not null,
   child_id  int
 );
 
-insert into lazy_11_par (id, descr, child_id) values (1, 'parent 1', 1);
-insert into lazy_11_par (id, descr, child_id) values (2, 'parent 2', 2);
-insert into lazy_11_par (id, descr, child_id) values (3, 'parent 3', 1);
-insert into lazy_11_par (id, descr, child_id) values (5, 'parent 5', null);
-
-drop table lazy_11_author;
-create table lazy_11_author (
+drop table tc8x_lazy_11_author;
+create table tc8x_lazy_11_author (
   id			int not null,
   first_name		varchar(100) not null,
   last_name		varchar(100) not null
 );
 
-insert into lazy_11_author (id, first_name, last_name) values (1, 'Joe', 'Writer');
- 
-drop table lazy_11_book;
-create table lazy_11_book (
+drop table tc8x_lazy_11_book;
+create table tc8x_lazy_11_book (
   id			int not null,
   name 			varchar(100) not null,
   author_id		int not null
 );
 
-insert into lazy_11_book (id, name, author_id) select 1, 'test book', lazy_11_author.id from lazy_11_author;
+insert into tc8x_lazy_11_chd (id, descr) values (1, 'child 1');
+insert into tc8x_lazy_11_chd (id, descr) values (2, 'child 2');
+insert into tc8x_lazy_11_chd (id, descr) values (3, 'child 3');
+insert into tc8x_lazy_11_chd (id, descr) values (4, 'child 4');
+
+insert into tc8x_lazy_11_par (id, descr, child_id) values (1, 'parent 1', 1);
+insert into tc8x_lazy_11_par (id, descr, child_id) values (2, 'parent 2', 2);
+insert into tc8x_lazy_11_par (id, descr, child_id) values (3, 'parent 3', 1);
+insert into tc8x_lazy_11_par (id, descr, child_id) values (5, 'parent 5', null);
+
+insert into tc8x_lazy_11_author (id, first_name, last_name) values (1, 'Joe', 'Writer');
+ 
+insert into tc8x_lazy_11_book (id, name, author_id) select 1, 'test book', tc8x_lazy_11_author.id from tc8x_lazy_11_author;
 	
-drop table enum_prod;
-create table enum_prod (
+drop table tc8x_enum_prod;
+create table tc8x_enum_prod (
   id        int not null,
   name      varchar(200) not null,
   kind      varchar(200) not null
@@ -949,8 +945,8 @@ create table enum_prod (
 
 -- test objects for TestTransientAttribute 
 
-drop table trans_master;
-create table trans_master (
+drop table tc8x_trans_master;
+create table tc8x_trans_master (
   id        int not null,
   name      varchar(200) not null,
   propty1	int,
@@ -959,24 +955,24 @@ create table trans_master (
   ent2		int
 );
 
-drop table trans_child1;
-create table trans_child1 (
+drop table tc8x_trans_child1;
+create table tc8x_trans_child1 (
   id        int not null,
   descr     varchar(200) not null
 );
 
-drop table trans_child2;
-create table trans_child2 (
+drop table tc8x_trans_child2;
+create table tc8x_trans_child2 (
   id        int not null,
   entityOneId int not null,
   descr     varchar(200) not null
 );
 
-insert into trans_master (id, name, propty1, propty2, ent2) values (1, 'entity1', 1, 2, 1);
-insert into trans_child1 (id, descr) values (1, 'description1');
-insert into trans_child2 (id, descr, entityOneId) values (1, 'description1', 1);
-insert into trans_child2 (id, descr, entityOneId) values (2, 'description2', 1);
-insert into trans_child2 (id, descr, entityOneId) values (3, 'description3', 1);
+insert into tc8x_trans_master (id, name, propty1, propty2, ent2) values (1, 'entity1', 1, 2, 1);
+insert into tc8x_trans_child1 (id, descr) values (1, 'description1');
+insert into tc8x_trans_child2 (id, descr, entityOneId) values (1, 'description1', 1);
+insert into tc8x_trans_child2 (id, descr, entityOneId) values (2, 'description2', 1);
+insert into tc8x_trans_child2 (id, descr, entityOneId) values (3, 'description3', 1);
 
 -- tc8x
 
