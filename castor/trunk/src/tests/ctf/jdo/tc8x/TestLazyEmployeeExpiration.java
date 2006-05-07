@@ -114,11 +114,11 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
         // initialze JDBC connection
        try {
             _updatePersonStatement = _conn.prepareStatement(
-                "update test_pks_person set bday=? where fname=? and lname=?");
+                "update tc8x_pks_person set bday=? where fname=? and lname=?");
             _updateEmployeeStatement = _conn.prepareStatement(
-                "update test_pks_employee set start_date=? where fname=? and lname=?");
+                "update tc8x_pks_employee set start_date=? where fname=? and lname=?");
             _updateAddressStatement = _conn.prepareStatement(
-                "update test_pks_address set street=? where id=?");
+                "update tc8x_pks_address set street=? where id=?");
         } catch (java.sql.SQLException e) {
             fail("Failed to establish JDBC Connection");
         }
@@ -516,13 +516,13 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
         LOG.info("deleting test data set...");
         try {
             Statement stmt = _conn.createStatement();
-            stmt.executeUpdate("DELETE FROM test_pks_person");
-            stmt.executeUpdate("DELETE FROM test_pks_employee");
-            stmt.executeUpdate("DELETE FROM test_pks_payroll");
-            stmt.executeUpdate("DELETE FROM test_pks_address");
-            stmt.executeUpdate("DELETE FROM test_pks_contract");
-            stmt.executeUpdate("DELETE FROM test_pks_category");
-            stmt.executeUpdate("DELETE FROM test_pks_project");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_person");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_employee");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_payroll");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_address");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_contract");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_category");
+            stmt.executeUpdate("DELETE FROM tc8x_pks_project");
         } catch (Exception e) {
             LOG.error("deleteTestDataSet: exception caught", e);
         }
