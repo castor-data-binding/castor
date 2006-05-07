@@ -557,13 +557,14 @@ public final class TestPolymorphism extends CastorTestCase {
                 count = new Long(((BigDecimal) obj).longValue());
             }
             assertNotNull(count);
-            assertEquals(1, count.intValue());
+            assertEquals(8, count.intValue());
         }
         
         database.commit();
         
         database.close();
     }
+    
 //    public void testOQLQueryWithoutParameter () throws Exception {
 //        Database database = _category.getDatabase();
 //        

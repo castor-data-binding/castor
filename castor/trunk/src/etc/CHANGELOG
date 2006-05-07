@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1408 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added improved tests for self-referantial relations.
+       Details: http://jira.codehaus.org/browse/CASTOR-1413
+       (Werner - 200605007)
+
 JDO:   Resolved issue CASTOR-1413 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for ehcache as Castor (performance) cache
        Details: http://jira.codehaus.org/browse/CASTOR-1413
