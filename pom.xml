@@ -53,7 +53,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 						</configuration>
 					</execution>
 <!-- to include JDO CTF suite, below execution needs to be (partially ) uncommented -->                   
-<!--
+
 					<execution>
 						<id>add-test-source</id>
                         <phase>generate-sources</phase>
@@ -63,11 +63,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 						<configuration>
 							<sources>
                                 <source>src/tests</source>
-                                <source>src/bugs</source>
+                                <!-- <source>src/bugs</source> -->
 							</sources>
 						</configuration>
 					</execution>
--->                    
+                    
 				</executions>
 			</plugin>
 
@@ -90,6 +90,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                 </executions>
             </plugin>       
 		</plugins>
+
 	</build>
 
 	<!--   
@@ -271,6 +272,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		</dependency>
 
 		<dependency>
+            <scope>test</scope>
 			<groupId>org.mockejb</groupId>
 			<artifactId>mockejb</artifactId>
 			<version>0.5</version>
@@ -281,6 +283,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<artifactId>xerces</artifactId>
 			<version>1.4.0</version>
 		</dependency>
+        
+        <dependency>
+            <scope>test</scope>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+            <version>3.1.12</version>
+        </dependency>
 
 	</dependencies>
 
@@ -313,7 +322,16 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                     <includes>
                         <include>org/exolab/castor/**/Test*.java</include>
                         <include>org/castor/**/Test*.java</include>
+                        
+                        <!-- JDO test suite -->
+                        <include>Main.java</include>
                     </includes>
+                    <systemProperties>
+                      <property>
+                        <name>test.category</name>
+                        <value>castor.mysql</value>
+                      </property>
+                    </systemProperties>                    
                 </configuration>
             </plugin>            
 
