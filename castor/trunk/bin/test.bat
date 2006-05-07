@@ -12,5 +12,5 @@ REM database driver to your classpath
 REM
 REM for %%i in (..\..\castor\lib\run\*.jar) do call cp.bat %%i
 
-"%JAVA%" -classpath "%CP%" Main %1 %2 %3 %4 %5 %6
+"%JAVA%" -classpath "%CP%" MainApp %1 %2 %3 %4 %5 %6
 set CLASSPATH=%OLDCP%

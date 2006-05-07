@@ -399,7 +399,7 @@
 
     <target name="jdo.tests" depends="compile.tests, -test.category.isset, -test.category.isnotset"
         description="Executes the JUnit tests for Castor JDO">
-        <java classname="Main" classpathref="build.classpath" fork="true">
+        <java classname="MainApp" classpathref="build.classpath" fork="true">
             <arg line="-verbose ${test.category}" />
         </java>
     </target>
