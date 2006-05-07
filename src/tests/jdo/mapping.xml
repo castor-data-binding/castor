@@ -7,7 +7,9 @@
   <include href="../ctf/jdo/tc3x/mapping.xml"/>
   <include href="../ctf/jdo/tc8x/mapping.xml"/>
   <include href="../ctf/jdo/tc9x/mapping.xml"/>
-  
+  <include href="../ctf/jdo/tc20x/mapping.xml"/>
+  <include href="tc166/mapping.xml"/>
+  <include href="tc167/mapping.xml"/>
 
   <!-- Mapping for TestObject to test_table
        Single object mapping, shared access, dirty checking on all fields -->

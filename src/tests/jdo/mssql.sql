@@ -1576,3 +1576,30 @@ go
 insert into sorted_item (id, id_1, name) values (3, 2, 'container item 3')
 go
 	
+# TC20x - self-referential relations 
+ 
+drop table tc200_self_relation_folder
+go
+create table tc200_self_relation_folder (
+  id          int		     	not null,  
+  name        varchar(255)    	not null,
+  parent_id	  int				DEFAULT null
+)
+go
+
+drop table tc200_self_relation_folder_parent
+go
+create table tc200_self_relation_folder_parent (
+  id          int		     	not null,  
+  name        varchar(255)    	not null
+)
+go
+
+drop table tc200_self_relation_folder_extend
+go
+create table tc200_self_relation_folder_extend (
+  id          int		     	not null,  
+  parent_id	  int				DEFAULT null
+)
+go
+	

@@ -1435,3 +1435,25 @@ insert into sorted_item (id, id_1, name) values (1, 1, 'container item 1');
 insert into sorted_item (id, id_1, name) values (2, 1, 'container item 2');
 insert into sorted_item (id, id_1, name) values (3, 2, 'container item 3');
 	
+# TC20x - self-referential relations 
+ 
+drop table tc200_self_relation_folder;
+create table tc200_self_relation_folder (
+  id          int		     	not null,  
+  name        varchar(255)    	not null,
+  parent_id	  int				null
+  
+);
+
+drop table tc200_self_relation_folder_parent;
+create table tc200_self_relation_folder_parent (
+  id          int		     	not null,  
+  name        varchar(255)    	not null
+);
+
+drop table tc200_self_relation_folder_extend;
+create table tc200_self_relation_folder_extend (
+  id          int		     	not null,  
+  parent_id	  int				null
+);
+	

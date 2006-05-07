@@ -722,15 +722,15 @@ drop table if exists tc8x_circ_brother;
 drop table if exists tc8x_circ_sister;
 
 create table tc8x_circ_brother (
-	brother_id int not null,
-	brother_sibling int,
-	constraint pk_brother primary key (brother_id));
+	brother_id int not null PRIMARY KEY,
+	brother_sibling int
+);
 
 create table tc8x_circ_sister (
-	sister_id int not null,
-	sister_sibling int,
-	constraint pk_sister primary key (sister_id));
-
+	sister_id int not null PRIMARY KEY,
+	sister_sibling int
+);
+	
 -- tc166.TestLazy1to1
 drop table if exists tc8x_lazy_11_chd;
 create table tc8x_lazy_11_chd (
@@ -1227,4 +1227,25 @@ insert into sorted_container(id, name) values (1, 'container 3');
 insert into sorted_item (id, id_1, name) values (1, 1, 'container item 1');
 insert into sorted_item (id, id_1, name) values (2, 1, 'container item 2');
 insert into sorted_item (id, id_1, name) values (3, 2, 'container item 3');
+
+-- TC20x - self-referential relations 
  
+drop table if exists tc200_self_relation_folder;
+create table tc200_self_relation_folder (
+  id          int		     	not null,  
+  name        varchar(255)    	not null,
+  parent_id	  int				null
+  
+);
+
+drop table if exists tc200_self_relation_folder_parent;
+create table tc200_self_relation_folder_parent (
+  id          int		     	not null,  
+  name        varchar(255)    	not null
+);
+
+drop table if exists tc200_self_relation_folder_extend;
+create table tc200_self_relation_folder_extend (
+  id          int		     	not null,  
+  parent_id	  int				null
+);

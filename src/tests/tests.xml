@@ -85,6 +85,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="hsql" class="jdo.JDOCategory">
@@ -180,6 +185,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="mssql" class="jdo.JDOCategory">
@@ -268,6 +278,11 @@
     <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
     <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="mysql" class="jdo.JDOCategory">
@@ -344,6 +359,7 @@
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
     <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
+    <!-- TC86 depends on SEQUENCE key generator -->
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
     <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
     <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
@@ -356,6 +372,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+    
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="oracle" class="jdo.JDOCategory">
@@ -447,6 +468,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="postgresql" class="jdo.JDOCategory">
@@ -536,6 +562,11 @@
     <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
     <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="sapdb" class="jdo.JDOCategory">
@@ -624,6 +655,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="sybase" class="jdo.JDOCategory">
@@ -712,6 +748,11 @@
     <!-- <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/> -->
     <!-- <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/> -->
     <!-- <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/> -->
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="derby" class="jdo.JDOCategory">
@@ -804,6 +845,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
   <category name="pointbase" class="jdo.JDOCategory">
@@ -897,6 +943,11 @@
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
     <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
     <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
   </category>
 
 <!--
