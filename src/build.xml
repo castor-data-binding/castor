@@ -19,6 +19,7 @@
         <property name="name" value="Castor"/>
         <property name="source" value="src"/>
         <property name="java" value="${source}/main/java"/>
+        <property name="main.resources" value="${source}/main/resources" />
 		<property name="test-resources" value="${source}/test/resources" />
         <property name="etc" value="${source}/etc"/>
         <property name="check" value="check"/>
@@ -159,14 +160,23 @@
             <fileset dir="${java}/org/exolab/castor/mapping">
                 <patternset refid="support.files" />
             </fileset>
+            <fileset dir="${main.resources}/org/exolab/castor/mapping">
+                <patternset refid="support.files" />
+            </fileset>
         </copy>
         <copy todir="${schema}">
             <fileset dir="${java}/org/castor/jdo/conf">
                 <patternset refid="support.files" />
             </fileset>
+            <fileset dir="${main.resources}/org/castor/jdo/conf">
+                <patternset refid="support.files" />
+            </fileset>
         </copy>
         <copy todir="${schema}">
             <fileset dir="${java}/org/exolab/castor/dsml/schema">
+                <patternset refid="support.files" />
+            </fileset>
+            <fileset dir="${main.resources}/org/exolab/castor/dsml/schema">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -218,6 +228,9 @@
             <fileset dir="${java}">
                 <patternset refid="support.files" />
             </fileset>
+            <fileset dir="${main.resources}">
+                <patternset refid="support.files" />
+            </fileset>
         </copy>
     </target>
 
@@ -230,6 +243,9 @@
         </javac>
         <copy todir="${classes}">
             <fileset dir="${java}">
+                <patternset refid="support.files" />
+            </fileset>
+            <fileset dir="${main.resources}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
@@ -257,6 +273,9 @@
         </javac>
         <copy todir="${classes}">
             <fileset dir="${java}">
+                <patternset refid="support.files" />
+            </fileset>
+            <fileset dir="${main.resources}">
                 <patternset refid="support.files" />
             </fileset>
         </copy>
