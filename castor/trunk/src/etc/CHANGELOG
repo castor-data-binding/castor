@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1423 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Moved the remaining 10 CTF tests (JDO) to new ctf.jdo.tc7x package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1423
+       (Werner - 200605008)
+
 JDO:   Resolved issue CASTOR-1408 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added improved tests for self-referantial relations.
        Details: http://jira.codehaus.org/browse/CASTOR-1413

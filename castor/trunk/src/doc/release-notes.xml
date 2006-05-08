@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1423" tool="jira">
+                    <description>
+		                Moved the remaining 10 CTF tests (JDO) to new ctf.jdo.tc7x package.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060508</date>
+                </bug>
                 <bug id="1408" tool="jira">
                     <description>
 		                Added improved tests for self-referential relations.
