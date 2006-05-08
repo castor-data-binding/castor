@@ -3,7 +3,7 @@
     "http://castor.org/mapping.dtd">
 <mapping>
     
-    <class name="ctf.jdo.tc7x.TestManyGroup" access="shared" identity="id" >
+    <class name="ctf.jdo.tc7x.ManyGroup" access="shared" identity="id" >
         <description>Table used for testing many to many relation</description>
         <map-to table="test_many_group" />
         <field name="id" type="integer">
@@ -12,14 +12,14 @@
         <field name="value1" type="string" required="true">
             <sql name="value1" type="varchar" />
         </field>
-        <field name="people" type="ctf.jdo.tc7x.TestManyPerson" 
+        <field name="people" type="ctf.jdo.tc7x.ManyPerson" 
             collection="collection" required="false" set-method="setPeople" 
             get-method="getPeople">
             <sql many-table="test_group_person"/>
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestManyPerson" access="shared" identity="id" >
+    <class name="ctf.jdo.tc7x.ManyPerson" access="shared" identity="id" >
         <description>Table used for testing many to many relation</description>
         <map-to table="test_many_person" />
         <field name="id" type="integer">
@@ -34,13 +34,13 @@
         <field name="sthelse" type="string" >
             <sql name="sthelse" type="varchar" />
         </field>
-        <field name="group" type="ctf.jdo.tc7x.TestManyGroup" 
+        <field name="group" type="ctf.jdo.tc7x.ManyGroup" 
             collection="collection" required="false">
             <sql many-table="test_group_person"/>
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestManyGroupKeyGen" access="shared" 
+    <class name="ctf.jdo.tc7x.ManyGroupKeyGen" access="shared" 
         identity="id" key-generator="MAX">
         <description>Table used for testing many to many relation</description>
         <cache-type type="count-limited" capacity="30"/>
@@ -51,13 +51,13 @@
         <field name="value1" type="string" required="true">
             <sql name="value1" type="varchar" />
         </field>
-        <field name="people" type="ctf.jdo.tc7x.TestManyPersonKeyGen" 
+        <field name="people" type="ctf.jdo.tc7x.ManyPersonKeyGen" 
             collection="collection" required="false" >
             <sql many-table="test_group_person"/>
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestManyPersonKeyGen" access="shared" 
+    <class name="ctf.jdo.tc7x.ManyPersonKeyGen" access="shared" 
         identity="id" key-generator="MAX">
         <description>Table used for testing many to many relation</description>
         <cache-type type="count-limited" capacity="30"/>
@@ -74,13 +74,13 @@
         <field name="sthelse" type="string" >
             <sql name="sthelse" type="varchar" />
         </field>
-        <field name="group" type="ctf.jdo.tc7x.TestManyGroupKeyGen" 
+        <field name="group" type="ctf.jdo.tc7x.ManyGroupKeyGen" 
             collection="collection" required="false">
             <sql many-table="test_group_person"/>
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestLimit" access="shared" identity="id">
+    <class name="ctf.jdo.tc7x.Limit" access="shared" identity="id">
         <description>Table used for concurrency and performance 
             testing</description>
         <map-to table="test_table" />
@@ -95,7 +95,7 @@
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestCol" identity="id">
+    <class name="ctf.jdo.tc7x.Col" identity="id">
         <description>Table used for testing different collection types 
             support</description>
         <cache-type type="none" />
@@ -109,7 +109,7 @@
     </fild> -->
     </class>
     
-    <class name="ctf.jdo.tc7x.TestItem" identity="id">
+    <class name="ctf.jdo.tc7x.Item" identity="id">
         <description>Table used for testing different collection types 
             support</description>
         <cache-type type="none" />
@@ -117,12 +117,12 @@
         <field name="id" type="integer">
             <sql name="iid" type="integer" />
         </field>
-        <field name="testCol" type="ctf.jdo.tc7x.TestCol" >
+        <field name="testCol" type="ctf.jdo.tc7x.Col" >
             <sql name="id" />
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestComparableItem" identity="id">
+    <class name="ctf.jdo.tc7x.ComparableItem" identity="id">
         <description>Table used for testing SortedSet collection type 
             support</description>
         <cache-type type="none" />
@@ -130,131 +130,131 @@
         <field name="id" type="integer">
             <sql name="iid" type="integer" />
         </field>
-        <field name="testCol" type="ctf.jdo.tc7x.TestCol" >
+        <field name="testCol" type="ctf.jdo.tc7x.Col" >
             <sql name="id" />
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColArrayList" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColArrayList" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="arraylist">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="arraylist">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColAdd" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColAdd" extends="ctf.jdo.tc7x.Col">
         <description>Modification of TestCollArrayList to test manual 
             addThing()</description>
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="arraylist" 
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="arraylist" 
             get-method="getItems" set-method="addItem">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColArray" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColArray" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="items" type="ctf.jdo.tc7x.TestItem" collection="array">
+        <field name="items" type="ctf.jdo.tc7x.Item" collection="array">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColCollection" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColCollection" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="collection">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="collection">
         </field>
     </class>
     
     <!--
-  <class name="ctf.jdo.tc7x.TestColHashMap" extends="ctf.jdo.tc7x.TestCol">
+  <class name="ctf.jdo.tc7x.ColHashMap" extends="ctf.jdo.tc7x.Col">
     <description>Table used for testing different collection types support</description>
     <map-to table="test_col" />
-    <field name="item" type="ctf.jdo.tc7x.TestItem" collection="hashmap">
+    <field name="item" type="ctf.jdo.tc7x.Item" collection="hashmap">
     </field>
   </class>
 
-  <class name="ctf.jdo.tc7x.TestColHashSet" extends="ctf.jdo.tc7x.TestCol">
+  <class name="ctf.jdo.tc7x.ColHashSet" extends="ctf.jdo.tc7x.Col">
     <description>Table used for testing different collection types support</description>
     <map-to table="test_col" />
-    <field name="item" type="ctf.jdo.tc7x.TestItem" collection="hashset">
+    <field name="item" type="ctf.jdo.tc7x.Item" collection="hashset">
     </field>
   </class>
   -->
     
-    <class name="ctf.jdo.tc7x.TestColHashtable" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColHashtable" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="hashtable">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="hashtable">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColMap" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColMap" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="map">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="map">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColSet" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColSet" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="set">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="set">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColSortedSet" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColSortedSet" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestComparableItem" 
+        <field name="item" type="ctf.jdo.tc7x.ComparableItem" 
             collection="sortedset">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColVector" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColVector" extends="ctf.jdo.tc7x.Col">
         <description>Table used for testing different collection types 
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="vector">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="vector">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColIterator" extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColIterator" extends="ctf.jdo.tc7x.Col">
         <description>Class used for testing collection type 
             'iterator'</description>
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="iterator">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="iterator">
         </field>
     </class>
     
-    <class name="ctf.jdo.tc7x.TestColEnumeration" 
-        extends="ctf.jdo.tc7x.TestCol">
+    <class name="ctf.jdo.tc7x.ColEnumeration" 
+        extends="ctf.jdo.tc7x.Col">
         <description>Class used for testing collection type 
             'enumerate'</description>
         <map-to table="test_col" />
-        <field name="item" type="ctf.jdo.tc7x.TestItem" collection="enumerate">
+        <field name="item" type="ctf.jdo.tc7x.Item" collection="enumerate">
         </field>
     </class>
     

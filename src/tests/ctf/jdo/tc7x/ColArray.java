@@ -47,63 +47,77 @@
 package ctf.jdo.tc7x;
 
 
-import java.util.ArrayList;
 import java.util.Iterator;
 
 /**
  * Test object for different collection types.
  */
-public class TestColArrayList extends TestCol {
+public class ColArray extends Col {
 
-    private ArrayList _item;
+    private Item[] _item;
 
-    public TestColArrayList() {
+    public ColArray() {
         super();
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.size() == 0 )
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.length == 0 )
             return false;
+        for (int i=0;i<_item.length;i++) {
+            if (_item[i].equals(item)) { return true; }
+        }
 
-        return _item.contains( item );
+        return false;
     }
 
     public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
+        if ( _item == null || _item.length == 0 )
             return _emptyItor;
 
-        return _item.iterator();
+        return new ArrayIterator();
     }
 
-    public void removeItem( TestItem item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
+    public void removeItem( Item item ) {
+        int position = -1;
+        for (int i=0;i<_item.length;i++) {
+            if (_item[i].equals(item)) { position = i; }
         }
+        if (position >=0) {
+          Item[] aux = new Item[_item.length-1];
+          for (int i=0;i<_item.length;i++) {
+              if (i < position) { aux[i] = _item[i]; }
+              if (i > position) { aux[i-1] = _item[i]; }
+          }
+          _item = aux;
+        }        
     }
 
     public int itemSize() {
         if ( _item == null )
             return 0;
 
-        return _item.size();
+        return _item.length;
     }
 
-    public void setItem( ArrayList item ) {
+    public void setItems( Item[] item ) {
         _item = item;
     }
 
-    public ArrayList getItem() {
+    public Item[] getItems() {
         return _item;
     }
 
-    public void addItem( TestItem item ) {
-        if ( _item == null )
-            _item = new ArrayList();
+    private class ArrayIterator implements Iterator {
+        private int position = 0;
 
-        _item.add( item );
-        item.setTestCol( this );
+        public boolean hasNext() {
+            return position<_item.length;
+        }
+        public Object next() {
+            return _item[position++];
+        }
+        public void remove() {
+            throw new UnsupportedOperationException();
+        }
     }
-
-
 }

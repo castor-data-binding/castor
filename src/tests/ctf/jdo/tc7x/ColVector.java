@@ -47,61 +47,62 @@
 package ctf.jdo.tc7x;
 
 
+import java.util.Iterator;
+import java.util.Vector;
+
+
 /**
  * Test object for different collection types.
  */
-public class TestComparableItem implements Comparable {
+public class ColVector extends Col {
 
-    private int    _id;
+    private Vector _item;
 
-    private TestCol _testCol;
-
-    public TestComparableItem() {
+    public ColVector() {
+        super();
     }
 
-    public TestComparableItem( int id ) {
-        _id = id;
-    }
-
-    public void setId( int id ) {
-        _id = id;
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setTestCol( TestCol testCol ) {
-        _testCol = testCol;
-    }
-
-    public TestCol getTestCol() {
-        return _testCol;
-    }
-
-    public String toString() {
-        return getClass().getName() + ":" + _id;
-    }
-
-    public int hashCode() {
-        return _id;
-    }
-
-    public boolean equals( Object object ) {
-
-        if ( object == null )
-            return false;
-        if ( object == this )
-            return true;
-        if ( !( object instanceof TestComparableItem ) )
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.size() == 0 )
             return false;
 
-        TestComparableItem item = (TestComparableItem) object;
-
-        return item._id == _id;
+        return _item.contains( item );
     }
 
-	public int compareTo(Object o) {
-		return new Integer(_id).compareTo(new Integer(((TestComparableItem) o).getId()));
-	}
+    public Iterator itemIterator() {
+        if ( _item == null || _item.size() == 0 )
+            return _emptyItor;
+
+        return _item.iterator();
+    }
+
+    public void removeItem( Item item ) {
+        if ( _item != null ) {
+            _item.remove( item );
+            item.setTestCol( null );
+        }
+    }
+
+    public int itemSize() {
+        if ( _item == null )
+            return 0;
+
+        return _item.size();
+    }
+
+    public Vector getItem() {
+        return _item;
+    }
+
+    public void setItem( Vector item ) {
+        _item = item;
+    }
+
+    public void addItem( Item item ) {
+        if ( _item == null )
+            _item = new Vector();
+
+        _item.add( item );
+        item.setTestCol( this );
+    }
 }

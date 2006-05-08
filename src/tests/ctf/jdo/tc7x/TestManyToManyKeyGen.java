@@ -99,12 +99,12 @@ public class TestManyToManyKeyGen extends CastorTestCase {
     public void runTest() 
             throws PersistenceException {
 
-        TestManyGroupKeyGen groupA, groupB;
-        TestManyPersonKeyGen person1;
-        TestManyPersonKeyGen person2;
-        TestManyPersonKeyGen person3;
-        TestManyPersonKeyGen person4;
-        TestManyPersonKeyGen temp;
+        ManyGroupKeyGen groupA, groupB;
+        ManyPersonKeyGen person1;
+        ManyPersonKeyGen person2;
+        ManyPersonKeyGen person3;
+        ManyPersonKeyGen person4;
+        ManyPersonKeyGen temp;
         ArrayList al, bl;
         OQLQuery oql;
         QueryResults enumeration;
@@ -119,11 +119,11 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         // select an group and delete it, if it exist!
         OQLQuery oqlclean = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyGroupKeyGen.class.getName() + " object WHERE object.id < $1" );
+                + ManyGroupKeyGen.class.getName() + " object WHERE object.id < $1" );
         oqlclean.bind( Integer.MAX_VALUE );
         enumeration = oqlclean.execute();
         while ( enumeration.hasMore() ) {
-            groupA = (TestManyGroupKeyGen) enumeration.next();
+            groupA = (ManyGroupKeyGen) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             _db.remove( groupA );
             stream.println( "Deleted object: " + groupA );
@@ -132,11 +132,11 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         _db.begin();
         oqlclean = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyPersonKeyGen.class.getName() + " object WHERE object.id < $1" );
+                + ManyPersonKeyGen.class.getName() + " object WHERE object.id < $1" );
         oqlclean.bind( Integer.MAX_VALUE );
         enumeration = oqlclean.execute();
         while ( enumeration.hasMore() ) {
-            person1 = (TestManyPersonKeyGen) enumeration.next();
+            person1 = (ManyPersonKeyGen) enumeration.next();
             stream.println( "Retrieved object: " + person1 );
             _db.remove( person1 );
             stream.println( "Deleted object: " + person1 );
@@ -148,9 +148,9 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         // This test for null collection handling
         _db.begin();
         oql = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyGroupKeyGen.class.getName() + " object WHERE id = $1" );
+                + ManyGroupKeyGen.class.getName() + " object WHERE id = $1" );
         stream.println("Creating new group with people!");
-        person1 = new TestManyPersonKeyGen();
+        person1 = new ManyPersonKeyGen();
         person1.setValue1("I am person 1");
         person1.setGroup( null );
         person1.setSthelse("Something else");
@@ -162,44 +162,44 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         // create new group with two people
         _db.begin();
         oql = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyGroupKeyGen.class.getName() + " object WHERE id = $1" );
+                + ManyGroupKeyGen.class.getName() + " object WHERE id = $1" );
         stream.println("Creating new group with people!");
-        person1 = (TestManyPersonKeyGen) _db.load( TestManyPersonKeyGen.class, new Integer(person1Id) );
+        person1 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
         person1.setValue1("I am person 1");
         ArrayList gPerson1 = new ArrayList();
         person1.setGroup( gPerson1 );
         person1.setSthelse("Something else");
         person1.setHelloworld("Hello World!");
 
-        person2 = new TestManyPersonKeyGen();
+        person2 = new ManyPersonKeyGen();
         person2.setValue1("I am person 2");
         ArrayList gPerson2 = new ArrayList();
         person2.setGroup( gPerson2 );
         person2.setSthelse("Something else");
         person2.setHelloworld("Hello World!");
 
-        person3 = new TestManyPersonKeyGen();
+        person3 = new ManyPersonKeyGen();
         person3.setValue1("I am person 3");
         ArrayList gPerson3 = new ArrayList();
         person3.setGroup( gPerson3 );
         person3.setSthelse("Something else for person 3");
         person3.setHelloworld("Hello World!");
 
-        person4 = new TestManyPersonKeyGen();
+        person4 = new ManyPersonKeyGen();
         person4.setValue1("I am person 4");
         ArrayList gPerson4 = new ArrayList();
         person4.setGroup( gPerson4 );
         person4.setSthelse("Something else for person 4");
         person4.setHelloworld("Hello World!");
 
-        groupA = new TestManyGroupKeyGen();
+        groupA = new ManyGroupKeyGen();
         groupA.setValue1("Group A");
         al = new ArrayList();
         al.add( person1 );
         al.add( person2 );
         groupA.setPeople( al );
 
-        groupB = new TestManyGroupKeyGen();
+        groupB = new ManyGroupKeyGen();
         groupB.setValue1("Group B");
         bl = new ArrayList();
         bl.add( person2 );
@@ -229,15 +229,15 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         person2 = null;
         enumeration = oql.execute();
         if ( enumeration.hasMore() ) {
-            groupA = (TestManyGroupKeyGen) enumeration.next();
+            groupA = (ManyGroupKeyGen) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             Collection p = groupA.getPeople();
             if ( p != null ) {
                 Iterator itor = p.iterator();
                 if ( itor.hasNext() ) 
-                    person1 = (TestManyPersonKeyGen) itor.next();
+                    person1 = (ManyPersonKeyGen) itor.next();
                 if ( itor.hasNext() )
-                    person2 = (TestManyPersonKeyGen) itor.next();
+                    person2 = (ManyPersonKeyGen) itor.next();
                 if ( itor.hasNext() )
                     fail("Error: more people than expected!");
             
@@ -270,13 +270,13 @@ public class TestManyToManyKeyGen extends CastorTestCase {
                     Iterator groupItor = person2.getGroup().iterator();
 
                     groupItor.hasNext();
-                    TestManyGroupKeyGen tempGroup = (TestManyGroupKeyGen)groupItor.next();
+                    ManyGroupKeyGen tempGroup = (ManyGroupKeyGen)groupItor.next();
                     int tempId = tempGroup.getId();
                     if ( tempId != groupAId && tempId != groupBId )
                         fail( "Error: unexpect group found" );
 
                     groupItor.hasNext();
-                    tempGroup = (TestManyGroupKeyGen)groupItor.next();
+                    tempGroup = (ManyGroupKeyGen)groupItor.next();
                     if ( tempGroup.getId() == tempId )
                         fail ( "Error: duplicated group found" );
                     if ( tempGroup.getId() != groupAId && tempGroup.getId() != groupBId )
@@ -285,7 +285,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
                     // remove person 2
                     itor = p.iterator();
                     while ( itor.hasNext() ) {
-                        person2 = (TestManyPersonKeyGen) itor.next();
+                        person2 = (ManyPersonKeyGen) itor.next();
                         if ( person2.getId() == person2Id ) {
                             itor.remove();
                             break;
@@ -318,15 +318,15 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         person2 = null;
         enumeration = oql.execute();
         if ( enumeration.hasMore() ) {
-            groupA = (TestManyGroupKeyGen) enumeration.next();
+            groupA = (ManyGroupKeyGen) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             Collection p = groupA.getPeople();
             if ( p != null ) {
                 Iterator itor = p.iterator();
                 if ( itor.hasNext() ) 
-                    person1 = (TestManyPersonKeyGen) itor.next();
+                    person1 = (ManyPersonKeyGen) itor.next();
                 if ( itor.hasNext() )
-                    person3 = (TestManyPersonKeyGen) itor.next();
+                    person3 = (ManyPersonKeyGen) itor.next();
 
                 // swap if the order is wrong
                 if ( person1.getId() == person3Id && person3.getId() == person1Id ) {
@@ -367,7 +367,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         }
 
         // check if person 2 contains only one group, and the group is B
-        person2 = (TestManyPersonKeyGen)_db.load( TestManyPersonKeyGen.class, new Integer(person2Id) );
+        person2 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person2Id) );
         // make sure person 2 contains 2 groups
         if ( person2.getGroup() == null || person2.getGroup().size() != 1 ) {
             fail("Error: expected group not found [3]" );
@@ -375,7 +375,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         Iterator groupItor = person2.getGroup().iterator();
         groupItor.hasNext();
-        TestManyGroupKeyGen tempGroup = (TestManyGroupKeyGen)groupItor.next();
+        ManyGroupKeyGen tempGroup = (ManyGroupKeyGen)groupItor.next();
         if ( tempGroup.getId() != groupBId )
             fail( "Error: unexpected group found [1]: "+tempGroup.getId() );
 
@@ -385,7 +385,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         _db.begin();
         // check if person 2 contains no group
-        person2 = (TestManyPersonKeyGen)_db.load( TestManyPersonKeyGen.class, new Integer(person2Id) );
+        person2 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person2Id) );
         if ( person2.getGroup() != null && person2.getGroup().size() != 0 ) {
             fail("Error: expected group not found [1]" );
         }
@@ -394,38 +394,38 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         _db.begin();
         // check if group a and group b contains no person2
-        groupA = (TestManyGroupKeyGen)_db.load( TestManyGroupKeyGen.class, new Integer(groupAId) );
+        groupA = (ManyGroupKeyGen)_db.load( ManyGroupKeyGen.class, new Integer(groupAId) );
         groupItor = groupA.getPeople().iterator();
         while ( groupItor.hasNext() ) {
-            person2 = (TestManyPersonKeyGen) groupItor.next();
+            person2 = (ManyPersonKeyGen) groupItor.next();
             if ( person2.getId() == person2Id )
                 fail("Error: person2 is not removed");
         }
-        groupB = (TestManyGroupKeyGen)_db.load( TestManyGroupKeyGen.class, new Integer(groupBId) );
+        groupB = (ManyGroupKeyGen)_db.load( ManyGroupKeyGen.class, new Integer(groupBId) );
         if ( groupB.getPeople() != null && groupB.getPeople().size() != 0 )
             fail("Error: person2 is not removed");
 
         // make a dangerous add (add to only one side)
         // user shouldn't rely on this behavior, but 
         // should always link both side before commit
-        person1 = (TestManyPersonKeyGen)_db.load( TestManyPersonKeyGen.class, new Integer(person1Id) );
+        person1 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
         person1.getGroup().add(groupB);
         _db.commit();
 
         // check if adding group into existing collection work
         _db.begin();
-        person1 = (TestManyPersonKeyGen)_db.load( TestManyPersonKeyGen.class, new Integer(person1Id) );
+        person1 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
         Iterator tempItor = person1.getGroup().iterator();
         if ( !tempItor.hasNext() )
             fail("Error: expected group from person1 not found");
-        groupA = (TestManyGroupKeyGen)tempItor.next();
+        groupA = (ManyGroupKeyGen)tempItor.next();
         int tempGroupId = groupA.getId();
         if ( tempGroupId != groupAId && tempGroupId != groupBId )
             fail("Error: unexpected group from person1 found");
 
         if ( !tempItor.hasNext() )
             fail("Error: expected group from person1 not found");
-        groupA = (TestManyGroupKeyGen)tempItor.next();
+        groupA = (ManyGroupKeyGen)tempItor.next();
         if ( tempGroupId == groupA.getId() )
             fail("Error: duplicated group found!");
         if ( groupA.getId() != groupAId && groupA.getId() != groupBId )
@@ -434,14 +434,14 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         // test long transaction support
         _db.begin();
-        groupA = (TestManyGroupKeyGen)_db.load( TestManyGroupKeyGen.class, new Integer(groupAId) );
+        groupA = (ManyGroupKeyGen)_db.load( ManyGroupKeyGen.class, new Integer(groupAId) );
         _db.commit();
 
         stream.println("Modifing object outside of transaction");
         // remove person 3
         Iterator it = groupA.getPeople().iterator();
         while ( it.hasNext() ) {
-            person3 = (TestManyPersonKeyGen) it.next();
+            person3 = (ManyPersonKeyGen) it.next();
             if ( person3.getId() == person3Id ) {
                 it.remove();
                 break;
@@ -455,7 +455,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         person1 = null;
         it = groupA.getPeople().iterator();
         while ( it.hasNext() ) {
-            person1 = (TestManyPersonKeyGen) it.next();
+            person1 = (ManyPersonKeyGen) it.next();
             if ( person1.getId() == person1Id )
                 break;
         }
@@ -477,17 +477,17 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         person2 = null;
         enumeration = oql.execute();
         if ( enumeration.hasMore() ) {
-            groupA = (TestManyGroupKeyGen) enumeration.next();
+            groupA = (ManyGroupKeyGen) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             Collection p = groupA.getPeople();
             if ( p != null ) {
                 Iterator itor = p.iterator();
                 if ( itor.hasNext() ) 
-                    person1 = (TestManyPersonKeyGen) itor.next();
+                    person1 = (ManyPersonKeyGen) itor.next();
                 else 
                     fail("Erorr: less people than expected!");
                 if ( itor.hasNext() )
-                    person4 = (TestManyPersonKeyGen) itor.next();
+                    person4 = (ManyPersonKeyGen) itor.next();
                 else 
                     fail("Erorr: less people than expected!");
 
@@ -528,7 +528,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         } else {
             fail("Error: object not found!");
         }
-        person3 = (TestManyPersonKeyGen)_db.load( TestManyPersonKeyGen.class, new Integer(person3Id) );
+        person3 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person3Id) );
         _db.commit();
 
         // modify and commit to long trans
@@ -540,11 +540,11 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         // load and check
         _db.begin();
-        person3 = (TestManyPersonKeyGen)_db.load( TestManyPersonKeyGen.class, new Integer(person3Id) );
+        person3 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person3Id) );
         tempItor = person3.getGroup().iterator();
         if ( !tempItor.hasNext() )
             fail( "Error: group not found" );
-        groupA = (TestManyGroupKeyGen)tempItor.next();
+        groupA = (ManyGroupKeyGen)tempItor.next();
         if ( groupA.getId() != groupAId )
             fail( "Error: unexpected group found" );
         if ( tempItor.hasNext() )

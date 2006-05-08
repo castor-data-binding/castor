@@ -42,67 +42,73 @@
  *
  * $Id$
  */
+
+
 package ctf.jdo.tc7x;
 
-import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.Iterator;
-import java.util.List;
+import java.util.Map;
 
 /**
- * Test object for collection types 'iterator' (java.util.Iterator).
+ * Test object for different collection types.
  */
-public class TestColIterator extends TestCol {
+public class ColMap extends Col {
 
-    private List _item = new ArrayList();
+    private Map _item;
 
-    public TestColIterator() {
+    public ColMap() {
         super();
     }
 
-    public boolean containsItem(final TestItem item) {
-        if (_item == null || _item.size() == 0) {
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.size() == 0 )
             return false;
-        }
-        return _item.contains(item);
+
+        return _item.values().contains( item );
     }
 
-    public Iterator itemIterator() {
-        if (_item == null || _item.size() == 0) {
-            return _emptyItor;
-        }
-        return _item.iterator();
-    }
-
-    public void removeItem(final TestItem item) {
-        if (_item != null) {
-            _item.remove(item);
-            item.setTestCol(null);
+    public void removeItem( Item item ) {
+        if ( _item != null ) {
+            _item.remove( new Integer(item.getId()) );
+            item.setTestCol( null );
         }
     }
 
     public int itemSize() {
-        if (_item == null) {
+        if ( _item == null )
             return 0;
-        }
+
         return _item.size();
     }
 
-    public Iterator getItem() {
-        return _item.iterator();
+
+    public Iterator itemIterator() {
+        if ( _item == null || _item.size() == 0 )
+            return _emptyItor;
+
+        return _item.values().iterator();
     }
 
-    public void setItem(final Iterator item) {
-        _item.clear();
-        while (item.hasNext()) {
-            _item.add(item.next());
-        }
+    public Map getItem() {
+        return _item;
     }
 
-    public void addItem(final TestItem item) {
-        if (_item == null) {
-            _item = new ArrayList();
-        }
-        _item.add(item);
-        item.setTestCol(this);
+    public void setItem( Map item ) {
+        _item = item;
     }
+
+    public void addItem( Item item ) {
+        if ( _item == null )
+            _item = new HashMap();
+
+        _item.put( new Integer( item.getId() ), item );
+        item.setTestCol( this );
+    }
+
+    public String toString() {
+        return super.toString() + "/" + _item;
+    }
+
+
 }

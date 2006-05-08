@@ -42,69 +42,72 @@
  *
  * $Id$
  */
+
+
 package ctf.jdo.tc7x;
 
 import java.util.ArrayList;
-import java.util.Collections;
-import java.util.Enumeration;
+import java.util.Collection;
 import java.util.Iterator;
-import java.util.List;
+
 
 /**
- * Test object for collection types 'iterator' (java.util.Iterator).
+ * Test object for different collection types.
  */
-public class TestColEnumeration extends TestCol {
+public class ColCollection extends Col {
 
-    private List _item = new ArrayList();
+    private Collection _item;
 
-    public TestColEnumeration() {
+    public ColCollection() {
         super();
     }
 
-    public boolean containsItem(final TestItem item) {
-        if (_item == null || _item.size() == 0) {
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.size() == 0 )
             return false;
-        }
-        return _item.contains(item);
+
+        return _item.contains( item );
     }
 
     public Iterator itemIterator() {
-        if (_item == null || _item.size() == 0) {
+        if ( _item == null || _item.size() == 0 )
             return _emptyItor;
-        }
+
         return _item.iterator();
     }
 
-    public void removeItem(final TestItem item) {
-        if (_item != null) {
-            _item.remove(item);
-            item.setTestCol(null);
+    public void removeItem( Item item ) {
+        if ( _item != null ) {
+            _item.remove( item );
+            item.setTestCol( null );
         }
     }
 
     public int itemSize() {
-        if (_item == null) {
+        if ( _item == null )
             return 0;
-        }
+
         return _item.size();
     }
 
-    public Enumeration getItem() {
-        return Collections.enumeration(_item);
+    public void setItem( Collection item ) {
+        _item = item;
     }
 
-    public void setItem(final Enumeration item) {
-        _item.clear();
-        while (item.hasMoreElements()) {
-            _item.add(item.nextElement());
-        }
+    public Collection getItem() {
+        return _item;
     }
 
-    public void addItem(final TestItem item) {
-        if (_item == null) {
+    public void addItem( Item item ) {
+        if ( _item == null )
             _item = new ArrayList();
-        }
-        _item.add(item);
-        item.setTestCol(this);
+
+        _item.add( item );
+        item.setTestCol( this );
     }
+
+    public String toString() {
+        return super.toString() + "/" + _item;
+    }
+
 }

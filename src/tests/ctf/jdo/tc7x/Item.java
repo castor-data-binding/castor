@@ -47,62 +47,57 @@
 package ctf.jdo.tc7x;
 
 
-import java.util.HashSet;
-import java.util.Iterator;
-
 /**
  * Test object for different collection types.
  */
-public class TestColHashSet extends TestCol {
+public class Item {
 
-    private HashSet _item;
+    private int    _id;
 
-    public TestColHashSet() {
-        super();
+    private Col _testCol;
+
+    public Item() {
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.size() == 0 )
+    public Item( int id ) {
+        _id = id;
+    }
+
+    public void setId( int id ) {
+        _id = id;
+    }
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setTestCol( Col testCol ) {
+        _testCol = testCol;
+    }
+
+    public Col getTestCol() {
+        return _testCol;
+    }
+
+    public String toString() {
+        return getClass().getName() + ":" + _id;
+    }
+
+    public int hashCode() {
+        return _id;
+    }
+
+    public boolean equals( Object object ) {
+
+        if ( object == null )
+            return false;
+        if ( object == this )
+            return true;
+        if ( !( object instanceof Item ) )
             return false;
 
-        return _item.contains( item );
+        Item item = (Item) object;
+
+        return item._id == _id;
     }
-
-    public void removeItem( TestItem item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
-        }
-    }
-
-    public int itemSize() {
-        if ( _item == null )
-            return 0;
-
-        return _item.size();
-    }
-
-    public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
-        return _item.iterator();
-    }
-
-    public void setItem( HashSet items ) {
-        _item = items;
-    }
-
-    public HashSet getItem() {
-        return _item;
-    }
-
-    public void addItem( TestItem item ) {
-        if ( _item != null )
-            _item = new HashSet();
-
-        _item.add( _item );
-        item.setTestCol( this );
-    }
-
 }

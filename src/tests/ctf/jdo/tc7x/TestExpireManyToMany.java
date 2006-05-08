@@ -237,8 +237,8 @@ public class TestExpireManyToMany extends CastorTestCase {
      */
     private void createTestDataSet() throws Exception {
         log("creating test data set...");
-        TestManyGroup groupA, groupB, groupC, groupD;
-        TestManyPerson person1, person2, person3, person4;
+        ManyGroup groupA, groupB, groupC, groupD;
+        ManyPerson person1, person2, person3, person4;
         ArrayList al, bl, c1, d1;
         Database db = null;
         try {
@@ -248,7 +248,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             //
             // create four persons
             //
-            person1 = new TestManyPerson();
+            person1 = new ManyPerson();
             ArrayList gPerson1 = new ArrayList();
             person1.setId(person1Id);
             person1.setGroup( gPerson1 );
@@ -256,7 +256,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             person1.setHelloworld("Hello World!");
             person1.setValue1(JDO_ORIGINAL_VALUE);
 
-            person2 = new TestManyPerson();
+            person2 = new ManyPerson();
             ArrayList gPerson2 = new ArrayList();
             person2.setId(person2Id);
             person2.setGroup( gPerson2 );
@@ -264,7 +264,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             person2.setHelloworld("Hello World!");
             person2.setValue1(JDO_ORIGINAL_VALUE);
 
-            person3 = new TestManyPerson();
+            person3 = new ManyPerson();
             ArrayList gPerson3 = new ArrayList();
             person3.setId(person3Id);
             person3.setGroup( gPerson3 );
@@ -272,7 +272,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             person3.setHelloworld("Hello World!");
             person3.setValue1(JDO_ORIGINAL_VALUE);
 
-            person4 = new TestManyPerson();
+            person4 = new ManyPerson();
             ArrayList gPerson4 = new ArrayList();
             person4.setId(person4Id);
             person4.setGroup( gPerson4 );
@@ -283,7 +283,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             //
             // create four groups, assign all persons to each group
             //
-            groupA = new TestManyGroup();
+            groupA = new ManyGroup();
             groupA.setValue1(JDO_ORIGINAL_VALUE);
             al = new ArrayList();
             al.add( person1 );
@@ -293,7 +293,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             groupA.setId(groupAId);
             groupA.setPeople( al );
 
-            groupB = new TestManyGroup();
+            groupB = new ManyGroup();
             groupB.setValue1(JDO_ORIGINAL_VALUE);
             groupB.setId(groupBId);
             bl = new ArrayList();
@@ -303,7 +303,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             bl.add( person4 );
             groupB.setPeople( bl );
 
-            groupC = new TestManyGroup();
+            groupC = new ManyGroup();
             groupC.setValue1(JDO_ORIGINAL_VALUE);
             c1 = new ArrayList();
             c1.add( person1 );
@@ -313,7 +313,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             groupC.setId(groupCId);
             groupC.setPeople( c1 );
 
-            groupD = new TestManyGroup();
+            groupD = new ManyGroup();
             groupD.setValue1(JDO_ORIGINAL_VALUE);
             d1 = new ArrayList();
             d1.add( person1 );
@@ -431,8 +431,8 @@ public class TestExpireManyToMany extends CastorTestCase {
             CacheManager cacheManager = _db.getCacheManager();
             if (byType) {
                 Class[] typeArray = new Class[2];
-                typeArray[0] = TestManyGroup.class;
-                typeArray[1] = TestManyPerson.class;
+                typeArray[0] = ManyGroup.class;
+                typeArray[1] = ManyPerson.class;
                 cacheManager.expireCache(typeArray);
             } else {
                 identityArray = new Object[4];
@@ -440,7 +440,7 @@ public class TestExpireManyToMany extends CastorTestCase {
                 identityArray[1] = new Integer(groupBId);
                 identityArray[2] = new Integer(groupCId);
                 identityArray[3] = new Integer(groupDId);
-                cacheManager.expireCache(TestManyGroup.class, identityArray);
+                cacheManager.expireCache(ManyGroup.class, identityArray);
             }
         } catch (Exception e) {
             log("expireCache: exception encountered clearing cache: " + e.getMessage());
@@ -461,7 +461,7 @@ public class TestExpireManyToMany extends CastorTestCase {
         try {
             db = this._category.getDatabase();
             db.begin();
-            TestManyGroup group = (TestManyGroup)db.load(TestManyGroup.class, new Integer(groupId));
+            ManyGroup group = (ManyGroup)db.load(ManyGroup.class, new Integer(groupId));
             if (group.getValue1().compareTo(expectedValue) != 0) {
                 log("validReadTransaction: value in group "+group.getId()+
                     " does not match expected value, value: "+group.getValue1()+
@@ -471,7 +471,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             if (checkPeople) {
                 Iterator itor = group.getPeople().iterator();
                 while ( itor.hasNext() ) {
-                    TestManyPerson person = (TestManyPerson)itor.next();
+                    ManyPerson person = (ManyPerson)itor.next();
                     if (person.getValue1().compareTo(expectedValue) != 0) {
                         log("validReadTransaction: value in person "+person.getId()+
                             " does not match expected value, value: "+person.getValue1()+
@@ -511,11 +511,11 @@ public class TestExpireManyToMany extends CastorTestCase {
         try {
             db = this._category.getDatabase();
             db.begin();
-            TestManyGroup group = (TestManyGroup)db.load(TestManyGroup.class, new Integer(groupId));
+            ManyGroup group = (ManyGroup)db.load(ManyGroup.class, new Integer(groupId));
             group.setValue1(JDO_UPDATED_VALUE);
             Iterator itor = group.getPeople().iterator();
             while ( itor.hasNext() ) {
-                TestManyPerson person = (TestManyPerson)itor.next();
+                ManyPerson person = (ManyPerson)itor.next();
                 person.setValue1(JDO_UPDATED_VALUE);
             }
             db.commit();
@@ -543,19 +543,19 @@ public class TestExpireManyToMany extends CastorTestCase {
     private void deleteTestDataSet() {
         log("deleting test data set...");
         QueryResults enumeration;
-        TestManyGroup group = null;
-        TestManyPerson person = null;
+        ManyGroup group = null;
+        ManyPerson person = null;
         Database db = null;
         try {
             // select an group and delete it, if it exist!
             db = this._category.getDatabase();
             db.begin();
-            OQLQuery oqlclean = db.getOQLQuery( "SELECT object FROM " + TestManyGroup.class.getName()
+            OQLQuery oqlclean = db.getOQLQuery( "SELECT object FROM " + ManyGroup.class.getName()
                     + " object WHERE object.id < $1" );
             oqlclean.bind( Integer.MAX_VALUE );
             enumeration = oqlclean.execute();
             while ( enumeration.hasMore() ) {
-                group = (TestManyGroup) enumeration.next();
+                group = (ManyGroup) enumeration.next();
                 stream.println( "Retrieved object: " + group );
                 db.remove( group );
                 stream.println( "Deleted object: " + group );
@@ -563,12 +563,12 @@ public class TestExpireManyToMany extends CastorTestCase {
             db.commit();
 
             db.begin();
-            oqlclean = db.getOQLQuery( "SELECT object FROM " + TestManyPerson.class.getName()
+            oqlclean = db.getOQLQuery( "SELECT object FROM " + ManyPerson.class.getName()
                     + " object WHERE object.id < $1" );
             oqlclean.bind( Integer.MAX_VALUE );
             enumeration = oqlclean.execute();
             while ( enumeration.hasMore() ) {
-                person = (TestManyPerson) enumeration.next();
+                person = (ManyPerson) enumeration.next();
                 stream.println( "Retrieved object: " + person );
                 db.remove( person );
                 stream.println( "Deleted object: " + person );

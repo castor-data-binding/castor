@@ -46,69 +46,63 @@
 
 package ctf.jdo.tc7x;
 
+
+import java.util.HashSet;
 import java.util.Iterator;
-import java.util.NoSuchElementException;
+
 /**
  * Test object for different collection types.
  */
-public class TestCol {
+public class ColHashSet extends Col {
 
-    protected static Iterator _emptyItor = new EmptyIterator(); 
+    private HashSet _item;
 
-    private int    _id;
-
-    public TestCol() {
+    public ColHashSet() {
+        super();
     }
 
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.size() == 0 )
+            return false;
 
-    public void setId( int id ) {
-        _id = id;
+        return _item.contains( item );
     }
 
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setDummy( int dummy ) {
-    }
-
-    public int getDummy() {
-        return 1;
-    }
-
-    public boolean containsItem( TestItem item ) {
-        return false;
-    }
-
-    public Iterator itemIterator() {
-        return _emptyItor;
-    }
-
-    public void addItem( TestItem item ) {
-    }
-
-    public void removeItem( TestItem item ) {
+    public void removeItem( Item item ) {
+        if ( _item != null ) {
+            _item.remove( item );
+            item.setTestCol( null );
+        }
     }
 
     public int itemSize() {
-        return 0;
+        if ( _item == null )
+            return 0;
+
+        return _item.size();
     }
 
-    public String toString() {
-        return getClass().getName() + ":" + _id;
+    public Iterator itemIterator() {
+        if ( _item == null || _item.size() == 0 )
+            return _emptyItor;
+
+        return _item.iterator();
     }
 
-    private static class EmptyIterator implements Iterator {
-        public boolean hasNext() {
-            return false;
-        }
-        public Object next() {
-            throw new NoSuchElementException();
-        }
-        public void remove() {
-            throw new IllegalStateException();
-        }
+    public void setItem( HashSet items ) {
+        _item = items;
+    }
+
+    public HashSet getItem() {
+        return _item;
+    }
+
+    public void addItem( Item item ) {
+        if ( _item != null )
+            _item = new HashSet();
+
+        _item.add( _item );
+        item.setTestCol( this );
     }
 
 }

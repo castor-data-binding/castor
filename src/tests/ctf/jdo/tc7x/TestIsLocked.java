@@ -58,7 +58,7 @@ public class TestIsLocked extends CastorTestCase {
         
         _db = _category.getDatabase();
         _db.begin();
-        TestLimit item = new TestLimit();
+        Limit item = new Limit();
         item.setId(111);
         item.setValue1("value1 111");
         item.setValue2("value2 111");
@@ -66,17 +66,17 @@ public class TestIsLocked extends CastorTestCase {
         _db.commit();
         
         _db.begin();
-        item = (TestLimit) _db.load(TestLimit.class, new Integer(111));
+        item = (Limit) _db.load(Limit.class, new Integer(111));
         
         assertNotNull(item);
         assertEquals(111, item.getId());
         
-        assertTrue(_db.isLocked(TestLimit.class, new Integer (111)));
+        assertTrue(_db.isLocked(Limit.class, new Integer (111)));
         _db.commit();
 
         _db = _category.getDatabase();
         _db.begin();
-        item = (TestLimit) _db.load(TestLimit.class, new Integer(111));
+        item = (Limit) _db.load(Limit.class, new Integer(111));
         _db.remove(item);
         _db.commit();
 
@@ -87,7 +87,7 @@ public class TestIsLocked extends CastorTestCase {
         
         _db = _category.getDatabase();
         _db.begin();
-        TestLimit item = new TestLimit();
+        Limit item = new Limit();
         item.setId(111);
         item.setValue1("value1 111");
         item.setValue2("value2 111");
@@ -95,17 +95,17 @@ public class TestIsLocked extends CastorTestCase {
         _db.commit();
         
         _db.begin();
-        item = (TestLimit) _db.load(TestLimit.class, new Integer(111));
+        item = (Limit) _db.load(Limit.class, new Integer(111));
         
         assertNotNull(item);
         assertEquals(111, item.getId());
         
-        assertFalse(_db.isLocked(TestLimit.class, new Integer (112)));
+        assertFalse(_db.isLocked(Limit.class, new Integer (112)));
         _db.commit();
 
         _db = _category.getDatabase();
         _db.begin();
-        item = (TestLimit) _db.load(TestLimit.class, new Integer(111));
+        item = (Limit) _db.load(Limit.class, new Integer(111));
         _db.remove(item);
         _db.commit();
 
