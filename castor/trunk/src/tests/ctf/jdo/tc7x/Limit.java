@@ -46,75 +46,79 @@
 
 package ctf.jdo.tc7x;
 
-import java.util.Collection;
-
-import org.exolab.castor.jdo.TimeStampable;
 
 /**
  * Test object mapping to test_table used to conduct all the tests.
  */
-public class TestManyGroupKeyGen implements TimeStampable {
+public class Limit
+{
 
 
     private int    _id;
 
 
-    private long    _timeStamp;
-
-    private String _value;
+    private String _value1;
 
 
-    private Collection _people;
+    private String _value2;
 
 
-    public TestManyGroupKeyGen() {
+    public static final int       DefaultId = 3;
+
+
+    public static final String    DefaultValue1 = "one";
+
+
+    public static final String    DefaultValue2 = "two";
+
+
+    public Limit()
+    {
+        _id = DefaultId;
+        _value1 = DefaultValue1;
+        _value2 = DefaultValue2;
     }
 
 
-    public void setId( int id ) {
+    public void setId( int id )
+    {
         _id = id;
     }
 
 
-    public int getId() {
+    public int getId()
+    {
         return _id;
     }
 
 
-    public void setValue1( String value )
+    public void setValue1( String value1 )
     {
-        _value = value;
+        _value1 = value1;
     }
 
 
     public String getValue1()
     {
-        return _value;
+        return _value1;
     }
 
 
-    public Collection getPeople() {
-        return _people;
+    public void setValue2( String value2 )
+    {
+        _value2 = value2;
     }
 
-    public void setPeople( Collection people ) {
-        _people = people;
+
+    public String getValue2()
+    {
+        return _value2;
     }
+
 
     public String toString()
     {
-        return _id + " / " + _value;
-    }
-
-    public void jdoSetTimeStamp( long timeStamp )
-    {
-        _timeStamp = timeStamp;
-    }
-
-
-    public long jdoGetTimeStamp()
-    {
-        return _timeStamp;
+        return _id + " / " + _value1 + " / " + _value2;
     }
 
 

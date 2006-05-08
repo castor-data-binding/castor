@@ -38,7 +38,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 2000 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
@@ -46,79 +46,62 @@
 
 package ctf.jdo.tc7x;
 
+import java.util.HashSet;
+import java.util.Iterator;
+import java.util.Set;
 
 /**
- * Test object mapping to test_table used to conduct all the tests.
+ * Test object for different collection types.
  */
-public class TestLimit
-{
+public class ColSet extends Col {
+    protected Set _item;
 
-
-    private int    _id;
-
-
-    private String _value1;
-
-
-    private String _value2;
-
-
-    public static final int       DefaultId = 3;
-
-
-    public static final String    DefaultValue1 = "one";
-
-
-    public static final String    DefaultValue2 = "two";
-
-
-    public TestLimit()
-    {
-        _id = DefaultId;
-        _value1 = DefaultValue1;
-        _value2 = DefaultValue2;
+    public ColSet() {
+        super();
     }
 
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.size() == 0 )
+            return false;
 
-    public void setId( int id )
-    {
-        _id = id;
+        return _item.contains( item );
     }
 
+    public Iterator itemIterator() {
+        if ( _item == null || _item.size() == 0 )
+            return _emptyItor;
 
-    public int getId()
-    {
-        return _id;
+        return _item.iterator();
     }
 
-
-    public void setValue1( String value1 )
-    {
-        _value1 = value1;
+    public void removeItem( Item item ) {
+        if ( _item != null ) {
+            _item.remove( item );
+            item.setTestCol( null );
+        }
     }
 
+    public int itemSize() {
+        if ( _item == null )
+            return 0;
 
-    public String getValue1()
-    {
-        return _value1;
+        return _item.size();
     }
 
-
-    public void setValue2( String value2 )
-    {
-        _value2 = value2;
+    public void setItem( Set items ) {
+        _item = items;
     }
 
-
-    public String getValue2()
-    {
-        return _value2;
+    public Set getItem() {
+        return _item;
     }
 
+    public void addItem( Item item ) {
+        if ( _item == null )
+            _item = new HashSet();
 
-    public String toString()
-    {
-        return _id + " / " + _value1 + " / " + _value2;
+        _item.add( item );
+        item.setTestCol( this );
     }
 
 

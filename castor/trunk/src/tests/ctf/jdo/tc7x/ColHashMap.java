@@ -47,77 +47,63 @@
 package ctf.jdo.tc7x;
 
 
+import java.util.HashMap;
 import java.util.Iterator;
+
 
 /**
  * Test object for different collection types.
  */
-public class TestColArray extends TestCol {
+public class ColHashMap extends Col {
 
-    private TestItem[] _item;
+    private HashMap _item;
 
-    public TestColArray() {
+    public ColHashMap() {
         super();
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.length == 0 )
+    public boolean containsItem( Item item ) {
+        if ( _item == null || _item.size() == 0 )
             return false;
-        for (int i=0;i<_item.length;i++) {
-            if (_item[i].equals(item)) { return true; }
-        }
 
-        return false;
+        return _item.values().contains( item );
     }
 
-    public Iterator itemIterator() {
-        if ( _item == null || _item.length == 0 )
-            return _emptyItor;
-
-        return new ArrayIterator();
-    }
-
-    public void removeItem( TestItem item ) {
-        int position = -1;
-        for (int i=0;i<_item.length;i++) {
-            if (_item[i].equals(item)) { position = i; }
+    public void removeItem( Item item ) {
+        if ( _item != null ) {
+            _item.remove( new Integer(item.getId()) );
+            item.setTestCol( null );
         }
-        if (position >=0) {
-          TestItem[] aux = new TestItem[_item.length-1];
-          for (int i=0;i<_item.length;i++) {
-              if (i < position) { aux[i] = _item[i]; }
-              if (i > position) { aux[i-1] = _item[i]; }
-          }
-          _item = aux;
-        }        
     }
 
     public int itemSize() {
         if ( _item == null )
             return 0;
 
-        return _item.length;
+        return _item.size();
     }
 
-    public void setItems( TestItem[] item ) {
-        _item = item;
+    public Iterator itemIterator() {
+        if ( _item == null || _item.size() == 0 )
+            return _emptyItor;
+
+        return _item.values().iterator();
     }
 
-    public TestItem[] getItems() {
+    public HashMap getItem() {
         return _item;
     }
 
-    private class ArrayIterator implements Iterator {
-        private int position = 0;
-
-        public boolean hasNext() {
-            return position<_item.length;
-        }
-        public Object next() {
-            return _item[position++];
-        }
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+    public void setItem( HashMap item ) {
+        _item = item;
     }
+
+    public void addItem( Item item ) {
+        if ( _item == null )
+            _item = new HashMap();
+
+        _item.put( new Integer( item.getId() ), item );
+        item.setTestCol( this );
+    }
+
 }

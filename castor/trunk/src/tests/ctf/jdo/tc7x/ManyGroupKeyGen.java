@@ -53,11 +53,13 @@ import org.exolab.castor.jdo.TimeStampable;
 /**
  * Test object mapping to test_table used to conduct all the tests.
  */
-public class TestManyGroup implements TimeStampable {
+public class ManyGroupKeyGen implements TimeStampable {
 
 
     private int    _id;
 
+
+    private long    _timeStamp;
 
     private String _value;
 
@@ -65,10 +67,7 @@ public class TestManyGroup implements TimeStampable {
     private Collection _people;
 
 
-    private long _timeStamp;
-
-
-    public TestManyGroup() {
+    public ManyGroupKeyGen() {
     }
 
 
@@ -112,9 +111,11 @@ public class TestManyGroup implements TimeStampable {
         _timeStamp = timeStamp;
     }
 
+
     public long jdoGetTimeStamp()
     {
         return _timeStamp;
     }
+
 
 }

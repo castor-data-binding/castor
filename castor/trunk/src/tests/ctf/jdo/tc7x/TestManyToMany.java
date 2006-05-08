@@ -85,12 +85,12 @@ public class TestManyToMany extends CastorTestCase {
     public void runTest() 
             throws PersistenceException {
 
-        TestManyGroup groupA, groupB;
-        TestManyPerson person1;
-        TestManyPerson person2;
-        TestManyPerson person3;
-        TestManyPerson person4;
-        TestManyPerson temp;
+        ManyGroup groupA, groupB;
+        ManyPerson person1;
+        ManyPerson person2;
+        ManyPerson person3;
+        ManyPerson person4;
+        ManyPerson temp;
         ArrayList al, bl;
         OQLQuery oql;
         QueryResults enumeration;
@@ -104,11 +104,11 @@ public class TestManyToMany extends CastorTestCase {
 
         // select an group and delete it, if it exist!
         OQLQuery oqlclean = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyGroup.class.getName() + " object WHERE object.id < $1" );
+                + ManyGroup.class.getName() + " object WHERE object.id < $1" );
         oqlclean.bind( Integer.MAX_VALUE );
         enumeration = oqlclean.execute();
         while ( enumeration.hasMore() ) {
-            groupA = (TestManyGroup) enumeration.next();
+            groupA = (ManyGroup) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             _db.remove( groupA );
             stream.println( "Deleted object: " + groupA );
@@ -117,11 +117,11 @@ public class TestManyToMany extends CastorTestCase {
 
         _db.begin();
         oqlclean = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyPerson.class.getName() + " object WHERE object.id < $1" );
+                + ManyPerson.class.getName() + " object WHERE object.id < $1" );
         oqlclean.bind( Integer.MAX_VALUE );
         enumeration = oqlclean.execute();
         while ( enumeration.hasMore() ) {
-            person1 = (TestManyPerson) enumeration.next();
+            person1 = (ManyPerson) enumeration.next();
             stream.println( "Retrieved object: " + person1 );
             _db.remove( person1 );
             stream.println( "Deleted object: " + person1 );
@@ -133,9 +133,9 @@ public class TestManyToMany extends CastorTestCase {
         // This test for null collection handling
         _db.begin();
         oql = _db.getOQLQuery( "SELECT object FROM " 
-                + TestManyGroup.class.getName() + " object WHERE id = $1" );
+                + ManyGroup.class.getName() + " object WHERE id = $1" );
         stream.println("Creating new group with people!");
-        person1 = new TestManyPerson();
+        person1 = new ManyPerson();
         person1.setValue1("I am person 1");
         person1.setId(person1Id);
         person1.setGroup( null );
@@ -147,7 +147,7 @@ public class TestManyToMany extends CastorTestCase {
         // create new group with two people
         _db.begin();
         stream.println("Creating new group with people!");
-        person1 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person1Id) );
+        person1 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person1Id) );
         person1.setValue1("I am person 1");
         ArrayList gPerson1 = new ArrayList();
         person1.setId(person1Id);
@@ -155,7 +155,7 @@ public class TestManyToMany extends CastorTestCase {
         person1.setSthelse("Something else");
         person1.setHelloworld("Hello World!");
 
-        person2 = new TestManyPerson();
+        person2 = new ManyPerson();
         person2.setValue1("I am person 2");
         ArrayList gPerson2 = new ArrayList();
         person2.setId(person2Id);
@@ -163,7 +163,7 @@ public class TestManyToMany extends CastorTestCase {
         person2.setSthelse("Something else");
         person2.setHelloworld("Hello World!");
 
-        person3 = new TestManyPerson();
+        person3 = new ManyPerson();
         person3.setValue1("I am person 3");
         ArrayList gPerson3 = new ArrayList();
         person3.setId(person3Id);
@@ -171,7 +171,7 @@ public class TestManyToMany extends CastorTestCase {
         person3.setSthelse("Something else for person 3");
         person3.setHelloworld("Hello World!");
 
-        person4 = new TestManyPerson();
+        person4 = new ManyPerson();
         person4.setValue1("I am person 4");
         ArrayList gPerson4 = new ArrayList();
         person4.setId(person4Id);
@@ -179,7 +179,7 @@ public class TestManyToMany extends CastorTestCase {
         person4.setSthelse("Something else for person 4");
         person4.setHelloworld("Hello World!");
 
-        groupA = new TestManyGroup();
+        groupA = new ManyGroup();
         groupA.setValue1("Group A");
         al = new ArrayList();
         al.add( person1 );
@@ -187,7 +187,7 @@ public class TestManyToMany extends CastorTestCase {
         groupA.setId(groupAId);
         groupA.setPeople( al );
 
-        groupB = new TestManyGroup();
+        groupB = new ManyGroup();
         groupB.setValue1("Group B");
         groupB.setId(groupBId);
         bl = new ArrayList();
@@ -213,15 +213,15 @@ public class TestManyToMany extends CastorTestCase {
         person2 = null;
         enumeration = oql.execute();
         if ( enumeration.hasMore() ) {
-            groupA = (TestManyGroup) enumeration.next();
+            groupA = (ManyGroup) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             Collection p = groupA.getPeople();
             if ( p != null ) {
                 Iterator itor = p.iterator();
                 if ( itor.hasNext() ) 
-                    person1 = (TestManyPerson) itor.next();
+                    person1 = (ManyPerson) itor.next();
                 if ( itor.hasNext() )
-                    person2 = (TestManyPerson) itor.next();
+                    person2 = (ManyPerson) itor.next();
                 if ( itor.hasNext() )
                     fail("Error: more people than expected!");
             
@@ -254,13 +254,13 @@ public class TestManyToMany extends CastorTestCase {
                     Iterator groupItor = person2.getGroup().iterator();
 
                     groupItor.hasNext();
-                    TestManyGroup tempGroup = (TestManyGroup)groupItor.next();
+                    ManyGroup tempGroup = (ManyGroup)groupItor.next();
                     int tempId = tempGroup.getId();
                     if ( tempId != groupAId && tempId != groupBId )
                         fail( "Error: unexpect group found" );
 
                     groupItor.hasNext();
-                    tempGroup = (TestManyGroup)groupItor.next();
+                    tempGroup = (ManyGroup)groupItor.next();
                     if ( tempGroup.getId() == tempId )
                         fail ( "Error: duplicated group found" );
                     if ( tempGroup.getId() != groupAId && tempGroup.getId() != groupBId )
@@ -269,7 +269,7 @@ public class TestManyToMany extends CastorTestCase {
                     // remove person 2
                     itor = p.iterator();
                     while ( itor.hasNext() ) {
-                        person2 = (TestManyPerson) itor.next();
+                        person2 = (ManyPerson) itor.next();
                         if ( person2.getId() == person2Id ) {
                             itor.remove();
                             break;
@@ -302,15 +302,15 @@ public class TestManyToMany extends CastorTestCase {
         person2 = null;
         enumeration = oql.execute();
         if ( enumeration.hasMore() ) {
-            groupA = (TestManyGroup) enumeration.next();
+            groupA = (ManyGroup) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             Collection p = groupA.getPeople();
             if ( p != null ) {
                 Iterator itor = p.iterator();
                 if ( itor.hasNext() ) 
-                    person1 = (TestManyPerson) itor.next();
+                    person1 = (ManyPerson) itor.next();
                 if ( itor.hasNext() )
-                    person3 = (TestManyPerson) itor.next();
+                    person3 = (ManyPerson) itor.next();
 
                 // swap if the order is wrong
                 if ( person1.getId() == person3Id && person3.getId() == person1Id ) {
@@ -351,7 +351,7 @@ public class TestManyToMany extends CastorTestCase {
         }
 
         // check if person 2 contains only one group, and the group is B
-        person2 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person2Id) );
+        person2 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person2Id) );
         // make sure person 2 contains 2 groups
         if ( person2.getGroup() == null || person2.getGroup().size() != 1 ) {
             fail("Error: expected group not found [3]" );
@@ -359,7 +359,7 @@ public class TestManyToMany extends CastorTestCase {
 
         Iterator groupItor = person2.getGroup().iterator();
         groupItor.hasNext();
-        TestManyGroup tempGroup = (TestManyGroup)groupItor.next();
+        ManyGroup tempGroup = (ManyGroup)groupItor.next();
         if ( tempGroup.getId() != groupBId )
             fail( "Error: unexpected group found [1]: "+tempGroup.getId() );
 
@@ -369,7 +369,7 @@ public class TestManyToMany extends CastorTestCase {
 
         _db.begin();
         // check if person 2 contains no group
-        person2 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person2Id) );
+        person2 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person2Id) );
         if ( person2.getGroup() != null && person2.getGroup().size() != 0 ) {
             fail("Error: expected group not found [1]" );
         }
@@ -378,38 +378,38 @@ public class TestManyToMany extends CastorTestCase {
 
         _db.begin();
         // check if group a and group b contains no person2
-        groupA = (TestManyGroup)_db.load( TestManyGroup.class, new Integer(groupAId) );
+        groupA = (ManyGroup)_db.load( ManyGroup.class, new Integer(groupAId) );
         groupItor = groupA.getPeople().iterator();
         while ( groupItor.hasNext() ) {
-            person2 = (TestManyPerson) groupItor.next();
+            person2 = (ManyPerson) groupItor.next();
             if ( person2.getId() == person2Id )
                 fail("Error: person2 is not removed");
         }
-        groupB = (TestManyGroup)_db.load( TestManyGroup.class, new Integer(groupBId) );
+        groupB = (ManyGroup)_db.load( ManyGroup.class, new Integer(groupBId) );
         if ( groupB.getPeople() != null && groupB.getPeople().size() != 0 )
             fail("Error: person2 is not removed");
 
         // make a dangerous add (add to only one side)
         // user shouldn't rely on this behavior, but 
         // should always link both side before commit
-        person1 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person1Id) );
+        person1 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person1Id) );
         person1.getGroup().add(groupB);
         _db.commit();
 
         // check if adding group into existing collection work
         _db.begin();
-        person1 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person1Id) );
+        person1 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person1Id) );
         Iterator tempItor = person1.getGroup().iterator();
         if ( !tempItor.hasNext() )
             fail("Error: expected group from person1 not found");
-        groupA = (TestManyGroup)tempItor.next();
+        groupA = (ManyGroup)tempItor.next();
         int tempGroupId = groupA.getId();
         if ( tempGroupId != groupAId && tempGroupId != groupBId )
             fail("Error: unexpected group from person1 found");
 
         if ( !tempItor.hasNext() )
             fail("Error: expected group from person1 not found");
-        groupA = (TestManyGroup)tempItor.next();
+        groupA = (ManyGroup)tempItor.next();
         if ( tempGroupId == groupA.getId() )
             fail("Error: duplicated group found!");
         if ( groupA.getId() != groupAId && groupA.getId() != groupBId )
@@ -418,14 +418,14 @@ public class TestManyToMany extends CastorTestCase {
 
         // test long transaction support
         _db.begin();
-        groupA = (TestManyGroup)_db.load( TestManyGroup.class, new Integer(groupAId) );
+        groupA = (ManyGroup)_db.load( ManyGroup.class, new Integer(groupAId) );
         _db.commit();
 
         stream.println("Modifing object outside of transaction");
         // remove person 3
         Iterator it = groupA.getPeople().iterator();
         while ( it.hasNext() ) {
-            person3 = (TestManyPerson) it.next();
+            person3 = (ManyPerson) it.next();
             if ( person3.getId() == person3Id ) {
                 it.remove();
                 break;
@@ -439,7 +439,7 @@ public class TestManyToMany extends CastorTestCase {
         person1 = null;
         it = groupA.getPeople().iterator();
         while ( it.hasNext() ) {
-            person1 = (TestManyPerson) it.next();
+            person1 = (ManyPerson) it.next();
             if ( person1.getId() == person1Id )
                 break;
         }
@@ -461,17 +461,17 @@ public class TestManyToMany extends CastorTestCase {
         person2 = null;
         enumeration = oql.execute();
         if ( enumeration.hasMore() ) {
-            groupA = (TestManyGroup) enumeration.next();
+            groupA = (ManyGroup) enumeration.next();
             stream.println( "Retrieved object: " + groupA );
             Collection p = groupA.getPeople();
             if ( p != null ) {
                 Iterator itor = p.iterator();
                 if ( itor.hasNext() ) 
-                    person1 = (TestManyPerson) itor.next();
+                    person1 = (ManyPerson) itor.next();
                 else 
                     fail("Erorr: less people than expected!");
                 if ( itor.hasNext() )
-                    person4 = (TestManyPerson) itor.next();
+                    person4 = (ManyPerson) itor.next();
                 else 
                     fail("Erorr: less people than expected!");
 
@@ -512,7 +512,7 @@ public class TestManyToMany extends CastorTestCase {
         } else {
             fail("Error: object not found!");
         }
-        person3 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person3Id) );
+        person3 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person3Id) );
         _db.commit();
 
         // modify and commit to long trans
@@ -524,11 +524,11 @@ public class TestManyToMany extends CastorTestCase {
 
         // load and check
         _db.begin();
-        person3 = (TestManyPerson)_db.load( TestManyPerson.class, new Integer(person3Id) );
+        person3 = (ManyPerson)_db.load( ManyPerson.class, new Integer(person3Id) );
         tempItor = person3.getGroup().iterator();
         if ( !tempItor.hasNext() )
             fail( "Error: group not found" );
-        groupA = (TestManyGroup)tempItor.next();
+        groupA = (ManyGroup)tempItor.next();
         if ( groupA.getId() != groupAId )
             fail( "Error: unexpected group found" );
         if ( tempItor.hasNext() )

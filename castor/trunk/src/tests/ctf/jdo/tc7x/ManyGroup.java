@@ -38,7 +38,7 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2000 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
@@ -46,62 +46,75 @@
 
 package ctf.jdo.tc7x;
 
-import java.util.Hashtable;
-import java.util.Iterator;
+import java.util.Collection;
+
+import org.exolab.castor.jdo.TimeStampable;
 
 /**
- * Test object for different collection types.
+ * Test object mapping to test_table used to conduct all the tests.
  */
-public class TestColHashtable extends TestCol {
+public class ManyGroup implements TimeStampable {
 
-    private Hashtable _item;
 
-    public TestColHashtable() {
-        super();
+    private int    _id;
+
+
+    private String _value;
+
+
+    private Collection _people;
+
+
+    private long _timeStamp;
+
+
+    public ManyGroup() {
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
 
-        return _item.values().contains( item );
+    public void setId( int id ) {
+        _id = id;
     }
 
-    public void removeItem( TestItem item ) {
-        if ( _item != null ) {
-            _item.remove( new Integer(item.getId()) );
-            item.setTestCol( null );
-        }
+
+    public int getId() {
+        return _id;
     }
 
-    public int itemSize() {
-        if ( _item == null )
-            return 0;
 
-        return _item.size();
+    public void setValue1( String value )
+    {
+        _value = value;
     }
 
-    public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
 
-        return _item.values().iterator();
+    public String getValue1()
+    {
+        return _value;
     }
 
-    public Hashtable getItem() {
-        return _item;
+
+    public Collection getPeople() {
+        return _people;
     }
 
-    public void setItem( Hashtable item ) {
-        _item = item;
+    public void setPeople( Collection people ) {
+        _people = people;
     }
 
-    public void addItem( TestItem item ) {
-        if ( _item == null )
-            _item = new Hashtable();
+    public String toString()
+    {
+        return _id + " / " + _value;
+    }
 
-        _item.put( new Integer( item.getId() ), item );
-        item.setTestCol( this );
+    public void jdoSetTimeStamp( long timeStamp )
+    {
+        _timeStamp = timeStamp;
+    }
+
+    public long jdoGetTimeStamp()
+    {
+        return _timeStamp;
     }
 
 }

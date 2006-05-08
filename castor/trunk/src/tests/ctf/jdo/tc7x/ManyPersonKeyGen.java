@@ -38,72 +38,99 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2000 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
 
-
 package ctf.jdo.tc7x;
 
+import java.util.Collection;
 
-import java.util.HashMap;
-import java.util.Iterator;
+import org.exolab.castor.jdo.TimeStampable;
+
 
 
 /**
- * Test object for different collection types.
+ * Test object mapping to test_table used to conduct all the tests.
  */
-public class TestColHashMap extends TestCol {
+public class ManyPersonKeyGen implements TimeStampable {
 
-    private HashMap _item;
 
-    public TestColHashMap() {
-        super();
+    private int    _id;
+
+    private long   _timeStamp;
+
+    private String _value;
+
+    private String _helloworld;
+
+    private String _sthelse;
+
+    private Collection _group;
+
+
+    public ManyPersonKeyGen() {
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
-
-        return _item.values().contains( item );
+    public void setHelloworld( String s ) {
+        _helloworld = s;
     }
 
-    public void removeItem( TestItem item ) {
-        if ( _item != null ) {
-            _item.remove( new Integer(item.getId()) );
-            item.setTestCol( null );
-        }
+    public String getHelloworld() {
+        return _helloworld;
     }
 
-    public int itemSize() {
-        if ( _item == null )
-            return 0;
-
-        return _item.size();
+    public void setSthelse( String s ) {
+        _sthelse = s;
     }
 
-    public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
-        return _item.values().iterator();
+    public String getSthelse() {
+        return _sthelse;
     }
 
-    public HashMap getItem() {
-        return _item;
+    public void setId( int id ) {
+        _id = id;
     }
 
-    public void setItem( HashMap item ) {
-        _item = item;
+
+    public int getId() {
+        return _id;
     }
 
-    public void addItem( TestItem item ) {
-        if ( _item == null )
-            _item = new HashMap();
 
-        _item.put( new Integer( item.getId() ), item );
-        item.setTestCol( this );
+    public void setValue1( String value ) {
+        _value = value;
     }
+
+
+    public String getValue1() {
+        return _value;
+    }
+
+
+    public Collection getGroup() {
+        return _group;
+    }
+
+    public void setGroup( Collection group ) {
+        _group = group;
+    }
+
+    public String toString() {
+        return _id + " / " + _value;
+    }
+
+    public void jdoSetTimeStamp( long timeStamp )
+    {
+        _timeStamp = timeStamp;
+    }
+
+
+    public long jdoGetTimeStamp()
+    {
+        return _timeStamp;
+    }
+
 
 }

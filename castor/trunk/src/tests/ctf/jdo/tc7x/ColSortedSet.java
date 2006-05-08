@@ -53,14 +53,14 @@ import java.util.TreeSet;
 /**
  * Test object for different collection types.
  */
-public class TestColSortedSet extends TestCol {
+public class ColSortedSet extends Col {
     protected SortedSet _item;
 
-    public TestColSortedSet() {
+    public ColSortedSet() {
         super();
     }
 
-    public boolean containsItem( TestComparableItem item ) {
+    public boolean containsItem( ComparableItem item ) {
         if ( _item == null || _item.size() == 0 )
             return false;
 
@@ -74,7 +74,7 @@ public class TestColSortedSet extends TestCol {
         return _item.iterator();
     }
 
-    public void removeItem( TestComparableItem item ) {
+    public void removeItem( ComparableItem item ) {
         if ( _item != null ) {
             _item.remove( item );
             item.setTestCol( null );
@@ -96,7 +96,7 @@ public class TestColSortedSet extends TestCol {
         return _item;
     }
 
-    public void addItem( TestComparableItem item ) {
+    public void addItem( ComparableItem item ) {
         if ( _item == null )
             _item = new TreeSet();
 

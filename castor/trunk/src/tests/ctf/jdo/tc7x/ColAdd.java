@@ -12,15 +12,15 @@ import java.util.Iterator;
 /**
  * Test object for different collection types.
  */
-public class TestColAdd extends TestCol {
+public class ColAdd extends Col {
 
     private ArrayList _item;
 
-    public TestColAdd() {
+    public ColAdd() {
         super();
     }
 
-    public boolean containsItem( TestItem item ) {
+    public boolean containsItem( Item item ) {
         if ( _item == null || _item.size() == 0 )
             return false;
 
@@ -34,7 +34,7 @@ public class TestColAdd extends TestCol {
         return _item.iterator();
     }
 
-    public void removeItem( TestItem item ) {
+    public void removeItem( Item item ) {
         if ( _item != null ) {
             _item.remove( item );
             item.setTestCol( null );
@@ -52,7 +52,7 @@ public class TestColAdd extends TestCol {
         return _item;
     }
 
-    public void addItem( TestItem item ) {
+    public void addItem( Item item ) {
         if ( _item == null )
             _item = new ArrayList();
 

@@ -46,31 +46,38 @@
 
 package ctf.jdo.tc7x;
 
-import java.util.HashMap;
+
+import java.util.ArrayList;
 import java.util.Iterator;
-import java.util.Map;
 
 /**
  * Test object for different collection types.
  */
-public class TestColMap extends TestCol {
+public class ColArrayList extends Col {
 
-    private Map _item;
+    private ArrayList _item;
 
-    public TestColMap() {
+    public ColArrayList() {
         super();
     }
 
-    public boolean containsItem( TestItem item ) {
+    public boolean containsItem( Item item ) {
         if ( _item == null || _item.size() == 0 )
             return false;
 
-        return _item.values().contains( item );
+        return _item.contains( item );
     }
 
-    public void removeItem( TestItem item ) {
+    public Iterator itemIterator() {
+        if ( _item == null || _item.size() == 0 )
+            return _emptyItor;
+
+        return _item.iterator();
+    }
+
+    public void removeItem( Item item ) {
         if ( _item != null ) {
-            _item.remove( new Integer(item.getId()) );
+            _item.remove( item );
             item.setTestCol( null );
         }
     }
@@ -82,32 +89,20 @@ public class TestColMap extends TestCol {
         return _item.size();
     }
 
-
-    public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
-        return _item.values().iterator();
-    }
-
-    public Map getItem() {
-        return _item;
-    }
-
-    public void setItem( Map item ) {
+    public void setItem( ArrayList item ) {
         _item = item;
     }
 
-    public void addItem( TestItem item ) {
-        if ( _item == null )
-            _item = new HashMap();
-
-        _item.put( new Integer( item.getId() ), item );
-        item.setTestCol( this );
+    public ArrayList getItem() {
+        return _item;
     }
 
-    public String toString() {
-        return super.toString() + "/" + _item;
+    public void addItem( Item item ) {
+        if ( _item == null )
+            _item = new ArrayList();
+
+        _item.add( item );
+        item.setTestCol( this );
     }
 
 

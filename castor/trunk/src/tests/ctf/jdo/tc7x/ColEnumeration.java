@@ -42,62 +42,69 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.List;
 
 /**
- * Test object for different collection types.
+ * Test object for collection types 'iterator' (java.util.Iterator).
  */
-public class TestItem {
+public class ColEnumeration extends Col {
 
-    private int    _id;
+    private List _item = new ArrayList();
 
-    private TestCol _testCol;
-
-    public TestItem() {
+    public ColEnumeration() {
+        super();
     }
 
-    public TestItem( int id ) {
-        _id = id;
-    }
-
-    public void setId( int id ) {
-        _id = id;
-    }
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setTestCol( TestCol testCol ) {
-        _testCol = testCol;
-    }
-
-    public TestCol getTestCol() {
-        return _testCol;
-    }
-
-    public String toString() {
-        return getClass().getName() + ":" + _id;
-    }
-
-    public int hashCode() {
-        return _id;
-    }
-
-    public boolean equals( Object object ) {
-
-        if ( object == null )
+    public boolean containsItem(final Item item) {
+        if (_item == null || _item.size() == 0) {
             return false;
-        if ( object == this )
-            return true;
-        if ( !( object instanceof TestItem ) )
-            return false;
+        }
+        return _item.contains(item);
+    }
 
-        TestItem item = (TestItem) object;
+    public Iterator itemIterator() {
+        if (_item == null || _item.size() == 0) {
+            return _emptyItor;
+        }
+        return _item.iterator();
+    }
 
-        return item._id == _id;
+    public void removeItem(final Item item) {
+        if (_item != null) {
+            _item.remove(item);
+            item.setTestCol(null);
+        }
+    }
+
+    public int itemSize() {
+        if (_item == null) {
+            return 0;
+        }
+        return _item.size();
+    }
+
+    public Enumeration getItem() {
+        return Collections.enumeration(_item);
+    }
+
+    public void setItem(final Enumeration item) {
+        _item.clear();
+        while (item.hasMoreElements()) {
+            _item.add(item.nextElement());
+        }
+    }
+
+    public void addItem(final Item item) {
+        if (_item == null) {
+            _item = new ArrayList();
+        }
+        _item.add(item);
+        item.setTestCol(this);
     }
 }

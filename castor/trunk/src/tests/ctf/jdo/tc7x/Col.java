@@ -38,56 +38,28 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 2000 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
 
+
 package ctf.jdo.tc7x;
 
-import java.util.Collection;
-
-import org.exolab.castor.jdo.TimeStampable;
-
-
-
+import java.util.Iterator;
+import java.util.NoSuchElementException;
 /**
- * Test object mapping to test_table used to conduct all the tests.
+ * Test object for different collection types.
  */
-public class TestManyPersonKeyGen implements TimeStampable {
+public class Col {
 
+    protected static Iterator _emptyItor = new EmptyIterator(); 
 
     private int    _id;
 
-    private long   _timeStamp;
-
-    private String _value;
-
-    private String _helloworld;
-
-    private String _sthelse;
-
-    private Collection _group;
-
-
-    public TestManyPersonKeyGen() {
+    public Col() {
     }
 
-    public void setHelloworld( String s ) {
-        _helloworld = s;
-    }
-
-    public String getHelloworld() {
-        return _helloworld;
-    }
-
-    public void setSthelse( String s ) {
-        _sthelse = s;
-    }
-
-    public String getSthelse() {
-        return _sthelse;
-    }
 
     public void setId( int id ) {
         _id = id;
@@ -98,39 +70,45 @@ public class TestManyPersonKeyGen implements TimeStampable {
         return _id;
     }
 
-
-    public void setValue1( String value ) {
-        _value = value;
+    public void setDummy( int dummy ) {
     }
 
-
-    public String getValue1() {
-        return _value;
+    public int getDummy() {
+        return 1;
     }
 
-
-    public Collection getGroup() {
-        return _group;
+    public boolean containsItem( Item item ) {
+        return false;
     }
 
-    public void setGroup( Collection group ) {
-        _group = group;
+    public Iterator itemIterator() {
+        return _emptyItor;
+    }
+
+    public void addItem( Item item ) {
+    }
+
+    public void removeItem( Item item ) {
+    }
+
+    public int itemSize() {
+        return 0;
     }
 
     public String toString() {
-        return _id + " / " + _value;
+        return getClass().getName() + ":" + _id;
     }
 
-    public void jdoSetTimeStamp( long timeStamp )
-    {
-        _timeStamp = timeStamp;
+    private static class EmptyIterator implements Iterator {
+        public boolean hasNext() {
+            return false;
+        }
+        public Object next() {
+            throw new NoSuchElementException();
+        }
+        public void remove() {
+            throw new IllegalStateException();
+        }
     }
-
-
-    public long jdoGetTimeStamp()
-    {
-        return _timeStamp;
-    }
-
 
 }

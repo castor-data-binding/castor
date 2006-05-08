@@ -46,63 +46,62 @@
 
 package ctf.jdo.tc7x;
 
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.Set;
 
 /**
  * Test object for different collection types.
  */
-public class TestColSet extends TestCol {
-    protected Set _item;
+public class ComparableItem implements Comparable {
 
-    public TestColSet() {
-        super();
+    private int    _id;
+
+    private Col _testCol;
+
+    public ComparableItem() {
     }
 
-    public boolean containsItem( TestItem item ) {
-        if ( _item == null || _item.size() == 0 )
+    public ComparableItem( int id ) {
+        _id = id;
+    }
+
+    public void setId( int id ) {
+        _id = id;
+    }
+
+    public int getId() {
+        return _id;
+    }
+
+    public void setTestCol( Col testCol ) {
+        _testCol = testCol;
+    }
+
+    public Col getTestCol() {
+        return _testCol;
+    }
+
+    public String toString() {
+        return getClass().getName() + ":" + _id;
+    }
+
+    public int hashCode() {
+        return _id;
+    }
+
+    public boolean equals( Object object ) {
+
+        if ( object == null )
+            return false;
+        if ( object == this )
+            return true;
+        if ( !( object instanceof ComparableItem ) )
             return false;
 
-        return _item.contains( item );
+        ComparableItem item = (ComparableItem) object;
+
+        return item._id == _id;
     }
 
-    public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
-        return _item.iterator();
-    }
-
-    public void removeItem( TestItem item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
-        }
-    }
-
-    public int itemSize() {
-        if ( _item == null )
-            return 0;
-
-        return _item.size();
-    }
-
-    public void setItem( Set items ) {
-        _item = items;
-    }
-
-    public Set getItem() {
-        return _item;
-    }
-
-    public void addItem( TestItem item ) {
-        if ( _item == null )
-            _item = new HashSet();
-
-        _item.add( item );
-        item.setTestCol( this );
-    }
-
-
+	public int compareTo(Object o) {
+		return new Integer(_id).compareTo(new Integer(((ComparableItem) o).getId()));
+	}
 }
