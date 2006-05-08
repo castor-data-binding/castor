@@ -4,9 +4,9 @@
 
 <jdo-conf>
     <database name="mysql" engine="mysql" >
-        <driver url="jdbc:mysql://localhost:3306/test" class-name="com.mysql.jdbc.Driver">
-            <param name="user" value="test" />
-            <param name="password" value="test" />
+        <driver url="jdbc:mysql://localhost:3306/c1423" class-name="com.mysql.jdbc.Driver">
+            <param name="user" value="root" />
+            <param name="password" value="uLive2C" />
         </driver>
 <!--
         <data-source class-name="org.apache.commons.dbcp.BasicDataSource">

@@ -55,16 +55,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -155,16 +155,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC70" class="jdo.Collections"/> -->
-	<!-- <case id="TC71" class="jdo.TestSpecialCollections"/> -->
-	<!-- <case id="TC72" class="jdo.TestSortedContainer"/> -->
-    <!-- <case id="TC73" class="jdo.ManyToMany"/> -->
-    <!-- <case id="TC74" class="jdo.ManyToManyKeyGen"/> -->
-    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
-    <!-- <case id="TC77" class="jdo.QueryFinalize"/> -->
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <!-- <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/> -->
+	<!-- <case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/> -->
+	<!-- <case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/> -->
+    <!-- <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/> -->
+    <!-- <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/> -->
+    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -248,16 +248,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -342,16 +342,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
     
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <case id="TC75" class="jdo.ExpireManyToMany"/>
-    <case id="TC76" class="jdo.CachedOid"/>
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
+    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -436,16 +436,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <case id="TC75" class="jdo.ExpireManyToMany"/>
-    <case id="TC76" class="jdo.CachedOid"/>
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
+    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -533,16 +533,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <case id="TC75" class="jdo.ExpireManyToMany"/>
-    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -626,16 +626,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <case id="TC75" class="jdo.ExpireManyToMany"/>
-    <case id="TC76" class="jdo.CachedOid"/>
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
+    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -719,16 +719,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <!-- <case id="TC75" class="jdo.ExpireManyToMany"/> -->
-    <!-- <case id="TC76" class="jdo.CachedOid"/> -->
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -817,16 +817,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="jdo.Collections"/>
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <case id="TC73" class="jdo.ManyToMany"/>
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <case id="TC75" class="jdo.ExpireManyToMany"/>
-    <case id="TC76" class="jdo.CachedOid"/>
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
+    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
@@ -915,16 +915,16 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <!-- <case id="TC70" class="jdo.Collections"/> -->
-	<case id="TC71" class="jdo.TestSpecialCollections"/>
-	<case id="TC72" class="jdo.TestSortedContainer"/>
-    <!-- <case id="TC73" class="jdo.ManyToMany"/> -->
-    <case id="TC74" class="jdo.ManyToManyKeyGen"/>
-    <case id="TC75" class="jdo.ExpireManyToMany"/>
-    <case id="TC76" class="jdo.CachedOid"/>
-    <case id="TC77" class="jdo.QueryFinalize"/>
-	<case id="TC78" class="jdo.TestGetJdbcConnection"/>
-	<case id="TC79" class="jdo.IsLockedTest"/>
+    <!-- <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/> -->
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <!-- <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/> -->
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
+    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
