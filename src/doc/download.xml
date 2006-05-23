@@ -216,7 +216,7 @@
            <crow><td>ant-1.6.jar</td><td>The Ant build tool</td></crow>
            <crow><td>ant-1.6-launcher.jar</td><td>The Ant launcher tool</td></crow>
            <crow><td><b>cglib-full-2.0.2.jar</b></td><td>CGLIB (Castor JDO only)</td></crow>
-           <crow><td><b>commons-logging.jar</b></td><td>Jakarta Commons Loggin</td></crow>
+           <crow><td><b>commons-logging-1.1.jar</b></td><td>Jakarta Commons Loggin</td></crow>
            <crow><td><b>jdbc-se2.0.jar</b></td><td>JDBC 2.0 standard extension (JDO)</td></crow>
            <crow><td><b>jndi_1.2.1.jar</b></td><td>The JNDI API (DSML/JNDI)</td></crow>
            <crow><td><b>jta1.0.1.jar</b></td><td>The JTA API (transactions) (Castor JDO only)</td></crow>

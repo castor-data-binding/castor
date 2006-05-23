@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Resolved issue CASTOR-1415 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Upgraded Jakarta commons logging to 1.1.
+       Details: http://jira.codehaus.org/browse/CASTOR-1415
+       (Werner - 20060523)
+
 XML:   Resolved issue CASTOR-1420 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed a problem with the application of naming conventions in introspection mode.
        Details: http://jira.codehaus.org/browse/CASTOR-1420
