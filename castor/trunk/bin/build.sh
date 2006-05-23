@@ -20,7 +20,7 @@ LIB_D=$CASTOR_HOME/lib
 BUILD_D=$CASTOR_HOME/build
 SRC_D=$CASTOR_HOME/src
 
-CLASSPATH=$LIB_D/ant-1.6.jar:$LIB_D/ant-1.6-launcher.jar:$LIB_D/ant-1.6-trax.jar:$LIB_D/xerces-J_1.4.0.jar:$BUILD_D/classes/:$CLASSPATH:$JAVA_HOME/lib/tools.jar:$LIB_D/commons-logging.jar
+CLASSPATH=$LIB_D/ant-1.6.jar:$LIB_D/ant-1.6-launcher.jar:$LIB_D/ant-1.6-trax.jar:$LIB_D/xerces-J_1.4.0.jar:$BUILD_D/classes/:$CLASSPATH:$JAVA_HOME/lib/tools.jar:$LIB_D/commons-logging-1.1.jar
 
 for i in `ls $LIB_D/*.jar`
    do 

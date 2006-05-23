@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1415" tool="jira">
+                    <description>
+		                Upgraded Jakarta commons logging to 1.1.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>General</module>
+                    <date>20060523</date>
+                </bug>
                 <bug id="1420" tool="jira">
                     <description>
 		                Fixed a problem with the application of naming conventions in introspection mode.
