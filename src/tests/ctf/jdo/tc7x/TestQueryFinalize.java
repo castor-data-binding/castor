@@ -92,9 +92,9 @@ public class TestQueryFinalize extends CastorTestCase
 
         stream.println( "Delete everything" );
         Statement stmt = _conn.createStatement();
-        stmt.executeUpdate( "delete from depend2" );
-        stmt.executeUpdate( "delete from master" );
-        stmt.executeUpdate( "delete from depend1" );
+        stmt.executeUpdate( "delete from tc7x_depend2" );
+        stmt.executeUpdate( "delete from tc7x_master" );
+        stmt.executeUpdate( "delete from tc7x_depend1" );
         _conn.commit();
 
     }

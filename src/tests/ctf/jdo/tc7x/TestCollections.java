@@ -111,9 +111,9 @@ public class TestCollections extends CastorTestCase {
         stream.println( "" );
 
         // delete everything
-        _conn.createStatement().executeUpdate( "DELETE FROM test_col" );
-        _conn.createStatement().executeUpdate( "DELETE FROM test_item" );
-        _conn.createStatement().executeUpdate( "DELETE FROM test_comp_item" );
+        _conn.createStatement().executeUpdate( "DELETE FROM tc7x_col" );
+        _conn.createStatement().executeUpdate( "DELETE FROM tc7x_item" );
+        _conn.createStatement().executeUpdate( "DELETE FROM tc7x_comp_item" );
         _conn.commit();
 
         // create new TestCol object with elements
@@ -194,9 +194,9 @@ public class TestCollections extends CastorTestCase {
     	stream.println( "" );
     	
 //  	delete everything
-    	_conn.createStatement().executeUpdate( "DELETE FROM test_col" );
-    	_conn.createStatement().executeUpdate( "DELETE FROM test_item" );
-    	_conn.createStatement().executeUpdate( "DELETE FROM test_comp_item" );
+    	_conn.createStatement().executeUpdate( "DELETE FROM tc7x_col" );
+    	_conn.createStatement().executeUpdate( "DELETE FROM tc7x_item" );
+    	_conn.createStatement().executeUpdate( "DELETE FROM tc7x_comp_item" );
     	_conn.commit();
     	
 //  	create new TestCol object with elements
@@ -281,8 +281,8 @@ public class TestCollections extends CastorTestCase {
         stream.println( "" );
 
         // delete everything
-        _conn.createStatement().executeUpdate( "DELETE FROM test_col" );
-        _conn.createStatement().executeUpdate( "DELETE FROM test_item" );
+        _conn.createStatement().executeUpdate( "DELETE FROM tc7x_col" );
+        _conn.createStatement().executeUpdate( "DELETE FROM tc7x_item" );
         _conn.commit();
 
         // create new TestCol object with elements
