@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1420" tool="jira">
+                    <description>
+		                Fixed a problem with the application of naming conventions in introspection mode.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Sumit Chawla</name>
+                        <email>sumit.chawla@secf.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060523</date>
+                </bug>
                 <bug id="1424" tool="jira">
                     <description>
 		                Renamed tables of CTF tests in ctf.jdo.tc7x package.

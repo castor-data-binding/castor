@@ -752,7 +752,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     }
                     
                     XMLFieldDescriptor tmpDesc = targetState.classDesc.getContentDescriptor();
-                    if (locPath.equals(tmpDesc.getLocationPath())) {
+                    if (tmpDesc != null && locPath.equals(tmpDesc.getLocationPath())) {
                         if (targetState.buffer == null)
                             targetState.buffer = tmpBuffer;
                         else
