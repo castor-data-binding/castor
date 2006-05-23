@@ -119,9 +119,9 @@ public class TestExpireManyToMany extends CastorTestCase {
         // initialze JDBC connection
        try {
             _updateGroupStatement = 
-                _conn.prepareStatement("update test_many_group set value1=? where gid=?");
+                _conn.prepareStatement("update tc7x_many_group set value1=? where gid=?");
             _updatePersonStatement = 
-                _conn.prepareStatement("update test_many_person set value1=? where pid=?");
+                _conn.prepareStatement("update tc7x_many_person set value1=? where pid=?");
         }
         catch (java.sql.SQLException e) {
             fail("Failed to establish JDBC Connection");

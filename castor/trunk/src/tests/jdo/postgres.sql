@@ -484,50 +484,50 @@ create unique index tc3x_extends2_pk on tc3x_extends2 ( id );
 
 -- UDEFINED TESTS
 
-drop table test_table;
+drop table tc7x_table;
 
-create table test_table (
+create table tc7x_table (
   id      int           not null,
   value1  varchar(200)  not null,
   value2  varchar(200)
 );
 
-create unique index test_table_pk
-   on test_table ( id );
+create unique index tc7x_table_pk
+   on tc7x_table ( id );
 
 
-drop table test_group_person;
+drop table tc7x_group_person;
 
-create table test_group_person (
+create table tc7x_group_person (
   gid int         not null,
   pid int        not null
 );
 
-create index test_group_person_p_pk on test_group_person ( pid );
+create index tc7x_group_person_p_pk on tc7x_group_person ( pid );
 
-create index test_group_person_g_pk on test_group_person ( gid );
+create index tc7x_group_person_g_pk on tc7x_group_person ( gid );
 
 
-drop table test_many_group;
+drop table tc7x_many_group;
 
-create table test_many_group (
+create table tc7x_many_group (
   gid       int           not null,
   value1    varchar(100)  not null
 );
 
-create unique index test_many_group_pk on test_many_group ( gid );
+create unique index tc7x_many_group_pk on tc7x_many_group ( gid );
 
 
-drop table test_many_person;
+drop table tc7x_many_person;
 
-create table test_many_person (
+create table tc7x_many_person (
    pid      int          not null,
    value1   varchar(100) not null,
    helloworld varchar(100) null,
    sthelse varchar(100) null
 );
 
-create unique index test_many_person_pk on test_many_person ( pid );
+create unique index tc7x_many_person_pk on tc7x_many_person ( pid );
 
 
 drop table list_types;
@@ -552,33 +552,33 @@ drop sequence test_keygen_seq;
 create sequence test_keygen_seq;
 
 
-drop table test_col;
+drop table tc7x_col;
 
-create table test_col (
+create table tc7x_col (
   id       integer         not null,
   dum    integer    null
 );
 
-create unique index test_col_pk on test_col( id );
+create unique index tc7x_col_pk on tc7x_col( id );
 
 
-drop table test_item;
+drop table tc7x_item;
 
-create table test_item (
+create table tc7x_item (
   iid       integer         not null,
   id      integer         null
 );
 
-create unique index test_item_pk on test_item( iid );
+create unique index tc7x_item_pk on tc7x_item( iid );
 
-drop table test_comp_item;
+drop table tc7x_comp_item;
 
-create table test_comp_item (
+create table tc7x_comp_item (
   iid       integer         not null,
   id      integer
 );
 
-create unique index test_comp_item_pk on test_comp_item( iid );
+create unique index tc7x_comp_item_pk on tc7x_comp_item( iid );
 
 
 drop table test_oqltag;
@@ -702,31 +702,31 @@ create table tc8x_nton_b (
 );
 
 
-drop table depend2;
-drop table master;
-drop table depend1;
+drop table tc7x_depend2;
+drop table tc7x_master;
+drop table tc7x_depend1;
 
-create table depend1(
+create table tc7x_depend1(
   id int not null primary key
 );
 
-create table master(
+create table tc7x_master(
   depend1_id int ,
   id int not null primary key
 );
 
-create table depend2(
+create table tc7x_depend2(
   master_id int,
   id int not null primary key
 );
 
-alter table master
+alter table tc7x_master
 	add constraint fk_master_depend1
-	foreign key (depend1_id) references depend1(id);
+	foreign key (depend1_id) references tc7x_depend1(id);
 
-alter table depend2
+alter table tc7x_depend2
 	add constraint fk_depend2_master
-	foreign key (master_id) references master(id);
+	foreign key (master_id) references tc7x_master(id);
 
 drop sequence tc8x_circbrother_seq;
 drop sequence tc8x_circsister_seq;
@@ -1145,58 +1145,58 @@ INSERT INTO tc9x_poly_depend_object VALUES(1, 1, 'This is a description');
 
 -- TC129 
 
-DROP TABLE container;
-CREATE TABLE container (
+DROP TABLE tc7x_container;
+CREATE TABLE tc7x_container (
   id int NOT NULL,
   name varchar(200) NULL,
   prop int NULL,
   PRIMARY KEY (id)
 );
 
-INSERT INTO container (id, name, prop) VALUES (1,'Container 1',1);
-INSERT INTO container (id, name, prop) VALUES (2,'Container 2',2);
-INSERT INTO container (id, name, prop) VALUES (3,'Container 3',3);
-INSERT INTO container (id, name, prop) VALUES (4,'Container 4',4);
+INSERT INTO tc7x_container (id, name, prop) VALUES (1,'Container 1',1);
+INSERT INTO tc7x_container (id, name, prop) VALUES (2,'Container 2',2);
+INSERT INTO tc7x_container (id, name, prop) VALUES (3,'Container 3',3);
+INSERT INTO tc7x_container (id, name, prop) VALUES (4,'Container 4',4);
 
-DROP TABLE container_item;
-CREATE TABLE container_item (
+DROP TABLE tc7x_container_item;
+CREATE TABLE tc7x_container_item (
   id int NOT NULL,
   item int default NULL,
   value varchar(200) NULL,
   PRIMARY KEY (id)
 );
 
-INSERT INTO container_item (id, item, value) VALUES (1,1,'Container item 1');
-INSERT INTO container_item (id, item, value) VALUES (2,2,'Container item 2');
-INSERT INTO container_item (id, item, value) VALUES (3,3,'Container item 3');
-INSERT INTO container_item (id, item, value) VALUES (4,4,'Container item 4');
-INSERT INTO container_item (id, item, value) VALUES (5,1,'Container item 5');
-INSERT INTO container_item (id, item, value) VALUES (6,2,'Container item 6');
-INSERT INTO container_item (id, item, value) VALUES (7,3,'Container item 7');
-INSERT INTO container_item (id, item, value) VALUES (8,4,'Container item 8');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (1,1,'Container item 1');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (2,2,'Container item 2');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (3,3,'Container item 3');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (4,4,'Container item 4');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (5,1,'Container item 5');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (6,2,'Container item 6');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (7,3,'Container item 7');
+INSERT INTO tc7x_container_item (id, item, value) VALUES (8,4,'Container item 8');
 	
 -- TC128a
 
-drop table sorted_container;
-create table sorted_container (
+drop table tc7x_sorted_container;
+create table tc7x_sorted_container (
   id        int not null,
   name      varchar(200) not null
 );
 
-drop table sorted_item;
-create table sorted_item(
+drop table tc7x_sorted_item;
+create table tc7x_sorted_item(
   id        int not null,
   id_1		int not null,
   name      varchar(200) not null
 );
 
-insert into sorted_container(id, name) values (1, 'container 1');
-insert into sorted_container(id, name) values (2, 'container 2');
-insert into sorted_container(id, name) values (1, 'container 3');
+insert into tc7x_sorted_container(id, name) values (1, 'container 1');
+insert into tc7x_sorted_container(id, name) values (2, 'container 2');
+insert into tc7x_sorted_container(id, name) values (1, 'container 3');
 
-insert into sorted_item (id, id_1, name) values (1, 1, 'container item 1');
-insert into sorted_item (id, id_1, name) values (2, 1, 'container item 2');
-insert into sorted_item (id, id_1, name) values (3, 2, 'container item 3');
+insert into tc7x_sorted_item (id, id_1, name) values (1, 1, 'container item 1');
+insert into tc7x_sorted_item (id, id_1, name) values (2, 1, 'container item 2');
+insert into tc7x_sorted_item (id, id_1, name) values (3, 2, 'container item 3');
 	
 -- TC20x - self-referential relations 
  

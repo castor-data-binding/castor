@@ -557,7 +557,7 @@ public final class TestPolymorphism extends CastorTestCase {
                 count = new Long(((BigDecimal) obj).longValue());
             }
             assertNotNull(count);
-            assertEquals(8, count.intValue());
+            assertEquals(1, count.intValue());
         }
         
         database.commit();

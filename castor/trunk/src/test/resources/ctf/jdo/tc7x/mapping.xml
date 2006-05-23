@@ -5,7 +5,7 @@
     
     <class name="ctf.jdo.tc7x.ManyGroup" access="shared" identity="id" >
         <description>Table used for testing many to many relation</description>
-        <map-to table="test_many_group" />
+        <map-to table="tc7x_many_group" />
         <field name="id" type="integer">
             <sql name="gid" type="integer" />
         </field>
@@ -15,13 +15,13 @@
         <field name="people" type="ctf.jdo.tc7x.ManyPerson" 
             collection="collection" required="false" set-method="setPeople" 
             get-method="getPeople">
-            <sql many-table="test_group_person"/>
+            <sql many-table="tc7x_group_person"/>
         </field>
     </class>
     
     <class name="ctf.jdo.tc7x.ManyPerson" access="shared" identity="id" >
         <description>Table used for testing many to many relation</description>
-        <map-to table="test_many_person" />
+        <map-to table="tc7x_many_person" />
         <field name="id" type="integer">
             <sql name="pid" type="integer" />
         </field>
@@ -36,7 +36,7 @@
         </field>
         <field name="group" type="ctf.jdo.tc7x.ManyGroup" 
             collection="collection" required="false">
-            <sql many-table="test_group_person"/>
+            <sql many-table="tc7x_group_person"/>
         </field>
     </class>
     
@@ -44,7 +44,7 @@
         identity="id" key-generator="MAX">
         <description>Table used for testing many to many relation</description>
         <cache-type type="count-limited" capacity="30"/>
-        <map-to table="test_many_group" />
+        <map-to table="tc7x_many_group" />
         <field name="id" type="integer">
             <sql name="gid" type="integer" />
         </field>
@@ -53,7 +53,7 @@
         </field>
         <field name="people" type="ctf.jdo.tc7x.ManyPersonKeyGen" 
             collection="collection" required="false" >
-            <sql many-table="test_group_person"/>
+            <sql many-table="tc7x_group_person"/>
         </field>
     </class>
     
@@ -61,7 +61,7 @@
         identity="id" key-generator="MAX">
         <description>Table used for testing many to many relation</description>
         <cache-type type="count-limited" capacity="30"/>
-        <map-to table="test_many_person" />
+        <map-to table="tc7x_many_person" />
         <field name="id" type="integer">
             <sql name="pid" type="integer" />
         </field>
@@ -76,14 +76,14 @@
         </field>
         <field name="group" type="ctf.jdo.tc7x.ManyGroupKeyGen" 
             collection="collection" required="false">
-            <sql many-table="test_group_person"/>
+            <sql many-table="tc7x_group_person"/>
         </field>
     </class>
     
     <class name="ctf.jdo.tc7x.Limit" access="shared" identity="id">
         <description>Table used for concurrency and performance 
             testing</description>
-        <map-to table="test_table" />
+        <map-to table="tc7x_table" />
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
@@ -99,7 +99,7 @@
         <description>Table used for testing different collection types 
             support</description>
         <cache-type type="none" />
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
@@ -113,7 +113,7 @@
         <description>Table used for testing different collection types 
             support</description>
         <cache-type type="none" />
-        <map-to table="test_item" />
+        <map-to table="tc7x_item" />
         <field name="id" type="integer">
             <sql name="iid" type="integer" />
         </field>
@@ -126,7 +126,7 @@
         <description>Table used for testing SortedSet collection type 
             support</description>
         <cache-type type="none" />
-        <map-to table="test_comp_item" />
+        <map-to table="tc7x_comp_item" />
         <field name="id" type="integer">
             <sql name="iid" type="integer" />
         </field>
@@ -140,7 +140,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="arraylist">
         </field>
     </class>
@@ -148,7 +148,7 @@
     <class name="ctf.jdo.tc7x.ColAdd" extends="ctf.jdo.tc7x.Col">
         <description>Modification of TestCollArrayList to test manual 
             addThing()</description>
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="arraylist" 
             get-method="getItems" set-method="addItem">
         </field>
@@ -159,7 +159,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="items" type="ctf.jdo.tc7x.Item" collection="array">
         </field>
     </class>
@@ -169,7 +169,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="collection">
         </field>
     </class>
@@ -177,14 +177,14 @@
     <!--
   <class name="ctf.jdo.tc7x.ColHashMap" extends="ctf.jdo.tc7x.Col">
     <description>Table used for testing different collection types support</description>
-    <map-to table="test_col" />
+    <map-to table="tc7x_col" />
     <field name="item" type="ctf.jdo.tc7x.Item" collection="hashmap">
     </field>
   </class>
 
   <class name="ctf.jdo.tc7x.ColHashSet" extends="ctf.jdo.tc7x.Col">
     <description>Table used for testing different collection types support</description>
-    <map-to table="test_col" />
+    <map-to table="tc7x_col" />
     <field name="item" type="ctf.jdo.tc7x.Item" collection="hashset">
     </field>
   </class>
@@ -195,7 +195,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="hashtable">
         </field>
     </class>
@@ -205,7 +205,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="map">
         </field>
     </class>
@@ -215,7 +215,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="set">
         </field>
     </class>
@@ -225,7 +225,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.ComparableItem" 
             collection="sortedset">
         </field>
@@ -236,7 +236,7 @@
             support</description>
         <!-- this is a dirty hack, don't follows. It only work if load always 
          done by db.load( MyClass.class, id ). -->
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="vector">
         </field>
     </class>
@@ -244,7 +244,7 @@
     <class name="ctf.jdo.tc7x.ColIterator" extends="ctf.jdo.tc7x.Col">
         <description>Class used for testing collection type 
             'iterator'</description>
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="iterator">
         </field>
     </class>
@@ -253,13 +253,13 @@
         extends="ctf.jdo.tc7x.Col">
         <description>Class used for testing collection type 
             'enumerate'</description>
-        <map-to table="test_col" />
+        <map-to table="tc7x_col" />
         <field name="item" type="ctf.jdo.tc7x.Item" collection="enumerate">
         </field>
     </class>
     
     <class name="ctf.jdo.tc7x.Master" key-generator="MAX" identity="id">
-        <map-to table="master" />
+        <map-to table="tc7x_master" />
         <field name="depend1" type="ctf.jdo.tc7x.Depend1">
             <sql name="depend1_id" />
             <bind-xml name="depend1" />
@@ -277,7 +277,7 @@
     
     <class name="ctf.jdo.tc7x.Depend2" key-generator="MAX" 
         depends="ctf.jdo.tc7x.Master" identity="id">
-        <map-to table="depend2" />
+        <map-to table="tc7x_depend2" />
         <field name="master" type="ctf.jdo.tc7x.Master">
             <sql name="master_id" />
             <bind-xml name="master" />
@@ -290,7 +290,7 @@
     
     <class name="ctf.jdo.tc7x.Depend1" key-generator="MAX" 
         depends="ctf.jdo.tc7x.Master" identity="id">
-        <map-to table="depend1" />
+        <map-to table="tc7x_depend1" />
         <field name="id" type="integer">
             <sql name="id" />
             <bind-xml name="id" />
@@ -299,7 +299,7 @@
     
     <!-- TC129 -->
     <class identity="id" name="ctf.jdo.tc7x.Container">
-        <map-to table="container"/>
+        <map-to table="tc7x_container"/>
         <field name="id" type="integer">
             <sql name="id" type="integer"/>
         </field>
@@ -313,7 +313,7 @@
     </class>
     
     <class identity="id" name="ctf.jdo.tc7x.ContainerItem">
-        <map-to table="container_item"/>
+        <map-to table="tc7x_container_item"/>
         <field name="id" type="integer">
             <sql name="id" type="integer"/>
         </field>
@@ -326,7 +326,7 @@
     </class>
     
     <class name="ctf.jdo.tc7x.SortedContainer" identity="id">
-        <map-to table="sorted_container" />
+        <map-to table="tc7x_sorted_container" />
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
@@ -340,7 +340,7 @@
     </class>
     
     <class name="ctf.jdo.tc7x.SortedContainerItem" identity="id">
-        <map-to table="sorted_item" />
+        <map-to table="tc7x_sorted_item" />
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
