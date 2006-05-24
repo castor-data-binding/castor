@@ -162,7 +162,7 @@ public class FieldMolder {
     private SQLRelationLoader _manyToManyLoader;
 
     public String toString() {
-        return "FieldMolder of "+_eMold.getName()+".set"+_fieldName+"("+_fType+" "+_fieldName+")";
+        return "FieldMolder for "+_eMold.getName()+"."+_fieldName+" of type "+_fType;
     }
 
     public String getName()
