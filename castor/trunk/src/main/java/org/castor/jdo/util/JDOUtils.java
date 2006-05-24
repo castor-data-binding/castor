@@ -108,7 +108,7 @@ public final class JDOUtils {
                     // if transction is still active it will be rolled back.
                     try {
                         db.rollback();
-                    } catch (TransactionNotInProgressException e) {
+                    } catch (Exception e) {
                         // this should never happen but anyway we log it
                         LOG.warn("Failed to rollback an active transaction.", e);
                     }
@@ -119,7 +119,7 @@ public final class JDOUtils {
                     // so we can close it now. 
                     try {
                         db.close();
-                    } catch (PersistenceException e) {
+                    } catch (Exception e) {
                         // this should never happen but anyway we log it
                         LOG.warn("Failed to close an open database.", e);
                     }
