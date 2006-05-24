@@ -1816,7 +1816,18 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- TODO: 
                 }
                 if (matches.length != 0) {
-                    InheritanceMatch match = matches[0];
+                    InheritanceMatch match = null;
+                    // It may be the case that this class descriptor can
+                    // appear under multiple parent field descriptors.  Look
+                    // for the first match whose parent file descriptor XML
+                    // name matches the name of the element we are under
+                    for(int i = 0; i < matches.length; i++) {
+                        if(parentState.elementName.equals(matches[i].parentFieldDesc.getLocationPath())) {
+                            match = matches[i];
+                            break;
+                        }
+                    }
+                    if(match == null) match = matches[0];                    
                     descriptor  = match.parentFieldDesc;
                     cdInherited = match.inheritedClassDesc;
                     break; //-- found

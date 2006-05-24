@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="690" tool="jira">
+                    <description>
+		                Fixed problem with location attribute in the context of extend hierarchies.
+                    </description>
+                    <contributor>
+                        <name>Doug Berkland</name>
+                        <email>berkland@spamcop.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Doug Berkland</name>
+                        <email>berkland@spamcop.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060524</date>
+                </bug>
                 <bug id="1415" tool="jira">
                     <description>
 		                Upgraded Jakarta commons logging to 1.1.
