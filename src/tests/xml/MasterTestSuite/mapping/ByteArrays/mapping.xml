@@ -2,6 +2,8 @@
 <mapping>
   <class name="Foo">
      <field name="contentAsString" type="string"/>
-     <field name="contentAsBytes" type="bytes"/>
+     <field name="contentAsBytes" type="bytes">
+        <bind-xml name="content-as-bytes" node="attribute" />
+     </field>
   </class>
 </mapping>
