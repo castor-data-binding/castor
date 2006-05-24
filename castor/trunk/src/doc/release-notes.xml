@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                 <bug id="1420" tool="jira">
+                     <description>
+		                Added support for unmarshalling attributes of type byte[].
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Marcin Cinik</name>
+                        <email>Marcin.Cinik@pbpolsoft.com.pl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060524</date>
+                </bug>                
                 <bug id="690" tool="jira">
                     <description>
 		                Fixed problem with location attribute in the context of extend hierarchies.

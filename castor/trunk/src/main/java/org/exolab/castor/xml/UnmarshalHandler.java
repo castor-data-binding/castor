@@ -3005,6 +3005,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         boolean isPrimative = isPrimitive(type);
         boolean isQName = valueType!=null && valueType.equals(QNAME_NAME);
         
+        boolean isByteArray = false;
+        if (type.isArray()) {
+            isByteArray = (type.getComponentType() == Byte.TYPE);
+        }
+
+        
         //-- if this is an multi-value attribute
     	StringTokenizer attrValueTokenizer = null;
         if (descriptor.isMultivalued())
@@ -3018,22 +3024,33 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         {
         	//-- value to set
             Object value = attValue;
-	        //-- check for proper type and do type conversion
-	        if (isPrimative)
-	            value = toPrimitiveObject(type, attValue, descriptor);
-	        //-- check if the value is a QName that needs to
-	        //-- be resolved (ns:value -> {URI}value)
-	        if(isQName)
-	        	value = resolveNamespace(value);
-	        //-- set value
-	        handler.setValue(parent, value);
-	        //-- more values?
-	        if(attrValueTokenizer==null)
-	        	break;
-	        if(!attrValueTokenizer.hasMoreTokens())
-	        	break;
-	        //-- next value
-	        attValue = attrValueTokenizer.nextToken();
+            //-- check for proper type and do type conversion
+            if (isPrimative)
+                value = toPrimitiveObject(type, attValue, descriptor);
+            
+            // special treatment for byte[]s
+            if (isByteArray) {
+                if (attValue == null)
+                    value = new byte[0];
+                else {
+                    //-- Base64 decoding
+                    value = Base64Decoder.decode(attValue);
+                }
+            }
+            
+            //-- check if the value is a QName that needs to
+            //-- be resolved (ns:value -> {URI}value)
+            if(isQName)
+                value = resolveNamespace(value);
+            //-- set value
+            handler.setValue(parent, value);
+            //-- more values?
+            if(attrValueTokenizer==null)
+                break;
+            if(!attrValueTokenizer.hasMoreTokens())
+                break;
+            //-- next value
+            attValue = attrValueTokenizer.nextToken();
         }
 
     } //-- processAttribute
