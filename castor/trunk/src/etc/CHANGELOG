@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Resolved issue CASTOR-1419 using contribution from Jason Mihalick [jason@jCraftsmen.com]
+       Fixed problem with NPE in SAXAny (related to the use of namespaces).
+       Details: http://jira.codehaus.org/browse/CASTOR-1419
+       (Werner - 20060525)
+
 XML:   Resolved issue CASTOR-1427 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for unmarshalling attributes of type byte[].
        Details: http://jira.codehaus.org/browse/CASTOR-1427

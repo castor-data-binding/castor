@@ -1353,6 +1353,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
                 
             }
+            else {
+                _elemInfo.qName = qName;
+            }
         }
         
         int idx = localName.indexOf(':');
