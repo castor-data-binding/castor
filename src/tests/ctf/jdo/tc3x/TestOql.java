@@ -90,6 +90,7 @@ public final class TestOql extends CastorTestCase {
         // manipulating it. 
         populateDatabase();
         testBasicSelect();
+        testMoreSelect();
         
         populateDatabaseExtends();
         testSelectWithFunctions();
@@ -118,6 +119,17 @@ public final class TestOql extends CastorTestCase {
             obj.setValue1(Entity.DEFAULT_VALUE_1 + " " + Integer.toString(i));
             _db.create(obj);
         }
+        _db.commit();
+        
+        _db.begin();
+        connection = _db.getJdbcConnection();
+        statement = connection.createStatement();
+        statement.execute("delete from tc3x_group");
+        _db.commit();
+        
+        _db.begin();
+        GroupEntity group = new GroupEntity();
+        _db.create(group);
         _db.commit();
     }
 
@@ -156,6 +168,54 @@ public final class TestOql extends CastorTestCase {
         _db.commit();
     }
 
+    /*
+     * Test even more variations of the basic SELECT statement.
+     */
+    public void testMoreSelect() throws PersistenceException {
+        OQLQuery query;
+
+        _db.begin();
+        query = _db.getOQLQuery(
+                "CALL SQL " 
+                + "select id, value1 " 
+                + "from tc3x_group entity " 
+                + "where entity.id >= $1 and entity.id <= $1 " 
+                + " AS " + GroupEntity.class.getName());
+        query.bind(GroupEntity.DEFAULT_ID);
+        QueryResults res = query.execute();
+
+        assertTrue(res.hasMore());
+        GroupEntity obj = (GroupEntity) res.next();
+        assertEquals(GroupEntity.DEFAULT_ID, obj.getId());
+        assertEquals(GroupEntity.DEFAULT_VALUE, obj.getValue1());
+        
+        assertFalse (res.hasMore());
+        
+        _db.commit();
+
+        _db.begin();
+        query = _db.getOQLQuery(
+                "CALL SQL " 
+                + "select id, value1 " 
+                + "from tc3x_group entity " 
+                + "where entity.id >= $1 and entity.id <= $1 and "
+                + "entity.value1 = $2 "
+                + " AS " + GroupEntity.class.getName());
+        query.bind(GroupEntity.DEFAULT_ID);
+        query.bind(GroupEntity.DEFAULT_VALUE);
+        res = query.execute();
+
+        assertTrue(res.hasMore());
+        obj = (GroupEntity) res.next();
+        assertEquals(GroupEntity.DEFAULT_ID, obj.getId());
+        assertEquals(GroupEntity.DEFAULT_VALUE, obj.getValue1());
+        
+        assertFalse (res.hasMore());
+        
+        _db.commit();
+    
+    }
+    
     /*
      * Test many different variations of the basic SELECT statement.
      */
@@ -209,6 +269,12 @@ public final class TestOql extends CastorTestCase {
         query.bind(2000);
         tryQuery(query, 0);
 
+        // query using 1 bind variable parameters in two places
+        query = _db.getOQLQuery(
+                "select x from " + Entity.class.getName() + " x where id>$1 and id<$2");
+        query.bind(MIN_ID);
+        query.bind(MAX_ID);
+        tryQuery(query, MAX_ID + 1 - MIN_ID - 2);
 
         // query using 1 bind variable parameter, find all but the first and last object
         query = _db.getOQLQuery(

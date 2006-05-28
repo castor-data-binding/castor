@@ -65,25 +65,25 @@
 
             </summary>
             <bugs>
-                 <bug id="1420" tool="jira">
+                 <bug id="1432" tool="jira">
                      <description>
-		                Fixed problem with NPE in SAXAny (related to the use of namespaces).
+		                Fixed problem with numbered parameters in SQL pass-through queries.
                     </description>
                     <contributor>
-                        <name>Jason Mihalick</name>
-                        <email>jason@jCraftsmen.com</email>
+                        <name>Pawel Pesz</name>
+                        <email>castor@insert.net.pl</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>Jason Mihalick</name>
-                        <email>jason@jCraftsmen.com</email>
+                        <name>Pawel Pesz</name>
+                        <email>castor@insert.net.pl</email>
                     </reporter>
                     <type>Bug</type>
-                    <module>XML</module>
-                    <date>20060525</date>
+                    <module>JDO</module>
+                    <date>20060528</date>
                 </bug>                
                  <bug id="1420" tool="jira">
                      <description>

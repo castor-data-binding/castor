@@ -335,18 +335,15 @@ public class OQLQueryImpl
                     if ( oql.charAt( i ) == '$' ) {
                         // get parameter number if given
                         sb = new StringBuffer();
-                        boolean didParam = false;
                         for ( int j = i + 1; j < as; j++ ) {
                             char c = oql.charAt( j );
-                            if (!Character.isDigit(c)) {
-                                didParam = true;
-                                sql.append("?"); // replace characters with "?"
+                            if (!Character.isDigit(c))
                                 break;
-                            }
                             sb.append( c );
                         }
-                        if (!didParam) sql.append('?'); // we reached the end of the string!
+                        sql.append('?'); // replace "$" with "?"
                         if ( sb.length() > 0 ) {
+                            sql.append(sb); // and add parameter number to it
                             paramNo = Integer.valueOf( sb.toString() );
                         } else {
                             paramNo = new Integer( paramCnt + 1 );
@@ -382,12 +379,9 @@ public class OQLQueryImpl
                     // get parameter number if given
                     sb = new StringBuffer();
                     for ( int j = i + 1; j < rightParen; j++ ) {
-                        char c;
-
-                        c = oql.charAt( j );
-                        if ( c < '0' || c > '9' ) {
+                        char c = oql.charAt( j );
+                        if (!Character.isDigit(c))
                             break;
-                        }
                         sb.append( c );
                     }
                     if ( sb.length() > 0 ) {
