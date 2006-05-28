@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1432 using contribution from Pawel Pesz [castor@insert.net.pl]
+       Fixed problem with numbered parameters in SQL pass-through queries.
+       Details: http://jira.codehaus.org/browse/CASTOR-1432
+       (Werner - 20060528)
+
 XML:   Resolved issue CASTOR-1419 using contribution from Jason Mihalick [jason@jCraftsmen.com]
        Fixed problem with NPE in SAXAny (related to the use of namespaces).
        Details: http://jira.codehaus.org/browse/CASTOR-1419
