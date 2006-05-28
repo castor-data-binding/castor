@@ -18,18 +18,13 @@ package ctf.jdo.tc7x;
 import harness.CastorTestCase;
 import harness.TestHarness;
 
-import java.sql.SQLException;
-
 import jdo.JDOCategory;
 
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
 
 
 /**
- * Test for different collection types supported by Castor JDO.
- * This test creates data objects that each has a collection as
- * a field type.
+ * Tests the correct working of @link org.exolab.castor.jdo.Database#isLocked().
  */
 public class TestIsLocked extends CastorTestCase {
 
@@ -37,24 +32,21 @@ public class TestIsLocked extends CastorTestCase {
 
     private JDOCategory    _category;
 
-    public TestIsLocked ( TestHarness category ) {
-        super( category, "TC79", "Test the use of Database.isLocked()" );
+    public TestIsLocked(final TestHarness category) {
+        super(category, "TC79", "Test the use of Database.isLocked()");
         _category = (JDOCategory) category;
     }
 
-    public void setUp()
-            throws PersistenceException, SQLException {
+    public void setUp() throws Exception {
         _db = _category.getDatabase();
     }
 
-    public void runTest() throws PersistenceException, SQLException, Exception
-    {
+    public void runTest() throws Exception {
         testIsLockedEntity();
         testIsNotLockedEntity();
     }
     
-    public void testIsLockedEntity() throws Exception 
-    {
+    public void testIsLockedEntity() throws Exception {
         
         _db = _category.getDatabase();
         _db.begin();
@@ -82,8 +74,7 @@ public class TestIsLocked extends CastorTestCase {
 
     }
 
-    public void testIsNotLockedEntity() throws Exception 
-    {
+    public void testIsNotLockedEntity() throws Exception {
         
         _db = _category.getDatabase();
         _db.begin();
