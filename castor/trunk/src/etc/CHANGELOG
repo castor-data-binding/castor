@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1439 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added test case for Castor JDO CTF to test database.isPersistent().
+       Details: http://jira.codehaus.org/browse/CASTOR-1439
+       (Werner - 20060529)
+
 JDO:   Resolved issue CASTOR-1432 using contribution from Pawel Pesz [castor@insert.net.pl]
        Fixed problem with numbered parameters in SQL pass-through queries.
        Details: http://jira.codehaus.org/browse/CASTOR-1432
