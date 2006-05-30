@@ -24,7 +24,7 @@ import org.xml.sax.ContentHandler;
 /**
  * Class MapTo.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 01:37:50 -0700 (Thu, 23 Feb 2006) $
  */
 public class MapTo implements java.io.Serializable {
 

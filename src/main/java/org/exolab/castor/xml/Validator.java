@@ -60,7 +60,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
  * to perform the validation.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-02-28 17:43:25 -0700 (Mon, 28 Feb 2005) $
  */
 public class Validator implements ClassValidator {
 

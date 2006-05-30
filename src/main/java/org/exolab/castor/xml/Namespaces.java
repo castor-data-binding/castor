@@ -56,7 +56,7 @@ import java.util.Vector;
  * A class for handling Namespace declaration and scoping
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-09-09 23:04:08 -0600 (Thu, 09 Sep 2004) $
 **/
 public final class Namespaces {
 

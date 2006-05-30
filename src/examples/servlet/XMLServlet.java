@@ -80,7 +80,7 @@ import org.exolab.adaptx.net.impl.URILocationImpl;
  *
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-17 02:43:20 -0700 (Fri, 17 Feb 2006) $
  */
 public abstract class XMLServlet
     extends HttpServlet

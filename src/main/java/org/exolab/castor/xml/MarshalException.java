@@ -55,7 +55,7 @@ package org.exolab.castor.xml;
  * An exception that is used to signal marshalling exceptions.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class MarshalException extends XMLException {
     /** SerialVersionUID */

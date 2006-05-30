@@ -19,7 +19,7 @@ import org.exolab.castor.xml.validators.*;
 /**
  * Class IncludeDescriptor.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
  */
 public class IncludeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

@@ -55,7 +55,7 @@ import org.exolab.castor.builder.types.*;
  *
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
 **/
 public class FieldInfoFactory {
 

@@ -52,7 +52,7 @@ package org.exolab.castor.jdo;
  * remove or lock a transient object.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class ObjectNotPersistentException extends PersistenceException {
     /** SerialVersionUID */

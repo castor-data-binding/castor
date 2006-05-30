@@ -54,7 +54,7 @@ import org.exolab.castor.mapping.ValidityException;
 /**
  * The Century Descriptor
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  * @see TimeDurationDescriptor
  */
 public class CenturyDescriptor
@@ -119,7 +119,7 @@ public class CenturyDescriptor
      * A specialized FieldHandler for the XML Schema
      * Century related types
      * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
-     * @version $Revision$ $Date$
+     * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
     **/
     class CenturyFieldHandler extends XMLFieldHandler {
 

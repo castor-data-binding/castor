@@ -22,7 +22,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression implementation for Borland's Pointbase
  *
  * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  * @since 1.0M2
  */
 public final class PointbaseQueryExpression extends JDBCQueryExpression {

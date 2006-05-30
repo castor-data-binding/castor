@@ -50,7 +50,7 @@ import java.io.Writer;
 /**
  * The writer used by the javasource classes
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-30 03:29:24 -0700 (Wed, 30 Mar 2005) $
 **/
 public class JSourceWriter extends Writer {
 

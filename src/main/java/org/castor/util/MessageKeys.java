@@ -21,7 +21,7 @@ package org.castor.util;
  * Keys of all Castor message properties.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @since 1.0.1
  */
 public final class MessageKeys {

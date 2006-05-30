@@ -51,7 +51,7 @@ import java.util.Enumeration;
 /**
  * Implementation of DTD document specification.
  * @author <a href="mailto:totok@intalio.com">Alexander Totok</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public class DTDdocument {
 

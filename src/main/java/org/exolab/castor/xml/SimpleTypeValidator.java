@@ -53,7 +53,7 @@ import java.util.Vector;
 /**
  * A class for defining simple rules used for validating a content model
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
 **/
 public class SimpleTypeValidator implements TypeValidator {
     

@@ -9,7 +9,7 @@ import org.exolab.javasource.*;
  * A helper used for generating source that deals with Collections.
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
  * @author <a href="mailto:bernd.deichmann@poet.de">Bernd Deichmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
 **/
 public class CollectionInfoODMG30 extends CollectionInfo {
 

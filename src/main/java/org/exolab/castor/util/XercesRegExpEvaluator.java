@@ -67,7 +67,7 @@ http://xml.apache.org/xerces-j/apiDocs/org/apache/xerces/utils/regex/RegularExpr
   *
   * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
   * @author <a href="mailto:tora@debian.org">Takashi Okamoto</a>
-  * @version $Revision$ $Date$
+  * @version $Revision$ $Date: 2006-01-16 13:22:58 -0700 (Mon, 16 Jan 2006) $
  **/
  public class XercesRegExpEvaluator 
     implements RegExpEvaluator

@@ -58,7 +58,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:gblock AT ctoforaday DOT COM">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
 public abstract class AbstractTransactionContext implements TransactionContext {

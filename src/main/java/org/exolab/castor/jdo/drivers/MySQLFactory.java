@@ -55,7 +55,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for MySQL JDBC driver.
  *
  * @author <a href="leonardo@itera.com.br">Leonardo Souza Mario Bueno</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class MySQLFactory
     extends GenericFactory

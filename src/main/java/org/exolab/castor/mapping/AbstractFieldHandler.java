@@ -52,7 +52,7 @@ package org.exolab.castor.mapping;
  * backward compatability.
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-08-03 15:11:51 -0600 (Wed, 03 Aug 2005) $
  * @see FieldDescriptor
  * @see FieldHandler
  */

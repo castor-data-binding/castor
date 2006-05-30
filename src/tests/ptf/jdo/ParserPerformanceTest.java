@@ -22,7 +22,7 @@ import org.exolab.castor.jdo.oql.Parser;
  * Performance Test
  * 
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken </a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-03 17:47:48 -0700 (Tue, 03 Jan 2006) $
  */
 public final class ParserPerformanceTest {
     private static final String[] QUERIES = new String[] {

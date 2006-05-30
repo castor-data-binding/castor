@@ -53,7 +53,7 @@ package org.exolab.castor.mapping;
  *
  * 
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-10-23 13:53:59 -0600 (Thu, 23 Oct 2003) $
  */
 public abstract class FieldHandlerFactory {
     

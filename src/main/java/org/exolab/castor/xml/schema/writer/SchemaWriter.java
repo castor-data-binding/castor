@@ -63,7 +63,7 @@ import org.xml.sax.helpers.AttributeListImpl;
 /**
  * A class for serializing Schema models
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-05 13:16:42 -0600 (Wed, 05 Apr 2006) $
 **/
 public class SchemaWriter {
 

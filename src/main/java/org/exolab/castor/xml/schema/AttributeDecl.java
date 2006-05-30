@@ -51,7 +51,7 @@ import org.exolab.castor.xml.ValidationException;
 /**
  * An XML Schema Attribute Definition
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
 **/
 public final class AttributeDecl extends Annotated {
     /** SerialVersionUID */

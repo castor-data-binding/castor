@@ -16,7 +16,7 @@ import org.exolab.castor.xml.validators.StringValidator;
 /**
  * Class DataSourceDescriptor.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
  */
 public class DataSourceDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

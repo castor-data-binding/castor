@@ -29,7 +29,7 @@ import org.castor.cache.hashbelt.container.Container;
  * The point is that, even when we do nothing, the hashbelt changes.
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
 public final class NullReaper extends AbstractReaper {

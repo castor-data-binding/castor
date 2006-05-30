@@ -57,7 +57,7 @@ import org.exolab.castor.persist.LockEngine;
  * manually.
  * 
  * @author <a href="mailto:dulci@start.no">Stein M. Hugubakken </a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public class CacheManager {
 	

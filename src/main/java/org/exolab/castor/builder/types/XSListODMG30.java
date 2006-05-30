@@ -50,7 +50,7 @@ import org.exolab.javasource.*;
 /**
  * A list type for ODMG 3.0 that adapts the Castor preset list type.
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
 **/
 public class XSListODMG30 extends XSList {
 

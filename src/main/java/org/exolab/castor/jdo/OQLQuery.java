@@ -79,7 +79,7 @@ package org.exolab.castor.jdo;
  * </pre>
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-01 14:44:12 -0600 (Fri, 01 Oct 2004) $
  * @see Query
  */
 public interface OQLQuery

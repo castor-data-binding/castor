@@ -28,7 +28,7 @@ import org.castor.cache.hashbelt.container.Container;
  * record of them in the hashbelt.
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
 public abstract class NotifyingReaper extends AbstractReaper {

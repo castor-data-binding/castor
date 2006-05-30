@@ -23,7 +23,7 @@ import org.exolab.castor.persist.OID;
  * Utility class to store 'data' accessed through Castor JDO in performance caches.
  * 
  * @author <a href="mailto:werner DOT guttmann @ gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-01 14:45:18 -0700 (Thu, 01 Dec 2005) $
  * @since 0.9.9
  */
 public final class CacheEntry implements java.io.Serializable {

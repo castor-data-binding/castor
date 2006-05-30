@@ -57,7 +57,7 @@ import java.util.Vector;
  * The default set of built-in ClassDescriptors
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-11-04 15:55:27 -0700 (Thu, 04 Nov 2004) $
  */
 public final class CoreDescriptors {
 

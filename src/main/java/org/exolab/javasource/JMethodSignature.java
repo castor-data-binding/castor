@@ -56,7 +56,7 @@ import java.util.Vector;
  * as much as possible to reduce the learning curve.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
 **/
 public final class JMethodSignature extends JAnnotatedElementHelper
 {

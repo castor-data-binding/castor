@@ -56,7 +56,7 @@ import java.util.Hashtable;
  * Roughly speaking it keeps track of all the schemas read.
  * This is used to prevent infinite loops when importing or including schema.
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-09-21 08:09:24 -0600 (Tue, 21 Sep 2004) $
  */
 class SchemaUnmarshallerState {
 

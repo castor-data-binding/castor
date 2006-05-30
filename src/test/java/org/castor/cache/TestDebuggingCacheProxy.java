@@ -27,7 +27,7 @@ import junit.framework.TestSuite;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestDebuggingCacheProxy extends TestCase {

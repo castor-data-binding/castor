@@ -61,7 +61,7 @@ import org.xml.sax.SAXException;
 /**
  * A class for converting an AnyNode to SAX events
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class AnyNode2SAX implements EventProducer {
 

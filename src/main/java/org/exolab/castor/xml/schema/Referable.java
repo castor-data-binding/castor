@@ -47,7 +47,7 @@ package org.exolab.castor.xml.schema;
 /**
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @see ResolvableReference
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
 **/ 
 public interface Referable
 {

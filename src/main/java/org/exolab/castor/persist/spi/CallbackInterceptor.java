@@ -53,7 +53,7 @@ import org.exolab.castor.mapping.AccessMode;
  * called on the objects.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-17 04:29:33 -0600 (Sun, 17 Apr 2005) $
  */
 public interface CallbackInterceptor {
     /**

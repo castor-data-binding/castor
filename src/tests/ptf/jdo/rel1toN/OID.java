@@ -17,7 +17,7 @@ package ptf.jdo.rel1toN;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-06-24 19:41:08 -0600 (Fri, 24 Jun 2005) $
  */
 public final class OID {
     //-------------------------------------------------------------------------

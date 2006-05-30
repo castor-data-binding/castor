@@ -101,7 +101,7 @@ import java.util.Properties;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a> - Main author.
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a> - Contributions.
  * @author <a href="mailto:nsgreen@thazar.com">Nathan Green</a> - Contributions.
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-03-30 14:58:45 -0700 (Thu, 30 Mar 2006) $
 **/
 public class SourceGenerator 
     extends BuilderConfiguration

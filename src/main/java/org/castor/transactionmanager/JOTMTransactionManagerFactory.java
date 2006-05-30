@@ -29,7 +29,7 @@ import org.apache.commons.logging.LogFactory;
  * Implements {link org.castor.jdo.transaction.TransactionManagerFactory}.
  *
  * @author <a href=" mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
  * @since 1.0
  */
 public final class JOTMTransactionManagerFactory implements TransactionManagerFactory {

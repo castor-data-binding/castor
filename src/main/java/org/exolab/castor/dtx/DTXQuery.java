@@ -83,7 +83,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * changed in future releases.
  *
  * @author <a href="0@intalio.com">Evan Prodromou</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
 
 public class DTXQuery {

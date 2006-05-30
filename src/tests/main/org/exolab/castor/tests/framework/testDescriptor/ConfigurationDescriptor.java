@@ -15,7 +15,7 @@ package org.exolab.castor.tests.framework.testDescriptor;
 /**
  * Class ConfigurationDescriptor.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

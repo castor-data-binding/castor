@@ -10,7 +10,7 @@ import org.exolab.castor.xml.dtd.DTDException;
  * and substitutes <b>parameter entity references</b> by
  * corresponding <b>replacement text</b>.
  * @author <a href="mailto:totok@intalio.com">Alexander Totok</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  */
 public class DTDInitialParser implements DTDInitialParserConstants {
 

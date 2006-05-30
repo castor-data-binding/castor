@@ -55,7 +55,7 @@
   * http://jakarta.apache.org/regexp/</a>
   *
   * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-  * @version $Revision$ $Date$
+  * @version $Revision$ $Date: 2004-02-14 02:16:35 -0700 (Sat, 14 Feb 2004) $
  **/
  public class JakartaRegExpEvaluator 
     implements RegExpEvaluator

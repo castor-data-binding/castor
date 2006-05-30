@@ -35,7 +35,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * and translate to SQL.
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class ParseTreeWalker {
     private LockEngine _dbEngine;

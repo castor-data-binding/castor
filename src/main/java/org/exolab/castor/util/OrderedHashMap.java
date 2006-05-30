@@ -37,7 +37,7 @@ import java.util.Set;
  * The #values() method returns an unmodifiable collection.
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @revision $Revision$ $Date$
+ * @revision $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class OrderedHashMap extends HashMap {
     /** SerialVersionUID */

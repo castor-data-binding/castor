@@ -52,7 +52,7 @@ import org.exolab.castor.xml.ValidationException;
  * A class which represents the field selector for an IdentityConstraint
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
 **/
 public class IdentityField extends Annotated {
     /** SerialVersionUID */

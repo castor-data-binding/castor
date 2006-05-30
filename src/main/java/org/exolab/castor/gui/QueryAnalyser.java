@@ -76,7 +76,7 @@ import java.io.FileReader;
  * OQL Queries against a Castor Database.
  *
  * @author <a href="mauch@imkenberg.de">Thorsten Mauch</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class QueryAnalyser {
     boolean packFrame = false;

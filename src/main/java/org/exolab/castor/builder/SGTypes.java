@@ -51,7 +51,7 @@ import org.exolab.javasource.*;
 
 /**
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-10-10 06:35:52 -0600 (Mon, 10 Oct 2005) $
 **/
 public class SGTypes {
 

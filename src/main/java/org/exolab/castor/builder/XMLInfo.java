@@ -51,7 +51,7 @@ import org.exolab.castor.builder.types.*;
  * A class for storing XML related information
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 01:37:50 -0700 (Thu, 23 Feb 2006) $
  */
 public class XMLInfo {
 

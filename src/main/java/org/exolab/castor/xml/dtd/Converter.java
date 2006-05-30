@@ -85,7 +85,7 @@ import org.xml.sax.SAXException;
  * Also contains simple command line interface to read
  * an XML DTD file and create corresponding XML Schema object.
  * @author <a href="mailto:totok@intalio.com">Alexander Totok</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  */
 public class Converter {
 

@@ -52,7 +52,7 @@ import org.exolab.castor.persist.spi.CallbackInterceptor;
 /**
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-17 04:29:33 -0600 (Sun, 17 Apr 2005) $
  */
 public class JDOCallback implements CallbackInterceptor {
     public void using(Object object, Database db) {

@@ -55,7 +55,7 @@ import java.io.PrintWriter;
  * A Simple DocumentHandler that intercepts SAX events and
  * prints them to the console
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
 **/
 public class DebugHandler implements DocumentHandler {
     

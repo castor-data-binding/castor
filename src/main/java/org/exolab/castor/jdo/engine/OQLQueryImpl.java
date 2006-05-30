@@ -80,7 +80,7 @@ import java.util.Vector;
  * An OQLQuery implementation to execute a query based upon an OQL statement   
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class OQLQueryImpl
     implements Query, OQLQuery

@@ -53,7 +53,7 @@ import junit.framework.*;
  *
  * @author <a href="mailto:gignoux@kernelcenter.org">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-31 08:08:19 -0700 (Sat, 31 Dec 2005) $
  */
 public class CastorTestSuiteRunner extends TestCase {
 

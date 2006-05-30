@@ -72,7 +72,7 @@ import org.xml.sax.InputSource;
  * that represent the simple types defined by xmlschema and those derived from them.
  *
  * @author <a href="mailto:berry@intalio.com">Arnaud Berry</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
 **/
 public class SimpleTypesFactory {
 
@@ -581,7 +581,7 @@ public class SimpleTypesFactory {
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 class SimpleTypesFactoryException extends RuntimeException {
     /** SerialVersionUID */

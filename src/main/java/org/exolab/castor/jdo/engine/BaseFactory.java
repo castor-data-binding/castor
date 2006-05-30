@@ -65,7 +65,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public abstract class BaseFactory
     implements PersistenceFactory

@@ -55,7 +55,7 @@ import java.util.Vector;
  * This class is part of package which is used to 
  * create source code.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
 **/
 public class JMethod implements JMember, JAnnotatedElement {
 

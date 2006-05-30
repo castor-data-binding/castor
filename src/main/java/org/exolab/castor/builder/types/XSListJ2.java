@@ -41,7 +41,7 @@ import org.exolab.javasource.*;
 /**
  * A list type for Java 2 collection that adapts the Castor preset list type.
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
 **/
 public class XSListJ2 extends XSList {
 

@@ -57,7 +57,7 @@ import org.exolab.castor.mapping.FieldHandler;
  * Handles field validation
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-08 22:58:55 -0600 (Fri, 08 Oct 2004) $
  */
 public class FieldValidator extends Validator {
     

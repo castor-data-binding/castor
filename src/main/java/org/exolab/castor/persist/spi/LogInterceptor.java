@@ -60,7 +60,7 @@ import java.io.PrintWriter;
  * tracing messages that are not bubbled up to the application layer.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-05-03 16:25:38 -0600 (Mon, 03 May 2004) $
  */
 public interface LogInterceptor
 {

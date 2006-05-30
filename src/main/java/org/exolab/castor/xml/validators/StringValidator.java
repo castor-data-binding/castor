@@ -53,7 +53,7 @@ import org.exolab.castor.xml.*;
  * The String Validation class
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
 public class StringValidator extends PatternValidator
     implements TypeValidator

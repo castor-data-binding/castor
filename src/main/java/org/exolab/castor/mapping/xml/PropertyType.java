@@ -21,7 +21,7 @@ import org.exolab.castor.xml.ValidationException;
 /**
  * Class PropertyType.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
  */
 public abstract class PropertyType implements java.io.Serializable {
 

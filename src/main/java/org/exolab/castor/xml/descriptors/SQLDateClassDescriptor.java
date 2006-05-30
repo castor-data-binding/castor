@@ -63,7 +63,7 @@ import java.sql.Date;
  * A ClassDescriptor for java.sql.Date
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-16 22:49:25 -0700 (Thu, 16 Dec 2004) $
  */
 public class SQLDateClassDescriptor
     implements XMLClassDescriptor

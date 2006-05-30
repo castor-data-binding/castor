@@ -36,7 +36,7 @@ import org.exolab.castor.mapping.MappingException;
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  * @since 0.9.9
  */
 public final class JNDIConnectionFactory extends AbstractConnectionFactory {

@@ -131,7 +131,7 @@ import org.xml.sax.InputSource;
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JDOManager
 implements DataObjects, Referenceable, ObjectFactory, Serializable {

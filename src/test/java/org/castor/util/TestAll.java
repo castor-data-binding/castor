@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
  * Run all tests of the org.castor.util package.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 03:57:35 -0600 (Sat, 29 Apr 2006) $
  */
 public final class TestAll extends TestCase {
     public static Test suite() throws Exception {

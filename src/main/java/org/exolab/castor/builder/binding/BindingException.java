@@ -51,7 +51,7 @@ package org.exolab.castor.builder.binding;
  * the exception that causes the call to BindingException
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Version:$ $Date$
+ * @version $Version:$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class BindingException extends Exception {
 

@@ -60,7 +60,7 @@ import java.util.Vector;
  * Marshalling Framework
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 abstract class MarshalFramework {
 

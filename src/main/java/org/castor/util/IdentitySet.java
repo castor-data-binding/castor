@@ -26,7 +26,7 @@ import java.util.Set;
  * interface.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
  * @since 0.9.9
  */
 public final class IdentitySet implements Set {

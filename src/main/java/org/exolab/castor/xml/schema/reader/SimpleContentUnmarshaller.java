@@ -57,7 +57,7 @@ import org.exolab.castor.xml.schema.SchemaNames;
 /**
  * A class for Unmarshalling simpleContent
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
 **/
 public class SimpleContentUnmarshaller extends ComponentReader {
 

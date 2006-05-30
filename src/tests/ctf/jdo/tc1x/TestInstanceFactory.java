@@ -66,7 +66,7 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  * Test for the behaviors the InstanceFactory interface.
  *
  * @author <a href="adc@toolazydogs.com">Alan Cabrera</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-27 05:48:18 -0600 (Thu, 27 Apr 2006) $
  */
 public final class TestInstanceFactory extends CastorTestCase {
     /**

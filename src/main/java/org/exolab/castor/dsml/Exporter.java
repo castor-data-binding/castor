@@ -66,7 +66,7 @@ import org.exolab.castor.dsml.ImportDescriptor;
  *
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-13 14:00:30 -0700 (Mon, 13 Dec 2004) $
  */
 public abstract class Exporter
 {

@@ -58,7 +58,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-01-19 13:01:46 -0700 (Mon, 19 Jan 2004) $
  */
 public class GenericFactory
     extends BaseFactory

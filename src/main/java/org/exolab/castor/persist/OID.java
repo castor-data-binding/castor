@@ -57,7 +57,7 @@ import java.util.ArrayList;
  * dirty checking within a transaction.
  * 
  * @author <a href="arkin@intalio.com">Assaf Arkin </a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public final class OID implements Serializable {
 

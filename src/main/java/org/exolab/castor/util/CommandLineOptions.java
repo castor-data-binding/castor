@@ -33,7 +33,7 @@ import org.castor.util.Messages;
  * A utility class for generating command line options
  *
  * @author <a href="mailto:kvisco@ziplink.net">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
 **/
 public class CommandLineOptions {
 

@@ -68,7 +68,7 @@ import org.exolab.castor.dsml.ImportExportException;
  *
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
 public class JNDIImporter
     extends Importer

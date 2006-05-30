@@ -90,7 +90,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * counter will be used a database-wide unique key will be created.
  * 
  * @author <a href="thomas.fach@publica.de">Thomas Fach</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-06-01 06:08:22 -0600 (Wed, 01 Jun 2005) $
  * @see UUIDKeyGenerator
  */
 public final class UUIDKeyGeneratorFactory implements KeyGeneratorFactory

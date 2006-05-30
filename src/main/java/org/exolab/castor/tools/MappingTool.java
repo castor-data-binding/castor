@@ -86,7 +86,7 @@ import java.lang.reflect.Array;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-30 14:37:08 -0700 (Mon, 30 Jan 2006) $
  */
 public class MappingTool
 {

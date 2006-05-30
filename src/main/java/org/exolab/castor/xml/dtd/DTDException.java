@@ -58,7 +58,7 @@ import java.lang.Exception;
  * </ul>
  * Simply extends {@link java.lang.Exception Exception} for now.
  * @author <a href="mailto:totok@intalio.com">Alexander Totok</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class DTDException extends Exception {
     /** SerialVersionUID */

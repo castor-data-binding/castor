@@ -64,7 +64,7 @@ import org.exolab.castor.mapping.xml.ClassMapping;
  *
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
  */
 public class ClassDescriptorImpl implements ClassDescriptor {
     private final ClassMapping          _map;

@@ -71,7 +71,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  *                  
  * @author <a href="ros@domainforfree.com">Rostislav Beloff</a>
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-11 15:26:07 -0600 (Tue, 11 Apr 2006) $
  */
 final class PostgreSQLCallQuery implements PersistenceQuery
 {

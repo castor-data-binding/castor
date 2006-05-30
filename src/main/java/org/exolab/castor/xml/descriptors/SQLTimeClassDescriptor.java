@@ -64,7 +64,7 @@ import java.sql.Time;
  * A ClassDescriptor for java.sql.Time
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
 public class SQLTimeClassDescriptor
     implements XMLClassDescriptor

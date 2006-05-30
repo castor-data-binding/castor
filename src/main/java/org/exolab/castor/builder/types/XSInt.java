@@ -55,7 +55,7 @@ import java.util.Enumeration;
 /**
  * The XML Schema Integer type
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
 **/
 public final class XSInt extends XSPatternBase {
 

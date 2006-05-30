@@ -60,7 +60,7 @@ import org.xml.sax.helpers.AttributeListImpl;
  * as inside the Attributes list.
  * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @revision $Revision$ $Date$
+ * @revision $Revision$ $Date: 2004-09-10 12:15:10 -0600 (Fri, 10 Sep 2004) $
  */
 public class DocumentHandlerAdapter implements ContentHandler {
     

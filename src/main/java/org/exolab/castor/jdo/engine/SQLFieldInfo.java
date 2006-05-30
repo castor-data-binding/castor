@@ -28,7 +28,7 @@ import org.exolab.castor.mapping.loader.FieldHandlerImpl;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-21 04:05:17 -0700 (Sat, 21 Jan 2006) $
  * @since 1.0
  */
 public class SQLFieldInfo {

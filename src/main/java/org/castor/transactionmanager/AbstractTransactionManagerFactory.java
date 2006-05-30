@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
  * An abstract factory for acquiring transactions from this J2EE container.
  *
  * @author <a href=" mailto:ralf.joachim@syscon-world.de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
  * @since 1.0
  */
 public abstract class AbstractTransactionManagerFactory

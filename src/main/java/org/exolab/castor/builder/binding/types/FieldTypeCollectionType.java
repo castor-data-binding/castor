@@ -16,7 +16,7 @@ import java.util.Hashtable;
 /**
  * 
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-11-21 13:39:55 -0700 (Mon, 21 Nov 2005) $
 **/
 public class FieldTypeCollectionType implements java.io.Serializable {
 

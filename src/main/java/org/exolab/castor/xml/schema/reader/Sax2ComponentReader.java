@@ -60,7 +60,7 @@ import org.xml.sax.SAXParseException;
  * A SAX adapter class for the ComponentReader.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
 **/
 public final class Sax2ComponentReader
     implements DocumentHandler, org.xml.sax.ErrorHandler

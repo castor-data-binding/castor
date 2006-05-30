@@ -25,7 +25,7 @@ import org.xml.sax.ContentHandler;
 /**
  * Class FieldMapping.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-14 07:53:50 -0700 (Tue, 14 Feb 2006) $
  */
 public class FieldMapping implements java.io.Serializable {
 

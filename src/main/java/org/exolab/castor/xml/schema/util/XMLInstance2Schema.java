@@ -64,7 +64,7 @@ import org.xml.sax.Parser;
  * A class for reading XML Schemas
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-16 13:22:58 -0700 (Mon, 16 Jan 2006) $
 **/
 public class XMLInstance2Schema {
     

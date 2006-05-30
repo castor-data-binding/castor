@@ -19,7 +19,7 @@ import org.exolab.castor.xml.validators.*;
 /**
  * Class FieldMappingDescriptor.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-14 07:53:50 -0700 (Tue, 14 Feb 2006) $
  */
 public class FieldMappingDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

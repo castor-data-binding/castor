@@ -55,7 +55,7 @@ package org.exolab.castor.util;
  *
  * @author <a href="mailto:kvisco@ziplink.net">Keith Visco</a>
  * @see java.util.Iterator
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $ 
 **/
 public interface Iterator {
     public boolean hasNext();

@@ -67,7 +67,7 @@ import org.exolab.castor.mapping.MappingException;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-04-25 15:33:21 -0600 (Mon, 25 Apr 2005) $
  */
 public interface KeyGenerator
 {

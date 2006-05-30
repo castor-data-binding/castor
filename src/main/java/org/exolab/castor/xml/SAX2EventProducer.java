@@ -24,7 +24,7 @@ import org.xml.sax.ContentHandler;
  * A interface which abstracts anything which can produce SAX 2 events.
  * This allows any EventProducer to be used with the Unmarshaller.
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-22 09:05:40 -0700 (Wed, 22 Feb 2006) $
  * @since 1.0M3
 **/
 public interface SAX2EventProducer {

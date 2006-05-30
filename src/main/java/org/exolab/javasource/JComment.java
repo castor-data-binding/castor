@@ -51,7 +51,7 @@ package org.exolab.javasource;
  * A class that represents a Java comment.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public class JComment {
 

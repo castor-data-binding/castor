@@ -63,7 +63,7 @@ import org.exolab.castor.xml.schema.XMLType;
 /**
  * A class for unmarshalling restriction elements of a complexContent
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  * @todo validation stuff about the data
  * @todo set the flag of restriction for the complexType
 **/

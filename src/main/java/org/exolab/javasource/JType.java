@@ -50,7 +50,7 @@ package org.exolab.javasource;
  * Represents a primitive or class type
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class JType {
 

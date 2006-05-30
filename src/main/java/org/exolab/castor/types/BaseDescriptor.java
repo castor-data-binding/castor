@@ -56,7 +56,7 @@ import org.exolab.castor.xml.*;
  * by the descriptors for the custom Castor schema types.
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-16 22:49:25 -0700 (Thu, 16 Dec 2004) $
  */
 public class BaseDescriptor
     implements XMLClassDescriptor

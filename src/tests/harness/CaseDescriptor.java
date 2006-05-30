@@ -20,7 +20,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-27 05:48:18 -0600 (Thu, 27 Apr 2006) $
 **/
 public class CaseDescriptor implements org.exolab.castor.xml.XMLClassDescriptor {
 

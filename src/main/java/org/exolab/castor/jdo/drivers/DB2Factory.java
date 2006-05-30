@@ -51,7 +51,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * {@link org.exolab.castor.persist.spi.PersistenceFactory} for IBM DB2 driver.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-21 16:05:42 -0700 (Tue, 21 Feb 2006) $
  */
 public final class DB2Factory
     extends GenericFactory

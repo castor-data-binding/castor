@@ -8,7 +8,7 @@ import org.exolab.castor.xml.dtd.*;
  * references</b> already substituted by corresponding <b>replacement text</b>.
  * Constructs DTD document object.
  * @author <a href="mailto:totok@intalio.com">Alexander Totok</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class DTDParser implements DTDParserConstants {
 

@@ -51,7 +51,7 @@ import org.xml.sax.*;
  * A interface which abstracts anything which can produce SAX events.
  * This allows any EventProducer to be used with the Unmarshaller
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-22 08:35:51 -0700 (Wed, 22 Feb 2006) $
  * @deprecated use @see org.castor.xml.SAX2EventProducer instead. 
 **/
 public interface EventProducer {

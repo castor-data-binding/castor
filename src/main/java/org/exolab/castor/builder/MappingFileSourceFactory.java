@@ -59,7 +59,7 @@ import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
  * A factory for creating mapping files 
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public class MappingFileSourceFactory {
     /**
