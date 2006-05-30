@@ -19,6 +19,34 @@
 --> 
 
 		<item>
+			<title>Jira and notifications</title>
+			<pubDate>Tue, 30 May 2006 13:07:43 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item43</link>
+			<description>
+                This is a short message for those who have created Jira issues in the
+                past two or three months or so, or have commented upon existing issues.
+                
+                It looks like during some Jira upgrade a few months ago, a couple of
+                Jira settings got disabled. As a result, the original reporter of a Jira
+                issue did not get notified about any changes to the issue (incl. e.g.
+                state changes, comments, questions, etc.)...
+			</description>
+		</item>
+		<item>
+			<title>Castor up again ...</title>
+			<pubDate>Tue, 23 May 2006 13:07:43 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item42</link>
+			<description>
+                As you might (not) have noticed, all the project-related infrastructure
+                (mailing lists, SVN repository, HTML docs, binaries etc.) has been
+                off-line due to a hard disk failure on one of the Codehaus
+                servers. As a result of a lot of dedication from the Codehaus folks, 
+                we are as of now in a position to re-start life as usual.
+			</description>
+		</item>
+		<item>
 			<title>Google Summer of Code and Castor</title>
 			<pubDate>Fri, 05 May 2006 13:07:43 GMT</pubDate>
 			<author>Werner Guttmann</author>

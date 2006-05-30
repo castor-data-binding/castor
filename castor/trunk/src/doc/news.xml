@@ -19,7 +19,55 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
-
+        <news id="43">
+            <title>Jira and notifications</title>
+            <author>Werner Guttmann</author>
+            <date>May 30 2006</date>
+            <time>20:07:43</time>
+            <summary>
+                This is a short message for those who have created Jira issues in the
+                past two or three months or so, or have commented upon existing issues.
+                
+                It looks like during some Jira upgrade a few months ago, a couple of
+                Jira settings got disabled. As a result, the original reporter of a Jira
+                issue did not get notified about any changes to the issue (incl. e.g.
+                state changes, comments, questions, etc.).
+                
+                I have now reconfigured the notification scheme attached to the Castor
+                Jira instance so that the following entities will receive notification
+                emails upon a change to an issue:
+                
+                - The SCM mailing list (somewhat high traffic)
+                - The reporter of the issue
+                - The assignee of the issue
+                - All watchers.
+                
+                I hope that this will shorten feedback loops substantially in the
+                future, and I would like to ask people who created issues in the last
+                two or three months to 'manually' scan the issues they created for
+                updates et alias.            
+            </summary>
+        </news>
+        <news id="42">
+            <title>Castor up again ...</title>
+            <author>Werner Guttmann</author>
+            <date>May 23 2006</date>
+            <time>20:07:43</time>
+            <summary>
+                As you might (not) have noticed, all the project-related infrastructure
+                (mailing lists, SVN repository, HTML docs, binaries etc.) has been
+                off-line due to a hard disk failure on one of the Codehaus
+                servers. As a result of a lot of dedication from the Codehaus folks, 
+                we are as of now in a position to re-start life as usual.
+                
+                Please note that there's still a few minor issues related to things
+                being setup and/or re-instated as we speak. As such, we won't be
+                updating some HTML docs immediately, as a few things have not come to
+                reach final stability yet.
+                
+                Please watch this page and the mailing list(s) for more updates.
+            </summary>
+        </news>
         <news id="41">
             <title>Castor and Google Summer of Code</title>
             <author>Werner Guttmann</author>
