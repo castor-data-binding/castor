@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                 <bug id="1384" tool="jira">
+                     <description>
+		                Fixed problem with NPE related to field mappings without type declaration..
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Manjuka Soysa</name>
+                        <email>manjuka@ravana.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060530</date>
+                </bug>                
                 <bug id="1429" tool="jira">
                     <description>
 		                Fixed ClassNotFoundException related to using a custom XMLNaming scheme.
