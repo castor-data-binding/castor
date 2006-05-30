@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Resolved issue CASTOR-1384 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with NPE related to field mappings without type declaration.
+       Details: http://jira.codehaus.org/browse/CASTOR-1384
+       (Werner - 20060530)
+       
 JDO:   Resolved issue CASTOR-1429 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed ClassNotFoundException related to using a custom XMLNaming scheme.
        Details: http://jira.codehaus.org/browse/CASTOR-1429

@@ -177,18 +177,21 @@ public class XMLMappingLoader
             if (fields[i].getClassDescriptor() != null) continue;
             ClassDescriptor   relDesc;
             
-            relDesc = getDescriptor( fields[ i ].getFieldType() );
-            if ( relDesc == NoDescriptor ) {
-                // XXX Error message should come here
-            }
-            else if ( relDesc != null &&
-                      relDesc instanceof XMLClassDescriptor &&
-                      fields[ i ] instanceof XMLFieldDescriptorImpl )
-            {
-		        ( (XMLFieldDescriptorImpl) fields[ i ] ).setClassDescriptor( (XMLClassDescriptor) relDesc );
-
-		        //-- removed kvisco 20010814
-                // ( (XMLFieldDescriptorImpl) fields[ i ] ).setNodeType( NodeType.Element );
+            Class fieldType = fields[i].getFieldType();
+            if (fieldType != null) {
+                relDesc = getDescriptor(fieldType);
+                if ( relDesc == NoDescriptor ) {
+                    // XXX Error message should come here
+                }
+                else if ( relDesc != null &&
+                        relDesc instanceof XMLClassDescriptor &&
+                        fields[ i ] instanceof XMLFieldDescriptorImpl )
+                {
+                    ( (XMLFieldDescriptorImpl) fields[ i ] ).setClassDescriptor( (XMLClassDescriptor) relDesc );
+                    
+                    //-- removed kvisco 20010814
+                    // ( (XMLFieldDescriptorImpl) fields[ i ] ).setNodeType( NodeType.Element );
+                }
             }
         }
         if ( clsDesc instanceof XMLClassDescriptorImpl )
@@ -514,7 +517,7 @@ public class XMLMappingLoader
             //-- just in case user forgot to use collection="..."
             //-- in the mapping file
             Class type = fieldDesc.getFieldType();
-            if (CollectionHandlers.hasHandler(type)) {
+            if (type != null && CollectionHandlers.hasHandler(type)) {
                 String typeName = CollectionHandlers.getCollectionName(type);
                 colType = FieldMappingCollectionType.valueOf(typeName);
             }
