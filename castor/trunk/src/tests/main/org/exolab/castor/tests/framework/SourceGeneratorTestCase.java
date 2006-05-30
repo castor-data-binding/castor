@@ -61,7 +61,7 @@ import org.xml.sax.InputSource;
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:gignoux@kernelcenter.org">Sebastien Gignoux</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-02-28 17:22:46 -0700 (Mon, 28 Feb 2005) $
  */
 public class SourceGeneratorTestCase extends XMLTestCase {
 

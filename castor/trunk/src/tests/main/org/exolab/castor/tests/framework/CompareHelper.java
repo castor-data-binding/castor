@@ -50,7 +50,7 @@ import java.lang.reflect.Array;
  * An helper class to assist in the comparison of object.
  *
  * @author <a href="mailto:gignoux@intalio.com">Sebastien Gignoux</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-10-15 09:17:49 -0600 (Wed, 15 Oct 2003) $
  */
 public class CompareHelper {
 

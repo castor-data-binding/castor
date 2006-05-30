@@ -59,7 +59,7 @@ import org.castor.util.Messages;
  *
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 13:58:52 -0600 (Wed, 26 Apr 2006) $
  */
 public abstract class Consumer
     implements DocumentHandler

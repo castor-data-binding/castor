@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
  * Run all tests of the org.castor.jdo.drivers package.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 03:57:35 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestAll extends TestCase {

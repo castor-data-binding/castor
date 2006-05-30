@@ -19,7 +19,7 @@ import org.exolab.castor.xml.Unmarshaller;
 /**
  * Class BugFix.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class BugFix implements java.io.Serializable {
 

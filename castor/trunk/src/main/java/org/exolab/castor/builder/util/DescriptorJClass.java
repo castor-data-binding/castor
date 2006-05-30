@@ -55,7 +55,7 @@ import org.exolab.castor.builder.SGTypes;
  * A class which defines the necessary methods for
  * generating ClassDescriptor source files.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-03-10 15:42:54 -0700 (Fri, 10 Mar 2006) $
 **/
 public class DescriptorJClass extends JClass {
 

@@ -58,7 +58,7 @@ import java.text.SimpleDateFormat;
  * an XML attribute or an XML element with simpleContent.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-07 01:33:49 -0700 (Mon, 07 Mar 2005) $
 **/
 public class DatatypeHandler {
 

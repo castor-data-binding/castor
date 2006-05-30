@@ -70,7 +70,7 @@ import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
  * A class that abstracts a test case in the CTF.
  * A CTF test case can be driven by a directory or by a JAR file.
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-03-08 17:23:25 -0700 (Mon, 08 Mar 2004) $
  */
 public class CastorTestCase extends TestCase {
 

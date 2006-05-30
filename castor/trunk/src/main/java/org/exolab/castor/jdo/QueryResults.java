@@ -57,7 +57,7 @@ import java.util.NoSuchElementException;
  * result and close it.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-05-03 16:05:30 -0600 (Mon, 03 May 2004) $
  */
 public interface QueryResults
     extends Enumeration

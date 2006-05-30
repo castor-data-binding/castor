@@ -53,7 +53,7 @@ package org.exolab.castor.jdo.engine;
  * Syntax elements for constructing a general JDBC SQL statement.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-08-13 04:01:45 -0600 (Fri, 13 Aug 2004) $
  */
 public interface JDBCSyntax
 {

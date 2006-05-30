@@ -88,7 +88,7 @@ import org.apache.tools.ant.types.*;
  *
  * @author <a href="mailto:gignoux@kernelcenter.org">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 15:14:53 -0600 (Wed, 26 Apr 2006) $
  */
 public abstract class XMLTestCase extends TestCase {
 

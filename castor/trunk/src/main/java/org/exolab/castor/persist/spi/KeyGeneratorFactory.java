@@ -56,7 +56,7 @@ import org.exolab.castor.mapping.MappingException;
  * is used for producing key generators for concrete databases with
  * given parameters
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public interface KeyGeneratorFactory
 {

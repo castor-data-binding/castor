@@ -56,7 +56,7 @@ import org.exolab.castor.persist.spi.QueryExpression;
  * QueryExpression for PostgreSQL 6.5/7.
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-01 13:45:49 -0600 (Fri, 01 Oct 2004) $
  */
 public final class PostgreSQLQueryExpression
     extends JDBCQueryExpression

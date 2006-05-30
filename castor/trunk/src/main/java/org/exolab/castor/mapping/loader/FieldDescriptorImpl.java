@@ -59,7 +59,7 @@ import org.exolab.castor.mapping.TypeConvertor;
  * class to provide additional functionality.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  * @see ClassDescriptorImpl
  */
 public class FieldDescriptorImpl

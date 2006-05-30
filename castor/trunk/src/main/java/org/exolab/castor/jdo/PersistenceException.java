@@ -55,7 +55,7 @@ import org.exolab.castor.core.exceptions.CastorException;
  * Can be used to obtain information about the underlying exception.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class PersistenceException extends CastorException {
     /** SerialVersionUID */

@@ -56,7 +56,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-09-17 00:47:41 -0600 (Fri, 17 Sep 2004) $
  */
 public interface XMLFieldDescriptor extends FieldDescriptor {
 

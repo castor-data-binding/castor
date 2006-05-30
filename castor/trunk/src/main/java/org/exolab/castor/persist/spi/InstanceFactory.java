@@ -52,7 +52,7 @@ package org.exolab.castor.persist.spi;
  * A callback interceptor delegates instance creation to the handler.
  *
  * @author <a href="adc@toolazydogs.com">Alan Cabrera</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public interface InstanceFactory {
 

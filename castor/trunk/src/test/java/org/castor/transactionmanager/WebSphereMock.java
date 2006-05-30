@@ -22,7 +22,7 @@ import javax.transaction.TransactionManager;
  * WebSphere.
  *  
  * @author <a href=" mailto:ralf.joachim@syscon-world.de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 03:57:35 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class WebSphereMock {

@@ -53,7 +53,7 @@ import org.exolab.castor.xml.*;
  * for the boolean type. This will only check that a boolean has the proper fixed value.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
  */
 public class BooleanValidator implements TypeValidator
 {

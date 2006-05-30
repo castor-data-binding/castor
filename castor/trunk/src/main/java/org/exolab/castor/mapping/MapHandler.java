@@ -56,7 +56,7 @@ import java.util.Enumeration;
  * safe and not use any synchronization.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-02-13 14:34:10 -0700 (Fri, 13 Feb 2004) $
  */
 public interface MapHandler
 {

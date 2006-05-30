@@ -73,7 +73,7 @@ import java.util.Properties;
  * from the mapping file.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public class JDOMappingLoader extends MappingLoader {
     //-----------------------------------------------------------------------------------

@@ -71,7 +71,7 @@ import java.util.Vector;
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a> 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-05-08 12:32:06 -0600 (Sun, 08 May 2005) $
  */
 public class JClass extends JStructure {
 

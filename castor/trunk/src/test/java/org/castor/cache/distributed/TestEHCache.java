@@ -29,7 +29,7 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5668 $ $Date: 2006-01-06 13:10:47 0100 (Fr, 06 Jän 2006) $
+ * @version $Revision$ $Date: 2006-01-06 13:10:47 0100 (Fr, 06 Jän 2006) $
  * @since 1.0
  */
 public final class TestEHCache extends TestCase {

@@ -44,7 +44,7 @@ import org.exolab.castor.persist.spi.InstanceFactory;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public abstract class AbstractDatabaseImpl
     implements Database

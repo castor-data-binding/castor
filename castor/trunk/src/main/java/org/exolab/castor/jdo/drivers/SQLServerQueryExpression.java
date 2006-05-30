@@ -57,7 +57,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression for MS SQL Server
  *
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-08 02:58:33 -0600 (Fri, 08 Oct 2004) $
  */
 public final class SQLServerQueryExpression
     extends JDBCQueryExpression

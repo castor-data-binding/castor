@@ -68,7 +68,7 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * the next object in the query.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 11:05:30 -0600 (Sat, 22 Apr 2006) $
  */
 public final class QueryResults {
     /**

@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
  * Run all tests of the org.castor.jdo.engine package.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5891 $ $Date: 2006-04-29 11:57:35 +0200 (Sa, 29 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-29 11:57:35 +0200 (Sa, 29 Apr 2006) $
  * @since 1.0
  */
 public final class TestAll extends TestCase {

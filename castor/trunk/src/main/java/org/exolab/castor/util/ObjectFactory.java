@@ -53,7 +53,7 @@ package org.exolab.castor.util;
  * A simple interface for creating class instances
  * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-04-23 00:36:31 -0600 (Wed, 23 Apr 2003) $
  */
 public interface ObjectFactory {
     

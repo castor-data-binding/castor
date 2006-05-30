@@ -52,7 +52,7 @@ package org.exolab.castor.jdo;
  * operation to data object.
  *
  * @author <a href="gignoux@intalio.com">Sebastien Gignoux</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 13:49:30 -0700 (Thu, 23 Feb 2006) $
  */
 public class DataObjectAccessException extends RuntimeException {
 

@@ -31,7 +31,7 @@ import org.apache.commons.logging.LogFactory;
  * Class to hold Castor configuration properties.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-03-21 12:26:52 -0700 (Tue, 21 Mar 2006) $
  * @since 1.0
  */
 public final class Configuration {

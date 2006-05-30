@@ -86,7 +86,7 @@ import java.util.StringTokenizer;
  * of the Class to be properly unmarshalled.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-05-25 06:41:12 -0600 (Thu, 25 May 2006) $
  */
 public final class UnmarshalHandler extends MarshalFramework
 implements ContentHandler, DocumentHandler, ErrorHandler {

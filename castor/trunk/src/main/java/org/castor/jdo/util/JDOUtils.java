@@ -33,7 +33,7 @@ import org.exolab.castor.jdo.TransactionNotInProgressException;
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @author <a href="mailto:dulci AT start DOT no">Stein M. Hugubakken</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-05-24 08:49:08 -0600 (Wed, 24 May 2006) $
  * @since 0.9.9.1
  */
 public final class JDOUtils {

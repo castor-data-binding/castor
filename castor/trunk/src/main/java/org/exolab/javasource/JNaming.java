@@ -50,7 +50,7 @@ package org.exolab.javasource;
  * A utility class used to validate identifiers
  * and class names
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
 **/
 class JNaming {
     

@@ -33,7 +33,7 @@ import org.xml.sax.ContentHandler;
  *  as a child of a 'field' element.
  *  
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
  */
 public class BindXml implements java.io.Serializable {
 

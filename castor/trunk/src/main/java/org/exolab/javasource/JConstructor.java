@@ -49,7 +49,7 @@ import java.util.Vector;
 /**
  * A class for handling source code for a constructor of a JClass
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-05-08 05:24:54 -0600 (Sun, 08 May 2005) $
 **/
 public class JConstructor extends JAnnotatedElementHelper {
 

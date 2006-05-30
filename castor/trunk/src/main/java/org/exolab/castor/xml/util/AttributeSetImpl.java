@@ -53,7 +53,7 @@ import org.exolab.castor.util.List;
  * the Marshalling Framework.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
 **/
 public class AttributeSetImpl 
     implements AttributeSet 

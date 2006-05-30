@@ -59,7 +59,7 @@ import java.util.Stack;
 /**
  * A class for Unmarshalling XML Schema <appinfo> elements
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
 **/
 public class AppInfoUnmarshaller extends ComponentReader {
 

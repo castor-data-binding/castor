@@ -20,7 +20,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-10-16 07:17:11 -0600 (Sun, 16 Oct 2005) $
 **/
 public class HarnessDescriptor implements org.exolab.castor.xml.XMLClassDescriptor {
 

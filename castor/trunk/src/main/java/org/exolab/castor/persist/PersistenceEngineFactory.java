@@ -59,7 +59,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-07-24 11:48:19 -0600 (Sun, 24 Jul 2005) $
  */
 public final class PersistenceEngineFactory {
     /**

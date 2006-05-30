@@ -56,7 +56,7 @@ import java.util.HashSet;
  * by the TypeValidator interface.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-06 02:10:17 -0600 (Wed, 06 Oct 2004) $
  */
 public class ValidationContext {
     

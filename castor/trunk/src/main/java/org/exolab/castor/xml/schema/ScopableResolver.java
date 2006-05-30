@@ -53,7 +53,7 @@ import java.util.Hashtable;
  * can also be Scopable). If this Resolver cannot "resolve" the id, then
  * it will try to use the given Resolver to resolver it.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
 **/
 public class ScopableResolver implements Resolver {
 

@@ -57,7 +57,7 @@ import org.exolab.castor.mapping.ClassDescriptor;
  * All fields are of type {@link XMLFieldDescriptor}.
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-16 22:42:04 -0700 (Thu, 16 Dec 2004) $
  */
 public interface XMLClassDescriptor extends ClassDescriptor {
 

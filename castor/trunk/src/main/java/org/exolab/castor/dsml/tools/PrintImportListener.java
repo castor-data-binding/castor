@@ -56,7 +56,7 @@ import org.exolab.castor.dsml.ImportEventListener;
  * all events to the specified printer.
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public class PrintImportListener
     implements ImportEventListener

@@ -66,7 +66,7 @@ import java.util.NoSuchElementException;
  * and this class will execute the query, and return results.
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-03-14 06:22:05 -0700 (Tue, 14 Mar 2006) $
  */
 public class SimpleQueryExecutor {
     

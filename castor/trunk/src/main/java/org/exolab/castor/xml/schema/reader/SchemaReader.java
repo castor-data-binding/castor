@@ -70,7 +70,7 @@ import org.xml.sax.ErrorHandler;
  * A class for reading XML Schemas
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-05 14:27:10 -0600 (Tue, 05 Oct 2004) $
 **/
 public class SchemaReader {
 

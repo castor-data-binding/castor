@@ -67,7 +67,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * DuplicateKeyException is possible.
  *
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-06-01 06:08:22 -0600 (Wed, 01 Jun 2005) $
  * @see MaxKeyGenerator
  */
 public final class MaxKeyGeneratorFactory implements KeyGeneratorFactory

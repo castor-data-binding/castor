@@ -19,7 +19,7 @@ import org.exolab.castor.xml.Unmarshaller;
 /**
  * Class Database.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
  */
 public class Database implements java.io.Serializable {
 

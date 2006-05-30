@@ -56,7 +56,7 @@ import org.exolab.castor.mapping.MappingException;
  * calls Object#toString() in the conversion methods
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-02-28 17:53:23 -0700 (Mon, 28 Feb 2005) $
  */
 public class ToStringFieldHandler extends GeneralizedFieldHandler
 {

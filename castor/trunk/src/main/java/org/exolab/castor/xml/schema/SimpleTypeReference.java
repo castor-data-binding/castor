@@ -51,7 +51,7 @@ package org.exolab.castor.xml.schema;
  *
  * @author <a href="mailto:berry@intalio.com">Arnaud Berry</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
 **/
 class SimpleTypeReference extends SimpleType {
     /** SerialVersionUID */

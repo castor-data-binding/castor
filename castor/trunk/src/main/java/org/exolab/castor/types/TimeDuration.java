@@ -58,7 +58,7 @@ import java.text.ParseException;
  * Besides setting TimeDuration to '0' is not possible thus there is
  * no distinction between '0' and 'P0Y'
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  **/
 public class TimeDuration implements java.io.Serializable {
     /** SerialVersionUID */

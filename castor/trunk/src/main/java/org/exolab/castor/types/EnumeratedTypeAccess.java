@@ -51,7 +51,7 @@ package org.exolab.castor.types;
  * Interface EnumeratedTypeAccess. 
  *
  * @author <a href="mailto:robertlaferla@comcast.net">Robert La Ferla</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-05-06 01:43:46 -0600 (Thu, 06 May 2004) $
  */
 public interface EnumeratedTypeAccess {
     

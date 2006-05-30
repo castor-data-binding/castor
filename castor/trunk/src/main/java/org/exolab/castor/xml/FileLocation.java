@@ -50,7 +50,7 @@ package org.exolab.castor.xml;
  * exceptions
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class FileLocation implements Location, java.io.Serializable {
     /** SerialVersionUID */

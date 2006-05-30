@@ -55,7 +55,7 @@ import java.util.Enumeration;
  * similar conversion algorithms.
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-01-18 17:29:45 -0700 (Tue, 18 Jan 2005) $
  * @see FieldDescriptor
  * @see FieldHandler
  */

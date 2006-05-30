@@ -31,7 +31,7 @@ import org.castor.util.Configuration;
  * Registry for {@link TransactionManager} instances obtained by their name.
  * 
  * @author <a href=" mailto:ralf.joachim@syscon-world.de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
 public final class TransactionManagerRegistry {

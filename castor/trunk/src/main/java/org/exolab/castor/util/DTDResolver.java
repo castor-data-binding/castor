@@ -74,7 +74,7 @@ import org.exolab.castor.net.util.URIUtils;
  * <p>
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class DTDResolver implements EntityResolver {
 

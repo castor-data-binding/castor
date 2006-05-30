@@ -34,7 +34,7 @@ import org.castor.util.Configuration;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class CacheFactoryRegistry {
     //--------------------------------------------------------------------------

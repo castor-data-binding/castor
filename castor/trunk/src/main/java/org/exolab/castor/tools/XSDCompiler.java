@@ -76,7 +76,7 @@ import org.exolab.castor.builder.FieldInfoFactory;
  * copied into the destination directory.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  **/
 public class XSDCompiler
     extends Task

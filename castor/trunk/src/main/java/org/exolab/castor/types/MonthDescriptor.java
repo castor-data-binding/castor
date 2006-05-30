@@ -56,7 +56,7 @@ import org.exolab.castor.mapping.ValidityException;
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class MonthDescriptor extends BaseDescriptor {
 
@@ -117,7 +117,7 @@ public class MonthDescriptor extends BaseDescriptor {
      * A specialized FieldHandler for the XML Schema
      * Month related types
      * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
-     * @version $Revision$ $Date$
+     * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
     **/
     class MonthFieldHandler extends XMLFieldHandler {
 

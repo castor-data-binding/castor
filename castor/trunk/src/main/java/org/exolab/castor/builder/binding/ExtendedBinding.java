@@ -83,7 +83,7 @@ import java.util.Hashtable;
  * respectively an XML Schema ComplexType and a Model Group <b>definition</b>.
  * 
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class ExtendedBinding extends Binding {
 

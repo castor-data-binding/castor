@@ -57,7 +57,7 @@ import org.exolab.castor.mapping.loader.Types;
  * A class to store and check information about numbered query parameters.
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-29 09:29:46 -0700 (Sun, 29 Jan 2006) $
  */
 public class ParamInfo {
 

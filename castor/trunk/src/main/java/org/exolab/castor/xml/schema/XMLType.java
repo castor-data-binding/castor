@@ -52,7 +52,7 @@ package org.exolab.castor.xml.schema;
  * and simple types.
  * <BR />
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
 **/
 public abstract class XMLType extends Annotated
 {

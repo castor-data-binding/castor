@@ -51,7 +51,7 @@ import org.exolab.castor.util.LocalConfiguration;
 /**
  * An abstract class to handing XML naming
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-09-12 03:23:33 -0600 (Fri, 12 Sep 2003) $
 **/
 public abstract class XMLNaming {
 

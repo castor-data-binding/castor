@@ -61,7 +61,7 @@ import java.util.Vector;
  * A specialized FieldHandler for the XML Schema Date/Time related types
  * 
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-02-09 13:04:19 -0700 (Wed, 09 Feb 2005) $
  */
 public class DateFieldHandler extends XMLFieldHandler {
 

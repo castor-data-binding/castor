@@ -56,7 +56,7 @@ import org.exolab.castor.jdo.LockNotGrantedException;
  * being deleted by a concurrent transaction.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-22 06:43:57 -0600 (Sat, 22 Apr 2006) $
  */
 public class ObjectDeletedWaitingForLockException extends LockNotGrantedException {
     /** SerialVersionUID */

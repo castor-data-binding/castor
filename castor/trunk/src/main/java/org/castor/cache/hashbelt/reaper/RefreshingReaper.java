@@ -32,7 +32,7 @@ import org.castor.cache.hashbelt.container.Container;
  * Note that you must supply the implementation of the refresh method.
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */
 public abstract class RefreshingReaper extends AbstractReaper {

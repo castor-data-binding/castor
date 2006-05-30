@@ -52,7 +52,7 @@ import java.util.Enumeration;
 /**
  * The XML Schema ComplexType class
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-01 15:47:48 -0700 (Wed, 01 Feb 2006) $
 **/
 public class ComplexType extends XMLType implements ContentModelGroup, Referable {
     /** SerialVersionUID */

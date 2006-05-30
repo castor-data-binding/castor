@@ -53,7 +53,7 @@ import org.exolab.castor.util.RegExpEvaluator;
  * which allow the pattern facet
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
 public abstract class PatternValidator {
     
@@ -197,7 +197,7 @@ public abstract class PatternValidator {
      * which always returns false. 
      
      * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-     * @version $Revision$ $Date$
+     * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
     **/
     class DefaultRegExpEvaluator 
         implements RegExpEvaluator

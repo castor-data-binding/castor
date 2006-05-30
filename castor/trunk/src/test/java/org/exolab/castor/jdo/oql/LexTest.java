@@ -51,7 +51,7 @@ import org.apache.commons.logging.LogFactory;
  * Test class for {@link Lexer}. 
  *
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 05:45:43 -0600 (Sat, 29 Apr 2006) $
  */
 public final class LexTest {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta

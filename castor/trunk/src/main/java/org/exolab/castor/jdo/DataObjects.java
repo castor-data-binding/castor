@@ -60,7 +60,7 @@ import javax.naming.Referenceable;
  * This object can be serialized or bound to a JNDI namespace.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-05 16:15:56 -0600 (Tue, 05 Oct 2004) $
  */
 public interface DataObjects
     extends Referenceable, Serializable

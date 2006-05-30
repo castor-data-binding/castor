@@ -70,7 +70,7 @@ import org.exolab.castor.xml.schema.reader.*;
  * the query into SAX events.
  *
  * @author <a href="0@intalio.com">Evan Prodromou</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-08 05:10:21 -0600 (Sat, 08 Apr 2006) $
  */
 
 public class DTXEngine {

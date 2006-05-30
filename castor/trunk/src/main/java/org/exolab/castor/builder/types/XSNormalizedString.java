@@ -57,7 +57,7 @@ import java.util.Enumeration;
  * <p>The XSType representing a normalizedString type.
  * <p>normalizedString is simply a XSString with some specific validation
  * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-03-16 10:34:22 -0700 (Thu, 16 Mar 2006) $
  */
 public final class XSNormalizedString extends XSPatternBase {
 

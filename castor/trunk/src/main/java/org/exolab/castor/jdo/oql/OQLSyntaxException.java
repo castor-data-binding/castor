@@ -55,7 +55,7 @@ import org.exolab.castor.jdo.QueryException;
  *
  * @author <a href="mailto:nissim@nksystems.com">Nissim Karpenstein</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class OQLSyntaxException extends QueryException {
     /** SerialVersionUID */

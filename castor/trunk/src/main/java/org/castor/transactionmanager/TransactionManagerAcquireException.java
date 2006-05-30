@@ -22,7 +22,7 @@ package org.castor.transactionmanager;
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:Werner.Guttmann@morganstanley.com">Werner Guttmann</a>
  * @author <a href=" mailto:ralf.joachim@syscon-world.de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-19 15:48:30 -0700 (Mon, 19 Dec 2005) $
  * @since 1.0
  */
 public final class TransactionManagerAcquireException extends Exception {

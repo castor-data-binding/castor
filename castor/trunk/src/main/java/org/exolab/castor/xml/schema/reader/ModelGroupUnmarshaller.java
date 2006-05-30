@@ -60,7 +60,7 @@ import org.exolab.castor.xml.schema.SchemaNames;
 /**
  * A class for Unmarshalling ModelGroups Definition
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revisio:$ $Date$
+ * @version $Revisio:$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
 **/
 public class ModelGroupUnmarshaller extends ComponentReader {
 

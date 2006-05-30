@@ -48,7 +48,7 @@ package org.exolab.castor.builder.types;
 /**
  * The XML Schema "positive-integer" type
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
 **/
 public final class XSPositiveInteger extends XSInteger {
 

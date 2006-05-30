@@ -69,7 +69,7 @@ import java.util.Vector;
  * A class for maintaining state for the SourceGenerator
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-06-22 22:13:21 -0600 (Wed, 22 Jun 2005) $
  */
 class SGStateInfo extends ClassInfoResolverImpl {
     

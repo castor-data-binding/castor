@@ -85,7 +85,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * UUID key generator.
  * @author <a href="thomas.fach@publica.de">Thomas Fach</a>
  * @author <a href="bruce DOT snyder AT gmail DOT com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  * @see UUIDKeyGeneratorFactory
  */
 public final class UUIDKeyGenerator implements KeyGenerator {

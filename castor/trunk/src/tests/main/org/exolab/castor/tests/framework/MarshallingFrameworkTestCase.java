@@ -68,7 +68,7 @@ import java.net.URLClassLoader;
  *
  * @author <a href="mailto:gignoux@kernelcenter.com">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-09-10 18:23:03 -0600 (Fri, 10 Sep 2004) $
  */
 public class MarshallingFrameworkTestCase extends XMLTestCase {
 

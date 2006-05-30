@@ -58,7 +58,7 @@ import java.util.Enumeration;
  * contains some Factory methods for creating Top-Level structures.
  * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 13:58:52 -0600 (Wed, 26 Apr 2006) $
  */
 public class Schema extends Annotated {
     /** SerialVersionUID */

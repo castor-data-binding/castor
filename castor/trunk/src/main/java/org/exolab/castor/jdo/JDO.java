@@ -125,7 +125,7 @@ import org.xml.sax.InputSource;
  * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  */
 public final class JDO
 implements DataObjects, Referenceable, ObjectFactory, Serializable {

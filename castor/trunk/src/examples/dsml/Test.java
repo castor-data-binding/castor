@@ -67,7 +67,7 @@ import org.exolab.castor.dsml.tools.PrintImportListener;
  *
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-10-25 14:32:31 -0600 (Mon, 25 Oct 2004) $
  */
 
 public class Test

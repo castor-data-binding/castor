@@ -63,7 +63,7 @@ import java.util.StringTokenizer;
 /**
  * A class for Unmarshalling WildCard
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-07-03 15:49:44 -0600 (Thu, 03 Jul 2003) $
 **/
 public class WildcardUnmarshaller extends ComponentReader {
 

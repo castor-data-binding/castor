@@ -59,7 +59,7 @@ import org.exolab.javasource.*;
 /**
  * A helper used for generating source that deals with Java 2 Collections.
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
 **/
 public class CollectionInfoJ2 extends CollectionInfo {
 

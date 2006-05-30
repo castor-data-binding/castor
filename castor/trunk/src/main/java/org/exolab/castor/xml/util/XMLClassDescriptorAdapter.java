@@ -59,7 +59,7 @@ import org.exolab.castor.xml.*;
  * An adapter class which can turn an ordinary ClassDescriptor
  * into an XMLClassDescriptor
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
     /**

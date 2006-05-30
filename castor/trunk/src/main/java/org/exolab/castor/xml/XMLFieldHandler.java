@@ -57,7 +57,7 @@ import org.exolab.castor.mapping.AbstractFieldHandler;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  * @see org.exolab.castor.mapping.FieldDescriptor
  */
 public class XMLFieldHandler

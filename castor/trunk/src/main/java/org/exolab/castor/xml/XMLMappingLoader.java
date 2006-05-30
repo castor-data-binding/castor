@@ -92,7 +92,7 @@ import java.lang.reflect.Modifier;
  *
  * @author <a href="keith AT kvisco DOT com">Keith Visco</a>
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 01:37:50 -0700 (Thu, 23 Feb 2006) $
  */
 public class XMLMappingLoader
     extends MappingLoader

@@ -79,7 +79,7 @@ import org.exolab.castor.jdo.Database;
  * and never hold a reference to a connection.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
  * @see TransactionContext
  * @see PersistenceQuery
  */

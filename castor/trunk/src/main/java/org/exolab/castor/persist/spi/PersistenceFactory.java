@@ -62,7 +62,7 @@ import org.exolab.castor.mapping.MappingException;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:ferret AT frii dot com">Bruce Snyder</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-03-25 05:34:48 -0700 (Thu, 25 Mar 2004) $
  * @see Persistence
  */
 public interface PersistenceFactory

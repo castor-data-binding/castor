@@ -20,7 +20,7 @@ package org.castor.cache.distributed;
  * implementations available.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 03:57:35 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */
 public final class DistributedCacheFactoryMock {

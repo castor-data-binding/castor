@@ -52,7 +52,7 @@ import java.util.Vector;
  * A base class used for XML Structures that support annotations.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $ 
 **/
 public abstract class Annotated extends Structure {
     

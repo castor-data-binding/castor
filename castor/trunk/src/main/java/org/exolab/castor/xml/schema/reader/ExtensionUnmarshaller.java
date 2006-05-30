@@ -67,7 +67,7 @@ import org.exolab.castor.xml.schema.XMLType;
 /**
  * A class for Unmarshalling extension elements
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
 **/
 public class ExtensionUnmarshaller extends ComponentReader {
 

@@ -74,7 +74,7 @@ import java.io.StringWriter;
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  * @todo Processing Instructions
  * @todo Full handling of namespaces
  */

@@ -58,7 +58,7 @@ import org.exolab.castor.mapping.xml.FieldMapping;
  * objects and text are stored separately for easy access.
  *
  * @author <a href="0@intalio.com">Evan Prodromou</a> 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 
 /* package-level class */

@@ -15,7 +15,7 @@ package org.castor.jdo.conf;
 /**
  * Class DatabaseChoiceDescriptor.
  * 
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
  */
 public class DatabaseChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 

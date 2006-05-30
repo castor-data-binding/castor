@@ -56,7 +56,7 @@ import java.util.Vector;
  * either AppInfo or Documentation element.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$ 
+ * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $ 
  */
 public abstract class AnnotationItem extends Structure {
     

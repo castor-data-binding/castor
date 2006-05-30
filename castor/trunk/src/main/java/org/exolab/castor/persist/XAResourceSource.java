@@ -59,7 +59,7 @@ import org.castor.persist.TransactionContext;
  * through this interface.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-06-20 06:01:00 -0600 (Mon, 20 Jun 2005) $
  * @see XAResourceImpl
  */
 public interface XAResourceSource

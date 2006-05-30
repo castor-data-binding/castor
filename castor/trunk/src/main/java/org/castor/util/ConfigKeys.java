@@ -21,7 +21,7 @@ package org.castor.util;
  * Keys of all Castor configuration properties.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
  * @since 1.0.1
  */
 public final class ConfigKeys {

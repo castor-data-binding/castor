@@ -55,7 +55,7 @@ import java.util.Properties;
  * with resolved alias and parameters.
  *
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 final class KeyGeneratorDescriptor
 {

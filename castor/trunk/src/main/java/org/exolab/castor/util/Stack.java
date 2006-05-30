@@ -53,7 +53,7 @@ package org.exolab.castor.util;
  * java.util.Stack (JDK)
  *
  * @author <a href="mailto:kvisco@ziplink.net">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-09-27 02:40:17 -0600 (Sat, 27 Sep 2003) $
 **/
 public class Stack {
 

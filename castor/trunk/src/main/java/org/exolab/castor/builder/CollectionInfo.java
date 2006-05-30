@@ -58,7 +58,7 @@ import org.exolab.javasource.*;
 /**
  * A helper used for generating source that deals with Collections
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
 **/
 public class CollectionInfo extends FieldInfo {
 

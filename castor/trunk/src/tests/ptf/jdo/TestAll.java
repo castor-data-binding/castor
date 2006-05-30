@@ -23,7 +23,7 @@ import junit.framework.TestSuite;
  * Run all tests of the ptf.jdo package.
  * 
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-07-15 15:59:18 -0600 (Fri, 15 Jul 2005) $
  */
 public class TestAll extends TestCase {
     public static Test suite() throws Exception {

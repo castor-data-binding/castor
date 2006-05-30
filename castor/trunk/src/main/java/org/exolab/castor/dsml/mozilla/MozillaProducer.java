@@ -68,7 +68,7 @@ import org.exolab.castor.dsml.XML;
  *
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-08-05 13:58:36 -0600 (Fri, 05 Aug 2005) $
  */
 public class MozillaProducer
     extends Producer

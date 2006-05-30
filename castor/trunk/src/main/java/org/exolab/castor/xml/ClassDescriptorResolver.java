@@ -62,7 +62,7 @@ package org.exolab.castor.xml;
  * java native classes.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-02-28 17:41:38 -0700 (Mon, 28 Feb 2005) $
  */
 public interface ClassDescriptorResolver {
     

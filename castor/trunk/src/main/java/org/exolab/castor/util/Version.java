@@ -56,7 +56,7 @@ import java.util.zip.ZipFile;
  * A class which contains the version information
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-05 15:43:19 -0600 (Wed, 05 Apr 2006) $
  */
 public final class Version {
 

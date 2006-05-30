@@ -55,7 +55,7 @@ import org.exolab.castor.mapping.ValidityException;
  * backward compatability.
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  * @see FieldDescriptor
  * @see FieldHandler
  */

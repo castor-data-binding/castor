@@ -4,7 +4,7 @@ package org.exolab.castor.jdo.oql;
  * Exception thrown to indicate that a feature is not supported by a particular database.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class SyntaxNotSupportedException extends OQLSyntaxException {
     /** SerialVersionUID */

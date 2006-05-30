@@ -54,7 +54,7 @@ import org.exolab.castor.mapping.MappingException;
  * The default FieldHandlerFactory implementation
  * 
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-04-08 22:44:47 -0600 (Thu, 08 Apr 2004) $
  */
 public class DefaultFieldHandlerFactory extends FieldHandlerFactory {
     

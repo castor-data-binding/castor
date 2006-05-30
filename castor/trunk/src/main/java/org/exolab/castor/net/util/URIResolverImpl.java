@@ -52,7 +52,7 @@ import org.exolab.castor.net.URILocation;
  * The default implementation of URIResolver
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
 **/
 public final class URIResolverImpl implements URIResolver {
 

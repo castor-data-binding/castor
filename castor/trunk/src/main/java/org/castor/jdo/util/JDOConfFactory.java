@@ -52,7 +52,7 @@ import org.castor.jdo.conf.TransactionDemarcation;
  *
  * @author <a href="mailto:martin-fuchs AT gmx DOT net">Martin Fuchs</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
  * @since 0.9.9.1
  */
 public final class JDOConfFactory {

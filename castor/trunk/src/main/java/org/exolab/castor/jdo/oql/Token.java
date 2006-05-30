@@ -20,7 +20,7 @@ package org.exolab.castor.jdo.oql;
  * OQL representation. Tokens contain a token type and the string value.
  * 
  * @author <a href="nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-03 17:47:48 -0700 (Tue, 03 Jan 2006) $
  */
 public final class Token {
     public static final Token ARROW = new Token(TokenType.ARROW, "->");

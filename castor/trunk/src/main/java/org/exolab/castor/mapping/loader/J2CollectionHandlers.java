@@ -68,7 +68,7 @@ import org.exolab.castor.mapping.MapItem;
  * libraries.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-26 13:08:15 -0600 (Wed, 26 Apr 2006) $
  */
 public final class J2CollectionHandlers
 {

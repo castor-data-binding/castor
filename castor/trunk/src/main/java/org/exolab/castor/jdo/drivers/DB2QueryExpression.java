@@ -53,7 +53,7 @@ import org.exolab.castor.persist.spi.PersistenceFactory;
  * QueryExpression for DB2.
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2004-09-08 03:37:54 -0600 (Wed, 08 Sep 2004) $
  */
 public final class DB2QueryExpression
     extends JDBCQueryExpression

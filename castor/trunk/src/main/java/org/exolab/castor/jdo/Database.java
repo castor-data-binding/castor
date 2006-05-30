@@ -96,7 +96,7 @@ import org.exolab.castor.persist.PersistenceInfoGroup;
  * </pre>
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-03-16 16:04:24 -0700 (Thu, 16 Mar 2006) $
  * @see JDOManager#getDatabase()
  * @see Query
  */

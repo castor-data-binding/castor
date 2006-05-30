@@ -34,7 +34,7 @@ import org.w3c.dom.NamedNodeMap;
  * NamedNodeMap.
  * XSLReader when reading an XSLT stylsheet.
  * @author <a href="mailto:kvisco@ziplink.net">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
 **/
 public class AttributeListWrapper implements AttributeList {
 

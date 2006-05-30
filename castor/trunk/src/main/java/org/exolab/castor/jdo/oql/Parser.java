@@ -21,7 +21,7 @@ import java.util.HashMap;
  * Generates a parse tree for a stream of tokens representing an OQL query. 
  *
  * @author  <a href="nissim@nksystems.com">Nissim Karpenstein</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-01-03 17:47:48 -0700 (Tue, 03 Jan 2006) $
  */
 public final class Parser {
     private static HashMap tokenTypes = new HashMap();

@@ -21,7 +21,7 @@ package org.castor.util;
  * splited into lines of 72 characters by the toStringArray() method.
  *
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-08-05 13:58:36 -0600 (Fri, 05 Aug 2005) $
  * @since 0.9.9
  */
  public final class Base64Encoder {

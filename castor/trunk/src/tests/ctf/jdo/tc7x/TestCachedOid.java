@@ -40,7 +40,7 @@
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
- * $Id: CachedOid.java 5916 2006-05-06 23:34:05 +0000 (Sat, 06 May 2006) rjoachim $ 
+ * $Id$ 
  */
 
 

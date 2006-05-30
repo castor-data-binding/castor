@@ -63,7 +63,7 @@ import org.exolab.castor.util.LocalConfiguration;
  * suitable for Java 1.1 and Java 1.2 run times.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-05-02 14:58:59 -0600 (Mon, 02 May 2005) $
  * @see CollectionHandler
  */
 public final class CollectionHandlers

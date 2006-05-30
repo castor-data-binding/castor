@@ -54,7 +54,7 @@ package org.exolab.castor.jdo;
  * type and properly report the exception to the connection pool manager.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class FatalPersistenceException extends PersistenceException {
     /** SerialVersionUID */

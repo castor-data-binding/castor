@@ -56,7 +56,7 @@ import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
  * SQL-related information, type conversion, and set/get for JDBC.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
 public class JDOFieldDescriptor
     extends FieldDescriptorImpl

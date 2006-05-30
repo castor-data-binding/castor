@@ -64,7 +64,7 @@ import org.exolab.castor.util.LocalConfiguration;
  *
  *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public abstract class Importer
 {

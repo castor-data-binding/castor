@@ -48,7 +48,7 @@ package org.exolab.castor.xml;
 /**
  * An exception that can be used to signal XML validation errors
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
 **/
 public class ValidationException extends XMLException {
     /** SerialVersionUID */

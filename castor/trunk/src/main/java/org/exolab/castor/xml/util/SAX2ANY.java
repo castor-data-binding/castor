@@ -65,7 +65,7 @@ import org.exolab.castor.xml.Namespaces;
  * This class is a SAX Content Handler that
  * build an AnyNode from a stream of SAX events (either SAX1 for compatibility or SAX2)
  * @author <a href="blandin@intalio.com>Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-29 09:44:19 -0600 (Sat, 29 Apr 2006) $
  */
 public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
    /**

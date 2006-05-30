@@ -65,7 +65,7 @@ import org.exolab.castor.types.Duration;
  * column, etc), as well as to create a new instance of a type.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class Types
 {

@@ -60,7 +60,7 @@ import java.text.ParseException;
  * <p>For more information see <a href="http://www.w3.org/TR/xmlschema-2/#duration">
  * X3C XML Schema Specification</a>.
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date$
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  **/
 public class Duration implements java.io.Serializable {
     /** SerialVersionUID */
