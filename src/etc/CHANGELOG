@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1429 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed ClassNotFoundException related to using a custom XMLNaming scheme.
+       Details: http://jira.codehaus.org/browse/CASTOR-1429
+       (Werner - 200605023)
+
 JDO:   Resolved issue CASTOR-1439 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added test case for Castor JDO CTF to test database.isPersistent().
        Details: http://jira.codehaus.org/browse/CASTOR-1439

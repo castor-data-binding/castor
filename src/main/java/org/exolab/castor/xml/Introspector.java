@@ -220,12 +220,27 @@ public final class Introspector {
      * castor.properties.
      */
     private boolean _saveMapKeys = true;
+
+    /**
+     * Specifies class loader to be used.
+     */
+    private ClassLoader _classLoader = null;
      
     /**
      * Creates a new instance of the Introspector
+     * @param _loader 
      */
     public Introspector() {
+        this(null);
+    } //-- Introspector
+    
+    /**
+     * Creates a new instance of the Introspector
+     * @param _loader 
+     */
+    public Introspector(ClassLoader classLoader) {
         super();
+        _classLoader = classLoader;
         init();
     } //-- Introspector
 
@@ -234,7 +249,7 @@ public final class Introspector {
         LocalConfiguration config = LocalConfiguration.getInstance();
         
         if (_defaultNaming == null) {
-            _defaultNaming = config.getXMLNaming();
+            _defaultNaming = config.getXMLNaming(_classLoader);
         }
         _naming = _defaultNaming;
         setPrimitiveNodeType(config.getPrimitiveNodeType());

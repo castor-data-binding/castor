@@ -219,7 +219,7 @@ public class ClassDescriptorResolverImpl
     **/
     public Introspector getIntrospector() {
         if (_introspector == null)
-            _introspector = new Introspector();
+            _introspector = new Introspector(_loader);
         return _introspector;
     } //-- getIntrospector
     

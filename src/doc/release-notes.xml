@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1429" tool="jira">
+                    <description>
+		                Fixed ClassNotFoundException related to using a custom XMLNaming scheme.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Neutrolio</name>
+                        <email>neutrolio@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060523</date>
+                </bug>
                  <bug id="1439" tool="jira">
                      <description>
 		                Added test case for Castor JDO CTF to test database.isPersistent().

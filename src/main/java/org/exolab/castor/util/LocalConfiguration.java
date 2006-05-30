@@ -101,7 +101,7 @@ public final class LocalConfiguration extends Configuration {
      */
     private static final Log _log = LogFactory.getFactory().getInstance(LocalConfiguration.class);
 
-	/**
+    /**
      * The properties loaded from the local configuration file.
      */
     private Properties   _props;
@@ -217,13 +217,21 @@ public final class LocalConfiguration extends Configuration {
         return _props;
     }
 
-
     /**
      * Returns the naming conventions to use for the XML framework
      *
      * @return the naming conventions to use for the XML framework     
      */
     public XMLNaming getXMLNaming() {
+        return getXMLNaming(null);
+    }
+
+    /**
+     * Returns the naming conventions to use for the XML framework
+     *
+     * @return the naming conventions to use for the XML framework     
+     */
+    public XMLNaming getXMLNaming(ClassLoader classLoader) {
         
         if (_values.naming != null) return _values.naming;
         
@@ -238,7 +246,12 @@ public final class LocalConfiguration extends Configuration {
         }
         else {
             try {
-                Class cls = Class.forName(prop);
+                Class cls = null;
+                if (classLoader != null) {
+                    cls = classLoader.loadClass(prop); 
+                } else {
+                    cls = Class.forName(prop);
+                }
                 _values.naming = (XMLNaming) cls.newInstance();
             }
             catch (Exception except) {
