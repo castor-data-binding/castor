@@ -307,6 +307,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
+                        <exclude>org/castor/cache/simple/TestTimeLimited.java</exclude>
                         <exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
                         <exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
                         <exclude>org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
@@ -379,15 +380,21 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			</plugin>
             
             <plugin> 
-            <artifactId>maven-clover-plugin</artifactId>
-            <version>2.1</version>
-            <configuration>          
-                <jdk>1.4</jdk>
-                <cloverDatabase>target/clover-db</cloverDatabase>          
-                <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>     
-            </configuration>        
-      </plugin>    
-
+                <artifactId>maven-clover-plugin</artifactId>
+                <version>2.1</version>
+                <configuration>          
+                    <jdk>1.4</jdk>
+                    <cloverDatabase>target/clover-db</cloverDatabase>          
+                    <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>     
+                </configuration>        
+            </plugin>
+<!--            
+            <plugin>
+                <groupId>org.codehaus.mojo</groupId>
+                <artifactId>jdepend-maven-plugin</artifactId>
+                <version>2.0-beta-1-SNAPSHOT</version>
+            </plugin>
+-->
 		</plugins>
 	</reporting>
 </project>
