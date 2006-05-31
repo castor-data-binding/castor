@@ -2,13 +2,13 @@
 <document url="http://castor.codehaus.org/scm.xml">
 
   <properties>
-    <title>SVN Access &amp; bug tracking</title>
-    <abstract>Outlines how to access the SVN repository.</abstract>
+    <title>Subversion Access and Issue Tracking</title>
+    <abstract>Outlines how to access the Subversion repository.</abstract>
     <status>Final</status>
   </properties>
 
   <body>
-    <title>SVN Access &amp; bug tracking</title>
+    <title>Subversion Access and Issue Tracking</title>
 
     <section title="Issue Reporting and Tracking - JIRA">
 
@@ -22,59 +22,29 @@
 
     </section>
 
-    <section title="SVN access">
+    <section title="Subversion access">
 
-      <p>To get the latest, most up-to-date source code, you'll need to use SVN. Please
-         see the section on <a href="#Anonymous-SVN-Access">anonymous SVN access</a>
-         below. If you wish to simply browse the SVN for specific files or to view
-         changes and commit logs use
-         <a href="http://cvs.castor.codehaus.org/viewrep/castor/castor/trunk">FishEye access</a>
-         to the SVN repository.</p>
+      <p>The source code, documentation and libraries are available from Subversion</p>
 
-      <p>Or as an alternative, please <a href="download.xml">download</a> the full source
-         distribution for a given release.</p>
-
-    </section>
-
-    <section title="Anonymous SVN Access">
-
-      <p>The source code, documentation and libraries are available for anonymous access
-         from the <a href="www.codehaus.org">Codehaus SVN server</a>.</p>
-
-      <p>SVN is updated regularly and may contain unstable (untested) code when you check
-         it out - though in general this should not happen.</p>
-
-      <p>To access the Castor SVN repository, please use the following URL:</p>
+      <p>To checkout the Castor source as a committer:</p>
 
       <code-panel>
-  $ svn://svn.castor.codehaus.org/castor/scm/castor/trunk
+  $ svn co https://svn.codehaus.org/castor
       </code-panel>
 
-      <p>To, for example, checkout the most recent code of Castor, use the following
-         command:</p>
+      <p>To checkout the Castor source anonymously:</p>
 
       <code-panel>
-  $ svn checkout svn://svn.castor.codehaus.org/castor/scm/castor/trunk castor
+  $ svn co http://svn.codehaus.org/castor
       </code-panel>
 
-      <p>For more information about Subversion and various tools to access SVN
-         repositories you may want to take a look at
-         <a href="http://subversion.tigris.org/">Subversion site</a>.
-         Additional information is also provided at
-         <a href="http://docs.codehaus.org/display/HAUS/Subversion+at+the+haus">Codehaus wiki</a>.</p>
-         
-    </section>
+      <p>To browse the Castor source:</p>
 
-    <section title="Behind A Firewall?">
+      <code-panel>
+  $ http://svn.codehaus.org/castor
+      </code-panel>
 
-      <p>Sometimes firewalls are configured in such a way that the ports used by SVN are
-         blocked, and thus users behind the firewall cannot access the SVN repository.
-         If you fall into this category, there's some alternatives outlined below.</p>
-
-      <p><a href="www.codehaus.org">Codehaus</a> provides a HTTP interface to SVN
-         repository using FishEye (tm). Using this tool, please download one of the
-         following SVN snapshots from the SVN server from
-         <url>http://svn.castor.codehaus.org</url>:</p>
+      <p>Using FishEye, one of the following snapshots can also be downloaded:</p>
 
       <ul>
         <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.zip">ZIP archive</a></li>
@@ -82,6 +52,22 @@
         <li><a href="http://svn.castor.codehaus.org/viewrep/~tarball=tbz2/castor/castor/trunk/trunk.tbz2">TBZ2 archive</a></li>
       </ul>
 
+      <p>The last alternative is to <a href="download.xml">download</a> the full source
+         distribution for a given release.</p>
+   </section>
+
+   <section title="Information on Subversion">
+
+      <p>For more information about Subversion and various tools to access Subversion
+         repositories you may want to take a look at
+         <a href="http://subversion.tigris.org/">Subversion site</a>.
+         <!--
+         Additional information is also provided at
+         <a href="http://docs.codehaus.org/display/HAUS/Subversion+at+the+haus">Codehaus wiki</a>.
+         -->
+         </p>
+         
     </section>
+
   </body>
 </document>
