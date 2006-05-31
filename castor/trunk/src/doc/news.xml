@@ -26,21 +26,21 @@
             <time>20:07:43</time>
             <summary>
                 This is a short message for those who have created Jira issues in the
-                past two or three months or so, or have commented upon existing issues.
+                past two or three months or so, or have commented upon existing issues.<br/><br/>
                 
                 It looks like during some Jira upgrade a few months ago, a couple of
                 Jira settings got disabled. As a result, the original reporter of a Jira
                 issue did not get notified about any changes to the issue (incl. e.g.
-                state changes, comments, questions, etc.).
+                state changes, comments, questions, etc.).<br/><br/>
                 
                 I have now reconfigured the notification scheme attached to the Castor
                 Jira instance so that the following entities will receive notification
-                emails upon a change to an issue:
+                emails upon a change to an issue:<br/><br/>
                 
-                - The SCM mailing list (somewhat high traffic)
-                - The reporter of the issue
-                - The assignee of the issue
-                - All watchers.
+                - The SCM mailing list (somewhat high traffic)<br/>
+                - The reporter of the issue<br/>
+                - The assignee of the issue<br/>
+                - All watchers.<br/><br/>
                 
                 I hope that this will shorten feedback loops substantially in the
                 future, and I would like to ask people who created issues in the last
@@ -58,12 +58,12 @@
                 (mailing lists, SVN repository, HTML docs, binaries etc.) has been
                 off-line due to a hard disk failure on one of the Codehaus
                 servers. As a result of a lot of dedication from the Codehaus folks, 
-                we are as of now in a position to re-start life as usual.
+                we are as of now in a position to re-start life as usual.<br/><br/>
                 
                 Please note that there's still a few minor issues related to things
                 being setup and/or re-instated as we speak. As such, we won't be
                 updating some HTML docs immediately, as a few things have not come to
-                reach final stability yet.
+                reach final stability yet.<br/><br/>
                 
                 Please watch this page and the mailing list(s) for more updates.
             </summary>
