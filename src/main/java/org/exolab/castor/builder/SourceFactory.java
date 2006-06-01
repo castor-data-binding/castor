@@ -620,8 +620,10 @@ public class SourceFactory {
 		}
 
         //create equals() method?
-        if (component.hasEquals())
+        if (component.hasEquals()) {
             createEqualsMethod(jClass);
+            createHashCodeMethod(jClass);
+        }
         //implements CastorTestable?
         if (_testable)
             createTestableMethods(jClass, state);
@@ -1026,6 +1028,63 @@ public class SourceFactory {
 
     } //-- createUnmarshalMethods
 
+    /**
+     * Create an "hashCode" method on the given JClass.
+     *
+     * @param jclass the JClass in wich we create the hashCode method.
+     */
+    public static void createHashCodeMethod(JClass jclass) {
+        if (jclass == null) {
+            throw new IllegalArgumentException("JClass must not be null");
+        }
+        
+        // The argument is not null
+        JField[] fields = jclass.getFields();
+        
+        // Creates the method signature
+        JMethod jMethod = new JMethod(JType.Int, "hashCode");
+        jMethod.setComment("Override the java.lang.Object.hashCode method");
+        
+        // The hashCode method has no arguments
+        jclass.addMethod(jMethod);
+        
+        JSourceCode jsc = jMethod.getSourceCode();
+        
+        // The following steps came from Effective Java Programming Language Guide by Joshua Bloch, chapter 3
+        jsc.add("int result = 17;");
+        
+        for (int i = 0; i <fields.length; i++) {
+            JField temp = fields[i];
+            // If the field is an object the hashCode method is called recursively
+            
+            JType type = temp.getType();
+            String name = temp.getName();
+            if (type.isPrimitive()) { 
+                if (type == JType.Boolean) {
+                    jsc.add("result = 37 * result + (" + name + "?0:1);");
+                } else 
+                if ((type == JType.Byte) ||
+                    (type == JType.Int) ||
+                    (type == JType.Short))
+                {                       
+                    jsc.add("result = 37 * result + " + name + ";");
+                } else if (type == JType.Long) {
+                    jsc.add("result = 37 * result + (int)(" + name + "^(" + name + ">>>32));");
+                } else if (type == JType.Float) {
+                    jsc.add("result = 37 * result + Float.floatToIntBits(" + name + ");");
+                } else if (type == JType.Double) {
+                    jsc.add("long tmp = Double.doubleToLongBits(" + name + ");");
+                    jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");  
+                }
+            }   else {
+                // Calculates hashCode in a recursive manner.
+                jsc.add("result = 37 * result + " + name + ".hashCode();");
+            }
+        }
+        jsc.add("");
+        jsc.add("return result;");      
+    }   //createHashCodeMethod
+    
     /**
      * Create an 'equals' method on the given
      * JClass
