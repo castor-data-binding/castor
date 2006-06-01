@@ -20,6 +20,7 @@ package org.castor.util;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.IOException;
+import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Properties;
@@ -100,13 +101,23 @@ public final class Configuration {
         boolean found = false;
         
         // Get detault configuration from the Castor JAR.
+        InputStream resourceStream = null;
         try {
-            _props.load(getClass().getResourceAsStream(FILEPATH + FILENAME));
+            resourceStream = getClass().getResourceAsStream(FILEPATH + FILENAME);
+            _props.load(resourceStream);
             found = true;
         }  catch (Exception ex) {
             // As we will be trying something else later, record the error for setup
             // purposes, but do not actually treat as a critical failure.
             LOG.warn("Non-critical error during Castor configuration load:", ex);
+        } finally {
+            if (resourceStream != null) {
+                try {
+                    resourceStream.close();
+                } catch (IOException e) {
+                    LOG.warn("Problem closing stream for " + FILEPATH + FILENAME);
+                }
+            }
         }
 
         // Get overriding configuration from the Java library directory, ignore if not
@@ -140,29 +151,49 @@ public final class Configuration {
         
         // Get overriding configuration from the classpath, ignore if not found. If
         // found, merge any existing properties.
+        InputStream classPathStream = null;
         try {      
             URL url = getClass().getResource("/" + FILENAME);
             if (url != null) {
-                _props.load(url.openStream());
+                classPathStream = url.openStream(); 
+                _props.load(classPathStream);
                 return;
             }      
         } catch (Exception ex) {
             // As we have previously loaded default configuration treat as a critical
             // failure.
             LOG.warn("Non-critical error during Castor configuration load:", ex);
+        } finally {
+            if (classPathStream != null) {
+                try {
+                    classPathStream.close();
+                } catch (IOException e) {
+                    LOG.warn("Problem closing stream for /" + FILENAME);
+                }
+            }
         }
         
         // If not found, either it doesn't exist, or "." is not part of the class path,
         // try looking at local working directory.
+        InputStream fileStream = null;
         try {      
             File file = new File(FILENAME);
             if (file.exists() && file.canRead()) {
-                _props.load(new FileInputStream(file));
+                fileStream = new FileInputStream(file); 
+                _props.load(fileStream);
             }
         } catch (Exception ex) {
             // As we have previously loaded default configuration treat as a critical
             // failure.
             LOG.warn("Non-critical error during Castor configuration load:", ex);
+        } finally {
+            if (fileStream != null) {
+                try {
+                    fileStream.close();
+                } catch (IOException e) {
+                    LOG.warn("Problem closing stream for " + FILENAME);
+                }
+            }
         }
     }
 

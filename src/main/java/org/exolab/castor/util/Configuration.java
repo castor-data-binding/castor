@@ -44,6 +44,7 @@
  */
 package org.exolab.castor.util;
 
+import java.io.InputStream;
 import java.io.OutputStream;
 import java.io.Writer;
 import java.io.File;
@@ -975,8 +976,10 @@ public abstract class Configuration {
         
         // Get detault configuration from the Castor JAR.
         // Complain if not found.
+        InputStream resourceStream = null;
         try {
-            properties.load( Configuration.class.getResourceAsStream( resourceName ) );
+            resourceStream = Configuration.class.getResourceAsStream(resourceName); 
+            properties.load(resourceStream);
             
             //-- debug information:
             //URL url = Configuration.class.getResource( resourceName );
@@ -985,9 +988,17 @@ public abstract class Configuration {
             
             found = true;
         } 
-        catch ( Exception except ) {
+        catch (Exception except) {
             // Do nothing as we will check classpath 
             // and java lib directory below
+        } finally {
+            if (resourceStream != null) {
+                try {
+                    resourceStream.close();
+                } catch (IOException e) {
+                    LOG.warn("Problem closing stream for " + resourceName);
+                }
+            }
         }
 
         // Get overriding configuration from the Java
@@ -1006,12 +1017,14 @@ public abstract class Configuration {
         }
         
         if (javaHome != null) {
+            InputStream fileStream = null;
             try {      
                 file = new File( javaHome, "lib" );
                 file = new File( file, fileName );
                 if ( file.exists() ) {
                     properties = new Properties(properties);
-                    properties.load( new FileInputStream( file ) );
+                    fileStream = new FileInputStream(file);
+                    properties.load(fileStream);
                     found = true;
                 }      
             } catch (SecurityException e) {
@@ -1020,6 +1033,14 @@ public abstract class Configuration {
             } catch (IOException e) {
                 // Report that we were unable to load the resource.
                 LOG.warn(Messages.format("conf.nonCriticalError", e));
+            } finally {
+                if (fileStream != null) {
+                    try {
+                        fileStream.close();
+                    } catch (IOException e) {
+                        LOG.warn("Problem closing stream for " + fileName);
+                    }
+                }
             }
         }
         

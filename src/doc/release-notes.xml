@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                 <bug id="1440" tool="jira">
+                     <description>
+		                Fixed Configuration.loadProperties(String,String) to close resource streams after usage.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Alexander Soklakov</name>
+                        <email>say@ilb.ru</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060601</date>
+                </bug>                
                  <bug id="1384" tool="jira">
                      <description>
 		                Fixed problem with NPE related to field mappings without type declaration..
