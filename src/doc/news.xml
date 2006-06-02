@@ -19,6 +19,21 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="44">
+            <title>Mailing list subscriptions</title>
+            <author>Werner Guttmann</author>
+            <date>Jun 02 2006</date>
+            <time>20:07:43</time>
+            <summary>
+                Can I please ask everybody to check her (his) mailing list 
+                subscriptions at 
+                <a href="http://xircles.codehaus.org">http://xircles.codehaus.org</a>.
+                It looks like, due to the Codehaus problems a few weeks ago, we 
+                might have lost some (though not many) mailing list subscriptions.<br/><br/>
+                
+                We do apologize for any inconvenience caused ....
+            </summary>
+        </news>
         <news id="43">
             <title>Jira and notifications</title>
             <author>Werner Guttmann</author>
