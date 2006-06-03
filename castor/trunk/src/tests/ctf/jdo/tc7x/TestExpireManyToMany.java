@@ -166,7 +166,7 @@ public class TestExpireManyToMany extends CastorTestCase {
      */
     public void testExpireCache(boolean expireByType) {
 
-        log("starting testExpireCache "+(expireByType ? "by type" : "by object identity"));
+        log("starting testExpireCache " + (expireByType ? "by type" : "by object identity"));
         try {
             
             // delete any data left over from previous tests
@@ -362,7 +362,7 @@ public class TestExpireManyToMany extends CastorTestCase {
             db.commit();
         }
         catch (Exception e) {
-            log("createTestDataSet: exception caught: "+e.getMessage());
+            log("createTestDataSet: exception caught: " + e.getMessage());
             throw e;
         }
 
@@ -374,19 +374,19 @@ public class TestExpireManyToMany extends CastorTestCase {
      * @param groupId primary key of object to be updated
      */
     private void updateGroupUsingJDBC( int groupId ) {
-        log("updating group "+groupId+" using JDBC...");
+        log("updating group " + groupId + " using JDBC...");
 
         try {
             _updateGroupStatement.setString(1, JDBC_UPDATED_VALUE);
             _updateGroupStatement.setInt(2, groupId);
             int rc = _updateGroupStatement.executeUpdate();
-            if( rc <= 0 ){
-                log("updateGroupUsingJDBC: error updating group "+groupId+", return code = "+rc);
+            if ( rc <= 0 ) {
+                log("updateGroupUsingJDBC: error updating group " + groupId + ", return code = " + rc);
                 return;
             }
         }
         catch (Exception e) {
-            log("updateGroupUsingJDBC: exception updating group "+groupId+": "+e.getMessage());
+            log("updateGroupUsingJDBC: exception updating group " + groupId + ": " + e.getMessage());
 //                e.printStackTrace();
         }
     }
@@ -397,19 +397,19 @@ public class TestExpireManyToMany extends CastorTestCase {
      * @param personId primary key of object to be updated
      */
     private void updatePersonUsingJDBC( int personId ) {
-        log("updating person "+personId+" using JDBC...");
+        log("updating person " + personId + " using JDBC...");
 
         try {
             _updatePersonStatement.setString(1, JDBC_UPDATED_VALUE);
             _updatePersonStatement.setInt(2, personId);
             int rc = _updatePersonStatement.executeUpdate();
-            if( rc <= 0 ){
-                log("updatePersonUsingJDBC: error updating person "+personId+", return code = "+rc);
+            if ( rc <= 0 ) {
+                log("updatePersonUsingJDBC: error updating person " + personId + ", return code = " + rc);
                 return;
             }
         }
         catch (Exception e) {
-            log("updatePersonUsingJDBC: exception updating person "+personId+": "+e.getMessage());
+            log("updatePersonUsingJDBC: exception updating person " + personId + ": " + e.getMessage());
 //                e.printStackTrace();
         }
     }
@@ -455,27 +455,27 @@ public class TestExpireManyToMany extends CastorTestCase {
      * @param groupId primary key of object to be read
      */
     private boolean validReadTransaction( int groupId, String expectedValue, boolean checkPeople ) {
-        log("validating read transaction for group "+groupId+"...");
+        log("validating read transaction for group " + groupId + "...");
         Database db = null;
         boolean valid = true;
         try {
             db = this._category.getDatabase();
             db.begin();
-            ManyGroup group = (ManyGroup)db.load(ManyGroup.class, new Integer(groupId));
+            ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
             if (group.getValue1().compareTo(expectedValue) != 0) {
-                log("validReadTransaction: value in group "+group.getId()+
-                    " does not match expected value, value: "+group.getValue1()+
-                    ", expected: "+expectedValue);
+                log("validReadTransaction: value in group " + group.getId() +
+                    " does not match expected value, value: " + group.getValue1() +
+                    ", expected: " + expectedValue);
                 valid = false;
             }
             if (checkPeople) {
                 Iterator itor = group.getPeople().iterator();
                 while ( itor.hasNext() ) {
-                    ManyPerson person = (ManyPerson)itor.next();
+                    ManyPerson person = (ManyPerson) itor.next();
                     if (person.getValue1().compareTo(expectedValue) != 0) {
-                        log("validReadTransaction: value in person "+person.getId()+
-                            " does not match expected value, value: "+person.getValue1()+
-                            ", expected: "+expectedValue);
+                        log("validReadTransaction: value in person " + person.getId() +
+                            " does not match expected value, value: " + person.getValue1() +
+                            ", expected: " + expectedValue);
                         valid = false;
                     }
                 }
@@ -492,7 +492,7 @@ public class TestExpireManyToMany extends CastorTestCase {
                 	_log.warn("Problem closing Database instance.", se);
                 }
             }
-            log("validReadTransaction: exception caught while validating read for group "+groupId+" : "+e.getMessage());
+            log("validReadTransaction: exception caught while validating read for group " + groupId + " : " + e.getMessage());
 //                    e.printStackTrace();
             valid = false;
         }
@@ -506,16 +506,16 @@ public class TestExpireManyToMany extends CastorTestCase {
      * @param groupId primary key of object to be updated
      */
     private boolean validWriteTransaction( int groupId ) {
-        log("validating write transaction for group "+groupId+"...");
+        log("validating write transaction for group " + groupId + "...");
         Database db = null;
         try {
             db = this._category.getDatabase();
             db.begin();
-            ManyGroup group = (ManyGroup)db.load(ManyGroup.class, new Integer(groupId));
+            ManyGroup group = (ManyGroup) db.load(ManyGroup.class, new Integer(groupId));
             group.setValue1(JDO_UPDATED_VALUE);
             Iterator itor = group.getPeople().iterator();
             while ( itor.hasNext() ) {
-                ManyPerson person = (ManyPerson)itor.next();
+                ManyPerson person = (ManyPerson) itor.next();
                 person.setValue1(JDO_UPDATED_VALUE);
             }
             db.commit();
@@ -530,7 +530,7 @@ public class TestExpireManyToMany extends CastorTestCase {
                 	_log.warn("Problem closing Database instance.", se);
                 }
             }
-            log("validWriteTransaction: exception caught while validating write for group "+groupId+" : "+e.getMessage());
+            log("validWriteTransaction: exception caught while validating write for group " + groupId + " : " + e.getMessage());
 //            e.printStackTrace();
             return false;
         }
@@ -584,7 +584,7 @@ public class TestExpireManyToMany extends CastorTestCase {
                 	_log.warn("Problem closing Database instance.", se);
                 }
             }
-            log("deleteTestDataSet: exception caught: "+e.getMessage());
+            log("deleteTestDataSet: exception caught: " + e.getMessage());
         }
     }
 

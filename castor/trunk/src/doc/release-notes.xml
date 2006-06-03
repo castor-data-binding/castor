@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1441" tool="jira">
+                    <description>
+		                Fixed 206 whitespace after and whitespace around compiler warnings.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060603</date>
+                </bug>
                 <bug id="1417" tool="jira">
                     <description>
 		                Added generation of hashCode() method.

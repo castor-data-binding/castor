@@ -270,13 +270,13 @@ public class TestManyToManyKeyGen extends CastorTestCase {
                     Iterator groupItor = person2.getGroup().iterator();
 
                     groupItor.hasNext();
-                    ManyGroupKeyGen tempGroup = (ManyGroupKeyGen)groupItor.next();
+                    ManyGroupKeyGen tempGroup = (ManyGroupKeyGen) groupItor.next();
                     int tempId = tempGroup.getId();
                     if ( tempId != groupAId && tempId != groupBId )
                         fail( "Error: unexpect group found" );
 
                     groupItor.hasNext();
-                    tempGroup = (ManyGroupKeyGen)groupItor.next();
+                    tempGroup = (ManyGroupKeyGen) groupItor.next();
                     if ( tempGroup.getId() == tempId )
                         fail ( "Error: duplicated group found" );
                     if ( tempGroup.getId() != groupAId && tempGroup.getId() != groupBId )
@@ -335,7 +335,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
                     person3 = temp;
                 }
                 if ( itor.hasNext() ) {
-                    fail("Error: more people than expected! 1:("+person1+") 2: ("+itor.next()+")");
+                    fail("Error: more people than expected! 1:(" + person1 + ") 2: (" + itor.next() + ")");
                 }
 
                 if ( person1 == null )
@@ -367,7 +367,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         }
 
         // check if person 2 contains only one group, and the group is B
-        person2 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person2Id) );
+        person2 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person2Id) );
         // make sure person 2 contains 2 groups
         if ( person2.getGroup() == null || person2.getGroup().size() != 1 ) {
             fail("Error: expected group not found [3]" );
@@ -375,9 +375,9 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         Iterator groupItor = person2.getGroup().iterator();
         groupItor.hasNext();
-        ManyGroupKeyGen tempGroup = (ManyGroupKeyGen)groupItor.next();
+        ManyGroupKeyGen tempGroup = (ManyGroupKeyGen) groupItor.next();
         if ( tempGroup.getId() != groupBId )
-            fail( "Error: unexpected group found [1]: "+tempGroup.getId() );
+            fail( "Error: unexpected group found [1]: " + tempGroup.getId() );
 
         // remove all group from person2
         person2.setGroup( null );
@@ -385,7 +385,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         _db.begin();
         // check if person 2 contains no group
-        person2 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person2Id) );
+        person2 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person2Id) );
         if ( person2.getGroup() != null && person2.getGroup().size() != 0 ) {
             fail("Error: expected group not found [1]" );
         }
@@ -394,38 +394,38 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         _db.begin();
         // check if group a and group b contains no person2
-        groupA = (ManyGroupKeyGen)_db.load( ManyGroupKeyGen.class, new Integer(groupAId) );
+        groupA = (ManyGroupKeyGen) _db.load( ManyGroupKeyGen.class, new Integer(groupAId) );
         groupItor = groupA.getPeople().iterator();
         while ( groupItor.hasNext() ) {
             person2 = (ManyPersonKeyGen) groupItor.next();
             if ( person2.getId() == person2Id )
                 fail("Error: person2 is not removed");
         }
-        groupB = (ManyGroupKeyGen)_db.load( ManyGroupKeyGen.class, new Integer(groupBId) );
+        groupB = (ManyGroupKeyGen) _db.load( ManyGroupKeyGen.class, new Integer(groupBId) );
         if ( groupB.getPeople() != null && groupB.getPeople().size() != 0 )
             fail("Error: person2 is not removed");
 
         // make a dangerous add (add to only one side)
         // user shouldn't rely on this behavior, but 
         // should always link both side before commit
-        person1 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
+        person1 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
         person1.getGroup().add(groupB);
         _db.commit();
 
         // check if adding group into existing collection work
         _db.begin();
-        person1 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
+        person1 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person1Id) );
         Iterator tempItor = person1.getGroup().iterator();
         if ( !tempItor.hasNext() )
             fail("Error: expected group from person1 not found");
-        groupA = (ManyGroupKeyGen)tempItor.next();
+        groupA = (ManyGroupKeyGen) tempItor.next();
         int tempGroupId = groupA.getId();
         if ( tempGroupId != groupAId && tempGroupId != groupBId )
             fail("Error: unexpected group from person1 found");
 
         if ( !tempItor.hasNext() )
             fail("Error: expected group from person1 not found");
-        groupA = (ManyGroupKeyGen)tempItor.next();
+        groupA = (ManyGroupKeyGen) tempItor.next();
         if ( tempGroupId == groupA.getId() )
             fail("Error: duplicated group found!");
         if ( groupA.getId() != groupAId && groupA.getId() != groupBId )
@@ -434,7 +434,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         // test long transaction support
         _db.begin();
-        groupA = (ManyGroupKeyGen)_db.load( ManyGroupKeyGen.class, new Integer(groupAId) );
+        groupA = (ManyGroupKeyGen) _db.load( ManyGroupKeyGen.class, new Integer(groupAId) );
         _db.commit();
 
         stream.println("Modifing object outside of transaction");
@@ -498,7 +498,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
                     person4 = temp;
                 }
                 if ( itor.hasNext() ) {
-                    fail("Error: more people than expected! 1:("+person1+") 2: ("+itor.next()+")");
+                    fail("Error: more people than expected! 1:(" + person1 + ") 2: (" + itor.next() + ")");
                 }
 
                 if ( person1 == null )
@@ -528,7 +528,7 @@ public class TestManyToManyKeyGen extends CastorTestCase {
         } else {
             fail("Error: object not found!");
         }
-        person3 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person3Id) );
+        person3 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person3Id) );
         _db.commit();
 
         // modify and commit to long trans
@@ -540,11 +540,11 @@ public class TestManyToManyKeyGen extends CastorTestCase {
 
         // load and check
         _db.begin();
-        person3 = (ManyPersonKeyGen)_db.load( ManyPersonKeyGen.class, new Integer(person3Id) );
+        person3 = (ManyPersonKeyGen) _db.load( ManyPersonKeyGen.class, new Integer(person3Id) );
         tempItor = person3.getGroup().iterator();
         if ( !tempItor.hasNext() )
             fail( "Error: group not found" );
-        groupA = (ManyGroupKeyGen)tempItor.next();
+        groupA = (ManyGroupKeyGen) tempItor.next();
         if ( groupA.getId() != groupAId )
             fail( "Error: unexpected group found" );
         if ( tempItor.hasNext() )

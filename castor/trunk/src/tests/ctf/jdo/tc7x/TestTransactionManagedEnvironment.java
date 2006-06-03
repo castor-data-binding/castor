@@ -156,7 +156,7 @@ public class TestTransactionManagedEnvironment
 		{	
 			//obtain the UserTransaction from JNDI
 			//this has been created in the JDOJ2EECategory
-			ut = ( UserTransaction )_context.lookup( "java:/UserTransaction" );
+			ut = (UserTransaction) _context.lookup( "java:/UserTransaction" );
 			//begin the transaction
 			ut.begin();
 			//get database - this should be bound to the transaction above

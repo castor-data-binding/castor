@@ -121,8 +121,8 @@ public class TestCollections extends CastorTestCase {
         Col testCol = (Col) masterClass.newInstance();
         testCol.setId( 1 );
         _db.create( testCol );
-        for ( int i=0; i < 5; i++ ) {
-            Item newItem = new Item( 100+i );
+        for ( int i = 0; i < 5; i++ ) {
+            Item newItem = new Item( 100 + i );
             testCol.addItem( newItem );
             _db.create( newItem );
         }
@@ -204,8 +204,8 @@ public class TestCollections extends CastorTestCase {
     	ColSortedSet testCol = (ColSortedSet) masterClass.newInstance();
     	testCol.setId( 1 );
     	_db.create( testCol );
-    	for ( int i=0; i < 5; i++ ) {
-    		ComparableItem newItem = new ComparableItem( 100+i );
+    	for ( int i = 0; i < 5; i++ ) {
+    		ComparableItem newItem = new ComparableItem( 100 + i );
     		testCol.addItem( newItem );
     		_db.create( newItem );
     	}
@@ -291,8 +291,8 @@ public class TestCollections extends CastorTestCase {
         testCol.setId( 1 );
         _db.create( testCol );
         Item[] items = new Item[5];
-        for ( int i=0; i < 5; i++ ) {
-            Item newItem = new Item( 100+i );
+        for ( int i = 0; i < 5; i++ ) {
+            Item newItem = new Item( 100 + i );
             newItem.setTestCol(testCol);
             items[i] = newItem;
             _db.create( newItem );
@@ -318,17 +318,17 @@ public class TestCollections extends CastorTestCase {
 
         // update array
         Item[] oldItems = testCol.getItems();
-        Item[] newItems = new Item[oldItems.length+2];
+        Item[] newItems = new Item[oldItems.length + 2];
         System.arraycopy(oldItems, 0, newItems, 0, oldItems.length);
 
         Item newItem = new Item( 106 );
         newItem.setTestCol(testCol);
-        newItems[newItems.length-2] = newItem;
+        newItems[newItems.length - 2] = newItem;
         _db.create( newItem );
 
         newItem = new Item( 107 );
         newItem.setTestCol(testCol);
-        newItems[newItems.length-1] = newItem;
+        newItems[newItems.length - 1] = newItem;
         _db.create( newItem );
 
         testCol.setItems( newItems );
@@ -356,17 +356,17 @@ public class TestCollections extends CastorTestCase {
 
         // update array
         oldItems = testCol.getItems();
-        newItems = new Item[oldItems.length+2];
+        newItems = new Item[oldItems.length + 2];
         System.arraycopy(oldItems, 0, newItems, 0, oldItems.length);
 
         newItem = new Item( 108 );
         newItem.setTestCol(testCol);
-        newItems[newItems.length-2] = newItem;
+        newItems[newItems.length - 2] = newItem;
         _db.create( newItem );
 
         newItem = new Item( 109 );
         newItem.setTestCol(testCol);
-        newItems[newItems.length-1] = newItem;
+        newItems[newItems.length - 1] = newItem;
         _db.create( newItem );
 
         testCol.setItems( newItems );
