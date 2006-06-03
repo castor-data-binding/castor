@@ -116,7 +116,7 @@ public class TestQueryFinalize extends CastorTestCase
 
         stream.println( "Create many master objects" );
         _db.begin();
-				for (int i=0;i<100;i++) {
+				for (int i = 0; i < 100; i++) {
           Master master = new Master();
           _db.create(master);
         }
@@ -130,7 +130,7 @@ public class TestQueryFinalize extends CastorTestCase
 	    		QueryResults results = getResults(_db);
           stream.println( "query can be garbage collected" );
 	        while (results.hasMore()) {
-	    			Master master = (Master)results.next();
+	    			Master master = (Master) results.next();
 	    			stream.println(master.getId());
 	        }
 	        _db.commit();

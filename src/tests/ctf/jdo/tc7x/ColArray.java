@@ -63,7 +63,7 @@ public class ColArray extends Col {
     public boolean containsItem( Item item ) {
         if ( _item == null || _item.length == 0 )
             return false;
-        for (int i=0;i<_item.length;i++) {
+        for (int i = 0; i < _item.length; i++) {
             if (_item[i].equals(item)) { return true; }
         }
 
@@ -79,14 +79,14 @@ public class ColArray extends Col {
 
     public void removeItem( Item item ) {
         int position = -1;
-        for (int i=0;i<_item.length;i++) {
+        for (int i = 0; i < _item.length; i++) {
             if (_item[i].equals(item)) { position = i; }
         }
-        if (position >=0) {
-          Item[] aux = new Item[_item.length-1];
-          for (int i=0;i<_item.length;i++) {
+        if (position >= 0) {
+          Item[] aux = new Item[_item.length - 1];
+          for (int i = 0; i < _item.length; i++) {
               if (i < position) { aux[i] = _item[i]; }
-              if (i > position) { aux[i-1] = _item[i]; }
+              if (i > position) { aux[i - 1] = _item[i]; }
           }
           _item = aux;
         }        
@@ -111,7 +111,7 @@ public class ColArray extends Col {
         private int position = 0;
 
         public boolean hasNext() {
-            return position<_item.length;
+            return position < _item.length;
         }
         public Object next() {
             return _item[position++];
