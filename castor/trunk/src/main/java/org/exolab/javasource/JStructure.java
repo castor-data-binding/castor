@@ -574,7 +574,7 @@ abstract class JStructure extends JType
      */
     public void print(String destDir, String lineSeparator) {
 
-        String name = getLocalName();
+        getLocalName();
 
         //-- open output file
         String filename = getFilename(destDir);

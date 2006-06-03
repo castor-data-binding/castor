@@ -197,7 +197,6 @@ public final class JInterface extends JStructure {
         //-- keep method list sorted for esthetics when printing
         //-- START SORT :-)
         boolean added = false;
-        short modifierVal = 0;
         JModifiers modifiers = jMethodSig.getModifiers();
         for (int i = 0; i < methods.size(); i++) {
             JMethodSignature tmp = (JMethodSignature) methods.elementAt(i);

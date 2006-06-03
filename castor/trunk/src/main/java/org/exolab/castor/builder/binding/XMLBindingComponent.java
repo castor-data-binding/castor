@@ -218,7 +218,6 @@ public class XMLBindingComponent implements BindingComponent {
         _annotated = annotated;
 
         //--reset all the variables
-        int _hashCode =-1;
         _javaClassName = null;
         _javaMemberName = null;
         _javaPackage = null;        

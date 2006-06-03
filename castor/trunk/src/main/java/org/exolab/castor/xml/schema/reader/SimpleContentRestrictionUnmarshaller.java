@@ -96,7 +96,6 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
     private boolean     foundAnnotation   = false;
     private boolean     foundSimpleType   = false;
 	private boolean     foundFacets       = false;
-    private boolean     foundAnyAttribute = false;
 	private boolean     foundAttribute    = false;
     private boolean     foundAttributeGroup = false;
 
@@ -113,10 +112,9 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
      * @param complexType, the complexType being unmarshalled
      * @param atts the AttributeList
      */
-    public SimpleContentRestrictionUnmarshaller
-        (ComplexType complexType, AttributeSet atts, Resolver resolver)
-        throws XMLException
-    {
+    public SimpleContentRestrictionUnmarshaller(
+            ComplexType complexType, AttributeSet atts, Resolver resolver) {
+        
         super();
 	    setResolver(resolver);	    
 	    _complexType  = complexType;
@@ -307,7 +305,6 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
 		}
         //-- <anyAttribute>
         else if (SchemaNames.ANY_ATTRIBUTE.equals(name)) {
-           foundAnyAttribute = true;
             unmarshaller
                  = new WildcardUnmarshaller(_complexType, _schema, name, atts, getResolver());
         }

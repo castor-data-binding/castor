@@ -559,8 +559,6 @@ public final class AnyNode implements java.io.Serializable {
               _elements.push(this);
 
              if (this.getNodeType() == ELEMENT) {
-                  AnyNode siblingNode = this.getNextSibling();
-
                   //open the tag
                   sb.append("<");
                   String prefix = getNamespacePrefix();

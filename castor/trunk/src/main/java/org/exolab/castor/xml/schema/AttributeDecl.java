@@ -451,11 +451,9 @@ public final class AttributeDecl extends Annotated {
         //-- handle namespace if necessary
         int idx = name.indexOf(':');
         if (idx >= 0) {
-            String nsPrefix = name.substring(0,idx);
             //-- we should resolve nsPrefix...just ignore for now
-
             //-- use local name
-            name = name.substring(idx+1);
+            name = name.substring(idx + 1);
         }
 
         if (name.length() == 0) {

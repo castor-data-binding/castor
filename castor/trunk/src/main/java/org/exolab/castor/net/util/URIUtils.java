@@ -167,8 +167,7 @@ public class URIUtils {
 	    try {
 	        //-- try to create a new URL and see if MalformedURLExcetion is
 	        //-- ever thrown
-	        URL url = new URL(href);
-	        url = null; //-- to remove compiler warnings
+	        new URL(href);
 	        idx = href.lastIndexOf(HREF_PATH_SEP);
 	    }
 	    catch(MalformedURLException muex) {
@@ -198,8 +197,7 @@ public class URIUtils {
 	    try {
 	        //-- try to create a new URL and see if MalformedURLExcetion is
 	        //-- ever thrown
-	        URL url = new URL(href);
-	        url = null; //-- to remove compiler warnings
+	        new URL(href);
 	        idx = href.lastIndexOf(HREF_PATH_SEP);
 	    }
 	    catch(MalformedURLException muex) {
@@ -275,8 +273,7 @@ public class URIUtils {
 	    try {
 	        //-- try to create a new URL and see if MalformedURLExcetion is
 	        //-- ever thrown
-	        URL url = new URL(href);
-	        url = null; //-- to remove compiler warnings
+	        new URL(href);
 	        return href;
 	    }
 	    catch(MalformedURLException muex) {}
@@ -304,8 +301,7 @@ public class URIUtils {
                 //-- normalize . or .. from URL
             	absolute = normalize(absolute);
             }
-	        URL url = new URL(absolute);
-	        url = null; //-- to remove compiler warnings
+	        new URL(absolute);
 	        return absolute;
 	    }
 	    catch(MalformedURLException muex) {
@@ -339,8 +335,7 @@ public class URIUtils {
 	    try {
 	        //-- try to create a new URL and see if MalformedURLExcetion is
 	        //-- ever thrown
-	        URL url = new URL(fileURL);
-	        url = null; //-- to remove compiler warnings
+	        new URL(fileURL);
 	        return fileURL;
 	    }
 	    catch(MalformedURLException muex) {}

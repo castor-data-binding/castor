@@ -553,13 +553,11 @@ public class DTXQuery {
     */
 
     protected void initQuery(ClassMapping clsMapping, QueryExpression expr)
-        throws DTXException
-    {
-        ClassMapping extend;
-	MapTo mapTo = clsMapping.getMapTo();
+    throws DTXException {
+        MapTo mapTo = clsMapping.getMapTo();
 
-	if (mapTo == null) {
-	    throw new DTXException("no table mapping for: " + clsMapping.getName());
+        if (mapTo == null) {
+            throw new DTXException("no table mapping for: " + clsMapping.getName());
 	}
 
 	String table = mapTo.getTable();
@@ -635,10 +633,9 @@ public class DTXQuery {
 
 		    String relTable = relMapTo.getTable();
 
-		    String relId = null;
-                    String foreKey = null;
+            String foreKey = null;
 
-                    for (int k = 0; k < relFields.length; k++ ) {
+            for (int k = 0; k < relFields.length; k++ ) {
 			Sql relSql = relFields[k].getSql();
                         if (relSql != null) {
 			    String type = relFields[k].getType();

@@ -575,7 +575,6 @@ public final class ObjectLock implements DepositBox {
                     // when notified but object deleted (i.e. locks released)
                     // All waiting transactions are notified at once, but once
                     // notified a race condition starts to acquire new lock
-                    long clock = System.currentTimeMillis();
                     try {
                         long waittime = endtime - System.currentTimeMillis();
                         wait( waittime<0? 0: waittime );
@@ -785,7 +784,6 @@ public final class ObjectLock implements DepositBox {
                     // when notified but object deleted (i.e. locks released)
                     // All waiting transactions are notified at once, but once
                     // notified a race condition starts to acquire new lock
-                    long clock = System.currentTimeMillis();
                     try {
                         long waittime = endtime - System.currentTimeMillis();
                         wait( waittime<0? 0: waittime );

@@ -205,7 +205,6 @@ public final class CoreDescriptors {
         
         //-- If not null, then JDK 1.2 or greater
         if (LIST_CLASS != null) {
-            XMLClassDescriptor descriptor = null;
             loader = CoreDescriptors.class.getClassLoader();
             Class descriptorClass = null;
             try {

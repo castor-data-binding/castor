@@ -376,20 +376,15 @@ public class MemberFactory {
             }
         }
 
-        boolean createForElement = false;
-        boolean createForAttribute = false;
         //--initialize the field
         fieldInfo.setNodeName(xmlName);
         fieldInfo.setRequired(minOccurs > 0);
         switch (component.getAnnotated().getStructureType()) {
             case Structure.ELEMENT:
                  fieldInfo.setNodeType(XMLInfo.ELEMENT_TYPE);
-                 ElementDecl element = (ElementDecl)component.getAnnotated();
-                 createForElement = true;
                  break;
             case Structure.ATTRIBUTE:
                 fieldInfo.setNodeType(XMLInfo.ATTRIBUTE_TYPE);
-                createForAttribute = true;
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:

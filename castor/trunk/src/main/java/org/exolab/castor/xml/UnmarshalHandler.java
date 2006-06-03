@@ -1591,7 +1591,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     
                 if (instanceClassname != null) {
                     Class instanceClass = null;
-                    Object instance = null;
                     try {
 
                         XMLClassDescriptor xcd =
@@ -3488,31 +3487,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- isWhitespace
     
     /**
-     * Checks the given StringBuffer to determine if it only
-     * contains whitespace.
-     *
-     * @param sb the StringBuffer to check
-     * @return true if the only whitespace characters were
-     * found in the given StringBuffer
-    **/
-    private static boolean isWhitespace(char[] chars, int start, int length) {
-        
-        for (int i = start; i < length; i++) {
-            char ch = chars[i];
-            switch (ch) {
-                case ' ':
-                case '\n':
-                case '\t':
-                case '\r':
-                    break;
-                default:
-                    return false;
-            }
-        }
-        return true;
-    } //-- isWhitespace
-
-    /**
      * Loads and returns the class with the given class name using the
      * given loader.
      * @param className the name of the class to load
@@ -3521,8 +3495,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private Class loadClass(String className, ClassLoader loader)
         throws ClassNotFoundException
     {
-        Class c = null;
-
         //-- use passed in loader
 	    if ( loader != null )
 		    return loader.loadClass(className);

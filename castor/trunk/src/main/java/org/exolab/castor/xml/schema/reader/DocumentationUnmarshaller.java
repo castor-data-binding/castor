@@ -86,15 +86,10 @@ public class DocumentationUnmarshaller extends ComponentReader {
      * Creates a new DocumentationUnmarshaller
      * @param atts the AttributeList
     **/
-    public DocumentationUnmarshaller(AttributeSet atts)
-        throws XMLException
-    {
+    public DocumentationUnmarshaller(AttributeSet atts) {
         super();
 
         _documentation = new Documentation();
-
-        //-- handle attributes
-        String attValue = null;
 
         //-- @source
         _documentation.setSource(atts.getValue(SchemaNames.SOURCE_ATTR));

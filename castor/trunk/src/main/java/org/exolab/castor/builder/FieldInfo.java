@@ -349,7 +349,7 @@ public class FieldInfo extends XMLInfo {
         String mname = methodSuffix();
 
         XSType xsType = getSchemaType();
-        JType jType  = xsType.getJType();
+        xsType.getJType();
 
         //-- create hasMethod
         method = new JMethod(JType.Boolean, METHOD_PREFIX_HAS+mname);

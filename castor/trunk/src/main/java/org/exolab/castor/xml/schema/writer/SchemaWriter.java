@@ -976,7 +976,6 @@ public class SchemaWriter {
 
         String ELEMENT_NAME = schemaPrefix;
 
-        String name  = null;
         String id    = null;
         String refer = null;
 
@@ -993,7 +992,6 @@ public class SchemaWriter {
                 break;
         }
 
-        name = constraint.getName();
         id   = constraint.getId();
 
         _atts.clear();

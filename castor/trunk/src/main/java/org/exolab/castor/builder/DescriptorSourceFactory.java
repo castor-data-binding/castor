@@ -99,14 +99,10 @@ public class DescriptorSourceFactory {
 	 */
 	public JClass createSource(ClassInfo classInfo) {
 
-		JMethod method = null;
 		JSourceCode jsc = null;
-		JSourceCode vcode = null;
 		JClass jClass = classInfo.getJClass();
 		String className = jClass.getName();
 		String localClassName = jClass.getLocalName();
-
-		String variableName = "_" + className;
 
 		DescriptorJClass classDesc =
 			new DescriptorJClass(_config, className + DESCRIPTOR_NAME, jClass);
@@ -688,8 +684,6 @@ public class DescriptorSourceFactory {
 			//--handle collections
 			if ((xsType.getType() == XSType.COLLECTION)) {
 				XSList xsList = (XSList) xsType;
-				CollectionInfo cInfo = (CollectionInfo) member;
-				FieldInfo content = cInfo.getContent();
 
 				jsc.add("fieldValidator.setMinOccurs(");
 				jsc.append(Integer.toString(xsList.getMinimumSize()));

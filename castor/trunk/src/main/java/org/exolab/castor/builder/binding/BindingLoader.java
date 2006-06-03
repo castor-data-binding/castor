@@ -249,11 +249,6 @@ public class BindingLoader {
         return loader.getBinding();
     }
 
-    private void validate() throws BindingException {
-       //validate the binding file towards a schema
-       //to do: log warning message
-    }
-
     class BindingResolver implements EntityResolver {
 
        private static final String BINDING_PUBLICID = "-//EXOLAB/Castor Binding Schema Version 1.0//EN";

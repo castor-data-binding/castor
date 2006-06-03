@@ -249,8 +249,7 @@ public class SchemaNames {
                 SchemaNames.NAMESPACE_TARGET.equals(name));
         if (result) return result;
         try {
-            java.net.URL temp = new java.net.URL(name);
-            temp = null;
+            new java.net.URL(name);
             result = true;
         } catch (java.net.MalformedURLException e){
             //invalid URL

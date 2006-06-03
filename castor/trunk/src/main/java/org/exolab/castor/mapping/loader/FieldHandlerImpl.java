@@ -875,10 +875,6 @@ public final class FieldHandlerImpl
       * @return the selected write method 
      **/ 
      private Method selectWriteMethod( Object value ) { 
-          
-          
-         Method setter = null; 
-          
          if (_setMethod != null) { 
               
              if (_addMethod == null) return _setMethod; 

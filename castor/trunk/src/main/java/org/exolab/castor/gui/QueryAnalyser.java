@@ -356,8 +356,6 @@ public class QueryAnalyser {
 
         private void FillTableHeader(Vector properties, DefaultTableModel model) {
             Iterator i = properties.iterator();
-            int col=0;
-            TableColumn tc;
             Method m;
             while(i.hasNext()) {
                 m=(Method)i.next();
@@ -389,7 +387,7 @@ public class QueryAnalyser {
                 JDOManager.loadConfiguration (dbconfig, ClassLoader.getSystemClassLoader());
                 jdo = JDOManager.createInstance(databasename);
                 //only to try a connection
-                Database db = jdo.getDatabase();
+                jdo.getDatabase();
             } 
             catch (MappingException pe) {
                 pe.printStackTrace();

@@ -104,9 +104,6 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
         JParameter contentParam = new JParameter(jType, getContentName());
         
-
-        JSourceCode jsc = null;
-
         String cName = JavaNaming.toJavaClassName(getElementName());
 
         //-- add{Name}(Object)
