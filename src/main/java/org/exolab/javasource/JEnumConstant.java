@@ -147,7 +147,6 @@ public class JEnumConstant extends JAnnotatedElementHelper
         //-- keep method list sorted for esthetics when printing
         //-- START SORT :-)
         boolean added = false;
-        short modifierVal = 0;
         JModifiers modifiers = jMethod.getModifiers();
 
         if (modifiers.isAbstract()) {

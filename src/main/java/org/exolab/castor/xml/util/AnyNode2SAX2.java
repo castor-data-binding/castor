@@ -281,22 +281,4 @@ public class AnyNode2SAX2 {
             }
         }
     }
-
-    private void processTextNode(AnyNode node, ContentHandler handler)
-        throws SAXException
-    {
-        if (node.getNodeType() != AnyNode.TEXT) {
-           String err = "This node can not be handle by processTextNode.";
-            throw new IllegalArgumentException(err);
-        }
-        String value = node.getStringValue();
-        if ( (value != null) && (value.length() >0) ) {
-            char[] chars = value.toCharArray();
-            try {
-                handler.characters(chars, 0, chars.length);
-            } catch(org.xml.sax.SAXException sx) {
-                 throw new SAXException(sx);
-            }
-         }
-    }//processTextNode
 }

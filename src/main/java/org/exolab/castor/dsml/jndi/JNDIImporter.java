@@ -95,9 +95,8 @@ public class JNDIImporter
     {
 	Attributes        existing;
 	Vector            modifs;
-       	Attributes        attrSet;
+    Attributes        attrSet;
 	Attribute         attr;
-	int               i;
 	NamingEnumeration enumeration;
 
 	if ( result.getAttributes().size() == 0 ) {

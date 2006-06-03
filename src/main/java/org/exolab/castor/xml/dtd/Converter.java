@@ -257,10 +257,9 @@ public class Converter {
 
        // convert Notation declarations
        Enumeration dtdNotations = dtd.getNotations();
-       Notation notation;
 
        while (dtdNotations.hasMoreElements()) {
-          notation = (Notation)dtdNotations.nextElement();
+          dtdNotations.nextElement();
           // do nothing for now as the Castor Schema object model does not
           // support Notation declarations
        } //-- convert Notations declarations

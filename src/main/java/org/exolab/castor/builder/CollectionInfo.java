@@ -152,8 +152,6 @@ public class CollectionInfo extends FieldInfo {
         JParameter contentParam
             = new JParameter(getContentType().getJType(), getContentName());
         
-        JSourceCode jsc = null;
-
           //----------------------/
          //- Create add methods -/
         //----------------------/

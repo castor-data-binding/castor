@@ -153,9 +153,6 @@ public class AnyNode2SAX implements EventProducer {
 
         if (node.getNodeType() == AnyNode.ELEMENT) 
 		{
-            //the first sibling node of the current one
-            AnyNode siblingNode = node.getNextSibling();
-
             String name = node.getLocalName();
 
             //-- retrieve the attributes and handle them
@@ -259,22 +256,4 @@ public class AnyNode2SAX implements EventProducer {
             }
         }
     }
-
-    private void processTextNode(AnyNode node, DocumentHandler handler)
-        throws SAXException
-    {
-        if (node.getNodeType() != AnyNode.TEXT) {
-           String err = "This node can not be handle by processTextNode.";
-            throw new IllegalArgumentException(err);
-        }
-        String value = node.getStringValue();
-        if ( (value != null) && (value.length() >0) ) {
-            char[] chars = value.toCharArray();
-            try {
-                handler.characters(chars, 0, chars.length);
-            } catch(org.xml.sax.SAXException sx) {
-                 throw new SAXException(sx);
-            }
-         }
-    }//processTextNode
 }

@@ -95,9 +95,7 @@ public class FacetUnmarshaller extends ComponentReader {
      * @param name the name of the Facet
      * @param atts the AttributeList
     **/
-    public FacetUnmarshaller (String name, AttributeSet atts)
-        throws XMLException
-    {
+    public FacetUnmarshaller (String name, AttributeSet atts) throws XMLException {
         super();
 
         _elementName = name;
@@ -106,9 +104,6 @@ public class FacetUnmarshaller extends ComponentReader {
             String err = "'" + name + "' is not a valid or supported facet.";
             throw new IllegalArgumentException(err);
         }
-
-        //-- handle attributes
-        String attValue = null;
 
         _facet = new Facet(name, atts.getValue(SchemaNames.VALUE_ATTR));
 

@@ -480,32 +480,6 @@ public final class XMLInstance2SchemaHandler
     //-------------------------/
     
     /**
-     * Determines if the given sequence of characters consists
-     * of whitespace characters
-     * @param chars an array of characters to check for whitespace
-     * @param start the start index into the character array
-     * @param length the number of characters to check
-     * @return true if the characters specficied consist only
-     * of whitespace characters
-    **/
-    private static boolean isWhiteSpace(char[] chars, int start, int length) {
-        int max = start+length;
-        for (int i = start; i < max; i++) {
-            char ch = chars[i];
-            switch(ch) {
-                case ' ':
-                case '\n':
-                case '\t':
-                case '\r':
-                    break;
-                default:
-                    return false;
-            }
-        }
-        return true;
-    } //-- isWhiteSpace
-
-    /**
      * Merges the two element declarations. The resulting
      * merge is placed in ElementDecl e1.
      *

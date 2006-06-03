@@ -345,16 +345,4 @@ public class XMLFieldDescriptors {
         // clean up for gc
         elements[elementCount-1] = null;
     } //-- shiftDown
-
-    /**
-     * Shifts all elements at the specified index up by 1
-     */
-    private void shiftUp(int index) {
-        if (index == elementCount) return;
-        if (elementCount == elements.length) increaseSize();
-        System.arraycopy(elements, index, elements, index + 1, elementCount - index);
-    } //-- shiftUp
-
-
-
 } //-- XMLFieldDescriptors

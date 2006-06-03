@@ -333,7 +333,7 @@ public final class XSFloat extends XSPatternBase {
         if (fixedValue != null) {
 
             //-- make sure we've got a good value
-            Float test = new Float(fixedValue);
+            new Float(fixedValue);
             jsc.add("typeValidator.setFixed(");
             jsc.append(fixedValue);
             jsc.append("f);");

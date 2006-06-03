@@ -668,25 +668,6 @@ public class TypeConversion {
         }
     } //-- isString
 
-    private static boolean isDateOrTime(SimpleType type) {
-        int code = type.getTypeCode();
-        switch (code) {
-            //-- dates/times
-            case SimpleTypesFactory.DATE_TYPE:
-            case SimpleTypesFactory.DATETIME_TYPE:
-            case SimpleTypesFactory.DURATION_TYPE:
-            case SimpleTypesFactory.GDAY_TYPE:
-            case SimpleTypesFactory.GMONTHDAY_TYPE:
-            case SimpleTypesFactory.GMONTH_TYPE:
-            case SimpleTypesFactory.GYEARMONTH_TYPE:
-            case SimpleTypesFactory.GYEAR_TYPE:
-            case SimpleTypesFactory.TIME_TYPE:
-                return true;
-            default:
-                return false;
-        }
-    } //-- isDateOrTime
-
     class TypeNames {
         protected static final String BOOLEAN_PRIMITIVE = "boolean";
         protected static final String BOOLEAN_OBJECT = "java.lang.Boolean";

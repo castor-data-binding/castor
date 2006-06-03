@@ -739,7 +739,7 @@ public class Schema extends Annotated {
     			if (!found) {
     				Enumeration redefinition = _redefineSchemas.elements();
     				while (redefinition.hasMoreElements() && !found) {
-    					RedefineSchema temp = (RedefineSchema)redefinition.nextElement();
+    					redefinition.nextElement();
     					Schema tempSchema = ((RedefineSchema)redefinition.nextElement()).getOriginalSchema();
     					if (tempSchema != null) {
     						//-- Sets the master schema

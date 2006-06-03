@@ -176,13 +176,12 @@ public class CastorTestCase extends TestCase {
         //and select the name
         else {
             try {
-                JarFile jar = new JarFile(file);
+                new JarFile(file);
                 _type = JAR;
                 String fileName = file.getName();
                 int index = fileName.lastIndexOf(".");
                 fileName = fileName.substring(0, index);
                 _outputRootFile = new File(outputRoot + FILE_SEPARATOR + fileName);
-                jar = null;
             } catch (java.util.zip.ZipException e) {
                 throw new IllegalStateException(file.getAbsolutePath()+" is not a valid JAR file.");
            } catch (java.io.IOException ie) {

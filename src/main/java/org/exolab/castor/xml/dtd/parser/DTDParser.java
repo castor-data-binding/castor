@@ -2386,13 +2386,6 @@ public class DTDParser implements DTDParserConstants {
     return t;
   }
 
-  final private int jj_ntk() {
-    if ((jj_nt=token.next) == null)
-      return ((token.next=token_source.getNextToken()).kind);
-    else
-      return (jj_nt.kind);
-  }
-
   private java.util.Vector jj_expentries = new java.util.Vector();
   private int[] jj_expentry;
   private int jj_kind = -1;

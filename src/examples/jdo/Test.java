@@ -436,7 +436,6 @@ public class Test
             classMap = mappingRoot.getClassMapping( i );
             LOG.debug( "Class name: " + classMap.getName() );
 
-            int fieldCount = classMap.getClassChoice().getFieldMappingCount();
             fieldMaps = classMap.getClassChoice().getFieldMapping();
 
             LOG.debug( "fieldMaps.length: " + fieldMaps.length );

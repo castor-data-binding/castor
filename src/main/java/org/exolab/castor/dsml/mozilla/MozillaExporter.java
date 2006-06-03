@@ -96,7 +96,6 @@ public class MozillaExporter
 	String[]    attrs;
 	MozillaProducer  producer;
 	LDAPSchema  schema;
-	int         count;
 	int         scope;
 
 	if ( getSearchDescriptor() == null )

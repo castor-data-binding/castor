@@ -2181,41 +2181,6 @@ public class Marshaller extends MarshalFramework {
     } //-- getClassDescriptor
 
     /**
-     * Finds and returns an XMLClassDescriptor for the given class. If
-     * a XMLClassDescriptor could not be found, this method will attempt to
-     * create one automatically using reflection.
-     * @param _class the Class to get the XMLClassDescriptor for
-     * @exception MarshalException when there is a problem
-     * retrieving or creating the XMLClassDescriptor for the given class
-    **/
-    private XMLClassDescriptor getClassDescriptor
-        (String className, ClassLoader loader)
-        throws MarshalException
-    {
-        XMLClassDescriptor classDesc = null;
-        
-        try {
-            classDesc = _cdResolver.resolve(className, loader);
-        }
-        catch(ResolverException rx) {
-            Throwable actual = rx.getCause();
-            if (actual instanceof MarshalException) {
-                throw (MarshalException)actual;
-            }
-            if (actual != null) {
-                throw new MarshalException(actual);
-            }
-            throw new MarshalException(rx);
-        }
-        
-        if (classDesc != null)
-            classDesc = new InternalXMLClassDescriptor(classDesc);
-        
-        return classDesc;
-    } //-- getClassDescriptor
-
-
-    /**
      * Processes the attribute associated with the given attDescriptor and parent
      * object.
      *

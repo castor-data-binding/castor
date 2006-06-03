@@ -114,7 +114,7 @@ public class IdentityConstraintUnmarshaller extends ComponentReader {
             error("The 'name' attribute for an identity-constraint must exist.");
         }
         
-        String id   = atts.getValue(SchemaNames.ID_ATTR);
+        atts.getValue(SchemaNames.ID_ATTR);
         
         //-- keyref
         if (SchemaNames.KEYREF.equals(elementName)) {

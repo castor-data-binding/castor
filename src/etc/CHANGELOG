@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Resolved issue CASTOR-1398 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Fixed 212 unused private methods, private fields, or local variables compiler warnings.
+       Details: http://jira.codehaus.org/browse/CASTOR-1398
+       (Ralf - 20060603)
+
 All:   Resolved issue CASTOR-1441 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed 206 whitespace after and whitespace around compiler warnings.
        Details: http://jira.codehaus.org/browse/CASTOR-1441

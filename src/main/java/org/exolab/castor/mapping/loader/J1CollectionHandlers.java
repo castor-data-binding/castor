@@ -81,7 +81,6 @@ public final class J1CollectionHandlers
         // For array (any)
         new CollectionHandlers.Info( "array", Object[].class, true, new CollectionHandler() {
             public Object add( Object collection, Object object ) {
-                Object[] array;
                 if ( collection == null ) {
 
                     // If the collection is of primitive type, the instantiation

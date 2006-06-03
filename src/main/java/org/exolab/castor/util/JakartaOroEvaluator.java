@@ -119,7 +119,6 @@
         // object to match compiled regular expressions
         Perl5Matcher matcher = new Perl5Matcher();
         // class for accessing results of pattern match
-        MatchResult result;
         return matcher.contains(value,_regexp);
     } //-- matches
     

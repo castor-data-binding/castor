@@ -76,11 +76,6 @@ public class CastorTestSuiteRunner extends TestCase {
     private static String TEST_ROOT;
 
     /**
-     * File separator for this system.
-     */
-    private final static String FILE_SEPARATOR = System.getProperty("file.separator");
-
-    /**
      * Command line argument that causes the help/options
      * to be displayed
      */

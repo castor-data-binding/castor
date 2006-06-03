@@ -275,7 +275,7 @@ public class SQLRelationLoader {
                 } else {
                     insertStatement.setObject( count, ridToSQL( 0, rightValue ), rightType[0] );
                 }
-                int r = insertStatement.executeUpdate();
+                insertStatement.executeUpdate();
             }
         } catch ( SQLException e ) {
             e.printStackTrace();
@@ -303,7 +303,7 @@ public class SQLRelationLoader {
             } else {
                 stmt.setObject( count, idToSQL( 0, leftValue ), leftType[0] );
             }
-            int i = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch ( SQLException e ) {
             e.printStackTrace();
             throw new PersistenceException( e.toString() );
@@ -338,7 +338,7 @@ public class SQLRelationLoader {
             } else {
                 stmt.setObject( count, ridToSQL( 0, rightValue ), rightType[0] );
             }
-            int i = stmt.executeUpdate();
+            stmt.executeUpdate();
         } catch ( SQLException e ) {
             e.printStackTrace();
             throw new PersistenceException( e.toString() );

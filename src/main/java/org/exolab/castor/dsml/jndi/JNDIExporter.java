@@ -95,7 +95,6 @@ public class JNDIExporter
 	String            filter;
 	JNDIProducer      producer;
 	SearchControls    searchCtrl;
-	String[]          returnAttrs;
 
 	if ( getSearchDescriptor() == null )
 	    throw new IllegalStateException( Messages.message( "dsml.searchDescriptorRequired" ) );

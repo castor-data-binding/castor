@@ -328,7 +328,7 @@ public final class XSDouble extends XSPatternBase {
         //-- fixed values
         if (fixedValue != null) {
             //-- make sure we have a valid value...
-            Double test = new Double(fixedValue);
+            new Double(fixedValue);
              jsc.add("typeValidator.setFixed(");
              jsc.append(fixedValue);
              jsc.append(");");
