@@ -169,6 +169,10 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
     public boolean equals(final Object o) {
         return this == o;
     }
+    
+    public int hashCode() {
+        return super.hashCode();
+    }
 
     public boolean isEmpty() {
         return size() == 0;

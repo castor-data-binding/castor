@@ -63,20 +63,20 @@ public class Limit
     private String _value2;
 
 
-    public static final int       DefaultId = 3;
+    public static final int       DEFAULT_ID = 3;
 
 
-    public static final String    DefaultValue1 = "one";
+    public static final String    DEFAULT_VALUE_1 = "one";
 
 
-    public static final String    DefaultValue2 = "two";
+    public static final String    DEFAULT_VALUE_2 = "two";
 
 
     public Limit()
     {
-        _id = DefaultId;
-        _value1 = DefaultValue1;
-        _value2 = DefaultValue2;
+        _id = DEFAULT_ID;
+        _value1 = DEFAULT_VALUE_1;
+        _value2 = DEFAULT_VALUE_2;
     }
 
 

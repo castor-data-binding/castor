@@ -152,7 +152,7 @@ public final class EHCache extends AbstractBaseCache {
                 _elementClass.getConstructor(TYPES_ELEMENT_CONSTRUCTOR);
             _removeAllMethod = cls.getMethod("removeAll", TYPES_NO_PARAM);
         } catch (Exception e) {
-            String msg = "Failed to find method on OSCache instance: " + e.getMessage();
+            String msg = "Failed to find method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);
             throw new CacheAcquireException(msg, e);
         }
@@ -167,8 +167,9 @@ public final class EHCache extends AbstractBaseCache {
         try {
             result = (Integer) _getSizeMethod.invoke(_cache, null);
         } catch (Exception e) {
-            // Ignoring exception from EhCache re: invocation of
-            // getObjectValue()
+            String msg = "Failed to call method on EHCache instance: " + e.getMessage();
+            LOG.error(msg, e);
+            throw new IllegalStateException(e.getMessage());
         }
         return result.intValue();
     }
@@ -205,11 +206,12 @@ public final class EHCache extends AbstractBaseCache {
     public Object get(final Object key) {
         Object result = null;
         try {
-            Object elementInCache = _getMethod.invoke(_cache,
-                    new Object[] {key});
+            Object elementInCache = _getMethod.invoke(_cache, new Object[] {key});
             result = _getObjectValueMethod.invoke(elementInCache, null);
         } catch (Exception e) {
-            // Ignoring exception from EhCache re: invocation of getObjectValue()
+            String msg = "Failed to call method on EHCache instance: " + e.getMessage();
+            LOG.error(msg, e);
+            throw new IllegalStateException(e.getMessage());
         }
         return result;
     }
@@ -224,12 +226,12 @@ public final class EHCache extends AbstractBaseCache {
     public Object put(final Object key, final Object value) {
         Object result = new Boolean (false);
         try {
-            result = _elementConstructor
-                    .newInstance(new Object[] {key, value});
+            result = _elementConstructor.newInstance(new Object[] {key, value});
             _putMethod.invoke(_cache, new Object[] {result});
         } catch (Exception e) {
-            // Ignoring exception from EhCache re: instantiation of Element
-            // class instance
+            String msg = "Failed to call method on EHCache instance: " + e.getMessage();
+            LOG.error(msg, e);
+            throw new IllegalStateException(e.getMessage());
         }
         return result;
     }
@@ -243,8 +245,9 @@ public final class EHCache extends AbstractBaseCache {
         try {
             _removeMethod.invoke(_cache, new Object[] {String.valueOf(key)});
         } catch (Exception e) {
-            // Ignoring exception from EhCache re: instantiation of Element
-            // class instance
+            String msg = "Failed to call method on EHCache instance: " + e.getMessage();
+            LOG.error(msg, e);
+            throw new IllegalStateException(e.getMessage());
         }
         return oldValue;
     }
@@ -272,8 +275,9 @@ public final class EHCache extends AbstractBaseCache {
         try {
             _removeAllMethod.invoke(_cache, null);
         } catch (Exception e) {
-            // Ignoring exception from EhCache re: instantiation of Element
-            // class instance
+            String msg = "Failed to call method on EHCache instance: " + e.getMessage();
+            LOG.error(msg, e);
+            throw new IllegalStateException(e.getMessage());
         }
     }
 

@@ -21,7 +21,7 @@ import org.exolab.castor.jdo.QueryResults;
  */
 public class TestSortedContainer extends CastorTestCase {
     
-    private static Log LOG = LogFactory.getLog(TestSortedContainer.class);
+    private static final Log LOG = LogFactory.getLog(TestSortedContainer.class);
 
     private JDOCategory _category;
 

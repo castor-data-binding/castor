@@ -498,10 +498,10 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     if ( !_fieldMolder.isStored() && fieldClassMolder._isKeyGenUsed ) {
                         updateCache = true;
                     }
-                } else {}
-                    // fail-fast principle: if the object depend on another object,
-                    // throw exception
-                    // if ( !tx.isDepended( oid, o ) )
+                }
+                // fail-fast principle: if the object depend on another object,
+                // throw exception
+                // if ( !tx.isDepended( oid, o ) )
                     //    throw new PersistenceException("Dependent object may not change its master. Object: "+o+" new master: "+oid);
             } else if ( tx.isAutoStore() ) {
                 if ( !tx.isRecorded( o ) ) {
