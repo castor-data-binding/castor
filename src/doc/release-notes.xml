@@ -126,26 +126,6 @@
                     <module>All</module>
                     <date>20060603</date>
                 </bug>
-                <bug id="1417" tool="jira">
-                    <description>
-		                Added generation of hashCode() method.
-                    </description>
-                    <contributor>
-                        <name>Michele Mazzucco</name>
-                        <email>Michele.Mazzucco@ncl.ac.uk</email>
-                    </contributor>
-                    <submitter>
-                        <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
-                    </submitter>
-                    <reporter>
-                        <name>Michele Mazzucco</name>
-                        <email>Michele.Mazzucco@ncl.ac.uk</email>
-                    </reporter>
-                    <type>Enh.</type>
-                    <module>XML</module>
-                    <date>20060602</date>
-                </bug>
                  <bug id="1440" tool="jira">
                      <description>
 		                Fixed Configuration.loadProperties(String,String) to close resource streams after usage.

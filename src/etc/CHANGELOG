@@ -17,11 +17,6 @@ All:   Resolved issue CASTOR-1441 using contribution from Ralf Joachim [ralf.joa
        Details: http://jira.codehaus.org/browse/CASTOR-1441
        (Ralf - 20060603)
 
-XML:   Resolved issue CASTOR-1417 using contribution from Michele Mazzucco [Michele.Mazzucco@ncl.ac.uk]
-       Added generation of hashCode() method.
-       Details: http://jira.codehaus.org/browse/CASTOR-1417
-       (Ralf - 20060602)
-
 XML:   Resolved issue CASTOR-1440 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed Configuration.loadProperties(String,String) to close resource streams after usage.
        Details: http://jira.codehaus.org/browse/CASTOR-1440
