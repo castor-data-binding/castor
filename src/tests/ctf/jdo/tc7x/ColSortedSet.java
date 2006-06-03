@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
 
 import java.util.Iterator;
@@ -53,56 +51,41 @@ import java.util.TreeSet;
 /**
  * Test object for different collection types.
  */
-public class ColSortedSet extends Col {
-    protected SortedSet _item;
+public final class ColSortedSet extends Col {
+    private SortedSet _item;
 
-    public ColSortedSet() {
-        super();
-    }
-
-    public boolean containsItem( ComparableItem item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
-
-        return _item.contains( item );
+    public boolean containsItem(final Item item) { return false; }
+    public boolean containsItem(final ComparableItem item) {
+        if ((_item == null) || (_item.size() == 0)) { return false; }
+        return _item.contains(item);
     }
 
     public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
+        if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
 
-    public void removeItem( ComparableItem item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
+    public void addItem(final Item item) { }
+    public void addItem(final ComparableItem item) {
+        if (_item == null) { _item = new TreeSet(); }
+        _item.add(item);
+        item.setTestCol(this);
+    }
+
+    public void removeItem(final Item item) { }
+    public void removeItem(final ComparableItem item) {
+        if (_item != null) {
+            _item.remove(item);
+            item.setTestCol(null);
         }
     }
 
     public int itemSize() {
-        if ( _item == null )
-            return 0;
-
+        if (_item == null) { return 0; }
         return _item.size();
     }
 
-    public void setItem( SortedSet items ) {
-        _item = items;
-    }
+    public void setItem(final SortedSet items) { _item = items; }
 
-    public SortedSet getItem() {
-        return _item;
-    }
-
-    public void addItem( ComparableItem item ) {
-        if ( _item == null )
-            _item = new TreeSet();
-
-        _item.add( item );
-        item.setTestCol( this );
-    }
-
-
+    public SortedSet getItem() { return _item; }
 }

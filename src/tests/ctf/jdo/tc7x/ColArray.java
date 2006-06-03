@@ -42,42 +42,32 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
-
 
 import java.util.Iterator;
 
 /**
  * Test object for different collection types.
  */
-public class ColArray extends Col {
-
+public final class ColArray extends Col {
     private Item[] _item;
 
-    public ColArray() {
-        super();
-    }
-
-    public boolean containsItem( Item item ) {
-        if ( _item == null || _item.length == 0 )
-            return false;
+    public boolean containsItem(final Item item) {
+        if ((_item == null) || (_item.length == 0)) { return false; }
         for (int i = 0; i < _item.length; i++) {
             if (_item[i].equals(item)) { return true; }
         }
-
         return false;
     }
 
     public Iterator itemIterator() {
-        if ( _item == null || _item.length == 0 )
-            return _emptyItor;
-
+        if ((_item == null) || (_item.length == 0)) { return EMPTY_ITORATOR; }
         return new ArrayIterator();
     }
 
-    public void removeItem( Item item ) {
+    public void addItem(final Item item) { }
+
+    public void removeItem(final Item item) {
         int position = -1;
         for (int i = 0; i < _item.length; i++) {
             if (_item[i].equals(item)) { position = i; }
@@ -93,31 +83,19 @@ public class ColArray extends Col {
     }
 
     public int itemSize() {
-        if ( _item == null )
-            return 0;
-
+        if (_item == null) { return 0; }
         return _item.length;
     }
 
-    public void setItems( Item[] item ) {
-        _item = item;
-    }
+    public void setItems(final Item[] item) { _item = item; }
 
-    public Item[] getItems() {
-        return _item;
-    }
+    public Item[] getItems() { return _item; }
 
     private class ArrayIterator implements Iterator {
-        private int position = 0;
+        private int _position = 0;
 
-        public boolean hasNext() {
-            return position < _item.length;
-        }
-        public Object next() {
-            return _item[position++];
-        }
-        public void remove() {
-            throw new UnsupportedOperationException();
-        }
+        public boolean hasNext() { return _position < _item.length; }
+        public Object next() { return _item[_position++]; }
+        public void remove() { throw new UnsupportedOperationException(); }
     }
 }

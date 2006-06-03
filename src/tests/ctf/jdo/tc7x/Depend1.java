@@ -42,8 +42,6 @@
  *
  * $Id$ 
  */
-
-
 package ctf.jdo.tc7x;
 
 /**
@@ -51,18 +49,10 @@ package ctf.jdo.tc7x;
  * @key-generator MAX
  * @depends jdo.Master
  */
-public class Depend1 
-{
+public final class Depend1 {
     /** @primary-key */
-    private int id;
+    private int _id;
 
-    public int getId() 
-    {
-        return id;
-    }
-
-    public void setId(int id) 
-    {
-        this.id = id;
-    }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 }

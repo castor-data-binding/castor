@@ -19,13 +19,13 @@ import org.exolab.castor.jdo.QueryResults;
  * This test creates data objects that each has a collection as
  * a field type.
  */
-public class TestSortedContainer extends CastorTestCase {
+public final class TestSortedContainer extends CastorTestCase {
     
     private static final Log LOG = LogFactory.getLog(TestSortedContainer.class);
 
     private JDOCategory _category;
 
-    public TestSortedContainer(TestHarness category) {
+    public TestSortedContainer(final TestHarness category) {
         super(category, "TC72", "Test sorted collections");
         _category = (JDOCategory) category;
     }

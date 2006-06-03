@@ -325,14 +325,15 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
      *      java.lang.Object)
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
-            final Object object, Object field, final Object createdId) 
+            final Object object, final Object field, final Object createdId) 
         throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
+        Object result = field;
         if (o != null) {
             ArrayList fids = ClassMolderHelper.extractIdentityList(tx,
                     fieldClassMolder, o);
-            field = fids;
+            result = fids;
             Iterator itor = ClassMolderHelper.getIterator(o);
             while (itor.hasNext()) {
                 Object oo = itor.next();
@@ -343,7 +344,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 }
             }
         }
-        return field;
+        return result;
     }
 
     /**

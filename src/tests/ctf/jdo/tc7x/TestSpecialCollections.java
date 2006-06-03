@@ -18,10 +18,10 @@ import org.exolab.castor.jdo.QueryResults;
  * This test creates data objects that each has a collection as
  * a field type.
  */
-public class TestSpecialCollections extends CastorTestCase {
+public final class TestSpecialCollections extends CastorTestCase {
     private JDOCategory _category;
 
-    public TestSpecialCollections(TestHarness category) {
+    public TestSpecialCollections(final TestHarness category) {
         super(category, "TC71", "Test special collections");
         _category = (JDOCategory) category;
     }
@@ -43,7 +43,8 @@ public class TestSpecialCollections extends CastorTestCase {
     public void testQueryEntityOne() throws Exception {
         Database db = _category.getDatabase();
         db.begin();
-        OQLQuery aquery = db.getOQLQuery("SELECT c FROM " + Container.class.getName() + " c");
+        OQLQuery aquery = db.getOQLQuery(
+                "SELECT c FROM " + Container.class.getName() + " c");
         QueryResults aresults = aquery.execute();
         int i = 1;
         while (aresults.hasMore()) {

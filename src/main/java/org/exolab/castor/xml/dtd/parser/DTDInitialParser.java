@@ -265,9 +265,9 @@ public class DTDInitialParser implements DTDInitialParserConstants {
   }
 
   final private int jj_ntk() {
-    if ((jj_nt=token.next) == null)
-      return (jj_ntk = (token.next=token_source.getNextToken()).kind);
-    else
+      if ((jj_nt=token.next) == null) {
+          return (jj_ntk = (token.next=token_source.getNextToken()).kind);
+      }
       return (jj_ntk = jj_nt.kind);
   }
 

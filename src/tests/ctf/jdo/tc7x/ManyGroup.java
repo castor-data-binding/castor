@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
 
 import java.util.Collection;
@@ -53,68 +51,23 @@ import org.exolab.castor.jdo.TimeStampable;
 /**
  * Test object mapping to test_table used to conduct all the tests.
  */
-public class ManyGroup implements TimeStampable {
-
-
+public final class ManyGroup implements TimeStampable {
     private int    _id;
-
-
     private String _value;
-
-
     private Collection _people;
-
-
     private long _timeStamp;
 
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public ManyGroup() {
-    }
+    public String getValue1() { return _value; }
+    public void setValue1(final String value) { _value = value; }
 
+    public Collection getPeople() { return _people; }
+    public void setPeople(final Collection people) { _people = people; }
 
-    public void setId( int id ) {
-        _id = id;
-    }
+    public long jdoGetTimeStamp() { return _timeStamp; }
+    public void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }
 
-
-    public int getId() {
-        return _id;
-    }
-
-
-    public void setValue1( String value )
-    {
-        _value = value;
-    }
-
-
-    public String getValue1()
-    {
-        return _value;
-    }
-
-
-    public Collection getPeople() {
-        return _people;
-    }
-
-    public void setPeople( Collection people ) {
-        _people = people;
-    }
-
-    public String toString()
-    {
-        return _id + " / " + _value;
-    }
-
-    public void jdoSetTimeStamp( long timeStamp )
-    {
-        _timeStamp = timeStamp;
-    }
-
-    public long jdoGetTimeStamp()
-    {
-        return _timeStamp;
-    }
-
+    public String toString() { return _id + " / " + _value; }
 }

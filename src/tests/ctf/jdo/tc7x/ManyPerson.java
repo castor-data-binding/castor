@@ -42,91 +42,40 @@
  *
  * $Id$
  */
-
 package ctf.jdo.tc7x;
 
 import java.util.Collection;
 
 import org.exolab.castor.jdo.TimeStampable;
 
-
-
 /**
  * Test object mapping to test_table used to conduct all the tests.
  */
-public class ManyPerson implements TimeStampable {
-
-
-    private int    _id;
-
+public final class ManyPerson implements TimeStampable {
+    private int _id;
     private String _value;
-
     private String _helloworld;
-
     private String _sthelse;
-
     private Collection _group;
-
     private long _timeStamp;
 
-    public ManyPerson() {
-    }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public void setHelloworld( String s ) {
-        _helloworld = s;
-    }
+    public String getValue1() { return _value; }
+    public void setValue1(final String value) { _value = value; }
 
-    public String getHelloworld() {
-        return _helloworld;
-    }
+    public String getHelloworld() { return _helloworld; }
+    public void setHelloworld(final String s) { _helloworld = s; }
 
-    public void setSthelse( String s ) {
-        _sthelse = s;
-    }
+    public String getSthelse() { return _sthelse; }
+    public void setSthelse(final String s) { _sthelse = s; }
 
-    public String getSthelse() {
-        return _sthelse;
-    }
+    public Collection getGroup() { return _group; }
+    public void setGroup(final Collection group) { _group = group; }
 
-    public void setId( int id ) {
-        _id = id;
-    }
+    public long jdoGetTimeStamp() { return _timeStamp; }
+    public void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }
 
-
-    public int getId() {
-        return _id;
-    }
-
-
-    public void setValue1( String value ) {
-        _value = value;
-    }
-
-
-    public String getValue1() {
-        return _value;
-    }
-
-
-    public Collection getGroup() {
-        return _group;
-    }
-
-    public void setGroup( Collection group ) {
-        _group = group;
-    }
-
-    public String toString() {
-        return _id + " / " + _value;
-    }
-
-    public void jdoSetTimeStamp( long timeStamp )
-    {
-        _timeStamp = timeStamp;
-    }
-
-    public long jdoGetTimeStamp()
-    {
-        return _timeStamp;
-    }
+    public String toString() { return _id + " / " + _value; }
 }

@@ -42,8 +42,6 @@
  *
  * $Id$ 
  */
-
-
 package ctf.jdo.tc7x;
 
 import harness.CastorTestCase;
@@ -58,13 +56,9 @@ import jdo.JDOCategory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 
-public class TestCachedOid extends CastorTestCase 
-{
-
+public final class TestCachedOid extends CastorTestCase {
     private JDOCategory    _category;
-
     private Database       _db;
-
     private Connection     _conn;
 
     /**
@@ -72,58 +66,50 @@ public class TestCachedOid extends CastorTestCase
      *
      * @param category The test suite for these tests
      */
-    public TestCachedOid( TestHarness category ) 
-    {
-        super( category, "TC76", "Cached OID with db-locked" );
+    public TestCachedOid(final TestHarness category) {
+        super(category, "TC76", "Cached OID with db-locked");
         _category = (JDOCategory) category;
     }
 
     /**
      * Get a JDO database
      */
-    public void setUp() 
-        throws PersistenceException, SQLException
-    {
+    public void setUp() throws PersistenceException, SQLException {
         _db = _category.getDatabase ();
         _conn = _category.getJDBCConnection();
-        _conn.setAutoCommit( false );
+        _conn.setAutoCommit(false);
 
-        stream.println( "Delete everything" );
+        stream.println("Delete everything");
         Statement stmt = _conn.createStatement();
-        stmt.executeUpdate( "delete from tc7x_depend2" );
-        stmt.executeUpdate( "delete from tc7x_master" );
-        stmt.executeUpdate( "delete from tc7x_depend1" );
+        stmt.executeUpdate("delete from tc7x_depend2");
+        stmt.executeUpdate("delete from tc7x_master");
+        stmt.executeUpdate("delete from tc7x_depend1");
         _conn.commit();
-
     }
 
-    public void runTest() 
-        throws PersistenceException, SQLException
-    {
+    public void runTest() throws PersistenceException, SQLException {
         _db.begin();
 
-        stream.println( "Build master object and its dependent objects" );
+        stream.println("Build master object and its dependent objects");
 
         // no ids needed, they come from the key-gen
         Master master = new Master();
         Depend2 depend2 = new Depend2();
         master.addDepend2(depend2);
 
-        stream.println( "Create object tree in db" );
+        stream.println("Create object tree in db");
         _db.create(master);
         _db.commit();
 
-				// test for bug 1163 : Lock conflict when loading an object present in the cache
-        stream.println( "Loading master object in db-locked mode" );
+        // test for bug 1163 : Lock conflict when loading an object present in the cache
+        stream.println("Loading master object in db-locked mode");
         _db.begin();
         _db.load(Master.class, new Integer(master.getId()), Database.DbLocked);
         _db.commit();
-
     }
 
-    public void tearDown() throws PersistenceException 
-    {
-        if ( _db.isActive() ) _db.rollback();
+    public void tearDown() throws PersistenceException  {
+        if (_db.isActive()) { _db.rollback(); }
         _db.close();
     }
 }

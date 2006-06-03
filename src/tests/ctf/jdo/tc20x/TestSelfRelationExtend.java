@@ -35,9 +35,7 @@ import org.exolab.castor.jdo.QueryResults;
  * database.
  */
 public final class TestSelfRelationExtend extends CastorTestCase {
-
     private static final String PARENT_TABLE_NAME = "tc200_self_relation_folder_parent";
-    
     private static final String EXTEND_TABLE_NAME = "tc200_self_relation_folder_extend";
 
     private JDOCategory _category;
@@ -66,12 +64,18 @@ public final class TestSelfRelationExtend extends CastorTestCase {
         stmt.executeUpdate("DELETE FROM " + PARENT_TABLE_NAME);
         stmt.executeUpdate("DELETE FROM " + EXTEND_TABLE_NAME);
         //insert data
-        stmt.execute( "INSERT INTO " + PARENT_TABLE_NAME + " (id, name) VALUES (1, 'parent')");
-        stmt.execute( "INSERT INTO " + PARENT_TABLE_NAME + " (id, name) VALUES (2, 'first child')");
-		stmt.execute( "INSERT INTO " + PARENT_TABLE_NAME + " (id, name) VALUES (3, 'second child')");
-        stmt.execute( "INSERT INTO " + EXTEND_TABLE_NAME + " (id) VALUES (1)");
-        stmt.execute( "INSERT INTO " + EXTEND_TABLE_NAME + " (id, parent_id) VALUES (2, 1)");
-        stmt.execute( "INSERT INTO " + EXTEND_TABLE_NAME + " (id, parent_id) VALUES (3, 1)");
+        stmt.execute("INSERT INTO " + PARENT_TABLE_NAME
+                + " (id, name) VALUES (1, 'parent')");
+        stmt.execute("INSERT INTO " + PARENT_TABLE_NAME
+                + " (id, name) VALUES (2, 'first child')");
+        stmt.execute("INSERT INTO " + PARENT_TABLE_NAME
+                + " (id, name) VALUES (3, 'second child')");
+        stmt.execute("INSERT INTO " + EXTEND_TABLE_NAME
+                + " (id) VALUES (1)");
+        stmt.execute("INSERT INTO " + EXTEND_TABLE_NAME
+                + " (id, parent_id) VALUES (2, 1)");
+        stmt.execute("INSERT INTO " + EXTEND_TABLE_NAME
+                + " (id, parent_id) VALUES (3, 1)");
         db.commit();
     }
 

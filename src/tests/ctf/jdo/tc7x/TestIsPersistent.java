@@ -17,20 +17,16 @@ package ctf.jdo.tc7x;
 
 import harness.CastorTestCase;
 import harness.TestHarness;
-
 import jdo.JDOCategory;
 
 import org.exolab.castor.jdo.Database;
-
 
 /**
  * Tests the correct working of @link
 org.exolab.castor.jdo.Database#isLocked().
  */
-public class TestIsPersistent extends CastorTestCase {
-
+public final class TestIsPersistent extends CastorTestCase {
     private Database       _db;
-
     private JDOCategory    _category;
 
     public TestIsPersistent(final TestHarness category) {
@@ -48,7 +44,6 @@ public class TestIsPersistent extends CastorTestCase {
     }
 
     public void testIsPersistentEntity() throws Exception {
-
         _db = _category.getDatabase();
         _db.begin();
         Limit item = new Limit();
@@ -72,11 +67,9 @@ public class TestIsPersistent extends CastorTestCase {
         item = (Limit) _db.load(Limit.class, new Integer(111));
         _db.remove(item);
         _db.commit();
-
     }
 
     public void testIsNotPersistentEntity() throws Exception {
-
         _db.begin();
         Limit item112 = new Limit();
         item112.setId(112);
@@ -85,9 +78,7 @@ public class TestIsPersistent extends CastorTestCase {
 
         assertFalse(_db.isPersistent(item112));
         _db.commit();
-
     }
-
 }
 
 

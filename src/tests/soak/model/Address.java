@@ -6,6 +6,7 @@ package soak.model;
 
 
 public class Address implements java.io.Serializable {
+    private static final long serialVersionUID = -6684426600908835407L;
 
     private String poBox;
 

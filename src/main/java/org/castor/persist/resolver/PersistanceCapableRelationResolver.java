@@ -493,9 +493,9 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 // the only disadvantage for that appoarch is that an
                 // OQL Query will not able to include the newly generated
                 // dependent object.
-                if ( !tx.isRecorded( o ) ) {
+                if (!tx.isRecorded(o)) {
                     tx.markCreate(fieldClassMolder, o, oid);
-                    if ( !_fieldMolder.isStored() && fieldClassMolder._isKeyGenUsed ) {
+                    if (!_fieldMolder.isStored() && fieldClassMolder._isKeyGenUsed) {
                         updateCache = true;
                     }
                 }
@@ -503,8 +503,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 // throw exception
                 // if ( !tx.isDepended( oid, o ) )
                     //    throw new PersistenceException("Dependent object may not change its master. Object: "+o+" new master: "+oid);
-            } else if ( tx.isAutoStore() ) {
-                if ( !tx.isRecorded( o ) ) {
+            } else if (tx.isAutoStore()) {
+                if (!tx.isRecorded(o)) {
                     // related object should be created right the way, if autoStore
                     // is enabled, to obtain a database lock on the row. If both side
                     // uses keygenerator, the current object will be updated in the
@@ -523,7 +523,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     // this method.
                     // note, one-many and many-many doesn't affected, because
                     // it is always non-store fields.
-                    if ( creating && !_fieldMolder.isStored() && fieldClassMolder._isKeyGenUsed ) {
+                    if (creating && !_fieldMolder.isStored() && fieldClassMolder._isKeyGenUsed) {
                         updateCache = true;
                     }
                 }

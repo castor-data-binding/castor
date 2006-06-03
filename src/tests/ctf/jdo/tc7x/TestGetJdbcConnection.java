@@ -42,8 +42,6 @@
  *
  * $Id$ 
  */
-
-
 package ctf.jdo.tc7x;
 
 import harness.CastorTestCase;
@@ -56,20 +54,17 @@ import jdo.JDOCategory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
 
-public class TestGetJdbcConnection extends CastorTestCase {
+public final class TestGetJdbcConnection extends CastorTestCase {
     private JDOCategory    _category;
-
     private Database       _db;
-
 
     /**
      * Constructor
      *
      * @param category The test suite for these tests
      */
-    public TestGetJdbcConnection( TestHarness category ) 
-    {
-        super( category, "TC78", "JDBC connection" );
+    public TestGetJdbcConnection(final TestHarness category) {
+        super(category, "TC78", "JDBC connection");
         _category = (JDOCategory) category;
     }
 
@@ -77,14 +72,12 @@ public class TestGetJdbcConnection extends CastorTestCase {
      * Test setup, including getting a JDO Database
      * @see junit.framework.TestCase#setUp()
      */
-    public void setUp() throws PersistenceException
-    {
+    public void setUp() throws Exception {
         _db = _category.getDatabase();
     }
 
     
-    public void runTest() throws Exception 
-    {
+    public void runTest() throws Exception {
         testGetJdbcConnection();
         testGetJdbcConnectionWithoutActiveTransaction();
     }
@@ -103,9 +96,10 @@ public class TestGetJdbcConnection extends CastorTestCase {
             _db.getJdbcConnection();
             fail("Should have received PersistenceException (no active transaction)");
         } catch (PersistenceException e) {
-            assertEquals ("No transaction in progress for the current thread. Please start a transaction before trying to obtain the JDBC connection", e.getMessage());
-        }
-        finally {
+            assertEquals("No transaction in progress for the current thread. Please "
+                    + "start a transaction before trying to obtain the JDBC connection",
+                    e.getMessage());
+        } finally {
             if (_db.isActive()) {
                 _db.rollback();
             }
@@ -114,5 +108,4 @@ public class TestGetJdbcConnection extends CastorTestCase {
             }
         }
     }
-
 }

@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Resolved issue CASTOR-1443 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Fixed various compiler warnings mainly in tc7x and tc20x tests of CTF.
+       Details: http://jira.codehaus.org/browse/CASTOR-1443
+       (Ralf - 20060603)
+
 All:   Resolved issue CASTOR-1398 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed 212 unused private methods, private fields, or local variables compiler warnings.
        Details: http://jira.codehaus.org/browse/CASTOR-1398

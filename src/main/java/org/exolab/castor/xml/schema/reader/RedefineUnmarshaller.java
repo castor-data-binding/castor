@@ -356,11 +356,6 @@ public class RedefineUnmarshaller extends ComponentReader
         	AttributeGroupDecl group = null;
         	group = (AttributeGroupDecl)(((AttributeGroupUnmarshaller)_unmarshaller).getAttributeGroup());
         	
-        	if (!(group instanceof AttributeGroupDecl)) {
-        		String err = "A redefinition of an AttributeGroup must be an attributeGroup declaration and not a reference.";
-        		error(err);
-        	}
-        	
         	String structureName = group.getName();
         	if (structureName == null) {
         		String err = "When redefining an AttributeGroup, the group must have a name.\n";

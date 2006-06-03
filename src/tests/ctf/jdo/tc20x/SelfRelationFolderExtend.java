@@ -1,60 +1,34 @@
 package ctf.jdo.tc20x;
 
-import java.util.Collection;
-import java.util.ArrayList;
 import java.io.Serializable;
+import java.util.ArrayList;
+import java.util.Collection;
+
 import org.exolab.castor.jdo.TimeStampable;
 
+public final class SelfRelationFolderExtend
+extends SelfRelationFolderParent
+implements Serializable, TimeStampable {
+    private static final long serialVersionUID = -4455086340402957100L;
 
-public class SelfRelationFolderExtend 
-    extends SelfRelationFolderParent 
-    implements Serializable, TimeStampable 
-{
-    private Integer _id                     = null;
-    private Collection _children            = new ArrayList();
-	private SelfRelationFolderExtend _parent  = null;
-	
-	private long _timeStamp;
+//    private Integer _id = null;
+    private Collection _children = new ArrayList();
+    private SelfRelationFolderExtend _parent  = null;
+//    private long _timeStamp;
   
-  	public Integer getId() {
-        return _id;
-    }
-    public void setId( Integer id ) {
-        _id = id;
-    }
+//    public Integer getId() { return _id; }
+//    public void setId(final Integer id) { _id = id; }
   
-	public Collection getChildren() {
-		return this._children;
-	}
-	
-	public void setChildren( Collection children ) {
-		this._children = children;
-	}
-	
-	
-	public void addChild( SelfRelationFolderExtend child ) {
-		child.setParent( this );
-		this._children.add( child );
-	}
-	
-	
-	public void setParent( SelfRelationFolderExtend parent ) {
-		this._parent = parent;
-	}
-	
-	public SelfRelationFolderExtend getParent() {
-		return this._parent;
-	}
-	
-	public void jdoSetTimeStamp( long timeStamp )
-    {
-        _timeStamp = timeStamp;
+    public Collection getChildren() { return _children; }
+    public void setChildren(final Collection children) { _children = children; }
+    public void addChild(final SelfRelationFolderExtend child) {
+        child.setParent(this);
+        _children.add(child);
     }
-
-
-    public long jdoGetTimeStamp()
-    {
-        return _timeStamp;
-    }
-	
+    
+    public SelfRelationFolderExtend getParent() { return _parent; }
+    public void setParent(final SelfRelationFolderExtend parent) { _parent = parent; }
+    
+//    public long jdoGetTimeStamp() { return _timeStamp; }
+//    public void jdoSetTimeStamp(final long timeStamp) { _timeStamp = timeStamp; }
 }

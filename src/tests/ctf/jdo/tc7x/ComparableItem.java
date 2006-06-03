@@ -42,66 +42,38 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
-
 
 /**
  * Test object for different collection types.
  */
-public class ComparableItem implements Comparable {
-
-    private int    _id;
-
+public final class ComparableItem implements Comparable {
+    private int _id;
     private Col _testCol;
 
-    public ComparableItem() {
-    }
+    public ComparableItem() { }
+    public ComparableItem(final int id) { _id = id; }
 
-    public ComparableItem( int id ) {
-        _id = id;
-    }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public void setId( int id ) {
-        _id = id;
-    }
+    public Col getTestCol() { return _testCol; }
+    public void setTestCol(final Col testCol) { _testCol = testCol; }
 
-    public int getId() {
-        return _id;
-    }
+    public String toString() { return getClass().getName() + ":" + _id; }
 
-    public void setTestCol( Col testCol ) {
-        _testCol = testCol;
-    }
+    public int hashCode() { return _id; }
 
-    public Col getTestCol() {
-        return _testCol;
-    }
-
-    public String toString() {
-        return getClass().getName() + ":" + _id;
-    }
-
-    public int hashCode() {
-        return _id;
-    }
-
-    public boolean equals( Object object ) {
-
-        if ( object == null )
-            return false;
-        if ( object == this )
-            return true;
-        if ( !( object instanceof ComparableItem ) )
-            return false;
+    public boolean equals(final Object object) {
+        if (object == null) { return false; }
+        if (object == this) { return true; }
+        if (!(object instanceof ComparableItem)) { return false; }
 
         ComparableItem item = (ComparableItem) object;
-
         return item._id == _id;
     }
 
-	public int compareTo(Object o) {
-		return new Integer(_id).compareTo(new Integer(((ComparableItem) o).getId()));
-	}
+    public int compareTo(final Object o) {
+        return new Integer(_id).compareTo(new Integer(((ComparableItem) o).getId()));
+    }
 }

@@ -34,7 +34,6 @@ import org.exolab.castor.jdo.QueryResults;
  * database.
  */
 public final class TestSelfRelation extends CastorTestCase {
-    
     private JDOCategory _category;
 
     /**
@@ -60,9 +59,12 @@ public final class TestSelfRelation extends CastorTestCase {
         Statement stmt = connection.createStatement();
         stmt.executeUpdate("DELETE FROM tc200_self_relation_folder");
         //insert data
-        stmt.execute( "INSERT INTO tc200_self_relation_folder ( id , name ) VALUES ( 1 , 'parent' ) ");
-        stmt.execute( "INSERT INTO tc200_self_relation_folder  ( id , name , parent_id ) VALUES ( 2 , 'first child' , 1 ) ");
-        stmt.execute( "INSERT INTO tc200_self_relation_folder  ( id , name , parent_id ) VALUES ( 3 , 'second child' , 1 ) ");
+        stmt.execute("INSERT INTO tc200_self_relation_folder "
+                + "( id , name ) VALUES ( 1 , 'parent' ) ");
+        stmt.execute("INSERT INTO tc200_self_relation_folder "
+                + "( id , name , parent_id ) VALUES ( 2 , 'first child' , 1 ) ");
+        stmt.execute("INSERT INTO tc200_self_relation_folder "
+                + "( id , name , parent_id ) VALUES ( 3 , 'second child' , 1 ) ");
         db.commit();
     }
 

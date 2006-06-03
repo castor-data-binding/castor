@@ -735,21 +735,20 @@ private final void ReInitRounds()
    for (i = 17; i-- > 0;)
       jjrounds[i] = 0x80000000;
 }
-public void ReInit(CharStream stream, int lexState)
-{
+
+public void ReInit(CharStream stream, int lexState) {
    ReInit(stream);
    SwitchTo(lexState);
 }
-public void SwitchTo(int lexState)
-{
-   if (lexState >= 4 || lexState < 0)
-      throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
-   else
-      curLexState = lexState;
+
+public void SwitchTo(int lexState) {
+    if (lexState >= 4 || lexState < 0) {
+        throw new TokenMgrError("Error: Ignoring invalid lexical state : " + lexState + ". State unchanged.", TokenMgrError.INVALID_LEXICAL_STATE);
+    }
+    curLexState = lexState;
 }
 
-private final Token jjFillToken()
-{
+private final Token jjFillToken() {
    Token t = Token.newToken(jjmatchedKind);
    t.kind = jjmatchedKind;
    String im = jjstrLiteralImages[jjmatchedKind];

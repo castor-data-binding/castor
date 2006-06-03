@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
 
 import java.util.HashSet;
@@ -53,56 +51,38 @@ import java.util.Set;
 /**
  * Test object for different collection types.
  */
-public class ColSet extends Col {
-    protected Set _item;
+public final class ColSet extends Col {
+    private Set _item;
 
-    public ColSet() {
-        super();
-    }
-
-    public boolean containsItem( Item item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
-
-        return _item.contains( item );
+    public boolean containsItem(final Item item) {
+        if ((_item == null) || (_item.size() == 0)) { return false; }
+        return _item.contains(item);
     }
 
     public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
+        if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
 
-    public void removeItem( Item item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
+    public void removeItem(final Item item) {
+        if (_item != null) {
+            _item.remove(item);
+            item.setTestCol(null);
         }
     }
 
     public int itemSize() {
-        if ( _item == null )
-            return 0;
-
+        if (_item == null) { return 0; }
         return _item.size();
     }
 
-    public void setItem( Set items ) {
-        _item = items;
+    public void setItem(final Set items) { _item = items; }
+
+    public Set getItem() { return _item; }
+
+    public void addItem(final Item item) {
+        if (_item == null) { _item = new HashSet(); }
+        _item.add(item);
+        item.setTestCol(this);
     }
-
-    public Set getItem() {
-        return _item;
-    }
-
-    public void addItem( Item item ) {
-        if ( _item == null )
-            _item = new HashSet();
-
-        _item.add( item );
-        item.setTestCol( this );
-    }
-
-
 }
