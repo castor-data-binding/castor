@@ -141,7 +141,6 @@ public final class InputCharStream implements CharStream {
    }
 
    private final void FillBuff() throws java.io.IOException {
-
       if (maxNextCharInd == available) {
          if (available == bufsize) {
             if (tokenBegin > 2048) {
@@ -157,14 +156,13 @@ public final class InputCharStream implements CharStream {
       int i;
 
       try {
-         if ((i = inputStream.read(buffer, maxNextCharInd,
-                                   available - maxNextCharInd)) == -1) {
+         if ((i = inputStream.read(buffer, maxNextCharInd, available - maxNextCharInd)) == -1) {
             inputStream.close();
             throw new java.io.IOException();
-         } else maxNextCharInd += i;
+         }
+         maxNextCharInd += i;
          return;
-      }
-      catch(java.io.IOException e) {
+      } catch(java.io.IOException e) {
          --bufpos;
          backup(0);
          if (tokenBegin == -1) tokenBegin = bufpos;
@@ -346,11 +344,10 @@ public final class InputCharStream implements CharStream {
    }
 
    public final String GetImage() {
-      if (bufpos >= tokenBegin)
-         return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
-      else
-         return new String(buffer, tokenBegin, bufsize - tokenBegin) +
-                                   new String(buffer, 0, bufpos + 1);
+      if (bufpos >= tokenBegin) {
+          return new String(buffer, tokenBegin, bufpos - tokenBegin + 1);
+      }
+      return new String(buffer, tokenBegin, bufsize - tokenBegin) + new String(buffer, 0, bufpos + 1);
    }
 
    public final char[] GetSuffix(int len) {

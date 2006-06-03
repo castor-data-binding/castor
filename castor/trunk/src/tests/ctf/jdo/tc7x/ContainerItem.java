@@ -1,33 +1,16 @@
 package ctf.jdo.tc7x;
 
-
-public class ContainerItem {
+public final class ContainerItem {
     private Integer _id;
     private Container _item;
     private String _value;
 
-    public Integer getId() {
-        return _id;
-    }
+    public Integer getId() { return _id; }
+    public void setId(final Integer id) { _id = id; }
     
-    public void setId(final Integer id) {
-        _id = id;
-    }
-    
-    public Container getItem() {
-        return _item;
-    }
-    
-    public void setItem(Container item) {
-        _item = item;
-    }
+    public Container getItem() { return _item; }
+    public void setItem(final Container item) { _item = item; }
 
-    public String getValue() {
-        return _value;
-    }
-    
-    public void setValue(final String value) {
-        _value = value;
-    }
-
+    public String getValue() { return _value; }
+    public void setValue(final String value) { _value = value; }
 }

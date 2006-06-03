@@ -42,8 +42,6 @@
  *
  * $Id$ 
  */
-
-
 package ctf.jdo.tc7x;
 
 import harness.CastorTestCase;
@@ -60,13 +58,9 @@ import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryResults;
 
-public class TestQueryFinalize extends CastorTestCase 
-{
-
+public final class TestQueryFinalize extends CastorTestCase {
     private JDOCategory    _category;
-
     private Database       _db;
-
     private Connection     _conn;
 
     /**
@@ -74,77 +68,63 @@ public class TestQueryFinalize extends CastorTestCase
      *
      * @param category The test suite for these tests
      */
-    public TestQueryFinalize( TestHarness category ) 
-    {
-        super( category, "TC77", "Query garbage collected" );
+    public TestQueryFinalize(final TestHarness category) {
+        super(category, "TC77", "Query garbage collected");
         _category = (JDOCategory) category;
     }
 
     /**
      * Get a JDO database
      */
-    public void setUp() 
-        throws PersistenceException, SQLException
-    {
+    public void setUp() throws PersistenceException, SQLException {
         _db = _category.getDatabase();
         _conn = _category.getJDBCConnection();
-        _conn.setAutoCommit( false );
+        _conn.setAutoCommit(false);
 
-        stream.println( "Delete everything" );
+        stream.println("Delete everything");
         Statement stmt = _conn.createStatement();
-        stmt.executeUpdate( "delete from tc7x_depend2" );
-        stmt.executeUpdate( "delete from tc7x_master" );
-        stmt.executeUpdate( "delete from tc7x_depend1" );
+        stmt.executeUpdate("delete from tc7x_depend2");
+        stmt.executeUpdate("delete from tc7x_master");
+        stmt.executeUpdate("delete from tc7x_depend1");
         _conn.commit();
-
     }
 
     /**
      * Query will be garbage collectable after return
      */
-		public QueryResults getResults(Database db) throws Exception {
-			OQLQuery query = db.getOQLQuery(
-      	"SELECT t FROM " + Master.class.getName() + " t");
-      return query.execute();
-		}
+    public QueryResults getResults(final Database db) throws Exception {
+        OQLQuery query = db.getOQLQuery(
+                "SELECT t FROM " + Master.class.getName() + " t");
+        return query.execute();
+    }
 
-    public void runTest() 
-        throws PersistenceException, SQLException
-    {
-
-
-
-        stream.println( "Create many master objects" );
+    public void runTest() throws PersistenceException, SQLException {
+        stream.println("Create many master objects");
         _db.begin();
-				for (int i = 0; i < 100; i++) {
-          Master master = new Master();
-          _db.create(master);
+        for (int i = 0; i < 100; i++) {
+            Master master = new Master();
+            _db.create(master);
         }
         _db.commit();
 
 
-        stream.println( "query master objects" );
-        try 
-        {
-	        _db.begin();
-	    		QueryResults results = getResults(_db);
-          stream.println( "query can be garbage collected" );
-	        while (results.hasMore()) {
-	    			Master master = (Master) results.next();
-	    			stream.println(master.getId());
-	        }
-	        _db.commit();
-        } 
-        catch ( Exception e ) 
-        {
-            fail( "Exception thrown iterating over results : " + e );
+        stream.println("query master objects");
+        try {
+            _db.begin();
+            QueryResults results = getResults(_db);
+            stream.println("query can be garbage collected");
+            while (results.hasMore()) {
+                Master master = (Master) results.next();
+                stream.println(master.getId());
+            }
+            _db.commit();
+        } catch (Exception e) {
+            fail("Exception thrown iterating over results : " + e);
         }
-
     }
 
-    public void tearDown() throws PersistenceException 
-    {
-        if ( _db.isActive() ) _db.rollback();
+    public void tearDown() throws PersistenceException {
+        if (_db.isActive()) { _db.rollback(); }
         _db.close();
     }
 }

@@ -42,62 +42,34 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
-
 
 /**
  * Test object for different collection types.
  */
-public class Item {
-
+public final class Item {
     private int    _id;
-
     private Col _testCol;
 
-    public Item() {
-    }
+    public Item() { }
+    public Item(final int id) { _id = id; }
 
-    public Item( int id ) {
-        _id = id;
-    }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public void setId( int id ) {
-        _id = id;
-    }
+    public Col getTestCol() { return _testCol; }
+    public void setTestCol(final Col testCol) { _testCol = testCol; }
 
-    public int getId() {
-        return _id;
-    }
+    public String toString() { return getClass().getName() + ":" + _id; }
 
-    public void setTestCol( Col testCol ) {
-        _testCol = testCol;
-    }
+    public int hashCode() { return _id; }
 
-    public Col getTestCol() {
-        return _testCol;
-    }
-
-    public String toString() {
-        return getClass().getName() + ":" + _id;
-    }
-
-    public int hashCode() {
-        return _id;
-    }
-
-    public boolean equals( Object object ) {
-
-        if ( object == null )
-            return false;
-        if ( object == this )
-            return true;
-        if ( !( object instanceof Item ) )
-            return false;
+    public boolean equals(final Object object) {
+        if (object == null) { return false; }
+        if (object == this) { return true; }
+        if (!(object instanceof Item)) { return false; }
 
         Item item = (Item) object;
-
         return item._id == _id;
     }
 }

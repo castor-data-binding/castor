@@ -42,8 +42,6 @@
  *
  * $Id$ 
  */
-
-
 package ctf.jdo.tc7x;
 
 import java.util.ArrayList;
@@ -52,58 +50,31 @@ import java.util.ArrayList;
  * @table MASTER
  * @key-generator MAX
  */
-public class Master 
-{
-    /** @sql-name depend1_oid */
-    private Depend1 depend1;
-
+public final class Master {
     /** @primary-key */
-    private int id;
+    private int _id;
 
-    public Depend1 getDepend1() 
-    { 
-        return depend1; 
-    }
+    /** @sql-name depend1_oid */
+    private Depend1 _depend1;
 
-    public void setDepend1(Depend1 depend1) 
-    { 
-        this.depend1 = depend1; 
-    }
+    /**
+     * @field-type jdo.Depend2
+     * @many-key master_oid
+     */
+    private ArrayList _depends2 = new ArrayList();
 
-    public int getId() 
-    {
-        return id;
-    }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public void setId(int id) 
-    {
-        this.id = id;
-    }
+    public Depend1 getDepend1() { return _depend1; }
+    public void setDepend1(final Depend1 depend1) { _depend1 = depend1; }
 
-    public ArrayList getDepends2()
-    { 
-        return depends2; 
-    }
-
-    public void setDepends2(ArrayList depends2)
-    { 
-        this.depends2 = depends2; 
-    }
-
-     /**
-      * @field-type jdo.Depend2
-      * @many-key master_oid
-      */
-    private ArrayList depends2 = new ArrayList();
-
-    public void addDepend2(Depend2 depend2) 
-    {
-        depends2.add(depend2);
+    public ArrayList getDepends2() { return _depends2; }
+    public void setDepends2(final ArrayList depends2) { _depends2 = depends2; }
+    public void addDepend2(final Depend2 depend2) {
+        _depends2.add(depend2);
         depend2.setMaster(this);
     }
 
-    public String toString()
-    {
-        return "Master object #" + id;
-    }
+    public String toString() { return "Master object #" + _id; }
 }

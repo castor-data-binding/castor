@@ -51,13 +51,8 @@ import java.util.List;
 /**
  * Test object for collection types 'iterator' (java.util.Iterator).
  */
-public class ColIterator extends Col {
-
+public final class ColIterator extends Col {
     private List _item = new ArrayList();
-
-    public ColIterator() {
-        super();
-    }
 
     public boolean containsItem(final Item item) {
         if (_item == null || _item.size() == 0) {
@@ -68,7 +63,7 @@ public class ColIterator extends Col {
 
     public Iterator itemIterator() {
         if (_item == null || _item.size() == 0) {
-            return _emptyItor;
+            return EMPTY_ITORATOR;
         }
         return _item.iterator();
     }

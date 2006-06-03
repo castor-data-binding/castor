@@ -42,8 +42,6 @@
  *
  * $Id$ 
  */
-
-
 package ctf.jdo.tc7x;
 
 /**
@@ -51,33 +49,16 @@ package ctf.jdo.tc7x;
  * @key-generator MAX
  * @depends jdo.Master
  */
-public class Depend2 
-{
-    /**
-     * @sql-name master_oid
-     */
-    private Master master;
-
+public final class Depend2 {
     /** @primary-key */
-    private int id;
+    private int _id;
 
-    public int getId() 
-    {
-        return id;
-    }
+    /** @sql-name master_oid */
+    private Master _master;
 
-    public void setId(int id) 
-    {
-        this.id = id;
-    }
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public Master getMaster()
-    { 
-        return master; 
-    }
-
-    public void setMaster(Master master)
-    { 
-        this.master = master; 
-    }
+    public Master getMaster() { return _master; }
+    public void setMaster(final Master master) { _master = master; }
 }

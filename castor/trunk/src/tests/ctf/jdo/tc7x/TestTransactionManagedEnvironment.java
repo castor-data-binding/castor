@@ -46,7 +46,6 @@
 * Created 29th April 2004
 * Author: Patrick van Kann (patrick.vankann@fortune-cookie.com)
 */
-
 package ctf.jdo.tc7x;
 
 import harness.CastorTestCase;
@@ -72,124 +71,101 @@ import org.mockejb.jndi.MockContextFactory;
  * To change the template for this generated type comment go to
  * Window - Preferences - Java - Code Generation - Code and Comments
  */
-public class TestTransactionManagedEnvironment 
-	extends CastorTestCase 
-{
+public final class TestTransactionManagedEnvironment extends CastorTestCase {
 
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
-    private static Log _log = 
-    	LogFactory.getFactory().getInstance( TestTransactionManagedEnvironment.class );
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(
+            TestTransactionManagedEnvironment.class);
 
     private JDOJ2EECategory _category;
 
+    /** Database instance used in this test case. */
+    private Database _db;
+     
+    /** Initial jndi context to bind to/retrieve from UserTransaction instance */ 
+    private Context _context;
+    
     /**
-     * Database instance used in this test case.
+     * Creates an instance of this test case.
+     * @param name Name of this test case.
      */
-	private Database _db;
-	 
-	/**
-	 * initial jndi context to bind to/retrieve from UserTransaction instance
-	 */ 
-	private Context _context;
-	
-	/**
-	 * Creates an instance of this test case.
-	 * @param name Name of this test case.
-	 */
-	public TestTransactionManagedEnvironment (String name) {
-		super (name);
-	}
-	
+    public TestTransactionManagedEnvironment(final String name) {
+        super (name);
+    }
+    
     /**
      * Craetes an instance of this class.
      * @param category - this should be a fully configured 
-	 * JDOJ2EECategory that features all of the J2EE
-	 * resources.
+     * JDOJ2EECategory that features all of the J2EE
+     * resources.
      */
-    public TestTransactionManagedEnvironment( TestHarness category ) {
-		
-        super( category, "TC59", "Test Transaction Managed Environment" );
-	    _category = (JDOJ2EECategory) category;
-		
-	}
-	
-	public void setUp() throws Exception {
-    	super.setUp();
-		
-		/*
-		JDOJ2EECategory uses MockEJB to 
-		register resources in JNDI.
-		We need to create a Context to allow 
-		this test class to access these resources
-		*/
-		
-		//set the MockContext as the initial context factory
-		MockContextFactory.setAsInitial();
-        // create the initial context 
-        _context = new InitialContext( );
-           
+    public TestTransactionManagedEnvironment(final TestHarness category) {
+        super(category, "TC59", "Test Transaction Managed Environment");
+        _category = (JDOJ2EECategory) category;
     }
-	
-	
-	public void tearDown() throws Exception {
-		super.tearDown();
-	}
-	
-	/**
+
+    public void setUp() throws Exception {
+        super.setUp();
+        
+        /*
+        JDOJ2EECategory uses MockEJB to 
+        register resources in JNDI.
+        We need to create a Context to allow 
+        this test class to access these resources
+        */
+        
+        //set the MockContext as the initial context factory
+        MockContextFactory.setAsInitial();
+        // create the initial context 
+        _context = new InitialContext();
+    }
+
+    public void tearDown() throws Exception {
+        super.tearDown();
+    }
+
+    /**
      * Calls the individual tests embedded in this test case
      * @throws Exception A general exception.
-	 */
+     */
     public void runTest() throws Exception {
         testOQL();
     }
-	 
-	public void testOQL() throws Exception
-	{
-		OQLQuery      		oql;
-        QueryResults  		enumeration;
-		UserTransaction 	ut;
-		
-		try 
-		{	
-			//obtain the UserTransaction from JNDI
-			//this has been created in the JDOJ2EECategory
-			ut = (UserTransaction) _context.lookup( "java:/UserTransaction" );
-			//begin the transaction
-			ut.begin();
-			//get database - this should be bound to the transaction above
-			_db = _category.getDatabase( verbose );
-    		//execute some test OQL
-			oql = _db.getOQLQuery( "SELECT master FROM " + Master.class.getName() + " master" );	
-			enumeration = oql.execute();
-        	while ( enumeration.hasMore() )
-            	enumeration.next();
- 			
-			//commit the transaction
-			ut.commit();
-		}
-		catch ( TransactionNotInProgressException e ) 
-		{
-			_log.error (e.getClass().getName(), e);
-			//if this exception occurs, the JDO
-			//failed to correctly aquire the transaction 
-			//from the TransactionManager.
-			fail("Transaction not aquired");
-		}
-		finally
-		{
-			//try and close the database
-			try 
-			{
-				_db.close();
-			}
-			catch ( Exception e ) 
-			{
-				throw new Exception( "Couldn't close database: " + e.getMessage() );
-			}
-		}
-			
-	}
+
+    public void testOQL() throws Exception {
+        OQLQuery            oql;
+        QueryResults        enumeration;
+        UserTransaction     ut;
+        
+        try {   
+            //obtain the UserTransaction from JNDI
+            //this has been created in the JDOJ2EECategory
+            ut = (UserTransaction) _context.lookup("java:/UserTransaction");
+            //begin the transaction
+            ut.begin();
+            //get database - this should be bound to the transaction above
+            _db = _category.getDatabase(verbose);
+            //execute some test OQL
+            oql = _db.getOQLQuery(
+                    "SELECT master FROM " + Master.class.getName() + " master");    
+            enumeration = oql.execute();
+            while (enumeration.hasMore()) { enumeration.next(); }
+            //commit the transaction
+            ut.commit();
+        } catch (TransactionNotInProgressException e) {
+            LOG.error (e.getClass().getName(), e);
+            //if this exception occurs, the JDO
+            //failed to correctly aquire the transaction 
+            //from the TransactionManager.
+            fail("Transaction not aquired");
+        } finally {
+            //try and close the database
+            try {
+                _db.close();
+            } catch (Exception e) {
+                throw new Exception("Couldn't close database: " + e.getMessage());
+            }
+        }
+    }
 }

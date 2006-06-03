@@ -42,73 +42,36 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
 
 import java.util.Iterator;
 import java.util.NoSuchElementException;
+
 /**
  * Test object for different collection types.
  */
-public class Col {
+public abstract class Col {
+    protected static final Iterator EMPTY_ITORATOR = new EmptyIterator(); 
 
-    protected static Iterator _emptyItor = new EmptyIterator(); 
+    private int _id;
 
-    private int    _id;
+    public final int getId() { return _id; }
+    public final void setId(final int id) { _id = id; }
 
-    public Col() {
-    }
+    public final int getDummy() { return 1; }
+    public final void setDummy(final int dummy) { }
 
+    public abstract boolean containsItem(final Item item);
+    public abstract Iterator itemIterator();
+    public abstract void addItem(final Item item);
+    public abstract void removeItem(final Item item);
+    public abstract int itemSize();
 
-    public void setId( int id ) {
-        _id = id;
-    }
-
-
-    public int getId() {
-        return _id;
-    }
-
-    public void setDummy( int dummy ) {
-    }
-
-    public int getDummy() {
-        return 1;
-    }
-
-    public boolean containsItem( Item item ) {
-        return false;
-    }
-
-    public Iterator itemIterator() {
-        return _emptyItor;
-    }
-
-    public void addItem( Item item ) {
-    }
-
-    public void removeItem( Item item ) {
-    }
-
-    public int itemSize() {
-        return 0;
-    }
-
-    public String toString() {
-        return getClass().getName() + ":" + _id;
-    }
+    public final String toString() { return getClass().getName() + ":" + _id; }
 
     private static class EmptyIterator implements Iterator {
-        public boolean hasNext() {
-            return false;
-        }
-        public Object next() {
-            throw new NoSuchElementException();
-        }
-        public void remove() {
-            throw new IllegalStateException();
-        }
+        public boolean hasNext() { return false; }
+        public Object next() { throw new NoSuchElementException(); }
+        public void remove() { throw new IllegalStateException(); }
     }
-
 }

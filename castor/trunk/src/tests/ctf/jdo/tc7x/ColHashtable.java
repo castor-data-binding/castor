@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
 
 import java.util.Hashtable;
@@ -52,56 +50,38 @@ import java.util.Iterator;
 /**
  * Test object for different collection types.
  */
-public class ColHashtable extends Col {
-
+public final class ColHashtable extends Col {
     private Hashtable _item;
 
-    public ColHashtable() {
-        super();
+    public boolean containsItem(final Item item) {
+        if ((_item == null) || (_item.size() == 0)) { return false; }
+        return _item.values().contains(item);
     }
 
-    public boolean containsItem( Item item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
-
-        return _item.values().contains( item );
-    }
-
-    public void removeItem( Item item ) {
-        if ( _item != null ) {
-            _item.remove( new Integer(item.getId()) );
-            item.setTestCol( null );
+    public void removeItem(final Item item) {
+        if (_item != null) {
+            _item.remove(new Integer(item.getId()));
+            item.setTestCol(null);
         }
     }
 
     public int itemSize() {
-        if ( _item == null )
-            return 0;
-
+        if (_item == null) { return 0; }
         return _item.size();
     }
 
     public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
+        if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.values().iterator();
     }
 
-    public Hashtable getItem() {
-        return _item;
+    public Hashtable getItem() { return _item; }
+
+    public void setItem(final Hashtable item) { _item = item; }
+
+    public void addItem(final Item item) {
+        if (_item == null) { _item = new Hashtable(); }
+        _item.put(new Integer(item.getId()), item);
+        item.setTestCol(this);
     }
-
-    public void setItem( Hashtable item ) {
-        _item = item;
-    }
-
-    public void addItem( Item item ) {
-        if ( _item == null )
-            _item = new Hashtable();
-
-        _item.put( new Integer( item.getId() ), item );
-        item.setTestCol( this );
-    }
-
 }

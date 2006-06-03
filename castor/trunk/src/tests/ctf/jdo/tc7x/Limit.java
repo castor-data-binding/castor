@@ -42,84 +42,34 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
-
 
 /**
  * Test object mapping to test_table used to conduct all the tests.
  */
-public class Limit
-{
-
-
-    private int    _id;
-
-
-    private String _value1;
-
-
-    private String _value2;
-
-
+public final class Limit {
     public static final int       DEFAULT_ID = 3;
-
-
     public static final String    DEFAULT_VALUE_1 = "one";
-
-
     public static final String    DEFAULT_VALUE_2 = "two";
 
+    private int    _id;
+    private String _value1;
+    private String _value2;
 
-    public Limit()
-    {
+    public Limit() {
         _id = DEFAULT_ID;
         _value1 = DEFAULT_VALUE_1;
         _value2 = DEFAULT_VALUE_2;
     }
 
+    public int getId() { return _id; }
+    public void setId(final int id) { _id = id; }
 
-    public void setId( int id )
-    {
-        _id = id;
-    }
+    public String getValue1() { return _value1; }
+    public void setValue1(final String value1) { _value1 = value1; }
 
+    public String getValue2() { return _value2; }
+    public void setValue2(final String value2) { _value2 = value2; }
 
-    public int getId()
-    {
-        return _id;
-    }
-
-
-    public void setValue1( String value1 )
-    {
-        _value1 = value1;
-    }
-
-
-    public String getValue1()
-    {
-        return _value1;
-    }
-
-
-    public void setValue2( String value2 )
-    {
-        _value2 = value2;
-    }
-
-
-    public String getValue2()
-    {
-        return _value2;
-    }
-
-
-    public String toString()
-    {
-        return _id + " / " + _value1 + " / " + _value2;
-    }
-
-
+    public String toString() { return _id + " / " + _value1 + " / " + _value2; }
 }

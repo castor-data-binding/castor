@@ -421,20 +421,23 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                     if (!tx.isRecorded(oo)) {
                         // autoCreated = true;
                         tx.markCreate(fieldClassMolder, oo, oid);
-                        if (fieldClassMolder._isKeyGenUsed)
+                        if (fieldClassMolder._isKeyGenUsed) {
                             updateCache = true;
+                        }
                     } else
                     // fail-fast principle: if the object depend on another
                     // object,
                     // throw exception
-                    if (!tx.isDepended(oid, oo))
+                    if (!tx.isDepended(oid, oo)) {
                         throw new PersistenceException(
                                 "Dependent object may not change its master");
+                    }
                 } else if (tx.isAutoStore()) {
                     if (!tx.isRecorded(oo)) {
                         boolean creating = tx.markUpdate(fieldClassMolder, oo, null);
-                        if (creating && fieldClassMolder._isKeyGenUsed)
+                        if (creating && fieldClassMolder._isKeyGenUsed) {
                             updateCache = true;
+                        }
                     }
                 }
             }

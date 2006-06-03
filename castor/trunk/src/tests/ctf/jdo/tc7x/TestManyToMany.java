@@ -60,226 +60,245 @@ import org.exolab.castor.jdo.QueryResults;
  * Test for many-to-many relationship. A many to many relationship
  * is stored in a relational database as a separated table.
  */
-public class TestManyToMany extends CastorTestCase {
+public final class TestManyToMany extends CastorTestCase {
+    private static final int PERSON_1_ID = 1;
+    private static final int PERSON_2_ID = 2;
+    private static final int PERSON_3_ID = 3;
+    private static final int PERSON_4_ID = 4;
+    private static final int GROUP_A_ID = 201;
+    private static final int GROUP_B_ID = 202;
 
-    private Database       _db;
-
-    private JDOCategory    _category;
+    private Database _db;
+    private JDOCategory _category;
+    private OQLQuery _oql;
+    private ManyPerson _person1;
+    private ManyPerson _person2;
+    private ManyPerson _person3;
+    private ManyPerson _person4;
+    private ManyGroup _groupA;
+    private ManyGroup _groupB;
 
     /**
      * Constructor
      *
      * @param category The test suite of these tests
      */
-    public TestManyToMany( TestHarness category ) {
-        super( category, "TC73", "ManyToMany" );
+    public TestManyToMany(final TestHarness category) {
+        super(category, "TC73", "ManyToMany");
         _category = (JDOCategory) category;
     }
 
-
-    public void setUp() 
-            throws PersistenceException {
+    public void setUp() throws PersistenceException {
         _db = _category.getDatabase();
     }
+    
+    public void runTest() throws PersistenceException {
+        stream.println("Running...");
+        stream.println("");
 
-    public void runTest() 
-            throws PersistenceException {
+        deleteGroups();
+        deletePersons();
+        create();
+        check1();
+        check2();
+        check3();
+        check4();
+        check5();
+        check6();
+        check7();
+        check8();
+    }
 
-        ManyGroup groupA, groupB;
-        ManyPerson person1;
-        ManyPerson person2;
-        ManyPerson person3;
-        ManyPerson person4;
-        ManyPerson temp;
-        ArrayList al, bl;
-        OQLQuery oql;
-        QueryResults enumeration;
-        int groupAId = 201, groupBId = 202;
-        int person1Id = 1, person2Id = 2, person3Id = 3, person4Id = 4;
-
-        stream.println( "Running..." );
-        stream.println( "" );
-
+    private void deleteGroups() throws PersistenceException {
         _db.begin();
-
-        // select an group and delete it, if it exist!
-        OQLQuery oqlclean = _db.getOQLQuery( "SELECT object FROM " 
-                + ManyGroup.class.getName() + " object WHERE object.id < $1" );
-        oqlclean.bind( Integer.MAX_VALUE );
-        enumeration = oqlclean.execute();
-        while ( enumeration.hasMore() ) {
-            groupA = (ManyGroup) enumeration.next();
-            stream.println( "Retrieved object: " + groupA );
-            _db.remove( groupA );
-            stream.println( "Deleted object: " + groupA );
+        OQLQuery oqlclean = _db.getOQLQuery("SELECT object FROM " 
+                + ManyGroup.class.getName() + " object WHERE object.id < $1");
+        oqlclean.bind(Integer.MAX_VALUE);
+        QueryResults enumeration = oqlclean.execute();
+        while (enumeration.hasMore()) {
+            _groupA = (ManyGroup) enumeration.next();
+            stream.println("Retrieved object: " + _groupA);
+            _db.remove(_groupA);
+            stream.println("Deleted object: " + _groupA);
         }
         _db.commit();
+    }
 
+    private void deletePersons() throws PersistenceException {
         _db.begin();
-        oqlclean = _db.getOQLQuery( "SELECT object FROM " 
-                + ManyPerson.class.getName() + " object WHERE object.id < $1" );
-        oqlclean.bind( Integer.MAX_VALUE );
-        enumeration = oqlclean.execute();
-        while ( enumeration.hasMore() ) {
-            person1 = (ManyPerson) enumeration.next();
-            stream.println( "Retrieved object: " + person1 );
-            _db.remove( person1 );
-            stream.println( "Deleted object: " + person1 );
+        OQLQuery oqlclean = _db.getOQLQuery("SELECT object FROM " 
+                + ManyPerson.class.getName() + " object WHERE object.id < $1");
+        oqlclean.bind(Integer.MAX_VALUE);
+        QueryResults enumeration = oqlclean.execute();
+        while (enumeration.hasMore()) {
+            _person1 = (ManyPerson) enumeration.next();
+            stream.println("Retrieved object: " + _person1);
+            _db.remove(_person1);
+            stream.println("Deleted object: " + _person1);
         } 
         _db.commit();
+    }
 
-
+    private void create() throws PersistenceException {
         // create new group and new people, don't link them yet.
         // This test for null collection handling
         _db.begin();
-        oql = _db.getOQLQuery( "SELECT object FROM " 
-                + ManyGroup.class.getName() + " object WHERE id = $1" );
+        _oql = _db.getOQLQuery("SELECT object FROM " 
+                + ManyGroup.class.getName() + " object WHERE id = $1");
         stream.println("Creating new group with people!");
-        person1 = new ManyPerson();
-        person1.setValue1("I am person 1");
-        person1.setId(person1Id);
-        person1.setGroup( null );
-        person1.setSthelse("Something else");
-        person1.setHelloworld("Hello World!");
-        _db.create( person1 );
+        _person1 = new ManyPerson();
+        _person1.setValue1("I am person 1");
+        _person1.setId(PERSON_1_ID);
+        _person1.setGroup(null);
+        _person1.setSthelse("Something else");
+        _person1.setHelloworld("Hello World!");
+        _db.create(_person1);
         _db.commit();
 
         // create new group with two people
         _db.begin();
         stream.println("Creating new group with people!");
-        person1 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person1Id) );
-        person1.setValue1("I am person 1");
+        _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
+        _person1.setValue1("I am person 1");
         ArrayList gPerson1 = new ArrayList();
-        person1.setId(person1Id);
-        person1.setGroup( gPerson1 );
-        person1.setSthelse("Something else");
-        person1.setHelloworld("Hello World!");
+        _person1.setId(PERSON_1_ID);
+        _person1.setGroup(gPerson1);
+        _person1.setSthelse("Something else");
+        _person1.setHelloworld("Hello World!");
 
-        person2 = new ManyPerson();
-        person2.setValue1("I am person 2");
+        _person2 = new ManyPerson();
+        _person2.setValue1("I am person 2");
         ArrayList gPerson2 = new ArrayList();
-        person2.setId(person2Id);
-        person2.setGroup( gPerson2 );
-        person2.setSthelse("Something else");
-        person2.setHelloworld("Hello World!");
+        _person2.setId(PERSON_2_ID);
+        _person2.setGroup(gPerson2);
+        _person2.setSthelse("Something else");
+        _person2.setHelloworld("Hello World!");
 
-        person3 = new ManyPerson();
-        person3.setValue1("I am person 3");
+        _person3 = new ManyPerson();
+        _person3.setValue1("I am person 3");
         ArrayList gPerson3 = new ArrayList();
-        person3.setId(person3Id);
-        person3.setGroup( gPerson3 );
-        person3.setSthelse("Something else for person 3");
-        person3.setHelloworld("Hello World!");
+        _person3.setId(PERSON_3_ID);
+        _person3.setGroup(gPerson3);
+        _person3.setSthelse("Something else for person 3");
+        _person3.setHelloworld("Hello World!");
 
-        person4 = new ManyPerson();
-        person4.setValue1("I am person 4");
+        _person4 = new ManyPerson();
+        _person4.setValue1("I am person 4");
         ArrayList gPerson4 = new ArrayList();
-        person4.setId(person4Id);
-        person4.setGroup( gPerson4 );
-        person4.setSthelse("Something else for person 4");
-        person4.setHelloworld("Hello World!");
+        _person4.setId(PERSON_4_ID);
+        _person4.setGroup(gPerson4);
+        _person4.setSthelse("Something else for person 4");
+        _person4.setHelloworld("Hello World!");
 
-        groupA = new ManyGroup();
-        groupA.setValue1("Group A");
-        al = new ArrayList();
-        al.add( person1 );
-        al.add( person2 );
-        groupA.setId(groupAId);
-        groupA.setPeople( al );
+        _groupA = new ManyGroup();
+        _groupA.setValue1("Group A");
+        ArrayList al = new ArrayList();
+        al.add(_person1);
+        al.add(_person2);
+        _groupA.setId(GROUP_A_ID);
+        _groupA.setPeople(al);
 
-        groupB = new ManyGroup();
-        groupB.setValue1("Group B");
-        groupB.setId(groupBId);
-        bl = new ArrayList();
-        bl.add( person2 );
-        groupB.setPeople( bl );
-        gPerson1.add( groupA );
-        gPerson2.add( groupA );
-        gPerson2.add( groupB );
+        _groupB = new ManyGroup();
+        _groupB.setValue1("Group B");
+        _groupB.setId(GROUP_B_ID);
+        ArrayList bl = new ArrayList();
+        bl.add(_person2);
+        _groupB.setPeople(bl);
+        gPerson1.add(_groupA);
+        gPerson2.add(_groupA);
+        gPerson2.add(_groupB);
 
-        _db.create( groupA );
-        _db.create( person2 );
-        _db.create( groupB );
+        _db.create(_groupA);
+        _db.create(_person2);
+        _db.create(_groupB);
 
-        stream.println("object created: " + groupA);
+        stream.println("object created: " + _groupA);
         _db.commit();
+    }
 
-        // load the object and modify it
+    private void check1() throws PersistenceException {
         stream.println("Load the objects and modify it");
         _db.begin();
-        oql.bind( groupAId );
-        groupA = null;
-        person1 = null;
-        person2 = null;
-        enumeration = oql.execute();
-        if ( enumeration.hasMore() ) {
-            groupA = (ManyGroup) enumeration.next();
-            stream.println( "Retrieved object: " + groupA );
-            Collection p = groupA.getPeople();
-            if ( p != null ) {
+        _oql.bind(GROUP_A_ID);
+        _groupA = null;
+        _person1 = null;
+        _person2 = null;
+        QueryResults enumeration = _oql.execute();
+        if (enumeration.hasMore()) {
+            _groupA = (ManyGroup) enumeration.next();
+            stream.println("Retrieved object: " + _groupA);
+            Collection p = _groupA.getPeople();
+            if (p != null) {
                 Iterator itor = p.iterator();
-                if ( itor.hasNext() ) 
-                    person1 = (ManyPerson) itor.next();
-                if ( itor.hasNext() )
-                    person2 = (ManyPerson) itor.next();
-                if ( itor.hasNext() )
-                    fail("Error: more people than expected!");
+                if (itor.hasNext()) { _person1 = (ManyPerson) itor.next(); }
+                if (itor.hasNext()) { _person2 = (ManyPerson) itor.next(); }
+                if (itor.hasNext()) { fail("Error: more people than expected!"); }
             
-                if ( person1 == null || person2 == null )
+                if ((_person1 == null) || (_person2 == null)) {
                     fail("Error: expect two people in group");
+                }
 
-                if ( person1.getId() == person2Id && person2.getId() == person1Id ) {
-                    temp = person1;
-                    person1 = person2;
-                    person2 = temp;
+                if ((_person1.getId() == PERSON_2_ID)
+                        && (_person2.getId() == PERSON_1_ID)) {
+                    ManyPerson temp = _person1;
+                    _person1 = _person2;
+                    _person2 = temp;
                 }
                 
-                if ( person1.getId() == person1Id && person2.getId() == person2Id ) {
+                if ((_person1.getId() == PERSON_1_ID)
+                        && (_person2.getId() == PERSON_2_ID)) {
                     // check if the value is valid for person1 and chnage value of person1
-                    if ( person1.getValue1() == null || !person1.getValue1().equals("I am person 1") ) {
+                    if ((_person1.getValue1() == null)
+                            || !_person1.getValue1().equals("I am person 1")) {
                         fail("Error: unexpected person value");
                     } else {
-                        person1.setValue1("New person 1 value");
+                        _person1.setValue1("New person 1 value");
                     }
 
                     // check if the value is valid for person1 and remove person2
-                    if ( person2.getValue1() == null || !person2.getValue1().equals("I am person 2") ) {
+                    if ((_person2.getValue1() == null)
+                            || !_person2.getValue1().equals("I am person 2")) {
                         fail("Error: unexpected person value");
                     }
 
                     // make sure person 2 contains 2 groups
-                    if ( person2.getGroup() == null || person2.getGroup().size() != 2 ) {
-                        fail("Error: expected group not found [2]" );
+                    if ((_person2.getGroup() == null)
+                            || (_person2.getGroup().size() != 2)) {
+                        fail("Error: expected group not found [2]");
                     }
-                    Iterator groupItor = person2.getGroup().iterator();
+                    Iterator groupItor = _person2.getGroup().iterator();
 
                     groupItor.hasNext();
                     ManyGroup tempGroup = (ManyGroup) groupItor.next();
                     int tempId = tempGroup.getId();
-                    if ( tempId != groupAId && tempId != groupBId )
-                        fail( "Error: unexpect group found" );
+                    if ((tempId != GROUP_A_ID) && (tempId != GROUP_B_ID)) {
+                        fail("Error: unexpect group found");
+                    }
 
                     groupItor.hasNext();
                     tempGroup = (ManyGroup) groupItor.next();
-                    if ( tempGroup.getId() == tempId )
-                        fail ( "Error: duplicated group found" );
-                    if ( tempGroup.getId() != groupAId && tempGroup.getId() != groupBId )
-                        fail( "Error: unexpect group found" );
+                    if (tempGroup.getId() == tempId) {
+                        fail("Error: duplicated group found");
+                    }
+                    if ((tempGroup.getId() != GROUP_A_ID)
+                            && (tempGroup.getId() != GROUP_B_ID)) {
+                        fail("Error: unexpect group found");
+                    }
 
                     // remove person 2
                     itor = p.iterator();
-                    while ( itor.hasNext() ) {
-                        person2 = (ManyPerson) itor.next();
-                        if ( person2.getId() == person2Id ) {
+                    while (itor.hasNext()) {
+                        _person2 = (ManyPerson) itor.next();
+                        if (_person2.getId() == PERSON_2_ID) {
                             itor.remove();
                             break;
                         }
                     }
 
                     // add person 3
-                    groupA.getPeople().add( person3 );
-                    person3.getGroup().add( groupA );
-                    _db.create( person3 );
+                    _groupA.getPeople().add(_person3);
+                    _person3.getGroup().add(_groupA);
+                    _db.create(_person3);
                 } else {
                     fail("Error: people in group is not the same as expected!");
                 }
@@ -290,53 +309,53 @@ public class TestManyToMany extends CastorTestCase {
             fail("Error: object not found!");
         }
         _db.commit();
-        if ( person3Id == person2Id )
-            fail("Error: unexpected id swapping ocurrs!");
+    }
 
-        // load again to see if the changes done are effective
+    private void check2() throws PersistenceException {
         stream.println("Load the objects again to see if changes done are effective");
         _db.begin();
-        oql.bind( groupAId );
-        groupA = null;
-        person1 = null;
-        person2 = null;
-        enumeration = oql.execute();
-        if ( enumeration.hasMore() ) {
-            groupA = (ManyGroup) enumeration.next();
-            stream.println( "Retrieved object: " + groupA );
-            Collection p = groupA.getPeople();
-            if ( p != null ) {
+        _oql.bind(GROUP_A_ID);
+        _groupA = null;
+        _person1 = null;
+        _person2 = null;
+        QueryResults enumeration = _oql.execute();
+        if (enumeration.hasMore()) {
+            _groupA = (ManyGroup) enumeration.next();
+            stream.println("Retrieved object: " + _groupA);
+            Collection p = _groupA.getPeople();
+            if (p != null) {
                 Iterator itor = p.iterator();
-                if ( itor.hasNext() ) 
-                    person1 = (ManyPerson) itor.next();
-                if ( itor.hasNext() )
-                    person3 = (ManyPerson) itor.next();
+                if (itor.hasNext()) { _person1 = (ManyPerson) itor.next(); }
+                if (itor.hasNext()) { _person3 = (ManyPerson) itor.next(); }
 
                 // swap if the order is wrong
-                if ( person1.getId() == person3Id && person3.getId() == person1Id ) {
-                    temp = person1;
-                    person1 = person3;
-                    person3 = temp;
+                if ((_person1.getId() == PERSON_3_ID)
+                        && (_person3.getId() == PERSON_1_ID)) {
+                    ManyPerson temp = _person1;
+                    _person1 = _person3;
+                    _person3 = temp;
                 }
-                if ( itor.hasNext() ) {
-                    fail("Error: more people than expected! 1:(" + person1 + ") 2: (" + itor.next() + ")");
+                if (itor.hasNext()) {
+                    fail("Error: more people than expected! "
+                            + "1:(" + _person1 + ") 2: (" + itor.next() + ")");
                 }
 
-                if ( person1 == null )
-                    fail("Error: expect person1 in group");
+                if (_person1 == null) { fail("Error: expect person1 in group"); }
 
-                if ( person1.getId() == person1Id ) {
+                if (_person1.getId() == PERSON_1_ID) {
                     // check if the value is valid for person1 and chnage value of person1
-                    if ( person1.getValue1() == null || !person1.getValue1().equals("New person 1 value") ) {
+                    if ((_person1.getValue1() == null)
+                            || !_person1.getValue1().equals("New person 1 value")) {
                         fail("Error: unexpected person value");
                     }
                 } else {
                     fail("Error: people in group is not the same as expected!");
                 }
 
-                if ( person3.getId() == person3Id ) {
+                if (_person3.getId() == PERSON_3_ID) {
                     // check if the value is valid for person1 and chnage value of person1
-                    if ( person3.getValue1() == null || !person3.getValue1().equals("I am person 3") ) {
+                    if ((_person3.getValue1() == null)
+                            || !_person3.getValue1().equals("I am person 3")) {
                         fail("Error: unexpected person value");
                     }
                 } else {
@@ -351,155 +370,178 @@ public class TestManyToMany extends CastorTestCase {
         }
 
         // check if person 2 contains only one group, and the group is B
-        person2 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person2Id) );
+        _person2 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_2_ID));
         // make sure person 2 contains 2 groups
-        if ( person2.getGroup() == null || person2.getGroup().size() != 1 ) {
-            fail("Error: expected group not found [3]" );
+        if ((_person2.getGroup() == null) || (_person2.getGroup().size() != 1)) {
+            fail("Error: expected group not found [3]");
         }
 
-        Iterator groupItor = person2.getGroup().iterator();
+        Iterator groupItor = _person2.getGroup().iterator();
         groupItor.hasNext();
         ManyGroup tempGroup = (ManyGroup) groupItor.next();
-        if ( tempGroup.getId() != groupBId )
-            fail( "Error: unexpected group found [1]: " + tempGroup.getId() );
+        if (tempGroup.getId() != GROUP_B_ID) {
+            fail("Error: unexpected group found [1]: " + tempGroup.getId());
+        }
 
         // remove all group from person2
-        person2.setGroup( null );
+        _person2.setGroup(null);
         _db.commit();
+    }
 
+    private void check3() throws PersistenceException {
         _db.begin();
         // check if person 2 contains no group
-        person2 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person2Id) );
-        if ( person2.getGroup() != null && person2.getGroup().size() != 0 ) {
-            fail("Error: expected group not found [1]" );
+        _person2 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_2_ID));
+        if ((_person2.getGroup() != null) && (_person2.getGroup().size() != 0)) {
+            fail("Error: expected group not found [1]");
         }
-        _db.remove( person2 );
+        _db.remove(_person2);
         _db.commit();
+    }
 
+    private void check4() throws PersistenceException {
         _db.begin();
         // check if group a and group b contains no person2
-        groupA = (ManyGroup) _db.load( ManyGroup.class, new Integer(groupAId) );
-        groupItor = groupA.getPeople().iterator();
-        while ( groupItor.hasNext() ) {
-            person2 = (ManyPerson) groupItor.next();
-            if ( person2.getId() == person2Id )
+        _groupA = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
+        Iterator groupItor = _groupA.getPeople().iterator();
+        while (groupItor.hasNext()) {
+            _person2 = (ManyPerson) groupItor.next();
+            if (_person2.getId() == PERSON_2_ID) {
                 fail("Error: person2 is not removed");
+            }
         }
-        groupB = (ManyGroup) _db.load( ManyGroup.class, new Integer(groupBId) );
-        if ( groupB.getPeople() != null && groupB.getPeople().size() != 0 )
+        _groupB = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_B_ID));
+        if ((_groupB.getPeople() != null) && (_groupB.getPeople().size() != 0)) {
             fail("Error: person2 is not removed");
+        }
 
         // make a dangerous add (add to only one side)
         // user shouldn't rely on this behavior, but 
         // should always link both side before commit
-        person1 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person1Id) );
-        person1.getGroup().add(groupB);
+        _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
+        _person1.getGroup().add(_groupB);
         _db.commit();
+    }
 
+    private void check5() throws PersistenceException {
         // check if adding group into existing collection work
         _db.begin();
-        person1 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person1Id) );
-        Iterator tempItor = person1.getGroup().iterator();
-        if ( !tempItor.hasNext() )
+        _person1 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_1_ID));
+        Iterator tempItor = _person1.getGroup().iterator();
+        if (!tempItor.hasNext()) {
             fail("Error: expected group from person1 not found");
-        groupA = (ManyGroup) tempItor.next();
-        int tempGroupId = groupA.getId();
-        if ( tempGroupId != groupAId && tempGroupId != groupBId )
+        }
+        _groupA = (ManyGroup) tempItor.next();
+        int tempGroupId = _groupA.getId();
+        if ((tempGroupId != GROUP_A_ID) && (tempGroupId != GROUP_B_ID)) {
             fail("Error: unexpected group from person1 found");
+        }
 
-        if ( !tempItor.hasNext() )
+        if (!tempItor.hasNext()) {
             fail("Error: expected group from person1 not found");
-        groupA = (ManyGroup) tempItor.next();
-        if ( tempGroupId == groupA.getId() )
+        }
+        _groupA = (ManyGroup) tempItor.next();
+        if (tempGroupId == _groupA.getId()) {
             fail("Error: duplicated group found!");
-        if ( groupA.getId() != groupAId && groupA.getId() != groupBId )
+        }
+        if ((_groupA.getId() != GROUP_A_ID) && (_groupA.getId() != GROUP_B_ID)) {
             fail("Error: unexpected group from person1 found");
+        }
         _db.commit();
+    }
 
+    private void check6() throws PersistenceException {
         // test long transaction support
         _db.begin();
-        groupA = (ManyGroup) _db.load( ManyGroup.class, new Integer(groupAId) );
+        _groupA = (ManyGroup) _db.load(ManyGroup.class, new Integer(GROUP_A_ID));
         _db.commit();
 
         stream.println("Modifing object outside of transaction");
         // remove person 3
-        Iterator it = groupA.getPeople().iterator();
-        while ( it.hasNext() ) {
-            person3 = (ManyPerson) it.next();
-            if ( person3.getId() == person3Id ) {
+        Iterator it = _groupA.getPeople().iterator();
+        while (it.hasNext()) {
+            _person3 = (ManyPerson) it.next();
+            if (_person3.getId() == PERSON_3_ID) {
                 it.remove();
                 break;
             }
         }
-        person3.getGroup().clear();
+        _person3.getGroup().clear();
         // add person 4
-        groupA.getPeople().add( person4 );
-        person4.getGroup().add( groupA );
+        _groupA.getPeople().add(_person4);
+        _person4.getGroup().add(_groupA);
         // find person 1
-        person1 = null;
-        it = groupA.getPeople().iterator();
-        while ( it.hasNext() ) {
-            person1 = (ManyPerson) it.next();
-            if ( person1.getId() == person1Id )
-                break;
+        _person1 = null;
+        it = _groupA.getPeople().iterator();
+        while (it.hasNext()) {
+            _person1 = (ManyPerson) it.next();
+            if (_person1.getId() == PERSON_1_ID) { break; }
         }
-        person1.setValue1("New new value for person 1");
+        _person1.setValue1("New new value for person 1");
 
         stream.println("Update object to a new transaction");
-        _db.setAutoStore( true );
+        _db.setAutoStore(true);
         _db.begin();
-        _db.update( groupA );
+        _db.update(_groupA);
         _db.commit();
+    }
 
-        person4Id = person4.getId();
-        // load again to see if the changes done are effective
+    private void check7() throws PersistenceException {
         stream.println("Load the objects again to see if changes done are effective");
         _db.begin();
-        oql.bind( groupAId );
-        groupA = null;
-        person1 = null;
-        person2 = null;
-        enumeration = oql.execute();
-        if ( enumeration.hasMore() ) {
-            groupA = (ManyGroup) enumeration.next();
-            stream.println( "Retrieved object: " + groupA );
-            Collection p = groupA.getPeople();
-            if ( p != null ) {
+        _oql.bind(GROUP_A_ID);
+        _groupA = null;
+        _person1 = null;
+        _person2 = null;
+        QueryResults enumeration = _oql.execute();
+        if (enumeration.hasMore()) {
+            _groupA = (ManyGroup) enumeration.next();
+            stream.println("Retrieved object: " + _groupA);
+            Collection p = _groupA.getPeople();
+            if (p != null) {
                 Iterator itor = p.iterator();
-                if ( itor.hasNext() ) 
-                    person1 = (ManyPerson) itor.next();
-                else 
+                if (itor.hasNext()) {
+                    _person1 = (ManyPerson) itor.next();
+                } else {
                     fail("Erorr: less people than expected!");
-                if ( itor.hasNext() )
-                    person4 = (ManyPerson) itor.next();
-                else 
+                }
+                if (itor.hasNext()) {
+                    _person4 = (ManyPerson) itor.next();
+                } else {
                     fail("Erorr: less people than expected!");
+                }
 
                 // swap if the order is wrong
-                if ( person1.getId() == person4Id && person4.getId() == person1Id ) {
-                    temp = person1;
-                    person1 = person4;
-                    person4 = temp;
+                if ((_person1.getId() == PERSON_4_ID)
+                        && (_person4.getId() == PERSON_1_ID)) {
+                    ManyPerson temp = _person1;
+                    _person1 = _person4;
+                    _person4 = temp;
                 }
-                if ( itor.hasNext() ) {
-                    fail("Error: more people than expected! 1:(" + person1 + ") 2: (" + itor.next() + ")");
+                if (itor.hasNext()) {
+                    fail("Error: more people than expected! "
+                            + "1:(" + _person1 + ") 2: (" + itor.next() + ")");
                 }
 
-                if ( person1 == null )
+                if (_person1 == null) {
                     fail("Error: expect person1 in group");
+                }
 
-                if ( person1.getId() == person1Id ) {
+                if (_person1.getId() == PERSON_1_ID) {
                     // check if the value is valid for person1 and chnage value of person1
-                    if ( person1.getValue1() == null || !person1.getValue1().equals("New new value for person 1") ) {
+                    if ((_person1.getValue1() == null)
+                            || !_person1.getValue1().equals(
+                                    "New new value for person 1")) {
                         fail("Error: unexpected person value");
                     }
                 } else {
                     fail("Error: people in group is not the same as expected!");
                 }
 
-                if ( person4.getId() == person4Id ) {
+                if (_person4.getId() == PERSON_4_ID) {
                     // check if the value is valid for person1 and chnage value of person1
-                    if ( person4.getValue1() == null || !person4.getValue1().equals("I am person 4") ) {
+                    if ((_person4.getValue1() == null)
+                            || !_person4.getValue1().equals("I am person 4")) {
                         fail("Error: unexpected person value");
                     }
                 } else {
@@ -512,33 +554,31 @@ public class TestManyToMany extends CastorTestCase {
         } else {
             fail("Error: object not found!");
         }
-        person3 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person3Id) );
+        _person3 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_3_ID));
         _db.commit();
+    }
 
+    private void check8() throws PersistenceException {
         // modify and commit to long trans
-        groupA.getPeople().add( person3 );
-        person3.getGroup().add( groupA );
+        _groupA.getPeople().add(_person3);
+        _person3.getGroup().add(_groupA);
         _db.begin();
-        _db.update( groupA );
+        _db.update(_groupA);
         _db.commit();
 
         // load and check
         _db.begin();
-        person3 = (ManyPerson) _db.load( ManyPerson.class, new Integer(person3Id) );
-        tempItor = person3.getGroup().iterator();
-        if ( !tempItor.hasNext() )
-            fail( "Error: group not found" );
-        groupA = (ManyGroup) tempItor.next();
-        if ( groupA.getId() != groupAId )
-            fail( "Error: unexpected group found" );
-        if ( tempItor.hasNext() )
-            fail( "Error: too many group" );
+        _person3 = (ManyPerson) _db.load(ManyPerson.class, new Integer(PERSON_3_ID));
+        Iterator tempItor = _person3.getGroup().iterator();
+        if (!tempItor.hasNext()) { fail("Error: group not found"); }
+        _groupA = (ManyGroup) tempItor.next();
+        if (_groupA.getId() != GROUP_A_ID) { fail("Error: unexpected group found"); }
+        if (tempItor.hasNext()) { fail("Error: too many group"); }
         _db.commit();
     }
 
-    public void tearDown()
-            throws PersistenceException {
-        if ( _db.isActive() ) _db.rollback();
+    public void tearDown() throws PersistenceException {
+        if (_db.isActive()) { _db.rollback(); }
         _db.close();
     }
 }

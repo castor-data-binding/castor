@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package ctf.jdo.tc7x;
-
 
 import java.util.HashSet;
 import java.util.Iterator;
@@ -53,56 +50,38 @@ import java.util.Iterator;
 /**
  * Test object for different collection types.
  */
-public class ColHashSet extends Col {
-
+public final class ColHashSet extends Col {
     private HashSet _item;
 
-    public ColHashSet() {
-        super();
+    public boolean containsItem(final Item item) {
+        if ((_item == null) || (_item.size() == 0)) { return false; }
+        return _item.contains(item);
     }
 
-    public boolean containsItem( Item item ) {
-        if ( _item == null || _item.size() == 0 )
-            return false;
-
-        return _item.contains( item );
-    }
-
-    public void removeItem( Item item ) {
-        if ( _item != null ) {
-            _item.remove( item );
-            item.setTestCol( null );
+    public void removeItem(final Item item) {
+        if (_item != null) {
+            _item.remove(item);
+            item.setTestCol(null);
         }
     }
 
     public int itemSize() {
-        if ( _item == null )
-            return 0;
-
+        if (_item == null) { return 0; }
         return _item.size();
     }
 
     public Iterator itemIterator() {
-        if ( _item == null || _item.size() == 0 )
-            return _emptyItor;
-
+        if ((_item == null) || (_item.size() == 0)) { return EMPTY_ITORATOR; }
         return _item.iterator();
     }
 
-    public void setItem( HashSet items ) {
-        _item = items;
+    public void setItem(final HashSet items) { _item = items; }
+
+    public HashSet getItem() { return _item; }
+
+    public void addItem(final Item item) {
+        if (_item != null) { _item = new HashSet(); }
+        _item.add(_item);
+        item.setTestCol(this);
     }
-
-    public HashSet getItem() {
-        return _item;
-    }
-
-    public void addItem( Item item ) {
-        if ( _item != null )
-            _item = new HashSet();
-
-        _item.add( _item );
-        item.setTestCol( this );
-    }
-
 }
