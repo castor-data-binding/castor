@@ -504,7 +504,7 @@ public class Types
         new TypeInfo( "float",       java.lang.Float.TYPE,
                       java.lang.Float.class,      true,     new Float( 0 ) ),
         new TypeInfo( "big-decimal", null,
-                      java.math.BigDecimal.class, true,     new BigDecimal( (double) 0 ) ),
+                      java.math.BigDecimal.class, true,     new BigDecimal( 0 ) ),
         new TypeInfo( "byte",        java.lang.Byte.TYPE,
                       java.lang.Byte.class,       true,     new Byte( (byte) 0 ) ),
         new TypeInfo( "date",        null,

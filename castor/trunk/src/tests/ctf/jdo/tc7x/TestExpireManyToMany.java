@@ -111,7 +111,7 @@ public class TestExpireManyToMany extends CastorTestCase {
         try {
             _db   = _category.getDatabase();
         }
-        catch(Exception e) {
+        catch (Exception e) {
         	_log.warn ("Problem opening a Database instance.", e);
         }
         _conn = _category.getJDBCConnection();

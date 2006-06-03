@@ -150,15 +150,15 @@ public class TestTransactionManagedEnvironment
 	{
 		OQLQuery      		oql;
         QueryResults  		enumeration;
-		UserTransaction 	_ut;
+		UserTransaction 	ut;
 		
 		try 
 		{	
 			//obtain the UserTransaction from JNDI
 			//this has been created in the JDOJ2EECategory
-			_ut = ( UserTransaction )_context.lookup( "java:/UserTransaction" );
+			ut = ( UserTransaction )_context.lookup( "java:/UserTransaction" );
 			//begin the transaction
-			_ut.begin();
+			ut.begin();
 			//get database - this should be bound to the transaction above
 			_db = _category.getDatabase( verbose );
     		//execute some test OQL
@@ -168,7 +168,7 @@ public class TestTransactionManagedEnvironment
             	enumeration.next();
  			
 			//commit the transaction
-			_ut.commit();
+			ut.commit();
 		}
 		catch ( TransactionNotInProgressException e ) 
 		{

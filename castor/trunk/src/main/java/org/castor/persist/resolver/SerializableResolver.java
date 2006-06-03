@@ -24,6 +24,8 @@ import java.io.ObjectInputStream;
 import java.io.ObjectOutputStream;
 import java.io.OptionalDataException;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.persist.ProposedEntity;
 import org.castor.persist.TransactionContext;
 import org.castor.persist.UpdateAndRemovedFlags;
@@ -42,6 +44,10 @@ import org.exolab.castor.persist.OID;
  * @since 0.9.9
  */
 public final class SerializableResolver implements ResolverStrategy {
+
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(SerializableResolver.class);
 
     /**
      * Associated {@link FieldMolder}.
@@ -114,17 +120,8 @@ public final class SerializableResolver implements ResolverStrategy {
         // deserialize byte[] into java object
         try {
             byte[] bytes = (byte[]) field;
-            Object fieldValue =
-                _fieldMolder.getValue(object, tx.getClassLoader());
-            if (fieldValue == null && bytes == null) {
-                // do nothing
-            } else if (fieldValue == null || bytes == null) {
-                // indicate store is needed
-                if (_fieldMolder.isStored() /* && fieldMolder.isCheckDirty() */) {
-                    flags.setUpdatePersist(true);
-                }
-                flags.setUpdateCache(true);
-            } else { // both not null
+            Object fieldValue = _fieldMolder.getValue(object, tx.getClassLoader());
+            if (fieldValue != null && bytes != null) {
                 // The following code can be updated, after Blob-->InputStream
                 // to enhance performance.
                 ByteArrayInputStream bis = new ByteArrayInputStream(bytes);
@@ -136,6 +133,12 @@ public final class SerializableResolver implements ResolverStrategy {
                     }
                     flags.setUpdateCache(true);
                 }
+            } else if (fieldValue != null || bytes != null) {
+                // indicate store is needed
+                if (_fieldMolder.isStored() /* && fieldMolder.isCheckDirty() */) {
+                    flags.setUpdatePersist(true);
+                }
+                flags.setUpdateCache(true);
             }
         } catch (OptionalDataException e) {
             throw new PersistenceException(
@@ -207,6 +210,8 @@ public final class SerializableResolver implements ResolverStrategy {
         } catch (IOException e) {
             // TODO [WG]: investigate ????????????????????????????
             // It won't happen. ByteArrayOutputStream will not throw IOException
+            String msg = "ByteArrayOutputStream throw IOException: " + e.getMessage();
+            LOG.error(msg, e);
         }
         return field;
     }

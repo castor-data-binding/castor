@@ -2,7 +2,6 @@ package ctf.jdo.tc20x;
 
 import java.util.Collection;
 import java.util.ArrayList;
-import java.util.Date;
 import java.io.Serializable;
 import org.exolab.castor.jdo.TimeStampable;
 

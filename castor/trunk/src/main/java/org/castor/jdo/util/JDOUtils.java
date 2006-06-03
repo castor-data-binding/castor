@@ -25,8 +25,6 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.jdo.TransactionNotInProgressException;
 
 /**
  * Common static methods for Castor JDO
