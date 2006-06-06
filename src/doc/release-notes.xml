@@ -52,7 +52,7 @@
                 <a href="scm.html">SVN/JIRA</a>.</p>
                 
                 <h2>Additions</h2>
-^
+
                 <h3>Added support for ehCache</h3>
                 
                 <p>By specifing</p>
@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1444" tool="jira">
+                    <description>
+		                Fixed documentation of OQL OFFSET clause usage.
+                    </description>
+                    <contributor>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin Fuchs</name>
+                        <email>martin-fuchs@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060606</date>
+                </bug>
                 <bug id="1443" tool="jira">
                     <description>
 		                Fixed various compiler warnings mainly in tc7x and tc20x tests of CTF.
