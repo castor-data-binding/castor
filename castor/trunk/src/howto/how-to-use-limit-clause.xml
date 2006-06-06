@@ -124,11 +124,12 @@ OQLResults results = query.execute();
 
             <p>Below is the same OQL query again, restricting the number of ProductGroup instances
             returned to 10, though this time it is specified that the ProductGroup 
-            instances 11 to 20 should be returned.</p>
+            instances 101 to 110 should be returned.</p>
 
             <code-panel>
-OQLQuery query = db.getOQLQuery ("select product from ProductGroup as product <b>LIMIT $1 <font color="red">OFFSET $2</font></b>");
+OQLQuery query = db.getOQLQuery("select product from ProductGroup as product <b>LIMIT $1 <font color="red">OFFSET $2</font></b>");
 query.bind(10);
+query.bind(100);
 OQLResults results = query.execute();
             </code-panel>
 
@@ -155,7 +156,7 @@ OQLResults results = query.execute();
                             <td>mySQL</td><td>Yes</td><td>Yes</td>
                         </tr>
                         <tr>
-                            <td>Oracle - 1)2)</td><td>Yes</td><td>Yes</td>
+                            <td>Oracle 1) 2)</td><td>Yes</td><td>Yes</td>
                         </tr>
                         <tr>
                             <td>HSQL</td><td>Yes</td><td>Yes</td>
@@ -171,10 +172,10 @@ OQLResults results = query.execute();
             </tr>
          </table>
 
-         <p>1) Oracle has full support for LIMIT/OFFSET clauses for release 8.1.6 and
-            later.</p>
+         <p>1) Caster has full support for LIMIT/OFFSET clauses for Oracle Releases 8.1.6
+            and later.</p>
          <p>2) For the LIMIT/OFFSET clauses to work properly the OQL query is required
-			to include a ORDER BY clause.</p>
+			to include an ORDER BY clause.</p>
 
         
     </section>
