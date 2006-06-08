@@ -19,6 +19,19 @@
 --> 
 
 		<item>
+			<title>Castor 1.0.1 available</title>
+			<pubDate>Thu, 8 Jun 2006 20:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item45</link>
+			<description>
+				Castor 1.0.1 has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+		</item>
+		<item>
 			<title>Jira and notifications</title>
 			<pubDate>Tue, 30 May 2006 13:07:43 GMT</pubDate>
 			<author>Werner Guttmann</author>

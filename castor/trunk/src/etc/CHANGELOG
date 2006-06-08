@@ -2,6 +2,9 @@
 Version (SVN)
 -------------
 
+Version 1.0.1, Jun 8, 2006
+-------------------------------
+
 JDO:   Fixed bug CASTOR-1172 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for ANSI-92 compliance to SQLServer persistence classes.
        Details: http://jira.codehaus.org/browse/CASTOR-1172

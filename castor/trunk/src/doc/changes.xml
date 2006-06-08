@@ -35,6 +35,9 @@
         <section title="Changes/improvements">
 
             <ul>
+                <li>Complete rewrite of information related to caching in Castor JDO. The new
+                    and improved documentation can be found 
+                    <a href="jdo-caching-detail.html">here</a>.</li>
                 <li>Modified <a href="scm.html">SVN/JIRA</a> and various other areas
                     of documentation to reflect migration of Castor repository from
                     CVS to SVN.</li>
