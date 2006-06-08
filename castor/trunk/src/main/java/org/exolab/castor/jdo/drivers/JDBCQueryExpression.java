@@ -606,6 +606,14 @@ public class JDBCQueryExpression
             return leftTable + "." + leftColumns[0] + (outer ? "*=" : "=") + rightTable + "." + rightColumns[0];
 
         }
+        
+        /**
+         * Indicates whether the join in question is an outer join
+         * @return True if it is an outer join.
+         */
+        public boolean isOuter() {
+            return this.outer;
+        }
     }
 
     /** 

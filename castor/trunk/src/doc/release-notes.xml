@@ -74,9 +74,36 @@
                    supporting all possible use scenarios of Gigaspaces (local cache, remote
                    cache, local master cache, distributed cache, partitions) in a flexible 
                    way.</p>
+                   
+                <h2>Changes</h2>
+                
+                <h3>ANSI-SQL-92 compliance for MS SQLServer</h3>
+                
+                <p>Refactored the SQLServer-specific classes to support
+                   ANSI-SQL-92 compliant syntax in addition to the existing 
+                   code base.</p>
             </summary>
             <bugs>
-
+                <bug id="1172" tool="jira">
+                    <description>
+		                Added support for ANSI-92 compliance to SQLServer persistence classes.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060608</date>
+                </bug>
                 <bug id="1436" tool="jira">
                     <description>
 		                Added cache implementation for Gigaspaces (cache-based).
