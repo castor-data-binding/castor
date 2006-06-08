@@ -63,6 +63,17 @@
                 <p>at class mapping you can now use <b>ehCache</b> with Castor JDO. 
                    As of ehcache 1.2, ehcache can be used as a distributed cache.</p>
 
+                <h3>Added support for Gigaspaces</h3>
+                
+                <p>By specifing</p>
+                    
+                <code-panel><![CDATA[
+<cache-type type="gigaspaces"/>]]></code-panel>
+
+                <p>at class mapping you can now use <b>Gigaspaces</b> with Castor JDO, 
+                   supporting all possible use scenarios of Gigaspaces (local cache, remote
+                   cache, local master cache, distributed cache, partitions) in a flexible 
+                   way.</p>
             </summary>
             <bugs>
 
