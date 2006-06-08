@@ -35,6 +35,15 @@
         </release>
 -->
 
+        <release version="SVN">
+            <description>New and on-going development</description>
+            <date>tbd</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+            </summary>
+            <bugs>
+            </bugs>
+        </release>
         <release version="1.0.1">
             <description>New and on-going development</description>
             <date>June 8, 2006</date>
