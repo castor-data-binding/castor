@@ -43,44 +43,44 @@
  * $Id$
  */
 
-
 package org.exolab.castor.jdo.drivers;
 
-
 import org.exolab.castor.persist.spi.QueryExpression;
-
+import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.util.Configuration.Property;
 
 /**
  * PersistenceFactory for SQL Server.
- *
+ * 
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="on@ibis.odessa.ua">Oleg Nitz</a>
- * @version $Revision$ $Date: 2004-01-19 13:01:46 -0700 (Mon, 19 Jan 2004) $
+ * @author <a href="werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @version $Revision$ $Date: 2004-01-19 13:01:46 -0700 (Mon, 19 Jan
+ *          2004) $
  */
-public final class SQLServerFactory
-    extends SybaseFactory
-{
+public final class SQLServerFactory extends SybaseFactory {
 
-
-    public String getFactoryName()
-    {
+    public String getFactoryName() {
         return "sql-server";
     }
 
+    public QueryExpression getQueryExpression() {
+        LocalConfiguration configuration = LocalConfiguration.getInstance();
+        boolean useNewSyntaxForSQLServer = Boolean.valueOf(
+                configuration.getProperty(Property.SqlServerAnsiCompliant,
+                        "false")).booleanValue();
 
-    public QueryExpression getQueryExpression()
-    {
-        return new SQLServerQueryExpression( this );
+        if (useNewSyntaxForSQLServer) {
+            return new JDBCQueryExpression(this);
+        }
+
+        return new SQLServerQueryExpression(this);
     }
-
 
     /**
      * SQL Server doesn't support setNull for "WHERE fld=?".
      */
-    public boolean supportsSetNullInWhere()
-    {
+    public boolean supportsSetNullInWhere() {
         return false;
     }
 }
-
-
