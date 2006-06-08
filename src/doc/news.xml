@@ -19,6 +19,20 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="45">
+            <title>Castor 1.0.1 released</title>
+            <author>Werner Guttmann</author>
+            <date>Jun 08 2006</date>
+            <time>20:22:21</time>
+            <summary>
+                I've placed a copy of Castor 1.0.1 at the
+                <a href="http://dist.codehaus.org/castor/1.0.1/">Codehaus</a>.<br/><br/>
+
+                This is mainly a maintenance release. For details about features added 
+                and bugs fixed, please have a look at the 
+                <a href="release-notes.html">release notes</a>. 
+            </summary>
+        </news>
         <news id="44">
             <title>Mailing list subscriptions</title>
             <author>Werner Guttmann</author>
