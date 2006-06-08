@@ -1,0 +1,53 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/changes.xml">
+    <properties>
+        <title>Recent changes to the HTML documentation</title>
+        <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+        <abstract>
+            Outlines recent changes to the HTML documentation.
+        </abstract>
+        <status>Final</status>
+    </properties>
+
+    <body>
+
+        <title>Recent changes to the HTML documentation</title>
+
+        <section title="Additions">
+        
+            <ul>
+                <li>Added a <a href="jdo-self-executable-examples.html">page</a>
+                    describing how to execute the new self-executable
+                    Castor JDO samples to the Castor JDO section. (Castor JDO)</li>
+                <li>Added HOW-TO document on preparing a (unified) patch for
+                    submission. (Castor XML)</li>
+                <li>Added HOW-TO document on mapping a collection of elements. (Castor XML)</li>
+                <li>Added HOW-TO document on mapping a map/hashtable of elements. (Castor XML)</li>
+                <li>Added a new page full of information relevant for people that want to 
+                    contribute in one way or the other to the project.</li>
+                <li>Added HOW-TO document on fetching XML dependencies from JAR files</li>
+                <li>Added HOW-TO document on using identities and references in XML</li>
+                <li>Added HOW-TO document on unmarshalling raw XML segments into arbitrary types</li>
+            </ul>    
+            
+        </section>
+        
+        <section title="Changes/improvements">
+
+            <ul>
+                <li>Complete rewrite of information related to caching in Castor JDO. The new
+                    and improved documentation can be found 
+                    <a href="jdo-caching-detail.html">here</a>.</li>
+                <li>Modified <a href="scm.html">SVN/JIRA</a> and various other areas
+                    of documentation to reflect migration of Castor repository from
+                    CVS to SVN.</li>
+                <li>The <a href="download.html">download page</a> now holds information
+                    about libraries required for using/building Castor.</li>
+                <li>Modified XML Mapping documentation so that DOCTYPE public IDs match
+                    those defined in org.exolab.castor.util.DTDResolver</li>
+            </ul>            
+            
+        </section>
+        
+    </body>
+</document>

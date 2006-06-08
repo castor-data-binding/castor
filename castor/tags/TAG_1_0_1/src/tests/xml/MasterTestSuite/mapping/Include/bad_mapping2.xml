@@ -1,0 +1,18 @@
+
+<mapping>
+        <!--include a mapping that refers this mapping-->
+        <include href="../src/tests/xml/MasterTestSuite/mapping/Include/bad_mapping3.xml"/>
+
+        <class name="A">
+                <map-to xml="A"/>
+                <field name="number"
+                       type="integer">
+                        <bind-xml name="Number"/>
+                </field>
+                <field name="Belement"
+                       type="B">
+                        <bind-xml name="Item"/>
+                </field>
+        </class>
+
+</mapping>

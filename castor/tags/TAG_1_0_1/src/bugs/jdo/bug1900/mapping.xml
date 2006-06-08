@@ -1,0 +1,15 @@
+<mapping>
+    <key-generator name="IDENTITY"/>
+    <class name="jdo.bug1900.BeanObject" identity="id" key-generator="IDENTITY">
+        <map-to table="test" />
+        <field name="id" type="integer">
+            <sql name="id"/>
+        </field>
+        <field name="field1" type="string">
+            <sql name="field1"/>
+        </field>
+        <field name="field2" type="string">
+            <sql name="field %20"/>
+        </field>
+    </class>
+</mapping>

@@ -1,0 +1,39 @@
+<html>
+  <body>
+    <p>The Castor persistence engine handles object persistence, object
+       caching, transaction concurrency and locking. This package is not used directly
+       by application developer, and includes the interfaces, implementations and
+       persistence exceptions.</p>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date: 2004-02-13 14:13:22 -0700 (Fri, 13 Feb 2004) $</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:arkin@exoffice.com">Assaf Arkin</a></dd>
+    </dl>
+
+    <p>The persistence engine API is used by the application APIs (JDO, CMP, DAX) to implement
+       caching, queries, transactions and concurrency, etc. This layer is shared by all persistence
+       engine and exposes a unified interface for use as a persistence engine for EJB CMP.</p>
+
+    <p>An application API will use a {@link org.exolab.castor.persist.TransactionContext} in order
+       to perform operations. All operations against the persistence engine are transactional.
+       The persistence engine is obtained through the {@link org.exolab.castor.persist.PersistenceEngineFactory}
+       class which returns a {@link org.exolab.castor.persist.LockEngine}. The factory requires
+       a factory of persistence SPIs (see <a href="spi/package-summary.html">SPI</a>.</p>
+
+    <p>{@link org.exolab.castor.persist.LockEngine} implements a persistence engine that caches
+       objects in memory for performance, and eliminates the number of persistent storage operations.
+       In order to speed up interaction between the engines and the object, {@link
+       org.exolab.castor.persist.ClassMolder} is constructed to represent a flat view 
+       of the object graph that is efficient to process.</p>
+
+    <p>If the application API supports enlistment as an XA resource, it will use
+       {@link org.exolab.castor.persist.XAResourceImpl} and implement {@link
+       org.exolab.castor.persist.XAResourceSource} for automatic enlistment/delistment with a
+       transaction context.</p>
+
+    <p>The remainder of this package are persistence exceptions and concurrency engine
+       implementation.</p>
+
+    <p></p>
+  </body>
+</html>

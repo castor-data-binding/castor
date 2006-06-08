@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<!--Example of a testDescriptor-->
+<TestDescriptor>
+
+	<Name>Object container test</Name>
+    <Author>Arnaud Blandin</Author>
+	<Comment>
+        This test check the object container code. It will check:
+                - basic container for elements and attributes
+                - container object in container object
+    </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+
+		<Root_Object random="false" dump="true">A</Root_Object>
+        
+		<UnitTestCase>
+            <Name>Simple Test</Name>
+			<Mapping_File>mapping.xml</Mapping_File>
+			<Input>input.xml</Input>
+			<ObjectBuilder>Builder</ObjectBuilder>
+			<GoldFile>output.xml</GoldFile>
+		</UnitTestCase>
+
+	</MarshallingTest>
+</TestDescriptor>
