@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1436 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added cache implementation for Gigaspaces (cache-based).
+       Details: http://jira.codehaus.org/browse/CASTOR-1436
+       (Martin - 20060608)
+
 All:   Fixed bug CASTOR-1444 using contribution from Martin Fuchs [martin-fuchs@gmx.net]
        Fixed documentation of OQL OFFSET clause usage.
        Details: http://jira.codehaus.org/browse/CASTOR-1444
