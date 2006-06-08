@@ -65,6 +65,27 @@
 
             </summary>
             <bugs>
+
+                <bug id="1436" tool="jira">
+                    <description>
+		                Added cache implementation for Gigaspaces (cache-based).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060608</date>
+                </bug>
                 <bug id="1444" tool="jira">
                     <description>
 		                Fixed documentation of OQL OFFSET clause usage.

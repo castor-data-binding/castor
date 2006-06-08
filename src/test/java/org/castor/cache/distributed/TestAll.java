@@ -34,8 +34,12 @@ public final class TestAll extends TestCase {
 
         suite.addTest(TestCoherenceCacheFactory.suite());
         suite.addTest(TestCoherenceCache.suite());
+        suite.addTest(TestEHCacheFactory.suite());
+        suite.addTest(TestEHCache.suite());
         suite.addTest(TestFKCacheFactory.suite());
         suite.addTest(TestFKCache.suite());
+        suite.addTest(TestGigaspacesCacheFactory.suite());
+        suite.addTestSuite(TestGigaspacesCache.class);
         suite.addTest(TestJCacheFactory.suite());
         suite.addTest(TestJCache.suite());
         suite.addTest(TestJcsCacheFactory.suite());
