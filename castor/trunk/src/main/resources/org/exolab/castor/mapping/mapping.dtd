@@ -80,7 +80,7 @@
  -->
 <!ELEMENT cache-type  ( param* )>
 <!ATTLIST cache-type
-    type           ( none | count-limited | time-limited | unlimited | coherence | fkcache | jcache | jcs ) "count-limited"
+    type           ( none | count-limited | time-limited | unlimited | coherence | fkcache | jcache | jcs | fifo | lru | ehcache | gigaspaces ) "count-limited"
     debug          (true|false) "false"
     capacity       NMTOKEN  #IMPLIED>
 

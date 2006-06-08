@@ -143,6 +143,15 @@
                 <td align="center">?</td>
                 <td align="center">1.0.1</td>
             </crow>
+            <crow>
+                <td>gigaspaces</td>
+                <td><url href="http://jakarta.apache.org/jcs">JCS</url></td>
+                <td>5.0</td>
+                <td align="center">Yes</td>
+                <td>Commercial</td>
+                <td align="center">Yes</td>
+                <td align="center">1.0.1</td>
+            </crow>
         </ctable>
 
         <p>As some of these cache providers allow for allow you to use it 
@@ -150,7 +159,7 @@
            in a clustered (multi-JVM) environment. Please see
            the section <a href="#Caching and clustered environments">below</a> for short summary of this feature.</p>
 
-        <p>Per definition, all performance caches are <b>write-through</b>, because all 
+        <p>Per definition, all build-in performance caches are <b>write-through</b>, because all 
            changes to objects as part of a transaction should be persisted into the cache
            at commit time without delay.</p>
 
@@ -181,7 +190,7 @@
 <!ATTLIST cache-type
     type           ( none | count-limited | time-limited | unlimited |
                      coherence | fkcache | jcache | jcs | oscache |
-                     fifo | lru ) "count-limited"
+                     fifo | lru | ehcache | gigaspaces ) "count-limited"
     debug          (true|false) "false"
     capacity       NMTOKEN  #IMPLIED>
 
@@ -194,7 +203,7 @@
            to the old one and allows to enable debugging of cache access for a specific
            class as well as passing individual configuration parameters to each cache
            instance. Only <b>count-limited</b> and <b>time-limited</b> of the current
-           cache types support parameters. Parameter names are case sensitive and are
+           build-in cache types support parameters. Parameter names are case sensitive and are
            silently ignored if they are unknown to a cache type.</p>
                    
         <p>It need to be noted that there are 3 parameter names that are reserved for
@@ -470,6 +479,42 @@
     
             <p>defines that for all objects of type <tt>com.xyz.MyOtherObject</tt> Tangosol's 
                <i>Coherence</i> cache provider should be used.</p>
+
+        </section>
+
+        <section title="Configuration sample - Gigaspaces">
+            
+            <p>The following class mapping, for example, ... </p>
+            
+            <code-panel>
+<font color="darkgrey">&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...</font>
+        &lt;cache-type type="<b>gigaspaces</b>" /&gt;
+<font color="darkgrey">       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</font></code-panel>
+    
+            <p>defines that for all objects of type <tt>com.xyz.MyOtherObject</tt> the 
+               <i>Gigaspaces</i> cache provider should be used. As Gigspaces supports various 
+               cache and clsuer modes, this cache provider allows product-specific 
+               configuration as shown below:</p>
+
+            <code-panel>
+<font color="darkgrey">&lt;mapping&gt;
+    ...
+    &lt;class name="com.xyz.MyOtherObject"&gt;
+       ...</font>
+        &lt;cache-type type="<b>gigaspaces</b>" &gt;
+           &lt;param name="spaceURL" value="/./" /&gt;
+           &lt;param name="spaceProperties" value="useLocalCache" /&gt;
+        &lt;/cache-type&gt;
+<font color="darkgrey">       ...
+    &lt;/class&gt;
+    ...
+&lt;/mapping&gt;</font></code-panel>
 
         </section>
             
