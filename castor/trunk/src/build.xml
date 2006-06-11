@@ -519,6 +519,7 @@
         <jar jarfile="${dist}/${archive.name}-xml.jar" basedir="${classes}"
              manifest="${classes}/MANIFEST.MF"
              includes="LICENSE,LICENSE.APACHE2,README,
+                       org/castor/messages.properties,
                        org/castor/util/**,
                        org/exolab/castor/*,
                        org/exolab/castor/builder/**,
@@ -543,6 +544,7 @@
              includes="LICENSE.APACHE2,README,
                        org/castor/cache/**,
                        org/castor/transactionmanager/**,
+                       org/castor/messages.properties,
                        org/castor/util/**"/>
 
     	<!-- copy and filter MANIFEST file for Source generator -->
