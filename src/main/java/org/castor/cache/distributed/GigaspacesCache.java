@@ -23,11 +23,60 @@ import org.castor.cache.CacheAcquireException;
 
 
 /**
- * Gigaspaces implementation of Castor JDO Cache.
+ * Gigaspaces implementation of Castor JDO Cache.<br><br>
  * 
- * For more details of Coherence, see http://www.gigaspaces.com/ 
+ * Gigaspaces supports a wide variety of cache topologies, allowing the user
+ * to distribute and/or replicate application data as needed. This cache instance
+ * replicates this flexibility by allowing you to configure it (and thus the 
+ * underlying Gigaspaces instance) as follows.<br>
  * 
- * @see http://www.gigaspaces.com/  
+ * <pre>
+ * &lt;cache-type type="gigaspaces"&gt;
+ *    &lt;cacheUrl&gt;/./&lt;/cacheURL&gt;
+ *    &lt;cacheProperties&gt;schema=cache&lt;/cacheProperties&gt;
+ * &lt;/cache-type&gt;
+ * </pre>
+ * 
+ * As mentioned briefly above, the main issue is the cache topology usage. Per
+ * definition, Gigaspaces caches can be started in various modes:<br><br>
+ * 
+ * <ul>
+ *    <li><b>Embedded</b> – cache running as part of the application VM 
+ *        (/./myCache?schema=cache)</li>
+ *    <li><b>Remote</b> - means you need to run cache server and have relevant
+ *        url at the client to connect to it (jini//*\/*\/myCache)</li>
+ *    <li><b>Master local</b> - means you need to run a cache server and have relevant 
+ *        url at the client to connect to it. The URL should include 'useLocalCache'
+ *        as part of it ("jini//*\/*\/myCache?useLocalCache"</li>
+ * </ul><br>
+ * 
+ * Each of the above can run in <i>replicated</i> or <i>partitioned</i> mode. This 
+ * means you should run several instance in one of the above mode using the relevant 
+ * schema name, total_membres and id.<br><br>
+ *
+ * <i>instance 1</i>:<br>
+ * "/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=1"<br>
+ * <i>instance 2</i>:<br>
+ * "/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=2"<br><br>
+ *
+ * or<br><br>
+ *
+ * <i>instance 1</i>:<br>
+ * "/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=1"<br>
+ * <i>instance 2</i>:<br>
+ * "/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=2"<br><br>
+ *
+ * When running the cache in server or in embedded mode, you <b>must</b> have the 
+ * cache schema to be used – i.e. 'schema=cache.'<br><br>
+ *
+ * For more information on cache topoligies and the use of URLs with Gigaspaces, 
+ * please see 
+ * <a href="http://www.gigaspaces.com/docs/manual/The_Space_URL.htm">here</a>.<br>
+ * 
+ * For more details on Gigaspaces in gernal, please see http://www.gigaspaces.com/.<br> 
+ * 
+ * @see http://www.gigaspaces.com/
+ * @see http://www.gigaspaces.com/wiki  
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
