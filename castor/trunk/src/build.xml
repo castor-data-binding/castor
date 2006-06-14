@@ -303,7 +303,7 @@
         <!-- Make a webapp out of the servlet example -->
         <available property="project_jar.present" file="${dist}/${archive.name}.jar" />
         <mkdir dir="${build}/examples/webapp"/>
-        <copy toDir="${build}/examples/webapp/WEB-INF/classes">
+        <copy todir="${build}/examples/webapp/WEB-INF/classes">
             <fileset dir="${build}/examples">
                 <include name="servlet/*.*"/>
                 <include name="myapp/*.*"/>
@@ -789,7 +789,7 @@
                 todir="../${gen.src}/mapping" 
                 package="org.exolab.castor.mapping.xml" 
                 lineseparator="unix"
-                bindingfile="../${main.resoures}/org/exolab/castor/mapping/mapping-binding.xml"
+                bindingfile="../${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
                 types="j2" 
                 warnings="false"/>
         <javac destdir="${classes}" excludes="${excludes}" 
