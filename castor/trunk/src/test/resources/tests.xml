@@ -65,6 +65,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -166,6 +168,8 @@
     <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -260,6 +264,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -355,6 +361,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -450,6 +458,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -548,6 +558,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -642,6 +654,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -736,6 +750,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -835,6 +851,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
@@ -934,6 +952,8 @@
     <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->

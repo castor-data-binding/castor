@@ -42,7 +42,27 @@
             <summary>
             </summary>
             <bugs>
-            </bugs>
+                <bug id="1434" tool="jira">
+                    <description>
+		                Improve test coverage for 'auto-store' attribute
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060614</date>
+                </bug>
+			</bugs>
         </release>
         <release version="1.0.1">
             <description>New and on-going development</description>

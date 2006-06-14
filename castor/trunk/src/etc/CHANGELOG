@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1434 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Improve test coverage for 'auto-store' attribute.
+       Details: http://jira.codehaus.org/browse/CASTOR-1434
+       (Werner - 20060614)
+
 Version 1.0.1, Jun 8, 2006
 -------------------------------
 

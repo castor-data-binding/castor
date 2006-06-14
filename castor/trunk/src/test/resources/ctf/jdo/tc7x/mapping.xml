@@ -351,5 +351,58 @@
             <sql name="name" type="char" />
         </field>
     </class>
+
+      <class name="ctf.jdo.tc7x.AutostoreMain" identity="id">
+        <description>Main class for testing autostore attribute</description>
+        <map-to table="tc7x_as_main" xml="entity1" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+          <sql name="name" type="char" />
+        </field>
+        <field name="associatedOne" type="ctf.jdo.tc7x.AutostoreAssociated1">
+            <sql name="assoc1_id" />
+        </field>
+      </class>
+    
+      <class name="ctf.jdo.tc7x.AutostoreAssociated1" identity="id">
+        <description>Associated entity for testing autostore attribute</description>
+        <map-to table="tc7x_as_assoc1" xml="entity2" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+          <sql name="name" type="char" />
+        </field>
+      </class>
+
+      <class name="ctf.jdo.tc7x.AutostoreMainMany" identity="id">
+        <description>Main class for testing autostore attribute</description>
+        <map-to table="tc7x_as_main_many" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+          <sql name="name" type="char" />
+        </field>
+        <field name="associatedMany" collection="arraylist" type="ctf.jdo.tc7x.AutostoreAssociatedMany">
+            <sql many-key="main_id" />
+        </field>
+      </class>
+    
+      <class name="ctf.jdo.tc7x.AutostoreAssociatedMany" identity="id">
+        <description>Associated entity for testing autostore attribute</description>
+        <map-to table="tc7x_as_assoc_many" />
+        <field name="id" type="integer" >
+          <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+          <sql name="name" type="char" />
+        </field>
+        <field name="main" type="ctf.jdo.tc7x.AutostoreMainMany">
+            <sql name="main_id" />
+        </field>
+      </class>
     
 </mapping>
