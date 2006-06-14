@@ -63,7 +63,7 @@
 cd &lt;castor-root&gt;/bin
 build clean
 build tests
-runCTF</code-panel>
+CTFrun</code-panel>
         
         <p>To execute just the regression test suite, please change this to:</p>
            
@@ -71,7 +71,7 @@ runCTF</code-panel>
 cd &lt;castor-root&gt;/bin
 build clean
 build tests
-runCTF -text ../src/tests/xml/RegressionTestSuite</code-panel>
+CTFrun -text ../src/tests/xml/RegressionTestSuite</code-panel>
            
     </section>
     
