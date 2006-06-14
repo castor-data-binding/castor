@@ -42,32 +42,33 @@ import org.castor.cache.CacheAcquireException;
  * 
  * <ul>
  *    <li><b>Embedded</b> – cache running as part of the application VM 
- *        (/./myCache?schema=cache)</li>
+ *        (<tt>/./myCache?schema=cache</tt>)</li>
  *    <li><b>Remote</b> - means you need to run cache server and have relevant
- *        url at the client to connect to it (jini//*\/*\/myCache)</li>
+ *        url at the client to connect to it (<tt>jini//&#042/&#042/myCache</tt>)</li>
  *    <li><b>Master local</b> - means you need to run a cache server and have relevant 
- *        url at the client to connect to it. The URL should include 'useLocalCache'
- *        as part of it ("jini//*\/*\/myCache?useLocalCache"</li>
+ *        url at the client to connect to it. The URL should include 
+ *        '<tt>useLocalCachey</tt>' as part of it 
+ *        (<tt>jini//&#042/&#042/myCache?useLocalCache</tt>)</li>
  * </ul><br>
  * 
  * Each of the above can run in <i>replicated</i> or <i>partitioned</i> mode. This 
  * means you should run several instance in one of the above mode using the relevant 
  * schema name, total_membres and id.<br><br>
  *
- * <i>instance 1</i>:<br>
- * "/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=1"<br>
- * <i>instance 2</i>:<br>
- * "/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=2"<br><br>
+ * <p><i>instance 1</i>:<br>
+ * "<tt>/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=1</tt>"</p>
+ * <p><i>instance 2</i>:<br>
+ * "<tt>/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=2</tt>"</p><br>
  *
  * or<br><br>
  *
- * <i>instance 1</i>:<br>
- * "/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=1"<br>
- * <i>instance 2</i>:<br>
- * "/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=2"<br><br>
+ * <p><i>instance 1</i>:<br>
+ * "<tt>/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=1</tt>"</p>
+ * <p><i>instance 2</i>:<br>
+ * "<tt>/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=2</tt>"</p><br>
  *
- * When running the cache in server or in embedded mode, you <b>must</b> have the 
- * cache schema to be used – i.e. 'schema=cache.'<br><br>
+ * <p>When running the cache in server or in embedded mode, you <b>must</b> have the 
+ * cache schema to be used – i.e. '<tt>schema=cache</tt>'.</p><br>
  *
  * For more information on cache topoligies and the use of URLs with Gigaspaces, 
  * please see 
