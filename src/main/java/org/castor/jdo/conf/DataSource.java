@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.9.1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,15 +11,13 @@ package org.castor.jdo.conf;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.ArrayList;
-
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * Class DataSource.
  * 
- * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
+ * @version $Revision$ $Date$
  */
 public class DataSource implements java.io.Serializable {
 
@@ -46,7 +44,7 @@ public class DataSource implements java.io.Serializable {
     public DataSource() 
      {
         super();
-        _paramList = new ArrayList();
+        _paramList = new java.util.ArrayList();
     } //-- org.castor.jdo.conf.DataSource()
 
 
@@ -125,7 +123,7 @@ public class DataSource implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _paramList.size())) {
+        if ((index < 0) || (index >= _paramList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -243,7 +241,7 @@ public class DataSource implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _paramList.size())) {
+        if ((index < 0) || (index >= _paramList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _paramList.set(index, vParam);

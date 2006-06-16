@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Fixed bug CASTOR-1449 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Re-generated class files from jdo-conf.xsd.
+       Details: http://jira.codehaus.org/browse/CASTOR-1449
+       (Werner - 20060616)
+
 XML:   Fixed bug CASTOR-480 using contribution from Michal Stochmialek [michal.stochmialek@eurobank.pl]
        Avoid generation of unnecessary import statements in generated source.
        Details: http://jira.codehaus.org/browse/CASTOR-480

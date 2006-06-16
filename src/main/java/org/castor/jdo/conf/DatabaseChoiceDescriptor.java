@@ -1,21 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.9.1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.castor.jdo.conf;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-
 /**
  * Class DatabaseChoiceDescriptor.
  * 
- * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
+ * @version $Revision$ $Date$
  */
 public class DatabaseChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -23,6 +18,11 @@ public class DatabaseChoiceDescriptor extends org.exolab.castor.xml.util.XMLClas
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -53,6 +53,7 @@ public class DatabaseChoiceDescriptor extends org.exolab.castor.xml.util.XMLClas
      {
         super();
         nsURI = "http://castor.org/JDO";
+        elementDefinition = false;
         
         //-- set grouping compositor
         setCompositorAsChoice();
@@ -273,5 +274,17 @@ public class DatabaseChoiceDescriptor extends org.exolab.castor.xml.util.XMLClas
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }
