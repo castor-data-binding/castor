@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Fixed bug CASTOR-480 using contribution from Michal Stochmialek [michal.stochmialek@eurobank.pl]
+       Avoid generation of unnecessary import statements in generated source.
+       Details: http://jira.codehaus.org/browse/CASTOR-480
+       (Werner - 20060614)
+
 JDO:   Fixed bug CASTOR-1434 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improve test coverage for 'auto-store' attribute.
        Details: http://jira.codehaus.org/browse/CASTOR-1434

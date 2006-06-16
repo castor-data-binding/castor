@@ -304,7 +304,7 @@ public final class XSLong extends XSPatternBase {
 		if (jsc == null)
 			jsc = new JSourceCode();
 		
-		jsc.add("LongValidator typeValidator = new LongValidator();");
+		jsc.add("org.exolab.castor.xml.validators.LongValidator typeValidator = new org.exolab.castor.xml.validators.LongValidator();");
 		if (hasMinimum()) {
 			Long min = getMinExclusive();
 			if (min != null)

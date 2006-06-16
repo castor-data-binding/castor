@@ -316,7 +316,7 @@ public final class XSInt extends XSPatternBase {
         if (jsc == null) 
             jsc = new JSourceCode();
        
-        jsc.add("IntegerValidator typeValidator= new IntegerValidator();");
+        jsc.add("org.exolab.castor.xml.validators.IntegerValidator typeValidator= new org.exolab.castor.xml.validators.IntegerValidator();");
         if (hasMinimum()) {
             Integer min = getMinExclusive();
             if (min != null)

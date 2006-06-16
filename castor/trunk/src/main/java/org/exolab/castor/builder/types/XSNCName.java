@@ -99,7 +99,7 @@ public final class XSNCName extends XSType {
 	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
 		if (jsc == null)
 			jsc = new JSourceCode();
-	    jsc.add("NameValidator typeValidator = new NameValidator(NameValidator.NCNAME);");
+	    jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NCNAME);");
 	    jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
 	}
 	

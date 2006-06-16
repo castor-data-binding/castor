@@ -227,7 +227,7 @@ public final class XSDuration extends XSType {
 		if (jsc == null)
 			jsc = new JSourceCode();
 		
-		jsc.add("DurationValidator typeValidator = new DurationValidator();");
+		jsc.add("org.exolab.castor.xml.validators.DurationValidator typeValidator = new org.exolab.castor.xml.validators.DurationValidator();");
 		if (hasMinimum()) {
 			Duration min = getMinExclusive();
 			if (min != null)

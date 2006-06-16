@@ -297,7 +297,7 @@ public final class XSFloat extends XSPatternBase {
 
          if (jsc == null) 
             jsc = new JSourceCode();
-        jsc.add("FloatValidator typeValidator = new FloatValidator();");
+        jsc.add("org.exolab.castor.xml.validators.FloatValidator typeValidator = new org.exolab.castor.xml.validators.FloatValidator();");
         if (hasMinimum()) {
             Float min = getMinExclusive();
             if (min != null)

@@ -42,6 +42,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="480" tool="jira">
+                    <description>
+		                Avoid generation of unnecessary import statements in generated source.
+                    </description>
+                    <contributor>
+                        <name>Michal Stochmialek</name>
+                        <email>michal.stochmialek@eurobank.pl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michal Stochmialek</name>
+                        <email>michal.stochmialek@eurobank.pl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060614</date>
+                </bug>
                 <bug id="1434" tool="jira">
                     <description>
 		                Improve test coverage for 'auto-store' attribute

@@ -309,7 +309,7 @@ public final class XSByte extends XSPatternBase {
          if (jsc == null) 
             jsc = new JSourceCode();
          
-         jsc.add("ByteValidator typeValidator = new ByteValidator();");
+         jsc.add("org.exolab.castor.xml.validators.ByteValidator typeValidator = new org.exolab.castor.xml.validators.ByteValidator();");
          if (hasMinimum()) {
             Byte min = getMinExclusive();
             if (min != null)

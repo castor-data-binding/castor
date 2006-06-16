@@ -84,7 +84,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
     **/
     public void generateInitializerCode(JSourceCode jsc) {
         jsc.add(getName());
-        jsc.append(" = new ArrayList();");
+        jsc.append(" = new java.util.ArrayList();");
     } //-- generateConstructorCode
 
     //------------------/

@@ -303,7 +303,7 @@ public final class XSShort extends XSPatternBase {
 
 		if (jsc == null)
 			jsc = new JSourceCode();
-		jsc.add("ShortValidator typeValidator = new ShortValidator();");
+		jsc.add("org.exolab.castor.xml.validators.ShortValidator typeValidator = new org.exolab.castor.xml.validators.ShortValidator();");
 	    if (hasMinimum()) {
 			Short min = getMinExclusive();
 			if (min != null)

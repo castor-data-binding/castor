@@ -286,7 +286,7 @@ public  class XSDecimal extends XSType
 
         if (jsc == null)
             jsc = new JSourceCode();
-        jsc.add("DecimalValidator typeValidator = new DecimalValidator();");
+        jsc.add("org.exolab.castor.xml.validators.DecimalValidator typeValidator = new org.exolab.castor.xml.validators.DecimalValidator();");
         if (hasMinimum()) {
             java.math. BigDecimal min = getMinExclusive();
             if (min != null)

@@ -129,7 +129,7 @@ public final class XSBoolean extends XSType {
 
         if (jsc == null) 
             jsc = new JSourceCode();
-        jsc.add("BooleanValidator typeValidator = new BooleanValidator();");
+        jsc.add("org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();");
         if (fixedValue != null) {
             Boolean.valueOf(fixedValue);
             jsc.add("typeValidator.setFixed(");

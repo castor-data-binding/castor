@@ -152,13 +152,7 @@ public class JClass extends JStructure {
             String err = "The given JConstructor was not created ";
             err += "by this JClass";
             throw new IllegalArgumentException(err);
-        }
-        
-        //-- ensure constructor and parameter annotation classes imported
-        addImport(constructor.getAnnotations());
-        JParameter[] params = constructor.getParameters();
-        for(int i=0; i<params.length; i++)
-        	addImport(params[i].getAnnotations());
+        }       
     }
 
     /**
@@ -182,16 +176,6 @@ public class JClass extends JStructure {
             throw new IllegalArgumentException(err);
         }
         _fields.put(name, jField);
-
-        // if member is of a type not imported by this class
-        // then add import
-        JType type = jField.getType();
-        while (type.isArray()) type = type.getComponentType();
-        if ( !type.isPrimitive() )
-            addImport( type.getName());
-            
-        // ensure annotation classes are imported
-        addImport(jField.getAnnotations());
     } //-- addField
 
     /*
@@ -315,35 +299,6 @@ public class JClass extends JStructure {
         //-- END SORT
         if (!added) _methods.addElement(jMethod);
 
-        //-- check parameter packages to make sure we have them
-        //-- in our import list
-
-        String[] pkgNames = jMethod.getParameterClassNames();
-        for (int i = 0; i < pkgNames.length; i++) {
-            addImport(pkgNames[i]);            
-        }        
-        //-- check return type to make sure it's included in the
-        //-- import list
-        JType jType = jMethod.getReturnType();
-        if (jType != null) {
-            while (jType.isArray())
-                jType = jType.getComponentType();
-            if (importReturnType) {
-                if   (!jType.isPrimitive())
-                     addImport( ((JClass)jType).getName());
-            }
-        }
-        //-- check exceptions
-        JClass[] exceptions = jMethod.getExceptions();
-        for (int i = 0; i < exceptions.length; i++) {
-            addImport(exceptions[i].getName());
-        }
-        //-- ensure method and parameter annotations imported
-        addImport(jMethod.getAnnotations());
-        JParameter[] params = jMethod.getParameters();
-        for (int i = 0; i < params.length; i++) {
-        	addImport(params[i].getAnnotations());
-		}        	
     } //-- addMethod
 
     /**
