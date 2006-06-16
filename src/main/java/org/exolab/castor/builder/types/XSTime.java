@@ -235,7 +235,7 @@ public final class XSTime extends XSType {
 	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
 		if (jsc == null)
 			jsc = new JSourceCode();
-		jsc.add("DateTimeValidator typeValidator = new DateTimeValidator();");
+		jsc.add("org.exolab.castor.xml.validators.DateTimeValidator typeValidator = new org.exolab.castor.xml.validators.DateTimeValidator();");
 		if (hasMinimum()) {
 			jsc.add("try {");
 			jsc.indent();

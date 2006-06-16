@@ -602,9 +602,6 @@ public class SourceFactory {
 
        //--create equals, bounds ...
        //NOTE: be careful with the derivation stuff when generating bounds properties
-       //-- add imports required by the marshal methods
-       jClass.addImport("java.io.Writer");
-       jClass.addImport("java.io.Reader");
 
         if (_createMarshalMethods) {
            //-- #validate()
@@ -799,13 +796,6 @@ public class SourceFactory {
         jClass.addConstructor(con);
         con.getSourceCode().add("super();");
 
-        //-- add default import list
-        if (_createMarshalMethods) {
-           jClass.addImport("org.exolab.castor.xml.Marshaller");
-           jClass.addImport("org.exolab.castor.xml.Unmarshaller");
-        }
-        jClass.addImport("java.io.Serializable");
-
     } //-- initialize
 
     /**
@@ -978,6 +968,8 @@ public class SourceFactory {
             jsc.add("Marshaller.marshal(this, handler);");
         }
 
+    	parent.addImport("org.exolab.castor.xml.Marshaller");
+    	parent.addImport("org.exolab.castor.xml.Unmarshaller");
     } //-- createMarshalMethods
 
     private void createUnmarshalMethods(JClass parent, SGStateInfo sgState) {
@@ -1118,11 +1110,13 @@ public class SourceFactory {
         jsc.append(jclass.getName(true));
         jsc.append(") {");
         jsc.add("");
-        jsc.indent();
-        jsc.add(jclass.getName(true));
-        jsc.append(" temp = (");
-        jsc.append(jclass.getName(true));
-        jsc.append(")obj;");
+        if (fields.length > 0) {
+	        jsc.indent();
+	        jsc.add(jclass.getName(true));
+	        jsc.append(" temp = (");
+	        jsc.append(jclass.getName(true));
+	        jsc.append(")obj;");
+        }
         for (int i = 0; i <fields.length; i++) {
             JField temp = fields[i];
             //Be careful to arrayList....
@@ -1816,7 +1810,7 @@ public class SourceFactory {
         jClass.addMethod(mInit);
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
-        mInit.getSourceCode().add("Hashtable members = new Hashtable();");
+        mInit.getSourceCode().add("java.util.Hashtable members = new java.util.Hashtable();");
 
         //-- #readResolve method
         JMethod mReadResolve = new JMethod(SGTypes.Object,"readResolve");

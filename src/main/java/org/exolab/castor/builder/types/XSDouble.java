@@ -301,7 +301,7 @@ public final class XSDouble extends XSPatternBase {
          if (jsc == null) 
             jsc = new JSourceCode();
        
-        jsc.add("DoubleValidator typeValidator = new DoubleValidator();");
+        jsc.add("org.exolab.castor.xml.validators.DoubleValidator typeValidator = new org.exolab.castor.xml.validators.DoubleValidator();");
         if (hasMinimum()) {
             Double min = getMinExclusive();
             if (min != null)

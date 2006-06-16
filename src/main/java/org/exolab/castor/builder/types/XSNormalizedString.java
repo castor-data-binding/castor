@@ -223,7 +223,7 @@ public final class XSNormalizedString extends XSPatternBase {
 	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
 		if (jsc == null)
 			jsc = new JSourceCode();
-		jsc.add("NameValidator typeValidator = new NameValidator(NameValidator.CDATA);");
+		jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.CDATA);");
 		if ((hasMinLength()) && (!hasLength())) {
 			jsc.add("typeValidator.setMinLength(");
 			jsc.append(Integer.toString(getMinLength()));

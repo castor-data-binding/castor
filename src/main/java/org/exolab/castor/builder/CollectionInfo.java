@@ -117,7 +117,7 @@ public class CollectionInfo extends FieldInfo {
     **/
     public void generateInitializerCode(JSourceCode jsc) {
         jsc.add(getName());
-        jsc.append(" = new Vector();");
+        jsc.append(" = new java.util.Vector();");
     } //-- generateConstructorCode
 
     public String getReadMethodName() {

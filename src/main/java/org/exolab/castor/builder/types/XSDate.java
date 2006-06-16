@@ -238,7 +238,7 @@ public final class XSDate extends XSType {
 		if (jsc == null)
 			jsc = new JSourceCode();
 		
-		jsc.add("DateTimeValidator typeValidator = new DateTimeValidator();");
+		jsc.add("org.exolab.castor.xml.validators.DateTimeValidator typeValidator = new org.exolab.castor.xml.validators.DateTimeValidator();");
 		if (hasMinimum()) {
 			jsc.add("try {");
 			jsc.indent();

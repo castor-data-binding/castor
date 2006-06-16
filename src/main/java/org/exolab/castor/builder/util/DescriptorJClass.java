@@ -130,7 +130,7 @@ public class DescriptorJClass extends JClass {
 //        addImport("org.exolab.castor.xml.XMLFieldHandler");
 //        addImport("org.exolab.castor.xml.handlers.*");
 //        addImport("org.exolab.castor.xml.util.XMLFieldDescriptorImpl");
-        addImport("org.exolab.castor.xml.validators.*");
+//        addImport("org.exolab.castor.xml.validators.*");
 //        addImport("org.exolab.castor.xml.FieldValidator");
 
 

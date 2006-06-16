@@ -270,7 +270,7 @@ public final class XSString extends XSPatternBase {
 		if (jsc == null)
 			jsc = new JSourceCode();
 		
-		jsc.add("StringValidator typeValidator = new StringValidator();");
+		jsc.add("org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();");
 		if ((hasMinLength()) && (!hasLength())) {
 			jsc.add("typeValidator.setMinLength(");
 			jsc.append(Integer.toString(getMinLength()));
