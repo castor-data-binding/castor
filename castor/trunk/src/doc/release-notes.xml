@@ -42,6 +42,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1449" tool="jira">
+                    <description>
+		                Re-generated class files from jdo-conf.xsd
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060616</date>
+                </bug>
                 <bug id="480" tool="jira">
                     <description>
 		                Avoid generation of unnecessary import statements in generated source.

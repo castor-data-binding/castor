@@ -1,22 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.9.1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.1</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.castor.jdo.conf;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-import org.exolab.castor.xml.validators.StringValidator;
-
 /**
  * Class TransactionManagerDescriptor.
  * 
- * @version $Revision$ $Date: 2005-11-19 10:17:16 -0700 (Sat, 19 Nov 2005) $
+ * @version $Revision$ $Date$
  */
 public class TransactionManagerDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -24,6 +18,11 @@ public class TransactionManagerDescriptor extends org.exolab.castor.xml.util.XML
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -55,6 +54,7 @@ public class TransactionManagerDescriptor extends org.exolab.castor.xml.util.XML
         super();
         nsURI = "http://castor.org/JDO";
         xmlName = "transaction-manager";
+        elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -95,7 +95,7 @@ public class TransactionManagerDescriptor extends org.exolab.castor.xml.util.XML
         //-- validation code for: _name
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -239,5 +239,17 @@ public class TransactionManagerDescriptor extends org.exolab.castor.xml.util.XML
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }
