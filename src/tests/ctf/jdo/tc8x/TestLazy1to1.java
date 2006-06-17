@@ -37,7 +37,6 @@ import org.exolab.castor.mapping.AccessMode;
  */
 public final class TestLazy1to1 extends CastorTestCase {
     private JDOCategory     _category;
-    private Database        _wrapper;
 
     public TestLazy1to1(final TestHarness category) {
         super(category, "TC87", "TestLazy1to1");
@@ -435,22 +434,22 @@ public final class TestLazy1to1 extends CastorTestCase {
     }
     
     public void testLoadBookWithLazyAuthorProperty() throws Exception {
-        _wrapper = _category.getDatabase();
-        _wrapper.begin();
+        Database db1 = _category.getDatabase();
+        db1.begin();
 
         try {
-            _wrapper.load(Lazy1to1Author.class, new Long(1));
+            db1.load(Lazy1to1Author.class, new Long(1));
         } catch (ObjectNotFoundException e) {
             fail("Database should contain an author with id=1");
         }
 
-        Database db = _category.getDatabase();
-        db.begin();
+        Database db2 = _category.getDatabase();
+        db2.begin();
 
-        OQLQuery qry = db.getOQLQuery(
+        OQLQuery qry = db2.getOQLQuery(
                 "SELECT o FROM " + Lazy1to1Book.class.getName() + " o");
         QueryResults results = qry.execute();
-        assertTrue("Should have a book in db, but couldn't it: ", results.hasMore());
+        assertTrue("Couldn't find the book in db: ", results.hasMore());
 
         Lazy1to1Book book = null;
         if (results.hasMore()) {
@@ -461,17 +460,17 @@ public final class TestLazy1to1 extends CastorTestCase {
             assertNotNull("author should have a last name", currentAuthor.getLastName());
         }
 
-        db.commit();
-        db.close();
+        db2.commit();
+        db2.close();
 
-        if (_wrapper != null) {
+        if (db1 != null) {
             try {
-                _wrapper.commit();
+                db1.commit();
             } catch (Exception ex) {
                 ex.printStackTrace();
                 fail("Unexpected exception committing wrapper db: " + ex.getMessage());
             } finally {
-                _wrapper.close();
+                db1.close();
             }
         }
     }

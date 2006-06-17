@@ -32,6 +32,7 @@ import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -116,7 +117,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
             ArrayList alist = (ArrayList) field;
             if (field != null) {
                 for (int j = 0; j < alist.size(); j++) {
-                    Object fid = alist.get(j);
+                    Identity fid = (Identity) alist.get(j);
                     Object fetched = null;
                     if (fid != null) {
                         fetched = tx.fetch(fieldClassMolder, fid, null);
@@ -139,7 +140,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
             if (field != null) {
                 ArrayList alist = (ArrayList) field;
                 for (int j = 0; j < alist.size(); j++) {
-                    Object fid = alist.get(j);
+                    Identity fid = (Identity) alist.get(j);
                     Object fetched = null;
                     if (fid != null) {
                         fetched = tx.fetch(fieldClassMolder, fid, null);
@@ -187,7 +188,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
                 flags.setUpdateCache(true);
             }
             while (removedItor.hasNext()) {
-                Object removedId = removedItor.next();
+                Identity removedId = (Identity) removedItor.next();
                 Object reldel = tx.fetch(fieldClassMolder, removedId, null);
                 if (reldel != null) {
                     if (_fieldMolder.isDependent()) {
@@ -310,78 +311,37 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
             final Object object, final AccessMode suggestedAccessMode,
             final Object field)
     throws PersistenceException {
+        ArrayList v = (ArrayList) field;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        if (_fieldMolder.isDependent()) {
-            if (!_fieldMolder.isLazy()) {
-                Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
-                        .getValue(object, tx.getClassLoader()));
-                ArrayList v = (ArrayList) field;
-                ArrayList newSetOfIds = new ArrayList();
+        ArrayList newSetOfIds = new ArrayList();
+        Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
+                .getValue(object, tx.getClassLoader()));
 
-                // iterate the collection of this data object field
-                while (itor.hasNext()) {
-                    Object element = itor.next();
-                    Object actualIdentity = fieldClassMolder.getActualIdentity(
-                            tx, element);
-                    newSetOfIds.add(actualIdentity);
+        // iterate the collection of this data object field
+        while (itor.hasNext()) {
+            Object element = itor.next();
+            Object actualIdentity = fieldClassMolder.getActualIdentity(tx, element);
+            newSetOfIds.add(actualIdentity);
+            if (!tx.isRecorded(element)) {
+                if (_fieldMolder.isDependent() && !_fieldMolder.isLazy()) {
                     if (v != null && v.contains(actualIdentity)) {
-                        if (!tx.isRecorded(element)) {
-                            tx.markUpdate(fieldClassMolder, element, oid);
-                        }
-//                    } else {
-//                        // if ( !tx.isRecorded( element ) ) tx.markCreate(
-//                        // fieldEngine, fieldClassMolder, element, oid );
+                        tx.markUpdate(fieldClassMolder, element, oid);
                     }
+                } else if (tx.isAutoStore()) {
+                    tx.markUpdate(fieldClassMolder, element, null);
                 }
-                if (v != null) {
-                    for (int j = 0, l = v.size(); j < l; j++) {
-                        if (!newSetOfIds.contains(v.get(j))) {
-                            // load all the dependent object in cache for
-                            // modification
-                            // check at commit time.
-                            ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                            tx.load(v.get(j), proposedValue, suggestedAccessMode);
-                        }
-                    }
-                }
-            } else {
-                // ArrayList avlist = (ArrayList) fields[i];
-                fieldClassMolder = _fieldMolder.getFieldClassMolder();
-                // RelationCollection relcol = new RelationCollection( tx, oid,
-                // fieldEngine, fieldClassMolder, accessMode, avlist );
             }
-        } else if (tx.isAutoStore()) {
-            Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
-                    .getValue(object, tx.getClassLoader()));
-            ArrayList v = (ArrayList) field;
-            ArrayList newSetOfIds = new ArrayList();
+        }
 
-            // iterate the collection of this data object field
-            while (itor.hasNext()) {
-                Object element = itor.next();
-                Object actualIdentity = fieldClassMolder.getActualIdentity(tx,
-                        element);
-                newSetOfIds.add(actualIdentity);
-                if (v != null && v.contains(actualIdentity)) {
-                    if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldClassMolder, element, null);
-                    }
-                } else {
-                    if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldClassMolder, element, null);
-                    }
-                }
-            }
-            // load all old objects for comparison in the preStore state
-            if (v != null) {
-                for (int j = 0, l = v.size(); j < l; j++) {
-                    if (!newSetOfIds.contains(v.get(j))) {
-                        // load all the dependent object in cache for
-                        // modification
-                        // check at commit time.
-                        ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        tx.load(v.get(j), proposedValue, suggestedAccessMode);
-                    }
+        // load all old objects for comparison in the preStore state
+        if (v != null) {
+            for (int j = 0, l = v.size(); j < l; j++) {
+                if (!newSetOfIds.contains(v.get(j))) {
+                    // load all the dependent object in cache for
+                    // modification
+                    // check at commit time.
+                    ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
+                    tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode);
                 }
             }
         }
@@ -396,7 +356,7 @@ public final class OneToManyRelationResolver extends ManyRelationResolver {
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
             final Object object, final Object field, 
-            final Object createdId) {
+            final Identity createdId) {
         return field;
     }
 

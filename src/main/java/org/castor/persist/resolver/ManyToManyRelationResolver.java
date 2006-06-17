@@ -32,6 +32,7 @@ import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for M:N relations.
@@ -105,7 +106,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
         if (field != null) {
             ArrayList alist = (ArrayList) field;
             for (int j = 0; j < alist.size(); j++) {
-                Object fid = alist.get(j);
+                Identity fid = (Identity) alist.get(j);
                 Object fetched = null;
                 if (fid != null) {
                     fetched = tx.fetch(fieldClassMolder, fid, null);
@@ -153,21 +154,20 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 flags.setUpdateCache(true);
             }
             while (removedItor.hasNext()) {
-                Object id = removedItor.next();
                 // must be loaded thur transaction, so that the related object
                 // is properly locked and updated before we delete it.
-                if (!tx.isDeletedByOID(new OID(fieldClassMolder, id))) {
+                Identity identity = (Identity) removedItor.next();
+                if (!tx.isDeletedByOID(new OID(fieldClassMolder, identity))) {
                     ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                    Object reldel = tx.load(id, proposedValue, null);
+                    Object reldel = tx.load(identity, proposedValue, null);
                     if (reldel != null && tx.isPersistent(reldel)) {
                         tx.writeLock(reldel, tx.getLockTimeout());
 
                         _fieldMolder.getRelationLoader().deleteRelation(
                                 tx.getConnection(oid.getMolder().getLockEngine()),
-                                oid.getIdentity(), id);
+                                oid.getIdentity(), identity);
 
-                        fieldClassMolder.removeRelation(tx, reldel,
-                                this._classMolder, object);
+                        fieldClassMolder.removeRelation(tx, reldel, _classMolder, object);
                     }
                 }
             }
@@ -218,7 +218,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                 Iterator itor = deleted.iterator();
                 while (itor.hasNext()) {
                     flags.setUpdateCache(true);
-                    Object deletedId = itor.next();
+                    Identity deletedId = (Identity) itor.next();
                     Object toBeDeleted = lazy.find(deletedId);
                     if (toBeDeleted != null) {
                         if (tx.isPersistent(toBeDeleted)) {
@@ -246,7 +246,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
 
                 Iterator itor = added.iterator();
                 while (itor.hasNext()) {
-                    Object addedId = itor.next();
+                    Identity addedId = (Identity) itor.next();
                     Object toBeAdded = lazy.find(addedId);
                     if (toBeAdded != null) {
                         if (tx.isPersistent(toBeAdded)) {
@@ -279,27 +279,20 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
             final Object object, final AccessMode suggestedAccessMode,
             final Object field)
     throws PersistenceException {
+        ArrayList v = (ArrayList) field;
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         if (tx.isAutoStore()) {
-            Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
-                    .getValue(object, tx.getClassLoader()));
-            ArrayList v = (ArrayList) field;
             ArrayList newSetOfIds = new ArrayList();
 
             // iterate the collection of this data object field
+            Iterator itor = ClassMolderHelper.getIterator(_fieldMolder
+                    .getValue(object, tx.getClassLoader()));
             while (itor.hasNext()) {
                 Object element = itor.next();
-                Object actualIdentity = fieldClassMolder.getActualIdentity(tx,
-                        element);
+                Object actualIdentity = fieldClassMolder.getActualIdentity(tx, element);
                 newSetOfIds.add(actualIdentity);
-                if (v != null && v.contains(actualIdentity)) {
-                    if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldClassMolder, element, null);
-                    }
-                } else {
-                    if (!tx.isRecorded(element)) {
-                        tx.markUpdate(fieldClassMolder, element, null);
-                    }
+                if (!tx.isRecorded(element)) {
+                    tx.markUpdate(fieldClassMolder, element, null);
                 }
             }
             // load all old objects for comparison in the preStore state
@@ -310,7 +303,7 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
                         // modification
                         // check at commit time.
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        tx.load(v.get(j), proposedValue, suggestedAccessMode);
+                        tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode);
                     }
                 }
             }
@@ -325,14 +318,13 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
      *      java.lang.Object)
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
-            final Object object, final Object field, final Object createdId) 
+            final Object object, final Object field, final Identity createdId) 
         throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         Object result = field;
         if (o != null) {
-            ArrayList fids = ClassMolderHelper.extractIdentityList(tx,
-                    fieldClassMolder, o);
+            ArrayList fids = ClassMolderHelper.extractIdentityList(tx, fieldClassMolder, o);
             result = fids;
             Iterator itor = ClassMolderHelper.getIterator(o);
             while (itor.hasNext()) {

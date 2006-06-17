@@ -15,6 +15,7 @@ import org.exolab.castor.persist.ObjectLock;
 import org.exolab.castor.persist.QueryResults;
 import org.exolab.castor.persist.TxSynchronizable;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.InstanceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 
@@ -172,7 +173,7 @@ public interface TransactionContext {
     DbMetaInfo getConnectionInfo(final LockEngine engine) throws PersistenceException;
 
     Object fetch(final ClassMolder molder,
-            final Object identity, final AccessMode suggestedAccessMode)
+            final Identity identity, final AccessMode suggestedAccessMode)
     throws PersistenceException;
 
     /**
@@ -203,7 +204,7 @@ public interface TransactionContext {
      *         lock on object. The object was not found in persistent storage. An error
      *         reported by the persistence engine.
      */
-    Object load(final Object identity,
+    Object load(final Identity identity,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode) 
     throws PersistenceException;
 
@@ -225,7 +226,7 @@ public interface TransactionContext {
      *         lock on object. The object was not found in persistent storage. An error
      *         reported by the persistence engine.
      */
-    Object load(final Object identity,
+    Object load(final Identity identity,
             final ProposedEntity proposedObject, final AccessMode suggestedAccessMode, 
             final QueryResults results)
     throws PersistenceException;
@@ -505,7 +506,7 @@ public interface TransactionContext {
      */
     boolean isReadOnly(final Object object);
 
-    boolean isCached(final ClassMolder molder, final Class cls, final Object identity)
+    boolean isCached(final ClassMolder molder, final Class cls, final Identity identity)
     throws PersistenceException;
     
     /**
@@ -513,13 +514,12 @@ public interface TransactionContext {
      * read from persistent storage, as opposed to being read from the
      * cache, during subsequent load/query operations.
      *
-     * @param engine The persistence engine.
      * @param molder The class persistence molder.
      * @param identity The object's identity.
      * @throws PersistenceException If identity is null or any problem that happens
      *         during expiration of cache values.
      */
-    void expireCache(final ClassMolder molder, final Object identity)
+    void expireCache(final ClassMolder molder, final Identity identity)
     throws PersistenceException;
     
     /**
@@ -540,5 +540,5 @@ public interface TransactionContext {
      * @param lockEngine Current LcokEngine instance
      * @return True if the object in question is locked.
      */
-    boolean isLocked(Class cls, Object identity, LockEngine lockEngine);
+    boolean isLocked(Class cls, Identity identity, LockEngine lockEngine);
 }

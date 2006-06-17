@@ -76,6 +76,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingResolver;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -529,12 +530,12 @@ public final class LockEngine {
 
             oid = lock.getOID();
 
-            Object newids = typeInfo.molder.create( tx, oid, lock, object );
+            Identity newids = typeInfo.molder.create( tx, oid, lock, object );
             succeed = true;
 
             oid.setDbLock( true );
 
-            newoid = new OID(oid.getMolder(), oid.getDepends(), newids );
+            newoid = new OID(oid.getMolder(), oid.getDepends(), newids);
 
             typeInfo.rename( oid, newoid, tx );
 
@@ -1187,13 +1188,10 @@ public final class LockEngine {
          * @throws ObjectDeletedWaitingForLockException
          * @throws LockNotGrantedException Timeout or deadlock occured attempting
          *         to acquire lock on object
-         * @throws ObjectDeletedException Object has been deleted from the
-         *         persistence store.
          */
         private ObjectLock acquire(OID oid, TransactionContext tx,
                                    short lockAction, int timeout)
-        throws ObjectDeletedWaitingForLockException,
-               LockNotGrantedException, ObjectDeletedException {
+        throws ObjectDeletedWaitingForLockException, LockNotGrantedException {
             
             ObjectLock entry = null;
             // sync on "locks" is, unfortunately, necessary if we employ

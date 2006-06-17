@@ -68,6 +68,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -152,7 +153,14 @@ public class OQLQueryImpl
                     ClassMolder molder = ((AbstractDatabaseImpl) _database).getLockEngine().getClassMolder( valueClass );
 
                     if ( molder != null ) {
-                        value = molder.getActualIdentity( _database.getClassLoader(), value );
+                        Identity temp = molder.getActualIdentity( _database.getClassLoader(), value );
+                        if (temp == null) {
+                            value = null;
+                        } else  if (temp.size() == 1) {
+                            value = temp.get(0);
+                        } else {
+                            throw new IllegalArgumentException("Unable to bind multi column identities");
+                        }
                     }
                 } else if ( info.isUserDefined() ) {
                         //If the user specified a type they must pass that exact type.

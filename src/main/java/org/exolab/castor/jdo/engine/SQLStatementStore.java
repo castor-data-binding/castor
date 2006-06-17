@@ -31,7 +31,7 @@ import org.castor.util.Messages;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -145,7 +145,7 @@ public final class SQLStatementStore {
         } 
     }
     
-    public Object executeStatement(final Connection conn, final Object identity,
+    public Object executeStatement(final Connection conn, final Identity identity,
                                    final ProposedEntity newentity,
                                    final ProposedEntity oldentity)
     throws PersistenceException {
@@ -186,15 +186,14 @@ public final class SQLStatementStore {
                             for (int j = 0; j < columns.length; j++) {
                                 stmt.setNull(count++, columns[j].getSqlType());
                             }
-                            
-                        } else if (value instanceof Complex) {
-                            Complex complex = (Complex) value;
-                            if (complex.size() != columns.length) {
-                                throw new PersistenceException("Size of complex field mismatch!");
+                        } else if (value instanceof Identity) {
+                            Identity id = (Identity) value;
+                            if (id.size() != columns.length) {
+                                throw new PersistenceException("Size of identity field mismatch!");
                             }
                             
                             for (int j = 0; j < columns.length; j++) {
-                                SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(complex.get(j)), columns[j].getSqlType());
+                                SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                             }
                         } else {
                             if (columns.length != 1) {
@@ -208,28 +207,16 @@ public final class SQLStatementStore {
                 
                 // bind the identity of the row to be stored into the preparedStatement
                 SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
-                if (identity instanceof Complex) {
-                    Complex id = (Complex) identity;
-                    if ((id.size() != ids.length) || (ids.length <= 1)) {
-                        throw new PersistenceException("Size of complex field mismatched!");
-                    }
-                    
-                    for (int i = 0; i < ids.length; i++) {
-                        stmt.setObject(count++, ids[i].toSQL(id.get(i)));
-                        if (LOG.isTraceEnabled()) {
-                            LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(), ids[i].toSQL(id.get(i))));
-                        }
-                    }                    
-                } else {
-                    if (ids.length != 1) {
-                        throw new PersistenceException("Complex field expected!");
-                    }
-                    
-                    stmt.setObject(count++, ids[0].toSQL(identity));
-                    if (LOG.isTraceEnabled()) {
-                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[0].getName(), ids[0].toSQL(identity)));
-                    }
+                if (identity.size() != ids.length) {
+                    throw new PersistenceException("Size of identity field mismatched!");
                 }
+                
+                for (int i = 0; i < ids.length; i++) {
+                    stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
+                    if (LOG.isTraceEnabled()) {
+                        LOG.trace(Messages.format("jdo.bindingIdentity", ids[i].getName(), ids[i].toSQL(identity.get(i))));
+                    }
+                }                    
                 
                 // bind the old fields of the row to be stored into the preparedStatement
                 if (oldentity.getFields() != null) {
@@ -245,17 +232,17 @@ public final class SQLStatementStore {
                                         stmt.setNull(count++, columns[j].getSqlType());
                                     }
                                 }
-                            } else if (value instanceof Complex) {
-                                Complex complex = (Complex) value;
-                                if (complex.size() != columns.length) {
-                                    throw new PersistenceException("Size of complex field mismatch!");
+                            } else if (value instanceof Identity) {
+                                Identity id = (Identity) value;
+                                if (id.size() != columns.length) {
+                                    throw new PersistenceException("Size of identity field mismatch!");
                                 }
                                 
                                 for (int j = 0; j < columns.length; j++) {
-                                    SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(complex.get(j)), columns[j].getSqlType());
+                                    SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(id.get(j)), columns[j].getSqlType());
                                     
                                     if (LOG.isTraceEnabled()) {
-                                        LOG.trace(Messages.format("jdo.bindingField", columns[j].getName(), columns[j].toSQL(complex.get(j))));
+                                        LOG.trace(Messages.format("jdo.bindingField", columns[j].getName(), columns[j].toSQL(id.get(j))));
                                     }
                                 }
                             } else {
@@ -292,13 +279,8 @@ public final class SQLStatementStore {
                         
                         // bind the identity to the prepareStatement
                         count = 1;
-                        if (identity instanceof Complex) {
-                            Complex id = (Complex) identity;
-                            for (int i = 0; i < ids.length; i++) {
-                                stmt.setObject(count++, ids[i].toSQL(id.get(i)));
-                            }
-                        } else {
-                            stmt.setObject(count++, ids[0].toSQL(identity));
+                        for (int i = 0; i < ids.length; i++) {
+                            stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
                         }
                         
                         ResultSet res = stmt.executeQuery();
@@ -370,14 +352,14 @@ public final class SQLStatementStore {
                         for (int j = columns.length - 1; j >= 0; j--) {
                             pos = nextParameter(true, sql, pos);
                         }
-                    } else if (value instanceof Complex) {
-                        Complex complex = (Complex) value;
-                        if (complex.size() != columns.length) {
-                            throw new PersistenceException("Size of complex field mismatch!");
+                    } else if (value instanceof Identity) {
+                        Identity identity = (Identity) value;
+                        if (identity.size() != columns.length) {
+                            throw new PersistenceException("Size of identity field mismatch!");
                         }
 
                         for (int j = columns.length - 1; j >= 0; j--) {
-                            pos = nextParameter((complex.get(j) == null), sql, pos);
+                            pos = nextParameter((identity.get(j) == null), sql, pos);
                         }
                     } else {
                         if (columns.length != 1) {

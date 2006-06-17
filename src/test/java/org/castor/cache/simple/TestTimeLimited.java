@@ -285,7 +285,7 @@ public final class TestTimeLimited extends TestCase {
         try {
             Properties params = new Properties();
             params.put(Cache.PARAM_NAME, "dummy");
-            params.put(TimeLimited.PARAM_TTL, "3");
+            params.put(TimeLimited.PARAM_TTL, "5");
             cache.initialize(params);
         } catch (CacheAcquireException ex) {
             fail("Unexpected CacheAcquireException at initialization.");

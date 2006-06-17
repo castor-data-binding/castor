@@ -20,8 +20,7 @@ import harness.TestHarness;
 import jdo.JDOCategory;
 
 import org.exolab.castor.jdo.Database;
-import org.exolab.castor.persist.spi.Complex;
-
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * JUnit test to test drive specification of class identity through the use of the
@@ -95,7 +94,7 @@ public final class TestIdentityPerFieldMapping extends CastorTestCase {
         
         ParentWithCompoundId child = (ParentWithCompoundId) 
             db.load(ParentWithCompoundId.class,
-                    new Complex(new Integer(1), new Integer(1)));
+                    new Identity(new Integer(1), new Integer(1)));
 
         assertNotNull(child);
         assertEquals(new Integer(1), child.getId1());
@@ -115,7 +114,7 @@ public final class TestIdentityPerFieldMapping extends CastorTestCase {
         
         ChildWithCompoundId child = (ChildWithCompoundId) 
             db.load(ChildWithCompoundId.class,
-                    new Complex(new Integer(1), new Integer(1)));
+                    new Identity(new Integer(1), new Integer(1)));
 
         assertNotNull(child);
         assertEquals(new Integer(1), child.getId1());

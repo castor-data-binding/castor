@@ -60,7 +60,7 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.CacheManager;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Expire Cache test. Tests the ability to clear objects from the cache.  This
@@ -389,7 +389,7 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
                 cacheManager.expireCache(typeArray);
             } else {
                 Object[] identityArray = new Object[1];
-                identityArray[0] = new Complex("First", "Person");
+                identityArray[0] = new Identity("First", "Person");
                 cacheManager.expireCache(LazyEmployee.class, identityArray);
             }
         } catch (Exception e) {
@@ -414,7 +414,7 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
             db = _category.getDatabase();
             db.begin();
             
-            Complex fullname = new Complex("First", "Person");
+            Identity fullname = new Identity("First", "Person");
             LazyEmployee person;
             
             person = (LazyEmployee) db.load(LazyEmployee.class, fullname);
@@ -480,7 +480,7 @@ public final class TestLazyEmployeeExpiration extends CastorTestCase {
             db = _category.getDatabase();
             db.begin();
             
-            Complex fullname = new Complex("First", "Person");
+            Identity fullname = new Identity("First", "Person");
             LazyEmployee person;
             
             person = (LazyEmployee) db.load(LazyEmployee.class, fullname);

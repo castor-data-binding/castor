@@ -56,12 +56,11 @@ import org.castor.jdo.engine.SQLTypeInfos;
 import org.castor.persist.ProposedEntity;
 import org.castor.util.Messages;
 
-import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.engine.JDBCSyntax;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 
 /**
@@ -100,10 +99,10 @@ final class PostgreSQLCallQuery implements PersistenceQuery
     private final String    _call;
 
 
-    private Object         _lastIdentity;
+    private Identity        _lastIdentity;
 
 
-    private int[]          _sqlTypes;
+    private int[]           _sqlTypes;
 
 
     PostgreSQLCallQuery( String call, Class[] types, Class javaClass,
@@ -202,27 +201,25 @@ final class PostgreSQLCallQuery implements PersistenceQuery
     }
 
 
-    public Object nextIdentity(Object identity) throws PersistenceException
-    {
+    public Identity nextIdentity(Identity identity) throws PersistenceException {
         try {
-            if ( _lastIdentity == null ) {
-                if ( ! _rs.next() )
-                    return null;
-                _lastIdentity = SQLTypeInfos.getValue( _rs, 1, _sqlTypes[ 0 ] );
-                return new Complex( _lastIdentity );
+            if (_lastIdentity == null) {
+                if (!_rs.next()) { return null; }
+                _lastIdentity = new Identity(SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]));
+                return _lastIdentity;
             }
 
-            while ( _lastIdentity.equals( identity ) ) {
-                if ( ! _rs.next() ) {
+            while (_lastIdentity.equals(identity)) {
+                if (!_rs.next()) {
                     _lastIdentity = null;
                     return null;
                 }
-                _lastIdentity = SQLTypeInfos.getValue( _rs, 1, _sqlTypes[ 0 ] );
+                _lastIdentity = new Identity(SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]));
             }
-            return new Complex( _lastIdentity );
-        } catch ( SQLException except ) {
+            return _lastIdentity;
+        } catch (SQLException except) {
             _lastIdentity = null;
-            throw new PersistenceException( Messages.format( "persist.nested", except ) );
+            throw new PersistenceException(Messages.format("persist.nested", except));
         }
     }
 
@@ -248,8 +245,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery
     }
 
 
-    public Object fetch(ProposedEntity proposedObject, Object identity)
-            throws ObjectNotFoundException, PersistenceException {
+    public Object fetch(ProposedEntity proposedObject) throws PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
@@ -257,7 +253,7 @@ final class PostgreSQLCallQuery implements PersistenceQuery
                 proposedObject.setField(SQLTypeInfos.getValue(_rs, i + 1, _sqlTypes[i]), i - 1);
             }
             if (_rs.next()) {
-                _lastIdentity = SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]);
+                _lastIdentity = new Identity(SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]));
             } else {
                 _lastIdentity = null;
             }

@@ -58,6 +58,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceQuery;
 
 
@@ -94,7 +95,7 @@ public final class QueryResults {
     /**
      * The last identity retrieved with a call to {@link #nextIdentity}.
      */
-    private Object _lastIdentity;
+    private Identity _lastIdentity;
 
     public QueryResults(TransactionContext tx, 
             final LockEngine engine,
@@ -104,8 +105,7 @@ public final class QueryResults {
         _tx = tx;
         _engine = engine;
         _query = query;
-        _accessMode = 
-            engine.getClassMolder(_query.getResultType()).getAccessMode(accessMode);
+        _accessMode = engine.getClassMolder(_query.getResultType()).getAccessMode(accessMode);
     }
 
 

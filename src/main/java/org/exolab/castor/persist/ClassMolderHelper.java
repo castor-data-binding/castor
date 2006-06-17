@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.Map;
 import java.util.NoSuchElementException;
@@ -19,6 +20,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.MappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
@@ -165,9 +167,10 @@ public final class ClassMolderHelper {
             return idList;
        } else if (col instanceof Map) {
             ArrayList idList = new ArrayList();
-            Iterator itor = ((Map) col).keySet().iterator();
+            Iterator itor = ((Map) col).values().iterator();
             while (itor.hasNext()) {
-                idList.add(itor.next());
+                Object id = molder.getIdentity(tx, itor.next());
+                if (id != null) { idList.add(id); }
             }
             return idList;
         } else if (col.getClass().isArray()) {
@@ -393,14 +396,12 @@ public final class ClassMolderHelper {
                 return ((Map) collection).values();
             }
 
-            Map newMap = (Map) collection;
-            ArrayList added = new ArrayList(newMap.size());
-            Iterator newItor = newMap.entrySet().iterator();
+            ArrayList added = new ArrayList(((Map) collection).size());
+            Iterator newItor = ((Map) collection).values().iterator();
             while (newItor.hasNext()) {
-                Map.Entry newId = (Map.Entry) newItor.next();
-                if (!orgIds.contains(newId.getKey())) {
-                    added.add(newId.getValue());
-                }
+                Object newValue = newItor.next();
+                Identity newId = ch.getIdentity(tx, newValue);
+                if (!orgIds.contains(newId)) { added.add(newValue); }
             }
             return added;
         }
@@ -535,7 +536,6 @@ public final class ClassMolderHelper {
             }
             
             return orgIds;
-            
         }
 
         if (collection instanceof Map) {
@@ -543,14 +543,17 @@ public final class ClassMolderHelper {
                 return new ArrayList(0);
             }
 
-            Map newMap = (Map) collection;
-            Iterator orgItor = orgIds.iterator();
+            HashSet newIds = new HashSet(((Map) collection).size());
+            Iterator newItor = ((Map) collection).values().iterator();
+            while (newItor.hasNext()) {
+                newIds.add(ch.getIdentity(tx, newItor.next()));
+            }
+            
             ArrayList removed = new ArrayList(orgIds.size());
+            Iterator orgItor = orgIds.iterator();
             while (orgItor.hasNext()) {
                 Object id = orgItor.next();
-                if (!newMap.containsKey(id)) {
-                    removed.add(id);
-                }
+                if (!newIds.contains(id)) { removed.add(id); }
             }
             return removed;
         }

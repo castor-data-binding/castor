@@ -116,7 +116,7 @@ public interface PersistenceQuery {
      * @throws PersistenceException An error reported by the
      *  persistence engine
      */
-    public Object nextIdentity(Object identity)
+    public Identity nextIdentity(Identity identity)
     throws PersistenceException;
 
     /**
@@ -135,13 +135,12 @@ public interface PersistenceQuery {
      * results rather than issuing a new query to load the object.
      *
      * @param fields The fields to load into
-     * @param identity The object's identity
      * @return The object's stamp, or null
      * @throws PersistenceException The object was not found in
      *         persistent storage or any other persistence error occured.
      * @see Persistence#load
      */
-    public Object fetch(ProposedEntity proposedObject, Object identity)
+    public Object fetch(ProposedEntity proposedObject)
     throws PersistenceException;
 
     /**

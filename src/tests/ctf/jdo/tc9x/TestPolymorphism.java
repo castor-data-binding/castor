@@ -27,7 +27,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.QueryResults;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Tests that modification to read only objects are not persist in the 
@@ -136,7 +136,7 @@ public final class TestPolymorphism extends CastorTestCase {
             laptop = (Laptop) database.load(Laptop.class, new Integer(10));
             fail("Laptop with id 10 still exists.");
         } catch (ObjectNotFoundException e) {
-           assertEquals("The object of type ctf.jdo.tc9x.Laptop with identity 10 " 
+           assertEquals("The object of type ctf.jdo.tc9x.Laptop with identity <10(10)> " 
                    + "was not found in persistent storage", e.getMessage());
         }
         database.commit();
@@ -149,7 +149,7 @@ public final class TestPolymorphism extends CastorTestCase {
         
         database.begin();
         LaptopMulti laptop = (LaptopMulti) database.load(LaptopMulti.class,
-                new Complex(new Integer (1), new Integer(1)));
+                new Identity(new Integer (1), new Integer(1)));
         database.commit();
         
         assertNotNull(laptop);
@@ -181,7 +181,7 @@ public final class TestPolymorphism extends CastorTestCase {
         
         database.begin();
         ServerMulti server = (ServerMulti) database.load(ServerMulti.class,
-                new Complex(new Integer(3), new Integer(3)));
+                new Identity(new Integer(3), new Integer(3)));
         database.commit();
         
         assertNotNull(server);
@@ -265,7 +265,7 @@ public final class TestPolymorphism extends CastorTestCase {
         
         database.begin();
         ComputerMulti computer = (LaptopMulti) database.load(ComputerMulti.class,
-                new Complex(new Integer(1), new Integer(1)));
+                new Identity(new Integer(1), new Integer(1)));
         database.commit();
         
         assertNotNull(computer);

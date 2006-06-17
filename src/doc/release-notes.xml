@@ -40,8 +40,55 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Changes</h2>
+                
+                <h3>Internal handling of idenities</h3>
+                
+                <p>In the past Castor differentiated between single and multiple field
+                   identities of persistent objects. For single field identities Castor
+                   hold the identitiy object itself while the objects of a multiple
+                   field identity where wrapped by an instance of Complex class. This
+                   caused various if-then-else constructs to differentiat the 2
+                   representations of identities.</p>
+
+                <p>With the refactoring identities are now always wrapped by an instance
+                   of Identity class being it a single or a multiple fields one. This
+                   resulted in much cleaner code at various areas and in addition we
+                   could improve type checking by declaring lots of properties and
+                   parameters to be of Identity class instead of simply Object.</p>
+
+                <p>While we could manage to be backward compatible for all methods that
+                   gets an identity passed (e.g. <code>Database.load(Class, Object)</code>)
+                   this was not possible for <code>Database.getIdentity(Object)</code>.
+                   Instead of the single field identity or an instance of Complex class
+                   for multiple field identities it now always returns an instance of
+                   Identity class.</p>
+                   
+                <p><b>You have to be aware that you need to adapt your code to get things
+                   working as before if you use <code>Database.getIdentity(Object)</code>
+                   method.</b></p>
             </summary>
             <bugs>
+                <bug id="1435" tool="jira">
+                    <description>
+		                Refactored internal handling of identities.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060617</date>
+                </bug>
                 <bug id="1449" tool="jira">
                     <description>
 		                Re-generated class files from jdo-conf.xsd

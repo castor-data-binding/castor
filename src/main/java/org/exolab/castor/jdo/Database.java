@@ -49,6 +49,7 @@ package org.exolab.castor.jdo;
 
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.PersistenceInfoGroup;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * An open connection to the database. This object represents an open
@@ -498,9 +499,8 @@ public interface Database
      * @param cls Class instance.
      * @param identity Object identity.
      * @return True if the object specified is locked; false otherwise.
-     * @see org.exolab.castor.jdo.Database#isLocked(java.lang.Class, java.lang.Object)
      */
-    public boolean isLocked (Class cls, Object identity);
+    public boolean isLocked (Class cls, Object identity) throws PersistenceException;
     
     /**
      * Closes the database. If a client transaction is in progress the
@@ -540,9 +540,9 @@ public interface Database
      * 
      * @param object The object.
      * @return The object's identity, or null.
-     * @throws ClassNotPersistenceCapableException The class is not persistent capable.
+     * @throws PersistenceException The class is not persistent capable.
      */
-    public Object getIdentity(Object object) throws ClassNotPersistenceCapableException;
+    public Identity getIdentity(Object object) throws PersistenceException;
 
     
     /** 

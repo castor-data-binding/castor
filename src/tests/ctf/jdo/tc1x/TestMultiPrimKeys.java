@@ -59,7 +59,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Test for multiple columns primary Keys. These tests create data objects
@@ -121,7 +121,7 @@ public final class TestMultiPrimKeys extends CastorTestCase {
     public void runTest() throws PersistenceException {
         createPerson();
 
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         
         // now test if the persisted objects model is created as expected
         loadAndModifyPerson1(fullname);
@@ -192,7 +192,7 @@ public final class TestMultiPrimKeys extends CastorTestCase {
         LOG.info("OK: The complex models created successfully");
     }
     
-    private void loadAndModifyPerson1(final Complex fullname)
+    private void loadAndModifyPerson1(final Identity fullname)
     throws PersistenceException {
         _db.begin();
 
@@ -298,7 +298,7 @@ public final class TestMultiPrimKeys extends CastorTestCase {
         _db.commit();
     }
     
-    private void loadAndModifyPerson2(final Complex fullname)
+    private void loadAndModifyPerson2(final Identity fullname)
     throws PersistenceException {
         _db.begin();
         

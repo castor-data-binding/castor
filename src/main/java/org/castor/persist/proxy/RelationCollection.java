@@ -34,6 +34,7 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
 import org.exolab.castor.persist.TxSynchronizable;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.jdo.LockNotGrantedException;
 import org.exolab.castor.jdo.PersistenceException;
 
@@ -79,7 +80,6 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
      * Creates an instance of RelationCollection
      * @param tx Current transaction context
      * @param enclosing Enclosing OID 
-     * @param engine Associated LockEngine
      * @param molder Associated ClassMolder
      * @param amode Access mode
      * @param ids Set of identifiers.
@@ -98,7 +98,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
 
 
     public boolean add(final Object o) {
-        Object id = _molder.getIdentity(_tx, o);
+        Identity id = _molder.getIdentity(_tx, o);
         // boolean changed = false;
         if (_ids.contains(id)) {
             if (_deleted.contains(id)) {
@@ -146,11 +146,11 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
     }
 
     public boolean contains(final Object o) {
-        Object ids = _molder.getIdentity(_tx, o);
-        if (_added.contains(ids)) {
+        Identity id = _molder.getIdentity(_tx, o);
+        if (_added.contains(id)) {
             return true;
         }
-        if (_ids.contains(ids) && !_deleted.contains(ids)) {
+        if (_ids.contains(id) && !_deleted.contains(id)) {
             return true;
         }
         return false;
@@ -193,6 +193,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
             // _ids and thus are not iterated over.
             _iterationsize = _parent._added.size() + _parent._ids.size();
         }
+        
         public boolean hasNext() {
             if (_changestamp != _parent._changecount) {
                 throw new ConcurrentModificationException(
@@ -202,7 +203,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
             if (_cursor >= _added.size()) {
                 // skip deleted ids
                 while ((_cursor < _iterationsize)
-                        && isSkipped(_ids.get(_cursor - _added.size()))) {
+                        && isSkipped((Identity) _ids.get(_cursor - _added.size()))) {
                     _cursor++;
                 }
             }
@@ -212,6 +213,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
             }
             return true;
         }
+        
         public Object next() {
             if (_changestamp != _parent._changecount) {
                 throw new ConcurrentModificationException(
@@ -224,10 +226,10 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
                         "Read after the end of iterator!");
             }
 
-            Object id;
+            Identity id;
             Object o;
             if (_cursor < _added.size()) {
-                id = _added.get(_cursor++);
+                id = (Identity) _added.get(_cursor++);
                 o = _loaded.get(id);
                 if (o != null) {
                     return o;
@@ -235,7 +237,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
                 return lazyLoad(id);
             }
             // the deleted ids were skipped by hasNext(), get is safe
-            id = _ids.get(_cursor++ - _added.size());
+            id = (Identity) _ids.get(_cursor++ - _added.size());
 
             o = _loaded.get(id);
             if (o != null) {
@@ -243,16 +245,16 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
             }
             return lazyLoad(id);
         }
-        private boolean isSkipped(final Object id) {
-            if (_deleted.contains(id)) {
-                return true;
-            }
+        
+        private boolean isSkipped(final Identity id) {
+            if (_deleted.contains(id)) { return true; }
             // make sure the object is not deleted in
             // the current transaction outside this class
             OID oid = new OID(_parent._molder, id);
             return _parent._tx.isDeletedByOID(oid);
         }
-        private Object lazyLoad(final Object ids) {
+        
+        private Object lazyLoad(final Identity ids) {
             Object o;
 
             if (!_tx.isOpen()) {
@@ -323,7 +325,7 @@ public final class RelationCollection implements Collection, Lazy, TxSynchroniza
     }
 
     public boolean remove(final Object o) {
-        Object id = _molder.getIdentity(_tx, o);
+        Identity id = _molder.getIdentity(_tx, o);
 
         if (_deleted.contains(id)) {
             return false;

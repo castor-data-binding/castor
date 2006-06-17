@@ -35,6 +35,7 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -307,20 +308,20 @@ public final class SQLEngine implements Persistence {
         return col.getConvertTo().convert(object, col.getConvertParam());
     }
 
-    public Object create(final Database database, final Object conn,
-                         final ProposedEntity entity, Object identity)
+    public Identity create(final Database database, final Object conn,
+                         final ProposedEntity entity, Identity identity)
     throws PersistenceException {
-        return _createStatement.executeStatement(database, (Connection) conn, identity, entity);
+        return (Identity) _createStatement.executeStatement(database, (Connection) conn, identity, entity);
     }
 
-    public Object store(final Object conn, final Object identity,
+    public Object store(final Object conn, final Identity identity,
                         final ProposedEntity newentity,
                         final ProposedEntity oldentity)
     throws PersistenceException {
         return _storeStatement.executeStatement((Connection) conn, identity, newentity, oldentity);
     }
 
-    public void delete(final Object conn, final Object identity)
+    public void delete(final Object conn, final Identity identity)
     throws PersistenceException {
         _removeStatement.executeStatement((Connection) conn, identity);
     }
@@ -343,7 +344,7 @@ public final class SQLEngine implements Persistence {
      * @throws PersistenceException A persistence error occured
      */
     public Object load(final Object conn, final ProposedEntity entity,
-                       final Object identity, final AccessMode accessMode)
+                       final Identity identity, final AccessMode accessMode)
     throws PersistenceException {
         return _loadStatement.executeStatement((Connection) conn, identity, entity, accessMode);
     }

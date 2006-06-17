@@ -33,6 +33,7 @@ import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.Lazy;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for many relations. This class carries
@@ -168,7 +169,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             .newInstance(collectionType.getComponentType(), v
                                     .size());
                     for (int j = 0, l = v.size(); j < l; j++) {
-                        arrayValue[j] = tx.fetch(fieldClassMolder, v.get(j), null);
+                        arrayValue[j] = tx.fetch(fieldClassMolder, (Identity) v.get(j), null);
                     }
                     _fieldMolder.setValue(object, arrayValue, tx
                             .getClassLoader());
@@ -180,9 +181,9 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             .getClassLoader());
 
                     for (int j = 0, l = v.size(); j < l; j++) {
-                        Object obj = tx.fetch(fieldClassMolder, v.get(j), null);
+                        Object obj = tx.fetch(fieldClassMolder, (Identity) v.get(j), null);
                         if (obj != null) {
-                            cp.add(v.get(j), obj);
+                            cp.add((Identity) v.get(j), obj);
                         }
                     }
                     cp.close();
@@ -214,7 +215,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
         ArrayList v = (ArrayList) field;
         if (v != null) {
             for (int j = 0, l = v.size(); j < l; j++) {
-                tx.expireCache(fieldClassMolder, v.get(j));
+                tx.expireCache(fieldClassMolder, (Identity) v.get(j));
             }
         }
     }
@@ -241,11 +242,10 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                 Class collectionType = _fieldMolder.getCollectionType();
                 if (collectionType.isArray()) {
                     Object[] value = (Object[]) java.lang.reflect.Array
-                            .newInstance(collectionType.getComponentType(), v
-                                    .size());
+                            .newInstance(collectionType.getComponentType(), v.size());
                     for (int j = 0, l = v.size(); j < l; j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        value[j] = tx.load(v.get(j), proposedValue, suggestedAccessMode);
+                        value[j] = tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode);
                     }
                     _fieldMolder.setValue(proposedObject.getEntity(), value, tx
                             .getClassLoader());
@@ -254,7 +254,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
                             proposedObject.getEntity(), tx.getClassLoader());
                     for (int j = 0, l = v.size(); j < l; j++) {
                         ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                        cp.add(v.get(j), tx.load(v.get(j), proposedValue, suggestedAccessMode));
+                        cp.add((Identity) v.get(j), tx.load((Identity) v.get(j), proposedValue, suggestedAccessMode));
                     }
                     cp.close();
                 }
@@ -279,7 +279,7 @@ public abstract class ManyRelationResolver implements ResolverStrategy {
      */
     public abstract Object postCreate(final TransactionContext tx,
             final OID oid, final Object object, final Object field,
-            final Object createdId)
+            final Identity createdId)
     throws PersistenceException;
 
     /* (non-Javadoc)

@@ -43,11 +43,13 @@
  * $Id$
  */
 
-
 package org.exolab.castor.persist.spi;
 
 /**
+ * @deprecated Complex has been replaced by Identity.
+ *  
  * @author <a href="yip@intalio.com">Thomas Yip</a>
+ * @version $Revision$ $Date: 2006-04-12 15:13:08 -0600 (Wed, 12 Apr 2006) $
  */
 public class Complex {
 
@@ -236,6 +238,5 @@ public class Complex {
         sb.append(">");
         return sb.toString();
     }
-
 }
 

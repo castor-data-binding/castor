@@ -32,6 +32,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * A transaction records all objects accessed during the lifetime
@@ -516,7 +517,7 @@ public final class ObjectTracker {
             
             // TODO [WG] We still might have an option for some serious optimization
             // here if the instance has not been materialized yet.
-            Object identity = cgObject.interceptedIdentity();
+            Identity identity = cgObject.interceptedIdentity();
             ClassMolder molder = cgObject.interceptedClassMolder();
             LockEngine engine = molder.getLockEngine();
             

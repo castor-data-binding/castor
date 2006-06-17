@@ -41,7 +41,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -251,7 +251,7 @@ public final class SQLStatementLoad {
         return (QueryExpression) _queryExpression.clone();
     }
 
-    public Object executeStatement(final Connection conn, final Object identity,
+    public Object executeStatement(final Connection conn, final Identity identity,
                                    final ProposedEntity entity,
                                    final AccessMode accessMode)
     throws PersistenceException {
@@ -271,20 +271,12 @@ public final class SQLStatementLoad {
             
             int fieldIndex = 1;
             // bind the identity of the preparedStatement
-            if (identity instanceof Complex) {
-                Complex id = (Complex) identity;
-                if ((id.size() != ids.length) || (ids.length <= 1)) {
-                    throw new PersistenceException("Size of complex field mismatched! expected: " + ids.length + " found: " + id.size());
-                }
+            if (identity.size() != ids.length) {
+                throw new PersistenceException("Size of identity field mismatched! expected: " + ids.length + " found: " + identity.size());
+            }
 
-                for (int i = 0; i < ids.length; i++) {
-                    stmt.setObject(fieldIndex++, ids[i].toSQL(id.get(i)));
-                }
-            } else {
-                if (ids.length != 1) {
-                    throw new PersistenceException("Complex field expected!");
-                }
-                stmt.setObject(fieldIndex++, ids[0].toSQL(identity));
+            for (int i = 0; i < ids.length; i++) {
+                stmt.setObject(fieldIndex++, ids[i].toSQL(identity.get(i)));
             }
 
             if (LOG.isDebugEnabled()) {
@@ -335,7 +327,6 @@ public final class SQLStatementLoad {
             fieldIndex = 1;
             String tableName = null;
             String tableNameOld = tableName;
-            Object[] temp = new Object[10]; // assume complex field max at 10
             for (int i = 0 ; i < fields.length ; ++i) {
                 SQLFieldInfo field = fields[i];
                 SQLColumnInfo[] columns = field.getColumnInfo();
@@ -344,43 +335,29 @@ public final class SQLStatementLoad {
                     columnIndex = columnIndex + ids.length; 
                 }
                 
-                if (!field.isMulti()) {
+                if (!field.isJoined() && (field.getJoinFields() == null)) {
+                    entity.setField(columns[0].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[0].getSqlType())), i);
+                    fieldIndex++;
+                } else if (!field.isMulti()) {
                     notNull = false;
-                    if (columns.length == 1) {
-                        entity.setField(columns[0].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[0].getSqlType())), i);
+                    Object[] id = new Object[columns.length];
+                    for (int j = 0; j < columns.length; j++) {
+                        id[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[j].getSqlType()));
                         fieldIndex++;
-                    } else {
-                        for (int j = 0; j < columns.length; j++) {
-                            temp[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[j].getSqlType()));
-                            fieldIndex++;
-                            if (temp[j] != null) {
-                                notNull = true;
-                            }
-                        }
-                        if (notNull) {
-                            entity.setField(new Complex(columns.length, temp), i);
-                        } else {
-                            entity.setField(null, i);
-                        }
+                        if (id[j] != null) { notNull = true; }
                     }
+                    entity.setField(((notNull) ? new Identity(id) : null), i);
                 } else {
                     ArrayList res = new ArrayList();
                     notNull = false;
+                    Object[] id = new Object[columns.length];
                     for (int j = 0; j < columns.length; j++) {
-                        temp[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));
-                        if (temp[j] != null) {
-                            notNull = true;
-                        }
+                        id[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));
+                        if (id[j] != null) { notNull = true; }
                         fieldIndex++;
                         columnIndex++;
                     }
-                    if (notNull) {
-                        if (columns.length == 1) {
-                            res.add( temp[0] );
-                        } else {
-                            res.add(new Complex(columns.length, temp));
-                        }
-                    }
+                    if (notNull) { res.add(new Identity(id)); }
                     entity.setField(res, i);
                 }
                 
@@ -405,31 +382,24 @@ public final class SQLStatementLoad {
                     if (field.isMulti()) {
                         ArrayList res = (ArrayList) entity.getField(i);
                         notNull = false;
+                        Object[] id = new Object[columns.length];
                         for (int j = 0; j < columns.length; j++) {
-                            temp[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));
-                            if (temp[j] != null) { notNull = true; }
+                            id[j] = columns[j].toJava(SQLTypeInfos.getValue(rs, columnIndex, columns[j].getSqlType()));
+                            if (id[j] != null) { notNull = true; }
                             columnIndex++;
                         }
                         fieldIndex++;
                         if (notNull) {
-                            if (columns.length == 1) {
-                                if (!res.contains(temp[0])) {
-                                    res.add(temp[0]);
-                                }
-                            } else {
-                                Complex com = new Complex(columns.length, temp);
-                                if (!res.contains(com)) {
-                                    res.add(new Complex(columns.length, temp));
-                                }
-                            }
+                            Identity com = new Identity(id);
+                            if (!res.contains(com)) { res.add(com); }
                         }
                     } else {
                         fieldIndex++;
                         columnIndex += columns.length;
                     }
+
                     tableNameOld = tableName;
                 }
-                
             }
         } catch (SQLException except) {
             LOG.fatal(Messages.format("jdo.loadFatal", _type, (accessMode == AccessMode.DbLocked) ? _statementLock : _statementNoLock), except);

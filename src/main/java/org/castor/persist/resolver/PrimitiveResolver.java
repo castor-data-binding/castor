@@ -27,6 +27,7 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for primitive fields.
@@ -172,7 +173,7 @@ public final class PrimitiveResolver implements ResolverStrategy {
      * @see org.castor.persist.resolver.ResolverStrategy#postCreate(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object, java.lang.Object, java.lang.Object)
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
-            final Object object, final Object field, final Object createdId) {
+            final Object object, final Object field, final Identity createdId) {
         return field;
     }
 

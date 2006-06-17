@@ -90,7 +90,7 @@ public final class TestCacheEntry extends TestCase {
         ce.setOID(null);
         assertNull(ce.getOID());
         
-        Object entry = new Object();
+        Object[] entry = new Object[] {};
         ce.setEntry(entry);
         assertTrue(entry == ce.getEntry());
         ce.setEntry(null);
@@ -104,7 +104,7 @@ public final class TestCacheEntry extends TestCase {
 
     public void testConstructor() throws Exception {
         OID oid = createOID();
-        Object entry = new Object();
+        Object[] entry = new Object[] {};
 
         CacheEntry src = createCacheEntry();
         src.setOID(oid);
