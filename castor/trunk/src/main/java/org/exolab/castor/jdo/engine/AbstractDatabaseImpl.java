@@ -36,6 +36,7 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.*;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.InstanceFactory;
 
 /**
@@ -224,19 +225,22 @@ public abstract class AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#isLocked(java.lang.Class, java.lang.Object)
      */
-    public boolean isLocked(final Class cls, final Object identity) {
+    public boolean isLocked(final Class cls, final Object identity) throws PersistenceException {
+        if (identity == null) {
+            throw new PersistenceException("Identities can't be null!");
+        }
         if (_scope == null) {
-            throw new IllegalStateException(Messages.message("jdo.dbClosed"));
+            throw new PersistenceException(Messages.message("jdo.dbClosed"));
         }
         if (isActive()) {
-            return _ctx.isLocked(cls, identity, _scope.getLockEngine());
+            return _ctx.isLocked(cls, new Identity(identity), _scope.getLockEngine());
         }
         return false;
 	}
 
 	/**
-     * @inheritDoc
 	 * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object)
+     * {@inheritDoc}
 	 */
 	public Object load(final Class type, final Object identity) 
     throws ObjectNotFoundException, LockNotGrantedException, 
@@ -245,8 +249,8 @@ public abstract class AbstractDatabaseImpl
     }
 
     /**
-     * @inheritDoc
      * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object, java.lang.Object)
+     * {@inheritDoc}
      */
     public Object load(
             final Class type, 
@@ -258,8 +262,8 @@ public abstract class AbstractDatabaseImpl
     }
     
     /**
-     * @inheritDoc
      * @see org.exolab.castor.jdo.Database#load(java.lang.Class, java.lang.Object, org.exolab.castor.mapping.AccessMode)
+     * {@inheritDoc}
      */
     public Object load(final Class type, final Object identity,
                        final AccessMode mode) 
@@ -270,6 +274,7 @@ public abstract class AbstractDatabaseImpl
 
     /**
      * Loads on object instance of the specified type and its identity.
+     * 
      * @param type Object type.
      * @param identity Object identity
      * @param object Object instance to be filled with loaded values (optional)
@@ -284,10 +289,16 @@ public abstract class AbstractDatabaseImpl
                         final Object object, final AccessMode mode) 
     throws TransactionNotInProgressException, ObjectNotFoundException,
     LockNotGrantedException, PersistenceException {
+        if (identity == null) {
+            throw new PersistenceException("Identities can't be null!");
+        }
+        if (_scope == null) {
+            throw new PersistenceException(Messages.message("jdo.dbClosed"));
+        }
         TransactionContext tx = getTransaction();
         ClassMolder molder = _scope.getClassMolder(type);
         ProposedEntity proposedObject = new ProposedEntity(molder);
-        return tx.load(identity, proposedObject, mode);
+        return tx.load(new Identity(identity), proposedObject, mode);
     }
 
     /**
@@ -358,10 +369,9 @@ public abstract class AbstractDatabaseImpl
      * @inheritDoc
      * @see org.exolab.castor.jdo.Database#getIdentity(java.lang.Object)
      */
-    public Object getIdentity(final Object object) 
-    throws ClassNotPersistenceCapableException {
+    public Identity getIdentity(final Object object) throws PersistenceException {
         if ( _scope == null ) {
-            throw new IllegalStateException(Messages.message("jdo.dbClosed"));
+            throw new PersistenceException(Messages.message("jdo.dbClosed"));
         }
 
         ClassMolder molder = _scope.getClassMolder(object.getClass());

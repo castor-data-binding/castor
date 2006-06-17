@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
-
 
 import java.sql.Connection;
 import java.util.Properties;
@@ -83,9 +80,8 @@ import org.exolab.castor.mapping.loader.MappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
-
 
 /**
  * ClassMolder is a 'binder' for one type of data object and its corresponding 
@@ -110,13 +106,10 @@ import org.exolab.castor.persist.spi.Persistence;
  * @author <a href="mailto:wernert DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  */
 
-public class ClassMolder 
-{
+public class ClassMolder {
 
-    /**
-     * The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
-     * Commons Logging</a> instance used for all logging.
-     */
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
+     *  Commons Logging</a> instance used for all logging. */
     private static Log _log = LogFactory.getFactory().getInstance(ClassMolder.class);
     
    /**
@@ -533,7 +526,7 @@ public class ClassMolder
         // try to load the field values from the cache, except when being told
         // to ignore them
         if (!proposedObject.isObjectLockObjectToBeIgnored()) {
-            Object[] cachedFieldValues = (Object[]) locker.getObject(tx);
+            Object[] cachedFieldValues = locker.getObject(tx);
             if (_log.isDebugEnabled()) {
                 StringBuffer buffer = new StringBuffer(80);
                 buffer.append("Field values loaded from cache: ");
@@ -559,12 +552,10 @@ public class ClassMolder
         if (!proposedObject.isFieldsSet() || accessMode == AccessMode.DbLocked) {
         	proposedObject.initializeFields(_fhs.length);
             if (results != null) {
-                stamp = results.getQuery().fetch(proposedObject,
-                        oid.getIdentity());
+                stamp = results.getQuery().fetch(proposedObject);
             } else {
                 Connection conn = tx.getConnection(oid.getMolder().getLockEngine());
-                stamp = _persistence.load(conn, proposedObject, 
-                        oid.getIdentity(), accessMode);
+                stamp = _persistence.load(conn, proposedObject, oid.getIdentity(), accessMode);
             }
 
             if (proposedObject.isExpanded()) {
@@ -626,8 +617,7 @@ public class ClassMolder
         }
 
         // set the identities into the target object
-        Object ids = oid.getIdentity();
-        setIdentity(tx, proposedObject.getEntity(), ids);
+        setIdentity(tx, proposedObject.getEntity(), oid.getIdentity());
 
         // iterates thur all the field of the object and bind all field.
         for ( int i = 0; i < _fhs.length; i++ ) {
@@ -656,7 +646,7 @@ public class ClassMolder
      * @param object  the object to be created
      * @return  the identity of the object
      */
-    public Object create( TransactionContext tx, OID oid, DepositBox locker, Object object )
+    public Identity create( TransactionContext tx, OID oid, DepositBox locker, Object object )
             throws DuplicateIdentityException, PersistenceException {
 
         int fieldType;
@@ -670,7 +660,7 @@ public class ClassMolder
 
         ProposedEntity entity = new ProposedEntity();
         entity.initializeFields(_fhs.length);
-        Object ids = oid.getIdentity();
+        Identity ids = oid.getIdentity();
 
         // copy the object to cache should make a new field now,
         for ( int i=0; i<_fhs.length; i++ ) {
@@ -691,7 +681,7 @@ public class ClassMolder
         }
         
         // ask Persistent to create the object into the persistence storage
-        Object createdId = _persistence.create(tx.getDatabase(),
+        Identity createdId = _persistence.create(tx.getDatabase(),
                 tx.getConnection(oid.getMolder().getLockEngine()), entity, ids);
 
         if (createdId == null) {
@@ -775,7 +765,7 @@ public class ClassMolder
                     getIdentity(tx, object)));
         }
 
-        Object[] fields = (Object[]) locker.getObject(tx);
+        Object[] fields = locker.getObject(tx);
 
         if (fields == null) {
             throw new PersistenceException(
@@ -829,7 +819,7 @@ public class ClassMolder
 
         // load field values from cache (if availabe)
         ProposedEntity oldentity = new ProposedEntity();
-        oldentity.setFields((Object[]) locker.getObject(tx));
+        oldentity.setFields(locker.getObject(tx));
 
         if (oldentity.getFields() == null) {
             throw new PersistenceException(
@@ -867,7 +857,7 @@ public class ClassMolder
 
         resetResolvers();
 
-        Object[] fields = (Object[]) locker.getObject(tx);
+        Object[] fields = locker.getObject(tx);
 
         if ((!isDependent()) && (!_timeStampable)) {
             throw new IllegalArgumentException(
@@ -915,7 +905,7 @@ public class ClassMolder
             // have something to compare later.
             try {
                 for ( int i=0; i <_fhs.length; i++ ) {
-                	_resolvers[i].update(tx, oid, object, accessMode, fields[i]);
+                    _resolvers[i].update(tx, oid, object, accessMode, fields[i]);
                 }
             } catch (ObjectNotFoundException e) {
                 _log.warn(e.getMessage(), e);
@@ -1007,16 +997,16 @@ public class ClassMolder
 
         resetResolvers();
 
-        Object ids = oid.getIdentity();
+        Identity ids = oid.getIdentity();
 
-        for( int i=0; i < _fhs.length; i++ ) {
+        for(int i = 0; i < _fhs.length; i++) {
             if( _fhs[i].isManyToMany() ) {
                 _fhs[i].getRelationLoader().deleteRelation(
-                  tx.getConnection(oid.getMolder().getLockEngine()), ids);
+                        tx.getConnection(oid.getMolder().getLockEngine()), ids);
             }
         }
 
-        _persistence.delete( tx.getConnection(oid.getMolder().getLockEngine()), ids );
+        _persistence.delete(tx.getConnection(oid.getMolder().getLockEngine()), ids);
 
         // All field along the extend path will be deleted by transaction
         // However, everything off the path must be deleted by ClassMolder.
@@ -1059,7 +1049,7 @@ public class ClassMolder
 
         resetResolvers();
 
-        Object[] fields = (Object[]) locker.getObject(tx);
+        Object[] fields = locker.getObject(tx);
 
         for (int i = 0; i < _fhs.length; i++) {
             int fieldType = _fhs[i].getFieldType();
@@ -1100,7 +1090,7 @@ public class ClassMolder
                     Messages.format("persist.missingIdentityForReverting", _name));
         }
 
-        Object[] fields = (Object[]) locker.getObject(tx);
+        Object[] fields = locker.getObject(tx);
 
         setIdentity(tx, object, oid.getIdentity());
 
@@ -1166,21 +1156,10 @@ public class ClassMolder
     /**
      * Test if the specified identity is the default value of the type.
      */
-    public boolean isDefaultIdentity( Object identity ) {
-
-        if (_ids.length == 1) {
-            return _ids[0].isDefault(identity);
-        }
-
-        if (identity == null) {
-            return true;
-        }
-
-        Complex c = (Complex) identity;
-        for (int i = 0; i < c.size(); i++) {
-            if (!_ids[i].isDefault(c.get(i))) {
-                return false;
-            }
+    public boolean isDefaultIdentity(final Identity identity) {
+        if (identity == null) { return true; }
+        for (int i = 0; i < identity.size(); i++) {
+            if (!_ids[i].isDefault(identity.get(i))) { return false; }
         }
         return true;
     }
@@ -1193,7 +1172,7 @@ public class ClassMolder
      * @param o - object of the base type
      * @return return an Object[] which contains the identity of the object
      */
-    public Object getIdentity(final TransactionContext tx, final Object o) {
+    public Identity getIdentity(final TransactionContext tx, final Object o) {
         // [oleg] In the case where key generator is used,
         // the value of identity is dummy, set it to null
         if (isKeyGeneratorUsed() && !(tx.isPersistent(o) || tx.isReadOnly(o))) {
@@ -1209,7 +1188,7 @@ public class ClassMolder
      * @param o - object of the base type
      * @return return an Object[] which contains the identity of the object
      */
-    public Object getActualIdentity(final TransactionContext tx, final Object o) {
+    public Identity getActualIdentity(final TransactionContext tx, final Object o) {
         return getActualIdentity(tx.getClassLoader(), o);
     }
 
@@ -1220,23 +1199,13 @@ public class ClassMolder
      * @param o - object of the base type
      * @return return an Object[] which contains the identity of the object
      */
-    public Object getActualIdentity(final ClassLoader loader, final Object o) {
-        Object temp;
-
-        if (_ids.length == 1) {
-            return _ids[0].getValue(o, loader);
-        } else if (_ids.length == 2) {
-            temp = _ids[0].getValue(o, loader);
-            return temp == null ? null : new Complex(temp, _ids[1].getValue(o,
-                    loader));
-        } else {
-            Object[] osIds = new Object[_ids.length];
-            for (int i = 0; i < osIds.length; i++) {
-                osIds[i] = _ids[i].getValue(o, loader);
-            }
-            if (osIds[0] == null) { return null; }
-            return new Complex(osIds);
+    public Identity getActualIdentity(final ClassLoader loader, final Object o) {
+        Object[] ids = new Object[_ids.length];
+        for (int i = 0; i < ids.length; i++) {
+            ids[i] = _ids[i].getValue(o, loader);
         }
+        if (ids[0] == null) { return null; }
+        return new Identity(ids);
     }
 
     /**
@@ -1248,25 +1217,15 @@ public class ClassMolder
      */
     public void setIdentity(final TransactionContext tx, 
             final Object object, 
-            final Object identity )
+            final Identity identity )
             throws PersistenceException {
 
-        if (_ids.length > 1) {
-            if (identity instanceof Complex) {
-                Complex com = (Complex) identity;
-                if (com.size() != _ids.length) {
-                    throw new PersistenceException("Complex size mismatched!");
-                }
+        if (identity.size() != _ids.length) {
+            throw new PersistenceException("Identity size mismatched!");
+        }
 
-                for (int i = 0; i < _ids.length; i++) {
-                    _ids[i].setValue(object, com.get(i), tx.getClassLoader());
-                }
-            }
-        } else {
-            if (identity instanceof Complex) {
-                throw new PersistenceException("Complex type not accepted!");
-            }
-            _ids[0].setValue(object, identity, tx.getClassLoader());
+        for (int i = 0; i < _ids.length; i++) {
+            _ids[i].setValue(object, identity.get(i), tx.getClassLoader());
         }
     }
     
@@ -1464,7 +1423,7 @@ public class ClassMolder
         }
 
         // get field values from cache
-        Object[] fields = (Object[]) locker.getObject();
+        Object[] fields = locker.getObject();
 
         if (fields == null) {
             return;

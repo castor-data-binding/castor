@@ -29,6 +29,7 @@ import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
+import org.exolab.castor.persist.spi.Identity;
 
 import net.sf.cglib.proxy.Enhancer;
 import net.sf.cglib.proxy.MethodInterceptor;
@@ -38,12 +39,12 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = -1498354553937679053L;
 
-    private static Log _log = LogFactory.getFactory().getInstance(SingleProxy.class);
+    private static final Log LOG = LogFactory.getLog(SingleProxy.class);
     
     private TransactionContext _tx;
     private ClassMolder _classMolder;
     private Class _clazz;
-    private Object _identity;
+    private Identity _identity;
     private Object _object;
     private AccessMode _accessMode;
     
@@ -52,7 +53,6 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
     /**
      * Creates an instance of SingleProxy.
      * @param tx Actual TransactionContext.
-     * @param engine Associated LockEngine
      * @param classMolder Associated ClassMolder.
      * @param clazz Associated Class instance.
      * @param identity Identity object.
@@ -62,7 +62,7 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
     private SingleProxy(final TransactionContext tx,
             final ClassMolder classMolder,
             final Class clazz,
-            final Object identity,
+            final Identity identity,
             final Object object,
             final AccessMode accessMode) {
         _tx = tx;
@@ -72,16 +72,15 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
         _object = object;
         _accessMode = accessMode;
 
-        if (_log.isDebugEnabled()) {
-            _log.debug("Created new SingleProxy for an instance of '" + classMolder.getName()
-                    + "' with id '" + identity + "'");
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("Created new SingleProxy for an instance of '"
+                    + classMolder.getName() + "' with id '" + identity + "'");
         }
 }
     
     /**
      * Factory method to create SingleProxy instance. 
      * @param tx Actual TransactionContext.
-     * @param engine Associated LockEngine
      * @param classMolder Associated ClassMolder.
      * @param identity Identity object.
      * @param object Object to be lazy-loaded.
@@ -91,7 +90,7 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
      */
     public static synchronized Object getProxy(final TransactionContext tx,
             final ClassMolder classMolder,
-            final Object identity, final Object object,
+            final Identity identity, final Object object,
             final AccessMode accessMode) 
     throws ObjectNotFoundException {
         try {
@@ -100,12 +99,12 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
                     identity, object, accessMode);
             return Enhancer.create(clazz, new Class[] {LazyCGLIB.class}, sp);
         } catch (Throwable ex) {
-            if (_log.isErrorEnabled()) {
+            if (LOG.isErrorEnabled()) {
                 String msg = "error on enhance class";
                 if (classMolder != null) {
                     msg += " " + classMolder.getName();
                 }
-                _log.error(msg, ex);
+                LOG.error(msg, ex);
             }
             throw new ObjectNotFoundException("lazy loading error - "
                     + ex.getMessage(), ex);
@@ -126,31 +125,27 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
 
         // to not load if method geClass() or finalize()
         if ("writeReplace".equals(methodName)) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("writeReplacing " + _classMolder.getName()
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("writeReplacing " + _classMolder.getName()
                         + " with identity " + _identity);
             }
             if (!_hasMaterialized) {
                 try {
                     _object = loadOnly();
                 } catch (ObjectNotFoundException e) {
-                    _log.error("Object with identity " + _identity
-                            + " does not exist", e);
-                    throw new NotSerializableException("Object with identity "
-                            + _identity + " does not exist");
+                    String msg = "Object with identity " + _identity + " does not exist";
+                    LOG.error(msg, e);
+                    throw new NotSerializableException(msg);
                 } catch (PersistenceException e) {
-                    _log.error("Problem serializing object with identity "
-                            + _identity, e);
-                    throw new NotSerializableException(
-                            "Problem serializing object with identity "
-                                    + _identity);
+                    String msg = "Problem serializing object with identity " + _identity;
+                    LOG.error(msg, e);
+                    throw new NotSerializableException(msg);
                 }
             }
 
-            if (_log.isDebugEnabled()) {
-                _log.debug("Serializing instance of "
-                        + _object.getClass().getName());
-                _log.debug("_object = " + _object);
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("Serializing instance of " + _object.getClass().getName());
+                LOG.debug("_object = " + _object);
             }
             return _object;
         } else if ("interceptedClass".equals(methodName)) {
@@ -161,45 +156,17 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
             return _identity;
         } else if ("interceptedClassMolder".equals(methodName)) {
             return _classMolder;
-        } else if ("interceptedIdentity".equals(methodName)) {
-            return _identity;
         } else if ("getClass".equals(methodName)) {
             return method.invoke(obj, args);
         } else if ("finalize".equals(methodName)) {
             return method.invoke(obj, args);
-        } else if ("getId".equals(methodName)) {
-            if (!_hasMaterialized) {
-                return _identity;
-            }
         }
 
         // load object, if not previous loaded
-        if (_object == null) {
-            _object = load(obj);
-        }
-        // try {
-        // if ( _log.isDebugEnabled() && _classMolder != null ) {
-        // _log.debug("load object " + _classMolder.getName() + " with id " +
-        // _identity);
-        // }
-        // _object = _tx.load(_engine, _classMolder, _identity, _object,
-        // _accessMode);
-        // hasMaterialized = true;
-        // } catch (ObjectNotFoundException ex) {
-        // if ( _log.isDebugEnabled() ) {
-        // _log.debug("object not found -> " + ex.toString());
-        // }
-        // // if a ObjectNotFoundException occur then create a empty instance
-        // if ( obj instanceof net.sf.cglib.proxy.Factory ) {
-        // _object = obj.getClass().getSuperclass().newInstance();
-        //              }
-        //          }
-        //      }
+        if (_object == null) { _object = load(obj); }
 
         // object found?
-        if (_object == null) {
-            return null;
-        }
+        if (_object == null) { return null; }
 
         // invoke original method in loaded object
         return method.invoke(_object, args);
@@ -213,8 +180,8 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
      */
     private Object loadOnly() throws PersistenceException {
         Object instance = null;
-        if (_log.isDebugEnabled() && _classMolder != null) {
-            _log.debug("load object " + _classMolder.getName() + " with id "
+        if (LOG.isDebugEnabled() && _classMolder != null) {
+            LOG.debug("load object " + _classMolder.getName() + " with id "
                     + _identity);
         }
         ProposedEntity proposedValue = new ProposedEntity(_classMolder);
@@ -231,8 +198,8 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
         try {
             instance = loadOnly();
         } catch (ObjectNotFoundException ex) {
-            if (_log.isDebugEnabled()) {
-                _log.debug("object not found -> " + ex.toString());
+            if (LOG.isDebugEnabled()) {
+                LOG.debug("object not found -> " + ex.toString());
             }
             // if a ObjectNotFoundException occur then create a empty instance
             if (proxiedObject instanceof net.sf.cglib.proxy.Factory) {
@@ -242,5 +209,4 @@ public final class SingleProxy implements MethodInterceptor, Serializable {
         }
         return instance;
     }
-    
 }

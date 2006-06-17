@@ -77,7 +77,7 @@ public interface DepositBox {
      *  @throw  IllegalArgumentException if tx doesn't own the box
      *
      */
-    public void setObject( TransactionContext tx, Object object );
+    public void setObject( TransactionContext tx, Object[] object );
 
     /** 
      *  Get the object from the DespositBox, only the transaction
@@ -87,7 +87,7 @@ public interface DepositBox {
      *  @return An object instance.
      *  @throw  IllegalArgumentException if tx doesn't own the box
      */
-    public Object getObject( TransactionContext tx ); 
+    public Object[] getObject( TransactionContext tx ); 
 
     /**
      * Get the time of the most recent call on setObject(Object)}.

@@ -29,7 +29,7 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     protected ResultSet _rs;
 
-    protected Object _lastIdentity;
+    protected Identity _lastIdentity;
 
     protected final Class[] _types;
 
@@ -52,26 +52,25 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.persist.spi.PersistenceQuery#fetch(org.castor.persist.ProposedEntity,
-     *      java.lang.Object)
+     * @see org.exolab.castor.persist.spi.PersistenceQuery
+     *      #fetch(org.castor.persist.ProposedEntity)
      */
-    public Object fetch(ProposedEntity proposedObject, Object identity)
+    public Object fetch(ProposedEntity proposedObject)
             throws ObjectNotFoundException, PersistenceException {
         try {
             // Load all the fields of the object including one-one relations
             // index 0 belongs to the identity
             for (int i = 1; i < _sqlTypes.length; ++i) {
-                proposedObject.setField(SQLTypeInfos.getValue(_rs, i + 1,
-                        _sqlTypes[i]), i - 1);
+                proposedObject.setField(
+                        SQLTypeInfos.getValue(_rs, i + 1, _sqlTypes[i]), i - 1);
             }
             if (nextRow()) {
-                _lastIdentity = SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]);
+                _lastIdentity = new Identity(SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]));
             } else {
                 _lastIdentity = null;
             }
         } catch (SQLException except) {
-            throw new PersistenceException(Messages.format("persist.nested",
-                    except));
+            throw new PersistenceException(Messages.format("persist.nested", except));
         }
         return null;
     }
@@ -129,14 +128,13 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
     protected abstract void execute(Object conn, AccessMode accessMode)
             throws QueryException, PersistenceException;
 
-    public Object nextIdentity(Object identity) throws PersistenceException {
+    public Identity nextIdentity(final Identity identity) throws PersistenceException {
 
         try {
             if (_lastIdentity == null) {
-                if (!nextRow())
-                    return null;
-                _lastIdentity = SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]);
-                return new Complex(_lastIdentity);
+                if (!nextRow()) { return null; }
+                _lastIdentity = new Identity(SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]));
+                return _lastIdentity;
             }
 
             while (_lastIdentity.equals(identity)) {
@@ -144,14 +142,12 @@ public abstract class AbstractCallQuery implements PersistenceQuery {
                     _lastIdentity = null;
                     return null;
                 }
-                _lastIdentity = SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]);
+                _lastIdentity = new Identity(SQLTypeInfos.getValue(_rs, 1, _sqlTypes[0]));
             }
-            return new Complex(_lastIdentity);
+            return _lastIdentity;
         } catch (SQLException except) {
             _lastIdentity = null;
-            throw new PersistenceException(Messages.format("persist.nested",
-                    except));
+            throw new PersistenceException(Messages.format("persist.nested", except));
         }
     }
-
 }

@@ -36,6 +36,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.util.ClassLoadingUtils;
 import org.exolab.castor.persist.FieldMolder;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * This class is a proxy for different types of Collection and Maps.
@@ -46,7 +47,7 @@ public abstract class CollectionProxy {
     
     public abstract Object getCollection();
 
-    public abstract void add(Object key, Object value);
+    public abstract void add(Identity key, Object value);
 
     public abstract void close();
 
@@ -56,24 +57,22 @@ public abstract class CollectionProxy {
         if (cls == Vector.class) {
             return new ColProxy(fieldMolder, object, classLoader, new Vector());
         } else if (cls == ArrayList.class) {
-            return new ColProxy(fieldMolder, object, classLoader,
-                    new ArrayList());
+            return new ColProxy(fieldMolder, object, classLoader, new ArrayList());
         } else if (cls == Collection.class) {
-            return new ColProxy(fieldMolder, object, classLoader,
-                    new ArrayList());
+            return new ColProxy(fieldMolder, object, classLoader, new ArrayList());
         } else if (cls == Set.class) {
             return new ColProxy(fieldMolder, object, classLoader, new HashSet());
         } else if (cls == HashSet.class) {
             return new ColProxy(fieldMolder, object, classLoader, new HashSet());
         } else if (cls == Hashtable.class) {
-            return new MapProxy(fieldMolder, object, classLoader,
-                    new Hashtable());
+            return new MapProxy(fieldMolder, object, classLoader, new Hashtable());
         } else if (cls == HashMap.class) {
             return new MapProxy(fieldMolder, object, classLoader, new HashMap());
         } else if (cls == Iterator.class) {
             return new IteratorProxy(fieldMolder, object, classLoader, new ArrayList());
         } else if (cls == Enumeration.class) {
-            return new EnumerationProxy(fieldMolder, object, classLoader, new ArrayList());
+            return new EnumerationProxy(fieldMolder, object, classLoader,
+                    new ArrayList());
         } else if (cls == Map.class) {
             return new MapProxy(fieldMolder, object, classLoader, new HashMap());
         } else if (cls == SortedSet.class) {
@@ -81,8 +80,7 @@ public abstract class CollectionProxy {
             if (comparatorClassName != null) {
                 Comparator comparator;
                 try {
-                    comparator = (Comparator) 
-                        ClassLoadingUtils.loadClass(classLoader, comparatorClassName).newInstance();
+                    comparator = (Comparator) ClassLoadingUtils.loadClass(classLoader, comparatorClassName).newInstance();
                 } catch (InstantiationException e) {
                     LOG.error ("Problem instantiating instance of " + comparatorClassName);
                     throw new IllegalArgumentException("Problem instantiating instance of " + comparatorClassName);
@@ -124,7 +122,7 @@ public abstract class CollectionProxy {
             return _col;
         }
 
-        public void add(final Object key, final Object value) {
+        public void add(final Identity key, final Object value) {
             if (!_fm.isAddable()) {
                 // [TODO] Find a better way to express this scenario where no
                 // setter is specified either.
@@ -163,7 +161,7 @@ public abstract class CollectionProxy {
             return Collections.enumeration(_collection);
         }
 
-        public void add(final Object key, final Object value) {
+        public void add(final Identity key, final Object value) {
             if (!_fm.isAddable()) {
                 // [TODO] Find a better way to express this scenario where no
                 // setter is specified either.
@@ -202,7 +200,7 @@ public abstract class CollectionProxy {
             return _collection.iterator();
         }
 
-        public void add(final Object key, final Object value) {
+        public void add(final Identity key, final Object value) {
             if (!_fieldMolder.isAddable()) {
                 // [TODO] Find a better way to express this scenario where no
                 // setter is specified either.
@@ -240,8 +238,12 @@ public abstract class CollectionProxy {
             return _map;
         }
 
-        public void add(final Object key, final Object value) {
-            _map.put(key, value);
+        public void add(final Identity key, final Object value) {
+            if (key.size() == 1) {
+                _map.put(key.get(0), value);
+            } else {
+                _map.put(key, value);
+            }
         }
 
         public void close() {

@@ -36,7 +36,7 @@ public final class CacheEntry implements java.io.Serializable {
     private OID _oid;
 
     /** Actual data to be cached. */
-    private Object _entry;
+    private Object[] _entry;
 
     /** Associated time stamp. */
     private long _timeStamp = TimeStampable.NO_TIMESTAMP;
@@ -83,7 +83,7 @@ public final class CacheEntry implements java.io.Serializable {
      * 
      * @return Actual data to be cached.
      */
-    public Object getEntry() {
+    public Object[] getEntry() {
         return _entry;
     }
 
@@ -92,7 +92,7 @@ public final class CacheEntry implements java.io.Serializable {
      * 
      * @param entry Actual data to be cached.
      */
-    public void setEntry(final Object entry) {
+    public void setEntry(final Object[] entry) {
         _entry = entry;
     }
 

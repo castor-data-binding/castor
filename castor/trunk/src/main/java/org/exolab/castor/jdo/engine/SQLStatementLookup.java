@@ -29,7 +29,7 @@ import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -74,7 +74,7 @@ public final class SQLStatementLookup {
       }
     }
     
-    public Object executeStatement(final Connection conn, Object identity)
+    public Object executeStatement(final Connection conn, Identity identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         PreparedStatement stmt = null;
@@ -87,21 +87,11 @@ public final class SQLStatementLookup {
             
             // bind the identity to the preparedStatement
             int count = 1;
-            if (identity instanceof Complex) {
-                Complex id = (Complex) identity;
-                if ((id.size() != ids.length) || (ids.length <= 1)) {
-                    throw new PersistenceException("Size of complex field mismatched!");
-                }
-
-                for (int i = 0; i < ids.length; i++) {
-                    stmt.setObject(count++, ids[i].toSQL(id.get(i)));
-                }
-            } else {
-                if (ids.length != 1) {
-                    throw new PersistenceException("Complex field expected!");
-                }
-
-                stmt.setObject(count++, ids[0].toSQL(identity));
+            if (identity.size() != ids.length) {
+                throw new PersistenceException("Size of identity field mismatched!");
+            }
+            for (int i = 0; i < ids.length; i++) {
+                stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
             }
 
             if (stmt.executeQuery().next()) {

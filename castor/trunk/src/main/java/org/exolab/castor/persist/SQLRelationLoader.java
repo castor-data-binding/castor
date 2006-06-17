@@ -42,11 +42,9 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.persist;
 
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.jdo.PersistenceException;
 import org.castor.jdo.util.JDOUtils;
@@ -206,74 +204,45 @@ public class SQLRelationLoader {
 
     }
 
-    private Object idToSQL( int index, Object object )
-            throws PersistenceException {
-
-        if ( object == null || leftFrom[index] == null )
-            return object;
+    private Object idToSQL(final int index, final Object object) {
+        if ((object == null) || (leftFrom[index] == null)) { return object; }
         return leftFrom[index].convert( object, leftParam[index] );
     }
 
-    private Object ridToSQL( int index, Object object )
-            throws PersistenceException {
-
-        if ( object == null || rightFrom[index] == null )
-            return object;
-        return rightFrom[index].convert( object, rightParam[index] );
+    private Object ridToSQL(final int index, final Object object) {
+        if ((object == null) || (rightFrom[index] == null)) { return object; }
+        return rightFrom[index].convert(object, rightParam[index]);
     }
 
-    public void createRelation( Connection conn, Object leftValue, Object rightValue )
-            throws PersistenceException {
-
+    public void createRelation(final Connection conn, final Identity left, final Identity right)
+    throws PersistenceException {
         ResultSet rset = null;
         PreparedStatement selectStatement = null;
         PreparedStatement insertStatement = null;
 
         try {
             int count = 1;
-            selectStatement = conn.prepareStatement( select );
-            if ( leftType.length > 1 ) {
-                Complex left = (Complex) leftValue;
-                for ( int i=0; i < left.size(); i++ ) {
-                    selectStatement.setObject( count, idToSQL( i, left.get(i)), leftType[i] );
-                    count++;
-                }
-            } else {
-                selectStatement.setObject( count, idToSQL( 0, leftValue ), leftType[0] );
+            selectStatement = conn.prepareStatement(select);
+            for (int i = 0; i < left.size(); i++) {
+                selectStatement.setObject(count, idToSQL(i, left.get(i)), leftType[i]);
                 count++;
             }
-            if ( rightType.length > 1 ) {
-                Complex right = (Complex) rightValue;
-                for ( int i=0; i < right.size(); i++ ) {
-                    selectStatement.setObject( count, ridToSQL( i, right.get(i) ), rightType[i] );
-                    count++;
-                }
-            } else {
-                selectStatement.setObject( count, ridToSQL( 0, rightValue ), rightType[0] );
+            for (int i = 0; i < right.size(); i++) {
+                selectStatement.setObject(count, ridToSQL(i, right.get(i)), rightType[i]);
+                count++;
             }
-                        count = 1;
             rset = selectStatement.executeQuery();
 
-            insertStatement = conn.prepareStatement( insert );
-            if ( ! rset.next() ) {
-                if ( leftType.length > 1 ) {
-                    Complex left = (Complex) leftValue;
-                    for ( int i=0; i < left.size(); i++ ) {
-                        insertStatement.setObject( count, idToSQL( i, left.get(i)), leftType[i] );
-                        count++;
-                    }
-                } else {
-                    insertStatement.setObject( count, idToSQL( 0, leftValue ), leftType[0] );
-                                        count++;
-                                }
-                if ( rightType.length > 1 ) {
-                    Complex right = (Complex) rightValue;
-                    for ( int i=0; i < right.size(); i++ ) {
-                        insertStatement.setObject( count, ridToSQL( i, right.get(i) ), rightType[i] );
-                                        count++;
-                    }
-                } else {
-                    insertStatement.setObject( count, ridToSQL( 0, rightValue ), rightType[0] );
+            count = 1;
+            insertStatement = conn.prepareStatement(insert);
+            if (!rset.next()) {
+                for (int i = 0; i < left.size(); i++) {
+                    insertStatement.setObject(count, idToSQL(i, left.get(i)), leftType[i]);
+                    count++;
+                }
+                for (int i = 0; i < right.size(); i++) {
+                    insertStatement.setObject(count, ridToSQL(i, right.get(i)), rightType[i]);
+                    count++;
                 }
                 insertStatement.executeUpdate();
             }
@@ -281,70 +250,51 @@ public class SQLRelationLoader {
             e.printStackTrace();
             throw new PersistenceException( e.toString() );
         } finally {
-        	JDOUtils.closeResultSet(rset);
-        	JDOUtils.closeStatement(selectStatement);
-        	JDOUtils.closeStatement(insertStatement);
+            JDOUtils.closeResultSet(rset);
+            JDOUtils.closeStatement(selectStatement);
+            JDOUtils.closeStatement(insertStatement);
         }
     }
-    
-    public void deleteRelation( Connection conn, Object leftValue )
-            throws PersistenceException {
 
+    public void deleteRelation(final Connection conn, final Identity left)
+    throws PersistenceException {
         PreparedStatement stmt = null;
         try {
             int count = 1;
-            stmt = conn.prepareStatement( deleteAll );
-            if ( leftType.length > 1 ) {
-                Complex left = (Complex) leftValue;
-                for ( int i=0; i < left.size(); i++ ) {
-                    stmt.setObject( count, idToSQL( i, left.get(i) ), leftType[i] );
+            stmt = conn.prepareStatement(deleteAll);
+            for (int i = 0; i < left.size(); i++) {
+                stmt.setObject(count, idToSQL(i, left.get(i)), leftType[i]);
                 count++;
             }
-            } else {
-                stmt.setObject( count, idToSQL( 0, leftValue ), leftType[0] );
+            stmt.executeUpdate();
+        } catch (SQLException e) {
+            e.printStackTrace();
+            throw new PersistenceException(e.toString());
+        } finally {
+            JDOUtils.closeStatement(stmt);
+        }
+    }
+
+    public void deleteRelation(final Connection conn, final Identity left, final Identity right)
+    throws PersistenceException {
+        PreparedStatement stmt = null;
+        try {
+            int count = 1;
+            stmt = conn.prepareStatement(delete);
+            for (int i = 0; i < left.size(); i++) {
+                stmt.setObject(count, idToSQL(i, left.get(i)), leftType[i]);
+                count++;
+            }
+            for (int i = 0; i < right.size(); i++) {
+                stmt.setObject(count, ridToSQL(i, right.get(i)), rightType[i]);
+                count++;
             }
             stmt.executeUpdate();
         } catch ( SQLException e ) {
             e.printStackTrace();
             throw new PersistenceException( e.toString() );
         } finally {
-        	JDOUtils.closeStatement(stmt);
+            JDOUtils.closeStatement(stmt);
         }
     }
-
-    public void deleteRelation( Connection conn, Object leftValue, Object rightValue )
-            throws PersistenceException {
-
-        PreparedStatement stmt = null;
-        try {
-            int count = 1;
-            stmt = conn.prepareStatement( delete );
-            if ( leftType.length > 1 ) {
-                Complex left = (Complex) leftValue;
-                for ( int i=0; i < left.size(); i++ ) {
-                    stmt.setObject( count, idToSQL( i, left.get(i) ), leftType[i] );
-                count++;
-            }
-            } else {
-                stmt.setObject( count, idToSQL( 0, leftValue ), leftType[0] );
-                count++;
-            }
-            if ( rightType.length > 1 ) {
-                Complex right = (Complex) rightValue;
-                for ( int i=0; i < right.size(); i++ ) {
-                    stmt.setObject( count, ridToSQL( i, right.get(i) ), rightType[i] );
-                    count++;
-                }
-            } else {
-                stmt.setObject( count, ridToSQL( 0, rightValue ), rightType[0] );
-            }
-            stmt.executeUpdate();
-        } catch ( SQLException e ) {
-            e.printStackTrace();
-            throw new PersistenceException( e.toString() );
-        } finally {
-        	JDOUtils.closeStatement(stmt);
-        }
-    }
-
 }

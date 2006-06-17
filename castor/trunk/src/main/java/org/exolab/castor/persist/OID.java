@@ -48,6 +48,8 @@ package org.exolab.castor.persist;
 import java.io.Serializable;
 import java.util.ArrayList;
 
+import org.exolab.castor.persist.spi.Identity;
+
 /**
  * Object identifier. An object identifier is unique within a cache engine or
  * other persistence mechanism and is used to locate object based on their
@@ -68,7 +70,7 @@ public final class OID implements Serializable {
      * The object's identity if known, null if the object was created without an
      * identity.
      */
-    private final Object _identity;
+    private final Identity _identity;
 
     /**
      * The full qualified name of the object's type.
@@ -126,7 +128,7 @@ public final class OID implements Serializable {
     /**
      * Constructor
      */
-    public OID(ClassMolder molder, Object identity) {
+    public OID(ClassMolder molder, Identity identity) {
         this(molder, null, identity);
     }
 
@@ -134,16 +136,11 @@ public final class OID implements Serializable {
      * Constructor
      */
     public OID(ClassMolder molder, OID depends,
-            Object identity) {
+            Identity identity) {
         ArrayList superClassNames = null;
 
         if (molder == null) {
             throw new IllegalArgumentException("molder can't be null");
-        }
-        if (identity instanceof Object[]) {
-            IllegalArgumentException e = new IllegalArgumentException(
-                    "identity can't be object array!");
-            throw e;
         }
         _molder = molder;
         _identity = identity;
@@ -246,7 +243,7 @@ public final class OID implements Serializable {
      * 
      * @return The object's identity, or null
      */
-    public Object getIdentity() {
+    public Identity getIdentity() {
         return _identity;
     }
 

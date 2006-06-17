@@ -123,7 +123,7 @@ public final class ObjectLock implements DepositBox {
     /**
      * The object being locked.
      */
-    private Object              _object;
+    private Object[]              _object;
 
     /**
      * The object's OID.
@@ -190,7 +190,7 @@ public final class ObjectLock implements DepositBox {
 
     private boolean            _isExpired;
     
-    private Object             _expiredObject;
+    private Object[]             _expiredObject;
 
     /**
      * Create a new lock for the specified object. Must not create two
@@ -342,7 +342,7 @@ public final class ObjectLock implements DepositBox {
         return _isExpired; 
     }
 
-    public Object getObject() { 
+    public Object[] getObject() { 
         if ( (_expiredObject != null) && (_object == null) )
             return _expiredObject;
         return _object; 
@@ -521,8 +521,7 @@ public final class ObjectLock implements DepositBox {
 
     // probaraly we just don't need update....
     synchronized void acquireUpdateLock( TransactionContext tx, int timeout ) 
-            throws LockNotGrantedException, ObjectDeletedException,
-            ObjectDeletedWaitingForLockException {
+            throws LockNotGrantedException, ObjectDeletedWaitingForLockException {
 
         long endtime = timeout>0? System.currentTimeMillis() + timeout*1000: Long.MAX_VALUE;
         while ( true ) {
@@ -603,7 +602,7 @@ public final class ObjectLock implements DepositBox {
         }
     }
 
-    public synchronized void setObject( TransactionContext tx, Object object ) {
+    public synchronized void setObject( TransactionContext tx, Object[] object ) {
 
         _isExpired = false; // initialize cache expiration flag to false
         _expiredObject = null;
@@ -625,7 +624,7 @@ public final class ObjectLock implements DepositBox {
             throw new IllegalArgumentException("Transaction tx does not own this lock, "+toString()+"!");
     }
 
-    public synchronized Object getObject( TransactionContext tx ) {
+    public synchronized Object[] getObject( TransactionContext tx ) {
 
         if ( _confirmWaiting != null && _confirmWaiting == tx )
             return _object;

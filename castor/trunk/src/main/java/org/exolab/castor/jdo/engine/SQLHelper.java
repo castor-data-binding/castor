@@ -27,7 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
@@ -67,18 +67,15 @@ public final class SQLHelper {
             
             for (int i = 0; i < identityDescriptors.length; i++) {
                 Object temp;
-                Object[] temps;
                 JDOFieldDescriptor jdoFieldDescriptor = (JDOFieldDescriptor) identityDescriptors[i];
                 if (jdoFieldDescriptor.getSQLName().length == 1 ) {
                     temp = SQLTypeInfos.getValue( rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
-                    isNull = (temp == null);
                 } else {
-                    temps = new Object[jdoFieldDescriptor.getSQLName().length];
+                    Object[] temps = new Object[jdoFieldDescriptor.getSQLName().length];
                     for ( int j=0; j<jdoFieldDescriptor.getSQLName().length; j++ ) {
                         temps[j] = SQLTypeInfos.getValue( rs, columnIndex++, java.sql.Types.JAVA_OBJECT);
-                        isNull = (temps[j] == null);
                     }
-                    temp = new Complex (jdoFieldDescriptor.getSQLName().length, temps);
+                    temp = new Identity(temps);
                 }
                 
                 LOG.debug ("Obtained value " + temp + " for additional (extending) identity " + 
@@ -86,7 +83,7 @@ public final class SQLHelper {
                         identityDescriptors[i].getFieldName() + " at position " + 
                         columnIndex);
                 isNull = (temp == null);
-                if (temp != null) {
+                if (!isNull) {
                     numberOfIdentitiesToAnalyze += 1;
                     potentialClassDescriptorPrevious = potentialClassDescriptor;
                 }

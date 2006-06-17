@@ -18,7 +18,7 @@
 package org.exolab.castor.jdo.engine;
 
 import java.sql.*;
-import java.util.LinkedList;
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Properties;
 
@@ -37,11 +37,11 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.KeyGenerator;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 
-public final class SQLStatementCreate {
+public class SQLStatementCreate {
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(SQLStatementCreate.class);
@@ -165,7 +165,7 @@ public final class SQLStatementCreate {
     }
     
     public Object executeStatement(final Database database, final Connection conn,
-                                   Object identity, final ProposedEntity entity)
+                                   Identity identity, final ProposedEntity entity)
     throws PersistenceException {
         SQLEngine extended = _engine.getExtends();
         if ((extended == null) && (_keyGen == null) && (identity == null)) {
@@ -208,25 +208,11 @@ public final class SQLStatementCreate {
             int count = 1;
             SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
             if ((_keyGen == null) || (_keyGen.getStyle() == KeyGenerator.BEFORE_INSERT)) {
-                if ((ids.length > 1) && !(identity instanceof Complex)) {
-                    throw new PersistenceException("Multiple identities expected!");
+                if (identity.size() != ids.length) {
+                    throw new PersistenceException("Size of identity field mismatched!");
                 }
-
-                if (identity instanceof Complex) {
-                    Complex id = (Complex) identity;
-                    if ((id.size() != ids.length) || (ids.length <= 1)) {
-                        throw new PersistenceException("Size of complex field mismatched!");
-                    }
-
-                    for (int i = 0; i < ids.length; i++) {
-                        stmt.setObject(count++, ids[i].toSQL(id.get(i)));
-                    }
-                } else {
-                    if (ids.length != 1) {
-                        throw new PersistenceException("Complex field expected!");
-                    }
-
-                    stmt.setObject(count++, ids[0].toSQL(identity));
+                for (int i = 0; i < ids.length; i++) {
+                    stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
                 }
             }
 
@@ -263,12 +249,13 @@ public final class SQLStatementCreate {
 
                 // Identity is returned in the last parameter
                 // Workaround: for INTEGER type in Oracle getObject returns BigDecimal
+                Object temp;
                 if (sqlType == java.sql.Types.INTEGER) {
-                    identity = new Integer(cstmt.getInt(count));
+                    temp = new Integer(cstmt.getInt(count));
                 } else {
-                    identity = cstmt.getObject(count);
+                    temp = cstmt.getObject(count);
                 }
-                identity = ids[0].toJava(identity);
+                identity = new Identity(ids[0].toJava(temp));
             } else {
                 if (LOG.isDebugEnabled()) {
                     LOG.debug(Messages.format("jdo.creating", _type, stmt.toString()));
@@ -280,26 +267,22 @@ public final class SQLStatementCreate {
                     ResultSet keySet = stmt.getGeneratedKeys();
                     int i = 1;
                     int sqlType;
-                    List keys = new LinkedList();
+                    List keys = new ArrayList();
                     while (keySet.next()) {
                         sqlType = ids[i-1].getSqlType();
                         Object temp;
                         if (sqlType == java.sql.Types.INTEGER) {
-                             temp = new Integer(keySet.getInt(i));
+                            temp = new Integer(keySet.getInt(i));
                         } else if (sqlType == java.sql.Types.NUMERIC) {
                             temp = keySet.getBigDecimal(i);
                         } else {
                             temp = keySet.getObject(i);
                         }
 
-                        keys.add(temp);
+                        keys.add(ids[i-1].toJava(temp));
                         i++;
                     }
-                    if (keys.size() > 1) {
-                        identity = keys.toArray();
-                    } else {
-                        identity = ids[0].toJava(keys.iterator().next());
-                    }
+                    identity = new Identity(keys.toArray());
                 }
             }
 
@@ -360,7 +343,7 @@ public final class SQLStatementCreate {
      * @return The generated key
      * @throws PersistenceException If no key can be generated 
      */
-    private Object generateKey(final Database database, final Connection conn,
+    private Identity generateKey(final Database database, final Connection conn,
                                final PreparedStatement stmt)
     throws PersistenceException {
         SQLColumnInfo id = _engine.getColumnInfoForIdentities()[0];
@@ -390,7 +373,7 @@ public final class SQLStatementCreate {
                     Messages.format("persist.noIdentity", _type));
             }
 
-            return id.toJava(identity);
+            return new Identity(id.toJava(identity));
         } finally {
             if (_keyGen.isInSameConnection() == false) {
                 closeSeparateConnection(connection);
@@ -418,22 +401,19 @@ public final class SQLStatementCreate {
                     for (int j = 0; j < columns.length; j++) {
                         stmt.setNull(count++, columns[j].getSqlType());
                     }
-
-                } else if (value instanceof Complex) {
-                    Complex complex = (Complex) value;
-                    if (complex.size() != columns.length) {
-                        throw new PersistenceException("Size of complex field mismatch!");
+                } else if (value instanceof Identity) {
+                    Identity identity = (Identity) value;
+                    if (identity.size() != columns.length) {
+                        throw new PersistenceException("Size of identity field mismatch!");
                     }
-
                     for (int j = 0; j < columns.length; j++) {
-                        value = (complex == null) ? null : complex.get(j);
-                        SQLTypeInfos.setValue(stmt, count++, columns[j].toSQL(value), columns[j].getSqlType());
+                        SQLTypeInfos.setValue(stmt, count++,
+                                columns[j].toSQL(identity.get(j)), columns[j].getSqlType());
                     }
                 } else {
                     if (columns.length != 1) {
                         throw new PersistenceException("Complex field expected!");
                     }
-
                     SQLTypeInfos.setValue(stmt, count++, columns[0].toSQL(value), columns[0].getSqlType());
                 }
             }

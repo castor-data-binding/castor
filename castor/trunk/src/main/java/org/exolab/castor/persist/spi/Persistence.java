@@ -101,8 +101,8 @@ public interface Persistence {
      *         exists in persistent storage or any other persistence error
      *         occured.
      */
-    public Object create(Database database, Object conn,
-                         ProposedEntity entity, Object identity)
+    public Identity create(Database database, Object conn,
+                         ProposedEntity entity, Identity identity)
     throws PersistenceException;
 
     /**
@@ -122,7 +122,7 @@ public interface Persistence {
      * @throws PersistenceException The object was not found in persistent
      *         storage or any other persistence error occured.
      */
-    public Object load(Object conn, ProposedEntity proposedObject, Object identity,
+    public Object load(Object conn, ProposedEntity proposedObject, Identity identity,
                        AccessMode accessMode)
     throws PersistenceException;
 
@@ -154,7 +154,7 @@ public interface Persistence {
      *         deleted from persitence storage or any other persistence
      *         error occored.
      */
-    public Object store(Object conn, Object identity,
+    public Object store(Object conn, Identity identity,
                         ProposedEntity newentity, ProposedEntity oldentity)
     throws PersistenceException;
 
@@ -169,7 +169,7 @@ public interface Persistence {
      * @param identity The object's identity
      * @throws PersistenceException A persistence error occured
      */
-    public void delete(Object conn, Object identity)
+    public void delete(Object conn, Identity identity)
     throws PersistenceException;
 
     /**

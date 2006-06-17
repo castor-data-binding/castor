@@ -35,6 +35,7 @@ import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for
@@ -311,7 +312,7 @@ public final class SerializableResolver implements ResolverStrategy {
      *      org.exolab.castor.mapping.AccessMode, java.lang.Object)
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
-            final Object object, final Object field, final Object createdId) {
+            final Object object, final Object field, final Identity createdId) {
         return field;
     }
     

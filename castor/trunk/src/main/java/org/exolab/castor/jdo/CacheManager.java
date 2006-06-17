@@ -49,6 +49,7 @@ import org.castor.persist.TransactionContext;
 import org.castor.util.Messages;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.LockEngine;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * CacheManager handles expiring objects from the cache.
@@ -99,7 +100,7 @@ public class CacheManager {
     public boolean isCached ( Class cls, Object identity) throws PersistenceException
     {
         if ( transactionContext != null && transactionContext.isOpen()  ) {
-            return transactionContext.isCached(lockEngine.getClassMolder(cls), cls, identity);
+            return transactionContext.isCached(lockEngine.getClassMolder(cls), cls, new Identity(identity));
         }
         
         throw new PersistenceException ("isCached() has to be called within an active transaction.");
@@ -182,7 +183,7 @@ public class CacheManager {
         ClassMolder molder = lockEngine.getClassMolder(type);
         db.begin();
         for (int i = 0; i < identity.length; i++) {
-            transactionContext.expireCache(molder, identity[i]);
+            transactionContext.expireCache(molder, new Identity(identity[i]));
         }
         db.commit();
     }
@@ -204,7 +205,7 @@ public class CacheManager {
      * 
      * @param type An array of types to expire.
      */
-    public void expireCache(Class[] type) throws PersistenceException {
+    public void expireCache(Class[] type) {
         for (int i = 0; i < type.length; i++) {
             lockEngine.expireCache(type[i]);
         }

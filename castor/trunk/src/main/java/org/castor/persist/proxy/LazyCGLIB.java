@@ -48,6 +48,7 @@ import java.io.ObjectStreamException;
 import java.io.Serializable;
 
 import org.exolab.castor.persist.ClassMolder;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * <tt>Lazy</tt> is a place holder interface to indicate that a data object or
@@ -82,7 +83,7 @@ public interface LazyCGLIB extends Serializable {
      * Returns the identity of the object (class) intercepted.
      * @return identity of the object (class) intercepted.
      */
-    Object interceptedIdentity();
+    Identity interceptedIdentity();
     
     /**
      * Returns the ClassMolder of the object intercepted.

@@ -26,7 +26,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 
 import org.exolab.castor.jdo.PersistenceException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.QueryExpression;
 
@@ -72,7 +72,7 @@ public final class SQLStatementRemove {
         }
     }
 
-    public Object executeStatement(final Connection conn, Object identity)
+    public Object executeStatement(final Connection conn, Identity identity)
     throws PersistenceException {
         SQLColumnInfo[] ids = _engine.getColumnInfoForIdentities();
         SQLEngine extended = _engine.getExtends();
@@ -87,20 +87,12 @@ public final class SQLStatementRemove {
 
             int count = 1;
             // bind the identity of the preparedStatement
-            if (identity instanceof Complex) {
-                Complex id = (Complex) identity;
-                if ((id.size() != ids.length) || (ids.length <= 1)) {
-                    throw new PersistenceException("Size of complex field mismatched!");
-                }
+            if (identity.size() != ids.length) {
+                throw new PersistenceException("Size of identity field mismatched!");
+            }
 
-                for (int i = 0; i < ids.length; i++) {
-                    stmt.setObject(count++, ids[i].toSQL(id.get(i)));
-                }
-            } else {
-                if (ids.length != 1) {
-                    throw new PersistenceException("Complex field expected!");
-                }
-                stmt.setObject(count++, ids[0].toSQL(identity));
+            for (int i = 0; i < ids.length; i++) {
+                stmt.setObject(count++, ids[i].toSQL(identity.get(i)));
             }
 
             if (LOG.isDebugEnabled()) {

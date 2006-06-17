@@ -33,6 +33,7 @@ import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.ClassMolderHelper;
 import org.exolab.castor.persist.FieldMolder;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Implementation of {@link org.castor.persist.resolver.ResolverStrategy} for 1:1 relations
@@ -146,10 +147,11 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object value = _fieldMolder.getValue(object, tx.getClassLoader());
-        Object newField = null;
+        Identity curIdentity = (Identity) field;
+        Identity newIdentity = null;
         if (value != null) {
-            newField = fieldClassMolder.getIdentity(tx, value);
-            flags.setNewField(newField);
+            newIdentity = fieldClassMolder.getIdentity(tx, value);
+            flags.setNewField(newIdentity);
         }
 
         // | yip: don't delete the following comment,
@@ -177,8 +179,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
         //       if old is not null
         //          removeRelation
         //       if new is not null
-        if (ClassMolderHelper.isEquals(field, newField)) {
-
+        if (ClassMolderHelper.isEquals(curIdentity, newIdentity)) {
             /*
              * Let's deal with a situation where there's no dependent object (field == null),
              * a 'new' dependent object has been set (value != null), but as we are using a key
@@ -196,7 +197,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             
             //TODO [WG]: can anybody please explain to me the meaning of the next two lines.
             if (!_debug) { return flags; }
-            if (field == null) { return flags; } // do the next field if both are null
+            if (curIdentity == null) { return flags; } // do the next field if both are null
 
             if ((value != null) && tx.isDeleted(value)) {
                 LOG.warn ("Deleted object found!");
@@ -209,7 +210,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             }
 
             if (tx.isAutoStore() || _fieldMolder.isDependent()) {
-                if (value != tx.fetch(fieldClassMolder, field, null)) {
+                if (value != tx.fetch(fieldClassMolder, curIdentity, null)) {
                     throw new DuplicateIdentityException("");
                 }
             }
@@ -220,8 +221,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
             flags.setUpdateCache(true);
 
             if (_fieldMolder.isDependent()) {
-                if (field != null) {
-                    Object reldel = tx.fetch(fieldClassMolder, field, null);
+                if (curIdentity != null) {
+                    Object reldel = tx.fetch(fieldClassMolder, curIdentity, null);
                     if (reldel != null) {
                         tx.delete(reldel);
                     }
@@ -232,10 +233,10 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                 }
 
             } else if (tx.isAutoStore()) {
-                if (field != null) {
-                    Object deref = tx.fetch(fieldClassMolder, field, null);
+                if (curIdentity != null) {
+                    Object deref = tx.fetch(fieldClassMolder, curIdentity, null);
                     if (deref != null) {
-                        fieldClassMolder.removeRelation(tx, deref, this._classMolder, object);
+                        fieldClassMolder.removeRelation(tx, deref, _classMolder, object);
                     }
                 }
 
@@ -243,10 +244,10 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     tx.markCreate(fieldClassMolder, value, null);
                 }
             } else {
-                if (field != null) {
-                    Object deref = tx.fetch(fieldClassMolder, field, null);
+                if (curIdentity != null) {
+                    Object deref = tx.fetch(fieldClassMolder, curIdentity, null);
                     if (deref != null) {
-                        fieldClassMolder.removeRelation(tx, deref, this._classMolder, object);
+                        fieldClassMolder.removeRelation(tx, deref, _classMolder, object);
                     }
                 }
 
@@ -284,6 +285,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      */
     public void update(final TransactionContext tx, final OID oid, final Object object, final AccessMode suggestedAccessMode, final Object field)
     throws PersistenceException {
+        Identity nfield = (Identity) field;
+        
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
         Object o = _fieldMolder.getValue(object, tx.getClassLoader());
         if (_fieldMolder.isDependent()) {
@@ -296,18 +299,18 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
 
             // load the cached dependent object from the data store.
             // The loaded will be compared with the new one
-            if (field != null) {
+            if (nfield != null) {
                 ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                tx.load(field, proposedValue, suggestedAccessMode);
+                tx.load(nfield, proposedValue, suggestedAccessMode);
             }
         } else if (tx.isAutoStore()) {
             if ((o != null) && !tx.isRecorded(o)) {
                 tx.markUpdate(fieldClassMolder, o, null);
             }
 
-            if (field != null) {
+            if (nfield != null) {
                 ProposedEntity proposedValue = new ProposedEntity(fieldClassMolder);
-                tx.load(field, proposedValue, suggestedAccessMode);
+                tx.load(nfield, proposedValue, suggestedAccessMode);
             }
         }
     }
@@ -327,11 +330,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
                     fid = fieldClassMolder.getActualIdentity(tx, value);
                 }
             }
-            if (fid != null) {
-                field = fid;
-            }
-        } else {
-            field = null;
+            if (fid != null) { field = fid; }
         }
         return field;
     }
@@ -341,33 +340,27 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      */
     public void markDelete(final TransactionContext tx, final Object object, final Object field)
     throws PersistenceException {
-            // persistanceCapable include many_to_one
-            ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-            if (_fieldMolder.isDependent()) {
-                Object fid = field;
-                Object fetched = null;
-                if (fid != null) {
-                    fetched = tx.fetch(fieldClassMolder, fid, null);
-                    if (fetched != null) {
-                        tx.delete(fetched);
-                    }
-                }
-
-                Object fobject = _fieldMolder.getValue(object, tx.getClassLoader());
-                if ((fobject != null) && tx.isPersistent(fobject)) {
-                    tx.delete(fobject);
-                }
-            } else {
-                // delete the object from the other side of the relation
-                Object fid = field;
-                Object fetched = null;
-                if (fid != null) {
-                    fetched = tx.fetch(fieldClassMolder, field, null);
-                    if (fetched != null) {
-                        fieldClassMolder.removeRelation(tx, fetched, this._classMolder, object);
-                    }
+        // persistanceCapable include many_to_one
+        ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
+        Identity identity = (Identity) field;
+        if (identity != null) {
+            Object fetched = tx.fetch(fieldClassMolder, identity, null);
+            if (fetched != null) {
+                if (_fieldMolder.isDependent()) {
+                    tx.delete(fetched);
+                } else {
+                    // delete the object from the other side of the relation
+                    fieldClassMolder.removeRelation(tx, fetched, _classMolder, object);
                 }
             }
+        }
+        
+        if (_fieldMolder.isDependent()) {
+            Object fobject = _fieldMolder.getValue(object, tx.getClassLoader());
+            if ((fobject != null) && tx.isPersistent(fobject)) {
+                tx.delete(fobject);
+            }
+        }
     }
 
     /* (non-Javadoc)
@@ -376,11 +369,8 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
     public void revertObject(final TransactionContext tx, final OID oid, final Object object, final Object field)
     throws PersistenceException {
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
-        
-        Object value;
-
         if (field != null) {
-            value = tx.fetch(fieldClassMolder, field, null);
+            Object value = tx.fetch(fieldClassMolder, (Identity) field, null);
             _fieldMolder.setValue(object, value, tx.getClassLoader());
         } else {
             _fieldMolder.setValue(object, null, tx.getClassLoader());
@@ -398,7 +388,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
 
         if (field != null) {
             // use the corresponding Persistent fields as the identity
-            tx.expireCache(fieldClassMolder, field);
+            tx.expireCache(fieldClassMolder, (Identity) field);
         }
     }
 
@@ -412,7 +402,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
 
         ClassMolder fieldClassMolder = _fieldMolder.getFieldClassMolder();
 
-        Object fieldValue = proposedObject.getField(_fieldIndex);
+        Identity fieldValue = (Identity) proposedObject.getField(_fieldIndex);
         if (fieldValue != null) {
             // use the corresponding Persistent fields as the identity,
             // and we ask transactionContext in action to load it.
@@ -438,7 +428,7 @@ public final class PersistanceCapableRelationResolver implements ResolverStrateg
      * @see org.castor.persist.resolver.ResolverStrategy#postCreate(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object, java.lang.Object, java.lang.Object)
      */
     public Object postCreate(final TransactionContext tx, final OID oid, final Object object,
-            final Object field, final Object createdId) {
+            final Object field, final Identity createdId) {
         return field;
     }
 

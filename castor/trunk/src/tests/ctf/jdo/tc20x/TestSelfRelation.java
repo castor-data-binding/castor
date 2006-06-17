@@ -147,8 +147,7 @@ public final class TestSelfRelation extends CastorTestCase {
         // assertEquals(1, child.getParent().getId().intValue());
         counter++;
         
-        assertTrue("At least two children should have been loaded.",
-                counter >= 2);
+        assertTrue("At least two children should have been loaded.", counter >= 2);
         db.commit();
 
         db.close();

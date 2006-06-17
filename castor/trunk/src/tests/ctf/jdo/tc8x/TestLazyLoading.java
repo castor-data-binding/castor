@@ -61,7 +61,7 @@ import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.jdo.TransactionAbortedException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Test for lazy loading of collection supported by Castor.
@@ -196,7 +196,7 @@ public final class TestLazyLoading extends CastorTestCase {
         LOG.info("Running testGeneral...");
 
         Calendar cal = Calendar.getInstance();
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyEmployee loadPerson;
 
         _db.begin();
@@ -362,7 +362,7 @@ public final class TestLazyLoading extends CastorTestCase {
     public void testCollection() throws PersistenceException {
         LOG.info("Running testCollection...");
 
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyPerson loadPerson;
 
         // test java.util.Collection.clear() for lazy loading (bug 801)
@@ -454,7 +454,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // had data added
 
         ArrayList masterData = new ArrayList();
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyPerson loadPerson;
 
         // test java.util.Collection.clear() for lazy loading (bug 801)
@@ -555,7 +555,7 @@ public final class TestLazyLoading extends CastorTestCase {
         // Tests iterating over a lazy-loaded Collection that has
         // had data deleted
         ArrayList masterData = new ArrayList();
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyEmployee loadPerson;
 
         // First add a record, then commit
@@ -665,7 +665,7 @@ public final class TestLazyLoading extends CastorTestCase {
     public void testComplex() throws PersistenceException {
         LOG.info("Running testComplex...");
 
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyEmployee loadPerson;
 
         // set up the data object
@@ -762,7 +762,7 @@ public final class TestLazyLoading extends CastorTestCase {
     }
 
     public void testMasterUpdate() throws PersistenceException {
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyPerson loadPerson;
 
         // 1. load master object, add a new dependent object and commit
@@ -797,7 +797,7 @@ public final class TestLazyLoading extends CastorTestCase {
     public void testLazyCollectionRollback() throws PersistenceException {
         LOG.info("Running testLazyCollectionRollback...");
 
-        Complex fullname = new Complex("First", "Person");
+        Identity fullname = new Identity("First", "Person");
         LazyEmployee loadPerson;
 
         // set up the data object

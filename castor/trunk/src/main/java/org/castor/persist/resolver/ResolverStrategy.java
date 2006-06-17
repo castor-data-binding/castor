@@ -25,6 +25,7 @@ import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
 import org.exolab.castor.persist.OID;
+import org.exolab.castor.persist.spi.Identity;
 
 /**
  * Strategy pattern to allow for common operations related to field resolution based upon 
@@ -58,7 +59,7 @@ public interface ResolverStrategy {
      * @return  the identity of the object
      */
     Object postCreate(TransactionContext tx, OID oid, Object object,
-            Object field, Object createdId) 
+            Object field, Identity createdId) 
     throws PersistenceException;
     
     /**

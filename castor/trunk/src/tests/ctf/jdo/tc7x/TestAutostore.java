@@ -222,14 +222,14 @@ public class TestAutostore extends CastorTestCase {
         try {
             assocOne = (AutostoreAssociated1) 
                 db.load(AutostoreAssociated1.class, new Integer(300));
-            // TODO: remove once support for cascading delete has been added
+            // TODO remove once support for cascading delete has been added
 //            fail("Expected ObjectNotFoundException");
         } catch (ObjectNotFoundException e) {
             //
         }
         db.commit();
 
-        // TODO: remove once support for cascading deletes has been added
+        // TODO remove once support for cascading deletes has been added
         db.begin();
         assocOne = (AutostoreAssociated1) 
         db.load(AutostoreAssociated1.class, new Integer(300));

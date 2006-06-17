@@ -58,14 +58,16 @@ import org.castor.cache.CacheAcquireException;
  * <p><i>instance 1</i>:<br>
  * "<tt>/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=1</tt>"</p>
  * <p><i>instance 2</i>:<br>
- * "<tt>/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=2</tt>"</p><br>
+ * "<tt>/./myCache?schema=cache&cluster_schema=replicated&total_members=2&id=2</tt>"</p>
+ * <br>
  *
  * or<br><br>
  *
  * <p><i>instance 1</i>:<br>
  * "<tt>/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=1</tt>"</p>
  * <p><i>instance 2</i>:<br>
- * "<tt>/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=2</tt>"</p><br>
+ * "<tt>/./myCache?schema=cache&cluster_schema=partitioned&total_members=2&id=2</tt>"</p>
+ * <br>
  *
  * <p>When running the cache in server or in embedded mode, you <b>must</b> have the 
  * cache schema to be used – i.e. '<tt>schema=cache</tt>'.</p><br>
@@ -135,7 +137,8 @@ public final class GigaspacesCache extends AbstractDistributedCache {
         super.initialize(params);
         
         String cacheURL = params.getProperty("cacheURL", DEFAULT_CACHE_URL);
-        String cacheProperties = params.getProperty("cacheProperties", DEFAULT_CACHE_PROPERTIES);
+        String cacheProperties = params.getProperty(
+                "cacheProperties", DEFAULT_CACHE_PROPERTIES);
         
         StringBuffer clusterURL = new StringBuffer();
         clusterURL.append(cacheURL);

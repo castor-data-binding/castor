@@ -34,7 +34,7 @@ import org.castor.util.Messages;
 import org.exolab.castor.jdo.PersistenceException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.persist.spi.Complex;
+import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
 import org.exolab.castor.persist.spi.PersistenceQuery;
@@ -212,38 +212,25 @@ public final class SQLQuery implements PersistenceQuery {
     }
 
     // Load a number of sql columns (from the current row of _rs) into an identity.
-    private Object loadIdentity() throws SQLException, PersistenceException {
+    private Identity loadIdentity() throws SQLException {
         // We can't retrieve a next identity if we have no rows of data left :-)
         if (_resultSetDone) { return null; }
 
-        boolean  empty = false;
         Object[] returnId = new Object[_engine.getColumnInfoForIdentities().length];
-        Object   tmp;
 
-        empty = true;
+        boolean empty = true;
         for (int i = 0; i < _engine.getColumnInfoForIdentities().length; i++) {
-            tmp = SQLTypeInfos.getValue(_rs, 1+i, _identSqlType[i]);
+            Object tmp = SQLTypeInfos.getValue(_rs, 1+i, _identSqlType[i]);
             returnId[i] = _engine.getColumnInfoForIdentities()[i].toJava(tmp);
-            if (tmp != null) {
-                empty = false;
-            }
+            if (tmp != null) { empty = false; }
         }
-
-        if (!empty) {
-            switch (_engine.getColumnInfoForIdentities().length) {
-            case 1:
-                return returnId[0];
-            case 2:
-                return new Complex(returnId[0], returnId[1]);
-            default:
-                return new Complex(returnId);
-            }
-        }
-        return null;
+        if (empty) { return null; }
+        return new Identity(returnId);
     }
 
     // Get the next identity that is different from <identity>.
-    public Object nextIdentity(Object identity) throws PersistenceException {
+    public Identity nextIdentity(final Identity identity) throws PersistenceException {
+        Identity nextIdentity = null;
         try {
             if (_lastIdentity == null) {
                 if (_resultSetDone || !_rs.next()) {
@@ -254,25 +241,25 @@ public final class SQLQuery implements PersistenceQuery {
 
             // Look if the current row in our ResultSet already belongs to a different id.
             _lastIdentity = identityToSQL(identity);
-            identity = loadIdentity();
+            nextIdentity = loadIdentity();
 
-            if (identitiesEqual(_lastIdentity, identityToSQL(identity))) {
+            if (identitiesEqual(_lastIdentity, identityToSQL(nextIdentity))) {
                 // This will fetch the object data into our internal _fields[] and thus also
                 // "skip" all rows till the first one with a new identity.
-                fetchRaw(null);
+                fetchRaw();
             }
 
-            identity = loadIdentity();
+            nextIdentity = loadIdentity();
 
             // This will fetch the object data into our internal _fields[] and thus also
             // "skip" all rows till the first one with a new identity.
-            fetchRaw(null);
+            fetchRaw();
 
         } catch (SQLException except) {
             _lastIdentity = null;
             throw new PersistenceException(Messages.format("persist.nested", except), except);
         }
-        return identity;
+        return nextIdentity;
     }
 
     public void close() {
@@ -294,30 +281,22 @@ public final class SQLQuery implements PersistenceQuery {
         }
     }
 
-    private Object[] identityToSQL(final Object identity) {
+    private Object[] identityToSQL(final Identity identity) {
         Object[] sqlIdentity = new Object[_engine.getColumnInfoForIdentities().length];
 
         if (identity != null) {
             // Split complex identity into array of single objects.
-            if (_engine.getColumnInfoForIdentities().length > 1) {
-                Complex id = (Complex) identity;
-                for (int i = 0; i < _engine.getColumnInfoForIdentities().length; i++) {
-                    sqlIdentity[i] = id.get(i);
-                }
-            } else {
-                sqlIdentity[0] = identity;
+            for (int i = 0; i < _engine.getColumnInfoForIdentities().length; i++) {
+                sqlIdentity[i] = identity.get(i);
             }
         }
         return sqlIdentity;
     }
 
     private Object loadSingleField(final int i, final CounterRef counterReference)
-    throws SQLException, PersistenceException {
+    throws SQLException {
         String currentTableName = counterReference.getTableName();
         int count = counterReference.getCounter();
-        Object[] temp = new Object[_engine.getInfo()[i].getColumnInfo().length];
-        boolean notNull = false;
-        Object field;
         
         String fieldTableName = _engine.getInfo()[i].getTableName();
         String fieldColumnName = _engine.getInfo()[i].getColumnInfo()[0].getName();
@@ -345,22 +324,20 @@ public final class SQLQuery implements PersistenceQuery {
             count++;
         }
         
-        if (_engine.getInfo()[i].getColumnInfo().length == 1) {
-            field = _engine.getInfo()[i].getColumnInfo()[0].toJava(SQLTypeInfos.getValue(_rs, count, _engine.getInfo()[i].getColumnInfo()[0].getSqlType()));
+        SQLFieldInfo info = _engine.getInfo()[i];
+        Object field;
+        if (!info.isJoined() && (info.getJoinFields() == null)) {
+            field = info.getColumnInfo()[0].toJava(SQLTypeInfos.getValue(_rs, count, info.getColumnInfo()[0].getSqlType()));
             count++;
         } else {
-            for (int j = 0; j < _engine.getInfo()[i].getColumnInfo().length; j++) {
-                temp[j] = _engine.getInfo()[i].getColumnInfo()[j].toJava(SQLTypeInfos.getValue(_rs, count, _engine.getInfo()[i].getColumnInfo()[j].getSqlType()));
+            boolean notNull = false;
+            Object[] temp = new Object[info.getColumnInfo().length];
+            for (int j = 0; j < info.getColumnInfo().length; j++) {
+                temp[j] = info.getColumnInfo()[j].toJava(SQLTypeInfos.getValue(_rs, count, info.getColumnInfo()[j].getSqlType()));
                 count++;
-                if (temp[j] != null) {
-                    notNull = true;
-                }
+                if (temp[j] != null) { notNull = true; }
             }
-            if (notNull) {
-                field = new Complex( _engine.getInfo()[i].getColumnInfo().length, temp );
-            } else {
-                field = null;
-            }
+            field = ((notNull) ? new Identity(temp) : null);
         }
         counterReference.setCounter(count);
         counterReference.setTableName(currentTableName);
@@ -369,11 +346,8 @@ public final class SQLQuery implements PersistenceQuery {
 
     private Object loadMultiField(final int i, final CounterRef counterReference,
                                   final Object field)
-    throws SQLException, PersistenceException {
+    throws SQLException {
         int count = counterReference.getCounter();
-        Object[]  temp = new Object[_engine.getInfo()[i].getColumnInfo().length];
-        boolean notNull = false;
-        ArrayList res;
 
         String fieldTableName = _engine.getInfo()[i].getTableName();
         String firstColumnOfField = _engine.getInfo()[i].getColumnInfo()[0].getName();
@@ -391,30 +365,18 @@ public final class SQLQuery implements PersistenceQuery {
             tableNamePerMetaData = metaData.getTableName(count);
         }
 
-        if (field == null) {
-            res = new ArrayList();
-        } else {
-            res = (ArrayList) field;
-        }
-
-        for (int j = 0; j < _engine.getInfo()[i].getColumnInfo().length; j++) {
-            temp[j] = _engine.getInfo()[i].getColumnInfo()[j].toJava(SQLTypeInfos.getValue(_rs, count, _engine.getInfo()[i].getColumnInfo()[j].getSqlType()));
-            if (temp[j] != null) {
-                notNull = true;
-            }
+        ArrayList res = ((field == null) ? new ArrayList() : (ArrayList) field);
+        SQLFieldInfo info = _engine.getInfo()[i];
+        boolean notNull = false;
+        Object[] temp = new Object[info.getColumnInfo().length];
+        for (int j = 0; j < info.getColumnInfo().length; j++) {
+            temp[j] = info.getColumnInfo()[j].toJava(SQLTypeInfos.getValue(_rs, count, info.getColumnInfo()[j].getSqlType()));
+            if (temp[j] != null) { notNull = true; }
             count++;
         }
         if (notNull) {
-            if (_engine.getInfo()[i].getColumnInfo().length == 1) {
-                if (!res.contains(temp[0])) {
-                    res.add(temp[0]);
-                }
-            } else {
-                Complex com = new Complex(_engine.getInfo()[i].getColumnInfo().length, temp);
-                if (!res.contains(com)) {
-                    res.add( com );
-                }
-            }
+            Identity identity = new Identity(temp);
+            if (!res.contains(identity)) { res.add(identity); }
         }
         counterReference.setCounter(count);
         
@@ -423,7 +385,7 @@ public final class SQLQuery implements PersistenceQuery {
 
     private int loadRow(final Object[] fields, final int numberOfFields,
                         final boolean isFirst)
-    throws SQLException, PersistenceException {
+    throws SQLException {
         // skip the identity columns first; in other words, look at field columns only
         int count = _engine.getColumnInfoForIdentities().length + 1;
 
@@ -484,8 +446,7 @@ public final class SQLQuery implements PersistenceQuery {
     /**
      * @see org.exolab.castor.persist.spi.PersistenceQuery#fetch(org.exolab.castor.persist.ProposedEntity, java.lang.Object)
      */
-    public Object fetch(final ProposedEntity proposedObject,
-            final Object identity) throws PersistenceException {
+    public Object fetch(final ProposedEntity proposedObject) throws PersistenceException {
         // Fill the given fields[] with the "cached" stuff from our _fields[] .
         for (int i = 0; i < _fields.length; i++) {
             proposedObject.setField(_fields[i], i);
@@ -493,7 +454,7 @@ public final class SQLQuery implements PersistenceQuery {
         return null;
     }
 
-    private Object fetchRaw(final Object identity) throws PersistenceException {
+    private Object fetchRaw() throws PersistenceException {
         // maybe we can optimize a little bit here when we have time.
         // Instead of creating new Object[] and ArrayList for each 
         // "multi field" each fetchRaw is called, we might reuse them.
@@ -540,13 +501,7 @@ public final class SQLQuery implements PersistenceQuery {
         Object[] currentIdentity;
 
         try {
-            // If identity given, we want only to load data for this object.
-            // Otherwise we just load the identity from the current row.
-            if (identity != null) {
-                wantedIdentity = identityToSQL( identity );
-            } else {
-                wantedIdentity = loadSQLIdentity();
-            }
+            wantedIdentity = loadSQLIdentity();
 
             // Load first (and perhaps only) row of object data from _rs into <_fields> array.
             // As we assume that we have called fetch() immediatly after nextIdentity(),

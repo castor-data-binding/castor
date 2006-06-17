@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1435 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Refactored internal handling of identities.
+       Details: http://jira.codehaus.org/browse/CASTOR-1435
+       (Ralf - 20060617)
+
 XML:   Fixed bug CASTOR-1449 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Re-generated class files from jdo-conf.xsd.
        Details: http://jira.codehaus.org/browse/CASTOR-1449
