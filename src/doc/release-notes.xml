@@ -69,6 +69,26 @@
                    method.</b></p>
             </summary>
             <bugs>
+                <bug id="1450" tool="jira">
+                    <description>
+		                Add getCurrentTransaction() to AbstractDatabaseImpl.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060620</date>
+                </bug>
                 <bug id="1435" tool="jira">
                     <description>
 		                Refactored internal handling of identities.

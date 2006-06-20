@@ -534,5 +534,18 @@ public abstract class AbstractDatabaseImpl
             }
         }
     }
+    
+        
+    /**
+     * Gets the current Castor transaction in use.
+     * @return the current Castor 
+     * @throws TransactionNotInProgressException If there's no transaction in progress.
+     */
+    public TransactionContext getCurrentTransaction() 
+    throws TransactionNotInProgressException 
+    {
+        return getTransaction();
+    }
+    
 }  
                                
