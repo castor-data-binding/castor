@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1454 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Moved code to unmarshal Castor JDO configuration file to JDOConfFactory.
+       Details: http://jira.codehaus.org/browse/CASTOR-1454
+       (Werner - 20060624)
+
 JDO:   Fixed bug CASTOR-1450 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Add getCurrentTransaction() to AbstractDatabaseImpl.
        Details: http://jira.codehaus.org/browse/CASTOR-1450

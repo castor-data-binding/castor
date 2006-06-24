@@ -27,16 +27,13 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
+import org.castor.jdo.util.JDOConfFactory;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
 
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.util.DTDResolver;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
 
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
@@ -51,11 +48,6 @@ import org.xml.sax.InputSource;
 public final class DatabaseRegistry {
     //--------------------------------------------------------------------------
 
-    /** Temporary note to check for the changed jdo-conf syntax. */
-    private static final String NOTE_096 =
-        "NOTE: JDO configuration syntax has changed with castor 0.9.6, "
-      + "please see http://castor.codehaus.org/release-notes.html for details";
-  
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(DatabaseRegistry.class);
@@ -115,20 +107,10 @@ public final class DatabaseRegistry {
                                                  final EntityResolver resolver,
                                                  final ClassLoader loader)
     throws MappingException {
+        
         // Load the JDO configuration file from the specified input source.
         JdoConf jdoConf = null;
-        
-        Unmarshaller unmarshaller = new Unmarshaller(JdoConf.class);
-        try {
-            unmarshaller.setEntityResolver(new DTDResolver(resolver));
-            jdoConf = (JdoConf) unmarshaller.unmarshal(source);
-        } catch (MarshalException e) {
-            LOG.info(NOTE_096);
-            throw new MappingException(e); 
-        } catch (ValidationException e) {
-            throw new MappingException(e);
-        }
-        
+        jdoConf = JDOConfFactory.createJdoConf(source, resolver, loader);
         LOG.debug("Loaded jdo conf successfully"); 
 
         loadDatabase(jdoConf, resolver, loader, source.getSystemId());
