@@ -6,7 +6,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>castor</groupId>
 	<artifactId>castor</artifactId>
-	<version>1.0</version>
+	<version>1.0.2</version>
 	<packaging>jar</packaging>
 
 	<name>Castor</name>
