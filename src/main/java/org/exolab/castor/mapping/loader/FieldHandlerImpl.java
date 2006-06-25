@@ -730,7 +730,7 @@ public final class FieldHandlerImpl
     } //-- newInstance
 
     /**
-     * Mutator method used by {@link MappingLoader}.
+     * Mutator method used by {@link AbstractMappingLoader}.
      */
     void setRequired(final boolean required) { }
 
@@ -755,7 +755,7 @@ public final class FieldHandlerImpl
     } //-- setConvertTo
 
     /**
-     * Mutator method used by {@link MappingLoader} and
+     * Mutator method used by {@link AbstractMappingLoader} and
      * {@link org.exolab.castor.xml.Introspector}.
      * Please understand how this method is used before you start
      * playing with it! :-)
@@ -775,7 +775,7 @@ public final class FieldHandlerImpl
 
 
     /**
-     * Mutator method used by {@link MappingLoader} and
+     * Mutator method used by {@link AbstractMappingLoader} and
      * {@link org.exolab.castor.xml.Introspector}.
      * Please understand how this method is used before you start
      * playing with it! :-)

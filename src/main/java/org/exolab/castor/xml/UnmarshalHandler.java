@@ -1489,7 +1489,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         name + "' could not be found.";
                     throw new SAXException(err);
                 }
-                _cdResolver = new ClassDescriptorResolverImpl(_loader);
+                _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
             }
 
             _topState = getState();            
@@ -3351,7 +3351,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (isPrimitive(_class)) return null;
 
         if (_cdResolver == null)
-            _cdResolver = new ClassDescriptorResolverImpl();
+            _cdResolver = new XMLClassDescriptorResolverImpl();
 
         XMLClassDescriptor classDesc = null;
 
@@ -3386,7 +3386,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         throws SAXException
     {
         if (_cdResolver == null)
-            _cdResolver = new ClassDescriptorResolverImpl();
+            _cdResolver = new XMLClassDescriptorResolverImpl();
 
         
         XMLClassDescriptor classDesc = null;

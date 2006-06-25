@@ -45,8 +45,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.mapping.loader;
 
 import java.lang.reflect.Array;
@@ -54,7 +52,6 @@ import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Hashtable;
 import java.util.Iterator;
@@ -62,6 +59,8 @@ import java.util.List;
 import java.util.Vector;
 import java.util.Enumeration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -69,7 +68,7 @@ import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
-import org.exolab.castor.mapping.MappingResolver;
+import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.handlers.EnumFieldHandler;
 import org.exolab.castor.mapping.handlers.TransientFieldHandler;
@@ -77,7 +76,6 @@ import org.exolab.castor.mapping.xml.ClassChoice;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
-
 
 /**
  * Assists in the construction of descriptors. Can be used as a mapping
@@ -88,7 +86,11 @@ import org.exolab.castor.mapping.xml.FieldMapping;
  * @author <a href="keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
-public abstract class MappingLoader implements MappingResolver {
+public abstract class AbstractMappingLoader implements MappingLoader {
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(AbstractMappingLoader.class);
+    
     /**
      * The prefix for the "add" method
      */
@@ -144,15 +146,11 @@ public abstract class MappingLoader implements MappingResolver {
 
 
     /**
-     * Log writer to report progress. May be null.
-     */
-    private PrintWriter _logWriter;
-
-
-    /**
      * The class loader to use.
      */
     private ClassLoader _loader;
+    
+    private boolean _loaded = false;
 
 
     public static final ClassDescriptor NoDescriptor = new ClassDescriptorImpl(Class.class);
@@ -163,13 +161,18 @@ public abstract class MappingLoader implements MappingResolver {
      *
      * @param loader The class loader to use, null for the default
      */
-    protected MappingLoader( ClassLoader loader, PrintWriter logWriter )
-    {
-        if ( loader == null )
-            loader = getClass().getClassLoader();
-        _loader = loader;
-        _logWriter = logWriter;
+    protected AbstractMappingLoader(ClassLoader loader) {
+        setClassLoader(loader);
     }
+    
+    public void clear() {
+        _allowRedefinitions = false;
+        _clsDescs.clear();
+        _javaClasses.clear();
+        _loaded = false;
+    }
+
+    public final String getSourceType() { return "CastorXmlMapping"; }
 
     /**
      * Returns the ClassDescriptor for the class with the given name.
@@ -214,21 +217,17 @@ public abstract class MappingLoader implements MappingResolver {
     }
 
 
-    public ClassLoader getClassLoader()
-    {
+    public ClassLoader getClassLoader() {
         return _loader;
     }
 
-
-    /**
-     * Returns the log writer. If not null, errors and other messages
-     * should be directed to the log writer.
-     */
-    protected PrintWriter getLogWriter()
-    {
-        return _logWriter;
+    public void setClassLoader(final ClassLoader loader) {
+        if (loader == null) {
+            _loader = getClass().getClassLoader();
+        } else {
+            _loader = loader;
+        }
     }
-
 
     /**
      * Returns the Java class for the named type. The type name can
@@ -241,7 +240,6 @@ public abstract class MappingLoader implements MappingResolver {
     {
         return Types.typeFromName( _loader, typeName );
     }
-
 
     /**
      * Loads the mapping from the specified mapping object. Calls {@link
@@ -256,69 +254,73 @@ public abstract class MappingLoader implements MappingResolver {
     public void loadMapping( MappingRoot mapping, Object param )
         throws MappingException
     {
-        Enumeration   enumeration;
+        if (!_loaded) {
+            _loaded = true;
+            
+            Enumeration   enumeration;
 
-        // Load the mapping for all the classes. This is always returned
-        // in the same order as it appeared in the mapping file.
-        enumeration = mapping.enumerateClassMapping();
-        
-        Vector retryList = null;
-        while ( enumeration.hasMoreElements() ) {
-
-            ClassMapping clsMap = (ClassMapping) enumeration.nextElement();
-            ClassDescriptor clsDesc = null;
+            // Load the mapping for all the classes. This is always returned
+            // in the same order as it appeared in the mapping file.
+            enumeration = mapping.enumerateClassMapping();
             
-            try {
-                clsDesc = createDescriptor( clsMap );
-            }
-            catch(MappingException mx) {
-                //-- save for later for possible out-of-order
-                //-- mapping files...
-                if (retryList == null) {
-                    retryList = new Vector();
-                }
-                retryList.addElement(clsMap); 
-                continue;
-            }
-            
-            
-            if ( clsDesc != NoDescriptor )
-                addDescriptor( clsDesc );
-            // If the return value is NoDescriptor then the derived
-            // class was not successful in constructing a descriptor.
-            if ( clsDesc == NoDescriptor && _logWriter != null ) {
-                _logWriter.println( Messages.format( "mapping.ignoringMapping", clsMap.getName() ) );
-            }
-        }
-        
-        //-- handle possible retries, for now we only loop once
-        //-- on the retries, but we should change this to keep
-        //-- looping until we have no more success rate.
-        if (retryList != null) {
-            Vector tmpRetryList = retryList;
-            retryList = null;
-            enumeration = tmpRetryList.elements();
+            Vector retryList = null;
             while ( enumeration.hasMoreElements() ) {
+
                 ClassMapping clsMap = (ClassMapping) enumeration.nextElement();
-                ClassDescriptor clsDesc = createDescriptor( clsMap );
-                if ( clsDesc != NoDescriptor )
-                    addDescriptor( clsDesc );
-                // If the return value is NoDescriptor then the derived
-                // class was not successful in constructing a descriptor.
-                if ( clsDesc == NoDescriptor && _logWriter != null ) {
-                    _logWriter.println( Messages.format( "mapping.ignoringMapping", clsMap.getName() ) );
+                ClassDescriptor clsDesc = null;
+                
+                try {
+                    clsDesc = createDescriptor( clsMap );
+                }
+                catch(MappingException mx) {
+                    //-- save for later for possible out-of-order
+                    //-- mapping files...
+                    if (retryList == null) {
+                        retryList = new Vector();
+                    }
+                    retryList.addElement(clsMap); 
+                    continue;
+                }
+                
+                
+                if (clsDesc != NoDescriptor) {
+                    addDescriptor(clsDesc);
+                } else {
+                    // If the return value is NoDescriptor then the derived
+                    // class was not successful in constructing a descriptor.
+                    LOG.info(Messages.format("mapping.ignoringMapping", clsMap.getName()));
                 }
             }
-        }
-        
+            
+            //-- handle possible retries, for now we only loop once
+            //-- on the retries, but we should change this to keep
+            //-- looping until we have no more success rate.
+            if (retryList != null) {
+                Vector tmpRetryList = retryList;
+                retryList = null;
+                enumeration = tmpRetryList.elements();
+                while ( enumeration.hasMoreElements() ) {
+                    ClassMapping clsMap = (ClassMapping) enumeration.nextElement();
+                    ClassDescriptor clsDesc = createDescriptor( clsMap );
+                    if (clsDesc != NoDescriptor) {
+                        addDescriptor(clsDesc);
+                    } else {
+                        // If the return value is NoDescriptor then the derived
+                        // class was not successful in constructing a descriptor.
+                        LOG.info(Messages.format("mapping.ignoringMapping", clsMap.getName()));
+                    }
+                }
+            }
+            
 
-        enumeration = _clsDescs.elements();
-        while ( enumeration.hasMoreElements() ) {
-            ClassDescriptor clsDesc;
+            enumeration = _clsDescs.elements();
+            while ( enumeration.hasMoreElements() ) {
+                ClassDescriptor clsDesc;
 
-            clsDesc = (ClassDescriptor) enumeration.nextElement();
-            if ( clsDesc != NoDescriptor  )
-                resolveRelations( clsDesc );
+                clsDesc = (ClassDescriptor) enumeration.nextElement();
+                if ( clsDesc != NoDescriptor  )
+                    resolveRelations( clsDesc );
+            }
         }
     } //-- loadMapping
 
@@ -360,9 +362,7 @@ public abstract class MappingLoader implements MappingResolver {
     }
 
 
-    protected void resolveRelations( ClassDescriptor clsDesc )
-        throws MappingException
-    {
+    protected void resolveRelations(ClassDescriptor clsDesc) throws MappingException {
         FieldDescriptor[] fields;
 
         fields = clsDesc.getFields();
@@ -479,7 +479,7 @@ public abstract class MappingLoader implements MappingResolver {
             origin = (ClassMapping) origin.getExtends();
         }
         ids = origin.getIdentity();
-        ids = MappingLoader.getIdentityColumnNames (ids, origin);
+        ids = AbstractMappingLoader.getIdentityColumnNames (ids, origin);
         
         if (( ids != null ) && ( ids.length > 0)) {
 

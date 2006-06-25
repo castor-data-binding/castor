@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Resolved issue CASTOR-1456 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Extracted creation of MappingLoaders from Mapping into new MappingLoaderRegistry.
+       Details: http://jira.codehaus.org/browse/CASTOR-1456
+       (Ralf - 20060624)
+
 JDO:   Fixed bug CASTOR-1454 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved code to unmarshal Castor JDO configuration file to JDOConfFactory.
        Details: http://jira.codehaus.org/browse/CASTOR-1454

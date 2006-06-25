@@ -49,10 +49,11 @@ package org.exolab.castor.tools;
 
 //-- Castor Imports
 import org.exolab.castor.builder.util.ConsoleDialog;
+import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassChoice;
@@ -68,7 +69,7 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.XMLClassDescriptor;
-import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 
 //-- Java Imports
 import java.io.File;
@@ -106,7 +107,7 @@ public class MappingTool
      * ClassDescriptorResolver for loading compiled
      * descriptors
     **/
-    private ClassDescriptorResolverImpl _resolver = null;
+    private XMLClassDescriptorResolverImpl _resolver = null;
 
     /**
      * Introspector to use if _forceIntrospection is enabled.
@@ -128,7 +129,7 @@ public class MappingTool
     
     public MappingTool() {
         _mappings      = new Hashtable();
-        _resolver      = new ClassDescriptorResolverImpl();
+        _resolver      = new XMLClassDescriptorResolverImpl();
         _mappingLoader = new InternalLoader();
     } //--MappingTool
 
@@ -483,16 +484,17 @@ public class MappingTool
 
     //-- Extend mapping loader to give us access to the
     //-- findAccessor method.
-    class InternalLoader extends MappingLoader {
+    class InternalLoader extends AbstractMappingLoader {
         
         private static final String GET = "get";
         private static final String SET = "set";
         private static final String ADD = "add";
         
         InternalLoader() {
-            super(null, null);
+            super(null);
         }
         
+        public BindingType getBindingType() { return null; }
 
         /**
          * Returns true if the get method returns an array.
@@ -544,6 +546,7 @@ public class MappingTool
             catch(Exception ex) {}
             return false;
         }
+
     } 
     
 } //-- MappingTool

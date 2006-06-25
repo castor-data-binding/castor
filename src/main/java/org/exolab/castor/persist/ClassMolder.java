@@ -76,7 +76,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.CallbackInterceptor;
@@ -220,7 +220,7 @@ public class ClassMolder {
      * @throws ClassNotFoundException If a class cannot be loaded.
      * @throws MappingException if an error occured with analysing the mapping information.
      */
-    ClassMolder( DatingService ds, MappingLoader loader, LockEngine lock,
+    ClassMolder( DatingService ds, AbstractMappingLoader loader, LockEngine lock,
             ClassDescriptor clsDesc, Persistence persist )
             throws ClassNotFoundException, MappingException {
 

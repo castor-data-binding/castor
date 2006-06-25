@@ -257,7 +257,7 @@ public class FieldDescriptorImpl
 
 
     /**
-     * Mutator method used by {@link MappingLoader}.
+     * Mutator method used by {@link AbstractMappingLoader}.
      */
     void setHandler( FieldHandler handler )
     {
@@ -266,7 +266,7 @@ public class FieldDescriptorImpl
 
 
     /**
-     * Mutator method used by {@link MappingLoader}.
+     * Mutator method used by {@link AbstractMappingLoader}.
      */
     void setClassDescriptor( ClassDescriptor clsDesc )
     {
@@ -275,7 +275,7 @@ public class FieldDescriptorImpl
 
 
     /**
-     * Mutator method used by {@link MappingLoader}.
+     * Mutator method used by {@link AbstractMappingLoader}.
      */
     public void setRequired( boolean required )
     {
@@ -283,7 +283,7 @@ public class FieldDescriptorImpl
     }
 
     /**
-     * Mutator method used by {@link MappingLoader}.
+     * Mutator method used by {@link AbstractMappingLoader}.
      */
     public void setTransient (boolean isTransient) {
     	this._transient = isTransient;

@@ -53,13 +53,12 @@ import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerFriend;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.*;
 import org.exolab.castor.mapping.xml.types.SqlDirtyType;
 
-import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -75,7 +74,7 @@ import java.util.Properties;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
-public class JDOMappingLoader extends MappingLoader {
+public final class JDOMappingLoader extends AbstractMappingLoader {
     //-----------------------------------------------------------------------------------
 
     /** Separators between type name and parameter, e.g. "char[01]". */
@@ -136,6 +135,8 @@ public class JDOMappingLoader extends MappingLoader {
      * SQL type for the given database.
      */
     private BaseFactory _factory;
+    
+    private boolean _loaded = false;
 
 
     /**
@@ -148,9 +149,16 @@ public class JDOMappingLoader extends MappingLoader {
     private KeyGeneratorRegistry _keyGenReg = new KeyGeneratorRegistry();
 
 
-    public JDOMappingLoader(ClassLoader loader, PrintWriter logWriter) {
-        super(loader, logWriter);
+    public JDOMappingLoader(ClassLoader loader) {
+        super(loader);
     }
+    
+    public void clear() {
+        super.clear();
+        _loaded = false;
+    }
+
+    public BindingType getBindingType() { return BindingType.JDO; }
 
     protected ClassDescriptor createDescriptor(final ClassMapping clsMap)
     throws MappingException {
@@ -161,7 +169,7 @@ public class JDOMappingLoader extends MappingLoader {
         // If no SQL information for class, ignore it. JDO only
         // supports JDO class descriptors.
         if ((clsMap.getMapTo() == null) || (clsMap.getMapTo().getTable() == null)) {
-            return MappingLoader.NoDescriptor;
+            return AbstractMappingLoader.NoDescriptor;
         }
 
         // See if we have a compiled descriptor.
@@ -515,30 +523,34 @@ public class JDOMappingLoader extends MappingLoader {
     public void loadMapping( MappingRoot mapping, Object param )
         throws MappingException
     {
-        Enumeration enumeration;
-        _factory = (BaseFactory) param;
-        // Load the key generator definitions and check for duplicate names
-        enumeration = mapping.enumerateKeyGeneratorDef();
-        while ( enumeration.hasMoreElements() ) {
-            KeyGeneratorDef keyGenDef;
-            String name;
+        if (!_loaded) {
+            _loaded = true;
+            
+            Enumeration enumeration;
+            _factory = (BaseFactory) param;
+            // Load the key generator definitions and check for duplicate names
+            enumeration = mapping.enumerateKeyGeneratorDef();
+            while ( enumeration.hasMoreElements() ) {
+                KeyGeneratorDef keyGenDef;
+                String name;
 
-            keyGenDef = (KeyGeneratorDef) enumeration.nextElement();
-            name = keyGenDef.getAlias();
-            if (name == null) {
-                name = keyGenDef.getName();
+                keyGenDef = (KeyGeneratorDef) enumeration.nextElement();
+                name = keyGenDef.getAlias();
+                if (name == null) {
+                    name = keyGenDef.getName();
+                }
+                if ( _keyGenDefs.get( name ) != null ) {
+                    throw new MappingException( Messages.format( "mapping.dupKeyGen", name ) );
+                }
+                _keyGenDefs.put( name, keyGenDef );
             }
-            if ( _keyGenDefs.get( name ) != null ) {
-                throw new MappingException( Messages.format( "mapping.dupKeyGen", name ) );
-            }
-            _keyGenDefs.put( name, keyGenDef );
+
+            super.loadMapping( mapping, null );
+
+            _keyGenDefs = null;
+            _keyGenDescs = null;
+            _keyGenReg = null;
         }
-
-        super.loadMapping( mapping, null );
-
-        _keyGenDefs = null;
-        _keyGenDescs = null;
-        _keyGenReg = null;
     }
 
 }

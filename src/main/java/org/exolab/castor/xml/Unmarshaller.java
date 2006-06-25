@@ -47,6 +47,7 @@ package org.exolab.castor.xml;
 
 
 //-- castor imports
+import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.util.Configuration;
@@ -226,7 +227,7 @@ public class Unmarshaller {
         if ((loader == null) && (c != null)) {
             _loader = c.getClassLoader();
         }
-        _cdResolver = new ClassDescriptorResolverImpl(loader);
+        _cdResolver = new XMLClassDescriptorResolverImpl(loader);
     } //-- Unmarshaller(Class)
 
 
@@ -318,7 +319,7 @@ public class Unmarshaller {
         UnmarshalHandler handler = new UnmarshalHandler(_class);
         
         if (_cdResolver == null) {
-            _cdResolver = new ClassDescriptorResolverImpl(_loader);
+            _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
         }
         handler.setResolver(_cdResolver);
         handler.setLogWriter(_pw);
@@ -468,9 +469,9 @@ public class Unmarshaller {
             _loader = mapping.getClassLoader();
         }
         if (_cdResolver == null) {
-            _cdResolver = new ClassDescriptorResolverImpl(_loader);
+            _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
         }
-        _cdResolver.setMappingLoader( (XMLMappingLoader) mapping.getResolver( Mapping.XML ) );
+        _cdResolver.setMappingLoader((XMLMappingLoader) mapping.getResolver(BindingType.XML));
     } //-- setMapping
 
 
@@ -500,7 +501,7 @@ public class Unmarshaller {
         if (cdr != null)
             _cdResolver = cdr;
         else
-            _cdResolver = new ClassDescriptorResolverImpl(_loader);
+            _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
 
     } //-- setResolver
 
