@@ -51,7 +51,7 @@
 
 package org.exolab.castor.xml;
 
-import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 import org.exolab.castor.mapping.FieldDescriptor;
 
 /**
@@ -101,7 +101,7 @@ public class Validator implements ClassValidator {
         }
 
         if (context.getResolver() == null) {
-            context.setResolver(new ClassDescriptorResolverImpl());
+            context.setResolver(new XMLClassDescriptorResolverImpl());
         }
 
         XMLClassDescriptor classDesc = null;

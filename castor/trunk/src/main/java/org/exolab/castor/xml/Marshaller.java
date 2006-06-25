@@ -54,6 +54,7 @@ package org.exolab.castor.xml;
 //-- castor imports
 import org.castor.util.Base64Encoder;
 import org.castor.util.Messages;
+import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.Mapping;
@@ -380,7 +381,7 @@ public class Marshaller extends MarshalFramework {
         _debug           = enableDebug;
         _namespaces      = new Namespaces();
         _packages        = new List(3);
-        _cdResolver      = new ClassDescriptorResolverImpl();
+        _cdResolver      = new XMLClassDescriptorResolverImpl();
         _parents         = new Stack();
         _validate        = _config.marshallingValidation();
         _naming          = XMLNaming.getInstance();
@@ -535,9 +536,9 @@ public class Marshaller extends MarshalFramework {
         throws MappingException
     {
         if (_cdResolver == null)
-            _cdResolver = new ClassDescriptorResolverImpl();
+            _cdResolver = new XMLClassDescriptorResolverImpl();
 
-        _cdResolver.setMappingLoader( (XMLMappingLoader) mapping.getResolver( Mapping.XML ) );
+        _cdResolver.setMappingLoader((XMLMappingLoader) mapping.getResolver(BindingType.XML));
     } //-- setMapping
 
     /**
@@ -622,7 +623,7 @@ public class Marshaller extends MarshalFramework {
     public ClassDescriptorResolver getResolver() {
 
         if (_cdResolver == null) {
-            _cdResolver = new ClassDescriptorResolverImpl();
+            _cdResolver = new XMLClassDescriptorResolverImpl();
         }
         return _cdResolver;
 

@@ -60,10 +60,11 @@ import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLMappingLoader;
 
+import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.MappingResolver;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 
 import java.net.URL;
 import java.util.Enumeration;
@@ -76,9 +77,8 @@ import java.util.Properties;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class ClassDescriptorResolverImpl
-    implements ClassDescriptorResolver 
-{
+public class XMLClassDescriptorResolverImpl
+implements ClassDescriptorResolver {
  
     private static final String PKG_MAPPING_FILE   = ".castor.xml";
     private static final String PKG_CDR_LIST_FILE  = ".castor.cdr";
@@ -157,7 +157,7 @@ public class ClassDescriptorResolverImpl
     /**
      * Creates a new ClassDescriptorResolverImpl
      */
-    public ClassDescriptorResolverImpl() {
+    public XMLClassDescriptorResolverImpl() {
         _cacheViaClass   = new Hashtable();
         _cacheViaName    = new Hashtable();
         _packageMappings = new Hashtable();
@@ -170,7 +170,7 @@ public class ClassDescriptorResolverImpl
      *
      * @param loader the ClassLoader to use when loading ClassDescriptors
      */
-    public ClassDescriptorResolverImpl(ClassLoader loader) {
+    public XMLClassDescriptorResolverImpl(ClassLoader loader) {
         this();
         _loader = loader;
     } //-- ClassDescriptorResolverImpl
@@ -258,7 +258,7 @@ public class ClassDescriptorResolverImpl
         Mapping mapping = loadPackageMapping(pkgName, type.getClassLoader());
         if (mapping != null) {
             try {
-                MappingLoader mapLoader = (MappingLoader)mapping.getResolver(Mapping.XML);
+                AbstractMappingLoader mapLoader = (AbstractMappingLoader)mapping.getResolver(BindingType.XML);
                 classDesc = (XMLClassDescriptor) mapLoader.getDescriptor(type);
             }
             catch(MappingException mx) {}
@@ -348,7 +348,7 @@ public class ClassDescriptorResolverImpl
         Mapping mapping = loadPackageMapping(pkgName, loader);
         if (mapping != null) {
             try {
-                MappingLoader mapLoader = (MappingLoader)mapping.getResolver(Mapping.XML);
+                AbstractMappingLoader mapLoader = (AbstractMappingLoader)mapping.getResolver(BindingType.XML);
                 classDesc = (XMLClassDescriptor) mapLoader.getDescriptor(className);
             }
             catch(MappingException mx) {}
@@ -501,7 +501,7 @@ public class ClassDescriptorResolverImpl
         while (mappings.hasMoreElements()) {
             Mapping mapping = (Mapping)mappings.nextElement();
             try {
-                MappingResolver resolver = mapping.getResolver(Mapping.XML);
+                MappingLoader resolver = mapping.getResolver(BindingType.XML);
                 enumeration = resolver.listDescriptors();
                 while (enumeration.hasMoreElements()) {
                     classDesc = (XMLClassDescriptor)enumeration.nextElement();
@@ -576,7 +576,7 @@ public class ClassDescriptorResolverImpl
         while (mappings.hasMoreElements()) {
             Mapping mapping = (Mapping)mappings.nextElement();
             try {
-                MappingResolver resolver = mapping.getResolver(Mapping.XML);
+                MappingLoader resolver = mapping.getResolver(BindingType.XML);
                 enumeration = resolver.listDescriptors();
                 while (enumeration.hasMoreElements()) {
                     classDesc = (XMLClassDescriptor)enumeration.nextElement();

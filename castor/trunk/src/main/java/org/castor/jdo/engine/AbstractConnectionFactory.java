@@ -31,6 +31,7 @@ import org.castor.transactionmanager.TransactionManagerRegistry;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
 
+import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.LockEngine;
@@ -205,7 +206,7 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
         }
         
         _engine = new PersistenceEngineFactory().createEngine(
-                this, _mapping.getResolver(Mapping.JDO, factory), factory);
+                this, _mapping.getResolver(BindingType.JDO, factory), factory);
     }
     
     /**

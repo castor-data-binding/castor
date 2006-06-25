@@ -67,8 +67,50 @@
                 <p><b>You have to be aware that you need to adapt your code to get things
                    working as before if you use <code>Database.getIdentity(Object)</code>
                    method.</b></p>
+                   
+                <h3>Creation of MappingLoaders</h3>
+                
+                <p>As of release 1.0.2 the MappingLoader implementations need to be
+                   configured in castor.properties file. While this also allows to
+                   specify external MappingLoader implementations to be used by Castor,
+                   it now is also required to specify the 2 internal implementations
+                   in this file.</p>
+
+                <code>
+#
+# MappingLoader implementations
+#
+org.castor.mapping.Loaders=\
+  org.exolab.castor.jdo.engine.JDOMappingLoader,\
+  org.exolab.castor.xml.XMLMappingLoader
+                </code>
+                
+                <p><b>You have to be aware that you need add the new configuration
+                   property to you custom castor.properties file.</b></p>
+                   
             </summary>
             <bugs>
+                <bug id="1456" tool="jira">
+                    <description>
+		                Extracted creation of MappingLoaders from Mapping into new
+                        MappingLoaderRegistry.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060624</date>
+                </bug>
                 <bug id="1454" tool="jira">
                     <description>
 		                Moved code to unmarshal Castor JDO configuration file to JDOConfFactory.

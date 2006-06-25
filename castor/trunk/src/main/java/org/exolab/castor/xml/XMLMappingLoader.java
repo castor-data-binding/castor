@@ -47,11 +47,9 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml;
 
-
+import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
@@ -60,7 +58,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.mapping.xml.ClassMapping;
@@ -74,14 +72,13 @@ import org.exolab.castor.util.LocalConfiguration;
 
 import org.exolab.castor.xml.handlers.ContainerFieldHandler;
 import org.exolab.castor.xml.handlers.ToStringFieldHandler;
-import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
+import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.exolab.castor.xml.validators.NameValidator;
 
-import java.io.PrintWriter;
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
@@ -94,11 +91,7 @@ import java.lang.reflect.Modifier;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-02-23 01:37:50 -0700 (Thu, 23 Feb 2006) $
  */
-public class XMLMappingLoader
-    extends MappingLoader
-{
-
-
+public final class XMLMappingLoader extends AbstractMappingLoader {
     /**
      * The default xml prefix used on certain 
      * attributes such as xml:lang, xml:base, etc.
@@ -133,7 +126,7 @@ public class XMLMappingLoader
     /**
      * A reference to the internal ClassDescriptorResolver
      */
-    private ClassDescriptorResolverImpl _cdResolver;
+    private XMLClassDescriptorResolverImpl _cdResolver;
 
     /**
      * naming conventions
@@ -149,10 +142,8 @@ public class XMLMappingLoader
     /**
      * Creates a new XMLMappingLoader
      */
-    public XMLMappingLoader( ClassLoader loader, PrintWriter logWriter )
-        throws MappingException
-    {
-        super( loader, logWriter );
+    public XMLMappingLoader(ClassLoader loader) {
+        super(loader);
         
         LocalConfiguration config = LocalConfiguration.getInstance();
         
@@ -160,9 +151,13 @@ public class XMLMappingLoader
         _naming            = config.getXMLNaming();
 
     } //-- XMLMappingLoader
+    
+    
+
+    public BindingType getBindingType() { return BindingType.XML; }
 
     private void createResolver() {
-        _cdResolver = new ClassDescriptorResolverImpl();
+        _cdResolver = new XMLClassDescriptorResolverImpl();
         _cdResolver.setIntrospection(false);
         _cdResolver.setLoadPackageMappings(false);
     }

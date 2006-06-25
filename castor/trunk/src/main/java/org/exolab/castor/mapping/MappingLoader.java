@@ -42,13 +42,9 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.mapping;
 
-
 import java.util.Enumeration;
-
 
 /**
  * Provides the mapping descriptor for Java classes. The engines use
@@ -61,10 +57,15 @@ import java.util.Enumeration;
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public interface MappingResolver
-{
-
-
+public interface MappingLoader {
+    BindingType getBindingType();
+    
+    String getSourceType();
+    
+    void clear();
+    
+    void setClassLoader(final ClassLoader loader);
+    
     /**
      * Returns the class descriptor for the specified Java class.
      * In no such descriptor exists, returns null.
@@ -72,33 +73,26 @@ public interface MappingResolver
      * @param javaClass The Java class
      * @return A suitable class descriptor or null
      */
-    public ClassDescriptor getDescriptor( Class javaClass );
-
+    ClassDescriptor getDescriptor(Class javaClass);
 
     /**
      * Returns an enumeration of all the known descriptors. Each
      * element is of type {@link ClassDescriptor}.
      */
-    public Enumeration listDescriptors();
-
+    Enumeration listDescriptors();
 
     /**
      * Returns an enumeration of all the supported Java classes.
      * Each element is of type <tt>java.lang.Class</tt>, and for
      * each such class a suitable descriptor exists.
      */
-    public Enumeration listJavaClasses();
-
+    Enumeration listJavaClasses();
 
     /**
-     *
      * Returns the class loader associated with this mapping resolver
      * if one was specified. This is the class loader used to load all
      * the classes mapped by this mapping resolver. May be null if no
      * class loader was specified or in certain JVMs.
      */
-    public ClassLoader getClassLoader();
-
-
-
+    ClassLoader getClassLoader();
 }

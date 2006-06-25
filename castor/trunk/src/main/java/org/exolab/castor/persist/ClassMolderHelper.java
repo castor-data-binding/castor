@@ -17,7 +17,7 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.Identity;
@@ -41,7 +41,7 @@ public final class ClassMolderHelper {
      *
      * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
      */
-    public static Vector resolve(final MappingLoader loader,
+    public static Vector resolve(final AbstractMappingLoader loader,
             final LockEngine lock, final PersistenceFactory factory)
     throws MappingException, ClassNotFoundException {
     
@@ -269,7 +269,7 @@ public final class ClassMolderHelper {
                 origin = (ClassMapping) origin.getExtends();
             }
             identities = origin.getIdentity();
-            identities = MappingLoader.getIdentityColumnNames (identities, origin);
+            identities = AbstractMappingLoader.getIdentityColumnNames (identities, origin);
             extendFields = getFullFields(extend);
             thisFields = clsMap.getClassChoice().getFieldMapping();
 
@@ -296,7 +296,7 @@ public final class ClassMolderHelper {
             fieldList.toArray(fields);
         } else {
             identities = clsMap.getIdentity();
-            identities = MappingLoader.getIdentityColumnNames(identities, clsMap);
+            identities = AbstractMappingLoader.getIdentityColumnNames(identities, clsMap);
             if (identities == null || identities.length == 0) {
                 throw new MappingException("Identity is null!");
             }
@@ -349,7 +349,7 @@ public final class ClassMolderHelper {
 
         identities = base.getIdentity();
         
-        identities = MappingLoader.getIdentityColumnNames (identities, base);
+        identities = AbstractMappingLoader.getIdentityColumnNames (identities, base);
 
         if (identities == null || identities.length == 0) {
             throw new MappingException("Identity is null!");

@@ -76,4 +76,10 @@ public final class ConfigKeys {
      * <pre>org.exolab.castor.persist.useProxies</pre>*/
     public static final String USE_JDBC_PROXIES =
         "org.exolab.castor.persist.useProxies";
+
+    /** Property listing all available {@link MappingLoader} implementations 
+     *  (<tt>org.castor.mapping.Loaders</tt>). */
+    public static final String MAPPING_LOADERS =
+        "org.castor.mapping.Loaders";
+
 }

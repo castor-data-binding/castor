@@ -73,9 +73,9 @@ import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.MappingResolver;
+import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.loader.MappingLoader;
+import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
@@ -163,7 +163,7 @@ public final class LockEngine {
      * @throws MappingException Indicate that one of the mappings is invalid
      */
     public LockEngine(final ConnectionFactory connectionFactory,
-                      final MappingResolver mapResolver,
+                      final MappingLoader mapResolver,
                       final PersistenceFactory persistenceFactory)
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
@@ -175,7 +175,7 @@ public final class LockEngine {
         _persistenceFactory = persistenceFactory;
         
         try {
-            Vector v = ClassMolderHelper.resolve( (MappingLoader) mapResolver, this, _persistenceFactory );
+            Vector v = ClassMolderHelper.resolve( (AbstractMappingLoader) mapResolver, this, _persistenceFactory );
     
             _typeInfo = new HashMap();
             Enumeration enumeration = v.elements();
