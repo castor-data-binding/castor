@@ -18,7 +18,20 @@
         </item>
 --> 
 
-		<item>
+        <item>
+            <title>Work on JPA 3.0 support started</title>
+			<pubDate>Sun, 25 Jun 2006 10:1:12 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item46</link>
+			<description>
+				Work has been started on adding support for the Java Persistence 
+                Architecture (JPA) 3.0 to Castor JDO 
+
+                The SVN repository is available at 
+                http://svn.codehaus.org/castor/castor-jpa/trunk
+			</description>
+		</item>
+        <item>
 			<title>Castor 1.0.1 available</title>
 			<pubDate>Thu, 8 Jun 2006 20:22:21 GMT</pubDate>
 			<author>Werner Guttmann</author>

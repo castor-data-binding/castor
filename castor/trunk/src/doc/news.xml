@@ -19,6 +19,19 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="46">
+            <title>Work on JPA 3.0 support started</title>
+            <author>Werner Guttmann</author>
+            <date>Jun 25 2006</date>
+            <time>10:11:12</time>
+            <summary>
+				Work has been started on adding support for the Java Persistence 
+                Architecture (JPA) 3.0 to Castor JDO.<br/><br/>
+
+                The SVN repository is available at 
+                <a href="http://svn.codehaus.org/castor/castor-jpa/trunk">http://svn.codehaus.org/castor/castor-jpa/trunk</a>
+            </summary>
+        </news>
         <news id="45">
             <title>Castor 1.0.1 released</title>
             <author>Werner Guttmann</author>
