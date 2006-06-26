@@ -79,7 +79,7 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
         String driverName = dbChoice.getDriver().getClassName();
         if (driverName != null) {
             try {
-                Class.forName(dbChoice.getDriver().getClassName()).newInstance();
+                Class.forName(driverName).newInstance();
             } catch (InstantiationException e) {
                 String msg = Messages.format(
                         "jdo.engine.classNotInstantiable", driverName);

@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1461 using contribution from Dave Brosius [dbrosius@qis.net]
+       Used local variable instead of refetching it.
+       Details: http://jira.codehaus.org/browse/CASTOR-1461
+       (Ralf - 20060626)
+
 XML:   Resolved issue CASTOR-1462 using contribution from Dave Brosius [dbrosius@qis.net]
        Moved wrongly placed parenthesis that caused toString() being executed for no reason.
        Details: http://jira.codehaus.org/browse/CASTOR-1462
