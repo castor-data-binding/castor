@@ -49,7 +49,7 @@
  */
 package org.exolab.castor.xml;
 
-import org.exolab.castor.mapping.BindingType;
+import org.castor.mapping.BindingType;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;

@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.mapping;
+package org.castor.mapping;
 
 import java.util.ArrayList;
 import java.util.Collection;
@@ -26,12 +26,14 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.MappingLoader;
 
 /**
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class MappingLoaderRegistry {
+public final class MappingLoaderRegistry {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
@@ -43,15 +45,16 @@ public class MappingLoaderRegistry {
 
     //--------------------------------------------------------------------------
 
-    public MappingLoaderRegistry(final Configuration config, final ClassLoader loader) {
+    public MappingLoaderRegistry(final Configuration config) {
         String prop = config.getProperty(ConfigKeys.MAPPING_LOADERS, "");
         StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
         while (tokenizer.hasMoreTokens()) {
             String classname = tokenizer.nextToken();
             try {
+                ClassLoader loader = getClass().getClassLoader();
                 Class cls = loader.loadClass(classname);
-                Class[] types = new Class[] { ClassLoader.class };
-                Object[] params = new Object[] { loader };
+                Class[] types = new Class[] {ClassLoader.class};
+                Object[] params = new Object[] {loader};
                 Object obj = cls.getConstructor(types).newInstance(params);
                 _mappingLoaders.add(obj);
             } catch (Exception ex) {

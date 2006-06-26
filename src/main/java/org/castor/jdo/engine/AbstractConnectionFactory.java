@@ -26,12 +26,13 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.conf.Database;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.util.JDOConfAdapter;
+import org.castor.mapping.BindingType;
+import org.castor.mapping.MappingUnmarshaller;
 import org.castor.transactionmanager.TransactionManagerAcquireException;
 import org.castor.transactionmanager.TransactionManagerRegistry;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
 
-import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.LockEngine;
@@ -205,8 +206,9 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
             throw new MappingException(msg);
         }
         
+        MappingUnmarshaller mum = new MappingUnmarshaller();
         _engine = new PersistenceEngineFactory().createEngine(
-                this, _mapping.getResolver(BindingType.JDO, factory), factory);
+                this, mum.getMappingLoader(_mapping, BindingType.JDO, factory), factory);
     }
     
     /**

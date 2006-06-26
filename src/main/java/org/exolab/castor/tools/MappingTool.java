@@ -48,8 +48,8 @@ package org.exolab.castor.tools;
 
 
 //-- Castor Imports
+import org.castor.mapping.BindingType;
 import org.exolab.castor.builder.util.ConsoleDialog;
-import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
