@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Resolved issue CASTOR-1459 using contribution from Dave Brosius [dbrosius@qis.net]
+       Removed use of reflective toArray() calls by passing in a properly sized array.
+       Details: http://jira.codehaus.org/browse/CASTOR-1459
+       (Ralf - 20060626)
+
 XML:   Resolved issue CASTOR-1460 using contribution from Dave Brosius [dbrosius@qis.net]
        Fixed bad boolean test.
        Details: http://jira.codehaus.org/browse/CASTOR-1460

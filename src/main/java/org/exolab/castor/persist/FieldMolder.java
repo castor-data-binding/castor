@@ -663,8 +663,8 @@ public class FieldMolder {
                            methodName, null, javaClass.getName() ), ex);
                 }
                 if ( getSeq.size() > 0 ) {
-                    _defaultReflectService._getSequence = (Method[]) getSeq.toArray( new Method[ 0 ] );
-                    _defaultReflectService._setSequence = (Method[]) setSeq.toArray( new Method[ 0 ] );
+                    _defaultReflectService._getSequence = (Method[]) getSeq.toArray( new Method[ getSeq.size() ] );
+                    _defaultReflectService._setSequence = (Method[]) setSeq.toArray( new Method[ setSeq.size() ] );
                 }
                 Class methodClass = _colClass != null? _colClass: declaredClass;
                 _defaultReflectService._getMethod = null;

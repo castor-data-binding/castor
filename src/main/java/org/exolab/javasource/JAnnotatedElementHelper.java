@@ -90,7 +90,7 @@ public class JAnnotatedElementHelper
         if (_annotations == null) 
             return new JAnnotation[0];
         
-		return (JAnnotation[]) _annotations.values().toArray(new JAnnotation[] {});
+		return (JAnnotation[]) _annotations.values().toArray(new JAnnotation[_annotations.size()]);
 	}
 
 	/* (non-Javadoc)
