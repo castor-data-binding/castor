@@ -1790,7 +1790,7 @@ public class Schema extends Annotated {
             _elements.remove(element.getName());
             result = true;
         }
-    	if (result = false) {
+    	if (!result) {
     		//--check the cached included schemas
     		Enumeration cacheIncluded = _cachedincludedSchemas.elements();
     		while (cacheIncluded.hasMoreElements() &&!result) {
