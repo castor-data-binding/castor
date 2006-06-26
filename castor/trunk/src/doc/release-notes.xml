@@ -90,6 +90,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1461" tool="jira">
+                    <description>
+		                Used local variable instead of refetching it.
+                    </description>
+                    <contributor>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@qis.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@qis.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060626</date>
+                </bug>
                 <bug id="1462" tool="jira">
                     <description>
 		                Moved wrongly placed parenthesis that caused toString() being executed
