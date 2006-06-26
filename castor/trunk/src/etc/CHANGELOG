@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1464 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed incorrect use of reflection in JOTMTransactionManagerFactory.
+       Details: http://jira.codehaus.org/browse/CASTOR-1464
+       (Werner - 20060626)
+
 All:   Resolved issue CASTOR-1463 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Extract loading of mapping from Mapping into new MappingUnmarshaller.
        Details: http://jira.codehaus.org/browse/CASTOR-1463
