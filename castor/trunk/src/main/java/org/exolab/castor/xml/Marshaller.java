@@ -2294,7 +2294,7 @@ public class Marshaller extends MarshalFramework {
                 StringBuffer sb = new StringBuffer();
                 for (int v = 0; enumeration.hasMoreElements(); v++) {
                     if (v > 0) sb.append(' ');
-                    sb.append(enumeration.nextElement()).toString();
+                    sb.append(enumeration.nextElement().toString());
                 }
                 value = sb;
             }
