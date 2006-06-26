@@ -353,7 +353,7 @@ public class JAnnotation
 	 */
 	public String[] getElementNames()
 	{
-		return (String[]) _elementValues.keySet().toArray(new String[] {});
+		return (String[]) _elementValues.keySet().toArray(new String[_elementValues.size()]);
 	} //-- getElementNames
 	
 	/**
