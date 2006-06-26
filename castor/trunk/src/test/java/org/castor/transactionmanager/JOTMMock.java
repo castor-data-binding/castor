@@ -27,30 +27,30 @@ import javax.transaction.TransactionManager;
 public final class JOTMMock {
     //--------------------------------------------------------------------------
     
-    private static Boolean _bool1 = null;
-    private static Boolean _bool2 = null;
+    private static boolean _bool1 = false;
+    private static boolean _bool2 = false;
     private static Object _result = null;
     
     //--------------------------------------------------------------------------
     
     public static void init(final Object result) {
-        _bool1 = null;
-        _bool2 = null;
+        _bool1 = false;
+        _bool2 = false;
         _result = result;
     }
     
-    public static Boolean getBoolean1() { return _bool1; }
+    public static boolean getBoolean1() { return _bool1; }
     
-    public static Boolean getBoolean2() { return _bool2; }
+    public static boolean getBoolean2() { return _bool2; }
     
     //--------------------------------------------------------------------------
 
-    public JOTMMock(final Boolean bool1, final Boolean bool2) {
+    public JOTMMock(final boolean bool1, final boolean bool2) {
         _bool1 = bool1;
         _bool2 = bool2;
     }
     
-    public TransactionManager getTransactionmanager() throws Exception {
+    public TransactionManager getTransactionManager() throws Exception {
         if (_result instanceof Exception) {
             throw (Exception) _result;
         } else if (_result instanceof TransactionManager) {

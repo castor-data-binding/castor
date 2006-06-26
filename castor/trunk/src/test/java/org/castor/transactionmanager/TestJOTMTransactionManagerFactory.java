@@ -59,8 +59,8 @@ public final class TestJOTMTransactionManagerFactory extends TestCase {
         JOTMMock.init(new TransactionManagerDummy());
         try {
             manager = factory.getTransactionManager(JOTMMock.class.getName(), null);
-            assertEquals(Boolean.TRUE, JOTMMock.getBoolean1());
-            assertEquals(Boolean.FALSE, JOTMMock.getBoolean2());
+            assertEquals(true, JOTMMock.getBoolean1());
+            assertEquals(false, JOTMMock.getBoolean2());
             assertTrue(manager instanceof TransactionManagerDummy);
         } catch (TransactionManagerAcquireException ex) {
             fail("Unexpected TransactionManagerAcquireException.");
@@ -75,8 +75,8 @@ public final class TestJOTMTransactionManagerFactory extends TestCase {
             fail("A TransactionManagerAcquireException without cause "
                + "should have been thrown.");
         } catch (TransactionManagerAcquireException ex) {
-            assertEquals(Boolean.TRUE, JOTMMock.getBoolean1());
-            assertEquals(Boolean.FALSE, JOTMMock.getBoolean2());
+            assertEquals(true, JOTMMock.getBoolean1());
+            assertEquals(false, JOTMMock.getBoolean2());
             assertTrue(manager == null);
             assertNull(ex.getCause());
         }
@@ -88,8 +88,8 @@ public final class TestJOTMTransactionManagerFactory extends TestCase {
             fail("A TransactionManagerAcquireException with cause "
                + "should have been thrown.");
         } catch (TransactionManagerAcquireException ex) {
-            assertEquals(Boolean.TRUE, JOTMMock.getBoolean1());
-            assertEquals(Boolean.FALSE, JOTMMock.getBoolean2());
+            assertEquals(true, JOTMMock.getBoolean1());
+            assertEquals(false, JOTMMock.getBoolean2());
             assertTrue(manager == null);
             assertTrue(ex.getCause() instanceof Exception);
         }
