@@ -181,11 +181,9 @@ public class CacheManager {
     public void expireCache(Class type, Object[] identity) throws PersistenceException {
         testForOpenDatabase();
         ClassMolder molder = lockEngine.getClassMolder(type);
-        db.begin();
         for (int i = 0; i < identity.length; i++) {
             transactionContext.expireCache(molder, new Identity(identity[i]));
         }
-        db.commit();
     }
 
     /**

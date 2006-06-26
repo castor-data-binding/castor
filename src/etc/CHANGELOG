@@ -2,6 +2,13 @@
 Version (SVN)
 -------------
 
+Changed transaction handling semantics in CacheManager.expireCache(Class, Object[])
+
+JDO:   Fixed bug CASTOR-1465 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Changed transaction handling semantics in CacheManager.expireCache(Class, Object[]).
+       Details: http://jira.codehaus.org/browse/CASTOR-1465
+       (Werner - 20060626)
+
 JDO:   Fixed bug CASTOR-1464 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed incorrect use of reflection in JOTMTransactionManagerFactory.
        Details: http://jira.codehaus.org/browse/CASTOR-1464
