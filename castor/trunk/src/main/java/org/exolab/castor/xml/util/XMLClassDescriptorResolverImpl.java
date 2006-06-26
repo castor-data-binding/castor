@@ -52,6 +52,8 @@
 package org.exolab.castor.xml.util;
 
 
+import org.castor.mapping.BindingType;
+import org.castor.mapping.MappingUnmarshaller;
 import org.exolab.castor.xml.ClassDescriptorEnumeration;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.Introspector;
@@ -60,7 +62,6 @@ import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLMappingLoader;
 
-import org.exolab.castor.mapping.BindingType;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -258,7 +259,9 @@ implements ClassDescriptorResolver {
         Mapping mapping = loadPackageMapping(pkgName, type.getClassLoader());
         if (mapping != null) {
             try {
-                AbstractMappingLoader mapLoader = (AbstractMappingLoader)mapping.getResolver(BindingType.XML);
+                MappingUnmarshaller mum = new MappingUnmarshaller();
+                MappingLoader ml = mum.getMappingLoader(mapping, BindingType.XML);
+                AbstractMappingLoader mapLoader = (AbstractMappingLoader) ml;
                 classDesc = (XMLClassDescriptor) mapLoader.getDescriptor(type);
             }
             catch(MappingException mx) {}
@@ -348,7 +351,9 @@ implements ClassDescriptorResolver {
         Mapping mapping = loadPackageMapping(pkgName, loader);
         if (mapping != null) {
             try {
-                AbstractMappingLoader mapLoader = (AbstractMappingLoader)mapping.getResolver(BindingType.XML);
+                MappingUnmarshaller mum = new MappingUnmarshaller();
+                MappingLoader ml = mum.getMappingLoader(mapping, BindingType.XML);
+                AbstractMappingLoader mapLoader = (AbstractMappingLoader) ml;
                 classDesc = (XMLClassDescriptor) mapLoader.getDescriptor(className);
             }
             catch(MappingException mx) {}
@@ -501,7 +506,8 @@ implements ClassDescriptorResolver {
         while (mappings.hasMoreElements()) {
             Mapping mapping = (Mapping)mappings.nextElement();
             try {
-                MappingLoader resolver = mapping.getResolver(BindingType.XML);
+                MappingUnmarshaller mum = new MappingUnmarshaller();
+                MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
                 enumeration = resolver.listDescriptors();
                 while (enumeration.hasMoreElements()) {
                     classDesc = (XMLClassDescriptor)enumeration.nextElement();
@@ -576,7 +582,8 @@ implements ClassDescriptorResolver {
         while (mappings.hasMoreElements()) {
             Mapping mapping = (Mapping)mappings.nextElement();
             try {
-                MappingLoader resolver = mapping.getResolver(BindingType.XML);
+                MappingUnmarshaller mum = new MappingUnmarshaller();
+                MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
                 enumeration = resolver.listDescriptors();
                 while (enumeration.hasMoreElements()) {
                     classDesc = (XMLClassDescriptor)enumeration.nextElement();

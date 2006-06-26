@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+All:   Resolved issue CASTOR-1463 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Extract loading of mapping from Mapping into new MappingUnmarshaller.
+       Details: http://jira.codehaus.org/browse/CASTOR-1463
+       (Ralf - 20060626)
+
 All:   Resolved issue CASTOR-1459 using contribution from Dave Brosius [dbrosius@qis.net]
        Removed use of reflective toArray() calls by passing in a properly sized array.
        Details: http://jira.codehaus.org/browse/CASTOR-1459

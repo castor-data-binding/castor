@@ -47,9 +47,11 @@ package org.exolab.castor.xml;
 
 
 //-- castor imports
-import org.exolab.castor.mapping.BindingType;
+import org.castor.mapping.BindingType;
+import org.castor.mapping.MappingUnmarshaller;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.util.*;
@@ -471,7 +473,10 @@ public class Unmarshaller {
         if (_cdResolver == null) {
             _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
         }
-        _cdResolver.setMappingLoader((XMLMappingLoader) mapping.getResolver(BindingType.XML));
+
+        MappingUnmarshaller mum = new MappingUnmarshaller();
+        MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
+        _cdResolver.setMappingLoader((XMLMappingLoader) resolver);
     } //-- setMapping
 
 

@@ -415,7 +415,6 @@ public class SimpleTypesFactory {
 	        try
              {  //Load the mapping file
 		        Mapping mapping= new Mapping(getClass().getClassLoader());
-		        mapping.setLogWriter(getLogWriter());
 
 		        is = this.getClass().getResourceAsStream(TYPE_MAPPINGS);
 				mapping.loadMapping( new InputSource(is) );

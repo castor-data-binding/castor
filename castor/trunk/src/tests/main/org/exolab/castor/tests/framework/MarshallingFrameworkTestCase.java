@@ -206,33 +206,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
             _mapping = new Mapping(loader);
             InputSource source = new InputSource(mappingFile);
             source.setSystemId(mappingFilePath);
-            try {
-                _mapping.loadMapping(source);
-            } catch (org.exolab.castor.mapping.MappingException ex) {
-                //the test was intended to fail
-                if (_failure != null) {
-                    //1--the exception is specified
-                    String exceptionName = _failure.getException();
-                    if (exceptionName != null) {
-                       try {
-                           Class expected = Class.forName(exceptionName);
-                           if (expected.isAssignableFrom(ex.getClass())) {
-                               assertTrue(_failure.getContent());
-                               return;
-                           }
-                        } catch (ClassNotFoundException cnfex) {
-                            //Class#forName
-                            fail("The exception specified:"+exceptionName+" cannot be found in the CLASSPATH");
-                        }
-                    }
-                    //2--No exception specified --> the test is a success.
-                    else {
-                        assertTrue(_failure.getContent());
-                        return;
-                    }
-                }
-                else throw new Exception(ex.toString());
-            } //--mapping
+            _mapping.loadMapping(source);
 
             ListenerType listener = _unitTest.getListener();
             if ( listener != null ) {

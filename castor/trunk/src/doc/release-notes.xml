@@ -90,6 +90,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1463" tool="jira">
+                    <description>
+		                Extract loading of mapping from Mapping into new MappingUnmarshaller.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060626</date>
+                </bug>
                 <bug id="1459" tool="jira">
                     <description>
 		                Removed use of reflective toArray() calls by passing in a properly sized array.

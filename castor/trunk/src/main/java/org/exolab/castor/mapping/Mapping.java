@@ -16,23 +16,21 @@
 package org.exolab.castor.mapping;
 
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.util.Enumeration;
-import java.util.Hashtable;
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
 
-import org.castor.util.Configuration;
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.castor.mapping.MappingSource;
 import org.castor.util.Messages;
-import org.exolab.castor.mapping.loader.AbstractMappingLoader;
-import org.exolab.castor.mapping.xml.ClassMapping;
-import org.exolab.castor.mapping.xml.Include;
-import org.exolab.castor.mapping.xml.KeyGeneratorDef;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.net.util.URIUtils;
 import org.exolab.castor.util.DTDResolver;
-import org.exolab.castor.xml.UnmarshalListener;
-import org.exolab.castor.xml.Unmarshaller;
 import org.xml.sax.EntityResolver;
 import org.xml.sax.InputSource;
 import org.xml.sax.SAXException;
@@ -64,44 +62,31 @@ import org.xml.sax.SAXException;
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
-public class Mapping {
-    /**
-     * Log writer to report progress. May be null.
-     */
-    private PrintWriter _logWriter;
-
-
-    /**
-     * The entity resolver to use. May be null.
-     */
-    private DTDResolver _resolver = new DTDResolver();
-
-
-    /**
-     * The loaded mapping.
-     */
-    private MappingRoot _mapping;
-
-    /**
-     * The IDResolver to give to the Unmarshaller
-     * This allows resolving "extends" and "depends"
-     * for included Mappings
-    **/
-    private ClassMappingResolver _idResolver = null;
-
-    /**
-     * The mapping state
-     */
-    private MappingState _state = new MappingState();
+public final class Mapping {
+    //--------------------------------------------------------------------------
     
-    /** A flag that indicates of whether or not to allow redefinitions of class
-     *  mappings. */
-    private boolean _allowRedefinitions = false;
+    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
+     *  Logging </a> instance used for all logging. */
+    private static final Log LOG = LogFactory.getLog(Mapping.class);
     
+    private static final String DEFAULT_SOURCE_TYPE = "CastorXmlMapping";
+    
+    /** List of mapping sources to resolve. */
+    private final List _mappings = new ArrayList();
+
+    /** Set of processed systemID's. */
+    private final Set _processed = new HashSet();
+
+    /** The loaded mapping. */
+    private final MappingRoot _root = new MappingRoot();
+
     /** The class loader to use. */
     private final ClassLoader _classLoader;
     
-    private MappingLoaderRegistry _registry;
+    /** The entity resolver to use. May be null. */
+    private DTDResolver _resolver = new DTDResolver();
+    
+    //--------------------------------------------------------------------------
 
     /**
      * Constructs a new mapping.
@@ -114,137 +99,55 @@ public class Mapping {
         } else {
             _classLoader = loader;
         }
-        
-        _resolver = new DTDResolver();
-        _idResolver = new ClassMappingResolver();
-        _registry = new MappingLoaderRegistry(Configuration.getInstance(), _classLoader);
     }
 
     /**
      * Constructs a new mapping.
      */
-    public Mapping() {
-        this( null );
-    }
+    public Mapping() { this(null); }
+
+    //--------------------------------------------------------------------------
 
     /**
-     * Returns a mapping resolver for the suitable engine. The engine's
-     * specific mapping loader is created and used to create engine
-     * specific descriptors, returning a suitable mapping resolver.
-     * The mapping resolver is cached in memory and returned in
-     * subsequent method calls.
-     *
-     * @param bindingType The binding type to read from mapping
-     * @return A mapping resolver
-     * @throws MappingException A mapping error occured preventing
-     *         descriptors from being generated from the loaded mapping
+     * Get list of mapping sources to resolve.
+     * 
+     * @return List of mapping sources to resolve.
+     * @throws MappingException If no mapping source has been loaded previously.
      */
-    public MappingLoader getResolver(final BindingType bindingType)
-    throws MappingException {
-        return getResolver(bindingType, null);
-    }
-
-    /**
-     * Returns a mapping resolver for the suitable engine. The engine's
-     * specific mapping loader is created and used to create engine
-     * specific descriptors, returning a suitable mapping resolver.
-     * The mapping resolver is cached in memory and returned in
-     * subsequent method calls.
-     *
-     * @param bindingType The binding type to read from mapping
-     * @param param Arbitrary parameter that is to be passed to resolver.loadMapping()
-     * @return A mapping resolver
-     * @throws MappingException A mapping error occured preventing
-     *         descriptors from being generated from the loaded mapping
-     */
-    public synchronized MappingLoader getResolver(
-            final BindingType bindingType,
-            final Object param)
-    throws MappingException {
-        if (getRoot() == null) {
+    public List getMappingSources() throws MappingException {
+        if (_mappings.size() == 0) {
             throw new MappingException("Must call loadMapping first");
         }
-        
-        AbstractMappingLoader loader;
-        loader = (AbstractMappingLoader) _registry.getMappingLoader("CastorXmlMapping", bindingType);
-        loader.setClassLoader(_classLoader);
-        loader.setAllowRedefinitions(_allowRedefinitions);
-        loader.loadMapping(getRoot(), param);
-        return loader;
+        return Collections.unmodifiableList(_mappings);
     }
 
     /**
-     * Returns a MappingRoot which contains all loaded mapping classes and
-     * key generators definition.
-     */
-    public MappingRoot getRoot() {
-        return _mapping;
-    }
-
-    /**
-     * Enables or disables the ability to allow the redefinition
-     * of class mappings.
+     * Marks the given mapping as having been processed.
      * 
-     * @param allow a boolean that when true enables redefinitions.
-    **/
-    public void setAllowRedefinitions(final boolean allow) {
-        _allowRedefinitions = allow;
+     * @param systemID the key identifying the physical location of the mapping to mark.
+     */
+    public void markAsProcessed(final String systemID) {
+        _processed.add(systemID);
     }
 
     /**
-     * Sets the log writer. If not null, errors and other messages
-     * will be directed to that log writer.
-     *
-     * @param logWriter The log writer to use
+     * Returns true if the given systemID has been marked as processed.
+     * 
+     * @param systemID location the systemID  to check for being marked as processed.
+     * @return true if the given systemID has been marked as processed.
      */
-    public void setLogWriter(final PrintWriter logWriter) {
-        _logWriter = logWriter;
+    public boolean processed(final String systemID) {
+        return _processed.contains(systemID);
     }
-
+    
     /**
-     * Sets the entity resolver. The entity resolver can be used to
-     * resolve external entities and cached documents that are used
-     * from within mapping files.
-     *
-     * @param resolver The entity resolver to use
+     * Get the loaded mapping.
+     * 
+     * @return The loaded mapping.
      */
-    public void setEntityResolver(final EntityResolver resolver) {
-        _resolver = new DTDResolver(resolver);
-    }
-
-
-    /**
-     * Sets the base URL for the mapping and related files. If the base
-     * URL is known, files can be included using relative names. Any URL
-     * can be passed, if the URL can serve as a base URL it will be used.
-     * If url is an absolute path, it is converted to a file URL.
-     *
-     * @param url The base URL
-     */
-    public void setBaseURL(String url) {
-        //-- remove filename if necessary:
-        if (url != null) {        
-            int idx = url.lastIndexOf('/');
-            if (idx < 0) idx = url.lastIndexOf('\\');
-            if (idx >= 0) {
-                int extIdx = url.indexOf('.', idx);
-                if (extIdx > 0) {
-                    url = url.substring(0, idx);
-                }
-            }
-        }
-        
-        try {
-          _resolver.setBaseURL( new URL( url ) );
-        } catch ( MalformedURLException except ) {
-          // try to parse the url as an absolute path
-          try {
-            if ( _logWriter != null )
-                _logWriter.println( Messages.format( "mapping.wrongURL", url ) );
-            _resolver.setBaseURL( new URL("file", null, url) );
-          } catch ( MalformedURLException except2 ) { }
-        }
-    }
+    public MappingRoot getRoot() { return _root; }
+    
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the class loader used by this mapping object. The returned
@@ -256,6 +159,67 @@ public class Mapping {
     public ClassLoader getClassLoader() {
         return _classLoader;
     }
+    
+    /**
+     * Sets the entity resolver. The entity resolver can be used to
+     * resolve external entities and cached documents that are used
+     * from within mapping files.
+     *
+     * @param resolver The entity resolver to use
+     */
+    public void setEntityResolver(final EntityResolver resolver) {
+        _resolver = new DTDResolver(resolver);
+    }
+
+    /**
+     * Sets the base URL for the mapping and related files. If the base
+     * URL is known, files can be included using relative names. Any URL
+     * can be passed, if the URL can serve as a base URL it will be used.
+     * If url is an absolute path, it is converted to a file URL.
+     *
+     * @param url The base URL
+     */
+    public void setBaseURL(final String url) {
+        String location = url;
+        //-- remove filename if necessary:
+        if (location != null) {        
+            int idx = location.lastIndexOf('/');
+            if (idx < 0) idx = location.lastIndexOf('\\');
+            if (idx >= 0) {
+                int extIdx = location.indexOf('.', idx);
+                if (extIdx > 0) {
+                    location = location.substring(0, idx);
+                }
+            }
+        }
+        
+        try {
+          _resolver.setBaseURL(new URL(location));
+        } catch (MalformedURLException except) {
+          // try to parse the url as an absolute path
+          try {
+              LOG.info(Messages.format("mapping.wrongURL", location));
+              _resolver.setBaseURL(new URL("file", null, location));
+          } catch (MalformedURLException except2) { }
+        }
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * Loads the mapping from the specified URL with type defaults to
+     * 'CastorXmlMapping'. If an entity resolver was specified, will use
+     * the entity resolver to resolve the URL. This method is also used
+     * to load mappings referenced from another mapping or configuration
+     * file.
+     *
+     * @param url The URL of the mapping file.
+     * @throws IOException An error occured when reading the mapping file.
+     * @throws MappingException The mapping file is invalid.
+     */
+    public void loadMapping(final String url) throws IOException, MappingException {
+        loadMapping(url, DEFAULT_SOURCE_TYPE);
+    }
 
     /**
      * Loads the mapping from the specified URL. If an entity resolver
@@ -263,28 +227,51 @@ public class Mapping {
      * This method is also used to load mappings referenced from another
      * mapping or configuration file.
      *
-     * @param url The URL of the mapping file
-     * @throws IOException An error occured when reading the mapping
-     *  file
-     * @throws MappingException The mapping file is invalid
+     * @param url The URL of the mapping file.
+     * @param type The source type.
+     * @throws IOException An error occured when reading the mapping file.
+     * @throws MappingException The mapping file is invalid.
      */
-    public void loadMapping(String url) throws IOException, MappingException {
+    public void loadMapping(final String url, final String type)
+    throws IOException, MappingException {
+        String location = url;
         if (_resolver.getBaseURL() == null) {
-            setBaseURL(url);
-            url = URIUtils.getRelativeURI(url);
+            setBaseURL(location);
+            location = URIUtils.getRelativeURI(location);
         }
-        loadMappingInternal(url);
+        try {
+            InputSource source = _resolver.resolveEntity(null, location);
+            if (source == null) { source = new InputSource(location); }
+            if (source.getSystemId() == null) { source.setSystemId(location); }
+            LOG.info(Messages.format("mapping.loadingFrom", location));
+            loadMapping(source, type);
+        } catch (SAXException ex) {
+            throw new MappingException(ex);
+        }
+    }
+
+    /**
+     * Loads the mapping from the specified URL with type defaults to
+     * 'CastorXmlMapping'.
+     *
+     * @param url The URL of the mapping file.
+     * @throws IOException An error occured when reading the mapping file.
+     * @throws MappingException The mapping file is invalid.
+     */
+    public void loadMapping(final URL url) throws IOException, MappingException {
+        loadMapping(url, DEFAULT_SOURCE_TYPE);
     }
 
     /**
      * Loads the mapping from the specified URL.
      *
-     * @param url The URL of the mapping file
-     * @throws IOException An error occured when reading the mapping
-     *  file
-     * @throws MappingException The mapping file is invalid
+     * @param url The URL of the mapping file.
+     * @param type The source type.
+     * @throws IOException An error occured when reading the mapping file.
+     * @throws MappingException The mapping file is invalid.
      */
-    public void loadMapping(final URL url) throws IOException, MappingException {
+    public void loadMapping(final URL url, final String type)
+    throws IOException, MappingException {
         try {
             if (_resolver.getBaseURL() == null) {
                 _resolver.setBaseURL(url);
@@ -295,250 +282,34 @@ public class Mapping {
                 source.setByteStream(url.openStream());
             } else
                 source.setSystemId(url.toExternalForm());
-            if (_logWriter != null) {
-                _logWriter.println( Messages.format( "mapping.loadingFrom", url.toExternalForm() ) );
-            }
-            loadMappingInternal(source);
+            LOG.info(Messages.format("mapping.loadingFrom", url.toExternalForm()));
+           loadMapping(source, type);
         } catch (SAXException ex) {
             throw new MappingException(ex);
         }
+    }
+
+    /**
+     * Loads the mapping from the specified input source with type defaults to
+     * 'CastorXmlMapping'.
+     *
+     * @param source The input source.
+     */
+    public void loadMapping(final InputSource source) {
+        loadMapping(source, DEFAULT_SOURCE_TYPE);
     }
 
     /**
      * Loads the mapping from the specified input source.
      *
-     * @param source The input source
-     * @throws IOException An error occured when reading the mapping
-     *  file
-     * @throws MappingException The mapping file is invalid
+     * @param source The input source.
+     * @param type The source type.
      */
-    public void loadMapping(final InputSource source) throws MappingException {
-        loadMappingInternal(source);
+    public void loadMapping(final InputSource source, final String type) {
+        _mappings.add(new MappingSource(source, type, _resolver));
     }
 
-    /**
-     * Internal recursive loading method. This method will load the
-     * mapping document into a mapping object and load all the included
-     * mapping along the way into a single collection.
-     *
-     * @param url The URL of the mapping file
-     * @throws IOException An error occured when reading the mapping
-     *  file
-     * @throws MappingException The mapping file is invalid
-     */
-    private void loadMappingInternal(final String url)
-    throws IOException, MappingException {
-        try {
-            InputSource source = _resolver.resolveEntity(null, url);
-            if (source == null) { source = new InputSource(url); }
-            if (source.getSystemId() == null) { source.setSystemId(url); }
-            if (_logWriter != null) {
-                _logWriter.println(Messages.format("mapping.loadingFrom", url));
-            }
-            loadMappingInternal(source);
-        } catch (SAXException ex) {
-            throw new MappingException(ex);
-        }
-    }
-
-    /**
-     * Internal recursive loading method. This method will load the
-     * mapping document into a mapping object and load all the included
-     * mapping along the way into a single collection.
-     *
-     * @param source The input source
-     * @throws IOException An error occured when reading the mapping
-     *  file
-     * @throws MappingException The mapping file is invalid
-     */
-    private void loadMappingInternal(final InputSource source)
-    throws MappingException {
-        // Clear all the cached resolvers, so they can be reconstructed a
-        // second time based on the new mappings loaded
-        _registry.clear();
-        
-        //check that the mapping has already been processed
-        if ((source.getSystemId()!=null) && _state.processed(source.getSystemId())) {
-            //-- already processed...just return
-            return;
-        }
-        
-        try {
-            if (_mapping == null) {
-                _mapping = new MappingRoot();
-                _idResolver.setMapping(_mapping);
-            }
-
-            //mark the mapping as being processed
-            if (source.getSystemId() != null) {
-                _state.markAsProcessed(source.getSystemId(), _mapping);
-            }
-                
-            // Load the specificed mapping source
-            Unmarshaller unm = new Unmarshaller(MappingRoot.class);
-            unm.setEntityResolver(_resolver);
-            if (_logWriter != null) { unm.setLogWriter(_logWriter); }
-            unm.setClassLoader(Mapping.class.getClassLoader());
-            unm.setIDResolver(_idResolver);
-            unm.setUnmarshalListener(new IncludeListener());
-
-            MappingRoot loaded = (MappingRoot) unm.unmarshal( source );
-                
-            // Load all the included mapping by reference
-            //-- note: this is just for processing any
-            //-- includes which may have previously failed
-            //-- using the IncludeListener...and to
-            //-- report any potential errors.
-            Enumeration includes = loaded.enumerateInclude();
-            while (includes.hasMoreElements()) {
-                Include include = (Include) includes.nextElement();
-                if (!_state.processed(include.getHref())) {
-                    try {
-                        loadMappingInternal(include.getHref());
-                    } 
-                    catch (Exception ex) {
-                        throw new MappingException(ex);
-                    }
-                }
-            }
-            
-            // gather "class" tags
-            Enumeration enumeration = loaded.enumerateClassMapping();
-            while (enumeration.hasMoreElements()) {
-                _mapping.addClassMapping( (ClassMapping) enumeration.nextElement() );
-            }
-
-            // gather "key-generator" tags
-            enumeration = loaded.enumerateKeyGeneratorDef();
-            while (enumeration.hasMoreElements()) {
-                _mapping.addKeyGeneratorDef((KeyGeneratorDef) enumeration.nextElement());
-            }
-        } catch (Exception ex) {
-            throw new MappingException(ex);
-        }
-    }
-    
-    /**
-     * An IDResolver to allow us to resolve ClassMappings
-     * from included Mapping files
-     */
-    class ClassMappingResolver implements org.exolab.castor.xml.IDResolver {
-        private MappingRoot _mapping = null;
-
-        ClassMappingResolver() {
-            super();
-        }
-
-        public void setMapping(MappingRoot mapping) {
-            this._mapping = mapping;
-        }
-
-        /**
-         * Returns the Object whose id matches the given IDREF,
-         * or null if no Object was found.
-         * @param idref the IDREF to resolve.
-         * @return the Object whose id matches the given IDREF.
-        **/
-        public Object resolve(String idref) {
-            if (_mapping == null) { return null; }
-            for (int i = 0; i < _mapping.getClassMappingCount(); i++) {
-                ClassMapping clsMap = _mapping.getClassMapping(i);
-                if (idref.equals(clsMap.getName())) { return clsMap; }
-            }
-            return null;
-        }
-    } //-- ClassMappingResolver
-
-    /**
-     * A class to keep track of the loaded mapping.
-     */
-    class MappingState {
-        private Hashtable _processed = null;
-
-        /**
-         * Creates a new SchemaUnmarshallerState
-         */
-        MappingState() {
-            _processed   = new Hashtable(1);
-         }
-
-        /**
-         * Marks the given mapping as having been processed.
-         * @param systemID the key identifying the physical location
-         * of the mapping to mark.
-         * @param mapping the mapping to mark as having
-         * been processed.
-         */
-        void markAsProcessed(String systemID, MappingRoot mapping) {
-            _processed.put(systemID,mapping);
-        }
-
-        /**
-         * Returns true if the given Mapping has been marked as processed
-         * @param mapping the mapping to check for being marked as processed
-         */
-        boolean processed(MappingRoot mapping) {
-            return _processed.contains(mapping);
-        }
-
-        /**
-         * Returns true if the given systemID has been marked as processed
-         * @param systemID location the systemID  to check for being marked as processed
-         */
-        boolean processed(String systemID) {
-            return _processed.containsKey(systemID);
-        }
-
-        /**
-         * Returns the mapping corresponding to the given systemID
-         * @param systemID the systemID of the mapping
-         */
-         MappingRoot getMapping(String systemID) {
-             return (MappingRoot)_processed.get(systemID);
-         }
-    }
-    
-    /**
-     * An UnmarshalListener to handle mapping includes
-     */
-    class IncludeListener implements UnmarshalListener {
-        /* Not used for includes processing */
-        public void initialized (Object object) {
-            // not used
-        }
-
-        /* Not used for includes processing */
-        public void attributesProcessed(Object object) {
-            // not used ...
-        }
-
-        /* Not used for includes processing */
-        public void fieldAdded (String fieldName, Object parent, Object child) {
-            //-- do nothing
-        }
-
-        /**
-         * This method is called after an object
-         * has been completely unmarshalled, including
-         * all of its children (if any).
-         *
-         * @param object the Object that was unmarshalled.
-         */
-        public void unmarshalled (Object object) {
-            if (object instanceof Include) {
-                Include include = (Include) object;
-                try {
-                    loadMappingInternal( include.getHref() );
-                } 
-                catch ( Exception except ) {
-                    //-- ignore error, it'll get reported
-                    //-- later when we re-process the
-                    //-- includes of the parent Mapping in
-                    //-- loadMappingInternal
-                }
-            }
-        }
-    } //-- UnmarshalListener
-} // class: Mapping
+    //--------------------------------------------------------------------------
+}
 
 

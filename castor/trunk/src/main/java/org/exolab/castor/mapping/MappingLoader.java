@@ -46,6 +46,8 @@ package org.exolab.castor.mapping;
 
 import java.util.Enumeration;
 
+import org.castor.mapping.BindingType;
+
 /**
  * Provides the mapping descriptor for Java classes. The engines use
  * resolvers to obtain the mapping descriptor for a particular Java

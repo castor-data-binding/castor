@@ -1,6 +1,5 @@
 package jdo;
 
-
 import java.io.IOException;
 import java.io.PrintWriter;
 import java.sql.Connection;
@@ -421,6 +420,7 @@ public class Test
         LOG.info( "Test complete" );
 
         // --------------------------------------------------------------------
+
         LOG.info( "Begin: Walking the mapping descriptor via objects" );
 
         MappingRoot mappingRoot = _mapping.getRoot();
@@ -450,6 +450,7 @@ public class Test
         }
 
         LOG.info( "End: Walking the mapping descriptor via objects" );
+
         // --------------------------------------------------------------------
     }
 }
