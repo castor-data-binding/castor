@@ -51,17 +51,19 @@
 
 package org.exolab.castor.xml;
 
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.MappingLoader;
+
 /**
- * An interface for finding or "resolving" XMLClassDescriptor classes.
+ * An interface for finding or "resolving" ClassDescriptor classes.
  * 
  * <BR/>
  * <B>Note:</B>
  * This interface is used by the marshalling Framework for
- * resolving XMLClassDescriptors for non-primitive types.
+ * resolving ClassDescriptors for non-primitive types.
  * There are no guarantees that this class will be called for
  * java native classes.
  * 
- * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-28 17:41:38 -0700 (Mon, 28 Feb 2005) $
  */
 public interface ClassDescriptorResolver {
@@ -71,59 +73,15 @@ public interface ClassDescriptorResolver {
      * <BR />
      * <B>Note:</B> This method will be removed soon (kv).
      */
-    public XMLMappingLoader getMappingLoader();
+    public MappingLoader getMappingLoader();
     
     /**
-     * Returns the XMLClassDescriptor for the given class
+     * Returns the ClassDescriptor for the given class
      * 
-     * @param type the Class to find the XMLClassDescriptor for
-     * @return the XMLClassDescriptor for the given class
+     * @param type the Class to find the ClassDescriptor for
+     * @return the ClassDescriptor for the given class
      */
-    public XMLClassDescriptor resolve(Class type)
-        throws ResolverException;
-    
-    /**
-     * Returns the XMLClassDescriptor for the given class name
-     * 
-     * @param className the class name to find the XMLClassDescriptor for
-     * @return the XMLClassDescriptor for the given class name
-     */
-    public XMLClassDescriptor resolve(String className)
-        throws ResolverException;
-    
-    /**
-     * Returns the XMLClassDescriptor for the given class name
-     * 
-     * @param className the class name to find the XMLClassDescriptor for
-     * @param loader the ClassLoader to use
-     * @return the XMLClassDescriptor for the given class name
-     */
-    public XMLClassDescriptor resolve(String className, ClassLoader loader)
-        throws ResolverException;
-    
-    /**
-     * Returns the first XMLClassDescriptor that matches the given
-     * XML name and namespaceURI. Null is returned if no descriptor
-     * can be found.
-     *
-     * @param className the class name to find the XMLClassDescriptor for
-     * @param loader the ClassLoader to use
-     * @return the XMLClassDescriptor for the given XML name
-     */
-    public XMLClassDescriptor resolveByXMLName
-        (String xmlName, String namespaceURI, ClassLoader loader)
-        throws ResolverException;
-
-    /**
-     * Returns an enumeration of XMLClassDescriptor objects that
-     * match the given xml name
-     *
-     * @param className the class name to find the XMLClassDescriptor for
-     * @param loader the ClassLoader to use
-     * @return an enumeration of XMLClassDescriptor objects.
-     */
-    public ClassDescriptorEnumeration resolveAllByXMLName
-        (String xmlName, String namespaceURI, ClassLoader loader)
+    public ClassDescriptor resolve(Class type)
         throws ResolverException;
     
     /**
@@ -132,6 +90,6 @@ public interface ClassDescriptorResolver {
      * <BR />
      * <B>Note:</B> This method will be removed soon (kv).
      */
-    public void setMappingLoader(XMLMappingLoader xmlMappingLoader);
+    public void setMappingLoader(MappingLoader mappingLoader);
     
 } //-- ClassDescriptorResolver
