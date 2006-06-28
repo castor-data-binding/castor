@@ -90,6 +90,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1457" tool="jira">
+                    <description>
+		                Introduce JDO specific ClassDescriptporResolver (and refactor class hierarchy in this area).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060628</date>
+                </bug>
                 <bug id="1465" tool="jira">
                     <description>
 		                Changed transaction handling semantics in CacheManager.expireCache(Class, Object[]).

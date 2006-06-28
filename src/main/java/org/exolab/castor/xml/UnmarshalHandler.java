@@ -49,6 +49,7 @@
 package org.exolab.castor.xml;
 
 //-- Castor imports
+import org.castor.mapping.BindingType;
 import org.castor.util.Base64Decoder;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.ObjectFactory;
@@ -187,7 +188,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * The ClassDescriptorResolver which is used to "resolve"
      * or find ClassDescriptors
     **/
-    private ClassDescriptorResolver _cdResolver = null;
+    private XMLClassDescriptorResolver _cdResolver = null;
 
     /**
      * The IDResolver for resolving IDReferences
@@ -486,7 +487,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      *
      * @param cdResolver the ClassDescriptorResolver to use
     **/
-    public void setResolver(ClassDescriptorResolver cdResolver) {
+    public void setResolver(XMLClassDescriptorResolver cdResolver) {
         this._cdResolver = cdResolver;
     } //-- setResolver
 
@@ -1489,7 +1490,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         name + "' could not be found.";
                     throw new SAXException(err);
                 }
-                _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
+                _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+                _cdResolver.setClassLoader(_loader);
             }
 
             _topState = getState();            
@@ -3351,13 +3353,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (isPrimitive(_class)) return null;
 
         if (_cdResolver == null)
-            _cdResolver = new XMLClassDescriptorResolverImpl();
+            _cdResolver = (XMLClassDescriptorResolver) 
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 
         XMLClassDescriptor classDesc = null;
 
 
         try {
-            classDesc = _cdResolver.resolve(_class);
+            classDesc = _cdResolver.resolveXML(_class);
         }
         catch(ResolverException rx) {
             // TODO
@@ -3386,7 +3389,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         throws SAXException
     {
         if (_cdResolver == null)
-            _cdResolver = new XMLClassDescriptorResolverImpl();
+            _cdResolver = (XMLClassDescriptorResolver) 
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 
         
         XMLClassDescriptor classDesc = null;

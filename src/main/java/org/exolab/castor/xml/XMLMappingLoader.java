@@ -157,7 +157,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     public BindingType getBindingType() { return BindingType.XML; }
 
     private void createResolver() {
-        _cdResolver = new XMLClassDescriptorResolverImpl();
+        _cdResolver = (XMLClassDescriptorResolverImpl) 
+            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         _cdResolver.setIntrospection(false);
         _cdResolver.setLoadPackageMappings(false);
     }
@@ -252,7 +253,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 createResolver();
             }
             try {
-                referenceDesc = _cdResolver.resolve(type);
+                referenceDesc = _cdResolver.resolveXML(type);
             }
             catch(ResolverException rx) {
                 throw new MappingException(rx);

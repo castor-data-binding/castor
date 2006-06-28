@@ -64,6 +64,7 @@ import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 import org.exolab.castor.util.CommandLineOptions;
+import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Introspector;
@@ -129,7 +130,8 @@ public class MappingTool
     
     public MappingTool() {
         _mappings      = new Hashtable();
-        _resolver      = new XMLClassDescriptorResolverImpl();
+        _resolver      = (XMLClassDescriptorResolverImpl) 
+            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         _mappingLoader = new InternalLoader();
     } //--MappingTool
 
@@ -300,7 +302,7 @@ public class MappingTool
                 introspected = true;
             }
             else {
-                xmlClass = _resolver.resolve( cls );
+                xmlClass = _resolver.resolveXML( cls );
                 introspected = Introspector.introspected(xmlClass);
             }
         } 

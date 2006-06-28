@@ -55,13 +55,14 @@ package org.exolab.castor.xml.util;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.exolab.castor.xml.ClassDescriptorEnumeration;
-import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLClassDescriptorResolver;
 import org.exolab.castor.xml.XMLMappingLoader;
 
+import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -79,7 +80,7 @@ import java.util.Properties;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class XMLClassDescriptorResolverImpl
-implements ClassDescriptorResolver {
+    implements XMLClassDescriptorResolver {
  
     private static final String PKG_MAPPING_FILE   = ".castor.xml";
     private static final String PKG_CDR_LIST_FILE  = ".castor.cdr";
@@ -167,17 +168,6 @@ implements ClassDescriptorResolver {
 
 
     /**
-     * Creates a new ClassDescriptorResolverImpl with the given ClassLoader
-     *
-     * @param loader the ClassLoader to use when loading ClassDescriptors
-     */
-    public XMLClassDescriptorResolverImpl(ClassLoader loader) {
-        this();
-        _loader = loader;
-    } //-- ClassDescriptorResolverImpl
-
-    
-    /**
      * Associates (or binds) a class type with a given ClassDescriptor
      *
      * @param type the Class to associate with the given descriptor
@@ -224,7 +214,7 @@ implements ClassDescriptorResolver {
         return _introspector;
     } //-- getIntrospector
     
-    public XMLMappingLoader getMappingLoader() {
+    public MappingLoader getMappingLoader() {
         return _mappingLoader;
     } //-- getXMLMappingLoader
     
@@ -233,7 +223,7 @@ implements ClassDescriptorResolver {
      * @param type the Class to find the XMLClassDescriptor for
      * @return the XMLClassDescriptor for the given class
     **/
-    public XMLClassDescriptor resolve(Class type) 
+    public XMLClassDescriptor resolveXML(Class type) 
         throws ResolverException
     {
         
@@ -389,7 +379,7 @@ implements ClassDescriptorResolver {
         }
         
         if (_class != null) {
-            classDesc = resolve(_class);
+            classDesc = resolveXML(_class);
         }
         
         //-- try to load ClassDescriptor with no class being
@@ -630,8 +620,8 @@ implements ClassDescriptorResolver {
         _loadPackageMappings = loadPackageMappings;
     } //-- setLoadPackageMappings
     
-    public void setMappingLoader(XMLMappingLoader mappingLoader) {
-        _mappingLoader = mappingLoader;
+    public void setMappingLoader(MappingLoader mappingLoader) {
+        _mappingLoader = (XMLMappingLoader) mappingLoader;
     } //-- setMappingLoader
     
     //-------------------/
@@ -898,6 +888,11 @@ implements ClassDescriptorResolver {
         }
         
     } //-- ClassDescriptorEnumeration
+
+    public ClassDescriptor resolve(Class type) throws ResolverException
+    {
+        return resolveXML(type);
+    }
     
 } //-- ClassDescriptorResolverImpl
 

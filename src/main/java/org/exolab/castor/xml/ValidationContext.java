@@ -79,7 +79,7 @@ public class ValidationContext {
      * The ClassDescriptorResolver to be used for loading
      * and resolving ClassDescriptors during validation
      */
-    private ClassDescriptorResolver _resolver = null;
+    private XMLClassDescriptorResolver _resolver = null;
     
     /**
      * List of objects marked as validated
@@ -112,7 +112,7 @@ public class ValidationContext {
      *
      * @return the ClassDescriptorResolver to use. May be null.
      */
-    public ClassDescriptorResolver getResolver() {
+    public XMLClassDescriptorResolver getResolver() {
         return _resolver;
     } //-- setResolver
      
@@ -170,7 +170,7 @@ public class ValidationContext {
      *
      * @param resolver the ClassDescriptorResolver to use.
      */
-    public void setResolver(ClassDescriptorResolver resolver) {
+    public void setResolver(XMLClassDescriptorResolver resolver) {
         _resolver = resolver;
     } //-- setResolver
 

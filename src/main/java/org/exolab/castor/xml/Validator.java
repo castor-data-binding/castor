@@ -51,7 +51,7 @@
 
 package org.exolab.castor.xml;
 
-import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
+import org.castor.mapping.BindingType;
 import org.exolab.castor.mapping.FieldDescriptor;
 
 /**
@@ -101,14 +101,14 @@ public class Validator implements ClassValidator {
         }
 
         if (context.getResolver() == null) {
-            context.setResolver(new XMLClassDescriptorResolverImpl());
+            context.setResolver((XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML));
         }
 
         XMLClassDescriptor classDesc = null;
 
         if (! MarshalFramework.isPrimitive(object.getClass())) {
             try {
-                classDesc = context.getResolver().resolve(object.getClass());
+                classDesc = context.getResolver().resolveXML(object.getClass());
             }
             catch(ResolverException rx) {
                 throw new ValidationException(rx);
