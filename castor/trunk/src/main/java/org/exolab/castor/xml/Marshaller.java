@@ -171,7 +171,7 @@ public class Marshaller extends MarshalFramework {
     /**
      * The ClassDescriptorResolver used for resolving XMLClassDescriptors
     **/
-    private ClassDescriptorResolver _cdResolver = null;
+    private XMLClassDescriptorResolver _cdResolver = null;
 
     /**
      * A flag indicating whether or not to generate
@@ -383,7 +383,8 @@ public class Marshaller extends MarshalFramework {
         _debug           = enableDebug;
         _namespaces      = new Namespaces();
         _packages        = new List(3);
-        _cdResolver      = new XMLClassDescriptorResolverImpl();
+        _cdResolver      = (XMLClassDescriptorResolver) 
+            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         _parents         = new Stack();
         _validate        = _config.marshallingValidation();
         _naming          = XMLNaming.getInstance();
@@ -538,7 +539,8 @@ public class Marshaller extends MarshalFramework {
         throws MappingException
     {
         if (_cdResolver == null)
-            _cdResolver = new XMLClassDescriptorResolverImpl();
+            _cdResolver = (XMLClassDescriptorResolver) 
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 
         MappingUnmarshaller mum = new MappingUnmarshaller();
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
@@ -627,7 +629,8 @@ public class Marshaller extends MarshalFramework {
     public ClassDescriptorResolver getResolver() {
 
         if (_cdResolver == null) {
-            _cdResolver = new XMLClassDescriptorResolverImpl();
+            _cdResolver = (XMLClassDescriptorResolver) 
+            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         }
         return _cdResolver;
 
@@ -644,7 +647,7 @@ public class Marshaller extends MarshalFramework {
      * @see #setMapping
      * @see #getResolver
      */
-    public void setResolver( ClassDescriptorResolver cdr ) {
+    public void setResolver(XMLClassDescriptorResolver cdr) {
 
         if (cdr != null) _cdResolver = cdr;
 
@@ -1020,7 +1023,7 @@ public class Marshaller extends MarshalFramework {
                             //-- one
                             if (atRoot) {
                                 if (_useXSITypeAtRoot) {
-                                	XMLMappingLoader ml = _cdResolver.getMappingLoader();
+                                	XMLMappingLoader ml = (XMLMappingLoader) _cdResolver.getMappingLoader();
                                 	if (ml != null) {
                                 		containsDesc = (ml.getDescriptor(_class) != null);
                                     }
@@ -2166,7 +2169,7 @@ public class Marshaller extends MarshalFramework {
         
         try {
             if (!isPrimitive(_class))
-                classDesc = _cdResolver.resolve(_class);
+                classDesc = _cdResolver.resolveXML(_class);
         }
         catch(ResolverException rx) {
             Throwable actual = rx.getCause();

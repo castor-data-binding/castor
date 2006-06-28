@@ -2,7 +2,10 @@
 Version (SVN)
 -------------
 
-Changed transaction handling semantics in CacheManager.expireCache(Class, Object[])
+JDO:   Fixed bug CASTOR-1457 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Introduce JDO specific ClassDescriptporResolver (and refactor class hierarchy in this area).
+       Details: http://jira.codehaus.org/browse/CASTOR-1457
+       (Werner - 20060628)
 
 JDO:   Fixed bug CASTOR-1465 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Changed transaction handling semantics in CacheManager.expireCache(Class, Object[]).

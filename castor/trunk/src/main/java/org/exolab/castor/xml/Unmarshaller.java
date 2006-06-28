@@ -90,7 +90,7 @@ public class Unmarshaller {
     /**
      * The class descriptor resolver
      */
-    private ClassDescriptorResolver _cdResolver = null;
+    private XMLClassDescriptorResolver _cdResolver = null;
 
     /**
      * The Class that this Unmarshaller was created with
@@ -229,7 +229,9 @@ public class Unmarshaller {
         if ((loader == null) && (c != null)) {
             _loader = c.getClassLoader();
         }
-        _cdResolver = new XMLClassDescriptorResolverImpl(loader);
+        _cdResolver = (XMLClassDescriptorResolver) 
+            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+        _cdResolver.setClassLoader(loader);
     } //-- Unmarshaller(Class)
 
 
@@ -321,7 +323,9 @@ public class Unmarshaller {
         UnmarshalHandler handler = new UnmarshalHandler(_class);
         
         if (_cdResolver == null) {
-            _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
+            _cdResolver = (XMLClassDescriptorResolver) 
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+            _cdResolver.setClassLoader(_loader);
         }
         handler.setResolver(_cdResolver);
         handler.setLogWriter(_pw);
@@ -471,12 +475,14 @@ public class Unmarshaller {
             _loader = mapping.getClassLoader();
         }
         if (_cdResolver == null) {
-            _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
+            _cdResolver = (XMLClassDescriptorResolver) 
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+            _cdResolver.setClassLoader(_loader);
         }
 
         MappingUnmarshaller mum = new MappingUnmarshaller();
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-        _cdResolver.setMappingLoader((XMLMappingLoader) resolver);
+        _cdResolver.setMappingLoader(resolver);
     } //-- setMapping
 
 
@@ -501,12 +507,15 @@ public class Unmarshaller {
      * <B>Note:</B> This method will nullify any Mapping
      * currently being used by this Unmarshaller
     **/
-    public void setResolver( ClassDescriptorResolver cdr ) {
+    public void setResolver( XMLClassDescriptorResolver cdr ) {
 
         if (cdr != null)
             _cdResolver = cdr;
-        else
-            _cdResolver = new XMLClassDescriptorResolverImpl(_loader);
+        else {
+            _cdResolver = (XMLClassDescriptorResolver) 
+                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+            _cdResolver.setClassLoader(_loader);
+        }
 
     } //-- setResolver
 

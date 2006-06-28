@@ -323,7 +323,7 @@ abstract class MarshalFramework {
         (String name, 
          String namespace, 
          XMLClassDescriptor classDesc, 
-         ClassDescriptorResolver cdResolver) 
+         XMLClassDescriptorResolver cdResolver) 
         throws MarshalException
     {
 
