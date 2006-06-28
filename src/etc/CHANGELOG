@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1458 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Integrate new JDOClassDescriptorResolver with existing Castor JDO code.
+       Details: http://jira.codehaus.org/browse/CASTOR-1458
+       (Werner - 20060629)
+
 JDO:   Fixed bug CASTOR-1457 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Introduce JDO specific ClassDescriptporResolver (and refactor class hierarchy in this area).
        Details: http://jira.codehaus.org/browse/CASTOR-1457

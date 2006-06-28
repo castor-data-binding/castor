@@ -73,12 +73,11 @@ import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectModifiedException;
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
  * LockEngine is a gateway for all the <tt>ClassMolder</tt>s of a persistence 
@@ -163,7 +162,7 @@ public final class LockEngine {
      * @throws MappingException Indicate that one of the mappings is invalid
      */
     public LockEngine(final ConnectionFactory connectionFactory,
-                      final MappingLoader mapResolver,
+                      final ClassDescriptorResolver cdResolver,
                       final PersistenceFactory persistenceFactory)
     throws MappingException {
         if (_cacheFactoryRegistry == null) {
@@ -175,7 +174,7 @@ public final class LockEngine {
         _persistenceFactory = persistenceFactory;
         
         try {
-            Vector v = ClassMolderHelper.resolve( (AbstractMappingLoader) mapResolver, this, _persistenceFactory );
+            Vector v = ClassMolderHelper.resolve(cdResolver, this, _persistenceFactory);
     
             _typeInfo = new HashMap();
             Enumeration enumeration = v.elements();
@@ -203,7 +202,7 @@ public final class LockEngine {
                         try {
                             cache = _cacheFactoryRegistry.getCache(
                                     molder.getCacheParams(),
-                                    mapResolver.getClassLoader());
+                                    cdResolver.getMappingLoader().getClassLoader());
                         } catch (CacheAcquireException e) {
                             String msg = Messages.message("persist.cacheCreationFailed");
                             _log.error(msg, e);

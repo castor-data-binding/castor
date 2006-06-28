@@ -92,6 +92,26 @@ org.castor.mapping.Loaders=\
             <bugs>
                 <bug id="1457" tool="jira">
                     <description>
+		                Integrate new JDOClassDescriptorResolver with existing Castor JDO code.                
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060629</date>
+                </bug>
+                <bug id="1457" tool="jira">
+                    <description>
 		                Introduce JDO specific ClassDescriptporResolver (and refactor class hierarchy in this area).
                     </description>
                     <contributor>

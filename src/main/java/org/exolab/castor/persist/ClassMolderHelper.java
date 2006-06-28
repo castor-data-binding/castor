@@ -17,12 +17,15 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.persist.TransactionContext;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.persist.spi.Identity;
 import org.exolab.castor.persist.spi.Persistence;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ResolverException;
 
 public final class ClassMolderHelper {
     
@@ -40,8 +43,9 @@ public final class ClassMolderHelper {
      * @param   factory   factory class for getting Persistent of the ClassMolder
      *
      * @return  Vector of all of the <tt>ClassMolder</tt>s from a MappingLoader
+     * @throws ClassNotFoundException 
      */
-    public static Vector resolve(final AbstractMappingLoader loader,
+    public static Vector resolve(final ClassDescriptorResolver cdResolver,
             final LockEngine lock, final PersistenceFactory factory)
     throws MappingException, ClassNotFoundException {
     
@@ -51,17 +55,36 @@ public final class ClassMolderHelper {
         Persistence persist;
         ClassDescriptor desc;
 
-        DatingService ds = new DatingService(loader.getClassLoader());
+        MappingLoader mappingLoader = cdResolver.getMappingLoader();
 
-        enumeration = loader.listJavaClasses();
+        DatingService ds = new DatingService(mappingLoader.getClassLoader());
+
+        enumeration = mappingLoader.listJavaClasses();
         while (enumeration.hasMoreElements()) {
-            desc = loader.getDescriptor((Class) enumeration.nextElement());
+            Class toResolve = (Class) enumeration.nextElement();
+            try {
+                desc = cdResolver.resolve(toResolve);
+            }
+            catch (ResolverException e)
+            {
+                throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
+            }
+            
             persist = factory.getPersistence(desc);
-            mold = new ClassMolder(ds, loader, lock, desc, persist);
+            mold = createClassMolder(ds, mappingLoader, lock, desc, persist);
             result.add(mold);
         }
         ds.close();
         return result;
+    }
+    
+    private static ClassMolder createClassMolder (DatingService ds, 
+            MappingLoader mappingLoader, 
+            LockEngine lockEngine, 
+            ClassDescriptor descriptor,
+            Persistence persistence) 
+    throws MappingException, ClassNotFoundException {
+        return new ClassMolder(ds, (AbstractMappingLoader) mappingLoader, lockEngine, descriptor, persistence);
     }
 
     /**
