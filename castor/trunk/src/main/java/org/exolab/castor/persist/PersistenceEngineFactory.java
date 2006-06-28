@@ -46,10 +46,9 @@
 package org.exolab.castor.persist;
 
 import org.castor.jdo.engine.ConnectionFactory;
-
 import org.exolab.castor.mapping.MappingException;
-import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.ClassDescriptorResolver;
 
 /**
  * Factory for constructing new persistence engines. Used by the APIs
@@ -71,9 +70,9 @@ public final class PersistenceEngineFactory {
      *  object types due to a mapping errot
      */
     public LockEngine createEngine(final ConnectionFactory connectionFactory, 
-                                   final MappingLoader mapResolver,
+                                   final ClassDescriptorResolver cdResolver,
                                    final PersistenceFactory persistenceFactory)
     throws MappingException {
-        return new LockEngine(connectionFactory, mapResolver, persistenceFactory);
+        return new LockEngine(connectionFactory, cdResolver, persistenceFactory);
     }
 }

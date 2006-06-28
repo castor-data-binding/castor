@@ -35,10 +35,13 @@ import org.castor.util.Messages;
 
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.PersistenceEngineFactory;
 import org.exolab.castor.persist.PersistenceFactoryRegistry;
 import org.exolab.castor.persist.spi.PersistenceFactory;
+import org.exolab.castor.xml.ClassDescriptorResolver;
+import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 
 /**
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -207,8 +210,13 @@ public abstract class AbstractConnectionFactory implements ConnectionFactory {
         }
         
         MappingUnmarshaller mum = new MappingUnmarshaller();
+        ClassDescriptorResolver cdResolver = 
+            ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.JDO);
+        MappingLoader mappingLoader = 
+            mum.getMappingLoader(_mapping, BindingType.JDO, factory);
+        cdResolver.setMappingLoader(mappingLoader);
         _engine = new PersistenceEngineFactory().createEngine(
-                this, mum.getMappingLoader(_mapping, BindingType.JDO, factory), factory);
+                this, cdResolver, factory);
     }
     
     /**
