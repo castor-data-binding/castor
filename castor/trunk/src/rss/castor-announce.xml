@@ -19,6 +19,21 @@
 --> 
 
         <item>
+            <title>Spring ORM for Castor JDO RC1 released</title>
+			<pubDate>Thu, 06 Jul 2006 20:21:22 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item47</link>
+			<description>
+                I've placed the first release candidate of the Spring ORM 
+                implementation for Castor JDO at the Codehaus at 
+                http://dist.codehaus.org/castor/.
+
+                For details about the functionality provided, please have a 
+                look at the documentatioj available at 
+                http://castor.codehaus.org/castor-spring-site/. 
+			</description>
+		</item>
+        <item>
             <title>Work on JPA 3.0 support started</title>
 			<pubDate>Sun, 25 Jun 2006 10:1:12 GMT</pubDate>
 			<author>Werner Guttmann</author>
