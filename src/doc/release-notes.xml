@@ -90,6 +90,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1472" tool="jira">
+                    <description>
+		                Allowed to specify base URI at JDOManager.loadConfiguration().
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060706</date>
+                </bug>
                 <bug id="1457" tool="jira">
                     <description>
 		                Integrate new JDOClassDescriptorResolver with existing Castor JDO code.                
