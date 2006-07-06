@@ -563,7 +563,7 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
                 // alternatively, use a JdoConf instance to load the JDO config
                 } else if (_jdoConf != null) {
                     DatabaseRegistry.loadDatabase(_jdoConf, _entityResolver,
-                                                  _classLoader);
+                                                  _classLoader, null);
                 } else {
                     throw new DatabaseNotFoundException(Messages.format(
                             "jdo.dbNoMapping", _dbName));

@@ -255,14 +255,16 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      * @param  resolver An (optional) entity resolver to resolve cached
      *         entities, e.g. for external mapping documents. 
      * @param  loader   The class loader to use, null for the default
+     * @param  baseURI  The base URL for the mapping
      * @throws MappingException The mapping file is invalid, or any error
      *         occured trying to load the JDO configuration/mapping
      */
     public static void loadConfiguration(final JdoConf jdoConf,
                                          final EntityResolver resolver,
-                                         final ClassLoader loader)
+                                         final ClassLoader loader,
+                                         final String baseURI)
     throws MappingException {
-        DatabaseRegistry.loadDatabase(jdoConf, resolver, loader);
+        DatabaseRegistry.loadDatabase(jdoConf, resolver, loader, baseURI);
         
         _classLoader = loader;
         _entityResolver = resolver;
@@ -276,25 +278,29 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      * 
      * @param  jdoConf  the in-memory JdoConf.
      * @param  loader   The class loader to use, null for the default
+     * @param  baseURI  The base URL for the mapping
      * @throws MappingException The mapping file is invalid, or any error
      *         occured trying to load the JDO configuration/mapping
      */
     public static void loadConfiguration(final JdoConf jdoConf,
-                                         final ClassLoader loader)
+                                         final ClassLoader loader,
+                                         final String baseURI)
     throws MappingException {
-        loadConfiguration(jdoConf, null, loader);
+        loadConfiguration(jdoConf, null, loader, baseURI);
     }
     
     /**
      * Load the JDOManager configuration from the specified in-memory JdoConf.
      * 
      * @param  jdoConf  the in-memory JdoConf.
+     * @param  baseURI  The base URL for the mapping
      * @throws MappingException The mapping file is invalid, or any error
      *         occured trying to load the JDO configuration/mapping
      */
-    public static void loadConfiguration(final JdoConf jdoConf)
+    public static void loadConfiguration(final JdoConf jdoConf,
+                                         final String baseURI)
     throws MappingException {
-        loadConfiguration(jdoConf, null, null);
+        loadConfiguration(jdoConf, null, null, baseURI);
     }
     
     /**

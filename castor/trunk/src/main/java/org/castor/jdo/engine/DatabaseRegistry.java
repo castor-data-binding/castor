@@ -81,21 +81,6 @@ public final class DatabaseRegistry {
     }
 
     /**
-     * Instantiates a ConnectionFactory from an in-memory JDO configuration.
-     * 
-     * @param  jdoConf  An in-memory jdo configuration. 
-     * @param  resolver An entity resolver.
-     * @param  loader   A class loader
-     * @throws MappingException If the database cannot be instantiated/loadeed.
-     */
-    public static synchronized void loadDatabase(final JdoConf jdoConf,
-                                                 final EntityResolver resolver,
-                                                 final ClassLoader loader)
-    throws MappingException {
-        loadDatabase(jdoConf, resolver, loader, null);
-    }
-
-    /**
      * Instantiates a ConnectionFactory from the JDO configuration file
      * 
      * @param  source   {@link InputSource} pointing to the JDO configuration. 
@@ -130,7 +115,7 @@ public final class DatabaseRegistry {
      * @param  baseURI      The base URL for the mapping
      * @throws MappingException If the database cannot be instantiated/loadeed.
      */
-    private static synchronized void loadDatabase(final JdoConf jdoConf,
+    public static synchronized void loadDatabase(final JdoConf jdoConf,
                                                   final EntityResolver resolver,
                                                   final ClassLoader loader,
                                                   final String baseURI)

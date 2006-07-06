@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1472 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Allowed to specify base URI at JDOManager.loadConfiguration().
+       Details: http://jira.codehaus.org/browse/CASTOR-1472
+       (Ralf - 20060706)
+
 JDO:   Fixed bug CASTOR-1458 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Integrate new JDOClassDescriptorResolver with existing Castor JDO code.
        Details: http://jira.codehaus.org/browse/CASTOR-1458

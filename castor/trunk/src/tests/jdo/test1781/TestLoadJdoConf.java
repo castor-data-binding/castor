@@ -54,7 +54,7 @@ public final class TestLoadJdoConf extends TestCase {
     }
     
     public void testJdoDatasourceConf() throws Exception {
-        String DATABASE = "test-ds";
+        String DATABASE = "test";
         String ENGINE = "mysql";
         String DATASOURCE = "org.apache.commons.dbcp.BasicDataSource";
         String DRIVER = "org.gjt.mm.mysql.Driver";
@@ -88,7 +88,7 @@ public final class TestLoadJdoConf extends TestCase {
     
     private void loadEntity(final String dbname, final JdoConf conf) throws Exception {
         // create and load jdo configuration
-        JDOManager.loadConfiguration(conf);
+        JDOManager.loadConfiguration(conf, null);
         
         // create jdo instance
         JDOManager jdo = JDOManager.createInstance(dbname);
