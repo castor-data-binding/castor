@@ -540,6 +540,11 @@ public class JClass extends JStructure {
                     Enumeration enumeration = iClass.getImports();
                     while (enumeration.hasMoreElements()) {
                         String classname = (String)enumeration.nextElement();
+						
+                        int paramTypeIndex = classname.indexOf("<Object>");
+                        if ( paramTypeIndex != -1 ) {
+                        	classname = classname.substring(0,paramTypeIndex-1);
+                        }
                         if (!hasImport(classname)) {
                             addImport(classname);
                             removeImports.addElement(classname);

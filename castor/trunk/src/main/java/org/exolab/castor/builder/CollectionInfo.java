@@ -117,7 +117,10 @@ public class CollectionInfo extends FieldInfo {
     **/
     public void generateInitializerCode(JSourceCode jsc) {
         jsc.add(getName());
-        jsc.append(" = new java.util.Vector();");
+        
+        jsc.append(" = new ");
+        jsc.append(xsList.getJType().toString());
+        jsc.append("();");
     } //-- generateConstructorCode
 
     public String getReadMethodName() {
@@ -197,7 +200,7 @@ public class CollectionInfo extends FieldInfo {
 
         if (extraMethods()) {
             //-- Reference getter (non type-safe)
-            method = new JMethod(SGTypes.Vector, "get" + cName + _referenceSuffix);
+            method = new JMethod(SGTypes.createVector(contentType.getJType()), "get" + cName + _referenceSuffix);
             jClass.addMethod(method);
             createGetCollectionReferenceMethod(method);
         }
@@ -224,7 +227,7 @@ public class CollectionInfo extends FieldInfo {
         
         if (extraMethods()) {
             //-- Vector setter
-            JParameter vParam = new JParameter(SGTypes.Vector, pName+"Vector");
+            JParameter vParam = new JParameter(SGTypes.createVector(contentType.getJType()), pName+"Vector");
             method = new JMethod(null, "set"+cName);
             method.addParameter(vParam);
             jClass.addMethod(method);
@@ -252,10 +255,10 @@ public class CollectionInfo extends FieldInfo {
          //- Create Enumerate Method -/
         //---------------------------/
 
-        method = new JMethod(SGTypes.Enumeration, "enumerate"+cName);
+        method = new JMethod(SGTypes.createEnumeration(contentType.getJType()),"enumerate"+cName);
         jClass.addMethod(method);
 
-        createEnumerateMethod(method);
+        createEnumerateMethod(method, jClass);
 
 
           //--------------------------------/
@@ -786,8 +789,9 @@ public class CollectionInfo extends FieldInfo {
      *
      * @param method the JMethod in which to create the source
      * code.
+     * @param jClass TODO
     **/
-    public void createEnumerateMethod(JMethod method) {
+    public void createEnumerateMethod(JMethod method, JClass jClass) {
 
         JSourceCode jsc = method.getSourceCode();
 

@@ -45,6 +45,8 @@
 
 package org.exolab.javasource;
 
+import org.exolab.castor.builder.BuilderConfiguration;
+
 
 /**
  * Represents a primitive or class type
@@ -65,10 +67,18 @@ public class JType {
 
     private String name = null;
     
+    /**
+     * Indicates whether this JType represents an array
+     */
     private boolean _isArray = false;
     
     /**
-     * used for array types
+     * Indicates whether this JType represents a collection
+     */
+    private boolean _isCollection = false;
+    
+    /**
+     * used for array and collection types 
     **/
     private JType _componentType = null;
     
@@ -81,7 +91,7 @@ public class JType {
         super();
         this.name = name;
     } //-- JType
-    
+
     /**
      * Creates a JType Object representing an array of the current
      * JType.
@@ -93,11 +103,25 @@ public class JType {
         jType._componentType = this;
         return jType;
     } //-- createArray
-    
+
     /**
-     * If this JType is an array this method will returns the component type 
-     * of the array, otherwise null will be returned.
-     * @return the component JType if this JType is an array, otherwise null.
+     * Creates a JType Object representing a collection of the current
+     * JType.
+     * @return the new JType which is represents a collection.
+    **/
+    public final static JType createCollection(String name, JType componentType) {
+        JType jType = new JType(name);
+        jType._isCollection = true;
+        jType._componentType = componentType;
+        return jType;
+    } //-- createCollection
+
+    /**
+     * If this JType is an array/collection, this method will return 
+     * the component type of the array/collection, otherwise null will be 
+     * returned.
+     * @return the component JType if this JType is an array/collection, 
+     * otherwise null.
     **/
     public JType getComponentType() {
         return _componentType;
@@ -127,7 +151,16 @@ public class JType {
     public final boolean isArray() {
         return _isArray;
     }
+
+    /**
+     * Checks to see if this JType represents a collection.
+     * @return true if this JType represents a collection, otherwise false
+    **/
+    public final boolean isCollection() {
+        return _isCollection;
+    }
     
+
     /**
      * Checks to see if this JType represents a primitive
      * @return true if this JType represents a primitive, otherwise false
@@ -150,7 +183,18 @@ public class JType {
     **/
     public String toString() {
         
-        if (_isArray) return _componentType.toString()+"[]";
+        if (_isArray) {
+            return _componentType.toString()+"[]";
+        }
+        
+        if (isCollection()) {
+            if (BuilderConfiguration.createInstance().useJava50()) {
+                return name + "<" + _componentType.toString() + ">";
+            }
+            
+            return name;
+        }
+        
         return this.name;
         
     } //-- toString
@@ -184,5 +228,6 @@ public class JType {
             this.name = newPackage + "." + localName;
         
     } //-- changePackage
+    
     
 } //-- JType

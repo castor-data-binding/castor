@@ -275,7 +275,7 @@ public class CollectionInfoODMG30 extends CollectionInfo {
     /**
      * Creates implementation of Enumerate method.
     **/
-    public void createEnumerateMethod(JMethod method) {
+    public void createEnumerateMethod(JMethod method, JClass jClass) {
 
         JSourceCode jsc = method.getSourceCode();
 

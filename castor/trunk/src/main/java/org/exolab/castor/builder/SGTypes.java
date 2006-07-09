@@ -105,13 +105,33 @@ public class SGTypes {
     public static final JClass Writer        = new JClass("java.io.Writer");
 
     //-- java.util
-    public static final JClass ArrayList     = new JClass("java.util.ArrayList");
-    public static final JClass Enumeration   = new JClass("java.util.Enumeration");
-    public static final JClass Iterator      = new JClass("java.util.Iterator");
-    public static final JClass Hashtable     = new JClass("java.util.Hashtable");
-    public static final JClass Stack         = new JClass("java.util.Stack");
-    public static final JClass Vector        = new JClass("java.util.Vector");
+//     public static final JClass ArrayList     = new JClass("java.util.ArrayList<Object>");
+//    public static final JClass Enumeration   = new JClass("java.util.Enumeration<Object>");
+//    public static final JClass Iterator      = new JClass("java.util.Iterator<Object>");
+//    public static final JClass Hashtable     = new JClass("java.util.Hashtable<Object,Object>");
+//    public static final JClass Stack         = new JClass("java.util.Stack<Object>");
+//    public static final JClass Vector        = new JClass("java.util.Vector<Object>");
 
     //-- java.beans
     public static final JClass PropertyChangeSupport = new JClass("java.beans.PropertyChangeSupport");
+    
+    public static final JType createEnumeration(JType jType) {
+        return JType.createCollection("java.util.Enumeration", jType);
+    }
+
+    public static final JType createVector(JType jType) {
+        return JType.createCollection("java.util.Vector", jType);
+    }
+
+    public static final JType createArrayList(JType jType) {
+        return JType.createCollection("java.util.ArrayList", jType);
+    }
+
+    public static final JType createHashtable() {
+        if (BuilderConfiguration.createInstance().useJava50()) {
+            return new JClass("java.util.Hashtable<Object,Object>");
+        }
+        return new JClass("java.util.Hashtable");
+    }
+
 } //-- SGTypes

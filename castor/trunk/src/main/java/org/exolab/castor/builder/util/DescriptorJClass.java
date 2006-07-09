@@ -177,6 +177,11 @@ public class DescriptorJClass extends JClass {
 
         //-- create getNameSpacePrefix method
         method = new JMethod(SGTypes.String, "getNameSpacePrefix");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         jsc.add("return nsPrefix;");
         addMethod(method);
@@ -184,6 +189,11 @@ public class DescriptorJClass extends JClass {
 
         //-- create getNameSpaceURI method
         method = new JMethod(SGTypes.String, "getNameSpaceURI");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         jsc.add("return nsURI;");
         addMethod(method);
@@ -191,12 +201,22 @@ public class DescriptorJClass extends JClass {
 
         //-- create getValidator method
         method = new JMethod(_TypeValidatorClass, "getValidator");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         jsc.add("return this;");
         addMethod(method);
 
         //-- create getXMLName method
         method = new JMethod(SGTypes.String, "getXMLName");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         jsc.add("return xmlName;");
         addMethod(method);
@@ -210,6 +230,11 @@ public class DescriptorJClass extends JClass {
         //-- create getAccessMode method
         JClass amClass = new JClass("org.exolab.castor.mapping.AccessMode");
         method = new JMethod(amClass, "getAccessMode");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         jsc.add("return null;");
         addMethod(method);
@@ -217,6 +242,11 @@ public class DescriptorJClass extends JClass {
 
         //-- create getExtends method
         method = new JMethod(_ClassDescriptorClass, "getExtends");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         if (extended) {
             jsc.add("return super.getExtends();");
@@ -231,6 +261,11 @@ public class DescriptorJClass extends JClass {
 
         //-- create getIdentity method
         method = new JMethod(_FieldDescriptorClass, "getIdentity");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         if (extended) {
             jsc.add("if (identity == null)");
@@ -246,6 +281,11 @@ public class DescriptorJClass extends JClass {
 
         //-- create getJavaClass method
         method = new JMethod(SGTypes.Class, "getJavaClass");
+       
+        if (BuilderConfiguration.createInstance().useJava50()) {
+	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         jsc = method.getSourceCode();
         jsc.add("return ");
         jsc.append(classType(_type));

@@ -118,17 +118,22 @@ public class FieldInfoFactory {
     {
 
         String temp = collectionName;
-        if (temp == null || temp.length() >0)
+        if (temp == null || temp.length() == 0)
             temp = _default;
         
         CollectionInfo cInfo = null;
         if (temp.equals(VECTOR)) {
              cInfo = new CollectionInfo(contentType,name,elementName);
         } else if (temp.equals(ARRAY_LIST)) {
-             cInfo = new CollectionInfoJ2(contentType,name,elementName);
+             cInfo = new CollectionInfoJ2(contentType,name,elementName, "arraylist");
         } else if (temp.equals(ODMG)) {
              cInfo = new CollectionInfoODMG30(contentType,name,elementName);
         }
+//         else if (temp.equals("collection")) {
+//            cInfo = new CollectionInfoJ2(contentType,name,elementName, "collection");
+//       } else if(temp.equalsIgnoreCase("set")) {
+//            cInfo = new CollectionInfoJ2(contentType,name,elementName, "set");
+//        }
         //--other to come here
         //--not sure it is pluggable enough, it is not really beautiful to specify
         //--the collection to use here

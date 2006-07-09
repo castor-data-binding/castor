@@ -55,6 +55,7 @@ import org.exolab.castor.xml.JavaNaming;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
+import java.net.URL;
 
 //--Java util imports
 import java.util.Enumeration;
@@ -158,6 +159,12 @@ public class BuilderConfiguration {
          */
         public static final String ClassDescFieldNames = "org.exolab.castor.builder.classdescfieldnames";
 
+        /**
+         * Property specifying whether the Java sources generated should be 
+         * 1.4 or 5.0 compliant.
+         */
+        public static final String JavaVersion = "org.exolab.castor.builder.javaVersion";
+
 
         /**
          * The name of the configuration file.
@@ -209,7 +216,13 @@ public class BuilderConfiguration {
 	 * schemaLocation to Java package mapping
 	 */
 	private Hashtable _locpackages = new Hashtable();
-	
+
+    /**
+     * Singleton instance of this class.
+     */
+    private static BuilderConfiguration configuration = null; 
+
+
 	//------------------/
 	//------------------/
 	
@@ -221,8 +234,20 @@ public class BuilderConfiguration {
         getDefault();
         _localProps = new Properties(_defaultProps);
     } //-- BuilderConfiguration
-    
 
+    /**
+     * Singleton method for obtaining an instance of this class
+     * @return An (singleton) instance of this class.
+     */
+    public static BuilderConfiguration createInstance() {
+        synchronized(BuilderConfiguration.class) {
+            if (configuration == null) {
+                configuration = new BuilderConfiguration();
+            }
+            return configuration;
+        }
+    }
+    
     /**
      * Returns the default configuration file. Changes to the returned
      * properties set will affect all Castor functions relying on the
@@ -357,7 +382,18 @@ public class BuilderConfiguration {
      public boolean useEnumeratedTypeInterface() { 
          return TRUE.equalsIgnoreCase(_localProps.getProperty(Property.ENUM_TYPE_ACCESS_INTERFACE));
      } //-- useEnumeratedTypeInterface
- 
+
+     /**
+      * Returns true if we generate the implements EnumeratedTypeAccess
+      * interface for enumerated type classes.  The value is
+      * either 'true' or 'false'
+      *
+      * @return true if use enumerated type interface is enabled
+      */
+     public boolean useJava50() { 
+         return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JavaVersion, "1.4"));
+     } //-- useEnumeratedTypeInterface
+
      /**
       * Sets the 'enumTypeAccessInterface' property
       *

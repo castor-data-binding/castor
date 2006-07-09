@@ -351,7 +351,7 @@ public class MemberFactory {
             //--we are processing a container object (group)
             //--so we need to adjust the name of the members of the collection
             CollectionInfo cInfo;
-            cInfo = _infoFactory.createCollection(xsType, vName, component.getJavaMemberName());
+            cInfo = _infoFactory.createCollection(xsType, vName, component.getJavaMemberName(),component.getCollectionType());
             
             XSList xsList = cInfo.getXSList();
             if (!simpleTypeCollection) {

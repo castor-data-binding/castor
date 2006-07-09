@@ -140,7 +140,7 @@ public class JMethod implements JMember, JAnnotatedElement {
         //-- be considerate and add the class name to the
         //-- each declaring class' list of imports
         JType jType = parameter.getType();
-        while(jType.isArray()) jType = jType.getComponentType();
+        while(jType.isArray() || jType.isCollection()) jType = jType.getComponentType();
         if (!jType.isPrimitive()) {
             JClass jClass = (JClass)jType;
             for (int i = 0; i < _classes.size(); i++) {

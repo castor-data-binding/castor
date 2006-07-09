@@ -76,6 +76,8 @@ import org.exolab.castor.xml.schema.SimpleTypesFactory;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
+import org.exolab.javasource.JAnnotation;
+import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JDocComment;
@@ -603,6 +605,9 @@ public class SourceFactory {
        //--create equals, bounds ...
        //NOTE: be careful with the derivation stuff when generating bounds properties
 
+       jClass.addImport("java.io.Writer");
+       jClass.addImport("java.io.Reader");
+
         if (_createMarshalMethods) {
            //-- #validate()
            createValidateMethods(jClass);
@@ -790,6 +795,12 @@ public class SourceFactory {
 
 
         jClass.addInterface("java.io.Serializable");
+        
+        if (BuilderConfiguration.createInstance().useJava50()) {
+			JAnnotation serial = new JAnnotation(new JAnnotationType("SuppressWarnings"));
+			serial.setValue(new String[] {"\"serial\""});			
+			jClass.addAnnotation(serial);
+		}
 
         //-- add default constructor
         JConstructor con = jClass.createConstructor();
@@ -930,6 +941,11 @@ public class SourceFactory {
         jMethod.addException(SGTypes.MarshalException);
         jMethod.addException(SGTypes.ValidationException);
         jMethod.addParameter(new JParameter(SGTypes.Writer, "out"));
+
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        // jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+
         parent.addMethod(jMethod);
 
         if (isAbstract) {
@@ -1091,6 +1107,11 @@ public class SourceFactory {
         jMethod.setComment("Override the java.lang.Object.equals method");
         jMethod.setComment("Note: hashCode() has not been overriden");
         jMethod.addParameter(new JParameter(SGTypes.Object, "obj"));
+
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+        }
+        
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
         jsc.add("if ( this == obj )");
@@ -1216,8 +1237,8 @@ public class SourceFactory {
             String componentName = null;
             if (name.indexOf("Has") == -1) {
                //Collection needs a specific handling
-               if ( (type.getName().equals("java.util.Vector")) ||
-                    (type.getName().equals("java.util.ArrayList")) ) {
+               if ( (type.getName().equals("java.util.Vector<Object>")) ||
+                    (type.getName().equals("java.util.ArrayList<Object>")) ) {
                      //if we are dealing with a Vector or an ArrayList
                     //we retrieve the type included in this Collection
                     int listLocat = name.lastIndexOf("List");
@@ -1739,8 +1760,9 @@ public class SourceFactory {
         JClass jClass = state.jClass;
         String className = jClass.getLocalName();
 
+        jClass.addImport("java.util.Hashtable");
         JField  field  = null;
-        JField  fHash  = new JField(SGTypes.Hashtable, "_memberTable");
+        JField  fHash  = new JField(SGTypes.createHashtable(), "_memberTable");
         fHash.setInitString("init()");
         fHash.getModifiers().setStatic(true);
 
@@ -1789,7 +1811,8 @@ public class SourceFactory {
         jsc.append(") obj;");
 
         //-- #enumerate method
-        JMethod mEnumerate = new JMethod(SGTypes.Enumeration, "enumerate");
+        // TODO: for the time being return Enumeration<Object> for Java 5.0; change
+        JMethod mEnumerate = new JMethod(SGTypes.createEnumeration(SGTypes.Object), "enumerate");
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);
         jdc = mEnumerate.getJDocComment();
@@ -1806,11 +1829,15 @@ public class SourceFactory {
         mToString.getSourceCode().add("return this.stringValue;");
 
         //-- #init method
-        JMethod mInit = new JMethod(SGTypes.Hashtable, "init");
+        JMethod mInit = new JMethod(SGTypes.createHashtable(), "init");
         jClass.addMethod(mInit);
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
-        mInit.getSourceCode().add("java.util.Hashtable members = new java.util.Hashtable();");
+        if (BuilderConfiguration.createInstance().useJava50()) {
+            mInit.getSourceCode().add("Hashtable<Object, Object> members = new Hashtable<Object, Object>();");
+        } else {
+            mInit.getSourceCode().add("Hashtable members = new Hashtable();");
+        }
 
         //-- #readResolve method
         JMethod mReadResolve = new JMethod(SGTypes.Object,"readResolve");
