@@ -63,12 +63,12 @@ public class XSList extends XSType {
     /**
      * The JType represented by this XSType
     **/
-    private static final JType jType
-        = new JClass("java.util.Vector");
+    private JType jType = null;
 
     public XSList(XSType contentType) {
         super(XSType.COLLECTION);
         this.contentType = contentType;
+        this.jType = JType.createCollection("java.util.Vector", contentType.getJType());
     } //-- XSList
 
 
@@ -77,7 +77,7 @@ public class XSList extends XSType {
      * @return the JType that this XSType represents
     **/
     public JType getJType() {
-        return XSList.jType;
+        return this.jType;
     }
 
     public int getMinimumSize() {

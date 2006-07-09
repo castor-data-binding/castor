@@ -90,6 +90,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1457" tool="jira">
+                    <description>
+		                Added support for Java 5 compatible source code generation.
+                    </description>
+                    <contributor>
+                        <name>David Buschman</name>
+                        <email>dbuschman7@yahoo.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>David Buschman</name>
+                        <email>dbuschman7@yahoo.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060707</date>
+                </bug>
                 <bug id="1472" tool="jira">
                     <description>
 		                Allowed to specify base URI at JDOManager.loadConfiguration().

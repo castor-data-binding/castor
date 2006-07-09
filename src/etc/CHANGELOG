@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-1470 using contribution from David Buschman [dbuschman7@yahoo.com]
+       Added support for Java 5 compatible source code generation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1470
+       (Werner - 20060707)
+
 JDO:   Resolved issue CASTOR-1472 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Allowed to specify base URI at JDOManager.loadConfiguration().
        Details: http://jira.codehaus.org/browse/CASTOR-1472

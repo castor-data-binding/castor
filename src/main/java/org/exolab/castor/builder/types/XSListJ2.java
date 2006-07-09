@@ -54,12 +54,19 @@ public class XSListJ2 extends XSList {
     /**
      * The JType represented by this XSType
     **/
-    private static final JType jType
-        = new JClass("java.util.ArrayList");
+    private JType jType = null;
 
-    public XSListJ2(XSType contentType) {
+    public XSListJ2(XSType contentType, String collectionType) {
         super(contentType);
         this.contentType = contentType;
+        if (collectionType.equalsIgnoreCase("arraylist")) {
+            this.jType = JType.createCollection("java.util.ArrayList", contentType.getJType());
+        }
+//        else if (collectionType.equalsIgnoreCase("collection")) {
+//            this.jType = JType.createCollection("java.util.Collection", contentType.getJType());
+//        } else if (collectionType.equalsIgnoreCase("set")) {
+//            this.jType = JType.createCollection("java.util.HashSet", contentType.getJType());
+//        }
     } //-- XSListJ2
 
 
@@ -68,7 +75,7 @@ public class XSListJ2 extends XSList {
      * @return the JType that this XSType represents
     **/
     public JType getJType() {
-        return XSListJ2.jType;
+        return this.jType;
     }
 
     public int getMinimumSize() {

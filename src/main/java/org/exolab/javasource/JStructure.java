@@ -196,7 +196,13 @@ abstract class JStructure extends JType
 
         //-- getPackageName
         String pkgName = getPackageFromClassName(className);
-
+        String localClassName = className;
+        
+        int paramTypeDeclPos = className.indexOf("<");
+        if ( paramTypeDeclPos != -1 ) {
+        	localClassName = className.substring(0, paramTypeDeclPos );
+        }
+        
         if (pkgName != null) {
             if (pkgName.equals(this.packageName)) return;
             
@@ -545,6 +551,11 @@ abstract class JStructure extends JType
     public static boolean isValidClassName(String name) {
         
         if (name == null) return false;
+        
+        int beforeTypeName = name.indexOf("<");
+        if (beforeTypeName > 0) {
+            name = name.substring(0, beforeTypeName);
+        }
         
         //-- ignore package information, for now
 		int period = name.lastIndexOf(".");

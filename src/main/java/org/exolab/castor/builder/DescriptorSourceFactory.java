@@ -454,6 +454,9 @@ public class DescriptorSourceFactory {
 		jsc.indent();
 
 		//-- read method
+        if (BuilderConfiguration.createInstance().useJava50()) {
+			jsc.add("@Override");
+		}
 		jsc.add("public java.lang.Object getValue( java.lang.Object object ) ");
 		jsc.indent();
 		jsc.add("throws IllegalStateException");
@@ -486,6 +489,9 @@ public class DescriptorSourceFactory {
 		//--end of read method
 
 		//-- write method
+        if (BuilderConfiguration.createInstance().useJava50()) {
+			jsc.add("@Override");
+		}
 		jsc.add(
 			"public void setValue( java.lang.Object object, java.lang.Object value) ");
 		jsc.indent();
@@ -561,6 +567,10 @@ public class DescriptorSourceFactory {
 		//--end of write method
 
 		//-- newInstance method
+        if (BuilderConfiguration.createInstance().useJava50()) {
+			jsc.add("@Override");
+			jsc.add("@SuppressWarnings(\"unused\")");
+		}
 		jsc.add(
 			"public java.lang.Object newInstance( java.lang.Object parent ) {");
 		jsc.indent();

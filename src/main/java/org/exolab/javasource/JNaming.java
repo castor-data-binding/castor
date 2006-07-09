@@ -69,6 +69,7 @@ class JNaming {
         "do",      
         "double",
         "else",     
+        "enum",	// DAB - 01:02:03 -- 04/05/2006 - Java 5.0 - new keyword
         "extends",
         "false",    
         "final",   
@@ -107,6 +108,34 @@ class JNaming {
         "while"
     }; //-- keywords
 
+    private static final String[] parameterizedCollectionsObject = { 
+        "ArrayList", 
+        "List",  
+        "Set",
+        "Collection",
+        "Vector", 
+        "Hashtable",
+        "Map",   
+        "HashMap",   
+        "HashSet", 
+        "TreeSet", 
+        "Enumeration",
+        "Iterator",  
+        "ListIterator",      
+        "SortedSet",
+        "SortedMap",     
+        "Queue", 
+        "EnumSet",
+        "EnumMap",
+        "IdentityHashMap",
+        "LinkedHashMap",
+        "LinkedHashSet",
+        "LinkedList",
+        "Stack",
+        "TreeMap",
+        "WeakHashMap"
+    }; //-- parameterizedCollectionsObject
+
     
     private JNaming() {
         super();
@@ -125,6 +154,20 @@ class JNaming {
     } //-- isKeyword
     
     /**
+     * Returns true if the given String is a parameritized 
+     * Java collection object keyword which
+     * will cause a problem when used as a variable name
+    **/
+    public static boolean isParameterizedCollectionsObject(String name) {
+        if (name == null) return false;
+        for (int i = 0; i < parameterizedCollectionsObject.length; i++) {
+            if (name.indexOf(parameterizedCollectionsObject[i]) != -1) return true;
+        }
+        return false;
+    } //-- isParameterizedCollectionsObject    
+
+
+    /**
      * Returns true if the given String matches the
      * production of a valid Java identifier
      *
@@ -139,6 +182,10 @@ class JNaming {
             
         char[] chars = string.toCharArray();
         
+        if ( isParameterizedCollectionsObject(string)) {
+        	return true;
+        }
+                
         //-- make sure starting character is valid
         if (!Character.isJavaIdentifierStart(chars[0]))
             return false;

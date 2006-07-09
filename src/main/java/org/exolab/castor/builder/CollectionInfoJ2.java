@@ -68,12 +68,13 @@ public class CollectionInfoJ2 extends CollectionInfo {
      * of objects that the collection will contain
      * @param name the name of the Collection
      * @param elementName the element name for each element in collection
+     * @param collectiontype TODO
     **/
-    public CollectionInfoJ2(XSType contentType, String name, String elementName)
+    public CollectionInfoJ2(XSType contentType, String name, String elementName, String collectionType)
     {
         super(contentType, name, elementName);
         //--override the schemaType
-        setSchemaType(new XSListJ2(contentType));
+        setSchemaType(new XSListJ2(contentType, collectionType));
         //--override the internal list
         xsList = (XSListJ2)getSchemaType();
     } //-- CollectionInfoJ2
@@ -84,7 +85,9 @@ public class CollectionInfoJ2 extends CollectionInfo {
     **/
     public void generateInitializerCode(JSourceCode jsc) {
         jsc.add(getName());
-        jsc.append(" = new java.util.ArrayList();");
+        jsc.append(" = new ");
+        jsc.append(xsList.getJType().toString());
+        jsc.append("();");
     } //-- generateConstructorCode
 
     //------------------/
@@ -136,7 +139,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
         if (extraMethods()) {
             //-- Reference getter (non type-safe)
             String suffix = getReferenceMethodSuffix();
-            method = new JMethod(SGTypes.ArrayList, "get" + cName + suffix);
+            method = new JMethod(SGTypes.createArrayList(getContentType().getJType()), "get" + cName + suffix);
             jClass.addMethod(method);
             createGetCollectionReferenceMethod(method);
         }
@@ -166,7 +169,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
         
         if (extraMethods()) {
             //-- Collection setter
-            JParameter vParam = new JParameter(SGTypes.ArrayList, pName+"Collection");
+            JParameter vParam = new JParameter(SGTypes.createArrayList(getContentType().getJType()), pName+"Collection");
             method = new JMethod(null, "set"+cName);
             method.addParameter(vParam);
             jClass.addMethod(method);
@@ -184,10 +187,10 @@ public class CollectionInfoJ2 extends CollectionInfo {
         //- Create Enumerate Method -/
        //---------------------------/
 
-        method = new JMethod(SGTypes.Enumeration, "enumerate"+cName);
+        method = new JMethod(SGTypes.createEnumeration(getContentType().getJType()),"enumerate"+cName);
         jClass.addMethod(method);
 
-        createEnumerateMethod(method);
+        createEnumerateMethod(method, jClass);
 
 
           //-------------------/
@@ -289,13 +292,15 @@ public class CollectionInfoJ2 extends CollectionInfo {
      * @param method the JMethod in which to create the source
      * code.
     **/
-    public void createEnumerateMethod(JMethod method) {
+    public void createEnumerateMethod(JMethod method, JClass jClass) {
 
         JSourceCode jsc = method.getSourceCode();
-
-        jsc.add("return new org.exolab.castor.util.IteratorEnumeration(");
+        
+        jClass.addImport("java.util.Collections");
+        
+        jsc.add("return Collections.enumeration(");
         jsc.append(getName());
-        jsc.append(".iterator());");
+        jsc.append(");");
 
     } //-- createEnumerateMethod
 

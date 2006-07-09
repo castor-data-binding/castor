@@ -323,6 +323,9 @@ public class FieldInfo extends XMLInfo {
 
         //-- create get method
         method = new JMethod(jType, METHOD_PREFIX_GET+mname);
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+        }
         jClass.addMethod(method);
         createGetterComment(method.getJDocComment());
         jsc = method.getSourceCode();
@@ -453,6 +456,9 @@ public class FieldInfo extends XMLInfo {
         }
 
         method.addParameter(new JParameter(jType, paramName));
+        if (BuilderConfiguration.createInstance().useJava50()) {
+        	Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
+        }
         createSetterComment(method.getJDocComment());
         jsc = method.getSourceCode();
 
