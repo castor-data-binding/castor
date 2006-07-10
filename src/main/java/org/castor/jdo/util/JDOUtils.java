@@ -22,9 +22,14 @@ import java.sql.Statement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.jdo.engine.AbstractConnectionFactory;
+import org.castor.jdo.engine.DatabaseRegistry;
 import org.castor.util.Messages;
 
 import org.exolab.castor.jdo.Database;
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.persist.ClassMolder;
 
 /**
  * Common static methods for Castor JDO
@@ -124,6 +129,21 @@ public final class JDOUtils {
                 }
             }
         }
+    }
+    
+    /**
+     * Return ClassDescriptor for given type in named database .
+     *
+     * @param db The database's name.
+     * @param type The class.
+     * @return ClassDescriptor if exists, otherwise null.
+     * @throws MappingException If database can not be instantiated.
+     */
+    public static ClassDescriptor getClassDescriptor(final String db, final Class type)
+    throws MappingException {
+        AbstractConnectionFactory cf = DatabaseRegistry.getConnectionFactory(db);
+        ClassMolder cm = cf.getEngine().getClassMolderWithDependent(type);
+        return cm.getClassDescriptor();
     }
 
     //-------------------------------------------------------------------------

@@ -2,7 +2,12 @@
 Version (SVN)
 -------------
 
-JDO:   Fixed bug CASTOR-1470 using contribution from David Buschman [dbuschman7@yahoo.com]
+JDO:   Resolved issue CASTOR-1473 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Added posibility to retrieve ClassDescriptor.
+       Details: http://jira.codehaus.org/browse/CASTOR-1473
+       (Ralf - 20060710)
+
+XML:   Fixed bug CASTOR-1470 using contribution from David Buschman [dbuschman7@yahoo.com]
        Added support for Java 5 compatible source code generation.
        Details: http://jira.codehaus.org/browse/CASTOR-1470
        (Werner - 20060707)
