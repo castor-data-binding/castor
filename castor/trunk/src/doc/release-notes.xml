@@ -42,6 +42,32 @@
             <summary>
                 <h2>Changes</h2>
                 
+                <h3>Source generator now supports Java 5.0</h3>
+                
+                <p>The Castor source generator now supports the generation of Java 5.0
+                   compliant classes. The generated code - with the new feature 
+                   enabled - will make use of the following Java 5.0-specific
+                   artefacts:
+                   
+                   <ul>
+                    <li>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</li>
+                    <li>Use of @Override annotations with the generated methods 
+                        that require it.</li>
+                    <li>Use of @SupressWarnings with "unused" method parameters 
+                        on the generated methods that needed it.</li>
+                    <li>Added "enum" to the list of reserved keywords.</li>
+                   </ul></p>
+                   
+                <p>To enable this feature (off by default), please uncomment the
+                   following property in your custom <tt>castorbuilder.properties</tt>
+                   file:</p>
+                   
+                <code-panel>
+# This property specifies whether the sources generated
+# should comply with java 1.4 or 5.0; defaults to 1.4
+org.exolab.castor.builder.javaVersion=5.0
+                </code-panel>
+                
                 <h3>Internal handling of idenities</h3>
                 
                 <p>In the past Castor differentiated between single and multiple field

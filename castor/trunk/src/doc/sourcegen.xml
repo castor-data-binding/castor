@@ -13,8 +13,6 @@
     <status>Draft</status>
   </properties>
 
-
-
   <body>
 
     <title>Using the Source Code Generator</title>
@@ -22,10 +20,39 @@
       <p>API Reference: <api package="org.exolab.castor.builder">The Source Builder API</api></p>
     </header>
 
+    <section title="News: Source generation &amp; Java 5.0">
+
+        <p>As of <b>Castor 1.0.2</b>, the Castor source generator now supports the 
+           generation of Java 5.0 compliant code. The generated code - with the 
+           new feature enabled - will make use of the following Java 5.0-specific
+           artefacts:
+           
+           <ul>
+            <li>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</li>
+            <li>Use of @Override annotations with the generated methods 
+                that require it.</li>
+            <li>Use of @SupressWarnings with "unused" method parameters 
+                on the generated methods that needed it.</li>
+            <li>Added "enum" to the list of reserved keywords.</li>
+           </ul></p>
+                   
+        <p>To enable this feature (off by default), please uncomment the
+           following property in your custom <tt>castorbuilder.properties</tt>
+           file:</p>
+                   
+        <code-panel>
+# This property specifies whether the sources generated
+# should comply with java 1.4 or 5.0; defaults to 1.4
+org.exolab.castor.builder.javaVersion=5.0
+        </code-panel>
+                
+    </section>
+
     <section title="Introduction">
 
 
-      <p>Castor's Source Code Generator creates a set of Java classes
+      <p>Castor's Source Code Generator creates
+         a set of Java classes
          which represent an object model for an XML Schema
          (W3C XML Schema, 20010502 Recommendation)<sup>1</sup>, as well as the
          necessary Class Descriptors used by the <a href="xml-framework.xml">marshalling framework</a>
