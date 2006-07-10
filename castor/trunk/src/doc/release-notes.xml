@@ -90,6 +90,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1473" tool="jira">
+                    <description>
+		                Added posibility to retrieve ClassDescriptor.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060710</date>
+                </bug>
                 <bug id="1457" tool="jira">
                     <description>
 		                Added support for Java 5 compatible source code generation.

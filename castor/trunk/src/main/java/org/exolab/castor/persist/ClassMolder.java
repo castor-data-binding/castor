@@ -208,6 +208,10 @@ public class ClassMolder {
      * All field resolver instances.
      */
     private ResolverStrategy[] _resolvers;
+    /**
+     * ClassDescriptor for the class this molder is responsible for.
+     */
+    private final ClassDescriptor _clsDesc;
 
     /**
      * Creates an instance of this class.
@@ -227,7 +231,8 @@ public class ClassMolder {
         _debug = Boolean.getBoolean("org.exolab.castor.debug");
         _engine = lock;
         _persistence = persist;
-
+        _clsDesc = clsDesc;
+        
         ClassMapping clsMap = ((ClassDescriptorImpl) clsDesc).getMapping();
         _name = clsMap.getName();
         _accessMode = AccessMode.valueOf(clsMap.getAccess().toString());
@@ -382,6 +387,8 @@ public class ClassMolder {
         if ( Persistent.class.isAssignableFrom( ds.resolve(_name) ) )
             _callback = new JDOCallback();
     }
+    
+    public ClassDescriptor getClassDescriptor() { return _clsDesc; }
 
     private boolean isFieldTransient(FieldMapping fieldMapping) {
         boolean isFieldTransient = fieldMapping.getTransient();
