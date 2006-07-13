@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Fixed bug CASTOR-1469 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added new property to castor.properties to disable use of '.castor.xml' selectively.
+       Details: http://jira.codehaus.org/browse/CASTOR-1475
+       (Werner - 20060713)
+
 JDO:   Resolved issue CASTOR-1473 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Added posibility to retrieve ClassDescriptor.
        Details: http://jira.codehaus.org/browse/CASTOR-1473

@@ -80,6 +80,7 @@ import org.exolab.castor.xml.XMLException;
 import org.xml.sax.*;
 
 //--Java IO imports
+import java.io.FileOutputStream;
 import java.io.Reader;
 import java.io.PrintWriter;
 import java.io.File;
@@ -975,9 +976,7 @@ public class SourceGenerator
         while (cdrFiles.hasMoreElements()) {
             String filename = (String) cdrFiles.nextElement();
             Properties props = sInfo.getCDRFile(filename);
-            FileWriter writer = new FileWriter(filename);
-            props.list(new PrintWriter(writer));
-            writer.flush();
+            props.store(new FileOutputStream(new File(filename)),null);        
         }
 
     } //-- createClasses
