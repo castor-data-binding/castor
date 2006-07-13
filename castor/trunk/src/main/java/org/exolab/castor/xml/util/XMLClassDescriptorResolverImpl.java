@@ -54,6 +54,9 @@ package org.exolab.castor.xml.util;
 
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
+import org.exolab.castor.util.Configuration;
+import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.util.Configuration.Property;
 import org.exolab.castor.xml.ClassDescriptorEnumeration;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.MarshalException;
@@ -164,6 +167,8 @@ public class XMLClassDescriptorResolverImpl
         _cacheViaName    = new Hashtable();
         _packageMappings = new Hashtable();
         _packageCDList   = new Hashtable();
+        
+        _loadPackageMappings = Boolean.valueOf(LocalConfiguration.getInstance().getProperties().getProperty(Property.LOAD_PACKAGE_MAPPING, Property.DEFAULT_LOAD_PACKAGE_MAPPING)).booleanValue();
     } //-- ClassDescriptorResolverImpl
 
 

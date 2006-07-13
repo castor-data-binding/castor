@@ -68,6 +68,12 @@
 org.exolab.castor.builder.javaVersion=5.0
                 </code-panel>
                 
+                <h3>New property in castor.properties</h3>
+                
+                <p>Added new property to castor.properties to disable use of 
+                   package-based '.castor.xml' files during class resolution 
+                   selectively.</p>
+                   
                 <h3>Internal handling of idenities</h3>
                 
                 <p>In the past Castor differentiated between single and multiple field
@@ -116,6 +122,27 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1475" tool="jira">
+                    <description>
+		                Added new property to castor.properties to disable use of 
+                        package-based '.castor.xml' files selectively.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Bernard McGourty</name>
+                        <email>bernard.mcgourty@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060713</date>
+                </bug>
                 <bug id="1473" tool="jira">
                     <description>
 		                Added posibility to retrieve ClassDescriptor.
@@ -136,7 +163,7 @@ org.castor.mapping.Loaders=\
                     <module>JDO</module>
                     <date>20060710</date>
                 </bug>
-                <bug id="1457" tool="jira">
+                <bug id="1470" tool="jira">
                     <description>
 		                Added support for Java 5 compatible source code generation.
                     </description>

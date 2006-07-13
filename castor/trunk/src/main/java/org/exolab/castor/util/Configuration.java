@@ -231,14 +231,25 @@ public abstract class Configuration {
         public static final String SaveMapKeys = "org.exolab.castor.xml.saveMapKeys";
 
         /**
+         * Property specifying what factory to use for dealing with XML serializers 
+         * <pre>
+         * org.exolab.castor.xml.serializer.factory
+         * </pre>
+         * @since 1.0
+         */
+		public static final String LOAD_PACKAGE_MAPPING = "org.exolab.castor.xml.loadPackageMappings";
+        
+        public static final String DEFAULT_LOAD_PACKAGE_MAPPING = "true";
+
+        /**
          * Property specifying what factoyr to use for dealing with XML serializers 
          * <pre>
          * org.exolab.castor.xml.serializer.factory
          * </pre>
          * @since 1.0
          */
-		public static final String SERIALIZER_FACTORY = "org.exolab.castor.xml.serializer.factory";
-        
+        public static final String SERIALIZER_FACTORY = "org.exolab.castor.xml.serializer.factory";
+
         /**
          * The name of the configuration file.
          * <pre>
