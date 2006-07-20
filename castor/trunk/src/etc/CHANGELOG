@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Resolved issue CASTOR-1476 using contribution from Dave Brosius [dbrosius@mebigfatguy.com]
+       Removed unnecessary object construction.
+       Details: http://jira.codehaus.org/browse/CASTOR-1476
+       (Ralf - 20060721)
+
 XML:   Fixed bug CASTOR-1469 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added new property to castor.properties to disable use of '.castor.xml' selectively.
        Details: http://jira.codehaus.org/browse/CASTOR-1475

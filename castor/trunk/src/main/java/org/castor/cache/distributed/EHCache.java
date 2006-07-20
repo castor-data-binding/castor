@@ -224,7 +224,7 @@ public final class EHCache extends AbstractBaseCache {
      * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(final Object key, final Object value) {
-        Object result = new Boolean (false);
+        Object result = Boolean.FALSE;
         try {
             result = _elementConstructor.newInstance(new Object[] {key, value});
             _putMethod.invoke(_cache, new Object[] {result});

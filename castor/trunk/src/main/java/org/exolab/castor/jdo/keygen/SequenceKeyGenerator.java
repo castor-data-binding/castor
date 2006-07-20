@@ -243,7 +243,7 @@ public final class SequenceKeyGenerator implements KeyGenerator
             } else if (_sqlType == Types.BIGINT) {
                 resultKey = new Long(resultValue);
             } else if (_sqlType == Types.CHAR || _sqlType == Types.VARCHAR) {
-                resultKey = new String("" + resultValue);
+                resultKey = String.valueOf(resultValue);
             } else {
                 resultKey = new BigDecimal(resultValue);                   
             }
