@@ -122,7 +122,7 @@ public final class SQLStatementLoad {
                     for (int j = 0; j < identities.length; j++) {
                         expr.addColumn(curDesc.getTableName(), identities[j]);
                     }
-                    identitiesUsedForTable.put(curDesc.getTableName(), new Boolean(true));
+                    identitiesUsedForTable.put(curDesc.getTableName(), Boolean.TRUE);
                 }
                 
                 // add id columns to select statement

@@ -122,6 +122,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1476" tool="jira">
+                    <description>
+		                Removed unnecessary object construction.
+                    </description>
+                    <contributor>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@mebigfatguy.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Brosius</name>
+                        <email>dbrosius@mebigfatguy.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060721</date>
+                </bug>
                 <bug id="1475" tool="jira">
                     <description>
 		                Added new property to castor.properties to disable use of 
