@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+JDO:   Fixed bug CASTOR-147X using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Made EmptyEnumerator implement java.io.Serializable.
+       Details: http://jira.codehaus.org/browse/CASTOR-147X
+       (Werner - 20060725)
+
 JDO:   Resolved issue CASTOR-1476 using contribution from Dave Brosius [dbrosius@mebigfatguy.com]
        Removed unnecessary object construction.
        Details: http://jira.codehaus.org/browse/CASTOR-1476
