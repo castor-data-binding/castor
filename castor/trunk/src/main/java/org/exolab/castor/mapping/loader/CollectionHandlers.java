@@ -51,6 +51,7 @@ import java.util.Vector;
 import java.util.Enumeration;
 import java.util.NoSuchElementException;
 import java.util.StringTokenizer;
+import java.io.Serializable;
 import java.lang.reflect.Method;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.CollectionHandler;
@@ -312,7 +313,7 @@ public final class CollectionHandlers
      * Enumerator for a null collection.
      */
     static final class EmptyEnumerator
-        implements Enumeration
+        implements Enumeration, Serializable
     {
 
         public boolean hasMoreElements()

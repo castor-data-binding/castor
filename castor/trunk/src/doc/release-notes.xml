@@ -122,7 +122,27 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
-                <bug id="1476" tool="jira">
+                <bug id="1475" tool="jira">
+                    <description>
+		                Made EmptyEnumerator implement java.io.Serializable.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>?</name>
+                        <email>?</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060725</date>
+                </bug>
+				 <bug id="1476" tool="jira">
                     <description>
 		                Removed unnecessary object construction.
                     </description>
