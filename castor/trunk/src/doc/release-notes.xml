@@ -122,7 +122,27 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
-                <bug id="1475" tool="jira">
+				<bug id="786" tool="jira">
+                    <description>
+		                Removed unnecessary import statements addition for java.io.* during source generation
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Daniel Bradby</name>
+                        <email>dbradby@jpeople.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060726</date>
+                </bug>
+				<bug id="1475" tool="jira">
                     <description>
 		                Made EmptyEnumerator implement java.io.Serializable.
                     </description>
