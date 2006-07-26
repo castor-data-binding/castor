@@ -605,10 +605,8 @@ public class SourceFactory {
        //--create equals, bounds ...
        //NOTE: be careful with the derivation stuff when generating bounds properties
 
-       jClass.addImport("java.io.Writer");
-       jClass.addImport("java.io.Reader");
-
         if (_createMarshalMethods) {
+
            //-- #validate()
            createValidateMethods(jClass);
            //--don't generate marshal/unmarshal methods
