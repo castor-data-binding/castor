@@ -584,6 +584,10 @@ public class JClass extends JStructure {
         else if (modifiers.isPublic()) {
             buffer.append("public ");
         }
+        
+        if (modifiers.isFinal()) {
+            buffer.append ("final ");
+        }
 
         if (modifiers.isAbstract()) {
             buffer.append("abstract ");
