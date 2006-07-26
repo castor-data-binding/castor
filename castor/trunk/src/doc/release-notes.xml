@@ -124,6 +124,26 @@ org.castor.mapping.Loaders=\
             <bugs>
 				<bug id="721" tool="jira">
                     <description>
+		                Added validation of min/maxLength facets for xs:NMTOKEN
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Kraemer</name>
+                        <email>kraemer@productandconcept.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060726</date>
+                </bug>
+				<bug id="721" tool="jira">
+                    <description>
 		                Fixed problem with support for final modifier at the class level during source generation.
                     </description>
                     <contributor>
