@@ -2,6 +2,11 @@
 Version (SVN)
 -------------
 
+XML:   Fixed bug CASTOR-447 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added validation of min/maxLength facets for xs:NMTOKEN
+       Details: http://jira.codehaus.org/browse/CASTOR-447
+       (Werner - 20060726)
+
 XML:   Fixed bug CASTOR-721 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with support for final modifier at the class level during source generation.
        Details: http://jira.codehaus.org/browse/CASTOR-721

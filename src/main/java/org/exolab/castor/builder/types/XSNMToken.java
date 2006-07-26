@@ -45,6 +45,9 @@
 
 package org.exolab.castor.builder.types;
 
+import java.util.Enumeration;
+
+import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.javasource.*;
 
@@ -61,6 +64,20 @@ public final class XSNMToken extends XSType {
     private static final JType jType
         = new JClass("java.lang.String");
 
+    /**
+     * The length facet
+     */
+    private int _length = 0;
+
+    /**
+     * The max length facet
+    **/
+    private int maxLength = -1;
+
+    /**
+     * The min length facet
+    **/
+    private int minLength = 0;
 
     public XSNMToken() {
         super(XSType.NMTOKEN_TYPE);
@@ -78,7 +95,27 @@ public final class XSNMToken extends XSType {
         return "(String)"+variableName;
     } //-- fromJavaObject
 
-    public void setFacets(SimpleType simpleType) {}
+    public void setFacets(SimpleType simpleType) {
+        //-- extract valid facets
+        Enumeration enumeration = getFacets(simpleType);
+        while (enumeration.hasMoreElements()) {
+
+            Facet facet = (Facet) enumeration.nextElement();
+            String name = facet.getName();
+
+            //-- maxLength
+            if (Facet.MAX_LENGTH.equals(name))
+                setMaxLength(facet.toInt());
+            //-- minLength
+            else if (Facet.MIN_LENGTH.equals(name))
+                setMinLength(facet.toInt());
+            //-- length
+            else if (Facet.LENGTH.equals(name))
+                setLength(facet.toInt());
+
+        }
+    }
+    
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
@@ -102,7 +139,106 @@ public final class XSNMToken extends XSType {
 		if (jsc == null)
 			jsc = new JSourceCode();
 	    jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);");
+        
+        if ((hasMinLength()) && (!hasLength())) {
+            jsc.add("typeValidator.setMinLength(");
+            jsc.append(Integer.toString(getMinLength()));
+            jsc.append(");");
+        }
+        if ((hasMaxLength()) && (!hasLength())) {
+            jsc.add("typeValidator.setMaxLength(");
+            jsc.append(Integer.toString(getMaxLength()));
+            jsc.append(");");
+        }
+        if (hasLength()) {
+            jsc.add("typeValidator.setLength(");
+            jsc.append(Integer.toString(getLength()));
+            jsc.append(");");
+        }
+        
 	    jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
 	}
+
+    /**
+     * Returns true if a maximum length has been set
+     * @return true if a maximum length has been set
+    **/
+    public boolean hasMaxLength() {
+        return (maxLength >= 0);
+    } //-- hasMaxLength
+
+    /**
+     * Returns true if a minimum length has been set
+     * @return true if a minimum length has been set
+    **/
+    public boolean hasMinLength() {
+        return (minLength > 0);
+    } //-- hasMinLength
+
+    /**
+     * Returns true if a length has been set
+     * @return true if a length has been set
+     */
+    public boolean hasLength() {
+        return (_length > 0);
+    }
+
+    /**
+     * Sets the length of this XSNMToken.
+     * While setting the length, the maxLength and minLength are also
+     * set up to this length
+     * @param length the length to set
+     * @see #setMaxLength
+     * @see #setMinLength
+     */
+    public void setLength(int length) {
+        this._length = length;
+        setMaxLength(length);
+        setMinLength(length);
+    }
+
+    /**
+     * Sets the maximum length of this XSString. To remove the max length
+     * facet, use a negative value.
+     * @param maxLength the maximum length for occurances of this type
+    **/
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    } //-- setMaxLength
+
+    /**
+     * Sets the minimum length of this XSString.
+     * @param minLength the minimum length for occurances of this type
+    **/
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+    } //-- setMinLength
+
+    /**
+     * Returns the maximum length occurances of this type can be.
+     * A negative value denotes no maximum length
+     * @return the maximum length facet
+    **/
+    public int getMaxLength() {
+        return maxLength;
+    } //-- getMaxLength
+
+    /**
+     * Returns the minimum length occurances of this type can be.
+     * @return the minimum length facet
+    **/
+    public int getMinLength() {
+        return minLength;
+    } //-- getMinLength
+
+    /**
+     * Returns the length that this type must have
+     * @return the length that this type must have
+     */
+    public int getLength() {
+        return this._length;
+    }
+    
+    
 
 } //-- XSNMToken

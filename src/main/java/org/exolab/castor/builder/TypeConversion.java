@@ -154,7 +154,9 @@ public class TypeConversion {
                     return new XSList(new XSIdRef());
                 //-- NMTOKEN
                 case SimpleTypesFactory.NMTOKEN_TYPE:
-                    return new XSNMToken();
+                    XSNMToken xsNMToken = new XSNMToken();
+                    xsNMToken.setFacets(simpleType);
+                    return xsNMToken;
                 //-- NMTOKENS
                 case SimpleTypesFactory.NMTOKENS_TYPE:
                     return new XSList(new XSNMToken());
