@@ -789,7 +789,7 @@
                 todir="../${gen.src}/mapping" 
                 package="org.exolab.castor.mapping.xml" 
                 lineseparator="unix"
-                bindingfile="${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
+                bindingfile="../${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
                 types="j2" 
                 warnings="false"/>
         <javac destdir="${classes}" excludes="${excludes}" 
