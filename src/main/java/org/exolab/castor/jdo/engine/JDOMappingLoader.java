@@ -137,9 +137,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      */
     private BaseFactory _factory;
     
-    private boolean _loaded = false;
-
-
     /**
      * Used by the constructor for creating key generators.
      * Each database must have a proprietary KeyGeneratorRegistry instance
@@ -154,11 +151,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         super(loader);
     }
     
-    public void clear() {
-        super.clear();
-        _loaded = false;
-    }
-
     public BindingType getBindingType() { return BindingType.JDO; }
 
     protected ClassDescriptor createDescriptor(final ClassMapping clsMap)
@@ -174,7 +166,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         }
 
         // See if we have a compiled descriptor.
-        clsDesc = loadClassDescriptor(clsMap.getName());
+        clsDesc = null;
         if ((clsDesc != null) && (clsDesc instanceof JDOClassDescriptor)) {
             return clsDesc;
         }
@@ -521,37 +513,31 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             fieldMap.getSql().getReadOnly() );
     }
 
-    public void loadMapping( MappingRoot mapping, Object param )
-        throws MappingException
-    {
-        if (!_loaded) {
-            _loaded = true;
-            
-            Enumeration enumeration;
-            _factory = (BaseFactory) param;
-            // Load the key generator definitions and check for duplicate names
-            enumeration = mapping.enumerateKeyGeneratorDef();
-            while ( enumeration.hasMoreElements() ) {
-                KeyGeneratorDef keyGenDef;
-                String name;
+    protected void loadMappingInternal(final MappingRoot mapping, final Object param)
+    throws MappingException {
+        Enumeration enumeration;
+        _factory = (BaseFactory) param;
+        // Load the key generator definitions and check for duplicate names
+        enumeration = mapping.enumerateKeyGeneratorDef();
+        while ( enumeration.hasMoreElements() ) {
+            KeyGeneratorDef keyGenDef;
+            String name;
 
-                keyGenDef = (KeyGeneratorDef) enumeration.nextElement();
-                name = keyGenDef.getAlias();
-                if (name == null) {
-                    name = keyGenDef.getName();
-                }
-                if ( _keyGenDefs.get( name ) != null ) {
-                    throw new MappingException( Messages.format( "mapping.dupKeyGen", name ) );
-                }
-                _keyGenDefs.put( name, keyGenDef );
+            keyGenDef = (KeyGeneratorDef) enumeration.nextElement();
+            name = keyGenDef.getAlias();
+            if (name == null) {
+                name = keyGenDef.getName();
             }
-
-            super.loadMapping( mapping, null );
-
-            _keyGenDefs = null;
-            _keyGenDescs = null;
-            _keyGenReg = null;
+            if ( _keyGenDefs.get( name ) != null ) {
+                throw new MappingException( Messages.format( "mapping.dupKeyGen", name ) );
+            }
+            _keyGenDefs.put( name, keyGenDef );
         }
-    }
 
+        super.loadMappingInternal(mapping, null);
+
+        _keyGenDefs = null;
+        _keyGenDescs = null;
+        _keyGenReg = null;
+    }
 }

@@ -322,7 +322,7 @@ public class ClassMolder {
                 }
 
                 String relatedType = fmFields[i].getType();
-                ClassDescriptor relDesc = loader.getDescriptor( ds.resolve( relatedType ) );
+                ClassDescriptor relDesc = loader.getDescriptor(relatedType);
                 if (relDesc instanceof JDOClassDescriptor) {
                     FieldDescriptor[] relatedIds = ((JDOClassDescriptor)relDesc).getIdentities();
                     relatedIdSQL = new String[relatedIds.length];

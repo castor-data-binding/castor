@@ -54,7 +54,6 @@ package org.exolab.castor.xml.util;
 
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
-import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.Configuration.Property;
 import org.exolab.castor.xml.ClassDescriptorEnumeration;
@@ -74,6 +73,7 @@ import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import java.net.URL;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.Iterator;
 import java.util.Properties;
 
 /**
@@ -241,7 +241,7 @@ public class XMLClassDescriptorResolverImpl
         //-- check mapping loader first 
         //-- [proposed by George Stewart]
         if (_mappingLoader != null) {            
-            classDesc = (XMLClassDescriptor)_mappingLoader.getDescriptor(type);
+            classDesc = (XMLClassDescriptor)_mappingLoader.getDescriptor(type.getName());
             if (classDesc != null) {
                _cacheViaClass.put(type, classDesc);
                return classDesc;
@@ -257,7 +257,7 @@ public class XMLClassDescriptorResolverImpl
                 MappingUnmarshaller mum = new MappingUnmarshaller();
                 MappingLoader ml = mum.getMappingLoader(mapping, BindingType.XML);
                 AbstractMappingLoader mapLoader = (AbstractMappingLoader) ml;
-                classDesc = (XMLClassDescriptor) mapLoader.getDescriptor(type);
+                classDesc = (XMLClassDescriptor) mapLoader.getDescriptor(type.getName());
             }
             catch(MappingException mx) {}
             if (classDesc != null) {
@@ -463,9 +463,9 @@ public class XMLClassDescriptorResolverImpl
         //-- next check mapping loader...
         XMLClassDescriptor possibleMatch = null;
         if (_mappingLoader != null) {
-            enumeration = _mappingLoader.listDescriptors();
-            while (enumeration.hasMoreElements()) {
-                classDesc = (XMLClassDescriptor)enumeration.nextElement();
+            Iterator iter = _mappingLoader.descriptorIterator();
+            while (iter.hasNext()) {
+                classDesc = (XMLClassDescriptor) iter.next();
                 if (xmlName.equals(classDesc.getXMLName())) {
                     if (namespaceEquals(namespaceURI, classDesc.getNameSpaceURI())) {
                         _cacheViaName.put(nameKey, classDesc);
@@ -473,8 +473,8 @@ public class XMLClassDescriptorResolverImpl
                     }
                     possibleMatch = classDesc;
                 }
-                classDesc = null;
             }
+            classDesc = null;
         }
         
         //-- next look in local cache
@@ -503,9 +503,9 @@ public class XMLClassDescriptorResolverImpl
             try {
                 MappingUnmarshaller mum = new MappingUnmarshaller();
                 MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-                enumeration = resolver.listDescriptors();
-                while (enumeration.hasMoreElements()) {
-                    classDesc = (XMLClassDescriptor)enumeration.nextElement();
+                Iterator iter = resolver.descriptorIterator();
+                while (iter.hasNext()) {
+                    classDesc = (XMLClassDescriptor) iter.next();
                     if (xmlName.equals(classDesc.getXMLName())) {
                         if (namespaceEquals(namespaceURI, classDesc.getNameSpaceURI())) {
                             _cacheViaName.put(nameKey, classDesc);
@@ -519,8 +519,9 @@ public class XMLClassDescriptorResolverImpl
                         }
                     }
                 }
+            } catch(MappingException mx) {
+                // nothing to do
             }
-            catch(MappingException mx) {}
             classDesc = null;
         }
         
@@ -554,9 +555,9 @@ public class XMLClassDescriptorResolverImpl
         
         //-- check mapping loader first
         if (_mappingLoader != null) {
-            enumeration = _mappingLoader.listDescriptors();
-            while (enumeration.hasMoreElements()) {
-                classDesc = (XMLClassDescriptor)enumeration.nextElement();
+            Iterator iter = _mappingLoader.descriptorIterator();
+            while (iter.hasNext()) {
+                classDesc = (XMLClassDescriptor) iter.next();
                 if (xmlName.equals(classDesc.getXMLName())) {
                     xcdEnumerator.add(classDesc);
                 }
@@ -579,15 +580,16 @@ public class XMLClassDescriptorResolverImpl
             try {
                 MappingUnmarshaller mum = new MappingUnmarshaller();
                 MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-                enumeration = resolver.listDescriptors();
-                while (enumeration.hasMoreElements()) {
-                    classDesc = (XMLClassDescriptor)enumeration.nextElement();
+                Iterator iter = resolver.descriptorIterator();
+                while (iter.hasNext()) {
+                    classDesc = (XMLClassDescriptor) iter.next();
                     if (xmlName.equals(classDesc.getXMLName())) {
                         xcdEnumerator.add(classDesc);
                     }
                 }
+            } catch(MappingException mx) {
+                // nothing to do
             }
-            catch(MappingException mx) {}
         }
         
         return xcdEnumerator;

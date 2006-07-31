@@ -175,7 +175,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             
             Class fieldType = fields[i].getFieldType();
             if (fieldType != null) {
-                relDesc = getDescriptor(fieldType);
+                relDesc = getDescriptor(fieldType.getName());
                 if ( relDesc == NoDescriptor ) {
                     // XXX Error message should come here
                 }
@@ -695,23 +695,6 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         return new ContainerElementFieldDescriptor(fieldDesc, _primitiveNodeType);
     } //-- createWrapperDescriptor
      
-    /**
-     * Returns true if the given class should be treated as a primitive
-     * type
-     * @return true if the given class should be treated as a primitive
-     * type
-    **/
-    protected static boolean isPrimitive(Class type) {
-
-        if (type.isPrimitive()) return true;
-
-        if ((type == Boolean.class) || (type == Character.class))
-            return true;
-
-        return (type.getSuperclass() == Number.class);
-
-    } //-- isPrimitive
-
     /**
      * A special TypeConvertor that simply returns the object
      * given. This is used for preventing the FieldHandlerImpl

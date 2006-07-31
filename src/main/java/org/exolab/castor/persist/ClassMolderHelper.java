@@ -50,7 +50,6 @@ public final class ClassMolderHelper {
     throws MappingException, ClassNotFoundException {
     
         Vector result = new Vector();
-        Enumeration enumeration;
         ClassMolder mold;
         Persistence persist;
         ClassDescriptor desc;
@@ -59,14 +58,12 @@ public final class ClassMolderHelper {
 
         DatingService ds = new DatingService(mappingLoader.getClassLoader());
 
-        enumeration = mappingLoader.listJavaClasses();
-        while (enumeration.hasMoreElements()) {
-            Class toResolve = (Class) enumeration.nextElement();
+        Iterator iter = mappingLoader.descriptorIterator();
+        while (iter.hasNext()) {
+            Class toResolve = ((ClassDescriptor) iter.next()).getJavaClass();
             try {
                 desc = cdResolver.resolve(toResolve);
-            }
-            catch (ResolverException e)
-            {
+            } catch (ResolverException e) {
                 throw new MappingException ("Cannot resolve type for " + toResolve.getName(), e);
             }
             
@@ -74,6 +71,7 @@ public final class ClassMolderHelper {
             mold = createClassMolder(ds, mappingLoader, lock, desc, persist);
             result.add(mold);
         }
+
         ds.close();
         return result;
     }

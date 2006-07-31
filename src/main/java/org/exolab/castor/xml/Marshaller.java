@@ -1025,7 +1025,7 @@ public class Marshaller extends MarshalFramework {
                                 if (_useXSITypeAtRoot) {
                                 	XMLMappingLoader ml = (XMLMappingLoader) _cdResolver.getMappingLoader();
                                 	if (ml != null) {
-                                		containsDesc = (ml.getDescriptor(_class) != null);
+                                		containsDesc = (ml.getDescriptor(_class.getName()) != null);
                                     }
                                 }
                                 else {

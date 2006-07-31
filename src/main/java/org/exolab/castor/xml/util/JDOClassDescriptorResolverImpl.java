@@ -40,7 +40,7 @@ public class JDOClassDescriptorResolverImpl
         
         // -- check mapping loader first
         if (_mappingLoader != null) {            
-            classDesc = _mappingLoader.getDescriptor(type);
+            classDesc = _mappingLoader.getDescriptor(type.getName());
             if (classDesc != null) {
                 _classToClassDescriptors.put(type, classDesc);
                 return classDesc;

@@ -42,45 +42,37 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.tools;
 
+import java.io.File;
+import java.io.FileWriter;
+import java.io.PrintWriter;
+import java.io.Writer;
+import java.util.Enumeration;
+import java.util.Hashtable;
+import java.util.Properties;
 
-//-- Castor Imports
 import org.castor.mapping.BindingType;
 import org.exolab.castor.builder.util.ConsoleDialog;
-import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
-import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassChoice;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
-import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.MapTo;
+import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 import org.exolab.castor.util.CommandLineOptions;
 import org.exolab.castor.xml.ClassDescriptorResolverFactory;
-import org.exolab.castor.xml.JavaNaming;
-import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Introspector;
-import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
-
-//-- Java Imports
-import java.io.File;
-import java.io.FileWriter;
-import java.io.PrintWriter;
-import java.io.Writer;
-import java.util.Hashtable;
-import java.util.Enumeration;
-import java.util.Properties;
-import java.lang.reflect.Array;
 
 /**
  * A tool which uses the introspector to automatically
@@ -90,56 +82,38 @@ import java.lang.reflect.Array;
  * @author <a href="keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-01-30 14:37:08 -0700 (Mon, 30 Jan 2006) $
  */
-public class MappingTool
-{
-    
-    /**
-     * Used for checking field names to see if they
-     * begin with an underscore '_'
-    **/
+public class MappingTool {
+    /** Used for checking field names to see if they begin with an underscore '_'. */
     private static final String UNDERSCORE = "_";
     
-    /**
-     * Hashtable of already generated mappings
-    **/
-    private Hashtable _mappings = null;
+    /** Hashtable of already generated mappings. */
+    private final Hashtable _mappings;
 
-    /**
-     * ClassDescriptorResolver for loading compiled
-     * descriptors
-    **/
-    private XMLClassDescriptorResolverImpl _resolver = null;
+    /** ClassDescriptorResolver for loading compiled descriptors. */
+    private final XMLClassDescriptorResolverImpl _resolver;
 
-    /**
-     * Introspector to use if _forceIntrospection is enabled.
-    **/
+    /** Introspector to use if _forceIntrospection is enabled. */
     private Introspector _introspector = null;
     
-    /**
-     * The internal MappingLoader to use for checking
-     * whether or not we can find the proper accessor methods.
-    **/
-    private InternalLoader _mappingLoader = null;
+    /** The internal MappingLoader to use for checking whether or not we can find the proper
+     *  accessor methods. */
+    private final MappingToolMappingLoader _mappingLoader;
     
-    /**
-     * Boolean to indicate that we should always
-     * perform introspection for each class
-     * even if a ClassDescriptor may exist.
-    **/
+    /** Boolean to indicate that we should always perform introspection for each class even if a
+     *  ClassDescriptor may exist. */
     private boolean _forceIntrospection = false;
     
     public MappingTool() {
         _mappings      = new Hashtable();
         _resolver      = (XMLClassDescriptorResolverImpl) 
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-        _mappingLoader = new InternalLoader();
+        _mappingLoader = new MappingToolMappingLoader();
     } //--MappingTool
 
     /**
      * Command line method
-    **/
-    public static void main( String[] args )
-    {
+     */
+    public static void main(final String[] args) {
         CommandLineOptions allOptions = new CommandLineOptions();
 
         //-- Input classname flag
@@ -183,30 +157,26 @@ public class MappingTool
         MappingTool tool;
 
         try {
-            
             tool = new MappingTool();
             tool.addClass( classname );
             
             Writer writer = null;
             
             if ((mappingName == null) || (mappingName.length() == 0)) {
-                writer = new PrintWriter( System.out, true );
-            }
-            else {
+                writer = new PrintWriter(System.out, true);
+            } else {
                 File file = new File( mappingName );
                 if (file.exists() && (!force)) {
                     ConsoleDialog dialog = new ConsoleDialog();
                     String message = "The file already exists. Do you wish "+
                         "to overwrite '" + mappingName + "'?";
-                    if (!dialog.confirm(message)) return;
+                    if (!dialog.confirm(message)) { return; }
                 }
                 writer = new FileWriter( file );
             }
                 
             tool.write( writer );
-            
-        } 
-        catch ( Exception except ) {
+        } catch ( Exception except ) {
             System.out.println( except );
             except.printStackTrace();
         }
@@ -216,11 +186,9 @@ public class MappingTool
      * Adds the Class, specified by the given name, to the mapping file
      * 
      * @param name the name of the Class to add
-    **/
-    public void addClass( String name )
-        throws MappingException
-    {
-        addClass( name, true);
+     */
+    public void addClass(final String name) throws MappingException {
+        addClass(name, true);
     } //-- addClass
 
     /**
@@ -231,17 +199,15 @@ public class MappingTool
      * should take place and all classes used by the given
      * class should also be added to the mapping file. This
      * flag is true by default.
-    **/
-    public void addClass( String name, boolean deep )
-        throws MappingException
-    {
-        if (name == null) 
+     */
+    public void addClass(final String name, final boolean deep) throws MappingException {
+        if (name == null) {
             throw new MappingException("Cannot introspect a null class.");
+        }
             
         try {
             addClass( Class.forName( name ), deep );
-        } 
-        catch ( ClassNotFoundException except ) {
+        } catch ( ClassNotFoundException except ) {
             throw new MappingException( except );
         }
     } //-- addClass
@@ -250,12 +216,9 @@ public class MappingTool
      * Adds the given Class to the mapping file
      *
      * @param cls the Class to add
-    **/
-    public void addClass( Class cls )
-        throws MappingException
-    {
+     */
+    public void addClass(final Class cls) throws MappingException {
         addClass( cls, true );
-        
     } //-- addClass
 
     /**
@@ -268,18 +231,15 @@ public class MappingTool
      * should take place and all classes used by the given
      * class should also be added to the mapping file. This
      * flag is true by default.
-    **/
-    public void addClass( Class cls, boolean deep )
-        throws MappingException
-    {
-        if (cls == null) 
+     */
+    public void addClass(final Class cls, final boolean deep) throws MappingException {
+        if (cls == null) {
             throw new MappingException("Cannot introspect a null class.");
+        }
             
-        if ( _mappings.get( cls ) != null )
-            return;
+        if ( _mappings.get( cls ) != null ) { return; }
             
         if ( cls.isArray() ) {
-            
             Class cType = cls.getComponentType();
             if ( _mappings.get(cType) != null) return;
             if (Types.isSimpleType(cType)) return;                
@@ -287,8 +247,9 @@ public class MappingTool
             addClass( cType );
         }
             
-        if ( _forceIntrospection && (!Types.isConstructable( cls )))
+        if ( _forceIntrospection && (!Types.isConstructable( cls ))) {
             throw new MappingException( "mapping.classNotConstructable", cls.getName() );
+        }
 
         XMLClassDescriptor xmlClass;
         FieldDescriptor[]  fields;
@@ -300,13 +261,11 @@ public class MappingTool
             if (_forceIntrospection) {
                 xmlClass = _introspector.generateClassDescriptor( cls );
                 introspected = true;
-            }
-            else {
+            } else {
                 xmlClass = _resolver.resolveXML( cls );
                 introspected = Introspector.introspected(xmlClass);
             }
-        } 
-        catch ( Exception except ) {
+        } catch ( Exception except ) {
             throw new MappingException( except );
         }
         classMap = new ClassMapping();
@@ -328,9 +287,8 @@ public class MappingTool
         _mappings.put( cls, classMap );
         
         fields = xmlClass.getFields();
-        for ( int i = 0 ; i < fields.length ; ++i ) {
-            
-            FieldDescriptor fdesc = fields[ i ];
+        for (int i = 0 ; i < fields.length ; ++i) {
+            FieldDescriptor fdesc = fields[i];
             
             String fieldName = fdesc.getFieldName();
             
@@ -342,9 +300,7 @@ public class MappingTool
                 isContainer = true;
             }
             
-            
             Class fieldType = fdesc.getFieldType();
-            
             
             //-- check to make sure we can find the accessors...
             //-- if we used introspection we don't need to
@@ -352,20 +308,20 @@ public class MappingTool
             //-- were generated using the source code generator
             //-- or by hand.
             if ((!introspected) && fieldName.startsWith(UNDERSCORE)) {
-                
                 //-- check to see if we need to remove underscore
-                if (!_mappingLoader.canFindAccessors(cls, fieldName, fieldType))
+                if (!_mappingLoader.canFindAccessors(cls, fieldName, fieldType)) {
                     fieldName = fieldName.substring(1);
+                }
                 
                 //-- check to see if we need to remove "List" prefix
                 //-- used by generated source code
-                if (!_mappingLoader.canFindAccessors(cls, fieldName, fieldType)) 
-                {
+                if (!_mappingLoader.canFindAccessors(cls, fieldName, fieldType)) {
                     if (fieldName.endsWith("List")) {
                         int len = fieldName.length()-4;
                         String tmpName = fieldName.substring(0, len);
-                        if (_mappingLoader.canFindAccessors(cls, tmpName, fieldType))
-                            fieldName = tmpName;                            
+                        if (_mappingLoader.canFindAccessors(cls, tmpName, fieldType)) {
+                            fieldName = tmpName;
+                        }
                     }
                 }
             }
@@ -376,16 +332,16 @@ public class MappingTool
             
             //-- unwrap arrays of objects
             boolean isArray = fieldType.isArray();
-            while (fieldType.isArray())
+            while (fieldType.isArray()) {
                 fieldType = fieldType.getComponentType();
+            }
                 
             
             //-- To prevent outputing of optional fields...check
             //-- for value first before setting
-            if (fdesc.isRequired())  fieldMap.setRequired( true );
-            if (fdesc.isTransient()) fieldMap.setTransient( true );
+            if (fdesc.isRequired()) { fieldMap.setRequired( true ); }
+            if (fdesc.isTransient()) { fieldMap.setTransient( true ); }
             if ( fdesc.isMultivalued() ) {
-                
                 //-- special case for collections
                 if (isContainer) {
                     //-- backwards than what you'd expect, but
@@ -398,21 +354,17 @@ public class MappingTool
                 //-- try to guess collection type
                 if (isArray) {
                     fieldMap.setCollection(FieldMappingCollectionType.ARRAY);
-                }
-                else {
+                } else {
                     //-- if the fieldType is the collection, then set appropriate
                     //-- collection type 
                     String colName = CollectionHandlers.getCollectionName(fieldType);
                     if (colName != null) {
                         fieldMap.setCollection(FieldMappingCollectionType.valueOf(colName));
                         fieldType = Object.class;
-                    }
-                    //-- help maintain compatibility with generated
-                    //-- descriptors
-                    else if (_mappingLoader.returnsArray(cls, fieldName, fieldType)) {
+                    } else if (_mappingLoader.returnsArray(cls, fieldName, fieldType)) {
+                        //-- help maintain compatibility with generated descriptors
                         fieldMap.setCollection( FieldMappingCollectionType.ARRAY );
-                    }
-                    else {
+                    } else {
                         fieldMap.setCollection( FieldMappingCollectionType.ENUMERATE );
                     }
                 }
@@ -420,7 +372,6 @@ public class MappingTool
             
             //-- fieldType
             fieldMap.setType( fieldType.getName() );
-            
                 
             //-- handle XML Specific information
             fieldMap.setBindXml( new BindXml() );
@@ -448,8 +399,8 @@ public class MappingTool
      * @param force when true will cause the MappingTool to
      * always use introspection regardless of whether or not
      * a ClassDescriptor exists for a given Class.
-    **/
-    public void setForceIntrospection(boolean force) {
+     */
+    public void setForceIntrospection(final boolean force) {
         _forceIntrospection = force;
         if (force) {
             if (_introspector == null)
@@ -461,10 +412,8 @@ public class MappingTool
      * Serializes the mapping to the given writer
      *
      * @param writer, the Writer to serialize the mapping to
-    **/
-    public void write( Writer writer )
-        throws MappingException
-    {
+     */
+    public void write(final Writer writer) throws MappingException {
         Marshaller  marshal;
         MappingRoot mapping;
         Enumeration enumeration;
@@ -483,74 +432,6 @@ public class MappingTool
             throw new MappingException( except );
         }
     } //-- write
-
-    //-- Extend mapping loader to give us access to the
-    //-- findAccessor method.
-    class InternalLoader extends AbstractMappingLoader {
-        
-        private static final String GET = "get";
-        private static final String SET = "set";
-        private static final String ADD = "add";
-        
-        InternalLoader() {
-            super(null);
-        }
-        
-        public BindingType getBindingType() { return null; }
-
-        /**
-         * Returns true if the get method returns an array.
-         * This method is used for greater compatability with
-         * generated descriptors.
-         *
-         * @return if get method returns an array.
-        **/
-        boolean returnsArray(Class claz, String fieldName, Class type) {
-            
-            try {
-                Class array = null;
-                if (type.isArray()) {
-                    array = type;
-                }
-                else {
-                    array = Array.newInstance(type, 0).getClass();
-                }
-                //-- getMethod
-                String prefix = JavaNaming.toJavaClassName(fieldName);
-                String method = GET + prefix;
-                boolean isGet = true;
-                if (findAccessor(claz, method, array, isGet) != null)
-                    return true;
-            }
-            catch(Exception ex) {}
-            return false;
-        }
-        
-        boolean canFindAccessors(Class claz, String fieldName, Class type) {
-            
-            try {
-                //-- getMethod
-                String prefix = JavaNaming.toJavaClassName(fieldName);
-                String method = GET + prefix;
-                boolean isGet = true;
-                if (findAccessor(claz, method, type, isGet) != null)
-                    return true;
-                    
-                //-- setMethod and/or addMethod
-                isGet = false;
-                method = SET + prefix;
-                if (findAccessor(claz, method, type, isGet) != null)
-                    return true;
-                method = ADD + prefix;
-                if (findAccessor(claz, method, type, isGet) != null)
-                    return true;                
-            }
-            catch(Exception ex) {}
-            return false;
-        }
-
-    } 
-    
 } //-- MappingTool
 
 

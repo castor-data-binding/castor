@@ -122,6 +122,27 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+				 <bug id="1484" tool="jira">
+                    <description>
+		                Seperated responsibilities of AbstractMappingLoader for holding its
+						current state and generation of descriptors.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060731</date>
+                </bug>
 				<bug id="721" tool="jira">
                     <description>
 		                Added validation of min/maxLength facets for xs:NMTOKEN
