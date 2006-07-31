@@ -44,7 +44,7 @@
  */
 package org.exolab.castor.mapping;
 
-import java.util.Enumeration;
+import java.util.Iterator;
 
 import org.castor.mapping.BindingType;
 
@@ -69,32 +69,24 @@ public interface MappingLoader {
     void setClassLoader(final ClassLoader loader);
     
     /**
-     * Returns the class descriptor for the specified Java class.
-     * In no such descriptor exists, returns null.
-     *
-     * @param javaClass The Java class
-     * @return A suitable class descriptor or null
-     */
-    ClassDescriptor getDescriptor(Class javaClass);
-
-    /**
-     * Returns an enumeration of all the known descriptors. Each
-     * element is of type {@link ClassDescriptor}.
-     */
-    Enumeration listDescriptors();
-
-    /**
-     * Returns an enumeration of all the supported Java classes.
-     * Each element is of type <tt>java.lang.Class</tt>, and for
-     * each such class a suitable descriptor exists.
-     */
-    Enumeration listJavaClasses();
-
-    /**
-     * Returns the class loader associated with this mapping resolver
-     * if one was specified. This is the class loader used to load all
-     * the classes mapped by this mapping resolver. May be null if no
-     * class loader was specified or in certain JVMs.
+     * Returns the class loader associated with this mapping loader if one was specified. This is
+     * the class loader used to load all the classes mapped by this mapping loader. May be null if
+     * no class loader was specified or in certain JVMs.
      */
     ClassLoader getClassLoader();
+
+    /**
+     * Returns the ClassDescriptor for the class with the given name. If no such ClassDescriptor
+     * exists, within the set of mappings for this MappingLoader, null will be returned.
+     *
+     * @param classname The className for which to return the associated ClassDescriptor.
+     * @return The ClassDescriptor or null if not found.
+     */
+    ClassDescriptor getDescriptor(String classname);
+    
+    /**
+     * Returns an iterator over all the known descriptors in the original order they have been
+     * added. Each element is of type {@link ClassDescriptor}.
+     */
+    Iterator descriptorIterator();
 }
