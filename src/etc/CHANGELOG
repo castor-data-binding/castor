@@ -1,6 +1,6 @@
 
-Version (SVN)
--------------
+Version 1.0.2, Aug 3, 2006
+-------------------------------
 
 All:   Resolved issue CASTOR-1484 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Seperated responsibilities of AbstractMappingLoader for holding its current state and generation of descriptors.
