@@ -72,7 +72,19 @@ org.exolab.castor.builder.javaVersion=5.0
                 
                 <p>Added new property to castor.properties to disable use of 
                    package-based '.castor.xml' files during class resolution 
-                   selectively.</p>
+                   selectively, which is enabled by default.</p>
+				
+				<p>To disable this feature, please uncomment the following 
+				   property in your custom <tt>castor.properties</tt> file:</p>
+				
+<code-panel>
+#
+# Property specifying whether the ClassDescriptorResolver should (automatically) search for and 
+# consult with package mapping files (.castor.xml) to retrieve class descriptor information; 
+# on by default. defaults to true
+#
+org.exolab.castor.xml.loadPackageMappings=false
+</code-panel>				
                    
                 <h3>Internal handling of idenities</h3>
                 
