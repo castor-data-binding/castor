@@ -1200,7 +1200,7 @@ public class XMLBindingComponent implements BindingComponent {
      */
     public String getCollectionType() {
         String result = null;
-        if (_type == MEMBER) {
+        if ((_type == MEMBER) && (_member.getCollection() != null)) {
             result = _member.getCollection().toString();
         }
         return result;

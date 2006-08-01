@@ -134,7 +134,27 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
-				<bug id="1482" tool="jira">
+                <bug id="1483" tool="jira">
+                    <description>
+		                Fixed NullPointerException at generation of mapping.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060801</date>
+                </bug>
+                <bug id="1482" tool="jira">
                     <description>
 		                Fixed problem related to MapItem class and namespaces.
                     </description>
@@ -154,7 +174,7 @@ org.castor.mapping.Loaders=\
                     <module>XML</module>
                     <date>20060801</date>
                 </bug>
-				 <bug id="1484" tool="jira">
+                <bug id="1484" tool="jira">
                     <description>
 		                Seperated responsibilities of AbstractMappingLoader for holding its
 						current state and generation of descriptors.
@@ -175,7 +195,7 @@ org.castor.mapping.Loaders=\
                     <module>All</module>
                     <date>20060731</date>
                 </bug>
-				<bug id="721" tool="jira">
+                <bug id="721" tool="jira">
                     <description>
 		                Added validation of min/maxLength facets for xs:NMTOKEN
                     </description>
@@ -195,7 +215,7 @@ org.castor.mapping.Loaders=\
                     <module>XML</module>
                     <date>20060726</date>
                 </bug>
-				<bug id="721" tool="jira">
+                <bug id="721" tool="jira">
                     <description>
 		                Fixed problem with support for final modifier at the class level during source generation.
                     </description>
