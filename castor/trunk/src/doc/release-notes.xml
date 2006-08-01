@@ -134,6 +134,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+				<bug id="1482" tool="jira">
+                    <description>
+		                Fixed problem related to MapItem class and namespaces.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dmitry Narozhnykh</name>
+                        <email>dmitrin@web.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060801</date>
+                </bug>
 				 <bug id="1484" tool="jira">
                     <description>
 		                Seperated responsibilities of AbstractMappingLoader for holding its
