@@ -19,6 +19,20 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="48">
+            <title>Castor 1.0.2 released</title>
+            <author>Werner Guttmann</author>
+            <date>Aug 03 2006</date>
+            <time>20:22:21</time>
+            <summary>
+                I've placed a copy of Castor 1.0.2 at the
+                <a href="http://dist.codehaus.org/castor/1.0.2/">Codehaus</a>.<br/><br/>
+
+                This is mainly a maintenance release. For details about features added 
+                and bugs fixed, please have a look at the 
+                <a href="release-notes.html">release notes</a>. 
+            </summary>
+        </news>
         <news id="47">
             <title>Spring ORM for Castor JDO RC1 released</title>
             <author>Werner Guttmann</author>
