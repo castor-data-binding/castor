@@ -54,6 +54,7 @@ import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.xml.FieldValidator;
@@ -566,7 +567,7 @@ public class XMLFieldDescriptorImpl
             _useParentClassNamespace)
         {
             if ((_nodeType == NodeType.Element) &&
-                (isPrimitive(_fieldType) || (isBuiltInType(_fieldType))))
+                (isPrimitive(_fieldType) || isBuiltInType(_fieldType) || isMappedItem(_fieldType)))
             {
                 if (_contClsDescriptor instanceof XMLClassDescriptor) {
                     return ((XMLClassDescriptor)_contClsDescriptor).getNameSpaceURI();
@@ -576,6 +577,11 @@ public class XMLFieldDescriptorImpl
         return _nsURI;
     } //-- getNameSpaceURI
 
+
+    private boolean isMappedItem(Class fieldType)
+    {
+        return (fieldType == MapItem.class);
+    }
 
     public NodeType getNodeType()
     {
