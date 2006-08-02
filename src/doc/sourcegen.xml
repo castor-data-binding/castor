@@ -553,6 +553,10 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
     bound? = xsd:boolean >
     (implements*,extends?)
 &lt;/java-class></code-panel>
+		   
+         <p>This element defines all the options for the class to be generated, including 
+			common properties such as class name, package name, etc.</p>
+		   
          <ul>
             <li><b>name:</b>The name of the class that will be generated.</li>
             <li><b>package:</b>The package of the class to be generated. if set, this option overrides the mapping defined in the &lt;package/> element.</li>
@@ -561,7 +565,31 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
             <li><b>equals:</b>If true, the generated class will implement the equals method.</li>
             <li><b>bound:</b>If true, the generated class will implement the bound properties.</li>
          </ul>
-         <p>This element defines all the options for the class to be generated.</p>
+
+			<p>For instance, the following binding definition instructs the source generator
+			   to generate a class <tt>CustomTest</tt> for a global element named 'test', replacing 
+			   the default class name <tt>Test</tt> with <tt>CustomTest</tt>.</p>
+
+         <code-panel>
+   &lt;elementBinding name=&quot;/test&quot;&gt;
+      &lt;java-class name=&quot;CustomTest&quot; final=&quot;true&quot;/&gt;
+   &lt;/elementBinding&gt;</code-panel>
+		   
+		   <p>In addition to above properties, it is possible to define that the class generated 
+			  will extend a class given and/or implement one or more interfaces.</p>
+		   
+		   <p>For instance, the following binding definition instructs the source generator
+			  to generate a class <tt>TestWithInterface</tt> that implements the interface
+			  <tt>org.castor.sample.SomeInterface</tt> in addition to 
+			  <tt>java.io.Serializable</tt>.</p>
+
+         <code-panel>
+   &lt;elementBinding name=&quot;/test&quot;&gt;
+      &lt;java-class name=&quot;TestWithInterface&quot;&gt;
+	     &lt;implements&gt;org.castor.sample.SomeInterface&lt;/implements&gt;
+	  &lt;/java-class&gt;
+   &lt;/elementBinding&gt;</code-panel>
+		   
        </section>
 
 
