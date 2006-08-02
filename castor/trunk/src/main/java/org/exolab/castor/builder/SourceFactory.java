@@ -1196,7 +1196,7 @@ public class SourceFactory {
      * @param jclass the JCLass which will implement the CastorTestable Interface
      * @see org.exolab.castor.tests.framework.CastorTestable
      */
-     public static void createTestableMethods
+     public void createTestableMethods
          (JClass jclass, FactoryState state) 
      {
          if (jclass == null)
@@ -1235,8 +1235,9 @@ public class SourceFactory {
             String componentName = null;
             if (name.indexOf("Has") == -1) {
                //Collection needs a specific handling
-               if ( (type.getName().equals("java.util.Vector<Object>")) ||
-                    (type.getName().equals("java.util.ArrayList<Object>")) ) {
+                if (type.isCollection()) {
+//               if ( (type.getName().equals("java.util.Vector<Object>")) ||
+//                    (type.getName().equals("java.util.ArrayList<Object>")) ) {
                      //if we are dealing with a Vector or an ArrayList
                     //we retrieve the type included in this Collection
                     int listLocat = name.lastIndexOf("List");

@@ -2,6 +2,11 @@
 Version 1.0.2, Aug 3, 2006
 -------------------------------
 
+XML:   Resolved issue CASTOR-1477 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Fixed problem to source code generator ignoring -nomarshall, -testable options.
+       Details: http://jira.codehaus.org/browse/CASTOR-1477
+       (Werner - 20060802)
+
 XML:   Resolved issue CASTOR-1483 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed NullPointerException at generation of mapping.
        Details: http://jira.codehaus.org/browse/CASTOR-1483

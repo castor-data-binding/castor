@@ -202,69 +202,64 @@ public class SourceGenerator
     //----------------------/
 
     private String _lineSeparator = null;
+    
     private JComment _header = null;
 
     private boolean _warnOnOverwrite = true;
+    
 	private boolean _suppressNonFatalWarnings = false;
 
-    /**
-     * Determines whether or not to print extra messages
-    **/
-    private boolean _verbose         = false;
+    /** Determines whether or not to print extra messages. */
+    private boolean _verbose = false;
 
     private String  _destDir = null;
 
-    /**
-     * A flag indicating whether or not to create
-     * descriptors for the generated classes
-    **/
+    /** A flag indicating whether or not to create
+     *  descriptors for the generated classes. */
     private boolean _createDescriptors = true;
 
-    /**
-     * A flag indicating whether or not to generate sources 
-     * for imported XML Schemas.
-     */
+    /** A flag indicating whether or not to generate sources 
+     *  for imported XML Schemas. */
     private boolean _generateImported = false;
 
-    /**
-     * The DescriptorSourceFactory instance
-     */
+    /** The DescriptorSourceFactory instance. */
     private DescriptorSourceFactory _descSourceFactory = null;
     
     private MappingFileSourceFactory _mappingSourceFactory = null;
     
-    /**
-     * The field info factory.
-    **/
+    /** The field info factory. */
     private FieldInfoFactory _infoFactory = null;
 
-    /**
-     * The source factory.
-    **/
+    /** The source factory. */
     private SourceFactory _sourceFactory = null;
 
    
     private ConsoleDialog _dialog = null;
     
-    /**
-     * A vector that keeps track of all the schemas processed
-     *
-     */
+    /** A vector that keeps track of all the schemas processed. */
     private Vector _schemasProcessed = null;
 
-    /**
-     * A flag to indicate that the mapping file should be generated
-     */
+    /** A flag to indicate that the mapping file should be generated. */
     private boolean _generateMapping = false;
     
-    /**
-     * The name of the mapping file to create 
-     * used with the gen-mapping flag
-     */
+    /** The name of the mapping file to create used with the gen-mapping flag. */
     private String  _mappingFilename = "mapping.xml";
 
+    /** A flag indicating whether or not to generate XML marshalling
+     *  framework specific methods. */
+    private boolean _createMarshalMethods = true;
+
+    /** A flag indicating whether or not to implement CastorTestable
+     *  (used by the Castor Testing Framework). */
+    private boolean _testable = false;
+
+    /** A flag indicating that SAX1 should be used when generating the source. */
+    private boolean _sax1 = false;
     
-    
+    /** A flag indicating that enumerated types should be constructed to perform
+     *  case insensitive lookups based on the values. */
+    private boolean _caseInsensitive = false;
+
     /**
      * Creates a SourceGenerator using the default FieldInfo factory
      */
@@ -328,8 +323,13 @@ public class SourceGenerator
         // by this time the properties have been set. if the sourceFactory
         // is null then create one using this for configuration. if this is
         // done before reading in the configuration there is a problem (CASTOR-1346)
-        if (_sourceFactory == null)
-                _sourceFactory = new SourceFactory(this, _infoFactory);
+        if (_sourceFactory == null) {
+            _sourceFactory = new SourceFactory(this, _infoFactory);
+            _sourceFactory.setCreateMarshalMethods(_createMarshalMethods);
+            _sourceFactory.setTestable(_testable);
+            _sourceFactory.setSAX1(_sax1);
+            _sourceFactory.setCaseInsensitive(_caseInsensitive);
+        }
  
         if (schema == null) {
             String err = "The argument 'schema' must not be null.";
@@ -495,9 +495,7 @@ public class SourceGenerator
      * Set to true if SAX1 should be used in the marshall method
      */
     public void setSAX1(boolean sax1) {
-        if (_sourceFactory != null)
-            _sourceFactory.setSAX1(sax1);
-
+        _sax1 = sax1;
     }
     
     /**
@@ -508,9 +506,7 @@ public class SourceGenerator
      *        performed in a case insensitive manner.
      */
     public void setCaseInsensitive(final boolean caseInsensitive) {
-        if (_sourceFactory != null) {
-            _sourceFactory.setCaseInsensitive(caseInsensitive);
-        }
+        _caseInsensitive = caseInsensitive;
     }
 
     public void setSuppressNonFatalWarnings(boolean suppress) {
@@ -560,8 +556,7 @@ public class SourceGenerator
      *
      */
     public void setCreateMarshalMethods(boolean createMarshalMethods) {
-        if (_sourceFactory != null)
-		   _sourceFactory.setCreateMarshalMethods(createMarshalMethods);
+        _createMarshalMethods = createMarshalMethods;
     } //-- setCreateMarshalMethods
     
     /**
@@ -594,8 +589,7 @@ public class SourceGenerator
      * to implement CastorTestable
      */
     public void setTestable(boolean testable) {
-        if (_sourceFactory != null)
-		   _sourceFactory.setTestable(testable);
+        _testable = testable;
     } //-- setTestable
 
    /**
