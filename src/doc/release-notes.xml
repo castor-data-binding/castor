@@ -134,6 +134,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1482" tool="jira">
+                    <description>
+		                Fixed problem to source code generator ignoring -nomarshall, -testable options.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060802</date>
+                </bug>
                 <bug id="1483" tool="jira">
                     <description>
 		                Fixed NullPointerException at generation of mapping.
