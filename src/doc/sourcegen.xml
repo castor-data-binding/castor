@@ -586,25 +586,38 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
          <code-panel>
    &lt;elementBinding name=&quot;/test&quot;&gt;
       &lt;java-class name=&quot;TestWithInterface&quot;&gt;
-	     &lt;implements&gt;org.castor.sample.SomeInterface&lt;/implements&gt;
-	  &lt;/java-class&gt;
+         &lt;implements&gt;org.castor.sample.SomeInterface&lt;/implements&gt;
+      &lt;/java-class&gt;
    &lt;/elementBinding&gt;</code-panel>
 		   
+		   <p>The subsequent binding definition instructs the source generator
+			  to generate a class <tt>TestWithExtendsAndInterface</tt> that implements the interface
+			  <tt>org.castor.sample.SomeInterface</tt> in addition to 
+			  <tt>java.io.Serializable</tt>, and extends from (a possible) abstract base class
+			  <tt>SomeAbstractBaseClass</tt>.</p>
+
+           <code-panel>
+   &lt;elementBinding name=&quot;/test&quot;&gt;
+      &lt;java-class name=&quot;TestWithExtendsAndInterface&quot;&gt;
+         &lt;extends&gt;org.castor.sample.SomeAbstractBaseClass&lt;/extends&gt;
+         &lt;implements&gt;org.castor.sample.SomeInterface&lt;/implements&gt;
+      &lt;/java-class&gt;
+   &lt;/elementBinding&gt;</code-panel>
+
+		   <p>The generated class <tt>SomeAbstractBaseClass</tt> will have a class signature
+		      identical to ...</p>
+		   
+		   <code-panel>
+   ...
+
+   public class TestWithExtendsAndInterface
+      extends SomeAbstractBaseClass
+      implements SomeInterface, java.io.Serializable {
+      ...
+		   </code-panel>
+		   		   
        </section>
 
-
-       <section title="&lt;interface> element">
-         <code-panel>
-&lt;interface>
-    name = xsd:string
-&lt;/interface></code-panel>
-         <ul>
-            <li><b>name:</b>The name of the interface that will be generated.</li>
-         </ul>
-         <p>This element specifies the name of the interface to be generated for an XML schema component.</p>
-
-         <p><b>NOTE: this element is not yet implemented.</b></p>
-       </section>
 
        <section title="&lt;member> element">
          <code-panel>
@@ -630,26 +643,43 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
             possible. The names given for the validator and the fieldHandler must be fully qualified.</p>
        </section>
 
-       <section title="todo">
-          <ul>
-            <li>
-                  <code-panel>
- &lt;enumBinding>
-    (enumClassName|enumMemberName)
- &lt;/enumBinding></code-panel>
-             <p>This element will allow more control on the type safe enumerations generated to represent an XML Schema simpleType enumeration</p>
-          </li>
-          <li>
-            <table>
-               <tr>
-                  <code>&lt;javadoc/></code>
-               </tr>
-            </table>
-            <p>the javadoc element will allow one to enter the necessary javadoc that represents the generated classes or members.</p>
-          </li>
-       </ul>
+       <section title="Not implemented yet">
+		   
+		   <section title="&lt;enumBinding&gt;">
 
+			  <code-panel>
+	 &lt;enumBinding>
+		(enumClassName|enumMemberName)
+	 &lt;/enumBinding></code-panel>
+			   
+			  <p>This element will allow more control on the type safe enumerations 
+				 generated to represent an XML Schema simpleType enumeration</p>
 
+   		   </section>
+		   
+		   <section title="&lt;javadoc&gt;">
+
+			   <p>The &gt;javadoc&gt; element will allow one to enter the necessary javadoc 
+				  that represents the generated classes or members.</p>
+			   
+		   </section>
+			   
+		   <section title="&lt;interface> element">
+			   
+			 <code-panel>
+	&lt;interface&gt;
+		name = xsd:string
+	&lt;/interface&gt;</code-panel>
+			 <ul>
+				<li><b>name:</b>The name of the interface that will be generated.</li>
+			 </ul>
+			   
+			 <p>This element specifies the name of the interface to be generated for an 
+				XML schema component.</p>
+	
+		   </section>
+
+		   
        </section>
 
     </section>
