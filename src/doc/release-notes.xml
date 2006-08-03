@@ -134,6 +134,26 @@ org.castor.mapping.Loaders=\
                    
             </summary>
             <bugs>
+                <bug id="1487" tool="jira">
+                    <description>
+		                Fixed bug in Castor's EHCache implementation.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060803</date>
+                </bug>
                 <bug id="1482" tool="jira">
                     <description>
 		                Fixed problem to source code generator ignoring -nomarshall, -testable options.
