@@ -59,7 +59,7 @@
     <project>JDO</project>
     <company id="anecon" />
     <description>
-       Current Castor JDO project lead; JDO enhancements including distributed caches, 
+       Current Castor project lead; JDO enhancements including distributed caches, 
        TransactionManagerFactory API, support for polymorphism, Spring integration,
        the API for JDBC parameters and much more.
     </description>
@@ -74,7 +74,7 @@
     <email>keith@kvisco.com</email>
     <project>XML</project>
     <description>
-      Castor XML Project Lead. Intial Castor XML author.
+      Intial Castor XML author and Castor Project Lead until 1.0.2.
       Responsible for all things wrong in Castor XML.
       Enhancements, bug fixes, documention, etc.
    </description>
