@@ -55,9 +55,6 @@ public final class EHCache extends AbstractBaseCache {
     private static final Class[] TYPES_GET_CACHE = new Class[] {String.class};
     
     /** Parameter types for calling getFromCache() method on cache instance. */
-    private static final Class[] TYPES_NO_PARAM = new Class[] {null};
-    
-    /** Parameter types for calling getFromCache() method on cache instance. */
     private static final Class[] TYPES_GET = new Class[] {Object.class};
 
     /** Parameter types for calling getFromCache() method on cache instance. */
@@ -85,14 +82,22 @@ public final class EHCache extends AbstractBaseCache {
     /** The method to invoke on cache instead of calling removeAll() directly. */
     private Method _removeAllMethod;
 
-    /** The method to invoke on Element instead of calling getObjectValue() directly. */
-    private Method _getObjectValueMethod;
+    /** The method to invoke on Element instead of calling getValue() directly. */
+    private Method _getValueMethod;
 
     /** Class instance for "net.sf.ehcache.Element" */
     private Class _elementClass;
 
     /** Constructir for 'net.sf.ehcache.Element' class */
     private Constructor _elementConstructor;
+
+    /**
+     * {@inheritDoc}
+     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     */
+    public void initialize(final Properties params) throws CacheAcquireException {
+        initialize(IMPLEMENTATION, params);
+    }
 
     /**
      * Normally called to initialize FKCache. To be able to test the method without
@@ -132,8 +137,8 @@ public final class EHCache extends AbstractBaseCache {
         
         try {
             _elementClass = Class.forName("net.sf.ehcache.Element");
-            _getObjectValueMethod =
-                _elementClass.getMethod("getObjectValue", TYPES_NO_PARAM);
+            _getValueMethod =
+                _elementClass.getMethod("getValue", null);
         } catch (Exception e) {
             String msg = 
                 "Failed to instantiate Class for type 'net.sf.ehcache.Element': " 
@@ -143,14 +148,14 @@ public final class EHCache extends AbstractBaseCache {
         }
         
         try {
-            _getSizeMethod = cls.getMethod("getSize", TYPES_NO_PARAM);
+            _getSizeMethod = cls.getMethod("getSize", null);
             _getMethod = cls.getMethod("get", TYPES_GET);
             _putMethod = cls.getMethod("put", new Class[] {_elementClass });
             _removeMethod = cls.getMethod("remove", TYPES_REMOVE);
-            _removeAllMethod = cls.getMethod("removeAll", TYPES_NO_PARAM);
+            _removeAllMethod = cls.getMethod("removeAll", null);
             _elementConstructor =
                 _elementClass.getConstructor(TYPES_ELEMENT_CONSTRUCTOR);
-            _removeAllMethod = cls.getMethod("removeAll", TYPES_NO_PARAM);
+            _removeAllMethod = cls.getMethod("removeAll", null);
         } catch (Exception e) {
             String msg = "Failed to find method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);
@@ -207,7 +212,8 @@ public final class EHCache extends AbstractBaseCache {
         Object result = null;
         try {
             Object elementInCache = _getMethod.invoke(_cache, new Object[] {key});
-            result = _getObjectValueMethod.invoke(elementInCache, null);
+            if (elementInCache == null) { return null; }
+            result = _getValueMethod.invoke(elementInCache, null);
         } catch (Exception e) {
             String msg = "Failed to call method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);
