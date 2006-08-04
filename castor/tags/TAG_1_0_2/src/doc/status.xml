@@ -1,0 +1,216 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/status.xml">
+  <body>
+    <title>Status</title>
+
+    <section title="Supported Features">
+
+      <section title="Castor XML">
+        <ul>
+          <li>Automatic XML data binding for class definitions which adhere
+              to the Java Beans design pattern. This is often referred to as default introspection
+              in our documentation.
+          </li>
+          <li>Java to XML mapping automates transformation of Java objects to and from
+              XML documents and provides Java object validation
+          </li>
+          <li>
+             An XML based mapping file to specify XML bindings for existing object models
+              (see <a href="xml-mapping.xml">xml-mapping</a>).
+          </li>
+
+          <li>Source Code generator can produce Java class definitions,
+              XML binding information, and validation code based on
+              a given XML schema (see <a href="sourcegen.xml">Source Generator</a>)
+          </li>
+
+          <li>Supports the W3C XML Schema 1.0 Recommendation (2001-05-02).
+              For more information refer to the
+              <a href="sourcegen.xml">Source Code Generator</a> and
+              <a href="xmlschema.xml">XML Schema Support</a>.
+          </li>
+          <li>Supports "customization" binding file used in conjunction with
+              an XML Schema for greater control over the generated source code.
+              Name collision is avoided with this binding file.
+              for more information refer to <a href="sourcegen.xml#Binding-File">the Binding File</a>.
+          </li>
+          <li>
+             Automatically create XML Schema from XML instance documents.
+          </li>
+        </ul>
+      </section>
+
+      <section title="Castor JDO">
+        <ul>
+          <li>Java to SQL mapping (object/relational) automates Java persistence
+              into any relational database server using JDBC</li>
+
+          <li>Java to SQL mapping uses an XML document to specify the mapping
+              textually, and provides an API to specify them programatically</li>
+
+          <li>Supports one-one and one-many relation types, SQL/Java inheritance,
+              object graph to single row mapping, and multiple column primary
+              keys and automatic type conversion</li>
+
+          <li>Optimistic and pessimistic locking modes, in-memory concurrency
+              engine, and dead-lock detection</li>
+
+          <li>Provides support for EJB 1.1 CMP entity beans (release 0.9)
+              and CMP finder declaration using OQL</li>
+
+          <li>Efficient implementation incurs little overhead compared to
+              direct JDBC access</li>
+
+          <li>Support for JTA transaction demarcation, inclusion as resource
+              in transactional environment, and JDBC connection pooling
+              (release 0.9 integrated with Tyrex)</li>
+
+          <li>Cache control at JDO configuration and mapping file specification - no-cache option,
+              cache object limit, cache time limit, LRU removal deamon</li>
+
+          <li>New architecture separating the responsibility of the CacheEngine from
+              that of the persistent object, in order to better support relations
+              (especially many-many) and better handle dependency object commits.</li>
+
+          <li>Multi column primary keys and contained objects.</li>
+
+          <li>Mapping file supporting object dependency and relations. </li>
+
+          <li>Serializable field type</li>
+
+          <li>Calling Stored procedures returning result sets</li>
+
+          <li>Support for many data types, including BLOBs and CLOBs</li>
+        </ul>
+      </section>
+
+      <section title="Castor DSML">
+        <p>
+           <b>Note: DSML is no longer supported</b> until we find a contributor
+           who is willing to upgrade and maintain it. If you are interested
+           in working on Castor DSML please let us know.
+        </p>
+        <ul>
+          <li>Import/export an LDAP directory or search results to/from XML
+              based on the industry standard DSML schema</li>
+
+          <li>XML document for specifying LDAP queries and import rules</li>
+
+          <li>Supports both JNDI service providers and the Mozilla Directory SDK</li>
+        </ul>
+      </section>
+
+    </section>
+
+    <section title="What's missing">
+      <ul>
+        <li>Work *was* under way on a direct SQL->XML bridge which uses the same
+            mapping file but does not involve any Java objects in the process.
+            The developer who was working on this feature left the company is
+            no longer has time to work on this. If any one is interested in working
+            on this feature...let us know!
+        </li>
+
+        <li>The EJB CMP implementation is now developed in the scope of the
+            OpenEJB project.</li>
+
+        <li>Consolidation between the SQL and LDAP engine through a shared
+            DataStore API, potentially supporting other relational back-ends.</li>
+
+        <li>More generic mapping API and mapping tools.</li>
+
+        <li>Stored procedures, XML content.</li>
+
+        <li>Debugging tools.</li>
+      </ul>
+    </section>
+
+    <section title="TODO">
+       <section title="JDO">
+         <ul>
+            <li>Add type convertors to bind parameters and load() method</li>
+
+            <li>DataStore API replacing existing persist SPI. Consolidation of JDO and DAX.</li>
+
+            <li>New mapping DTD</li>
+
+            <li>Support for read-only fields</li>
+
+            <li>SQLData, DOM and Castor XML data object field types</li>
+
+            <li>Calling Stored procedures without result set</li>
+         </ul>
+       </section>
+       <section title="XML">
+          <section title="Marshalling Framework">
+            <ul>
+               <li>Improve SAX-2 support for Marshaller instead of using XMLReaderAdapter (kvisco)</li>
+               <li>Improve ID/Key reference handling, including improvements to IDResolver. (kvisco)</li>
+               <li>Improve ClassDescriptorResolverImpl to support nested Resolver (kvisco)</li>
+               <li>Improve error reporting. (all)</li>
+               <li>Improve documentation. (all)</li>
+               <li>Improve performance. (kvisco, afawcett)</li>
+               <li>Provide a JAXB compatibility layer. (kvisco + arnaud)</li>
+               <li>
+                  For more items, please use
+                  <a href="http://jira.codehaus.org/browse/CASTOR">Bugzilla</a>
+               </li>
+            </ul>
+          </section>
+          <section title="Source Code Generator">
+            <ul>
+               <li>Provide a JAXB compatibility layer. (kvisco + arnaud)</li>
+               <li>Full Support Union type (union of string and Qnames are supported)</li>
+               <li>Extensibility API.</li>
+               <li>
+                  For more items, please use
+                  <a href="http://jira.codehaus.org/browse/CASTOR">Bugzilla</a>
+               </li>
+            </ul>
+         </section>
+         <section title="Mapping">
+            <ul>
+               <li>
+                   Support for element containers, also called element wrappers.
+               </li>
+               <li>Improve Collection handling in default FieldHandler</li>
+               <li>Improve mapping file usability</li>
+               <li>Improve namespace support</li>
+               <li>
+                  For more items, please use
+                  <a href="http://jira.codehaus.org/browse/CASTOR">Bugzilla</a>
+               </li>
+
+            </ul>
+         </section>
+         <section title="Miscellaneous">
+            <ul>
+               <li>Support for creating an XML Schema from Java Object Model.</li>
+            </ul>
+         </section>
+
+       </section>
+    </section>
+    <section title="When is the next release?">
+       <p>
+       Typically a release is done when all scheduled items for the release are finished
+       and tested. However, this can take a while to accomplish depending on the tasks,
+       therefore we may do "interim" releases that contain some of the features scheduled
+       for a particular release.  An interim release alls the community to take
+       advantage of the new features and bug fixes, without needing to wait until
+       all features of the release have been finished. An interim release can
+       be done at any time that the SVN is in a stable state and especially if
+       some important bug fixes are available.
+       </p>
+       <p>
+       The current tasks for the next release are being tracked in Bugzilla
+       (<a href="http://jira.codehaus.org/browse/CASTOR">http://jira.codehaus.org/browse/CASTOR</a>).
+       </p>
+
+    </section>
+  </body>
+</document>
+
+
+
+

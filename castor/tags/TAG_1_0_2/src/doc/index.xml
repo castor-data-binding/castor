@@ -1,0 +1,40 @@
+<?xml version="1.0"?>
+<document url="http://castor.org/index.xml">
+  <properties>
+    <title>The Castor Project</title>
+    <abstract>
+       The index page for the Castor Project
+    </abstract>
+    <status>Draft</status>
+  </properties>
+  <body>
+    <title>The Castor Project</title>
+
+    <header>
+    </header>
+
+    <section title="Quick Description">
+
+      <p>
+         Castor is an Open Source data binding framework for Java[tm]. It's
+         the shortest path between Java objects, XML documents and relational
+         tables. Castor provides Java-to-XML binding, Java-to-SQL persistence,
+         and more.
+      </p>
+
+    </section>
+    
+    <section title="Recent documentation changes">
+        
+        <p>Please check <a href="changes.html">here</a> for any information
+           related to changes of the HTML documentation.</p>
+           
+    </section>
+
+    <section title="News">
+      <!-- include the latest news -->
+      <include href="news.xml" select-node="news" max-nodes="8"/>
+    </section>
+
+  </body>
+</document>

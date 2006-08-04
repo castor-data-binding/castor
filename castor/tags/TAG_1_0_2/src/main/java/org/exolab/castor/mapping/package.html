@@ -1,0 +1,47 @@
+<html>
+  <body>
+    <p><b>The Class Mapping API</b></p>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:arkin@exoffice.com">Assaf Arkin</a></dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:kvisco@exoffice.com">Keith Visco</a></dd>
+    </dl>
+
+    <p>This package provides a common base for the class mapping descriptors and tools to
+       generate mapping descriptors from a mapping file. The Java objects for the XML-based
+       mapping file are contained in the sub-package <tt>xml</tt> and the DTD and XML schema
+       originate in this package. The sub-package <tt>loader</tt> implements a mapping loader.</p>
+
+    <p>{@link org.exolab.castor.mapping.Mapping} serves as a generic mapping loader that can
+       be used to load multiple mapping files and feed them to the XML marshaller, JDO engine,
+       and DAX engine.</p>
+
+    <p>{@link org.exolab.castor.mapping.ClassDescriptor} is a mapping descriptor for a Java class,
+       consisting of any number of fields. {@link org.exolab.castor.mapping.FieldDescriptor} is a
+       mapping descriptor for a Java field within that class. Access to the field value is granted
+       through a {@link org.exolab.castor.mapping.FieldHandler}, obtained from the field descriptor.</p>
+
+   <p>{@link org.exolab.castor.mapping.MappingResolver} is an interface to a collection of class
+       mapping that can provide the mapping descriptor for a particular Java class. A <tt>MappingResolver</tt>
+       is constructed  using a mapping loader, see the <tt>loader</tt> package.</p>
+
+    <p>The following example illustrates how to load a mapping file with the current class
+       loader and use it to marshal an object:
+       <pre>
+  Mapping      map;
+  Marshaller   mar;
+
+  <font color="red">// Load the specified mapping file</font>
+  map = new Mapping( getClass().getClassLoader() );
+  map.loadMapping( "mapping.xml" );
+
+  <font color="red">// Marshal the object into a document</font>
+  mar = new Marshaller( output );
+  mar.setMapping( mapping );
+  mar.marshal( object );
+       </pre></p>
+
+
+  </body>
+</html>

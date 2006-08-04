@@ -1,0 +1,144 @@
+BODY { 
+    background: #ffffff; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    font-size: 10px;
+}
+
+A:link, 
+A:visited, 
+A:active { 
+    text-decoration: none 
+}
+
+.noteHeader {
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    font-size: 12px;
+    color: yellow;
+    font-weight: bold 
+}
+
+.noteBody {
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    font-size: 11px;
+}
+
+.userdata   { 
+    behavior: url('#default#userdata'); 
+}
+
+.bg { 
+    background-repeat: no-repeat
+}
+
+.pageTitle {
+    font-size: 14px; 
+    font-family: "Helvetica", "Arial", "sans-serif"; 
+    line-height: 22px; 
+    font-weight: bold; 
+    color: #666666;
+}
+
+.bodyGrey { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    line-height: 16px; color: #666666;
+}
+
+.bodyBlack { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    line-height: 16px; color: #000000;
+}
+
+.legalBlack { 
+    font-size: 12px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    line-height: 16px; color: #000000;
+}
+
+.legalGrey { 
+    font-size: 11px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    line-height: 16px; color: #999999;
+}
+
+.bigGrey { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    line-height: 16px; color: #666666;
+}
+
+.projectBlack { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    line-height: 13px; color: #000000;
+}
+
+.header { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 16px; 
+    font-weight: bold; 
+    color: #181818;
+}
+
+.menuTopOn { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 0px; 
+    color: #6763a9;
+}
+
+.menuTopOff { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 0px; 
+    color: #999999;
+}
+
+.menuProjectOn { 
+    font-size: 14px; 
+    font-family: "Helvetica", "Arial", "sans-serif"; 
+    line-height: 22px; 
+    font-weight: bold; 
+    color: #cbcbeb;
+}
+
+.menuProjectOff { 
+    font-size: 14px; 
+    font-family: "Helvetica", "Arial", "sans-serif"; 
+    line-height: 22px; 
+    font-weight: bold; 
+    color: #ffffff;
+}
+
+.subMenuOn { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 22px; 
+    font-weight: bold; 
+    color: #4d4b7e;
+}
+
+.subMenuOff { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 22px; 
+    font-weight: bold; 
+    color: #cbcbeb;
+}
+
+.newsTitle {
+    font-size: 12px;
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 16px; color: #222222;
+    font-weight: bold;
+}
+
+.newsSummary {
+    font-size: 11px;
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 14px; color: #222222;
+}
+
+
