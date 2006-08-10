@@ -30,6 +30,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1495" tool="jira">
+                    <description>
+		                Moved successfull XML tests from Regression- to MasterTestSuite.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060810</date>
+                </bug>
                 <bug id="1488" tool="jira">
                     <description>
 		                Refactored FieldDescriptor.
