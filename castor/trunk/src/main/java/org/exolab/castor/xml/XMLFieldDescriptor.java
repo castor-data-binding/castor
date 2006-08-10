@@ -1,75 +1,37 @@
-/**
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+/*
+ * Copyright 2006 Assaf Arkin, Keith Visco, Ralf Joachim
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2004 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
-
-
 package org.exolab.castor.xml;
 
-
 import org.exolab.castor.mapping.FieldDescriptor;
-
 
 /**
  * XML field descriptor. Wraps {@link FieldDescriptor} and adds
  * XML-related information, type conversion, etc.
  *
- * @author <a href="arkin@intalio.com">Assaf Arkin</a>
- * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2004-09-17 00:47:41 -0600 (Fri, 17 Sep 2004) $
  */
 public interface XMLFieldDescriptor extends FieldDescriptor {
-
-    /**
-     * The xml:space property
-     */
-    public static final String PROPERTY_XML_SPACE = "xml:space";
+    /** The xml:space property */
+    String PROPERTY_XML_SPACE = "xml:space";
     
-    /**
-     * The xml:lang property
-     */
-    public static final String PROPERTY_XML_LANG = "xml:lang";
-        
+    /** The xml:lang property */
+    String PROPERTY_XML_LANG = "xml:lang";
     
     /**
      * Returns the index within the constructor argument array where the 
@@ -79,67 +41,21 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      *
      * Note: This only applies to attribute mapped fields at this time.
      *
-     * @return the index within the constructor argument array for 
-     * this field.
+     * @return the index within the constructor argument array for this field.
      * @see isConstructorArgument
      */
-    public int getConstructorArgumentIndex();
+    int getConstructorArgumentIndex();
 
     /**
-     * Return the "suggested" namespace prefix to use when marshalling
-     * as XML.
+     * Returns true if the value of the field represented by this 
+     * descriptor should be set via the constructor of the containing
+     * class. This is only valid for attribute mapped fields.
      *
-     * @return the "suggested" namespace prefix.
+     * @return true if the value of the field represented by this 
+     * descriptor should be set via the constructor of the containing
+     * class.
      */
-    public String getNameSpacePrefix();
-
-    /**
-     * Returns the namespace URI to be used when marshalling and
-     * unmarshalling as XML.
-     *
-     * @return the namespace URI.
-     */
-    public String getNameSpaceURI();
-
-    /**
-     * Returns the NodeType of the Field being described. The
-     * NodeType represents the Type of Node that the Field will
-     * be marshalled into XML as.
-     *
-     * @return the NodeType of the Field being described.
-     */
-    public NodeType getNodeType();
-    
-    /**     
-     * Returns the value property with the given name or null
-     * if no such property exists. This method is useful for
-     * future evolutions of this interface as well as for
-     * user-defined extensions. See class declared properties
-     * for built-in properties.
-     *
-     * @param propertyName the name of the property whose value
-     * should be returned.
-     *
-     * @return the value of the property, or null.
-     */
-    public String getProperty(String propertyName);
-
-    
-    /**
-     * Returns a specific validator for the field described by
-     * this descriptor. A null value may be returned
-     * if no specific validator exists.
-     *
-     * @return the field validator for the described field
-     */
-    public FieldValidator getValidator();
-
-    /**
-     * Returns the XML Name for the field being described.
-     *
-     * @return the XML name.
-     */
-    public String getXMLName();
+    boolean isConstructorArgument();
 
     /**
      * Returns the "relative" XML path for the field being described.
@@ -183,25 +99,78 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * 
      * @returns the "relative" XML path for the field being described.
      */
-    public String getLocationPath();
+    String getLocationPath();
     
-   /**
-    * Returns the XML Schema type of the XML field being described.
-    *
-    * @return the XML Schema type of the XML field being described.
-    */
-    public String getSchemaType();
+    /**
+     * Return the "suggested" namespace prefix to use when marshalling
+     * as XML.
+     *
+     * @return the "suggested" namespace prefix.
+     */
+    String getNameSpacePrefix();
 
     /**
-     * Returns true if the value of the field represented by this 
-     * descriptor should be set via the constructor of the containing
-     * class. This is only valid for attribute mapped fields.
+     * Returns the namespace URI to be used when marshalling and
+     * unmarshalling as XML.
      *
-     * @return true if the value of the field represented by this 
-     * descriptor should be set via the constructor of the containing
-     * class.
+     * @return the namespace URI.
      */
-    public boolean isConstructorArgument();
+    String getNameSpaceURI();
+
+    /**
+     * Returns the NodeType of the Field being described. The
+     * NodeType represents the Type of Node that the Field will
+     * be marshalled into XML as.
+     *
+     * @return the NodeType of the Field being described.
+     */
+    NodeType getNodeType();
+    
+    /**     
+     * Returns the value property with the given name or null
+     * if no such property exists. This method is useful for
+     * future evolutions of this interface as well as for
+     * user-defined extensions. See class declared properties
+     * for built-in properties.
+     *
+     * @param propertyName the name of the property whose value
+     * should be returned.
+     *
+     * @return the value of the property, or null.
+     */
+    String getProperty(String propertyName);
+    
+    /**
+     * Returns the XML Schema type of the XML field being described.
+     *
+     * @return the XML Schema type of the XML field being described.
+     */
+    String getSchemaType();
+
+    /**
+     * Returns a specific validator for the field described by
+     * this descriptor. A null value may be returned
+     * if no specific validator exists.
+     *
+     * @return the field validator for the described field
+     */
+    FieldValidator getValidator();
+
+    /**
+     * Returns the XML Name for the field being described.
+     *
+     * @return the XML name.
+     */
+    String getXMLName();
+
+    /**
+     * Returns true if the field described by this descriptor is a container
+     * field. A container is a field that is not a first-class object,
+     * and should therefore have no XML representation. 
+     *
+     * @return true if the field is a container
+     */
+    boolean isContainer();
 
     /**
      * Returns the incremental flag which when true indicates that this
@@ -210,15 +179,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * @return true if the Object can safely be added before the unmarshaller
      * is finished unmarshalling the Object.
      */
-    public boolean isIncremental();
-
-    /**
-     * Returns true if the field described by this descriptor can
-     * contain more than one value
-     * @return true if the field described by this descriptor can
-     * contain more than one value
-     */
-    public boolean isMultivalued();
+    boolean isIncremental();
 
     /**
      * Returns true if the field described by this descriptor
@@ -228,8 +189,16 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * @return true if the field described by this desciptor is
      * a Map or Hashtable, otherwise false.
      */
-    public boolean isMapped();
+    boolean isMapped();
     
+    /**
+     * Returns true if the field described by this descriptor can
+     * contain more than one value
+     * @return true if the field described by this descriptor can
+     * contain more than one value
+     */
+    boolean isMultivalued();
+
     /**
      * Returns true if the field described by this descriptor
      * may be nillable. A nillable field is one that may
@@ -239,23 +208,14 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * 
      * @return true if the field may be nillable.
      */
-    public boolean isNillable();
+    boolean isNillable();
     
     /**
      * Returns true if the field described by this descriptor is
      * a reference (ie. IDREF) to another object in the
      * "Object Model" (XML tree)
      */
-    public boolean isReference();
-
-    /**
-     * Returns true if the field described by this descriptor is a container
-     * field. A container is a field that is not a first-class object,
-     * and should therefore have no XML representation. 
-     *
-     * @return true if the field is a container
-     */
-    public boolean isContainer();
+    boolean isReference();
 
     /**
      * Returns true if this descriptor can be used to handle elements
@@ -266,7 +226,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * @return true if this descriptor can be used to handle elements
      * or attributes with the given XML name.
      */
-    public boolean matches(String xmlName);
+    boolean matches(String xmlName);
 
     /**
      * Returns true if this descriptor can be used to handle elements
@@ -279,10 +239,5 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * @return true if this descriptor can be used to handle elements
      * or attributes with the given XML name.
      */
-    public boolean matches(String xmlName, String namespace);
-
-
-} //-- XMLFieldDescriptor
-
-
-
+    boolean matches(String xmlName, String namespace);
+}

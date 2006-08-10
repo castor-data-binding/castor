@@ -51,7 +51,6 @@ import org.castor.mapping.BindingType;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.*;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
-import org.exolab.castor.mapping.loader.FieldDescriptorImpl;
 import org.exolab.castor.mapping.loader.FieldHandlerFriend;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
@@ -346,11 +345,6 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
     protected FieldDescriptor createFieldDesc( Class javaClass, FieldMapping fieldMap )
             throws MappingException {
 
-        // FieldDescriptor  fieldDesc;
-        String[]           sqlName;
-        Class            sqlType;
-        int[]            sType;
-
         // If not an SQL field, return a stock field descriptor.
         if ( fieldMap.getSql() == null )
             return super.createFieldDesc( javaClass, fieldMap );
@@ -470,47 +464,46 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
             else  typeInfo = typeInfoRef.typeInfo;
         }
                 
-        FieldDescriptorImpl fieldDesc 
-            = new FieldDescriptorImpl(fieldName, typeInfo, handler,
-                fieldMap.getTransient(), fieldMap.getComparator());
-
-        fieldDesc.setRequired(fieldMap.getRequired());
-
-        //-- If we're using an ExtendedFieldHandler we need to set the 
-        //-- FieldDescriptor
-        if (exfHandler != null)
-            ((FieldHandlerFriend)exfHandler).setFieldDescriptor(fieldDesc);
-
-        // if SQL mapping declares transient 
-        if ( fieldMap.getSql().getTransient()) {
-        	fieldDesc.setTransient (true);
-        }
-        
-        sqlName = fieldMap.getSql().getName();
+        String[] sqlName = fieldMap.getSql().getName();
 
         String[] sqlTypes = getSqlTypes(fieldMap);
 
-        int len = sqlTypes.length;
-        if ( len > 0 ) {
-            sType = new int[len];
-            for ( int i=0; i < len; i++ ) {
-                sqlType = SQLTypeInfos.sqlTypeName2javaType( definition2type(sqlTypes[i]) );
-                if ( _factory != null )
-                    sqlType = _factory.adjustSqlType( sqlType );
-                sType[i] = SQLTypeInfos.javaType2sqlTypeNum( sqlType );
+        int[] sqlTypeNum;
+        if (sqlTypes.length > 0) {
+            sqlTypeNum = new int[sqlTypes.length];
+            for (int i = 0; i < sqlTypes.length; i++) {
+                String sqlTypeString = definition2type(sqlTypes[i]);
+                Class sqlType = SQLTypeInfos.sqlTypeName2javaType(sqlTypeString);
+                if (_factory != null) { sqlType = _factory.adjustSqlType(sqlType); }
+                sqlTypeNum[i] = SQLTypeInfos.javaType2sqlTypeNum(sqlType);
             }
         } else {
-            sqlType = fieldDesc.getFieldType();
-            if ( _factory != null )
-                sqlType = _factory.adjustSqlType( sqlType );
-            sType = new int[] {SQLTypeInfos.javaType2sqlTypeNum(sqlType)};
+            Class sqlType = typeInfo.getFieldType();
+            if (_factory != null) { sqlType = _factory.adjustSqlType(sqlType); }
+            sqlTypeNum = new int[] {SQLTypeInfos.javaType2sqlTypeNum(sqlType)};
         }
 
-        return new JDOFieldDescriptor( fieldDesc, sqlName, sType,
-            !SqlDirtyType.IGNORE.equals( fieldMap.getSql().getDirty() ),
-            fieldMap.getSql().getManyTable(),
-            fieldMap.getSql().getManyKey(),
-            fieldMap.getSql().getReadOnly() );
+        JDOFieldDescriptorImpl jdoFieldDescriptor = new JDOFieldDescriptorImpl(
+                fieldName, typeInfo, handler, fieldMap.getTransient(),
+                sqlName, sqlTypeNum,
+                fieldMap.getSql().getManyTable(),
+                fieldMap.getSql().getManyKey(),
+                !SqlDirtyType.IGNORE.equals(fieldMap.getSql().getDirty()),
+                fieldMap.getSql().getReadOnly() );
+        
+        jdoFieldDescriptor.setRequired(fieldMap.getRequired());
+
+        // If we're using an ExtendedFieldHandler we need to set the FieldDescriptor
+        if (exfHandler != null) {
+            ((FieldHandlerFriend) exfHandler).setFieldDescriptor(jdoFieldDescriptor);
+        }
+
+        // if SQL mapping declares transient 
+        if (fieldMap.getSql().getTransient()) {
+            jdoFieldDescriptor.setTransient(true);
+        }
+        
+        return jdoFieldDescriptor;
     }
 
     protected void loadMappingInternal(final MappingRoot mapping, final Object param)

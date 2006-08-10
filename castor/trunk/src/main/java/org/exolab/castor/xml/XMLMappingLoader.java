@@ -76,6 +76,7 @@ import org.exolab.castor.xml.util.XMLClassDescriptorResolverImpl;
 import org.exolab.castor.xml.util.ContainerElement;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
+import org.exolab.castor.xml.util.XMLContainerElementFieldDescriptor;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 import org.exolab.castor.xml.validators.NameValidator;
 
@@ -692,7 +693,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         
         //-- Change fieldType of original field descriptor and
         //-- return new descriptor
-        return new ContainerElementFieldDescriptor(fieldDesc, _primitiveNodeType);
+        return new XMLContainerElementFieldDescriptor(fieldDesc, _primitiveNodeType);
     } //-- createWrapperDescriptor
      
     /**
@@ -707,26 +708,6 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             return object;
         }
     } //-- class: IdentityConvertor
-
-    /**
-     * An extended XMLFieldDescriptor that allows us to change 
-     * the fieldType, needed for container element support
-     */
-    class ContainerElementFieldDescriptor extends XMLFieldDescriptorImpl {
-        
-        ContainerElementFieldDescriptor(XMLFieldDescriptorImpl fieldDesc, NodeType primitiveNodeType) 
-            throws MappingException
-        {
-            super(fieldDesc, fieldDesc.getXMLName(), fieldDesc.getNodeType(),
-                primitiveNodeType);
-        }
-        
-        public Class getFieldType() {
-            return org.exolab.castor.xml.util.ContainerElement.class;
-        }
-    } //-- class: ContainerElementFieldDescriptor
-
-    
 } //-- class: XMLMappingLoader
 
 
