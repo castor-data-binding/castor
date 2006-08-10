@@ -1,0 +1,9 @@
+<?xml version='1.0'?>
+
+<base xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+	<i1>Leading<i2>more
+			<i>17</i> embedded</i2>
+		<i2>hereto<i>43</i>
+		</i2> trailing</i1>
+</base>
+  
