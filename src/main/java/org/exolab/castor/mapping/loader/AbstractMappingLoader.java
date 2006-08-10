@@ -597,9 +597,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             
         }
                 
-        FieldDescriptorImpl fieldDesc 
-            = new FieldDescriptorImpl( fieldName, typeInfo, handler,
-                fieldMap.getTransient(), fieldMap.getComparator() );
+        FieldDescriptorImpl fieldDesc = new FieldDescriptorImpl(
+                fieldName, typeInfo, handler, fieldMap.getTransient());
 
         fieldDesc.setRequired(fieldMap.getRequired());
 

@@ -2,6 +2,11 @@
 SVN
 ---
 
+All:   Resolved issue CASTOR-1488 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Refactored FieldDescriptor.
+       Details: http://jira.codehaus.org/browse/CASTOR-1488
+       (Ralf - 20060810)
+
 Version 1.0.2, Aug 3, 2006
 -------------------------------
 
