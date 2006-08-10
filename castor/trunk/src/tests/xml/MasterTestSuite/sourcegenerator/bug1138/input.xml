@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<books xmlns="urn:bug1138-test-case">
+    <book title="All about Castor bug 1138" edition="1" xmlns="">
+        <isbn>123-4556</isbn>
+    </book>
+</books>
