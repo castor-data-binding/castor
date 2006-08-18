@@ -520,6 +520,7 @@
              manifest="${classes}/MANIFEST.MF"
              includes="LICENSE,LICENSE.APACHE2,README,
                        org/castor/messages.properties,
+                       org/castor/mapping/**,
                        org/castor/util/**,
                        org/exolab/castor/*,
                        org/exolab/castor/builder/**,
