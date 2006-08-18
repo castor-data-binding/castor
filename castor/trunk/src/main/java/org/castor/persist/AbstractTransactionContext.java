@@ -35,6 +35,7 @@ import org.exolab.castor.jdo.ObjectDeletedException;
 import org.exolab.castor.jdo.ObjectNotFoundException;
 import org.exolab.castor.jdo.ObjectNotPersistentException;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
@@ -1667,4 +1668,18 @@ public abstract class AbstractTransactionContext implements TransactionContext {
         OID oid = new OID(lockEngine.getClassMolder(cls), identity);
         return lockEngine.isLocked(cls, oid);
     }
+
+    /**
+     * @inheritDoc
+     * @see org.castor.persist.TransactionContext#getNamedQuery(java.lang.String)
+     */
+    public String getNamedQuery(final ClassMolder molder, final String name) 
+    throws QueryException    {
+        if (molder == null) {
+            throw new QueryException("Invalid argument - molder is null");
+        }
+        return molder.getNamedQuery(name);
+    }
+    
+    
 }

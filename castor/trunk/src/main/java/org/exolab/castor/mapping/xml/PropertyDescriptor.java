@@ -11,11 +11,6 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
-
 /**
  * Class PropertyDescriptor.
  * 
@@ -27,6 +22,11 @@ public class PropertyDescriptor extends PropertyTypeDescriptor {
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class PropertyDescriptor extends PropertyTypeDescriptor {
         super();
         setExtendsWithoutFlatten(new PropertyTypeDescriptor());
         xmlName = "property";
+        elementDefinition = true;
     } //-- org.exolab.castor.mapping.xml.PropertyDescriptor()
 
 
@@ -162,5 +163,17 @@ public class PropertyDescriptor extends PropertyTypeDescriptor {
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

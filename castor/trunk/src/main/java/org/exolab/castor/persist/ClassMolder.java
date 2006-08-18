@@ -1451,5 +1451,14 @@ public class ClassMolder {
     		resolversHaveBeenReset = true;
     	}
     }
+
+    /**
+     * Returns the actual (OQL) statement for the specified named query.
+     * @param name Named query name.
+     * @return The actual (OQL) statement 
+     */
+    public String getNamedQuery(String name) {
+        return ((JDOClassDescriptor) _clsDesc).getNamedQuery(name);
+    }
 }
 

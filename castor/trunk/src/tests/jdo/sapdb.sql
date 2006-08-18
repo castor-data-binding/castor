@@ -592,6 +592,14 @@ create unique index tc3x_extends2_pk on tc3x_extends2 ( id )
 //
 
 
+drop table tc3x_nq_entity
+//
+create table tc3x_nq_entity (
+  id        integer not null primary key,
+  name      varchar(200) not null
+)
+//
+
 
 
 

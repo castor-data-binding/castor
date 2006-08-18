@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,17 +11,9 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import org.exolab.castor.xml.MarshalException;
+import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.ContentHandler;
 
 /**
  * Class MappingRoot.
@@ -63,9 +55,9 @@ public class MappingRoot implements java.io.Serializable {
     public MappingRoot() 
      {
         super();
-        _includeList = new ArrayList();
-        _classMappingList = new ArrayList();
-        _keyGeneratorDefList = new ArrayList();
+        _includeList = new java.util.ArrayList();
+        _classMappingList = new java.util.ArrayList();
+        _keyGeneratorDefList = new java.util.ArrayList();
     } //-- org.exolab.castor.mapping.xml.MappingRoot()
 
 
@@ -190,7 +182,7 @@ public class MappingRoot implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateClassMapping()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_classMappingList.iterator());
+        return Collections.enumeration(_classMappingList);
     } //-- java.util.Enumeration enumerateClassMapping() 
 
     /**
@@ -202,7 +194,7 @@ public class MappingRoot implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateInclude()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_includeList.iterator());
+        return Collections.enumeration(_includeList);
     } //-- java.util.Enumeration enumerateInclude() 
 
     /**
@@ -214,7 +206,7 @@ public class MappingRoot implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateKeyGeneratorDef()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_keyGeneratorDefList.iterator());
+        return Collections.enumeration(_keyGeneratorDefList);
     } //-- java.util.Enumeration enumerateKeyGeneratorDef() 
 
     /**
@@ -229,7 +221,7 @@ public class MappingRoot implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _classMappingList.size())) {
+        if ((index < 0) || (index >= _classMappingList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -288,7 +280,7 @@ public class MappingRoot implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _includeList.size())) {
+        if ((index < 0) || (index >= _includeList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -336,7 +328,7 @@ public class MappingRoot implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _keyGeneratorDefList.size())) {
+        if ((index < 0) || (index >= _keyGeneratorDefList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -472,7 +464,7 @@ public class MappingRoot implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _classMappingList.size())) {
+        if ((index < 0) || (index >= _classMappingList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _classMappingList.set(index, vClassMapping);
@@ -516,7 +508,7 @@ public class MappingRoot implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _includeList.size())) {
+        if ((index < 0) || (index >= _includeList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _includeList.set(index, vInclude);
@@ -550,7 +542,7 @@ public class MappingRoot implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _keyGeneratorDefList.size())) {
+        if ((index < 0) || (index >= _keyGeneratorDefList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _keyGeneratorDefList.set(index, vKeyGeneratorDef);

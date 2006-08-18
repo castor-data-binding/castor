@@ -6,6 +6,7 @@ import java.util.Iterator;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DbMetaInfo;
 import org.exolab.castor.jdo.PersistenceException;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TransactionAbortedException;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.persist.ClassMolder;
@@ -541,4 +542,16 @@ public interface TransactionContext {
      * @return True if the object in question is locked.
      */
     boolean isLocked(Class cls, Identity identity, LockEngine lockEngine);
+
+    /**
+     * Creates an OQL query based upon a named query as defined in the 
+     * mapping file.
+     *
+     * @param molder Specific class molder.
+     * @param name Name of the (named) query to create.
+     * @return An OQL query
+     * @throws QueryException If the named query can not be found
+     */
+    String getNamedQuery(ClassMolder molder, String name) throws QueryException;
+
 }

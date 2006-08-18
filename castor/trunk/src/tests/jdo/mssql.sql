@@ -602,6 +602,14 @@ sp_procxmode proc_check_permissions, "anymode"
 go
 
 
+drop table tc3x_nq_entity
+go
+create table tc3x_nq_entity (
+  id        integer not null primary key,
+  name      varchar(200) not null
+)
+go
+
 
 
 -- UNDEFINED TESTS

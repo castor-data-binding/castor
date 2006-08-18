@@ -63,7 +63,7 @@
     resulting XML document must preserve the order of elements.
 
  -->
-<!ELEMENT class ( description?, cache-type?, map-to?, field* )>
+<!ELEMENT class ( description?, cache-type?, map-to?, field*, named-query* )>
 <!ATTLIST class
     name            ID       #REQUIRED
     extends         IDREF    #IMPLIED
@@ -73,6 +73,22 @@
     key-generator   NMTOKEN  #IMPLIED
     auto-complete   (true|false) "false"
     verify-constructable   (true|false) "true">
+
+<!--
+    Specifies the hints used for named queries
+ -->
+<!ELEMENT query-hint  EMPTY>
+<!ATTLIST query-hint
+    name           CDATA  #REQUIRED
+    value          CDATA  #REQUIRED>
+
+<!--
+    Specifies the (OQL) named queries used for this class
+ -->
+<!ELEMENT named-query  ( query-hint* )>
+<!ATTLIST named-query
+    name           CDATA  #REQUIRED
+    query          CDATA  #REQUIRED>
 
 
 <!--

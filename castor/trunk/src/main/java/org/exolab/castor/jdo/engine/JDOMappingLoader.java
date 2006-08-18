@@ -49,6 +49,7 @@ import org.castor.jdo.engine.SQLTypeConverters;
 import org.castor.jdo.engine.SQLTypeConverters.Convertor;
 import org.castor.mapping.BindingType;
 import org.castor.util.Messages;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.mapping.*;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldHandlerFriend;
@@ -128,6 +129,13 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
      * See {@link #loadMapping}.
      */
     private Hashtable _keyGenDescs = new Hashtable();
+    
+    /**
+     * Used to locally register all loaded queries 
+     * to detect duplicated query names.
+     * See {@link #createDescriptor(ClassMapping)}.
+     */    
+    private Hashtable _namedQueries = new Hashtable();
 
 
     /**
@@ -213,8 +221,25 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
                 _keyGenDescs.put(keyGenName, keyGenDesc);
             }
         }
-
-        return new JDOClassDescriptor(clsDesc, keyGenDesc);
+        
+        JDOClassDescriptor classDescriptor = new JDOClassDescriptor(clsDesc, keyGenDesc);        
+        
+        // extract named queries and add to (JDO) class descriptor
+        Enumeration namedQueriesEnum = clsMap.enumerateNamedQuery();
+        while (namedQueriesEnum.hasMoreElements()) {
+            NamedQuery namedQuery = (NamedQuery) namedQueriesEnum.nextElement();
+            try {
+                if(_namedQueries.contains(namedQuery.getName())) {
+                    throw new MappingException("Duplicate entry for named query with name " + namedQuery.getName());
+                }
+                classDescriptor.addNamedQuery(namedQuery.getName(), namedQuery.getQuery());
+                _namedQueries.put(namedQuery.getName(), namedQuery);
+            } catch (QueryException e) {                
+                throw new MappingException(e);
+            }
+        }
+        
+        return classDescriptor;
     }
 
     /**

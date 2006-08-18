@@ -30,6 +30,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1499" tool="jira">
+                    <description>
+		                Added support for named queries at the &lt;class&gt; level.
+                    </description>
+                    <contributor>
+                        <name>Emir Causevic</name>
+                        <email>emircaus@bih.net.ba</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20060818</date>
+                </bug>
                 <bug id="1495" tool="jira">
                     <description>
 		                Moved successfull XML tests from Regression- to MasterTestSuite.

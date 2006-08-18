@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -10,11 +10,6 @@ package org.exolab.castor.mapping.xml;
   //---------------------------------/
  //- Imported classes and packages -/
 //---------------------------------/
-
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
 
 /**
  * Class MapToDescriptor.
@@ -27,6 +22,11 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         super();
         nsURI = "http://castor.exolab.org/";
         xmlName = "map-to";
+        elementDefinition = true;
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
@@ -94,7 +95,7 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         //-- validation code for: _table
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            NameValidator typeValidator = new NameValidator(NameValidator.NMTOKEN);
+            org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -130,7 +131,7 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         //-- validation code for: _xml
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -167,7 +168,7 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         //-- validation code for: _nsUri
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -203,7 +204,49 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         //-- validation code for: _nsPrefix
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            NameValidator typeValidator = new NameValidator(NameValidator.NMTOKEN);
+            org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);
+            fieldValidator.setValidator(typeValidator);
+        }
+        desc.setValidator(fieldValidator);
+        //-- _elementDefinition
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_elementDefinition", "element-definition", org.exolab.castor.xml.NodeType.Attribute);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                MapTo target = (MapTo) object;
+                if(!target.hasElementDefinition())
+                    return null;
+                return (target.getElementDefinition() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    MapTo target = (MapTo) object;
+                    // if null, use delete method for optional primitives 
+                    if (value == null) {
+                        target.deleteElementDefinition();
+                        return;
+                    }
+                    target.setElementDefinition( ((java.lang.Boolean)value).booleanValue());
+                }
+                catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance( java.lang.Object parent ) {
+                return null;
+            }
+        };
+        desc.setHandler(handler);
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        
+        //-- validation code for: _elementDefinition
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        { //-- local scope
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -239,7 +282,7 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         //-- validation code for: _ldapDn
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -276,7 +319,7 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         //-- validation code for: _ldapOc
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -385,5 +428,17 @@ public class MapToDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

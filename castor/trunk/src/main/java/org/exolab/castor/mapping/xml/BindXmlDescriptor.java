@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -10,11 +10,6 @@ package org.exolab.castor.mapping.xml;
   //---------------------------------/
  //- Imported classes and packages -/
 //---------------------------------/
-
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
 
 /**
  * Class BindXmlDescriptor.
@@ -27,6 +22,11 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         super();
         nsURI = "http://castor.exolab.org/";
         xmlName = "bind-xml";
+        elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -131,7 +132,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         //-- validation code for: _type
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            NameValidator typeValidator = new NameValidator(NameValidator.NMTOKEN);
+            org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -202,7 +203,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         //-- validation code for: _location
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -239,7 +240,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         //-- validation code for: _matches
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -282,7 +283,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         //-- validation code for: _reference
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            BooleanValidator typeValidator = new BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -352,7 +353,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         //-- validation code for: _QNamePrefix
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            NameValidator typeValidator = new NameValidator(NameValidator.NMTOKEN);
+            org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -394,7 +395,7 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         //-- validation code for: _transient
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            BooleanValidator typeValidator = new BooleanValidator();
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -570,5 +571,17 @@ public class BindXmlDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

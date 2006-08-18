@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1499 using contribution from Emir Causevic [emircaus@bih.net.ba]
+       Added support for named queries at the <class> level.
+       Details: http://jira.codehaus.org/browse/CASTOR-1499
+       (Werner - 20060818)
+
 XML:   Resolved issue CASTOR-1495 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Moved successfull XML tests from Regression- to MasterTestSuite.
        Details: http://jira.codehaus.org/browse/CASTOR-1495

@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,17 +11,9 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import org.exolab.castor.xml.MarshalException;
+import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.ContentHandler;
 
 /**
  * Class KeyGeneratorDef.
@@ -58,7 +50,7 @@ public class KeyGeneratorDef implements java.io.Serializable {
     public KeyGeneratorDef() 
      {
         super();
-        _paramList = new ArrayList();
+        _paramList = new java.util.ArrayList();
     } //-- org.exolab.castor.mapping.xml.KeyGeneratorDef()
 
 
@@ -111,7 +103,7 @@ public class KeyGeneratorDef implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateParam()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_paramList.iterator());
+        return Collections.enumeration(_paramList);
     } //-- java.util.Enumeration enumerateParam() 
 
     /**
@@ -148,7 +140,7 @@ public class KeyGeneratorDef implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _paramList.size())) {
+        if ((index < 0) || (index >= _paramList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -276,7 +268,7 @@ public class KeyGeneratorDef implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _paramList.size())) {
+        if ((index < 0) || (index >= _paramList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _paramList.set(index, vParam);
