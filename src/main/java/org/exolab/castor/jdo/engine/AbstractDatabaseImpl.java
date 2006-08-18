@@ -403,6 +403,16 @@ public abstract class AbstractDatabaseImpl
 
     /**
      * @inheritDoc
+     * @see org.exolab.castor.jdo.Database#getNamedQuery()
+     */
+    public OQLQuery getNamedQuery(final String name) throws PersistenceException {
+        String oql = _ctx.getNamedQuery(_scope.findClassMolderByQuery(name), name);
+        return getOQLQuery(oql);
+    }
+
+
+    /**
+     * @inheritDoc
      * @see org.exolab.castor.jdo.Database#getOQLQuery(java.lang.String)
      */
     public OQLQuery getOQLQuery(final String oql)

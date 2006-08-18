@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,17 +11,9 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import org.exolab.castor.xml.MarshalException;
+import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.ContentHandler;
 
 /**
  * Class ClassChoice.
@@ -53,8 +45,8 @@ public class ClassChoice implements java.io.Serializable {
     public ClassChoice() 
      {
         super();
-        _fieldMappingList = new ArrayList();
-        _containerList = new ArrayList();
+        _fieldMappingList = new java.util.ArrayList();
+        _containerList = new java.util.ArrayList();
     } //-- org.exolab.castor.mapping.xml.ClassChoice()
 
 
@@ -143,7 +135,7 @@ public class ClassChoice implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateContainer()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_containerList.iterator());
+        return Collections.enumeration(_containerList);
     } //-- java.util.Enumeration enumerateContainer() 
 
     /**
@@ -155,7 +147,7 @@ public class ClassChoice implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateFieldMapping()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_fieldMappingList.iterator());
+        return Collections.enumeration(_fieldMappingList);
     } //-- java.util.Enumeration enumerateFieldMapping() 
 
     /**
@@ -170,7 +162,7 @@ public class ClassChoice implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _containerList.size())) {
+        if ((index < 0) || (index >= _containerList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -218,7 +210,7 @@ public class ClassChoice implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _fieldMappingList.size())) {
+        if ((index < 0) || (index >= _fieldMappingList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -340,7 +332,7 @@ public class ClassChoice implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _containerList.size())) {
+        if ((index < 0) || (index >= _containerList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _containerList.set(index, vContainer);
@@ -374,7 +366,7 @@ public class ClassChoice implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _fieldMappingList.size())) {
+        if ((index < 0) || (index >= _fieldMappingList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _fieldMappingList.set(index, vFieldMapping);

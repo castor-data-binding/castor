@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -10,11 +10,6 @@ package org.exolab.castor.mapping.xml.types;
   //---------------------------------/
  //- Imported classes and packages -/
 //---------------------------------/
-
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
 
 /**
  * Class SqlDirtyTypeDescriptor.
@@ -27,6 +22,11 @@ public class SqlDirtyTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class SqlDirtyTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
         super();
         nsURI = "http://castor.exolab.org/";
         xmlName = "SqlDirtyType";
+        elementDefinition = false;
     } //-- org.exolab.castor.mapping.xml.types.SqlDirtyTypeDescriptor()
 
 
@@ -160,5 +161,17 @@ public class SqlDirtyTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

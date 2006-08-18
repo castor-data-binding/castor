@@ -489,9 +489,11 @@ BEGIN
 END;
 /
 
-
-
-
+drop table tc3x_nq_entity;
+create table tc3x_nq_entity (
+  id        integer not null primary key,
+  name      varchar(200) not null
+);
 
 
 -- UNDEFINED TESTS

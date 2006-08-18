@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,19 +11,9 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import org.exolab.castor.mapping.xml.types.BindXmlAutoNamingType;
-import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
-import org.exolab.castor.xml.MarshalException;
+import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.ContentHandler;
 
 /**
  * The 'bind-xml' element is used for specifying XML specific
@@ -131,7 +121,7 @@ public class BindXml implements java.io.Serializable {
     public BindXml() 
      {
         super();
-        _propertyList = new ArrayList();
+        _propertyList = new java.util.ArrayList();
     } //-- org.exolab.castor.mapping.xml.BindXml()
 
 
@@ -202,7 +192,7 @@ public class BindXml implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateProperty()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_propertyList.iterator());
+        return Collections.enumeration(_propertyList);
     } //-- java.util.Enumeration enumerateProperty() 
 
     /**
@@ -304,7 +294,7 @@ public class BindXml implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _propertyList.size())) {
+        if ((index < 0) || (index >= _propertyList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -561,7 +551,7 @@ public class BindXml implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _propertyList.size())) {
+        if ((index < 0) || (index >= _propertyList.size())) {
             throw new IndexOutOfBoundsException();
         }
         _propertyList.set(index, vProperty);

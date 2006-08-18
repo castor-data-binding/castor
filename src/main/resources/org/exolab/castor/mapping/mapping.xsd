@@ -39,6 +39,7 @@
            <xsd:element name="description" type="xsd:string" minOccurs="0" maxOccurs="1" />
            <xsd:element ref="cache-type"   minOccurs="0" maxOccurs="1" />
            <xsd:element ref="map-to" minOccurs="0" maxOccurs="1" />
+           <xsd:element ref="named-query" minOccurs="0" maxOccurs="unbounded" />
            <xsd:choice minOccurs="1">
               <xsd:element ref="field" minOccurs="0" maxOccurs="unbounded"/>
               <xsd:element ref="container" minOccurs="0" maxOccurs="unbounded"/>
@@ -61,6 +62,23 @@
         <xsd:attribute name="key-generator" type="xsd:string"   use="optional"/>
         <xsd:attribute name="auto-complete" type="xsd:boolean"  use="optional" default="false"/>
         <xsd:attribute name="verify-constructable" type="xsd:boolean"  use="optional" default="true"/>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:element  name="query-hint">
+    <xsd:complexType>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="value" type="xsd:string" use="required" />
+    </xsd:complexType>
+  </xsd:element>
+  
+  <xsd:element  name="named-query">
+    <xsd:complexType>
+        <xsd:sequence>
+            <xsd:element ref="query-hint" minOccurs="0"	maxOccurs="unbounded" />
+        </xsd:sequence>
+        <xsd:attribute name="name" type="xsd:string" use="required" />
+        <xsd:attribute name="query" type="xsd:string" use="required" />
     </xsd:complexType>
   </xsd:element>
 

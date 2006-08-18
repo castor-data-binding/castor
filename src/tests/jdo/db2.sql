@@ -462,8 +462,11 @@ create table tc3x_extend2 (
 
 create unique index tc3x_extend2_pk on tc3x_extend2 ( id );
 
-
-
+drop table tc3x_nq_entity;
+create table tc3x_nq_entity (
+  id        integer not null primary key,
+  name      varchar(200) not null
+);
 
 -- UNDEFINED TESTS
 

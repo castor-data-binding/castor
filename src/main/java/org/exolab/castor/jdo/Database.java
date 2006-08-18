@@ -190,7 +190,15 @@ public interface Database
      */
     public Query getQuery();
 
-
+    /**
+     * Creates an OQL query based upon a named query as defined in the 
+     * mapping file. {@link OQLQuery#create}
+     *
+     * @param name Name of the (named) query to create.
+     * @return An OQL query
+     * @throws PersistenceException 
+     */
+    public OQLQuery getNamedQuery(String name) throws PersistenceException;
 
     public PersistenceInfoGroup getScope();
 

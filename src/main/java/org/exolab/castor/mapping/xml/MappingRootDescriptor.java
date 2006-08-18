@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -10,11 +10,6 @@ package org.exolab.castor.mapping.xml;
   //---------------------------------/
  //- Imported classes and packages -/
 //---------------------------------/
-
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
 
 /**
  * Class MappingRootDescriptor.
@@ -27,6 +22,11 @@ public class MappingRootDescriptor extends org.exolab.castor.xml.util.XMLClassDe
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class MappingRootDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         super();
         nsURI = "http://castor.exolab.org/";
         xmlName = "mapping";
+        elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -100,7 +101,7 @@ public class MappingRootDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         //-- validation code for: _description
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -312,5 +313,17 @@ public class MappingRootDescriptor extends org.exolab.castor.xml.util.XMLClassDe
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -10,13 +10,6 @@ package org.exolab.castor.mapping.xml;
   //---------------------------------/
  //- Imported classes and packages -/
 //---------------------------------/
-
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
 
 /**
  * Class PropertyType.

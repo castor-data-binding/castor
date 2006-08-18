@@ -47,6 +47,8 @@ package org.exolab.castor.persist;
 
 import org.castor.util.Messages;
 import org.exolab.castor.jdo.ClassNotPersistenceCapableException;
+import org.exolab.castor.jdo.QueryException;
+
    
     
 public class PersistenceInfoGroup {
@@ -69,6 +71,23 @@ public class PersistenceInfoGroup {
             throw new ClassNotPersistenceCapableException( Messages.format("persist.classIsDependent", type.getName(), molder.getDepends().getName()) );
         }
         
+        return molder;
+    }
+    
+    /**
+     * Returns the ClassMolder associated with a given named query (by the means of the mapping file) 
+     * @param query The name of the named query
+     * @return ClassMolder instance associated with a given named query
+     * @throws QueryException if there's an issue resolving the ClassMolder
+     */
+    public ClassMolder findClassMolderByQuery(String query) throws QueryException {
+        ClassMolder molder = null;
+        for (int i=0; i < engines.length; i++) {            
+            molder = engines[i].getClassMolderByQuery(query);            
+        }
+        if (molder == null) {
+            throw new QueryException("Cannot find a named query with the name " + query);
+        }
         return molder;
     }
     

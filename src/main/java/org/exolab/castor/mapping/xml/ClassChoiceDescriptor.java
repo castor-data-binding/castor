@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -10,11 +10,6 @@ package org.exolab.castor.mapping.xml;
   //---------------------------------/
  //- Imported classes and packages -/
 //---------------------------------/
-
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
 
 /**
  * Class ClassChoiceDescriptor.
@@ -27,6 +22,11 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -57,6 +57,7 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
      {
         super();
         nsURI = "http://castor.exolab.org/";
+        elementDefinition = false;
         
         //-- set grouping compositor
         setCompositorAsChoice();
@@ -239,5 +240,17 @@ public class ClassChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDe
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

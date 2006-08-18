@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,18 +11,9 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import org.exolab.castor.mapping.xml.types.ClassMappingAccessType;
-import org.exolab.castor.xml.MarshalException;
+import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.ContentHandler;
 
 /**
  * Class ClassMapping.
@@ -102,6 +93,11 @@ public class ClassMapping implements java.io.Serializable {
     private org.exolab.castor.mapping.xml.MapTo _mapTo;
 
     /**
+     * Field _namedQueryList
+     */
+    private java.util.ArrayList _namedQueryList;
+
+    /**
      * Field _classChoice
      */
     private org.exolab.castor.mapping.xml.ClassChoice _classChoice;
@@ -114,8 +110,9 @@ public class ClassMapping implements java.io.Serializable {
     public ClassMapping() 
      {
         super();
-        _identity = new ArrayList();
+        _identity = new java.util.ArrayList();
         setAccess(org.exolab.castor.mapping.xml.types.ClassMappingAccessType.valueOf("shared"));
+        _namedQueryList = new java.util.ArrayList();
     } //-- org.exolab.castor.mapping.xml.ClassMapping()
 
 
@@ -151,6 +148,33 @@ public class ClassMapping implements java.io.Serializable {
     } //-- void addIdentity(int, java.lang.String) 
 
     /**
+     * Method addNamedQuery
+     * 
+     * 
+     * 
+     * @param vNamedQuery
+     */
+    public void addNamedQuery(org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        _namedQueryList.add(vNamedQuery);
+    } //-- void addNamedQuery(org.exolab.castor.mapping.xml.NamedQuery) 
+
+    /**
+     * Method addNamedQuery
+     * 
+     * 
+     * 
+     * @param index
+     * @param vNamedQuery
+     */
+    public void addNamedQuery(int index, org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        _namedQueryList.add(index, vNamedQuery);
+    } //-- void addNamedQuery(int, org.exolab.castor.mapping.xml.NamedQuery) 
+
+    /**
      * Method clearIdentity
      * 
      */
@@ -158,6 +182,15 @@ public class ClassMapping implements java.io.Serializable {
     {
         _identity.clear();
     } //-- void clearIdentity() 
+
+    /**
+     * Method clearNamedQuery
+     * 
+     */
+    public void clearNamedQuery()
+    {
+        _namedQueryList.clear();
+    } //-- void clearNamedQuery() 
 
     /**
      * Method deleteAutoComplete
@@ -186,8 +219,20 @@ public class ClassMapping implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateIdentity()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_identity.iterator());
+        return Collections.enumeration(_identity);
     } //-- java.util.Enumeration enumerateIdentity() 
+
+    /**
+     * Method enumerateNamedQuery
+     * 
+     * 
+     * 
+     * @return Enumeration
+     */
+    public java.util.Enumeration enumerateNamedQuery()
+    {
+        return Collections.enumeration(_namedQueryList);
+    } //-- java.util.Enumeration enumerateNamedQuery() 
 
     /**
      * Returns the value of field 'access'.
@@ -278,7 +323,7 @@ public class ClassMapping implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _identity.size())) {
+        if ((index < 0) || (index >= _identity.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -346,6 +391,54 @@ public class ClassMapping implements java.io.Serializable {
     {
         return this._name;
     } //-- java.lang.String getName() 
+
+    /**
+     * Method getNamedQuery
+     * 
+     * 
+     * 
+     * @param index
+     * @return NamedQuery
+     */
+    public org.exolab.castor.mapping.xml.NamedQuery getNamedQuery(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        //-- check bounds for index
+        if ((index < 0) || (index >= _namedQueryList.size())) {
+            throw new IndexOutOfBoundsException();
+        }
+        
+        return (org.exolab.castor.mapping.xml.NamedQuery) _namedQueryList.get(index);
+    } //-- org.exolab.castor.mapping.xml.NamedQuery getNamedQuery(int) 
+
+    /**
+     * Method getNamedQuery
+     * 
+     * 
+     * 
+     * @return NamedQuery
+     */
+    public org.exolab.castor.mapping.xml.NamedQuery[] getNamedQuery()
+    {
+        int size = _namedQueryList.size();
+        org.exolab.castor.mapping.xml.NamedQuery[] mArray = new org.exolab.castor.mapping.xml.NamedQuery[size];
+        for (int index = 0; index < size; index++) {
+            mArray[index] = (org.exolab.castor.mapping.xml.NamedQuery) _namedQueryList.get(index);
+        }
+        return mArray;
+    } //-- org.exolab.castor.mapping.xml.NamedQuery[] getNamedQuery() 
+
+    /**
+     * Method getNamedQueryCount
+     * 
+     * 
+     * 
+     * @return int
+     */
+    public int getNamedQueryCount()
+    {
+        return _namedQueryList.size();
+    } //-- int getNamedQueryCount() 
 
     /**
      * Returns the value of field 'verifyConstructable'.
@@ -443,6 +536,20 @@ public class ClassMapping implements java.io.Serializable {
     } //-- boolean removeIdentity(java.lang.String) 
 
     /**
+     * Method removeNamedQuery
+     * 
+     * 
+     * 
+     * @param vNamedQuery
+     * @return boolean
+     */
+    public boolean removeNamedQuery(org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+    {
+        boolean removed = _namedQueryList.remove(vNamedQuery);
+        return removed;
+    } //-- boolean removeNamedQuery(org.exolab.castor.mapping.xml.NamedQuery) 
+
+    /**
      * Sets the value of field 'access'.
      * 
      * @param access the value of field 'access'.
@@ -526,7 +633,7 @@ public class ClassMapping implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _identity.size())) {
+        if ((index < 0) || (index >= _identity.size())) {
             throw new IndexOutOfBoundsException();
         }
         _identity.set(index, vIdentity);
@@ -577,6 +684,40 @@ public class ClassMapping implements java.io.Serializable {
     {
         this._name = name;
     } //-- void setName(java.lang.String) 
+
+    /**
+     * Method setNamedQuery
+     * 
+     * 
+     * 
+     * @param index
+     * @param vNamedQuery
+     */
+    public void setNamedQuery(int index, org.exolab.castor.mapping.xml.NamedQuery vNamedQuery)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        //-- check bounds for index
+        if ((index < 0) || (index >= _namedQueryList.size())) {
+            throw new IndexOutOfBoundsException();
+        }
+        _namedQueryList.set(index, vNamedQuery);
+    } //-- void setNamedQuery(int, org.exolab.castor.mapping.xml.NamedQuery) 
+
+    /**
+     * Method setNamedQuery
+     * 
+     * 
+     * 
+     * @param namedQueryArray
+     */
+    public void setNamedQuery(org.exolab.castor.mapping.xml.NamedQuery[] namedQueryArray)
+    {
+        //-- copy array
+        _namedQueryList.clear();
+        for (int i = 0; i < namedQueryArray.length; i++) {
+            _namedQueryList.add(namedQueryArray[i]);
+        }
+    } //-- void setNamedQuery(org.exolab.castor.mapping.xml.NamedQuery) 
 
     /**
      * Sets the value of field 'verifyConstructable'.

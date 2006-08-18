@@ -11,11 +11,6 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
-
 /**
  * Class ParamDescriptor.
  * 
@@ -27,6 +22,11 @@ public class ParamDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class ParamDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         super();
         nsURI = "http://castor.exolab.org/";
         xmlName = "param";
+        elementDefinition = true;
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
@@ -97,7 +98,7 @@ public class ParamDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -136,7 +137,7 @@ public class ParamDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -245,5 +246,17 @@ public class ParamDescriptor extends org.exolab.castor.xml.util.XMLClassDescript
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

@@ -44,12 +44,16 @@
  */
 package org.exolab.castor.jdo.engine;
 
+import java.util.HashMap;
+import java.util.Map;
 import java.util.Properties;
 
 import org.castor.cache.Cache;
 import org.castor.cache.simple.CountLimited;
 import org.castor.cache.simple.TimeLimited;
 import org.castor.util.Messages;
+import org.exolab.castor.jdo.OQLQuery;
+import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.TimeStampable;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
@@ -79,6 +83,11 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
 
     /** The properties defining cache type and parameters. */
     private final Properties _cacheParams = new Properties();
+    
+    /**
+     * Associated named queries, keyed by their name 
+     */
+    private Map _namedQueries = new HashMap();
     
     public JDOClassDescriptor(final ClassDescriptor clsDesc,
             final KeyGeneratorDescriptor keyGenDesc)
@@ -200,5 +209,28 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
 
     public String toString() {
         return super.toString() + " AS " + _tableName;
+    }
+
+    /**
+     * Returns the OQL statement from a named query instance associated with the given name
+     * @param name Name of the named query
+     * @return the OQL statement from a named query instance associated with the given name  
+     */
+    public String getNamedQuery(String name) {
+        String namedQuery = (String) _namedQueries.get(name);
+        return namedQuery;
+    }
+    
+    /**
+     * Adds a new named query for the given name for future usage (through Database.getNamedQuery()).
+     * @param name Name of the named query.
+     * @param namedQuery Named query to be associated with the given name
+     * @throws QueryException If there's already a named query for the given name
+     */
+    public void addNamedQuery(final String name, final String namedQuery) throws QueryException {
+        if (_namedQueries.containsKey(name)) {
+            throw new QueryException ("Duplicate entry for named query " + name);
+        }
+        _namedQueries.put(name, namedQuery);
     }
 }

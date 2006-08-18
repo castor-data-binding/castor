@@ -11,11 +11,6 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.validators.*;
-
 /**
  * Class LdapDescriptor.
  * 
@@ -27,6 +22,11 @@ public class LdapDescriptor extends org.exolab.castor.xml.util.XMLClassDescripto
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -58,6 +58,7 @@ public class LdapDescriptor extends org.exolab.castor.xml.util.XMLClassDescripto
         super();
         nsURI = "http://castor.exolab.org/";
         xmlName = "ldap";
+        elementDefinition = true;
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
@@ -94,7 +95,7 @@ public class LdapDescriptor extends org.exolab.castor.xml.util.XMLClassDescripto
         //-- validation code for: _name
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            NameValidator typeValidator = new NameValidator(NameValidator.NMTOKEN);
+            org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
@@ -202,5 +203,17 @@ public class LdapDescriptor extends org.exolab.castor.xml.util.XMLClassDescripto
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return boolean
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

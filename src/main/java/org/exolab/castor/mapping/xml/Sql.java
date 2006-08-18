@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0M1</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,18 +11,9 @@ package org.exolab.castor.mapping.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.io.IOException;
-import java.io.Reader;
-import java.io.Serializable;
-import java.io.Writer;
-import java.util.ArrayList;
-import java.util.Enumeration;
-import org.exolab.castor.mapping.xml.types.SqlDirtyType;
-import org.exolab.castor.xml.MarshalException;
+import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-import org.xml.sax.ContentHandler;
 
 /**
  * Class Sql.
@@ -89,8 +80,8 @@ public class Sql implements java.io.Serializable {
     public Sql() 
      {
         super();
-        _name = new ArrayList();
-        _manyKey = new ArrayList();
+        _name = new java.util.ArrayList();
+        _manyKey = new java.util.ArrayList();
         setDirty(org.exolab.castor.mapping.xml.types.SqlDirtyType.valueOf("check"));
     } //-- org.exolab.castor.mapping.xml.Sql()
 
@@ -198,7 +189,7 @@ public class Sql implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateManyKey()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_manyKey.iterator());
+        return Collections.enumeration(_manyKey);
     } //-- java.util.Enumeration enumerateManyKey() 
 
     /**
@@ -210,7 +201,7 @@ public class Sql implements java.io.Serializable {
      */
     public java.util.Enumeration enumerateName()
     {
-        return new org.exolab.castor.util.IteratorEnumeration(_name.iterator());
+        return Collections.enumeration(_name);
     } //-- java.util.Enumeration enumerateName() 
 
     /**
@@ -236,7 +227,7 @@ public class Sql implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _manyKey.size())) {
+        if ((index < 0) || (index >= _manyKey.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -295,7 +286,7 @@ public class Sql implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _name.size())) {
+        if ((index < 0) || (index >= _name.size())) {
             throw new IndexOutOfBoundsException();
         }
         
@@ -484,7 +475,7 @@ public class Sql implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _manyKey.size())) {
+        if ((index < 0) || (index >= _manyKey.size())) {
             throw new IndexOutOfBoundsException();
         }
         _manyKey.set(index, vManyKey);
@@ -528,7 +519,7 @@ public class Sql implements java.io.Serializable {
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
-        if ((index < 0) || (index > _name.size())) {
+        if ((index < 0) || (index >= _name.size())) {
             throw new IndexOutOfBoundsException();
         }
         _name.set(index, vName);

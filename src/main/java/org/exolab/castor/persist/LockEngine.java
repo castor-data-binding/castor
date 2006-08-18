@@ -307,6 +307,24 @@ public final class LockEngine {
         TypeInfo info = (TypeInfo)_typeInfo.get( cls.getName() );
         return (info != null) ? info.molder : null;
     }
+    
+    /**
+     * Returns the ClassMolder instance that has a named query associated with the name given.
+     * @param name Name of a named query.
+     * @return ClassMolder instance associated with the named query 
+     */
+    public ClassMolder getClassMolderByQuery(String name)        
+    {        
+        Iterator typeIterator = _typeInfo.values().iterator();
+        while(typeIterator.hasNext())
+        {
+            TypeInfo info = (TypeInfo)typeIterator.next();
+            if(info.molder.getNamedQuery(name) != null) {
+                return info.molder;
+            }
+        }
+        return null;
+    }
 
     public Persistence getPersistence( Class cls ) {
         ClassMolder molder = getClassMolder( cls );
