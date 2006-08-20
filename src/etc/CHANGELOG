@@ -2,6 +2,11 @@
 SVN
 ---
 
+All:   Resolved issue CASTOR-1492 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added XML best practise document.
+       Details: http://jira.codehaus.org/browse/CASTOR-1492
+       (Werner - 20060820)
+
 All:   Resolved issue CASTOR-1500 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with including all required class files in XML JAR.
        Details: http://jira.codehaus.org/browse/CASTOR-1500

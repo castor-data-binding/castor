@@ -137,6 +137,10 @@
         <url>xml-fieldhandlers.xml</url>
         <display>Custom Handlers</display>
       </navLink>
+      <navLink>
+        <url>xml-best-practice.xml</url>
+        <display>Best practice</display>
+      </navLink>
     </section>
 
     <section name="JDO">
