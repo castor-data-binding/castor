@@ -35,9 +35,7 @@
         </ul>
 
         <p>This page provides you with various reference points, addressing 
-           most of the above areas. This includes a directory of companies
-           offering (commercial) services, a directory of success-stories 
-           (highlighting the (commercial) use of Castor in the industry), etc.</p>      
+           most of the above areas.</p>      
            
         <p>We hope that the information provided is of value to you, our customers,
            and we are more than happy to discuss any suggestions/recommendations
@@ -67,82 +65,13 @@
                Castor can be found <a href="projects.xml">here</a>.</p>
         
     </section>
-    <section title="Companies and their commercial offerings">
-
-      <companies>
+    
+    <section title="Professional services">
         
-        <company id="anecon">
-            <name>ANECON Software Design und Beratung Ltd.</name>
-            <url><a href="http://www.anecon.com">http://www.anecon.com</a></url>
-            <contact>
-                <name>Werner Guttmann</name>
-                <email><a href="mailto:werner.guttmann@anecon.com">werner.guttmann@anecon.com</a></email>
-                <phone>+43 1 409 59 90 </phone>
-                <description>Technical architect, Castor JDO technical lead</description>
-            </contact>
-            <description>
-                ANECON offers expertise in the area of J2EE applications, with 
-                a strong emphasis on the integration of persistence frameworks, object/relational 
-                mapping tools and XML data binding frameworks in general and Castor JDO and 
-                XML in particular; it supports clients in their focus to integrate such 
-                frameworks into their enterprise computing platforms.
-            </description>
-        </company>
-
-        <company id="codo">
-            <name>CODA: Financial Intelligence</name>
-            <url>http://www.coda.com</url>
-            <contact>
-                <name>Andrew Fawcett</name>
-                <email>andrew.fawcett@coda.com</email>
-                <phone></phone>
-                <description>Technical Architect
-                </description>
-            </contact>
-            <description>
-                "As a developer of international financial management and
-                procurement systems, CODA started a project to XML-enable our Financials
-                application server," noted Andrew Fawcett of CODA. "We made two major
-                technology decisions. The first was to use the W3C XML Schema to
-                describe our XML messages. The second was to facilitate the use of an
-                XML Data Binding framework. This allows our developers to process XML
-                messages in a more productive and intuitive way within their programs,
-                without requiring extensive training and experience with XML or its
-                traditional APIs such as SAX or DOM. In performing an analysis of XML
-                Data Binding frameworks, we found that Castor was the only
-                implementation at the time that met our needs in terms of its support
-                for W3C XML Schema and its ability to integrate with our Web
-                infrastructure." 
-                
-                "In addition," Fawcett continued, "we use Castor internally within our
-                Web client-enabling framework (based on the Java Servlet API). Java
-                source code produced by the Castor source code generator is used to
-                dynamically bind data to our Web forms. The resulting data can then be
-                marshaled directly between our Web applications and application server."
-            </description>
-        </company>
-
-        <company id="syscon">
-            <name>Syscon Ingenieurbüro für Meß- und Datentechnik GmbH</name>
-            <url>http://www.syscon-informatics.de</url>
-            <contact>
-                <name>Ralf Joachim</name>
-                <email>ralf.joachim@syscon-world.de</email>
-                <phone>+49 7071 369098</phone>
-                <description>CEO, Technical architect</description>
-            </contact>
-            <description>
-                Syscon is primarily concerned with the developement of custom-build/purpose-build
-                software solutions and the design of database systems since its foundation in 1996.
-                For 4 years we have been developing Java applications in enterprise environment.
-                For these applications, we frequently use our own client/server framework side by
-                side with open source projects such as the data binding framework Castor, where
-                one of our engineers is an active committer.
-            </description>
-        </company>
-
-      </companies>
-      
+        <p>Please find information about professional services related to
+           Castor, as well as a registry of individuals/companies and their offerings 
+           in this area <a href="professional-services.html">here</a>.</p>
+           
     </section>
 
   </body>
