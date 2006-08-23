@@ -2,6 +2,12 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1509 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Refactored Marshaller to allow instantiation through default constructor (setting 
+       Writer through setWriter()).
+       Details: http://jira.codehaus.org/browse/CASTOR-1509
+       (Werner - 20060823)
+
 JDO:   Resolved issue CASTOR-1506 using contribution from Emir Causevic [emircaus@bih.net.ba]
        Restructured mapping syntax for named queries.
        Details: http://jira.codehaus.org/browse/CASTOR-1506

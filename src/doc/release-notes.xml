@@ -30,6 +30,28 @@
             <summary>
             </summary>
             <bugs>
+                
+                <bug id="1509" tool="jira">
+                    <description>
+		                Refactored Marshaller to allow instantiation through default 
+                        constructor (setting Writer through setWriter()).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060823</date>
+                </bug>
                 <bug id="1506" tool="jira">
                     <description>
 		                Restructured mapping syntax for named queries.

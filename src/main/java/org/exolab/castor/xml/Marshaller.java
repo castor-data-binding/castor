@@ -204,7 +204,7 @@ public class Marshaller extends MarshalFramework {
     /**
      * flag to indicate whether or not to use xsi:type
     **/
-	private boolean _marshalExtendedType = true;
+    private boolean _marshalExtendedType = true;
 
     /**
      * The registered MarshalListener to receive
@@ -223,10 +223,10 @@ public class Marshaller extends MarshalFramework {
     **/
     private XMLNaming _naming = null;
 
-	/**
-	 * Insert NameSpace prefix declarations at the root node
-	 */
-	//private boolean _nsPrefixAtRoot = false;
+    /**
+     * Insert NameSpace prefix declarations at the root node
+     */
+    //private boolean _nsPrefixAtRoot = false;
 
     /**
      * current java packages being used during marshalling
@@ -245,10 +245,10 @@ public class Marshaller extends MarshalFramework {
     **/
     private List _processingInstructions = null;
 
-	/**
-	 * Name of the root element to use
-	 */
-	private String _rootElement  = null;
+    /**
+     * Name of the root element to use
+     */
+    private String _rootElement  = null;
 
     /**
      * A boolean to indicate keys from a map
@@ -326,19 +326,39 @@ public class Marshaller extends MarshalFramework {
     } //-- Marshaller
 
     /**
+     * Creates a default instance of Marshaller, where the sink needs to be set
+     * separately.
+     */
+    public Marshaller () {
+        initialize();
+    }
+    
+    /**
+     * Sets the java.io.Writer to be used during marshalling.
+     * @param out The writer to use for marshalling
+     * @throws IOException If there's a problem accessing the java.io.Writer provided 
+     */
+    public void setWriter (Writer out) throws IOException {
+        if (out == null) {
+            throw new IllegalArgumentException( "Argument 'out' is null.");
+        }
+        configureSerializer(out);
+    }
+    
+    /**
      * Creates a new Marshaller with the given writer.
-     *
      * @param out the Writer to serialize to
     **/
     public Marshaller( Writer out )
         throws IOException
     {
-        if (out == null)
-            throw new IllegalArgumentException( "Argument 'out' is null.");
-
-        // call internal initializer
         initialize();
+        setWriter(out);
+    } //-- Marshaller
 
+
+    private void configureSerializer(Writer out) throws IOException
+    {
         _serializer = _config.getSerializer();
 
         if (_serializer == null)
@@ -356,23 +376,22 @@ public class Marshaller extends MarshalFramework {
                                           _serializer.getClass().getName() );
             throw new RuntimeException( err );
         }
+    }
 
-    } //-- Marshaller
-
-	/**
-	 * Creates a new Marshaller for the given DOM Node.
-	 *
-	 * @param node the DOM node to marshal into.
-	**/
-	public Marshaller( Node node )
-	{
+    /**
+     * Creates a new Marshaller for the given DOM Node.
+     *
+     * @param node the DOM node to marshal into.
+    **/
+    public Marshaller( Node node )
+    {
         if ( node == null )
             throw new IllegalArgumentException( "Argument 'node' is null." );
-		_handler = new DocumentHandlerAdapter(new SAX2DOMHandler( node ));
+        _handler = new DocumentHandlerAdapter(new SAX2DOMHandler( node ));
 
         // call internal initializer
         initialize();
-	} //-- Marshaller
+    } //-- Marshaller
 
     /**
      * Initializes this Marshaller. This is common code shared among
@@ -581,44 +600,44 @@ public class Marshaller extends MarshalFramework {
 
     } //-- setNamespacePrefix
 
-	/**
-	 * Sets the name of the root element to use
-	 * @param The name of the root element to use
-	 */
-	public void setRootElement(String rootElement)
-	{
-		_rootElement = rootElement;
-	} //-- setRootElement
+    /**
+     * Sets the name of the root element to use
+     * @param The name of the root element to use
+     */
+    public void setRootElement(String rootElement)
+    {
+        _rootElement = rootElement;
+    } //-- setRootElement
 
-	/**
-	 * Returns the name of the root element to use
-	 * @return Returns the name of the root element to use
-	 */
-	public String getRootElement()
-	{
-		return _rootElement;
-	} //-- getRootElement
+    /**
+     * Returns the name of the root element to use
+     * @return Returns the name of the root element to use
+     */
+    public String getRootElement()
+    {
+        return _rootElement;
+    } //-- getRootElement
 
-	/**
-	 * Set to True to declare the given namespace mappings at the root node. Default is False.
-	 * @param nsPrefixAtRoot
-	 * @deprecated
-	 */
-	public void setNSPrefixAtRoot(boolean nsPrefixAtRoot)
-	{
-	    // leaving for now...backward compatability
-		//_nsPrefixAtRoot = nsPrefixAtRoot;
-	}
+    /**
+     * Set to True to declare the given namespace mappings at the root node. Default is False.
+     * @param nsPrefixAtRoot
+     * @deprecated
+     */
+    public void setNSPrefixAtRoot(boolean nsPrefixAtRoot)
+    {
+        // leaving for now...backward compatability
+        //_nsPrefixAtRoot = nsPrefixAtRoot;
+    }
 
-	/**
-	 * Returns True if the given namespace mappings will be declared at the root node.
-	 * @return Returns True if the given namespace mappings will be declared at the root node.
-	 * @deprecated
-	 */
-	public boolean getNSPrefixAtRoot()
-	{
-		return true;
-	}
+    /**
+     * Returns True if the given namespace mappings will be declared at the root node.
+     * @return Returns True if the given namespace mappings will be declared at the root node.
+     * @deprecated
+     */
+    public boolean getNSPrefixAtRoot()
+    {
+        return true;
+    }
     
     /**
      * Returns the ClassDescriptorResolver for use during marshalling
@@ -670,29 +689,29 @@ public class Marshaller extends MarshalFramework {
         _validate = validate;
     } //-- setValidation
 
-	/**
-	 * If True the marshaller will use the 'xsi:type' attribute
-	 * to marshall a field value that extended the defined field type.
-	 * Default is True.
-	 */
-	public void setMarshalExtendedType(boolean marshalExtendedType)
-	{
-		_marshalExtendedType = marshalExtendedType;
-	} //-- setMarshalExtendedType
+    /**
+     * If True the marshaller will use the 'xsi:type' attribute
+     * to marshall a field value that extended the defined field type.
+     * Default is True.
+     */
+    public void setMarshalExtendedType(boolean marshalExtendedType)
+    {
+        _marshalExtendedType = marshalExtendedType;
+    } //-- setMarshalExtendedType
 
     
-	/**
-	 * If True the marshaller will use the 'xsi:type' attribute
-	 * to marshall a field value that extended the defined field type.
-	 * Default is True.
-	 * @return If True the marshaller will use the 'xsi:type' attribute
-	 * to marshall a field value that extended the defined field type.
-	 * Default is True.
-	 */
-	public boolean getMarshalExtendedType()
-	{
-		return _marshalExtendedType;
-	} //-- setMarshallExtendedType
+    /**
+     * If True the marshaller will use the 'xsi:type' attribute
+     * to marshall a field value that extended the defined field type.
+     * Default is True.
+     * @return If True the marshaller will use the 'xsi:type' attribute
+     * to marshall a field value that extended the defined field type.
+     * Default is True.
+     */
+    public boolean getMarshalExtendedType()
+    {
+        return _marshalExtendedType;
+    } //-- setMarshallExtendedType
 
     /**
      * Marshals the given Object as XML using the given writer
@@ -907,26 +926,26 @@ public class Marshaller extends MarshalFramework {
             _class = object.getClass();
         }
         else {
-        	_class = ((NilObject)object).getClassDescriptor().getJavaClass();
+            _class = ((NilObject)object).getClassDescriptor().getJavaClass();
         }
         
         boolean byteArray = false;
         if (_class.isArray())
             byteArray = (_class.getComponentType() == Byte.TYPE);
 
-	    boolean atRoot = false;
+        boolean atRoot = false;
         if (descriptor == null) {
             descriptor = new XMLFieldDescriptorImpl(_class, "root", null, null);
-			atRoot = true;
+            atRoot = true;
         }
         
 
         //-- calculate Object's name
         String name = descriptor.getXMLName();
-		if (atRoot && _rootElement!=null)
-			name = _rootElement;
-			
-	    boolean autoNameByClass = false;
+        if (atRoot && _rootElement!=null)
+            name = _rootElement;
+            
+        boolean autoNameByClass = false;
         if (name == null) {
             autoNameByClass = true;
             name = _class.getName();
@@ -1009,9 +1028,9 @@ public class Marshaller extends MarshalFramework {
                             }
                             
                             if (tmpDesc != null) {
-                            	Class tmpType = tmpDesc.getJavaClass();
+                                Class tmpType = tmpDesc.getJavaClass();
                                 if (tmpType == _class) {
-                                	containsDesc = (!tmpType.isInterface());
+                                    containsDesc = (!tmpType.isInterface());
                                 }
                             }
                         }
@@ -1023,9 +1042,9 @@ public class Marshaller extends MarshalFramework {
                             //-- one
                             if (atRoot) {
                                 if (_useXSITypeAtRoot) {
-                                	XMLMappingLoader ml = (XMLMappingLoader) _cdResolver.getMappingLoader();
-                                	if (ml != null) {
-                                		containsDesc = (ml.getDescriptor(_class.getName()) != null);
+                                    XMLMappingLoader ml = (XMLMappingLoader) _cdResolver.getMappingLoader();
+                                    if (ml != null) {
+                                        containsDesc = (ml.getDescriptor(_class.getName()) != null);
                                     }
                                 }
                                 else {
@@ -1058,11 +1077,11 @@ public class Marshaller extends MarshalFramework {
                     if (classDesc == null)
                         classDesc = getClassDescriptor(_class);
                     
-			    } //-- end if (marshalExtendedType)
-			    else {
-			        // marshall as the base field type
-				    _class = descriptor.getFieldType();
-				    classDesc = getClassDescriptor(_class);
+                } //-- end if (marshalExtendedType)
+                else {
+                    // marshall as the base field type
+                    _class = descriptor.getFieldType();
+                    classDesc = getClassDescriptor(_class);
                 } 
 
                 //-- If we are marshalling an array as the top
@@ -1250,22 +1269,22 @@ public class Marshaller extends MarshalFramework {
             //-- declare namespace at this element scope?
             if (nsURI != null) {
                 String defaultNamespace = _namespaces.getNamespaceURI("");
-    		    if ((nsPrefix == null) && (!nsURI.equals(defaultNamespace)))
-    		    {
-    		        if ((defaultNamespace == null) && atRoot) {
-    		            nsPrefix = "";
-    		        }
-    		        else nsPrefix = DEFAULT_PREFIX + (++NAMESPACE_COUNTER);
-    		    }
-    			declareNamespace(nsPrefix, nsURI);
-    		}
-    		else {
+                if ((nsPrefix == null) && (!nsURI.equals(defaultNamespace)))
+                {
+                    if ((defaultNamespace == null) && atRoot) {
+                        nsPrefix = "";
+                    }
+                    else nsPrefix = DEFAULT_PREFIX + (++NAMESPACE_COUNTER);
+                }
+                declareNamespace(nsPrefix, nsURI);
+            }
+            else {
                 nsURI = "";
-    		    //-- redeclare default namespace as empty
-    		    String defaultNamespace = _namespaces.getNamespaceURI("");
-    		    if ((defaultNamespace != null) && (!"".equals(defaultNamespace)))
-    		        _namespaces.addNamespace("", "");
-    		}
+                //-- redeclare default namespace as empty
+                String defaultNamespace = _namespaces.getNamespaceURI("");
+                if ((defaultNamespace != null) && (!"".equals(defaultNamespace)))
+                    _namespaces.addNamespace("", "");
+            }
         }
         
         
@@ -1418,7 +1437,7 @@ public class Marshaller extends MarshalFramework {
             //-- declare XSI namespace, if necessary
             declareNamespace(XSI_PREFIX, XSI_NAMESPACE);
             //-- add xsi:nil="true"
-        	atts.addAttribute(XSI_NAMESPACE, NIL_ATTR, XSI_NIL_ATTR, CDATA, TRUE_VALUE);
+            atts.addAttribute(XSI_NAMESPACE, NIL_ATTR, XSI_NIL_ATTR, CDATA, TRUE_VALUE);
         }
 
        //check if the value is a QName that needs to
@@ -1458,7 +1477,7 @@ public class Marshaller extends MarshalFramework {
                 //-- isNillable?
                 if ((!isNil) && descriptor.isNillable()) {
                     XMLFieldDescriptor desc = classDesc.getContentDescriptor();
-                	descriptors = classDesc.getElementDescriptors();
+                    descriptors = classDesc.getElementDescriptors();
                     int descCount = descriptors.length;
                     boolean isNilContent = (descCount > 0) || (desc != null);
                     
@@ -1487,7 +1506,7 @@ public class Marshaller extends MarshalFramework {
                             break;
                         }
                         else if (desc.isNillable() && desc.isRequired()) {
-                        	isNilContent = false;
+                            isNilContent = false;
                             firstNonNullIdx = i;
                             firstNonNullValue = new NilObject(classDesc, desc);
                             break;
@@ -1671,7 +1690,7 @@ public class Marshaller extends MarshalFramework {
         //---------------------------
         
         if (isNil || descriptor.isReference()) {
-        	descriptors = NO_FIELD_DESCRIPTORS;
+            descriptors = NO_FIELD_DESCRIPTORS;
         }
         else {
             descriptors = classDesc.getElementDescriptors();
@@ -1688,7 +1707,7 @@ public class Marshaller extends MarshalFramework {
             
             //-- used previously cached value?
             if ((i == firstNonNullIdx) && (firstNonNullValue != null)) {
-            	obj = firstNonNullValue;
+                obj = firstNonNullValue;
             }
             //-- obtain value from handler
             else {
