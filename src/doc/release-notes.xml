@@ -28,9 +28,36 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Additions</h2>
+                
+                <h3>Support for Progress</h3>
+                
+                <p>Support for <a href="http://www.progress.com">Progress</a> has been added. For 
+                   initial information about configuration of Castor JDO for the use with 
+                   Progress, please see <tt>src/tests/jdo/progress.xml</tt>.</p>
+                   
             </summary>
             <bugs>
-                
+				<bug id="1471" tool="jira">
+                    <description>
+		                Added support for Progress.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Victor Manuel Iniestra Alvarez</name>
+                        <email>viniestra@hotmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDOL</module>
+                    <date>20060819</date>
+                </bug>
                 <bug id="1509" tool="jira">
                     <description>
 		                Refactored Marshaller to allow instantiation through default 
