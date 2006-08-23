@@ -7,10 +7,6 @@
 
 package org.exolab.castor.mapping.xml;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
 import java.util.Collections;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;

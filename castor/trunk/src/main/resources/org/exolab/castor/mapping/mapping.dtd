@@ -81,15 +81,16 @@
 <!ATTLIST query-hint
     name           CDATA  #REQUIRED
     value          CDATA  #REQUIRED>
-
-<!--
-    Specifies the (OQL) named queries used for this class
+ 
+ <!--
+    Specifies the (OQL) named queries
  -->
-<!ELEMENT named-query  ( query-hint* )>
+<!ELEMENT named-query  ( query?, query-hint* )>
 <!ATTLIST named-query
     name           CDATA  #REQUIRED
-    query          CDATA  #REQUIRED>
+>
 
+<!ELEMENT query (#PCDATA)>
 
 <!--
     Specifies the cache type and capacity used for this class

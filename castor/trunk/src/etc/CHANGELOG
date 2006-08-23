@@ -2,6 +2,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-1506 using contribution from Emir Causevic [emircaus@bih.net.ba]
+       Restructured mapping syntax for named queries.
+       Details: http://jira.codehaus.org/browse/CASTOR-1506
+       (Werner - 20060823)
+
 XML:   Resolved issue CASTOR-1493 using contribution from Simeon de Dios [sdedios@lehman.com]
        Fixed problem with wrong class names for elements of named complexType which are unbounded choice.
        Details: http://jira.codehaus.org/browse/CASTOR-1493

@@ -7,10 +7,6 @@
 
 package org.exolab.castor.mapping.xml;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
 /**
  * Class MapToDescriptor.
  * 

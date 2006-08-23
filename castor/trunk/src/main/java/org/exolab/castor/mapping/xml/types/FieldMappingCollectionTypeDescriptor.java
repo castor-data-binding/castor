@@ -7,10 +7,6 @@
 
 package org.exolab.castor.mapping.xml.types;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
 /**
  * Class FieldMappingCollectionTypeDescriptor.
  * 

@@ -75,13 +75,13 @@
   <xsd:element  name="named-query">
     <xsd:complexType>
         <xsd:sequence>
-            <xsd:element ref="query-hint" minOccurs="0"	maxOccurs="unbounded" />
+            <xsd:element name="query" type="xsd:string"/>
+            <xsd:element ref="query-hint" minOccurs="0" maxOccurs="unbounded"/>
         </xsd:sequence>
-        <xsd:attribute name="name" type="xsd:string" use="required" />
-        <xsd:attribute name="query" type="xsd:string" use="required" />
+        <xsd:attribute name="name" type="xsd:string" use="required"/>
     </xsd:complexType>
   </xsd:element>
-
+  
   <xsd:element name="map-to">
     <xsd:complexType>
       <xsd:attribute name="table"     type="xsd:NMTOKEN"  use="optional"/>
