@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1493 using contribution from Simeon de Dios [sdedios@lehman.com]
+       Fixed problem with wrong class names for elements of named complexType which are unbounded choice.
+       Details: http://jira.codehaus.org/browse/CASTOR-1493
+       (Werner - 20060822)
+
 All:   Resolved issue CASTOR-1492 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added XML best practise document.
        Details: http://jira.codehaus.org/browse/CASTOR-1492
