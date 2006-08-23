@@ -2,6 +2,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-1471 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for Progress.
+       Details: http://jira.codehaus.org/browse/CASTOR-1471
+       (Werner - 20060823)
+
 XML:   Resolved issue CASTOR-1509 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Refactored Marshaller to allow instantiation through default constructor (setting 
        Writer through setWriter()).

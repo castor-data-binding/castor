@@ -991,6 +991,102 @@
 
   </category>
 
+  <category name="progress" class="jdo.JDOCategory">
+    <description>JDO tests for Progress RDBMS</description>
+    <jdo database-name="progress" configuration="progress.xml" />
+
+    <!-- tc0x -->
+    <case id="TC01" class="ctf.jdo.tc0x.TestDuplicateKey"/>
+    <!-- <case id="TC02" class="ctf.jdo.tc0x.TestConcurrent"/> -->
+    <case id="TC03" class="ctf.jdo.tc0x.TestReadOnly"/>
+    <case id="TC04" class="ctf.jdo.tc0x.TestDeadlock"/>
+    <case id="TC05" class="ctf.jdo.tc0x.TestUpdate"/>
+    <case id="TC06" class="ctf.jdo.tc0x.TestRaceCondition"/>
+    <case id="TC07" class="ctf.jdo.tc0x.TestCacheLeakage"/>
+    <case id="TC08" class="ctf.jdo.tc0x.TestCache"/>
+    <case id="TC09" class="ctf.jdo.tc0x.TestSynchronizable"/>
+
+    <!-- tc1x -->
+    <!-- <case id="TC10" class="ctf.jdo.tc1x.TestTypeHandling"/> -->
+    <case id="TC11" class="ctf.jdo.tc1x.TestTypeLOB"/>
+    <case id="TC12" class="ctf.jdo.tc1x.TestTypeConversion"/>
+    <case id="TC13" class="ctf.jdo.tc1x.TestSerializable"/>
+    <case id="TC14" class="ctf.jdo.tc1x.TestRollbackPrimitive"/>
+    <case id="TC15" class="ctf.jdo.tc1x.TestMultiPrimKeys"/>
+    <case id="TC16" class="ctf.jdo.tc1x.TestNestedFields"/>
+    <case id="TC17" class="ctf.jdo.tc1x.TestTimeStamp"/>
+    <case id="TC18" class="ctf.jdo.tc1x.TestPersistent"/>
+    <case id="TC19" class="ctf.jdo.tc1x.TestInstanceFactory"/>
+
+    <!-- tc2x -->
+    <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
+    <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/>
+    <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
+    <!-- <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/> -->
+    <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
+    <case id="TC25" class="ctf.jdo.tc2x.TestDependent"/>
+    <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
+    <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
+    <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
+    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
+
+    <!-- tc3x -->
+    <case id="TC30" class="ctf.jdo.tc3x.TestOql"/>
+    <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/>
+    <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
+    <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
+    <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
+    <!-- <case id="TC35" class="ctf.jdo.tc3x.TestSize"/> -->
+    <case id="TC36" class="ctf.jdo.tc3x.TestSizeOracle"/>
+    <case id="TC37" class="ctf.jdo.tc3x.TestAbsolute"/>
+    <case id="TC38" class="ctf.jdo.tc3x.TestCallSql"/>
+    <!-- <case id="TC39" class="ctf.jdo.tc3x.TestStoredProcedure"/> -->
+
+    <!-- tc4x -->
+    <!-- tc5x -->
+    <!-- tc6x -->
+    <!-- tc7x -->
+
+    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
+	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
+    <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
+    <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
+    <!-- <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/> -->
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
+	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
+	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
+	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
+
+    <!-- tc8x -->
+    <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
+    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
+    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
+    <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
+    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
+    <!-- <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/> -->
+    <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/>
+    <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/>
+    <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
+
+    <!-- tc9x -->
+    <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
+    <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
+    <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
+    <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
+    <case id="TC98" class="ctf.jdo.tc9x.TestPolymorphismInAThreadedEnv"/>
+    <case id="TC99" class="ctf.jdo.tc9x.TestPolymorphismMany2Many"/>
+
+    <!-- tc20x -->
+    <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
+    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+
+  </category>
+
 <!--
   <category name="j2ee" class="jdo.JDOJ2EECategory">
      <description>JDO tests in a J2EE transaction managed environment</description>

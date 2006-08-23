@@ -56,6 +56,7 @@
                   <tr><td>sql-server</td><td>Microsoft SQL Server</td></tr>
                   <tr bgcolor="#DEDEDE"><td>sybase</td><td>Sybase 11</td></tr>
                   <tr><td>pointbase</td><td>Borland Pointbase</td></tr>
+                  <tr bgcolor="#DEDEDE"><td>progress</td><td>Progress RDBMS</td></tr>
                </table>
             </td>
          </tr>
