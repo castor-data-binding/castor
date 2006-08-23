@@ -223,7 +223,7 @@ public final class TestNamedQueries extends CastorTestCase {
     public void tearDown() throws Exception {
         Database db = _category.getDatabase();
         db.begin();
-        db.getJdbcConnection().prepareStatement("delete from tc3x_nq_entity;").executeUpdate();
+        db.getJdbcConnection().prepareStatement("delete from tc3x_nq_entity").executeUpdate();
         db.commit();
         _db.close();
     }

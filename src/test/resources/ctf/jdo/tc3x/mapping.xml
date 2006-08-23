@@ -105,10 +105,17 @@
   <class name="ctf.jdo.tc3x.NQEntity" identity="id">
     <description>Named query entity</description>
     <map-to table="tc3x_nq_entity"/>
-    <named-query name="selectAllEntity" query="SELECT e FROM ctf.jdo.tc3x.NQEntity e"/>
-    <named-query name="queryBadSyntax" query="SELECT e FROM EntityTwo entity"/>
-    <named-query name="selectEntityById" query="SELECT e FROM ctf.jdo.tc3x.NQEntity e WHERE e.id=$1"/>
-    <named-query name="selectEntitiesWithHint" query="SELECT e FROM ctf.jdo.tc3x.NQEntity e">
+    <named-query name="selectAllEntity">
+      <query>SELECT e FROM ctf.jdo.tc3x.NQEntity e</query>
+    </named-query>
+    <named-query name="queryBadSyntax">
+	    <query>SELECT e FROM EntityTwo entity</query>
+    </named-query>
+    <named-query name="selectEntityById">
+    	<query>SELECT e FROM ctf.jdo.tc3x.NQEntity e WHERE e.id=$1</query>
+    </named-query>
+    <named-query name="selectEntitiesWithHint">
+	    <query>SELECT e FROM ctf.jdo.tc3x.NQEntity e</query>
 	    <query-hint name="beggingCastor" value="please load my objects!"/>
     </named-query>
     <field name="id" type="integer" >
