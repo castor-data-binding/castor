@@ -545,7 +545,10 @@ public class SourceFactory {
 		                handleField(fieldInfo,state);
 		                temp = null;
                     }
-                    
+					else {
+                        // handle multi-valued choice group
+						classInfo.setSchemaType(new XSClass(jClass));
+					}
                 }
             }
 
