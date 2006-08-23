@@ -390,8 +390,9 @@
     <name surname="Causevic" given="Emir"/>
     <email>emircaus@bih.net.ba</email>
     <description>
-        Contributed patch for SapDbFactory to add the currval function and
-		fixed compilation problems with Java5.
+        Contributed several patches for SapDb driver and fixed compilation problems with 
+		Java5. Currently involved in JPA 3.0 implementation and extension of Castor JDO
+		to meet new feature requests.
     </description>
     <status>active</status>
   </contributor>
