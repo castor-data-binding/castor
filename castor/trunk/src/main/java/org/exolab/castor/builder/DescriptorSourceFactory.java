@@ -579,9 +579,15 @@ public class DescriptorSourceFactory {
         boolean isAbstract = false;
 
         // Commented out according to CASTOR-1340
-        // if (member.getDeclaringClassInfo() != null)
-		//     isAbstract = member.getDeclaringClassInfo().isAbstract();
-        
+//        if (member.getDeclaringClassInfo() != null) {
+//		     isAbstract = member.getDeclaringClassInfo().isAbstract();
+//        }
+
+        // check whether class of member is declared as abstract
+        if (member.getSchemaType() != null && member.getSchemaType().getJType() instanceof JClass) {
+            isAbstract = ((JClass)member.getSchemaType().getJType()).getModifiers().isAbstract();
+        }
+
         if (!isAbstract && xsType.getJType() instanceof JClass) {
         	isAbstract = ((JClass)xsType.getJType()).getModifiers().isAbstract();
         }

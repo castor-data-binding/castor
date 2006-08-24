@@ -337,7 +337,14 @@ public class MemberFactory {
         //--is the XSType found?
         if (xsType == null) {
             String className = component.getQualifiedName();
-            xsType = new XSClass(new JClass(className));
+            JClass jClass = new JClass(className);
+            xsType = new XSClass(jClass);
+            if (xmlType != null && xmlType.isComplexType()) {
+                ComplexType complexType = (ComplexType) xmlType;
+                if (complexType.isAbstract()) {
+                    jClass.getModifiers().setAbstract(true);
+                }
+            }
             className = null;
         }
         //--create the fieldInfo
