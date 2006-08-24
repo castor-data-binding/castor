@@ -38,6 +38,26 @@
                    
             </summary>
             <bugs>
+				<bug id="1489" tool="jira">
+                    <description>
+		                Added support for abstract <complexType> definitions.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>James MacDonald</name>
+                        <email>James.MacDonald@gs.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060824</date>
+                </bug>
 				<bug id="1471" tool="jira">
                     <description>
 		                Added support for Progress.
