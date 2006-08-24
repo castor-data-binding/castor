@@ -38,6 +38,26 @@
                    
             </summary>
             <bugs>
+				<bug id="1508" tool="jira">
+                    <description>
+		                Various speed improvementzs related to inheritance search.
+                    </description>
+                    <contributor>
+                        <name>Phil Webb</name>
+                        <email>phil.webb@card.co.uk</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Phil Webb</name>
+                        <email>phil.webb@card.co.uk</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060824</date>
+                </bug>
 				<bug id="1489" tool="jira">
                     <description>
 		                Added support for abstract <complexType> definitions.
