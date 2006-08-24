@@ -407,7 +407,7 @@ public class XMLClassDescriptorResolverImpl
             catch(ClassNotFoundException cnfe) { 
                 //-- save exception, for future calls with
                 //-- the same classname
-                saveClassNotFound(className, cnfe);
+                saveClassNotFound(dClassName, cnfe);
             }
         }
         return classDesc;
@@ -500,27 +500,30 @@ public class XMLClassDescriptorResolverImpl
         Enumeration mappings = _packageMappings.elements();
         while (mappings.hasMoreElements()) {
             Mapping mapping = (Mapping)mappings.nextElement();
-            try {
-                MappingUnmarshaller mum = new MappingUnmarshaller();
-                MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-                Iterator iter = resolver.descriptorIterator();
-                while (iter.hasNext()) {
-                    classDesc = (XMLClassDescriptor) iter.next();
-                    if (xmlName.equals(classDesc.getXMLName())) {
-                        if (namespaceEquals(namespaceURI, classDesc.getNameSpaceURI())) {
-                            _cacheViaName.put(nameKey, classDesc);
-                            return classDesc;
-                        }
-                        if (possibleMatch == null) 
-                            possibleMatch = classDesc;
-                        else if (possibleMatch != classDesc) {
-                            //-- too many possible matches, return null.
-                            possibleMatch = null;
+            if ( mapping != NULL_MAPPING )
+            {
+                try {
+                    MappingUnmarshaller mum = new MappingUnmarshaller();
+                    MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
+                    Iterator iter = resolver.descriptorIterator();
+                    while (iter.hasNext()) {
+                        classDesc = (XMLClassDescriptor) iter.next();
+                        if (xmlName.equals(classDesc.getXMLName())) {
+                            if (namespaceEquals(namespaceURI, classDesc.getNameSpaceURI())) {
+                                _cacheViaName.put(nameKey, classDesc);
+                                return classDesc;
+                            }
+                            if (possibleMatch == null) 
+                                possibleMatch = classDesc;
+                            else if (possibleMatch != classDesc) {
+                                //-- too many possible matches, return null.
+                                possibleMatch = null;
+                            }
                         }
                     }
+                } catch(MappingException mx) {
+                    // nothing to do
                 }
-            } catch(MappingException mx) {
-                // nothing to do
             }
             classDesc = null;
         }
@@ -577,24 +580,27 @@ public class XMLClassDescriptorResolverImpl
         Enumeration mappings = _packageMappings.elements();
         while (mappings.hasMoreElements()) {
             Mapping mapping = (Mapping)mappings.nextElement();
-            try {
-                MappingUnmarshaller mum = new MappingUnmarshaller();
-                MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-                Iterator iter = resolver.descriptorIterator();
-                while (iter.hasNext()) {
-                    classDesc = (XMLClassDescriptor) iter.next();
-                    if (xmlName.equals(classDesc.getXMLName())) {
-                        xcdEnumerator.add(classDesc);
+            if ( mapping != NULL_MAPPING )
+            {
+                try {
+                    MappingUnmarshaller mum = new MappingUnmarshaller();
+                    MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
+                    Iterator iter = resolver.descriptorIterator();
+                    while (iter.hasNext()) {
+                        classDesc = (XMLClassDescriptor) iter.next();
+                        if (xmlName.equals(classDesc.getXMLName())) {
+                            xcdEnumerator.add(classDesc);
+                        }
                     }
+                } catch(MappingException mx) {
+                    // nothing to do
                 }
-            } catch(MappingException mx) {
-                // nothing to do
             }
         }
         
         return xcdEnumerator;
         
-    } //-- resolveByXMLName
+    } //-- resolveAllByXMLName
     
     
     /**

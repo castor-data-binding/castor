@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1508 using contribution from Phil Webb [phil.webb@card.co.uk]
+       Various speed improvementzs related to inheritance search.
+       Details: http://jira.codehaus.org/browse/CASTOR-1508
+       (Werner - 20060824)
+
 XML:   Resolved issue CASTOR-1489 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for abstract <complexType> definitions.
        Details: http://jira.codehaus.org/browse/CASTOR-1489
