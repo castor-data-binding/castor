@@ -38,6 +38,27 @@
                    
             </summary>
             <bugs>
+				<bug id="1501" tool="jira">
+                    <description>
+		                Fixed problem with ignorance of java-type elements in binding 
+		                file (for complex elements).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michal Kostrzewa</name>
+                        <email>michael.kostrzewa@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060824</date>
+                </bug>
 				<bug id="1508" tool="jira">
                     <description>
 		                Various speed improvementzs related to inheritance search.
