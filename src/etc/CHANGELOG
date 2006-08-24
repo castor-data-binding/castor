@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1501 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with ignorance of java-type elements in binding file (for complex elements).
+       Details: http://jira.codehaus.org/browse/CASTOR-1501
+       (Werner - 20060824)
+
 XML:   Resolved issue CASTOR-1508 using contribution from Phil Webb [phil.webb@card.co.uk]
        Various speed improvementzs related to inheritance search.
        Details: http://jira.codehaus.org/browse/CASTOR-1508

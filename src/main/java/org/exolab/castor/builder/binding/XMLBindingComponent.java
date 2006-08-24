@@ -836,6 +836,7 @@ public class XMLBindingComponent implements BindingComponent {
         return _javaMemberName;
     }
 
+    
     /**
      * <p>Returns the fully qualified name used for generating a java name that
      * represents this XMLBindingComponent.
@@ -1154,7 +1155,13 @@ public class XMLBindingComponent implements BindingComponent {
         XMLType type = getXMLType();
 
         if (type.isComplexType()) {
-            result = new XSClass(new JClass(getJavaClassName()));
+            if (_type == MEMBER && _member.getJavaType() != null) {
+                String javaType = _member.getJavaType();
+                if (javaType != null && javaType.length() >0 )
+                    result = TypeConversion.convertType(javaType);
+            } else {
+                result = new XSClass(new JClass(getJavaClassName()));
+            }
         }
         else {
             if (_type == MEMBER) {
