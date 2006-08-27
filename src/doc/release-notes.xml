@@ -81,7 +81,7 @@
                 </bug>
 				<bug id="1489" tool="jira">
                     <description>
-		                Added support for abstract <complexType> definitions.
+		                Added support for abstract &lt;complexType&gt; definitions.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
