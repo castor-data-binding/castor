@@ -38,6 +38,26 @@
                    
             </summary>
             <bugs>
+				<bug id="1512" tool="jira">
+                    <description>
+		                Improved documentation wrt source generator Ant task.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Rainer Montag</name>
+                        <email>rmontag@hrzpub.tu-darmstadt.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060827</date>
+                </bug>
 				<bug id="1501" tool="jira">
                     <description>
 		                Fixed problem with ignorance of java-type elements in binding 

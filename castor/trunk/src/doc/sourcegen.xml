@@ -85,34 +85,6 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
 
     </section>
 
-    <section title="Castor source generator Ant task">
-
-        <p>An alternative to using the command line as shown in the previous section,
-           the Castor Source Generator Ant Task can be used to call the source
-           generator for class generation. Below is an example of how to use this task
-           from within an Ant target definition named 'castor:gen:src':</p>
-
-        <code-panel>
-  &lt;target name="castor:gen:src" depends="init"
-             description="Generate Java source files from XSD."&gt;
-
-    &lt;taskdef name="castor-srcgen"
-                classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
-                classpathref="castor.class.path" /&gt;
-    &lt;mkdir dir="generated" /&gt;
-    &lt;castor-srcgen file="src/schema/sample.xsd"
-                      todir="generated-source"
-                      package="org.castor.example.schema"
-                      types="j2"
-                      warnings="false" /&gt;
-  &lt;/target&gt;
-        </code-panel>
-
-        <p>The only requirement is that the castor-&lt;version&gt;-srcgen-ant-task.jar 
-           must be on the CLASSPATH.</p>
-        
-    </section>
-    
     <section title="Source Generator Options">
 
       <tip>For additional information about the Source Generator and
@@ -683,7 +655,224 @@ java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
        </section>
 
     </section>
-	
+
+    <section title="Castor source generator Ant task">
+
+        <p>An alternative to using the command line as shown in the previous section,
+           the Castor Source Generator Ant Task can be used to call the source
+           generator for class generation. The only requirement is that the 
+           castor-&lt;version&gt;-srcgen-ant-task.jar must be on the CLASSPATH.</p>
+           
+        <section title="Configuration">
+            
+            <p>Please find below the complete list of parameters that can be set on the Castor 
+               source generator.</p>
+            
+            <ctable>
+                <cheader>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </cheader>
+                <crow>
+                    <td><b>file</b></td>
+                    <td>The XML schema, to be used as input for the source code generator.</td>
+                    <td>Yes, unless a nested &lt;fileset&gt; element is used.</td>
+                </crow>
+                <crow>
+                    <td><b>package</b></td>
+                    <td>The default package to be used during source code generation.</td>
+                    <td>No; if not given, all classes will be placed in the root package.</td>
+                </crow>
+                <crow>
+                    <td><b>todir</b></td>
+                    <td>The destination directory to be used during source code generation. In
+                        this directory all generated Java classes will be placed.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>bindingfile</b></td>
+                    <td>A Castor source generator binding file, as detailed <a href="">here</a>.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>lineseparator</b></td>
+                    <td>Defines whether to use Unix- or Windows- or Mac-style line separators during source code generation. Possible values are: 'unix', 'win' or 'mac'.</td>
+                    <td>No; if not set, system property 'line.separator' is used instead.</td>
+                </crow>
+                <crow>
+                    <td><b>types</b></td>
+                    <td>Defines what collection types to use (Java 1 vs. Java 2). Possible values: 'vector', 'arraylist' (aka 'j2') or 'odmg'.</td>
+                    <td>No; if not set, the default collection used will be Java 1 type</td>
+                </crow>
+                <crow>
+                    <td><b>verbose</b></td>
+                    <td>Whether to output any logging messages as emitted by the source generator</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>warnings</b></td>
+                    <td>Whether to suppress any warnings as otherwise emitted by the source generator</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>nodesc</b></td>
+                    <td>If used, instructs the source generator not to generate *Descriptor classes.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>nomarshal</b></td>
+                    <td>If specified, instructs the source generator not to create (un)marshalling 
+                        methods within the Java classes generated.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>properties</b></td>
+                    <td>Location of file defining a set of properties to be used during source code 
+                        generation. This overrides the default mechanisms of configuring the source 
+                        generator through a <tt>castorbuilder.properties</tt> (that has to be 
+                        placed on the CLASSPATH)</td>
+                    <td>No</td>
+                </crow>
+                
+            </ctable>
+            
+        </section>
+        
+        <section title="Example">
+            
+            <p>Below is an example of how to use this task from within an Ant target 
+               definition named 'castor:gen:src':</p>
+
+            <code-panel>
+  &lt;target name="castor:gen:src" depends="init"
+             description="Generate Java source files from XSD."&gt;
+
+    &lt;taskdef name="castor-srcgen"
+                classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+                classpathref="castor.class.path" /&gt;
+    &lt;mkdir dir="generated" /&gt;
+    &lt;castor-srcgen file="src/schema/sample.xsd"
+                      todir="generated-source"
+                      package="org.castor.example.schema"
+                      types="j2"
+                      warnings="true" /&gt;
+  &lt;/target&gt;
+            </code-panel>
+        
+        </section>
+
+    </section>
+
+    <section title="Castor source generator Ant task">
+
+        <p>An alternative to using the command line as shown in the previous section,
+           the Castor Source Generator Ant Task can be used to call the source
+           generator for class generation. The only requirement is that the 
+           castor-&lt;version&gt;-srcgen-ant-task.jar must be on the CLASSPATH.</p>
+           
+        <section title="Configuration">
+            
+            <p>Please find below the complete list of parameters that can be set on the Castor 
+               source generator.</p>
+            
+            <ctable>
+                <cheader>
+                    <th>Attribute</th>
+                    <th>Description</th>
+                    <th>Required</th>
+                </cheader>
+                <crow>
+                    <td><b>file</b></td>
+                    <td>The XML schema, to be used as input for the source code generator.</td>
+                    <td>Yes, unless a nested &lt;fileset&gt; element is used.</td>
+                </crow>
+                <crow>
+                    <td><b>package</b></td>
+                    <td>The default package to be used during source code generation.</td>
+                    <td>No; if not given, all classes will be placed in the root package.</td>
+                </crow>
+                <crow>
+                    <td><b>toDir</b></td>
+                    <td>The destination directory to be used during source code generation. In
+                        this directory all generated Java classes will be placed.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>bindingfile</b></td>
+                    <td>A Castor source generator binding file, as detailed <a href="">here</a>.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>lineseparator</b></td>
+                    <td>Defines whether to use Uni
+                        x- or Windows-style line separators during 
+                        source code generation.</td>
+                    <td>No; </td>
+                </crow>
+                <crow>
+                    <td><b>types</b></td>
+                    <td>Defines what collection types to use (Java 1 vs. Java 2)</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>verbose</b></td>
+                    <td>Whether to output any logging messages as emitted by the source generator</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>warnings</b></td>
+                    <td>Whether to suppress any warnings as otherwise emitted by the source generator</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>nodesc</b></td>
+                    <td>If used, instructs the source generator not to generate *Descriptor classes.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>nomarshal</b></td>
+                    <td>If specified, instructs the source generator not to create (un)marshalling 
+                        methods within the Java classes generated.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>properties</b></td>
+                    <td>Defines a set of properties to be used during source code generation. This
+                        overrides the default mechanisms of configuring the source generator through 
+                        a <tt>castorbuilder.properties</tt> (that has to be placed on the CLASSPATH)</td>
+                    <td>No</td>
+                </crow>
+                
+            </ctable>
+            
+        </section>
+        
+        <section title="Example">
+            
+            <p>Below is an example of how to use this task from within an Ant target 
+               definition named 'castor:gen:src':</p>
+
+            <code-panel>
+  &lt;target name="castor:gen:src" depends="init"
+             description="Generate Java source files from XSD."&gt;
+
+    &lt;taskdef name="castor-srcgen"
+                classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+                classpathref="castor.class.path" /&gt;
+    &lt;mkdir dir="generated" /&gt;
+    &lt;castor-srcgen file="src/schema/sample.xsd"
+                      todir="generated-source"
+                      package="org.castor.example.schema"
+                      types="j2"
+                      warnings="true" /&gt;
+  &lt;/target&gt;
+            </code-panel>
+        
+        </section>
+
+    </section>
+    
 	<section title="Non-trivial real world example">
 		
 		<section title="Background">

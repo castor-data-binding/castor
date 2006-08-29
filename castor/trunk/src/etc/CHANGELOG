@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1512 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Improved documentation of source generator Ant task.
+       Details: http://jira.codehaus.org/browse/CASTOR-1512
+       (Werner - 20060829)
+
 XML:   Resolved issue CASTOR-1501 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with ignorance of java-type elements in binding file (for complex elements).
        Details: http://jira.codehaus.org/browse/CASTOR-1501
