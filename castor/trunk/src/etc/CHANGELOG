@@ -2,6 +2,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-1487 using contribution from Gregory Block [gblock@ctoforaday.com]
+       Fixed minor inconsistency in getting (expired) objects from EHCache.
+       Details: http://jira.codehaus.org/browse/CASTOR-1487
+       (Werner - 20060830)
+       
 XML:   Resolved issue CASTOR-1512 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improved documentation of source generator Ant task.
        Details: http://jira.codehaus.org/browse/CASTOR-1512
@@ -13,7 +18,7 @@ XML:   Resolved issue CASTOR-1501 using contribution from Werner Guttmann [werne
        (Werner - 20060824)
 
 XML:   Resolved issue CASTOR-1508 using contribution from Phil Webb [phil.webb@card.co.uk]
-       Various speed improvementzs related to inheritance search.
+       Various speed improvements related to inheritance search.
        Details: http://jira.codehaus.org/browse/CASTOR-1508
        (Werner - 20060824)
 

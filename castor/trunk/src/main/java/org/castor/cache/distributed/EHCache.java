@@ -84,6 +84,9 @@ public final class EHCache extends AbstractBaseCache {
 
     /** The method to invoke on Element instead of calling getValue() directly. */
     private Method _getValueMethod;
+    
+    /** The method to test whether or not an element is expired. */
+    private Method _isExpiredMethod;
 
     /** Class instance for "net.sf.ehcache.Element" */
     private Class _elementClass;
@@ -137,8 +140,8 @@ public final class EHCache extends AbstractBaseCache {
         
         try {
             _elementClass = Class.forName("net.sf.ehcache.Element");
-            _getValueMethod =
-                _elementClass.getMethod("getValue", null);
+            _getValueMethod = _elementClass.getMethod("getValue", null);
+            _isExpiredMethod = _elementClass.getMethod("isExpired", null);
         } catch (Exception e) {
             String msg = 
                 "Failed to instantiate Class for type 'net.sf.ehcache.Element': " 
@@ -213,7 +216,9 @@ public final class EHCache extends AbstractBaseCache {
         try {
             Object elementInCache = _getMethod.invoke(_cache, new Object[] {key});
             if (elementInCache == null) { return null; }
-            result = _getValueMethod.invoke(elementInCache, null);
+            if (_isExpiredMethod.invoke(elementInCache, null) == Boolean.FALSE) {
+                result = _getValueMethod.invoke(elementInCache, null);
+            }
         } catch (Exception e) {
             String msg = "Failed to call method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);

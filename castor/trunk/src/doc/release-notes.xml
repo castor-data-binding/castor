@@ -38,6 +38,26 @@
                    
             </summary>
             <bugs>
+				<bug id="1487" tool="jira">
+                    <description>
+		                Fixed minor inconsistency in getting (expired) objects from EHCache.
+                    </description>
+                    <contributor>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gregory Block</name>
+                        <email>gblock@ctoforaday.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20060830</date>
+                </bug>
 				<bug id="1512" tool="jira">
                     <description>
 		                Improved documentation wrt source generator Ant task.
