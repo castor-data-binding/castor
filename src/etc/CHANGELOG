@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1538 using contribution from Steven Dolg [stevendolg@gmx.at]
+       Performance-related refactoring of XMLClassDescriptorResolverImpl.
+       Details: http://jira.codehaus.org/browse/CASTOR-1538
+       (Werner - 20060831)
+
 JDO:   Resolved issue CASTOR-1487 using contribution from Gregory Block [gblock@ctoforaday.com]
        Fixed minor inconsistency in getting (expired) objects from EHCache.
        Details: http://jira.codehaus.org/browse/CASTOR-1487
