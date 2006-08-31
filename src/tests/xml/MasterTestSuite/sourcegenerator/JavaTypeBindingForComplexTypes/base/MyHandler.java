@@ -7,7 +7,6 @@ import generated.Item;
 public class MyHandler extends GeneralizedFieldHandler {
 
 
-	@Override
 	public Object convertUponGet(Object arg0) {
 		// Uncomment this to get correct behaviour
 		Item i = new Item();
@@ -17,7 +16,6 @@ public class MyHandler extends GeneralizedFieldHandler {
 //		return arg0;
 	}
 
-	@Override
 	public Object convertUponSet(Object arg0) {
 		System.out.println("Converting to MyItem");
 		Item i = (Item) arg0;
@@ -26,7 +24,6 @@ public class MyHandler extends GeneralizedFieldHandler {
 		return mi;
 	}
 
-	@Override
 	public Class getFieldType() {
 		return MyItem.class;
 	}
