@@ -54,13 +54,20 @@ package org.exolab.castor.xml.util;
 import java.lang.reflect.Array;
 import java.util.Collection;
 
-
 import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.FieldValidator;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
+import org.exolab.castor.xml.Validator;
+import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLNaming;
 
 
 /**
@@ -1237,7 +1244,8 @@ public class XMLClassDescriptorImpl extends Validator
         switch(nodeType.getType()) {
             case NodeType.NAMESPACE:
             case NodeType.ATTRIBUTE:
-                if ((added = _attributes.add(descriptor))) {
+                added = _attributes.add(descriptor);
+                if (added) {
                     _attArray = null;
                 }
                 break;
@@ -1246,7 +1254,8 @@ public class XMLClassDescriptorImpl extends Validator
                 added = true;
                 break;
             default:
-                if (added = _elements.add(descriptor)) {
+                added = _elements.add(descriptor);
+                if (added) {
                     _elemArray = null;
                     if (descriptor.isContainer()) ++_containerCount;
                 }
