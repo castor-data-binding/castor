@@ -146,6 +146,25 @@ assertEquals("name", product.getName());
              </source>
     
 	   </section>
+	   
+	   <section name="How to specify a mapping file">
+	   
+	   	<p>To specify that the Castor <tt>(Un)Marshaller</tt> instances
+	   	   should use a custom mapping file (in addition to the default
+	   	   introspection mechanism), please amend above bean definition
+	   	   for the '<tt>resolver</tt>' bean as follows:</p>
+	   	   
+	   	<source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean">
+	<property name="castorProperties">
+		<props>
+			<prop key="mappingLocation">src/test/resources/mapping.xml</prop>
+		</props>
+	</property>
+</bean>	   	
+	   	]]></source>
+	   	
+	</section>	   	
 
   </body>
 </document>
