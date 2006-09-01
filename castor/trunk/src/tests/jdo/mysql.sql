@@ -82,7 +82,6 @@ create table tc1x_handling (
   int_date       integer        null,
   str_time       char(23)       null,
   num_date       bigint         null,
-  date_str       datetime       null,
   long_date      numeric(20,0)  null
 );
 
@@ -94,7 +93,6 @@ create table tc1x_lob (
   id        numeric(10,0)  not null,
   blob_val  longblob           null,
   clob_val  longtext           null,
-  blob_val2 longblob           null,
   clob_val2 longtext           null
 );
 
@@ -104,9 +102,6 @@ drop table if exists tc1x_conv;
 
 create table tc1x_conv (
     id                 int         not null,
-    bool_byte          int         null,
-    bool_short         int         null,
-    bool_short_minus   int         null,
     bool_int           int         null,
     bool_int_minus     int         null,
     bool_bigdec        numeric     null,
@@ -116,13 +111,9 @@ create table tc1x_conv (
     long_int           int         null,
     double_int         int         null,
     float_int          float       null,
-    byte_bigdec        numeric     null,
-    short_bigdec       numeric     null,
     int_bigdec         numeric     null,
     float_bigdec       numeric     null,
     double_bigdec      numeric     null,
-    short_string       varchar(20) null,
-    byte_string        varchar(20) null,
     int_string         varchar(20) null,
     long_string        varchar(20) null,
     bigdec_string      varchar(20) null,
@@ -513,8 +504,7 @@ create unique index tc7x_many_person_pk on tc7x_many_person ( pid );
 
 drop table if exists tc7x_col;
 create table tc7x_col (
-  id       integer         not null,
-  dum    integer    null
+  id       integer         not null
 );
 create unique index tc7x_col_pk on tc7x_col( id );
 
@@ -559,15 +549,14 @@ DROP TABLE IF EXISTS tc7x_container;
 CREATE TABLE tc7x_container (
   id int(11) unsigned NOT NULL auto_increment,
   name varchar(200) NULL,
-  prop int(11) unsigned default NULL,
   PRIMARY KEY  (id)
 );
 
-INSERT INTO tc7x_container (id, name, prop) VALUES 
-  (1,'Container 1',1),
-  (2,'Container 2',2),
-  (3,'Container 3',3),
-  (4,'Container 4',4);
+INSERT INTO tc7x_container (id, name) VALUES 
+  (1,'Container 1'),
+  (2,'Container 2'),
+  (3,'Container 3'),
+  (4,'Container 4');
 
 DROP TABLE IF EXISTS tc7x_container_item;
 CREATE TABLE tc7x_container_item (
@@ -871,15 +860,14 @@ create table tc8x_trans_child1 (
 drop table if exists tc8x_trans_child2;
 create table tc8x_trans_child2 (
   id        int not null,
-  entityOneId int not null,
   descr     varchar(200) not null
 );
 
 insert into tc8x_trans_master (id, name, propty1, propty2, ent2) values (1, 'entity1', 1, 2, 1);
 insert into tc8x_trans_child1 (id, descr) values (1, 'description1');
-insert into tc8x_trans_child2 (id, descr, entityOneId) values (1, 'description1', 1);
-insert into tc8x_trans_child2 (id, descr, entityOneId) values (2, 'description2', 1);
-insert into tc8x_trans_child2 (id, descr, entityOneId) values (3, 'description3', 1);
+insert into tc8x_trans_child2 (id, descr) values (1, 'description1');
+insert into tc8x_trans_child2 (id, descr) values (2, 'description2');
+insert into tc8x_trans_child2 (id, descr) values (3, 'description3');
 
 
 -- tc8x
@@ -1041,8 +1029,7 @@ drop table if exists tc9x_poly_prod_multi;
 create table tc9x_poly_prod_multi (
   id1        int not null,
   id2        int not null,
-  name      varchar(200) not null,
-  detail	int not null
+  name      varchar(200) not null
 );
 
 drop table if exists tc9x_poly_computer_multi;
@@ -1118,19 +1105,19 @@ insert into tc9x_poly_prod (id, name, detail, owner) values (5, 'truck 5', 5, 5)
 insert into tc9x_poly_car (id, kw, make) values (5, 60, 'make 5');
 insert into tc9x_poly_truck (id, max_weight) values (5, 4);
 
-insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (1, 1, 'laptop 1', 1);
+insert into tc9x_poly_prod_multi (id1, id2, name) values (1, 1, 'laptop 1');
 insert into tc9x_poly_computer_multi (id1, id2, cpu) values (1, 1, 'centrino');
 insert into tc9x_poly_laptop_multi (id1, id2, weight, resolution) values (1, 1, 2800, '1280');
 
-insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (2, 2, 'laptop 2', 2);
+insert into tc9x_poly_prod_multi (id1, id2, name) values (2, 2, 'laptop 2');
 insert into tc9x_poly_computer_multi (id1, id2, cpu) values (2, 2, 'centrino');
 insert into tc9x_poly_laptop_multi (id1, id2, weight, resolution) values (2, 2, 2700, '1024');
 
-insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (3, 3, 'server 3', 3);
+insert into tc9x_poly_prod_multi (id1, id2, name) values (3, 3, 'server 3');
 insert into tc9x_poly_computer_multi (id1, id2, cpu) values (3, 3, 'pentium 4');
 insert into tc9x_poly_server_multi (id1,  id2, numberOfCPUs, support) values (3, 3, 4, 3);
 
-insert into tc9x_poly_prod_multi (id1, id2, name, detail) values (4, 4, 'server 4', 4);
+insert into tc9x_poly_prod_multi (id1, id2, name) values (4, 4, 'server 4');
 insert into tc9x_poly_computer_multi (id1, id2, cpu) values (4, 4, 'pentium 4');
 insert into tc9x_poly_server_multi (id1, id2, numberOfCPUs, support) values (4, 4, 16,5);
 
@@ -1188,13 +1175,13 @@ INSERT INTO tc9x_poly_container VALUES ('200','100');
 
 DROP TABLE IF EXISTS tc9x_poly_Product;
 CREATE TABLE tc9x_poly_Product(
-  IdProd NUMERIC(10) PRIMARY KEY,
+  IdProd int PRIMARY KEY,
   NameProd   VARCHAR(30) NULL,
   DescProd   VARCHAR(30) NULL);
 
 DROP TABLE IF EXISTS tc9x_poly_ActProduct;
 CREATE TABLE tc9x_poly_ActProduct(
-  IdAct NUMERIC(10) PRIMARY KEY REFERENCES Product (IdProd),
+  IdAct int PRIMARY KEY REFERENCES Product (IdProd),
   BestSeason VARCHAR(30) NULL);
 
 DROP TABLE IF EXISTS tc9x_poly_ComposedOffer;

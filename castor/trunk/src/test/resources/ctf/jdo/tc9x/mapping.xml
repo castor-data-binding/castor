@@ -9,10 +9,10 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="name" type="string">
+    <field name="name" type="string" required="true">
       <sql name="name" type="char" />
     </field>
-    <field name="detail" type="ctf.jdo.tc9x.ProductDetail">
+    <field name="detail" type="ctf.jdo.tc9x.ProductDetail" required="true">
       <sql name="detail" />
     </field>
     <field name="owner" type="ctf.jdo.tc9x.Owner">
@@ -29,8 +29,8 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="cpu" type="string">
-      <sql name="cpu" type="char"/>
+    <field name="cpu" type="string" required="true">
+      <sql name="cpu" type="varchar"/>
     </field>
   </class>
 
@@ -40,11 +40,11 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="weight" type="integer">
+    <field name="weight" type="integer" required="true">
       <sql name="weight" type="integer"/>
     </field>
-    <field name="resolution" type="string">
-      <sql name="resolution" type="char"/>
+    <field name="resolution" type="string" required="true">
+      <sql name="resolution" type="varchar"/>
     </field>
   </class>
 
@@ -54,10 +54,10 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="numberOfCPUs" type="integer">
+    <field name="numberOfCPUs" type="integer" required="true">
       <sql name="numberOfCPUs" type="integer" />
     </field>
-    <field name="supportInYears" type="integer">
+    <field name="supportInYears" type="integer" required="true">
       <sql name="support" type="integer"/>
     </field>
   </class>
@@ -68,11 +68,11 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="kw" type="integer">
+    <field name="kw" type="integer" required="true">
       <sql name="kw" type="integer" />
     </field>
-    <field name="make" type="string">
-      <sql name="make" type="char"/>
+    <field name="make" type="string" required="true">
+      <sql name="make" type="varchar"/>
     </field>
   </class>
 
@@ -82,7 +82,7 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="maxWeight" type="integer">
+    <field name="maxWeight" type="integer" required="true">
       <sql name="max_weight" type="integer" />
     </field>
   </class>
@@ -96,8 +96,8 @@
     <field name="id2" type="integer">
       <sql name="id2" type="integer" />
     </field>
-    <field name="name" type="string">
-      <sql name="name" type="char" />
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
     </field>
 
   </class>
@@ -111,8 +111,8 @@
     <field name="id2" type="integer">
       <sql name="id2" type="integer" />
     </field>
-    <field name="cpu" type="string">
-      <sql name="cpu" type="char"/>
+    <field name="cpu" type="string" required="true">
+      <sql name="cpu" type="varchar"/>
     </field>
   </class>
 
@@ -125,11 +125,11 @@
     <field name="id2" type="integer">
       <sql name="id2" type="integer" />
     </field>
-    <field name="weight" type="integer">
+    <field name="weight" type="integer" required="true">
       <sql name="weight" type="integer"/>
     </field>
-    <field name="resolution" type="string">
-      <sql name="resolution" type="char"/>
+    <field name="resolution" type="string" required="true">
+      <sql name="resolution" type="varchar"/>
     </field>
   </class>
 
@@ -142,10 +142,10 @@
     <field name="id2" type="integer">
       <sql name="id2" type="integer" />
     </field>
-    <field name="numberOfCPUs" type="integer">
+    <field name="numberOfCPUs" type="integer" required="true">
       <sql name="numberOfCPUs" type="integer" />
     </field>
-    <field name="supportInYears" type="integer">
+    <field name="supportInYears" type="integer" required="true">
       <sql name="support" type="integer"/>
     </field>
   </class>
@@ -156,10 +156,10 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="name" type="string">
+    <field name="name" type="string" required="true">
       <sql name="name" type="char" />
     </field>
-    <field name="product" type="ctf.jdo.tc9x.Product">
+    <field name="product" type="ctf.jdo.tc9x.Product" required="true">
       <sql name="product" />
     </field>
   </class>
@@ -170,11 +170,11 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="location" type="string">
-      <sql name="location" type="char" />
+    <field name="location" type="string" required="true">
+      <sql name="location" type="varchar" />
     </field>
-    <field name="category" type="string">
-      <sql name="category" type="char" />
+    <field name="category" type="string" required="true">
+      <sql name="category" type="varchar" />
     </field>
   </class>
 
@@ -184,8 +184,8 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="name" type="string">
-      <sql name="name" type="char" />
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
     </field>
     <field name="products" type="ctf.jdo.tc9x.Product" collection="collection">
       <sql name="product_id" many-table="tc9x_poly_order_product" many-key="order_id" />
@@ -198,8 +198,8 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="name" type="string">
-      <sql name="name" type="char" />
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
     </field>
     <field name="ns" type="ctf.jdo.tc9x.N" collection="collection">
       <sql name="n_id" many-table="tc9x_poly_m_n" many-key="m_id" />
@@ -212,8 +212,8 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="name" type="string">
-      <sql name="name" type="char" />
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
     </field>
     <field name="ms" type="ctf.jdo.tc9x.M" collection="collection">
       <sql name="m_id" many-table="tc9x_poly_m_n" many-key="n_id" />
@@ -225,14 +225,14 @@
     <field name="id" type="string">
       <sql name="id" type="varchar"/>
     </field>
-    <field name="color" type="string">
+    <field name="color" type="string" required="true">
       <sql name="color" type="varchar"/>
     </field>
   </class>
 
   <class name="ctf.jdo.tc9x.Derived" extends="ctf.jdo.tc9x.Base" >
     <map-to table="tc9x_poly_derived"/>
-    <field name="scent" type="string">
+    <field name="scent" type="string" required="true">
       <sql name="scent" type="varchar"/>
     </field>
   </class>

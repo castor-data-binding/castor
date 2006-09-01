@@ -235,8 +235,12 @@ public final class TestTypeConversion extends CastorTestCase {
         LOG.info("Test values in database");
         // Create a statement and a resultset
         Statement stmt = _conn.createStatement ();
+//        ResultSet rset = stmt.executeQuery(
+//                "select bool_short, bool_short_minus, bool_int, "
+//                + "bool_int_minus, bool_bigdec, bool_bigdec_minus "
+//                + "from tc1x_conv where id = " + TypeConversion.DEFAULT_ID);
         ResultSet rset = stmt.executeQuery(
-                "select bool_short, bool_short_minus, bool_int, "
+                "select bool_int, "
                 + "bool_int_minus, bool_bigdec, bool_bigdec_minus "
                 + "from tc1x_conv where id = " + TypeConversion.DEFAULT_ID);
         rset.next();
