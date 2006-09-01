@@ -16,26 +16,10 @@
       <item name="Codehaus" href="http://www.codehaus.org/"/>
     </links>
 
-    <menu name="Main">
-        <item name="Home" href="/index.html" />
-        <item name="About" href="/about.html" />
-        <item name="Features" href="/features.html" />
-        <item name="Download" href="/download.html" />
-        <item name="API" href="/api/overview-summary.html" />
-        <item name="Schema" href="/schema.html" />
-<!--
-        <item name="Forums" href="http://castor.org/phpBB2" />
--->         
-        <item name="Mailing Lists" href="/lists.html" />
-        <item name="SVN/JIRA" href="/scm.html" />
-        <item name="Contributing" href="/contributing.html" />
-        <item name="Support" href="/support.html" />
-<!--       
-        <item name="Wiki" href="http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main" />
--->      
-        <item name="RSS news feed" href="/rss/castor-announce.xml" />
-        <item name="Recent changes" href="changes.html" />
-        <!-- <item name="FAQs" href="/faqs.html"/> -->
+    <menu name="Documentation">
+    
+        <item name="How to ..." href="/how-to-use-marshaller.html" />
+    	
     </menu>
 
     ${reports}
