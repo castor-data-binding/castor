@@ -15,7 +15,7 @@
         <field name="people" type="ctf.jdo.tc7x.ManyPerson" 
             collection="collection" required="false" set-method="setPeople" 
             get-method="getPeople">
-            <sql many-table="tc7x_group_person"/>
+            <sql many-table="tc7x_group_person" many-key="gid"/>
         </field>
     </class>
     
@@ -36,7 +36,7 @@
         </field>
         <field name="group" type="ctf.jdo.tc7x.ManyGroup" 
             collection="collection" required="false">
-            <sql many-table="tc7x_group_person"/>
+            <sql many-table="tc7x_group_person" many-key="pid"/>
         </field>
     </class>
     
@@ -53,7 +53,7 @@
         </field>
         <field name="people" type="ctf.jdo.tc7x.ManyPersonKeyGen" 
             collection="collection" required="false" >
-            <sql many-table="tc7x_group_person"/>
+            <sql many-table="tc7x_group_person" many-key="gid"/>
         </field>
     </class>
     
@@ -76,7 +76,7 @@
         </field>
         <field name="group" type="ctf.jdo.tc7x.ManyGroupKeyGen" 
             collection="collection" required="false">
-            <sql many-table="tc7x_group_person"/>
+            <sql many-table="tc7x_group_person" many-key="pid"/>
         </field>
     </class>
     
@@ -103,10 +103,6 @@
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
-        <!--
-    <field name="dummy" type="integer" >
-      <sql name="dum" type="integer" />
-    </fild> -->
     </class>
     
     <class name="ctf.jdo.tc7x.Item" identity="id">
@@ -347,7 +343,7 @@
         <field name="id1" type="integer" >
             <sql name="id_1" type="integer"/>
         </field>
-        <field name="name" type="string">
+        <field name="name" type="string" required="true">
             <sql name="name" type="char" />
         </field>
     </class>
@@ -358,7 +354,7 @@
         <field name="id" type="integer" >
           <sql name="id" type="integer"/>
         </field>
-        <field name="name" type="string">
+        <field name="name" type="string" required="true">
           <sql name="name" type="char" />
         </field>
         <field name="associatedOne" type="ctf.jdo.tc7x.AutostoreAssociated1">
@@ -372,7 +368,7 @@
         <field name="id" type="integer" >
           <sql name="id" type="integer"/>
         </field>
-        <field name="name" type="string">
+        <field name="name" type="string" required="true">
           <sql name="name" type="char" />
         </field>
       </class>
@@ -397,7 +393,7 @@
         <field name="id" type="integer" >
           <sql name="id" type="integer"/>
         </field>
-        <field name="name" type="string">
+        <field name="name" type="string" required="true">
           <sql name="name" type="char" />
         </field>
         <field name="main" type="ctf.jdo.tc7x.AutostoreMainMany">

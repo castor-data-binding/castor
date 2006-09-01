@@ -2,6 +2,11 @@
 SVN
 ---
 
+JDO:   Resolved issue CASTOR-1494 using contribution from Le Duc Bao [leducbao@gmail.com]
+       Fixed inconsistencies between sql types in mapping and ddl scripts of CTF.
+       Details: http://jira.codehaus.org/browse/CASTOR-1494
+       (Ralf - 20060901)
+
 XML:   Resolved issue CASTOR-1538 using contribution from Steven Dolg [stevendolg@gmx.at]
        Performance-related refactoring of XMLClassDescriptorResolverImpl.
        Details: http://jira.codehaus.org/browse/CASTOR-1538

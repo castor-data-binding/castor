@@ -36,10 +36,10 @@
       <sql name="id" type="integer"/>
     </field>
     <field name="creationTime" type="java.util.Date" required="true">
-      <sql name="ctime" type="timestamp" />
+      <sql name="ctime" type="date" />
     </field>
     <field name="modificationTime" type="java.util.Date" required="false">
-      <sql name="mtime" type="timestamp" dirty="ignore" />
+      <sql name="mtime" type="date" dirty="ignore" />
     </field>
     <field name="value1" type="string"  required="true">
       <sql name="value1" type="varchar" />
@@ -72,7 +72,7 @@
     <field name="id" type="integer">
       <sql name="id" type="integer"/>
     </field>
-    <field name="persistent" type="ctf.jdo.tc1x.PersistentObject">
+    <field name="persistent" type="ctf.jdo.tc1x.PersistentObject"  required="true">
       <sql name="persist_id" />
     </field>
   </class>
@@ -85,10 +85,10 @@
       <sql name="id" type="numeric" />
     </field>
     <field name="date" type="date">
-      <sql name="tdt" type="timestamp" />
+      <sql name="tdt" type="date" />
     </field>
     <field name="time" type="date">
-      <sql name="ttm" type="timestamp" dirty="ignore" />
+      <sql name="ttm" type="date" dirty="ignore" />
     </field>
     <field name="intValue" type="integer" required="false" >
       <sql name="int_val" type="integer" />
@@ -337,7 +337,7 @@
     <field name="id" type="integer">
       <sql name="id" type="integer" />
     </field>
-    <field name="name" type="string">
+    <field name="name" type="string" required="true">
       <sql name="name" type="varchar" />
     </field>
     <field name="contract" type="ctf.jdo.tc1x.PrimaryKeysContract" collection="arraylist" >

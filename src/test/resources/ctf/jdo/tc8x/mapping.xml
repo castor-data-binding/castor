@@ -8,7 +8,10 @@
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
-        <field name="name" type="string">
+        <field name="parent" type="ctf.jdo.tc8x.SelfReferentialParent" >
+            <sql name="fid"/>
+        </field>
+        <field name="name" type="string" required="true">
             <sql name="name" type="char" />
         </field>
         <field name="entities" type="ctf.jdo.tc8x.SelfReferentialParent" 
@@ -22,8 +25,8 @@
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
-        <field name="description" type="string">
-            <sql name="descr" type="char" />
+        <field name="description" type="string" required="true">
+            <sql name="descr" type="varchar" />
         </field>
     </class>
 
@@ -35,8 +38,8 @@
         <field name="depends" type="ctf.jdo.tc8x.DependentObject">
             <sql many-key="master_id"/>
         </field>
-        <field name="descrip" type="string">
-            <sql name="descrip"/>
+        <field name="descrip" type="string" required="true">
+            <sql name="descrip" type="varchar"/>
         </field>
     </class>
 
@@ -50,7 +53,7 @@
             <sql name="master_id"/>
         </field>
         <field name="descrip" type="string">
-            <sql name="descrip"/>
+            <sql name="descrip" type="varchar"/>
         </field>
     </class>
 
@@ -63,7 +66,7 @@
             <sql many-key="master_id"/>
         </field>
         <field name="descrip" type="string">
-            <sql name="descrip"/>
+            <sql name="descrip" type="varchar"/>
         </field>
     </class>
 
@@ -73,11 +76,11 @@
         <field name="id" type="int">
             <sql name="id"/>
         </field>
-        <field name="master" type="ctf.jdo.tc8x.MasterObjectNoKeyGen">
+        <field name="master" type="ctf.jdo.tc8x.MasterObjectNoKeyGen" required="true">
             <sql name="master_id"/>
         </field>
-        <field name="descrip" type="string">
-            <sql name="descrip"/>
+        <field name="descrip" type="string" required="true">
+            <sql name="descrip" type="varchar"/>
         </field>
     </class>
 
@@ -87,7 +90,7 @@
             <sql name="id" type="integer"/>
         </field>
         <field name="name" type="string">
-            <sql name="name" type="char" />
+            <sql name="name" type="varchar" />
         </field>
     </class>
 
@@ -97,7 +100,7 @@
             <sql name="id" type="integer"/>
         </field>
         <field name="description" type="string">
-            <sql name="descr" type="char" />
+            <sql name="descr" type="varchar" />
         </field>
     </class>
 
@@ -109,8 +112,8 @@
         <field name="id2" type="integer" identity="true">
             <sql name="id2" type="integer"/>
         </field>
-        <field name="name" type="string">
-            <sql name="name" type="char" />
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar" />
         </field>
     </class>
 
@@ -122,8 +125,8 @@
         <field name="id2" type="integer" identity="true">
             <sql name="id2" type="integer"/>
         </field>
-        <field name="description" type="string">
-            <sql name="descr" type="char" />
+        <field name="description" type="string" required="true">
+            <sql name="descr" type="varchar" />
         </field>
     </class>
 
@@ -134,8 +137,8 @@
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
-        <field name="name" type="string">
-            <sql name="name" type="char"/>
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar"/>
         </field>
         <field name="property1" type="integer">
             <sql name="propty1" type="integer" transient="true"/>
@@ -159,8 +162,8 @@
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
-        <field name="description" type="string">
-            <sql name="descr" type="char" />
+        <field name="description" type="string" required="true">
+            <sql name="descr" type="varchar" />
         </field>
     </class>
 
@@ -169,8 +172,8 @@
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
-        <field name="description" type="string">
-            <sql name="descr" type="char" />
+        <field name="description" type="string" required="true">
+            <sql name="descr" type="varchar" />
         </field>
     </class>
     
@@ -179,11 +182,11 @@
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
-        <field name="name" type="string">
-            <sql name="name" type="char" />
+        <field name="name" type="string" required="true">
+            <sql name="name" type="varchar" />
         </field>
-        <field name="kind" type="ctf.jdo.tc8x.KindEnum">
-            <sql name="kind" type="char" />
+        <field name="kind" type="ctf.jdo.tc8x.KindEnum" required="true">
+            <sql name="kind" type="varchar" />
         </field>
     </class>
 
@@ -212,7 +215,7 @@
         <field name="id" type="integer" >
             <sql name="id" type="integer"/>
         </field>
-        <field name="description" type="string">
+        <field name="description" type="string" required="true">
             <sql name="descr" type="varchar"/>
         </field>
         <field name="child" type="ctf.jdo.tc8x.Lazy1to1Child" lazy="true">
@@ -236,11 +239,11 @@
         <field name="id" type="long">
             <sql name="ID" type="bigint"/>
         </field>
-        <field name="firstName" type="string">
-            <sql name="FIRST_NAME" type="char"/>
+        <field name="firstName" type="string" required="true">
+            <sql name="FIRST_NAME" type="varchar"/>
         </field>
-        <field name="lastName" type="string">
-            <sql name="LAST_NAME" type="char"/>
+        <field name="lastName" type="string" required="true">
+            <sql name="LAST_NAME" type="varchar"/>
         </field>
         <field name="books" type="ctf.jdo.tc8x.Lazy1to1Book" lazy="true" collection="collection">
             <sql many-key="ID"/>
@@ -253,8 +256,8 @@
         <field name="id" type="long">
             <sql name="ID" type="bigint"/>
         </field>
-        <field name="name" type="string">
-            <sql name="NAME" type="char"/>
+        <field name="name" type="string" required="true">
+            <sql name="NAME" type="varchar"/>
         </field>
         <field name="author" type="ctf.jdo.tc8x.Lazy1to1Author" required="true" lazy="true">
             <sql name="AUTHOR_ID"/>
@@ -350,7 +353,7 @@
         <field name="id" type="integer">
             <sql name="id" type="integer" />
         </field>
-        <field name="name" type="string">
+        <field name="name" type="string" required="true">
             <sql name="name" type="varchar" />
         </field>
         <field name="contract" type="ctf.jdo.tc8x.LazyContract" collection="collection" >
