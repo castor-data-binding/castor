@@ -66,8 +66,12 @@ public class Product {
                Spring configuration as follows:</p>
             
             <source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean"/>
+
 <bean id="marshaller"
-      class="org.springframework.xml.castor.CastorMarshallerFactoryBean"/>
+      class="org.springframework.xml.castor.CastorMarshallerFactoryBean">
+   <property name="resolver"><ref local="resolver"/></property>
+</bean>
             ]]></source>
             
             <p>Based upon this configuration, you will be able to obtain a <tt>Marshaller</tt> 
@@ -102,8 +106,12 @@ Marshaller marshaller = (Marshaller) this.context.getBean("marshaller");
                Spring configuration as follows:</p>
             
             <source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean"/>
+            
 <bean id="unmarshaller"
-      class="org.springframework.xml.castor.CastorUnmarshallerFactoryBean"/>
+      class="org.springframework.xml.castor.CastorUnmarshallerFactoryBean">
+   <property name="resolver"><ref local="resolver"/></property>
+</bean>
     	    ]]></source>
             
             <p>Based upon this configuration, you will be able to obtain a <tt>Unmarshaller</tt> 
@@ -122,13 +130,13 @@ Unmarshaller unmarshaller = (Unmarshaller) this.context.getBean("unmarshaller");
             <p>With the above <tt>Unmarshaller</tt> instance, you can unmarshal
                the following XML document instance as shown subsequently:</p>
                
-            <source>
+            <source><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <product>
 	<name>blah</name>
 	<id>1</id>
 </product>
-            </source>
+            ]]></source>
                
             <source>
 Product product = (Product) unmarshaller.unmarshal(new InputSource(resource));
