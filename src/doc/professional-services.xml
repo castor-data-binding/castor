@@ -14,14 +14,15 @@
     <section title="Introduction">
 
 
-       <p>As alraedy explained <a href="support.html">here</a> , Castor is an 
-          open-source product. This means that the source code is available at 
-          no charge and may be obtained using <a href="scm.xml">SVN</a> or
-         <a href="download.xml">downloaded</a> via <url>http://dist.codehaus.org/castor</url>.</p>
+       <p>As already explained, Castor is an open-source product. This means that the 
+          source code is available at no charge and may be obtained using 
+          <a href="scm.xml">SVN</a> or <a href="download.xml">downloaded</a> 
+          via <url>http://dist.codehaus.org/castor</url>. Due to the 
+          <i>open source</i> nature of the project, there is no guaranteed level of 
+          support (<b>of commercial quality</b>) offered by the project and its 
+          community. </p>
 
-       <p>Due to the nature of the project, there is no guaranteed level of 
-          support (of commercial quality) offered by the project and its 
-          community. Still, there is a growing number of third party individuals/companies 
+       <p>Still, there is a growing number of third party individuals/companies 
           providing such support in the form of <b>professional services</b>. 
           This page provides you with a directory of individuals/companies
           offering commercial services related to individual/all areas 
@@ -58,7 +59,8 @@
                 
                 <ul>
                     <li>Improving and maintaining both Castor JDO and XML</li>
-                    <li>Castor JDO offering for Spring JDO</li>
+                    <li>Enhancing the Castor XML code generator</li>
+                    <li>Castor JDO offering for Spring ORM</li>
                     <li>Providing JPA 3.0 compliance</li>
                 </ul>
             </description>
