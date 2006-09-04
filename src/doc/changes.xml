@@ -12,6 +12,36 @@
     <body>
 
         <title>Recent changes to the HTML documentation</title>
+        
+        <section title="Castor 1.0.3">
+        
+        	<section title="Additions">
+        	
+        		<ul>
+        			<li>Added HOW-TO on mapping a <tt>java.util.List</tt> as 
+        			    a root element.</li>
+        		</ul>
+        		
+        	</section>
+        	
+        	<section title="Changes/improvements">
+        	
+        		<ul>
+        			<li>Moved all documentation for the Castor XML code generator
+        			    to its own main section named <i>Castor CodeGen</i>.</li>
+        			<li>Improved documentation for the Ant task definition for the
+        			    Castor XML code generator.</li>
+        			<li>Moved documentation on code generator bindings into a
+        			    <a href="srcgen-binding.html">separate page</a>.</li>
+        			<li>Moved documentation on code generator properties into a
+        			    <a href="srcgen-properties.html">separate page</a>.</li>
+        		</ul>
+        		
+        	</section>
+        	
+        </section>
+        
+        <section title="Castor 1.0.2 and earlier">
 
         <section title="Additions">
         
@@ -48,6 +78,9 @@
             </ul>            
             
         </section>
+        
+        </section>
+
         
     </body>
 </document>
