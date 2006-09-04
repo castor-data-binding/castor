@@ -61,14 +61,22 @@
       </navLink>
       <navLink>
         <url>schema.xml</url>
-        <display>Schema</display>
+        <display>DTD &amp; Schemas</display>
       </navLink>
 <!--
       <navLink>
          <url>http://castor.org/phpBB2</url>
          <display>Castor Forums</display>
       </navLink>
--->         
+      <navLink>
+         <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
+         <display>CastorWiki</display>
+      </navLink>
+-->      
+	</section>
+	
+    <section name="Development/Support">
+	         
       <navLink>
         <url>lists.xml</url>
         <display>Mailing Lists</display>
@@ -85,16 +93,10 @@
         <url>support.xml</url>
         <display>Support</display>
       </navLink>
-      <navLink>
+      <navLink highlighted="true">
         <url>professional-services.xml</url>
-        <display>Prof. services</display>
+        <display><b>Prof. services</b></display>
       </navLink>
-    <!--       
-      <navLink>
-         <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
-         <display>CastorWiki</display>
-      </navLink>
--->      
     </section>
     
     <section name="News">
