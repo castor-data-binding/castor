@@ -29,7 +29,7 @@
             </xsl:variable>
             <tr>
               <td valign="top" align="left">
-        &#160;&#160;
+        &#160;
                 <xsl:choose>
                   <xsl:when test="image">
                     <xsl:variable name="img">
@@ -42,7 +42,7 @@
                   <xsl:otherwise>
                     <xsl:choose>
                       <xsl:when test="@highlighted">
-                        <a href="{$url}"><span class="subMenuOff">* <xsl:value-of select="display"/> *</span></a>
+                        <a href="{$url}"><span class="subMenuOff">*<xsl:value-of select="display"/>*</span></a>
                       </xsl:when>
                       <xsl:otherwise>
                         <a href="{$url}"><span class="subMenuOff"><xsl:value-of select="display"/></span></a>
