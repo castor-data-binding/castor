@@ -115,7 +115,7 @@ A:active {
 .subMenuOn { 
     font-size: 13px; 
     font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
-    line-height: 20px; 
+    line-height: 18px; 
     font-weight: bold; 
     color: #4d4b7e;
 }
@@ -123,7 +123,15 @@ A:active {
 .subMenuOff { 
     font-size: 13px; 
     font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
-    line-height: 20px; 
+    line-height: 18px; 
+    font-weight: bold; 
+    color: #cbcbeb;
+}
+
+.subMenuOffHighlighted { 
+    font-size: 13px; 
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
+    line-height: 18px; 
     font-weight: bold; 
     color: #cbcbeb;
 }
