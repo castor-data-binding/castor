@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1537 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added HOW-TO document for mapping lists at the root level.
+       Details: http://jira.codehaus.org/browse/CASTOR-1537
+       (Werner - 20060904)
+       
 JDO:   Resolved issue CASTOR-1494 using contribution from Le Duc Bao [leducbao@gmail.com]
        Fixed inconsistencies between sql types in mapping and ddl scripts of CTF.
        Details: http://jira.codehaus.org/browse/CASTOR-1494
