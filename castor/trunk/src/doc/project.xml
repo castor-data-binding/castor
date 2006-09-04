@@ -63,6 +63,14 @@
         <url>schema.xml</url>
         <display>DTD &amp; Schemas</display>
       </navLink>
+      <navLink>
+        <url>changes.xml</url>
+        <display>Recent changes</display>
+      </navLink>
+      <navLink>
+        <url>http://castor.codehaus.org/rss/castor-announce.xml</url>
+        <display>RSS news feed</display>
+      </navLink>
 <!--
       <navLink>
          <url>http://castor.org/phpBB2</url>
@@ -96,17 +104,6 @@
       <navLink highlighted="true">
         <url>professional-services.xml</url>
         <display><b>Prof. services</b></display>
-      </navLink>
-    </section>
-    
-    <section name="News">
-      <navLink>
-        <url>http://castor.codehaus.org/rss/castor-announce.xml</url>
-        <display>RSS news feed</display>
-      </navLink>
-      <navLink>
-        <url>changes.xml</url>
-        <display>Recent changes</display>
       </navLink>
     </section>
     
@@ -144,7 +141,7 @@
       </navLink>
     </section>
     
-    <section name="XML CodeGen">
+    <section name="XML Code Generator">
       <navLink>
         <url>sourcegen.xml</url>
         <display>Code Generator</display>
