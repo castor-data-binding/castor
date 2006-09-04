@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
 <xsl:stylesheet version="1.0" xmlns:xsl="http://www.w3.org/1999/XSL/Transform">
 
+  <xsl:variable name="second_col_width">140</xsl:variable>
+
   <xsl:output method="html" indent="no"/>
 
   <xsl:include href="topNav.xsl"/>
@@ -32,9 +34,10 @@
 
     <table border="0" cellpadding="0" cellspacing="0" height="400">
 
-      <tr><td width="10" valign="top" align="left" bgcolor="#7270c2"><img
+      <tr>
+      	<td width="10" valign="top" align="left" bgcolor="#7270c2"><img
         src="images/dotTrans.gif" width="1" height="1" border="0"/></td>
-        <td width="125" valign="top" align="left" bgcolor="#7270c2"><img
+        <td valign="top" align="left" bgcolor="#7270c2"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><img
           src="images/dotTrans.gif" width="1" height="1" border="0"/></td>
         <td width="7" valign="top" align="left"><img src="images/dotTrans.gif" border="0"
           width="1" height="1"/></td>
@@ -51,7 +54,7 @@
       <tr>
         <td width="10" bgcolor="#7270c2" valign="top" align="left"><img
           src="images/dotTrans.gif" border="0" width="1" height="1"/></td>
-        <td width="125" bgcolor="#7270c2" valign="top" align="left"><img
+        <td bgcolor="#7270c2" valign="top" align="left"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><img
           src="images/dotTrans.gif" border="0" width="1" height="1"/></td>
         <td width="7" bgcolor="#ffffff" valign="top" align="left"></td>
         <td width="70" valign="top" align="left"><img
@@ -64,7 +67,7 @@
       <tr>
         <td width="10" bgcolor="#7270c2" valign="top" align="left"><img
           src="images/dotTrans.gif" width="10" height="3" border="0"/></td>
-        <td width="125" bgcolor="#7270c2" valign="top" align="right"><img
+        <td bgcolor="#7270c2" valign="top" align="right"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><img
           src="images/line_sm.gif" width="105" height="3" border="0"/></td>
         <td width="7" bgcolor="#a9a5de" valign="top" align="left"><img
           src="images/line_sm.gif" width="7" height="3" border="0"/></td>
@@ -80,7 +83,7 @@
         <td bgcolor="#7270c2" valign="top" align="left"><img
           src="images/dotTrans.gif" width="10" height="10" border="0"/></td>
 
-        <td width="125" bgcolor="#7270c2" valign="top" align="left"><img src="images/dotTrans.gif" width="1" height="2" border="0"/><br/>
+        <td bgcolor="#7270c2" valign="top" align="left"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><img src="images/dotTrans.gif" width="1" height="2" border="0"/><br/>
 <xsl:apply-templates select="$project/navSections"/></td>
 
         <td width="7" bgcolor="#a9a5de" valign="top" align="left">&#160;</td>
@@ -162,7 +165,7 @@
 
       <tr height="5">
         <td width="10" height="5" bgcolor="#7270c2" valign="top" align="left">&#160;</td>
-        <td width="125" height="5" bgcolor="#7270c2" valign="top">
+        <td height="5" bgcolor="#7270c2" valign="top"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute>
         <img src="images/dotTrans.gif" width="1" height="15" border="0"/><br/>
         <img src="images/line_sm.gif" width="105" height="3" border="0" align="right"/>
 
@@ -177,8 +180,7 @@
 
       <tr>
         <td width="10" height="5" bgcolor="#7270c2" valign="top" align="left">&#160;</td>
-        <td width="125" bgcolor="#7270c2" valign="top"
-          align="left"><xsl:apply-templates select="searchForm"/></td>
+        <td bgcolor="#7270c2" valign="top" align="left"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><xsl:apply-templates select="searchForm"/></td>
         <td width="7" bgcolor="#a9a5de" valign="top" align="left">
           <img src="images/dotTrans.gif" width="1" height="25" border="0"/>
         </td>
@@ -193,8 +195,7 @@
       <tr height="5">
         <td width="10" rowspan="2" height="100%" bgcolor="#7270c2" valign="bottom"
           align="left"><img src="images/stripes1.gif" width="10" height="125" border="0"/></td>
-        <td width="125" rowspan="2" height="100%" bgcolor="#7270c2" valign="bottom"
-          align="left"><img src="images/stripe105.gif" width="105" height="125" border="0"/></td>
+        <td rowspan="2" height="100%" bgcolor="#7270c2" valign="bottom" align="left"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><img src="images/stripe105.gif" width="105" height="125" border="0"/></td>
         <td width="7" rowspan="2" height="100%" bgcolor="#a9a5de" valign="top"
           align="left">&#160;</td>
         <td width="70" height="100%" valign="top" align="left">&#160;</td>
