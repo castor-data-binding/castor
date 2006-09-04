@@ -121,14 +121,6 @@
         <display>Using XML</display>
       </navLink>
       <navLink>
-        <url>sourcegen.xml</url>
-        <display>Source Generator</display>
-      </navLink>
-      <navLink>
-        <url>xmlschema.xml</url>
-        <display>Schema Support</display>
-      </navLink>
-      <navLink>
         <url>xml-mapping.xml</url>
         <display>XML Mapping</display>
       </navLink>
@@ -147,6 +139,29 @@
       <navLink>
         <url>xml-best-practice.xml</url>
         <display>Best practice</display>
+      </navLink>
+    </section>
+    
+    <section name="XML CodeGen">
+      <navLink>
+        <url>sourcegen.xml</url>
+        <display>Code Generator</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-properties.xml</url>
+        <display>Properties</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-binding.xml</url>
+        <display>Custom bindings</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-anttask.xml</url>
+        <display>Ant task</display>
+      </navLink>
+      <navLink>
+        <url>xmlschema.xml</url>
+        <display>Schema Support</display>
       </navLink>
     </section>
 
