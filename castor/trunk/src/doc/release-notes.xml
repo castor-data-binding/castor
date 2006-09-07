@@ -35,9 +35,41 @@
                 <p>Support for <a href="http://www.progress.com">Progress</a> has been added. For 
                    initial information about configuration of Castor JDO for the use with 
                    Progress, please see <tt>src/tests/jdo/progress.xml</tt>.</p>
+
+                <h3>New unmarshal() methods for Unmarshaller</h3>
+                
+                <p>In addition to the already existing methods, two new unmarshal() methods 
+                   have been added to Unmarshaller, namely ...</p>
+                
+                <ul>
+                	<li><api class="org.exolab.castor.xml.Unmarshaller">unmarshal(SAXSource)</api></li>
+                	<li><api class="org.exolab.castor.xml.Unmarshaller">unmarshal(DOMSource)</api></li>
+				</ul>                	
+				
+				<h2>Fixed problems - Ooverview</h2>
                    
             </summary>
             <bugs>
+				<bug id="1478" tool="jira">
+                    <description>
+		                Fixed problem with 'staticness' of group naming scheme.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Stefan Flick</name>
+                        <email>devsteff@gmx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060907</date>
+                </bug>
 				<bug id="1537" tool="jira">
                     <description>
 		                Added HOW-TO document for mapping lists at the root level
