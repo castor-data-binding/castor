@@ -2,6 +2,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1478 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with 'staticness' of group naming scheme.
+       Details: http://jira.codehaus.org/browse/CASTOR-1478
+       (Werner - 20060907)
+       
 XML:   Resolved issue CASTOR-1537 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added HOW-TO document for mapping lists at the root level.
        Details: http://jira.codehaus.org/browse/CASTOR-1537

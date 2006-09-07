@@ -157,10 +157,31 @@ public class XMLBindingComponent implements BindingComponent {
     /**
      * A GroupNaming helper class used to named anonymous groups
      */
-    private static GroupNaming _groupNaming = null;
-    static {
-        _groupNaming = new GroupNaming();
-   }
+    // TODO: this property used to be static; currently, I don't see a reason as to why this was/is required. Anybody ?   
+    // private static GroupNaming _groupNaming = new GroupNaming();
+    private GroupNaming _groupNaming = null;
+
+    /**
+     * Returns the curretn group naming scheme in use; if none has been set set,
+     * initializes a default one. 
+     * @return The current group naming scheme
+     */
+    private synchronized GroupNaming getGroupNaming() {
+        if (_groupNaming == null) {
+            setGroupNaming(new GroupNaming());
+        }
+        return _groupNaming;
+    }
+    
+    /**
+     * Sets the group naming instance to be used.
+     * @param groupNaming The current group naming scheme to be used.
+     */
+    private void setGroupNaming(GroupNaming groupNaming)
+    {
+        _groupNaming = groupNaming;
+        
+    }
 
     /**
      * The TypeConversion to use when creating XSTypes from
@@ -693,7 +714,7 @@ public class XMLBindingComponent implements BindingComponent {
                          ((_annotated.getStructureType() == Structure.GROUP)||
                           (_annotated.getStructureType() == Structure.MODELGROUP)) ) {
 
-                        result = _groupNaming.createClassName((Group)_annotated, getJavaPackage());
+                        result = getGroupNaming().createClassName((Group)_annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);
@@ -810,7 +831,7 @@ public class XMLBindingComponent implements BindingComponent {
                           (_annotated.getStructureType() == Structure.MODELGROUP)) )
                     {
 
-                        result = _groupNaming.createClassName((Group)_annotated, getJavaPackage());
+                        result = getGroupNaming().createClassName((Group)_annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);
