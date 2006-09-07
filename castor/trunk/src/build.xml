@@ -17,13 +17,13 @@
         <property environment="env" />
         <property name="build.sh.class.path" value="${env.CLASSPATH}" />
         <property name="name" value="Castor"/>
-        <property name="source" value="src"/>
+        <property name="source" value="${basedir}/src"/>
         <property name="java" value="${source}/main/java"/>
         <property name="main.resources" value="${source}/main/resources" />
 		<property name="test-resources" value="${source}/test/resources" />
         <property name="etc" value="${source}/etc"/>
         <property name="check" value="check"/>
-        <property name="build" value="build"/>
+        <property name="build" value="${basedir}/build"/>
         <property name="build-doc" value="build/doc"/>
         <property name="build-howto" value="build/doc/howto"/>
         <property name="classes" value="${build}/classes"/>
@@ -787,12 +787,12 @@
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask" 
                  classpathref="build.classpath"/>          
         <castor-srcgen file="${main.resources}/org/exolab/castor/mapping/mapping.xsd" 
-                todir="../${gen.src}/mapping" 
+                todir="${gen.src}/mapping" 
                 package="org.exolab.castor.mapping.xml" 
                 lineseparator="unix"
-                bindingfile="../${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
+                bindingfile="${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
                 types="j2" 
-                warnings="false"/>
+                warnings="true"/>
         <javac destdir="${classes}" excludes="${excludes}" 
                debug="${main.opt.debug}" deprecation="off" 
                optimize="on">
