@@ -1,0 +1,31 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+   <Name>Introspection-xsi-type</Name>
+   <Author>Keith Visco</Author>
+
+	<Comment>
+      Tests that the marshaller will correctly place xsi type attributes
+      on necessary elements for round-tripping
+   </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>java.util.ArrayList</Root_Object>
+      <UnitTestCase>
+         <Configuration>
+            <Marshal>
+               <Call-method name="setUseXSITypeAtRoot">
+                  <Value type="boolean">true</Value>
+               </Call-method>
+            </Marshal>
+         </Configuration>
+         <Name>Test01</Name>
+         <Input>input.xml</Input>
+         <GoldFile>input.xml</GoldFile>
+      </UnitTestCase>
+
+	</MarshallingTest>
+
+</TestDescriptor>

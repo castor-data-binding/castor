@@ -1,0 +1,13 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <class name="jdo.bug881.Product" identity="id">
+    <map-to table="prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+    </field>
+  </class>
+</mapping>
