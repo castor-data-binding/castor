@@ -72,6 +72,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
 
+import javax.xml.transform.dom.DOMSource;
+import javax.xml.transform.sax.SAXSource;
+
 /**
  * An unmarshaller to allowing unmarshalling of XML documents to
  * Java Objects. The Class must specify
@@ -654,6 +657,36 @@ public class Unmarshaller {
 
     } //-- unmarshal(SAX2EventProducer)
 
+
+    /**
+     * Unmarshals Objects of this Unmarshaller's Class type.
+     * The Class must specify the proper access methods
+     * (setters/getters) in order for instances of the Class
+     * to be properly unmarshalled.
+     * @param source the SAXSource to read the XML from
+     * @exception MarshalException when there is an error during
+     * the unmarshalling process
+     * @exception ValidationException when there is a validation error
+    **/
+    public Object unmarshal(SAXSource source) 
+        throws MarshalException, ValidationException {
+        return unmarshal(source.getInputSource());
+    }
+
+    /**
+     * Unmarshals Objects of this Unmarshaller's Class type.
+     * The Class must specify the proper access methods
+     * (setters/getters) in order for instances of the Class
+     * to be properly unmarshalled.
+     * @param source the DOMSource to read the XML from
+     * @exception MarshalException when there is an error during
+     * the unmarshalling process
+     * @exception ValidationException when there is a validation error
+    **/
+    public Object unmarshal(DOMSource source) 
+        throws MarshalException, ValidationException {
+        return unmarshal(source.getNode());
+    }
 
     /**
      * Unmarshals Objects of this Unmarshaller's Class type.
