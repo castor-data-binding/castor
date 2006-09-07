@@ -19,6 +19,23 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="49">
+            <title>Castor 1.0.3 released</title>
+            <author>Werner Guttmann</author>
+            <date>Sep 07 2006</date>
+            <time>20:22:21</time>
+            <summary>
+                I've placed a copy of Castor 1.0.3 at the
+                <a href="http://dist.codehaus.org/castor/1.0.3/">Codehaus</a>.<br/><br/>
+
+                This is mainly a maintenance release, with some noticeable bug fixes
+                in the XML code generation area (incl some restructuring of the HTML docs in 
+                this very area as well).<br/><br/>
+                
+                For details about this addition in particular, and all other features added and bugs 
+				fixed, please have a look at the <a href="release-notes.html">release notes</a>. 
+            </summary>
+        </news>
         <news id="48">
             <title>Castor 1.0.2 released</title>
             <author>Werner Guttmann</author>
