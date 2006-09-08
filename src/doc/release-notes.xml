@@ -23,7 +23,6 @@
                     <date></date>
                 </bug>
 -->
-
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
@@ -31,9 +30,9 @@
             <summary></summary>
             <bugs></bugs>
         </release>
-        <release version="1.0.2">
+        <release version="1.0.3">
             <description>Maintenance release for Castor 1.0</description>
-            <date>June 8, 2006</date>
+            <date>September 7, 2006</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
                 <h2>Additions</h2>
