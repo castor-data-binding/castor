@@ -56,14 +56,14 @@ import org.exolab.castor.builder.BuilderConfiguration;
  */
 public class JType {
 
-    public static final JType Boolean  = new JType("boolean");
-    public static final JType Byte     = new JType("byte");
-    public static final JType Char     = new JType("char");
-    public static final JType Double   = new JType("double");
-    public static final JType Float    = new JType("float");
-    public static final JType Int      = new JType("int");
-    public static final JType Long     = new JType("long");
-    public static final JType Short    = new JType("short");
+    public static final JType Boolean  = new JType("boolean", "Boolean");
+    public static final JType Byte     = new JType("byte",    "Byte");
+    public static final JType Char     = new JType("char",    "Character");
+    public static final JType Double   = new JType("double",  "Double");
+    public static final JType Float    = new JType("float",   "Float");
+    public static final JType Int      = new JType("int",     "Integer");
+    public static final JType Long     = new JType("long",    "Long");
+    public static final JType Short    = new JType("short",   "Short");
 
     private String name = null;
     
@@ -83,6 +83,11 @@ public class JType {
     private JType _componentType = null;
     
     /**
+     * Only populated for primitive types
+     */
+    private String wrapperName = null;
+
+    /**
      * Creates a new JType with the given name
      * @param name the name of the type
     **/
@@ -90,6 +95,18 @@ public class JType {
     {
         super();
         this.name = name;
+    } //-- JType
+
+    /**
+     * Creates a new JType for a primitive with the given name and wrapper name.
+     * This constructor is private so it can only be used by the primitives
+     * defined here.
+     * @param name the name of the type
+    **/
+    private JType(String name, String wrapperName)
+    {
+        this(name);
+        this.wrapperName = wrapperName;
     } //-- JType
 
     /**
@@ -144,6 +161,10 @@ public class JType {
         return this.name;
     } //-- getName
     
+    public String getWrapperName() {
+      return this.wrapperName;
+    } //-- getWrapperName
+
     /**
      * Checks to see if this JType represents an array.
      * @return true if this JType represents an array, otherwise false
@@ -160,7 +181,6 @@ public class JType {
         return _isCollection;
     }
     
-
     /**
      * Checks to see if this JType represents a primitive
      * @return true if this JType represents a primitive, otherwise false
@@ -187,12 +207,12 @@ public class JType {
             return _componentType.toString()+"[]";
         }
         
-        if (isCollection()) {
-            if (BuilderConfiguration.createInstance().useJava50()) {
+        if (isCollection() && BuilderConfiguration.createInstance().useJava50()) {
+          if (_componentType.isPrimitive()) {
+            return name + "<" + _componentType.getWrapperName() + ">";
+          } else {
                 return name + "<" + _componentType.toString() + ">";
             }
-            
-            return name;
         }
         
         return this.name;
