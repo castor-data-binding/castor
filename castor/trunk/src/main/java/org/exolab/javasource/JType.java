@@ -210,9 +210,8 @@ public class JType {
         if (isCollection() && BuilderConfiguration.createInstance().useJava50()) {
           if (_componentType.isPrimitive()) {
             return name + "<" + _componentType.getWrapperName() + ">";
-          } else {
-                return name + "<" + _componentType.toString() + ">";
-            }
+          } 
+          return name + "<" + _componentType.toString() + ">";
         }
         
         return this.name;

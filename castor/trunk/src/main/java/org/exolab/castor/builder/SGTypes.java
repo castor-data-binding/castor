@@ -119,6 +119,10 @@ public class SGTypes {
         return JType.createCollection("java.util.Enumeration", jType);
     }
 
+    public static final JType createIterator(JType jType) {
+        return JType.createCollection("java.util.Iterator", jType);
+    }
+
     public static final JType createVector(JType jType) {
         return JType.createCollection("java.util.Vector", jType);
     }
