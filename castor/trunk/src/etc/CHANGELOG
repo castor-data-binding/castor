@@ -2,9 +2,15 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1543 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Fixed problem with incorrent code generation related to the use of primitive types and generics.
+       Details: http://jira.codehaus.org/browse/CASTOR-1543
+       (Werner - 20060909)
+
 
 Version 1.0.3, Sep 7, 2006
 -------------------------------
+
 XML:   Resolved issue CASTOR-1478 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with 'staticness' of group naming scheme.
        Details: http://jira.codehaus.org/browse/CASTOR-1478

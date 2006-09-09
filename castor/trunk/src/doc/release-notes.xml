@@ -28,7 +28,30 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
-            <bugs></bugs>
+            <bugs>
+				<bug id="1543" tool="jira">
+                    <description>
+		                Fixed problem with incorrent code generation related to the use 
+                        of primitive types and generics.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns/name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060909</date>
+                </bug>
+                
+            </bugs>
         </release>
         <release version="1.0.3">
             <description>Maintenance release for Castor 1.0</description>
