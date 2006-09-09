@@ -29,7 +29,27 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
-
+				<bug id="1543" tool="jira">
+                    <description>
+		                Fixed problem with attributes named 'class' (where wrongly named 
+                        getter/setter had been generated)
+                    </description>
+                    <contributor>
+                        <name>Steven Dolg</name>
+                        <email>stevendolg@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Melanie Courtot</name>
+                        <email>courtot@ebi.ac.uk</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060909</date>
+                </bug>
 				<bug id="1543" tool="jira">
                     <description>
 		                Added new getIterator() method to Java classes generated for 
