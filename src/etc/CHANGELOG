@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1541 using contribution from Steven Dolg [stevendolg@gmx.at]
+       Fixed problem with attributes named 'class' (where wrongly named getter/setter had been generated)
+       Details: http://jira.codehaus.org/browse/CASTOR-1541
+       (Werner - 20060909)
+
 XML:   Resolved issue CASTOR-1545 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Added new getIterator() method to Java classes generated for J2 collection types.
        Details: http://jira.codehaus.org/browse/CASTOR-1545
