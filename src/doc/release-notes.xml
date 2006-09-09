@@ -29,6 +29,28 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+
+				<bug id="1543" tool="jira">
+                    <description>
+		                Added new getIterator() method to Java classes generated for 
+                        J2 collection types.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060909</date>
+                </bug>
 				<bug id="1543" tool="jira">
                     <description>
 		                Fixed problem with incorrent code generation related to the use 
@@ -43,7 +65,7 @@
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>Edward Kuns/name>
+                        <name>Edward Kuns</name>
                         <email>edward.kuns@aspect.com</email>
                     </reporter>
                     <type>Bug</type>

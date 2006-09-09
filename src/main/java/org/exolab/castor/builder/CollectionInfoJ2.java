@@ -192,6 +192,13 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
         createEnumerateMethod(method, jClass);
 
+         //--------------------------/
+        //- Create Iterator Method -/
+       //--------------------------/
+        method = new JMethod(SGTypes.createIterator(getContentType().getJType()),"iterator");
+        jClass.addMethod(method);
+
+        createIteratorMethod(method, jClass);
 
           //-------------------/
          //- getCount method -/
@@ -301,6 +308,23 @@ public class CollectionInfoJ2 extends CollectionInfo {
         jsc.add("return Collections.enumeration(");
         jsc.append(getName());
         jsc.append(");");
+
+    } //-- createEnumerateMethod
+
+    /**
+     * Creates implementation of iterator method.
+     *
+     * @param method the JMethod in which to create the source
+     * code.
+     * @param jClass TODO
+    **/
+    public void createIteratorMethod(JMethod method, JClass jClass) {
+
+        JSourceCode jsc = method.getSourceCode();
+
+        jsc.add("return ");
+        jsc.append(getName());
+        jsc.append(".iterator();");
 
     } //-- createEnumerateMethod
 
