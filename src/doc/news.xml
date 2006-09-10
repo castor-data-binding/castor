@@ -30,11 +30,11 @@
                 of several Castor XML artefacts (e.g. its Un- and Marshaller components) into 
                 the application framework <a href="http://www.springframework.org">Spring</a>.<br/><br/>
 
-                <ul>
-                    <li><a href="download.html#Castor-XML-Spring-factory-beans">Download instructions</a></li>
-                    <li>An (initial) <a href="spring-xml-intro.html">introduction</a> to this new 
-                        feature, including several small HOW-TOs.</li>
-                </ul>
+                
+                - <a href="download.html#Castor-XML-Spring-factory-beans">Download instructions</a><br/>
+                - An (initial) <a href="spring-xml-intro.html">introduction</a> to this new 
+                        feature, including several small HOW-TOs.
+                
             </summary>
         </news>
         <news id="49">
