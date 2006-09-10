@@ -4,6 +4,7 @@
     <properties>
         <title>How to use the Spring FactoryBeans for Castor XML</title>
         <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+        <author email="stevendolg AT gmx DOT at">Steven Dolg</author>
         <abstract>
             Outlines how to use the Spring FactoryBeans for Castor XML
         </abstract>
