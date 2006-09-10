@@ -19,6 +19,21 @@
 --> 
 
         <item>
+			<title>Snapshot release of Spring factory beans for Castor XML available</title>
+			<pubDate>Sun, 10 Sep 2006 7:18:19 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item50</link>
+			<description>
+                I've made a first snapshot release of the new <b>Spring factory beans 
+                for Castor XML</b> available. This new module provides seamless integration 
+                of several Castor XML artefacts (e.g. its Un- and Marshaller components) into 
+                the application framework (http://www.springframework.org).
+
+                - Download instructions (http://castor.org/download.html#Castor-XML-Spring-factory-beans)
+                - Introduction, including several small HOW-TOs (http://castor.org/spring-xml-intro.html)
+			</description>
+		</item>
+        <item>
 			<title>Castor 1.0.3 available</title>
 			<pubDate>Thu, 7 Sep 2006 20:22:21 GMT</pubDate>
 			<author>Werner Guttmann</author>
