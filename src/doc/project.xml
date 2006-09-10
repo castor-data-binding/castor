@@ -112,6 +112,10 @@
             <url>castor-spring-site/index.html</url>
             <display>Spring ORM support</display>
         </navLink>
+        <navLink>
+            <url>spring-xml-intro.html</url>
+            <display>Spring XML factories</display>
+        </navLink>
     </section>
 
     <section name="XML">

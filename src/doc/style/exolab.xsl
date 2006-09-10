@@ -239,19 +239,39 @@
     <xsl:choose>
       <xsl:when test='$level=2'>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
+		<xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h2><xsl:value-of select="@title"/></h2></a>
+        </xsl:if>
+		<xsl:if test="@name">
+        <a name="{translate(@name,' ','-')}"><h2><xsl:value-of select="@name"/></h2></a>
+        </xsl:if>
       </xsl:when>
       <xsl:when test='$level=3'>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
+		<xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h3><xsl:value-of select="@title"/></h3></a>
+        </xsl:if>
+		<xsl:if test="@name">
+        <a name="{translate(@name,' ','-')}"><h3><xsl:value-of select="@name"/></h3></a>
+        </xsl:if>
       </xsl:when>
       <xsl:when test='$level=4'>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
+		<xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h4><xsl:value-of select="@title"/></h4></a>
+        </xsl:if>
+		<xsl:if test="@name">
+        <a name="{translate(@name,' ','-')}"><h4><xsl:value-of select="@name"/></h4></a>
+        </xsl:if>
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
+		<xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h5><xsl:value-of select="@title"/></h5></a>
+        </xsl:if>
+		<xsl:if test="@name">
+        <a name="{translate(@name,' ','-')}"><h5><xsl:value-of select="@name"/></h5></a>
+        </xsl:if>
       </xsl:otherwise>
     </xsl:choose>
     <xsl:apply-templates/>
@@ -422,6 +442,34 @@
   </xsl:template>
 
   <xsl:template match="code-panel">
+    <p/>
+    <table width="100%" border="0" cellspacing="1" cellpadding="1" bgcolor="#7270c2">
+	    <xsl:if test="@top-caption">
+		       <tr>
+		          <td><i><font color="yellow"><xsl:value-of select="@top-caption"/></font></i></td>
+		       </tr>
+	    </xsl:if>
+      <tr>
+        <td>
+          <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#ededed">
+            <tr>
+              <td>
+                <span class="bodyBlack">
+                    <pre><xsl:apply-templates/></pre>
+                </span>
+              </td>
+            </tr>
+          </table>
+        </td>
+      </tr>
+    </table>
+    <xsl:if test="@caption">
+	  <i><xsl:value-of select="@caption"/></i>
+    </xsl:if>
+    <p/>
+  </xsl:template>
+
+  <xsl:template match="source">
     <p/>
     <table width="100%" border="0" cellspacing="1" cellpadding="1" bgcolor="#7270c2">
 	    <xsl:if test="@top-caption">
