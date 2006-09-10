@@ -642,6 +642,24 @@
            <include name="index.html"/>
            <include name="download.html" />
         </replace>
+		<!-- SPRING XML -->
+    	<replace dir="${build-doc}" token="$$SPRING-XML-STABLE$$" value="${spring-xml-stable}">
+           <include name="index.html"/>
+           <include name="download.html" />
+        </replace>
+        <replace dir="${build-doc}" token="$$SPRING-XML-SNAPSHOT$$" value="${spring-xml-snapshot}">
+           <include name="index.html"/>
+           <include name="download.html" />
+        </replace>
+		<!-- SPRING JDO -->
+    	<replace dir="${build-doc}" token="$$SPRING-JDO-STABLE$$" value="${spring-jdo-stable}">
+           <include name="index.html"/>
+           <include name="download.html" />
+        </replace>
+        <replace dir="${build-doc}" token="$$SPRING-JDO-SNAPSHOT$$" value="${spring-jdo-snapshot}">
+           <include name="index.html"/>
+           <include name="download.html" />
+        </replace>
 
         <replace dir="${build-doc}" token="$$RELEASE_DATE$$" value="${release_date}">
            <include name="index.html"/>
