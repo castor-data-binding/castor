@@ -208,7 +208,7 @@
             
             <ul>
                 <li>Spring ORM implementation for Castor JDO<br/>
-                    <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/castor-spring/$SPRING-JDO-NSAPSHOT$-SNAPSHOT/</url>                
+                    <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/castor-spring/$SPRING-JDO-SNAPSHOT$-SNAPSHOT/</url>                
                     <br/>&#xA0;</li>
             </ul>
                 
