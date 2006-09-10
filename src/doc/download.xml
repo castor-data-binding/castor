@@ -34,51 +34,69 @@
         </section>
     
         <section title="Latest Stable Release">
+            
+            <section title="Castor">
+                
+              <ul><b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
+                <b>Release date: $STABLE_RELEASE_DATE$</b>
+                <li><a href="release-notes.xml">What changed?</a></li>
+                <li><b>NEW *** </b> The Castor Commons JAR <b>*** NEW</b><br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-commons.jar</url>
+                    <br/>&#xA0;</li>
+                <li>The Castor JAR (XML, JDO, DAX)<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.jar</url>
+                    <br/>&#xA0;</li>
+                <li>The Castor JAR (XML only)<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</url>
+                    <br/>&#xA0;</li>
+                <li>The Castor JARs, docs, DTDs, command line tools and examples<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.tgz</url><br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.zip</url>
+                    <br/>&#xA0;</li>
+                <li>Full documentation including all JavaDocs and specs (big)<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.tgz</url><br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.zip</url>
+                    <br/>&#xA0;</li>
+                <li>Full SVN snapshot: all sources, docs, libraries (big)<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.tgz</url><br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.zip</url>
+                    <br/>&#xA0;</li>
+              </ul>
+              
+            </section>
+            
+            <section title="XML code generation - Ant task">
+                
+              <ul>
+                <li>Ant task definition for the source generator<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-srcgen-ant-task.jar</url>
+                    <br/>&#xA0;</li>
+              </ul>
+      
+            </section>
+            
+            <section title="Samples">
+
+              <ul>
+                <li>Self-executable JDO examples using Apache Derby (big)<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples.zip</url>
+                    <br/>&#xA0;</li>
+              </ul>
+                
+            </section>
+            
         
-      <ul><b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
-        <b>Release date: $STABLE_RELEASE_DATE$</b>
-        <li><a href="release-notes.xml">What changed?</a></li>
-        <li><b>NEW *** </b> The Castor Commons JAR <b>*** NEW</b><br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-commons.jar</url>
-            <br/>&#xA0;</li>
-        <li>The Castor JAR (XML, JDO, DAX)<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.jar</url>
-            <br/>&#xA0;</li>
-        <li>The Castor JAR (XML only)<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-xml.jar</url>
-            <br/>&#xA0;</li>
-        <li>The Castor JARs, docs, DTDs, command line tools and examples<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.tgz</url><br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.zip</url>
-            <br/>&#xA0;</li>
-        <li>Full documentation including all JavaDocs and specs (big)<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.tgz</url><br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-doc.zip</url>
-            <br/>&#xA0;</li>
-        <li>Full SVN snapshot: all sources, docs, libraries (big)<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.tgz</url><br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-src.zip</url>
-            <br/>&#xA0;</li>
-      </ul>
       
-      <p>and</p>
-      
-      <ul>
-        <li>Ant task definition for the source generator<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-srcgen-ant-task.jar</url>
-            <br/>&#xA0;</li>
-        <li>Self-executable JDO examples using Apache Derby (big)<br/>
-            <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples.zip</url>
-            <br/>&#xA0;</li>
 <!--            
+      <ul>
         <li>Castor examples - sources (incl. xml, JDO, source generator)<br/>
             <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples-sources.jar</url>
             <br/>&#xA0;</li>
         <li>Castor sample webapp<br/>
             <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-example-webapp.war</url>
             <br/>&#xA0;</li>
--->
       </ul>
+-->
 
          <p><small>The tarball and zips includes all the JARs required by Castor, the
             docs and API JavaDocs. To fully install Castor, simply extract all the JARs
@@ -117,51 +135,96 @@
       </section>
 
     <section title="Latest Milestone Release">
-      <ul><b>Lastest Milestone Version: Castor $VERSION$ $RELEASE$</b><br/>
-        <b>Release date: $RELEASE_DATE$</b>
-        <li><a href="release-notes.xml">What changed?</a></li>
         
-        <li><b>NEW *** </b> The Castor Commons JAR <b>*** NEW</b><br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url>
-            <br/>&#xA0;</li>
-        <li>The Castor JAR (XML, JDO, DAX)<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
-            <br/>&#xA0;</li>
-        <li>The Castor JAR (XML only)<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
-            <br/>&#xA0;</li>
-        <li>The Castor JARs, docs, DTDs, command line tools and examples<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.tgz</url><br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.zip</url>
-            <br/>&#xA0;</li>
-        <li>Full documentation including all JavaDocs and specs (big)<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.tgz</url><br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.zip</url>
-            <br/>&#xA0;</li>
-        <li>Full SVN snapshot: all sources, docs, libraries (big)<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.zip</url>
-            <br/>&#xA0;</li>
-      </ul>
+        <section title="Castor">
+            
+          <ul><b>Lastest Milestone Version: Castor $VERSION$ $RELEASE$</b><br/>
+            <b>Release date: $RELEASE_DATE$</b>
+            <li><a href="release-notes.xml">What changed?</a></li>
+            
+            <li><b>NEW *** </b> The Castor Commons JAR <b>*** NEW</b><br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url>
+                <br/>&#xA0;</li>
+            <li>The Castor JAR (XML, JDO, DAX)<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
+                <br/>&#xA0;</li>
+            <li>The Castor JAR (XML only)<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
+                <br/>&#xA0;</li>
+            <li>The Castor JARs, docs, DTDs, command line tools and examples<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.tgz</url><br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.zip</url>
+                <br/>&#xA0;</li>
+            <li>Full documentation including all JavaDocs and specs (big)<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.tgz</url><br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-doc.zip</url>
+                <br/>&#xA0;</li>
+            <li>Full SVN snapshot: all sources, docs, libraries (big)<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.zip</url>
+                <br/>&#xA0;</li>
+          </ul>
+
+        </section>
+        
+        <section title="XML code generation - Ant task">
+            
+          <ul>
+            <li>Ant task definition for the source generator<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-srcgen-ant-task.jar</url>
+                <br/>&#xA0;</li>
+          </ul>
+
+        </section>
+
+        <section title="Samples">
+
+          <ul>
+            <li>Self-executable JDO examples using Apache Derby (big)<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples.zip</url>
+                <br/>&#xA0;</li>
+            <li>Castor examples - sources (incl. xml, JDO, source generator)<br/>
+                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
+                <br/>&#xA0;</li>
+          </ul>
       
-      <p>and</p>
+        </section>
       
-      <ul>
-        <li>Ant task definition for the source generator<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-srcgen-ant-task.jar</url>
-            <br/>&#xA0;</li>
-        <li>Self-executable JDO examples using Apache Derby (big)<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples.zip</url>
-            <br/>&#xA0;</li>
-        <li>Castor examples - sources (incl. xml, JDO, source generator)<br/>
-            <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
-            <br/>&#xA0;</li>
+        <section title="Castor XML Spring factory beans">
+
+            <ul>
+                <li>Spring factory beans for Castor XML<br/>
+                    <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/spring-xml/$SPRING-XML-SNAPSHOT$-SNAPSHOT/</url>
+                    <br/>&#xA0;</li>
+            </ul>
+
+            <p>The JARs in this directory carry a timestamp in their name. Please make sure
+               that you always use the <b>latest</b> JAR file, unless you require a specific
+               version.</p>
+                
+        </section>
+
+        <section title="Spring ORM for Castor JDO">
+            
+            <ul>
+                <li>Spring ORM implementation for Castor JDO<br/>
+                    <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/castor-spring/$SPRING-JDO-NSAPSHOT$-SNAPSHOT/</url>                
+                    <br/>&#xA0;</li>
+            </ul>
+                
+            <p>The JARs in this directory carry a timestamp in their name. Please make sure
+               that you always use the <b>latest</b> JAR file, unless you require a specific
+               version.</p>
+
+        </section>
+      
 <!-- 
+      <ul>
         <li>Castor sample webapp<br/>
             <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-example-webapp.war</url>
             <br/>&#xA0;</li>
--->         
       </ul>
+-->         
 
 <!--      
       <ctable>
