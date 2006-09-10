@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1544 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Castor XML code generator does not overwrite existing '.castor.cdr' files anymore.
+       Details: http://jira.codehaus.org/browse/CASTOR-1544
+       (Werner - 20060910)
+
 XML:   Resolved issue CASTOR-1541 using contribution from Steven Dolg [stevendolg@gmx.at]
        Fixed problem with attributes named 'class' (where wrongly named getter/setter had been generated)
        Details: http://jira.codehaus.org/browse/CASTOR-1541

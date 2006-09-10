@@ -29,6 +29,27 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1544" tool="jira">
+                    <description>
+		                Castor XML code generator does not overwrite existing '.castor.cdr' 
+                        files anymore.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060910</date>
+                </bug>
 				<bug id="1543" tool="jira">
                     <description>
 		                Fixed problem with attributes named 'class' (where wrongly named 

@@ -80,6 +80,7 @@ import org.exolab.castor.xml.XMLException;
 import org.xml.sax.*;
 
 //--Java IO imports
+import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Reader;
 import java.io.PrintWriter;
@@ -1012,7 +1013,7 @@ public class SourceGenerator
 	} //-- mappingSchemaType2Java
 
 
-    private void createClasses(ElementDecl elementDecl, SGStateInfo sInfo) {
+    private void createClasses(ElementDecl elementDecl, SGStateInfo sInfo) throws FileNotFoundException, IOException {
 
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS) return;
 
@@ -1069,7 +1070,7 @@ public class SourceGenerator
         }
     }  //-- createClasses
 
-      private void createClasses(Group group, SGStateInfo sInfo) {
+      private void createClasses(Group group, SGStateInfo sInfo) throws FileNotFoundException, IOException {
         if (group == null)
            return;
            
@@ -1101,8 +1102,10 @@ public class SourceGenerator
      * Processes the given ComplexType and creates all necessary class
      * to support it
      * @param complexType the ComplexType to process
+     * @throws IOException 
+     * @throws FileNotFoundException 
     **/
-    private void processComplexType(ComplexType complexType, SGStateInfo sInfo) {
+    private void processComplexType(ComplexType complexType, SGStateInfo sInfo) throws FileNotFoundException, IOException {
         
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS)
             return;
@@ -1154,8 +1157,11 @@ public class SourceGenerator
      * @param complexType the ComplexType containing the attribute
      * declarations to process.
      * @param sInfo the current source generator state information
+     * @throws IOException 
+     * @throws FileNotFoundException 
     **/
-    private void processAttributes(ComplexType complexType, SGStateInfo sInfo) {
+    private void processAttributes(ComplexType complexType, SGStateInfo sInfo) 
+    throws FileNotFoundException, IOException {
 
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS) return;
 
@@ -1172,8 +1178,11 @@ public class SourceGenerator
      * Processes the given ContentModelGroup
      * @param cmGroup the ContentModelGroup to process
      * @param sInfo the current source generator state information
+     * @throws IOException 
+     * @throws FileNotFoundException 
     **/
-    private void processContentModel(ContentModelGroup cmGroup, SGStateInfo sInfo) {
+    private void processContentModel(ContentModelGroup cmGroup, SGStateInfo sInfo) 
+    throws FileNotFoundException, IOException {
         
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS) return;
 
@@ -1215,8 +1224,11 @@ public class SourceGenerator
      *
      * @param simpleType
      * @param sInfo
+     * @throws IOException 
+     * @throws FileNotFoundException 
      */
-    private void processSimpleType(SimpleType simpleType, SGStateInfo sInfo) {
+    private void processSimpleType(SimpleType simpleType, SGStateInfo sInfo) 
+    throws FileNotFoundException, IOException {
 
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS) return;
 
@@ -1285,8 +1297,11 @@ public class SourceGenerator
      * corresponding MarshalInfo and print the Java classes
      *
      * @param jClass the classInfo to process
+     * @throws IOException 
+     * @throws FileNotFoundException 
     **/
-    private void processJClass(JClass jClass, SGStateInfo state) {
+    private void processJClass(JClass jClass, SGStateInfo state) 
+    throws FileNotFoundException, IOException {
 
         if (state.getStatusCode() == SGStateInfo.STOP_STATUS) return;
         
@@ -1464,23 +1479,31 @@ public class SourceGenerator
      * Updates the CDR (ClassDescriptorResolver) file with the
      * classname->descriptor mapping.
      * 
-     * @param jClass
-     * @param jDesc
-     * @param sInfo
+     * @param jClass JClass instance describing the entity class
+     * @param jDesc JClass instance describing is *Descriptor class
+     * @param sInfo state info
+     * @throws IOException If an already existing '.castor.cdr' file can not be loaded
+     * @throws FileNotFoundException  If an already existing '.castor.cdr' file can not be found
      */
     private void updateCDRFile(JClass jClass, JClass jDesc, SGStateInfo sInfo) 
+        throws FileNotFoundException, IOException 
     {
-        String filename = jClass.getFilename(_destDir);
-        File file = new File(filename);
-        file = file.getParentFile();
-        file = new File(file, CDR_FILE);
-        filename = file.getAbsolutePath();
+        String entityFilename = jClass.getFilename(_destDir);
+        File file = new File(entityFilename);
+        File parentDirectory = file.getParentFile();
+        File cdrFile = new File(parentDirectory, CDR_FILE);
+        String cdrFilename = cdrFile.getAbsolutePath();
         
-        Properties props = sInfo.getCDRFile(filename);
+        Properties props = sInfo.getCDRFile(cdrFilename);
         
         if (props == null) {
+            
+            // check for existing .castor.xml file 
             props = new Properties();
-            sInfo.setCDRFile(filename, props);
+            if (cdrFile.exists()) {
+                props.load(new FileInputStream(cdrFile));
+            }
+            sInfo.setCDRFile(cdrFilename, props);
         }
         props.setProperty(jClass.getName(), jDesc.getName());
     } //-- updateCDRFile
