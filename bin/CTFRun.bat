@@ -18,13 +18,13 @@ goto end
 
 :noargs
 :master
-echo using default arguments [-text -verbose ../src/tests/xml/MasterTestSuite]
+echo using default arguments [-text ../src/tests/xml/MasterTestSuite]
 "%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text ../src/tests/xml/MasterTestSuite
 
 goto end
 
 :master-verbose
-echo using default arguments [-text -verbose ../src/tests/xml/MasterTestSuite]
+echo using default verbose arguments [-text -verbose ../src/tests/xml/MasterTestSuite]
 "%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text -verbose ../src/tests/xml/MasterTestSuite
 
 :regression
