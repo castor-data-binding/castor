@@ -19,20 +19,6 @@
         <p>Please carefully make yourself familiar with the license model of Castor, available
            at <a href="license.html">here</a>.</p>
 
-        <section title="News">
-        
-            <p>As of release 0.9.9.1, a new JAR file with the suffix '-commons' has been introduced,
-               holding classes that can be used independend of Castor XML and Castor JDO. With 0.9.9.1
-               release it only contains Base64Decoder, Base64Encoder, IdentityMap and IdentitySet
-               classes but more (e.g. Castor's cache) will follow with future releases. As this classes
-               are also required for Castor XML and/or Castor JDO they are also included in the other
-               JARs (XML, JDO) that require them. Therefore you don't need to change your class path
-               if it includes one of the other Castor JARs (XML, JDO). Its only intention is to provide
-               you with a small JAR containing classes that are commonly needed by applications even if
-               they do not need Castor's XML and/or JDO part.</p>
-            
-        </section>
-    
         <section title="Latest Stable Release">
             
             <section title="Castor">
@@ -40,9 +26,6 @@
               <ul><b>Lastest Released Version: Castor $STABLE_VERSION$ $STABLE_RELEASE$</b><br/>
                 <b>Release date: $STABLE_RELEASE_DATE$</b>
                 <li><a href="release-notes.xml">What changed?</a></li>
-                <li><b>NEW *** </b> The Castor Commons JAR <b>*** NEW</b><br/>
-                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-commons.jar</url>
-                    <br/>&#xA0;</li>
                 <li>The Castor JAR (XML, JDO, DAX)<br/>
                     <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$.jar</url>
                     <br/>&#xA0;</li>
@@ -85,7 +68,25 @@
                 
             </section>
             
-        
+            <section title="Commons">
+
+              <ul>
+
+                <li>The Castor Commons JAR<br/>
+                    <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-commons.jar</url>
+                    <br/>&#xA0;<br/>
+                    As of release 0.9.9.1, a new JAR file with the suffix '-commons' has been introduced,
+                   holding classes that can be used independend of Castor XML and Castor JDO. With 0.9.9.1
+                   release it only contains Base64Decoder, Base64Encoder, IdentityMap and IdentitySet
+                   classes but more (e.g. Castor's cache) will follow with future releases. As this classes
+                   are also required for Castor XML and/or Castor JDO they are also included in the other
+                   JARs (XML, JDO) that require them. Therefore you don't need to change your class path
+                   if it includes one of the other Castor JARs (XML, JDO). Its only intention is to provide
+                   you with a small JAR containing classes that are commonly needed by applications even if
+                   they do not need Castor's XML and/or JDO part.</li>
+              </ul>
+                
+            </section>
       
 <!--            
       <ul>
@@ -142,9 +143,6 @@
             <b>Release date: $RELEASE_DATE$</b>
             <li><a href="release-notes.xml">What changed?</a></li>
             
-            <li><b>NEW *** </b> The Castor Commons JAR <b>*** NEW</b><br/>
-                <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url>
-                <br/>&#xA0;</li>
             <li>The Castor JAR (XML, JDO, DAX)<br/>
                 <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
                 <br/>&#xA0;</li>
@@ -217,6 +215,27 @@
                version.</p>
 
         </section>
+        
+        <section title="Commons">
+
+           <ul>
+
+             <li>The Castor Commons JAR<br/>
+                    <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-commons.jar</url>
+                    <br/>&#xA0;<br/>
+                    As of release 0.9.9.1, a new JAR file with the suffix '-commons' has been introduced,
+                   holding classes that can be used independend of Castor XML and Castor JDO. With 0.9.9.1
+                   release it only contains Base64Decoder, Base64Encoder, IdentityMap and IdentitySet
+                   classes but more (e.g. Castor's cache) will follow with future releases. As this classes
+                   are also required for Castor XML and/or Castor JDO they are also included in the other
+                   JARs (XML, JDO) that require them. Therefore you don't need to change your class path
+                   if it includes one of the other Castor JARs (XML, JDO). Its only intention is to provide
+                   you with a small JAR containing classes that are commonly needed by applications even if
+                   they do not need Castor's XML and/or JDO part.</li>
+           </ul>
+                
+        </section>
+        
       
 <!-- 
       <ul>
