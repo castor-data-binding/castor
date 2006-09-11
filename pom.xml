@@ -4,9 +4,9 @@
 http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
-	<groupId>castor</groupId>
+	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor</artifactId>
-	<version>1.0.2</version>
+	<version>1.0.4-SNAPSHOT</version>
 	<packaging>jar</packaging>
 
 	<name>Castor</name>
@@ -35,6 +35,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				</configuration>
 			</plugin>
 
+<!--
 			<plugin>
 				<groupId>org.codehaus.mojo</groupId>
                 <artifactId>build-helper-maven-plugin</artifactId>
@@ -47,13 +48,11 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 						</goals>
 						<configuration>
 							<sources>
-                                <!-- <source>src/main</source> -->
+                                <source>src/main</source>
                                 <source>src/examples</source>
 							</sources>
 						</configuration>
 					</execution>
-<!-- to include JDO CTF suite, below execution needs to be (partially ) uncommented -->                   
-
 					<execution>
 						<id>add-test-source</id>
                         <phase>generate-sources</phase>
@@ -63,13 +62,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 						<configuration>
 							<sources>
                                 <source>src/tests</source>
-                                <!-- <source>src/bugs</source> -->
+                                <source>src/bugs</source>
 							</sources>
 						</configuration>
 					</execution>
-                    
 				</executions>
 			</plugin>
+-->            
 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
@@ -91,6 +90,14 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             </plugin>       
 		</plugins>
 
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-1</version>
+            </extension>
+        </extensions>
+	
 	</build>
 
 	<!--   
@@ -179,9 +186,26 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<scm>
        <connection>scm:svn:svn://svn.castor.codehaus.org/castor/scm/castor/</connection>
-<!--       <developerConnection>scm:svn:http://svn.wakaleo.com/hoteldatabase/</developerConnection> -->
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/</developerConnection>
        <url>http://svn.castor.codehaus.org/viewrep/castor/castor</url>
 	</scm>	
+
+    <distributionManagement>
+        <repository>
+          <id>codehaus.org</id>
+          <name>Castor Central Distribution Repository</name>
+          <url>dav:https://dav.codehaus.org/repository/castor/</url>
+        </repository>
+        <snapshotRepository>
+          <id>codehaus.org</id>
+          <name>Castor Central Development Repository</name>
+          <url>dav:https://dav.codehaus.org/snapshots.repository/castor/</url>
+        </snapshotRepository>
+        <site>
+          <id>codehaus.org</id>
+          <url>dav:https://dav.codehaus.org/castor/</url>
+        </site>
+    </distributionManagement>
     
 	<dependencies>
 
@@ -251,6 +275,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>3.8.1</version>
+            <scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -263,19 +288,21 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>log4j</groupId>
 			<artifactId>log4j</artifactId>
 			<version>1.2.13</version>
+            <scope>test</scope>
 		</dependency>
 
 		<dependency>
 			<groupId>tyrex</groupId>
 			<artifactId>tyrex</artifactId>
 			<version>1.0.1</version>
+            <scope>test</scope>
 		</dependency>
 
 		<dependency>
-            <scope>test</scope>
 			<groupId>org.mockejb</groupId>
 			<artifactId>mockejb</artifactId>
 			<version>0.5</version>
+            <scope>test</scope>
 		</dependency>
 
 		<dependency>
@@ -285,14 +312,36 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		</dependency>
         
         <dependency>
-            <scope>test</scope>
             <groupId>mysql</groupId>
             <artifactId>mysql-connector-java</artifactId>
             <version>3.1.12</version>
+            <scope>test</scope>
         </dependency>
 
 	</dependencies>
 
+	<repositories>
+		<repository>
+			<id>java.net</id>
+			<name>java.net Maven Repository</name>
+			<url>https://maven-repository.dev.java.net/nonav/repository</url>
+			<layout>legacy</layout>
+		</repository>		
+	</repositories>
+
+	<pluginRepositories>
+		<pluginRepository>
+			<id>Maven Codehaus Snapshots</id> 
+			<url>http://snapshots.maven.codehaus.org/maven2/</url> 
+			<snapshots>
+				<enabled>true</enabled> 
+			</snapshots>
+			<releases>
+				<enabled>false</enabled> 
+			</releases>
+		</pluginRepository>
+	</pluginRepositories>
+	
 	<reporting>
 		<plugins>
 			<plugin>
