@@ -245,6 +245,28 @@
                that you always use the <b>latest</b> JAR file, unless you require a specific
                version.</p>
 
+            <p>For those of you working with <a href="http://maven.apache.org">Maven 2</a>, please add 
+               the following dependency to your POM to include the <i>Spring ORM package for 
+               Castor JDO</i> with your project:</p>
+               
+            <source><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-spring</artifactId>
+   <version>RC2-SNAPSHOT</version>
+</dependency>]]></source>
+                
+            <p>As we are currently providing snapshot releases only for the factory beans, you will
+               have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
+               so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying 
+               to resolve and download dependencies.</p>
+               
+            <source><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name> 
+    <url>http://snapshots.maven.codehaus.org/maven2/</url> 
+</repository>]]></source>
         </section>
         
         <section title="Commons">
