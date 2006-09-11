@@ -19,6 +19,50 @@
         <p>Please carefully make yourself familiar with the license model of Castor, available
            at <a href="license.html">here</a>.</p>
 
+        <section name="Maven 2 dependencies">
+            
+            <p>As of release 1.0.3, the Castor team has started to make <b>selected</b> build and release
+               artefacts available through Maven. The following table summarizes the build 
+               artefacts currently available.</p>
+               
+            <ctable>
+                <cheader>
+                    <th>Description</th>
+                    <th>Dependency</th>
+                </cheader>
+                <crow>
+                   <td>Castor XML Spring factory beans</td>
+                   <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>spring-xml</artifactId>
+   <version>0.8-SNAPSHOT</version>
+</dependency>]]></pre></td>
+                </crow>
+                <crow>
+                   <td>Spring ORM for Castor JDO</td>
+                   <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-spring</artifactId>
+   <version>RC2-SNAPSHOT</version>
+</dependency>]]></pre></td>
+                </crow>
+            </ctable>
+            
+            <p>For those artefacts available as <b>snapshot</b> releases only, please make sure
+               that your project POMS include the following <tt>&lt;repository&gt;</tt>
+               definition:</p>
+    
+            <source><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name> 
+    <url>http://snapshots.maven.codehaus.org/maven2/</url> 
+</repository>]]></source>
+    
+        </section>
+
         <section title="Latest Stable Release">
             
             <section title="Castor">
