@@ -323,7 +323,6 @@
         
     </section>
 
-<!--
       <section title="SVN Snapshots">
         
          <p>To obtain the latest SVN version, please use a SVN-enabled client to 
@@ -336,13 +335,12 @@
             (tm):</p>
             
          <ul>
-            <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.zip">zip</a></li>
-            <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.tgz">tgz</a></li>
-            <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/castor.tbz2">tbz2</a></li>
+            <li><a href="http://svn.castor.codehaus.org/browse/~tarball=zip/castor/castor/trunk/trunk.zip">zip</a></li>
+            <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tgz">tgz</a></li>
+            <li><a href="http://cvs.castor.codehaus.org/viewrep/~tarball=zip/castor/castor/trunk/trunk.tbz2">tbz2</a></li>
          </ul>
          
       </section>
--->
       
       <section title="Dependent Libraries">
 
