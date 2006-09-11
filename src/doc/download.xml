@@ -19,7 +19,7 @@
         <p>Please carefully make yourself familiar with the license model of Castor, available
            at <a href="license.html">here</a>.</p>
 
-        <section name="Maven 2 dependencies">
+        <section title="Maven 2 dependencies">
             
             <p>As of release 1.0.3, the Castor team has started to make <b>selected</b> build and release
                artefacts available through Maven. The following table summarizes the build 
