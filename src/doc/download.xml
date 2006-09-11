@@ -194,12 +194,43 @@
                 <li>Spring factory beans for Castor XML<br/>
                     <url>http://snapshots.repository.codehaus.org/org/codehaus/castor/spring-xml/$SPRING-XML-SNAPSHOT$-SNAPSHOT/</url>
                     <br/>&#xA0;</li>
+                    
             </ul>
 
             <p>The JARs in this directory carry a timestamp in their name. Please make sure
                that you always use the <b>latest</b> JAR file, unless you require a specific
                version.</p>
+               
+            <p>For those of you working with <a href="http://maven.apache.org">Maven 2</a>, please add 
+               the following dependency to your POM to include the <i>Spring factory beans for 
+               Castor XML</i> with your project:</p>
+               
+            <source><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>spring-xml</artifactId>
+   <version>0.8-SNAPSHOT</version>
+</dependency>]]></source>
                 
+            <p>As we are currently providing snapshot releases only for the factory beans, you will
+               have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
+               so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying 
+               to resolve and download dependencies.</p>
+               
+            <source><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name> 
+    <url>http://snapshots.maven.codehaus.org/maven2/</url> 
+</repository>]]></source>
+             
+<!--
+<repository>
+    <id>codehaus-snashots</id>
+    <name>Maven Codehaus Snapshots</name> 
+    <url>http://snapshots.maven.codehaus.org/maven2/</url> 
+</repository>
+-->               
         </section>
 
         <section title="Spring ORM for Castor JDO">
