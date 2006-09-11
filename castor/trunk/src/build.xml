@@ -493,21 +493,24 @@
         <delete file="${dist}/${archive.name}-commons.jar"/>
         <!-- <delete file="${dist}/${archive.name}-sourceGen.jar"/> -->
 
+    	<!-- not needed anymore, as the LICENSE* and README file have been moved to src/main/resources
         <copy todir="${classes}">
-            <fileset dir="${source}/etc" includes="LICENSE,LICENSE.APACHE2,README,log4j.properties" />
-        </copy>
+            <fileset dir="${source}/etc" includes="LICENSE,LICENSE.APACHE2,README" />
+        </copy>-->
 
     	<!-- copy and filter MANIFEST file for Castor JDO -->
         <delete file="${classes}/MANIFEST.MF"/>
     	<copy file="${source}/etc/MANIFEST.JDO.MF" tofile="${classes}/MANIFEST.MF"/>
         <replace file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
         <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
+    	
+    	<!-- need to find a similar mechanism for filtering Maven 2 for MANIFEST.MF -->
         
     	<!-- create CASTOR JDO JAR -->
     	<jar jarfile="${dist}/${archive.name}.jar" basedir="${classes}"
              manifest="${classes}/MANIFEST.MF"
              includes="LICENSE,LICENSE.APACHE2,README,
-			           org/**,log4j.properties"/>
+			           org/**"/>
 
     	<!-- copy and filter MANIFEST file for Castor XML -->
         <delete file="${classes}/MANIFEST.MF" />
