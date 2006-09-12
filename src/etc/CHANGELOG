@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1392 using contribution from Yegor Borovikov [yegorb@intresys.com]
+       Improved attribute group naming scheme during code generation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1392
+       (Werner - 20060912)
+
 XML:   Resolved issue CASTOR-1544 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Castor XML code generator does not overwrite existing '.castor.cdr' files anymore.
        Details: http://jira.codehaus.org/browse/CASTOR-1544
