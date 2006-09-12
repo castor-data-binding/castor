@@ -59,6 +59,7 @@ import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AttributeDecl;
+import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ContentModelGroup;
 import org.exolab.castor.xml.schema.ContentType;
@@ -709,13 +710,17 @@ public class SourceFactory {
                     typeName = ((ElementDecl)struct).getName();
                     break;
             }
-            //-- In case of naming collision we append current
-            //-- class name
+            //-- In case of naming collision we append current class name
             if (fstate != null) {
                 typeName = JavaNaming.toJavaClassName(typeName);
-                typeName = fstate.jClass.getLocalName() + typeName;
+                Structure attrDeclParent = ((AttributeDecl)struct).getParent();
+                if (attrDeclParent != null && attrDeclParent.getStructureType() == Structure.ATTRIBUTE_GROUP) {
+                    typeName = JavaNaming.toJavaClassName(((AttributeGroupDecl) attrDeclParent).getName() + typeName);
+                } else {
+                    typeName = fstate.jClass.getLocalName() + typeName;
+                }
             }
-            //-- otherwise just append "Type"
+            //-- otherwise (???) just append "Type"
             typeName += "Type";
         }
 

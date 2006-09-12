@@ -29,6 +29,27 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1392" tool="jira">
+                    <description>
+		                Castor XML code generator does not overwrite existing '.castor.cdr' 
+                        files anymore.
+                    </description>
+                    <contributor>
+                        <name>Yegor Borovikov</name>
+                        <email>yegorb@intresys.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Yegor Borovikov</name>
+                        <email>yegorb@intresys.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060912</date>
+                </bug>
 				<bug id="1544" tool="jira">
                     <description>
 		                Castor XML code generator does not overwrite existing '.castor.cdr' 
