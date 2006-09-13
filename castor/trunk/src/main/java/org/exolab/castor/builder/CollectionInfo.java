@@ -660,23 +660,11 @@ public class CollectionInfo extends FieldInfo {
         jsc.add("//-- copy vector");
         jsc.add(getName());
         jsc.append(".removeAllElements();");
-        jsc.add("for (int ");
-        jsc.append(index);
-        jsc.append(" = 0; ");
-        jsc.append(index);
-        jsc.append(" < ");
-        jsc.append(paramName);
-        jsc.append(".size(); ");
-        jsc.append(index);
-        jsc.append("++) {");
-        jsc.indent();
+        
         jsc.add(getName());
-        jsc.append(".addElement(");
-        jsc.append('(' + getContentType().getJType().toString() + ')');
-		jsc.append(getContentType().createToJavaObjectCode(paramName+".elementAt("+index+')'));
+        jsc.append(".addAll(");
+        jsc.append(paramName);
         jsc.append(");");
-        jsc.unindent();
-        jsc.add("}");
 
         //-- bound properties
         if (isBound())
@@ -800,7 +788,7 @@ public class CollectionInfo extends FieldInfo {
         jsc.append(".elements();");
 
     } //-- createEnumerateMethod
-
+    
     /**
      * Creates implementation of remove(Object) method.
      *
