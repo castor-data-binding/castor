@@ -195,11 +195,11 @@ public class CollectionInfoJ2 extends CollectionInfo {
          //--------------------------/
         //- Create Iterator Method -/
        //--------------------------/
-        method = new JMethod(SGTypes.createIterator(getContentType().getJType()),"iterator");
+        method = new JMethod(SGTypes.createIterator(getContentType().getJType()),"iterate" + cName);
         jClass.addMethod(method);
 
-        createIteratorMethod(method, jClass);
-
+        createIteratorMethod(method);
+        
           //-------------------/
          //- getCount method -/
         //-------------------/
@@ -313,12 +313,10 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
      * Creates implementation of iterator method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-     * @param jClass TODO
-    **/
-    public void createIteratorMethod(JMethod method, JClass jClass) {
+     * @param method the JMethod in which to create the source code.
+     * @param method The method, where to add the source code
+     **/
+    public void createIteratorMethod(JMethod method) {
 
         JSourceCode jsc = method.getSourceCode();
 
@@ -326,7 +324,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
         jsc.append(getName());
         jsc.append(".iterator();");
 
-    } //-- createEnumerateMethod
+    } //-- createIteratorMethod
 
     /**
      * Creates implementation of object[] get() method.
@@ -559,23 +557,11 @@ public class CollectionInfoJ2 extends CollectionInfo {
         jsc.add("//-- copy collection");
         jsc.add(getName());
         jsc.append(".clear();");
-        jsc.add("for (int ");
-        jsc.append(index);
-        jsc.append(" = 0; ");
-        jsc.append(index);
-        jsc.append(" < ");
-        jsc.append(paramName);
-        jsc.append(".size(); ");
-        jsc.append(index);
-        jsc.append("++) {");
-        jsc.indent();
+
         jsc.add(getName());
-        jsc.append(".add(");
-        jsc.append('(' + getContentType().getJType().toString() + ')');
-		jsc.append(getContentType().createToJavaObjectCode(paramName+".get("+index+')'));
+        jsc.append(".addAll(");
+        jsc.append(paramName);
         jsc.append(");");
-        jsc.unindent();
-        jsc.add("}");
 
         //-- bound properties
         if (isBound())
