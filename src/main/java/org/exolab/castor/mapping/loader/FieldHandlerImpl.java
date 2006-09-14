@@ -203,11 +203,8 @@ public final class FieldHandlerImpl
      *
      * @param handler
      * @param typeInfo Type information
-     * @throws MappingException If the field is not public, is static or
-     *    transient
      */
     public FieldHandlerImpl( FieldHandler handler, TypeInfo typeInfo )
-        throws MappingException
     {
         _handler = handler;
         _field = null;
@@ -403,12 +400,14 @@ public final class FieldHandlerImpl
             } else
                 value = null;
         } catch ( IllegalAccessException except ) {
-            // This should never happen
-            throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
+            IllegalStateException exception = new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
+            exception.initCause(except);
+            throw exception;
         } catch ( InvocationTargetException except ) {
-            // This should never happen
-            throw new IllegalStateException( Messages.format( "mapping.schemaChangeInvocation",
-                                                              toString(), except ) );
+            IllegalStateException exception = new IllegalStateException(Messages.format("mapping.schemaChangeInvocation",
+                    toString(), except));
+            exception.initCause(except);
+            throw exception;
         }
 
         //-- If a collection, return an enumeration of it's values.
@@ -497,7 +496,9 @@ public final class FieldHandlerImpl
                                                                      toString(), value.getClass().getName() ) );
             } catch ( IllegalAccessException except ) {
                 // This should never happen
-                throw new IllegalStateException( Messages.format( "mapping.schemaChangeNoAccess", toString() ) );
+                IllegalStateException exception = new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
+                exception.initCause(except);
+                throw exception;
             } catch ( InvocationTargetException except ) {
                 // This should never happen
                 throw new MappingRuntimeException(except.getTargetException());
@@ -535,7 +536,9 @@ public final class FieldHandlerImpl
                                 catch (Exception e) {
                                     String err = "Unable to instantiate an array of '" + 
                                         componentType + "' : " + e;
-                                    throw new IllegalStateException(err);
+                                    IllegalStateException exception = new IllegalStateException(err);
+                                    exception.initCause(e);
+                                    throw exception;
                                 }
                             }
                         }
@@ -576,7 +579,9 @@ public final class FieldHandlerImpl
                                 catch (Exception e) {
                                     String err = "Unable to instantiate an array of '" + 
                                         componentType + "' : " + e;
-                                    throw new IllegalStateException(err);
+                                    IllegalStateException exception = new IllegalStateException(err);
+                                    exception.initCause(e);
+                                    throw exception;
                                 }
                             }
                         }

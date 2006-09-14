@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1549 using contribution from Paul Philion [philion@gmail.com]
+       Added cause exception to IllegalStateException created in FieldHandlerImpl.getValue().
+       Details: http://jira.codehaus.org/browse/CASTOR-1549
+       (Werner - 20060914)
+
 XML:   Resolved issue CASTOR-1392 using contribution from Yegor Borovikov [yegorb@intresys.com]
        Improved attribute group naming scheme during code generation.
        Details: http://jira.codehaus.org/browse/CASTOR-1392

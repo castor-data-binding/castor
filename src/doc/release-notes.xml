@@ -29,6 +29,27 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1549" tool="jira">
+                    <description>
+		                Added cause exception to IllegalStateException created in 
+                        FieldHandlerImpl.getValue(). 
+                    </description>
+                    <contributor>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060914</date>
+                </bug>
 				<bug id="1392" tool="jira">
                     <description>
 		                Castor XML code generator does not overwrite existing '.castor.cdr' 
