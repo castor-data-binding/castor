@@ -11,11 +11,11 @@
        {@link org.exolab.castor.xml.Unmarshaller} unmarshalls an XML document back into a Java
        object.</p>
 
-
     <p>The following example unmarshals the XML document <tt>product.xml</tt> into a
        <tt>Product</tt> object, performs simple changes to the object and then marshals it
-       back into an XML document.
-       <pre>
+       back into an XML document.</p>
+
+    <pre>
   Product      prod;
   File         file;
 
@@ -30,12 +30,12 @@
 
   <font color="red">// Marshal the object into a document</font>
   Marshaller.marshal( Product, new FileWriter( file ) );
-       </pre></p>
+    </pre>
 
     <p>In addition to static methods, marshaller objects can be created and set with a variety
        of options affecting how they will operation. The above example adapted to use a specific
-       mapping file:
-       <pre>
+       mapping file:</p>
+    <pre>
   Mapping      map;
   Unmarshaller umr;
   Marshaller   mar;
@@ -55,9 +55,7 @@
   mar = new Marshaller( new FileWriter( file ) );
   mar.setMapping( mapping );
   mar.marshal( Product );
-       </pre></p>
+    </pre>
 
   </body>
 </html>
-
-

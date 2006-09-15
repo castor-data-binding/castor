@@ -14,15 +14,15 @@
        by William Grosso, to implement a simplified and 1.3-compatible implementation of
        a Hashbelt algorithm.</p>
 
-	<p>Hashbelts are simple, in principle. Instead of walking all objects and finding out
+    <p>Hashbelts are simple, in principle. Instead of walking all objects and finding out
        when they're supposed to expire, use a "conveyor belt" approach. At any particular
        point in time, objects going into the cache go into the front of the conveyor belt.
        After a certain amount of time or when the size limit of a container has been
        reached, move the conveyor belt - put a new, empty container at the front of the
        conveyor belt to catch new objects, and the one that drops off of the end of the
        conveyor belt is, by definition, ready for garbage collection.</p>
-	
-	<p>As seen in his system, you can use a set of pluggable strategies to implement the
+
+    <p>As seen in this system, you can use a set of pluggable strategies to implement the
        actual hashbelt bits. A container strategy allows you to change out the
        implementation of the container itself - from simple hashtable-based
        implementations, up through more complex uses of soft referenced or hashset-based

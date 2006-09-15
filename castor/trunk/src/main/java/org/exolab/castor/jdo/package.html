@@ -8,8 +8,8 @@
     </dl>
 
     <p>The class {@link org.exolab.castor.jdo.JDOManager} provides the Castor JDO engine used for
-       obtaining database connection. A JDO object is constructed with the name of a database
-       and other properties, and <tt>getDatabase}</tt> is used to obtain a new database connection.</p>
+       obtaining a database connection. A JDO object is constructed with the name of a database
+       and other properties, and <tt>getDatabase</tt> is used to obtain a new database connection.</p>
 
     <p>The class {@link org.exolab.castor.jdo.Database} represents an open connection to the
        database that can be used to perform transactional operations on the database.</p>
@@ -31,7 +31,7 @@
        configuration file '<tt>database.xml</tt>', retrieves all the products in the specified
        groups and marks them down with a 25% discount and on-sale status.</p>
 
-       <pre>
+    <pre>
   JDOManager   jdo;
   Database     db;
   Query        oql;
@@ -58,17 +58,18 @@
   <font color="red">// Commit all changes, close the database</font>
   db.commit();
   db.close();
-       </pre></p>
+    </pre>
 
-	<p>A {@link org.exolab.castor.jdo.CacheManager} instance can be optained by issueing the 
-	   following code:</p>
-	  
+    <p>A {@link org.exolab.castor.jdo.CacheManager} instance can be obtained by issuing the
+       following code:</p>
+
+    <code>
 Database db = jdo.getDatabase();
 CacheManager manager = ((DatabaseImpl) db.getCacheManager();
-	   </code>
-	
-	<p>This instance can subsequently be used to selectively clear the Castor performance 
-	   cache one of the {@link org.exolab.castor.jdo.CacheManager#clearCache()} methods.</p>
-	   
-  </body> 
+    </code>
+
+    <p>This instance can subsequently be used to selectively clear the Castor performance
+       cache.  Use one of the {@link org.exolab.castor.jdo.CacheManager#clearCache()} methods.</p>
+
+  </body>
 </html>

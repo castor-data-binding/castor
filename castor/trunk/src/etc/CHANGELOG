@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1556 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Correct HTML tags and grammar in package.html files.
+       Details: http://jira.codehaus.org/browse/CASTOR-1556
+       (Ralf - 20060915)
+
 XML:   Resolved issue CASTOR-1549 using contribution from Paul Philion [philion@gmail.com]
        Added cause exception to IllegalStateException created in FieldHandlerImpl.getValue().
        Details: http://jira.codehaus.org/browse/CASTOR-1549
