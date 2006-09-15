@@ -29,6 +29,26 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1558" tool="jira">
+                    <description>
+		                Fixed javadoc package-summary links and added classpath to javadoc build.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20060915</date>
+                </bug>
 				<bug id="1552" tool="jira">
 					<description>
 						Refactored CollectionInfo* classes, incl. changes to names of methods generated.
@@ -66,7 +86,7 @@
                         <email>edward.kuns@aspect.com</email>
                     </reporter>
                     <type>Enh.</type>
-                    <module>XML</module>
+                    <module>All</module>
                     <date>20060915</date>
                 </bug>
 				<bug id="1549" tool="jira">
