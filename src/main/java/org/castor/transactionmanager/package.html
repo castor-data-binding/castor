@@ -5,9 +5,9 @@
   <body>
     <h1>Castor transaction manager factory.</h1>
 
-    <p>With the release 0.9.6 of Castor, a new way of configuring transaction 
+    <p>With the release 0.9.6 of Castor, a new way of configuring transaction
        demarcation has been added. This configuration is now part of the
-       main JDO configuration file and mandates the specification of the 
+       main JDO configuration file and mandates the specification of the
        transaction demarcation used within your application.</p>
 
     <p>As part of this configuration file, the user has to specify which
@@ -17,18 +17,18 @@
 
     <h3>Local mode</h3>
 
-    <p>When using Castor JDO stand-alone and you want Castor to control 
-       transaction demarcation ('local' mode), please use this element 
+    <p>When using Castor JDO stand-alone and you want Castor to control
+       transaction demarcation ('local' mode), please use this element
        as follows:</p>
 
     <pre>
       &lt;transaction-demarcation mode="local"/&gt;
     </pre>
 
-	<h3>Global mode</h3>
+  <h3>Global mode</h3>
 
-    <p>When running inside a J2EE application server, and you want to use 
-       container managed transactions ('global' transactions), please make 
+    <p>When running inside a J2EE application server, and you want to use
+       container managed transactions ('global' transactions), please make
        sure you use this element as follows:</p>
 
     <pre>
@@ -167,11 +167,11 @@
 
     <h3>Configuring supported transaction manager</h3>
 
-    <p>For every transaction manager that can be used with Castor its factory need to
+    <p>For every transaction manager that can be used with Castor, its factory needs to
        be listed in castor.properties file. If you want to use a transaction manager
        not supported by Castor yet, you will have to provide an implementation
        of <code>org.castor.transaction.TransactionManagerFactory</code> and add it to
-       the list of supported transaction manager factories in castor.properties file.</p>
+       the list of supported transaction manager factories in the castor.properties file.</p>
 
     <pre>
       #
@@ -179,13 +179,13 @@
       # this list to add any custom transaction manager fatories.
       #
       org.castor.transactionmanager.Factories=\
-    	org.castor.transactionmanager.LocalTransactionManagerFactory,\
-    	org.castor.transactionmanager.JNDIENCTransactionManagerFactory,\
-    	org.castor.transactionmanager.JOTMTransactionManagerFactory,\
-    	org.castor.transactionmanager.WebSphereTransactionManagerFactory,\
-    	org.castor.transactionmanager.WebSphere5TransactionManagerFactory,\
-    	org.castor.transactionmanager.WebSphere51TransactionManagerFactory
-    </pre>       
+      org.castor.transactionmanager.LocalTransactionManagerFactory,\
+      org.castor.transactionmanager.JNDIENCTransactionManagerFactory,\
+      org.castor.transactionmanager.JOTMTransactionManagerFactory,\
+      org.castor.transactionmanager.WebSphereTransactionManagerFactory,\
+      org.castor.transactionmanager.WebSphere5TransactionManagerFactory,\
+      org.castor.transactionmanager.WebSphere51TransactionManagerFactory
+    </pre>
 
     <p>In addition it is possible to specify if a transaction manager should be
        initialized when it is registered at <code>TransactionManagerRegistry</code>
@@ -197,7 +197,7 @@
       # requested for the first time? Defaults to false.
       #
       org.castor.transactionmanager.InitializeAtRegistration=false
-    </pre>       
+    </pre>
 
     <dl>
       <dt><b>Version: </b></dt><dd>$Revision$ $Date: 2006-01-05 15:45:58 -0700 (Thu, 05 Jan 2006) $</dd>
