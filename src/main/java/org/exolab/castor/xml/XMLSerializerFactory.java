@@ -16,21 +16,23 @@
 package org.exolab.castor.xml;
 
 /**
- * Configurable factory object for XML serialization. 
- * @author Werner Guttmann
+ * Configurable factory object for XML serialization.
+ * 
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public interface XMLSerializerFactory {
-
 	/**
 	 * Factory method for obtaining a Serializer instance.
-	 * @return A Serializer instance
+     * 
+	 * @return A Serializer instance.
 	 */
 	Serializer getSerializer();
 	
 	/**
 	 * Factory method for obtaining a OutputFormat instance.
-	 * @return A OutputFormat instance
+     * 
+	 * @return A OutputFormat instance.
 	 */
 	OutputFormat getOutputFormat();
-	
 }

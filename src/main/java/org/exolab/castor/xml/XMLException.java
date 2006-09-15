@@ -134,13 +134,12 @@ public class XMLException extends CastorException {
     } //-- XMLException(String, Exception, int)
     
     /**
-     * Sets the location information for this Exception
+     * Sets the location information for this Exception.
      *
-     * @param location, the location information for this validation
-     * exception
-    **/
+     * @param location The location information for this validation exception.
+     */
     public void setLocation(Location location) {
-        this._location = location;
+        _location = location;
     } //-- setLocation
     
     /**

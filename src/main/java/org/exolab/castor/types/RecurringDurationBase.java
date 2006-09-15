@@ -434,10 +434,9 @@ public abstract class RecurringDurationBase
     } //getValues
 
     /**
-     * return true if this recurring Duration type is UTC
-     * i.e if there is no time zone.
-     * @returns true if this recurringDuration type is UTC
-     *          else false
+     * return true if this recurring Duration type is UTC i.e if there is no time zone.
+     * 
+     * @return true if this recurringDuration type is UTC else false.
      */
     public boolean isUTC() {
         _UTC = ( (_zoneHour == 0) && (_zoneMinute == 0) );

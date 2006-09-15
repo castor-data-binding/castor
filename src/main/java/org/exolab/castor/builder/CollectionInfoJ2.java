@@ -65,15 +65,11 @@ import org.exolab.javasource.JSourceCode;
 public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
-     * @param contentType
-     *            the content type of the collection, ie. the type of objects
-     *            that the collection will contain
-     * @param name
-     *            the name of the Collection
-     * @param elementName
-     *            the element name for each element in collection
-     * @param collectiontype
-     *            TODO
+     * @param contentType The content type of the collection, ie. the type of objects
+     *        that the collection will contain.
+     * @param name The name of the Collection.
+     * @param elementName The element name for each element in collection.
+     * @param collectionType
      */
     public CollectionInfoJ2(XSType contentType, String name, String elementName, String collectionType) {
         super(contentType, name, elementName);

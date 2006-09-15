@@ -222,7 +222,7 @@ public class Unmarshaller {
      * @param c the Class to create the Unmarshaller for, this
      * may be null, if the Unmarshaller#setMapping is called
      * to load a mapping for the root element of xml document.
-     * @param loader, the ClassLoader to use.
+     * @param loader The ClassLoader to use.
      */
     public Unmarshaller(Class c, ClassLoader loader) {
         super();
@@ -241,7 +241,7 @@ public class Unmarshaller {
     /**
      * Creates a new Unmarshaller with the given Mapping
      *
-     * @param mapping, the Mapping to use
+     * @param mapping The Mapping to use.
      */
     public Unmarshaller(Mapping mapping)
         throws MappingException
@@ -542,11 +542,13 @@ public class Unmarshaller {
 
 
     /**
-     * Sets the flag for validation
-     * @param validate, a boolean to indicate whether or not
-     * validation should be done during umarshalling. <br/>
-     * By default validation will be performed.
-    **/
+     * Sets the flag for validation.
+     * 
+     * @param validate A boolean to indicate whether or not validation should be done
+     *        during umarshalling.
+     *        <br/>
+     *        By default validation will be performed.
+     */
     public void setValidation(boolean validate) {
         _validate = validate;
     } //-- setValidation
@@ -873,15 +875,14 @@ public class Unmarshaller {
      * on a particular Unmarshaller instance, and any changes made
      * via setters will be unavailable to this method.</p>
      *
-     * @param c the Class to create a new instance of
-     * @param source the DOM Node to read the XML from
-     * @exception MarshalException when there is an error during
-     * the unmarshalling process
-     * @exception ValidationException when there is a validation error
+     * @param c The Class to create a new instance of.
+     * @param node The DOM Node to read the XML from.
+     * @exception MarshalException When there is an error during the unmarshalling
+     *            process.
+     * @exception ValidationException When there is a validation error.
      */
     public static Object unmarshal(Class c, Node node)
-        throws MarshalException, ValidationException
-    {
+    throws MarshalException, ValidationException {
         Unmarshaller unmarshaller = new Unmarshaller(c);
         if (unmarshaller._debug) {
             String warning = "debug: *static* unmarshal method called, this will " +
@@ -895,8 +896,5 @@ public class Unmarshaller {
         
         return unmarshaller.unmarshal(node);
     } //-- void unmarshal(Writer)
-
-
-
 } //-- Unmarshaller
 

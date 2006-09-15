@@ -511,11 +511,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     /**
-     * Sets the flag for validation
-     * @param validate, a boolean to indicate whether or not
-     * validation should be done during umarshalling. <br />
-     * By default, validation will be performed.
-    **/
+     * Sets the flag for validation.
+     * 
+     * @param validate A boolean to indicate whether or not validation should be done
+     *        during umarshalling.
+     *        <br/>
+     *        By default, validation will be performed.
+     */
     public void setValidation(boolean validate) {
         this._validate = validate;
     } //-- setValidation
@@ -1098,11 +1100,10 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      *
      * Signals the end of an element
      *
-     * @param name the name of the element
+     * @param localName The name of the element.
      */
-    public void endElement(String namespaceURI, String localName, String qName) 
-        throws org.xml.sax.SAXException
-    {        
+    public void endElement(String namespaceURI, String localName, String qName)
+    throws org.xml.sax.SAXException {        
         if ((qName == null) || (qName.length() == 0)) {
             if ((localName == null) || (localName.length() == 0)) {
                 String error = "Missing either 'qName' or 'localName', both cannot be null or emtpy.";
@@ -1208,16 +1209,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * <p>ContentHandler#startElement</p>
      *
-     * Signals the start of element
+     * Signals the start of element.
      *
-     * @param name the name of the element
-     * @param atts the AttributeList containing the associated
-     * attributes for the element
+     * @param localName The name of the element.
+     * @param atts The AttributeList containing the associated attributes for the element.
      */
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
-        throws org.xml.sax.SAXException 
-    {
-        
+    throws org.xml.sax.SAXException {
         if (debug) {
             if ((qName != null) && (qName.length() > 0))
                 message("#startElement: " + qName);
@@ -1381,15 +1379,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     /**
      * <p>DocumentHandler#startElement</p>
      *
-     * Signals the start of element
+     * Signals the start of element.
      *
-     * @param name the name of the element
-     * @param atts the AttributeList containing the associated
-     * attributes for the element
+     * @param name The name of the element.
+     * @param attList The AttributeList containing the associated attributes for the
+     *        element.
      */
     public void startElement(String name, AttributeList attList)
-        throws org.xml.sax.SAXException
-    {
+    throws org.xml.sax.SAXException {
         if (debug) {
             message("#startElement: " + name);
         }

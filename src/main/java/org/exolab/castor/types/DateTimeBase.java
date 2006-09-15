@@ -535,11 +535,11 @@ public abstract class DateTimeBase
 ////////////////////////////////////////////////////////////////////////////////
 
     /**
-     * return true if this date/time type is UTC.
-     * A date/time type is UTC if a 'Z' appears at the end of the
-     * lexical representation type or if it contains a time zone.
-     * @returns true if this recurringDuration type is UTC
-     *          else false
+     * Return true if this date/time type is UTC. A date/time type is UTC if a 'Z'
+     * appears at the end of the lexical representation type or if it contains a time
+     * zone.
+     * 
+     * @return true if this recurringDuration type is UTC else false.
      */
     public boolean isUTC() {
         return(_UTC);
@@ -921,7 +921,7 @@ public abstract class DateTimeBase
 
     /**
      * Overrides the java.lang.Object#equals method
-     * @see #equal
+     * @see #equals(Object)
      */
      public boolean equals(Object object) {
         //no need to check if we are comparing

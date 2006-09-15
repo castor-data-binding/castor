@@ -397,7 +397,8 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      * found, the Database will be returned; if not, a new one will be created,
      * associated with the transaction and return to the caller.
      * 
-     * @see #setDatabasePoooling(boolean)
+     * @see #setDatabasePooling(boolean)
+     *  
      */
     private TxDatabaseMap  _txDbPool;
 

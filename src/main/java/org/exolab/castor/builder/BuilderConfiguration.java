@@ -304,9 +304,9 @@ public class BuilderConfiguration {
     } //-- equalsMethod
 
     /**
-     * Sets the 'equalsmethod' property
+     * Sets the 'equalsmethod' property.
      *
-     * @param equals: the value we want to use
+     * @param equals The value we want to use.
      */
      public void setEqualsMethod(boolean equals) {
         String value = (equals) ? TRUE : FALSE;

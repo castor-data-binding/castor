@@ -34,7 +34,7 @@ import java.util.ArrayList;
  * mapping file can't be specified at the moment. 
  * 
  * @author <a href="mailto:kvisco@intalio.com">kvisco</a>
- * @revision $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class ChangeLog2XML {
 

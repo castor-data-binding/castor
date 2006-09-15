@@ -57,11 +57,7 @@ import org.exolab.castor.mapping.loader.FieldHandlerFriend;
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class ExtendedFieldHandler 
-    extends FieldHandlerFriend
-{
-
-    
+public abstract class ExtendedFieldHandler extends FieldHandlerFriend {
     /**
      * Returns the FieldDescriptor for the field that this 
      * handler is reponsibile for, or null if no FieldDescriptor
@@ -153,16 +149,13 @@ public abstract class ExtendedFieldHandler
     /**
      * Sets the value of the field on the object.
      *
-     * @param object The object
-     * @param value The new value
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
-     *  a supported type
+     * @param object The object.
+     * @param value The new value.
+     * @throws IllegalStateException The Java object has changed and is no longer
+     *         supported by this handler, or the handler is not compatiable with the
+     *         Java object.
+     * @throws IllegalArgumentException The value passed is not of a supported type.
      */
     public abstract void setValue( Object object, Object value )
         throws IllegalStateException, IllegalArgumentException;
-
 } //-- ExtendedFieldHandler
-

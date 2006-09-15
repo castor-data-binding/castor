@@ -105,11 +105,7 @@ import java.util.Properties;
  * @author <a href="mailto:nsgreen@thazar.com">Nathan Green</a> - Contributions.
  * @version $Revision$ $Date: 2006-03-30 14:58:45 -0700 (Thu, 30 Mar 2006) $
 **/
-public class SourceGenerator 
-    extends BuilderConfiguration
-{
-
-
+public class SourceGenerator extends BuilderConfiguration {
     //-------------/
     //- Constants -/
     //-------------/
@@ -1452,12 +1448,11 @@ public class SourceGenerator
      *  <li>file:///DOSpath</li>
      *  <li>file://UnixPath</li>
      * </ul>
-     * No validation is done to check wether the file exists or not.
-     * This method will be no longer used when the JDK URL.toString() is
-     * fixed.
-     * @param path the absolute path of the file.
-     * @returns a string representing the URI of the file
-     *
+     * No validation is done to check wether the file exists or not. This method will be
+     * no longer used when the JDK URL.toString() is fixed.
+     * 
+     * @param path The absolute path of the file.
+     * @return A string representing the URI of the file.
      */
     public static String toURIRepresentation( String path ) {
         String result = path;

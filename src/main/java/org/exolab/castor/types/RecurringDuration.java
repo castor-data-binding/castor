@@ -476,16 +476,15 @@ public class RecurringDuration extends RecurringDurationBase{
     }
 
     /**
-     * parse a String and convert it into a recurringDuration
-     * @param str the string to parse
-     * @return the recurringDuration represented by the string
-     * @throws ParseException a parse exception is thrown if the string to parse
-     *                        does not follow the rigth format (see the description
-     *                        of this class)
-     * @todo optimize this method (too much strings)
+     * Parse a String and convert it into a recurringDuration.
+     * 
+     * @param str The string to parse.
+     * @return The recurringDuration represented by the string.
+     * @throws ParseException A parse exception is thrown if the string to parse
+     *         does not follow the rigth format (see the description of this class).
      */
     public static RecurringDuration parseRecurringDuration(String str) throws ParseException {
-
+        //TODO optimize this method (too much strings)
         RecurringDuration result = new RecurringDuration();
 
         //remove if necessary the Z at the end

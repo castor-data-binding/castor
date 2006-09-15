@@ -95,10 +95,9 @@ public class FieldValidator extends Validator {
     /**
      * Returns the mimimum number of occurances for a given object.
      *
-     * @returns the mimimum number of occurances for a given object.
-     * A zero value denotes no lower bound 
-     * (ie. the object is optional)
-    **/
+     * @return  The mimimum number of occurances for a given object. A zero value denotes
+     *          no lower bound (ie. the object is optional).
+     */
     public int getMinOccurs() {
         return minOccurs;
     } //-- getMinOccurs
@@ -106,10 +105,9 @@ public class FieldValidator extends Validator {
     /**
      * Returns the maximum number of occurances for a given object.
      * 
-     * @returns the maximum number of occurances for a given object.
-     * A negative value denotes no upper bound.
-     * 
-    **/
+     * @return The maximum number of occurances for a given object. A negative value
+     *         denotes no upper bound.
+     */
     public int getMaxOccurs() {
         return maxOccurs;
     } //-- getMaxOccurs

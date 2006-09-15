@@ -27,10 +27,11 @@ import org.xml.sax.DocumentHandler;
 
 /**
  * Xerces-specific implementation of the Serializer interface.
- * @author Werner Guttmann
+ * 
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public class XercesSerializer implements org.exolab.castor.xml.Serializer {
-    
 	private static final Log LOG = LogFactory.getLog(XercesSerializer.class);
 	
     /**
@@ -42,7 +43,6 @@ public class XercesSerializer implements org.exolab.castor.xml.Serializer {
      * Creates an instance of this class.
      */
     public XercesSerializer() {
-
         try {
             _serializer =  
             Class.forName("org.apache.xml.serialize.XMLSerializer").newInstance();
@@ -51,69 +51,80 @@ public class XercesSerializer implements org.exolab.castor.xml.Serializer {
                     Messages.format("conf.failedInstantiateSerializer", 
                             "org.apache.xml.serialize.XMLSerializer", except));
         }
-        
     }
     
     /**
-     * @inheritDoc
+     * @see org.exolab.castor.xml.Serializer#setOutputCharStream(java.io.Writer)
+     * {@inheritDoc}
      */
-    public void setOutputCharStream(Writer out) {
+    public void setOutputCharStream(final Writer out) {
     	Method method;
 		try {
-			method = _serializer.getClass().getMethod("setOutputCharStream", new Class[] {Writer.class} );
+			method = _serializer.getClass().getMethod(
+                    "setOutputCharStream", new Class[] {Writer.class} );
 	    	method.invoke(_serializer, new Object[] { out });
 		} catch (Exception e) {
-			LOG.error ("Problem invoking XMLSerializer.setOutputCharStream()", e);
-			throw new RuntimeException ("Problem invoking XMLSerializer.setOutputCharStream()" + e.getMessage()); 
+            String msg = "Problem invoking XMLSerializer.setOutputCharStream()";
+			LOG.error(msg, e);
+			throw new RuntimeException(msg + e.getMessage()); 
 		}
         // _serializer.setOutputCharStream(out);
     }
 
     /**
-     * @inheritDoc
+     * @see org.exolab.castor.xml.Serializer#asDocumentHandler()
+     * {@inheritDoc}
      */
     public DocumentHandler asDocumentHandler() throws IOException {
     	Method method;
 		try {
-			method = _serializer.getClass().getMethod("asDocumentHandler", (Class[]) null);
+			method = _serializer.getClass().getMethod(
+                    "asDocumentHandler", (Class[]) null);
 	    	return (DocumentHandler) method.invoke(_serializer, (Object[]) null);
 		} catch (Exception e) {
-			LOG.error ("Problem invoking XMLSerializer.asDocumentHandler()", e);
-			throw new RuntimeException ("Problem invoking XMLSerializer.asDocumentHandler()" + e.getMessage()); 
+            String msg = "Problem invoking XMLSerializer.asDocumentHandler()";
+			LOG.error(msg, e);
+			throw new RuntimeException(msg + e.getMessage()); 
 		}
         // return _serializer.asDocumentHandler();
     }
 
     /**
-     * @inheritDoc
+     * @see org.exolab.castor.xml.Serializer
+     *      #setOutputFormat(org.exolab.castor.xml.OutputFormat)
+     * {@inheritDoc}
      */
-    public void setOutputFormat(org.exolab.castor.xml.OutputFormat format) {
+    public void setOutputFormat(final OutputFormat format) {
     	Method method;
 		try {
 			Class outputFormatClass =
 				Class.forName("org.apache.xml.serialize.OutputFormat");
-			method = _serializer.getClass().getMethod("setOutputFormat", new Class[] {outputFormatClass } );
+			method = _serializer.getClass().getMethod(
+                    "setOutputFormat", new Class[] {outputFormatClass } );
 	    	method.invoke(_serializer, new Object[] { format.getFormat() });
 		} catch (Exception e) {
-			LOG.error ("Problem invoking XMLSerializer.setOutputFormat()", e);
-			throw new RuntimeException ("Problem invoking XMLSerializer.setOutputFormat()" + e.getMessage()); 
+            String msg = "Problem invoking XMLSerializer.setOutputFormat()";
+			LOG.error(msg, e);
+			throw new RuntimeException(msg + e.getMessage()); 
 		}
         // _serializer.setOutputFormat((OutputFormat) format.getFormat());
     }
 
     /**
-     * @inheritDoc
+     * @see org.exolab.castor.xml.Serializer#setOutputByteStream(java.io.OutputStream)
+     * {@inheritDoc}
      */
-    public void setOutputByteStream(OutputStream output) {
+    public void setOutputByteStream(final OutputStream output) {
     	Method method;
 		try {
-			method = _serializer.getClass().getMethod("setOutputByteStream", new Class[] {OutputStream.class} );
+			method = _serializer.getClass().getMethod(
+                    "setOutputByteStream", new Class[] {OutputStream.class} );
 	    	method.invoke(_serializer, new Object[] { output });
 		} catch (Exception e) {
-			LOG.error ("Problem invoking XMLSerializer.setOutputByteStream()", e);
-			throw new RuntimeException ("Problem invoking XMLSerializer.setOutputByteStream()" + e.getMessage()); 
+            String msg = "Problem invoking XMLSerializer.setOutputByteStream()";
+			LOG.error(msg, e);
+			throw new RuntimeException(msg + e.getMessage()); 
 		}
         // _serializer.setOutputByteStream(output);
     }
-
 }

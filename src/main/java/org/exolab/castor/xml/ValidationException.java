@@ -143,12 +143,12 @@ public class ValidationException extends XMLException {
     } //-- getNext
     
     /**
-     * Sets the location information for this ValidationException
-     * @param location, the location information for this validation
-     * exception
-    **/
+     * Sets the location information for this ValidationException.
+     * 
+     * @param location The location information for this validation exception.
+     */
     public void setLocation(Location location) {
-        this._location = location;
+        _location = location;
     } //-- setLocation
     
     /**

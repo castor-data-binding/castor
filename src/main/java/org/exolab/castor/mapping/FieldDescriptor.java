@@ -29,7 +29,7 @@ public interface FieldDescriptor {
     /**
      * Set the class descriptor which contains this field.
      * 
-     * @param contClsDesc The class descriptor which contains this field.
+     * @param parent The class descriptor which contains this field.
      */
     void setContainingClassDescriptor(ClassDescriptor parent);
 

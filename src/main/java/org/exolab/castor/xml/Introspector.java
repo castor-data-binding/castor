@@ -227,16 +227,16 @@ public final class Introspector {
     private ClassLoader _classLoader = null;
      
     /**
-     * Creates a new instance of the Introspector
-     * @param _loader 
+     * Creates a new instance of the Introspector.
      */
     public Introspector() {
         this(null);
     } //-- Introspector
     
     /**
-     * Creates a new instance of the Introspector
-     * @param _loader 
+     * Creates a new instance of the Introspector.
+     * 
+     * @param classLoader 
      */
     public Introspector(ClassLoader classLoader) {
         super();
@@ -1125,9 +1125,7 @@ public final class Introspector {
     /**
      * Returns true if the given Class is an instance of a
      * collection class.
-     * 
-     * @see loadCollections
-    **/
+     */
     public static boolean isCollection(Class clazz) {
         
         if (clazz.isArray()) return true;
@@ -1152,9 +1150,7 @@ public final class Introspector {
     /**
      * Returns true if the given Class is an instance of a
      * collection class.
-     * 
-     * @see loadCollections
-    **/
+     */
     public static boolean isMapCollection(Class clazz) {
         
         if (clazz.isArray()) return false;
