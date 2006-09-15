@@ -2139,7 +2139,7 @@ public class SourceFactory {
 
         if (fieldInfo == null) return;
         
-        if (CLASS_METHOD_SUFFIX.equals(fieldInfo.methodSuffix())) {
+        if (CLASS_METHOD_SUFFIX.equals(fieldInfo.getMethodSuffix())) {
             SGStateInfo sInfo = state.getSGStateInfo();
             if (!sInfo.getSuppressNonFatalWarnings()) {
                 String warn = "warning a field name conflicts with \""

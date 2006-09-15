@@ -316,7 +316,7 @@ public class FieldInfo extends XMLInfo {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
-        String mname = methodSuffix();
+        String mname = getMethodSuffix();
 
         XSType xsType = getSchemaType();
         JType jType  = xsType.getJType();
@@ -349,7 +349,7 @@ public class FieldInfo extends XMLInfo {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
-        String mname = methodSuffix();
+        String mname = getMethodSuffix();
 
         XSType xsType = getSchemaType();
         xsType.getJType();
@@ -435,7 +435,7 @@ public class FieldInfo extends XMLInfo {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
-        String mname = methodSuffix();
+        String mname = getMethodSuffix();
 
         XSType xsType = getSchemaType();
         JType jType  = xsType.getJType();
@@ -537,7 +537,7 @@ public class FieldInfo extends XMLInfo {
      * @return the name of the delete method for this FieldInfo
     **/
     public String getDeleteMethodName() {
-        return METHOD_PREFIX_DELETE + methodSuffix();
+        return METHOD_PREFIX_DELETE + getMethodSuffix();
     } //-- getDeleteMethodName
 
     /**
@@ -545,7 +545,7 @@ public class FieldInfo extends XMLInfo {
      * @return the name of the has method for this FieldInfo
     **/
     public String getHasMethodName() {
-        return METHOD_PREFIX_HAS + methodSuffix();
+        return METHOD_PREFIX_HAS + getMethodSuffix();
     } //-- getHasMethodName
 
     /**
@@ -553,7 +553,7 @@ public class FieldInfo extends XMLInfo {
      * @return the name of the read method for this FieldInfo
     **/
     public String getReadMethodName() {
-        return METHOD_PREFIX_GET + methodSuffix();
+        return METHOD_PREFIX_GET + getMethodSuffix();
     } //-- getReadMethodName
 
    /**
@@ -571,8 +571,8 @@ public class FieldInfo extends XMLInfo {
     **/
     public String getWriteMethodName() {
         if (isMultivalued())
-            return METHOD_PREFIX_ADD + methodSuffix();
-        return METHOD_PREFIX_SET + methodSuffix();
+            return METHOD_PREFIX_ADD + getMethodSuffix();
+        return METHOD_PREFIX_SET + getMethodSuffix();
     } //-- getWriteMethodName
 
    /**
@@ -605,7 +605,7 @@ public class FieldInfo extends XMLInfo {
                     jsc.indent();
                 }
                 buffer.append(METHOD_PREFIX_SET);
-                buffer.append(methodSuffix());
+                buffer.append(getMethodSuffix());
                 buffer.append('(');
                 buffer.append(value);
                 buffer.append(");");
@@ -849,7 +849,7 @@ public class FieldInfo extends XMLInfo {
     /**
      * Returns the method suffix for creating method names.
     **/
-    protected String methodSuffix() {
+    protected String getMethodSuffix() {
         if (name.startsWith("_"))
             return JavaNaming.toJavaClassName(name.substring(1));
         return JavaNaming.toJavaClassName(name);
