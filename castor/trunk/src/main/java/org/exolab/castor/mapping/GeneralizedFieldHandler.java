@@ -259,17 +259,15 @@ public abstract class GeneralizedFieldHandler
     /**
      * Sets the value of the field on the object.
      *
-     * @param object The object
-     * @param value The new value
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
-     *  a supported type
+     * @param object The object.
+     * @param value The new value.
+     * @throws IllegalStateException The Java object has changed and is no longer
+     *         supported by this handler, or the handler is not compatiable with the
+     *         Java object.
+     * @throws IllegalArgumentException The value passed is not of a supported type.
      */
-    public final void setValue( Object object, Object value )
-        throws IllegalStateException, IllegalArgumentException
-    {
+    public final void setValue(Object object, Object value)
+    throws IllegalStateException, IllegalArgumentException {
         if (_handler == null) {
             throw new IllegalStateException(NULL_HANDLER_ERR);
         }

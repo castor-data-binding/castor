@@ -92,18 +92,15 @@ public interface XMLClassDescriptor extends ClassDescriptor {
     public XMLFieldDescriptor[] getElementDescriptors();
     
     /**
-     * Returns the XML field descriptor matching the given
-     * xml name, namespace, and nodeType. If NodeType is null, then
-     * either an AttributeDescriptor, or ElementDescriptor
-     * may be returned. Null is returned if no matching
-     * descriptor is available.
+     * Returns the XML field descriptor matching the given xml name, namespace, and
+     * nodeType. If NodeType is null, then either an AttributeDescriptor, or
+     * ElementDescriptor may be returned. Null is returned if no matching descriptor is
+     * available.
      *
-     * @param name the xml name to match against
-     * @param nodeType, the NodeType to match against, or null if
-     * the node type is not known.
-     * @return the matching descriptor, or null if no matching
-     * descriptor is available.
-     *
+     * @param name The xml name to match against.
+     * @param nodeType The NodeType to match against, or null if the node type is not
+     *        known.
+     * @return The matching descriptor, or null if no matching descriptor is available.
      */
     public XMLFieldDescriptor getFieldDescriptor
         (String name, String namespace, NodeType nodeType);

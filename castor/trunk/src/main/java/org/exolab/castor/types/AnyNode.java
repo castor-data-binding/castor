@@ -75,10 +75,11 @@ import java.io.StringWriter;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
- * @todo Processing Instructions
- * @todo Full handling of namespaces
  */
 public final class AnyNode implements java.io.Serializable {
+    //TODO Processing Instructions
+    //TODO Full handling of namespaces
+
     /** SerialVersionUID */
     private static final long serialVersionUID = -4104117996051705975L;
 
@@ -170,7 +171,6 @@ public final class AnyNode implements java.io.Serializable {
       *     <li>for a comment it is the content of the comment not including the
       *     opening &lt;!-- and the closing --&gt;. </li>
       * </ul>
-      * @todo PIs
       */
       private String _value;
 

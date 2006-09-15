@@ -83,15 +83,14 @@ public interface UnmarshalListener {
     public void attributesProcessed(Object object);
 
     /**
-     * This method is called after a child object
-     * has been added during the unmarshalling.  This
-     * method will be called after {@link unmarshalled}
-     * has been called for the child.
+     * This method is called after a child object has been added during the
+     * unmarshalling. This method will be called after {@link #unmarshalled(Object)} has
+     * been called for the child.
      *
-     * @param fieldName the Name of the field the child is being added to.
-     * @param target the Object being unmarshalled.
-     * @param child the Object that was just added.
-    **/
+     * @param fieldName The Name of the field the child is being added to.
+     * @param parent The Object being unmarshalled.
+     * @param child The Object that was just added.
+     */
     public void fieldAdded (String fieldName, Object parent, Object child);
 
     /**

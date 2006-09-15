@@ -306,7 +306,7 @@ public abstract class Configuration {
      * Design note: This method should be overloaded by any 
      * sub-classes.
      *
-     * @returns true if the configuration specifies debugging.
+     * @return true if the configuration specifies debugging.
      * @see #getDefaultDebug()
      */
     public boolean debug() {
@@ -316,7 +316,7 @@ public abstract class Configuration {
     /**
      * Returns true if the default configuration specified debugging.
      *
-     * @returns true if the configuration specifies debugging.
+     * @return true if the configuration specifies debugging.
      */
     public static boolean getDefaultDebug()
     {

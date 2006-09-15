@@ -77,16 +77,14 @@ public class CommandLineOptions {
     } //-- addFlag
 
     /**
-     * Adds the flag to list of available command line options
-     * @param flag the flag to add as an available command line option
-     * @param comment a comment for the flag
-     * @param usageText the text that appears after the flag in the
-     *   usage string
-     * @param optional, when true, indicates that this flag is optional
-    **/
-    public void addFlag
-        (String flag, String usageText, String comment, boolean optional) 
-    {
+     * Adds the flag to list of available command line options.
+     * 
+     * @param flag The flag to add as an available command line option.
+     * @param comment A comment for the flag.
+     * @param usageText The text that appears after the flag in the usage string.
+     * @param optional When true, indicates that this flag is optional.
+     */
+    public void addFlag(String flag, String usageText, String comment, boolean optional) {
         if (flag == null) return;
         flags.addElement(flag);
         

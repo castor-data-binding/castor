@@ -230,11 +230,11 @@ public class XMLInfo {
 
 
     /**
-     * Sets whether the XML object can appear more than once in the
-     * XML document
-     * @param multivalued the boolean indicating whether or not
-     * the object can appear more than once
-    **/
+     * Sets whether the XML object can appear more than once in the XML document.
+     * 
+     * @param multivalued The boolean indicating whether or not the object can appear
+     *        more than once.
+     */
     public void setMultivalued(boolean multivalued) {
         this.multivalued = multivalued;
     } //-- setMultivalued
@@ -266,9 +266,9 @@ public class XMLInfo {
 
     /**
      * Sets whether or not XSD is element or not.
-     * @param elementDefinition  the flag indicating whether
-     * or not XSD is global element, element with anonymous
-     * type or not
+     * 
+     * @param elementDef The flag indicating whether or not XSD is global element,
+     *        element with anonymous type or not.
      */
     public void setElementDefinition(boolean elementDef) {
     		this.elementDef = elementDef;

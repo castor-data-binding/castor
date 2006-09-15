@@ -317,16 +317,12 @@ abstract class MarshalFramework {
     /**
      * Search there is a field descriptor which can accept one of the class
      * descriptor which match the given name and namespace.
-     * @returns an array of InheritanceMatch.
+     * 
+     * @return An array of InheritanceMatch.
      */
-    public static InheritanceMatch[] searchInheritance
-        (String name, 
-         String namespace, 
-         XMLClassDescriptor classDesc, 
-         XMLClassDescriptorResolver cdResolver) 
-        throws MarshalException
-    {
-
+    public static InheritanceMatch[] searchInheritance(String name, String namespace,
+            XMLClassDescriptor classDesc, XMLClassDescriptorResolver cdResolver)
+    throws MarshalException {
         ClassDescriptorEnumeration cde = null;
         
         try {

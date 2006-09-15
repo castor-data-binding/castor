@@ -130,40 +130,33 @@ public class XMLFieldHandler
      * @throws IllegalStateException This field is a simple type and
      *  cannot be instantiated
      */
-    public Object newInstance( Object parent, Object[] args )
-        throws IllegalStateException 
-    {
+    public Object newInstance(final Object parent, final Object[] args)
+    throws IllegalStateException {
         //-- backward compatability...ignore args
         return newInstance(parent);
-        
     } //-- newInstance
 
     /**
      * Sets the value of the field on the object.
      *
-     * @param object The object
-     * @param value The new value
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
-     *  a supported type
+     * @param object The object.
+     * @param value The new value.
+     * @throws IllegalStateException The Java object has changed and is no longer
+     *         supported by this handler, or the handler is not compatiable with the
+     *         Java object.
+     * @throws IllegalArgumentException The value passed is not of a supported type.
      */
-    public void setValue( Object object, Object value )
-        throws IllegalStateException, IllegalArgumentException
-    {
+    public void setValue(final Object object, final Object value)
+    throws IllegalStateException, IllegalArgumentException {
         //-- Do nothing, this method is overloaded by the
         //-- source code generator
-        
     } //-- setValue
 
 
-    public void resetValue( Object object )
-        throws IllegalStateException, IllegalArgumentException
-    {
+    public void resetValue(final Object object)
+    throws IllegalStateException, IllegalArgumentException {
         //-- Do nothing, this method is overloaded by the
         //-- source code generator
     }
-     
 } //-- XMLFieldHandler
 

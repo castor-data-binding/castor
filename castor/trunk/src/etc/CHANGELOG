@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1559 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Fixed 90 warnings at generation of API JavaDoc.
+       Details: http://jira.codehaus.org/browse/CASTOR-1559
+       (Ralf - 20060916)
+
 All:   Resolved issue CASTOR-1558 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fixed javadoc package-summary links and added classpath to javadoc build.
        Details: http://jira.codehaus.org/browse/CASTOR-1558

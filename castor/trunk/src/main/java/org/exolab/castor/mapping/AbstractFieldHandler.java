@@ -56,9 +56,7 @@ package org.exolab.castor.mapping;
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public abstract class AbstractFieldHandler 
-    extends ExtendedFieldHandler
-{
+public abstract class AbstractFieldHandler extends ExtendedFieldHandler {
 
     /**
      * The FieldDescriptor for the field that this handler is
@@ -186,16 +184,14 @@ public abstract class AbstractFieldHandler
     /**
      * Sets the value of the field on the object.
      *
-     * @param object The object
-     * @param value The new value
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
-     *  a supported type
+     * @param object The object.
+     * @param value The new value.
+     * @throws IllegalStateException The Java object has changed and is no longer
+     *         supported by this handler, or the handler is not compatiable with the
+     *         Java object.
+     * @throws IllegalArgumentException The value passed is not of a supported type.
      */
     public abstract void setValue( Object object, Object value )
         throws IllegalStateException, IllegalArgumentException;
-
 } //-- AbstractFieldHandler
 

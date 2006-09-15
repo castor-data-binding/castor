@@ -161,8 +161,6 @@ implements DataObjects, Referenceable, ObjectFactory, Serializable {
      * 
      * @deprecated There is no need for this member due to the implementation
      * of Log4J which is controlled via the log4j.properties file.
-     * 
-     * @see #LOG
      */
     private LogInterceptor  _logInterceptor;
 

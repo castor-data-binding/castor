@@ -55,10 +55,7 @@ package org.exolab.castor.mapping;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  * @see FieldDescriptor
  */
-public interface FieldHandler
-{
-
-
+public interface FieldHandler {
     /**
      * Returns the value of the field from the object.
      *
@@ -75,17 +72,15 @@ public interface FieldHandler
     /**
      * Sets the value of the field on the object.
      *
-     * @param object The object
-     * @param value The new value
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
-     *  a supported type
+     * @param object The object.
+     * @param value The new value.
+     * @throws IllegalStateException The Java object has changed and is no longer
+     *         supported by this handler, or the handler is not compatiable with the
+     *         Java object.
+     * @throws IllegalArgumentException The value passed is not of a supported type.
      */
-    public void setValue( Object object, Object value )
-        throws IllegalStateException, IllegalArgumentException;
-
+    public void setValue(Object object, Object value)
+    throws IllegalStateException, IllegalArgumentException;
 
     /**
      * Sets the value of the field to a default value.
@@ -94,21 +89,19 @@ public interface FieldHandler
      * their default value, collection fields are emptied of all
      * elements.
      *
-     * @param object The object
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
+     * @param object The object.
+     * @throws IllegalStateException The Java object has changed and is no longer
+     *         supported by this handler, or the handler is not compatiable with the
+     *         Java object.
      */
-    public void resetValue( Object object )
-        throws IllegalStateException, IllegalArgumentException;
-
+    public void resetValue(Object object)
+    throws IllegalStateException, IllegalArgumentException;
 
     /**
      * @deprecated No longer supported
      */
-    public void checkValidity( Object object )
-        throws ValidityException, IllegalStateException;
-
+    public void checkValidity(Object object)
+    throws ValidityException, IllegalStateException;
 
     /**
      * Creates a new instance of the object described by this field.

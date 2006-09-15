@@ -98,9 +98,9 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * XML name and namespaceURI. Null is returned if no descriptor
      * can be found.
      *
-     * @param className the class name to find the XMLClassDescriptor for
-     * @param loader the ClassLoader to use
-     * @return the XMLClassDescriptor for the given XML name
+     * @param xmlName The class name to find the XMLClassDescriptor for.
+     * @param loader The ClassLoader to use.
+     * @return The XMLClassDescriptor for the given XML name.
      */
     public XMLClassDescriptor resolveByXMLName
         (String xmlName, String namespaceURI, ClassLoader loader)
@@ -108,11 +108,11 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
 
     /**
      * Returns an enumeration of XMLClassDescriptor objects that
-     * match the given xml name
+     * match the given xml name.
      *
-     * @param className the class name to find the XMLClassDescriptor for
-     * @param loader the ClassLoader to use
-     * @return an enumeration of XMLClassDescriptor objects.
+     * @param xmlName The class name to find the XMLClassDescriptor for.
+     * @param loader The ClassLoader to use.
+     * @return An enumeration of XMLClassDescriptor objects.
      */
     public ClassDescriptorEnumeration resolveAllByXMLName
         (String xmlName, String namespaceURI, ClassLoader loader)

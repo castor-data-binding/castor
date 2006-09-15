@@ -42,7 +42,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * Note: This only applies to attribute mapped fields at this time.
      *
      * @return the index within the constructor argument array for this field.
-     * @see isConstructorArgument
+     * @see #isConstructorArgument()
      */
     int getConstructorArgumentIndex();
 
@@ -96,8 +96,7 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      * Since foo has no associated class, the path for 'bar'
      * would be: "foo"
      * 
-     * 
-     * @returns the "relative" XML path for the field being described.
+     * @return The "relative" XML path for the field being described.
      */
     String getLocationPath();
     

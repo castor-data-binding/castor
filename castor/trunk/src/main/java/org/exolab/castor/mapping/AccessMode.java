@@ -201,8 +201,8 @@ public class AccessMode implements Cloneable, Comparable, Serializable {
     }
 
     /**
-     * Compares {@link #_kind} against {@link #_kind} of the specified
-     * object. So this method is inconsistent with {@link #equals}.
+     * Compares id against id of the specified object. So this
+     * method is inconsistent with {@link #equals(Object)}.
      *
      * @param other Object to be compared with this instance.
      * @return A negative integer, zero, or a positive integer as this object

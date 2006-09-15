@@ -148,15 +148,13 @@ public class JavaNaming {
     } //-- isKeyword
 
     /**
-     * Returns true if the given String matches the
-     * production of a valid Java identifier
+     * Returns true if the given String matches the production of a valid Java identifier.
      *
-     * @param string, the String to check the production of
-     * @return true if the given String matches the
-     * production of a valid Java name, otherwise false
-    **/
+     * @param string The String to check the production of.
+     * @return true if the given String matches the production of a valid Java name,
+     *         otherwise false.
+     */
     public static boolean isValidJavaIdentifier(String string) {
-
         if ((string == null) || (string.length() == 0))
             return false;
 

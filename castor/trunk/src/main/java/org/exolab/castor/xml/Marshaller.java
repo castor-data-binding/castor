@@ -601,11 +601,11 @@ public class Marshaller extends MarshalFramework {
     } //-- setNamespacePrefix
 
     /**
-     * Sets the name of the root element to use
-     * @param The name of the root element to use
+     * Sets the name of the root element to use.
+     * 
+     * @param rootElement The name of the root element to use.
      */
-    public void setRootElement(String rootElement)
-    {
+    public void setRootElement(String rootElement) {
         _rootElement = rootElement;
     } //-- setRootElement
 
@@ -714,15 +714,15 @@ public class Marshaller extends MarshalFramework {
     } //-- setMarshallExtendedType
 
     /**
-     * Marshals the given Object as XML using the given writer
-     * @param obj the Object to marshal
-     * @param out the writer to marshal to
+     * Marshals the given Object as XML using the given writer.
+     * 
+     * @param object The Object to marshal.
+     * @param out The writer to marshal to.
      * @exception org.exolab.castor.xml.MarshalException
      * @exception org.exolab.castor.xml.ValidationException
-    **/
+     */
     public static void marshal(Object object, Writer out)
-        throws MarshalException, ValidationException
-    {
+    throws MarshalException, ValidationException {
         if (object == null)
             throw new MarshalException("object must not be null");
 
@@ -742,14 +742,14 @@ public class Marshaller extends MarshalFramework {
     /**
      * Marshals the given Object as XML using the given DocumentHandler
      * to send events to.
-     * @param obj the Object to marshal
-     * @param handler the DocumentHandler to marshal to
+     * 
+     * @param object The Object to marshal.
+     * @param handler The DocumentHandler to marshal to.
      * @exception org.exolab.castor.xml.MarshalException
      * @exception org.exolab.castor.xml.ValidationException
-    **/
+     */
     public static void marshal(Object object, DocumentHandler handler)
-        throws MarshalException, ValidationException
-    {
+    throws MarshalException, ValidationException {
         if (object == null)
             throw new MarshalException("object must not be null");
 
@@ -765,14 +765,14 @@ public class Marshaller extends MarshalFramework {
     /**
      * Marshals the given Object as XML using the given ContentHandler
      * to send events to.
-     * @param obj the Object to marshal
-     * @param handler the ContentHandler to marshal to
+     * 
+     * @param object The Object to marshal.
+     * @param handler The ContentHandler to marshal to.
      * @exception org.exolab.castor.xml.MarshalException
      * @exception org.exolab.castor.xml.ValidationException
-    **/
+     */
     public static void marshal(Object object, ContentHandler handler)
-        throws MarshalException, ValidationException, IOException
-    {
+    throws MarshalException, ValidationException, IOException {
         if (object == null)
             throw new MarshalException("object must not be null");
 
@@ -788,14 +788,14 @@ public class Marshaller extends MarshalFramework {
     /**
      * Marshals the given Object as XML using the given DOM Node
      * to send events to.
-     * @param obj the Object to marshal
-     * @param node the DOM Node to marshal to
+     * 
+     * @param object The Object to marshal.
+     * @param node The DOM Node to marshal to.
      * @exception org.exolab.castor.xml.MarshalException
      * @exception org.exolab.castor.xml.ValidationException
-    **/
+     */
     public static void marshal(Object object, Node node)
-        throws MarshalException, ValidationException
-    {
+    throws MarshalException, ValidationException {
         if (object == null)
             throw new MarshalException("object must not be null");
 
@@ -811,13 +811,13 @@ public class Marshaller extends MarshalFramework {
     /**
      * Marshals the given Object as XML using the DocumentHandler
      * for this Marshaller.
-     * @param obj the Object to marshal
+     * 
+     * @param object The Object to marshal.
      * @exception org.exolab.castor.xml.MarshalException
      * @exception org.exolab.castor.xml.ValidationException
-    **/
+     */
     public void marshal(Object object)
-        throws MarshalException, ValidationException
-    {
+    throws MarshalException, ValidationException {
         if (object == null)
             throw new MarshalException("object must not be null");
 

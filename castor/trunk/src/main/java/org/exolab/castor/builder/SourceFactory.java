@@ -101,8 +101,6 @@ import java.util.Enumeration;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class SourceFactory {
-    
-    
     private static final String ENUM_ACCESS_INTERFACE =
         "org.exolab.castor.types.EnumeratedTypeAccess";
         
@@ -1199,14 +1197,11 @@ public class SourceFactory {
 
 
     /**
-     * Implement org.exolab.castor.tests.framework.CastorTestable im the
-     * given JClass
-     * @param jclass the JCLass which will implement the CastorTestable Interface
-     * @see org.exolab.castor.tests.framework.CastorTestable
+     * Implement org.exolab.castor.tests.framework.CastorTestable im the given JClass.
+     * 
+     * @param jclass The JCLass which will implement the CastorTestable Interface.
      */
-     public void createTestableMethods
-         (JClass jclass, FactoryState state) 
-     {
+     public void createTestableMethods(JClass jclass, FactoryState state) {
          if (jclass == null)
             throw new IllegalArgumentException("JClass must not be null");
 
