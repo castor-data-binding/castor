@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1552 using contribution from Steven Dolg [stevendolg@gmx.at]
+       Refactored CollectionInfo* classes, incl. changes to names of methods generated.
+       Details: http://jira.codehaus.org/browse/CASTOR-1552
+       (Werner - 20060915)
+
 XML:   Resolved issue CASTOR-1556 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Correct HTML tags and grammar in package.html files.
        Details: http://jira.codehaus.org/browse/CASTOR-1556

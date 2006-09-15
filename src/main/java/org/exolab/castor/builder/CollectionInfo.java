@@ -51,9 +51,16 @@
 
 package org.exolab.castor.builder;
 
-import org.exolab.castor.builder.types.*;
+import org.exolab.castor.builder.types.XSList;
+import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
-import org.exolab.javasource.*;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JDocComment;
+import org.exolab.javasource.JDocDescriptor;
+import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * A helper used for generating source that deals with Collections
@@ -62,833 +69,633 @@ import org.exolab.javasource.*;
 **/
 public class CollectionInfo extends FieldInfo {
 
-    /**
-     * The property used to overwrite the reference suffix for
-     * extra collection methods
-     */
-    public static final String REFERENCE_SUFFIX_PROPERTY
-        = "org.exolab.castor.builder.collections.reference.suffix";
-
-    public static final String DEFAULT_REFERENCE_SUFFIX = "AsReference";
-    
-    protected XSList xsList      = null;
-    private String contentName = null;
-    private XSType contentType = null;
-
-    private FieldInfo content   = null;
-    private String elementName;
+    public static final String DEFAULT_REFERENCE_SUFFIX  = "AsReference";
 
     /**
-     * A flag indicating that "extra" accessor methods
-     * should be created for returning and setting a
-     * reference to the underlying collection
+     * The property used to overwrite the reference suffix for extra collection
+     * methods
      */
-    private boolean _extraMethods = false;
-    
+    public static final String REFERENCE_SUFFIX_PROPERTY = "org.exolab.castor.builder.collections.reference.suffix";
+
+    /**
+     * A flag indicating that "extra" accessor methods should be created for
+     * returning and setting a reference to the underlying collection
+     */
+    private boolean            _extraMethods;
+    private String             _methodSuffix;
+
     /**
      * The reference suffix to use.
      */
-    private String _referenceSuffix = DEFAULT_REFERENCE_SUFFIX;
-    
-    
+    private String             _referenceSuffix          = DEFAULT_REFERENCE_SUFFIX;
+
+    /**
+     * FieldInfo describing the content (i.e. the elements) of this collection.
+     */
+    private FieldInfo          content;
+
+    /**
+     * The name to be used when referring to the elements of this collection.
+     */
+    private String             elementName;
+
     /**
      * Creates a new CollectionInfo
-     * @param contentType the content type of the collection, ie. the type
-     * of objects that the collection will contain
-     * @param name the name of the Collection
-     * @param elementName the element name for each element in collection
-    **/
-    public CollectionInfo(XSType contentType, String name, String elementName)
-    {
+     * 
+     * @param contentType
+     *            the content type of the collection, ie. the type of objects
+     *            that the collection will contain
+     * @param name
+     *            the name of the Collection
+     * @param elementName
+     *            the element name for each element in collection
+     */
+    public CollectionInfo(XSType contentType, String name, String elementName) {
         super(new XSList(contentType), name);
-        xsList = (XSList) getSchemaType();
-        this.contentType = contentType;
+
         if (elementName.charAt(0) == '_') {
-            elementName = elementName.substring(1);
+            this.elementName = elementName.substring(1);
+        } else {
+            this.elementName = elementName;
         }
-        this.contentName = "v" + JavaNaming.toJavaClassName(elementName);
-        this.elementName = elementName;
-        content = new FieldInfo(contentType, contentName);
-    } //-- CollectionInfo
+
+        this._methodSuffix = JavaNaming.toJavaClassName(this.getElementName());
+        this.content = new FieldInfo(contentType, ("v" + this.getMethodSuffix()));
+    } // -- CollectionInfo
 
     /**
-     * Creates code for initialization of this Member
-     * @param jsc the JSourceCode in which to add the source to
-    **/
-    public void generateInitializerCode(JSourceCode jsc) {
-        jsc.add(getName());
-        
-        jsc.append(" = new ");
-        jsc.append(xsList.getJType().toString());
-        jsc.append("();");
-    } //-- generateConstructorCode
-
-    public String getReadMethodName() {
-        StringBuffer sb = new StringBuffer("get");
-        sb.append(JavaNaming.toJavaClassName(getElementName()));
-        // fix for avoiding compilation conflict sb.append("List");
-        return sb.toString();
-    } //-- getReadMethodName
-
-    public String getWriteMethodName() {
-        StringBuffer sb = new StringBuffer();
-        sb.append("add");
-        sb.append(JavaNaming.toJavaClassName(getElementName()));
-        return sb.toString();
-    } //-- getWriteMethodName
-
-    //------------------/
-    //- Public Methods -/
-    //------------------/
-
-    /**
-     * Creates the Access methods for the collection described
-     * by this CollectionInfo
-     *
-     * @param jClass the JClass to add the methods to.
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.builder.FieldInfo#createAccessMethods(org.exolab.javasource.JClass)
+     */
     public void createAccessMethods(JClass jClass) {
 
+        // create add methods
+        this.createAddMethod(jClass);
+        this.createInsertMethod(jClass);
 
-        JMethod method = null;
-
-        JParameter contentParam
-            = new JParameter(getContentType().getJType(), getContentName());
-        
-          //----------------------/
-         //- Create add methods -/
-        //----------------------/
-
-        String cName = JavaNaming.toJavaClassName(getElementName());
-
-        method = new JMethod(null, "add"+cName);
-        jClass.addMethod(method);
-        method.addException(SGTypes.IndexOutOfBoundsException);
-        method.addParameter(contentParam);
-        createAddMethod(method);
-
-        method = new JMethod(null, "add"+cName);
-        jClass.addMethod(method);
-        method.addException(SGTypes.IndexOutOfBoundsException);
-		method.addParameter(new JParameter(JType.Int, "index"));
-        method.addParameter(contentParam);
-        createAddInsertMethod(method);
-
-          //---------------------/
-         //- Create get method -/
-        //---------------------/
-
-
-        //-- get by index 
-        
-        JType jType = getContentType().getJType();
-        method = new JMethod(jType, "get"+cName);
-        jClass.addMethod(method);
-        method.addException(SGTypes.IndexOutOfBoundsException);
-        method.addParameter(new JParameter(JType.Int, "index"));
-
-        createGetByIndexMethod(method);
-
-
-        //-- array getter
-
-        jType = jType.createArray();
-        method = new JMethod(jType, "get"+cName);
-        jClass.addMethod(method);
-
-        createGetMethod(method);
-
-        if (extraMethods()) {
-            //-- Reference getter (non type-safe)
-            method = new JMethod(SGTypes.createVector(contentType.getJType()), "get" + cName + _referenceSuffix);
-            jClass.addMethod(method);
-            createGetCollectionReferenceMethod(method);
+        // create get methods
+        this.createGetByIndexMethod(jClass);
+        this.createGetAsArrayMethod(jClass);
+        if (this.createExtraMethods()) {
+            this.createGetAsReferenceMethod(jClass);
         }
 
-          //----------------------/
-         //- Create set methods -/
-        //----------------------/
-
-        method = new JMethod(null, "set"+cName);
-        jClass.addMethod(method);
-        method.addException(SGTypes.IndexOutOfBoundsException);
-        method.addParameter(new JParameter(JType.Int, "index"));
-        method.addParameter(contentParam);
-        createSetByIndexMethod(method);
-
-        //-- array setter
-        JType arrayType = contentParam.getType().createArray();
-        String pName = JavaNaming.toJavaMemberName(cName);
-        JParameter arrayParam = new JParameter(arrayType, pName+"Array");
-        method = new JMethod(null, "set"+cName);
-        method.addParameter(arrayParam);
-        jClass.addMethod(method);
-        createSetArrayMethod(method);
-        
-        if (extraMethods()) {
-            //-- Vector setter
-            JParameter vParam = new JParameter(SGTypes.createVector(contentType.getJType()), pName+"Vector");
-            method = new JMethod(null, "set"+cName);
-            method.addParameter(vParam);
-            jClass.addMethod(method);
-            createSetCollectionMethod(method);
-            
-            //-- Reference setter (non type-safe
-            method = new JMethod(null, "set" + cName + _referenceSuffix);
-            method.addParameter(vParam);
-            jClass.addMethod(method);
-            createSetCollectionReferenceMethod(method);
+        // create set methods
+        this.createSetByIndexMethod(jClass);
+        this.createSetAsArrayMethod(jClass);
+        if (this.createExtraMethods()) {
+            this.createSetAsCopyMethod(jClass);
+            this.createSetAsReferenceMethod(jClass);
         }
-        
 
-          //--------------------------/
-         //- Create getCount method -/
-        //--------------------------/
+        this.createGetCountMethod(jClass);
 
-        method = new JMethod(JType.Int, "get"+cName+"Count");
-        jClass.addMethod(method);
+        this.createEnumerateMethod(jClass);
 
-        createGetCountMethod(method);
+        this.createIteratorMethod(jClass);
 
-
-          //---------------------------/
-         //- Create Enumerate Method -/
-        //---------------------------/
-
-        method = new JMethod(SGTypes.createEnumeration(contentType.getJType()),"enumerate"+cName);
-        jClass.addMethod(method);
-
-        createEnumerateMethod(method, jClass);
-
-
-          //--------------------------------/
-         //- Create remove(Object) Method -/
-        //--------------------------------/
-
-        //-- commented out until I fix primitives
-        //method = new JMethod(JType.Boolean, "remove"+cName);
-        //methods.addElement(method);
-        //method.addParameter(contentParam);
-
-        //createRemoveByObjectMethod_Impl(method);
-
-
-          //--------------------------------/
-         //- Create remove(int i) Method -/
-        //--------------------------------/
-
-        jType = getContentType().getJType();
-        method = new JMethod(jType, "remove"+cName);
-        jClass.addMethod(method);
-        method.addParameter(new JParameter(JType.Int, "index"));
-
-        createRemoveByIndexMethod(method);
-
-
-          //-----------------------------/
-         //- Create removeAll() Method -/
-        //-----------------------------/
-
-        method = new JMethod(null, "removeAll"+cName);
-        jClass.addMethod(method);
-
-        createRemoveAllMethod(method);
-
-    } //-- createAccessMethods
+        // create remove methods
+        this.createRemoveObjectMethod(jClass);
+        this.createRemoveByIndexMethod(jClass);
+        this.createRemoveAllMethod(jClass);
+    } // -- createAccessMethods
 
     /**
-     * Returns the main read method for this member
-     * @return the main read method for this member
-    **/
-    public JMethod getReadMethod() {
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.builder.FieldInfo#generateInitializerCode(org.exolab.javasource.JSourceCode)
+     */
+    public void generateInitializerCode(JSourceCode sourceCode) {
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(" = new ");
+        sourceCode.append(this.getXSList().getJType().toString());
+        sourceCode.append("();");
+    } // -- generateConstructorCode
 
-        String methodName = getReadMethodName();
-
-        JType jType  = getContentType().getJType();
-
-        //-- create get method
-        JMethod jMethod = new JMethod(jType, methodName);
-        JSourceCode jsc = jMethod.getSourceCode();
-        jsc.add("return this.");
-        jsc.append(getName());
-        jsc.append(";");
-
-        return jMethod;
-    } //-- getReadMethod
-
-    public XSList getXSList() {
-        return xsList;
+    public FieldInfo getContent() {
+        return this.content;
     }
 
     public String getContentName() {
-        return contentName;
+        return this.getContent().getName();
     }
 
     public XSType getContentType() {
-        return contentType;
-    }
-
-    public FieldInfo getContent() {
-        return content;
+        return this.getContent().getSchemaType();
     }
 
     public String getElementName() {
-        return elementName;
+        return this.elementName;
+    }
+
+    public XSList getXSList() {
+        return (XSList) this.getSchemaType();
     }
 
     /**
-     * Return whether or not this member is a multivalued member or not
-     * @return true if this member can appear more than once
-    **/
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.builder.XMLInfo#isMultivalued()
+     */
     public boolean isMultivalued() {
         return true;
     }
 
     /**
-     * Creates implementation of add method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createAddMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-
-        int maxSize = getXSList().getMaximumSize();
-        if (maxSize > 0) {
-            jsc.add("if (!(");
-            jsc.append(getName());
-            jsc.append(".size() < ");
-            jsc.append(Integer.toString(maxSize));
-            jsc.append(")) {");
-            jsc.indent();
-            jsc.add("throw new IndexOutOfBoundsException(\"");
-            jsc.append(method.getName());
-            jsc.append(" has a maximum of ");
-            jsc.append(Integer.toString(maxSize));
-            jsc.append("\");"); 
-            jsc.unindent();
-            jsc.add("}");
-        }
-        jsc.add(getName());
-        jsc.append(".addElement(");
-        jsc.append(getContentType().createToJavaObjectCode(getContentName()));
-        jsc.append(");");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createAddMethod
-
-    /**
-     * Creates implementation of add method with an index.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createAddInsertMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-
-        int maxSize = getXSList().getMaximumSize();
-        if (maxSize > 0) {
-            jsc.add("if (!(");
-            jsc.append(getName());
-            jsc.append(".size() < ");
-            jsc.append(Integer.toString(maxSize));
-            jsc.append(")) {");
-            jsc.indent();
-            jsc.add("throw new IndexOutOfBoundsException(\"");
-            jsc.append(method.getName());
-            jsc.append(" has a maximum of ");
-            jsc.append(Integer.toString(maxSize));
-            jsc.append("\");"); 
-            jsc.unindent();
-            jsc.add("}");
-        }
-        jsc.add(getName());
-        jsc.append(".insertElementAt(");
-        jsc.append(getContentType().createToJavaObjectCode(getContentName()));
-		jsc.append(", index);");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createAddMethod
-
-
-    /**
-     * Creates implementation of object[] get() method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createGetMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-        JType jType = method.getReturnType();
-
-        jsc.add("int size = ");
-        jsc.append(getName());
-        jsc.append(".size();");
-
-        String variableName = getName()+".elementAt(index)";
-
-        JType compType = jType.getComponentType();
-
-        jsc.add(compType.toString());
-        jsc.append("[] mArray = new ");
-        if (compType.isArray()) {
-            jsc.append(compType.getComponentType().toString());
-        }
-        else jsc.append(compType.toString());
-        jsc.append("[size]");
-        //-- if component is an array, we must add [] after setting
-        //-- size
-        if (compType.isArray()) jsc.append("[]");
-        jsc.append(";");
-
-        jsc.add("for (int index = 0; index < size; index++) {");
-        jsc.indent();
-        jsc.add("mArray[index] = ");
-        if (getContentType().getType() == XSType.CLASS) {
-            jsc.append("(");
-            jsc.append(jType.getName());
-            jsc.append(") ");
-            jsc.append(variableName);
-        }
-        else {
-            jsc.append(getContentType().createFromJavaObjectCode(variableName));
-        }
-        jsc.append(";");
-        jsc.unindent();
-        jsc.add("}");
-        jsc.add("return mArray;");
-    } //-- createGetMethod
-    
-    /**
-     * Creates implementation of collection reference get method. This 
-     * method simply returns the actual reference to the collection.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createGetCollectionReferenceMethod(JMethod method) {
-
-        String cName = JavaNaming.toJavaMemberName(getElementName());
-        
-        //-- add method description
-        JDocComment comment = method.getJDocComment();
-        comment.appendComment("Returns a reference to '");
-        comment.appendComment(cName);
-        comment.appendComment("'.");
-        comment.appendComment(" No type checking is performed on any ");
-        comment.appendComment("modications to the Vector.");
-        JDocDescriptor jDesc = JDocDescriptor.createReturnDesc();
-        jDesc.setDescription("returns a reference to the Vector.");
-        comment.addDescriptor(jDesc);
-        
-        //-- create copy code
-        JSourceCode jsc = method.getSourceCode();
-        
-        jsc.add("return ");
-        jsc.append(getName() + ';');
-
-    } //-- createGetCollectionReferenceMethod
-    
-
-    /**
-     * Creates implementation of the get(index) method.
-    **/
-    public void createGetByIndexMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-        JType jType = method.getReturnType();
-
-        jsc.add("//-- check bounds for index");
-        jsc.add("if ((index < 0) || (index >= ");
-        jsc.append(getName());
-        jsc.append(".size())) {");
-        jsc.indent();
-        jsc.add("throw new IndexOutOfBoundsException(\"");
-        jsc.append(method.getName());
-        jsc.append(": Index value '\"+index+\"' not in range [0..\"+(");
-        jsc.append(getName());
-        jsc.append(".size() - 1) + \"]");
-        jsc.append("\");"); 
-        jsc.unindent();
-        jsc.add("}");
-
-        jsc.add("");
-        jsc.add("return ");
-
-        String variableName = getName()+".elementAt(index)";
-
-        if (getContentType().getType() == XSType.CLASS) {
-            jsc.append("(");
-            jsc.append(jType.toString());
-            jsc.append(") ");
-            jsc.append(variableName);
-        }
-        else {
-            jsc.append(getContentType().createFromJavaObjectCode(variableName));
-        }
-        jsc.append(";");
-    } //-- createGetByIndex
-
-    /**
-     * Creates implementation of array set method
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createSetArrayMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-        String paramName = method.getParameter(0).getName();
-
-        String index = "i";
-        if (paramName.equals(index)) index = "j";
-
-        jsc.add("//-- copy array");
-        jsc.add(getName());
-        jsc.append(".removeAllElements();");
-        jsc.add("for (int ");
-        jsc.append(index);
-        jsc.append(" = 0; ");
-        jsc.append(index);
-        jsc.append(" < ");
-        jsc.append(paramName);
-        jsc.append(".length; ");
-        jsc.append(index);
-        jsc.append("++) {");
-        jsc.indent();
-        jsc.add(getName());
-        jsc.append(".addElement(");
-		jsc.append(getContentType().createToJavaObjectCode(paramName+'['+index+']'));
-        jsc.append(");");
-        jsc.unindent();
-        jsc.add("}");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createSetArrayMethod
-
-    /**
-     * Creates implementation of set method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createSetByIndexMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-
-        jsc.add("//-- check bounds for index");
-        jsc.add("if ((index < 0) || (index >= ");
-        jsc.append(getName());
-        jsc.append(".size())) {");
-        jsc.indent();
-        jsc.add("throw new IndexOutOfBoundsException(\"");
-        jsc.append(method.getName());
-        jsc.append(": Index value '\"+index+\"' not in range [0..\" + (");
-        jsc.append(getName());
-        jsc.append(".size() - 1) + \"]");        
-        jsc.append("\");"); 
-        jsc.unindent();
-        jsc.add("}");
-
-        int maxSize = getXSList().getMaximumSize();
-        if (maxSize > 0) {
-            jsc.add("if (!(");
-            jsc.append("index < ");
-            jsc.append(Integer.toString(maxSize));
-            jsc.append(")) {");
-            jsc.indent();
-            jsc.add("throw new IndexOutOfBoundsException(\"");
-            jsc.append(method.getName());
-            jsc.append(" has a maximum of ");
-            jsc.append(Integer.toString(maxSize));
-            jsc.append("\");"); 
-            jsc.unindent();
-            jsc.add("}");
-        }
-        jsc.add(getName());
-        jsc.append(".setElementAt(");
-        jsc.append(getContentType().createToJavaObjectCode(getContentName()));
-        jsc.append(", index);");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createSetMethod
-
-    /**
-     * Creates implementation of collection set method. The method
-     * will assign the field a copy of the given collection. The
-     * fields will be checked for type safety.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createSetCollectionMethod(JMethod method) {
-
-        String cName = JavaNaming.toJavaMemberName(getElementName());
-        
-        //-- get param name
-        String paramName = method.getParameter(0).getName();
-        
-        //-- add method description
-        JDocComment comment = method.getJDocComment();
-        comment.appendComment("Sets the value of '");
-        comment.appendComment(cName);
-        comment.appendComment("' by copying the given Vector.");
-        JDocDescriptor jDesc = comment.getParamDescriptor(paramName);
-        jDesc.setDescription("the Vector to copy.");
-        
-        //-- create copy code
-        JSourceCode jsc = method.getSourceCode();
-
-        String index = "i";
-        if (paramName.equals(index)) index = "j";
-
-        jsc.add("//-- copy vector");
-        jsc.add(getName());
-        jsc.append(".removeAllElements();");
-        
-        jsc.add(getName());
-        jsc.append(".addAll(");
-        jsc.append(paramName);
-        jsc.append(");");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createSetCollectionMethod
-
-    /**
-     * Creates implementation of collection reference set method. This 
-     * method is a non-type safe method which simply assigns the 
-     * given collection to the field.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createSetCollectionReferenceMethod(JMethod method) {
-
-        String cName = JavaNaming.toJavaMemberName(getElementName());
-        
-        //-- get param name
-        String paramName = method.getParameter(0).getName();
-        
-        //-- add method description
-        JDocComment comment = method.getJDocComment();
-        comment.appendComment("Sets the value of '");
-        comment.appendComment(cName);
-        comment.appendComment("' by setting it to the given Vector.");
-        comment.appendComment(" No type checking is performed.");
-        JDocDescriptor jDesc = comment.getParamDescriptor(paramName);
-        jDesc.setDescription("the Vector to copy.");
-        
-        //-- create copy code
-        JSourceCode jsc = method.getSourceCode();
-        
-        jsc.add(getName());
-        jsc.append(" = ");
-        jsc.append(paramName + ';');
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createSetCollectionReferenceMethod
-
-
-    /**
-     * Sets whether or not to create extra collection methods
-     * for accessing the actual collection
-     *
-     * @param extraMethods a boolean that when true indicates that
-     * extra collection accessor methods should be created. False
-     * by default.
+     * Sets whether or not to create extra collection methods for accessing the
+     * actual collection
+     * 
+     * @param extraMethods
+     *            a boolean that when true indicates that extra collection
+     *            accessor methods should be created. False by default.
      * @see #setReferenceMethodSuffix
      */
     public void setCreateExtraMethods(boolean extraMethods) {
-        _extraMethods = extraMethods;
-    } //-- setCreateExtraMethods
-    
+        this._extraMethods = extraMethods;
+    } // -- setCreateExtraMethods
+
     /**
-     * Sets the method suffix (ending) to use when creating
-     * the extra collection methods.
-     *
-     * @param suffix the method suffix to use when creating
-     * the extra collection methods. If null or emtpty the default
-     * value, as specified by DEFAULT_REFERENCE_SUFFIX will
-     * used.
+     * Sets the method suffix (ending) to use when creating the extra collection
+     * methods.
+     * 
+     * @param suffix
+     *            the method suffix to use when creating the extra collection
+     *            methods. If null or emtpty the default value, as specified by
+     *            DEFAULT_REFERENCE_SUFFIX will used.
      * @see #setCreateExtraMethods
      */
     public void setReferenceMethodSuffix(String suffix) {
-        if ((suffix == null) || (suffix.length() == 0)) {
+        if (suffix == null || suffix.length() == 0) {
             this._referenceSuffix = DEFAULT_REFERENCE_SUFFIX;
+        } else {
+            this._referenceSuffix = suffix;
         }
-        else _referenceSuffix = suffix;
-    } //-- setReferenceMethodSuffix
-    
-    
-    /**
-     * Creates the necessary source code for notifying
-     * PropertyChangeListeners when the collection has
-     * been updated.
-     *
-     * @param jsc the JSourceCode to add the new source code to.
-    **/
-    protected void createBoundPropertyCode(JSourceCode jsc) {
-        //notify listeners
-        jsc.add("notifyPropertyChangeListeners(\"");
-        jsc.append(getName());
-        jsc.append("\", null, ");
-        jsc.append(getName());
-        jsc.append(");");
-    } //-- createBoundPropertyCode
+    } // -- setReferenceMethodSuffix
+
+    private void addIndexCheck(JSourceCode sourceCode, final String methodName) {
+        sourceCode.add("// check bounds for index");
+        sourceCode.add("if (index < 0 || index >= this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".size()) {");
+
+        sourceCode.indent();
+        sourceCode.add("throw new IndexOutOfBoundsException(\"");
+        sourceCode.append(methodName);
+        sourceCode.append(": Index value '\" + index + \"' not in range [0..\" + (this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".size() - 1) + \"]\");");
+        sourceCode.unindent();
+        sourceCode.add("}");
+        sourceCode.add("");
+    }
+
+    protected void addMaxSizeCheck(String methodName, JSourceCode sourceCode) {
+        if (this.getXSList().getMaximumSize() > 0) {
+            final String size = Integer.toString(getXSList().getMaximumSize());
+
+            sourceCode.add("// check for the maximum size");
+            sourceCode.add("if (this.");
+            sourceCode.append(this.getName());
+            sourceCode.append(".size() >= ");
+            sourceCode.append(size);
+            sourceCode.append(") {");
+            sourceCode.indent();
+            sourceCode.add("throw new IndexOutOfBoundsException(\"");
+            sourceCode.append(methodName);
+            sourceCode.append(" has a maximum of ");
+            sourceCode.append(size);
+            sourceCode.append("\");");
+            sourceCode.unindent();
+            sourceCode.add("}");
+            sourceCode.add("");
+        }
+    }
+
+    protected void createAddMethod(JClass jClass) {
+        JMethod method = new JMethod(null, this.getWriteMethodName());
+        method.addException(SGTypes.IndexOutOfBoundsException);
+        final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
+        method.addParameter(parameter);
+
+        JSourceCode sourceCode = method.getSourceCode();
+        this.addMaxSizeCheck(method.getName(), sourceCode);
+
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".addElement(");
+        sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName()));
+        sourceCode.append(");");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
 
     /**
-     * Creates implementation of getCount method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createGetCountMethod(JMethod method) {
+     * Creates the necessary source code for notifying PropertyChangeListeners
+     * when the collection has been updated.
+     * 
+     * @param sourceCode
+     *            the JSourceCode to add the new source code to.
+     */
+    protected void createBoundPropertyCode(JSourceCode sourceCode) {
+        sourceCode.add("notifyPropertyChangeListeners(\"");
+        sourceCode.append(getName());
+        sourceCode.append("\", null, ");
+        sourceCode.append(getName());
+        sourceCode.append(");");
+    } // -- createBoundPropertyCode
 
-        JSourceCode jsc = method.getSourceCode();
+    protected void createEnumerateMethod(JClass jClass) {
+        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType()), "enumerate" + this.getMethodSuffix());
 
-        jsc.add("return ");
-        jsc.append(getName());
-        jsc.append(".size();");
-    } //-- createGetCoundMethod
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("return this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".elements();");
 
-    /**
-     * Creates implementation of Enumerate method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-     * @param jClass TODO
-    **/
-    public void createEnumerateMethod(JMethod method, JClass jClass) {
-
-        JSourceCode jsc = method.getSourceCode();
-
-        jsc.add("return ");
-        jsc.append(getName());
-        jsc.append(".elements();");
-
-    } //-- createEnumerateMethod
-    
-    /**
-     * Creates implementation of remove(Object) method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createRemoveByObjectMethod(JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-
-        jsc.add("boolean removed = ");
-        jsc.append(getName());
-        jsc.append(".removeElement(");
-        jsc.append(getContentName());
-        jsc.append(");");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-        //-- return value
-        jsc.add("return removed;");
-
-    } //-- createRemoveByObjectMethod
+        jClass.addMethod(method);
+    }
 
     /**
-     * Creates implementation of remove(int i) method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createRemoveByIndexMethod(JMethod method) {
+     * Returns true if extra collection methods should be generated. The extra
+     * collection methods are methods which return an actual reference to the
+     * underlying collection as opposed to an enumeration, iterator, or copy.
+     * 
+     * @return true if extra collection methods should be generated
+     */
+    protected final boolean createExtraMethods() {
+        return this._extraMethods;
+    } // -- extraMethods
 
-        JSourceCode jsc = method.getSourceCode();
-        JType jType = method.getReturnType();
+    protected void createGetAsArrayMethod(JClass jClass) {
+        JType jType = this.getContentType().getJType().createArray();
+        JMethod method = new JMethod(jType, this.getReadMethodName());
 
-        jsc.add("java.lang.Object obj = ");
-        jsc.append(getName());
-        jsc.append(".elementAt(index);");
-        jsc.add(getName());
-        jsc.append(".removeElementAt(index);");
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("int size = this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".size();");
 
+        final String arrayType = jType.getComponentType().toString() + "[]";
+        sourceCode.add(arrayType);
+        sourceCode.append(" array = new ");
+        // the first brackets must contain the size...
+        sourceCode.append(arrayType.replaceFirst("\\[\\]", "[size]"));
+        sourceCode.append(";");
 
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-        //-- return value
-        jsc.add("return ");
+        String value = getName() + ".get(index)";
+        sourceCode.add("for (int index = 0; index < size; index++)");
+        sourceCode.append("{");
+        sourceCode.indent();
+        sourceCode.add("array[index] = ");
         if (getContentType().getType() == XSType.CLASS) {
-            jsc.append("(");
-            jsc.append(jType.getName());
-            jsc.append(") obj;");
+            sourceCode.append("(");
+            sourceCode.append(jType.getName());
+            sourceCode.append(") ");
+            sourceCode.append(value);
+        } else {
+            sourceCode.append(getContentType().createFromJavaObjectCode(value));
         }
-        else {
-            jsc.append(getContentType().createFromJavaObjectCode("obj"));
-            jsc.append(";");
+        sourceCode.append(";");
+        sourceCode.unindent();
+        sourceCode.add("}");
+
+        sourceCode.add("");
+        sourceCode.add("return array;");
+
+        jClass.addMethod(method);
+    }
+
+    protected void createGetAsReferenceMethod(JClass jClass) {
+        JMethod method = new JMethod(this.getXSList().getJType(), this.getReadMethodName() + this.getReferenceMethodSuffix());
+
+        // create Javadoc
+        JDocComment comment = method.getJDocComment();
+        comment.appendComment("Returns a reference to '");
+        comment.appendComment(this.getName());
+        comment.appendComment("'. No type checking is performed on any ");
+        comment.appendComment("modications to the Vector.");
+        JDocDescriptor returnDescriptor = JDocDescriptor.createReturnDesc();
+        returnDescriptor.setDescription("returns a reference to the Vector.");
+        comment.addDescriptor(returnDescriptor);
+
+        // create code
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("return this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(";");
+
+        jClass.addMethod(method);
+    }
+
+    protected void createGetByIndexMethod(JClass jClass) {
+        JMethod method = new JMethod(this.getContentType().getJType(), this.getReadMethodName());
+        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addParameter(new JParameter(JType.Int, "index"));
+
+        JSourceCode sourceCode = method.getSourceCode();
+        this.addIndexCheck(sourceCode, method.getName());
+
+        String value = this.getName() + ".get(index)";
+        sourceCode.add("return ");
+        if (this.getContentType().getType() == XSType.CLASS) {
+            sourceCode.append("(");
+            sourceCode.append(method.getReturnType().toString());
+            sourceCode.append(") ");
+            sourceCode.append(value);
+        } else {
+            sourceCode.append(this.getContentType().createFromJavaObjectCode(value));
         }
-    } //-- createRemoveByIndexMethod
+        sourceCode.append(";");
+
+        jClass.addMethod(method);
+    }
+
+    protected void createGetCountMethod(JClass jClass) {
+        JMethod method = new JMethod(JType.Int, this.getReadMethodName() + "Count");
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("return this.");
+        sourceCode.append(getName());
+        sourceCode.append(".size();");
+
+        jClass.addMethod(method);
+    }
+
+    protected void createInsertMethod(JClass jClass) {
+        JMethod method = new JMethod(null, this.getWriteMethodName());
+        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addParameter(new JParameter(JType.Int, "index"));
+        final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
+        method.addParameter(parameter);
+
+        JSourceCode sourceCode = method.getSourceCode();
+        this.addMaxSizeCheck(method.getName(), sourceCode);
+
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".add(index, ");
+        sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName()));
+        sourceCode.append(");");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
+
+    protected void createIteratorMethod(JClass jClass) {
+        JMethod method = new JMethod(SGTypes.createIterator(this.getContentType().getJType()), "iterate" + this.getMethodSuffix());
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("return this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".iterator();");
+
+        jClass.addMethod(method);
+    }
 
     /**
      * Creates implementation of removeAll() method.
-     *
-     * @param method the JMethod in which to create the source
-     * code.
-    **/
-    public void createRemoveAllMethod (JMethod method) {
-
-        JSourceCode jsc = method.getSourceCode();
-        jsc.add(getName());
-        jsc.append(".removeAllElements();");
-
-        //-- bound properties
-        if (isBound())
-            createBoundPropertyCode(jsc);
-
-    } //-- createRemoveAllMethod
-
-    /**
-     * Returns true if extra collection methods should be generated.
-     * The extra collection methods are methods which return an
-     * actual reference to the underlying collection as opposed to
-     * an enumeration, iterator, or copy.
-     *
-     * @return true if extra collection methods should be generated
+     * 
+     * @param jClass
      */
-    protected final boolean extraMethods() {
-        return _extraMethods;
-    } //-- extraMethods
-    
+    protected void createRemoveAllMethod(JClass jClass) {
+        JMethod method = new JMethod(null, "removeAll" + this.getMethodSuffix());
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".clear();");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
+
     /**
-     * Returns the suffix (ending) that should be used when
-     * creating the extra collection methods
-     *
+     * Creates implementation of remove(int i) method.
+     * 
+     * @param jClass
+     */
+    protected void createRemoveByIndexMethod(JClass jClass) {
+        JMethod method = new JMethod(this.getContentType().getJType(), "remove" + this.getMethodSuffix() + "At");
+        method.addParameter(new JParameter(JType.Int, "index"));
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("Object obj = this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".remove(index);");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        sourceCode.add("return ");
+        if (getContentType().getType() == XSType.CLASS) {
+            sourceCode.append("(");
+            sourceCode.append(method.getReturnType().getName());
+            sourceCode.append(") obj;");
+        } else {
+            sourceCode.append(this.getContentType().createFromJavaObjectCode("obj"));
+            sourceCode.append(";");
+        }
+
+        jClass.addMethod(method);
+    }
+
+    /**
+     * Creates implementation of remove(Object) method.
+     * 
+     * @param jClass
+     */
+    protected void createRemoveObjectMethod(JClass jClass) {
+        JMethod method = new JMethod(JType.Boolean, "remove" + this.getMethodSuffix());
+        final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
+        method.addParameter(parameter);
+
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("boolean removed = ");
+        sourceCode.append(this.getName());
+        sourceCode.append(".remove(");
+        sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName()));
+        sourceCode.append(");");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        sourceCode.add("return removed;");
+
+        jClass.addMethod(method);
+    }
+
+    protected void createSetAsArrayMethod(JClass jClass) {
+        JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
+        final JParameter parameter = new JParameter(this.getContentType().getJType().createArray(), this.getContentName() + "Array");
+        method.addParameter(parameter);
+
+        JSourceCode sourceCode = method.getSourceCode();
+        String index = "i";
+        if (parameter.getName().equals(index)) {
+            index = "j";
+        }
+
+        sourceCode.add("//-- copy array");
+        sourceCode.add(this.getName());
+        sourceCode.append(".clear();");
+        sourceCode.add("");
+        sourceCode.add("for (int ");
+        sourceCode.append(index);
+        sourceCode.append(" = 0; ");
+        sourceCode.append(index);
+        sourceCode.append(" < ");
+        sourceCode.append(parameter.getName());
+        sourceCode.append(".length; ");
+        sourceCode.append(index);
+        sourceCode.append("++) {");
+        sourceCode.indent();
+        sourceCode.addIndented("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".add(");
+        sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName() + "[" + index + "]"));
+        sourceCode.append(");");
+        sourceCode.unindent();
+        sourceCode.add("}");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
+
+    /**
+     * Creates implementation of collection set method. The method will assign
+     * the field a copy of the given collection.<br>
+     * The fields will be checked for type safety.
+     * 
+     * @param jClass
+     */
+    protected void createSetAsCopyMethod(JClass jClass) {
+        JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
+        JParameter parameter = new JParameter(this.getXSList().getJType(), this.getContentName() + "List");
+        method.addParameter(parameter);
+
+        // create Javadoc
+        JDocComment comment = method.getJDocComment();
+        comment.appendComment("Sets the value of '");
+        comment.appendComment(this.getName());
+        comment.appendComment("' by copying the given Vector. All elements will be checked for type safety.");
+        JDocDescriptor jDesc = comment.getParamDescriptor(parameter.getName());
+        jDesc.setDescription("the Vector to copy.");
+
+        // create code
+        JSourceCode sourceCode = method.getSourceCode();
+
+        sourceCode.add("// copy vector");
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".clear();");
+        sourceCode.add("");
+
+        sourceCode.add("this.");
+        sourceCode.append(getName());
+        sourceCode.append(".addAll(");
+        sourceCode.append(parameter.getName());
+        sourceCode.append(");");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
+
+    /**
+     * Creates implementation of collection reference set method. This method is
+     * a non-type safe method which simply assigns the given collection to the
+     * field.
+     * 
+     * @param jClass
+     */
+    protected void createSetAsReferenceMethod(JClass jClass) {
+        JMethod method = new JMethod(null, "set" + this.getMethodSuffix() + _referenceSuffix);
+        JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType()), this.getMethodSuffix()
+                + "Vector");
+        method.addParameter(parameter);
+
+        // create Javadoc
+        JDocComment comment = method.getJDocComment();
+        comment.appendComment("Sets the value of '");
+        comment.appendComment(this.getName());
+        comment.appendComment("' by setting it to the given Vector.");
+        comment.appendComment(" No type checking is performed.");
+        JDocDescriptor jDesc = comment.getParamDescriptor(parameter.getName());
+        jDesc.setDescription("the Vector to set.");
+
+        // create code
+        JSourceCode sourceCode = method.getSourceCode();
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(" = ");
+        sourceCode.append(parameter.getName());
+        sourceCode.append(";");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
+
+    protected void createSetByIndexMethod(JClass jClass) {
+        JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
+
+        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addParameter(new JParameter(JType.Int, "index"));
+        method.addParameter(new JParameter(this.getContentType().getJType(), this.getContentName()));
+
+        JSourceCode sourceCode = method.getSourceCode();
+        this.addIndexCheck(sourceCode, method.getName());
+
+        sourceCode.add("this.");
+        sourceCode.append(this.getName());
+        sourceCode.append(".set(index, ");
+        sourceCode.append(this.getContentType().createToJavaObjectCode(getContentName()));
+        sourceCode.append(");");
+
+        if (this.isBound()) {
+            this.createBoundPropertyCode(sourceCode);
+        }
+
+        jClass.addMethod(method);
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.builder.FieldInfo#getMethodSuffix()
+     */
+    protected String getMethodSuffix() {
+        return this._methodSuffix;
+    }
+
+    /**
+     * Returns the suffix (ending) that should be used when creating the extra
+     * collection methods
+     * 
      * @return the suffix for the reference methods
      */
     protected final String getReferenceMethodSuffix() {
-        return _referenceSuffix;
-    } //-- getReferenceMethodSuffix
-    
-
-} //-- CollectionInfo
-
+        return this._referenceSuffix;
+    } // -- getReferenceMethodSuffix
+} // -- CollectionInfo

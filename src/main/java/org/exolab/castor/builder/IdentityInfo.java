@@ -64,7 +64,7 @@ public class IdentityInfo extends FieldInfo {
         
         JMethod[] methods = new JMethod[3];
         
-        String mname = methodSuffix();
+        String mname = getMethodSuffix();
         JType jType  = getSchemaType().getJType();
         
         //-- create get method
