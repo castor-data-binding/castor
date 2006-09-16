@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1557 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Moved java.util.Iterator-specific code from CollectionInfo to CollectionInfoJ2.
+       Details: http://jira.codehaus.org/browse/CASTOR-1557
+       (Ralf - 20060916)
+
 XML:   Resolved issue CASTOR-1560 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Thorough JavaDoc update for javasource package.
        Details: http://jira.codehaus.org/browse/CASTOR-1560

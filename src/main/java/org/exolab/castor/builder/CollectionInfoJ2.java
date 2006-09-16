@@ -65,13 +65,21 @@ import org.exolab.javasource.JSourceCode;
 public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
-     * @param contentType The content type of the collection, ie. the type of objects
-     *        that the collection will contain.
-     * @param name The name of the Collection.
-     * @param elementName The element name for each element in collection.
+     * @param contentType
+     *            The content type of the collection, ie. the type of objects
+     *            that the collection will contain.
+     * @param name
+     *            The name of the Collection.
+     * @param elementName
+     *            The element name for each element in collection.
      * @param collectionType
+     *            Java type (e.g., 'arraylist') to use to store the collection.
+     *            The name is NOT fully specified and is all lowercase.
+     *            Currently, any value but "arraylist" does not work. See
+     *            {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
      */
-    public CollectionInfoJ2(XSType contentType, String name, String elementName, String collectionType) {
+    public CollectionInfoJ2(XSType contentType, String name,
+            String elementName, String collectionType) {
         super(contentType, name, elementName);
         // --override the schemaType
         this.setSchemaType(new XSListJ2(contentType, collectionType));
@@ -79,7 +87,18 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
      * {@inheritDoc}
-     * 
+     * To the Java-1 collection iterators, we add the Java-2 Iterator.
+     *
+     * @see org.exolab.castor.builder.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass)
+     */
+    protected void createCollectionIterationMethods(JClass jClass) {
+        super.createCollectionIterationMethods(jClass);
+        this.createIteratorMethod(jClass);
+    }
+
+    /**
+     * {@inheritDoc}
+     *
      * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass)
      */
     protected void createEnumerateMethod(JClass jClass) {
@@ -98,20 +117,20 @@ public class CollectionInfoJ2 extends CollectionInfo {
         method.addException(SGTypes.IndexOutOfBoundsException);
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
-        
+
         JSourceCode sourceCode = method.getSourceCode();
         this.addMaxSizeCheck(method.getName(), sourceCode);
-        
+
         sourceCode.add("this.");
         sourceCode.append(this.getName());
         sourceCode.append(".add(");
         sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName()));
         sourceCode.append(");");
-        
+
         if (this.isBound()) {
             this.createBoundPropertyCode(sourceCode);
         }
-        
+
         jClass.addMethod(method);
     }
 } // -- CollectionInfoJ2
