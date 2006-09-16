@@ -47,6 +47,7 @@ package org.exolab.javasource;
 
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Vector;
 
@@ -62,9 +63,7 @@ import java.util.Vector;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
-abstract class JStructure extends JType
-	implements JAnnotatedElement 
-{
+public abstract class JStructure extends JType implements JAnnotatedElement {
 
     /**
      * The Id for Source control systems.
@@ -72,8 +71,7 @@ abstract class JStructure extends JType
      * Note: I needed to break the String into two parts to prevent CVS from
      * expanding it here! ;-)
      */
-    static final String DEFAULT_HEADER
-        = "$"+"Id$";
+    private static final String DEFAULT_HEADER = "$" + "Id$";
 
     /**
      * The source control version for listed in the JavaDoc
@@ -81,76 +79,72 @@ abstract class JStructure extends JType
      * Note: I needed to break the String into parts to prevent CVS from
      * expanding it here! ;-)
      */
-    static final String version = "$"+"Revision$ $"+"Date$";
+    private static final String DEFAULT_VERSION = "$" + "Revision$ $" + "Date$";
 
     /**
      * The source header
      */
-    private JComment header = null;
+    private JComment _header = null;
 
     /**
      * List of imported classes and packages
      */
-    private Vector imports = null;
+    private Vector _imports = null;
 
     /**
      * The set of interfaces implemented/extended by this JStructure
      */
-    private Vector interfaces    = null;
+    private Vector _interfaces    = null;
 
     /**
      * The Javadoc for this JStructure
      */
-    private JDocComment jdc      = null;
+    private JDocComment _jdc      = null;
     
     /**
      * The JModifiers for this JStructure, which allows us to change the
      * resulting qualifiers
      */
-    private JModifiers modifiers = null;
+    private JModifiers _modifiers = null;
 
     /**
      * The package to which this JStructure belongs
      */
-    private String packageName   = null;
+    private String _packageName   = null;
     
     /**
      * Implementation of JAnnoatedElement to delagate to
      */
-    private JAnnotatedElementHelper annotatedElement = null;
+    private JAnnotatedElementHelper _annotatedElement = null;
 
     /**
      * Creates a new JStructure with the given name.
      * 
      * @param name the name of the JStructure.
-     * @throws IllegalArgumentException when the given name is not a valid Class
-     *             name.
      */
-    protected JStructure(String name)
-        throws IllegalArgumentException
-    {
+    protected JStructure(final String name) {
         super(name);
         
         //-- verify name is a valid java class name
         if (!isValidClassName(name)) {
             String lname = getLocalName();
             String err = "'" + lname + "' is ";
-            if (JNaming.isKeyword(lname))
+            if (JNaming.isKeyword(lname)) {
                 err += "a reserved word and may not be used as "
                     + " a class name.";
-            else 
+            } else {
                 err += "not a valid Java identifier.";
-
+            }
             throw new IllegalArgumentException(err);
         }
-        this.packageName = getPackageFromClassName(name);
-        imports          = new Vector();
-        interfaces       = new Vector();
-        jdc              = new JDocComment();
-        modifiers        = new JModifiers();
-		annotatedElement = new JAnnotatedElementHelper();
+        this._packageName = getPackageFromClassName(name);
+        _imports          = new Vector();
+        _interfaces       = new Vector();
+        _jdc              = new JDocComment();
+        _modifiers        = new JModifiers();
+        _annotatedElement = new JAnnotatedElementHelper();
         //-- initialize default Java doc
-        jdc.addDescriptor(JDocDescriptor.createVersionDesc(version));
+        _jdc.addDescriptor(JDocDescriptor.createVersionDesc(DEFAULT_VERSION));
         
     } //-- JStructure
 
@@ -162,11 +156,8 @@ abstract class JStructure extends JType
      * be thrown. For example a JInterface will only accept static fields.
      * 
      * @param jField the JField to add
-     * @throws IllegalArgumentException when the given JField has a name of an
-     *             existing JField
      */
-    public abstract void addField(JField jField)
-        throws IllegalArgumentException;
+    public abstract void addField(JField jField);
         
     /**
      * Adds the given JMember to this JStructure.
@@ -176,11 +167,8 @@ abstract class JStructure extends JType
      * be thrown.
      * 
      * @param jMember the JMember to add to this JStructure.
-     * @throws IllegalArgumentException when the given JMember has the same name
-     *             of an existing JField or JMethod respectively.
      */
-    public abstract void addMember(JMember jMember)
-        throws IllegalArgumentException;
+    public abstract void addMember(JMember jMember);
 
 
     /**
@@ -188,39 +176,33 @@ abstract class JStructure extends JType
      * 
      * @param className name of the class to import.
      */
-    public void addImport(String className) {
-        if (className == null) return;
-        if (className.length() == 0) return;
+    public void addImport(final String className) {
+        if (className == null) { return; }
+        if (className.length() == 0) { return; }
 
         //-- getPackageName
         String pkgName = getPackageFromClassName(className);
-        String localClassName = className;
-        
-        int paramTypeDeclPos = className.indexOf("<");
-        if ( paramTypeDeclPos != -1 ) {
-        	localClassName = className.substring(0, paramTypeDeclPos );
-        }
         
         if (pkgName != null) {
-            if (pkgName.equals(this.packageName)) return;
+            if (pkgName.equals(this._packageName)) { return; }
             
             //-- XXX: Fix needed for this...
             //-- This may cause issues if the current package
             //-- defines any classes that have the same name
             //-- name as the java.lang package. 
-            if (pkgName.equals("java.lang")) return;
+            if (pkgName.equals("java.lang")) { return; }
 
             //-- for readabilty keep import list sorted, and make sure
             //-- we do not include more than one of the same import
-            for (int i = 0; i < imports.size(); i++) {
-                String imp = (String)imports.elementAt(i);
-                if (imp.equals(className)) return;
+            for (int i = 0; i < _imports.size(); i++) {
+                String imp = (String) _imports.elementAt(i);
+                if (imp.equals(className)) { return; }
                 if (imp.compareTo(className) > 0) {
-                    imports.insertElementAt(className, i);
+                    _imports.insertElementAt(className, i);
                     return;
                 }
             }
-            imports.addElement(className);
+            _imports.addElement(className);
         }
     } //-- addImport
     
@@ -230,22 +212,21 @@ abstract class JStructure extends JType
      * @param annotation a JAnnotation for which we want to add an import to
      *            this JStructure
      */
-    protected void addImport(JAnnotation annotation)
-    {
-    	addImport(annotation.getAnnotationType().getName());
+    protected final void addImport(final JAnnotation annotation) {
+        addImport(annotation.getAnnotationType().getName());
     }
     
-	/**
+    /**
      * Adds appropriate imports for each JAnnotation in the given Array
      * 
      * @param annotations an Array of JAnnotation; we want to add an import to
      *            this JStructure for each JAnnotation in the Array
      */
-	protected void addImport(JAnnotation[] annotations)
-	{
-		for(int i=0; i<annotations.length; i++)
-			addImport(annotations[i].getAnnotationType().getName());			
-	}
+    protected final void addImport(final JAnnotation[] annotations) {
+        for (int i = 0; i < annotations.length; i++) {
+            addImport(annotations[i].getAnnotationType().getName());            
+        }
+    }
 
     /**
      * Adds the given interface to the list of interfaces this JStructure
@@ -255,9 +236,10 @@ abstract class JStructure extends JType
      * @param interfaceName the name of the interface to "inherit" method
      *            declarations from.
      */
-    public void addInterface(String interfaceName) {
-        if (!interfaces.contains(interfaceName))
-            interfaces.addElement(interfaceName);
+    public final void addInterface(final String interfaceName) {
+        if (!_interfaces.contains(interfaceName)) {
+            _interfaces.addElement(interfaceName);
+        }
     } //-- addInterface
 
     /**
@@ -267,11 +249,11 @@ abstract class JStructure extends JType
      * 
      * @param jInterface the JInterface to inherit from.
      */
-    public void addInterface(JInterface jInterface) {
-        if (jInterface == null) return;
+    public final void addInterface(final JInterface jInterface) {
+        if (jInterface == null) { return; }
         String interfaceName = jInterface.getName();
-        if (!interfaces.contains(interfaceName)) {
-            interfaces.addElement(interfaceName);
+        if (!_interfaces.contains(interfaceName)) {
+            _interfaces.addElement(interfaceName);
         }
     } //-- addInterface
 
@@ -368,28 +350,30 @@ abstract class JStructure extends JType
      * @param destDir the destination directory. This may be null.
      * @return the name of the file that this JInterface would be printed to
      */
-    public String getFilename(String destDir) {
+    public final String getFilename(final String destDir) {
         String filename = getLocalName() + ".java";
 
-		//-- Convert Java package to path string
-		String javaPackagePath = "";
-        if ((packageName != null) && (packageName.length() > 0)) {
-            javaPackagePath = packageName.replace('.',File.separatorChar);
-		}
+        //-- Convert Java package to path string
+        String javaPackagePath = "";
+        if ((_packageName != null) && (_packageName.length() > 0)) {
+            javaPackagePath = _packageName.replace('.', File.separatorChar);
+        }
 
-		//-- Create fully qualified path (including 'destDir') to file
+        //-- Create fully qualified path (including 'destDir') to file
         File pathFile;
-        if (destDir==null)
-            pathFile=new File(javaPackagePath);
-        else
-            pathFile=new File(destDir,javaPackagePath);
+        if (destDir == null) {
+            pathFile = new File(javaPackagePath);
+        } else {
+            pathFile = new File(destDir, javaPackagePath);
+        }
         if (!pathFile.exists()) {
             pathFile.mkdirs();
         }
 
-		//-- Prefix filename with path
-		if (pathFile.toString().length()>0)
-			filename = pathFile.toString()+File.separator+filename;
+        //-- Prefix filename with path
+        if (pathFile.toString().length() > 0) {
+            filename = pathFile.toString() + File.separator + filename;
+        }
 
         return filename;
     } //-- getFilename
@@ -400,8 +384,8 @@ abstract class JStructure extends JType
      * 
      * @return the JComment header or null if none exists.
      */
-    public JComment getHeader() {
-        return this.header;
+    public final JComment getHeader() {
+        return this._header;
     } //-- getHeader
 
     /**
@@ -410,8 +394,8 @@ abstract class JStructure extends JType
      * 
      * @return the Enumeration of imports. May be empty but will not be null.
      */
-    public Enumeration getImports() {
-        return imports.elements();
+    public final Enumeration getImports() {
+        return _imports.elements();
     } //-- getImports
     
     /**
@@ -421,8 +405,8 @@ abstract class JStructure extends JType
      * @return the Enumeration of interface names for this JStructure. May be
      *         empty but will not be null.
      */
-    public Enumeration getInterfaces() {
-        return interfaces.elements();
+    public final Enumeration getInterfaces() {
+        return _interfaces.elements();
     } //-- getInterfaces
     
     /**
@@ -430,19 +414,18 @@ abstract class JStructure extends JType
      * 
      * @return the JDocComment for this JStructure
      */
-    public JDocComment getJDocComment() {
-        return jdc;
+    public final JDocComment getJDocComment() {
+        return _jdc;
     } //-- getJDocComment
 
-	/**
-	 * Returns the object managing the annotations for this JStructure
+    /**
+     * Returns the object managing the annotations for this JStructure
      * @return the object managing the annotations for this JStructure
-	 */
-	protected JAnnotatedElementHelper getAnnotatedElementHelper()
-	{
-		return annotatedElement;	
-	} //-- getAnnotatedElementHelper
-	
+     */
+    protected final JAnnotatedElementHelper getAnnotatedElementHelper() {
+        return _annotatedElement;    
+    } //-- getAnnotatedElementHelper
+    
     /* *
      * Returns an array of all the JMethodSignatures of this JInterface.
      *
@@ -491,8 +474,8 @@ abstract class JStructure extends JType
      * 
      * @return the JModifiers for this JStructure.
      */
-    public JModifiers getModifiers() {
-        return modifiers;
+    public final JModifiers getModifiers() {
+        return _modifiers;
     } //-- getModifiers
 
     /**
@@ -501,8 +484,8 @@ abstract class JStructure extends JType
      * @return the name of the package that this JStructure is a member of, or
      *         null if there is no current package name defined.
      */
-    public String getPackageName() {
-        return this.packageName;
+    public final String getPackageName() {
+        return this._packageName;
     } //-- getPackageName
 
     /**
@@ -513,16 +496,14 @@ abstract class JStructure extends JType
      * @return the name of the class represented by this JStructure, including
      *         the full package if stripPackage is false
      */
-	public String getName(boolean stripPackage) {
-		String name = super.getName();
-		if (stripPackage)
-		{
-			int period = name.lastIndexOf(".");
-			if (period>0)
-				name = name.substring(period+1);
-		}
-		return name;
-	} //-- getName
+    public final String getName(final boolean stripPackage) {
+        String name = super.getName();
+        if (stripPackage) {
+            int period = name.lastIndexOf(".");
+            if (period > 0) { name = name.substring(period + 1); }
+        }
+        return name;
+    } //-- getName
 
     /**
      * Returns true if the given classname exists in the imports of this
@@ -531,8 +512,8 @@ abstract class JStructure extends JType
      * @param classname the class name to check for
      * @return true if the given classname exists in the imports list
      */
-    public boolean hasImport(String classname) {
-        return imports.contains(classname);
+    public final boolean hasImport(final String classname) {
+        return _imports.contains(classname);
     } //-- hasImport
     
     /**
@@ -543,42 +524,45 @@ abstract class JStructure extends JType
      * @return if the import was previously part of this JStructure, false
      *         otherwise
      */
-    public boolean removeImport(String className) {
+    public final boolean removeImport(final String className) {
         boolean result = false;
-        if (className == null) return result;
-        if (className.length() == 0) return result;
+        if (className == null) { return result; }
+        if (className.length() == 0) { return result; }
 
-        result = imports.removeElement(className);
+        result = _imports.removeElement(className);
         return result;
     } //-- removeImport
 
     /**
-     * Test the provided name and return true if it is a valid class name
-     * @param name a class name to test
-     * @return true if the provided class name is a valid class name
+     * Test the provided name and return true if it is a valid class name.
+     * 
+     * @param classname A class name to test.
+     * @return true if the provided class name is a valid class name.
      */
-    public static boolean isValidClassName(String name) {
-        if (name == null) return false;
+    public static boolean isValidClassName(final String classname) {
+        if (classname == null) { return false; }
         
+        String name = classname;
         int beforeTypeName = name.indexOf("<");
         if (beforeTypeName > 0) {
             name = name.substring(0, beforeTypeName);
         }
         
         //-- ignore package information, for now
-		int period = name.lastIndexOf(".");
-		if (period>0)
-			name = name.substring(period+1);
-	    
-	    return JNaming.isValidJavaIdentifier(name);
+        int period = name.lastIndexOf(".");
+        if (period > 0) {
+            name = name.substring(period + 1);
+        }
+        
+        return JNaming.isValidJavaIdentifier(name);
     } //-- isValidClassName
 
     /**
      * Prints the source code for this JStructure in the current working
      * directory. Sub-directories will be created if necessary for the package.
      */
-    public void print() {
-        print((String)null,(String)null);
+    public final void print() {
+        print((String) null, (String) null);
     } //-- printSrouce
 
     /**
@@ -590,7 +574,7 @@ abstract class JStructure extends JType
      *            If null, then the default line separator for the runtime
      *            platform will be used.
      */
-    public void print(String destDir, String lineSeparator) {
+    public final void print(final String destDir, final String lineSeparator) {
 
         getLocalName();
 
@@ -601,15 +585,15 @@ abstract class JStructure extends JType
         JSourceWriter jsw = null;
         try {
             jsw = new JSourceWriter(new FileWriter(file));
-        }
-        catch(java.io.IOException ioe) {
+        } catch (IOException ioe) {
             System.out.println("unable to create class file: " + filename);
             return;
         }
         if (lineSeparator == null) {
-            lineSeparator = System.getProperty("line.separator");
+            jsw.setLineSeparator(System.getProperty("line.separator"));
+        } else {
+            jsw.setLineSeparator(lineSeparator);
         }
-        jsw.setLineSeparator(lineSeparator);
         print(jsw);
         jsw.close();
         
@@ -627,15 +611,16 @@ abstract class JStructure extends JType
      * 
      * @param jsw the JSourceWriter to print to.
      */
-    public void printHeader(JSourceWriter jsw) {
+    public final void printHeader(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
         
         //-- write class header
         JComment header = getHeader();
-        if (header != null) header.print(jsw);
-        else {
+        if (header != null) {
+            header.print(jsw);
+        } else {
             jsw.writeln("/*");
             jsw.writeln(" * " + DEFAULT_HEADER);
             jsw.writeln(" */");
@@ -649,18 +634,18 @@ abstract class JStructure extends JType
      * 
      * @param jsw the JSourceWriter to print to.
      */
-    public void printImportDeclarations(JSourceWriter jsw) {
+    public final void printImportDeclarations(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
         
         //-- print imports
-        if (imports.size() > 0) {
+        if (_imports.size() > 0) {
             jsw.writeln("  //---------------------------------/");
             jsw.writeln(" //- Imported classes and packages -/");
             jsw.writeln("//---------------------------------/");
             jsw.writeln();
-            Enumeration enumeration = imports.elements();
+            Enumeration enumeration = _imports.elements();
             while (enumeration.hasMoreElements()) {
                 jsw.write("import ");
                 jsw.write(enumeration.nextElement());
@@ -677,15 +662,15 @@ abstract class JStructure extends JType
      * 
      * @param jsw the JSourceWriter to print to.
      */
-    public void printPackageDeclaration(JSourceWriter jsw) {
+    public final void printPackageDeclaration(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
         
         //-- print package name
-        if ((packageName != null) && (packageName.length() > 0)) {
+        if ((_packageName != null) && (_packageName.length() > 0)) {
             jsw.write("package ");
-            jsw.write(packageName);
+            jsw.write(_packageName);
             jsw.writeln(';');
             jsw.writeln();
         }
@@ -789,8 +774,8 @@ abstract class JStructure extends JType
      * @param comment the comment to display at the top of the source file when
      *            printed
      */
-    public void setHeader(JComment comment) {
-        this.header = comment;
+    public final void setHeader(final JComment comment) {
+        this._header = comment;
     } //-- setHeader
 
     /**
@@ -798,53 +783,63 @@ abstract class JStructure extends JType
      * 
      * @param packageName the package name to use
      */
-    public void setPackageName(String packageName)  {
-        this.packageName = packageName;
+    public void setPackageName(final String packageName)  {
+        this._packageName = packageName;
         changePackage(packageName);
     } //-- setPackageName
 
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#addAnnotation(org.exolab.javasource.JAnnotation)
-	 */
-	public void addAnnotation(JAnnotation annotation) {
-		annotatedElement.addAnnotation(annotation);	
-		addImport(annotation);
-	}
-	
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotation(org.exolab.javasource.JAnnotationType)
-	 */
-	public JAnnotation getAnnotation(JAnnotationType annotationType) {
-		return annotatedElement.getAnnotation(annotationType);
-	}
-	
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
-	 */
-	public JAnnotation[] getAnnotations() {
-		return annotatedElement.getAnnotations();
-	}
-	
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#isAnnotationPresent(org.exolab.javasource.JAnnotationType)
-	 */
-	public boolean isAnnotationPresent(JAnnotationType annotationType) {
-		return annotatedElement.isAnnotationPresent(annotationType);
-	}
-	
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#removeAnnotation(org.exolab.javasource.JAnnotationType)
-	 */
-	public JAnnotation removeAnnotation(JAnnotationType annotationType) {
-		return annotatedElement.removeAnnotation(annotationType);
-	}
-	
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
-	 */
-	public boolean hasAnnotations() {
-		return annotatedElement.hasAnnotations();
-	}	
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #addAnnotation(org.exolab.javasource.JAnnotation)
+     * {@inheritDoc}
+     */
+    public final void addAnnotation(final JAnnotation annotation) {
+        _annotatedElement.addAnnotation(annotation); 
+        addImport(annotation);
+    }
+    
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #getAnnotation(org.exolab.javasource.JAnnotationType)
+     * {@inheritDoc}
+     */
+    public final JAnnotation getAnnotation(final JAnnotationType annotationType) {
+        return _annotatedElement.getAnnotation(annotationType);
+    }
+    
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
+     * {@inheritDoc}
+     */
+    public final JAnnotation[] getAnnotations() {
+        return _annotatedElement.getAnnotations();
+    }
+    
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #isAnnotationPresent(org.exolab.javasource.JAnnotationType)
+     * {@inheritDoc}
+     */
+    public final boolean isAnnotationPresent(final JAnnotationType annotationType) {
+        return _annotatedElement.isAnnotationPresent(annotationType);
+    }
+    
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #removeAnnotation(org.exolab.javasource.JAnnotationType)
+     * {@inheritDoc}
+     */
+    public final JAnnotation removeAnnotation(final JAnnotationType annotationType) {
+        return _annotatedElement.removeAnnotation(annotationType);
+    }
+    
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
+     * {@inheritDoc}
+     */
+    public final boolean hasAnnotations() {
+        return _annotatedElement.hasAnnotations();
+    }   
 
     //---------------------/
     //- Protected Methods -/
@@ -857,8 +852,8 @@ abstract class JStructure extends JType
      * @return the count of the number of Interfaces that have been added to
      *         this JStructure
      */
-    protected int getInterfaceCount() {
-        return interfaces.size();
+    protected final int getInterfaceCount() {
+        return _interfaces.size();
     }
 
     /**
@@ -869,9 +864,10 @@ abstract class JStructure extends JType
      * @param source the source code to print
      * @param jsw the JSourceWriter to print to.
      */
-    protected static void printlnWithPrefix(String prefix, String source, JSourceWriter jsw) {
+    protected static void printlnWithPrefix(final String prefix, final String source,
+            final JSourceWriter jsw) {
         jsw.write(prefix);
-        if (source == null) return;
+        if (source == null) { return; }
 
         char[] chars = source.toCharArray();
         int lastIdx = 0;
@@ -879,8 +875,8 @@ abstract class JStructure extends JType
             char ch = chars[i];
             if (ch == '\n') {
                 //-- free buffer
-                jsw.write(chars,lastIdx,(i-lastIdx)+1);
-                lastIdx = i+1;
+                jsw.write(chars, lastIdx, (i - lastIdx) + 1);
+                lastIdx = i + 1;
                 if (i < chars.length) {
                     jsw.write(prefix);
                 }
@@ -888,7 +884,7 @@ abstract class JStructure extends JType
         }
         //-- free buffer
         if (lastIdx < chars.length) {
-            jsw.write(chars, lastIdx, chars.length-lastIdx);
+            jsw.write(chars, lastIdx, chars.length - lastIdx);
         }
         jsw.writeln();
     } //-- printlnWithPrefix
@@ -900,11 +896,9 @@ abstract class JStructure extends JType
      * @param className an arbitrary class name, optionally including a package
      * @return the package name from the given class name
      */
-    protected static String getPackageFromClassName(String className) {
-        int idx = -1;
-        if ((idx = className.lastIndexOf('.')) > 0) {
-            return className.substring(0, idx);
-        }
+    protected static String getPackageFromClassName(final String className) {
+        int idx = className.lastIndexOf('.');
+        if (idx > 0) { return className.substring(0, idx); }
         return null;
     } //-- getPackageFromClassName
 

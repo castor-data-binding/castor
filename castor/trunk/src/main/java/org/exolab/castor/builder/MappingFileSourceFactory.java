@@ -326,11 +326,11 @@ public class MappingFileSourceFactory {
         //--  org.exolab.castor.mapping.loader.Types
         
 		if (jType.isPrimitive()) {
-			if (jType == JType.Int)
+			if (jType == JType.INT)
 				return "integer";
-			else if (jType == JType.Double)
+			else if (jType == JType.DOUBLE)
 				return "double";
-			else if (jType == JType.Boolean) {
+			else if (jType == JType.BOOLEAN) {
 				return "boolean";
 			}
 		}

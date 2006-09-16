@@ -53,33 +53,33 @@ package org.exolab.javasource;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
-public class JField extends JAnnotatedElementHelper implements JMember {
+public final class JField extends JAnnotatedElementHelper implements JMember {
 
     /**
      * The set of modifiers for this JField
      */
-    private JModifiers modifiers = null;
+    private JModifiers _modifiers = null;
 
-    private JType type = null;
+    private JType _type = null;
 
-    private String name = null;
+    private String _name = null;
 
-    private JDocComment comment = null;
+    private JDocComment _comment = null;
 
-    private String initString = null;
+    private String _initString = null;
     
     /**
      * The Class in this JField has been declared
      */
-    private JClass declaringClass = null;
+    private JClass _declaringClass = null;
 
-    public JField(JType type, String name) {
+    public JField(final JType type, final String name) {
         setName(name);
-        this.type = type;
-        this.modifiers = new JModifiers();
-        this.modifiers.makePrivate();
-        comment = new JDocComment();
-        comment.appendComment("Field " + name);
+        this._type = type;
+        this._modifiers = new JModifiers();
+        this._modifiers.makePrivate();
+        _comment = new JDocComment();
+        _comment.appendComment("Field " + name);
     } //-- JField
 
     /**
@@ -89,7 +89,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      *         has been set
      */
     public JDocComment getComment() {
-        return this.comment;
+        return this._comment;
     } //-- getComment
 
     /**
@@ -98,7 +98,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * @return the class in which this JField has been declared
      */
     public JClass getDeclaringClass() {
-        return this.declaringClass;
+        return this._declaringClass;
     } //-- getDeclaringClass
 
     /**
@@ -108,7 +108,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      *         initialization String was specified.
      */
     public String getInitString() {
-        return initString;
+        return _initString;
     } //-- getInitString
     
     /**
@@ -117,7 +117,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * @return the modifiers for this JField
      */
     public JModifiers getModifiers() {
-        return this.modifiers;
+        return this._modifiers;
     } //-- getModifiers
 
     /**
@@ -126,7 +126,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * @return the name of this JField
      */
     public String getName() {
-        return this.name;
+        return this._name;
     } //-- getName
 
     /**
@@ -135,7 +135,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * @return the JClass represting the type of this JField
      */
     public JType getType() {
-        return this.type;
+        return this._type;
     } //-- getType
 
     /**
@@ -143,8 +143,8 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * 
      * @param comment the JavaDoc comment for this JField
      */
-    public void setComment(JDocComment comment) {
-        this.comment = comment;
+    public void setComment(final JDocComment comment) {
+        this._comment = comment;
     } //-- setComment
 
     /**
@@ -152,11 +152,11 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * 
      * @param comment the JavaDoc comment for this JField
      */
-    public void setComment(String comment) {
-        if (this.comment == null) {
-            this.comment = new JDocComment();
+    public void setComment(final String comment) {
+        if (this._comment == null) {
+            this._comment = new JDocComment();
         }
-        this.comment.setComment(comment);
+        this._comment.setComment(comment);
     } //-- setComment
 
     /**
@@ -165,31 +165,27 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * 
      * @param init the initialization string for this member
      */
-    public void setInitString(String init) {
-        this.initString = init;
+    public void setInitString(final String init) {
+        this._initString = init;
     } //-- setInitString
     
     /**
      * Sets the name of this JField
      * 
      * @param name the name of this JField
-     * @throws IllegalArgumentException when the name is not a valid Java member
-     *             name, or if a member with the given name already exists in
-     *             the declaring class
      */
-    public void setName(String name) throws 
-        IllegalArgumentException
-    {
+    public void setName(final String name) {
         if (!JNaming.isValidJavaIdentifier(name)) {
             String err = "'" + name + "' is ";
-            if (JNaming.isKeyword(name))
+            if (JNaming.isKeyword(name)) {
                 err += "a reserved word and may not be used as "
                     + " a field name.";
-            else 
+            } else {
                 err += "not a valid Java identifier.";
+            }
             throw new IllegalArgumentException(err);
         }
-        this.name = name;
+        this._name = name;
     } //-- setName
 
     /**
@@ -197,8 +193,8 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * 
      * @param modifiers the access modifiers to be used for this JField
      */
-    public void setModifiers(JModifiers modifiers) {
-        this.modifiers = modifiers;
+    public void setModifiers(final JModifiers modifiers) {
+        this._modifiers = modifiers;
     } //-- setModifiers
 
     /**
@@ -206,17 +202,21 @@ public class JField extends JAnnotatedElementHelper implements JMember {
      * 
      * @param declaringClass the class in which this Jfield is declared
      */
-    protected void setDeclaringClass(JClass declaringClass) {
-        this.declaringClass = declaringClass;
+    protected void setDeclaringClass(final JClass declaringClass) {
+        this._declaringClass = declaringClass;
     } //-- setDeclaringClass
    
+    /**
+     * @see java.lang.Object#toString()
+     * {@inheritDoc}
+     */
     public String toString() {
         StringBuffer sb = new StringBuffer();
-        sb.append(modifiers.toString());
+        sb.append(_modifiers.toString());
         sb.append(' ');
-        sb.append(type);
+        sb.append(_type);
         sb.append(' ');
-        sb.append(name);
+        sb.append(_name);
         return sb.toString();
     } //-- toString
 

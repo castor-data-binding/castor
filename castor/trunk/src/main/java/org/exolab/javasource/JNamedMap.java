@@ -42,6 +42,7 @@
  *
  * $Id$
  */
+
 package org.exolab.javasource;
 
 import java.util.Vector;
@@ -53,17 +54,17 @@ import java.util.Vector;
  * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  */
-public class JNamedMap {
+public final class JNamedMap {
 
-    private Vector names = null;
-    private Vector objects = null;
+    private Vector _names = null;
+    private Vector _objects = null;
 
     /**
      * Creates a new JNamedMap
      */
     public JNamedMap() {
-        names   = new Vector();
-        objects = new Vector();
+        _names   = new Vector();
+        _objects = new Vector();
     } //-- JNamedMap
 
     /**
@@ -71,9 +72,9 @@ public class JNamedMap {
      * 
      * @param size the initial size for this NamedMap
      */
-    public JNamedMap(int size) {
-        names   = new Vector(size);
-        objects = new Vector(size);
+    public JNamedMap(final int size) {
+        _names   = new Vector(size);
+        _objects = new Vector(size);
     } //-- JNamedMap
     
     /**
@@ -82,9 +83,9 @@ public class JNamedMap {
      * @param name the name to search for
      * @return the Object associated with the given name
      */
-    public Object get(String name) {
+    public Object get(final String name) {
         int i = indexOf(name);
-        if (i >= 0) return objects.elementAt(i);
+        if (i >= 0) { return _objects.elementAt(i); }
         return null;
     } //-- get
 
@@ -93,12 +94,9 @@ public class JNamedMap {
      * 
      * @param index the index of the Object to return
      * @return the Object at the given index
-     * @throws IndexOutOfBoundsException if the index provided is invalid
      */
-    public Object get(int index) 
-        throws IndexOutOfBoundsException 
-    {
-        return objects.elementAt(index);
+    public Object get(final int index) {
+        return _objects.elementAt(index);
     } //-- get
     
     /**
@@ -107,9 +105,9 @@ public class JNamedMap {
      * @param obj the Object to search for
      * @return the name of the given Object
      */
-    public String getNameByObject(Object obj) {
-        int i = objects.indexOf(obj);
-        if (i >= 0) return (String)names.elementAt(i);
+    public String getNameByObject(final Object obj) {
+        int i = _objects.indexOf(obj);
+        if (i >= 0) { return (String) _names.elementAt(i); }
         return null;
     } //-- getNameByObject
 
@@ -119,7 +117,7 @@ public class JNamedMap {
      * @return a Vector of names
      */
     public Vector getNames() {
-        return (Vector)names.clone();
+        return (Vector) _names.clone();
     } //-- getNames
 
     /**
@@ -128,7 +126,7 @@ public class JNamedMap {
      * @return a Vector of Objects
      */
     public Vector getObjects() {
-        return (Vector)objects.clone();
+        return (Vector) _objects.clone();
     } //-- getObjects
 
     /**
@@ -139,10 +137,10 @@ public class JNamedMap {
      * @return the index of the Object which has been mapped (associated) to the
      *         given name
      */
-    public int indexOf(String name) {
-        for (int i = 0; i < names.size(); i++) {
-            String iName = (String)names.elementAt(i);
-            if (iName.equals(name)) return i;
+    public int indexOf(final String name) {
+        for (int i = 0; i < _names.size(); i++) {
+            String iName = (String) _names.elementAt(i);
+            if (iName.equals(name)) { return i; }
         }
         return -1;
     } //-- indexOf
@@ -153,15 +151,16 @@ public class JNamedMap {
      * @param name the name to associate with the given Object
      * @param obj the Object to be mapped
      */
-    public void put(String name, Object obj) {
+    public void put(final String name, final Object obj) {
         int idx = indexOf(name);
         
-        if (idx >= 0) objects.setElementAt(obj, idx);
-        else {
+        if (idx >= 0) {
+            _objects.setElementAt(obj, idx);
+        } else {
             //-- we may need some synchronization here
             //-- if we are in a multithreaded environment
-            names.addElement(name);
-            objects.addElement(obj);
+            _names.addElement(name);
+            _objects.addElement(obj);
         }
     } //-- put
 
@@ -170,14 +169,11 @@ public class JNamedMap {
      * 
      * @param index the index of the Object to remove
      * @return the object removed from the map
-     * @throws IndexOutOfBoundsException if the index is invalid
      */
-    public Object remove(int index) 
-        throws IndexOutOfBoundsException
-    {
-        Object obj = objects.elementAt(index);
-        objects.removeElementAt(index);
-        names.removeElementAt(index);
+    public Object remove(final int index) {
+        Object obj = _objects.elementAt(index);
+        _objects.removeElementAt(index);
+        _names.removeElementAt(index);
         return obj;
     } //-- remove
 
@@ -187,14 +183,14 @@ public class JNamedMap {
      * @param name the name of the Object to remove
      * @return the object removed from the map
      */
-    public Object remove(String name) {
+    public Object remove(final String name) {
         Object obj = null;
         
         int idx = indexOf(name);
         if (idx >= 0) {
-            obj = objects.elementAt(idx);
-            objects.removeElementAt(idx);
-            names.removeElementAt(idx);
+            obj = _objects.elementAt(idx);
+            _objects.removeElementAt(idx);
+            _names.removeElementAt(idx);
         }
         return obj;
     } //-- remove
@@ -205,7 +201,7 @@ public class JNamedMap {
      * @return the number of Object associations currently in this named map
      */
     public int size() {
-        return names.size();
+        return _names.size();
     } //-- size
 
 } //-- JNamedMap

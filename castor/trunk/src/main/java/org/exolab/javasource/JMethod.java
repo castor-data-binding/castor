@@ -55,7 +55,7 @@ import java.util.Vector;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
  */
-public class JMethod implements JMember, JAnnotatedElement {
+public final class JMethod implements JMember, JAnnotatedElement {
 
     /**
      * The set of classes that contain this JMethod.
@@ -66,12 +66,12 @@ public class JMethod implements JMember, JAnnotatedElement {
      * The JavaDoc comment for this JMethod. This will overwrite the JavaDoc for
      * the JMethodSignature.
      */
-    private JDocComment jdc = null;
+    private JDocComment _jdc = null;
     
     /**
      * The source code for this method
      */
-    private JSourceCode source = null;
+    private JSourceCode _source = null;
     
     /**
      * The signature for this method.
@@ -81,9 +81,9 @@ public class JMethod implements JMember, JAnnotatedElement {
     /**
      * Creates a new JMethod with the given name and "void" return type.
      *
-     * @param name, the method name. Must not be null.
+     * @param name the method name. Must not be null.
      */
-    public JMethod(String name) {
+    public JMethod(final String name) {
         this(null, name);
     } //-- JMethod
     
@@ -94,17 +94,17 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @param name the method name. Must not be null.
      * @param returnType the return type of the method. May be null.
      */
-    public JMethod(JType returnType, String name) {
+    public JMethod(final JType returnType, final String name) {
         if ((name == null) || (name.length() == 0)) {
             String err = "The method name must not be null or zero-length";
             throw new IllegalArgumentException(err);
         }
         
         _classes   = new Vector(1);
-        this.source       = new JSourceCode();
+        this._source       = new JSourceCode();
         _signature = new JMethodSignature(name, returnType);
-        this.jdc          = _signature.getJDocComment();
-        jdc.appendComment("Method " + name + "\n\n");
+        this._jdc          = _signature.getJDocComment();
+        _jdc.appendComment("Method " + name + "\n\n");
     } //-- JMethod
     
     /**
@@ -112,7 +112,7 @@ public class JMethod implements JMember, JAnnotatedElement {
      * 
      * @param exp the JClass representing the Exception
      */
-    public void addException(JClass exp) {
+    public void addException(final JClass exp) {
         _signature.addException(exp);
     } //-- addException
 
@@ -121,22 +121,20 @@ public class JMethod implements JMember, JAnnotatedElement {
      * 
      * @param parameter the parameter to add to the this JMethod's list of
      *            parameters.
-     * @throws IllegalArgumentException when a parameter already exists for this
-     *             JMethod with the same name as the new parameter
      */
-    public void addParameter(JParameter parameter) 
-        throws IllegalArgumentException
-    {
+    public void addParameter(final JParameter parameter) {
         _signature.addParameter(parameter);
         
         //-- be considerate and add the class name to the
         //-- each declaring class' list of imports
         JType jType = parameter.getType();
-        while(jType.isArray() || jType.isCollection()) jType = jType.getComponentType();
+        while (jType.isArray() || jType.isCollection()) {
+            jType = jType.getComponentType();
+        }
         if (!jType.isPrimitive()) {
-            JClass jClass = (JClass)jType;
+            JClass jClass = (JClass) jType;
             for (int i = 0; i < _classes.size(); i++) {
-                ((JClass)_classes.elementAt(i)).addImport(jClass.getName());
+                ((JClass) _classes.elementAt(i)).addImport(jClass.getName());
             }
         }
     } //-- addParameter
@@ -147,7 +145,7 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @return the JavaDoc comment describing this JMethod
      */
     public JDocComment getJDocComment() {
-        return this.jdc;
+        return this._jdc;
     } //-- getJDocComment
     
     /* *
@@ -193,7 +191,7 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @param index the index of the JParameter to return
      * @return the JParameter at the given index
      */
-    public JParameter getParameter(int index) {
+    public JParameter getParameter(final int index) {
         return _signature.getParameter(index);
     } //-- getParameter
     
@@ -233,18 +231,17 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @return the JSourceCode for the method body
      */
     public JSourceCode getSourceCode() {
-        return this.source;
+        return this._source;
     } //-- getSourceCode
 
-	/**
+    /**
      * Sets the name of this JMethod
      * 
      * @param name the name of this method
      */
-	public void setName(String name) 
-	{		
-		_signature.setName(name);
-	} //-- setName
+    public void setName(final String name) {
+        _signature.setName(name);
+    } //-- setName
     
     /**
      * Sets the comment describing this JMethod. The comment will be printed
@@ -253,9 +250,8 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @param comment the comment for this member
      * @see #getJDocComment
      */
-    public void setComment(String comment) 
-	{
-        jdc.setComment(comment);
+    public void setComment(final String comment) {
+        _jdc.setComment(comment);
     } //-- setComment
     
     /**
@@ -268,7 +264,7 @@ public class JMethod implements JMember, JAnnotatedElement {
      * 
      * @param modifiers the JModifiers to set.
      */
-    public void setModifiers(JModifiers modifiers) {
+    public void setModifiers(final JModifiers modifiers) {
         _signature.setModifiers(modifiers);
     } //-- setModifiers
 
@@ -277,8 +273,8 @@ public class JMethod implements JMember, JAnnotatedElement {
      * 
      * @param source the String that represents the method body
      */
-    public void setSourceCode(String source) {
-        this.source = new JSourceCode(source);
+    public void setSourceCode(final String source) {
+        this._source = new JSourceCode(source);
     } //-- setSource
 
     /**
@@ -287,8 +283,8 @@ public class JMethod implements JMember, JAnnotatedElement {
      * 
      * @param source the JSourceCode that represents the method body
      */
-    public void setSourceCode(JSourceCode source) {
-        this.source = source;
+    public void setSourceCode(final JSourceCode source) {
+        this._source = source;
     } //-- setSource;
     
     /**
@@ -296,12 +292,12 @@ public class JMethod implements JMember, JAnnotatedElement {
      * 
      * @param jsw the JSourceWriter to print to
      */
-    public void print(JSourceWriter jsw) {
+    public void print(final JSourceWriter jsw) {
         //------------/
         //- Java Doc -/
         //------------/
         
-        jdc.print(jsw);
+        _jdc.print(jsw);
         
         //--------------------/
         //- Method Signature -/
@@ -311,11 +307,10 @@ public class JMethod implements JMember, JAnnotatedElement {
         
         if (_signature.getModifiers().isAbstract()) {
             jsw.writeln(";");
-        }
-        else {
+        } else {
             jsw.writeln();
             jsw.writeln("{");
-            source.print(jsw);
+            _source.print(jsw);
             jsw.write("} //-- ");
             jsw.writeln(toString());
         }
@@ -332,47 +327,57 @@ public class JMethod implements JMember, JAnnotatedElement {
         return _signature.toString();
     } //-- toString
     
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotation(org.exolab.javasource.JAnnotationType)
-	 */
-	public JAnnotation getAnnotation(JAnnotationType annotationType) {
-		return _signature.getAnnotation(annotationType);
-	}
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #getAnnotation(org.exolab.javasource.JAnnotationType)
+     * {@inheritDoc}
+     */
+    public JAnnotation getAnnotation(final JAnnotationType annotationType) {
+        return _signature.getAnnotation(annotationType);
+    }
 
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
-	 */
-	public JAnnotation[] getAnnotations() {
-		return _signature.getAnnotations();
-	}
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
+     * {@inheritDoc}
+     */
+    public JAnnotation[] getAnnotations() {
+        return _signature.getAnnotations();
+    }
 
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#isAnnotationPresent(org.exolab.javasource.JAnnotationType)
-	 */
-	public boolean isAnnotationPresent(JAnnotationType annotationType) {
-		return _signature.isAnnotationPresent(annotationType);
-	}
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #isAnnotationPresent(org.exolab.javasource.JAnnotationType)
+     * {@inheritDoc}
+     */
+    public boolean isAnnotationPresent(final JAnnotationType annotationType) {
+        return _signature.isAnnotationPresent(annotationType);
+    }
 
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#addAnnotation(org.exolab.javasource.JAnnotation)
-	 */
-	public void addAnnotation(JAnnotation annotation) throws IllegalArgumentException {
-		_signature.addAnnotation(annotation);
-	}
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #addAnnotation(org.exolab.javasource.JAnnotation)
+     * {@inheritDoc}
+     */
+    public void addAnnotation(final JAnnotation annotation) {
+        _signature.addAnnotation(annotation);
+    }
 
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#removeAnnotation(org.exolab.javasource.JAnnotationType)
-	 */
-	public JAnnotation removeAnnotation(JAnnotationType annotationType) throws IllegalArgumentException {
-		return _signature.removeAnnotation(annotationType);
-	}    
-	
-	/**
-	 * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
-	 */
-	public boolean hasAnnotations() {
-		return _signature.hasAnnotations();
-	}	
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement
+     *      #removeAnnotation(org.exolab.javasource.JAnnotationType)
+     * {@inheritDoc}
+     */
+    public JAnnotation removeAnnotation(final JAnnotationType annotationType) {
+        return _signature.removeAnnotation(annotationType);
+    }    
+
+    /**
+     * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
+     * {@inheritDoc}
+     */
+    public boolean hasAnnotations() {
+        return _signature.hasAnnotations();
+    }   
     
     //---------------------/
     //- PROTECTED METHODS -/
@@ -384,7 +389,7 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @param jClass the JClass to add as one of the JClasses that contain this
      *            method
      */
-    protected void addDeclaringClass(JClass jClass) {
+    protected void addDeclaringClass(final JClass jClass) {
         _classes.addElement(jClass);
     } //-- addDeclaringClass
 
@@ -394,7 +399,7 @@ public class JMethod implements JMember, JAnnotatedElement {
      * @param jClass the JClass to remove as one of the JClasses that contain
      *            this method
      */
-    protected void removeDeclaringClass(JClass jClass) {
+    protected void removeDeclaringClass(final JClass jClass) {
         _classes.removeElement(jClass);
     } //-- removeDeclaringClass
 

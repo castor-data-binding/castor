@@ -43,7 +43,6 @@
  * $Id$
  */
 
-
 package org.exolab.javasource;
 
 import java.util.Enumeration;
@@ -55,7 +54,7 @@ import java.util.Vector;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
-public class JDocComment {
+public final class JDocComment {
        
     /**
      * An ordered list of descriptors
@@ -81,8 +80,8 @@ public class JDocComment {
      * 
      * @param jdesc the JDocDescriptor to add
      */
-    public void addDescriptor(JDocDescriptor jdesc) {
-        if (jdesc == null) return;
+    public void addDescriptor(final JDocDescriptor jdesc) {
+        if (jdesc == null) { return; }
         //-- on the fly sorting of descriptors
         if (_descriptors.size() == 0) {
             _descriptors.addElement(jdesc);
@@ -91,18 +90,18 @@ public class JDocComment {
             
         for (int i = 0; i < _descriptors.size(); i++) {
             JDocDescriptor jdd 
-                = (JDocDescriptor)_descriptors.elementAt(i);
+                = (JDocDescriptor) _descriptors.elementAt(i);
             
             short compare = jdesc.compareTo(jdd);
             
             switch (compare) {
                 case  0: // equal
-                    _descriptors.insertElementAt(jdesc, i+1);
+                    _descriptors.insertElementAt(jdesc, i + 1);
                     return;
                 case -1: //-- less than
                     _descriptors.insertElementAt(jdesc, i);
                     return;
-                case  1:
+                default:
                     //-- keep looking
                     break;
             }
@@ -117,7 +116,7 @@ public class JDocComment {
      * 
      * @param comment the comment to append
      */
-    public void appendComment(String comment) {
+    public void appendComment(final String comment) {
         _comment.append(comment);
     } //-- appendComment
     
@@ -154,15 +153,14 @@ public class JDocComment {
      * @param name the name whose ParamDescriptor is being searched for
      * @return the Parameter Descriptor associated with the given name
      */
-    public JDocDescriptor getParamDescriptor(String name) {
-        if (name == null) return null;
+    public JDocDescriptor getParamDescriptor(final String name) {
+        if (name == null) { return null; }
         
         for (int i = 0; i < _descriptors.size(); i++) {
             JDocDescriptor jdd 
                 = (JDocDescriptor) _descriptors.elementAt(i);
             if (jdd.getType() == JDocDescriptor.PARAM) {
-                if (name.equals(jdd.getName()))
-                    return jdd;
+                if (name.equals(jdd.getName())) { return jdd; }
             }
         }
         return null;
@@ -174,7 +172,7 @@ public class JDocComment {
      *
      * @param jsw the JSourceWriter to print to
      */
-    public void print(JSourceWriter jsw) {
+    public void print(final JSourceWriter jsw) {
         //-- I reuse JComment for printing
         JComment jComment = new JComment(JComment.JAVADOC_STYLE);
         
@@ -197,7 +195,7 @@ public class JDocComment {
      * 
      * @param comment the comment String of this JDocComment
      */
-    public void setComment(String comment) {
+    public void setComment(final String comment) {
         _comment.setLength(0);
         _comment.append(comment);
     } //-- setComment

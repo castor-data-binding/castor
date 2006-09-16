@@ -53,7 +53,7 @@ package org.exolab.javasource;
  * @author <a href="mailto:keith (at) kvisco (dot) com">Keith Visco</a>
  * @version $REVISION$ $DATE$
  */
-public class JTypeName {
+public final class JTypeName {
 
     private String _package   = null;
     private String _qName     = null;
@@ -71,7 +71,7 @@ public class JTypeName {
      * 
      * @param name the fully qualified class name
      */
-    public JTypeName(String name) {
+    public JTypeName(final String name) {
         super();
         init(name);
     } //-- JTypeName
@@ -96,15 +96,16 @@ public class JTypeName {
     
     /**
      * @see java.lang.Object#equals(java.lang.Object)
+     * {@inheritDoc}
      */
-    public boolean equals(Object obj) {
+    public boolean equals(final Object obj) {
         if (obj instanceof JTypeName) {
             
-            JTypeName jname = (JTypeName)obj;
+            JTypeName jname = (JTypeName) obj;
             String qn1 = jname.getQualifiedName();
             String qn2 = getQualifiedName();
-            if (qn1 == qn2) return true;
-            if (qn1 == null) return (qn2 == null);
+            if (qn1 == qn2) { return true; }
+            if (qn1 == null) { return (qn2 == null); }
             return qn1.equals(qn2);
         }
         return false;
@@ -112,6 +113,7 @@ public class JTypeName {
     
     /**
      * @see java.lang.Object#hashCode()
+     * {@inheritDoc}
      */
     public int hashCode() {
         String qName = getQualifiedName();
@@ -129,12 +131,12 @@ public class JTypeName {
     public String getQualifiedName() {
         if (_qName == null) {
             if (_localName != null) {
-                if (_package != null)
+                if (_package != null) {
                     _qName = _package + "." + _localName;
-                else
+                } else {
                     _qName = _localName;
-            }
-            else {
+                }
+            } else {
                 _qName = _package;
             }
         }
@@ -146,21 +148,19 @@ public class JTypeName {
      * 
      * @param name the name to initialize with
      */
-    private void init(String name) {
-        
+    private void init(final String name) {
         if (name == null) {
             _qName     = null;
             _localName = null;
             _package   = null;
-        }
-        else {
+        } else {
             _qName = name;
             _localName = name;
             
-            int idx = -1;
-            if ((idx = name.lastIndexOf('.')) > 0) {
+            int idx = name.lastIndexOf('.');
+            if (idx > 0) {
                 _package = name.substring(0, idx);
-                _localName = name.substring(idx+1);
+                _localName = name.substring(idx + 1);
             }
         }
     } //-- init
@@ -172,7 +172,7 @@ public class JTypeName {
      * 
      * @param localName the local name to set
      */
-    public void setLocalName(String localName) {
+    public void setLocalName(final String localName) {
         _localName = localName;
         _qName = null;
     } //-- setLocalName
@@ -184,7 +184,7 @@ public class JTypeName {
      * 
      * @param packageName the package name to set
      */
-    public void setPackageName(String packageName) {
+    public void setPackageName(final String packageName) {
         _package = packageName;
         _qName = null;
     } //-- setPackageName
@@ -196,12 +196,13 @@ public class JTypeName {
      * 
      * @param qName the qualified name
      */
-    public void setQualifiedName(String qName) {
+    public void setQualifiedName(final String qName) {
         init(qName);
     } //-- setQualifiedName 
     
     /**
      * @see java.lang.Object#toString()
+     * {@inheritDoc}
      */
     public String toString() {
         return getQualifiedName();

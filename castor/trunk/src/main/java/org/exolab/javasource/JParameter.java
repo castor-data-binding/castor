@@ -51,26 +51,23 @@ package org.exolab.javasource;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class JParameter extends JAnnotatedElementHelper {
+public final class JParameter extends JAnnotatedElementHelper {
     /**
      * The type associated with this JParameter
      */
-    private JType type = null;
+    private JType _type = null;
     /**
      * The name of this JParameter
      */
-    private String name = null;
+    private String _name = null;
 
     /**
      * Creates a new JParameter with the given type, and name
      * 
      * @param type the JType to associate with this JParameter
      * @param name name of the JParameter
-     * @throws IllegalArgumentException if the type is null
      */
-    public JParameter(JType type, String name) 
-        throws IllegalArgumentException
-    {
+    public JParameter(final JType type, final String name) {
         super();
         setType(type);
         setName(name);
@@ -82,7 +79,7 @@ public class JParameter extends JAnnotatedElementHelper {
      * @return the name of the parameter
      */
     public String getName() {
-        return this.name;
+        return this._name;
     } //-- getName
     
     /**
@@ -91,7 +88,7 @@ public class JParameter extends JAnnotatedElementHelper {
      * @return the parameter type
      */
     public JType getType() {
-        return this.type;
+        return this._type;
     } //-- getType
 
     /**
@@ -99,24 +96,21 @@ public class JParameter extends JAnnotatedElementHelper {
      * 
      * @param name the new name of the parameter
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setName(final String name) {
+        this._name = name;
     } //-- setName
     
     /**
      * Sets the type of this parameter
      * 
      * @param type the new JType of this parameter
-     * @throws IllegalArgumentException if the type is null
      */
-    public void setType(JType type) 
-        throws IllegalArgumentException
-    {
+    public void setType(final JType type) {
         if (type == null) {
             String err = "A Parameter cannot have a null type.";
             throw new IllegalArgumentException(err);
         }
-        this.type = type;
+        this._type = type;
     } //-- setType
 
     /**
@@ -127,9 +121,9 @@ public class JParameter extends JAnnotatedElementHelper {
      * @return the String representation of this JParameter
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer(this.type.toString());
+        StringBuffer sb = new StringBuffer(this._type.toString());
         sb.append(' ');
-        sb.append(this.name);
+        sb.append(this._name);
         return sb.toString();
     } //-- toString
 } //-- JParamater

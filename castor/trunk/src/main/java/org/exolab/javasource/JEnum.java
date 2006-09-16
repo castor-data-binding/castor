@@ -46,6 +46,7 @@
  * --------------
  * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
+
 package org.exolab.javasource;
 
 import java.io.PrintWriter;
@@ -57,65 +58,54 @@ import java.util.Vector;
  * 
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
-public class JEnum extends JClass 
-{
-	/**
+public final class JEnum extends JClass {
+    /**
      * The list of elements of this JEnumConstant
      */
-	private JNamedMap _constants = null;
-	
-	/**
+    private JNamedMap _constants = null;
+    
+    /**
      * @param name the name for this JEnum
-     * @throws IllegalArgumentException when the provided name is not a valid
-     *             class name
      */
-	protected JEnum(String name) throws IllegalArgumentException {
-		super(name);
-		_constants        = new JNamedMap();
-		//-- initialize default Java doc
-		getJDocComment().setComment("Enumeration " + getLocalName() + ".");		
-	}
-	
-	/**
+    protected JEnum(final String name) {
+        super(name);
+        _constants        = new JNamedMap();
+        //-- initialize default Java doc
+        getJDocComment().setComment("Enumeration " + getLocalName() + ".");     
+    }
+    
+    /**
      * Adds the given JMember to this JEnum
      * 
      * @param jMember the JMember to add
-     * @throws IllegalArgumentException when the given JMember has the same
-     *                name of an existing JEnumConstant or if the JMember is of
-     *                an unrecognized class.
      */
-	public void addMember(JMember jMember) 
-		throws IllegalArgumentException 
-	{	
-		if(jMember instanceof JEnumConstant)
-			addConstant((JEnumConstant) jMember);
-		else
-			super.addMember(jMember);
-	} //-- addMember
+    public void addMember(final JMember jMember) {
+        if (jMember instanceof JEnumConstant) {
+            addConstant((JEnumConstant) jMember);
+        } else {
+            super.addMember(jMember);
+        }
+    } //-- addMember
 
-	/**
+    /**
      * Adds the given JEnumConstant to this JEnum
      * 
      * @param jConstant the constant to add
-     * @throws IllegalArgumentException when the given JEnumConstant has the
-     *             same name of an existing JEnumConstant.
-     */	
-	public void addConstant(JEnumConstant jConstant)
-		throws IllegalArgumentException 
-	{
-		if (jConstant == null) {
-			throw new IllegalArgumentException("Enum fields cannot be null");
-		}
+     */ 
+    public void addConstant(final JEnumConstant jConstant) {
+        if (jConstant == null) {
+            throw new IllegalArgumentException("Enum fields cannot be null");
+        }
         
-		String name = jConstant.getName();        
-		if (_constants.get(name) != null) {
-			String err = "duplicate name found: " + name;
-			throw new IllegalArgumentException(err);
-		}
-		_constants.put(name, jConstant);
-	} //-- addConstant
-		
-	/**
+        String name = jConstant.getName();        
+        if (_constants.get(name) != null) {
+            String err = "duplicate name found: " + name;
+            throw new IllegalArgumentException(err);
+        }
+        _constants.put(name, jConstant);
+    } //-- addConstant
+            
+        /**
      * Returns the member with the given name, or null if no member was found
      * with the given name
      * 
@@ -123,40 +113,40 @@ public class JEnum extends JClass
      * @return the member with the given name, or null if no member was found
      *         with the given name
      */
-	public JEnumConstant getConstant(String name)
-	{
-		return (JEnumConstant)_constants.get(name);
-	} //-- getElement
-	
-	/**
+    public JEnumConstant getConstant(final String name) {
+        return (JEnumConstant) _constants.get(name);
+    } //-- getElement
+    
+    /**
      * Returns an array of all the JEnumConstant of this JEnum
      * 
      * @return an array of all the JEnumConstant of this JEnum
-     */	
-	public JEnumConstant[] getConstants()
-	{
-		int size = _constants.size();
-		JEnumConstant[] farray = new JEnumConstant[size];
-		for (int i = 0; i < size; i++) {
-			farray[i] = (JEnumConstant)_constants.get(i);
-		}
-		return farray;
-	} //-- getConstants
-	
-	
-	/**
-	 * @see org.exolab.javasource.JClass#setSuperClass(java.lang.String)
-	 */
-	public void setSuperClass(String superClass) {
-		throw new RuntimeException("Enum classes are not allowed to extend other classes."); 
-	}
-	
-	/**
+     */ 
+    public JEnumConstant[] getConstants() {
+        int size = _constants.size();
+        JEnumConstant[] farray = new JEnumConstant[size];
+        for (int i = 0; i < size; i++) {
+            farray[i] = (JEnumConstant) _constants.get(i);
+        }
+        return farray;
+    } //-- getConstants
+    
+    
+    /**
+     * @see org.exolab.javasource.JClass#setSuperClass(java.lang.String)
+     * {@inheritDoc}
+     */
+    public void setSuperClass(final String superClass) {
+        throw new RuntimeException(
+                "Enum classes are not allowed to extend other classes."); 
+    }
+    
+    /**
      * Prints the source code for this JEnum to the given JSourceWriter
      * 
      * @param jsw the JSourceWriter to print to. Must not be null.
      */
-	public void print(JSourceWriter jsw) {
+    public void print(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
@@ -170,10 +160,10 @@ public class JEnum extends JClass
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
             removeImports = new Vector();
             for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass iClass = (JClass)_innerClasses.elementAt(i);
+                JClass iClass = (JClass) _innerClasses.elementAt(i);
                 Enumeration enumeration = iClass.getImports();
                 while (enumeration.hasMoreElements()) {
-                    String classname = (String)enumeration.nextElement();
+                    String classname = (String) enumeration.nextElement();
                     if (!hasImport(classname)) {
                         addImport(classname);
                         removeImports.addElement(classname);
@@ -186,7 +176,7 @@ public class JEnum extends JClass
         //-- remove imports from inner-classes, if necessary
         if (removeImports != null) {
             for (int i = 0; i < removeImports.size(); i++) {
-                removeImport((String)removeImports.elementAt(i));
+                removeImport((String) removeImports.elementAt(i));
             }
         }
 
@@ -201,14 +191,13 @@ public class JEnum extends JClass
 
         buffer.setLength(0);
 
-		//-- print annotations
-		getAnnotatedElementHelper().printAnnotations(jsw);
-				
+        //-- print annotations
+        getAnnotatedElementHelper().printAnnotations(jsw);
+                
         JModifiers modifiers = getModifiers();
         if (modifiers.isPrivate()) {
             buffer.append("private ");
-        }
-        else if (modifiers.isPublic()) {
+        } else if (modifiers.isPublic()) {
             buffer.append("public ");
         }
 
@@ -227,13 +216,14 @@ public class JEnum extends JClass
             Enumeration enumeration = getInterfaces();
             while (enumeration.hasMoreElements()) {
                 buffer.append(enumeration.nextElement());
-                if (enumeration.hasMoreElements()) buffer.append(", ");
+                if (enumeration.hasMoreElements()) { buffer.append(", "); }
             }
             if (endl) {
                 jsw.writeln(buffer.toString());
                 buffer.setLength(0);
+            } else {
+                buffer.append(' ');
             }
-            else buffer.append(' ');
         }
 
         buffer.append('{');
@@ -246,25 +236,35 @@ public class JEnum extends JClass
         // -- print enum constants
         
         if (_constants.size() > 0) {
-      		jsw.writeln();
-      		jsw.writeln("  //------------------/");
-      		jsw.writeln(" //- Enum Constants -/");
-  			jsw.writeln("//------------------/");
-      		jsw.writeln();
-  		}
-  		for (int i = 0; i < _constants.size(); i++) 
-  		{
-  			JEnumConstant jConstant = (JEnumConstant)_constants.get(i);
-  			jConstant.print(jsw);
-  			if(i < _constants.size()-1)
-  				jsw.write(",");
-  			else
-  				jsw.write(";");
-  			jsw.writeln();
-  		}
-  		
-        //-- declare members
-
+            jsw.writeln();
+            jsw.writeln("  //------------------/");
+            jsw.writeln(" //- Enum Constants -/");
+            jsw.writeln("//------------------/");
+            jsw.writeln();
+        }
+        for (int i = 0; i < _constants.size(); i++) {
+            JEnumConstant jConstant = (JEnumConstant) _constants.get(i);
+            jConstant.print(jsw);
+            if (i < _constants.size() - 1) {
+                jsw.write(",");
+            } else {
+                jsw.write(";");
+            }
+            jsw.writeln();
+        }
+        
+        printMemberVariables(jsw);
+        printStaticInitializers(jsw);
+        printConstructors(jsw);
+        printMethods(jsw);
+        printInnerClasses(jsw);
+        
+        jsw.unindent();
+        jsw.writeln('}');
+        jsw.flush();
+    }
+    
+    private void printMemberVariables(final JSourceWriter jsw) {
         if (_fields.size() > 0) {
             jsw.writeln();
             jsw.writeln("  //--------------------------/");
@@ -274,16 +274,15 @@ public class JEnum extends JClass
         }
 
         for (int i = 0; i < _fields.size(); i++) {
-
-            JField jField = (JField)_fields.get(i);
+            JField jField = (JField) _fields.get(i);
 
             //-- print Java comment
             JDocComment comment = jField.getComment();
-            if (comment != null) comment.print(jsw);
+            if (comment != null) { comment.print(jsw); }
 
-			//-- print Annotations
-			jField.printAnnotations(jsw);
-			
+            //-- print Annotations
+            jField.printAnnotations(jsw);
+            
             // -- print member
             jsw.write(jField.getModifiers().toString());
             jsw.write(' ');
@@ -307,7 +306,9 @@ public class JEnum extends JClass
             jsw.writeln(';');
             jsw.writeln();
         }
-
+    }
+    
+    private void printStaticInitializers(final JSourceWriter jsw) {
         //----------------------/
         //- Static Initializer -/
         //----------------------/
@@ -319,8 +320,9 @@ public class JEnum extends JClass
             jsw.writeln("};");
             jsw.writeln();
         }
-        
-        //-- print constructors
+    }
+    
+    private void printConstructors(final JSourceWriter jsw) {
         if (_constructors.size() > 0) {
             jsw.writeln();
             jsw.writeln("  //----------------/");
@@ -328,13 +330,15 @@ public class JEnum extends JClass
             jsw.writeln("//----------------/");
             jsw.writeln();
         }
+        
         for (int i = 0; i < _constructors.size(); i++) {
-            JConstructor jConstructor = (JConstructor)_constructors.elementAt(i);
+            JConstructor jConstructor = (JConstructor) _constructors.elementAt(i);
             jConstructor.print(jsw);
             jsw.writeln();
         }
-
-        //-- print methods
+    }
+    
+    private void printMethods(final JSourceWriter jsw) {
         if (_methods.size() > 0) {
             jsw.writeln();
             jsw.writeln("  //-----------/");
@@ -344,12 +348,13 @@ public class JEnum extends JClass
         }
 
         for (int i = 0; i < _methods.size(); i++) {
-            JMethod jMethod = (JMethod)_methods.elementAt(i);
+            JMethod jMethod = (JMethod) _methods.elementAt(i);
             jMethod.print(jsw);
             jsw.writeln();
         }
-
-        //-- print inner-classes
+    }
+    
+    private void printInnerClasses(final JSourceWriter jsw) {
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
             jsw.writeln();
             jsw.writeln("  //-----------------/");
@@ -358,82 +363,74 @@ public class JEnum extends JClass
             jsw.writeln();
         
             for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass jClass = (JClass)_innerClasses.elementAt(i);
+                JClass jClass = (JClass) _innerClasses.elementAt(i);
                 jClass.print(jsw, true);
                 jsw.writeln();
             }
-            
         }
-        
-        jsw.unindent();
-        jsw.writeln('}');
+    }
+
+    /**
+     * Test drive
+     * @param args
+     */
+    public static void main(final String[] args) {
+        JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
+
+        JEnum color1 = new JEnum("Color");
+        color1.addConstant(new JEnumConstant("RED"));
+        color1.addConstant(new JEnumConstant("GREEN"));
+        color1.addConstant(new JEnumConstant("BLUE"));
+        color1.print(jsw);
+
+        JEnum color2 = new JEnum("Color");
+        color2.addField(new JField(new JType("String"), "_rgb"));
+        JConstructor jConstructor2 = new JConstructor(color2);
+        jConstructor2.addParameter(new JParameter(new JType("String"), "rgb"));
+        jConstructor2.setSourceCode("_rgb = rgb;");
+        color2.addConstructor(jConstructor2);
+        color2.addConstant(new JEnumConstant("RED", new String[] {"\"#FF0000\"" }));
+        color2.addConstant(new JEnumConstant("GREEN", new String[] {"\"#00FF00\"" }));
+        color2.addConstant(new JEnumConstant("BLUE", new String[] {"\"#0000FF\"" }));
+        color2.print(jsw);
+
+        JEnum operation3 = new JEnum("Operation");
+        // PLUS
+        JEnumConstant plus3 = new JEnumConstant("PLUS");
+        JMethod jMethod3 = new JMethod(new JType("double"), "eval");
+        jMethod3.getModifiers().makePackage();
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "x")); 
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "y"));
+        jMethod3.setSourceCode("return x + y;");
+        plus3.addMethod(jMethod3);
+        operation3.addConstant(plus3);
+        // MINUS
+        JEnumConstant minus3 = new JEnumConstant("MINUS");
+        jMethod3 = new JMethod(JType.DOUBLE, "eval");
+        jMethod3.getModifiers().makePackage();
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "x"));
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "y"));
+        jMethod3.setSourceCode("return x - y;");
+        minus3.addMethod(jMethod3);
+        operation3.addConstant(minus3);
+        // TIMES
+        JEnumConstant times3 = new JEnumConstant("TIMES");
+        jMethod3 = new JMethod(JType.DOUBLE, "eval");
+        jMethod3.getModifiers().makePackage();
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "x"));
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "y"));
+        jMethod3.setSourceCode("return x * y;");
+        times3.addMethod(jMethod3);
+        operation3.addConstant(times3);
+        // Add 
+        jMethod3 = new JMethod(JType.DOUBLE, "eval");
+        jMethod3.getModifiers().makePackage();
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "x"));
+        jMethod3.addParameter(new JParameter(JType.DOUBLE, "y"));
+        jMethod3.getModifiers().setAbstract(true);
+        operation3.addMethod(jMethod3);
+        operation3.print(jsw);
+
         jsw.flush();
-	}
-	
-	/**
-	 * Test drive
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-		{
-			JEnum color = new JEnum("Color");
-			color.addConstant(new JEnumConstant("RED"));
-			color.addConstant(new JEnumConstant("GREEN"));
-			color.addConstant(new JEnumConstant("BLUE"));
-			color.print(jsw);
-		}		
-		{
-			JEnum color = new JEnum("Color");
-			color.addField(new JField(new JType("String"), "_rgb"));
-			JConstructor jConstructor = new JConstructor(color);
-			jConstructor.addParameter(new JParameter(new JType("String"), "rgb"));
-			jConstructor.setSourceCode("_rgb = rgb;");
-			color.addConstructor(jConstructor);
-			color.addConstant(new JEnumConstant("RED", new String[] { "\"#FF0000\"" }));
-			color.addConstant(new JEnumConstant("GREEN", new String[] { "\"#00FF00\"" }));
-			color.addConstant(new JEnumConstant("BLUE", new String[] { "\"#0000FF\"" }));
-			color.print(jsw);
-		}		
-		{
-			JEnum operation = new JEnum("Operation");
-			// PLUS
-			JEnumConstant plus = new JEnumConstant("PLUS");
-			JMethod jMethod = new JMethod(new JType("double"), "eval");
-			jMethod.getModifiers().makePackage();
-			jMethod.addParameter(new JParameter(JType.Double, "x")); 
-			jMethod.addParameter(new JParameter(JType.Double, "y"));
-			jMethod.setSourceCode("return x + y;");
-			plus.addMethod(jMethod);
-			operation.addConstant(plus);
-			// MINUS
-			JEnumConstant minus = new JEnumConstant("MINUS");
-			jMethod = new JMethod(JType.Double, "eval");
-			jMethod.getModifiers().makePackage();
-			jMethod.addParameter(new JParameter(JType.Double, "x"));
-			jMethod.addParameter(new JParameter(JType.Double, "y"));
-			jMethod.setSourceCode("return x - y;");
-			minus.addMethod(jMethod);
-			operation.addConstant(minus);
-			// TIMES
-			JEnumConstant times = new JEnumConstant("TIMES");
-			jMethod = new JMethod(JType.Double, "eval");
-			jMethod.getModifiers().makePackage();
-			jMethod.addParameter(new JParameter(JType.Double, "x"));
-			jMethod.addParameter(new JParameter(JType.Double, "y"));
-			jMethod.setSourceCode("return x * y;");
-			times.addMethod(jMethod);
-			operation.addConstant(times);
-			// Add 
-			jMethod = new JMethod(JType.Double, "eval");
-			jMethod.getModifiers().makePackage();
-			jMethod.addParameter(new JParameter(JType.Double, "x"));
-			jMethod.addParameter(new JParameter(JType.Double, "y"));
-			jMethod.getModifiers().setAbstract(true);
-			operation.addMethod(jMethod);
-			operation.print(jsw);
-		}
-		jsw.flush();
-	}
+    }
 }

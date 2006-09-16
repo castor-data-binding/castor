@@ -66,7 +66,7 @@ public final class XSShort extends XSPatternBase {
 	/**
 	 * The JType represented by this XSType
 	**/
-	private static JType jType = JType.Short;
+	private static JType jType = JType.SHORT;
 	private boolean _asWrapper = false;
 
 	public XSShort() {
@@ -79,7 +79,7 @@ public final class XSShort extends XSPatternBase {
 		if (asWrapper)
 			jType = new JClass("java.lang.Short");
 		else
-			jType = JType.Short;
+			jType = JType.SHORT;
 	} //-- XSShort
 
 	/**

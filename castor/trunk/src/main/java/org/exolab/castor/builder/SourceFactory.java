@@ -900,7 +900,7 @@ public class SourceFactory {
         //- removePropertyChangeListener -/
         //--------------------------------/
 
-        jMethod = new JMethod(JType.Boolean, "removePropertyChangeListener");
+        jMethod = new JMethod(JType.BOOLEAN, "removePropertyChangeListener");
 
         desc = "Removes the given PropertyChangeListener "+
             "from this classes list of ProperyChangeListeners.";
@@ -1107,7 +1107,7 @@ public class SourceFactory {
             throw new IllegalArgumentException("JClass must not be null");
 
         JField[] fields = jclass.getFields();
-        JMethod jMethod = new JMethod(JType.Boolean, "equals");
+        JMethod jMethod = new JMethod(JType.BOOLEAN, "equals");
         jMethod.setComment("Override the java.lang.Object.equals method");
         jMethod.setComment("Note: hashCode() has not been overriden");
         jMethod.addParameter(new JParameter(SGTypes.Object, "obj"));
@@ -1351,7 +1351,7 @@ public class SourceFactory {
         jsc.add("validator.validate(this);");
 
         //-- #isValid
-        jMethod  = new JMethod(JType.Boolean, "isValid");
+        jMethod  = new JMethod(JType.BOOLEAN, "isValid");
         jsc = jMethod.getSourceCode();
         jsc.add("try {");
         jsc.indent();
@@ -1774,7 +1774,7 @@ public class SourceFactory {
         //-- modify constructor
         JConstructor constructor = jClass.getConstructor(0);
         constructor.getModifiers().makePrivate();
-        constructor.addParameter(new JParameter(JType.Int, "type"));
+        constructor.addParameter(new JParameter(JType.INT, "type"));
         constructor.addParameter(new JParameter(SGTypes.String, "value"));
         jsc = constructor.getSourceCode();
         jsc.add("this.type = type;");
@@ -1884,7 +1884,7 @@ public class SourceFactory {
             }
 
             //-- handle int type
-            field = new JField(JType.Int, typeName);
+            field = new JField(JType.INT, typeName);
             field.setComment("The " + value + " type");
             JModifiers modifiers = field.getModifiers();
             modifiers.setFinal(true);
@@ -1946,7 +1946,7 @@ public class SourceFactory {
         jClass.addField(fHash);
 
         //-- add internal type
-        field = new JField(JType.Int, "type");
+        field = new JField(JType.INT, "type");
         field.setInitString("-1");
         jClass.addField(field);
 
@@ -1957,7 +1957,7 @@ public class SourceFactory {
 
         //-- add #getType method
 
-        JMethod mGetType = new JMethod(JType.Int, "getType");
+        JMethod mGetType = new JMethod(JType.INT, "getType");
         mGetType.getSourceCode().add("return this.type;");
         jdc = mGetType.getJDocComment();
         jdc.appendComment("Returns the type of this " + className);
