@@ -68,7 +68,7 @@ public final class XSByte extends XSPatternBase {
     /**
      * The JType represented by this XSType
     **/
-    private static JType jType = JType.Byte;
+    private static JType jType = JType.BYTE;
     private boolean _asWrapper = false;
 
 
@@ -81,7 +81,7 @@ public final class XSByte extends XSPatternBase {
         _asWrapper = asWrapper;
         if (_asWrapper)
              jType = new JClass("java.lang.Byte");
-        else jType = JType.Byte;
+        else jType = JType.BYTE;
     } //-- XSByte
 
 

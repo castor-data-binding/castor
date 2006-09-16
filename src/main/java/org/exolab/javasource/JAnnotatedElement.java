@@ -46,6 +46,7 @@
  * --------------
  * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
+
 package org.exolab.javasource;
 
 /**
@@ -60,7 +61,7 @@ package org.exolab.javasource;
  *   JClass lollipop = new JClass("Lollipop");
  *   JAnnotationType endorsersType = new JAnnotationType("Endorsers");
  *   JAnnotation endorsers = new JAnnotation(endorsersType);
- *   endorsers.setValue(new String[] { "\"Children\"", "\"Unscrupulous dentists\""});			
+ *   endorsers.setValue(new String[] { "\"Children\"", "\"Unscrupulous dentists\""});
  *   lollipop.addAnnotation(endorsers);
  * </pre>
  * outputs
@@ -76,14 +77,14 @@ package org.exolab.javasource;
  * Adding the method annotations
  * <pre>
  *   JClass timeMachine = new JClass("TimeMachine");
- *   JAnnotationType requestForEnhancementType = new JAnnotationType("RequestForEnhancement");
- *   JAnnotation requestForEnhancement = new JAnnotation(requestForEnhancementType);
- *   requestForEnhancement.setElementValue("id", "2868724");
- *   requestForEnhancement.setElementValue("sysopsis", "\"Provide time-travel functionality\"");
- *   requestForEnhancement.setElementValue("engineer", "\"Mr. Peabody\"");
- *   requestForEnhancement.setElementValue("date", "\"4/1/2004\"");
+ *   JAnnotationType requestType = new JAnnotationType("RequestForEnhancement");
+ *   JAnnotation request = new JAnnotation(requestType);
+ *   request.setElementValue("id", "2868724");
+ *   request.setElementValue("sysopsis", "\"Provide time-travel functionality\"");
+ *   request.setElementValue("engineer", "\"Mr. Peabody\"");
+ *   request.setElementValue("date", "\"4/1/2004\"");
  *   JMethod travelThroughTime = new JMethod(null, "travelThroughTime");
- *   travelThroughTime.addAnnotation(requestForEnhancement);
+ *   travelThroughTime.addAnnotation(request);
  *   travelThroughTime.addParameter(new JParameter(new JClass("Date"), "date"));
  *   timeMachine.addMethod(travelThroughTime);
  * </pre>
@@ -114,56 +115,54 @@ package org.exolab.javasource;
  * </pre>
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
-public interface JAnnotatedElement 
-{
-	/**
+public interface JAnnotatedElement {
+    /**
      * Retrieves a JAnnotation for the given JAnnotationType, returns null if no
      * annotation has been set.
      * 
      * @param annotationType
      * @return A JAnnotation for the given JAnnotationType
      */
-	public JAnnotation getAnnotation(JAnnotationType annotationType);
-	/**
+    JAnnotation getAnnotation(JAnnotationType annotationType);
+    
+    /**
      * Returns a list of JAnnotation's already set on this source element
      * 
      * @return A list of all JAnnotations associated with this source element
      */
-	public JAnnotation[] getAnnotations();
-	/**
+    JAnnotation[] getAnnotations();
+    
+    /**
      * Returns true if a JAnnotation exists for the given JAnnotationType
      * 
      * @param annotationType
      * @return True if a JAnnotation has been added for the given
      *         JAnnotationType
      */
-	public boolean isAnnotationPresent(JAnnotationType annotationType);
-	/**
+    boolean isAnnotationPresent(JAnnotationType annotationType);
+    
+    /**
      * Adds a JAnnotation to this source element. An IllegalArgumentException is
      * thrown if one already exists for the associated JAnnotationType.
      * 
      * @param annotation a JAnnotation to add to this source element
-     * @throws IllegalArgumentException if an annotation of this type is already
-     *             present on this element
      */
-	public void addAnnotation(JAnnotation annotation)
-		throws IllegalArgumentException;
-	/**
+    void addAnnotation(JAnnotation annotation);
+    
+    /**
      * Removes the JAnnotation from this source element for the given
      * JAnnotationType. An IllegalArgumentException is thrown if the provided
      * JAnnotation isn't present.
      * 
      * @param annotationType Annotation type to remove
      * @return The JAnnotation that was associated with this source element
-     * @throws IllegalArgumentException if this annotation is not present
      */
-	public JAnnotation removeAnnotation(JAnnotationType annotationType)
-		throws IllegalArgumentException;
-	/**
+    JAnnotation removeAnnotation(JAnnotationType annotationType);
+    
+    /**
      * Returns true if this source element has any annotations
      * 
      * @return Returns true if this source element has any annotations
      */
-	public boolean hasAnnotations();
-
+    boolean hasAnnotations();
 }

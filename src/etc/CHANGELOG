@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1561 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Enabled checkstyle for javasource package and fixed most of the warnings.
+       Details: http://jira.codehaus.org/browse/CASTOR-1561
+       (Ralf - 20060916)
+
 XML:   Resolved issue CASTOR-1557 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Moved java.util.Iterator-specific code from CollectionInfo to CollectionInfoJ2.
        Details: http://jira.codehaus.org/browse/CASTOR-1557

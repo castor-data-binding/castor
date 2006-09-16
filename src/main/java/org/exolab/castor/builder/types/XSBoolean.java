@@ -60,7 +60,7 @@ public final class XSBoolean extends XSType {
     /**
      * The JType represented by this XSType
     **/
-    private static JType jType = JType.Boolean;
+    private static JType jType = JType.BOOLEAN;
     private boolean _asWrapper = false;
 
     public XSBoolean() {
@@ -72,7 +72,7 @@ public final class XSBoolean extends XSType {
         _asWrapper = asWrapper;
         if (_asWrapper)
             jType = new JClass("java.lang.Boolean");
-        else jType = JType.Boolean;
+        else jType = JType.BOOLEAN;
     } //-- XSBoolean
 
 

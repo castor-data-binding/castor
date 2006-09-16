@@ -45,16 +45,15 @@
 
 package org.exolab.javasource;
 
-
 /**
  * A utility class used to validate identifiers and class names.
  * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-class JNaming {
+public final class JNaming {
     
-    private static final String[] keywords = { 
+    private static final String[] KEYWORDS = { 
         "abstract", 
         "boolean",  
         "break",
@@ -69,7 +68,7 @@ class JNaming {
         "do",      
         "double",
         "else",     
-        "enum",	// DAB - 01:02:03 -- 04/05/2006 - Java 5.0 - new keyword
+        "enum",
         "extends",
         "false",    
         "final",   
@@ -108,7 +107,7 @@ class JNaming {
         "while"
     }; //-- keywords
 
-    private static final String[] parameterizedCollectionsObject = { 
+    private static final String[] COLLECTIONS = { 
         "ArrayList", 
         "List",  
         "Set",
@@ -149,10 +148,10 @@ class JNaming {
      * @return true if the given String is a Java keyword which will cause a
      *         problem when used as a variable name
      */
-    public static boolean isKeyword(String name) {
-        if (name == null) return false;
-        for (int i = 0; i < keywords.length; i++) {
-            if (keywords[i].equals(name)) return true;
+    public static boolean isKeyword(final String name) {
+        if (name == null) { return false; }
+        for (int i = 0; i < KEYWORDS.length; i++) {
+            if (KEYWORDS[i].equals(name)) { return true; }
         }
         return false;
     } //-- isKeyword
@@ -166,10 +165,10 @@ class JNaming {
      *         object keyword which will cause a problem when used as a variable
      *         name
      */
-    public static boolean isParameterizedCollectionsObject(String name) {
-        if (name == null) return false;
-        for (int i = 0; i < parameterizedCollectionsObject.length; i++) {
-            if (name.indexOf(parameterizedCollectionsObject[i]) != -1) return true;
+    public static boolean isParameterizedCollectionsObject(final String name) {
+        if (name == null) { return false; }
+        for (int i = 0; i < COLLECTIONS.length; i++) {
+            if (name.indexOf(COLLECTIONS[i]) != -1) { return true; }
         }
         return false;
     } //-- isParameterizedCollectionsObject    
@@ -182,25 +181,22 @@ class JNaming {
      * @return true if the given String matches the production of a valid Java
      *         name, otherwise false
      */
-    public static boolean isValidJavaIdentifier(String string) {
-        if ((string == null) || (string.length() == 0)) 
-            return false;
+    public static boolean isValidJavaIdentifier(final String string) {
+        if ((string == null) || (string.length() == 0)) { return false; }
             
         char[] chars = string.toCharArray();
         
-        if ( isParameterizedCollectionsObject(string)) {
-        	return true;
+        if (isParameterizedCollectionsObject(string)) {
+            return true;
         }
                 
         //-- make sure starting character is valid
-        if (!Character.isJavaIdentifierStart(chars[0]))
-            return false;
+        if (!Character.isJavaIdentifierStart(chars[0])) { return false; }
             
         for (int i = 1; i < chars.length; i++) {
-            if (!Character.isJavaIdentifierPart(chars[i]))
-                return false;
+            if (!Character.isJavaIdentifierPart(chars[i])) { return false; }
         }
-        if (isKeyword(string)) return false;
+        if (isKeyword(string)) { return false; }
         return true;
     } //-- isValidJavaIdentifier
     

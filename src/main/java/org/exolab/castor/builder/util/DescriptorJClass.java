@@ -134,7 +134,7 @@ public class DescriptorJClass extends JClass {
 //        addImport("org.exolab.castor.xml.FieldValidator");
 
 
-        addField(new JField(JType.Boolean, "elementDefinition"));
+        addField(new JField(JType.BOOLEAN, "elementDefinition"));
         
         addField(new JField(SGTypes.String,  "nsPrefix"));
         addField(new JField(SGTypes.String,  "nsURI"));
@@ -165,7 +165,7 @@ public class DescriptorJClass extends JClass {
         //---------------------------------------------/
         
         //-- create isElementDefinition method
-        method = new JMethod(JType.Boolean, "isElementDefinition");
+        method = new JMethod(JType.BOOLEAN, "isElementDefinition");
         jsc = method.getSourceCode();
         jsc.add("return elementDefinition;");
         addMethod(method);
@@ -339,9 +339,9 @@ public class DescriptorJClass extends JClass {
     **/
     private static String classType(JType jType) {
         if (jType.isPrimitive()) {
-            if (jType == JType.Int)
+            if (jType == JType.INT)
                 return "java.lang.Integer.TYPE";
-            else if (jType == JType.Double)
+            else if (jType == JType.DOUBLE)
                 return "java.lang.Double.TYPE";
         }
         return jType.toString() + ".class";

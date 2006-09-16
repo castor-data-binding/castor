@@ -371,7 +371,7 @@ public class CollectionInfo extends FieldInfo {
     protected void createGetByIndexMethod(JClass jClass) {
         JMethod method = new JMethod(this.getContentType().getJType(), this.getReadMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException);
-        method.addParameter(new JParameter(JType.Int, "index"));
+        method.addParameter(new JParameter(JType.INT, "index"));
 
         JSourceCode sourceCode = method.getSourceCode();
         this.addIndexCheck(sourceCode, method.getName());
@@ -426,7 +426,7 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createGetCountMethod(JClass jClass) {
-        JMethod method = new JMethod(JType.Int, this.getReadMethodName() + "Count");
+        JMethod method = new JMethod(JType.INT, this.getReadMethodName() + "Count");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -451,7 +451,7 @@ public class CollectionInfo extends FieldInfo {
     protected void createInsertMethod(JClass jClass) {
         JMethod method = new JMethod(null, this.getWriteMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException);
-        method.addParameter(new JParameter(JType.Int, "index"));
+        method.addParameter(new JParameter(JType.INT, "index"));
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
 
@@ -509,7 +509,7 @@ public class CollectionInfo extends FieldInfo {
      */
     protected void createRemoveByIndexMethod(JClass jClass) {
         JMethod method = new JMethod(this.getContentType().getJType(), "remove" + this.getMethodSuffix() + "At");
-        method.addParameter(new JParameter(JType.Int, "index"));
+        method.addParameter(new JParameter(JType.INT, "index"));
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("Object obj = this.");
@@ -539,7 +539,7 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      */
     protected void createRemoveObjectMethod(JClass jClass) {
-        JMethod method = new JMethod(JType.Boolean, "remove" + this.getMethodSuffix());
+        JMethod method = new JMethod(JType.BOOLEAN, "remove" + this.getMethodSuffix());
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
 
@@ -682,7 +682,7 @@ public class CollectionInfo extends FieldInfo {
         JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
 
         method.addException(SGTypes.IndexOutOfBoundsException);
-        method.addParameter(new JParameter(JType.Int, "index"));
+        method.addParameter(new JParameter(JType.INT, "index"));
         method.addParameter(new JParameter(this.getContentType().getJType(), this.getContentName()));
 
         JSourceCode sourceCode = method.getSourceCode();

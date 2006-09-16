@@ -47,7 +47,6 @@ package org.exolab.javasource;
 
 import org.exolab.castor.builder.BuilderConfiguration;
 
-
 /**
  * Represents a primitive or class type
  * 
@@ -56,16 +55,16 @@ import org.exolab.castor.builder.BuilderConfiguration;
  */
 public class JType {
 
-    public static final JType Boolean  = new JType("boolean", "Boolean");
-    public static final JType Byte     = new JType("byte",    "Byte");
-    public static final JType Char     = new JType("char",    "Character");
-    public static final JType Double   = new JType("double",  "Double");
-    public static final JType Float    = new JType("float",   "Float");
-    public static final JType Int      = new JType("int",     "Integer");
-    public static final JType Long     = new JType("long",    "Long");
-    public static final JType Short    = new JType("short",   "Short");
+    public static final JType BOOLEAN  = new JType("boolean", "Boolean");
+    public static final JType BYTE     = new JType("byte",    "Byte");
+    public static final JType CHAR     = new JType("char",    "Character");
+    public static final JType DOUBLE   = new JType("double",  "Double");
+    public static final JType FLOAT    = new JType("float",   "Float");
+    public static final JType INT      = new JType("int",     "Integer");
+    public static final JType LONG     = new JType("long",    "Long");
+    public static final JType SHORT    = new JType("short",   "Short");
 
-    private String name = null;
+    private String _name = null;
     
     /**
      * Indicates whether this JType represents an array
@@ -87,17 +86,16 @@ public class JType {
      * Only populated for primitive types and indicates the wrapper Object class
      * name for this primitive type
      */
-    private String wrapperName = null;
+    private String _wrapperName = null;
 
     /**
      * Creates a new JType with the given name
      * 
      * @param name the name of the type
      */
-    protected JType(String name) 
-    {
+    protected JType(final String name) {
         super();
-        this.name = name;
+        this._name = name;
     } //-- JType
 
     /**
@@ -109,10 +107,9 @@ public class JType {
      * @param wrapperName the name of the wrapper Object type for this primirive
      *            type
      */
-    private JType(String name, String wrapperName)
-    {
+    private JType(final String name, final String wrapperName) {
         this(name);
-        this.wrapperName = wrapperName;
+        this._wrapperName = wrapperName;
     } //-- JType
 
     /**
@@ -142,7 +139,8 @@ public class JType {
      * @return the new JType which is a collection or iterator over the provided
      *         component type
      */
-    public final static JType createCollection(String name, JType componentType) {
+    public static final JType createCollection(final String name,
+            final JType componentType) {
         JType jType = new JType(name);
         jType._isCollection = true;
         jType._componentType = componentType;
@@ -156,25 +154,25 @@ public class JType {
      * @return the component JType if this JType is an array/collection,
      *         otherwise null.
      */
-    public JType getComponentType() {
+    public final JType getComponentType() {
         return _componentType;
     } //-- getComponentType
     
-    public String getLocalName() {
+    public final String getLocalName() {
 
         //-- use getName method in case it's been overloaded
         String name = getName();
 
-        if (name == null) return null;
+        if (name == null) { return null; }
         int idx = name.lastIndexOf('.');
         if (idx >= 0) {
-            name = name.substring(idx+1);
+            name = name.substring(idx + 1);
         }
         return name;
     } //-- getLocalName
     
-    public String getName() {
-        return this.name;
+    public final String getName() {
+        return this._name;
     } //-- getName
 
     /**
@@ -184,8 +182,8 @@ public class JType {
      * @return the name of the wrapper object for a primitive type, null for
      *         non-primitive types
      */
-    public String getWrapperName() {
-      return this.wrapperName;
+    public final String getWrapperName() {
+      return this._wrapperName;
     } //-- getWrapperName
 
     /**
@@ -211,15 +209,15 @@ public class JType {
      * 
      * @return true if this JType represents a primitive type, otherwise false
      */
-    public boolean isPrimitive() {
-        return ((this == JType.Boolean) ||
-                (this == JType.Byte)    ||
-                (this == JType.Char)    ||
-                (this == JType.Double)  ||
-                (this == JType.Float)   ||
-                (this == JType.Int)     ||
-                (this == JType.Long)    ||
-                (this == JType.Short));
+    public final boolean isPrimitive() {
+        return ((this == JType.BOOLEAN)
+             || (this == JType.BYTE)
+             || (this == JType.CHAR)
+             || (this == JType.DOUBLE)
+             || (this == JType.FLOAT)
+             || (this == JType.INT)
+             || (this == JType.LONG)
+             || (this == JType.SHORT));
     } //-- isPrimitive
     
     /**
@@ -228,19 +226,19 @@ public class JType {
      * 
      * @return the String representation of this JType
      */
-    public String toString() {
+    public final String toString() {
         if (_isArray) {
-            return _componentType.toString()+"[]";
+            return _componentType.toString() + "[]";
         }
         
         if (isCollection() && BuilderConfiguration.createInstance().useJava50()) {
           if (_componentType.isPrimitive()) {
-            return name + "<" + _componentType.getWrapperName() + ">";
+            return _name + "<" + _componentType.getWrapperName() + ">";
           } 
-          return name + "<" + _componentType.toString() + ">";
+          return _name + "<" + _componentType.toString() + ">";
         }
         
-        return this.name;
+        return this._name;
     } //-- toString
     
     //---------------------/
@@ -256,21 +254,23 @@ public class JType {
      *            <B>Note:</B> The package name cannot be changed on a
      *            primitive type.
      */
-    protected void changePackage(String newPackage) {
-        if (this.name == null) return;
-        if (this.isPrimitive()) return;
+    protected final void changePackage(final String newPackage) {
+        if (this._name == null) { return; }
+        if (this.isPrimitive()) { return; }
         
         String localName = null;
-        int idx = name.lastIndexOf('.');
-        if (idx >= 0)
-            localName = this.name.substring(idx+1);
-        else 
-            localName = this.name;
+        int idx = _name.lastIndexOf('.');
+        if (idx >= 0) {
+            localName = this._name.substring(idx + 1);
+        } else {
+            localName = this._name;
+        }
             
-        if ((newPackage == null) || (newPackage.length() == 0))
-            this.name = localName;
-        else
-            this.name = newPackage + "." + localName;
+        if ((newPackage == null) || (newPackage.length() == 0)) {
+            this._name = localName;
+        } else {
+            this._name = newPackage + "." + localName;
+        }
     } //-- changePackage
     
 } //-- JType

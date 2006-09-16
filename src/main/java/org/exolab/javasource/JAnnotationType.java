@@ -54,15 +54,17 @@ import java.io.PrintWriter;
  * Describes the definition of a annotation type class
  * 
  * <pre>
- *   JAnnotationType annotationType = new JAnnotationType("RequestForEnhancement");
- *   annotationType.addElement(new JAnnotationTypeElement("id", JType.Int));
- *   annotationType.addElement(new JAnnotationTypeElement("synopsis", new JType("String")));
- *   JAnnotationTypeElement engineer = new JAnnotationTypeElement("engineer", new JType("String"));
+ *   JAnnotationType type = new JAnnotationType("RequestForEnhancement");
+ *   type.addElement(new JAnnotationTypeElement("id", JType.Int));
+ *   type.addElement(new JAnnotationTypeElement("synopsis", new JType("String")));
+ *   JAnnotationTypeElement engineer;
+ *   engineer = new JAnnotationTypeElement("engineer", new JType("String"));
  *   engineer.setDefaultString("\"[unassigned]\"");
- *   annotationType.addElement(engineer);
- *   JAnnotationTypeElement date = new JAnnotationTypeElement("date", new JType("String"));
+ *   type.addElement(engineer);
+ *   JAnnotationTypeElement date;
+ *   date = new JAnnotationTypeElement("date", new JType("String"));
  *   date.setDefaultString("\"[unimplemented]\"");
- *   annotationType.addElement(date);
+ *   type.addElement(date);
  * </pre>
  * 
  *  outputs
@@ -78,76 +80,63 @@ import java.io.PrintWriter;
  * 
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
  */
-public class JAnnotationType extends JStructure
-{
-	/**
-	 * The list of elements of this JAnnotationType
-	 */
-	private JNamedMap _elements = null;
-	
-	/**
+public final class JAnnotationType extends JStructure {
+    /**
+     * The list of elements of this JAnnotationType
+     */
+    private JNamedMap _elements = null;
+    
+    /**
      * Creates a JAnnotationType of the given name
      * 
      * @param name Annotation name
      * @throws IllegalArgumentException
      */
-	public JAnnotationType(String name) 
-		throws IllegalArgumentException 
-	{
-		super(name);
-		_elements = new JNamedMap();
-		//-- initialize default Java doc
-		getJDocComment().appendComment("Annotation " + getLocalName() + ".");
-	}
+    public JAnnotationType(final String name) {
+        super(name);
+        _elements = new JNamedMap();
+        //-- initialize default Java doc
+        getJDocComment().appendComment("Annotation " + getLocalName() + ".");
+    }
 
-	/**
+    /**
      * Adds the given JMember to this JAnnotationType
      * 
      * @param jMember the JMember to add
-     * @throws IllegalArgumentException when the given JMember has the same name
-     *             of an existing JAnnotationTypeElement or is of an
-     *             unrecognized class
      */
-	public void addMember(JMember jMember) 
-		throws IllegalArgumentException 
-	{	
-		if(jMember instanceof JAnnotationTypeElement)
-			addElement((JAnnotationTypeElement) jMember);
-		else
-			throw new IllegalArgumentException("Must be a JAnnotationTypeElement.");
-		
-	} //-- addMember
-	
-	/**
+    public void addMember(final JMember jMember) {
+        if (jMember instanceof JAnnotationTypeElement) {
+            addElement((JAnnotationTypeElement) jMember);
+        } else {
+            throw new IllegalArgumentException("Must be a JAnnotationTypeElement.");
+        }
+    } //-- addMember
+    
+    /**
      * Adds the given JAnnotationTypeElement to this JAnnotationType
      * 
      * @param jElement the element to add
-     * @throws IllegalArgumentException when the given JAnnotationTypeElement
-     *             has the same name of an existing JAnnotationTypeElement
      */
-	public void addElement(JAnnotationTypeElement jElement)
-		throws IllegalArgumentException 
-	{
-		if (jElement == null) {
-			throw new IllegalArgumentException("Class members cannot be null");
-		}
+    public void addElement(final JAnnotationTypeElement jElement) {
+        if (jElement == null) {
+            throw new IllegalArgumentException("Class members cannot be null");
+        }
         
-		String name = jElement.getName();        
-		if (_elements.get(name) != null) {
-			String err = "duplicate name found: " + name;
-			throw new IllegalArgumentException(err);
-		}
-		_elements.put(name, jElement);
+        String name = jElement.getName();        
+        if (_elements.get(name) != null) {
+            String err = "duplicate name found: " + name;
+            throw new IllegalArgumentException(err);
+        }
+        _elements.put(name, jElement);
 
-		// if member is of a type not imported by this class
-		// then add import
-		JType type = jElement.getType();
-		while (type.isArray()) type = type.getComponentType();
-		if ( !type.isPrimitive() )
-			addImport( type.getName());
-	} //-- addElement
-	
-	/**
+        // if member is of a type not imported by this class
+        // then add import
+        JType type = jElement.getType();
+        while (type.isArray()) { type = type.getComponentType(); }
+        if (!type.isPrimitive()) { addImport(type.getName()); }
+    } //-- addElement
+    
+    /**
      * Returns the member with the given name, or null if no member was found
      * with the given name
      * 
@@ -155,145 +144,134 @@ public class JAnnotationType extends JStructure
      * @return the member with the given name, or null if no member was found
      *         with the given name
      */
-	public JAnnotationTypeElement getElement(String name)
-	{
-		return (JAnnotationTypeElement)_elements.get(name);
-	} //-- getElement
-	
-	/**
+    public JAnnotationTypeElement getElement(final String name) {
+        return (JAnnotationTypeElement) _elements.get(name);
+    } //-- getElement
+    
+    /**
      * Returns an Array containing all our JAnnotationTypeElements
      * 
      * @return an Array containing all our JAnnotationTypeElements
-     */	
-	public JAnnotationTypeElement[] getElements()
-	{
-		int size = _elements.size();
-		JAnnotationTypeElement[] farray = new JAnnotationTypeElement[size];
-		for (int i = 0; i < size; i++) {
-			farray[i] = (JAnnotationTypeElement)_elements.get(i);
-		}
-		return farray;
-	} //-- getElements
+     */
+    public JAnnotationTypeElement[] getElements() {
+        int size = _elements.size();
+        JAnnotationTypeElement[] farray = new JAnnotationTypeElement[size];
+        for (int i = 0; i < size; i++) {
+            farray[i] = (JAnnotationTypeElement) _elements.get(i);
+        }
+        return farray;
+    } //-- getElements
 
-	/**
+    /**
      * Not implemented. Always throws a RuntimeException.
      * 
      * @param jField not used
-     * @throws IllegalArgumentException never, but we have to declare it for
-     *             Interface compatibility
      * @see org.exolab.javasource.JStructure#addField
      */
-	public void addField(JField jField) 
-		throws IllegalArgumentException 
-	{
-		throw new RuntimeException("Not implemented."); 
-	} //-- addField
+    public void addField(final JField jField) {
+        throw new RuntimeException("Not implemented."); 
+    } //-- addField
 
-	/**
+    /**
      * Not implemented. Always throws a RuntimeException.
      * 
      * @param name not used
      * @return nothing is ever returned
      * @see org.exolab.javasource.JStructure#getField
      */
-	public JField getField(String name) 
-	{
-		throw new RuntimeException("Not implemented."); 
-	} //-- getField
+    public JField getField(final String name) {
+        throw new RuntimeException("Not implemented."); 
+    } //-- getField
 
-	/**
+    /**
      * Not implemented. Always throws a RuntimeException.
      * 
      * @return nothing is ever returned
      */
-	public JField[] getFields() 
-	{
-		throw new RuntimeException("Not implemented."); 
-	} //-- getFields
+    public JField[] getFields() {
+        throw new RuntimeException("Not implemented."); 
+    } //-- getFields
 
-	/**
+    /**
      * Prints the source code for this JAnnotationType to the given
      * JSourceWriter
      * 
      * @param jsw the JSourceWriter to print to. Must not be null.
      */
-	public void print(JSourceWriter jsw) 
-	{
-		if (jsw == null) {
-			throw new IllegalArgumentException("argument 'jsw' should not be null.");
-		}
+    public void print(final JSourceWriter jsw) {
+        if (jsw == null) {
+            throw new IllegalArgumentException("argument 'jsw' should not be null.");
+        }
         
-		StringBuffer buffer = new StringBuffer();
+        StringBuffer buffer = new StringBuffer();
 
-		printHeader(jsw);
-		printPackageDeclaration(jsw);
+        printHeader(jsw);
+        printPackageDeclaration(jsw);
         printImportDeclarations(jsw);
 
-		//------------/
-		//- Java Doc -/
-		//------------/
+        //------------/
+        //- Java Doc -/
+        //------------/
 
-		getJDocComment().print(jsw);
+        getJDocComment().print(jsw);
 
-		//-- print class information
-		//-- we need to add some JavaDoc API adding comments
+        //-- print class information
+        //-- we need to add some JavaDoc API adding comments
 
-		buffer.setLength(0);
-		JModifiers modifiers = getModifiers();
-		if (modifiers.isPrivate()) {
-			buffer.append("private ");
-		}
-		else if (modifiers.isPublic()) {
-			buffer.append("public ");
-		}
-		buffer.append("@interface ");
-		buffer.append(getLocalName());
-		buffer.append(' ');
-		buffer.append('{');
-		jsw.writeln(buffer.toString());
-		
-		//-- declare members
-		
-		buffer.setLength(0);
-		jsw.writeln();
-		jsw.indent();
-		for (int i = 0; i < _elements.size(); i++) 
-		{
+        buffer.setLength(0);
+        JModifiers modifiers = getModifiers();
+        if (modifiers.isPrivate()) {
+            buffer.append("private ");
+        } else if (modifiers.isPublic()) {
+            buffer.append("public ");
+        }
+        buffer.append("@interface ");
+        buffer.append(getLocalName());
+        buffer.append(' ');
+        buffer.append('{');
+        jsw.writeln(buffer.toString());
+        
+        //-- declare members
+        
+        buffer.setLength(0);
+        jsw.writeln();
+        jsw.indent();
+        for (int i = 0; i < _elements.size(); i++) {
 
-			JAnnotationTypeElement jElement = (JAnnotationTypeElement)_elements.get(i);
-			jElement.print(jsw);
-			jsw.writeln();
-		}       
-		jsw.unindent();
-		
-		// -- close class
-		
-		jsw.writeln('}');
-		jsw.flush();
-		
-	} //-- print
-	
-	/**
-	 * Test
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-		
-		{		
-			JAnnotationType annotationType = new JAnnotationType("RequestForEnhancement");
-			annotationType.addElement(new JAnnotationTypeElement("id", JType.Int));
-			annotationType.addElement(new JAnnotationTypeElement("synopsis", new JType("String")));
-			JAnnotationTypeElement engineer = new JAnnotationTypeElement("engineer", new JType("String"));
-			engineer.setDefaultString("\"[unassigned]\"");
-			annotationType.addElement(engineer);
-			JAnnotationTypeElement date = new JAnnotationTypeElement("date", new JType("String"));
-			date.setDefaultString("\"[unimplemented]\"");
-			annotationType.addElement(date);
-			annotationType.print(jsw);
-		}
-		
-		jsw.flush();
-	}
+            JAnnotationTypeElement jElement = (JAnnotationTypeElement) _elements.get(i);
+            jElement.print(jsw);
+            jsw.writeln();
+        }       
+        jsw.unindent();
+        
+        // -- close class
+        
+        jsw.writeln('}');
+        jsw.flush();
+        
+    } //-- print
+
+    /**
+     * Test
+     * @param args
+     */
+    public static void main(final String[] args) {
+        JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
+        
+        JAnnotationType annotationType = new JAnnotationType("RequestForEnhancement");
+        annotationType.addElement(new JAnnotationTypeElement("id", JType.INT));
+        annotationType.addElement(new JAnnotationTypeElement(
+                "synopsis", new JType("String")));
+        JAnnotationTypeElement engineer = new JAnnotationTypeElement(
+                "engineer", new JType("String"));
+        engineer.setDefaultString("\"[unassigned]\"");
+        annotationType.addElement(engineer);
+        JAnnotationTypeElement date = new JAnnotationTypeElement(
+                "date", new JType("String"));
+        date.setDefaultString("\"[unimplemented]\"");
+        annotationType.addElement(date);
+        annotationType.print(jsw);
+        
+        jsw.flush();
+    }
 }

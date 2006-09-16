@@ -733,11 +733,11 @@ public class DescriptorSourceFactory {
 	**/
 	private static String classType(JType jType) {
 		if (jType.isPrimitive()) {
-			if (jType == JType.Int)
+			if (jType == JType.INT)
 				return "java.lang.Integer.TYPE";
-			else if (jType == JType.Double)
+			else if (jType == JType.DOUBLE)
 				return "java.lang.Double.TYPE";
-			else if (jType == JType.Boolean) {
+			else if (jType == JType.BOOLEAN) {
 				return "java.lang.Boolean.TYPE";
 			}
 		}

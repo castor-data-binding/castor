@@ -55,178 +55,162 @@ import java.io.PrintWriter;
  * 
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
-public class JAnnotationTypeElement
-	implements JMember 
-{
-	private String _name;
-	private JDocComment _comment;
-	private JType _type;
-	private JModifiers _modifiers;
-	private String _default;
-	
-	/**
-	 * Constructs a JAnnotationTypeElement with a given name and type
-	 * @param name
-	 * @param type
-	 */
-	public JAnnotationTypeElement(String name, JType type)
-	{
-		setName(name);
-		_type = type;
-		_modifiers = new JModifiers();
-		_comment = new JDocComment();
-		_comment.appendComment("Element " + name);		
-	}
-	
-	/**
+public final class JAnnotationTypeElement implements JMember {
+    private String _name;
+    private JDocComment _comment;
+    private JType _type;
+    private JModifiers _modifiers;
+    private String _default;
+    
+    /**
+     * Constructs a JAnnotationTypeElement with a given name and type
+     * 
+     * @param name
+     * @param type
+     */
+    public JAnnotationTypeElement(final String name, final JType type) {
+        setName(name);
+        _type = type;
+        _modifiers = new JModifiers();
+        _comment = new JDocComment();
+        _comment.appendComment("Element " + name);      
+    }
+    
+    /**
      * Returns the modifiers for this JAnnotationTypeElement
      * 
      * @return the modifiers for this JAnnotationTypeElement
-     */	
-	public JModifiers getModifiers() 
-	{
-		return _modifiers;
-	} //-- getModifiers
+     */ 
+    public JModifiers getModifiers() {
+        return _modifiers;
+    } //-- getModifiers
 
-	/**
+    /**
      * Sets the name of this JAnnotationTypeElement
      * 
      * @param name the name of this JAnnotationTypeElement
-     * @throws IllegalArgumentException when the name is not a valid Java member
-     *             name
      */
-	public void setName(String name) throws 
-		IllegalArgumentException
-	{
-		if (!JNaming.isValidJavaIdentifier(name)) {
-			String err = "'" + name + "' is ";
-			if (JNaming.isKeyword(name))
-				err += "a reserved word and may not be used as "
-					+ " a field name.";
-			else 
-				err += "not a valid Java identifier.";
-			throw new IllegalArgumentException(err);
-		}
-		_name = name;
-	} //-- setName
+    public void setName(final String name) {
+        if (!JNaming.isValidJavaIdentifier(name)) {
+            String err = "'" + name + "' is ";
+            if (JNaming.isKeyword(name)) {
+                err += "a reserved word and may not be used as "
+                    + " a field name.";
+            } else { 
+                err += "not a valid Java identifier.";
+            }
+            throw new IllegalArgumentException(err);
+        }
+        _name = name;
+    } //-- setName
 
-	/**
+    /**
      * Returns the name of this JAnnotationTypeElement
      * 
      * @return the name of this JAnnotationTypeElement
      */
-	public String getName() 
-	{
-		return _name;
-	} //-- getName
-	
-	/**
+    public String getName() {
+        return _name;
+    } //-- getName
+    
+    /**
      * Returns the JType representing the type of this JAnnotationTypeElement
      * 
      * @return the JType representing the type of this JAnnotationTypeElement
-     */	
-	public JType getType()
-	{
-		return _type;
-	} //-- getType
+     */ 
+    public JType getType() {
+        return _type;
+    } //-- getType
 
-	/**
+    /**
      * Returns the initialization string for this JAnnotationTypeElement
      * 
      * @return the initialization string for this JAnnotationTypeElement
-     */	
-	public String getDefaultString()
-	{
-		return _default;
-	} //-- getDefaultString
-	
-	/**
+     */ 
+    public String getDefaultString() {
+        return _default;
+    } //-- getDefaultString
+    
+    /**
      * Sets the initialization string for this JAnnotationTypeElement. This
      * method allows some flexibility in declaring default values.
      * 
      * @param defaultString the default string for this member
-     */	
-	public void setDefaultString(String defaultString)
-	{
-		_default = defaultString;
-	} //-- setDefaultString
+     */ 
+    public void setDefaultString(final String defaultString) {
+        _default = defaultString;
+    } //-- setDefaultString
 
-	/**
+    /**
      * Sets the JavaDoc comment describing this member
      * 
      * @param comment the JDocComment for this member
      */
-	public void setComment(JDocComment comment) {
-		this._comment = comment;
-	} //-- setComment
+    public void setComment(final JDocComment comment) {
+        this._comment = comment;
+    } //-- setComment
 
-	/**
+    /**
      * Sets the JavaDoc comment describing this member
      * 
      * @param comment the JDocComment for this member
      */
-	public void setComment(String comment) {
-		if (this._comment == null) {
-			this._comment = new JDocComment();
-		}
-		this._comment.setComment(comment);
-	} //-- setComment
+    public void setComment(final String comment) {
+        if (this._comment == null) {
+            this._comment = new JDocComment();
+        }
+        this._comment.setComment(comment);
+    } //-- setComment
 
-	/**
+    /**
      * Returns the JavaDoc comment describing this member
      * 
      * @return the comment describing this member, or null if no comment has
      *         been set
      */
-	public JDocComment getComment() {
-		return this._comment;
-	} //-- getComment
-	
-	/**
+    public JDocComment getComment() {
+        return this._comment;
+    } //-- getComment
+    
+    /**
      * Outputs the annotation type element to the provided JSourceWriter
      * 
      * @param jsw the JSourceWriter to print this element to
      */
-	public void print(JSourceWriter jsw)
-	{
-		if(_comment!=null)
-			_comment.print(jsw);
-		jsw.write(_type.toString());
-		jsw.write(" ");
-		jsw.write(_name);
-		jsw.write("()");
-		if(_default!=null)
-		{
-			jsw.write(" default ");
-			jsw.write(_default);
-		}
-		jsw.write(";");
-	}
-	
-	/**
-	 * Test
-	 * @param args
-	 */
-	public static void main(String[] args)
-	{
-		JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-		
-		// Simple
-		{
-			JAnnotationTypeElement annotationTypeElement = new JAnnotationTypeElement("synopsis", new JType("String"));
-			annotationTypeElement.print(jsw);	
-		}
-		
-		jsw.writeln();
-		jsw.writeln();
+    public void print(final JSourceWriter jsw) {
+        if (_comment != null) { _comment.print(jsw); }
+        jsw.write(_type.toString());
+        jsw.write(" ");
+        jsw.write(_name);
+        jsw.write("()");
+        if (_default != null) {
+            jsw.write(" default ");
+            jsw.write(_default);
+        }
+        jsw.write(";");
+    }
+    
+    /**
+     * Test
+     * @param args
+     */
+    public static void main(final String[] args) {
+        JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
+        
+        // Simple
+        JAnnotationTypeElement annotationTypeElement1 = new JAnnotationTypeElement(
+                "synopsis", new JType("String"));
+        annotationTypeElement1.print(jsw);   
+        
+        jsw.writeln();
+        jsw.writeln();
 
-		// Simple with default
-		{
-			JAnnotationTypeElement annotationTypeElement = new JAnnotationTypeElement("synopsis", new JType("String"));
-			annotationTypeElement.setDefaultString("\"Good book\"");
-			annotationTypeElement.print(jsw);	
-		}
-		
-		jsw.flush();
-	}
+        // Simple with default
+        JAnnotationTypeElement annotationTypeElement2 = new JAnnotationTypeElement(
+                "synopsis", new JType("String"));
+        annotationTypeElement2.setDefaultString("\"Good book\"");
+        annotationTypeElement2.print(jsw);   
+        
+        jsw.flush();
+    }
 }

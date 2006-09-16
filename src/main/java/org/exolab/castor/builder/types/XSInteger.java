@@ -67,7 +67,7 @@ public class XSInteger extends XSPatternBase {
     /**
      * The JType represented by this XSType
     **/
-    private static JType jType = JType.Int;
+    private static JType jType = JType.INT;
     private boolean _asWrapper = false;
     
 
@@ -81,7 +81,7 @@ public class XSInteger extends XSPatternBase {
          _asWrapper = asWrapper;
         if (_asWrapper)
             jType = new JClass("java.lang.Integer");
-        else jType = JType.Int;
+        else jType = JType.INT;
     } //-- XSInteger
 
 
@@ -361,7 +361,7 @@ public class XSInteger extends XSPatternBase {
             //-- make sure we have a valid value...
             //-- Only if we are not using Object
             
-            if (XSInteger.jType == JType.Int)
+            if (XSInteger.jType == JType.INT)
                 Integer.parseInt(fixedValue);
 
             jsc.add("typeValidator.setFixed(");

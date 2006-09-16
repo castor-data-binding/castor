@@ -29,6 +29,26 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1561" tool="jira">
+                    <description>
+		                Enabled checkstyle for javasource package and fixed most of the warnings.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060916</date>
+                </bug>
 				<bug id="1557" tool="jira">
                     <description>
 		                Moved java.util.Iterator-specific code from CollectionInfo to CollectionInfoJ2.

@@ -43,7 +43,6 @@
  * $Id$
  */
 
-
 package org.exolab.javasource;
 
 /**
@@ -52,12 +51,12 @@ package org.exolab.javasource;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class JDocDescriptor {
+public final class JDocDescriptor {
     
     /**
      * The default version string, broken into parts so CVS does not expand it.
      */
-    public static final String DEFAULT_VERSION = "$"+"Revision"+"$ $"+"Date"+"$";
+    public static final String DEFAULT_VERSION = "$" + "Revision" + "$ $" + "Date" + "$";
         
     //-- These are listed in order of how they should appear in a JavaDoc
     //-- list, so the numbers are important...see #compareTo
@@ -94,26 +93,26 @@ public class JDocDescriptor {
     /**
      * A description string for the object being described
      */
-    private String description = null;
+    private String _description = null;
     
     /**
      * The name of this JDocDescriptor
      */
-    private String name = null;
+    private String _name = null;
     
     /**
      * The type of JDocDescriptor, one of {@link #PARAM}, {@link #EXCEPTION},
      * {@link #RETURN}, {@link #AUTHOR}, {@link #VERSION}, {@link #REFERENCE}
      */
-    private short  type = -1;
+    private short  _type = -1;
     
     /**
      * Creates a new JDocDescriptor
      * 
      * @param type the type of JDocDescriptor (e.g., {@link #REFERENCE}
      */
-    private JDocDescriptor(short type) {
-        this.type = type;
+    private JDocDescriptor(final short type) {
+        this._type = type;
     } //-- JDocDescriptor
     
     /**
@@ -123,10 +122,10 @@ public class JDocDescriptor {
      * @param name the name string for this descriptor
      * @param desc the description string for this descriptor
      */
-    private JDocDescriptor(short type, String name, String desc) {
-        this.type        = type;
-        this.name        = name;
-        this.description = desc;
+    private JDocDescriptor(final short type, final String name, final String desc) {
+        this._type        = type;
+        this._name        = name;
+        this._description = desc;
     } //-- JDocDescriptor
 
     /**
@@ -138,10 +137,10 @@ public class JDocDescriptor {
      *         descriptor is greater than the given descriptor, or -1 if the
      *         type of this descriptor is less than the given descriptor
      */
-    protected short compareTo(JDocDescriptor jdd) {
+    protected short compareTo(final JDocDescriptor jdd) {
         short jddType = jdd.getType();
         
-        if (jddType == this.type) return 0;
+        if (jddType == this._type) { return 0; }
         
         // The ordering is as follows
         // #param
@@ -150,7 +149,7 @@ public class JDocDescriptor {
         // #version
         // #see (reference)
         //
-        return (short) ((jddType < this.type) ? 1 : -1);
+        return (short) ((jddType < this._type) ? 1 : -1);
     } //-- compareTo
     
     /**
@@ -169,7 +168,7 @@ public class JDocDescriptor {
      * @param name the author name string
      * @return the new JDocDescriptor
      */
-    public static JDocDescriptor createAuthorDesc(String name) {
+    public static JDocDescriptor createAuthorDesc(final String name) {
         return new JDocDescriptor(AUTHOR, name, null);
     } //-- createAuthorDesc
 
@@ -190,9 +189,8 @@ public class JDocDescriptor {
      * @param desc the description of when the exception is thrown
      * @return the new JDocDescriptor
      */
-    public static JDocDescriptor createExceptionDesc
-        (String name, String desc) 
-    {
+    public static JDocDescriptor createExceptionDesc(
+            final String name, final String desc) {
         return new JDocDescriptor(EXCEPTION, name, desc);
     } //-- createExceptionDesc
     
@@ -214,8 +212,7 @@ public class JDocDescriptor {
      * @param desc the param description string
      * @return the new JDocDescriptor
      */
-    public static JDocDescriptor createParamDesc(String name, String desc) 
-    {
+    public static JDocDescriptor createParamDesc(final String name, final String desc) {
         return new JDocDescriptor(PARAM, name, desc);
     } //-- createParamDesc
     
@@ -235,7 +232,7 @@ public class JDocDescriptor {
      * @param name the reference name string
      * @return the new JDocDescriptor
      */
-    public static JDocDescriptor createReferenceDesc(String name) {
+    public static JDocDescriptor createReferenceDesc(final String name) {
         return new JDocDescriptor(REFERENCE, name , null);
     } //-- createReferenceDesc
     
@@ -255,7 +252,7 @@ public class JDocDescriptor {
      * @param desc the return description
      * @return the new JDocDescriptor
      */
-    public static JDocDescriptor createReturnDesc(String desc) {
+    public static JDocDescriptor createReturnDesc(final String desc) {
         return new JDocDescriptor(RETURN, null , desc);
     } //-- createReturnDesc
     
@@ -275,7 +272,7 @@ public class JDocDescriptor {
      * @param version the version string
      * @return the new JDocDescriptor
      */
-    public static JDocDescriptor createVersionDesc(String version) {
+    public static JDocDescriptor createVersionDesc(final String version) {
         return new JDocDescriptor(VERSION, null, version);
     } //-- createVersionDesc
     
@@ -285,7 +282,7 @@ public class JDocDescriptor {
      * @return the description string
      */
     public String getDescription() {
-        return description;
+        return _description;
     } //-- getDescription
     
     /**
@@ -301,7 +298,7 @@ public class JDocDescriptor {
      * @return the name of the object being described. This
      */
     public String getName() {
-        return name;
+        return _name;
     } //-- getName
     
     /**
@@ -310,7 +307,7 @@ public class JDocDescriptor {
      * @return the type of this JDocDescriptor
      */
     public short getType() {
-        return this.type;
+        return this._type;
     } //-- getType
     
     /**
@@ -318,8 +315,8 @@ public class JDocDescriptor {
      * 
      * @param desc the description of the object being described
      */
-    public void setDescription(String desc) {
-        this.description = desc;
+    public void setDescription(final String desc) {
+        this._description = desc;
     } //-- setDescription
     
     
@@ -335,8 +332,8 @@ public class JDocDescriptor {
      * 
      * @param name the name value of the JavaDoc field
      */
-    public void setName(String name) {
-        this.name = name;
+    public void setName(final String name) {
+        this._name = name;
     } //-- setName
     
     /**
@@ -347,7 +344,7 @@ public class JDocDescriptor {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         boolean allowName = true;
-        switch(type) {
+        switch(_type) {
             case AUTHOR:
                 sb.append("@author");
                 break;
@@ -371,14 +368,14 @@ public class JDocDescriptor {
                 break;
         }
         
-        if ((name != null) && allowName) {
+        if ((_name != null) && allowName) {
             sb.append(' ');
-            sb.append(name);
+            sb.append(_name);
         }
         
-        if (description != null) {
+        if (_description != null) {
             sb.append(' ');
-            sb.append(description);
+            sb.append(_description);
         }
         
         return sb.toString();

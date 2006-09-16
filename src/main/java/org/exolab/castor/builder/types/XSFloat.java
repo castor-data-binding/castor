@@ -70,7 +70,7 @@ public final class XSFloat extends XSPatternBase {
     /**
      * The JType represented by this XSType
     **/
-    private static JType jType = JType.Float;
+    private static JType jType = JType.FLOAT;
     private boolean _asWrapper = false;
 
     public XSFloat() {
@@ -82,7 +82,7 @@ public final class XSFloat extends XSPatternBase {
         _asWrapper = asWrapper;
         if (_asWrapper)
             jType = new JClass("java.lang.Float");
-        else jType = JType.Float;
+        else jType = JType.FLOAT;
     } //-- XSFloat
 
 

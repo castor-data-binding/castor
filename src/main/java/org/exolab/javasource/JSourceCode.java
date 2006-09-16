@@ -53,29 +53,29 @@ import java.util.Vector;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class JSourceCode {
+public final class JSourceCode {
     
     /**
      * A list of JCodeStatements
      */
-    private Vector source = null;
+    private Vector _source = null;
     
     /**
      * The indent size 
      */
-    private short indentSize = 4;
+    private short _indentSize = 4;
     
     /**
      * The current indent size
      */
-    private short currentIndent = indentSize;
+    private short _currentIndent = _indentSize;
     
     /**
      * Creates an empty JSourceCode
      */
     public JSourceCode() {
         super();
-        source = new Vector();
+        _source = new Vector();
     } //-- JSourceCode
     
     /**
@@ -83,9 +83,9 @@ public class JSourceCode {
      * 
      * @param sourceCode the source to add
      */
-    public JSourceCode(String sourceCode) {
+    public JSourceCode(final String sourceCode) {
         this();
-        this.source.addElement(new JCodeStatement(sourceCode, currentIndent));
+        this._source.addElement(new JCodeStatement(sourceCode, _currentIndent));
     } //-- JSourceCode
     
     /**
@@ -94,9 +94,9 @@ public class JSourceCode {
      * 
      * @param statement the statement to add
      */
-    public void add(String statement) {
-        JCodeStatement jcs = new JCodeStatement(statement, currentIndent);
-        source.addElement(jcs);
+    public void add(final String statement) {
+        JCodeStatement jcs = new JCodeStatement(statement, _currentIndent);
+        _source.addElement(jcs);
     } //-- add
     
     /**
@@ -108,9 +108,9 @@ public class JSourceCode {
      *        printing this JSourceCode
      * @see #print(JSourceWriter)
      */
-    public void add(String statement, short indentSize) {
+    public void add(final String statement, final short indentSize) {
         JCodeStatement jcs = new JCodeStatement(statement, indentSize);
-        source.addElement(jcs);
+        _source.addElement(jcs);
     } //-- add
     
     /**
@@ -124,10 +124,10 @@ public class JSourceCode {
      * </code>
      * @param statement the statement to add
      */
-    public void addIndented(String statement) {
+    public void addIndented(final String statement) {
         indent();
-        JCodeStatement jcs = new JCodeStatement(statement, currentIndent);
-        source.addElement(jcs);
+        JCodeStatement jcs = new JCodeStatement(statement, _currentIndent);
+        _source.addElement(jcs);
         unindent();
     } //-- add
 
@@ -136,10 +136,11 @@ public class JSourceCode {
      * 
      * @param segment the String to append
      */
-    public void append(String segment) {
-        if (source.isEmpty()) add(segment);
-        else {
-            JCodeStatement jcs = (JCodeStatement) source.lastElement();
+    public void append(final String segment) {
+        if (_source.isEmpty()) {
+            add(segment);
+        } else {
+            JCodeStatement jcs = (JCodeStatement) _source.lastElement();
             jcs.append(segment);
         }
     } //-- append(String)
@@ -148,7 +149,7 @@ public class JSourceCode {
      * Clears all the code statements from this JSourceCode
      */
     public void clear() {
-        source.removeAllElements();
+        _source.removeAllElements();
     } //-- clear();
     
     /**
@@ -156,9 +157,9 @@ public class JSourceCode {
      * 
      * @param jsc the JSourceCode to copy this JSourceCode into
      */
-    public void copyInto(JSourceCode jsc) {
-        for (int i = 0; i < source.size(); i++) {
-             jsc.addCodeStatement((JCodeStatement)source.elementAt(i));
+    public void copyInto(final JSourceCode jsc) {
+        for (int i = 0; i < _source.size(); i++) {
+             jsc.addCodeStatement((JCodeStatement) _source.elementAt(i));
         }
     } //-- copyInto
     
@@ -166,7 +167,7 @@ public class JSourceCode {
      * Increases the current indent level by 1
      */
     public void indent() {
-        currentIndent += indentSize;
+        _currentIndent += _indentSize;
     } //-- indent();
     
     /**
@@ -175,7 +176,7 @@ public class JSourceCode {
      * @return true if this JSourceCode is empty.
      */
     public boolean isEmpty() {
-        return source.isEmpty();
+        return _source.isEmpty();
     } //-- isEmpty
     
     /**
@@ -183,16 +184,17 @@ public class JSourceCode {
      * 
      * @param jsw the JSourceWriter to print to
      */
-    public void print(JSourceWriter jsw) {
-        for (int i = 0; i < source.size(); i++) 
-            jsw.writeln(source.elementAt(i).toString());
+    public void print(final JSourceWriter jsw) {
+        for (int i = 0; i < _source.size(); i++) {
+            jsw.writeln(_source.elementAt(i).toString());
+        }
     } //-- print
     
     /**
      * Decreases the indent level by 1
      */
     public void unindent() {
-        currentIndent -= indentSize;
+        _currentIndent -= _indentSize;
     } //-- unindent
     
     /**
@@ -203,8 +205,8 @@ public class JSourceCode {
     public String toString() {
         StringBuffer sb = new StringBuffer();
         String lineSeparator = System.getProperty("line.separator");
-        for (int i = 0; i < source.size(); i++) {
-            sb.append(source.elementAt(i).toString());
+        for (int i = 0; i < _source.size(); i++) {
+            sb.append(_source.elementAt(i).toString());
             sb.append(lineSeparator);
         }
         return sb.toString();
@@ -215,9 +217,10 @@ public class JSourceCode {
      * 
      * @param jcs the JCodeStatement to add
      */
-    private void addCodeStatement(JCodeStatement jcs) {
-        short indent = (short)(jcs.getIndent()+ currentIndent - JCodeStatement.DEFAULT_INDENTSIZE);
-        source.addElement(new JCodeStatement(jcs.getStatement(), indent));
+    private void addCodeStatement(final JCodeStatement jcs) {
+        short indent = (short) (jcs.getIndent() + _currentIndent
+                - JCodeStatement.DEFAULT_INDENTSIZE);
+        _source.addElement(new JCodeStatement(jcs.getStatement(), indent));
     } //-- addCodeStatement(JCodeStatement)
    
 } //-- JSourceCode
@@ -229,42 +232,47 @@ public class JSourceCode {
  */
 class JCodeStatement {
     
-    private StringBuffer value = null;
-       static public short DEFAULT_INDENTSIZE = 4;
-    private short indentSize = DEFAULT_INDENTSIZE;
+    public static final short DEFAULT_INDENTSIZE = 4;
+
+    private StringBuffer _value = null;
+    private short _indentSize = DEFAULT_INDENTSIZE;
     
     JCodeStatement() {
         super();
-        value = new StringBuffer();
+        _value = new StringBuffer();
     } //-- JCodeStatement
     
-    JCodeStatement(String statement) {
+    JCodeStatement(final String statement) {
         this();
-        this.value.append(statement);
+        this._value.append(statement);
     } //-- JCodeStatement
     
-    JCodeStatement(String statement, short indentSize) {
+    JCodeStatement(final String statement, final short indentSize) {
         this(statement);
-        this.indentSize = indentSize;
+        this._indentSize = indentSize;
     } //-- JCodeStatement
 
     
-    void append(String segment) {
-        value.append(segment);
+    void append(final String segment) {
+        _value.append(segment);
     }
     
     short getIndent() {
-        return indentSize;
+        return _indentSize;
     } //-- getIndent
     
     String getStatement() {
-        return value.toString();
+        return _value.toString();
     } //-- getStatement
     
+    /**
+     * @see java.lang.Object#toString()
+     * {@inheritDoc}
+     */
     public String toString() {
-        StringBuffer sb = new StringBuffer(indentSize + value.length());
-        for (int i = 0; i < indentSize; i++) sb.append(' ');
-        sb.append(value.toString());
+        StringBuffer sb = new StringBuffer(_indentSize + _value.length());
+        for (int i = 0; i < _indentSize; i++) { sb.append(' '); }
+        sb.append(_value.toString());
         return sb.toString();
     }
 } //-- JCodeStatement
