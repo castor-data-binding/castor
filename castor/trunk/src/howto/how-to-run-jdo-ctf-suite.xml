@@ -39,11 +39,11 @@
             <li>Download the sources distribution from the 
                 <a href="download.html">download page</a></li>
             
-            <li>download the latest snapshot from CVS from (see links on the bottom 
-                left corner): <a href="http://cvs.castor.codehaus.org/viewrep/castor/castor">here</a></li>
-            <li>Check out the latest code from CVS into your prefered developement 
+            <li>download the latest snapshot from SVN from (see links on the bottom 
+                left corner): <a href="http://svn.castor.codehaus.org/viewrep/castor/castor">here</a></li>
+            <li>Check out the latest code from SVN into your prefered developement 
                 environment. For instructions on this task, take a look
-                <a href="cvs.html">here</a></li>
+                <a href="scm.html">here</a></li>
         </ul>
         
         
