@@ -49,59 +49,53 @@ package org.exolab.javasource;
 import java.util.Vector;
 
 /**
- * A class which holds information about the signtaure
- * of a JMethod.
- *
- * The code in this package was modelled after the Java Reflection API
- * as much as possible to reduce the learning curve.
+ * A class which holds information about the signtaure of a JMethod. The code in
+ * this package was modelled after the Java Reflection API as much as possible
+ * to reduce the learning curve.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
-**/
-public final class JMethodSignature extends JAnnotatedElementHelper
-{
+ */
+public final class JMethodSignature extends JAnnotatedElementHelper {
 
     /**
-     * The set of modifiers for this JMethod
-    **/
+     * The set of modifiers for this JMethodSignature
+     */
     private JModifiers modifiers = null;
     
     /**
-     * The return type of this Method
-    **/
+     * The return type of this method
+     */
     private JType returnType    = null;
     
     /**
-     * The name of this method
-    **/
+     * The name of this JMethodSignature
+     */
     private String name          = null;
 
-
     /**
-     * The list of parameters of this JMethodSignature in declared 
-     * order
-    **/
+     * The list of parameters of this method in order declared
+     */
     private JNamedMap params       = null;
     
     /**
-     * The JavaDoc comment for this method signature.
-    **/
+     * The JavaDoc comment for this method's signature.
+     */
     private JDocComment jdc = null;
     
     /**
      * The exceptions that this method throws
-    **/
+     */
     private Vector exceptions = null;
     
     /**
-     * Creates a new method with the given name and return type.
-     * For "void" return types, simply pass in null as the returnType
+     * Creates a new method with the given name and return type. For "void"
+     * return types, simply pass in null as the returnType
      *
      * @param name, the method name. Must not be null.
      * @param returnType the return type of the method. May be null.
-    **/
+     */
     public JMethodSignature(String name, JType returnType) {
-        
         if ((name == null) || (name.length() == 0)) {
             String err = "The method name must not be null or zero-length";
             throw new IllegalArgumentException(err);
@@ -122,11 +116,10 @@ public final class JMethodSignature extends JAnnotatedElementHelper
 
     /**
      * Adds the given Exception to this JMethodSignature's throws clause.
-     *
+     * 
      * @param exp the JClass representing the Exception
-    **/
+     */
     public void addException(JClass exp) {
-        
         if (exp == null) return;
         
         //-- make sure exception is not already added
@@ -140,19 +133,16 @@ public final class JMethodSignature extends JAnnotatedElementHelper
     } //-- addException
     
     /**
-     * Adds the given parameter to this JMethodSignature's list of 
-     * parameters.
-     *
-     * @param parameter the parameter to add to the this Methods
-     * list of parameters.
-     * @throws IllegalArgumentException when a parameter already
-     * exists for this Method with the same name as the new 
-     * parameter.
-    **/
+     * Adds the given parameter to this JMethodSignature's list of parameters.
+     * 
+     * @param parameter the parameter to add to the this JMethodSignature's list
+     *            of parameters.
+     * @throws IllegalArgumentException when a parameter already exists for this
+     *             Method with the same name as the new parameter.
+     */
     public void addParameter(JParameter parameter) 
         throws IllegalArgumentException
     {
-        
         if (parameter == null) return;
         
         String pName = parameter.getName();
@@ -171,67 +161,66 @@ public final class JMethodSignature extends JAnnotatedElementHelper
         
         //-- create comment
         jdc.addDescriptor(JDocDescriptor.createParamDesc(pName, null));
-        
     } //-- addParameter
     
     /**
-     * Returns the exceptions that this JMethodSignature lists
-     * in it's throws clause.
-     *
-     * @return the exceptions that this JMethodSignature lists
-     * in it's throws clause.
-    **/
+     * Returns the exceptions that this JMethodSignature lists in its throws
+     * clause.
+     * 
+     * @return the exceptions that this JMethodSignature lists in its throws
+     *         clause.
+     */
     public JClass[] getExceptions() {
-        
         JClass[] jclasses = new JClass[exceptions.size()];
         exceptions.copyInto(jclasses);
         return jclasses;
     } //-- getExceptions
     
     /**
-     * Returns the JDocComment describing this JMethodSignature
-     *
-     * @return the JDocComment describing this JMethodSignature
-    **/
+     * Returns the JavaDoc comment describing this JMethodSignature
+     * 
+     * @return the JavaDoc comment describing this JMethodSignature
+     */
     public JDocComment getJDocComment() {
         return this.jdc;
     } //-- getJDocComment
     
     /**
-     * Returns the modifiers for this JMethodSignature.
-     *
-     * @return the modifiers for this JMethodSignature.
-    **/
+     * Returns the modifiers for this JMethodSignature
+     * 
+     * @return the modifiers for this JMethodSignature
+     */
     public JModifiers getModifiers() {
         return this.modifiers;
     } //-- getModifiers
 
     /**
-     * Returns the name of the method.
-     *
-     * @return the name of the method.
-    **/
+     * Returns the name of the method
+     * 
+     * @return the name of the method
+     */
     public String getName() {
         return this.name;
     } //-- getName
 
     /**
-     * Returns the JParameter at the given index.
-     *
-     * @param index the index of the JParameter to return.
-     * @return the JParameter at the given index.
-    **/
+     * Returns the JParameter at the given index
+     * 
+     * @param index the index of the JParameter to return
+     * @return the JParameter at the given index
+     */
     public JParameter getParameter(int index) {
         return (JParameter)params.get(index);
     } //-- getParameter
     
     /**
-     * Returns the set of JParameters for this JMethodSignature
-     * <BR>
-     * <B>Note:</B> the array is a copy, the params in the array
-     * are the actual references.
-     * @return the set of JParameters for this JMethod
-    **/
+     * Returns the set of JParameters in this JMethodSignature.
+     * <p>
+     * <B>Note:</B> the array is a copy, the parameters in the array are the
+     * actual references.
+     * 
+     * @return the set of JParameters in this JMethodSignature
+     */
     public synchronized JParameter[] getParameters() {
         JParameter[] pArray = new JParameter[params.size()];
         for (int i = 0; i < pArray.length; i++) {
@@ -241,67 +230,65 @@ public final class JMethodSignature extends JAnnotatedElementHelper
     } //-- getParameters
     
     /**
-     * Returns the JType that represents the return type for the 
-     * method signature.
-     *
-     * @return the JType that represents the return type for the
-     * method signature.
-    **/
+     * Returns the JType that represents the return type for the method
+     * signature
+     * 
+     * @return the JType that represents the return type for the method
+     *         signature
+     */
     public JType getReturnType() {
         return returnType;
     } //-- getReturnType
 
 	/**
-	 * Sets the name of the method.
-	 *
-	 * @param name the name of the method
-	 **/
+     * Sets the name of the method
+     * 
+     * @param name the name of the method
+     */
 	public void setName(String name) 
 	{
 		this.name = name;
 	} //-- setName
    
     /**
-     * Sets the comment describing this JMethodSignature. 
-     *
-     * @param comment the comment for this member
+     * Sets the JavaDoc comment describing this JMethodSignature
+     * 
+     * @param comment the JavaDoc comment for this member
      * @see #getJDocComment
-    **/
+     */
     public void setComment(String comment) {
         jdc.setComment(comment);
     } //-- setComment
     
-    
     /**
-     * Sets the JModifiers for this method signature.
-     *
-     * @param modifiers the JModifiers for this method signature.
-    **/
+     * Sets the JModifiers for this method signature
+     * 
+     * @param modifiers the JModifiers for this method signature
+     */
     public void setModifiers(JModifiers modifiers) {
         this.modifiers = modifiers.copy();
         this.modifiers.setFinal(false);
     } //-- setModifiers
 
     /**
-     * Prints the method signature. A semi-colon (end-of-statement 
-     * terminator ';') will Not be printed.
-     *
+     * Prints the method signature. A semi-colon (end-of-statement terminator
+     * ';') will <em>not</em> be printed.
+     * 
      * @param jsw the JSourceWriter to print to.
-    **/
+     */
     public void print(JSourceWriter jsw) {
         print(jsw, true);
     } //-- print
 
     /**
-     * Prints the method signature. A semi-colon (end-of-statement 
-     * terminator ';') will Not be printed.
-     *
+     * Prints the method signature. A semi-colon (end-of-statement terminator
+     * ';') will <em>not</em> be printed.
+     * 
      * @param jsw the JSourceWriter to print to.
-     * @param printJavaDoc a boolean that when true prints the JDocComment
-     * associated with this method signature.
-    **/
+     * @param printJavaDoc if true, print the JDocComment associated with this
+     *            method signature before we print the method signature
+     */
     public void print(JSourceWriter jsw, boolean printJavaDoc) {
-        
         //------------/
         //- Java Doc -/
         //------------/
@@ -370,15 +357,14 @@ public final class JMethodSignature extends JAnnotatedElementHelper
         }        
     } //-- print
 
-
     /**
-     * Returns the String representation of this JMethod,
-     * which is the method prototype.
-     * @return the String representation of this JMethod, which
-     * is simply the method prototype
-    **/
+     * Returns the String representation of this JMethod, which is the method
+     * prototype.
+     * 
+     * @return the String representation of this JMethod, which is simply the
+     *         method prototype
+     */
     public String toString() {
-        
         StringBuffer sb = new StringBuffer();
         if (returnType != null) {
             sb.append(returnType);
@@ -399,9 +385,17 @@ public final class JMethodSignature extends JAnnotatedElementHelper
         return sb.toString();
     } //-- toString
 
+    /**
+     * Returns an array containing the names of the classes of the parameters in
+     * this JMethodSignature. For Arrays, the class name of the object type
+     * stored in the Array is what is returned. Parameters that are primitive
+     * types (and Arrays of primitive types) are not represented in the array of
+     * names returned.
+     * 
+     * @return an array containing the names of the classes of the parameters in
+     *         this JMethodSignature
+     */
 	protected String[] getParameterClassNames() {
-        
-        
 		Vector names = new Vector(params.size());
         
 		for (int i = 0; i < params.size(); i++) {

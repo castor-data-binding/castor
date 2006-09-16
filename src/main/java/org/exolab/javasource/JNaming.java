@@ -47,11 +47,11 @@ package org.exolab.javasource;
 
 
 /**
- * A utility class used to validate identifiers
- * and class names
+ * A utility class used to validate identifiers and class names.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 class JNaming {
     
     private static final String[] keywords = { 
@@ -142,9 +142,13 @@ class JNaming {
     }
 
     /**
-     * Returns true if the given String is a Java keyword which
-     * will cause a problem when used as a variable name
-    **/
+     * Returns true if the given String is a Java keyword which will cause a
+     * problem when used as a variable name
+     * 
+     * @param name the String to check against the list of keywords
+     * @return true if the given String is a Java keyword which will cause a
+     *         problem when used as a variable name
+     */
     public static boolean isKeyword(String name) {
         if (name == null) return false;
         for (int i = 0; i < keywords.length; i++) {
@@ -154,10 +158,14 @@ class JNaming {
     } //-- isKeyword
     
     /**
-     * Returns true if the given String is a parameritized 
-     * Java collection object keyword which
-     * will cause a problem when used as a variable name
-    **/
+     * Returns true if the given String is a parameterized Java collection
+     * object keyword which will cause a problem when used as a variable name
+     * 
+     * @param name the String to check as a parameterized Java collection
+     * @return true if the given String is a parameterized Java collection
+     *         object keyword which will cause a problem when used as a variable
+     *         name
+     */
     public static boolean isParameterizedCollectionsObject(String name) {
         if (name == null) return false;
         for (int i = 0; i < parameterizedCollectionsObject.length; i++) {
@@ -166,17 +174,15 @@ class JNaming {
         return false;
     } //-- isParameterizedCollectionsObject    
 
-
     /**
-     * Returns true if the given String matches the
-     * production of a valid Java identifier
-     *
-     * @param string, the String to check the production of
-     * @return true if the given String matches the
-     * production of a valid Java name, otherwise false
-    **/
+     * Returns true if the given String matches the production of a valid Java
+     * identifier
+     * 
+     * @param string the String to check the production of
+     * @return true if the given String matches the production of a valid Java
+     *         name, otherwise false
+     */
     public static boolean isValidJavaIdentifier(String string) {
-        
         if ((string == null) || (string.length() == 0)) 
             return false;
             

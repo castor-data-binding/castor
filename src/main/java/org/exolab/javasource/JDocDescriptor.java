@@ -47,73 +47,82 @@
 package org.exolab.javasource;
 
 /**
- * A descriptor for a JavaDoc comment
+ * A descriptor for a JavaDoc comment.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public class JDocDescriptor {
     
     /**
-     * The default version string
-    **/    
-    //-- separated using "+" so that CVS doesn't expand
-    public static final String DEFAULT_VERSION =
-        "$"+"Revision"+"$ $"+"Date"+"$";
-    
-    
-    //-- These are listed in order of how they should
-    //-- appear in a JavaDoc list, so the numbers
-    //-- are important...see #compareTo
+     * The default version string, broken into parts so CVS does not expand it.
+     */
+    public static final String DEFAULT_VERSION = "$"+"Revision"+"$ $"+"Date"+"$";
+        
+    //-- These are listed in order of how they should appear in a JavaDoc
+    //-- list, so the numbers are important...see #compareTo
     /**
      * The param descriptor (param)
-    **/
+     */
     public static final short PARAM      = 0;
     
     /**
      * The exception descriptor (exception)
-    **/
+     */
     public static final short EXCEPTION  = 1;
     
     /**
      * The return descriptor (return)
-    **/
+     */
     public static final short RETURN     = 2;
     
     /**
      * The author descriptor
-    **/
+     */
     public static final short AUTHOR     = 3;
     
-        
     /**
      * the version descriptor (version)
-    **/
+     */
     public static final short VERSION    = 4;
-    
     
     /**
      * The reference descriptor (see)
-    **/
+     */
     public static final short REFERENCE  = 5;
     
-
-    
+    /**
+     * A description string for the object being described
+     */
     private String description = null;
+    
+    /**
+     * The name of this JDocDescriptor
+     */
     private String name = null;
+    
+    /**
+     * The type of JDocDescriptor, one of {@link #PARAM}, {@link #EXCEPTION},
+     * {@link #RETURN}, {@link #AUTHOR}, {@link #VERSION}, {@link #REFERENCE}
+     */
     private short  type = -1;
     
     /**
      * Creates a new JDocDescriptor
-    **/
+     * 
+     * @param type the type of JDocDescriptor (e.g., {@link #REFERENCE}
+     */
     private JDocDescriptor(short type) {
         this.type = type;
     } //-- JDocDescriptor
     
     /**
      * Creates a new JDocDescriptor
+     * 
+     * @param type the type of JDocDescriptor (e.g., {@link #REFERENCE}
      * @param name the name string for this descriptor
      * @param desc the description string for this descriptor
-    **/
+     */
     private JDocDescriptor(short type, String name, String desc) {
         this.type        = type;
         this.name        = name;
@@ -123,10 +132,12 @@ public class JDocDescriptor {
     /**
      * Compares the type of this JDocDescriptor with the given descriptor.
      * Enables sorting of descriptors.
-     * @return 0 if the two descriptor types are equal, 1 if the type of
-     * this descriptor is greater than the given descriptor, or -1 if the
-     * type of this descriptor is less than the given descriptor
-    **/
+     * 
+     * @param jdd a JDocDescriptor to be compared to this one
+     * @return 0 if the two descriptor types are equal, 1 if the type of this
+     *         descriptor is greater than the given descriptor, or -1 if the
+     *         type of this descriptor is less than the given descriptor
+     */
     protected short compareTo(JDocDescriptor jdd) {
         short jddType = jdd.getType();
         
@@ -140,40 +151,45 @@ public class JDocDescriptor {
         // #see (reference)
         //
         return (short) ((jddType < this.type) ? 1 : -1);
-            
     } //-- compareTo
     
     /**
-     * Creates a new author descriptor
-     * @return the new JDocDescriptor    
-    **/
+     * Creates a new, empty &#064;author JavaDoc descriptor
+     * 
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createAuthorDesc() {
         return new JDocDescriptor(AUTHOR);
     } //-- createAuthorDesc
     
     /**
-     * Creates a new author descriptor
+     * Creates a new &#064;author JavaDoc descriptor with the provided author name
+     * string
+     * 
      * @param name the author name string
-     * @return the new JDocDescriptor    
-    **/
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createAuthorDesc(String name) {
         return new JDocDescriptor(AUTHOR, name, null);
     } //-- createAuthorDesc
 
     /**
-     * Creates a new exception descriptor
-     * @return the new JDocDescriptor    
-    **/
+     * Creates a new, empty &#064;exception JavaDoc descriptor
+     * 
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createExceptionDesc() {
         return new JDocDescriptor(EXCEPTION);
     } //-- createExceptionDesc
     
     /**
-     * Creates a new exception descriptor
+     * Creates a new &#064;exception JavaDoc descriptor with a given exception
+     * name and a description of when the exception is thrown
+     * 
      * @param name the exception name
-     * @param desc the description of when the exception is called
-     * @return the new JDocDescriptor    
-    **/
+     * @param desc the description of when the exception is thrown
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createExceptionDesc
         (String name, String desc) 
     {
@@ -182,135 +198,152 @@ public class JDocDescriptor {
     
 
     /**
-     * Creates a new param descriptor
-     * @return the new JDocDescriptor    
-    **/
+     * Creates a new, empty &#064;param JavaDoc descriptor
+     * 
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createParamDesc() {
         return new JDocDescriptor(PARAM);
     } //-- createParamDesc
     
     /**
-     * Creates a new param descriptor
+     * Creates a new &#064;param JavaDoc descriptor with the given parameter
+     * name and description
+     * 
      * @param name the param name
      * @param desc the param description string
-     * @return the new JDocDescriptor    
-    **/
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createParamDesc(String name, String desc) 
     {
         return new JDocDescriptor(PARAM, name, desc);
     } //-- createParamDesc
     
-    
     /**
-     * Creates a new reference descriptor
-     * @return the new JDocDescriptor    
-    **/
+     * Creates a new, empty &#064;reference JavaDoc descriptor
+     * 
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createReferenceDesc() {
         return new JDocDescriptor(REFERENCE);
     } //-- createReferenceDesc
     
     /**
-     * Creates a new reference descriptor
+     * Creates a new &#064;reference JavaDoc descriptor with the provided
+     * reference string
+     * 
      * @param name the reference name string
-     * @return the new JDocDescriptor    
-    **/
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createReferenceDesc(String name) {
         return new JDocDescriptor(REFERENCE, name , null);
     } //-- createReferenceDesc
     
     /**
-     * Creates a new return descriptor
-     * @return the new JDocDescriptor    
-    **/
+     * Creates a new, empty &#064;return JavaDoc descriptor
+     * 
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createReturnDesc() {
         return new JDocDescriptor(RETURN);
     } //-- createReferenceDesc
     
     /**
-     * Creates a new return descriptor
+     * Creates a new &#064;return JavaDoc descriptor with the provided
+     * description of what is returned
+     * 
      * @param desc the return description
-     * @return the new JDocDescriptor    
-    **/
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createReturnDesc(String desc) {
         return new JDocDescriptor(RETURN, null , desc);
     } //-- createReturnDesc
     
     /**
-     * Creates a new version descriptor
-     * @return the new JDocDescriptor    
-    **/
+     * Creates a new, empty &#064;version JavaDoc descriptor
+     * 
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createVersionDesc() {
         return new JDocDescriptor(VERSION);
     } //-- createVersionDesc
     
     /**
-     * Creates a new version descriptor
+     * Creates a new &#064;version JavaDoc descriptor with the provided version
+     * string
+     * 
      * @param version the version string
-     * @return the new JDocDescriptor    
-    **/
+     * @return the new JDocDescriptor
+     */
     public static JDocDescriptor createVersionDesc(String version) {
         return new JDocDescriptor(VERSION, null, version);
     } //-- createVersionDesc
     
     /**
-     * Returns the description String for this descriptor
-     * @return the description string for this descriptor
-    **/
+     * Returns the description String
+     * 
+     * @return the description string
+     */
     public String getDescription() {
         return description;
     } //-- getDescription
     
     /**
-     * Returns the name of the object being described. This
-     * is valid for the following fields:<br>
-     *  <ul>
-     *     <li>author</li>
-     *     <li>exception</li>
-     *     <li>param</li>
-     *     <li>see</li>
-     *  </ul>
+     * Returns the name of the object being described. This is valid for the
+     * following fields:
+     * <ul>
+     *   <li>author</li>
+     *   <li>exception</li>
+     *   <li>param</li>
+     *   <li>see</li>
+     * </ul>
+     * 
      * @return the name of the object being described. This
-    **/
+     */
     public String getName() {
         return name;
     } //-- getName
     
     /**
      * Returns the type of this JDocDescriptor
+     * 
      * @return the type of this JDocDescriptor
-    **/
+     */
     public short getType() {
         return this.type;
     } //-- getType
     
     /**
      * Sets the description String for this descriptor
+     * 
      * @param desc the description of the object being described
-    **/
+     */
     public void setDescription(String desc) {
         this.description = desc;
     } //-- setDescription
     
     
     /**
-     * Sets the name value of the JavaDoc field. This is
-     * only valid for the following fields:<br>
-     *  <ul>
-     *     <li>author</li>
-     *     <li>exception</li>
-     *     <li>param</li>
-     *     <li>see</li>
-     *  </ul>
+     * Sets the name value of the JavaDoc field. This is only valid for the
+     * following fields:
+     * <ul>
+     *   <li>author</li>
+     *   <li>exception</li>
+     *   <li>param</li>
+     *   <li>see</li>
+     * </ul>
+     * 
      * @param name the name value of the JavaDoc field
-    **/
+     */
     public void setName(String name) {
         this.name = name;
     } //-- setName
     
     /**
      * Returns the String representation of this JDocDescriptor
+     * 
      * @return the String representation of this JDocDescriptor
-    **/
+     */
     public String toString() {
         StringBuffer sb = new StringBuffer();
         boolean allowName = true;

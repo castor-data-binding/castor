@@ -53,21 +53,22 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * Class describes the definition of a enum type class
+ * Describes the definition of a enum type class
  * 
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
+ * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public class JEnum extends JClass 
 {
 	/**
-	 * The list of elements of this JEnumConstant
-	 */
+     * The list of elements of this JEnumConstant
+     */
 	private JNamedMap _constants = null;
 	
 	/**
-	 * @param name
-	 * @throws IllegalArgumentException
-	 */
+     * @param name the name for this JEnum
+     * @throws IllegalArgumentException when the provided name is not a valid
+     *             class name
+     */
 	protected JEnum(String name) throws IllegalArgumentException {
 		super(name);
 		_constants        = new JNamedMap();
@@ -75,15 +76,14 @@ public class JEnum extends JClass
 		getJDocComment().setComment("Enumeration " + getLocalName() + ".");		
 	}
 	
-    
 	/**
-	 * Adds the given JMember to this JAnnotationType
-	 *
-	 * @param jMember, the JMember to add
-	 * @exception IllegalArgumentException when the given
-	 * JMember has the same name of an existing JEnumConstant
-	 * or if the JMember is of an unrecognized class.
-	**/
+     * Adds the given JMember to this JEnum
+     * 
+     * @param jMember the JMember to add
+     * @throws IllegalArgumentException when the given JMember has the same
+     *                name of an existing JEnumConstant or if the JMember is of
+     *                an unrecognized class.
+     */
 	public void addMember(JMember jMember) 
 		throws IllegalArgumentException 
 	{	
@@ -94,12 +94,12 @@ public class JEnum extends JClass
 	} //-- addMember
 
 	/**
-	 * Adds the given JEnumConstant to this JEnum
-	 *
-	 * @param jConstant, the constant to add
-	 * @exception IllegalArgumentException when the given
-	 * JEnumConstant has the same name of an existing JEnumConstant.
-	**/	
+     * Adds the given JEnumConstant to this JEnum
+     * 
+     * @param jConstant the constant to add
+     * @throws IllegalArgumentException when the given JEnumConstant has the
+     *             same name of an existing JEnumConstant.
+     */	
 	public void addConstant(JEnumConstant jConstant)
 		throws IllegalArgumentException 
 	{
@@ -116,21 +116,23 @@ public class JEnum extends JClass
 	} //-- addConstant
 		
 	/**
-	 * Returns the member with the given name, or null if no member
-	 * was found with the given name
-	 * @param name the name of the member to return
-	 * @return the member with the given name, or null if no member
-	 * was found with the given name
-	**/
+     * Returns the member with the given name, or null if no member was found
+     * with the given name
+     * 
+     * @param name the name of the member to return
+     * @return the member with the given name, or null if no member was found
+     *         with the given name
+     */
 	public JEnumConstant getConstant(String name)
 	{
 		return (JEnumConstant)_constants.get(name);
 	} //-- getElement
 	
 	/**
-	 * Returns an array of all the JEnumConstant of this JEnum
-	 * @return an array of all the JEnumConstant of this JEnum
-	**/	
+     * Returns an array of all the JEnumConstant of this JEnum
+     * 
+     * @return an array of all the JEnumConstant of this JEnum
+     */	
 	public JEnumConstant[] getConstants()
 	{
 		int size = _constants.size();
@@ -142,7 +144,7 @@ public class JEnum extends JClass
 	} //-- getConstants
 	
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JClass#setSuperClass(java.lang.String)
 	 */
 	public void setSuperClass(String superClass) {
@@ -150,9 +152,10 @@ public class JEnum extends JClass
 	}
 	
 	/**
-	 * Prints the source code for this JEnum to the given JSourceWriter
-	 * @param jsw the JSourceWriter to print to. [May not be null]
-	 */
+     * Prints the source code for this JEnum to the given JSourceWriter
+     * 
+     * @param jsw the JSourceWriter to print to. Must not be null.
+     */
 	public void print(JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");

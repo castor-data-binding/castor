@@ -52,32 +52,48 @@ import java.io.PrintWriter;
 import java.util.Vector;
 
 /**
- * Class describes the definition of a enum constant
+ * Describes the definition of a enum constant
  * 
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
+ * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public class JEnumConstant extends JAnnotatedElementHelper 
 	implements JMember
 {
+    /**
+     * Name of this JEnumConstant
+     */
 	private String _name;
+    /**
+     * Array of arguments provided to this JEnumConstant at initialization. May
+     * be null.
+     */
 	private String[] _arguments;
+    /**
+     * JavaDoc comment for this JEnumConstant
+     */
 	private JDocComment _comment;
+    /**
+     * A list of methods attached to this JEnumConstant
+     */
     private Vector _methods = null;
 	
 	/**
-	 * Constructs a JEnumConstant with a given name
-	 * @param name
-	 */
+     * Constructs a JEnumConstant with a given name and no initialization
+     * arguements
+     * 
+     * @param name name of the constant
+     */
 	public JEnumConstant(String name)
 	{
 		this(name, null);
 	}
 	
 	/**
-	 * Constructs a JEnumConstant with a given name
-	 * @param name
-	 * @param arguments
-	 */
+     * Constructs a JEnumConstant with a given name and initialization arguments
+     * 
+     * @param name name of the constant
+     * @param arguments the initialization arguments provided
+     */
 	public JEnumConstant(String name, String[] arguments)
 	{
 		setName(name);
@@ -88,53 +104,56 @@ public class JEnumConstant extends JAnnotatedElementHelper
 	}
 	
 	/**
-	 * Returns the modifiers for this JEnumConstant
-	 * @return the modifiers for this JEnumConstant     
-	**/	
+     * Returns the modifiers for this JEnumConstant
+     * 
+     * @return the modifiers for this JEnumConstant
+     */	
 	public JModifiers getModifiers() 
 	{
 		throw new RuntimeException("Not implemented."); 
 	} //-- getModifiers
 	
 	/**
-	 * Sets the arguments specified by this constant
-	 * @param args
-	 */
+     * Sets the arguments specified by this constant
+     * 
+     * @param args initialization arguments for this constant
+     */
 	public void setArguments(String[] args)
 	{
 		_arguments = args;
 	} //-- setArguments
 	
 	/**
-	 * Returns the arguments used by this constant
-	 * @return
-	 */
+     * Returns the arguments used by this constant
+     * 
+     * @return the arguments used by this constant
+     */
 	public String[] getArguments()
 	{
 		return _arguments;
 	} // -- getArguments
 
     /**
-     * Adds the given JMethod to this JClass
-     *
-     * @param jMethod, the JMethod to add
-     * @exception IllegalArgumentException when the given
-     * JMethod has the same name of an existing JMethod.
-    **/
+     * Adds the given JMethod to this JEnumConstant
+     * 
+     * @param jMethod the JMethod to add
+     * @throws IllegalArgumentException when the given JMethod has the same name
+     *             of an existing JMethod in this JEnumConstant
+     */
     public void addMethod(JMethod jMethod) {
          addMethod(jMethod, true);
     }
     
     /**
-     * Adds the given JMethod to this JClass
-     *
-     * @param jMethod, the JMethod to add
-     * @param importReturnType true if we add the importReturnType to
-     * the class import lists. It could be useful to set it to false when 
-     * all types are fully qualified.
-     * @exception IllegalArgumentException when the given
-     * JMethod has the same name of an existing JMethod.
-    **/
+     * Adds the given JMethod to this JEnumConstant
+     * 
+     * @param jMethod the JMethod to add
+     * @param importReturnType true if we add the importReturnType to the class
+     *            import lists. It could be useful to set it to false when all
+     *            types are fully qualified.
+     * @throws IllegalArgumentException when the given JMethod has the same name
+     *             of an existing JMethod in this JEnumConstant
+     */
     public void addMethod(JMethod jMethod, boolean importReturnType)
         throws IllegalArgumentException
     {
@@ -175,12 +194,12 @@ public class JEnumConstant extends JAnnotatedElementHelper
     } //-- addMethod
 
     /**
-     * Adds the given array of JMethods to this JClass
-     *
-     * @param jMethods, the JMethod[] to add
-     * @exception IllegalArgumentException when any of the given
-     * JMethods has the same name of an existing JMethod.
-    **/
+     * Adds the given array of JMethods to this JEnumConstant
+     * 
+     * @param jMethods the array of JMethod to add
+     * @throws IllegalArgumentException when any of the given JMethods has the
+     *             same name of an existing JMethod in this JEnumConstant
+     */
     public void addMethods(JMethod[] jMethods)
         throws IllegalArgumentException
     {
@@ -189,9 +208,9 @@ public class JEnumConstant extends JAnnotatedElementHelper
     } //-- addMethods
     
     /**
-     * Returns an array of all the JMethods of this JClass
-     *
-     * @return an array of all the JMethods of this JClass
+     * Returns an array of all the JMethods of this JEnumConstant
+     * 
+     * @return an array of all the JMethods of this JEnumConstant
      */
     public JMethod[] getMethods() {
         int size = _methods.size();
@@ -204,9 +223,9 @@ public class JEnumConstant extends JAnnotatedElementHelper
     } //-- getMethods
 
     /**
-     * Returns the first occurance of the method with the
-     * given name, starting from the specified index.
-     *
+     * Returns the first occurance of the method with the given name, starting
+     * from the specified index.
+     * 
      * @param name the name of the method to look for
      * @param startIndex the starting index to begin the search
      * @return the method if found, otherwise null.
@@ -221,20 +240,21 @@ public class JEnumConstant extends JAnnotatedElementHelper
 
     /**
      * Returns the JMethod located at the specified index
-     *
+     * 
      * @param index the index of the JMethod to return.
-     * @return the JMethod 
+     * @return the JMethod
      */
     public JMethod getMethod(int index) {
         return (JMethod)_methods.elementAt(index);
     } //-- getMethod    
     
 	/**
-	 * Sets the name of this JEnumConstant
-	 * @param name the name of this JEnumConstant
-	 * @exception IllegalArgumentException when the
-	 * name is not a valid Java member name
-	**/
+     * Sets the name of this JEnumConstant
+     * 
+     * @param name the name of this JEnumConstant
+     * @exception IllegalArgumentException when the name is not a valid Java
+     *                member name
+     */
 	public void setName(String name) throws 
 		IllegalArgumentException
 	{
@@ -251,26 +271,29 @@ public class JEnumConstant extends JAnnotatedElementHelper
 	} //-- setName
 	
 	/**
-	 * Returns the name of this JEnumConstant
-	 * @return the name of this JEnumConstant
-	**/
+     * Returns the name of this JEnumConstant
+     * 
+     * @return the name of this JEnumConstant
+     */
 	public String getName() 
 	{
 		return _name;
 	} //-- getName
 	
 	/**
-	 * Sets the comment describing this member. 
-	 * @param comment the JDocComment for this member
-	**/
+     * Sets the JavaDoc comment describing this JEnumConstant
+     * 
+     * @param comment the JavaDoc comment for this JEnumConstant
+     */
 	public void setComment(JDocComment comment) {
 		this._comment = comment;
 	} //-- setComment
 
 	/**
-	 * Sets the comment describing this member. 
-	 * @param comment the JDocComment for this member
-	**/
+     * Sets the JavaDoc comment describing this JEnumConstant
+     * 
+     * @param comment the JavaDoc comment for this JEnumConstant
+     */
 	public void setComment(String comment) {
 		if (this._comment == null) {
 			this._comment = new JDocComment();
@@ -279,18 +302,20 @@ public class JEnumConstant extends JAnnotatedElementHelper
 	} //-- setComment
 
 	/**
-	 * Returns the comment describing this member. 
-	 * @return the comment describing this member, or
-	 * null if no comment has been set.
-	**/
+     * Returns the JavaDoc comment describing this JEnumConstant
+     * 
+     * @return the JavaDoc comment describing this JEnumConstant, or null if
+     *         none has been set
+     */
 	public JDocComment getComment() {
 		return this._comment;
 	} //-- getComment
 	
 	/**
-	 * Outputs the enum constant
-	 * @param jsw
-	 */
+     * prints this enum constant
+     * 
+     * @param jsw
+     */
 	public void print(JSourceWriter jsw)
 	{
 		//-- print comments

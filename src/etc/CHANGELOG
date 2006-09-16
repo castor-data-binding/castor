@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1560 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Thorough JavaDoc update for javasource package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1560
+       (Ralf - 20060916)
+
 All:   Resolved issue CASTOR-1559 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed 90 warnings at generation of API JavaDoc.
        Details: http://jira.codehaus.org/browse/CASTOR-1559

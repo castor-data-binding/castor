@@ -48,91 +48,93 @@ package org.exolab.javasource;
 import java.io.Writer;
 
 /**
- * The writer used by the javasource classes
+ * The writer used by the javasource classes.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-30 03:29:24 -0700 (Wed, 30 Mar 2005) $
-**/
+ */
 public class JSourceWriter extends Writer {
 
     /**
      * The default character to use for indentation
-    **/
+     */
     public static final char DEFAULT_CHAR = ' ';
 
     /**
      * The default indentation size
-    **/
+     */
     public static final short DEFAULT_SIZE = 4;
 
     /**
      * The line separator to use for the writeln methods
-    **/
+     */
     private String lineSeparator = System.getProperty("line.separator");
 
     /**
-     * Flag for indicating whether we need to add
-     * the whitespace to beginning of next write
-     * call
-    **/
+     * Flag for indicating whether we need to add the whitespace to beginning
+     * of next write call.
+     */
     private boolean addIndentation = true;
 
     /**
-     * A flag indicating whether this JSourceWriter should perform
-     * autoflush at the end of a new line
-    **/
+     * A flag indicating whether this JSourceWriter should perform autoflush at
+     * the end of a new line.
+     */
     private boolean autoflush = false;
 
     /**
      * The tab (indentation) size
-    **/
+     */
     private short tabSize = DEFAULT_SIZE;
 
     /**
      * The tab representation
-    **/
+     */
     private char[] tab;
 
     /**
      * The character to use for indentation
-    **/
+     */
     private char tabChar = DEFAULT_CHAR;
 
     /**
      * The current tab level
-    **/
+     */
     private short tabLevel = 0;
 
     /**
      * The writer to send all output to
-    **/
+     */
     private Writer out = null;
-
     
     /**
-     * Creates a new JSourceWriter
+     * Creates a new JSourceWriter.
+     * 
      * @param out the Writer to write the actual output to
-    **/
+     */
     public JSourceWriter(Writer out) {
         this(out, DEFAULT_SIZE, DEFAULT_CHAR, false);
     } //-- JSourceWriter
 
     /**
      * Creates a new JSourceWriter
+     * 
      * @param out the Writer to write the actual output to
-     * @param autoflush a boolean indicating whether or not to
-     * perform automatic flush at the end of a line
-    **/
+     * @param autoflush a boolean indicating whether or not to perform automatic
+     *        flush at the end of a line
+     */
     public JSourceWriter(Writer out, boolean autoflush) {
         this(out, DEFAULT_SIZE, DEFAULT_CHAR, autoflush);
     } //-- JSourceWriter
 
     /**
      * Creates a new JSourceWriter
+     * 
      * @param out the Writer to write the actual output to
      * @param tabSize the size of each indentation
-     * @param autoflush a boolean indicating whether or not to
-     * perform automatic flush at the end of a line
-    **/
+     * @param autoflush a boolean indicating whether or not to perform automatic
+     *        flush at the end of a line
+     */
     public JSourceWriter
         (Writer out, short tabSize, boolean autoflush)
     {
@@ -141,12 +143,13 @@ public class JSourceWriter extends Writer {
 
     /**
      * Creates a new JSourceWriter
+     * 
      * @param out the Writer to write the actual output to
      * @param tabSize the size of each indentation
      * @param tabChar the character to use for indentation
-     * @param autoflush a boolean indicating whether or not to
-     * perform automatic flush at the end of a line
-    **/
+     * @param autoflush a boolean indicating whether or not to perform an automatic
+     *        flush at the end of each line
+     */
     public JSourceWriter
         (Writer out, short tabSize, char tabChar, boolean autoflush)
     {
@@ -159,53 +162,51 @@ public class JSourceWriter extends Writer {
 
     /**
      * Returns the line separator being used by this JSourceWriter
+     * 
      * @return the line separator being used by this JSourceWriter
-    **/
+     */
     public String getLineSeparator() {
         return lineSeparator;
     } //-- getLineSeparator
 
-    
     /**
      * Increases the indentation level by 1
-    **/
+     */
     public void indent() {
         ++tabLevel;
     } //-- increaseIndent
 
     /**
      * Checks to see if the cursor is positioned on a new line
+     * 
      * @return true if the cursor is at the start of a new line, otherwise false
-    **/
+     */
     public boolean isNewline() {
         //-- if we need to add indentation, we are on a new line
         return addIndentation;
     } //--  isNewline
 
     /**
-     * Sets the line separator to use at the end of each line
-     * @param lineSeparator the String to use as a line
-     * separator. 
-     * <BR>
-     * Typically a line separator will be one of the following:
-     * <BR>
-     * "\r\n" for MS Windows<BR>
-     * "\n"   for UNIX<BR>
-     * "\r"   for Macintosh
-    **/
+     * Sets the line separator to use at the end of each line. Typically a line
+     * separator will be one of the following:
+     * <ul>
+     *   <li>"\r\n" for MS Windows</li>
+     *   <li>"\n" for UNIX</li>
+     *   <li>"\r" for Macintosh</li>
+     * </ul>
+     * 
+     * @param lineSeparator the String to use as a line separator.
+     */
     public void setLineSeparator(String lineSeparator) {
-
         this.lineSeparator = lineSeparator;
-
     } //-- setLineSeparator
 
     /**
      * Decreases the indentation level by 1
-    **/
+     */
     public void unindent() {
         if (tabLevel > 0) --tabLevel;
     } //-- decreaseIndent
-
 
     //----------------------------/
     //- Additional write methods -/
@@ -288,7 +289,6 @@ public class JSourceWriter extends Writer {
         }
     } //-- writeln(double)
 
-    
     public void writeln(Object obj) {
         synchronized (lock) {
             ensureIndent();
@@ -348,7 +348,6 @@ public class JSourceWriter extends Writer {
             addIndentation = true;
         }
     } //-- writeln(char)
-
     
     //-----------------------/
     //- Methods from Writer -/
@@ -361,16 +360,12 @@ public class JSourceWriter extends Writer {
         catch(java.io.IOException ioe) {}
     } //-- close
 
-    
-
     public void flush() {
         try {
             out.flush();
         }
         catch(java.io.IOException ioe) {}
     } //-- flush
-
-
 
     public void write(String s, int off, int len) {
         synchronized (lock) {
@@ -382,8 +377,6 @@ public class JSourceWriter extends Writer {
             if (autoflush) flush();
         }
     } //-- write
-
-    
 
     public void write(String s) {
         synchronized (lock) {
@@ -408,7 +401,6 @@ public class JSourceWriter extends Writer {
         }
     } //-- write
     
-
     public void write(int c) {
         synchronized (lock) {
             ensureIndent();
@@ -420,7 +412,6 @@ public class JSourceWriter extends Writer {
         }
     } //-- write
 
-    
     public void write(char[] buf, int off, int len) {
         synchronized (lock) {
             ensureIndent();
@@ -435,15 +426,21 @@ public class JSourceWriter extends Writer {
     //---------------------/
     //- Protected Methods -/
     //---------------------/
-    
+
+    /**
+     * Returns the current indentation level
+     * 
+     * @return the current indentation level
+     */
     protected short getIndentLevel() {
         return tabLevel;
     }
 
     /**
      * Returns the current indent size (getIndentLevel()*tabSize);
+     * 
      * @return the current indent size
-    **/
+     */
     protected short getIndentSize() {
         return (short)(tabLevel*tabSize);
     } //-- getIndentSize
@@ -453,12 +450,10 @@ public class JSourceWriter extends Writer {
     }
     
     protected void writeIndent() {
-        
         try {
             for (int i = 0; i < tabLevel; i++) out.write(tab);
         }
         catch(java.io.IOException ioe) {}
-        
     } //-- writeIndent
 
     //-------------------/
@@ -472,11 +467,9 @@ public class JSourceWriter extends Writer {
         }
     } //-- ensureIndent
 
-    
-
     /**
-     * writes the line separator character to the writer
-    **/
+     * Writes the line separator character to the writer
+     */
     private void linefeed() {
         try {
             out.write(lineSeparator);
@@ -486,7 +479,7 @@ public class JSourceWriter extends Writer {
 
     /**
      * Creates the tab from the tabSize and the tabChar
-    **/
+     */
     private void createTab() {
         tab = new char[tabSize];
         for (int i = 0; i < tabSize; i++) {
@@ -495,6 +488,3 @@ public class JSourceWriter extends Writer {
     } //-- createTab
 
 } //-- JSourceWriter
-
-    
-

@@ -64,11 +64,10 @@ import java.util.TreeSet;
 import java.util.Iterator;
 
 /**
- * A representation of the Java Source code for a Java compilation
- * unit. This is
- * a useful utility when creating in memory source code.
- * This package was modelled after the Java Reflection API
- * as much as possible to reduce the learning curve.
+ * A representation of the Java Source code for a Java compilation unit. This is
+ * a useful utility when creating in memory source code. This package was
+ * modelled after the Java Reflection API as much as possible to reduce the
+ * learning curve.
  * 
  * @author <a href="mailto:shea AT gtsdesign DOT com">Gary Shea</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
@@ -76,44 +75,48 @@ import java.util.Iterator;
 public class JCompUnit {
 
     /**
-     * The Id for Source control systems
-     * I needed to separate this line to prevent CVS from
-     * expanding it here! ;-)
-    **/
+     * The Id for Source control systems I needed to break the String to prevent
+     * CVS from expanding it here! ;-)
+     */
     private static final String DEFAULT_HEADER
         = "$"+"Id$";
 
+    /**
+     * JavaDoc comment for this compilation unit
+     */
     private JComment header = null;
 
     /**
      * The package for this JCompUnit
-    **/
+     */
     private String packageName = null;
 
     /**
-     * The file to which this JCompUnit will be saved
-    **/
+     * The file to which this JCompUnit will be written
+     */
     private String fileName = null;
 
     /**
      * The set of top-level classes that live in this compilation unit.
-    **/
+     */
     //private TypeList classes = null;
     private Vector classes = null;
     
     /**
      * The set of top-level interfaces that live in this compilation unit.
-    **/
+     */
     //private TypeList interfaces = null;
     private Vector interfaces = null;
 
     /**
      * Creates a new JCompUnit
-     * @param packageName the name of the package for this JCompUnit.
-     * If packageName is null or empty, no 'package' line will be generated.
-     * @param fileName the name of the file in which this JCompUnit
-     * will be stored
-    **/
+     * 
+     * @param packageName the name of the package for this JCompUnit. If
+     *            packageName is null or empty, no 'package' line will be
+     *            generated.
+     * @param fileName the name of the file to which this JCompUnit will be
+     *            written
+     */
     public JCompUnit(String packageName, String fileName)
     {
         this.packageName = packageName;
@@ -122,12 +125,12 @@ public class JCompUnit {
     } //-- JCompUnit
 
     /**
-     * Creates a new JCompUnit with the given JClass (which must have
-     * been created with either a full class name or package/local
-     * name) as the public class.  Package and file name are taken
-     * from jClass.
-     * @param jClass the public class for this JCompUnit.
-    **/
+     * Creates a new JCompUnit with the given JClass (which must have been
+     * created with either a full class name or package/local name) as the
+     * public class. Package and file name are taken from jClass.
+     * 
+     * @param jClass the public class for this JCompUnit
+     */
     public JCompUnit(JClass jClass)
     {
         this.packageName = jClass.getPackageName();
@@ -159,10 +162,11 @@ public class JCompUnit {
     } //-- JCompUnit
 
     /**
-     * Creates a new JCompUnit with the given JInterface as public interface
+     * Creates a new JCompUnit with the given JInterface as public interface.
      * Package and file name are taken from jInterface.
+     * 
      * @param jInterface the public interface for this JCompUnit.
-    **/
+     */
     public JCompUnit(JInterface jInterface)
     {
         this.packageName = jInterface.getPackageName();
@@ -177,13 +181,13 @@ public class JCompUnit {
     }
 
     /**
-     * Adds the given JStructure (either a JInterface or
-     * a JClass) to this JCompUnit.
-     *
+     * Adds the given JStructure (either a JInterface or a JClass) to this
+     * JCompUnit.
+     * 
      * @param jStructure the JStructure to add
-     * @exception IllegalArgumentException when the given
-     * JStructure has the same name of an existing JStructure
-     * or if the class of jStructure is unknown.
+     * @throws IllegalArgumentException when the given JStructure has the same
+     *             name of an existing JStructure or if the Class of jStructure
+     *             is unknown.
      */
     public void addStructure(JStructure jStructure)
         throws IllegalArgumentException
@@ -202,27 +206,31 @@ public class JCompUnit {
     } //-- addStructure
 
     /**
-     * Adds a JClass which should be printed in this file.
-    **/
+     * Adds a JClass to be printed in this file
+     * 
+     * @param jClass the JClass to be printed in this file
+     */
     public void addClass(JClass jClass) {
         classes.add(jClass);
     } //-- addClass
 
     /**
-     * Adds a JInterface which should be printed in this file.
-    **/
+     * Adds a JInterface to be printed in this file.
+     * 
+     * @param jInterface the JInterface to be printed in this file
+     */
     public void addInterface(JInterface jInterface) {
         interfaces.add(jInterface);
     } //-- addInterface
 
     /**
-     * returns a array of String containing all import classes/packages,
-     * also imports within the same package of this object.
-     * @return a array of String containing all import classes/packages,
-     * also imports within the same package of this object.
+     * Returns a array of String containing all imported classes/packages, also
+     * imports within the same package of this object.
+     * 
+     * @return a array of String containing all import classes/packages, also
+     *         imports within the same package of this object
      */
     public SortedSet getImports() {
-        
         SortedSet allImports = new TreeSet();
         
         // add imports from classes
@@ -247,15 +255,14 @@ public class JCompUnit {
     }
 
     /**
-     * Returns the name of the file that this JCompUnit would be
-     * printed as, given a call to #print.
-     *
+     * Returns the name of the file that this JCompUnit would be printed to,
+     * given a call to {@link #print(String, String)}, or if destDir is null, a
+     * call to {@link #print()}.
+     * 
      * @param destDir the destination directory. This may be null.
-     * @return the name of the file that this JCompUnit would be
-     * printed as, given a call to #print.
-    **/
+     * @return the name of the file that this JCompUnit would be printed to
+     */
     public String getFilename(String destDir) {
-
         String filename = new String (fileName);
 
 		//-- Convert Java package to path string
@@ -283,9 +290,10 @@ public class JCompUnit {
 
     /**
      * Returns the name of the package that this JCompUnit is a member of
-     * @return the name of the package that this JCompUnit is a member of,
-     * or null if there is no current package name defined
-    **/
+     * 
+     * @return the name of the package that this JCompUnit is a member of, or
+     *         null if there is no current package name defined
+     */
     public String getPackageName() {
         return this.packageName;
     } //-- getPackageName
@@ -299,33 +307,38 @@ public class JCompUnit {
     } //-- getPackageFromClassName
 
     /**
-     * Prints the source code for this JClass in the current directory 
-     * with the default line seperator of the the runtime platform.
+     * Prints the source code for this JClass in the current directory with the
+     * default line seperator of the the runtime platform.
+     * 
      * @see #print(String, String)
-    **/
+     */
     public void print() {
         print(null,null);
     } //-- print
 
     /**
-     * Prints the source code for this JClass
-     * with the default line seperator of the the runtime platform.
-     * @param destDir the destination directory to generate the file.
+     * Prints the source code for this JClass with the default line seperator of
+     * the the runtime platform.
+     * 
+     * @param destDir the destination directory to use as the root directory for
+     *            source generation
      * @see #print(String, String)
-    **/
+     */
     public void print(String destDir) {
         print(destDir, null);
     } //-- print
 
     /**
-     * Prints the source code for this JCompUnit.
-     * @param destDir the destination directory to generate the file.
+     * Prints the source code for this JCompUnit using the provided root
+     * directory and line separator.
+     * 
+     * @param destDir the destination directory to use as the root directory for
+     *            source generation
      * @param lineSeparator the line separator to use at the end of each line.
-     * If null, then the default line separator for the runtime platform will
-     * be used.
-    **/
+     *            If null, then the default line separator for the runtime
+     *            platform will be used.
+     */
     public void print(String destDir, String lineSeparator) {
-
         //-- open output file
         String filename = getFilename(destDir);
 
@@ -349,11 +362,11 @@ public class JCompUnit {
     } //-- print
 
     /**
-     * Prints the source code for this JClass.
-     * @param jsw the JSourceWriter to print to.
-    **/
+     * Prints the source code for this JClass to the provided JSourceWriter
+     * 
+     * @param jsw the JSourceWriter to print to
+     */
     public void print(JSourceWriter jsw) {
-
         // Traverse the nested class and interface heirarchy and
         // update the names to match the compilation unit.
 
@@ -414,11 +427,12 @@ public class JCompUnit {
     } //-- print
 
     /**
-     * Print the source code for the contained JClass objects.
+     * Print the source code for the contained JClass objects
+     * 
      * @param jsw the JSourceWriter to print to.
-     * @param printPublic if true, print only public classes; if
-	 * false, print only non-public classes.
-    **/
+     * @param printPublic if true, print only public classes; if false, print
+     *            only non-public classes.
+     */
     final public void printStructures(JSourceWriter jsw, boolean printPublic) {
 
         //-- print class information
@@ -455,9 +469,10 @@ public class JCompUnit {
 
     /**
      * Sets the header comment for this JCompUnit
-     * @param comment the comment to display at the top of the source file
-     * when printed
-    **/
+     * 
+     * @param comment the comment to display at the top of the source file when
+     *            printed
+     */
     public void setHeader(JComment comment) {
         this.header = comment;
     } //-- setHeader
@@ -468,9 +483,8 @@ public class JCompUnit {
 
     /**
      * Update the names of nested classes and interfaces.
-    **/
+     */
     private void resolveNames()  {
-        
         /*
           Commented out until support for inner-classes is added
           kvisco - 20021211
@@ -528,9 +542,9 @@ public class JCompUnit {
 } //-- JCompUnit
 
 /**
- * Print the headers delineating the public and non-public elements of
- * the compilation unit.
-**/
+ * Print the headers delineating the public and non-public elements of the
+ * compilation unit.
+ */
 class Header {
 
 	private static String[] publicHeader = {
@@ -545,11 +559,12 @@ class Header {
 	};
 
 	/**
-	 * Print the specified header to the given Writer.
-	 * @params JSourceWriter an open JSourceWriter
-	 * @params boolean if true print the public header, otherwise
-	 * print the non-public header.
-	**/
+     * Print the specified header to the given Writer.
+     * 
+     * @param jsw an open JSourceWriter
+     * @param printPublic if true print the public header, otherwise print the
+     *            non-public header.
+     */
 	protected static void print (JSourceWriter jsw, boolean printPublic) {
 		String[] header = printPublic ? publicHeader : nonPublicHeader;
 		for (int j = 0; j < header.length; ++j) {

@@ -46,10 +46,9 @@
 package org.exolab.javasource;
 
 /**
- * A class which holds information about a field.
- * Modelled closely after the Java Reflection API.
- * This class is part of package which is used to 
- * create source code in memory.
+ * A class which holds information about a field. Modelled closely after the
+ * Java Reflection API. This class is part of package which is used to create
+ * source code in memory.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
@@ -58,7 +57,7 @@ public class JField extends JAnnotatedElementHelper implements JMember {
 
     /**
      * The set of modifiers for this JField
-    **/
+     */
     private JModifiers modifiers = null;
 
     private JType type = null;
@@ -71,87 +70,88 @@ public class JField extends JAnnotatedElementHelper implements JMember {
     
     /**
      * The Class in this JField has been declared
-    **/
+     */
     private JClass declaringClass = null;
 
     public JField(JType type, String name) {
-        
         setName(name);
         this.type = type;
         this.modifiers = new JModifiers();
         this.modifiers.makePrivate();
         comment = new JDocComment();
         comment.appendComment("Field " + name);
-        
     } //-- JField
 
-    
-
     /**
-     * Returns the comment describing this member. 
-     * @return the comment describing this member, or
-     * null if no comment has been set.
-    **/
+     * Returns the JavaDoc comment describing this member
+     * 
+     * @return the JavaDoc comment describing this member, or null if no comment
+     *         has been set
+     */
     public JDocComment getComment() {
         return this.comment;
     } //-- getComment
 
-    
-
     /**
      * Returns the class in which this JField has been declared
+     * 
      * @return the class in which this JField has been declared
-    **/
+     */
     public JClass getDeclaringClass() {
         return this.declaringClass;
     } //-- getDeclaringClass
 
     /**
      * Returns the initialization String for this JField
-     * @return the initialization String for this JField,
-     * or null if no initialization String was specified.
-    **/
+     * 
+     * @return the initialization String for this JField, or null if no
+     *         initialization String was specified.
+     */
     public String getInitString() {
         return initString;
     } //-- getInitString
     
-     
     /**
      * Returns the modifiers for this JField
-     * @return the modifiers for this JField     
-    **/
+     * 
+     * @return the modifiers for this JField
+     */
     public JModifiers getModifiers() {
         return this.modifiers;
     } //-- getModifiers
 
     /**
      * Returns the name of this JField
+     * 
      * @return the name of this JField
-    **/
+     */
     public String getName() {
         return this.name;
     } //-- getName
 
     /**
      * Returns the JType represting the type of this JField
+     * 
      * @return the JClass represting the type of this JField
-    **/
+     */
     public JType getType() {
         return this.type;
     } //-- getType
 
     /**
-     * Sets the comment describing this member. 
-     * @param comment the JDocComment for this member
-    **/
+     * Sets the JavaDoc comment describing this JField
+     * 
+     * @param comment the JavaDoc comment for this JField
+     */
     public void setComment(JDocComment comment) {
         this.comment = comment;
     } //-- setComment
 
     /**
-     * Sets the comment describing this member. 
-     * @param comment the JDocComment for this member
-    **/
+     * Sets the JavaDoc comment describing this JField
+     * 
+     * @param comment the JavaDoc comment for this JField
+     */
     public void setComment(String comment) {
         if (this.comment == null) {
             this.comment = new JDocComment();
@@ -160,21 +160,23 @@ public class JField extends JAnnotatedElementHelper implements JMember {
     } //-- setComment
 
     /**
-     * Sets the initialization string for this JField;
-     * Allows some flexibility in declaring default values.
-     * @param init the initialization string for this member.
-    **/
+     * Sets the initialization string for this JField. This allows some
+     * flexibility in declaring default values.
+     * 
+     * @param init the initialization string for this member
+     */
     public void setInitString(String init) {
         this.initString = init;
     } //-- setInitString
     
     /**
      * Sets the name of this JField
+     * 
      * @param name the name of this JField
-     * @exception IllegalArgumentException when the
-     * name is not a valid Java member name, or if a member
-     * with the given name already exists in the declaring class
-    **/
+     * @throws IllegalArgumentException when the name is not a valid Java member
+     *             name, or if a member with the given name already exists in
+     *             the declaring class
+     */
     public void setName(String name) throws 
         IllegalArgumentException
     {
@@ -190,10 +192,20 @@ public class JField extends JAnnotatedElementHelper implements JMember {
         this.name = name;
     } //-- setName
 
+    /**
+     * Sets the access modifiers on this JField
+     * 
+     * @param modifiers the access modifiers to be used for this JField
+     */
     public void setModifiers(JModifiers modifiers) {
         this.modifiers = modifiers;
     } //-- setModifiers
 
+    /**
+     * Sets the class that declares this JField
+     * 
+     * @param declaringClass the class in which this Jfield is declared
+     */
     protected void setDeclaringClass(JClass declaringClass) {
         this.declaringClass = declaringClass;
     } //-- setDeclaringClass
@@ -209,4 +221,3 @@ public class JField extends JAnnotatedElementHelper implements JMember {
     } //-- toString
 
 } //-- JField
-
