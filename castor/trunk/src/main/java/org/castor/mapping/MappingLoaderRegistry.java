@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Ralf Joachim
+ * Copyright 2005 Ralf Joachim, Werner Guttmann
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -30,43 +30,54 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 
 /**
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class MappingLoaderRegistry {
-    //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(MappingLoaderRegistry.class);
     
-    /** The cached mapping loaders. */
-    private final List  _mappingLoaders = new ArrayList();
+    /** The cached mapping loader factories. */
+    private final List  _mappingLoaderFactories = new ArrayList();
 
-    //--------------------------------------------------------------------------
-
+    /** Already loaded mapping loaders. */
+    private final List _mappingLoaders = new ArrayList();
+    
+    /**
+     * Creates an instance of this registry, loading the mapping loader
+     * factories from the castor.properties file. 
+     * @param config Configuration.
+     */
     public MappingLoaderRegistry(final Configuration config) {
-        String prop = config.getProperty(ConfigKeys.MAPPING_LOADERS, "");
+        String prop = config.getProperty(ConfigKeys.MAPPING_LOADER_FACTORIES, "");
         StringTokenizer tokenizer = new StringTokenizer(prop, ", ");
         while (tokenizer.hasMoreTokens()) {
             String classname = tokenizer.nextToken();
             try {
                 ClassLoader loader = getClass().getClassLoader();
                 Class cls = loader.loadClass(classname);
-                Class[] types = new Class[] {ClassLoader.class};
-                Object[] params = new Object[] {loader};
-                Object obj = cls.getConstructor(types).newInstance(params);
-                _mappingLoaders.add(obj);
+                // Class[] types = new Class[] {ClassLoader.class};
+                Object obj = cls.getConstructor((Class[]) null)
+                    .newInstance((Object[]) null);
+                _mappingLoaderFactories.add(obj);
             } catch (Exception ex) {
-                LOG.error("Problem instantiating mapping loader implementation: "
+                LOG.error("Problem instantiating mapping loader factory implementation: "
                         + classname, ex);
             }
         }
     }
 
+    /**
+     * Deletes all 'cached' mapping loader factories.
+     */
     public void clear() {
         Iterator iter = _mappingLoaders.iterator();
-        while (iter.hasNext()) { ((MappingLoader) iter.next()).clear(); }
+        while (iter.hasNext()) { 
+            ((MappingLoader) iter.next()).clear(); 
+        }
     }
 
     //--------------------------------------------------------------------------
@@ -85,23 +96,29 @@ public final class MappingLoaderRegistry {
     public MappingLoader getMappingLoader(
             final String sourceType,
             final BindingType bindingType) throws MappingException {
-        Iterator iter = _mappingLoaders.iterator();
+        Iterator iter = _mappingLoaderFactories.iterator();
         while (iter.hasNext()) {
-            MappingLoader loader = (MappingLoader) iter.next();
-            if (loader.getSourceType().equals(sourceType)
-                    && (loader.getBindingType() == bindingType)) {
-                return loader;
+            MappingLoaderFactory loaderFactory = (MappingLoaderFactory) iter.next();
+            if (loaderFactory.getSourceType().equals(sourceType)
+                    && (loaderFactory.getBindingType() == bindingType)) {
+                MappingLoader mappingLoader = loaderFactory.getMappingLoader();
+                _mappingLoaders.add(mappingLoader);
+                return mappingLoader;
             }
         }
         
-        String msg = "No mapping loader for: " + "SourceType=" + sourceType
+        String msg = "No mapping loader/factory for: " + "SourceType=" + sourceType
                    + " / BindingType=" + bindingType;
         LOG.error(msg);
         throw new MappingException(msg);
     }
     
-    public Collection getMappingLoaders() {
-        return Collections.unmodifiableCollection(_mappingLoaders);
+    /**
+     * Returns a list of 'cached' mapping loader factories.
+     * @return a list of 'cached' mapping loader factories.
+     */
+    public Collection getMappingLoaderFactories() {
+        return Collections.unmodifiableCollection(_mappingLoaderFactories);
     }
 
     //--------------------------------------------------------------------------
