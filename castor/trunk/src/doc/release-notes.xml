@@ -29,6 +29,26 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1557" tool="jira">
+                    <description>
+		                Moved java.util.Iterator-specific code from CollectionInfo to CollectionInfoJ2.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060916</date>
+                </bug>
 				<bug id="1560" tool="jira">
                     <description>
 		                Thorough JavaDoc update for javasource package.

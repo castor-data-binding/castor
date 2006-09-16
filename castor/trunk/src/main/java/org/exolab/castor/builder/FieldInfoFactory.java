@@ -45,7 +45,7 @@
 
 package org.exolab.castor.builder;
 
-import org.exolab.castor.builder.types.*;
+import org.exolab.castor.builder.types.XSType;
 
 
 /**
@@ -59,6 +59,9 @@ import org.exolab.castor.builder.types.*;
 **/
 public class FieldInfoFactory {
 
+    // FIXME: These strings should probably be public so they can be used in
+    // place of hardcoded strings, eg, in org.exolab.castor.builder.types.XSListJ2
+    // Alternately and probably better, the usage of these strings could be refactored.
     private static final String VECTOR = "vector";
     private static final String ARRAY_LIST = "arraylist";
     private static final String ODMG = "odmg";
@@ -74,7 +77,7 @@ public class FieldInfoFactory {
      * reference to the underlying collection
      */
     private boolean _extraMethods = false;
-    
+
     /**
      * The reference suffix to use.
      */
@@ -84,7 +87,7 @@ public class FieldInfoFactory {
      * Bound properties
      */
     private boolean _bound = false;
-    
+
     /**
      * Creates a new FieldInfoFactory. The default collection used will be
      * Java 1 type.
@@ -120,7 +123,7 @@ public class FieldInfoFactory {
         String temp = collectionName;
         if (temp == null || temp.length() == 0)
             temp = _default;
-        
+
         CollectionInfo cInfo = null;
         if (temp.equals(VECTOR)) {
              cInfo = new CollectionInfo(contentType,name,elementName);
@@ -140,7 +143,7 @@ public class FieldInfoFactory {
         cInfo.setCreateExtraMethods(_extraMethods);
         if (_referenceSuffix != null) {
             cInfo.setReferenceMethodSuffix(_referenceSuffix);
-        }        
+        }
         if (_bound) {
             cInfo.setBound(true);
         }
@@ -165,7 +168,7 @@ public class FieldInfoFactory {
     public void setBoundProperties(boolean bound) {
         _bound = bound;
     } //-- setBoundProperties
-    
+
     /**
      * Sets whether or not to create extra collection methods
      * for accessing the actual collection
@@ -178,7 +181,7 @@ public class FieldInfoFactory {
     public void setCreateExtraMethods(boolean extraMethods) {
         _extraMethods = extraMethods;
     } //-- setCreateExtraMethods
-    
+
     /**
      * Sets the method suffix (ending) to use when creating
      * the extra collection methods.

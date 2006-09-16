@@ -101,7 +101,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * Creates a new CollectionInfo
-     * 
+     *
      * @param contentType
      *            the content type of the collection, ie. the type of objects
      *            that the collection will contain
@@ -124,46 +124,21 @@ public class CollectionInfo extends FieldInfo {
     } // -- CollectionInfo
 
     /**
+     * Generate the various accessor methods.
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.builder.FieldInfo#createAccessMethods(org.exolab.javasource.JClass)
      */
     public void createAccessMethods(JClass jClass) {
-
-        // create add methods
-        this.createAddMethod(jClass);
-        this.createInsertMethod(jClass);
-
-        // create get methods
-        this.createGetByIndexMethod(jClass);
-        this.createGetAsArrayMethod(jClass);
-        if (this.createExtraMethods()) {
-            this.createGetAsReferenceMethod(jClass);
-        }
-
-        // create set methods
-        this.createSetByIndexMethod(jClass);
-        this.createSetAsArrayMethod(jClass);
-        if (this.createExtraMethods()) {
-            this.createSetAsCopyMethod(jClass);
-            this.createSetAsReferenceMethod(jClass);
-        }
-
+        this.createAddAndRemoveMethods(jClass);
+        this.createGetAndSetMethods(jClass);
         this.createGetCountMethod(jClass);
-
-        this.createEnumerateMethod(jClass);
-
-        this.createIteratorMethod(jClass);
-
-        // create remove methods
-        this.createRemoveObjectMethod(jClass);
-        this.createRemoveByIndexMethod(jClass);
-        this.createRemoveAllMethod(jClass);
+        this.createCollectionIterationMethods(jClass);
     } // -- createAccessMethods
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.builder.FieldInfo#generateInitializerCode(org.exolab.javasource.JSourceCode)
      */
     public void generateInitializerCode(JSourceCode sourceCode) {
@@ -196,7 +171,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.builder.XMLInfo#isMultivalued()
      */
     public boolean isMultivalued() {
@@ -206,7 +181,7 @@ public class CollectionInfo extends FieldInfo {
     /**
      * Sets whether or not to create extra collection methods for accessing the
      * actual collection
-     * 
+     *
      * @param extraMethods
      *            a boolean that when true indicates that extra collection
      *            accessor methods should be created. False by default.
@@ -219,7 +194,7 @@ public class CollectionInfo extends FieldInfo {
     /**
      * Sets the method suffix (ending) to use when creating the extra collection
      * methods.
-     * 
+     *
      * @param suffix
      *            the method suffix to use when creating the extra collection
      *            methods. If null or emtpty the default value, as specified by
@@ -298,7 +273,7 @@ public class CollectionInfo extends FieldInfo {
     /**
      * Creates the necessary source code for notifying PropertyChangeListeners
      * when the collection has been updated.
-     * 
+     *
      * @param sourceCode
      *            the JSourceCode to add the new source code to.
      */
@@ -325,7 +300,7 @@ public class CollectionInfo extends FieldInfo {
      * Returns true if extra collection methods should be generated. The extra
      * collection methods are methods which return an actual reference to the
      * underlying collection as opposed to an enumeration, iterator, or copy.
-     * 
+     *
      * @return true if extra collection methods should be generated
      */
     protected final boolean createExtraMethods() {
@@ -416,6 +391,40 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
+    /**
+     * @param jClass
+     */
+    protected void createAddAndRemoveMethods(JClass jClass) {
+        // create add methods
+        this.createAddMethod(jClass);
+        this.createInsertMethod(jClass);
+
+        // create remove methods
+        this.createRemoveObjectMethod(jClass);
+        this.createRemoveByIndexMethod(jClass);
+        this.createRemoveAllMethod(jClass);
+    }
+
+    /**
+     * @param jClass
+     */
+    protected void createGetAndSetMethods(JClass jClass) {
+        // create get methods
+        this.createGetByIndexMethod(jClass);
+        this.createGetAsArrayMethod(jClass);
+        if (this.createExtraMethods()) {
+            this.createGetAsReferenceMethod(jClass);
+        }
+
+        // create set methods
+        this.createSetByIndexMethod(jClass);
+        this.createSetAsArrayMethod(jClass);
+        if (this.createExtraMethods()) {
+            this.createSetAsCopyMethod(jClass);
+            this.createSetAsReferenceMethod(jClass);
+        }
+    }
+
     protected void createGetCountMethod(JClass jClass) {
         JMethod method = new JMethod(JType.Int, this.getReadMethodName() + "Count");
 
@@ -426,6 +435,18 @@ public class CollectionInfo extends FieldInfo {
 
         jClass.addMethod(method);
     }
+
+    /**
+     * Generate methods for iterating over the objects in the collection. For
+     * Java-1 collections, we only generate an Enumerator. Implementations for
+     * other versions of Java should call this method for backward compatbility
+     * and then add any additional new methods.
+     *
+     * @param jClass
+     */
+    protected void createCollectionIterationMethods(JClass jClass) {
+        this.createEnumerateMethod(jClass);
+    } // -- createCollectionAccessMethods
 
     protected void createInsertMethod(JClass jClass) {
         JMethod method = new JMethod(null, this.getWriteMethodName());
@@ -463,7 +484,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * Creates implementation of removeAll() method.
-     * 
+     *
      * @param jClass
      */
     protected void createRemoveAllMethod(JClass jClass) {
@@ -483,7 +504,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * Creates implementation of remove(int i) method.
-     * 
+     *
      * @param jClass
      */
     protected void createRemoveByIndexMethod(JClass jClass) {
@@ -514,7 +535,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * Creates implementation of remove(Object) method.
-     * 
+     *
      * @param jClass
      */
     protected void createRemoveObjectMethod(JClass jClass) {
@@ -582,7 +603,7 @@ public class CollectionInfo extends FieldInfo {
      * Creates implementation of collection set method. The method will assign
      * the field a copy of the given collection.<br>
      * The fields will be checked for type safety.
-     * 
+     *
      * @param jClass
      */
     protected void createSetAsCopyMethod(JClass jClass) {
@@ -624,7 +645,7 @@ public class CollectionInfo extends FieldInfo {
      * Creates implementation of collection reference set method. This method is
      * a non-type safe method which simply assigns the given collection to the
      * field.
-     * 
+     *
      * @param jClass
      */
     protected void createSetAsReferenceMethod(JClass jClass) {
@@ -682,7 +703,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.builder.FieldInfo#getMethodSuffix()
      */
     protected String getMethodSuffix() {
@@ -692,7 +713,7 @@ public class CollectionInfo extends FieldInfo {
     /**
      * Returns the suffix (ending) that should be used when creating the extra
      * collection methods
-     * 
+     *
      * @return the suffix for the reference methods
      */
     protected final String getReferenceMethodSuffix() {
