@@ -79,7 +79,7 @@ public final class ConfigKeys {
 
     /** Property listing all available {@link MappingLoader} implementations 
      *  (<tt>org.castor.mapping.Loaders</tt>). */
-    public static final String MAPPING_LOADERS =
-        "org.castor.mapping.Loaders";
+    public static final String MAPPING_LOADER_FACTORIES =
+        "org.castor.mapping.loaderFactories";
 
 }

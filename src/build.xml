@@ -95,11 +95,12 @@
     <property name="castor.commons.files"
           value="org/castor/cache/**/*.java,
                      org/castor/transactionmanager/**/*.java,
-                     org/castor/util/*.java"/>
+                     org/castor/util/*.java,
+    				 org/castor/mapping/*.java"/>
 
     <property name="castor.xml.files"
           value="**/org/exolab/castor/*,
-                     org/exolab/castor/builder/**/*.java,
+    	             org/exolab/castor/builder/**/*.java,
                      org/exolab/castor/mapping/**/*.java,
                      org/exolab/castor/net/**/*.java,
                      org/exolab/castor/tools/**/*.java,

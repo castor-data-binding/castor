@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1550 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed issue with self-sufficiency of XML JAR.
+       Details: http://jira.codehaus.org/browse/CASTOR-1550
+       (Werner - 20060916)
+
 XML:   Resolved issue CASTOR-1561 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Enabled checkstyle for javasource package and fixed most of the warnings.
        Details: http://jira.codehaus.org/browse/CASTOR-1561
