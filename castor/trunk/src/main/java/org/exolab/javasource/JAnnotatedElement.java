@@ -49,109 +49,121 @@
 package org.exolab.javasource;
 
 /**
- * Interface defines methods for manipuling annotations held against various
- *   program code elements, such as classes, fields, methods etc. This interface 
- *   is simalar to the java.lang.reflect.AnnotatedElement. Accept that it also 
- *   allows modifications of associated annotations. It is implemented by the 
- *   classes within this package that represent applicable code elements. 
- * 
- *   Adding class annotations
- * 
+ * Defines methods for manipulating annotations held against various
+ * program code elements, such as classes, fields, methods etc. This interface
+ * is similar to the java.lang.reflect.AnnotatedElement except that it also
+ * allows modifications of associated annotations. It is implemented by the
+ * classes within this package that represent applicable code elements.
+ * <p>
+ * Adding the class annotations
+ * <pre>
  *   JClass lollipop = new JClass("Lollipop");
  *   JAnnotationType endorsersType = new JAnnotationType("Endorsers");
  *   JAnnotation endorsers = new JAnnotation(endorsersType);
  *   endorsers.setValue(new String[] { "\"Children\"", "\"Unscrupulous dentists\""});			
  *   lollipop.addAnnotation(endorsers);
- * 
- *   Outputs
- * 
- *   @Endorsers(
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;Endorsers(
  *       {
  *           "Children",
  *           "Unscrupulous dentists"
  *       })
  *   public class Lollipop {
  *   } 
- * 
- *   Adding method annotations
- * 
+ * </pre>
+ * Adding the method annotations
+ * <pre>
  *   JClass timeMachine = new JClass("TimeMachine");
  *   JAnnotationType requestForEnhancementType = new JAnnotationType("RequestForEnhancement");
  *   JAnnotation requestForEnhancement = new JAnnotation(requestForEnhancementType);
  *   requestForEnhancement.setElementValue("id", "2868724");
  *   requestForEnhancement.setElementValue("sysopsis", "\"Provide time-travel functionality\"");
- *   requestForEnhancement.setElementValue("enginer", "\"Mr. Peabody\"");
+ *   requestForEnhancement.setElementValue("engineer", "\"Mr. Peabody\"");
  *   requestForEnhancement.setElementValue("date", "\"4/1/2004\"");
  *   JMethod travelThroughTime = new JMethod(null, "travelThroughTime");
  *   travelThroughTime.addAnnotation(requestForEnhancement);
  *   travelThroughTime.addParameter(new JParameter(new JClass("Date"), "date"));
  *   timeMachine.addMethod(travelThroughTime);
- * 
- *   Outputs
- *  
- *   @RequestForEnhancement(
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;RequestForEnhancement(
  *       id       = 2868724,
  *       sysopsis = "Provide time-travel functionality",
- *       enginer  = "Mr. Peabody",
+ *       engineer = "Mr. Peabody",
  *       date     = "4/1/2004")
  *   public void travelThroughTime(Date date)
  *   {
  *   }  
- * 
- *   Adding field annotations
- * 
+ * </pre>
+ * Adding the field annotations
+ * <pre>
  *   JClass timeMachine = new JClass("EventProducer");
  *   JAnnotationType suppressWarningsType = new JAnnotationType("SuppressWarnings");
  *   JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
  *   JField field = new JField(new JClass("DocumentHandler"), "documentHandler");
  *   field.addAnnotation(suppressWarnings);
  *   timeMachine.addField(field);
- * 
- *   Outputs
- * 
- *   @SuppressWarnings()
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;SuppressWarnings()
  *   private DocumentHandler documentHandler;
- * 
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
+ * </pre>
+ * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public interface JAnnotatedElement 
 {
 	/**
-	 * Retrieves a JAnnotation for the given JAnnotationType, returns null 
-	 *   if no annotation has been set.
-	 * @param annotationType
-	 * @return A JAnnotation for the given JAnnotationType
-	 */
+     * Retrieves a JAnnotation for the given JAnnotationType, returns null if no
+     * annotation has been set.
+     * 
+     * @param annotationType
+     * @return A JAnnotation for the given JAnnotationType
+     */
 	public JAnnotation getAnnotation(JAnnotationType annotationType);
 	/**
-	 * Returns a list of JAnnotation's already set on this source element
-	 * @return A list of all JAnnotations associated with this source element
-	 */
+     * Returns a list of JAnnotation's already set on this source element
+     * 
+     * @return A list of all JAnnotations associated with this source element
+     */
 	public JAnnotation[] getAnnotations();
 	/**
-	 * Returns true if a JAnnotation exists for the given JAnnotationType
-	 * @param annotationType
-	 * @return True if a JAnnotation has been added for the given JAnnotationType
-	 */
+     * Returns true if a JAnnotation exists for the given JAnnotationType
+     * 
+     * @param annotationType
+     * @return True if a JAnnotation has been added for the given
+     *         JAnnotationType
+     */
 	public boolean isAnnotationPresent(JAnnotationType annotationType);
 	/**
-	 * Adds a JAnnotation to this source element. An IllegalArgumentException
-	 *   is thrown if one already exists for the associated JAnnotationType.
-	 * @param annotation
-	 */
+     * Adds a JAnnotation to this source element. An IllegalArgumentException is
+     * thrown if one already exists for the associated JAnnotationType.
+     * 
+     * @param annotation a JAnnotation to add to this source element
+     * @throws IllegalArgumentException if an annotation of this type is already
+     *             present on this element
+     */
 	public void addAnnotation(JAnnotation annotation)
 		throws IllegalArgumentException;
 	/**
-	 * Removes the JAnnotation from this source element for the given JAnnotationType,
-	 *   throws a IllegalArgumentException if no JAnnotation has been added.
-	 * @param annotationType
-	 * @return The JAnnotation that was associated with this source element
-	 */
+     * Removes the JAnnotation from this source element for the given
+     * JAnnotationType. An IllegalArgumentException is thrown if the provided
+     * JAnnotation isn't present.
+     * 
+     * @param annotationType Annotation type to remove
+     * @return The JAnnotation that was associated with this source element
+     * @throws IllegalArgumentException if this annotation is not present
+     */
 	public JAnnotation removeAnnotation(JAnnotationType annotationType)
 		throws IllegalArgumentException;
 	/**
-	 * Returns true if annotations have been added to this source element
-	 * @return Returns true if annotations have been added to this source element
-	 */
+     * Returns true if this source element has any annotations
+     * 
+     * @return Returns true if this source element has any annotations
+     */
 	public boolean hasAnnotations();
+
 }

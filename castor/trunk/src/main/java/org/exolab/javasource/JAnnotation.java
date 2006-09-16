@@ -54,54 +54,56 @@ import java.lang.reflect.Array;
 import org.exolab.castor.util.OrderedHashMap;
 
 /**
- * JAnnotation represents a single annotation against a code element. The methods 
- *   described on the JAnnotatedElement interface are used to associate JAnnotation's
- *   with various other objects in this package describing Java code elements.
- *  
- *   The print method outputs annotations in various forms (as described in the 
- *   Java Language Specificaiton Third Edition) based on the methods called. 
- * 
- *   For "Marker Annotation", construct with the approprite JAnnotationType.
- * 
+ * JAnnotation represents a single annotation against a code element. The
+ * methods described on the JAnnotatedElement interface are used to associate
+ * JAnnotation's with various other objects in this package describing Java code
+ * elements.
+ * <p>
+ * The print method outputs annotations in various forms (as described in the
+ * Java Language Specification Third Edition) based on the methods called.
+ * <p>
+ * For "Marker Annotation", construct with the appropriate JAnnotationType.
+ * <pre>
  *   JAnnotationType preliminaryType = new JAnnotationType("Preliminary");
  *   JAnnotation preliminary = new JAnnotation(preliminaryType);
- * 
- *   Outputs
- * 
- *   @Preliminary()
- * 
- *   For "Single Element Annotation", construct as above and call the setValue(value) 
- *   method to set the value of the "value" element of the annotation type.
- * 
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;Preliminary()
+ * </pre>
+ * For "Single Element Annotation", construct as above and call the
+ * setValue(value) method to set the value of the "value" element of the
+ * annotation type.
+ * <pre>
  *   JAnnotationType copyrightType = new JAnnotationType("Copyright");
  *   JAnnotation copyright = new JAnnotation(copyrightType);
  *   copyright.setValue("\"2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.\"");
- * 
- *   Outputs
- * 
- *   @Copyright("2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.")
- * 
- *   For "Normal Annotation", construct as above then call the approprite setValue
- *   methods that accept an "elementName" parameter.
- * 
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;Copyright("2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.")
+ * </pre>
+ * For "Normal Annotation," construct as above then call the appropriate
+ * setValue methods that accept an "elementName" parameter.
+ * <pre>
  *	 JAnnotationType requestForEnhancementType = new JAnnotationType("RequestForEnhancement");
  *   JAnnotation requestForEnhancement = new JAnnotation(requestForEnhancementType);
  *   requestForEnhancement.setElementValue("id", "2868724");
  *   requestForEnhancement.setElementValue("sysopsis", "\"Provide time-travel functionality\"");
- *   requestForEnhancement.setElementValue("enginer", "\"Mr. Peabody\"");
+ *   requestForEnhancement.setElementValue("engineer", "\"Mr. Peabody\"");
  *   requestForEnhancement.setElementValue("date", "\"4/1/2004\"");		
- * 
- *   Outputs
- * 
- *   @RequestForEnhancement(
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;RequestForEnhancement(
  *       id       = 2868724,
  *       sysopsis = "Provide time-travel functionality",
- *       enginer  = "Mr. Peabody",
+ *       engineer = "Mr. Peabody",
  *       date     = "4/1/2004")
- * 
- * 	 "Complex" annotations are also supported via the various setValue methods 
- *   that take a JAnnotation object. 
- * 
+ * </pre>
+ * "Complex" annotations are also supported via the various setValue methods
+ * that take a JAnnotation object.
+ * <pre>
  *   JAnnotationType nameType = new JAnnotationType("Name");
  *   JAnnotationType authorType = new JAnnotationType("Author");
  *   JAnnotation author = new JAnnotation(authorType);
@@ -109,33 +111,33 @@ import org.exolab.castor.util.OrderedHashMap;
  *   name.setElementValue("first", "\"Joe\"");
  *   name.setElementValue("last", "\"Hacker\"");
  *   author.setValue(name);
- * 
- *   Outputs
- * 
- *   @Author(@Name(
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;Author(&#064;Name(
  *       first = "Joe",
  *       last  = "Hacker"))
- * 
- *   Finally annotation elements who's types are arrays are supported via the 
- *   setValue methods that take arrays.
- *
+ * </pre>
+ * Finally annotation elements whose types are arrays are supported via the
+ * setValue methods that take arrays:
+ * <pre>
  *   JAnnotationType endorsersType = new JAnnotationType("Endorsers");
  *   JAnnotation endorsers = new JAnnotation(endorsersType);
  *   endorsers.setValue(new String[] { "\"Children\"", "\"Unscrupulous dentists\""});
- *    			
- *   Outputs
- * 
- *   @Endorsers(
+ * </pre>
+ * outputs
+ * <pre>
+ *   &#064;Endorsers(
  *       {
  *           "Children",
  *           "Unscrupulous dentists"
  *       })
+ * </pre>
+ * Note: Conditional element values are not currently supported. However the
+ * setValue methods taking String values can be used to output this construct
+ * literally if desired.
  * 
- *   Note: Conditional element values are not currently supported. However the
- *         setValue methods taking String values can be used to output this construct 
- *         literally if desired.
- * 
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
+ * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public class JAnnotation
 {
@@ -145,9 +147,9 @@ public class JAnnotation
 	private JAnnotationType _annotationType;
 	
 	/**
-	 * Element values associated with this JAnnotation, contains String, String[],
-	 *   JAnnotation and JAnnotation[] objects.
-	 */
+     * Element values associated with this JAnnotation, contains String,
+     * String[], JAnnotation and JAnnotation[] objects.
+     */
 	private OrderedHashMap _elementValues = new OrderedHashMap();
 	
 	/**
@@ -156,103 +158,116 @@ public class JAnnotation
 	public static final String value = "value";
 	
 	/**
-	 * Constructs a JAnnotation for the given annotation type
-	 * @param annotationType
-	 */
+     * Constructs a JAnnotation for the given annotation type
+     * 
+     * @param annotationType annotation type
+     */
 	public JAnnotation(JAnnotationType annotationType)
 	{
 		_annotationType = annotationType;
 	}
 	
 	/**
-	 * Returns the JAnnotationType associated with this JAnnotation
-	 */
+     * Returns the JAnnotationType associated with this JAnnotation
+     * 
+     * @return the JAnnotationType associated with this JAnnotation
+     */
 	public JAnnotationType getAnnotationType()
 	{
 		return _annotationType;
 	} //-- getAnnotationType
 	
 	/**
-	 * Sets the "value" annotation element value
-	 * @param stringValue
-	 */
+     * Sets the "value" annotation element value
+     * 
+     * @param stringValue literal String value
+     */
 	public void setValue(String stringValue)
 	{
 		_elementValues.put(value, stringValue);
 	} //-- setValue
 	
 	/**
-	 * Sets the "value" annotation element value as a list
-	 * @param stringValue
-	 */
+     * Sets the "value" annotation element value as a list
+     * 
+     * @param stringValue Array of literal String values
+     */
 	public void setValue(String[] stringValue)
 	{
 		_elementValues.put(value, stringValue);
 	} //-- setValue
 	
 	/**
-	 * Sets the "value" annotation element value as an annotation
-	 * @param annotationValue
-	 */
+     * Sets the "value" annotation element value as an annotation
+     * 
+     * @param annotationValue JAnnotation to be used as this JAnnotation's value
+     */
 	public void setValue(JAnnotation annotationValue)
 	{
 		_elementValues.put(value, annotationValue);
 	} //-- setValue
 	
 	/**
-	 * Sets the "value" annotation element value as a list of annotation values
-	 * @param annotationValues
-	 */
+     * Sets the "value" annotation element value as a list of annotation values
+     * 
+     * @param annotationValues array of JAnnotations to be used as this
+     *            JAnnotation's value
+     */
 	public void setValue(JAnnotation[] annotationValues)
 	{
 		_elementValues.put(value, annotationValues);
 	} //-- setValue
 	
 	/**
-	 * Sets the given annotation element value
-	 * @param elementName
-	 * @param stringValue
-	 */
+     * Adds an annotation element name=value pair
+     * 
+     * @param elementName name of this annotation element
+     * @param stringValue value of this annotation element
+     */
 	public void setElementValue(String elementName, String stringValue)
 	{
 		_elementValues.put(elementName, stringValue);		
 	} //-- setElementValue
 	
 	/**
-	 * Sets the given annotation element value as a list
-	 * @param elementName
-	 * @param stringValues
-	 */
+     * Adds an annotation element name=list pair
+     * 
+     * @param elementName name of this annotation element
+     * @param stringValues string array value of this annotation element
+     */
 	public void setElementValue(String elementName, String[] stringValues)
 	{
 		_elementValues.put(elementName, stringValues);		
 	} //-- setElementValue
 	
 	/**
-	 * Sets the given annotation element value as an annotation
-	 * @param elementName
-	 * @param annotationValue
-	 */
+     * Adds an annotation element name=annotation pair
+     * 
+     * @param elementName name of this annotation element
+     * @param annotationValue annotation to be used as the value
+     */
 	public void setElementValue(String elementName, JAnnotation annotationValue)
 	{
 		_elementValues.put(elementName, annotationValue);				
 	} //-- setElementValue
 	
 	/**
-	 * Sets the given annotation element values as a list of annotation values
-	 * @param elementName
-	 * @param annotationValues
-	 */
+     * Adds an annotation element name=array of annotations
+     * 
+     * @param elementName name of this annotation element
+     * @param annotationValues array of annotations to be used as the value
+     */
 	public void setElementValue(String elementName, JAnnotation[] annotationValues)
 	{
 		_elementValues.put(elementName, annotationValues);				
 	} //-- setElementValue
 	
 	/**
-	 * Returns the "value" annotation element value
-	 * @return
-     * @exception IllegalStateException when the element value is not a String
-	 */
+     * Returns the annotation element value when it is a String
+     * 
+     * @return the annotation element value
+     * @throws IllegalStateException when the element type is not String
+     */
 	public String getValue()
 	{
 		Object elementValue = getElementValueObject(value);
@@ -262,10 +277,11 @@ public class JAnnotation
 	} //-- getValue
 	
 	/**
-	 * Returns the "value" annotation element value as an JAnnotation
-	 * @return
-     * @exception IllegalStateException when the element value is not a JAnnotation
-	 */
+     * Returns the annotation element value when it is an annotation
+     * 
+     * @return the annotation element value when it is an annotation
+     * @throws IllegalStateException when the element type is not JAnnotation
+     */
 	public JAnnotation getValueAnnotation()
 		throws IllegalStateException	
 	{
@@ -275,12 +291,14 @@ public class JAnnotation
 		throw new IllegalStateException("'value' element is not of type JAnnotation.");
 	} //-- getValueAnnotation
 
-	/**
-	 * Returns the given annotation element value
-	 * @param elementName
-	 * @return
-     * @exception IllegalArgumentException when the element value is not a String
-	 */
+    /**
+     * For the provided element name, returns the annotation element value when
+     * it is a String
+     * 
+     * @param elementName element to return the value of
+     * @return the annotation element value
+     * @throws IllegalStateException when the element type is not String
+     */
 	public String getElementValue(String elementName)
 		throws IllegalStateException	
 	{
@@ -291,11 +309,13 @@ public class JAnnotation
 	} //-- getElementValue
 
 	/**
-	 * Returns the given annotation element value as a list
-	 * @param elementName
-	 * @return
-     * @exception IllegalArgumentException when the element value is not a String[]
-	 */	
+     * For the provided element name, returns the annotation element value when
+     * it is an array of String
+     * 
+     * @param elementName element to return the value of
+     * @return the annotation element value
+     * @throws IllegalStateException when the element type is not String[]
+     */	
 	public String[] getElementValueList(String elementName)
 		throws IllegalStateException	
 	{
@@ -306,23 +326,26 @@ public class JAnnotation
 	} //-- getElementValueList
 	
 	/**
-	 * Returns the given annotation element value as Object, typically used
-	 *   if the value type is not known. This will either be a String or JAnnotation
-	 *   as single value or as an array.
-	 * @param elementName
-	 * @return annotation element value as Object
-	 */
+     * Returns the given annotation element value as Object, typically used if
+     * the value type is not known. This will either be a String or JAnnotation
+     * or an array of String or an array of JAnnotation.
+     * 
+     * @param elementName element to return the value of
+     * @return annotation element value as Object
+     */
 	public Object getElementValueObject(String elementName)
 	{
 		return _elementValues.get(elementName);
 	} //-- getElementValueObject
 	
-	/**
-	 * Returns the given annotation element value as a JAnnotation
-	 * @param elementName
-	 * @return annotation element value as a JAnnotation
-     * @exception IllegalArgumentException when the element value is not a JAnnotation
-	 */
+    /**
+     * For the provided element name, returns the annotation element value when
+     * it is a JAnnotation
+     * 
+     * @param elementName element to return the value of
+     * @return the annotation element value
+     * @throws IllegalStateException when the element type is not JAnnotation
+     */ 
 	public JAnnotation getElementValueAnnotation(String elementName)
 		throws IllegalStateException	
 	{
@@ -332,12 +355,14 @@ public class JAnnotation
 		throw new IllegalStateException("'"+elementName+"' element is not of type JAnnotation.");
 	} //-- getElementValueAnnotation
 	
-	/**
-	 * Returns the given annotation element value as a JAnnotation list
-	 * @param elementName
-	 * @return
-     * @exception IllegalArgumentException when the element value is not a JAnnotation[]
-	 */
+    /**
+     * For the provided element name, returns the annotation element value when
+     * it is an array of JAnnotation
+     * 
+     * @param elementName element to return the value of
+     * @return the annotation element value
+     * @throws IllegalStateException when the element type is not JAnnotation[]
+     */ 
 	public JAnnotation[] getElementValueAnnotationList(String elementName)
 		throws IllegalStateException		
 	{
@@ -348,18 +373,20 @@ public class JAnnotation
 	} //-- getElementValueAnnotationList
 	
 	/**
-	 * Returns the names of the elements set by this annotation
-	 * @return array of element names
-	 */
+     * Returns the names of the elements set by this annotation
+     * 
+     * @return array of element names
+     */
 	public String[] getElementNames()
 	{
 		return (String[]) _elementValues.keySet().toArray(new String[_elementValues.size()]);
 	} //-- getElementNames
 	
 	/**
-	 * Prints the source code for this JAnnotation to the given JSourceWriter
-	 * @param jsw the JSourceWriter to print to. [May not be null]
-	 */
+     * Prints the source code for this JAnnotation to the given JSourceWriter
+     * 
+     * @param jsw the JSourceWriter to print to. Must not be null.
+     */
 	public void print(JSourceWriter jsw) 
 	{
 		jsw.write("@");
@@ -408,11 +435,14 @@ public class JAnnotation
 	} //-- print
 
 	/**
-	 * Output annotation element value according to its type, String, String[], JAnnotation or JAnnotation[]
-	 * @param jsw
-	 * @param elementValue
-	 * @throws IllegalArgumentException
-	 */	
+     * Prints annotation element value according to its type: String, String[],
+     * JAnnotation or JAnnotation[]
+     * 
+     * @param jsw the JSourceWriter to print to. Must not be null.
+     * @param elementValue element value to print
+     * @throws IllegalArgumentException if the elementValue is not one of the
+     *             expected types
+     */	
 	private void printElementValue(JSourceWriter jsw, Object elementValue)
 		throws IllegalArgumentException		
 	{

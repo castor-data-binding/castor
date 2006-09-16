@@ -55,75 +55,75 @@ import java.util.Vector;
  */
 public class JSourceCode {
     
-    
-    
     /**
      * A list of JCodeStatements
-    **/
+     */
     private Vector source = null;
     
     /**
      * The indent size 
-    **/
+     */
     private short indentSize = 4;
     
     /**
      * The current indent size
-    **/
+     */
     private short currentIndent = indentSize;
     
     /**
      * Creates an empty JSourceCode
-    **/
+     */
     public JSourceCode() {
         super();
         source = new Vector();
     } //-- JSourceCode
     
     /**
-     * Creates a JSourceCode and adds the given String
-     * to it's contents
+     * Creates a JSourceCode and adds the given String to it's contents
+     * 
      * @param sourceCode the source to add
-    **/
+     */
     public JSourceCode(String sourceCode) {
         this();
         this.source.addElement(new JCodeStatement(sourceCode, currentIndent));
     } //-- JSourceCode
     
     /**
-     * Adds the given statement to this JSourceCode. The statement
-     * will be added on a new line.
+     * Adds the given statement to this JSourceCode. The statement will be added
+     * on a new line.
+     * 
      * @param statement the statement to add
-    **/
+     */
     public void add(String statement) {
         JCodeStatement jcs = new JCodeStatement(statement, currentIndent);
         source.addElement(jcs);
     } //-- add
     
     /**
-     * Adds the given statement to this JSourceCode. The statement
-     * will be added on a new line.
+     * Adds the given statement to this JSourceCode. The statement will be added
+     * on a new line.
+     * 
      * @param statement the statement to add
-     * @param indentSize indentSize is the size of the indentation to use
-     * when printing this JSourceCode
-     * @see #print
-    **/
+     * @param indentSize indentSize is the size of the indentation to use when
+     *        printing this JSourceCode
+     * @see #print(JSourceWriter)
+     */
     public void add(String statement, short indentSize) {
         JCodeStatement jcs = new JCodeStatement(statement, indentSize);
         source.addElement(jcs);
     } //-- add
     
     /**
-     * Adds the given statement to this JSourceCode. The statement
-     * will be added on a new line and added with increased indent.
-     * This is a convenience method for the sequence
+     * Adds the given statement to this JSourceCode. The statement will be added
+     * on a new line and added with increased indent. This is a convenience
+     * method for the sequence:
      * <code>
      * indent();
      * add(statement);
      * unindent();
      * </code>
      * @param statement the statement to add
-    **/
+     */
     public void addIndented(String statement) {
         indent();
         JCodeStatement jcs = new JCodeStatement(statement, currentIndent);
@@ -132,12 +132,11 @@ public class JSourceCode {
     } //-- add
 
     /**
-     * Appends the given String to the last line in this
-     * JSourceCode
+     * Appends the given String to the last line in this JSourceCode
+     * 
      * @param segment the String to append
-    **/
+     */
     public void append(String segment) {
-        
         if (source.isEmpty()) add(segment);
         else {
             JCodeStatement jcs = (JCodeStatement) source.lastElement();
@@ -147,15 +146,16 @@ public class JSourceCode {
     
     /**
      * Clears all the code statements from this JSourceCode
-    **/
+     */
     public void clear() {
         source.removeAllElements();
     } //-- clear();
     
     /**
      * Copies the contents of this JSourceCode into the given JSourceCode
+     * 
      * @param jsc the JSourceCode to copy this JSourceCode into
-    **/
+     */
     public void copyInto(JSourceCode jsc) {
         for (int i = 0; i < source.size(); i++) {
              jsc.addCodeStatement((JCodeStatement)source.elementAt(i));
@@ -164,23 +164,25 @@ public class JSourceCode {
     
     /**
      * Increases the current indent level by 1
-    **/
+     */
     public void indent() {
         currentIndent += indentSize;
     } //-- indent();
     
     /**
      * Returns true if this JSourceCode is empty (ie. no source).
+     * 
      * @return true if this JSourceCode is empty.
-    **/
+     */
     public boolean isEmpty() {
         return source.isEmpty();
     } //-- isEmpty
     
     /**
      * Prints this JSourceCode to the given JSourceWriter
+     * 
      * @param jsw the JSourceWriter to print to
-    **/
+     */
     public void print(JSourceWriter jsw) {
         for (int i = 0; i < source.size(); i++) 
             jsw.writeln(source.elementAt(i).toString());
@@ -188,16 +190,16 @@ public class JSourceCode {
     
     /**
      * Decreases the indent level by 1
-    **/
+     */
     public void unindent() {
         currentIndent -= indentSize;
     } //-- unindent
     
-    
     /**
      * Returns the String representation of this JSourceCode
+     * 
      * @return the String representation of this JSourceCode
-    **/
+     */
     public String toString() {
         StringBuffer sb = new StringBuffer();
         String lineSeparator = System.getProperty("line.separator");
@@ -210,8 +212,9 @@ public class JSourceCode {
     
     /**
      * Adds the given JCodeStatement to this JSourceCode
+     * 
      * @param jcs the JCodeStatement to add
-    **/
+     */
     private void addCodeStatement(JCodeStatement jcs) {
         short indent = (short)(jcs.getIndent()+ currentIndent - JCodeStatement.DEFAULT_INDENTSIZE);
         source.addElement(new JCodeStatement(jcs.getStatement(), indent));
@@ -221,8 +224,9 @@ public class JSourceCode {
 
 /**
  * Represents a line of code, used by JSourceCode class
+ * 
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
-**/
+ */
 class JCodeStatement {
     
     private StringBuffer value = null;

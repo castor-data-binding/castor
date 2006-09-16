@@ -45,16 +45,14 @@
 
 package org.exolab.javasource;
 
-
 /**
- * The set of modifiers for a Method or Member variable
+ * Represents the set of modifiers for a Method or Member variable
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public class JModifiers {
 
-    
     /* static members */
 
     private static final String sAbstract   = "abstract";
@@ -70,55 +68,55 @@ public class JModifiers {
     private static final short vProtected = 2;
     private static final short vPublic    = 3;
     private static final short vPackage   = 4;
-    
 
     /* local members */
 
     /**
-     * The visibility
-    **/
+     * The visibility modifier for the object associated with this JModifiers
+     */
     private short visibility = vPublic;
 
     /**
-     * A flag indicating whether or not the object associated
-     * with this JModifiers is static
-    **/
+     * A flag indicating whether or not the object associated with this
+     * JModifiers is static
+     */
     private boolean isStatic = false;
     
     /**
-     * A flag indicating whether or not the object associated
-     * with this JModifiers is final
-    **/
+     * A flag indicating whether or not the object associated with this
+     * JModifiers is final
+     */
     private boolean isFinal  = false;
     
     /**
-     * A flag indicating whether or not the object associated
-     * with this JModifiers is abstract
-    **/
+     * A flag indicating whether or not the object associated with this
+     * JModifiers is abstract
+     */
     private boolean isAbstract = false;
     
     /**
-     * A flag indicating whether or not the object associated
-     * with this JModifiers is transient
-    **/
+     * A flag indicating whether or not the object associated with this
+     * JModifiers is transient
+     */
     private boolean isTransient = false;
     
     /**
-     * Creates a new JModifiers class, by default the
-     * modifiers presented are public.
-    **/
+     * Creates a new JModifiers class. By default the only modifier present is
+     * public.
+     */
     public JModifiers() {
         super();
     } //-- JModifiers
     
     /**
-     * Creates a new JModifiers 
-     * @param visibility the visibile qualifier
-     * @param isStatic a boolean indicating the static qualifier.
-     * A value of true indicates that this static qualifier is present.
-     * @param isFinal a boolean indicating the final qualifier. A value
-     * of true indicates that the final qualifier is present.
-    **/
+     * Creates a new JModifiers instance
+     * 
+     * @param visibility the visibility qualifier
+     * @param isStatic a boolean, if true, indicating that this JModifiers
+     *            includes "static" as a qualifier.
+     * @param isFinal a boolean, if true, indicating that this JModifiers
+     *            includes "final" as a qualifier.
+     */
     private JModifiers(short visibility, boolean isStatic, boolean isFinal) {
         this.visibility = visibility;
         this.isStatic = isStatic;
@@ -126,9 +124,10 @@ public class JModifiers {
     } //-- JModifiers
     
     /**
-     * Creates a copy of this JModifiers
-     * @return the copy of this JModifiers
-    **/
+     * Creates a copy of this JModifiers instance
+     * 
+     * @return a copy of this JModifiers
+     */
     public JModifiers copy() {
         JModifiers mods = new JModifiers(visibility, isStatic, isFinal);
         mods.setAbstract(isAbstract);
@@ -138,141 +137,159 @@ public class JModifiers {
     
     /**
      * Changes the visibility qualifier to "private"
-    **/
+     */
     public void makePrivate() {
         this.visibility = vPrivate;
     } //-- makePrivate
     
     /**
      * Changes the visibility qualifier to "protected"
-    **/
+     */
     public void makeProtected() {
         this.visibility = vProtected;
     } //-- makeProtected
 
     /**
      * Changes the visibility qualifier to "public"
-    **/
+     */
     public void makePublic() {
         this.visibility = vPublic;
     } //-- makePublic
     
     /**
      * Changes the visibility qualifier to package (= without qualifier).
-    **/
+     */
     public void makePackage() {
         this.visibility = vPackage;
     } //-- makePackage
     
-	/**
-	 * Returns true if the final qualifier is present.
-	 * <BR> This is only applicable to methods and classes.
-	 * @return true if the final qualifier is present
-	 **/
+    /**
+     * Returns true if this JModifiers includes the qualifier "final". This
+     * is only applicable to methods and classes.
+     * 
+     * @return true if this JModifiers includes the qualifier "final". This
+     *         is only applicable to methods and classes.
+     */
 	public boolean isFinal() 
 	{
 		return isFinal;
 	} //-- isAbstract
     
     /**
-     * Returns true if the abstract qualifier is present.
-     * <BR> This is only applicable to methods and classes.
-     * @return true if the abstract qualifier is present
-    **/
+     * Returns true if this JModifiers includes the qualifier "abstract". This
+     * is only applicable to methods and classes.
+     * 
+     * @return true if this JModifiers includes the qualifier "abstract". This
+     *         is only applicable to methods and classes.
+     */
     public boolean isAbstract() 
 	{
         return isAbstract;
     } //-- isAbstract
     
     /**
-     * Returns true if the modifier represented is private.
-     * @return true if the modifier represented is private.
-    **/
+     * Returns true if the visibility modifier for this JModifier is "private"
+     * 
+     * @return true if the visibility modifier for this JModifier is "private"
+     */
     public boolean isPrivate() {
         return (visibility == vPrivate);
     } //-- isPrivate
     
     /**
-     * Returns true if the modifier represented is protected.
-     * @return true if the modifier represented is protected.
-    **/
+     * Returns true if the visibility modifier for this JModifier is "protected"
+     * 
+     * @return true if the visibility modifier for this JModifier is "protected"
+     */
     public boolean isProtected() {
         return (visibility == vProtected);
     } //-- isProtected
     
     /**
-     * Returns true if the modifier represented is public.
-     * @return true if the modifier represented is public.
-    **/
+     * Returns true if the visibility modifier for this JModifier is "public"
+     * 
+     * @return true if the visibility modifier for this JModifier is "public"
+     */
     public boolean isPublic() {
         return (visibility == vPublic);
     } //-- isPublic
 
     /**
-     * Returns true if the modifier represented is package (= without qualifier).
-     * @return true if the modifier represented is package (= without qualifier).
-    **/
+     * Returns true if the visibility modifier for this JModifier is package
+     * (i.e., without qualifier)
+     * 
+     * @return true if the visibility modifier for this JModifier is package
+     *         (i.e., without qualifier)
+     */
     public boolean isPackage() {
         return (visibility == vPackage);
     } //-- isPackage
 
     /**
-     * Returns true if the modifier represented is static.
-     * @return true if the modifier represented is static.
-    **/
+     * Returns true if this JModifier includes the qualifier "static"
+     * 
+     * @return true if this JModifier includes the qualifier "static"
+     */
     public boolean isStatic() {
         return this.isStatic;
     } //-- isPublic
 
     /**
-     * Returns true if the modifier represented is transient.
-     * @return true if the modifier represented is transient.
-    **/
+     * Returns true if this JModifier includes the qualifier "transient"
+     * 
+     * @return true if this JModifier includes the qualifier "transient"
+     */
     public boolean isTransient() {
         return this.isTransient;
     } //-- isTransient
     
     /**
-     * Sets whether or not the "abstract" qualifier is present
-     * <BR> This applies only to methods or classes.
-     * @param isAbstract is a boolean which when true will indicate
-     * that the abstract qualifier should be present
-    **/
+     * Sets whether or not this JModifiers includes the qualifier "abstract".
+     * This applies only to methods or classes.
+     * 
+     * @param isAbstract if true, indicates that this JModifier should include
+     *            the qualifier "abstract"
+     */
     public void setAbstract(boolean isAbstract) {
         this.isAbstract = isAbstract;
     } //-- setAbstract
     
     /**
-     * Sets whether or not the "final" qualifier is present
-     * @param isFinal is a boolean which when true will indicate
-     * the final qualifiter is present
-    **/
+     * Sets whether or not this JModifiers includes the qualifier "final"
+     * 
+     * @param isFinal if true, indicates that this JModifier should include the
+     *            qualifier "final"
+     */
     public void setFinal(boolean isFinal) {
         this.isFinal = isFinal;
     } //-- setFinal
     
     /**
-     * Sets whether or not the "static" qualifier is present
-     * @param isStatic is a boolean which when true will indicate
-     * the "static" qualifiter is present
-    **/
+     * Sets whether or not this JModifiers includes the qualifier "static"
+     * 
+     * @param isStatic if true, indicates that this JModifier should include the
+     *            qualifier "static"
+     */
     public void setStatic(boolean isStatic) {
         this.isStatic = isStatic;
     } //-- setStatic
     
     /**
-     * Sets whether or not the "transient" qualifier is present
-     * @param isTransient is a boolean which when true will indicate
-     * the "transient" qualifiter is present
-    **/
+     * Sets whether or not this JModifiers includes the qualifier "transient"
+     * 
+     * @param isTransient is a boolean which when true indicates that this
+     *            JModifier should include the qualifier "transient"
+     */
     public void setTransient(boolean isTransient) {
         this.isTransient = isTransient;
     } //-- setTransient
     
     /**
-     * Returns the String represetation of this JModifiers
+     * Returns the String represetation of this JModifiers, in the order
+     * recommended by the Java Language Specification
+     * 
      * @return the String represetation of this JModifiers
-    **/
+     */
     public String toString() {
         StringBuffer sb = new StringBuffer();
         
@@ -329,4 +346,3 @@ public class JModifiers {
     } //-- toString
     
 } //-- JModifiers
-

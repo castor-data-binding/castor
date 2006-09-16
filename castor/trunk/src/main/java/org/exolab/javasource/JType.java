@@ -78,19 +78,22 @@ public class JType {
     private boolean _isCollection = false;
     
     /**
-     * used for array and collection types 
-    **/
+     * Used for Array and Collection types to indicate the data type contained
+     * in the Array or Collection
+     */
     private JType _componentType = null;
     
     /**
-     * Only populated for primitive types
+     * Only populated for primitive types and indicates the wrapper Object class
+     * name for this primitive type
      */
     private String wrapperName = null;
 
     /**
      * Creates a new JType with the given name
+     * 
      * @param name the name of the type
-    **/
+     */
     protected JType(String name) 
     {
         super();
@@ -101,8 +104,11 @@ public class JType {
      * Creates a new JType for a primitive with the given name and wrapper name.
      * This constructor is private so it can only be used by the primitives
      * defined here.
+     * 
      * @param name the name of the type
-    **/
+     * @param wrapperName the name of the wrapper Object type for this primirive
+     *            type
+     */
     private JType(String name, String wrapperName)
     {
         this(name);
@@ -110,10 +116,11 @@ public class JType {
     } //-- JType
 
     /**
-     * Creates a JType Object representing an array of the current
-     * JType.
+     * Creates a JType Object representing an array of the current JType
+     * instance.
+     * 
      * @return the new JType which is represents an array.
-    **/
+     */
     public final JType createArray() {
         JType jType = new JType(getName());
         jType._isArray = true;
@@ -122,10 +129,19 @@ public class JType {
     } //-- createArray
 
     /**
-     * Creates a JType Object representing a collection of the current
-     * JType.
-     * @return the new JType which is represents a collection.
-    **/
+     * Creates a JType Object representing a collection of the given type or an
+     * iterator over a given type
+     * <p>
+     * FIXME: This method should be replaced with two methods, one for
+     * collections and one for iterators.  The iterator version type probably
+     * should not set _isCollection to true.
+     * 
+     * @param name the class name of the collection or iterator
+     * @param componentType object type contains in the collection or iterated
+     *            over in the iterator
+     * @return the new JType which is a collection or iterator over the provided
+     *         component type
+     */
     public final static JType createCollection(String name, JType componentType) {
         JType jType = new JType(name);
         jType._isCollection = true;
@@ -134,12 +150,12 @@ public class JType {
     } //-- createCollection
 
     /**
-     * If this JType is an array/collection, this method will return 
-     * the component type of the array/collection, otherwise null will be 
-     * returned.
-     * @return the component JType if this JType is an array/collection, 
-     * otherwise null.
-    **/
+     * If this JType is an array/collection, this method will return the
+     * component type of the array/collection, otherwise it will return null
+     * 
+     * @return the component JType if this JType is an array/collection,
+     *         otherwise null.
+     */
     public JType getComponentType() {
         return _componentType;
     } //-- getComponentType
@@ -160,31 +176,41 @@ public class JType {
     public String getName() {
         return this.name;
     } //-- getName
-    
+
+    /**
+     * Return the name of the wrapper object for a primitive type, null for
+     * non-primitive types
+     * 
+     * @return the name of the wrapper object for a primitive type, null for
+     *         non-primitive types
+     */
     public String getWrapperName() {
       return this.wrapperName;
     } //-- getWrapperName
 
     /**
      * Checks to see if this JType represents an array.
+     * 
      * @return true if this JType represents an array, otherwise false
-    **/
+     */
     public final boolean isArray() {
         return _isArray;
     }
 
     /**
      * Checks to see if this JType represents a collection.
+     * 
      * @return true if this JType represents a collection, otherwise false
-    **/
+     */
     public final boolean isCollection() {
         return _isCollection;
     }
     
     /**
-     * Checks to see if this JType represents a primitive
-     * @return true if this JType represents a primitive, otherwise false
-    **/
+     * Checks to see if this JType represents a primitive type
+     * 
+     * @return true if this JType represents a primitive type, otherwise false
+     */
     public boolean isPrimitive() {
         return ((this == JType.Boolean) ||
                 (this == JType.Byte)    ||
@@ -197,12 +223,12 @@ public class JType {
     } //-- isPrimitive
     
     /**
-     * Returns the String representation of this JType, which is
-     * simply the name of this type. 
+     * Returns the String representation of this JType, which is simply the name
+     * of this type.
+     * 
      * @return the String representation of this JType
-    **/
+     */
     public String toString() {
-        
         if (_isArray) {
             return _componentType.toString()+"[]";
         }
@@ -215,7 +241,6 @@ public class JType {
         }
         
         return this.name;
-        
     } //-- toString
     
     //---------------------/
@@ -223,14 +248,15 @@ public class JType {
     //---------------------/
     
     /**
-     * Allows subtypes, such as JClass to alter the package to which
-     * this JType belongs
-     * @param newPackage the new package to which this JType belongs
-     * <BR>
-     * <B>Note:</B> The package name cannot be changed on a primitive type.
-    **/
+     * Change the package this JType belongs to. This method is protected to
+     * allow subtypes, such as JClass to alter the package to which this JType
+     * belongs
+     * 
+     * @param newPackage the new package to which this JType belongs <BR>
+     *            <B>Note:</B> The package name cannot be changed on a
+     *            primitive type.
+     */
     protected void changePackage(String newPackage) {
-        
         if (this.name == null) return;
         if (this.isPrimitive()) return;
         
@@ -245,8 +271,6 @@ public class JType {
             this.name = localName;
         else
             this.name = newPackage + "." + localName;
-        
     } //-- changePackage
-    
     
 } //-- JType

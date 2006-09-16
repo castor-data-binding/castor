@@ -79,20 +79,22 @@ public class JAnnotationTypeElement
 	}
 	
 	/**
-	 * Returns the modifiers for this JAnnotationTypeElement
-	 * @return the modifiers for this JAnnotationTypeElement     
-	**/	
+     * Returns the modifiers for this JAnnotationTypeElement
+     * 
+     * @return the modifiers for this JAnnotationTypeElement
+     */	
 	public JModifiers getModifiers() 
 	{
 		return _modifiers;
 	} //-- getModifiers
 
 	/**
-	 * Sets the name of this JAnnotationTypeElement
-	 * @param name the name of this JAnnotationTypeElement
-	 * @exception IllegalArgumentException when the
-	 * name is not a valid Java member name
-	**/
+     * Sets the name of this JAnnotationTypeElement
+     * 
+     * @param name the name of this JAnnotationTypeElement
+     * @throws IllegalArgumentException when the name is not a valid Java member
+     *             name
+     */
 	public void setName(String name) throws 
 		IllegalArgumentException
 	{
@@ -109,55 +111,60 @@ public class JAnnotationTypeElement
 	} //-- setName
 
 	/**
-	 * Returns the name of this JAnnotationTypeElement
-	 * @return the name of this JAnnotationTypeElement
-	**/
+     * Returns the name of this JAnnotationTypeElement
+     * 
+     * @return the name of this JAnnotationTypeElement
+     */
 	public String getName() 
 	{
 		return _name;
 	} //-- getName
 	
 	/**
-	 * Returns the JType represting the type of this JAnnotationTypeElement
-	 * @return the JClass represting the type of this JAnnotationTypeElement
-	**/	
+     * Returns the JType representing the type of this JAnnotationTypeElement
+     * 
+     * @return the JType representing the type of this JAnnotationTypeElement
+     */	
 	public JType getType()
 	{
 		return _type;
 	} //-- getType
-	
 
 	/**
-	 * Gets the initialization string for this JAnnotationTypeElement
-	 * @return Gets the initialization string for this JAnnotationTypeElement
-	 */	
+     * Returns the initialization string for this JAnnotationTypeElement
+     * 
+     * @return the initialization string for this JAnnotationTypeElement
+     */	
 	public String getDefaultString()
 	{
 		return _default;
 	} //-- getDefaultString
 	
 	/**
-	 * Sets the initialization string for this JAnnotationTypeElement;
-	 * Allows some flexibility in declaring default values.
-	 * @param defaultString the default string for this member.
-	**/	
+     * Sets the initialization string for this JAnnotationTypeElement. This
+     * method allows some flexibility in declaring default values.
+     * 
+     * @param defaultString the default string for this member
+     */	
 	public void setDefaultString(String defaultString)
 	{
 		_default = defaultString;
 	} //-- setDefaultString
 
 	/**
-	 * Sets the comment describing this member. 
-	 * @param comment the JDocComment for this member
-	**/
+     * Sets the JavaDoc comment describing this member
+     * 
+     * @param comment the JDocComment for this member
+     */
 	public void setComment(JDocComment comment) {
 		this._comment = comment;
 	} //-- setComment
 
 	/**
-	 * Sets the comment describing this member. 
-	 * @param comment the JDocComment for this member
-	**/
+     * Sets the JavaDoc comment describing this member
+     * 
+     * @param comment the JDocComment for this member
+     */
 	public void setComment(String comment) {
 		if (this._comment == null) {
 			this._comment = new JDocComment();
@@ -166,18 +173,20 @@ public class JAnnotationTypeElement
 	} //-- setComment
 
 	/**
-	 * Returns the comment describing this member. 
-	 * @return the comment describing this member, or
-	 * null if no comment has been set.
-	**/
+     * Returns the JavaDoc comment describing this member
+     * 
+     * @return the comment describing this member, or null if no comment has
+     *         been set
+     */
 	public JDocComment getComment() {
 		return this._comment;
 	} //-- getComment
 	
 	/**
-	 * Outputs the annotation type element
-	 * @param jsw
-	 */
+     * Outputs the annotation type element to the provided JSourceWriter
+     * 
+     * @param jsw the JSourceWriter to print this element to
+     */
 	public void print(JSourceWriter jsw)
 	{
 		if(_comment!=null)

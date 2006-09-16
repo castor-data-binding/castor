@@ -64,10 +64,9 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * A representation of the Java Source code for a Java Class. This is
- * a useful utility when creating in memory source code.
- * This package was modelled after the Java Reflection API
- * as much as possible to reduce the learning curve.
+ * A representation of the Java Source code for a Java Class. This is a useful
+ * utility when creating in memory source code. This package was modelled after
+ * the Java Reflection API as much as possible to reduce the learning curve.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a> 
@@ -75,19 +74,19 @@ import java.util.Vector;
  */
 public class JClass extends JStructure {
 
-
     /**
      * The list of constructors for this JClass
      */
     protected Vector _constructors  = null;
-
 
     /**
      * The list of member variables (fields) of this JClass
      */
     protected JNamedMap _fields    = null;
 
-
+    /**
+     * A collection of inner classes for this JClass
+     */
     protected Vector _innerClasses = null;
     
     /**
@@ -100,20 +99,18 @@ public class JClass extends JStructure {
      */
     protected JTypeName _superClass = null;
     
-
-    
-
     /**
      * The source code for static initialization
-    **/
+     */
     protected JSourceCode _staticInitializer = new JSourceCode();
     
     /**
      * Creates a new JClass with the given name
+     * 
      * @param name the name of the JClass to create
-     * @exception IllegalArgumentException when the given name
-     * is not a valid Class name
-    **/
+     * @throws IllegalArgumentException when the given name is not a valid Class
+     *             name
+     */
     public JClass(String name)
         throws IllegalArgumentException
     {
@@ -127,12 +124,11 @@ public class JClass extends JStructure {
         
     } //-- JClass
 
-
     /**
-     * Adds the given Constructor to this classes list of constructors.
-     * The constructor must have been created with this JClass'
-     * createConstructor.
-     *
+     * Adds the given Constructor to this classes list of constructors. The
+     * constructor must have been created with this JClass' createConstructor.
+     * 
+     * @param constructor the constructor to add
      * @throws IllegalArgumentException
      */
     public void addConstructor(JConstructor constructor)
@@ -157,11 +153,11 @@ public class JClass extends JStructure {
 
     /**
      * Adds the given JField to this JClass
-     *
-     * @param jField, the JField to add
-     * @exception IllegalArgumentException when the given
-     * JField has a name of an existing JField
-    **/
+     * 
+     * @param jField the JField to add
+     * @throws IllegalArgumentException when the given JField has a name of an
+     *             existing JField
+     */
     public void addField(JField jField)
         throws IllegalArgumentException
     {
@@ -178,12 +174,10 @@ public class JClass extends JStructure {
         _fields.put(name, jField);
     } //-- addField
 
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.javasource.JStructure#addImport(java.lang.String)
      */
     public void addImport(String name) {
-        
         if ((name == null) || (name.length() == 0))
             return;
         
@@ -207,18 +201,16 @@ public class JClass extends JStructure {
         }
         
         super.addImport(name);
-        
-    } //-- adImport
+    } //-- addImport
     
     /**
      * Adds the given JMember to this JClass
-     *
-     * @param jMember, the JMember to add
-     * @exception IllegalArgumentException when the given
-     * JMember has the same name of an existing JField
-     * or JMethod respectively, or if the JMember is of an
-     * unrecognized class.
-    **/
+     * 
+     * @param jMember the JMember to add
+     * @throws IllegalArgumentException when the given JMember has the same name
+     *             of an existing JField or JMethod respectively, or if the
+     *             JMember is of an unrecognized class.
+     */
     public void addMember(JMember jMember)
         throws IllegalArgumentException
     {
@@ -242,25 +234,25 @@ public class JClass extends JStructure {
 
     /**
      * Adds the given JMethod to this JClass
-     *
-     * @param jMethod, the JMethod to add
-     * @exception IllegalArgumentException when the given
-     * JMethod has the same name of an existing JMethod.
-    **/
+     * 
+     * @param jMethod the JMethod to add
+     * @throws IllegalArgumentException when the given JMethod has the same name
+     *             of an existing JMethod.
+     */
     public void addMethod(JMethod jMethod) {
          addMethod(jMethod, true);
     }
     
     /**
      * Adds the given JMethod to this JClass
-     *
-     * @param jMethod, the JMethod to add
-     * @param importReturnType true if we add the importReturnType to
-     * the class import lists. It could be useful to set it to false when 
-     * all types are fully qualified.
-     * @exception IllegalArgumentException when the given
-     * JMethod has the same name of an existing JMethod.
-    **/
+     * 
+     * @param jMethod the JMethod to add
+     * @param importReturnType true if we add the importReturnType to the class
+     *            import lists. It could be useful to set it to false when all
+     *            types are fully qualified.
+     * @throws IllegalArgumentException when the given JMethod has the same name
+     *             of an existing JMethod.
+     */
     public void addMethod(JMethod jMethod, boolean importReturnType)
         throws IllegalArgumentException
     {
@@ -303,11 +295,11 @@ public class JClass extends JStructure {
 
     /**
      * Adds the given array of JMethods to this JClass
-     *
-     * @param jMethods, the JMethod[] to add
-     * @exception IllegalArgumentException when any of the given
-     * JMethods has the same name of an existing JMethod.
-    **/
+     * 
+     * @param jMethods the JMethod[] to add
+     * @throws IllegalArgumentException when any of the given JMethods has the
+     *             same name of an existing JMethod.
+     */
     public void addMethods(JMethod[] jMethods)
         throws IllegalArgumentException
     {
@@ -315,11 +307,9 @@ public class JClass extends JStructure {
             addMethod(jMethods[i]);
     } //-- addMethods
 
-
     /**
-     * Creates a new JConstructor and adds it to this
-     * JClass.
-     *
+     * Creates a new JConstructor and adds it to this JClass.
+     * 
      * @return the newly created constructor
      */
     public JConstructor createConstructor() {
@@ -327,9 +317,9 @@ public class JClass extends JStructure {
     } //-- createConstructor
     
     /**
-     * Creates a new JConstructor and adds it to this
-     * JClass.
-     *
+     * Creates a new JConstructor and adds it to this JClass.
+     * 
+     * @param params a list of parameters for this constructor
      * @return the newly created constructor
      */
     public JConstructor createConstructor(JParameter[] params) {
@@ -344,7 +334,7 @@ public class JClass extends JStructure {
     
     /**
      * Creates and returns an inner-class for this JClass
-     *
+     * 
      * @param localname the name of the class (no package name)
      * @return the new JClass
      */
@@ -376,7 +366,7 @@ public class JClass extends JStructure {
 
     /**
      * Returns the constructor at the specified index.
-     *
+     * 
      * @param index the index of the constructor to return
      * @return the JConstructor at the specified index.
      */
@@ -386,11 +376,10 @@ public class JClass extends JStructure {
 
     /**
      * Returns the an array of the JConstructors contained within this JClass
-     *
+     * 
      * @return an array of JConstructor
      */
     public JConstructor[] getConstructors() {
-
         int size = _constructors.size();
         JConstructor[] jcArray = new JConstructor[size];
 
@@ -400,22 +389,23 @@ public class JClass extends JStructure {
         return jcArray;
     } //-- getConstructors
 
-
     /**
-     * Returns the member with the given name, or null if no member
-     * was found with the given name
+     * Returns the member with the given name, or null if no member is found
+     * with the given name
+     * 
      * @param name the name of the member to return
-     * @return the member with the given name, or null if no member
-     * was found with the given name
-    **/
+     * @return the member with the given name, or null if no member was found
+     *         with the given name
+     */
     public JField getField(String name) {
         return (JField)_fields.get(name);
     } //-- getField
 
     /**
      * Returns an array of all the JFields of this JClass
+     * 
      * @return an array of all the JFields of this JClass
-    **/
+     */
     public JField[] getFields() {
         int size = _fields.size();
         JField[] farray = new JField[size];
@@ -426,9 +416,9 @@ public class JClass extends JStructure {
     } //-- getFields
 
     /**
-     * Returns an array of JClass (the inner classes) 
-     * contained within this JClass.
-     *
+     * Returns an array of JClass (the inner classes) contained within this
+     * JClass.
+     * 
      * @return an array of JClass contained within this JClass
      */
     public JClass[] getInnerClasses() {
@@ -443,7 +433,7 @@ public class JClass extends JStructure {
     
     /**
      * Returns an array of all the JMethods of this JClass
-     *
+     * 
      * @return an array of all the JMethods of this JClass
      */
     public JMethod[] getMethods() {
@@ -457,9 +447,9 @@ public class JClass extends JStructure {
     } //-- getMethods
 
     /**
-     * Returns the first occurance of the method with the
-     * given name, starting from the specified index.
-     *
+     * Returns the first occurance of the method with the given name, starting
+     * from the specified index.
+     * 
      * @param name the name of the method to look for
      * @param startIndex the starting index to begin the search
      * @return the method if found, otherwise null.
@@ -474,9 +464,9 @@ public class JClass extends JStructure {
 
     /**
      * Returns the JMethod located at the specified index
-     *
+     * 
      * @param index the index of the JMethod to return.
-     * @return the JMethod 
+     * @return the JMethod
      */
     public JMethod getMethod(int index) {
         return (JMethod)_methods.elementAt(index);
@@ -484,18 +474,17 @@ public class JClass extends JStructure {
 
 
     /**
-     * Returns the JSourceCode for the static initializer
-     * of this JClass
-     *
-     * @return the JSourceCode for the static initializer
-     * of this JClass
+     * Returns the JSourceCode for the static initializer of this JClass
+     * 
+     * @return the JSourceCode for the static initializer of this JClass
      */
     public JSourceCode getStaticInitializationCode() {
         return _staticInitializer;
     } //-- getStaticInitializationCode
     
     /**
-     * Gets the super Class that this class extends
+     * Teturns the super Class that this class extends
+     * 
      * @return superClass the super Class that this Class extends
      */
     public String getSuperClass() {
@@ -505,8 +494,8 @@ public class JClass extends JStructure {
 
     /**
      * Prints the source code for this JClass to the given JSourceWriter
-     *
-     * @param jsw the JSourceWriter to print to. [May not be null]
+     * 
+     * @param jsw the JSourceWriter to print to. Must not be null.
      */
     public void print(JSourceWriter jsw) {
         print(jsw, false);
@@ -514,11 +503,12 @@ public class JClass extends JStructure {
 
     /**
      * Prints the source code for this JClass to the given JSourceWriter
-     *
-     * @param jsw the JSourceWriter to print to. [May not be null]
+     * 
+     * @param classOnly if true, the file header, package declaration, and
+     *            imports are not printed
+     * @param jsw the JSourceWriter to print to. Must not be null.
      */
     public void print(JSourceWriter jsw, boolean classOnly) {
-
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
@@ -738,21 +728,20 @@ public class JClass extends JStructure {
 
     /**
      * Removes the given constructor from this JClass
-     *
+     * 
      * @param constructor the JConstructor to remove
-     * @return true if the constructor was removed, otherwise false.
+     * @return true if the constructor was removed, otherwise false
      */
     public boolean removeConstructor(JConstructor constructor) {
         return _constructors.removeElement(constructor);
     } //-- removeConstructor
 
-
 	/**
-	 * Removes the given method from this JClass
-	 *
-	 * @param method the JMethod to remove
-	 * @return true if the method was removed, otherwise false.
-	 */
+     * Removes the given method from this JClass
+     * 
+     * @param method the JMethod to remove
+     * @return true if the method was removed, otherwise false
+     */
 	public boolean removeMethod(JMethod method) 
 	{
 		return _methods.removeElement(method);
@@ -760,9 +749,10 @@ public class JClass extends JStructure {
     
     /**
      * Removes the field with the given name from this JClass
-     *
+     * 
      * @param name the name of the field to remove
-    **/
+     * @return the JField if it was found and removed
+     */
     public JField removeField(String name) 
 	{
         if (name == null) return null;
@@ -776,9 +766,10 @@ public class JClass extends JStructure {
 
     /**
      * Removes the given JField from this JClass
-     *
-     * @param jField, the JField to remove
-    **/
+     * 
+     * @param jField the JField to remove
+     * @return true if the field was found and removed
+     */
     public boolean removeField(JField jField) {
         if (jField == null) return false;
         
@@ -794,10 +785,10 @@ public class JClass extends JStructure {
     } //-- removeField
 
     /**
-     * Removes the given inner-class (JClass) from this JClass.
-     *
-     * @param jClass the JClass (inner-class) to remove.
-     * @return true if the JClass was removed, otherwise false.
+     * Removes the given inner-class (JClass) from this JClass
+     * 
+     * @param jClass the JClass (inner-class) to remove
+     * @return true if the JClass was removed, otherwise false
      */
     public boolean removeInnerClass(JClass jClass) {
         if (_innerClasses != null) {
@@ -808,6 +799,7 @@ public class JClass extends JStructure {
 
     /**
      * Sets the super Class that this class extends
+     * 
      * @param superClass the super Class that this Class extends
      */
     public void setSuperClass(String superClass) {
@@ -817,12 +809,9 @@ public class JClass extends JStructure {
             _superClass = new JTypeName(superClass);
     } //-- setSuperClass
 
-
-
-
     /**
      * Test drive method...to be removed or commented out
-    **/
+     */
     public static void main(String[] args) {
         JClass testClass = new JClass("org.acme.Test");
 
@@ -878,7 +867,7 @@ public class JClass extends JStructure {
         
         /**
          * Allows changing the package name of this JStructure
-         *
+         * 
          * @param packageName the package name to use
          */
         public void setPackageName(String packageName)  {

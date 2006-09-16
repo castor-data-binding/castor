@@ -54,36 +54,34 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public class JComment {
-
         
     /**
-     * The auto style, allows this JComment to automatically
-     * choose a style for this comment
-    **/
+     * The auto style, allows this JComment to automatically choose a style for
+     * this comment
+     */
     public static final short AUTO_STYLE   = 0;
     
     /**
      * The block comment style: \/* *\/
-    **/
+     */
     public static final short BLOCK_STYLE  = 1;
     
     /**
      * The line comment style: \/\/
-    **/
+     */
     public static final short LINE_STYLE   = 2;
     
     /**
-     * The header style, similiar to block, but with an '*'
-     * at the start of each line.
-    **/
+     * The header style, similiar to block, but with an '*' at the start of each
+     * line.
+     */
     public static final short HEADER_STYLE = 3;
     
     /**
      * Similiar to HEADER_STYLE, but starts with: \/**
-    **/
+     */
     public static final short JAVADOC_STYLE = 4;
-    
-    
+        
     private static final String START_BLOCK     = "/*";
     private static final String END_BLOCK       = " */";
     
@@ -94,26 +92,24 @@ public class JComment {
     private static final String LINE_COMMENT_PREFIX     = "// ";
     private static final String SPACE_PREFIX            = " ";
     
-    
     /**
      * The style of this comment
-    **/
+     */
     private short style = AUTO_STYLE;
     
     /**
      * The main comment for this JDocComment
-    **/
+     */
     private StringBuffer _comment = null;
     
     /**
      * The maximum number of characters per line
-    **/
+     */
     protected static final int MAX_LENGTH = 65;
-    
     
     /**
      * Creates a new Java Comment
-    **/
+     */
     public JComment() {
         super();
         _comment = new StringBuffer();
@@ -121,7 +117,8 @@ public class JComment {
 
     /**
      * Creates a new Java comment with the given style
-    **/
+     * @param style the desired style
+     */
     public JComment(short style) {
         this();
         this.style = style;
@@ -129,20 +126,19 @@ public class JComment {
     
     /**
      * Appends the comment String to this JDocComment
+     * 
      * @param comment the comment to append
-    **/
+     */
     public void appendComment(String comment) {
         _comment.append(comment);
     } //-- appendComment
     
-    
     /**
      * prints this JComment using the given JSourceWriter
+     * 
      * @param jsw the JSourceWriter to print to
-    **/
+     */
     public void print(JSourceWriter jsw) {
-        
-        
         if (jsw == null) return; //-- nothing to do
         
         LineFormatter formatter = null;
@@ -206,8 +202,9 @@ public class JComment {
     
     /**
      * Sets the comment String of this JDocComment
+     * 
      * @param comment the comment String of this JDocComment
-    **/
+     */
     public void setComment(String comment) {
         _comment.setLength(0);
         _comment.append(comment);
@@ -215,16 +212,18 @@ public class JComment {
     
     /**
      * Sets the style for this JComment
+     * 
      * @param style the style to use for this JComment
-    **/
+     */
     public void setStyle(short style) {
         this.style = style;
     } //-- setStyle
     
     /**
      * Returns the String representation of this Java Doc Comment
+     * 
      * @return the String representation of this Java Doc Comment
-    **/
+     */
     public String toString() {
         return "";
     } //-- toString
@@ -233,8 +232,9 @@ public class JComment {
 
 /**
  * Formats a given String for use within a Java comment
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-**/
+ */
 class LineFormatter {
         
     String comment = null;
@@ -249,31 +249,32 @@ class LineFormatter {
     
     /**
      * Creates a LineFormatter for the given comment
+     * 
      * @param comment the String to format
-    **/
+     */
     LineFormatter(String comment) {
         this.comment = comment;
         if (comment != null) this.length = comment.length();
         sb = new StringBuffer();
     } //-- LineFormatter
-        
      
     /**
      * Creates a new LineFormatter for the given comment
+     * 
      * @param comment the String to format
      * @param maxLength the maximum number of characters per line
-    **/
+     */
     LineFormatter(String comment, int maxLength) {
         this(comment, maxLength, null);
     } //-- LineFormatter
     
-    
     /**
      * Creates a new LineFormatter for the given comment
+     * 
      * @param comment the String to format
      * @param maxLength the maximum number of characters per line
      * @param prefix a prefix to append to the beginning of each line
-    **/
+     */
     LineFormatter(String comment, int maxLength, String prefix) {
         this(comment);
         this.maxLength = maxLength;
@@ -324,26 +325,43 @@ class LineFormatter {
         return sb.toString();
     } //-- getNextLine
         
-    /** 
-     * Sets the prefix that should be appended to the beginning of
-     * each line
+    /**
+     * Sets the prefix that should be appended to the beginning of each line
+     * 
      * @param prefix the prefix for this LineFormatter
-    **/
+     */
     void setPrefix(String prefix) {
         this.prefix = prefix;
     } //-- setPrefix
-        
+    
+    /**
+     * Returns true if we can break a line at this character
+     * 
+     * @param ch character to examine
+     * @return true if we can break a line at this character
+     */
     private boolean isBreakable(char ch) {
         return (isWhitespace(ch) || isNewLine(ch));
     }
     
+    /**
+     * Returns true if this character is whitespace
+     * 
+     * @param ch character to examine
+     * @return true if this character is whitespace
+     */
     private boolean isWhitespace(char ch) {
         return ((ch == ' ') || (ch == '\t'));
     } //-- isWhitespace
     
+    /**
+     * Returns true if this character is a new line character
+     * 
+     * @param ch character to examine
+     * @return true if this character is a new line character
+     */
     private boolean isNewLine(char ch) {
         return ((ch == '\n') || (ch == '\r'));
     } //-- isNewLineChar
     
 } //-- LineFormatter
-

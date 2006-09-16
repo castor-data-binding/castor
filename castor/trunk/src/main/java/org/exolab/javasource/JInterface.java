@@ -49,17 +49,16 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * A representation of the Java Source code for a Java Interface. 
- * This is a useful utility when creating in memory source code.
- * The code in this package was modelled after the Java Reflection API
- * as much as possible to reduce the learning curve.
+ * A representation of the Java Source code for a Java Interface. This is a
+ * useful utility when creating in memory source code. The code in this package
+ * was modelled after the Java Reflection API as much as possible to reduce the
+ * learning curve.
  *
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a> 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JInterface extends JStructure {
-
 
     /**
      * The fields for this JInterface
@@ -71,14 +70,13 @@ public final class JInterface extends JStructure {
      */
     private Vector methods   = null;
 
-
     /**
      * Creates a new JInterface with the given name.
-     *
+     * 
      * @param name the name of the JInterface.
-     * @throws IllegalArgumentException when the given name
-     * is not a valid Class name.
-    **/
+     * @throws IllegalArgumentException when the given name is not a valid Class
+     *             name.
+     */
     public JInterface(String name)
         throws IllegalArgumentException
     {
@@ -87,21 +85,18 @@ public final class JInterface extends JStructure {
         
         //-- initialize default Java doc
         getJDocComment().appendComment("Interface " + getLocalName() + ".");
-        
     } //-- JInterface
 
     /**
-     * Adds the given JField to this JStructure.
+     * Adds the given JField to this Jinterface.
      * <p>
-     * This method is implemented by subclasses and
-     * should only accept the proper fields for the
-     * subclass otherwise an IllegalArgumentException
-     * will be thrown. For example a JInterface will
-     * only accept static fields.
-     * <p>
-     * @param jField, the JField to add
-     * @exception IllegalArgumentException when the given
-     * JField has a name of an existing JField
+     * This method is implemented by subclasses and should only accept the
+     * proper fields for the subclass otherwise an IllegalArgumentException will
+     * be thrown. For example a JInterface will only accept static fields.
+     * 
+     * @param jField the JField to add
+     * @exception IllegalArgumentException when the given JField has a name of
+     *                an existing JField
      */
     public void addField(JField jField)
         throws IllegalArgumentException
@@ -147,17 +142,15 @@ public final class JInterface extends JStructure {
     }
         
     /**
-     * Adds the given JMember to this JStructure.
+     * Adds the given JMember to this Jinterface.
      * <p>
-     * This method is implemented by subclasses and
-     * should only accept the proper types for the
-     * subclass otherwise an IllegalArgumentException
-     * will be thrown.
-     * <p>
+     * This method is implemented by subclasses and should only accept the
+     * proper types for the subclass otherwise an IllegalArgumentException will
+     * be thrown.
+     * 
      * @param jMember the JMember to add to this JStructure.
-     * @throws IllegalArgumentException when the given
-     * JMember has the same name of an existing JField
-     * or JMethod respectively.
+     * @throws IllegalArgumentException when the given JMember has the same name
+     *             of an existing JField or JMethod respectively.
      */
     public void addMember(JMember jMember)
         throws IllegalArgumentException
@@ -175,14 +168,12 @@ public final class JInterface extends JStructure {
             
     } //-- addMember
     
-
     /**
-     * Adds the given JMethodSignature to this JClass
-     *
+     * Adds the given JMethodSignature to this Jinterface
+     * 
      * @param jMethodSig the JMethodSignature to add.
-     * @throws IllegalArgumentException when the given
-     * JMethodSignature conflicts with an existing
-     * method signature.
+     * @throws IllegalArgumentException when the given JMethodSignature
+     *             conflicts with an existing method signature.
      */
     public void addMethod(JMethodSignature jMethodSig)
         throws IllegalArgumentException
@@ -249,12 +240,12 @@ public final class JInterface extends JStructure {
     } //-- addMethod
 
     /**
-     * Returns the field with the given name, or null if no field
-     * was found with the given name.
-     *
+     * Returns the field with the given name, or null if no field was found with
+     * the given name.
+     * 
      * @param name the name of the field to return.
-     * @return the field with the given name, or null if no field
-     * was found with the given name.
+     * @return the field with the given name, or null if no field was found with
+     *         the given name.
      */
     public JField getField(String name) {
         if (fields == null) return null;
@@ -262,9 +253,9 @@ public final class JInterface extends JStructure {
     } //-- getField
 
     /**
-     * Returns an array of all the JFields of this JStructure
-     *
-     * @return an array of all the JFields of this JStructure
+     * Returns an array of all the JFields of this Jinterface
+     * 
+     * @return an array of all the JFields of this Jinterface
      */
     public JField[] getFields() {
         if (fields == null) {
@@ -278,12 +269,11 @@ public final class JInterface extends JStructure {
         return farray;
     } //-- getFields
 
-
     /**
-     * Returns an array of all the JMethodSignatures of this JInterface.
-     *
-     * @return an array of all the JMethodSignatures of this JInterface.
-    **/
+     * Returns an array of all the JMethodSignatures of this JInterface
+     * 
+     * @return an array of all the JMethodSignatures of this JInterface
+     */
     public JMethodSignature[] getMethods() {
         JMethodSignature[] marray = new JMethodSignature[methods.size()];
         methods.copyInto(marray);
@@ -291,14 +281,13 @@ public final class JInterface extends JStructure {
     } //-- getMethods
 
     /**
-     * Returns the JMethodSignature with the given name,
-     * and occuring at or after the given starting index.
-     *
-     * @param name the name of the JMethodSignature to return.
-     * @param startIndex the starting index to begin searching
-     * from. 
-     * @return the JMethodSignature, or null if not found.
-    **/
+     * Returns the JMethodSignature with the given name and occuring at or
+     * after the given starting index
+     * 
+     * @param name the name of the JMethodSignature to return
+     * @param startIndex the starting index to begin searching from
+     * @return the JMethodSignature, or null if not found
+     */
     public JMethodSignature getMethod(String name, int startIndex) {
         for (int i = startIndex; i < methods.size(); i++) {
             JMethodSignature jMethod = (JMethodSignature)methods.elementAt(i);
@@ -308,11 +297,11 @@ public final class JInterface extends JStructure {
     } //-- getMethod
 
     /**
-     * Returns the JMethodSignature at the given index.
-     *
-     * @param index the index of the JMethodSignature to return.
-     * @return the JMethodSignature at the given index.
-    **/
+     * Returns the JMethodSignature at the given index
+     * 
+     * @param index the index of the JMethodSignature to return
+     * @return the JMethodSignature at the given index
+     */
     public JMethodSignature getMethod(int index) {
         return (JMethodSignature)methods.elementAt(index);
     } //-- getMethod
@@ -320,8 +309,8 @@ public final class JInterface extends JStructure {
 
     /**
      * Prints the source code for this JInterface to the given JSourceWriter
-     *
-     * @param jsw the JSourceWriter to print to. [May not be null]
+     * 
+     * @param jsw the JSourceWriter to print to. Must not be null.
      */
     public void print(JSourceWriter jsw) {
         print(jsw, false);
@@ -329,11 +318,12 @@ public final class JInterface extends JStructure {
 
     /**
      * Prints the source code for this JInterface to the given JSourceWriter
-     *
-     * @param jsw the JSourceWriter to print to. [May not be null]
+     * 
+     * @param jsw the JSourceWriter to print to. Must not be null.
+     * @param classOnly if true, generates the class body without the class
+     *            header, package declaration, or imports.
      */
     public void print(JSourceWriter jsw, boolean classOnly) {
-
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
@@ -475,8 +465,7 @@ public final class JInterface extends JStructure {
         jsw.close();
     } //-- printSource
 
-
-    /**
+    /* *
      * Test drive method...to be removed or commented out
     **
     public static void main(String[] args) {

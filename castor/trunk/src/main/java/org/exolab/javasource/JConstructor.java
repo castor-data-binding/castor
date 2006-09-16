@@ -47,40 +47,40 @@ package org.exolab.javasource;
 import java.util.Vector;
 
 /**
- * A class for handling source code for a constructor of a JClass
+ * A class for handling source code for a constructor of a JClass.
+ * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-05-08 05:24:54 -0600 (Sun, 08 May 2005) $
-**/
+ */
 public class JConstructor extends JAnnotatedElementHelper {
 
     /**
-     * The set of modifiers for this JMethod
-    **/
+     * The set of modifiers for this JConstructor
+     */
     private JModifiers modifiers = null;
 
     /**
-     * List of parameters for this Constructor
-    **/
+     * List of parameters for this JConstructor
+     */
     private JNamedMap params       = null;
 
     /**
-     * The Class in this JMember has been declared
-    **/
+     * The Class in this JConstructor has been declared
+     */
     private JClass declaringClass = null;
 
     private JSourceCode sourceCode = null;
 
     /**
-     * The exceptions that this method throws
-    **/
+     * The exceptions that this JConstructor throws
+     */
     private Vector exceptions = null;
 
     /**
-     * Creates a new method with the given name and returnType.
-     * For "void" return types, simply pass in null as the returnType
-    **/
+     * Creates a new JConstructor for the provided declaring class.
+     * @param declaringClass the class this constructor creates
+     */
     protected JConstructor(JClass declaringClass) {       
-
         this.declaringClass = declaringClass;
 
         this.modifiers = new JModifiers();
@@ -94,11 +94,10 @@ public class JConstructor extends JAnnotatedElementHelper {
 
     /**
      * Adds the given Exception to this JConstructor's throws clause.
-     *
+     * 
      * @param exp the JClass representing the Exception
-    **/
+     */
     public void addException(JClass exp) {
-        
         if (exp == null) return;
         
         //-- make sure exception is not already added
@@ -112,12 +111,10 @@ public class JConstructor extends JAnnotatedElementHelper {
     } //-- addException
    
     /**
-     * Returns the exceptions that this JConstructor lists
-     * in it's throws clause.
-     *
-     * @return the exceptions that this JConstructor lists
-     * in it's throws clause.
-    **/
+     * Returns the exceptions that this JConstructor lists in its throws clause
+     * 
+     * @return the exceptions that this JConstructor lists in its throws clause
+     */
     public JClass[] getExceptions() {        
         JClass[] jclasses = new JClass[exceptions.size()];
         exceptions.copyInto(jclasses);
@@ -125,12 +122,13 @@ public class JConstructor extends JAnnotatedElementHelper {
     } //-- getExceptions
 
     /**
-     * Adds the given parameter to this Methods list of parameters
-     * @param parameter the parameter to add to the this Methods
-     * list of parameters.
-     * @exception IllegalArgumentException when a parameter already
-     * exists for this Method with the same name as the new parameter
-    **/
+     * Adds the given parameter to this JConstructor's list of parameters
+     * 
+     * @param parameter the parameter to add to the this JConstructor's list of
+     *            parameters.
+     * @throws IllegalArgumentException when a parameter already exists for this
+     *             JConstructor with the same name as the new parameter
+     */
     public void addParameter(JParameter parameter) 
         throws IllegalArgumentException
     {       
@@ -158,29 +156,31 @@ public class JConstructor extends JAnnotatedElementHelper {
         }
     } //-- addParameter
 
-
     /**
-     * Returns the class in which this JMember has been declared
-     * @return the class in which this JMember has been declared
-    **/
+     * Returns the class in which this JConstructor has been declared
+     * 
+     * @return the class in which this JConstructor has been declared
+     */
     public JClass getDeclaringClass() {
         return this.declaringClass;
     } //-- getDeclaringClass
 
     /**
      * Returns the modifiers for this JConstructor
+     * 
      * @return the modifiers for this JConstructor
-    **/
+     */
     public JModifiers getModifiers() {
         return this.modifiers;
     } //-- getModifiers
         
     /**
-     * Returns an array of JParameters consisting of the parameters
-     * of this Method in declared order
-     * @return a JParameter array consisting of the parameters
-     * of this Method in declared order
-    **/
+     * Returns an array of JParameters consisting of the parameters of this
+     * JConstructor in declared order
+     * 
+     * @return a JParameter array consisting of the parameters of this
+     *         JConstructor in declared order
+     */
     public JParameter[] getParameters() {        
         JParameter[] jpArray = new JParameter[params.size()];
         for (int i = 0; i < jpArray.length; i++) {
@@ -189,12 +189,19 @@ public class JConstructor extends JAnnotatedElementHelper {
         return jpArray;
     } //-- getParameters
 
+    /**
+     * Returns the source code for this JConstructor
+     * @return the source code
+     */
     public JSourceCode getSourceCode() {
         return this.sourceCode;
     } //-- getSourceCode
 
+    /**
+     * Prints this JConstructor to the provided JSourceWriter
+     * @param jsw the JSourceWriter to print the constructor to
+     */
     public void print(JSourceWriter jsw) {
-        
         // -- print annotations
         printAnnotations(jsw);
         
@@ -251,21 +258,40 @@ public class JConstructor extends JAnnotatedElementHelper {
         jsw.write("} //-- ");
         jsw.writeln(toString());
     } //-- print
-    
+
+    /**
+     * Sets the modifiers on this JConstructor
+     * 
+     * @param modifiers modifiers to set on this constructor
+     */
     public void setModifiers(JModifiers modifiers) {
         this.modifiers = modifiers.copy();
         this.modifiers.setFinal(false);
     } //-- setModifiers
     
-    
+    /**
+     * Sets the source code for this constructor
+     * 
+     * @param sourceCode source code to apply to this constructor
+     */
     public void setSourceCode(String sourceCode) {
         this.sourceCode = new JSourceCode(sourceCode);
     } //-- setSourceCode
     
+    /**
+     * Sets the source code for this constructor
+     * 
+     * @param sourceCode source code to apply to this constructor
+     */
     public void setSourceCode(JSourceCode sourceCode) {
         this.sourceCode = sourceCode;
     } //-- setSourceCode
-    
+
+    /**
+     * Return the string representation of this constructor
+     * 
+     * @see java.lang.Object#toString()
+     */
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append(declaringClass.getName());

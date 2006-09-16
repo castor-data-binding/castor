@@ -42,9 +42,11 @@
  *
  * $Id$
  */
+
 package org.exolab.javasource;
+
 /**
- * Represents a parameter to a JMethod. 
+ * Represents a parameter to a JMethod.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
@@ -58,11 +60,13 @@ public class JParameter extends JAnnotatedElementHelper {
      * The name of this JParameter
      */
     private String name = null;
+
     /**
      * Creates a new JParameter with the given type, and name
      * 
-     * @param type the type to associate with this JParameter
+     * @param type the JType to associate with this JParameter
      * @param name name of the JParameter
+     * @throws IllegalArgumentException if the type is null
      */
     public JParameter(JType type, String name) 
         throws IllegalArgumentException
@@ -71,6 +75,7 @@ public class JParameter extends JAnnotatedElementHelper {
         setType(type);
         setName(name);
     } //-- JParameter
+
     /**
      * Returns the name of the parameter
      *
@@ -88,6 +93,7 @@ public class JParameter extends JAnnotatedElementHelper {
     public JType getType() {
         return this.type;
     } //-- getType
+
     /**
      * Sets the name of this parameter
      * 
@@ -100,7 +106,8 @@ public class JParameter extends JAnnotatedElementHelper {
     /**
      * Sets the type of this parameter
      * 
-     * @param type the new type of this parameter
+     * @param type the new JType of this parameter
+     * @throws IllegalArgumentException if the type is null
      */
     public void setType(JType type) 
         throws IllegalArgumentException
@@ -111,10 +118,11 @@ public class JParameter extends JAnnotatedElementHelper {
         }
         this.type = type;
     } //-- setType
+
     /**
-     * Returns the String representation of this JParameter. The
-     * String returns will consist of the String representation
-     * of the parameter type, followed by the name of the parameter
+     * Returns the String representation of this JParameter. The String returned
+     * will consist of the String representation of the parameter type followed
+     * by the name of the parameter.
      * 
      * @return the String representation of this JParameter
      */

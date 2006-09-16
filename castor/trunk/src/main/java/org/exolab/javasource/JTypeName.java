@@ -58,11 +58,9 @@ public class JTypeName {
     private String _package   = null;
     private String _qName     = null;
     private String _localName = null;
-    
-    
+        
     /**
      * Creates a default JTypeName
-     *
      */
     public JTypeName() {
         super();
@@ -81,23 +79,22 @@ public class JTypeName {
     /**
      * Returns the local name of this JTypeName
      * 
-     * @return the local name
+     * @return the local name of this JTypeName
      */
     public String getLocalName() {
         return _localName;
     } //-- getLocalName
     
     /**
-     * Returns the package name
+     * Returns the package name of this JTypeName
      * 
-     * @return the package name
+     * @return the package name of this JTypeName
      */
     public String getPackageName() {
         return _package;
     } //-- getPackageName
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(Object obj) {
@@ -113,8 +110,7 @@ public class JTypeName {
         return false;
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.lang.Object#hashCode()
      */
     public int hashCode() {
@@ -126,9 +122,9 @@ public class JTypeName {
     }
     
     /**
-     * Returns the qualified name for this JTypeName
+     * Returns the qualified name of this JTypeName
      * 
-     * @return the qualified name
+     * @return the qualified name of this JTypeName
      */
     public String getQualifiedName() {
         if (_qName == null) {
@@ -146,8 +142,7 @@ public class JTypeName {
     } //-- getQualifiedName
     
     /**
-     * Parses the given name value and initializes the
-     * variables
+     * Parses the given name value and initializes the variables
      * 
      * @param name the name to initialize with
      */
@@ -171,9 +166,9 @@ public class JTypeName {
     } //-- init
 
     /**
-     * Sets the local name for this JTypeName. Setting
-     * the local name will modify the existing local
-     * name and existing qualified name.
+     * Sets the local name for this JTypeName. Setting the local name will
+     * modify the existing local name and will reset the existing qualified
+     * name.
      * 
      * @param localName the local name to set
      */
@@ -183,9 +178,9 @@ public class JTypeName {
     } //-- setLocalName
     
     /**
-     * Sets the package name of this JTypeName. Setting
-     * the package name will modify the existing package
-     * name and the existing qualified name.
+     * Sets the package name of this JTypeName. Setting the package name will
+     * modify the existing package name and will reset the existing qualified
+     * name.
      * 
      * @param packageName the package name to set
      */
@@ -195,10 +190,9 @@ public class JTypeName {
     } //-- setPackageName
     
     /**
-     * Sets the qualified name of this JTypeName.
-     * Setting the qualified name will overwrite
-     * any previous values set via calls to 
-     * #setLocalName and #setPackageName.
+     * Sets the qualified name of this JTypeName. Setting the qualified name
+     * will overwrite any previous values set via calls to {@link #setLocalName(String)}
+     * and {@link #setPackageName(String)}.
      * 
      * @param qName the qualified name
      */
@@ -206,8 +200,7 @@ public class JTypeName {
         init(qName);
     } //-- setQualifiedName 
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.lang.Object#toString()
      */
     public String toString() {

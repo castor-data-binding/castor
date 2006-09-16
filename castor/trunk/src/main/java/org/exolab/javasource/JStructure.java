@@ -51,12 +51,12 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * This class represents the basic Java "structure" for a Java
- * source file. This is the base class for JClass and JInterface.
- *
- * This is a useful utility when creating in memory source code.
- * The code in this package was modelled after the Java Reflection API
- * as much as possible to reduce the learning curve.
+ * This class represents the basic Java "structure" for a Java source file. This
+ * is the base class for JClass and JInterface.
+ * <p>
+ * This is a useful utility when creating in memory source code. The code in
+ * this package was modelled after the Java Reflection API as much as possible
+ * to reduce the learning curve.
  *
  * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a> 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
@@ -67,8 +67,9 @@ abstract class JStructure extends JType
 {
 
     /**
-     * The Id for Source control systems
-     * I needed to separate this line to prevent CVS from
+     * The Id for Source control systems.
+     * <p>
+     * Note: I needed to break the String into two parts to prevent CVS from
      * expanding it here! ;-)
      */
     static final String DEFAULT_HEADER
@@ -76,7 +77,8 @@ abstract class JStructure extends JType
 
     /**
      * The source control version for listed in the JavaDoc
-     * I needed to separate this line to prevent CVS from
+     * <p>
+     * Note: I needed to break the String into parts to prevent CVS from
      * expanding it here! ;-)
      */
     static final String version = "$"+"Revision$ $"+"Date$";
@@ -102,8 +104,8 @@ abstract class JStructure extends JType
     private JDocComment jdc      = null;
     
     /**
-     * The JModifiers for this JStructure, which allows us to
-     * change the resulting qualifiers
+     * The JModifiers for this JStructure, which allows us to change the
+     * resulting qualifiers
      */
     private JModifiers modifiers = null;
 
@@ -119,10 +121,10 @@ abstract class JStructure extends JType
 
     /**
      * Creates a new JStructure with the given name.
-     *
+     * 
      * @param name the name of the JStructure.
-     * @throws IllegalArgumentException when the given name
-     * is not a valid Class name.
+     * @throws IllegalArgumentException when the given name is not a valid Class
+     *             name.
      */
     protected JStructure(String name)
         throws IllegalArgumentException
@@ -155,15 +157,13 @@ abstract class JStructure extends JType
     /**
      * Adds the given JField to this JStructure.
      * <p>
-     * This method is implemented by subclasses and
-     * should only accept the proper fields for the
-     * subclass otherwise an IllegalArgumentException
-     * will be thrown. For example a JInterface will
-     * only accept static fields.
-     * <p>
-     * @param jField, the JField to add
-     * @exception IllegalArgumentException when the given
-     * JField has a name of an existing JField
+     * This method is implemented by subclasses and should only accept the
+     * proper fields for the subclass otherwise an IllegalArgumentException will
+     * be thrown. For example a JInterface will only accept static fields.
+     * 
+     * @param jField the JField to add
+     * @throws IllegalArgumentException when the given JField has a name of an
+     *             existing JField
      */
     public abstract void addField(JField jField)
         throws IllegalArgumentException;
@@ -171,15 +171,13 @@ abstract class JStructure extends JType
     /**
      * Adds the given JMember to this JStructure.
      * <p>
-     * This method is implemented by subclasses and
-     * should only accept the proper types for the
-     * subclass otherwise an IllegalArgumentException
-     * will be thrown.
-     * <p>
+     * This method is implemented by subclasses and should only accept the
+     * proper types for the subclass otherwise an IllegalArgumentException will
+     * be thrown.
+     * 
      * @param jMember the JMember to add to this JStructure.
-     * @throws IllegalArgumentException when the given
-     * JMember has the same name of an existing JField
-     * or JMethod respectively.
+     * @throws IllegalArgumentException when the given JMember has the same name
+     *             of an existing JField or JMethod respectively.
      */
     public abstract void addMember(JMember jMember)
         throws IllegalArgumentException;
@@ -187,7 +185,7 @@ abstract class JStructure extends JType
 
     /**
      * Adds the given import to this JStructure
-     *
+     * 
      * @param className name of the class to import.
      */
     public void addImport(String className) {
@@ -227,8 +225,10 @@ abstract class JStructure extends JType
     } //-- addImport
     
     /**
-     * Adds approprite import for this JAnnotation
-     * @param annotation
+     * Adds appropriate import for this JAnnotation
+     * 
+     * @param annotation a JAnnotation for which we want to add an import to
+     *            this JStructure
      */
     protected void addImport(JAnnotation annotation)
     {
@@ -236,9 +236,11 @@ abstract class JStructure extends JType
     }
     
 	/**
-	 * Adds approprite imports for these JAnnotation's
-	 * @param annotations
-	 */
+     * Adds appropriate imports for each JAnnotation in the given Array
+     * 
+     * @param annotations an Array of JAnnotation; we want to add an import to
+     *            this JStructure for each JAnnotation in the Array
+     */
 	protected void addImport(JAnnotation[] annotations)
 	{
 		for(int i=0; i<annotations.length; i++)
@@ -246,12 +248,12 @@ abstract class JStructure extends JType
 	}
 
     /**
-     * Adds the given interface to the list of interfaces this
-     * JStructure inherits method declarations from, and either
-     * implements (JClass) or extends (JInterface).
-     *
-     * @param interfaceName the name of the interface to "inherit"
-     * method declarations from.
+     * Adds the given interface to the list of interfaces this JStructure
+     * inherits method declarations from, and either implements (JClass) or
+     * extends (JInterface).
+     * 
+     * @param interfaceName the name of the interface to "inherit" method
+     *            declarations from.
      */
     public void addInterface(String interfaceName) {
         if (!interfaces.contains(interfaceName))
@@ -259,10 +261,10 @@ abstract class JStructure extends JType
     } //-- addInterface
 
     /**
-     * Adds the given interface to the list of interfaces this
-     * JStructure inherits method declarations from, and either
-     * implements (JClass) or extends (JInterface).
-     *
+     * Adds the given interface to the list of interfaces this JStructure
+     * inherits method declarations from, and either implements (JClass) or
+     * extends (JInterface).
+     * 
      * @param jInterface the JInterface to inherit from.
      */
     public void addInterface(JInterface jInterface) {
@@ -273,16 +275,13 @@ abstract class JStructure extends JType
         }
     } //-- addInterface
 
-    
-
-    /**
+    /* *
      * Adds the given JMethodSignature to this JClass
-     *
+     * 
      * @param jMethodSig the JMethodSignature to add.
-     * @throws IllegalArgumentException when the given
-     * JMethodSignature conflicts with an existing
-     * method signature.
-     */
+     * @throws IllegalArgumentException when the given JMethodSignature
+     *             conflicts with an existing method signature.
+     * /
  /*
     public void addMethod(JMethodSignature jMethodSig)
         throws IllegalArgumentException
@@ -343,13 +342,14 @@ abstract class JStructure extends JType
         }
     } //-- addMethod
 */
+
     /**
-     * Returns the field with the given name, or null if no field
-     * was found with the given name.
-     *
+     * Returns the field with the given name, or null if no field was found with
+     * that name.
+     * 
      * @param name the name of the field to return.
-     * @return the field with the given name, or null if no field
-     * was found with the given name.
+     * @return the field with the given name, or null if no field was found with
+     *         the given name.
      */
     public abstract JField getField(String name);
 
@@ -361,15 +361,14 @@ abstract class JStructure extends JType
     public abstract JField[] getFields();
     
     /**
-     * Returns the name of the file that this JStructure would be
-     * printed to, given a call to #print.
-     *
+     * Returns the name of the file that this JStructure would be printed to,
+     * given a call to {@link #print(String, String)}, or given a call to
+     * {@link #print()} if the parameter destDir is null.
+     * 
      * @param destDir the destination directory. This may be null.
-     * @return the name of the file that this JInterface would be
-     * printed as, given a call to #print.
+     * @return the name of the file that this JInterface would be printed to
      */
     public String getFilename(String destDir) {
-
         String filename = getLocalName() + ".java";
 
 		//-- Convert Java package to path string
@@ -396,9 +395,9 @@ abstract class JStructure extends JType
     } //-- getFilename
 
     /**
-     * Returns the JComment header to display at the top of the source file 
-     * for this JStructure, or null if no header was set.
-     *
+     * Returns the JComment header to display at the top of the source file for
+     * this JStructure, or null if no header was set.
+     * 
      * @return the JComment header or null if none exists.
      */
     public JComment getHeader() {
@@ -406,29 +405,29 @@ abstract class JStructure extends JType
     } //-- getHeader
 
     /**
-     * Returns an Enumeration of imported package and
-     * class names for this JStructure.
-     *
-     * @return the Enumeration of imports. May be empty.
+     * Returns an Enumeration of imported package and class names for this
+     * JStructure.
+     * 
+     * @return the Enumeration of imports. May be empty but will not be null.
      */
     public Enumeration getImports() {
         return imports.elements();
     } //-- getImports
     
     /**
-     * Returns an Enumeration of interface names that this
-     * JStructure inherits from.
-     *
-     * @return the Enumeration of interface names for this
-     * JStructure. May be empty.
+     * Returns an Enumeration of interface names that this JStructure inherits
+     * from.
+     * 
+     * @return the Enumeration of interface names for this JStructure. May be
+     *         empty but will not be null.
      */
     public Enumeration getInterfaces() {
         return interfaces.elements();
     } //-- getInterfaces
     
     /**
-     * Returns the Java Doc comment for this JStructure
-     *
+     * Returns the JavaDoc comment for this JStructure
+     * 
      * @return the JDocComment for this JStructure
      */
     public JDocComment getJDocComment() {
@@ -437,17 +436,18 @@ abstract class JStructure extends JType
 
 	/**
 	 * Returns the object managing the annotations for this JStructure
+     * @return the object managing the annotations for this JStructure
 	 */
 	protected JAnnotatedElementHelper getAnnotatedElementHelper()
 	{
 		return annotatedElement;	
 	} //-- getAnnotatedElementHelper
 	
-    /**
+    /* *
      * Returns an array of all the JMethodSignatures of this JInterface.
      *
      * @return an array of all the JMethodSignatures of this JInterface.
-     */
+     * /
 /*
     public JMethodSignature[] getMethods() {
         JMethodSignature[] marray = new JMethodSignature[methods.size()];
@@ -456,15 +456,14 @@ abstract class JStructure extends JType
     } //-- getMethods
 */
 
-    /**
-     * Returns the JMethodSignature with the given name,
-     * and occuring at or after the given starting index.
-     *
+    /* *
+     * Returns the JMethodSignature with the given name, and occuring at or
+     * after the given starting index.
+     * 
      * @param name the name of the JMethodSignature to return.
-     * @param startIndex the starting index to begin searching
-     * from. 
+     * @param startIndex the starting index to begin searching from.
      * @return the JMethodSignature, or null if not found.
-     */
+     * /
 /*
     public JMethodSignature getMethod(String name, int startIndex) {
         for (int i = startIndex; i < methods.size(); i++) {
@@ -475,12 +474,12 @@ abstract class JStructure extends JType
     } //-- getMethod
 */
 
-    /**
+    /* *
      * Returns the JMethodSignature at the given index.
-     *
+     * 
      * @param index the index of the JMethodSignature to return.
      * @return the JMethodSignature at the given index.
-     */
+     * /
  /*
     public JMethodSignature getMethod(int index) {
         return (JMethodSignature)methods.elementAt(index);
@@ -488,8 +487,8 @@ abstract class JStructure extends JType
  */
 
     /**
-     * Returns the JModifiers which allows the qualifiers to be changed.
-     *
+     * Returns the JModifiers, which allows the qualifiers to be changed.
+     * 
      * @return the JModifiers for this JStructure.
      */
     public JModifiers getModifiers() {
@@ -497,23 +496,22 @@ abstract class JStructure extends JType
     } //-- getModifiers
 
     /**
-     * Returns the name of the package that this JStructure is a member 
-     * of.
-     *
-     * @return the name of the package that this JStructure is a member 
-     * of, or null if there is no current package name defined.
+     * Returns the name of the package that this JStructure is a member of.
+     * 
+     * @return the name of the package that this JStructure is a member of, or
+     *         null if there is no current package name defined.
      */
     public String getPackageName() {
         return this.packageName;
     } //-- getPackageName
 
-
     /**
-     * Returns the name of the interface.
-     *
-     * @param stripPackage a boolean that when true indicates that only
-     * the local name (no package) should be returned.
-     * @return the name of the class.
+     * Returns the name of the class represented by this JStructure
+     * 
+     * @param stripPackage a boolean that when true indicates that only the
+     *            local name (no package) should be returned.
+     * @return the name of the class represented by this JStructure, including
+     *         the full package if stripPackage is false
      */
 	public String getName(boolean stripPackage) {
 		String name = super.getName();
@@ -527,17 +525,24 @@ abstract class JStructure extends JType
 	} //-- getName
 
     /**
-     * Returns true if the given classname exists in the imports
-     * of this JStructure
-     *
+     * Returns true if the given classname exists in the imports of this
+     * JStructure
+     * 
      * @param classname the class name to check for
      * @return true if the given classname exists in the imports list
      */
     public boolean hasImport(String classname) {
         return imports.contains(classname);
     } //-- hasImport
-        
-
+    
+    /**
+     * Remove the import of the given class name from this JStucture, returning
+     * true if the import was found and removed
+     * 
+     * @param className Name of the class to remove the import of
+     * @return if the import was previously part of this JStructure, false
+     *         otherwise
+     */
     public boolean removeImport(String className) {
         boolean result = false;
         if (className == null) return result;
@@ -547,9 +552,12 @@ abstract class JStructure extends JType
         return result;
     } //-- removeImport
 
-    
+    /**
+     * Test the provided name and return true if it is a valid class name
+     * @param name a class name to test
+     * @return true if the provided class name is a valid class name
+     */
     public static boolean isValidClassName(String name) {
-        
         if (name == null) return false;
         
         int beforeTypeName = name.indexOf("<");
@@ -566,22 +574,21 @@ abstract class JStructure extends JType
     } //-- isValidClassName
 
     /**
-     * Prints the source code for this JStructure in the current 
-     * working directory. Sub-directories will be created if necessary 
-     * for the package.
+     * Prints the source code for this JStructure in the current working
+     * directory. Sub-directories will be created if necessary for the package.
      */
     public void print() {
         print((String)null,(String)null);
     } //-- printSrouce
 
     /**
-     * Prints the source code for this JStructure to the destination 
-     * directory. Sub-directories will be created if necessary for the
-     * package.
-     *
+     * Prints the source code for this JStructure to the destination directory.
+     * Subdirectories will be created if necessary for the package.
+     * 
+     * @param destDir directory name to use as the root directory for all output
      * @param lineSeparator the line separator to use at the end of each line.
-     * If null, then the default line separator for the runtime platform will
-     * be used.
+     *            If null, then the default line separator for the runtime
+     *            platform will be used.
      */
     public void print(String destDir, String lineSeparator) {
 
@@ -609,21 +616,18 @@ abstract class JStructure extends JType
     } //-- print
 
     /**
-     * Prints the source code for this JStructure to the given 
-     * JSourceWriter.
-     *
+     * Prints the source code for this JStructure to the given JSourceWriter.
+     * 
      * @param jsw the JSourceWriter to print to.
      */
     public abstract void print(JSourceWriter jsw);
     
     /**
-     * A utility method that prints the header to the given
-     * JSourceWriter
-     *
+     * A utility method that prints the header to the given JSourceWriter
+     * 
      * @param jsw the JSourceWriter to print to.
      */
     public void printHeader(JSourceWriter jsw) {
-        
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
@@ -641,13 +645,11 @@ abstract class JStructure extends JType
     } //-- printHeader
     
     /**
-     * A utility method that prints the imports to the given
-     * JSourceWriter
-     *
+     * A utility method that prints the imports to the given JSourceWriter
+     * 
      * @param jsw the JSourceWriter to print to.
      */
     public void printImportDeclarations(JSourceWriter jsw) {
-        
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
@@ -670,13 +672,12 @@ abstract class JStructure extends JType
     } //-- printImportDeclarations
 
     /**
-     * A utility method that prints the packageDeclaration to 
-     * the given JSourceWriter
-     *
+     * A utility method that prints the packageDeclaration to the given
+     * JSourceWriter
+     * 
      * @param jsw the JSourceWriter to print to.
      */
     public void printPackageDeclaration(JSourceWriter jsw) {
-        
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
@@ -691,12 +692,13 @@ abstract class JStructure extends JType
         jsw.flush();
     } //-- printPackageDeclaration
     
-    /**
+    /* *
      * Prints the source code for this JStructure to the given 
      * JSourceWriter.
      *
      * @param jsw the JSourceWriter to print to.
-     *
+     * /
+/*
     public abstract void print(JSourceWriter jsw);
 
 
@@ -783,9 +785,9 @@ abstract class JStructure extends JType
 
     /**
      * Sets the header comment for this JStructure
-     *
-     * @param comment the comment to display at the top of the source file
-     * when printed
+     * 
+     * @param comment the comment to display at the top of the source file when
+     *            printed
      */
     public void setHeader(JComment comment) {
         this.header = comment;
@@ -793,7 +795,7 @@ abstract class JStructure extends JType
 
     /**
      * Allows changing the package name of this JStructure
-     *
+     * 
      * @param packageName the package name to use
      */
     public void setPackageName(String packageName)  {
@@ -801,7 +803,7 @@ abstract class JStructure extends JType
         changePackage(packageName);
     } //-- setPackageName
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#addAnnotation(org.exolab.javasource.JAnnotation)
 	 */
 	public void addAnnotation(JAnnotation annotation) {
@@ -809,35 +811,35 @@ abstract class JStructure extends JType
 		addImport(annotation);
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotation(org.exolab.javasource.JAnnotationType)
 	 */
 	public JAnnotation getAnnotation(JAnnotationType annotationType) {
 		return annotatedElement.getAnnotation(annotationType);
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
 	 */
 	public JAnnotation[] getAnnotations() {
 		return annotatedElement.getAnnotations();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.exolab.javasource.JAnnotatedElement#isAnnotationPresent(org.exolab.javasource.JAnnotation)
+	/**
+	 * @see org.exolab.javasource.JAnnotatedElement#isAnnotationPresent(org.exolab.javasource.JAnnotationType)
 	 */
 	public boolean isAnnotationPresent(JAnnotationType annotationType) {
 		return annotatedElement.isAnnotationPresent(annotationType);
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.exolab.javasource.JAnnotatedElement#removeAnnotation(org.exolab.javasource.JAnnotation)
+	/**
+	 * @see org.exolab.javasource.JAnnotatedElement#removeAnnotation(org.exolab.javasource.JAnnotationType)
 	 */
 	public JAnnotation removeAnnotation(JAnnotationType annotationType) {
 		return annotatedElement.removeAnnotation(annotationType);
 	}
 	
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
 	 */
 	public boolean hasAnnotations() {
@@ -848,14 +850,21 @@ abstract class JStructure extends JType
     //- Protected Methods -/
     //---------------------/
 
+    /**
+     * Return the count of the number of Interfaces that have been added to this
+     * JStructure
+     * 
+     * @return the count of the number of Interfaces that have been added to
+     *         this JStructure
+     */
     protected int getInterfaceCount() {
         return interfaces.size();
     }
 
     /**
-     * Prints the given source string to the JSourceWriter using the given prefix at 
-     * the beginning of each new line. 
-     *
+     * Prints the given source string to the JSourceWriter using the given
+     * prefix at the beginning of each new line.
+     * 
      * @param prefix the prefix for each new line.
      * @param source the source code to print
      * @param jsw the JSourceWriter to print to.
@@ -882,12 +891,14 @@ abstract class JStructure extends JType
             jsw.write(chars, lastIdx, chars.length-lastIdx);
         }
         jsw.writeln();
-
     } //-- printlnWithPrefix
 
 
     /**
      * Returns the package name from the given class name
+     * 
+     * @param className an arbitrary class name, optionally including a package
+     * @return the package name from the given class name
      */
     protected static String getPackageFromClassName(String className) {
         int idx = -1;

@@ -50,40 +50,40 @@ import java.util.Iterator;
 import org.exolab.castor.util.OrderedHashMap;
 
 /**
- * Class implements JAnnotatedElement interface on behalf of other classes 
- *   in this package that implement this interface.
+ * Implements JAnnotatedElement interface on behalf of other classes in this
+ * package that implement this interface.
  * 
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
+ * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public class JAnnotatedElementHelper
 	implements JAnnotatedElement 
 {
-    
     // NOTE: Removed references to LinkedHashMap as we are trying to maintain
     // backward compatibility with JDK 1.2 and 1.3.
     
 	/**
-	 * Stores annotations associated with the source element containing this helper
-	 */
+     * Stores annotations associated with the source element containing this
+     * helper
+     */
 	private OrderedHashMap _annotations;
     
 	/**
-	 * Creates a JAnnodatedElementHelper
-	 */	
+     * Creates a JAnnodatedElementHelper
+     */	
 	public JAnnotatedElementHelper()
 	{
         super();
 	}
 	
-	/* (non-Javadoc)
-	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotation(org.exolab.javasource.JAnnotationType)
-	 */
+	/**
+     * @see org.exolab.javasource.JAnnotatedElement#getAnnotation(org.exolab.javasource.JAnnotationType)
+     */
 	public JAnnotation getAnnotation(JAnnotationType annotationType) {
         if (_annotations == null) return null;
 		return (JAnnotation) _annotations.get(annotationType.getName());
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
 	 */
 	public JAnnotation[] getAnnotations() {
@@ -93,8 +93,8 @@ public class JAnnotatedElementHelper
 		return (JAnnotation[]) _annotations.values().toArray(new JAnnotation[_annotations.size()]);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.exolab.javasource.JAnnotatedElement#isAnnotationPresent(org.exolab.javasource.JAnnotation)
+	/**
+	 * @see org.exolab.javasource.JAnnotatedElement#isAnnotationPresent(org.exolab.javasource.JAnnotationType)
 	 */
 	public boolean isAnnotationPresent(JAnnotationType annotationType) {
         if (_annotations != null) {
@@ -103,7 +103,7 @@ public class JAnnotatedElementHelper
         return false;
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#addAnnotation(org.exolab.javasource.JAnnotation)
 	 */
 	public void addAnnotation(JAnnotation annotation) {
@@ -116,8 +116,8 @@ public class JAnnotatedElementHelper
         _annotations.put(annotationType, annotation);
 	}
 
-	/* (non-Javadoc)
-	 * @see org.exolab.javasource.JAnnotatedElement#removeAnnotation(org.exolab.javasource.JAnnotation)
+	/**
+	 * @see org.exolab.javasource.JAnnotatedElement#removeAnnotation(org.exolab.javasource.JAnnotationType)
 	 */
 	public JAnnotation removeAnnotation(JAnnotationType annotationType) {
 		if(isAnnotationPresent(annotationType)==false)
@@ -125,7 +125,7 @@ public class JAnnotatedElementHelper
 		return (JAnnotation) _annotations.remove(annotationType.getName());
 	}
 
-	/* (non-Javadoc)
+	/**
 	 * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
 	 */
 	public boolean hasAnnotations() {
@@ -136,9 +136,11 @@ public class JAnnotatedElementHelper
 	}
 	
 	/**
-	 * Outputs the list of annotations maintained by this object
-	 * @param jsw
-	 */
+     * Outputs the list of annotations maintained by this object
+     * 
+     * @param jsw the JSourceWriter to print the annotations to
+     * @return true if at least one annotation was printed, false otherwise.
+     */
 	public boolean printAnnotations(JSourceWriter jsw)
 	{
 		boolean printed = false;
