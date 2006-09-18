@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1307 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with special characters as part of <xsd:annotation> elements.
+       Details: http://jira.codehaus.org/browse/CASTOR-1407
+       (Werner - 20060918)
+
 XML:   Resolved issue CASTOR-1562 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Minor refactoring of the java.exolab.javasource package.
        Details: http://jira.codehaus.org/browse/CASTOR-1562
