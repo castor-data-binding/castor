@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test normalized strings.</Name>
+    <Author>Werner Guttmann</Author>
+	<Comment>Very basic test that ensures the normalzed strings are treated well ...</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		    <Schema>test.xsd</Schema>
+		    <BindingFile>binding.xml</BindingFile> 	
+            <Root_Object random="false" dump="true">se.exder.external.ubl.codelist.AllowanceChargeReasonCodeType</Root_Object>
+		    <UnitTestCase>
+                <Name>Test Generation</Name>
+                <Input>input.xml</Input>
+            </UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>
