@@ -29,6 +29,26 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1307" tool="jira">
+                    <description>
+		                Fixed problem with special characters as part of &lt;xsd:annotation&gt; elements.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Roland Spatzenegger</name>
+                        <email>patzenegger@4soft.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060918</date>
+                </bug>
 				<bug id="1562" tool="jira">
                     <description>
 		                Minor refactoring of the java.exolab.javasource package.

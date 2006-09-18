@@ -66,20 +66,9 @@ import java.util.Enumeration;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class MemberFactory {
+public class MemberFactory extends BaseFactory {
 
 
-    /**
-     * The FieldInfo factory.
-     */
-    private FieldInfoFactory _infoFactory = null;
-
-    /**
-     * The BuilderConfiguration instance, for callbacks
-     * to obtain certain configured properties
-     */
-    private BuilderConfiguration _config = null;
-    
     /**
      * Creates a new MemberFactory with default type factory.
      *
@@ -98,26 +87,16 @@ public class MemberFactory {
      */
     public MemberFactory(BuilderConfiguration config, FieldInfoFactory infoFactory)
     {
-        super();
-        if (config == null) {
-            String err = "The 'BuilderConfiguration' argument must not be null.";
-            throw new IllegalArgumentException(err);
-        }
-        _config = config;
-        
-        if (infoFactory == null)
-            _infoFactory = new FieldInfoFactory();
-        else
-            _infoFactory = infoFactory;
+        super(config, infoFactory);
             
         if (_config.generateExtraCollectionMethods()) {
-            _infoFactory.setCreateExtraMethods(true);
+            this.infoFactory.setCreateExtraMethods(true);
         }
         String suffix = _config.getProperty(CollectionInfo.REFERENCE_SUFFIX_PROPERTY, null);
-        _infoFactory.setReferenceMethodSuffix(suffix);
+        this.infoFactory.setReferenceMethodSuffix(suffix);
         
         if (_config.boundPropertiesEnabled()) {
-            _infoFactory.setBoundProperties(true);
+            this.infoFactory.setBoundProperties(true);
         }
 
     } //-- MemberFactory
@@ -140,13 +119,13 @@ public class MemberFactory {
         String xmlName = null;
         FieldInfo result = null;
         if (any.getMaxOccurs() >1 || any.getMaxOccurs() <0 ) {
-            result = _infoFactory.createCollection(xsType, vName, "anyObject");
+            result = this.infoFactory.createCollection(xsType, vName, "anyObject");
             XSList xsList = ((CollectionInfo)result).getXSList();
             xsList.setMinimumSize(any.getMinOccurs());
             xsList.setMaximumSize(any.getMaxOccurs());
         } 
         else
-            result = _infoFactory.createFieldInfo(xsType, vName);
+            result = this.infoFactory.createFieldInfo(xsType, vName);
         if (any.getMinOccurs() > 0 )
             result.setRequired(true);
         else
@@ -182,7 +161,7 @@ public class MemberFactory {
         String fieldName = "_choiceValue";
         XSType xsType = new XSClass(SGTypes.Object, "any");
         FieldInfo fInfo = null;
-        fInfo = _infoFactory.createFieldInfo(xsType,fieldName);
+        fInfo = this.infoFactory.createFieldInfo(xsType,fieldName);
         fInfo.setNodeType(XMLInfo.ELEMENT_TYPE);
         fInfo.setComment("Internal choice value storage");
         fInfo.setRequired(false);
@@ -203,14 +182,14 @@ public class MemberFactory {
         String fieldName = "_content";               //new xsType()???
         FieldInfo fInfo = null;
         if (xsType.getType() == XSType.COLLECTION) {
-            fInfo = _infoFactory.createCollection( ((XSList) xsType).getContentType(),
+            fInfo = this.infoFactory.createCollection( ((XSList) xsType).getContentType(),
                                                      fieldName,
                                                      null);
                     
         }
         
         else {
-            fInfo = _infoFactory.createFieldInfo(xsType,fieldName);
+            fInfo = this.infoFactory.createFieldInfo(xsType,fieldName);
         }
         fInfo.setNodeType(XMLInfo.TEXT_TYPE);
         fInfo.setComment("internal content storage");
@@ -358,7 +337,7 @@ public class MemberFactory {
             //--we are processing a container object (group)
             //--so we need to adjust the name of the members of the collection
             CollectionInfo cInfo;
-            cInfo = _infoFactory.createCollection(xsType, vName, memberName, component.getCollectionType());
+            cInfo = this.infoFactory.createCollection(xsType, vName, memberName, component.getCollectionType());
             
             XSList xsList = cInfo.getXSList();
             if (!simpleTypeCollection) {
@@ -369,16 +348,16 @@ public class MemberFactory {
         } else  {
             switch (xsType.getType()) {
                 case XSType.ID_TYPE:
-                     fieldInfo = _infoFactory.createIdentity(memberName);
+                     fieldInfo = this.infoFactory.createIdentity(memberName);
                      break;
                 case XSType.COLLECTION:
                     String collectionName = component.getCollectionType();
-                    fieldInfo = _infoFactory.createCollection( ((XSList) xsType).getContentType(),
+                    fieldInfo = this.infoFactory.createCollection( ((XSList) xsType).getContentType(),
                                                                memberName,
                                                                memberName, collectionName);
                     break;
                 default:
-                    fieldInfo = _infoFactory.createFieldInfo(xsType, memberName);
+                    fieldInfo = this.infoFactory.createFieldInfo(xsType, memberName);
                     break;
             }
         }
@@ -549,43 +528,5 @@ public class MemberFactory {
         }
         return null;
     } //-- createComment
-
-    /**
-     * Normalizes the given string for use in comments
-     *
-     * @param value the String to normalize
-    **/
-    private static String normalize (String value) {
-
-        if (value == null) return null;
-
-        char[] chars = value.toCharArray();
-        char[] newChars = new char[chars.length];
-        int count = 0;
-        int i = 0;
-        boolean skip = false;
-
-        while (i < chars.length) {
-            char ch = chars[i++];
-
-            if ((ch == ' ') || (ch == '\t')) {
-                if ((!skip) && (count != 0)) {
-                    newChars[count++] = ' ';
-                }
-                skip = true;
-            }
-            else {
-                if (count == 0) {
-                    //-- ignore new lines only if count == 0
-                    if ((ch == '\r') || (ch == '\n')) {
-                        continue;
-                    }
-                }
-                newChars[count++] = ch;
-                skip = false;
-            }
-        }
-        return new String(newChars,0,count);
-    }
 
 } //-- MemberFactory

@@ -100,7 +100,7 @@ import java.util.Enumeration;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class SourceFactory {
+public class SourceFactory extends BaseFactory {
     private static final String ENUM_ACCESS_INTERFACE =
         "org.exolab.castor.types.EnumeratedTypeAccess";
         
@@ -112,11 +112,6 @@ public class SourceFactory {
     
     private static final String ITEM_NAME = "Item";
     
-    /**
-     * The type factory.
-    **/
-    private FieldInfoFactory infoFactory = null;
-
     /**
      * The current Binding for which we are creating classes
      */
@@ -155,11 +150,6 @@ public class SourceFactory {
     private boolean _caseInsensitive = false;
 
     /**
-     * The BuilderConfiguration instance
-     */
-    private BuilderConfiguration _config = null;
-    
-    /**
      * The TypeConversion instance to use for mapping
      * SimpleTypes into XSTypes
      */
@@ -182,17 +172,8 @@ public class SourceFactory {
      * @param infoFactory the FieldInfoFactory to use
      */
     public SourceFactory(BuilderConfiguration config, FieldInfoFactory infoFactory) {
-        super();
-        if (config == null) {
-            String error = "The argument 'config' must not be null.";
-            throw new IllegalArgumentException(error);
-        }
-        _config = config;
-        if (infoFactory == null)
-            this.infoFactory = new FieldInfoFactory();
-        else
-            this.infoFactory = infoFactory;
-        
+        super(config, infoFactory);
+
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
@@ -2255,45 +2236,6 @@ public class SourceFactory {
         return sb.toString();
 
     } //-- escapeValue
-
-
-    /**
-     * Normalizes the given string for use in comments
-     *
-     * @param value the String to normalize
-    **/
-    private static String normalize (String value) {
-
-        if (value == null) return null;
-
-        char[] chars = value.toCharArray();
-        char[] newChars = new char[chars.length];
-        int count = 0;
-        int i = 0;
-        boolean skip = false;
-
-        while (i < chars.length) {
-            char ch = chars[i++];
-
-            if ((ch == ' ') || (ch == '\t')) {
-                if ((!skip) && (count != 0)) {
-                    newChars[count++] = ' ';
-                }
-                skip = true;
-            }
-            else {
-                if (count == 0) {
-                    //-- ignore new lines only if count == 0
-                    if ((ch == '\r') || (ch == '\n')) {
-                        continue;
-                    }
-                }
-                newChars[count++] = ch;
-                skip = false;
-            }
-        }
-        return new String(newChars,0,count);
-    }
 
 } //-- SourceFactory
 
