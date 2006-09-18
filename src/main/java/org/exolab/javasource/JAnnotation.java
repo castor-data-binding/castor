@@ -89,7 +89,7 @@ import org.exolab.castor.util.OrderedHashMap;
  *   JAnnotationType requestType = new JAnnotationType("RequestForEnhancement");
  *   JAnnotation request = new JAnnotation(requestType);
  *   request.setElementValue("id", "2868724");
- *   request.setElementValue("sysopsis", "\"Provide time-travel functionality\"");
+ *   request.setElementValue("synopsis", "\"Provide time-travel functionality\"");
  *   request.setElementValue("engineer", "\"Mr. Peabody\"");
  *   request.setElementValue("date", "\"4/1/2004\"");
  * </pre>
@@ -450,56 +450,91 @@ public final class JAnnotation {
         JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
         
         // Normal annotation
-        JAnnotationType requestForEnhancementType1 = new JAnnotationType(
-                "RequestForEnhancement");
-        JAnnotation requestForEnhancement1 = new JAnnotation(requestForEnhancementType1);
-        requestForEnhancement1.setElementValue("id", "2868724");
-        requestForEnhancement1.setElementValue(
-                "sysopsis", "\"Provide time-travel functionality\"");
-        requestForEnhancement1.setElementValue("enginer", "\"Mr. Peabody\"");
-        requestForEnhancement1.setElementValue("date", "\"4/1/2004\"");      
-        requestForEnhancement1.print(jsw);
+        test1(jsw);
         
         jsw.writeln();
         jsw.writeln();
         
-        // Markup annotation
-        JAnnotationType webMethodType2 = new JAnnotationType("WebMethod");
-        JAnnotation webMethod2 = new JAnnotation(webMethodType2);
-        webMethod2.print(jsw);
+        // Marker annotation
+        test2(jsw);
         
         jsw.writeln();
         jsw.writeln();
         
         // Single element annotation
-        JAnnotationType copyrightType3 = new JAnnotationType("Copyright");
-        JAnnotation copyright3 = new JAnnotation(copyrightType3);
-        copyright3.setValue(
-                "\"2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.\"");
-        copyright3.print(jsw);
+        test3(jsw);
         
         jsw.writeln();
         jsw.writeln();
         
         // Single element annotation with array list
-        JAnnotationType endorsersType4 = new JAnnotationType("Endorsers");
-        JAnnotation endorsers4 = new JAnnotation(endorsersType4);
-        endorsers4.setValue(new String[] {"\"Children\"", "\"Unscrupulous dentists\""});
-        endorsers4.print(jsw);
-
+        test4(jsw);
+        
         jsw.writeln();
         jsw.writeln();
         
         // Single element annotation with array list (single item)
-        JAnnotationType endorsersType5 = new JAnnotationType("Endorsers");
-        JAnnotation endorsers5 = new JAnnotation(endorsersType5);
-        endorsers5.setValue(new String[] {"\"Epicurus\"" });
-        endorsers5.print(jsw);
-                
+        test5(jsw);
+        
         jsw.writeln();
         jsw.writeln();
         
         // Complex annotation (single element)
+        test6(jsw);
+        
+        jsw.writeln();
+        jsw.writeln();
+        
+        // Complex annotation (multi element)
+        test7(jsw);
+        
+        jsw.writeln();
+        jsw.writeln();
+        
+        // Complex annotation (multi element, annotation element list)
+        test8(jsw);
+        
+        jsw.flush();
+    }
+
+    private static void test1(JSourceWriter jsw) {
+        JAnnotationType requestForEnhancementType1 = new JAnnotationType("RequestForEnhancement");
+        JAnnotation requestForEnhancement1 = new JAnnotation(requestForEnhancementType1);
+        requestForEnhancement1.setElementValue("id", "2868724");
+        requestForEnhancement1.setElementValue("synopsis", "\"Provide time-travel functionality\"");
+        requestForEnhancement1.setElementValue("engineer", "\"Mr. Peabody\"");
+        requestForEnhancement1.setElementValue("date", "\"4/1/2004\"");      
+        requestForEnhancement1.print(jsw);
+    }
+    
+    private static void test2(JSourceWriter jsw) {
+        JAnnotationType webMethodType2 = new JAnnotationType("WebMethod");
+        JAnnotation webMethod2 = new JAnnotation(webMethodType2);
+        webMethod2.print(jsw);
+    }
+    
+    private static void test3(JSourceWriter jsw) {
+        JAnnotationType copyrightType3 = new JAnnotationType("Copyright");
+        JAnnotation copyright3 = new JAnnotation(copyrightType3);
+        copyright3.setValue("\"2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.\"");
+        copyright3.print(jsw);
+    }
+    
+    private static void test4(JSourceWriter jsw) {
+        JAnnotationType endorsersType4 = new JAnnotationType("Endorsers");
+        JAnnotation endorsers4 = new JAnnotation(endorsersType4);
+        endorsers4.setValue(new String[] {"\"Children\"", "\"Unscrupulous dentists\""});
+        endorsers4.print(jsw);
+    }
+    
+    private static void test5(JSourceWriter jsw) {
+        JAnnotationType endorsersType5 = new JAnnotationType("Endorsers");
+        JAnnotation endorsers5 = new JAnnotation(endorsersType5);
+        endorsers5.setValue(new String[] {"\"Epicurus\"" });
+        endorsers5.print(jsw);
+    }
+    
+    private static void test6(JSourceWriter jsw) {
         JAnnotationType nameType6 = new JAnnotationType("Name");
         JAnnotationType authorType6 = new JAnnotationType("Author");
         JAnnotation author6 = new JAnnotation(authorType6);
@@ -508,11 +543,9 @@ public final class JAnnotation {
         name6.setElementValue("last", "\"Hacker\"");
         author6.setValue(name6);
         author6.print(jsw);
-        
-        jsw.writeln();
-        jsw.writeln();
-        
-        // Complex annotation (multi element)
+    }
+    
+    private static void test7(JSourceWriter jsw) {
         JAnnotationType nameType7 = new JAnnotationType("Name");
         JAnnotationType authorType7 = new JAnnotationType("Author");
         JAnnotation author7 = new JAnnotation(authorType7);
@@ -522,11 +555,9 @@ public final class JAnnotation {
         author7.setElementValue("name", name7);
         author7.setElementValue("rating", "Rating.GOOD");
         author7.print(jsw);
-        
-        jsw.writeln();
-        jsw.writeln();
-        
-        // Complex annotation (multi element, annotation element list)
+    }
+    
+    private static void test8(JSourceWriter jsw) {
         JAnnotationType nameType8 = new JAnnotationType("Name");
         JAnnotationType authorType8 = new JAnnotationType("Author");
         JAnnotation author8 = new JAnnotation(authorType8);
@@ -539,7 +570,6 @@ public final class JAnnotation {
         author8.setElementValue("name", new JAnnotation[] {name81, name82 });
         author8.setElementValue("rating", "Rating.GOOD");
         author8.print(jsw);
-        
-        jsw.flush();
     }
+
 }

@@ -243,7 +243,7 @@ public class DTDResolver implements EntityResolver {
     }
 
     /**
-     * Resolves public&szstem ids to files stored within the JAR.
+     * Resolves public & system ids to files stored within the JAR.
      *
      * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String,
      *      java.lang.String)

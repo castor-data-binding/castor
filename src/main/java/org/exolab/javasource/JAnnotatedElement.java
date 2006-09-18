@@ -80,7 +80,7 @@ package org.exolab.javasource;
  *   JAnnotationType requestType = new JAnnotationType("RequestForEnhancement");
  *   JAnnotation request = new JAnnotation(requestType);
  *   request.setElementValue("id", "2868724");
- *   request.setElementValue("sysopsis", "\"Provide time-travel functionality\"");
+ *   request.setElementValue("synopsis", "\"Provide time-travel functionality\"");
  *   request.setElementValue("engineer", "\"Mr. Peabody\"");
  *   request.setElementValue("date", "\"4/1/2004\"");
  *   JMethod travelThroughTime = new JMethod(null, "travelThroughTime");
@@ -92,7 +92,7 @@ package org.exolab.javasource;
  * <pre>
  *   &#064;RequestForEnhancement(
  *       id       = 2868724,
- *       sysopsis = "Provide time-travel functionality",
+ *       synopsis = "Provide time-travel functionality",
  *       engineer = "Mr. Peabody",
  *       date     = "4/1/2004")
  *   public void travelThroughTime(Date date)

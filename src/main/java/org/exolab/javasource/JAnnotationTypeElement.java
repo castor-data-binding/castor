@@ -56,11 +56,11 @@ import java.io.PrintWriter;
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public final class JAnnotationTypeElement implements JMember {
-    private String _name;
+    private String      _name;
     private JDocComment _comment;
-    private JType _type;
-    private JModifiers _modifiers;
-    private String _default;
+    private JType       _type;
+    private JModifiers  _modifiers;
+    private String      _default;
     
     /**
      * Constructs a JAnnotationTypeElement with a given name and type
@@ -213,4 +213,5 @@ public final class JAnnotationTypeElement implements JMember {
         
         jsw.flush();
     }
+
 }

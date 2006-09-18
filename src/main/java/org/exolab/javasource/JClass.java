@@ -793,6 +793,7 @@ public class JClass extends JStructure {
 
     /**
      * Test drive method...to be removed or commented out
+     * @param args ignored
      */
     public static void main(final String[] args) {
         JClass testClass = new JClass("org.acme.Test");
