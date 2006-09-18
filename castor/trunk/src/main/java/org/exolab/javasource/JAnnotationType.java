@@ -105,11 +105,10 @@ public final class JAnnotationType extends JStructure {
      * @param jMember the JMember to add
      */
     public void addMember(final JMember jMember) {
-        if (jMember instanceof JAnnotationTypeElement) {
-            addElement((JAnnotationTypeElement) jMember);
-        } else {
+        if (! (jMember instanceof JAnnotationTypeElement)) {
             throw new IllegalArgumentException("Must be a JAnnotationTypeElement.");
         }
+        addElement((JAnnotationTypeElement) jMember);
     } //-- addMember
     
     /**
@@ -237,7 +236,6 @@ public final class JAnnotationType extends JStructure {
         jsw.writeln();
         jsw.indent();
         for (int i = 0; i < _elements.size(); i++) {
-
             JAnnotationTypeElement jElement = (JAnnotationTypeElement) _elements.get(i);
             jElement.print(jsw);
             jsw.writeln();
@@ -248,7 +246,6 @@ public final class JAnnotationType extends JStructure {
         
         jsw.writeln('}');
         jsw.flush();
-        
     } //-- print
 
     /**
@@ -260,18 +257,16 @@ public final class JAnnotationType extends JStructure {
         
         JAnnotationType annotationType = new JAnnotationType("RequestForEnhancement");
         annotationType.addElement(new JAnnotationTypeElement("id", JType.INT));
-        annotationType.addElement(new JAnnotationTypeElement(
-                "synopsis", new JType("String")));
-        JAnnotationTypeElement engineer = new JAnnotationTypeElement(
-                "engineer", new JType("String"));
+        annotationType.addElement(new JAnnotationTypeElement("synopsis", new JType("String")));
+        JAnnotationTypeElement engineer = new JAnnotationTypeElement("engineer", new JType("String"));
         engineer.setDefaultString("\"[unassigned]\"");
         annotationType.addElement(engineer);
-        JAnnotationTypeElement date = new JAnnotationTypeElement(
-                "date", new JType("String"));
+        JAnnotationTypeElement date = new JAnnotationTypeElement("date", new JType("String"));
         date.setDefaultString("\"[unimplemented]\"");
         annotationType.addElement(date);
         annotationType.print(jsw);
         
         jsw.flush();
     }
+
 }
