@@ -92,6 +92,7 @@ class SchemaUnmarshallerState {
     /**
      * Returns true if the given Schema has been marked as processed
      * @param schema the Schema to check for being marked as processed
+     * @return true if the given Schema has been marked as processed
      */
     boolean processed(Schema schema) {
         return _processed.contains(schema);
@@ -100,8 +101,9 @@ class SchemaUnmarshallerState {
     /**
      * Returns true if the given schema location has been marked as processed
      *
-     * @param schema location the schema location to check for being 
+     * @param schemaLocation location the schema location to check for being 
      * marked as processed
+     * @return true if the given schema location has been marked as processed
      */
     boolean processed(String schemaLocation) {
        return _processed.containsKey(schemaLocation);
@@ -113,7 +115,7 @@ class SchemaUnmarshallerState {
      *
      * @return the Configuration. 
      *
-     * @see setConfiguration
+     * @see #setConfiguration
      */
     Configuration getConfiguration() {
         if (_config == null) {
@@ -126,6 +128,7 @@ class SchemaUnmarshallerState {
      * Returns the schema corresponding to the given schemaLocation
      *
      * @param schemaLocation the schema location of the schema
+     * @return the schema corresponding to the given schemaLocation
      */
      Schema getSchema(String schemaLocation) {
          return (Schema)_processed.get(schemaLocation);

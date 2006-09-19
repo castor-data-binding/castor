@@ -272,7 +272,7 @@ public class SchemaReader {
     /**
      * Sets the ErrorHandler.
      *
-     * @param ErrorHandler.
+     * @param errorHandler
     **/
     public void setErrorHandler(ErrorHandler errorHandler) {
         _errorHandler = errorHandler;
@@ -316,7 +316,7 @@ public class SchemaReader {
      * Sets the URIResolver used to resolve hrefs.
      * If the entity resolver is null, the default one will be used.
      *
-     * @param resolver the URIResolver to use.
+     * @param uriresolver the URIResolver to use.
      */
     public void setURIResolver(URIResolver uriresolver) {
         _uriResolver = uriresolver;

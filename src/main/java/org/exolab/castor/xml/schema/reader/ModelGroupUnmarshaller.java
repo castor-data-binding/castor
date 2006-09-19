@@ -98,7 +98,7 @@ public class ModelGroupUnmarshaller extends ComponentReader {
     private Schema _schema = null;
 
     /**
-     * Flag to indicate if we have already encounter an <annotation>
+     * Flag to indicate if we have already encounter an {@literal <annotation>}
      */
     private boolean foundAnnotation = false;
       //----------------/
@@ -108,7 +108,6 @@ public class ModelGroupUnmarshaller extends ComponentReader {
     /**
      * Creates a new ModelGroupUnmarshaller
      * @param schema the Schema to which the ModelGroup belongs
-     * @param the element name for this type of group
      * @param atts the AttributeList
      * @param resolver the resolver being used for reference resolving
     **/
@@ -214,7 +213,6 @@ public class ModelGroupUnmarshaller extends ComponentReader {
 
     /**
      * Sets the name of the element that this UnknownUnmarshaller handles
-     * @param name the name of the element that this unmarshaller handles
     **/
     public String elementName() {
         return SchemaNames.GROUP;

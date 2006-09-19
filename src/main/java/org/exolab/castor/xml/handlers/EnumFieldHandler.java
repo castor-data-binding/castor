@@ -77,7 +77,7 @@ public class EnumFieldHandler implements FieldHandler {
     /**
      * Creates a new EnumFieldHandler with the given type and
      * FieldHandler
-     * @param type the Class type of the described field
+     * @param enumType the Class type of the described field
      * @param handler the FieldHandler to delegate to
     **/
     public EnumFieldHandler(Class enumType, FieldHandler handler) {

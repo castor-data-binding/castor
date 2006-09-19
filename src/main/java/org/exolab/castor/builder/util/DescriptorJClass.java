@@ -336,6 +336,8 @@ public class DescriptorJClass extends JClass {
 
     /**
      * Returns the Class type (as a String) for the given XSType
+     * @param jType the JType we are to return the class name of
+     * @return the Class name (as a String) for the given XSType
     **/
     private static String classType(JType jType) {
         if (jType.isPrimitive()) {

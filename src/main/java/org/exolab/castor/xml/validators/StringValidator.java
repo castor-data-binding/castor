@@ -144,7 +144,7 @@ public class StringValidator extends PatternValidator
      *  <li>collapse</li>
      * </ul>
      * any other value will generate a Warning and set the whiteSpace to preserved
-     * @param whiteSpace the whiteSpace value
+     * @param value the whiteSpace value
      */
      public void setWhiteSpace(String value) {
         if (value.equals(PRESERVE))

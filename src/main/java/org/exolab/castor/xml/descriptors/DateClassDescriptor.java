@@ -179,7 +179,7 @@ public class DateClassDescriptor
      * descriptor is available.
      *
      * @param name the xml name to match against
-     * @param nodeType, the NodeType to match against, or null if
+     * @param nodeType the NodeType to match against, or null if
      * the node type is not known.
      * @return the matching descriptor, or null if no matching
      * descriptor is available.
@@ -305,7 +305,7 @@ public class DateClassDescriptor
      * this field).
      * <p>This is mainly used for container object (that can contains other object), in this particular case
      * the implementation will return null.
-     * @param fieldName the name of the field to check
+     * @param name the name of the field to check
      * @param object the object represented by this XMLCLassDescriptor
      * @return true if the given object represented by this XMLClassDescriptor
      * can accept a member whose name is given.

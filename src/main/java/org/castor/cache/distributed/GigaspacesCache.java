@@ -78,8 +78,8 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details on Gigaspaces in gernal, please see http://www.gigaspaces.com/.<br> 
  * 
- * @see http://www.gigaspaces.com/
- * @see http://www.gigaspaces.com/wiki  
+ * @see <a href="http://www.gigaspaces.com/">The Gigaspaces Home Page</a>
+ * @see <a href="http://www.gigaspaces.com/wiki">The Gigaspaces Wiki</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
@@ -117,7 +117,7 @@ public final class GigaspacesCache extends AbstractDistributedCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);

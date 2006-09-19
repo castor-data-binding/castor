@@ -110,13 +110,6 @@ public class ClassDescriptorImpl implements ClassDescriptor {
      * inheritence, the descriptor of the parent class should be used and only
      * the fields added in this object must be supplied here.
      *
-     * @param javaClass The Java type of this class
-     * @param fields The fields described for this class
-     * @param identities The array of the identities (key) of this class,
-     *        may be null
-     * @param extend The descriptor of the class which this class extends,
-     * @param accessMode The access mode for this class (null is shared)
-     *        or null if this is a top-level class
      * @throws MappingException The extended descriptor does not match
      *         a parent class of this type
      */

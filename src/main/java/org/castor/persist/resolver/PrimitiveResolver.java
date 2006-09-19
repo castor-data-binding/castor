@@ -35,12 +35,6 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 0.9.9
  */
-/**
- * @author Administrator
- *
- * To change the template for this generated type comment go to
- * Window - Preferences - Java - Code Generation - Code and Comments
- */
 public final class PrimitiveResolver implements ResolverStrategy {
 
     private FieldMolder _fieldMolder;
@@ -62,15 +56,18 @@ public final class PrimitiveResolver implements ResolverStrategy {
         this._fieldIndex = fieldIndex;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#create(org.castor.persist.TransactionContext, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#create(
+     *      org.castor.persist.TransactionContext, java.lang.Object)
      */
     public Object create(final TransactionContext tx, final Object object) {
         return _fieldMolder.getValue(object, tx.getClassLoader());
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#markCreate(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#markCreate(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      java.lang.Object)
      */
     public boolean markCreate(final TransactionContext tx, final OID oid,
             final Object object) {
@@ -78,8 +75,10 @@ public final class PrimitiveResolver implements ResolverStrategy {
         return updateCache;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#preStore(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object, int, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#preStore(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      java.lang.Object, int, java.lang.Object)
      */
     public UpdateFlags preStore(final TransactionContext tx, final OID oid,
             final Object object, final int timeout, final Object field) {
@@ -98,8 +97,9 @@ public final class PrimitiveResolver implements ResolverStrategy {
         return flags;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#store(org.castor.persist.TransactionContext, java.lang.Object, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#store(
+     *      org.castor.persist.TransactionContext, java.lang.Object, java.lang.Object)
      */
     public Object store(final TransactionContext tx, final Object object,
             final Object field) {
@@ -108,8 +108,10 @@ public final class PrimitiveResolver implements ResolverStrategy {
         return newField;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#update(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object, org.exolab.castor.mapping.AccessMode, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#update(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      java.lang.Object, org.exolab.castor.mapping.AccessMode, java.lang.Object)
      */
     public void update(final TransactionContext tx, final OID oid,
             final Object object, final AccessMode suggestedAccessMode,
@@ -117,8 +119,10 @@ public final class PrimitiveResolver implements ResolverStrategy {
         // nothing to do
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#updateCache(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#updateCache(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      java.lang.Object)
      */
     public Object updateCache(final TransactionContext tx, final OID oid,
             final Object object) {
@@ -127,33 +131,37 @@ public final class PrimitiveResolver implements ResolverStrategy {
         return field;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#markDelete(org.castor.persist.TransactionContext, java.lang.Object, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#markDelete(
+     *      org.castor.persist.TransactionContext, java.lang.Object, java.lang.Object)
      */
     public void markDelete(final TransactionContext tx, final Object object,
             final Object field) {
         // nothing to do
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#revertObject(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#revertObject(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      java.lang.Object, java.lang.Object)
      */
     public void revertObject(final TransactionContext tx, final OID oid,
             final Object object, final Object field) {
         _fieldMolder.setValue(object, field, tx.getClassLoader());
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy
-     * #expireCache(org.castor.persist.TransactionContext, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#expireCache(
+     *      org.castor.persist.TransactionContext, java.lang.Object)
      */
     public void expireCache(final TransactionContext tx, final Object field) {
         // nothing to do
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy
-     * #load(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, org.castor.persist.ProposedObject, org.exolab.castor.mapping.AccessMode, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#load(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      org.castor.persist.ProposedEntity, org.exolab.castor.mapping.AccessMode)
      */
     public void load(final TransactionContext tx, final OID oid,
             final ProposedEntity proposedObject,
@@ -169,16 +177,20 @@ public final class PrimitiveResolver implements ResolverStrategy {
         }
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#postCreate(org.castor.persist.TransactionContext, org.exolab.castor.persist.OID, java.lang.Object, java.lang.Object, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#postCreate(
+     *      org.castor.persist.TransactionContext, org.exolab.castor.persist.OID,
+     *      java.lang.Object, java.lang.Object, org.exolab.castor.persist.spi.Identity)
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
             final Object object, final Object field, final Identity createdId) {
         return field;
     }
 
-    /* (non-Javadoc)
-     * @see org.castor.persist.resolver.ResolverStrategy#removeRelation(org.castor.persist.TransactionContext, java.lang.Object, org.exolab.castor.persist.ClassMolder, java.lang.Object)
+    /**
+     * @see org.castor.persist.resolver.ResolverStrategy#removeRelation(
+     *      org.castor.persist.TransactionContext, java.lang.Object,
+     *      org.exolab.castor.persist.ClassMolder, java.lang.Object)
      */
     public UpdateAndRemovedFlags removeRelation(final TransactionContext tx,
             final Object object, final ClassMolder relatedMolder,

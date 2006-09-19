@@ -178,7 +178,6 @@ public class IncludeUnmarshaller extends ComponentReader
 
     /**
      * Sets the name of the element that this UnknownUnmarshaller handles
-     * @param name the name of the element that this unmarshaller handles
     **/
     public String elementName() {
         return SchemaNames.INCLUDE;

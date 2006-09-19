@@ -269,6 +269,8 @@ public class BindingLoader {
 
         /**
          * Code adapted from DTDResolver written by Assaf Arkin.
+         * @see org.exolab.castor.util.DTDResolver#resolveEntity(java.lang.String, java.lang.String)
+         * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
          */
         public InputSource resolveEntity( String publicId, String systemId )
             throws IOException, SAXException

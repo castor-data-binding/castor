@@ -60,7 +60,7 @@ public class Annotation extends Structure {
     private static final long serialVersionUID = 2838816224303555598L;
 
     /**
-     * List of <appinfo> objects
+     * List of {@literal <appinfo>} objects
     **/
     private Vector appInfoList = null;
     

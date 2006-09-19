@@ -62,8 +62,8 @@ public final class MappingUnmarshallListener implements UnmarshalListener {
     /**
      * Not used for includes processing.
      * 
-     * @see org.exolab.castor.xml.UnmarshalListener#
-     *      fieldAdded(java.lang.String, java.lang.Object, java.lang.Object)
+     * @see org.exolab.castor.xml.UnmarshalListener#fieldAdded(java.lang.String,
+     *      java.lang.Object, java.lang.Object)
      * {@inheritDoc}
      */
     public void fieldAdded(final String fieldName,

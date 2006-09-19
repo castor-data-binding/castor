@@ -28,7 +28,7 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of FKCache, see http://jcache.sourceforge.net 
  * 
- * @see http://jcache.sourceforge.net
+ * @see <a href="http://jcache.sourceforge.net">The FKCache Home Page</a>
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
@@ -53,7 +53,7 @@ public final class FKCache extends AbstractDistributedCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);

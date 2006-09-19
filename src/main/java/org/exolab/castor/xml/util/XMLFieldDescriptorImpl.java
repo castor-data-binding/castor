@@ -294,7 +294,7 @@ implements XMLFieldDescriptor {
      * Since foo has no associated class, the path for 'bar' would be: "foo"
      *
      * @param path the "relative" location path for the field.
-     * @see getLocationPath.
+     * @see #getLocationPath
      */
     public void setLocationPath(final String path) {
         //-- need to add some validation to the path at some point.
@@ -385,7 +385,7 @@ implements XMLFieldDescriptor {
      *
      * @param propertyName The name of the property to set the value of.
      * @param value The value of the property.
-     * @see getProperty
+     * @see #getProperty
      */
     public void setProperty(final String propertyName, final String value) {
         if (propertyName == null) {
@@ -414,7 +414,7 @@ implements XMLFieldDescriptor {
     /**
      * Sets the type of the XML Schema type of the value for the field being described.
      * 
-     * @param type The value type.
+     * @param schemaType The value type.
      */
     public void setSchemaType(final String schemaType) {
         _schemaType =schemaType;
@@ -445,7 +445,7 @@ implements XMLFieldDescriptor {
     /**
      * Sets the xml name for the described field.
      *
-     * @param name the XML name for the described field.
+     * @param xmlName the XML name for the described field.
      */
     public void setXMLName(final String xmlName) {
         _xmlName = xmlName;
@@ -538,7 +538,7 @@ implements XMLFieldDescriptor {
      * Sets the flag indicating that the field described by this descriptor is a
      * reference to another field in the object model.
      *
-     * @param isReference, true if the field is a reference to another field.
+     * @param isReference true if the field is a reference to another field.
      */
     public void setReference(final boolean isReference) {
         _isReference = isReference;
@@ -639,6 +639,7 @@ implements XMLFieldDescriptor {
      * Returns true if two XMLFieldDescriptors should be treated as
      * equal. Any XMLFieldDescriptor that handles the same field
      * is considered equal.
+     * @return true if two XMLFieldDescriptors should be treated as equal.
      */
     public boolean equals(final Object obj) {
         if (obj == this) return true;
@@ -671,6 +672,7 @@ implements XMLFieldDescriptor {
 
     /**
      * Returns the hashCode for this XMLFieldDescriptor
+     * @return the hashCode for this XMLFieldDescriptor
      */
     public int hashCode() {
         int hash = 17;

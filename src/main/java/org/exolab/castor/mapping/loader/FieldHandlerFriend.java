@@ -144,7 +144,7 @@ public abstract class FieldHandlerFriend implements FieldHandler
      * @throws IllegalStateException The Java object has changed and
      *  is no longer supported by this handler, or the handler is not
      *  compatiable with the Java object
-     * @thorws IllegalArgumentException The value passed is not of
+     * @throws IllegalArgumentException The value passed is not of
      *  a supported type
      */
     public abstract void setValue( Object object, Object value )

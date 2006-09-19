@@ -334,7 +334,7 @@ public class XMLClassDescriptorImpl extends Validator
      * container field that contain the field named 'name'
      *
      * @param name the xml name to match against
-     * @param nodeType, the NodeType to match against, or null if
+     * @param nodeType the NodeType to match against, or null if
      * the node type is not known.
      * @return the matching descriptor, or null if no matching
      * descriptor is available.
@@ -514,7 +514,7 @@ public class XMLClassDescriptorImpl extends Validator
      * Removes the given XMLFieldDescriptor from the list of descriptors.
      *
      * @param descriptor the XMLFieldDescriptor to remove
-     * @returns true if the descriptor was removed.
+     * @return true if the descriptor was removed.
      */
     public boolean removeFieldDescriptor(XMLFieldDescriptor descriptor) {
 
@@ -1006,9 +1006,9 @@ public class XMLClassDescriptorImpl extends Validator
         return _accessMode;
     } //-- getAccessMode
 
-    /*
-     *  (non-Javadoc)
-     * @see org.exolab.castor.xml.XMLClassDescriptor#canAccept(java.lang.String, java.lang.String, java.lang.Object)
+    /**
+     * @see org.exolab.castor.xml.XMLClassDescriptor#canAccept(java.lang.String,
+     *      java.lang.String, java.lang.Object)
      */
     public boolean canAccept(String name, String namespace, Object object) {
 
@@ -1194,7 +1194,7 @@ public class XMLClassDescriptorImpl extends Validator
     /**
      * Sets the Class type being described by this descriptor.
      *
-     * @type the Class type being described
+     * @param type the Class type being described
      */
     protected void setJavaClass(Class type) {
         this._class = type;

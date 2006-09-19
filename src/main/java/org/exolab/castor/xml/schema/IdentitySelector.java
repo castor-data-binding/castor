@@ -71,7 +71,7 @@ public class IdentitySelector extends Annotated {
     /**
      * Creates a new IdentitySelector.
      *
-     * @param xpath, the xpath for the IdentitySelector. Must not be null.
+     * @param xpath the xpath for the IdentitySelector. Must not be null.
      * @exception SchemaException if xpath is null.
     **/
     public IdentitySelector(String xpath) 

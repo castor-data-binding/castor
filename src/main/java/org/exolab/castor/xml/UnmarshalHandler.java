@@ -216,7 +216,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         = new StringClassDescriptor();
 
     /**
-     * A SAX2ANY unmarshaller in case we are dealing with <any>
+     * A SAX2ANY unmarshaller in case we are dealing with {@literal <any>}
      */
      private SAX2ANY _anyUnmarshaller = null;
 

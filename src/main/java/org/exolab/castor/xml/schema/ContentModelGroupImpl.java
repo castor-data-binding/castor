@@ -72,7 +72,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
 
     /**
      * Adds a wildcard to this contentModelGroup
-     * @param WildCard the wildcard to add
+     * @param wildcard the Wildcard to add
      * @exception SchemaException thrown when the wildcard
      * is an <anyAttribute> element
      */
@@ -238,7 +238,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
     /**
      * Removes the given Wildcard from this Group.
      *
-     * @param wilcard the Wildcard to remove.
+     * @param wildcard the Wildcard to remove.
      * @return true if the wildcard has been successfully removed, false otherwise.
      */
     public boolean removeWildcard(Wildcard wildcard) {
@@ -330,7 +330,7 @@ class ContentModelGroupImpl implements ContentModelGroup , java.io.Serializable 
     /**
      * Returns the Particle at the specified index
      * @param index the index of the particle to return
-     * @returns the CMParticle at the specified index
+     * @return the CMParticle at the specified index
     **/
     public Particle getParticle(int index) {
         return (Particle) _contentModel.elementAt(index);

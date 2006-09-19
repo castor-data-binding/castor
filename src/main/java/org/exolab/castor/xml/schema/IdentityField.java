@@ -71,7 +71,7 @@ public class IdentityField extends Annotated {
     /**
      * Creates a new IdentityField.
      *
-     * @param xpath, the xpath for the IdentityField. Must not be null.
+     * @param xpath the xpath for the IdentityField. Must not be null.
      * @exception SchemaException if xpath is null.
     **/
     public IdentityField(String xpath) 

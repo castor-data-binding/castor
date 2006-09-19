@@ -239,7 +239,7 @@ public class LocaleDescriptor
      *
      * @param name the xml name to match against
      * @param namespace the namespace uri
-     * @param nodeType, the NodeType to match against, or null if
+     * @param nodeType the NodeType to match against, or null if
      * the node type is not known.
      * @return the matching descriptor, or null if no matching
      * descriptor is available.

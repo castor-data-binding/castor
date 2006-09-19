@@ -186,10 +186,10 @@ public class FieldInfo extends XMLInfo {
     //------------------/
 
     /**
-     * Creates the JMembers for this FieldInfo, sometimes a "field"
-     * requires more than one java field
-     * for this FieldInfo
-    **/
+     * Creates the JMembers for this FieldInfo, sometimes a "field" requires
+     * more than one java field for this FieldInfo.
+     * @param jClass JClass object the Java Fields will be added to 
+     */
     public void createJavaField(JClass jClass) {
 
         XSType type = getSchemaType();
@@ -716,6 +716,7 @@ public class FieldInfo extends XMLInfo {
     /**
      * Returns the ClassInfo to which this Member was declared,
      * for inheritance reasons
+     * @return the ClassInfo to which this Member was declared
     **/
     public ClassInfo getDeclaringClassInfo() {
         return this.declaringClassInfo;
@@ -848,6 +849,7 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Returns the method suffix for creating method names.
+     * @return the method suffix used when creating method names
     **/
     protected String getMethodSuffix() {
         if (name.startsWith("_"))

@@ -315,7 +315,7 @@ public final class IdentitySet implements Set {
      * has not been implemented and throws a <code>UnsupportedOperationException</code>.
      * 
      * {@inheritDoc}
-     * @see java.util.Set#containsAll()
+     * @see java.util.Set#containsAll
      */
     public boolean containsAll(final Collection c) {
         throw new UnsupportedOperationException();
@@ -327,7 +327,7 @@ public final class IdentitySet implements Set {
      * <code>Set</code> interface.
      * 
      * {@inheritDoc}
-     * @see java.util.Set#addAll()
+     * @see java.util.Set#addAll
      */
     public boolean addAll(final Collection c) {
         throw new UnsupportedOperationException();
@@ -339,7 +339,7 @@ public final class IdentitySet implements Set {
      * <code>Set</code> interface.
      * 
      * {@inheritDoc}
-     * @see java.util.Set#removeAll()
+     * @see java.util.Set#removeAll
      */
     public boolean removeAll(final Collection c) {
         throw new UnsupportedOperationException();
@@ -351,7 +351,7 @@ public final class IdentitySet implements Set {
      * <code>Set</code> interface.
      * 
      * {@inheritDoc}
-     * @see java.util.Set#retainAll()
+     * @see java.util.Set#retainAll
      */
     public boolean retainAll(final Collection c) {
         throw new UnsupportedOperationException();

@@ -204,7 +204,7 @@ public final class AttributeDecl extends Annotated {
      * Returns the name of this Attribute declaration. The name will 
      * always be an NCName, no namespace prefix will be included.     
      *
-     * @param ingoreRef a boolean that when false, indicates
+     * @param ignoreRef a boolean that when false, indicates
      * that if this is an attribute reference to return the 
      * reference name. Otherwise the only the local name is used.
      *

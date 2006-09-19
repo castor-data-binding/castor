@@ -272,7 +272,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
 
     /**
      * Removes the given AttributeGroupReference from this AttributeGroup.
-     * @param attrGroup the AttributeGroupReference to remove.
+     * @param attrGroupReference the AttributeGroupReference to remove.
     **/
     public boolean removeReference(AttributeGroupReference attrGroupReference) {
          if (attrGroupReference == null ) return false;
@@ -286,7 +286,7 @@ public final class AttributeGroupDecl extends AttributeGroup {
     /**
      * Sets the wildcard (anyAttribute) of this attribute Group
      * @exception SchemaException thrown when a wildcard as already be set
-     * or when the wildCard is not an <anyAttribute>.
+     * or when the wildCard is not an {@literal <anyAttribute>}.
      */
      public void setAnyAttribute(Wildcard wildcard)
             throws SchemaException

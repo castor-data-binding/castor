@@ -84,7 +84,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
         _namespaces = new Namespaces();
     }
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
 	 */
 	public void characters(char[] chars, int start, int length) 
@@ -93,7 +93,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		_handler.characters(chars, start, length);
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#endDocument()
 	 */
 	public void endDocument() 
@@ -102,8 +102,9 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		_handler.endDocument();
 	}
     
-	/* (non-Javadoc)
-	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String, java.lang.String)
+	/**
+	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
+     *      java.lang.String)
 	 */
 	public void endElement(String uri, String localName, String qName)
 		throws SAXException 
@@ -114,7 +115,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
         }
 	}
 
-    /* (non-Javadoc)
+    /**
 	 * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
 	 */
 	public void endPrefixMapping(String prefix) 
@@ -125,7 +126,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
 	 */
 	public void ignorableWhitespace(char[] chars, int start, int length)
@@ -134,7 +135,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		_handler.ignorableWhitespace(chars, start, length);
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
 	 */
 	public void processingInstruction(String target, String data)
@@ -143,7 +144,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		_handler.processingInstruction(target, data);
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
 	 */
 	public void setDocumentLocator(Locator locator) 
@@ -151,7 +152,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		_handler.setDocumentLocator(locator);
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
 	 */
 	public void skippedEntity(String arg0) 
@@ -160,7 +161,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		//-- do nothing
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#startDocument()
 	 */
 	public void startDocument() 
@@ -169,7 +170,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
 		_handler.startDocument();
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
 	 */
 	public void startElement(String uri, String localName, String qName, Attributes atts)
@@ -198,7 +199,7 @@ public class DocumentHandlerAdapter implements ContentHandler {
         
 	}
     
-	/* (non-Javadoc)
+	/**
 	 * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
 	 */
 	public void startPrefixMapping(String prefix, String uri)

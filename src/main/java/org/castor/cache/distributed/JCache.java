@@ -30,7 +30,7 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of JCACHE, see http://www.jcp.org/en/jsr/detail?id=107
  * 
- * @see http://www.jcp.org/en/jsr/detail?id=107
+ * @see <a href="http://www.jcp.org/en/jsr/detail?id=107">JSR-107</a>
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
@@ -58,7 +58,7 @@ public final class JCache extends AbstractDistributedCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         initialize(IMPLEMENTATION, params);

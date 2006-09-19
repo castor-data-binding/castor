@@ -161,7 +161,7 @@ public final class CallableStatementProxy implements CallableStatement {
 
     /**
      * {@inheritDoc}
-     * @see PreparedStatement#clearParameters()
+     * @see java.sql.PreparedStatement#clearParameters()
      */
     public void clearParameters() throws SQLException {
         _parameters.clear();

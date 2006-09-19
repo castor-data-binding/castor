@@ -94,9 +94,7 @@ public class SimpleTypeListUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new ListUnmarshaller
-     * @param simpleType, the SimpleType being unmarshalled
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
     SimpleTypeListUnmarshaller(Schema schema, AttributeSet atts)
         throws XMLException

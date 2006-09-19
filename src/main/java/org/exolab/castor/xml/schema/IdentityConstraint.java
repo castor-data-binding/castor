@@ -85,7 +85,7 @@ public abstract class IdentityConstraint extends Annotated {
     /**
      * Constructor used by sub-classes. Creates a new IdentityConstraint.
      *
-     * @param name, the name for the IdentityConstraint. Must not be null.
+     * @param name the name for the IdentityConstraint. Must not be null.
     **/
     protected IdentityConstraint(String name) 
         throws SchemaException

@@ -100,7 +100,6 @@ public class SimpleTypeUnmarshaller extends ComponentReader {
      * Creates a new SimpleTypeUnmarshaller
      * @param schema the Schema to which the SimpleType belongs
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
     public SimpleTypeUnmarshaller
         (Schema schema, AttributeSet atts)
@@ -155,6 +154,7 @@ public class SimpleTypeUnmarshaller extends ComponentReader {
 
     /**
      * Returns the SimpleType created
+     * @return the SimpleType created
     **/
     public SimpleType getSimpleType() {
         if (_simpleType == null) {

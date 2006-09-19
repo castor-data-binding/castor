@@ -60,7 +60,7 @@ public class Key extends IdentityConstraint {
     /**
      * Creates a new Key Identity-Constraint.
      *
-     * @param name, the name for the IdentityConstraint. Must not be null.
+     * @param name the name for the IdentityConstraint. Must not be null.
     **/
     public Key(String name) 
         throws SchemaException

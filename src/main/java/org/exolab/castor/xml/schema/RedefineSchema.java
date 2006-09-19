@@ -117,7 +117,6 @@ public class RedefineSchema extends Annotated {
 	
 	/**
 	 * Constructs a new RedefineSchema structure
-	 * @param uri the URI identifying the Schema
 	 */
 	public RedefineSchema(Schema parentSchema, Schema originalSchema) {
 		super();
@@ -218,7 +217,7 @@ public class RedefineSchema extends Annotated {
 	/**
 	 * Adds a simpleType in the list of redefined simpleTypes.
 	 * 
-	 * @param SimpleType the SimpleType to add.
+	 * @param simpleType the SimpleType to add.
 	 */
 	public void addSimpleType(SimpleType simpleType) throws SchemaException {
 		
@@ -301,7 +300,6 @@ public class RedefineSchema extends Annotated {
 
 	/**
 	 * Adds a group name in the list of redefined groups.
-	 * @param name the Group name
 	 */
 	public void addGroup(ModelGroup group) throws SchemaException {
 		if (_schemaLocation.length() == 0)
@@ -381,7 +379,6 @@ public class RedefineSchema extends Annotated {
 	
 	/**
 	 * Adds a AttributeGroup name in the list of redefined attributeGroups.
-	 * @param name the AttributeGroup name
 	 */
 	public void addAttributeGroup(AttributeGroupDecl attrGroup) throws SchemaException {
 		if (_schemaLocation.length() == 0)
@@ -425,7 +422,7 @@ public class RedefineSchema extends Annotated {
 	 * Returns the AttributeGroup corresponding to the given 
 	 * canonical name (unqualified name).
 	 * 
-	 * @return he AttributeGroup corresponding to the given 
+	 * @return the AttributeGroup corresponding to the given 
 	 * canonical name (unqualified name).
 	 */
 	public AttributeGroupDecl getAttributeGroup(String name) {
@@ -462,7 +459,7 @@ public class RedefineSchema extends Annotated {
 	/**
 	 * Removes the attributeGroup with the given name from the redefine structure.
 	 * 
-	 * @param name the name of the attributeGroup to be removed from this Redefined Structure.
+	 * @param attrGroup the attributeGroup to be removed from this Redefined Structure.
 	 */
 	public boolean removeAttributeGroup(AttributeGroupDecl attrGroup) {
 		if (_schemaLocation.length() == 0)

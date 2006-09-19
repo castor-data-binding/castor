@@ -174,7 +174,7 @@ public class ListType extends SimpleType {
      * SimpleType#setSchema method to prevent the Schema from being
      * changed.
      *
-     * @param the schema that this Union belongs to.
+     * @param schema the schema that this Union belongs to.
      */
     public void setSchema(Schema schema) {
         if (schema != getSchema()) {

@@ -105,6 +105,7 @@ public abstract class XMLType extends Annotated
 
     /**
      * Returns the name of this type (null if none was defined)
+     * @return the name of this type (null if none was defined)
     **/
     public String getName() { return name; }
 
@@ -199,7 +200,7 @@ public abstract class XMLType extends Annotated
 
     /**
      * Sets the base type for this datatype
-     * @param base the base type which this datatype inherits from
+     * @param baseType the base type which this datatype inherits from
     **/
     public void setBaseType(XMLType baseType) {
         this.baseType = baseType;
@@ -240,6 +241,7 @@ public abstract class XMLType extends Annotated
      * Returns the type this type "really" represents
      * ("this" in most cases), provides the indirection needed by references
      * and forward declarations.
+     * @return the type this type "really" represents
      */
     XMLType getType() { return this; }
 

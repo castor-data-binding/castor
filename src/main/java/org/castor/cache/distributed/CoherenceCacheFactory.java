@@ -23,8 +23,8 @@ import org.apache.commons.logging.LogFactory;
 import org.castor.cache.AbstractCacheFactory;
 
 /**
- * Implements {@link CacheFactory} for the {@link CoherenceCache} implementation 
- * of {@link Cache}.
+ * Implements {@link org.castor.cache.CacheFactory} for the {@link CoherenceCache}
+ * implementation of {@link org.castor.cache.Cache}.
  *
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>

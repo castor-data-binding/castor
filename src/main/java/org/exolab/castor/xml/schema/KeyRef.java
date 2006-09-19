@@ -65,7 +65,7 @@ public class KeyRef extends IdentityConstraint {
     /**
      * Creates a new KeyRef Identity-Constraint.
      *
-     * @param name, the name for the IdentityConstraint. Must not be null.
+     * @param name the name for the IdentityConstraint. Must not be null.
      * @exception SchemaException when name or refer are null.
     **/
     public KeyRef(String name, String refer) 

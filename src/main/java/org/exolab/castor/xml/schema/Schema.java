@@ -392,7 +392,7 @@ public class Schema extends Annotated {
 
     /**
      * Adds the given Complextype definition to this Schema defintion
-     * @param complextype the Complextype to add to this Schema
+     * @param complexType the Complextype to add to this Schema
      * @exception SchemaException if the Complextype does not have
      * a name or if another Complextype already exists with the same name
     **/
@@ -490,7 +490,7 @@ public class Schema extends Annotated {
      * won't check that the XML Schema is already imported nor will it check that the 
      * redefined structures exist.
      * 
-     * @param redefineSchema the Group to add to this SchemaDef
+     * @param schema the Group to add to this SchemaDef
      * @exception SchemaException when an redefintion already
      * exists with the same name as the given ElementDecl
      **/
@@ -553,7 +553,6 @@ public class Schema extends Annotated {
 
     /**
      * Adds to the namespaces declared in this Schema
-     * @param namespaces the list of namespaces
      */
     public void addNamespace(String prefix, String ns) {
         _namespaces.addNamespace(prefix, ns);
@@ -561,7 +560,7 @@ public class Schema extends Annotated {
 
     /**
      * Adds the given SimpletType definition to this Schema defintion
-     * @param simpletype the SimpleType to add to this Schema
+     * @param simpleType the SimpleType to add to this Schema
      * @exception SchemaException if the SimpleType does not have
      * a name or if another SimpleType already exists with the same name
     **/
@@ -1733,7 +1732,7 @@ public class Schema extends Annotated {
 
     /**
      * Returns True if the namespace is known to this schema
-     * @param namespace the namespace URL
+     * @param namespaceURL the namespace URL
      * @return True if the namespace was declared in the schema
      */
     public boolean isKnownNamespace(String namespaceURL)
@@ -1966,7 +1965,7 @@ public class Schema extends Annotated {
     } //-- removeRedefineSchema
     /**
      * Removes the given top level SimpleType from this Schema
-     * @param SimpleType the SimpleType to remove
+     * @param simpleType the SimpleType to remove
      * @return true if the SimpleType has been removed, or
      * false if the SimpleType wasn't top level or
      * didn't exist in this Schema
@@ -2038,7 +2037,7 @@ public class Schema extends Annotated {
     /**
      * Sets the default FinalList for this Schema.
      *
-     * @param final the default FinalList to set for this Schema.
+     * @param finalList the default FinalList to set for this Schema.
     **/
     public void setFinalDefault(FinalList finalList) {
         _final = finalList;
@@ -2151,7 +2150,7 @@ public class Schema extends Annotated {
     /**
      * Sets the target namespace for this Schema
      * @param targetNamespace the target namespace for this Schema
-     * @see <B>&sect; 2.7 XML Schema Part 1: Structures</B>
+     * @see "&sect; 2.7 XML Schema Part 1: Structures"
     **/
     public void setTargetNamespace(String targetNamespace) {
         if (targetNamespace != null) {
@@ -2166,7 +2165,7 @@ public class Schema extends Annotated {
      * Sets the version information for the XML Schema defintion
      * represented by this Schema instance.
      *
-     * @param the version for this XML Schema defination.
+     * @param version the version for this XML Schema defination.
     **/
     public void setVersion(String version) {
         _version = version;
@@ -2266,7 +2265,7 @@ public class Schema extends Annotated {
       * A master schema is a schema in which this instance of Schema is
       * included, redefined or imported.
       * 
-      * @param the master schema in which this instance of schema
+      * @param masterSchema the master schema in which this instance of schema
       * is used at runtime. This method is meant to be used at runtime.
       */
      protected void setMasterSchema(Schema masterSchema) {

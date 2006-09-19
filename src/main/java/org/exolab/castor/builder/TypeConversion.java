@@ -600,7 +600,11 @@ public class TypeConversion {
     /**
      * Compares the two SimpleTypes. The common ancestor of
      * both types will be returned, otherwise null is returned
-     * if the types are not compatable.
+     * if the types are not compatible.
+     * @param aType the first type to compare
+     * @param bType the second type to compare
+     * @return the common anscestor of both types if there is one, null if
+     * the types are not compatible.
      */
     private static SimpleType compare(SimpleType aType, SimpleType bType) {
         int type1 = aType.getTypeCode();

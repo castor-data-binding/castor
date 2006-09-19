@@ -103,8 +103,7 @@ public class ToStringFieldHandler extends GeneralizedFieldHandler
     } //-- ToStringFieldHandler
     
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#convertUponGet(java.lang.Object)
      */
     public Object convertUponGet(Object value) {
@@ -112,8 +111,7 @@ public class ToStringFieldHandler extends GeneralizedFieldHandler
         return value.toString();
     } //-- convertUponGet
 
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#convertUponSet(java.lang.Object)
      */
     public Object convertUponSet(Object value) 
@@ -123,8 +121,7 @@ public class ToStringFieldHandler extends GeneralizedFieldHandler
         
     } //-- convertUponSet;
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#getFieldType()
      */
     public Class getFieldType() {

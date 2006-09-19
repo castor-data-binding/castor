@@ -54,7 +54,7 @@ public final class HsqlFactory extends GenericFactory
 {
 
     /**
-     * Internal name for this {@see PersistenceFactory} instance.
+     * Internal name for this {@link org.exolab.castor.persist.spi.PersistenceFactory} instance.
      */
     public static final String FACTORY_NAME = "hsql";
     

@@ -88,7 +88,7 @@ public class DateTimeValidator implements TypeValidator {
 
     /**
      * Sets the minimum exclusive value that this Date/Time can hold.
-     * @param max the minimum exclusive value this Date/Time can be
+     * @param min the minimum exclusive value this Date/Time can be
      * @see #setMinInclusive
     **/
     public void setMinExclusive(DateTimeBase min) {
@@ -98,7 +98,7 @@ public class DateTimeValidator implements TypeValidator {
 
     /**
      * Sets the minimum inclusive value that this Date/Time can hold.
-     * @param max the minimum inclusive value this Date/Time can be
+     * @param min the minimum inclusive value this Date/Time can be
      * @see #setMinExclusive
     **/
     public void setMinInclusive(DateTimeBase min) {
@@ -109,7 +109,7 @@ public class DateTimeValidator implements TypeValidator {
     /**
      * Validates a Date/Time instance
      * @param dateTime the date/time type to validate
-     * @throw ValidationException
+     * @throws ValidationException
      */
     public void validate(DateTimeBase dateTime) throws ValidationException {
 

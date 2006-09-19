@@ -355,7 +355,7 @@ public class JDBCQueryExpression
      * In general, for a RDBMS/JDBC driver with a full support of the SQL standard/JDBC 
 	 * specification, this will return a valid SQL statement. For some features,
 	 * a particular RDBMS might indicate that it does not support this feature by 
-	 * throwing a {@linik SyntaxNotSupportedException}.
+	 * throwing a {@link SyntaxNotSupportedException}.
      * @throws SyntaxNotSupportedException If the RDBMS does not support a particular feature.
      */
     public String getStatement( boolean lock ) throws SyntaxNotSupportedException

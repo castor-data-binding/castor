@@ -64,8 +64,6 @@ public final class PersistenceEngineFactory {
     /**
      * Creates and returns a new persistence engine.
      *
-     * @param mapResolver All the descriptors supported by this engine
-     * @param factory Persistence SPI factory
      * @throws MappingException The SPI factory could not support one of
      *  object types due to a mapping errot
      */

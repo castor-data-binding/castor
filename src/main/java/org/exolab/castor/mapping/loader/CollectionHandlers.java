@@ -217,7 +217,7 @@ public final class CollectionHandlers
      * <tt>java.util</tt> collections only require a get method,
      * but an array collection required both get and set methods.
      *
-     * @parfam javaClass The collection's java class
+     * @param javaClass The collection's java class
      * @return True if collection requires get/set methods, false
      *  if collection requires only get method
      * @throws MappingException The collection class is not supported

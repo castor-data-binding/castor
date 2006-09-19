@@ -109,7 +109,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
     //----------------/
     /**
      * Creates a new RestrictionUnmarshaller
-     * @param complexType, the complexType being unmarshalled
+     * @param complexType the complexType being unmarshalled
      * @param atts the AttributeList
      */
     public SimpleContentRestrictionUnmarshaller(
@@ -357,7 +357,7 @@ public class SimpleContentRestrictionUnmarshaller extends ComponentReader {
             AttributeDecl attrDecl =
                 ((AttributeUnmarshaller)unmarshaller).getAttribute();
 
-			/**@todo add the validation code later*/
+			/* TODO add the validation code later*/
 
 			/*ComplexType baseType = (ComplexType)_complexType.getBaseType();
 			if ( (baseType.getAttributeDecls() == null) ||

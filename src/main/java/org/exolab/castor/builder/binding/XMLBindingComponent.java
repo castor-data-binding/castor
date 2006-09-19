@@ -93,7 +93,7 @@ import java.util.Enumeration;
  * <p>This class acts like a <i>window</i> on a particular XML Schema structure that the user controls
  * by changing the view on the Annotated Structure he is interested in.
  *
- * @todo: add the link to the documentation.
+ * TODO: add the link to the documentation.
  *
  * @see org.exolab.castor.builder.BindingComponent
 
@@ -865,7 +865,7 @@ public class XMLBindingComponent implements BindingComponent {
      * order:
      * <ul>
      *     <li>If the XMLBinding wraps a class binding then the package name is
-     *     the name defined locally in the &lt;java-class&gt; element.
+     *     the name defined locally in the {@literal <java-class>} element.
      *     More precisely the package name will be the value of the attribute
      *     package.</li>
      *     <li>Else the package name will be computed from the schemaLocation

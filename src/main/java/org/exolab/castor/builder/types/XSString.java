@@ -168,7 +168,7 @@ public final class XSString extends XSPatternBase {
 
 	/**
 	 * Returns true if the whiteSpace facet is used
-	 * @returns true if the whiteSpace facet is used
+	 * @return true if the whiteSpace facet is used
 	 */
 	public boolean hasWhiteSpace() {
 		return (_whiteSpace != null);

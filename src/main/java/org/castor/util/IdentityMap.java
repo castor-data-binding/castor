@@ -309,7 +309,7 @@ public final class IdentityMap implements Map {
      * has not been implemented and throws a <code>UnsupportedOperationException</code>.
      * 
      * {@inheritDoc}
-     * @see java.util.Map#containsValue()
+     * @see java.util.Map#containsValue
      */
     public boolean containsValue(final Object value) {
         throw new UnsupportedOperationException();
@@ -321,7 +321,7 @@ public final class IdentityMap implements Map {
      * <code>Map</code> interface.
      * 
      * {@inheritDoc}
-     * @see java.util.Map#putAll()
+     * @see java.util.Map#putAll
      */
     public void putAll(final Map map) {
         throw new UnsupportedOperationException();

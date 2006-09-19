@@ -100,7 +100,6 @@ public class UnionUnmarshaller extends ComponentReader {
      * Creates a new IdentityConstraintUnmarshaller
      *
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
     public UnionUnmarshaller(Schema schema, AttributeSet atts)
         throws XMLException

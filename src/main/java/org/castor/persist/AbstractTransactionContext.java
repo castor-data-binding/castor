@@ -54,7 +54,8 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * database. The transaction context is mapped to an API transaction or an XA
  * transaction. The only way to begin a new transaction is through the creation
  * of a new transaction context. A transaction context is created from an
- * implementation class directly or through {@link XAResourceImpl}.
+ * implementation class directly or through
+ * {@link org.exolab.castor.persist.XAResourceImpl}.
  * 
  * @author <a href="arkin@intalio.com">Assaf Arkin </a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
@@ -420,7 +421,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#load(
-     *      java.lang.Object, org.castor.persist.ProposedEntity,
+     *      org.exolab.castor.persist.spi.Identity, org.castor.persist.ProposedEntity,
      *      org.exolab.castor.mapping.AccessMode)
      */
     public final synchronized Object load(
@@ -433,7 +434,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
     /**
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#load(
-     *      java.lang.Object, org.castor.persist.ProposedEntity,
+     *      org.exolab.castor.persist.spi.Identity, org.castor.persist.ProposedEntity,
      *      org.exolab.castor.mapping.AccessMode, org.exolab.castor.persist.QueryResults)
      */
     public final synchronized Object load(
@@ -1588,7 +1589,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#expireCache(
      *      org.exolab.castor.persist.ClassMolder,
-     *      java.lang.Object)
+     *      org.exolab.castor.persist.spi.Identity)
      */
     public final synchronized void expireCache(
             final ClassMolder molder, final Identity identity)
@@ -1626,7 +1627,7 @@ public abstract class AbstractTransactionContext implements TransactionContext {
      * {@inheritDoc}
      * @see org.castor.persist.TransactionContext#isCached(
      *      org.exolab.castor.persist.ClassMolder,
-     *      java.lang.Class, java.lang.Object)
+     *      java.lang.Class, org.exolab.castor.persist.spi.Identity)
      */
     public final boolean isCached(final ClassMolder molder,
             final Class cls, final Identity identity)
@@ -1671,7 +1672,9 @@ public abstract class AbstractTransactionContext implements TransactionContext {
 
     /**
      * @inheritDoc
-     * @see org.castor.persist.TransactionContext#getNamedQuery(java.lang.String)
+     * @see org.castor.persist.TransactionContext#getNamedQuery(
+     *      org.exolab.castor.persist.ClassMolder,
+     *      java.lang.String)
      */
     public String getNamedQuery(final ClassMolder molder, final String name) 
     throws QueryException    {

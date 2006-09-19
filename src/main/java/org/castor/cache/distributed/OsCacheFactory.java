@@ -27,8 +27,8 @@ import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
 
 /**
- * Implements {@link CacheFactory} for the {@link OsCache} implementation of 
- * {@link org.castor.cache.Cache}.
+ * Implements {@link org.castor.cache.CacheFactory} for the {@link OsCache}
+ * implementation of {@link org.castor.cache.Cache}.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>

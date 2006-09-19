@@ -118,7 +118,7 @@ public class GroupUnmarshaller extends ComponentReader {
     /**
      * Creates a new GroupUnmarshaller
      * @param schema the Schema to which the Group belongs
-     * @param the element name for this type of group
+     * @param element the element name for this type of group
      * @param atts the AttributeList
      * @param resolver the resolver being used for reference resolving
     **/

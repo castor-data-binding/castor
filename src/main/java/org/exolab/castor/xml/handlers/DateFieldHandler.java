@@ -298,7 +298,7 @@ public class DateFieldHandler extends XMLFieldHandler {
      *
      * Default is JVM default returned by TimeZone.getDefault()
      * @param timeZone TimeZone to use instead of JVM default
-     * @see setAllowTimeZoneSuppression
+     * @see #setAllowTimeZoneSuppression
      */
     public static void setDefaultTimeZone(TimeZone timeZone)
     {
@@ -315,7 +315,7 @@ public class DateFieldHandler extends XMLFieldHandler {
      * Sets a flag indicating whether or not Milliseconds should
      * be suppressed upon formatting a dateTime as a String
      *
-     * @param suppressMills a boolean when true indicates that millis
+     * @param suppressMillis a boolean when true indicates that millis
      * should be suppressed during conversion of a dateTime to a String
      */
     public static void setSuppressMillis(boolean suppressMillis) {

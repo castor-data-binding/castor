@@ -83,6 +83,7 @@ public class ClassInfoResolverImpl implements ClassInfoResolver {
     
     /**
      * Returns all the keys used for binding ClassInfo objects
+     * @return an Enumeration over the keys using for binding ClassInfo objects
     **/
     public Enumeration keys() {
         return _cache.keys();

@@ -155,6 +155,7 @@ class FactoryState implements ClassInfoResolver {
      * Returns true if the given Annotated XML Schema structure has been marked as processed.
      *
      * @param annotated the Annotated XML Schema structure to check for being marked as processed
+     * @return true if the given Annotated XML Schema structure has been marked as processed
     **/
     boolean processed(Annotated annotated) {
         boolean result = _processed.contains(annotated);

@@ -311,11 +311,10 @@ public final class ManyToManyRelationResolver extends ManyRelationResolver {
     }
     
     /**
-     * @see org.exolab.castor.persist.resolver.RelationResolver
-     *      #postCreate(org.exolab.castor.persist.TransactionContext,
-     *      org.exolab.castor.persist.OID, org.exolab.castor.persist.DepositBox,
-     *      java.lang.Object, org.exolab.castor.mapping.AccessMode,
-     *      java.lang.Object)
+     * @see org.castor.persist.resolver.ManyRelationResolver#postCreate(
+     *      org.castor.persist.TransactionContext,
+     *      org.exolab.castor.persist.OID, java.lang.Object, java.lang.Object,
+     *      org.exolab.castor.persist.spi.Identity)
      */
     public Object postCreate(final TransactionContext tx, final OID oid,
             final Object object, final Object field, final Identity createdId) 

@@ -79,8 +79,7 @@ public class OrderedHashMap extends HashMap {
     }
     
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.util.Map#clear()
      */
     public void clear() {
@@ -88,8 +87,7 @@ public class OrderedHashMap extends HashMap {
         _orderedValues.clear();
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.lang.Object#clone()
      */
     public Object clone() {
@@ -119,8 +117,7 @@ public class OrderedHashMap extends HashMap {
         return Collections.unmodifiableSet(super.keySet());
     } 
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.util.Map#put(java.lang.Object, java.lang.Object)
      */
     public Object put(Object key, Object value) {
@@ -135,8 +132,7 @@ public class OrderedHashMap extends HashMap {
         return obj;
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.util.Map#putAll(java.util.Map)
      */
     public void putAll(Map m) {
@@ -150,8 +146,7 @@ public class OrderedHashMap extends HashMap {
         }
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see java.util.Map#remove(java.lang.Object)
      */
     public Object remove(Object key) {
