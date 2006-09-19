@@ -114,7 +114,7 @@ public class DOMEventProducer implements EventProducer {
     /**
      * Walks the given DOM Document and converts it into it's corresponding
      * SAX events
-     * @param document, the Node to process into SAX events
+     * @param document the Node to process into SAX events
      * @param handler the DocumentHandler to send events to
     **/
     public static void process(Document document, DocumentHandler handler) 
@@ -145,7 +145,7 @@ public class DOMEventProducer implements EventProducer {
 
      * Breaks down the given node into it's corresponding SAX events
 
-     * @param node, the Node to process into SAX events
+     * @param node the Node to process into SAX events
 
      * @param handler the DocumentHandler to send events to
 

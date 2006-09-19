@@ -456,7 +456,7 @@ public abstract class SimpleType extends XMLType
      * allows resolving a SimpleType reference to a SimpleType.
      *
      * @return the resolved SimpleType.
-     * @see createReference
+     * @see #createReference
     **/
     protected static SimpleType resolveReference(SimpleType simpleType) {
         return (SimpleType) simpleType.getType();

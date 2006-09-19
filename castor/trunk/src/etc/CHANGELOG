@@ -2,9 +2,14 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1563 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Thorough JavaDoc cleanup.
+       Details: http://jira.codehaus.org/browse/CASTOR-1563
+       (Werner - 20060919)
+
 XML:   Resolved issue CASTOR-1307 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with special characters as part of <xsd:annotation> elements.
-       Details: http://jira.codehaus.org/browse/CASTOR-1407
+       Details: http://jira.codehaus.org/browse/CASTOR-1307
        (Werner - 20060918)
 
 XML:   Resolved issue CASTOR-1562 using contribution from Edward Kuns [edward.kuns@aspect.com]

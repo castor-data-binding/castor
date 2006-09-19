@@ -100,7 +100,7 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
     //----------------/
     /**
      * Creates a new RestrictionUnmarshaller
-     * @param complexType, the complexType being unmarshalled
+     * @param complexType the complexType being unmarshalled
      * @param atts the AttributeList
      */
     public ComplexContentRestrictionUnmarshaller
@@ -302,7 +302,7 @@ public class ComplexContentRestrictionUnmarshaller extends ComponentReader {
             AttributeDecl attrDecl =
                 ((AttributeUnmarshaller)unmarshaller).getAttribute();
 
-             /**@todo do the validation later*/
+             /* TODO: do the validation later*/
             _complexType.addAttributeDecl(attrDecl);
         }
         //-- attribute groups

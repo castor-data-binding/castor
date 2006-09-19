@@ -105,15 +105,15 @@ public interface ContentModelGroup {
     /**
      * Adds the given wildcard to this ContentModelGroup
      * @param wilcard the wilcard to add
-     * @exception SchemaException when the wilcard is <anyAttribute> and
-     * not <any>
+     * @exception SchemaException when the wilcard is &lt;anyAttribute> and
+     * not &lt;any>
      */
      public void addWildcard(Wildcard wilcard)
          throws SchemaException;
 
     /**
      * Removes the given Wildcard from this ContentModelGroup.
-     * @param group the Wilcard to remove.
+     * @param wildcard the Wildcard to remove.
      * @return true if the wildcard has been successfully removed, false otherwise.
      */
      public boolean removeWildcard(Wildcard wildcard);
@@ -167,7 +167,7 @@ public interface ContentModelGroup {
     /**
      * Returns the Particle at the specified index
      * @param index the index of the particle to return
-     * @returns the CMParticle at the specified index
+     * @return the CMParticle at the specified index
     **/
     public Particle getParticle(int index);
 

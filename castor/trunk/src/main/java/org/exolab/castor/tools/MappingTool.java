@@ -195,7 +195,7 @@ public class MappingTool {
      * Adds the Class, specified by the given name, to the mapping file
      * 
      * @param name the name of the Class to add
-     * @param deep, a flag to indicate that recursive processing
+     * @param deep a flag to indicate that recursive processing
      * should take place and all classes used by the given
      * class should also be added to the mapping file. This
      * flag is true by default.
@@ -227,7 +227,7 @@ public class MappingTool {
      * the given Class will also be added to the mapping file.
      *
      * @param cls the Class to add
-     * @param deep, a flag to indicate that recursive processing
+     * @param deep a flag to indicate that recursive processing
      * should take place and all classes used by the given
      * class should also be added to the mapping file. This
      * flag is true by default.
@@ -411,7 +411,7 @@ public class MappingTool {
     /**
      * Serializes the mapping to the given writer
      *
-     * @param writer, the Writer to serialize the mapping to
+     * @param writer the Writer to serialize the mapping to
      */
     public void write(final Writer writer) throws MappingException {
         Marshaller  marshal;

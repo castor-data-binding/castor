@@ -158,7 +158,7 @@ public class ElementDecl extends Particle implements Referable {
 
     /**
      * Creates a new default element definition
-     * @param schema, the XML Schema to which this element declartion
+     * @param schema the XML Schema to which this element declaration
      * belongs
      * <BR />This element definition will not be valid until a name has
      * been set
@@ -169,7 +169,7 @@ public class ElementDecl extends Particle implements Referable {
 
     /**
      * Creates a new default element definition
-     * @param schema, the XML Schema to which this Element Declartion
+     * @param schema the XML Schema to which this Element Declaration
      * belongs
      * @param name the name of the Element being declared
     **/
@@ -291,7 +291,7 @@ public class ElementDecl extends Particle implements Referable {
      * Returns the name of this Element declaration. The name
      * returned, if not null, will be an NCName.
      *
-     * @param ingoreRef if false the name of the referenced
+     * @param ignoreRef if false the name of the referenced
      * element (if specified) is returned, otherwise the
      * localname (may be null).
      *
@@ -467,7 +467,7 @@ public class ElementDecl extends Particle implements Referable {
 
     /**
      * Sets whether or not this element definition is abstract
-     * @param isAbstract, a boolean when true indicates that this
+     * @param isAbstract a boolean when true indicates that this
      * element definition should be abstract
     **/
     public void setAbstract(boolean isAbstract) {
@@ -476,6 +476,8 @@ public class ElementDecl extends Particle implements Referable {
 
     /**
      * Returns true if this element has children (i.e if it
+     * holds attributes or elements).
+     * @return true if this element has children (i.e if it
      * holds attributes or elements).
      */
     public boolean hasChildren() {
@@ -550,7 +552,7 @@ public class ElementDecl extends Particle implements Referable {
 	 * Sets the value of the 'final' attribute for this element
 	 * definition.
 	 *
-	 * @param finalValue the value of the final attribute for this
+	 * @param finalList the value of the final attribute for this
 	 * element definition.
 	**/
 	public void setFinal(FinalList finalList) {

@@ -91,7 +91,7 @@ public class ModelGroup extends Group {
 
     /**
      * Creates a new ModelGroup definition
-     * @param schema, the XML Schema to which this ModelGroup
+     * @param schema the XML Schema to which this ModelGroup
      * belongs
      */
     public ModelGroup(Schema schema) {
@@ -159,7 +159,7 @@ public class ModelGroup extends Group {
     /**
      * Returns the name of this Model Group definition
      *
-     * @param ingoreRef If True the name of the referenced
+     * @param ignoreRef If True the name of the referenced
      * model group (if specified) is returned
      * @return the name of this element declaration
     **/
@@ -235,7 +235,7 @@ public class ModelGroup extends Group {
 
     /**
      * Returns the reference if any
-     * @returns the reference if any
+     * @return the reference if any
      */
      public ModelGroup getReference() {
         ModelGroup result = null;
@@ -262,7 +262,7 @@ public class ModelGroup extends Group {
 
      /**
       * Returns true if this ModelGroup is referencing another one
-      * @returns true if this ModelGroup is referencing another one
+      * @return true if this ModelGroup is referencing another one
       */
      public boolean hasReference() {
        return (_groupRef != null)

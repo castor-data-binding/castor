@@ -100,7 +100,6 @@ public class AttributeGroupUnmarshaller extends ComponentReader {
      * Creates a new AttributeGroupUnmarshaller
      * @param schema the Schema to which the AttributeGroup belongs
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
     public AttributeGroupUnmarshaller(Schema schema, AttributeSet atts)
         throws XMLException

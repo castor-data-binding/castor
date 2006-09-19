@@ -115,7 +115,7 @@ public interface Persistence {
      * locked in persistence storage to prevent concurrent updates.
      *
      * @param conn An open connection
-     * @param fields The fields to load into
+     * @param proposedObject The fields to load into
      * @param identity object's identity
      * @param accessMode The access mode (null equals shared)
      * @return The object's stamp, or null

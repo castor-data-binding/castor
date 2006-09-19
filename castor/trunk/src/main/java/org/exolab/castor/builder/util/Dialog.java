@@ -52,17 +52,17 @@ package org.exolab.castor.builder.util;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
 **/
 public interface Dialog {
-    
-    
+
+
     /**
      * Presents a confirmation prompt with the given message.
      *
-     * @param message, the confirmation prompt message to display
+     * @param message the confirmation prompt message to display
      * @return true if the user has selected a positive confirmation,
      * otherwise false
     **/
     public boolean confirm(String message);
-    
+
     /**
      * Presents a confirmation prompt for values with the
      * given messge.
@@ -72,19 +72,19 @@ public interface Dialog {
      * @return whatever character the user presses
     **/
     public char confirm(String message, String values);
-    
+
     /**
      * Presents a confirmation prompt for values with the
      * given messge.
      *
      * @param message the confirmation prompt to display
      * @param values a list of valid characters to accept
-     * @param help a simple help message that can be associated with the 
+     * @param help a simple help message that can be associated with the
      * message to give additional details about the prompt.
      * @return whatever character the user presses
     **/
     public char confirm(String message, String values, String help);
-    
+
     /**
      * Simply displays a message to the user, no input is returned from
      * the user.
@@ -92,6 +92,6 @@ public interface Dialog {
      * @param message the message to display to the user
      */
     public void notify(String message);
-    
+
 
 } //-- Dialog

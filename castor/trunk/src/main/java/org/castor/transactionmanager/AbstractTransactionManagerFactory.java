@@ -56,8 +56,8 @@ implements TransactionManagerFactory {
     
     /**
      * {@inheritDoc}
-     * @see org.exolab.castor.jdo.transactionmanager.TransactionManagerFactory
-     *      #getTransactionManager(org.exolab.castor.jdo.conf.JdoConf)
+     * @see org.castor.transactionmanager.TransactionManagerFactory#getTransactionManager(
+     *      java.util.Properties)
      */
     public final TransactionManager getTransactionManager(final Properties properties)
     throws TransactionManagerAcquireException {

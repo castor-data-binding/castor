@@ -152,8 +152,8 @@ public abstract class AbstractDatabaseImpl
     }
 
     /**
-     * Returns the {@see LockEngine} in use by this database instance. 
-     * @return
+     * Returns the {@link LockEngine} in use by this database instance. 
+     * @return the {@link LockEngine} in use by this database instance.
      */
     LockEngine getLockEngine() {
         return _scope.getLockEngine();
@@ -403,7 +403,7 @@ public abstract class AbstractDatabaseImpl
 
     /**
      * @inheritDoc
-     * @see org.exolab.castor.jdo.Database#getNamedQuery()
+     * @see org.exolab.castor.jdo.Database#getNamedQuery(java.lang.String)
      */
     public OQLQuery getNamedQuery(final String name) throws PersistenceException {
         String oql = _ctx.getNamedQuery(_scope.findClassMolderByQuery(name), name);

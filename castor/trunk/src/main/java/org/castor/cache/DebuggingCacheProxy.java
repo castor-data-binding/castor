@@ -55,7 +55,7 @@ public final class DebuggingCacheProxy implements Cache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         _cache.initialize(params);

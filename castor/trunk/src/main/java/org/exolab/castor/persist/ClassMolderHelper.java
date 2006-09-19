@@ -38,7 +38,6 @@ public final class ClassMolderHelper {
     /**
      * Resolve and construct all the <tt>ClassMolder</tt>s given a MappingLoader.
      *
-     * @param   loader    MappingLoader for the LockEngine
      * @param   lock      LockEngine for all the ClassMolder
      * @param   factory   factory class for getting Persistent of the ClassMolder
      *
@@ -127,7 +126,7 @@ public final class ClassMolderHelper {
     /**
      * Utility method to compare collections for equality
      * @param c1 collection one.
-     * @param c2collection two.
+     * @param c2 collection two.
      * @return True if the collections are equal.
      */
     public static boolean isEquals(final Collection c1, final Collection c2) {

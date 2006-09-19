@@ -123,8 +123,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
 
     } //-- EnumFieldHandler
 
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#convertUponGet(java.lang.Object)
      */
     public Object convertUponGet(Object value)
@@ -134,8 +133,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
 
     } //-- getValue
 
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#convertUponSet(java.lang.Object)
      */
     public Object convertUponSet(Object value)
@@ -161,8 +159,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
     } //-- setValue
     
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#getFieldType()
      */
     public Class getFieldType() {
@@ -170,8 +167,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
     }
 
 
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.FieldHandler#newInstance(java.lang.Object)
      */
     public Object newInstance( Object parent )
@@ -180,9 +176,9 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
         return "";
     } //-- newInstance
     
-    /*
-     *  (non-Javadoc)
-     * @see org.exolab.castor.mapping.ExtendedFieldHandler#newInstance(java.lang.Object, java.lang.Object[])
+    /**
+     * @see org.exolab.castor.mapping.ExtendedFieldHandler#newInstance(java.lang.Object,
+     *      java.lang.Object[])
      */
     public Object newInstance( Object parent, Object[] args )
         throws IllegalStateException

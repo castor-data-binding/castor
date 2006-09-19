@@ -79,7 +79,7 @@ public final class URIException extends Exception {
      * Creates a new URIException
      *
      * @param message the explaination for this exception
-     * @param exception, an optional nested exception, most
+     * @param exception an optional nested exception, most
      * likely, the exception which caused this exception.
      **/
     public URIException( String message, Exception exception ) {

@@ -14,7 +14,7 @@
        caching, queries, transactions and concurrency, etc. This layer is shared by all persistence
        engine and exposes a unified interface for use as a persistence engine for EJB CMP.</p>
 
-    <p>An application API will use a {@link org.exolab.castor.persist.TransactionContext} in order
+    <p>An application API will use a {@link org.castor.persist.TransactionContext} in order
        to perform operations. All operations against the persistence engine are transactional.
        The persistence engine is obtained through the {@link org.exolab.castor.persist.PersistenceEngineFactory}
        class which returns a {@link org.exolab.castor.persist.LockEngine}. The factory requires

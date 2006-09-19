@@ -109,7 +109,7 @@ public final class OsCache extends AbstractBaseCache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         super.initialize(params);

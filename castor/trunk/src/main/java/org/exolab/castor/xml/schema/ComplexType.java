@@ -64,8 +64,8 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     private boolean _abstract = false;
 
     /**
-     * A wildcard that represents an <anyAttribute> element if any.
-     * Only one <anyAttribute> can appear inside the global scope of
+     * A wildcard that represents an {@literal <anyAttribute>} element if any.
+     * Only one {@literal <anyAttribute>} can appear inside the global scope of
      * a complexType
     **/
     private Wildcard _anyAttribute = null;
@@ -332,9 +332,9 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
    /**
     * A helper method that returns true if this complexType
-    * contains an <any> element.
+    * contains an {@literal <any>} element.
     * @return  method that returns true if this complexType
-    * contains an <any> element.
+    * contains an {@literal <any>} element.
     */
     public boolean hasAny() {
         boolean result = false;
@@ -387,7 +387,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
 	/**
 	 * Returns true if this complexType is a 'complexContent'
-	 * @returns true if this complexType is a 'complexContent'
+	 * @return true if this complexType is a 'complexContent'
 	 */
 	public boolean isComplexContent() {
 	       return _complexContent;
@@ -395,7 +395,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
 	/**
 	 * Returns true if this complexType is a 'simpleContent'
-	 * @returns true if this complexType is a 'simpleContent'
+	 * @return true if this complexType is a 'simpleContent'
 	 */
 	public boolean isSimpleContent() {
 	       return (!_complexContent);
@@ -403,7 +403,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
 	/**
 	 * Returns true if this complexType is a restriction
-	 * @returns true if this complexType is a restriction
+	 * @return true if this complexType is a restriction
 	 */
 	public boolean isRestricted() {
         return _restricted;
@@ -422,7 +422,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     /**
      * Sets the wildcard (anyAttribute) of the complexType
      * @exception SchemaException thrown when a wildcard as already be set
-     * or when the wildCard is not an <anyAttribute>.
+     * or when the wildCard is not an {@literal <anyAttribute>}.
      */
      public void setAnyAttribute(Wildcard wildcard)
             throws SchemaException
@@ -446,7 +446,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
     /**
      * Removes the given Wildcard from this Group.
-     * @param wilcard the Wildcard to remove.
+     * @param wildcard the Wildcard to remove.
      * @return true if the wildcard has been successfully removed, false otherwise.
      */
      public boolean removeWildcard(Wildcard wildcard) {
@@ -589,7 +589,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 	}
 	/**
 	 * Sets whether or not this complexType is a 'simpleContent'
-	 * @param complexContent true if this complexType is a 'simpleContent'
+	 * @param simpleContent true if this complexType is a 'simpleContent'
 	 */
 	public void setSimpleContent(boolean simpleContent) {
 	    _complexContent = (!simpleContent);
@@ -597,7 +597,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
 	/**
 	 * Sets whether or not this complexType is a restriction
-	 * @param complexContent true if this complexType is a restriction
+	 * @param restricted true if this complexType is a restriction
 	 */
 	public void setRestriction(boolean restricted) {
 	       this._restricted = restricted;
@@ -629,7 +629,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
     /**
      * Removes the given ElementDecl from this ContentModelGroup.
-     * @param elementDecl the ElementDecl to remove.
+     * @param element the ElementDecl to remove.
      * @return true if the element has been successfully removed, false otherwise.
      */
      public boolean removeElementDecl(ElementDecl element) {
@@ -756,7 +756,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     /**
      * Returns the Particle at the specified index
      * @param index the index of the particle to return
-     * @returns the CMParticle at the specified index
+     * @return the CMParticle at the specified index
     **/
     public Particle getParticle(int index) {
         Particle result = _contentModel.getParticle(index);

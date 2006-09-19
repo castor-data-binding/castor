@@ -109,13 +109,11 @@ public final class DefaultNaming extends XMLNaming {
      * common "de-facto" XML naming conventions. This can be overridden
      * by either extending org.exolab.castor.xml.Naming and implementing
      * the proper methods, or by ClassDescriptors for your classes.
-     * @param name the String to convert to an XML name
+     * 
+     * @param c the Class to create the XML Name for
      * @return the xml name representation of the given String
      * <BR><B>examples:</B><BR>
      * "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * 
-     * @param c the Class to create the XML Name for
-     * @return the xml name for the given class
      * @see org.exolab.castor.xml.XMLNaming
     **/
     public String createXMLName(Class c) {
@@ -136,7 +134,7 @@ public final class DefaultNaming extends XMLNaming {
      * @return the xml name representation of the given String
      * <BR><B>examples:</B><BR>
      * "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * @ see org.exolab.castor.xml.Naming
+     * @see org.exolab.castor.xml.Naming
      **/
     public String toXMLName(String name) {
         

@@ -127,7 +127,7 @@ public final class AnyType extends XMLType {
     /**
      * Overrides XMLType#setBaseType(), anyType cannot have a Base type.
      *
-     * @param base the base type which this datatype inherits from
+     * @param baseType the base type which this datatype inherits from
      */
     public void setBaseType(XMLType baseType) {
         String error = "'anyType' cannot have a base type";

@@ -182,7 +182,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * Returns the array of JClass for the given Annotated structure
      * or null if no bindings have been specified for the given
      * Structure.
-     * 
+     * @param annotated the Annotated structure to search
      * @return the JClass array
      */
     public JClass[] getSourceCode(Annotated annotated) {
@@ -205,7 +205,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
     /**
      * Returns the Mapping file associated with 
      * the given filename
-     * 
+     * @param filename The filename to search for a Mapping File association
      * @return the Mapping file
      */
     public MappingRoot getMapping(String filename) {
@@ -275,6 +275,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
     /**
      * Returns true if the given JClass has been marked as processed
      * @param jClass the JClass to check for being marked as processed
+     * @return true if the given JClass has been marked as processed
     **/
     boolean processed(JClass jClass) {
         return _processed.contains(jClass);
@@ -285,6 +286,8 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * processed
      *
      * @param className the JClass name to check against
+     * @return true if a JClass with the given name has been marked as 
+     * processed
      */
     boolean processed(String className) {
         for (int i = 0; i < _processed.size(); i++) {
@@ -310,6 +313,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
     
     /**
      * Returns the SourceGenerator instance being used
+     * @return the SourceGenerator instance being used
      */
     SourceGenerator getSourceGenerator() {
         return _sgen;

@@ -154,9 +154,6 @@ public final class LockEngine {
      * Construct a new cache engine with the specified mapping table, 
      * persistence engine and the log interceptor.
      *
-     * @param  dbName       Name of database configuration.
-     * @param  mapResolver  Provides mapping information for objects
-     *                      supported by this cache
      * @param  persistenceFactory      Factory for creating persistence engines for each
      *                      object described in the map
      * @throws MappingException Indicate that one of the mappings is invalid
@@ -343,7 +340,7 @@ public final class LockEngine {
      *
      * @param tx The transaction context
      * @param oid The identity of the object to load
-     * @param object The type of the object to load
+     * @param proposedObject The type of the object to load
      * @param suggestedAccessMode The desired access mode
      * @param timeout The timeout waiting to acquire a lock on the
      *  object (specified in seconds)

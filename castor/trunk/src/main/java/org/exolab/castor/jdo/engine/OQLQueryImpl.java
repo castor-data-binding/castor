@@ -552,7 +552,7 @@ public class OQLQueryImpl
     }
 
     /**
-     * {@see java.util.Enumeration} implementation to traverse the result as returned by the
+     * {@link java.util.Enumeration} implementation to traverse the result as returned by the
      * execution of the OQL query.
      */
     class OQLEnumeration implements QueryResults, Enumeration

@@ -336,7 +336,7 @@ public final class SQLEngine implements Persistence {
      * locked in persistence storage to prevent concurrent updates.
      *
      * @param conn An open connection
-     * @param fields An Object[] to load field values into
+     * @param entity An Object[] to load field values into
      * @param identity Identity of the object to load.
      * @param accessMode The access mode (null equals shared)
      * @return The object's stamp, or null

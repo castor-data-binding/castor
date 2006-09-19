@@ -74,7 +74,7 @@ public interface DepositBox {
      *
      *  @param  tx the transaction in action
      *  @param  object to be store into deposit box
-     *  @throw  IllegalArgumentException if tx doesn't own the box
+     *  @throws  IllegalArgumentException if tx doesn't own the box
      *
      */
     public void setObject( TransactionContext tx, Object[] object );
@@ -85,7 +85,7 @@ public interface DepositBox {
      *
      *  @param  tx the transaction in action
      *  @return An object instance.
-     *  @throw  IllegalArgumentException if tx doesn't own the box
+     *  @throws  IllegalArgumentException if tx doesn't own the box
      */
     public Object[] getObject( TransactionContext tx ); 
 

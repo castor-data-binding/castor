@@ -60,7 +60,7 @@ public class Unique extends IdentityConstraint {
     /**
      * Creates a new Unique Identity-Constraint.
      *
-     * @param name, the name for the IdentityConstraint. Must not be null.
+     * @param name the name for the IdentityConstraint. Must not be null.
     **/
     public Unique(String name) 
         throws SchemaException

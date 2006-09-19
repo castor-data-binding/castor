@@ -150,6 +150,7 @@ public class ClassInfo extends XMLInfo {
 
     /**
      * Returns true if the given FieldInfo is contained within this ClassInfo
+     * @param fieldInfo the FieldInfo to check
      * @return true if the given FieldInfo is contained within this ClassInfo
     **/
     public boolean contains(FieldInfo fieldInfo) {
@@ -328,10 +329,10 @@ public class ClassInfo extends XMLInfo {
     }
     
     /**
-     * Sets the base class of this classInfo. A classInfo can indeed extend another
-     * classInfo to reflect the extension mechanism used in the XML Schema.
-     * 
-     * @param base The base class of this classInfo.
+     * Sets the base class of this classInfo.
+     * A classInfo can indeed extend another classInfo to reflect the extension
+     * mechanism used in the XML Schema
+     * @param base the base class of this classInfo.
      */
     public void setBaseClass(ClassInfo base) {
         _baseClass = base;

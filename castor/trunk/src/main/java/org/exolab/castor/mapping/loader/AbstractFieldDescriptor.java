@@ -37,8 +37,8 @@ public abstract class AbstractFieldDescriptor implements FieldDescriptor {
     //--------------------------------------------------------------------------
 
     /**
-     * @see org.exolab.castor.mapping.FieldDescriptor#
-     *      setContainingClassDescriptor(org.exolab.castor.mapping.ClassDescriptor)
+     * @see org.exolab.castor.mapping.FieldDescriptor#setContainingClassDescriptor(
+     *      org.exolab.castor.mapping.ClassDescriptor)
      * {@inheritDoc}
      */
     public final void setContainingClassDescriptor(final ClassDescriptor parent) {

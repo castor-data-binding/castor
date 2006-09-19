@@ -775,6 +775,7 @@ public class SourceFactory extends BaseFactory {
 
     /**
      * Initializes the given JClass
+     * @param jClass the JClass to initialize
     **/
     private void initialize(JClass jClass) {
 
@@ -918,6 +919,7 @@ public class SourceFactory extends BaseFactory {
     /**
      * Creates the #marshal methods for the given JClass
      * @param parent the JClass to create the #marshal methods for
+     * @param isAbstract true if the generated Class should be marked abstract
     **/
     private void createMarshalMethods(JClass parent, boolean isAbstract) {
 
@@ -2066,16 +2068,20 @@ public class SourceFactory extends BaseFactory {
     
 
     /**
-     * Attempts to translate a simpleType enumeration value into a legal
-     * java identifier.  Translation is through a couple of simple rules:
-     *   - if the value parses as a non-negative int, the string 'VALUE_' is
-     *     prepended to it
-     *   - if the value parses as a negative int, the string 'VALUE_NEG_' is
-     *     prepended to it
-     *   - the value is uppercased
-     *   - the characters <code>[](){}<>'`"</code> are removed
-     *   - the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any whitespace are replaced with <code>_</code>
-     * @author rhett-sutphin@uiowa.edu 
+     * Attempts to translate a simpleType enumeration value into a legal java
+     * identifier. Translation is through a couple of simple rules:
+     * <ul>
+     *   <li>if the value parses as a non-negative int, the string 'VALUE_' is
+     *       prepended to it</li>
+     *   <li>if the value parses as a negative int, the string 'VALUE_NEG_' is
+     *       prepended to it</li>
+     *   <li>the value is uppercased</li>
+     *   <li>the characters <code>[](){}<>'`"</code> are removed</li>
+     *   <li>the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any
+     *       whitespace are replaced with <code>_</code></li>
+     * </ul>
+     * 
+     * @author rhett-sutphin@uiowa.edu
      */
     private String translateEnumValueToIdentifier(String enumValue) 
     {
@@ -2238,5 +2244,3 @@ public class SourceFactory extends BaseFactory {
     } //-- escapeValue
 
 } //-- SourceFactory
-
-

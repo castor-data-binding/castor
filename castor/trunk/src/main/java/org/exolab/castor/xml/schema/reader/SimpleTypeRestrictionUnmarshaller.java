@@ -100,9 +100,8 @@ public class SimpleTypeRestrictionUnmarshaller extends ComponentReader {
 
     /**
      * Creates a new RestrictionUnmarshaller
-     * @param simpleType, the SimpleType being unmarshalled
+     * @param typeDefinition the SimpleType being unmarshalled
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
     public SimpleTypeRestrictionUnmarshaller
         (SimpleTypeDefinition typeDefinition, AttributeSet atts)

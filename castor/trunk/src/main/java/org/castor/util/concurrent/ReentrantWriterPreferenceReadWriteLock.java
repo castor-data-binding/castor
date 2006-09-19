@@ -57,7 +57,7 @@ import java.util.HashMap;
  * href="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html">
  * Introduction to this package. </a>]
  * 
- * @see ReentrantLock
+ * @see java.util.concurrent.locks.ReentrantLock
  */
 
 public class ReentrantWriterPreferenceReadWriteLock

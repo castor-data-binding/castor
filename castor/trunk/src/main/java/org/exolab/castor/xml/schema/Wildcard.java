@@ -53,8 +53,8 @@ import org.exolab.castor.xml.ValidationException;
 
 /**
  * A class that represents an XML Schema Wildcard.
- * A wilcard is represented by the XML elements <any> and
- * <anyAttribute> and can be hold in a complexType or in
+ * A wilcard is represented by the XML elements {@literal <any>} and
+ * {@literal <anyAttribute>} and can be hold in a complexType or in
  * a ModelGroup (<group>).
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
@@ -71,8 +71,8 @@ public class Wildcard extends Particle {
 
     /**
      * A boolean that indicates if this wildcard represents
-     * <anyAttribute>.
-     * By default a wildcard represents <any>
+     * {@literal <anyAttribute>}.
+     * By default a wildcard represents {@literal <any>}
      */
     private boolean _attribute = false;
 
@@ -99,7 +99,7 @@ public class Wildcard extends Particle {
 
     /**
      * The wildcard is embedded in a complexType
-     * @param ComplexType the complexType that contains this wildcard
+     * @param complexType the complexType that contains this wildcard
      */
     public Wildcard(ComplexType complexType) {
         _complexType = complexType;
@@ -139,7 +139,7 @@ public class Wildcard extends Particle {
 
     /**
      * add a namespace
-     * @param String the namespace to add
+     * @param Namespace the namespace to add
      */
      public void addNamespace(String Namespace) {
          _namespaces.addElement(Namespace);
@@ -248,15 +248,15 @@ public class Wildcard extends Particle {
 
 
     /**
-     * Returns true if this wildcard represents <anyAttribute> otherwise false
-     * @return true if this wildcard represents <anyAttribute> otherwise false
+     * Returns true if this wildcard represents {@literal <anyAttribute>} otherwise false
+     * @return true if this wildcard represents {@literal <anyAttribute>} otherwise false
      */
      public boolean isAttributeWildcard() {
          return _attribute;
      }
 
     /**
-     * Sets this wildcard to represent <anyAttribute>
+     * Sets this wildcard to represent {@literal <anyAttribute>}
      */
     public void setAttributeWildcard() {
          _attribute = true;

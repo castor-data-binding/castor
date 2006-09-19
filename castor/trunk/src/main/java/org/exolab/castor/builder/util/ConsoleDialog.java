@@ -52,19 +52,19 @@ package org.exolab.castor.builder.util;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
 **/
 public class ConsoleDialog implements Dialog {
-    
-    
+
+
     /**
      * Creates a new Console Dialog
     **/
     public ConsoleDialog () {
         super();
     } //-- ConsoleDialog
-    
+
     /**
      * Presents a confirmation prompt with the given message.
      *
-     * @param message, the confirmation prompt message to display
+     * @param message the confirmation prompt message to display
      * @return true if the user has selected a positive confirmation,
      * otherwise false
     **/
@@ -101,11 +101,12 @@ public class ConsoleDialog implements Dialog {
         }
         return false;
     } //-- confirm
-    
+
     /**
      * Returns a single char from System.in.
      * @return the character entered, or null if more than one was
      * entered (not including EOLs)
+     * @throws java.io.IOException if one is encountered in System.in.read()
     **/
     private int getChar()
         throws java.io.IOException
@@ -124,7 +125,7 @@ public class ConsoleDialog implements Dialog {
         }
         return ch;
     }
-    
+
     /**
      * Presents a confirmation prompt for values with the
      * given messge.
@@ -137,7 +138,7 @@ public class ConsoleDialog implements Dialog {
     {
         return confirm(message, values, "no help available...");
     }
-    
+
     /**
      * Presents a confirmation prompt for values with the
      * given messge
@@ -175,7 +176,7 @@ public class ConsoleDialog implements Dialog {
         }
         return '\0';
     }
-    
+
     /**
      * Displays the given message to the user. No input is returned from
      * the user.
@@ -185,7 +186,7 @@ public class ConsoleDialog implements Dialog {
     public void notify(String message) {
         System.out.println(message);
     } //-- notify
-    
+
     /**
      * Converts a list of characters into a delimited prompt.  A '?'
      * is automatically put at the end.
@@ -201,7 +202,7 @@ public class ConsoleDialog implements Dialog {
         sb.append("?)");
         return sb.toString();
     }
-    
+
     /**
      * Creates a list of valid input options to give a better
      * explanation to the user.

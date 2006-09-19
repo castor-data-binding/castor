@@ -39,7 +39,7 @@ public abstract class AbstractBaseCache implements Cache {
     
     /**
      * {@inheritDoc}
-     * @see org.castor.cache.Cache#initialize(java.util.Map)
+     * @see org.castor.cache.Cache#initialize(java.util.Properties)
      */
     public void initialize(final Properties params) throws CacheAcquireException {
         String param = params.getProperty(Cache.PARAM_NAME, Cache.DEFAULT_NAME);

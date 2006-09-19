@@ -63,39 +63,35 @@ public class TransientFieldHandler extends AbstractFieldHandler {
     	super();
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.FieldHandler#getValue(java.lang.Object)
      */
     public Object getValue(Object target) {
     	return null;
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.FieldHandler#newInstance(java.lang.Object)
      */
     public Object newInstance(Object target) {
        return null; 
     }
     
-    /*
-     *  (non-Javadoc)
-     * @see org.exolab.castor.mapping.ExtendedFieldHandler#newInstance(java.lang.Object, java.lang.Object[])
+    /**
+     * @see org.exolab.castor.mapping.ExtendedFieldHandler#newInstance(java.lang.Object,
+     *      java.lang.Object[])
      */
     public Object newInstance(Object target, Object[] args) {
     	return null;
     }
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.FieldHandler#setValue(java.lang.Object, java.lang.Object)
      */
     public void setValue(Object target, Object value) {
     	//-- do nothing
     }
     
-    /*
-     *  (non-Javadoc)
+    /**
      * @see org.exolab.castor.mapping.FieldHandler#resetValue(java.lang.Object)
      */
     public void resetValue(Object target) {

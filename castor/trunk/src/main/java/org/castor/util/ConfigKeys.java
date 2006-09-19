@@ -25,12 +25,13 @@ package org.castor.util;
  * @since 1.0.1
  */
 public final class ConfigKeys {
-    /** Property listing all available {@link Cache} implementations 
+    /** Property listing all available {@link org.castor.cache.Cache} implementations 
      *  (<tt>org.castor.cache.Factories</tt>). */
     public static final String CACHE_FACTORIES =
         "org.castor.cache.Factories";
 
-    /** Property listing all the available {@link TransactionManagerFactory}
+    /** Property listing all the available
+     * {@link org.castor.transactionmanager.TransactionManagerFactory}
      *  implementations (<tt>org.castor.transaction.TransactionManagerFactories</tt>). */
     public static final String TRANSACTION_MANAGER_FACTORIES =
         "org.castor.transactionmanager.Factories";
@@ -61,7 +62,8 @@ public final class ConfigKeys {
     public static final String PERSISTENCE_FACTORIES = 
         "org.exolab.castor.jdo.engines";
 
-    /** Property listing all the available {@link TxSynchronizable}
+    /** Property listing all the available
+     * {@link org.exolab.castor.persist.TxSynchronizable}
      *  implementations (<tt>org.exolab.castor.persit.TxSynchronizable</tt>). */
     public static final String TX_SYNCHRONIZABLE =
         "org.exolab.castor.persist.TxSynchronizable";
@@ -77,8 +79,8 @@ public final class ConfigKeys {
     public static final String USE_JDBC_PROXIES =
         "org.exolab.castor.persist.useProxies";
 
-    /** Property listing all available {@link MappingLoader} implementations 
-     *  (<tt>org.castor.mapping.Loaders</tt>). */
+    /** Property listing all available {@link org.exolab.castor.mapping.MappingLoader}
+     * implementations (<tt>org.castor.mapping.Loaders</tt>). */
     public static final String MAPPING_LOADER_FACTORIES =
         "org.castor.mapping.loaderFactories";
 

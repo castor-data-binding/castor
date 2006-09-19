@@ -117,7 +117,7 @@ class SimpleTypeReference extends SimpleType {
      * SimpleType#setSchema method to prevent the Schema from being
      * changed.
      *
-     * @param the schema that this Union belongs to.
+     * @param name the schema that this Union belongs to.
     **/
     public void setName(String name) {
         if (name != getName()) {
@@ -131,7 +131,7 @@ class SimpleTypeReference extends SimpleType {
      * SimpleType#setSchema method to prevent the Schema from being
      * changed.
      *
-     * @param the schema that this SimpleType that is being referenced 
+     * @param schema the schema that this SimpleType that is being referenced 
      * belongs to.
     **/
     public void setSchema(Schema schema) {

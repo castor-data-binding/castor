@@ -130,8 +130,7 @@ public class CollectionFieldHandler extends XMLFieldHandler {
     /**
      * Gets the value of the field associated with this descriptor.
      * If the value is an array, it returns a string 'representing' this array
-     * @param target the object in which to set the value
-     * @param value the value of the field
+     * @param target the object from which to get the value
     **/
     public Object getValue(Object target)
         throws java.lang.IllegalStateException

@@ -87,7 +87,7 @@ public class DurationValidator implements TypeValidator {
 
     /**
      * Sets the minimum exclusive value that this Duration can hold.
-     * @param max the minimum exclusive value this Duration can be
+     * @param min the minimum exclusive value this Duration can be
      * @see #setMinInclusive
     **/
     public void setMinExclusive(Duration min) {
@@ -97,7 +97,7 @@ public class DurationValidator implements TypeValidator {
 
     /**
      * Sets the minimum inclusive value that this Duration can hold.
-     * @param max the minimum inclusive value this Duration can be
+     * @param min the minimum inclusive value this Duration can be
      * @see #setMinExclusive
     **/
     public void setMinInclusive(Duration min) {
@@ -107,8 +107,8 @@ public class DurationValidator implements TypeValidator {
 
     /**
      * Validate a duration instance
-     * @param duation the duration to validate
-     * @throw ValidationException
+     * @param duration the duration to validate
+     * @throws ValidationException
      */
     public void validate(Duration duration) throws ValidationException {
 

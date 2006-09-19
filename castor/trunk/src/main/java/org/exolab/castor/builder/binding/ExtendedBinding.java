@@ -70,7 +70,7 @@ import java.util.Hashtable;
  *            &lt;xsd:complextype&gt;
  *                &lt;xsd:attribute name="bar" type="xsd:string"/&gt;
  *            &lt;/xsd:complextype&gt;
- *        &lt;/xsd:element&gt;>
+ *        &lt;/xsd:element&gt;
  *    </pre>
  * </blockquote>
  * The path to identify the attribute 'bar' will be:

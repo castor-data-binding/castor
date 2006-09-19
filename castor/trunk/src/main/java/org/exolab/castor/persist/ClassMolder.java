@@ -160,12 +160,12 @@ public class ClassMolder {
     private AccessMode _accessMode;
 
     /**
-     * Associated {@see Persistence} instance.
+     * Associated {@link Persistence} instance.
      */
     private Persistence _persistence;
 
     /**
-     * Associated {@see LockEngine} instance.
+     * Associated {@link LockEngine} instance.
      */
     private LockEngine _engine;
 
@@ -200,7 +200,7 @@ public class ClassMolder {
     private int _priority = -1;
 
     /**
-     * True if all {@see ResolverStrategy} have been reset.
+     * True if all {@link ResolverStrategy} have been reset.
      */
     boolean resolversHaveBeenReset = false;
         
@@ -1417,7 +1417,7 @@ public class ClassMolder {
      * Inspect the fields stored in the object passed as an argument for
      * contained objects.  Request an expireCache for each contained object.
      *
-     * @param tx The {@link org.exolab.castor.persist.TransactionContext}
+     * @param tx The {@link org.castor.persist.TransactionContext}
      * @param locker The object that contains the fields to be inspected
      */
     public void expireCache( TransactionContext tx, ObjectLock locker ) 

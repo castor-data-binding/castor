@@ -3,7 +3,7 @@
     <title>Castor cache package</title>
   </head>
   <body>
-    <p>As explained in {@link org.exolab.castor.jdo.persist},
+    <p>As explained in {@link org.exolab.castor.persist},
        {@link org.exolab.castor.persist.LockEngine} implements a persistence engine
        that caches objects in memory for performance reasons and thus eliminates the
        number of operations against the persistence storage.
@@ -12,10 +12,10 @@
       <dt><b>Author: </b></dt><dd><a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a></dd>
     </dl>
 
-    <p>The main component of this package is the interface {@link Cache.java}, which declares
+    <p>The main component of this package is the interface {@link org.castor.cache.Cache}, which declares
        the external functionality of a performance cache. Existing (and future) cache engines
        have to implement this interface, which extends {@link java.util.Map}. To obtain an
-       instance of a particular cache engine, use {@link CacheFactoryRegistry} and its
+       instance of a particular cache engine, use {@link org.castor.cache.CacheFactoryRegistry} and its
        factory methods.</p>
 
     <p>The remainder of this package are exceptions associated with cache interaction, an
@@ -70,13 +70,13 @@ org.castor.cache.Factories=\
 
     <p>In addition, you will have to provide the cache implementation and a CacheFactory
        implementation for your new cache instance. For this, please add an implementation
-       of {@link CacheFactory} and make sure that you provide valid values for the two
+       of {@link org.castor.cache.CacheFactory} and make sure that you provide valid values for the two
        properties <i>name</i> and <i>className</i>.</p>
 
-    <p>To assist users in this task, a {@link AbstractCacheFactory} class has been supplied, which users
-       should derive their custom {@link CacheFactory} instances from, if they wish so. Please consult
-       existing {@link CacheFactory} implementations such as {@link TimeLimitedFactory}
-       or {@link CountLimitedFactory} for code samples.</p>
+    <p>To assist users in this task, a {@link org.castor.cache.AbstractCacheFactory} class has been supplied, which users
+       should derive their custom {@link org.castor.cache.CacheFactory} instances from, if they wish so. Please consult
+       existing {@link org.castor.cache.CacheFactory} implementations such as {@link org.castor.cache.simple.TimeLimitedFactory}
+       or {@link org.castor.cache.simple.CountLimitedFactory} for code samples.</p>
 
 <pre>
 /**

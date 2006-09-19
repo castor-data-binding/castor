@@ -105,9 +105,9 @@ public class Group extends Particle implements ContentModelGroup, Referable {
 
     /**
      * Adds a wildcard to this Group model
-     * @param WildCard the wildcard to add
+     * @param wildcard the Wildcard to add
      * @exception SchemaException thrown when the wildcard
-     * is an <anyAttribute> element
+     * is an {@literal <anyAttribute>} element
      */
      public void addWildcard(Wildcard wildcard)
           throws SchemaException
@@ -119,7 +119,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
 
     /**
      * Removes the given Wildcard from this Group.
-     * @param wilcard the Wildcard to remove.
+     * @param wildcard the Wildcard to remove.
      * @return true if the wildcard has been successfully removed, false otherwise.
      */
      public boolean removeWildcard(Wildcard wildcard) {
@@ -198,7 +198,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     /**
      * Tells if the group is a model group definition
      * @return true if the group is a model group definition (<group> tag), false
-     * otherwise (<all>, <choice>, or <sequence> tags.
+     * otherwise {@literal <all>}, <choice>, or <sequence> tags.
      * @deprecated Since Castor 0.9.2, to handle properly the <group>
      * element the class ModelGroup has been created
 
@@ -263,7 +263,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
 
     /**
      * Removes the given ElementDecl from this ContentModelGroup.
-     * @param elementDecl the ElementDecl to remove.
+     * @param element the ElementDecl to remove.
      * @return true if the element has been successfully removed, false otherwise.
      */
      public boolean removeElementDecl(ElementDecl element) {
@@ -363,7 +363,7 @@ public class Group extends Particle implements ContentModelGroup, Referable {
     /**
      * Returns the Particle at the specified index
      * @param index the index of the particle to return
-     * @returns the CMParticle at the specified index
+     * @return the CMParticle at the specified index
     **/
     public Particle getParticle(int index) {
         //-- Some trickery to properly handle
@@ -411,9 +411,9 @@ public class Group extends Particle implements ContentModelGroup, Referable {
 
    /**
     * A helper method that returns true if this group
-    * contains an <any> element.
+    * contains an {@literal <any>} element.
     * @return  method that returns true if this group
-    * contains an <any> element.
+    * contains an {@literal <any>} element.
     */
     public boolean hasAny() {
         boolean result = false;

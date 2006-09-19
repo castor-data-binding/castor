@@ -501,7 +501,7 @@ abstract class MarshalFramework {
          * descriptor is available.
          *
          * @param name the xml name to match against
-         * @param nodeType, the NodeType to match against, or null if
+         * @param nodeType the NodeType to match against, or null if
          * the node type is not known.
          * @return the matching descriptor, or null if no matching
          * descriptor is available.
@@ -573,10 +573,9 @@ abstract class MarshalFramework {
             return Introspector.introspected(_classDesc);
         } //-- introspected
         
-        /*
-         *  (non-Javadoc)
-         * @see org.exolab.castor.xml.XMLClassDescriptor#canAccept
-         * (java.lang.String, java.lang.String, java.lang.Object)
+        /**
+         * @see org.exolab.castor.xml.XMLClassDescriptor#canAccept(
+         *      java.lang.String, java.lang.String, java.lang.Object)
          */
         public boolean canAccept(String name,String namespace, Object object) {
             return _classDesc.canAccept(name, namespace, object);

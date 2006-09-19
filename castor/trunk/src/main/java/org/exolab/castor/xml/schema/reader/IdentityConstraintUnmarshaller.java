@@ -98,8 +98,8 @@ public class IdentityConstraintUnmarshaller extends ComponentReader {
     /**
      * Creates a new IdentityConstraintUnmarshaller
      *
+     * @param elementName the resolver being used for reference resolving
      * @param atts the AttributeList
-     * @param resolver the resolver being used for reference resolving
     **/
     public IdentityConstraintUnmarshaller
         (String elementName, AttributeSet atts)

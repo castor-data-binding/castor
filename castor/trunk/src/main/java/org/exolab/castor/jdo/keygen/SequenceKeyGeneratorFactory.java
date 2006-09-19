@@ -76,8 +76,8 @@ public final class SequenceKeyGeneratorFactory implements KeyGeneratorFactory
 {
     /**
      * Produce the key generator.
-     * @factory Helper object for obtaining database-specific QuerySyntax.
-     * @params Parameters for key generator.
+     * @param factory Helper object for obtaining database-specific QuerySyntax.
+     * @param params Parameters for key generator.
      */
     public KeyGenerator getKeyGenerator( PersistenceFactory factory,
             Properties params, int sqlType )

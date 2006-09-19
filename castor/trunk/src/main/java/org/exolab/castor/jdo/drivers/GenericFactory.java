@@ -98,8 +98,7 @@ public class GenericFactory
  	/**
  	 * Updated to handle input such as user.tablename.column
  	 *
-	 * @author Andrew Ballanger
-	 * @date 3/15/2001
+	 * @author Andrew Ballanger, 3/15/2001
 	 */
 	protected final String doubleQuoteName(String name)
 	{

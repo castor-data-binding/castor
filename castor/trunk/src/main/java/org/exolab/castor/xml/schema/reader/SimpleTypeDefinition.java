@@ -188,7 +188,7 @@ class SimpleTypeDefinition {
      * Sets the base type for this SimpleTypeDefinition. This
      * method is mutually exclusive with #setBaseType
      * 
-     * @param baseType the base type for this SimpleTypeDefinition
+     * @param baseTypeName the base type for this SimpleTypeDefinition
     **/
     void setBaseTypeName(String baseTypeName) {
         _baseTypeName = baseTypeName;

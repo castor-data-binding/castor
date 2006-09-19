@@ -59,7 +59,7 @@ import java.io.StringWriter;
 /**
  * A class used to represent an XML node.
  * This is an alternative to DOM which is too heavy for
- * our purpose (mainly handle XML Fragment when <any> is used in
+ * our purpose (mainly handle XML Fragment when {@literal <any>} is used in
  * an XML schema).
  * The model is based on XPath Node.
  * An AnyNode can be a:

@@ -25,7 +25,8 @@ import org.exolab.castor.persist.spi.PersistenceQuery;
  * database. The transaction context is mapped to an API transaction or an XA
  * transaction. The only way to begin a new transaction is through the creation
  * of a new transaction context. A transaction context is created from an
- * implementation class directly or through {@link XAResourceImpl}.
+ * implementation class directly or through
+ * {@link org.exolab.castor.persist.XAResourceImpl}.
  * 
  * @author <a href="arkin@intalio.com">Assaf Arkin </a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
@@ -214,7 +215,7 @@ public interface TransactionContext {
      * object within the transaction will return the same object instance (except
      * for read-only access).
      * <p>
-     * In addition to {@link #load(LockEngine,ClassMolder,Object,Object,AccessMode)}
+     * In addition to {@link #load(Identity,ProposedEntity,AccessMode)}
      * a QueryResults can be specified.
      * 
      * @param identity The object's identity.

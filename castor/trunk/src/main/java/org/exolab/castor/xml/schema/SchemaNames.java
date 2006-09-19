@@ -238,7 +238,7 @@ public class SchemaNames {
      * Determines whether or not the given name is the name
      * of an XML Schema namespace attributes.
      * Note: it assumes that the URI used are valid URL
-     * @todo: change the above restriction
+     * TODO: change the above restriction
      * @param name the name to test
      * @return true if the given name is the name of a schema group
     **/
