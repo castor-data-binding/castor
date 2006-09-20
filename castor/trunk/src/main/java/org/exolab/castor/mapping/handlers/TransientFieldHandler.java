@@ -55,7 +55,7 @@ import org.exolab.castor.mapping.AbstractFieldHandler;
  * to create a FieldDescriptor, but not use a real FieldHandler
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">kvisco</a>
- * @revision $Revision$ $Date: 2005-01-17 14:35:07 -0700 (Mon, 17 Jan 2005) $
+ * @version $Revision$ $Date: 2005-01-17 14:35:07 -0700 (Mon, 17 Jan 2005) $
  */
 public class TransientFieldHandler extends AbstractFieldHandler {
     

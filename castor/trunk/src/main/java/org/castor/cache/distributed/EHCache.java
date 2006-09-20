@@ -34,7 +34,7 @@ import org.castor.cache.CacheAcquireException;
  * 
  * For more details of EHCache, see http://ehcache.sourceforge.net 
  * 
- * @see http://ehcache.sourceforge.net
+ * @see <a href="http://ehcache.sourceforge.net">the EHCache Home Page</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-26 00:09:10 +0200 (Mi, 26 Apr 2006) $
  * @since 1.0

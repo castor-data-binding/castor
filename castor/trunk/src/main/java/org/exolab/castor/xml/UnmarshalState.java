@@ -51,7 +51,7 @@ import java.util.HashSet;
  * The state information class for the UnmarshalHandler
  * 
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
- * @revision $Revision$ $Date: 2004-12-11 02:25:45 -0700 (Sat, 11 Dec 2004) $
+ * @version $Revision$ $Date: 2004-12-11 02:25:45 -0700 (Sat, 11 Dec 2004) $
  */
 class UnmarshalState {
     

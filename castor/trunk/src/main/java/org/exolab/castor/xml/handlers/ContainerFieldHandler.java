@@ -55,8 +55,8 @@ import org.exolab.castor.xml.util.ContainerElement;
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
- * @see FieldDescriptor
- * @see FieldHandler
+ * @see FieldDescriptor org.exolab.castor.mapping.FieldDescriptor
+ * @see FieldHandler .org.exolab.castor.mapping.FieldHandler
  */
 public final class ContainerFieldHandler implements FieldHandler
 {

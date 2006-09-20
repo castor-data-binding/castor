@@ -80,8 +80,8 @@ import org.exolab.castor.jdo.Database;
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-04-26 16:24:34 -0600 (Wed, 26 Apr 2006) $
- * @see TransactionContext
- * @see PersistenceQuery
+ * @see org.castor.persist.TransactionContext
+ * @see org.exolab.castor.persist.spi.PersistenceQuery
  */
 public interface Persistence {
     /**

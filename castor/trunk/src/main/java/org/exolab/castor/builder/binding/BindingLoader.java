@@ -65,7 +65,7 @@ import java.net.MalformedURLException;
  * This class is responsible for loading a binding document into an in-memory
  * representation that is meant to be used by the SourceGenerator.
  *
- * @todo:  Implement the enumeration handling
+ * TODO:  Implement the enumeration handling
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $

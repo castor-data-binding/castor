@@ -18,8 +18,8 @@ package org.castor.cache.hashbelt;
 import org.castor.cache.AbstractCacheFactory;
 
 /**
- * Implements {@link CacheFactory} for the {@link LRUHashbelt} implementation
- * of {@link Cache}.
+ * Implements {@link org.castor.cache.CacheFactory} for the {@link LRUHashbelt}
+ * implementation of {@link org.castor.cache.Cache}.
  *
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
