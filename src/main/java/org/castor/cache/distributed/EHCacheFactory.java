@@ -18,8 +18,8 @@ package org.castor.cache.distributed;
 import org.castor.cache.AbstractCacheFactory;
 
 /**
- * Implements {@link CacheFactory} for the {@link EHCache} implementation of 
- * {@link Cache}.
+ * Implements {@link org.castor.cache.CacheFactory} for the {@link EHCache}
+ * implementation of {@link org.castor.cache.Cache}.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-26 00:09:10 0200 (Mi, 26 Apr 2006) $

@@ -55,6 +55,7 @@ import java.sql.SQLException;
  *
  * It is useful for setting CLOB values in the database.
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
+ * @author <a href="mailto:adam_e@swbell.net">Adam Esterline</a>
  * @version $Revision$
  */
 public class ClobImpl implements Clob {

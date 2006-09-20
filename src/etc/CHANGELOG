@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1567 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Thorough JavaDoc cleanup - part II.
+       Details: http://jira.codehaus.org/browse/CASTOR-1567
+       (Werner - 20060920)
+
 XML:   Resolved issue CASTOR-1563 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Thorough JavaDoc cleanup.
        Details: http://jira.codehaus.org/browse/CASTOR-1563
