@@ -128,8 +128,12 @@ public final class JMethod implements JMember, JAnnotatedElement {
         //-- be considerate and add the class name to the
         //-- each declaring class' list of imports
         JType jType = parameter.getType();
-        while (jType.isArray() || jType.isCollection()) {
-            jType = jType.getComponentType();
+        while (jType instanceof JArrayType || jType instanceof JCollectionType) {
+            if (jType instanceof JArrayType) {
+                jType = ((JArrayType) jType).getComponentType();
+            } else {
+                jType = ((JCollectionType) jType).getComponentType();
+            }
         }
         if (!jType.isPrimitive()) {
             JClass jClass = (JClass) jType;

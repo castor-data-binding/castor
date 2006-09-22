@@ -596,7 +596,7 @@ public class DescriptorSourceFactory {
             || forGeneralizedHandler
 			|| isEnumerated
 			|| xsType.isPrimitive()
-			|| xsType.getJType().isArray()
+			|| xsType.getJType() instanceof JArrayType
 			|| (xsType.getType() == XSType.STRING_TYPE)
             || isAbstract) {
 			jsc.append("null;");

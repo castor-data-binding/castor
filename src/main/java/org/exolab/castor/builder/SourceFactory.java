@@ -79,7 +79,9 @@ import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
+import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
@@ -1221,7 +1223,7 @@ public class SourceFactory extends BaseFactory {
             String componentName = null;
             if (name.indexOf("Has") == -1) {
                //Collection needs a specific handling
-                if (type.isCollection()) {
+                if (type instanceof JCollectionType) {
 //               if ( (type.getName().equals("java.util.Vector<Object>")) ||
 //                    (type.getName().equals("java.util.ArrayList<Object>")) ) {
                      //if we are dealing with a Vector or an ArrayList
@@ -2003,7 +2005,7 @@ public class SourceFactory extends BaseFactory {
         JConstructor constructor = jClass.getConstructor(0);
         constructor.getModifiers().makePrivate();
 
-        fValues = new JField(baseType.getJType().createArray(), "values");
+        fValues = new JField(new JArrayType(baseType.getJType()), "values");
 
         //-- Loop through "enumeration" facets
         //-- and create the default values for the type.

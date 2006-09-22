@@ -131,8 +131,12 @@ public final class JAnnotationType extends JStructure {
         // if member is of a type not imported by this class
         // then add import
         JType type = jElement.getType();
-        while (type.isArray()) { type = type.getComponentType(); }
-        if (!type.isPrimitive()) { addImport(type.getName()); }
+        while (type instanceof JArrayType) {
+            type = ((JArrayType) type).getComponentType();
+        }
+        if (!type.isPrimitive()) { 
+            addImport(type.getName()); 
+        }
     } //-- addElement
     
     /**

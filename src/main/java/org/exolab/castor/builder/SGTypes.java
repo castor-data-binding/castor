@@ -116,19 +116,19 @@ public class SGTypes {
     public static final JClass PropertyChangeSupport = new JClass("java.beans.PropertyChangeSupport");
     
     public static final JType createEnumeration(JType jType) {
-        return JType.createCollection("java.util.Enumeration", jType);
+        return new JCollectionType("java.util.Enumeration", jType);
     }
 
     public static final JType createIterator(JType jType) {
-        return JType.createCollection("java.util.Iterator", jType);
+        return new JCollectionType("java.util.Iterator", jType);
     }
 
     public static final JType createVector(JType jType) {
-        return JType.createCollection("java.util.Vector", jType);
+        return new JCollectionType("java.util.Vector", jType);
     }
 
     public static final JType createArrayList(JType jType) {
-        return JType.createCollection("java.util.ArrayList", jType);
+        return new JCollectionType("java.util.ArrayList", jType);
     }
 
     public static final JType createHashtable() {

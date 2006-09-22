@@ -45,43 +45,61 @@
 
 package org.exolab.javasource;
 
-import org.exolab.castor.builder.BuilderConfiguration;
-
 /**
  * Represents a primitive or class type
  * 
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
+ *          2006) $
  */
 public class JType {
 
-    public static final JType BOOLEAN  = new JType("boolean", "Boolean");
-    public static final JType BYTE     = new JType("byte",    "Byte");
-    public static final JType CHAR     = new JType("char",    "Character");
-    public static final JType DOUBLE   = new JType("double",  "Double");
-    public static final JType FLOAT    = new JType("float",   "Float");
-    public static final JType INT      = new JType("int",     "Integer");
-    public static final JType LONG     = new JType("long",    "Long");
-    public static final JType SHORT    = new JType("short",   "Short");
+    /**
+     * JType for a boolean (Boolean).
+     */
+    public static final JType BOOLEAN = new JType("boolean", "Boolean");
 
+    /**
+     * JType instance for a byte (Byte).
+     */
+    public static final JType BYTE = new JType("byte", "Byte");
+
+    /**
+     * JType instance for a char (Char).
+     */
+    public static final JType CHAR = new JType("char", "Character");
+
+    /**
+     * JType instance for a double (Double).
+     */
+    public static final JType DOUBLE = new JType("double", "Double");
+
+    /**
+     * JType instance for a float (Float).
+     */
+    public static final JType FLOAT = new JType("float", "Float");
+
+    /**
+     * JType instance for a int (Integer).
+     */
+    public static final JType INT = new JType("int", "Integer");
+
+    /**
+     * JType instance for a long (Long).
+     */
+    public static final JType LONG = new JType("long", "Long");
+
+    /**
+     * JType instance for a short (Short).
+     */
+    public static final JType SHORT = new JType("short", "Short");
+
+    /**
+     * Fully qualified of the Java type represented 
+     */
     private String _name = null;
-    
-    /**
-     * Indicates whether this JType represents an array
-     */
-    private boolean _isArray = false;
-    
-    /**
-     * Indicates whether this JType represents a collection
-     */
-    private boolean _isCollection = false;
-    
-    /**
-     * Used for Array and Collection types to indicate the data type contained
-     * in the Array or Collection
-     */
-    private JType _componentType = null;
-    
+
     /**
      * Only populated for primitive types and indicates the wrapper Object class
      * name for this primitive type
@@ -91,89 +109,57 @@ public class JType {
     /**
      * Creates a new JType with the given name
      * 
-     * @param name the name of the type
+     * @param name
+     *            the name of the type
      */
     protected JType(final String name) {
         super();
         this._name = name;
-    } //-- JType
+    } // -- JType
 
     /**
      * Creates a new JType for a primitive with the given name and wrapper name.
      * This constructor is private so it can only be used by the primitives
      * defined here.
      * 
-     * @param name the name of the type
-     * @param wrapperName the name of the wrapper Object type for this primirive
-     *            type
+     * @param name
+     *            the name of the type
+     * @param wrapperName
+     *            the name of the wrapper Object type for this primitive type
      */
     private JType(final String name, final String wrapperName) {
         this(name);
         this._wrapperName = wrapperName;
-    } //-- JType
+    }
 
     /**
-     * Creates a JType Object representing an array of the current JType
-     * instance.
+     * Returns the unqualified Java type name (i.e. without package).
      * 
-     * @return the new JType which is represents an array.
+     * @return the unqualified Java type name
      */
-    public final JType createArray() {
-        JType jType = new JType(getName());
-        jType._isArray = true;
-        jType._componentType = this;
-        return jType;
-    } //-- createArray
-
-    /**
-     * Creates a JType Object representing a collection of the given type or an
-     * iterator over a given type
-     * <p>
-     * FIXME: This method should be replaced with two methods, one for
-     * collections and one for iterators.  The iterator version type probably
-     * should not set _isCollection to true.
-     * 
-     * @param name the class name of the collection or iterator
-     * @param componentType object type contains in the collection or iterated
-     *            over in the iterator
-     * @return the new JType which is a collection or iterator over the provided
-     *         component type
-     */
-    public static final JType createCollection(final String name,
-            final JType componentType) {
-        JType jType = new JType(name);
-        jType._isCollection = true;
-        jType._componentType = componentType;
-        return jType;
-    } //-- createCollection
-
-    /**
-     * If this JType is an array/collection, this method will return the
-     * component type of the array/collection, otherwise it will return null
-     * 
-     * @return the component JType if this JType is an array/collection,
-     *         otherwise null.
-     */
-    public final JType getComponentType() {
-        return _componentType;
-    } //-- getComponentType
-    
     public final String getLocalName() {
 
-        //-- use getName method in case it's been overloaded
+        // -- use getName method in case it's been overloaded
         String name = getName();
 
-        if (name == null) { return null; }
+        if (name == null) {
+            return null;
+        }
         int idx = name.lastIndexOf('.');
         if (idx >= 0) {
             name = name.substring(idx + 1);
         }
         return name;
-    } //-- getLocalName
-    
+    }
+
+    /**
+     * Returns the qualified Java type name.
+     * 
+     * @return the qualified Java type name
+     */
     public final String getName() {
         return this._name;
-    } //-- getName
+    }
 
     /**
      * Return the name of the wrapper object for a primitive type, null for
@@ -183,81 +169,49 @@ public class JType {
      *         non-primitive types
      */
     public final String getWrapperName() {
-      return this._wrapperName;
-    } //-- getWrapperName
-
-    /**
-     * Checks to see if this JType represents an array.
-     * 
-     * @return true if this JType represents an array, otherwise false
-     */
-    public final boolean isArray() {
-        return _isArray;
+        return this._wrapperName;
     }
 
-    /**
-     * Checks to see if this JType represents a collection.
-     * 
-     * @return true if this JType represents a collection, otherwise false
-     */
-    public final boolean isCollection() {
-        return _isCollection;
-    }
-    
     /**
      * Checks to see if this JType represents a primitive type
      * 
      * @return true if this JType represents a primitive type, otherwise false
      */
     public final boolean isPrimitive() {
-        return ((this == JType.BOOLEAN)
-             || (this == JType.BYTE)
-             || (this == JType.CHAR)
-             || (this == JType.DOUBLE)
-             || (this == JType.FLOAT)
-             || (this == JType.INT)
-             || (this == JType.LONG)
-             || (this == JType.SHORT));
-    } //-- isPrimitive
-    
+        return ((this == JType.BOOLEAN) || (this == JType.BYTE)
+                || (this == JType.CHAR) || (this == JType.DOUBLE)
+                || (this == JType.FLOAT) || (this == JType.INT)
+                || (this == JType.LONG) || (this == JType.SHORT));
+    }
+
     /**
      * Returns the String representation of this JType, which is simply the name
      * of this type.
      * 
      * @return the String representation of this JType
      */
-    public final String toString() {
-        if (_isArray) {
-            return _componentType.toString() + "[]";
-        }
-        
-        if (isCollection() && BuilderConfiguration.createInstance().useJava50()) {
-          if (_componentType.isPrimitive()) {
-            return _name + "<" + _componentType.getWrapperName() + ">";
-          } 
-          return _name + "<" + _componentType.toString() + ">";
-        }
-        
+    public String toString() {
         return this._name;
-    } //-- toString
-    
-    //---------------------/
-    //- Protected methods -/
-    //---------------------/
-    
+    }
+
     /**
      * Change the package this JType belongs to. This method is protected to
      * allow subtypes, such as JClass to alter the package to which this JType
      * belongs
      * 
-     * @param newPackage the new package to which this JType belongs <BR>
+     * @param newPackage
+     *            the new package to which this JType belongs <BR>
      *            <B>Note:</B> The package name cannot be changed on a
      *            primitive type.
      */
     protected final void changePackage(final String newPackage) {
-        if (this._name == null) { return; }
-        if (this.isPrimitive()) { return; }
-        
+        if (this._name == null) {
+            return;
+        }
+        if (this.isPrimitive()) {
+            return;
+        }
+
         String localName = null;
         int idx = _name.lastIndexOf('.');
         if (idx >= 0) {
@@ -265,12 +219,12 @@ public class JType {
         } else {
             localName = this._name;
         }
-            
+
         if ((newPackage == null) || (newPackage.length() == 0)) {
             this._name = localName;
         } else {
             this._name = newPackage + "." + localName;
         }
-    } //-- changePackage
-    
-} //-- JType
+    }
+
+}

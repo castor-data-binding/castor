@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1569 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Refactor JType so that for arrays/collections, there's new sub-types.
+       Details: http://jira.codehaus.org/browse/CASTOR-1569
+       (Werner - 20060921)
+
 XML:   Resolved issue CASTOR-1567 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Thorough JavaDoc cleanup - part II.
        Details: http://jira.codehaus.org/browse/CASTOR-1567

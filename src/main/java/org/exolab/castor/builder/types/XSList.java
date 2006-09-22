@@ -68,7 +68,7 @@ public class XSList extends XSType {
     public XSList(XSType contentType) {
         super(XSType.COLLECTION);
         this.contentType = contentType;
-        this.jType = JType.createCollection("java.util.Vector", contentType.getJType());
+        this.jType = new JCollectionType("java.util.Vector", contentType.getJType());
     } //-- XSList
 
 
