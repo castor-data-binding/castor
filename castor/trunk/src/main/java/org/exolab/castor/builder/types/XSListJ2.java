@@ -56,11 +56,11 @@ public class XSListJ2 extends XSList {
     **/
     private JType jType = null;
 
-    public XSListJ2(XSType contentType, String collectionType) {
-        super(contentType);
+    public XSListJ2(XSType contentType, String collectionType, final boolean useJava50) {
+        super(contentType, useJava50);
         this.contentType = contentType;
         if (collectionType.equalsIgnoreCase("arraylist")) {
-            this.jType = new JCollectionType("java.util.ArrayList", contentType.getJType());
+            this.jType = new JCollectionType("java.util.ArrayList", contentType.getJType(), useJava50);
         }
 //        else if (collectionType.equalsIgnoreCase("collection")) {
 //            this.jType = JType.createCollection("java.util.Collection", contentType.getJType());

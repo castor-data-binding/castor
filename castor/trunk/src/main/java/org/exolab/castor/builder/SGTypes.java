@@ -115,24 +115,24 @@ public class SGTypes {
     //-- java.beans
     public static final JClass PropertyChangeSupport = new JClass("java.beans.PropertyChangeSupport");
     
-    public static final JType createEnumeration(JType jType) {
-        return new JCollectionType("java.util.Enumeration", jType);
+    public static final JType createEnumeration(JType jType, boolean usejava50) {
+        return new JCollectionType("java.util.Enumeration", jType, usejava50);
     }
 
-    public static final JType createIterator(JType jType) {
-        return new JCollectionType("java.util.Iterator", jType);
+    public static final JType createIterator(JType jType, boolean usejava50) {
+        return new JCollectionType("java.util.Iterator", jType, usejava50);
     }
 
-    public static final JType createVector(JType jType) {
-        return new JCollectionType("java.util.Vector", jType);
+    public static final JType createVector(JType jType, boolean usejava50) {
+        return new JCollectionType("java.util.Vector", jType, usejava50);
     }
 
-    public static final JType createArrayList(JType jType) {
-        return new JCollectionType("java.util.ArrayList", jType);
+    public static final JType createArrayList(JType jType, boolean usejava50) {
+        return new JCollectionType("java.util.ArrayList", jType, usejava50);
     }
 
-    public static final JType createHashtable() {
-        if (BuilderConfiguration.createInstance().useJava50()) {
+    public static final JType createHashtable(boolean useJava50) {
+        if (useJava50) {
             return new JClass("java.util.Hashtable<Object,Object>");
         }
         return new JClass("java.util.Hashtable");

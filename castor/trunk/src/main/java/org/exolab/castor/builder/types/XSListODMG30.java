@@ -67,8 +67,8 @@ public class XSListODMG30 extends XSList {
         //= new JClass("java.util.Vector");
         = new JClass("org.odmg.DArray");
 
-    public XSListODMG30(XSType contentType) {
-        super(contentType);
+    public XSListODMG30(XSType contentType, final boolean useJava50) {
+        super(contentType, useJava50);
         this.contentType = contentType;
     } //-- XSListODMG30
 

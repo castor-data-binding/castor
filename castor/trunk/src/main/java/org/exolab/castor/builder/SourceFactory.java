@@ -498,7 +498,7 @@ public class SourceFactory extends BaseFactory {
                                                                 fname);
             } else {
                 fInfo = infoFactory.createCollection(new XSClass(jClass),
-                                                            "_items", fname);
+                                                            "_items", fname, _config.useJava50());
             }
             fInfo.setContainer(true);
             className = className.substring(0,className.length()-4);
@@ -516,14 +516,14 @@ public class SourceFactory extends BaseFactory {
                     processAttributes(complexType, state);
                     component.setView(saved);
                     if (complexType.getContentType() == ContentType.mixed) {
-                        FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(new XSString());
+                        FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(new XSString(), _config.useJava50());
                         handleField(fieldInfo, state);
                     }
                     else if (complexType.getContentType().getType() == ContentType.SIMPLE) {
                         SimpleContent simpleContent = (SimpleContent)complexType.getContentType();
                         SimpleType temp = simpleContent.getSimpleType();
-                        XSType xsType = _typeConversion.convertType(temp, packageName);
-                        FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(xsType);
+                        XSType xsType = _typeConversion.convertType(temp, packageName, _config.useJava50());
+                        FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(xsType, _config.useJava50());
 		                handleField(fieldInfo,state);
 		                temp = null;
                     }
@@ -536,7 +536,7 @@ public class SourceFactory extends BaseFactory {
 
             classInfo.addFieldInfo(fInfo);
             fInfo.createJavaField(jClass);
-            fInfo.createAccessMethods(jClass);
+            fInfo.createAccessMethods(jClass, _config.useJava50());
             fInfo.generateInitializerCode(jClass.getConstructor(0).getSourceCode());
 
 		    //-- name information
@@ -784,7 +784,7 @@ public class SourceFactory extends BaseFactory {
 
         jClass.addInterface("java.io.Serializable");
         
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 			JAnnotation serial = new JAnnotation(new JAnnotationType("SuppressWarnings"));
 			serial.setValue(new String[] {"\"serial\""});			
 			jClass.addAnnotation(serial);
@@ -931,7 +931,7 @@ public class SourceFactory extends BaseFactory {
         jMethod.addException(SGTypes.ValidationException);
         jMethod.addParameter(new JParameter(SGTypes.Writer, "out"));
 
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
         // jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -1087,7 +1087,7 @@ public class SourceFactory extends BaseFactory {
      * JClass
      * @param jclass the Jclass in which we create the equals method
      */
-     public static void createEqualsMethod(JClass jclass) {
+     public void createEqualsMethod(JClass jclass) {
          if (jclass == null)
             throw new IllegalArgumentException("JClass must not be null");
 
@@ -1097,7 +1097,7 @@ public class SourceFactory extends BaseFactory {
         jMethod.setComment("Note: hashCode() has not been overriden");
         jMethod.addParameter(new JParameter(SGTypes.Object, "obj"));
 
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
         	jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
         
@@ -1431,7 +1431,7 @@ public class SourceFactory extends BaseFactory {
                     }
                 }
             }
-            FieldInfo fieldInfo = memberFactory.createFieldInfo(component, state);
+            FieldInfo fieldInfo = memberFactory.createFieldInfo(component, state, _config.useJava50());
             handleField(fieldInfo, state);
         }
         return;
@@ -1509,13 +1509,13 @@ public class SourceFactory extends BaseFactory {
                 SimpleContent simpleContent = (SimpleContent)complexType.getContentType();
                 SimpleType temp = simpleContent.getSimpleType();
                 SimpleType baseType = (SimpleType)temp.getBaseType();
-                XSType xsType = _typeConversion.convertType(temp, state.packageName);
+                XSType xsType = _typeConversion.convertType(temp, state.packageName, _config.useJava50());
                 FieldInfo fieldInfo = null;
                 if ((baseType != null) && 
                      extendsSimpleType(state.jClass, baseType, state)) 
                 {
                     if (xsType.isEnumerated()) {
-                        fieldInfo = memberFactory.createFieldInfoForContent(xsType);
+                        fieldInfo = memberFactory.createFieldInfoForContent(xsType, _config.useJava50());
                         fieldInfo.setBound(false);
                         handleField(fieldInfo, state);
                         //-- remove getter since we don't need to
@@ -1541,8 +1541,8 @@ public class SourceFactory extends BaseFactory {
                     while (temp.getBaseType() != null) {
                     	temp = (SimpleType)temp.getBaseType();
                     }
-                    xsType = _typeConversion.convertType(temp, state.packageName);
-                    fieldInfo = memberFactory.createFieldInfoForContent(xsType);
+                    xsType = _typeConversion.convertType(temp, state.packageName, _config.useJava50());
+                    fieldInfo = memberFactory.createFieldInfoForContent(xsType, _config.useJava50());
     		        handleField(fieldInfo,state);
                 }
             }
@@ -1559,7 +1559,7 @@ public class SourceFactory extends BaseFactory {
             //--reset the view on the current ComplexType
             component.setView(complexType);
             if (complexType.getContentType() == ContentType.mixed) {
-                FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(new XSString());
+                FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(new XSString(), _config.useJava50());
                 handleField(fieldInfo, state);
             }
         }
@@ -1592,7 +1592,7 @@ public class SourceFactory extends BaseFactory {
             state.fieldInfoForChoice 
                 = memberFactory.createFieldInfoForChoiceValue();
             state.fieldInfoForChoice.createJavaField(state.jClass);
-            state.fieldInfoForChoice.createAccessMethods(state.jClass);
+            state.fieldInfoForChoice.createAccessMethods(state.jClass, _config.useJava50());
         }
         
         FieldInfo fieldInfo = null;
@@ -1608,7 +1608,7 @@ public class SourceFactory extends BaseFactory {
 
                 //-- handle element declarations
                 case Structure.ELEMENT:
-                    fieldInfo = memberFactory.createFieldInfo(component, state);
+                    fieldInfo = memberFactory.createFieldInfo(component, state, _config.useJava50());
                     //-- Fix for element declarations being used in 
                     //-- a group with minOccurs = 0;  
                     //-- (kvisco - 20021007) 
@@ -1647,7 +1647,8 @@ public class SourceFactory extends BaseFactory {
                         
                         if (contentModel.getParticleCount() > 0) {
 	                        fieldInfo = memberFactory.createFieldInfo(component,
-	                                                                   state.getSGStateInfo());
+	                                                                   state.getSGStateInfo(), 
+                                                                       _config.useJava50());
 	                        handleField(fieldInfo, state);
                         }
                     } else {
@@ -1670,7 +1671,8 @@ public class SourceFactory extends BaseFactory {
                             
                         if (modelgroup.getParticleCount() > 0) {
 	                        fieldInfo = memberFactory.createFieldInfo(component,
-	                                                  state.getSGStateInfo());
+	                                                  state.getSGStateInfo(),
+                                                      _config.useJava50());
 	                        handleField(fieldInfo, state);
                         }
                         break;
@@ -1681,7 +1683,7 @@ public class SourceFactory extends BaseFactory {
 
                 case Structure.WILDCARD:
                     Wildcard wildcard = (Wildcard)annotated;
-                    FieldInfo fieldForAny = memberFactory.createFieldInfoForAny(wildcard);
+                    FieldInfo fieldForAny = memberFactory.createFieldInfoForAny(wildcard, _config.useJava50());
                     handleField(fieldForAny, state);
                     break;
 
@@ -1749,7 +1751,7 @@ public class SourceFactory extends BaseFactory {
 
         jClass.addImport("java.util.Hashtable");
         JField  field  = null;
-        JField  fHash  = new JField(SGTypes.createHashtable(), "_memberTable");
+        JField  fHash  = new JField(SGTypes.createHashtable(_config.useJava50()), "_memberTable");
         fHash.setInitString("init()");
         fHash.getModifiers().setStatic(true);
 
@@ -1799,7 +1801,7 @@ public class SourceFactory extends BaseFactory {
 
         //-- #enumerate method
         // TODO: for the time being return Enumeration<Object> for Java 5.0; change
-        JMethod mEnumerate = new JMethod(SGTypes.createEnumeration(SGTypes.Object), "enumerate");
+        JMethod mEnumerate = new JMethod(SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()), "enumerate");
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);
         jdc = mEnumerate.getJDocComment();
@@ -1816,11 +1818,11 @@ public class SourceFactory extends BaseFactory {
         mToString.getSourceCode().add("return this.stringValue;");
 
         //-- #init method
-        JMethod mInit = new JMethod(SGTypes.createHashtable(), "init");
+        JMethod mInit = new JMethod(SGTypes.createHashtable(_config.useJava50()), "init");
         jClass.addMethod(mInit);
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
             mInit.getSourceCode().add("Hashtable<Object, Object> members = new Hashtable<Object, Object>();");
         } else {
             mInit.getSourceCode().add("Hashtable members = new Hashtable();");
@@ -1988,7 +1990,7 @@ public class SourceFactory extends BaseFactory {
         if (base == null)
             baseType = new XSString();
         else
-            baseType = _typeConversion.convertType(base);
+            baseType = _typeConversion.convertType(base, _config.useJava50());
 
 
         Enumeration enumeration = simpleType.getFacets("enumeration");
@@ -2005,7 +2007,7 @@ public class SourceFactory extends BaseFactory {
         JConstructor constructor = jClass.getConstructor(0);
         constructor.getModifiers().makePrivate();
 
-        fValues = new JField(new JArrayType(baseType.getJType()), "values");
+        fValues = new JField(new JArrayType(baseType.getJType(), _config.useJava50()), "values");
 
         //-- Loop through "enumeration" facets
         //-- and create the default values for the type.
@@ -2180,7 +2182,7 @@ public class SourceFactory extends BaseFactory {
             fieldInfo.createJavaField(state.jClass);
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
-                fieldInfo.createAccessMethods(state.jClass);
+                fieldInfo.createAccessMethods(state.jClass, _config.useJava50());
                 if (fieldInfo.isBound())
                     state.setBoundProperties(true);
             }

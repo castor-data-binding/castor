@@ -111,8 +111,8 @@ public class CollectionInfo extends FieldInfo {
      * @param elementName
      *            the element name for each element in collection
      */
-    public CollectionInfo(XSType contentType, String name, String elementName) {
-        super(new XSList(contentType), name);
+    public CollectionInfo(XSType contentType, String name, String elementName, final boolean useJava50) {
+        super(new XSList(contentType, useJava50), name);
 
         if (elementName.charAt(0) == '_') {
             this.elementName = elementName.substring(1);
@@ -130,11 +130,11 @@ public class CollectionInfo extends FieldInfo {
      *
      * @see org.exolab.castor.builder.FieldInfo#createAccessMethods(org.exolab.javasource.JClass)
      */
-    public void createAccessMethods(JClass jClass) {
+    public void createAccessMethods(JClass jClass, final boolean useJava50) {
         this.createAddAndRemoveMethods(jClass);
-        this.createGetAndSetMethods(jClass);
+        this.createGetAndSetMethods(jClass, useJava50);
         this.createGetCountMethod(jClass);
-        this.createCollectionIterationMethods(jClass);
+        this.createCollectionIterationMethods(jClass, useJava50);
     } // -- createAccessMethods
 
     /**
@@ -286,8 +286,8 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.append(");");
     } // -- createBoundPropertyCode
 
-    protected void createEnumerateMethod(JClass jClass) {
-        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType()), "enumerate" + this.getMethodSuffix());
+    protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
+        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType(), useJava50), "enumerate" + this.getMethodSuffix());
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -308,8 +308,8 @@ public class CollectionInfo extends FieldInfo {
         return this._extraMethods;
     } // -- extraMethods
 
-    protected void createGetAsArrayMethod(JClass jClass) {
-        JType jType = new JArrayType(this.getContentType().getJType());
+    protected void createGetAsArrayMethod(JClass jClass, final boolean useJava50) {
+        JType jType = new JArrayType(this.getContentType().getJType(), useJava50);
         JMethod method = new JMethod(jType, this.getReadMethodName());
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -409,20 +409,20 @@ public class CollectionInfo extends FieldInfo {
     /**
      * @param jClass
      */
-    protected void createGetAndSetMethods(JClass jClass) {
+    protected void createGetAndSetMethods(JClass jClass, final boolean useJava50) {
         // create get methods
         this.createGetByIndexMethod(jClass);
-        this.createGetAsArrayMethod(jClass);
+        this.createGetAsArrayMethod(jClass, useJava50);
         if (this.createExtraMethods()) {
             this.createGetAsReferenceMethod(jClass);
         }
 
         // create set methods
         this.createSetByIndexMethod(jClass);
-        this.createSetAsArrayMethod(jClass);
+        this.createSetAsArrayMethod(jClass, useJava50);
         if (this.createExtraMethods()) {
             this.createSetAsCopyMethod(jClass);
-            this.createSetAsReferenceMethod(jClass);
+            this.createSetAsReferenceMethod(jClass, useJava50);
         }
     }
 
@@ -445,8 +445,8 @@ public class CollectionInfo extends FieldInfo {
      *
      * @param jClass
      */
-    protected void createCollectionIterationMethods(JClass jClass) {
-        this.createEnumerateMethod(jClass);
+    protected void createCollectionIterationMethods(JClass jClass, final boolean useJava50) {
+        this.createEnumerateMethod(jClass, useJava50);
     } // -- createCollectionAccessMethods
 
     protected void createInsertMethod(JClass jClass) {
@@ -472,8 +472,8 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    protected void createIteratorMethod(JClass jClass) {
-        JMethod method = new JMethod(SGTypes.createIterator(this.getContentType().getJType()), "iterate" + this.getMethodSuffix());
+    protected void createIteratorMethod(JClass jClass, final boolean useJava50) {
+        JMethod method = new JMethod(SGTypes.createIterator(this.getContentType().getJType(), useJava50), "iterate" + this.getMethodSuffix());
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -560,9 +560,9 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    protected void createSetAsArrayMethod(JClass jClass) {
+    protected void createSetAsArrayMethod(JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
-        final JParameter parameter = new JParameter(new JArrayType(this.getContentType().getJType()), this.getContentName() + "Array");
+        final JParameter parameter = new JParameter(new JArrayType(this.getContentType().getJType(), useJava50), this.getContentName() + "Array");
         method.addParameter(parameter);
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -649,9 +649,9 @@ public class CollectionInfo extends FieldInfo {
      *
      * @param jClass
      */
-    protected void createSetAsReferenceMethod(JClass jClass) {
+    protected void createSetAsReferenceMethod(JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod(null, "set" + this.getMethodSuffix() + _referenceSuffix);
-        JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType()), this.getMethodSuffix()
+        JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType(), useJava50), this.getMethodSuffix()
                 + "Vector");
         method.addParameter(parameter);
 

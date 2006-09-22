@@ -111,13 +111,15 @@ public class FieldInfoFactory {
 
 
     public CollectionInfo createCollection
-        (XSType contentType, String name, String elementName)
+        (XSType contentType, String name, String elementName,
+                boolean usejava50)
     {
-        return createCollection(contentType, name, elementName, _default);
+        return createCollection(contentType, name, elementName, _default, usejava50);
     }
 
     public CollectionInfo createCollection
-        (XSType contentType, String name, String elementName, String collectionName)
+        (XSType contentType, String name, String elementName, String collectionName,
+                boolean useJava50)
     {
 
         String temp = collectionName;
@@ -126,11 +128,11 @@ public class FieldInfoFactory {
 
         CollectionInfo cInfo = null;
         if (temp.equals(VECTOR)) {
-             cInfo = new CollectionInfo(contentType,name,elementName);
+             cInfo = new CollectionInfo(contentType,name,elementName, useJava50);
         } else if (temp.equals(ARRAY_LIST)) {
-             cInfo = new CollectionInfoJ2(contentType,name,elementName, "arraylist");
+             cInfo = new CollectionInfoJ2(contentType,name,elementName, "arraylist", useJava50);
         } else if (temp.equals(ODMG)) {
-             cInfo = new CollectionInfoODMG30(contentType,name,elementName);
+             cInfo = new CollectionInfoODMG30(contentType,name,elementName, useJava50);
         }
 //         else if (temp.equals("collection")) {
 //            cInfo = new CollectionInfoJ2(contentType,name,elementName, "collection");

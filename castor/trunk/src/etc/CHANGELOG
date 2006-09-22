@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1540 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with new 'org.exolab.castor.builder.javaVersion` when used in a property
+       file that was set by calling SourceGenerator.setDefaultProperties().
+       Details: http://jira.codehaus.org/browse/CASTOR-1540
+       (Werner - 20060921)
+
 XML:   Resolved issue CASTOR-1569 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Refactor JType so that for arrays/collections, there's new sub-types.
        Details: http://jira.codehaus.org/browse/CASTOR-1569

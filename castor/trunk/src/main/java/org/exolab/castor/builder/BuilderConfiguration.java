@@ -217,12 +217,6 @@ public class BuilderConfiguration {
 	 */
 	private Hashtable _locpackages = new Hashtable();
 
-    /**
-     * Singleton instance of this class.
-     */
-    private static BuilderConfiguration configuration = null; 
-
-
 	//------------------/
 	//------------------/
 	
@@ -235,19 +229,6 @@ public class BuilderConfiguration {
         _localProps = new Properties(_defaultProps);
     } //-- BuilderConfiguration
 
-    /**
-     * Singleton method for obtaining an instance of this class
-     * @return An (singleton) instance of this class.
-     */
-    public static BuilderConfiguration createInstance() {
-        synchronized(BuilderConfiguration.class) {
-            if (configuration == null) {
-                configuration = new BuilderConfiguration();
-            }
-            return configuration;
-        }
-    }
-    
     /**
      * Returns the default configuration file. Changes to the returned
      * properties set will affect all Castor functions relying on the

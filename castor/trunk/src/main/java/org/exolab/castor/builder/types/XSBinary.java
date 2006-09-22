@@ -60,12 +60,13 @@ public final class XSBinary extends XSType {
     /**
      * The JType represented by this XSType
     **/
-    private static final JType jType = new JArrayType(JType.BYTE);
+    private static JType jType = null;
 
-    public XSBinary(short type) {
+    public XSBinary(short type, boolean useJava50) {
         super(type);
         if ( (type != XSType.BASE64BINARY_TYPE) && (type != XSType.HEXBINARY_TYPE))
             throw new IllegalArgumentException("Value not allowed for an XML Schema binary.");
+        jType = new JArrayType(JType.BYTE, useJava50); 
     } //-- XSBinary
 
     public void setFacets(SimpleType simpleType) {}

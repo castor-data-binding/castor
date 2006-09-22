@@ -454,7 +454,7 @@ public class DescriptorSourceFactory {
 		jsc.indent();
 
 		//-- read method
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 			jsc.add("@Override");
 		}
 		jsc.add("public java.lang.Object getValue( java.lang.Object object ) ");
@@ -489,7 +489,7 @@ public class DescriptorSourceFactory {
 		//--end of read method
 
 		//-- write method
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 			jsc.add("@Override");
 		}
 		jsc.add(
@@ -567,7 +567,7 @@ public class DescriptorSourceFactory {
 		//--end of write method
 
 		//-- newInstance method
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 			jsc.add("@Override");
 			jsc.add("@SuppressWarnings(\"unused\")");
 		}
