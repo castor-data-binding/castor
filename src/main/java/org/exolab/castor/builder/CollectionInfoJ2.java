@@ -79,10 +79,11 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *            {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
      */
     public CollectionInfoJ2(XSType contentType, String name,
-            String elementName, String collectionType) {
-        super(contentType, name, elementName);
+            String elementName, String collectionType, 
+            final boolean useJava50) {
+        super(contentType, name, elementName, useJava50);
         // --override the schemaType
-        this.setSchemaType(new XSListJ2(contentType, collectionType));
+        this.setSchemaType(new XSListJ2(contentType, collectionType, useJava50));
     } // -- CollectionInfoJ2
 
     /**
@@ -91,9 +92,9 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *
      * @see org.exolab.castor.builder.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass)
      */
-    protected void createCollectionIterationMethods(JClass jClass) {
-        super.createCollectionIterationMethods(jClass);
-        this.createIteratorMethod(jClass);
+    protected void createCollectionIterationMethods(JClass jClass, final boolean useJava50) {
+        super.createCollectionIterationMethods(jClass, useJava50);
+        this.createIteratorMethod(jClass, useJava50);
     }
 
     /**
@@ -101,8 +102,8 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *
      * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass)
      */
-    protected void createEnumerateMethod(JClass jClass) {
-        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType()), "enumerate" + this.getMethodSuffix());
+    protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
+        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType(), useJava50), "enumerate" + this.getMethodSuffix());
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return java.util.Collections.enumeration(this.");

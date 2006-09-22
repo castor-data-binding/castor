@@ -1209,7 +1209,7 @@ public class XMLBindingComponent implements BindingComponent {
                     packageName = _config.lookupPackageByNamespace(ns);
                 }
                     
-                result = _typeConversion.convertType((SimpleType)type, useWrapper, packageName);
+                result = _typeConversion.convertType((SimpleType)type, useWrapper, packageName, _config.useJava50());
             }
         }
         

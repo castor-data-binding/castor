@@ -178,7 +178,7 @@ public class DescriptorJClass extends JClass {
         //-- create getNameSpacePrefix method
         method = new JMethod(SGTypes.String, "getNameSpacePrefix");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -190,7 +190,7 @@ public class DescriptorJClass extends JClass {
         //-- create getNameSpaceURI method
         method = new JMethod(SGTypes.String, "getNameSpaceURI");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
         	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -202,7 +202,7 @@ public class DescriptorJClass extends JClass {
         //-- create getValidator method
         method = new JMethod(_TypeValidatorClass, "getValidator");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
         	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -213,7 +213,7 @@ public class DescriptorJClass extends JClass {
         //-- create getXMLName method
         method = new JMethod(SGTypes.String, "getXMLName");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
         	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -231,7 +231,7 @@ public class DescriptorJClass extends JClass {
         JClass amClass = new JClass("org.exolab.castor.mapping.AccessMode");
         method = new JMethod(amClass, "getAccessMode");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
         	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -243,7 +243,7 @@ public class DescriptorJClass extends JClass {
         //-- create getExtends method
         method = new JMethod(_ClassDescriptorClass, "getExtends");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -262,7 +262,7 @@ public class DescriptorJClass extends JClass {
         //-- create getIdentity method
         method = new JMethod(_FieldDescriptorClass, "getIdentity");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -282,7 +282,7 @@ public class DescriptorJClass extends JClass {
         //-- create getJavaClass method
         method = new JMethod(SGTypes.Class, "getJavaClass");
        
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (_config.useJava50()) {
 	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 

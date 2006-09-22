@@ -106,7 +106,7 @@ public class MemberFactory extends BaseFactory {
      * Creates a FieldInfo for content models that support "any" element.
      * @return the new FieldInfo
     **/
-    public FieldInfo createFieldInfoForAny(Wildcard any) {
+    public FieldInfo createFieldInfoForAny(Wildcard any, final boolean useJava50) {
         if (any == null)
             return null;
         //--currently anyAttribute is not supported
@@ -119,7 +119,7 @@ public class MemberFactory extends BaseFactory {
         String xmlName = null;
         FieldInfo result = null;
         if (any.getMaxOccurs() >1 || any.getMaxOccurs() <0 ) {
-            result = this.infoFactory.createCollection(xsType, vName, "anyObject");
+            result = this.infoFactory.createCollection(xsType, vName, "anyObject", useJava50);
             XSList xsList = ((CollectionInfo)result).getXSList();
             xsList.setMinimumSize(any.getMinOccurs());
             xsList.setMaximumSize(any.getMaxOccurs());
@@ -177,14 +177,14 @@ public class MemberFactory extends BaseFactory {
      * @param xsType the type of content
      * @return the new FieldInfo
     **/
-    public FieldInfo createFieldInfoForContent(XSType xsType) {
+    public FieldInfo createFieldInfoForContent(XSType xsType, boolean useJava50) {
 
         String fieldName = "_content";               //new xsType()???
         FieldInfo fInfo = null;
         if (xsType.getType() == XSType.COLLECTION) {
             fInfo = this.infoFactory.createCollection( ((XSList) xsType).getContentType(),
                                                      fieldName,
-                                                     null);
+                                                     null, useJava50);
                     
         }
         
@@ -212,7 +212,7 @@ public class MemberFactory extends BaseFactory {
      * @return the FieldInfo for the given attribute declaration
      */
     public FieldInfo createFieldInfo
-        (XMLBindingComponent component, ClassInfoResolver resolver)
+        (XMLBindingComponent component, ClassInfoResolver resolver, boolean useJava50)
     {
         
         String xmlName = component.getXMLName();
@@ -337,7 +337,7 @@ public class MemberFactory extends BaseFactory {
             //--we are processing a container object (group)
             //--so we need to adjust the name of the members of the collection
             CollectionInfo cInfo;
-            cInfo = this.infoFactory.createCollection(xsType, vName, memberName, component.getCollectionType());
+            cInfo = this.infoFactory.createCollection(xsType, vName, memberName, component.getCollectionType(), useJava50);
             
             XSList xsList = cInfo.getXSList();
             if (!simpleTypeCollection) {
@@ -354,7 +354,8 @@ public class MemberFactory extends BaseFactory {
                     String collectionName = component.getCollectionType();
                     fieldInfo = this.infoFactory.createCollection( ((XSList) xsType).getContentType(),
                                                                memberName,
-                                                               memberName, collectionName);
+                                                               memberName, collectionName,
+                                                               useJava50);
                     break;
                 default:
                     fieldInfo = this.infoFactory.createFieldInfo(xsType, memberName);

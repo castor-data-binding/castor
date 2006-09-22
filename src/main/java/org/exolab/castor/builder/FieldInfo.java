@@ -255,13 +255,13 @@ public class FieldInfo extends XMLInfo {
      * @see #createSetterMethod
      * @see #createHasAndDeleteMethods
      */
-    public void createAccessMethods(JClass jClass) {
+    public void createAccessMethods(JClass jClass, boolean useJava50) {
 
         if ((_methods & READ_METHOD) > 0) {
-            createGetterMethod(jClass);
+            createGetterMethod(jClass, useJava50);
         }
         if ((_methods & WRITE_METHOD) > 0) {
-            createSetterMethod(jClass);
+            createSetterMethod(jClass, useJava50);
         }
 
         if (isHasAndDeleteMethods()) {
@@ -311,7 +311,7 @@ public class FieldInfo extends XMLInfo {
      * 
      * @param jClass the JClass to add the methods to
      */
-    public void createGetterMethod(JClass jClass) {
+    public void createGetterMethod(JClass jClass, boolean useJava50) {
 
         JMethod method    = null;
         JSourceCode jsc   = null;
@@ -323,7 +323,7 @@ public class FieldInfo extends XMLInfo {
 
         //-- create get method
         method = new JMethod(jType, METHOD_PREFIX_GET+mname);
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (useJava50) {
         	Java5HacksHelper.addOverrideAnnotations(method.getSignature());
         }
         jClass.addMethod(method);
@@ -430,7 +430,7 @@ public class FieldInfo extends XMLInfo {
      * 
      * @param jClass the JClass to add the methods to
      */
-    public void createSetterMethod(JClass jClass) {
+    public void createSetterMethod(JClass jClass, boolean useJava50) {
 
         JMethod method    = null;
         JSourceCode jsc   = null;
@@ -456,7 +456,7 @@ public class FieldInfo extends XMLInfo {
         }
 
         method.addParameter(new JParameter(jType, paramName));
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (useJava50) {
         	Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
         }
         createSetterComment(method.getJDocComment());

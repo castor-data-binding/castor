@@ -9,9 +9,10 @@ public class JArrayType extends JComponentizedType {
     /**
      * Creates an instance of a array type, of type 'name'.
      * @param componentType Component type.
+     * @param useJava50 True if Java 5.0 should be generated.
      */
-    public JArrayType(final JType componentType) {
-        super(componentType.getName(), componentType);
+    public JArrayType(final JType componentType, final boolean useJava50) {
+        super(componentType.getName(), componentType, useJava50);
     }
 
     /**

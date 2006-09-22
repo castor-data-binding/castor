@@ -1,6 +1,5 @@
 package org.exolab.javasource;
 
-import org.exolab.castor.builder.BuilderConfiguration;
 
 /**
  * JType sub-class for collections.
@@ -12,9 +11,12 @@ public class JCollectionType extends JComponentizedType {
      * Creates an instance of a collection type, of type 'collectionName'.
      * @param collectionName Name of the collection type.
      * @param componentType Component type.
+     * @param useJava50 True if Java 5.0 should be used.
      */
-    public JCollectionType(final String collectionName, final JType componentType) {
-        super(collectionName, componentType);
+    public JCollectionType(final String collectionName, 
+            final JType componentType, 
+            final boolean useJava50) {
+        super(collectionName, componentType, useJava50);
     }
 
     /**
@@ -24,7 +26,7 @@ public class JCollectionType extends JComponentizedType {
      * @return the String representation of this JType
      */
     public final String toString() {
-        if (BuilderConfiguration.createInstance().useJava50()) {
+        if (isUseJava50()) {
           if (getComponentType().isPrimitive()) {
             return getName() + "<" + getComponentType().getWrapperName() + ">";
           } 

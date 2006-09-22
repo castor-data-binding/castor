@@ -65,10 +65,10 @@ public class XSList extends XSType {
     **/
     private JType jType = null;
 
-    public XSList(XSType contentType) {
+    public XSList(XSType contentType, final boolean useJava50) {
         super(XSType.COLLECTION);
         this.contentType = contentType;
-        this.jType = new JCollectionType("java.util.Vector", contentType.getJType());
+        this.jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
     } //-- XSList
 
 

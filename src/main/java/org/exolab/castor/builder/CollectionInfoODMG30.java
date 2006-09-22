@@ -25,9 +25,10 @@ public class CollectionInfoODMG30 extends CollectionInfo {
      * @param elementName
      *            the element name for each element in collection
      */
-    public CollectionInfoODMG30(XSType contentType, String name, String elementName) {
-        super(contentType, name, elementName);
-        this.setSchemaType(new XSListODMG30(contentType));
+    public CollectionInfoODMG30(XSType contentType, String name, String elementName,
+            final boolean useJava50) {
+        super(contentType, name, elementName, useJava50);
+        this.setSchemaType(new XSListODMG30(contentType, useJava50));
     } // -- CollectionInfoODMG30
 
     /**
@@ -42,8 +43,8 @@ public class CollectionInfoODMG30 extends CollectionInfo {
         jsc.append(" = ODMG.getImplementation().newDArray();");
     } // -- generateConstructorCode
 
-    protected void createEnumerateMethod(JClass jClass) {
-        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType()), "enumerate" + this.getMethodSuffix());
+    protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
+        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType(), useJava50), "enumerate" + this.getMethodSuffix());
 
         if (!jClass.hasImport("java.util.Vector")) {
             jClass.addImport("java.util.Vector");

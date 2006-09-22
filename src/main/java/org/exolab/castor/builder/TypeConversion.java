@@ -93,8 +93,8 @@ public class TypeConversion {
      * @param simpleType the SimpleType to convert to an XSType instance
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(SimpleType simpleType) {
-        return convertType(simpleType, _config.usePrimitiveWrapper(), null);
+    public XSType convertType(SimpleType simpleType, final boolean useJava50) {
+        return convertType(simpleType, _config.usePrimitiveWrapper(), null, useJava50);
     }
 
     /**
@@ -104,8 +104,8 @@ public class TypeConversion {
      * @param packageName the packageName for any new class types
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(SimpleType simpleType, String packageName) {
-         return convertType(simpleType, _config.usePrimitiveWrapper(), packageName);
+    public XSType convertType(SimpleType simpleType, String packageName, final boolean useJava50) {
+         return convertType(simpleType, _config.usePrimitiveWrapper(), packageName, useJava50);
     }
     
     /**
@@ -117,7 +117,8 @@ public class TypeConversion {
      * @param packageName the packageName for any new class types
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(SimpleType simpleType, boolean useWrapper, String packageName) {
+    public XSType convertType(SimpleType simpleType, boolean useWrapper, String packageName,
+            final boolean useJava50) {
         if (simpleType == null) return null;
 
         XSType xsType = null;
@@ -133,7 +134,7 @@ public class TypeConversion {
             if (common == null) {
                 return new XSClass(SGTypes.Object);
             }
-            return convertType(common, useWrapper,packageName);
+            return convertType(common, useWrapper,packageName, useJava50);
         } else if (base == null) {
             String className = JavaNaming.toJavaClassName(simpleType.getName());
             xsType = new XSClass(new JClass(className));
@@ -151,7 +152,7 @@ public class TypeConversion {
                     return new XSIdRef();
                 //-- IDREFS
                 case SimpleTypesFactory.IDREFS_TYPE:
-                    return new XSList(new XSIdRef());
+                    return new XSList(new XSIdRef(), useJava50);
                 //-- NMTOKEN
                 case SimpleTypesFactory.NMTOKEN_TYPE:
                     XSNMToken xsNMToken = new XSNMToken();
@@ -159,7 +160,7 @@ public class TypeConversion {
                     return xsNMToken;
                 //-- NMTOKENS
                 case SimpleTypesFactory.NMTOKENS_TYPE:
-                    return new XSList(new XSNMToken());
+                    return new XSList(new XSNMToken(), useJava50);
 
 
                 //--AnyURI
@@ -167,10 +168,10 @@ public class TypeConversion {
                     return new XSAnyURI();
                 //-- base64Bbinary
                 case SimpleTypesFactory.BASE64BINARY_TYPE:
-                    return new XSBinary(XSType.BASE64BINARY_TYPE);
+                    return new XSBinary(XSType.BASE64BINARY_TYPE, useJava50);
                 //-- hexBinary
                 case SimpleTypesFactory.HEXBINARY_TYPE:
-                     return new XSBinary(XSType.HEXBINARY_TYPE);
+                     return new XSBinary(XSType.HEXBINARY_TYPE, useJava50);
                 //-- boolean
                 case SimpleTypesFactory.BOOLEAN_TYPE:
                     return new XSBoolean(useWrapper);
