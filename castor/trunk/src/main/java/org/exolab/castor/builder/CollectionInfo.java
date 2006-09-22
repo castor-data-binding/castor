@@ -54,6 +54,7 @@ package org.exolab.castor.builder;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
+import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
@@ -308,7 +309,7 @@ public class CollectionInfo extends FieldInfo {
     } // -- extraMethods
 
     protected void createGetAsArrayMethod(JClass jClass) {
-        JType jType = this.getContentType().getJType().createArray();
+        JType jType = new JArrayType(this.getContentType().getJType());
         JMethod method = new JMethod(jType, this.getReadMethodName());
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -316,7 +317,7 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.append(this.getName());
         sourceCode.append(".size();");
 
-        final String arrayType = jType.getComponentType().toString() + "[]";
+        final String arrayType = jType.toString();
         sourceCode.add(arrayType);
         sourceCode.append(" array = new ");
         // the first brackets must contain the size...
@@ -561,7 +562,7 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createSetAsArrayMethod(JClass jClass) {
         JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
-        final JParameter parameter = new JParameter(this.getContentType().getJType().createArray(), this.getContentName() + "Array");
+        final JParameter parameter = new JParameter(new JArrayType(this.getContentType().getJType()), this.getContentName() + "Array");
         method.addParameter(parameter);
 
         JSourceCode sourceCode = method.getSourceCode();

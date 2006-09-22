@@ -60,8 +60,7 @@ public final class XSBinary extends XSType {
     /**
      * The JType represented by this XSType
     **/
-    private static final JType jType
-        = JType.BYTE.createArray();
+    private static final JType jType = new JArrayType(JType.BYTE);
 
     public XSBinary(short type) {
         super(type);

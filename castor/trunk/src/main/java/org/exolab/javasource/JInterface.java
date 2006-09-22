@@ -127,7 +127,9 @@ public final class JInterface extends JStructure {
         // if member is of a type not imported by this class
         // then add import
         JType type = jField.getType();
-        while (type.isArray()) { type = type.getComponentType(); }
+        while (type instanceof JArrayType) {
+            type = ((JArrayType) type).getComponentType(); 
+        }
         if (!type.isPrimitive()) { addImport(((JClass) type).getName()); }
             
         // ensure annotation classes are imported
@@ -204,8 +206,12 @@ public final class JInterface extends JStructure {
         //-- import list
         JType jType = jMethodSig.getReturnType();
         if (jType != null) {
-            while (jType.isArray()) { jType = jType.getComponentType(); }
-            if (!jType.isPrimitive()) { addImport(jType.getName()); }
+            while (jType instanceof JArrayType) {
+                jType = ((JArrayType) jType).getComponentType();
+            }
+            if (!jType.isPrimitive()) { 
+                addImport(jType.getName()); 
+            }
         }
         //-- check exceptions
         JClass[] exceptions = jMethodSig.getExceptions();
