@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1575 using contribution from Ontje Lünsdorf [The_COM@gmx.de]
+       Added a feature that allows getter methods starting with the prefix 'enum'
+       to be treated in a special way.
+       Details: http://jira.codehaus.org/browse/CASTOR-1575
+       (Werner - 20060922)
+
 XML:   Resolved issue CASTOR-1540 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with new 'org.exolab.castor.builder.javaVersion` when used in a property
        file that was set by calling SourceGenerator.setDefaultProperties().

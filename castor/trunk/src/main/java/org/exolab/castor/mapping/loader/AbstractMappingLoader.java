@@ -92,6 +92,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** The prefix for the "add" method. */
     private static final String ADD_METHOD_PREFIX = "add";
 
+    private static final String ENUM_METHOD_PREFIX = "enum";
+    
     /** The standard prefix for the getter method. */
     private static final String GET_METHOD_PREFIX = "get";
     
@@ -785,12 +787,25 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             } else {
                 // First look up the get accessors
                 if ( fieldMap.getGetMethod() != null ) {
-                    getMethod = findAccessor( javaClass, fieldMap.getGetMethod(),
-                                              ( colType == null ? fieldType : colType ), true );
+                	String	methodName	= fieldMap.getGetMethod();
+                	
+                	Class	rtype	= fieldType;
+                	
+                    if (colType != null) {
+                    	// An enumeration method must really return a enumeration.
+                        if (methodName.startsWith(ENUM_METHOD_PREFIX))
+                            rtype	= Enumeration.class;
+                        else
+                        	rtype	= colType;
+                    }
+                    
+                    getMethod = findAccessor( javaClass, fieldMap.getGetMethod(), rtype, true );
                     if ( getMethod == null )
                         throw new MappingException( "mapping.accessorNotFound",
-                                                    fieldMap.getGetMethod(), ( colType == null ? fieldType : colType ),
+                                                    fieldMap.getGetMethod(), 
+                                                    rtype,
                                                     javaClass.getName() );
+          
                     if ( fieldType == null && colType == null )
                         fieldType = getMethod.getReturnType();
                 }

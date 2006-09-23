@@ -29,6 +29,28 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1575" tool="jira">
+                    <description>
+                        Added a feature that allows getter methods starting with the prefix 'enum'
+                        to be treated in a way that a collection (container) is only exposed through
+                        this enumeration method.
+                    </description>
+                    <contributor>
+                        <name>Ontje Lünsdorf</name>
+                        <email>The_COM@gmx.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ontje Lünsdorf</name>
+                        <email>The_COM@gmx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060922</date>
+                </bug>
 				<bug id="1540" tool="jira">
                     <description>
                            Fixed problem with new 'org.exolab.castor.builder.javaVersion` 
