@@ -66,7 +66,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
 
 
     /**
-     * Class type for the type-safe enum 
+     * Class type for the type-safe enum
      */
     private Class _enumType = null;
 
@@ -79,12 +79,12 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
      * The underlying FieldHandler
      */
     private FieldHandler _handler = null;
-    
+
 
     /**
      * Creates a new EnumFieldHandler with the given type and
      * FieldHandler
-     * 
+     *
      * @param enumType the Class type of the described field
      * @param handler the FieldHandler to delegate to
      */
@@ -94,29 +94,29 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
             String err = "The argument 'enumType' must not be null.";
             throw new IllegalArgumentException(err);
         }
-        
+
         if (handler == null) {
             String err = "The argument 'handler' must not be null.";
             throw new IllegalArgumentException(err);
         }
-        
+
         if (createMethod == null) {
             String err = "The argument 'createMethod' must not be null.";
             throw new IllegalArgumentException(err);
         }
-        
+
         _handler = handler;
-        
+
         //-- pass handler to superclass
         setFieldHandler(handler);
 
         _enumType = enumType;
         _createMethod = createMethod;
-        
+
         int mods = createMethod.getModifiers();
 
         if (!Modifier.isStatic(mods)) {
-            String err = "The factory create method specified for " + enumType.getName() 
+            String err = "The factory create method specified for " + enumType.getName()
             + " must be static";
             throw new IllegalArgumentException(err);
         }
@@ -139,7 +139,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
     public Object convertUponSet(Object value)
         throws java.lang.IllegalStateException
     {
-        String[] args = new String[1];
+        Object[] args = new String[1];
         Object obj = null;
         if (value != null) {
             args[0] = value.toString();
@@ -157,13 +157,13 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
         return obj;
 
     } //-- setValue
-    
-    
+
+
     /**
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#getFieldType()
      */
     public Class getFieldType() {
-    	return _enumType;
+        return _enumType;
     }
 
 
@@ -175,7 +175,7 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
     {
         return "";
     } //-- newInstance
-    
+
     /**
      * @see org.exolab.castor.mapping.ExtendedFieldHandler#newInstance(java.lang.Object,
      *      java.lang.Object[])
@@ -185,12 +185,12 @@ public class EnumFieldHandler extends GeneralizedFieldHandler {
     {
         return "";
     }
-    
+
 
     /**
      * Returns true if the given object is an XMLFieldHandler that
      * is equivalent to the delegated handler. An equivalent XMLFieldHandler
-	 * is an XMLFieldHandler that is an instances of the same class.
+     * is an XMLFieldHandler that is an instances of the same class.
      *
      * @return true if the given object is an XMLFieldHandler that
      * is equivalent to this one.

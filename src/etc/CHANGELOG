@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1578 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Build cleanup.
+       Details: http://jira.codehaus.org/browse/CASTOR-1578
+       (Werner - 20060925)
+
 XML:   Resolved issue CASTOR-1575 using contribution from Ontje Lünsdorf [The_COM@gmx.de]
        Added a feature that allows getter methods starting with the prefix 'enum'
        to be treated in a special way.

@@ -86,7 +86,7 @@ public final class SequenceKeyGenerator implements KeyGenerator
      * Commons Logging</a> instance used for all logging.
      */
     private static Log LOG = LogFactory.getFactory().getInstance (SequenceKeyGenerator.class);
-    
+
     protected final PersistenceFactory _factory;
 
 
@@ -122,10 +122,10 @@ public final class SequenceKeyGenerator implements KeyGenerator
         _triggerPresent = "true".equals( params.getProperty("trigger","false") );
 
 
-        if (!_factoryName.equals(OracleFactory.FACTORY_NAME) 
-                && !_factoryName.equals(PostgreSQLFactory.FACTORY_NAME) 
-                && !_factoryName.equals(InterbaseFactory.FACTORY_NAME) 
-                && !_factoryName.equals("sapdb") 
+        if (!_factoryName.equals(OracleFactory.FACTORY_NAME)
+                && !_factoryName.equals(PostgreSQLFactory.FACTORY_NAME)
+                && !_factoryName.equals(InterbaseFactory.FACTORY_NAME)
+                && !_factoryName.equals("sapdb")
                 && !_factoryName.equals(DB2Factory.FACTORY_NAME) ) {
             throw new MappingException( Messages.format( "mapping.keyGenNotCompatible",
                                         getClass().getName(), _factoryName ) );
@@ -170,7 +170,7 @@ public final class SequenceKeyGenerator implements KeyGenerator
                 && sqlType != Types.DECIMAL
                 && sqlType != Types.BIGINT
                 && sqlType != Types.CHAR
-                && sqlType != Types.VARCHAR) 
+                && sqlType != Types.VARCHAR)
         {
             throw new MappingException( Messages.format( "mapping.keyGenSQLType",
                     getClass().getName(), new Integer( sqlType ) ) );
@@ -195,8 +195,8 @@ public final class SequenceKeyGenerator implements KeyGenerator
         ResultSet rs;
         String seqName;
         String table;
-		
-        seqName = MessageFormat.format( _seqName, new String[] {tableName,primKeyName});// due to varargs in 1.5, see CASTOR-1097
+
+        seqName = MessageFormat.format( _seqName, new Object[] {tableName,primKeyName});// due to varargs in 1.5, see CASTOR-1097
         table = _factory.quoteName(tableName);
         try {
             if (_factory.getFactoryName().equals(InterbaseFactory.FACTORY_NAME)) {
@@ -220,17 +220,17 @@ public final class SequenceKeyGenerator implements KeyGenerator
                             " FROM " + table + " WHERE OID=?");
                     stmt.setInt(1, insertedOID);
                     rs = stmt.executeQuery();
-                    
+
                 } else {
                     stmt = conn.prepareStatement("SELECT " + _factory.quoteName(seqName + ".currval") + " FROM " + table);
                     rs = stmt.executeQuery();
                 }
             }
-            
+
             if ( !rs.next() ) {
                 throw new PersistenceException( Messages.format( "persist.keyGenFailed", getClass().getName() ) );
             }
-            
+
             Object resultKey = null;
             int resultValue = rs.getInt( 1 );
             String resultColName = rs.getMetaData().getColumnName( 1 ) ;
@@ -239,18 +239,18 @@ public final class SequenceKeyGenerator implements KeyGenerator
                 LOG.debug("JDBC query returned value " + resultValue + " from column " + resultColName + "/" + resultColType);
             }
             if (_sqlType == Types.INTEGER) {
-                resultKey = new Integer(resultValue);                  
+                resultKey = new Integer(resultValue);
             } else if (_sqlType == Types.BIGINT) {
                 resultKey = new Long(resultValue);
             } else if (_sqlType == Types.CHAR || _sqlType == Types.VARCHAR) {
                 resultKey = String.valueOf(resultValue);
             } else {
-                resultKey = new BigDecimal(resultValue);                   
+                resultKey = new BigDecimal(resultValue);
             }
-            
+
             if (LOG.isDebugEnabled()) {
                 if (resultKey != null) {
-                    LOG.debug("Returning value " + resultKey + " of type " + resultKey.getClass().getName() + " as key.");                       
+                    LOG.debug("Returning value " + resultKey + " of type " + resultKey.getClass().getName() + " as key.");
                 }
             }
             return resultKey;
@@ -317,10 +317,10 @@ public final class SequenceKeyGenerator implements KeyGenerator
 
             buffer2.append(tableName.substring(pos));
 
-    		tableName = buffer2.toString();
+            tableName = buffer2.toString();
         }
 
-		seqName = MessageFormat.format( _seqName, new String[] {tableName,primKeyName}); // due to varargs in 1.5, see CASTOR-1097
+        seqName = MessageFormat.format( _seqName, new Object[] {tableName,primKeyName}); // due to varargs in 1.5, see CASTOR-1097
         nextval = _factory.quoteName(seqName + ".nextval");
         lp1 = insert.indexOf( '(' );
         lp2 = insert.indexOf( '(', lp1 + 1 );
