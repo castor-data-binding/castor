@@ -69,17 +69,17 @@ public class FieldInfo extends XMLInfo {
      * The Read / Getter method flag
      */
     public static final int READ_METHOD            = 1;
-    
+
     /**
      * The Write / Setter method flag
      */
     public static final int WRITE_METHOD           = 2;
-    
+
     /**
      * The Read and Write methods flags
      */
     public static final int READ_WRITE_METHODS     = 3;
-    
+
     /**
      * The method prefixes
      */
@@ -88,10 +88,10 @@ public class FieldInfo extends XMLInfo {
     private static final String METHOD_PREFIX_GET    = "get";
     private static final String METHOD_PREFIX_HAS    = "has";
     private static final String METHOD_PREFIX_SET    = "set";
-    
-    
-    
-    
+
+
+
+
     /**
      * The Java name for Members described by this FieldInfo
      */
@@ -122,13 +122,13 @@ public class FieldInfo extends XMLInfo {
      * to create
      */
     private int _methods = READ_WRITE_METHODS;
-    
+
     /**
      * A reference to this field within the
      * same class
      */
     private String _reference = null;
-    
+
     /**
      * A flag to indicate a static member
     **/
@@ -156,10 +156,10 @@ public class FieldInfo extends XMLInfo {
      *
      */
      private String _fieldHandler;
-     
+
      /**
       * A boolean to indicate that this field represents
-      * a "nillable" field 
+      * a "nillable" field
       */
      private boolean _nillable = false;
 
@@ -169,7 +169,7 @@ public class FieldInfo extends XMLInfo {
      *
      */
      private String _validator;
-     
+
     /**
      * Creates a new FieldInfo with the given XML Schema type
      * and the given member name
@@ -188,7 +188,7 @@ public class FieldInfo extends XMLInfo {
     /**
      * Creates the JMembers for this FieldInfo, sometimes a "field" requires
      * more than one java field for this FieldInfo.
-     * @param jClass JClass object the Java Fields will be added to 
+     * @param jClass JClass object the Java Fields will be added to
      */
     public void createJavaField(JClass jClass) {
 
@@ -249,7 +249,7 @@ public class FieldInfo extends XMLInfo {
      * Creates the access methods for field associated with
      * this FieldInfo. The access methods include getters,
      * setters, and "has" and "delete" methods if necessary.
-     * 
+     *
      * @param jClass the JClass to add the methods to
      * @see #createGetterMethod
      * @see #createSetterMethod
@@ -269,8 +269,8 @@ public class FieldInfo extends XMLInfo {
         }
 
     } //-- createAccessMethods
-    
-    
+
+
 
     /**
      * Creates the Javadoc comments for the getter method
@@ -280,16 +280,13 @@ public class FieldInfo extends XMLInfo {
      * comments to.
     **/
     public void createGetterComment(JDocComment jDocComment) {
-
         String fieldName = this.name;
         //-- remove '_' if necessary
         if (fieldName.indexOf('_') == 0) {
             fieldName = fieldName.substring(1);
         }
 
-        String at_return = "the value of field '" + fieldName + "'.";
-
-        String mComment = "Returns " + at_return;
+        String mComment = "Returns the value of field '" + fieldName + "'.";
         if ((_comment != null) && (_comment.length() > 0)) {
             mComment += " The field '" + fieldName +
                 "' has the following description: ";
@@ -303,16 +300,14 @@ public class FieldInfo extends XMLInfo {
             mComment += _comment;
         }
         jDocComment.setComment(mComment);
-        jDocComment.addDescriptor(JDocDescriptor.createReturnDesc(at_return));
     } //-- createGetterComment
-    
+
     /**
      * Creates the getter methods for this FieldInfo
-     * 
+     *
      * @param jClass the JClass to add the methods to
      */
     public void createGetterMethod(JClass jClass, boolean useJava50) {
-
         JMethod method    = null;
         JSourceCode jsc   = null;
 
@@ -322,9 +317,10 @@ public class FieldInfo extends XMLInfo {
         JType jType  = xsType.getJType();
 
         //-- create get method
-        method = new JMethod(jType, METHOD_PREFIX_GET+mname);
+        method = new JMethod(METHOD_PREFIX_GET+mname, jType,
+                             "the value of field '" + mname + "'.");
         if (useJava50) {
-        	Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+            Java5HacksHelper.addOverrideAnnotations(method.getSignature());
         }
         jClass.addMethod(method);
         createGetterComment(method.getJDocComment());
@@ -332,16 +328,15 @@ public class FieldInfo extends XMLInfo {
         jsc.add("return this.");
         jsc.append(this.name);
         jsc.append(";");
-
     } //-- createGetterMethod
-    
-    
+
+
     /**
      * Creates the "has" and "delete" methods for this field
-     * associated with this FieldInfo. These methods are typically 
-     * only needed for primitive types which cannot be assigned 
+     * associated with this FieldInfo. These methods are typically
+     * only needed for primitive types which cannot be assigned
      * a null value.
-     * 
+     *
      * @param jClass the JClass to add the methods to
      */
     public void createHasAndDeleteMethods(JClass jClass) {
@@ -355,7 +350,8 @@ public class FieldInfo extends XMLInfo {
         xsType.getJType();
 
         //-- create hasMethod
-        method = new JMethod(JType.BOOLEAN, METHOD_PREFIX_HAS+mname);
+        method = new JMethod(METHOD_PREFIX_HAS+mname, JType.BOOLEAN,
+                             "true if at least one " + mname + " has been added");
         jClass.addMethod(method);
         jsc = method.getSourceCode();
         jsc.add("return this._has");
@@ -363,7 +359,7 @@ public class FieldInfo extends XMLInfo {
         jsc.append(";");
 
         //-- create delete method
-        method = new JMethod(null, METHOD_PREFIX_DELETE+mname);
+        method = new JMethod(METHOD_PREFIX_DELETE+mname);
         jClass.addMethod(method);
         jsc = method.getSourceCode();
         jsc.add("this._has");
@@ -382,7 +378,7 @@ public class FieldInfo extends XMLInfo {
         }
 
     } //-- createHasAndDeleteMethods
-    
+
 
     /**
      * Creates the Javadoc comments for the setter method
@@ -414,7 +410,7 @@ public class FieldInfo extends XMLInfo {
 
             mComment += _comment;
         }
-            
+
         jDocComment.setComment(mComment);
 
         JDocDescriptor paramDesc = jDocComment.getParamDescriptor(fieldName);
@@ -424,10 +420,10 @@ public class FieldInfo extends XMLInfo {
         }
         paramDesc.setDescription(at_param);
     } //-- createSetterComment
-    
+
     /**
      * Creates the setter (mutator) method(s) for this FieldInfo
-     * 
+     *
      * @param jClass the JClass to add the methods to
      */
     public void createSetterMethod(JClass jClass, boolean useJava50) {
@@ -441,7 +437,7 @@ public class FieldInfo extends XMLInfo {
         JType jType  = xsType.getJType();
 
         //-- create set method
-        method = new JMethod(null, METHOD_PREFIX_SET+mname);
+        method = new JMethod(METHOD_PREFIX_SET+mname);
         jClass.addMethod(method);
 
         String paramName = this.name;
@@ -457,7 +453,7 @@ public class FieldInfo extends XMLInfo {
 
         method.addParameter(new JParameter(jType, paramName));
         if (useJava50) {
-        	Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
+            Java5HacksHelper.addOverrideAnnotations(method.getSignature()); // DAB Java 5.0 hack
         }
         createSetterComment(method.getJDocComment());
         jsc = method.getSourceCode();
@@ -479,7 +475,7 @@ public class FieldInfo extends XMLInfo {
         jsc.append(" = ");
         jsc.append(paramName);
         jsc.append(";");
-        
+
         if (_reference != null) {
             jsc.add("this.");
             jsc.append(_reference);
@@ -494,7 +490,7 @@ public class FieldInfo extends XMLInfo {
             jsc.append(getName());
             jsc.append(" = true;");
         }
-        
+
         //-- bound properties
         if (_bound) {
             //notify listeners
@@ -507,10 +503,10 @@ public class FieldInfo extends XMLInfo {
             jsc.append(xsType.createToJavaObjectCode("this."+getName()));
             jsc.append(");");
         }
-        
+
 
     } //-- createSetterMethod
-    
+
 
     /**
      * Returns the default value for this FieldInfo
@@ -634,14 +630,14 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Returns the methods flag that indicates which
-     * methods will be created 
-     * 
+     * methods will be created
+     *
      * @return the methods flag
      */
     public int getMethods() {
         return _methods;
     } //-- getMethods
-    
+
     /**
      * Returns the name of this FieldInfo
      * @return the name of this FieldInfo
@@ -673,7 +669,7 @@ public class FieldInfo extends XMLInfo {
     /**
      * Returns true if the "has" and "delete" methods are
      * needed for the field associated with this FieldInfo.
-     * 
+     *
      * @return true if the has and delete methods are needed.
      */
     public boolean isHasAndDeleteMethods() {
@@ -681,19 +677,19 @@ public class FieldInfo extends XMLInfo {
         JType jType  = xsType.getJType();
         return ((!xsType.isEnumerated()) && jType.isPrimitive());
     } //-- isHasMethod
-    
+
     /**
      * Returns true if this field represents a nillable field.
      * A nillable field is a field that can have null content
      * (see XML Schema 1.0 definition of nillable).
-     * 
+     *
      * @return true if nillable, otherwise false.
      * @see #setNillable(boolean)
      */
      public boolean isNillable() {
-     	return _nillable;
+         return _nillable;
      } //-- isNillable
-     
+
     /**
      * Returns true if this FieldInfo is a transient member. Transient
      * members are members which should be ignored by the
@@ -780,30 +776,30 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Sets which methods to create
-     * 
+     *
      * READ_METHOD, WRITE_METHOD, READ_WRITE_METHODS
-     * 
+     *
      * @param methods
      */
     public void setMethods(int methods) {
         _methods = methods;
     } //-- setMethods
-    
+
     /**
      * Sets whether or not this field can be nillable.
-     * 
+     *
      * @param nillable a boolean that when true means the
      * field may be nil.
      * @see #isNillable()
      */
     public void setNillable(boolean nillable) {
-    	_nillable = nillable;
+        _nillable = nillable;
     } //-- setNillable
-    
+
     /**
      * Sets the name of the field within the same class
-     * that is a reference to this field. 
-     * 
+     * that is a reference to this field.
+     *
      * @param fieldName
      */
     public void setReference(String fieldName) {

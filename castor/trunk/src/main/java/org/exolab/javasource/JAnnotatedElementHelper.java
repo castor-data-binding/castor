@@ -52,26 +52,26 @@ import org.exolab.castor.util.OrderedHashMap;
 /**
  * Implements JAnnotatedElement interface on behalf of other classes in this
  * package that implement this interface.
- * 
+ *
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public class JAnnotatedElementHelper implements JAnnotatedElement {
     // NOTE: Removed references to LinkedHashMap as we are trying to maintain
     // backward compatibility with JDK 1.2 and 1.3.
-    
+
     /**
      * Stores annotations associated with the source element containing this
      * helper
      */
     private OrderedHashMap _annotations;
-    
+
     /**
      * Creates a JAnnodatedElementHelper
-     */ 
+     */
     public JAnnotatedElementHelper() {
         super();
     }
-    
+
     /**
      * @see org.exolab.javasource.JAnnotatedElement
      *      #getAnnotation(org.exolab.javasource.JAnnotationType)
@@ -146,7 +146,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
 
     /**
      * Outputs the list of annotations maintained by this object
-     * 
+     *
      * @param jsw the JSourceWriter to print the annotations to
      * @return true if at least one annotation was printed, false otherwise.
      */
@@ -170,7 +170,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
      */
     public static void main(final String[] args) {
         JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-        
+
         // Class annotation
         test1(jsw);
 
@@ -179,7 +179,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
 
         // Class annotation (multiple)
         test2(jsw);
-        
+
         jsw.writeln();
         jsw.writeln();
 
@@ -191,46 +191,46 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
 
         // Field annotation (JClass)
         test4(jsw);
-        
+
         jsw.writeln();
-        jsw.writeln(); 
+        jsw.writeln();
 
         // Field annotation (JInterface)
         test5(jsw);
-        
+
         jsw.writeln();
         jsw.writeln();
 
         // Method annotation (JClass)
         test6(jsw);
-        
+
         jsw.writeln();
         jsw.writeln();
 
         // Method annotation (JInterface)
         test7(jsw);
-        
+
         jsw.writeln();
         jsw.writeln();
 
         // Constructor annotation
         test8(jsw);
-        
+
         jsw.writeln();
         jsw.writeln();
 
         // Method parameter annotation (JInterface)
         test9(jsw);
-        
+
         jsw.writeln();
         jsw.writeln();
 
         // Constructor parameter annotation
         test10(jsw);
-        
+
         jsw.flush();
     }
-    
+
     private static void test1(final JSourceWriter jsw) {
         JAnnotation endorsers = makeTestEndorserAnnotation();
         JClass lollipop = new JClass("Lollipop");
@@ -253,7 +253,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         lollipop.addAnnotation(endorsers);
         lollipop.print(jsw);
     }
-    
+
     private static void test4(final JSourceWriter jsw) {
         JAnnotationType suppressWarningsType = new JAnnotationType("org.xyz.SuppressWarnings");
         JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
@@ -263,7 +263,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         timeMachine.addField(field);
         timeMachine.print(jsw);
     }
-    
+
     private static void test5(final JSourceWriter jsw) {
         JAnnotationType suppressWarningsType = new JAnnotationType("SuppressWarnings");
         JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
@@ -275,10 +275,10 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         timeMachine.addField(field);
         timeMachine.print(jsw);
     }
-    
+
     private static void test6(final JSourceWriter jsw) {
         JAnnotation requestForEnhancement = makeTestRFEAnnotation();
-        JMethod travelThroughTime = new JMethod(null, "travelThroughTime");
+        JMethod travelThroughTime = new JMethod("travelThroughTime");
         travelThroughTime.addAnnotation(requestForEnhancement);
         travelThroughTime.addParameter(new JParameter(new JClass("Date"), "date"));
         JClass timeMachine = new JClass("TimeMachine");
@@ -288,7 +288,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
 
     private static void test7(final JSourceWriter jsw) {
         JAnnotation requestForEnhancement = makeTestRFEAnnotation();
-        JMethodSignature travelThroughTime = new JMethodSignature("travelThroughTime", null);
+        JMethodSignature travelThroughTime = new JMethodSignature("travelThroughTime");
         travelThroughTime.addAnnotation(requestForEnhancement);
         travelThroughTime.addParameter(new JParameter(new JClass("Date"), "date"));
         JInterface timeMachine = new JInterface("TimeMachine");
@@ -300,7 +300,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         JAnnotation endorsers = makeTestEndorserAnnotation();
         JClass lollipop = new JClass("Lollipop");
         JConstructor constructor = new JConstructor(lollipop);
-        constructor.addAnnotation(endorsers);           
+        constructor.addAnnotation(endorsers);
         lollipop.addConstructor(constructor);
         lollipop.print(jsw);
     }
@@ -308,7 +308,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     private static void test9(final JSourceWriter jsw) {
         JAnnotationType suppressWarningsType = new JAnnotationType("org.xyz.SuppressWarnings");
         JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
-        JMethodSignature travelThroughTime = new JMethodSignature("produceEvents", null);
+        JMethodSignature travelThroughTime = new JMethodSignature("produceEvents");
         JParameter parameter1 = new JParameter(new JClass("DocumentHandler"), "documentHandler");
         parameter1.addAnnotation(suppressWarnings);
         travelThroughTime.addParameter(parameter1);
@@ -316,7 +316,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         travelThroughTime.addParameter(parameter2);
         JInterface timeMachine = new JInterface("EventProducer");
         timeMachine.addMethod(travelThroughTime);
-        timeMachine.print(jsw);                 
+        timeMachine.print(jsw);
     }
 
     private static void test10(final JSourceWriter jsw) {
@@ -339,7 +339,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         copyright.setValue("\"2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.\"");
         return copyright;
     }
-    
+
     private static JAnnotation makeTestEndorserAnnotation() {
         JAnnotationType endorsersType = new JAnnotationType("org.xyz.Endorsers");
         JAnnotation endorsers = new JAnnotation(endorsersType);

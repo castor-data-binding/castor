@@ -77,7 +77,7 @@ public final class JDocComment {
 
     /**
      * Adds the given JDocDescriptor to this JDocComment
-     * 
+     *
      * @param jdesc the JDocDescriptor to add
      */
     public void addDescriptor(final JDocDescriptor jdesc) {
@@ -87,13 +87,13 @@ public final class JDocComment {
             _descriptors.addElement(jdesc);
             return;
         }
-            
+
         for (int i = 0; i < _descriptors.size(); i++) {
-            JDocDescriptor jdd 
+            JDocDescriptor jdd
                 = (JDocDescriptor) _descriptors.elementAt(i);
-            
+
             short compare = jdesc.compareTo(jdd);
-            
+
             switch (compare) {
                 case  0: // equal
                     _descriptors.insertElementAt(jdesc, i + 1);
@@ -106,67 +106,67 @@ public final class JDocComment {
                     break;
             }
         }
-        
+
         //-- if we make it here we need to add
         _descriptors.addElement(jdesc);
     } //-- addException
-    
+
     /**
      * Appends the provided comment String to this JDocComment
-     * 
+     *
      * @param comment the comment to append
      */
     public void appendComment(final String comment) {
         _comment.append(comment);
     } //-- appendComment
-    
+
     /**
      * Returns the String value of this JDocComment
-     * 
+     *
      * @return the String value of the JDocComment
      */
     public String getComment() {
         return _comment.toString();
     } //-- getComment
-    
+
     /**
      * Returns an Enumeration of the parameters of this JDocComment
-     * 
+     *
      * @return an Enumeration of the parameters of this JDocComment
      */
     public Enumeration getDescriptors() {
         return _descriptors.elements();
     } //-- getDescriptors
-    
+
     /**
      * Returns the length of the JavaDoc comment in characters
-     * 
+     *
      * @return the length of the JavaDoc comment in characters
      */
     public int getLength() {
         return _comment.length();
     } //-- getLength
-    
+
     /**
      * Returns the Parameter Descriptor associated with the given name
-     * 
+     *
      * @param name the name whose ParamDescriptor is being searched for
      * @return the Parameter Descriptor associated with the given name
      */
     public JDocDescriptor getParamDescriptor(final String name) {
         if (name == null) { return null; }
-        
+
         for (int i = 0; i < _descriptors.size(); i++) {
-            JDocDescriptor jdd 
+            JDocDescriptor jdd
                 = (JDocDescriptor) _descriptors.elementAt(i);
             if (jdd.getType() == JDocDescriptor.PARAM) {
                 if (name.equals(jdd.getName())) { return jdd; }
             }
         }
         return null;
-        
+
     } //-- getParamDescriptor
-    
+
     /**
      * prints this JavaDoc comment using the given JSourceWriter
      *
@@ -175,43 +175,41 @@ public final class JDocComment {
     public void print(final JSourceWriter jsw) {
         //-- I reuse JComment for printing
         JComment jComment = new JComment(JComment.JAVADOC_STYLE);
-        
+
         jComment.setComment(_comment.toString());
-        
+
         //-- force a separating "*" for readability
         if (_descriptors.size() > 0) {
             jComment.appendComment("\n");
         }
-        
+
         for (int i = 0; i < _descriptors.size(); i++) {
             jComment.appendComment("\n");
             jComment.appendComment(_descriptors.elementAt(i).toString());
         }
         jComment.print(jsw);
     } //-- print
-    
+
     /**
      * Sets the comment String of this JDocComment
-     * 
+     *
      * @param comment the comment String of this JDocComment
      */
     public void setComment(final String comment) {
         _comment.setLength(0);
         _comment.append(comment);
     } //-- setComment
-    
+
     /**
      * Returns the String representation of this JavaDoc comment
-     * 
+     *
      * @return the String representation of this JavaDoc comment
      */
     public String toString() {
         StringBuffer sb = new StringBuffer();
         sb.append("/**\n");
         sb.append(" * ");
-        
         sb.append(" */\n");
-
         return sb.toString();
     } //-- toString
 

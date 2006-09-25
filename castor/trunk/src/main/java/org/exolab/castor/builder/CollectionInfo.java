@@ -250,7 +250,7 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createAddMethod(JClass jClass) {
-        JMethod method = new JMethod(null, this.getWriteMethodName());
+        JMethod method = new JMethod(this.getWriteMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException);
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
@@ -287,7 +287,9 @@ public class CollectionInfo extends FieldInfo {
     } // -- createBoundPropertyCode
 
     protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType(), useJava50), "enumerate" + this.getMethodSuffix());
+        JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
+                                     SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
+                                     "an Enumeration over all " + this.getContentType().getJType() + " elements");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -310,7 +312,7 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createGetAsArrayMethod(JClass jClass, final boolean useJava50) {
         JType jType = new JArrayType(this.getContentType().getJType(), useJava50);
-        JMethod method = new JMethod(jType, this.getReadMethodName());
+        JMethod method = new JMethod(this.getReadMethodName(), jType, "this collection as an Array");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("int size = this.");
@@ -348,17 +350,16 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createGetAsReferenceMethod(JClass jClass) {
-        JMethod method = new JMethod(this.getXSList().getJType(), this.getReadMethodName() + this.getReferenceMethodSuffix());
+        JMethod method = new JMethod(this.getReadMethodName() + this.getReferenceMethodSuffix(),
+                                     this.getXSList().getJType(),
+                                     "a reference to the Vector backing this class");
 
         // create Javadoc
         JDocComment comment = method.getJDocComment();
         comment.appendComment("Returns a reference to '");
         comment.appendComment(this.getName());
         comment.appendComment("'. No type checking is performed on any ");
-        comment.appendComment("modications to the Vector.");
-        JDocDescriptor returnDescriptor = JDocDescriptor.createReturnDesc();
-        returnDescriptor.setDescription("returns a reference to the Vector.");
-        comment.addDescriptor(returnDescriptor);
+        comment.appendComment("modifications to the Vector.");
 
         // create code
         JSourceCode sourceCode = method.getSourceCode();
@@ -370,7 +371,10 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createGetByIndexMethod(JClass jClass) {
-        JMethod method = new JMethod(this.getContentType().getJType(), this.getReadMethodName());
+        XSType contentType = this.getContentType();
+        JMethod method = new JMethod(this.getReadMethodName(), contentType.getJType(),
+                                     "the value of the " + contentType.getJType().toString() + " at the given index");
+
         method.addException(SGTypes.IndexOutOfBoundsException);
         method.addParameter(new JParameter(JType.INT, "index"));
 
@@ -379,13 +383,13 @@ public class CollectionInfo extends FieldInfo {
 
         String value = this.getName() + ".get(index)";
         sourceCode.add("return ");
-        if (this.getContentType().getType() == XSType.CLASS) {
+        if (contentType.getType() == XSType.CLASS) {
             sourceCode.append("(");
             sourceCode.append(method.getReturnType().toString());
             sourceCode.append(") ");
             sourceCode.append(value);
         } else {
-            sourceCode.append(this.getContentType().createFromJavaObjectCode(value));
+            sourceCode.append(contentType.createFromJavaObjectCode(value));
         }
         sourceCode.append(";");
 
@@ -427,7 +431,8 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createGetCountMethod(JClass jClass) {
-        JMethod method = new JMethod(JType.INT, this.getReadMethodName() + "Count");
+        JMethod method = new JMethod(this.getReadMethodName() + "Count", JType.INT,
+                                     "the size of this collection");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -450,7 +455,7 @@ public class CollectionInfo extends FieldInfo {
     } // -- createCollectionAccessMethods
 
     protected void createInsertMethod(JClass jClass) {
-        JMethod method = new JMethod(null, this.getWriteMethodName());
+        JMethod method = new JMethod(this.getWriteMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException);
         method.addParameter(new JParameter(JType.INT, "index"));
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
@@ -473,7 +478,9 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createIteratorMethod(JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod(SGTypes.createIterator(this.getContentType().getJType(), useJava50), "iterate" + this.getMethodSuffix());
+        JMethod method = new JMethod("iterate" + this.getMethodSuffix(),
+                SGTypes.createIterator(this.getContentType().getJType(), useJava50),
+                "an Iterator over all possible elements in this collection");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -489,7 +496,7 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      */
     protected void createRemoveAllMethod(JClass jClass) {
-        JMethod method = new JMethod(null, "removeAll" + this.getMethodSuffix());
+        JMethod method = new JMethod("removeAll" + this.getMethodSuffix());
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("this.");
@@ -509,7 +516,10 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      */
     protected void createRemoveByIndexMethod(JClass jClass) {
-        JMethod method = new JMethod(this.getContentType().getJType(), "remove" + this.getMethodSuffix() + "At");
+        JMethod method = new JMethod("remove" + this.getMethodSuffix() + "At",
+                                     this.getContentType().getJType(),
+                                     "the element removed from the collection");
+
         method.addParameter(new JParameter(JType.INT, "index"));
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -540,7 +550,9 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      */
     protected void createRemoveObjectMethod(JClass jClass) {
-        JMethod method = new JMethod(JType.BOOLEAN, "remove" + this.getMethodSuffix());
+        JMethod method = new JMethod("remove" + this.getMethodSuffix(), JType.BOOLEAN,
+                                     "true if the object was removed from the collection.");
+
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
 
@@ -561,7 +573,7 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createSetAsArrayMethod(JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
+        JMethod method = new JMethod("set" + this.getMethodSuffix());
         final JParameter parameter = new JParameter(new JArrayType(this.getContentType().getJType(), useJava50), this.getContentName() + "Array");
         method.addParameter(parameter);
 
@@ -608,7 +620,7 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      */
     protected void createSetAsCopyMethod(JClass jClass) {
-        JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
+        JMethod method = new JMethod("set" + this.getMethodSuffix());
         JParameter parameter = new JParameter(this.getXSList().getJType(), this.getContentName() + "List");
         method.addParameter(parameter);
 
@@ -650,7 +662,7 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      */
     protected void createSetAsReferenceMethod(JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod(null, "set" + this.getMethodSuffix() + _referenceSuffix);
+        JMethod method = new JMethod("set" + this.getMethodSuffix() + _referenceSuffix);
         JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType(), useJava50), this.getMethodSuffix()
                 + "Vector");
         method.addParameter(parameter);
@@ -680,7 +692,7 @@ public class CollectionInfo extends FieldInfo {
     }
 
     protected void createSetByIndexMethod(JClass jClass) {
-        JMethod method = new JMethod(null, "set" + this.getMethodSuffix());
+        JMethod method = new JMethod("set" + this.getMethodSuffix());
 
         method.addException(SGTypes.IndexOutOfBoundsException);
         method.addParameter(new JParameter(JType.INT, "index"));
