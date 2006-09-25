@@ -61,9 +61,9 @@ public final class EHCache extends AbstractBaseCache {
     private static final Class[] TYPES_REMOVE = new Class[] {Object.class};
 
     /** Parameter types for calling constrcutor on 'net.sf.ehcache.Element' class. */
-    private static final Class[] TYPES_ELEMENT_CONSTRUCTOR = 
+    private static final Class[] TYPES_ELEMENT_CONSTRUCTOR =
         new Class[] {Object.class, Object.class};
-    
+
     /** The cache instance. */
     private Object _cache;
 
@@ -84,7 +84,7 @@ public final class EHCache extends AbstractBaseCache {
 
     /** The method to invoke on Element instead of calling getValue() directly. */
     private Method _getValueMethod;
-    
+
     /** The method to test whether or not an element is expired. */
     private Method _isExpiredMethod;
 
@@ -106,59 +106,59 @@ public final class EHCache extends AbstractBaseCache {
      * Normally called to initialize FKCache. To be able to test the method without
      * having <code>javax.util.jcache.CacheAccessFactory</code> implementation, it
      * can also be called with a test implementations classname.
-     * 
+     *
      * @param implementation Cache implementation classname to initialize.
      * @param params Parameters to initialize the cache (e.g. name, capacity).
      * @throws CacheAcquireException If cache can not be initialized.
      */
-    public void initialize(final String implementation, final Properties params) 
+    public void initialize(final String implementation, final Properties params)
     throws CacheAcquireException {
         super.initialize(params);
-        
+
         try {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class cls = ldr.loadClass(implementation);
-            invokeStaticMethod(cls, "create", null, null); 
-            Object factory = invokeStaticMethod(cls, "getInstance", null, null); 
-            Boolean cacheExists = 
-                (Boolean) invokeMethod(factory, "cacheExists", 
+            invokeStaticMethod(cls, "create", null, null);
+            Object factory = invokeStaticMethod(cls, "getInstance", null, null);
+            Boolean cacheExists =
+                (Boolean) invokeMethod(factory, "cacheExists",
                         new Class[] {String.class}, new Object[] {getName()});
             if (!cacheExists.booleanValue()) {
-                invokeMethod(factory, "addCache", TYPES_GET_CACHE, 
+                invokeMethod(factory, "addCache", TYPES_GET_CACHE,
                         new Object[] {getName()});
             }
-            _cache = invokeMethod(factory, "getCache", 
+            _cache = invokeMethod(factory, "getCache",
                     TYPES_GET_CACHE, new Object[] {getName()});
-           
+
         } catch (Exception e) {
             String msg = "Error creating EHCache cache: " + e.getMessage();
             LOG.error(msg, e);
             throw new CacheAcquireException(msg, e);
         }
-        
+
         Class cls = _cache.getClass();
-        
+
         try {
             _elementClass = Class.forName("net.sf.ehcache.Element");
-            _getValueMethod = _elementClass.getMethod("getValue", null);
-            _isExpiredMethod = _elementClass.getMethod("isExpired", null);
+            _getValueMethod = _elementClass.getMethod("getValue", (Class[]) null);
+            _isExpiredMethod = _elementClass.getMethod("isExpired", (Class[]) null);
         } catch (Exception e) {
-            String msg = 
-                "Failed to instantiate Class for type 'net.sf.ehcache.Element': " 
+            String msg =
+                "Failed to instantiate Class for type 'net.sf.ehcache.Element': "
                 + e.getMessage();
             LOG.error(msg, e);
             throw new CacheAcquireException(msg, e);
         }
-        
+
         try {
-            _getSizeMethod = cls.getMethod("getSize", null);
+            _getSizeMethod = cls.getMethod("getSize", (Class[]) null);
             _getMethod = cls.getMethod("get", TYPES_GET);
             _putMethod = cls.getMethod("put", new Class[] {_elementClass });
             _removeMethod = cls.getMethod("remove", TYPES_REMOVE);
-            _removeAllMethod = cls.getMethod("removeAll", null);
+            _removeAllMethod = cls.getMethod("removeAll", (Class[]) null);
             _elementConstructor =
                 _elementClass.getConstructor(TYPES_ELEMENT_CONSTRUCTOR);
-            _removeAllMethod = cls.getMethod("removeAll", null);
+            _removeAllMethod = cls.getMethod("removeAll", (Class[]) null);
         } catch (Exception e) {
             String msg = "Failed to find method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);
@@ -173,7 +173,7 @@ public final class EHCache extends AbstractBaseCache {
     public int size() {
         Integer result = new Integer(-1);
         try {
-            result = (Integer) _getSizeMethod.invoke(_cache, null);
+            result = (Integer) _getSizeMethod.invoke(_cache, (Object[]) null);
         } catch (Exception e) {
             String msg = "Failed to call method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);
@@ -206,7 +206,7 @@ public final class EHCache extends AbstractBaseCache {
         throw new UnsupportedOperationException("containsValue(Object)");
     }
 
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#get(java.lang.Object)
@@ -216,8 +216,8 @@ public final class EHCache extends AbstractBaseCache {
         try {
             Object elementInCache = _getMethod.invoke(_cache, new Object[] {key});
             if (elementInCache == null) { return null; }
-            if (_isExpiredMethod.invoke(elementInCache, null) == Boolean.FALSE) {
-                result = _getValueMethod.invoke(elementInCache, null);
+            if (_isExpiredMethod.invoke(elementInCache, (Object[]) null) == Boolean.FALSE) {
+                result = _getValueMethod.invoke(elementInCache, (Object[]) null);
             }
         } catch (Exception e) {
             String msg = "Failed to call method on EHCache instance: " + e.getMessage();
@@ -227,9 +227,9 @@ public final class EHCache extends AbstractBaseCache {
         return result;
     }
 
- 
+
     // modification operations of map interface
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#put(java.lang.Object, java.lang.Object)
@@ -263,9 +263,9 @@ public final class EHCache extends AbstractBaseCache {
         return oldValue;
     }
 
- 
+
     // bulk operations of map interface
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#putAll(java.util.Map)
@@ -284,7 +284,7 @@ public final class EHCache extends AbstractBaseCache {
      */
     public void clear() {
         try {
-            _removeAllMethod.invoke(_cache, null);
+            _removeAllMethod.invoke(_cache, (Object[]) null);
         } catch (Exception e) {
             String msg = "Failed to call method on EHCache instance: " + e.getMessage();
             LOG.error(msg, e);
@@ -292,9 +292,9 @@ public final class EHCache extends AbstractBaseCache {
         }
     }
 
- 
+
     // view operations of map interface
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#keySet()
@@ -323,7 +323,7 @@ public final class EHCache extends AbstractBaseCache {
      * Normally called to shutdown CoherenceCache. To be able to test the method
      * without having <code>com.tangosol.net.CacheFactory</code> implementation,
      * it can also be called with a test implementations classname.
-     * 
+     *
      * @param implementation Cache implementation classname to shutdown.
      */
     public void shutdown(final String implementation) {
@@ -331,9 +331,9 @@ public final class EHCache extends AbstractBaseCache {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class cls = ldr.loadClass(implementation);
             if (cls != null) {
-                Object factory = invokeStaticMethod(cls, "getInstance", null, null); 
+                Object factory = invokeStaticMethod(cls, "getInstance", null, null);
                 Method method = cls.getMethod("shutdown", new Class[] {cls});
-                method.invoke(factory, null);
+                method.invoke(factory, (Object[]) null);
             }
         } catch (Exception e) {
             LOG.error("Problem shutting down Coherence cluster member", e);
@@ -349,4 +349,3 @@ public final class EHCache extends AbstractBaseCache {
 }
 
 
- 

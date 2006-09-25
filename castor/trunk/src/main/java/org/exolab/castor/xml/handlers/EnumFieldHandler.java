@@ -158,7 +158,7 @@ public class EnumFieldHandler implements FieldHandler {
     public void setValue(Object target, Object value)
         throws java.lang.IllegalStateException
     {
-        String[] args = new String[1];
+        Object[] args = new String[1];
         Object obj = null;
         if (value != null) {
             args[0] = value.toString();
@@ -216,7 +216,7 @@ public class EnumFieldHandler implements FieldHandler {
     /**
      * Returns true if the given object is an XMLFieldHandler that
      * is equivalent to the delegated handler. An equivalent XMLFieldHandler
-	 * is an XMLFieldHandler that is an instances of the same class.
+     * is an XMLFieldHandler that is an instances of the same class.
      *
      * @return true if the given object is an XMLFieldHandler that
      * is equivalent to this one.

@@ -31,7 +31,7 @@ import org.castor.cache.AbstractCacheFactory;
  * @since 1.0
  */
 public final class GigaspacesCacheFactory extends AbstractCacheFactory {
-    
+
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
      *  Logging </a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(GigaspacesCacheFactory.class);
@@ -41,13 +41,13 @@ public final class GigaspacesCacheFactory extends AbstractCacheFactory {
      * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return GigaspacesCache.TYPE; }
-    
+
     /**
      * {@inheritDoc}
      * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return GigaspacesCache.class.getName(); }
-    
+
     /**
      * {@inheritDoc}
      * @see org.castor.cache.CacheFactory#shutdown()
@@ -58,7 +58,7 @@ public final class GigaspacesCacheFactory extends AbstractCacheFactory {
      * Normally called to shutdown GigaspacesCache. To be able to test the method
      * without having <code>com.tangosol.net.CacheFactory</code> implementation,
      * it can also be called with a test implementations classname.
-     * 
+     *
      * @param implementation Cache implementation classname to shutdown.
      */
     public void shutdown(final String implementation) {
@@ -66,8 +66,8 @@ public final class GigaspacesCacheFactory extends AbstractCacheFactory {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class cls = ldr.loadClass(implementation);
             if (cls != null) {
-                Method method = cls.getMethod("shutdown", null);
-                method.invoke(null, null);
+                Method method = cls.getMethod("shutdown", (Class[]) null);
+                method.invoke(null, (Object[]) null);
             }
         } catch (Exception e) {
             LOG.error("Problem shutting down Gigaspaces cluster member", e);

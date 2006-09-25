@@ -42,13 +42,13 @@ public final class CoherenceCacheFactory extends AbstractCacheFactory {
      * @see org.castor.cache.CacheFactory#getCacheType()
      */
     public String getCacheType() { return CoherenceCache.TYPE; }
-    
+
     /**
      * {@inheritDoc}
      * @see org.castor.cache.CacheFactory#getCacheClassName()
      */
     public String getCacheClassName() { return CoherenceCache.class.getName(); }
-    
+
     /**
      * {@inheritDoc}
      * @see org.castor.cache.CacheFactory#shutdown()
@@ -59,7 +59,7 @@ public final class CoherenceCacheFactory extends AbstractCacheFactory {
      * Normally called to shutdown CoherenceCache. To be able to test the method
      * without having <code>com.tangosol.net.CacheFactory</code> implementation,
      * it can also be called with a test implementations classname.
-     * 
+     *
      * @param implementation Cache implementation classname to shutdown.
      */
     public void shutdown(final String implementation) {
@@ -67,8 +67,8 @@ public final class CoherenceCacheFactory extends AbstractCacheFactory {
             ClassLoader ldr = this.getClass().getClassLoader();
             Class cls = ldr.loadClass(implementation);
             if (cls != null) {
-                Method method = cls.getMethod("shutdown", null);
-                method.invoke(null, null);
+                Method method = cls.getMethod("shutdown", (Class[]) null);
+                method.invoke(null, (Object[]) null);
             }
         } catch (Exception e) {
             LOG.error("Problem shutting down Coherence cluster member", e);

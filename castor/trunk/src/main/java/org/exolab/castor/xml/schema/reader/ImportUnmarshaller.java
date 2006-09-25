@@ -57,46 +57,46 @@ public class ImportUnmarshaller extends ComponentReader
 
     public ImportUnmarshaller
         (Schema schema, AttributeSet atts, Resolver resolver, URIResolver uriResolver, Locator locator, SchemaUnmarshallerState state)
-		throws XMLException
+        throws XMLException
     {
         super();
         setResolver(resolver);
         setURIResolver(uriResolver);
 
         URILocation uri = null;
-		//-- Get schemaLocation
-		String schemaLocation = atts.getValue(SchemaNames.SCHEMALOCATION_ATTR);
-		//-- Get namespace
-		String namespace = atts.getValue("namespace");
-		
-		if ((schemaLocation == null) && (namespace == null)) {
-		    //-- A legal <import/> element...just return
-		    return; 
-		}
+        //-- Get schemaLocation
+        String schemaLocation = atts.getValue(SchemaNames.SCHEMALOCATION_ATTR);
+        //-- Get namespace
+        String namespace = atts.getValue("namespace");
+
+        if ((schemaLocation == null) && (namespace == null)) {
+            //-- A legal <import/> element...just return
+            return;
+        }
 
         boolean hasLocation = (schemaLocation != null);
         if (schemaLocation != null) {
-            
+
             if (schemaLocation.indexOf("\\") != -1) {
-                String err = "'" + schemaLocation + 
+                String err = "'" + schemaLocation +
                     "' is not a valid URI as defined by IETF RFC 2396.";
                 err += "The URI mustn't contain '\\'.";
                 throw new SchemaException(err);
-		    }
+            }
 
             if (namespace == null) namespace = "";
-            
+
             try {
                 String documentBase = locator.getSystemId();
                 if (documentBase != null) {
                     if (!documentBase.endsWith("/"))
                         documentBase = documentBase.substring(0, documentBase.lastIndexOf('/') +1 );
                 }
-		        uri = getURIResolver().resolve(schemaLocation, documentBase);
+                uri = getURIResolver().resolve(schemaLocation, documentBase);
                 if (uri != null) {
                     schemaLocation = uri.getAbsoluteURI();
                 }
-            } 
+            }
             catch (URIException urix) {
                 throw new XMLException(urix);
             }
@@ -104,8 +104,8 @@ public class ImportUnmarshaller extends ComponentReader
         else {
             schemaLocation = namespace;
             try {
-		        uri = getURIResolver().resolveURN(namespace);
-            } 
+                uri = getURIResolver().resolveURN(namespace);
+            }
             catch (URIException urix) {
                 throw new XMLException(urix);
             }
@@ -113,7 +113,7 @@ public class ImportUnmarshaller extends ComponentReader
                 String err = "Unable to resolve Schema corresponding " +
                     "to namespace '" + namespace + "'.";
                 throw new SchemaException(err);
-                    
+
             }
         }
 
@@ -124,62 +124,62 @@ public class ImportUnmarshaller extends ComponentReader
             throw new SchemaException("the 'namespace' attribute in the <import> element cannot be the same of the targetNamespace of the global schema");
 
         //-- Schema object to hold import schema
-		boolean addSchema = false;
-		Schema importedSchema = schema.getImportedSchema(namespace, true);
+        boolean addSchema = false;
+        Schema importedSchema = schema.getImportedSchema(namespace, true);
 
         //-- Have we already imported this XML Schema file?
-		if (state.processed(schemaLocation)) {
+        if (state.processed(schemaLocation)) {
            if (importedSchema == null)
                schema.addImportedSchema(state.getSchema(schemaLocation));
            return;
-		}
-		
-		boolean alreadyLoaded = false;
+        }
+
+        boolean alreadyLoaded = false;
         if (importedSchema == null) {
             if (uri instanceof SchemaLocation) {
                 importedSchema = ((SchemaLocation)uri).getSchema();
-			    schema.addImportedSchema(importedSchema);
-			    alreadyLoaded = true;
+                schema.addImportedSchema(importedSchema);
+                alreadyLoaded = true;
             }
             else {
-			    importedSchema = new Schema();
-			    addSchema = true;
-			}
-		}
-		else {
-		    //-- check schema location, if different, allow merge
-		    if (hasLocation) {
-		        String tmpLocation = importedSchema.getSchemaLocation();
-		        alreadyLoaded = schemaLocation.equals(tmpLocation);
-		    }
-		    else { 
-		        //-- only namespace can be used, no way to distinguish
-		        //-- multiple imports...mark as alreadyLoaded
-		        //-- see W3C XML Schema 1.0 Recommendation (part 1)
-		        //-- section 4.2.3...
-		        //-- <quote>... Given that the schemaLocation [attribute] is only 
-		        //--   a hint, it is open to applications to ignore all but the 
-		        //--   first <import> for a given namespace, regardless of the 
-		        //--  ·actual value· of schemaLocation, but such a strategy
-                //--  risks missing useful information when new schemaLocations 
+                importedSchema = new Schema();
+                addSchema = true;
+            }
+        }
+        else {
+            //-- check schema location, if different, allow merge
+            if (hasLocation) {
+                String tmpLocation = importedSchema.getSchemaLocation();
+                alreadyLoaded = schemaLocation.equals(tmpLocation);
+            }
+            else {
+                //-- only namespace can be used, no way to distinguish
+                //-- multiple imports...mark as alreadyLoaded
+                //-- see W3C XML Schema 1.0 Recommendation (part 1)
+                //-- section 4.2.3...
+                //-- <quote>... Given that the schemaLocation [attribute] is only
+                //--   a hint, it is open to applications to ignore all but the
+                //--   first <import> for a given namespace, regardless of the
+                //--   <em>actual value</em> of schemaLocation, but such a strategy
+                //--   risks missing useful information when new schemaLocations
                 //--  are offered.</quote>
-		        alreadyLoaded = true;
-		    }
-		}
+                alreadyLoaded = true;
+            }
+        }
 
         state.markAsProcessed(schemaLocation, importedSchema);
 
         if (alreadyLoaded) return;
-        
+
         //-- Parser Schema
-		Parser parser = null;
-		try {
-		    parser = state.getConfiguration().getParser();
-		}
-		catch(RuntimeException rte) {}
-		if (parser == null) {
-		    throw new SchemaException("Error failed to create parser for import");
-		}
+        Parser parser = null;
+        try {
+            parser = state.getConfiguration().getParser();
+        }
+        catch(RuntimeException rte) {}
+        if (parser == null) {
+            throw new SchemaException("Error failed to create parser for import");
+        }
     //-- Create Schema object and setup unmarshaller
     SchemaUnmarshaller schemaUnmarshaller = new SchemaUnmarshaller(state);
           schemaUnmarshaller.setURIResolver(getURIResolver());
@@ -188,25 +188,25 @@ public class ImportUnmarshaller extends ComponentReader
     parser.setDocumentHandler(handler);
     parser.setErrorHandler(handler);
 
-		try {
-		    InputSource source = new InputSource(uri.getReader());
+        try {
+            InputSource source = new InputSource(uri.getReader());
             source.setSystemId(uri.getAbsoluteURI());
             parser.parse(source);
-		}
-		catch(java.io.IOException ioe) {
-		    throw new SchemaException("Error reading import file '"+schemaLocation+"': "+ ioe);
-		}
-		catch(org.xml.sax.SAXException sx) {
-		    throw new SchemaException(sx);
-		}
+        }
+        catch(java.io.IOException ioe) {
+            throw new SchemaException("Error reading import file '"+schemaLocation+"': "+ ioe);
+        }
+        catch(org.xml.sax.SAXException sx) {
+            throw new SchemaException(sx);
+        }
 
-		//-- Add schema to list of imported schemas (if not already present)
-		if (addSchema)
-		{
+        //-- Add schema to list of imported schemas (if not already present)
+        if (addSchema)
+        {
             importedSchema.setSchemaLocation(schemaLocation);
-			schema.addImportedSchema(importedSchema);
-		}
-	}
+            schema.addImportedSchema(importedSchema);
+        }
+    }
 
 
     /**

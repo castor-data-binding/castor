@@ -30,9 +30,9 @@ import org.castor.cache.CacheAcquireException;
 
 /**
  * JCS (Java Caching System) implementation of Castor JDO Cache.
- * 
+ *
  * For more details of JCS, see http://jakarta.apache.org/jcs
- * 
+ *
  * @see <a href="http://jakarta.apache.org/jcs">The JCS Home Page</a>
  * @author <a href="mailto:ttelcik AT hbf DOT com DOT au">Tim Telcik</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
@@ -49,25 +49,25 @@ public final class JcsCache extends AbstractBaseCache {
 
     /** The type of the cache. */
     public static final String TYPE = "jcs";
-    
+
     /** The classname of the implementations factory class. */
     public static final String IMPLEMENTATION = "org.apache.jcs.JCS";
-    
+
     /** Parameter types for calling getInstance() method on IMPLEMENTATION. */
     private static final Class[] TYPES_GET_INSTANCE = new Class[] {String.class};
-    
+
     /** Parameter types for calling get() method on cache instance. */
     private static final Class[] TYPES_GET = new Class[] {Object.class};
-    
+
     /** Parameter types for calling put() method on cache instance. */
     private static final Class[] TYPES_PUT = new Class[] {Object.class, Object.class};
-    
+
     /** Parameter types for calling remove() method on cache instance. */
     private static final Class[] TYPES_REMOVE = TYPES_GET;
-    
+
     /** The cache instance. */
     private Object _cache;
-    
+
     /** The method to invoke on cache instead of calling get() directly. */
     private Method _getMethod;
 
@@ -82,7 +82,7 @@ public final class JcsCache extends AbstractBaseCache {
 
     //--------------------------------------------------------------------------
     // operations for life-cycle management of cache
-    
+
     /**
      * {@inheritDoc}
      * @see org.castor.cache.Cache#initialize(java.util.Properties)
@@ -95,7 +95,7 @@ public final class JcsCache extends AbstractBaseCache {
      * Normally called to initialize JcsCache. To be able to test the method
      * without having <code>org.apache.jcs.JCS</code> implementation, it can also
      * be called with a test implementations classname.
-     * 
+     *
      * @param implementation Cache implementation classname to initialize.
      * @param params Parameters to initialize the cache (e.g. name, capacity).
      * @throws CacheAcquireException If cache can not be initialized.
@@ -109,12 +109,12 @@ public final class JcsCache extends AbstractBaseCache {
             Class cls = ldr.loadClass(implementation);
             Method method = cls.getMethod("getInstance", TYPES_GET_INSTANCE);
             _cache = method.invoke(null, new Object[] {getName()});
-            
+
             cls = _cache.getClass();
             _getMethod = cls.getMethod("get", TYPES_GET);
             _putMethod = cls.getMethod("put", TYPES_PUT);
             _removeMethod = cls.getMethod("remove", TYPES_REMOVE);
-            _clearMethod = cls.getMethod("clear", null);
+            _clearMethod = cls.getMethod("clear", (Class[]) null);
         } catch (Exception e) {
             String msg = "Error creating JCS cache: " + e.getMessage();
             LOG.error(msg, e);
@@ -176,7 +176,7 @@ public final class JcsCache extends AbstractBaseCache {
 
     //--------------------------------------------------------------------------
     // modification operations of map interface
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#put(java.lang.Object, java.lang.Object)
@@ -199,7 +199,7 @@ public final class JcsCache extends AbstractBaseCache {
 
     //--------------------------------------------------------------------------
     // bulk operations of map interface
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#putAll(java.util.Map)
@@ -222,7 +222,7 @@ public final class JcsCache extends AbstractBaseCache {
 
     //--------------------------------------------------------------------------
     // view operations of map interface
-    
+
     /**
      * {@inheritDoc}
      * @see java.util.Map#keySet()
@@ -253,7 +253,7 @@ public final class JcsCache extends AbstractBaseCache {
     /**
      * Invoke given method on cache with given arguments. Any possible exception will
      * be catched and IllegalStateException will be thrown instead.
-     * 
+     *
      * @param method The method to call on cache.
      * @param arguments The parameters.
      * @return The result of the method invocation.
@@ -267,6 +267,6 @@ public final class JcsCache extends AbstractBaseCache {
             throw new IllegalStateException(e.getMessage());
         }
     }
-    
+
     //--------------------------------------------------------------------------
 }
