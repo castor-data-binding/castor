@@ -79,7 +79,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *            {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
      */
     public CollectionInfoJ2(XSType contentType, String name,
-            String elementName, String collectionType, 
+            String elementName, String collectionType,
             final boolean useJava50) {
         super(contentType, name, elementName, useJava50);
         // --override the schemaType
@@ -103,7 +103,9 @@ public class CollectionInfoJ2 extends CollectionInfo {
      * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass)
      */
     protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType(), useJava50), "enumerate" + this.getMethodSuffix());
+        JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
+                SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
+                "an Enumeration over all possible elements of this collection");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return java.util.Collections.enumeration(this.");
@@ -114,7 +116,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
     }
 
     protected void createAddMethod(JClass jClass) {
-        JMethod method = new JMethod(null, this.getWriteMethodName());
+        JMethod method = new JMethod(this.getWriteMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException);
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);

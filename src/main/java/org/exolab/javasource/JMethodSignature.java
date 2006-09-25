@@ -61,12 +61,12 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      * The set of modifiers for this JMethodSignature
      */
     private JModifiers _modifiers = null;
-    
+
     /**
      * The return type of this method
      */
     private JType _returnType    = null;
-    
+
     /**
      * The name of this JMethodSignature
      */
@@ -75,53 +75,61 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     /**
      * The list of parameters of this method in order declared
      */
-    private JNamedMap _params       = null;
-    
+    private final JNamedMap _params;
+
     /**
      * The JavaDoc comment for this method's signature.
      */
-    private JDocComment _jdc = null;
-    
+    private final JDocComment _jdc;
+
     /**
      * The exceptions that this method throws
      */
-    private Vector _exceptions = null;
-    
+    private final Vector _exceptions;
+
     /**
-     * Creates a new method with the given name and return type. For "void"
-     * return types, simply pass in null as the returnType
+     * Creates a new method with the given name and "void" return type.
      *
      * @param name the method name. Must not be null.
-     * @param returnType the return type of the method. May be null.
      */
-    public JMethodSignature(final String name, final JType returnType) {
+    public JMethodSignature(final String name) {
         if ((name == null) || (name.length() == 0)) {
             String err = "The method name must not be null or zero-length";
             throw new IllegalArgumentException(err);
         }
-        
+
         this._jdc          = new JDocComment();
-        this._returnType   = returnType;
+        this._returnType   = null;
         this._name         = name;
         this._modifiers    = new JModifiers();
         this._params       = new JNamedMap(3);
         this._exceptions   = new Vector(1);
-        
-        //-- add Return type descriptor
-        if (returnType != null) {
-            _jdc.addDescriptor(JDocDescriptor.createReturnDesc(
-                    returnType.getLocalName()));
+    } //-- JMethodSignature
+
+
+    /**
+     * Creates a new method with the given name and return type.
+     *
+     * @param name the method name. Must not be null.
+     * @param returnType the return type of the method. Must not be null.
+     */
+    public JMethodSignature(final String name, final JType returnType) {
+        this(name);
+        if (returnType == null) {
+            String err = "The return type must not be null or zero-length";
+            throw new IllegalArgumentException(err);
         }
+        this._returnType = returnType;
     } //-- JMethodSignature
 
     /**
      * Adds the given Exception to this JMethodSignature's throws clause.
-     * 
+     *
      * @param exp the JClass representing the Exception
      */
     public void addException(final JClass exp) {
         if (exp == null) { return; }
-        
+
         //-- make sure exception is not already added
         String expClassName = exp.getName();
         for (int i = 0; i < _exceptions.size(); i++) {
@@ -131,16 +139,16 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         //-- add exception
         _exceptions.addElement(exp);
     } //-- addException
-    
+
     /**
      * Adds the given parameter to this JMethodSignature's list of parameters.
-     * 
+     *
      * @param parameter the parameter to add to the this JMethodSignature's list
      *            of parameters.
      */
     public void addParameter(final JParameter parameter) {
         if (parameter == null) { return; }
-        
+
         String pName = parameter.getName();
         //-- check current params
         if (_params.get(pName) != null) {
@@ -151,18 +159,18 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             err.append(pName);
             throw new IllegalArgumentException(err.toString());
         }
-        
-        
+
+
         _params.put(pName, parameter);
-        
+
         //-- create comment
         _jdc.addDescriptor(JDocDescriptor.createParamDesc(pName, null));
     } //-- addParameter
-    
+
     /**
      * Returns the exceptions that this JMethodSignature lists in its throws
      * clause.
-     * 
+     *
      * @return the exceptions that this JMethodSignature lists in its throws
      *         clause.
      */
@@ -171,19 +179,19 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         _exceptions.copyInto(jclasses);
         return jclasses;
     } //-- getExceptions
-    
+
     /**
      * Returns the JavaDoc comment describing this JMethodSignature
-     * 
+     *
      * @return the JavaDoc comment describing this JMethodSignature
      */
     public JDocComment getJDocComment() {
         return this._jdc;
     } //-- getJDocComment
-    
+
     /**
      * Returns the modifiers for this JMethodSignature
-     * 
+     *
      * @return the modifiers for this JMethodSignature
      */
     public JModifiers getModifiers() {
@@ -192,7 +200,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
     /**
      * Returns the name of the method
-     * 
+     *
      * @return the name of the method
      */
     public String getName() {
@@ -201,20 +209,20 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
     /**
      * Returns the JParameter at the given index
-     * 
+     *
      * @param index the index of the JParameter to return
      * @return the JParameter at the given index
      */
     public JParameter getParameter(final int index) {
         return (JParameter) _params.get(index);
     } //-- getParameter
-    
+
     /**
      * Returns the set of JParameters in this JMethodSignature.
      * <p>
      * <B>Note:</B> the array is a copy, the parameters in the array are the
      * actual references.
-     * 
+     *
      * @return the set of JParameters in this JMethodSignature
      */
     public synchronized JParameter[] getParameters() {
@@ -224,11 +232,11 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         }
         return pArray;
     } //-- getParameters
-    
+
     /**
      * Returns the JType that represents the return type for the method
      * signature
-     * 
+     *
      * @return the JType that represents the return type for the method
      *         signature
      */
@@ -238,26 +246,26 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
     /**
      * Sets the name of the method
-     * 
+     *
      * @param name the name of the method
      */
     public void setName(final String name) {
         this._name = name;
     } //-- setName
-   
+
     /**
      * Sets the JavaDoc comment describing this JMethodSignature
-     * 
+     *
      * @param comment the JavaDoc comment for this member
      * @see #getJDocComment
      */
     public void setComment(final String comment) {
         _jdc.setComment(comment);
     } //-- setComment
-    
+
     /**
      * Sets the JModifiers for this method signature
-     * 
+     *
      * @param modifiers the JModifiers for this method signature
      */
     public void setModifiers(final JModifiers modifiers) {
@@ -268,7 +276,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     /**
      * Prints the method signature. A semi-colon (end-of-statement terminator
      * ';') will <em>not</em> be printed.
-     * 
+     *
      * @param jsw the JSourceWriter to print to.
      */
     public void print(final JSourceWriter jsw) {
@@ -278,7 +286,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     /**
      * Prints the method signature. A semi-colon (end-of-statement terminator
      * ';') will <em>not</em> be printed.
-     * 
+     *
      * @param jsw the JSourceWriter to print to.
      * @param printJavaDoc if true, print the JDocComment associated with this
      *            method signature before we print the method signature
@@ -287,19 +295,19 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         //------------/
         //- Java Doc -/
         //------------/
-        
+
         if (printJavaDoc) { _jdc.print(jsw); }
-        
+
         //---------------/
         //- Annotations -/
         //---------------/
-        
+
         printAnnotations(jsw);
-        
+
         //-----------------/
         //- Method Source -/
         //-----------------/
-        
+
         jsw.write(_modifiers.toString());
         if (_modifiers.toString().length() > 0) {
             jsw.write(' ');
@@ -312,7 +320,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         jsw.write(' ');
         jsw.write(_name);
         jsw.write('(');
-        
+
         //-- any parameter annotations?
         boolean parameterAnnotations = false;
         for (int i = 0; i < _params.size(); i++) {
@@ -322,7 +330,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
                 break;
             }
         }
-        
+
         //-- print parameters
         if (parameterAnnotations) { jsw.indent(); }
         for (int i = 0; i < _params.size(); i++) {
@@ -334,9 +342,9 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             jsw.write(typeAndName);
         }
         if (parameterAnnotations) { jsw.unindent(); }
-            
+
         jsw.write(")");
-        
+
         if (_exceptions.size() > 0) {
             jsw.writeln();
             jsw.write("    throws ");
@@ -345,13 +353,13 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
                 JClass jClass = (JClass) _exceptions.elementAt(i);
                 jsw.write(jClass.getName());
             }
-        }        
+        }
     } //-- print
 
     /**
      * Returns the String representation of this JMethod, which is the method
      * prototype.
-     * 
+     *
      * @return the String representation of this JMethod, which is simply the
      *         method prototype
      */
@@ -365,7 +373,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         sb.append(' ');
         sb.append(_name);
         sb.append('(');
-        
+
         //-- print parameters
         for (int i = 0; i < _params.size(); i++) {
             JParameter jParam = (JParameter) _params.get(i);
@@ -383,28 +391,28 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
      * stored in the Array is what is returned. Parameters that are primitive
      * types (and Arrays of primitive types) are not represented in the array of
      * names returned.
-     * 
+     *
      * @return an array containing the names of the classes of the parameters in
      *         this JMethodSignature
      */
     protected String[] getParameterClassNames() {
         Vector names = new Vector(_params.size());
-        
+
         for (int i = 0; i < _params.size(); i++) {
-            
+
             JType  jType  = ((JParameter) _params.get(i)).getType();
             while (jType instanceof JArrayType) {
-                jType = ((JArrayType) jType).getComponentType(); 
+                jType = ((JArrayType) jType).getComponentType();
             }
             if (!jType.isPrimitive()) {
                 JClass jclass = (JClass) jType;
                 names.addElement(jclass.getName());
             }
         }
-        
+
         String[] array = new String[names.size()];
         names.copyInto(array);
         return array;
     } //-- getParameterClassNames
-        
+
 } //-- JMethodSignature

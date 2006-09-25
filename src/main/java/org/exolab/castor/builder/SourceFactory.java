@@ -105,15 +105,15 @@ import java.util.Enumeration;
 public class SourceFactory extends BaseFactory {
     private static final String ENUM_ACCESS_INTERFACE =
         "org.exolab.castor.types.EnumeratedTypeAccess";
-        
+
     private static final short BASE_TYPE_ENUMERATION   = 0;
     private static final short OBJECT_TYPE_ENUMERATION = 1;
 
     private static final String CLASS_METHOD_SUFFIX = "Class";
     private static final String CLASS_KEYWORD       = "class";
-    
+
     private static final String ITEM_NAME = "Item";
-    
+
     /**
      * The current Binding for which we are creating classes
      */
@@ -128,23 +128,23 @@ public class SourceFactory extends BaseFactory {
 
     private short enumerationType = OBJECT_TYPE_ENUMERATION;
 
-	/**
-	 * A flag indicating whether or not to generate XML marshalling
-	 * framework specific methods.
-	 */
-	private boolean _createMarshalMethods = true;
+    /**
+     * A flag indicating whether or not to generate XML marshalling
+     * framework specific methods.
+     */
+    private boolean _createMarshalMethods = true;
 
     /**
-	 * A flag indicating whether or not to implement CastorTestable
+     * A flag indicating whether or not to implement CastorTestable
      * (used by the Castor Testing Framework)
-	 */
-	private boolean _testable = false;
+     */
+    private boolean _testable = false;
 
    /**
     * A flag indicating that SAX1 should be used when generating the source.
     */
     private boolean _sax1 = false;
-    
+
     /**
      * A flag indicating that enumerated types should be constructed to perform
      * case insensitive lookups based on the values.
@@ -156,7 +156,7 @@ public class SourceFactory extends BaseFactory {
      * SimpleTypes into XSTypes
      */
     private TypeConversion _typeConversion = null;
-    
+
     /**
      * Creates a new SourceFactory using the default FieldInfo factory.
      *
@@ -186,8 +186,8 @@ public class SourceFactory extends BaseFactory {
    /**
      * Sets whether or not to create the XML marshalling framework specific
      * methods (marshall, unmarshall, validate) in the generated classes.
-	 * By default, these methods are generated.
-	 *
+     * By default, these methods are generated.
+     *
      * @param createMarshalMethods a boolean, when true indicates
      * to generated the marshalling framework methods
      *
@@ -208,7 +208,7 @@ public class SourceFactory extends BaseFactory {
     public void setCreateExtraMethods(boolean extraMethods) {
         infoFactory.setCreateExtraMethods(extraMethods);
     } //-- setCreateExtraMethods
-    
+
     /**
      * Sets the method suffix (ending) to use when creating
      * the extra collection methods.
@@ -221,10 +221,10 @@ public class SourceFactory extends BaseFactory {
     public void setReferenceMethodSuffix(String suffix) {
         infoFactory.setReferenceMethodSuffix(suffix);
     } //-- setReferenceMethodSuffix
-    
+
     /**
      * Sets whether or not to implement CastorTestable
-	 *
+     *
      * @param testable a boolean, when true indicates
      * to implement CastorTestable
      */
@@ -239,12 +239,12 @@ public class SourceFactory extends BaseFactory {
     public void setSAX1(boolean sax1) {
         _sax1 = sax1;
     }
-    
+
     /**
-     * Set to true if enumerated type lookups should be performed in a case 
+     * Set to true if enumerated type lookups should be performed in a case
      * insensitive manner.
      *
-     * @param caseInsensitive when true 
+     * @param caseInsensitive when true
      */
     public void setCaseInsensitive(final boolean caseInsensitive) {
         _caseInsensitive = caseInsensitive;
@@ -269,14 +269,14 @@ public class SourceFactory extends BaseFactory {
         if (sgState == null) {
             throw new IllegalStateException("SGStateInfo may not be null.");
         }
-        
-        
+
+
         //-- check for previous JClass bindings
         JClass[] classes = sgState.getSourceCode(component.getAnnotated());
         if (classes != null) return classes;
-        
+
         _binding = component.getBinding();
-        
+
         if (sgState.verbose()) {
              String name = component.getXMLName();
              if (name == null)
@@ -284,14 +284,14 @@ public class SourceFactory extends BaseFactory {
              String msg = "Creating classes for: "+name;
              sgState.getDialog().notify(msg);
         }
-        
+
         FactoryState state = null;
 
         //0-- set the packageName
         String packageName = component.getJavaPackage();
         if ((packageName == null) || (packageName.length() == 0))
             packageName = sgState.packageName;
-        
+
         //1-- get the name
         String className = component.getQualifiedName();
         //--if no package used then try to append the default package
@@ -320,16 +320,16 @@ public class SourceFactory extends BaseFactory {
             state.setParent(sgState.getCurrentFactoryState());
             sgState.setCurrentFactoryState(state);
         }
-        
+
         //--Prevent endless loop
         if (state.processed(component.getAnnotated())) {
             return new JClass[0];
         }
-       
+
         //-- Mark the enclosed annotated structure as processed in the
         //-- current FactoryState for preventing endless loop.
         state.markAsProcessed(component.getAnnotated());
-        
+
         //////////////////////////////////////////////////////
         //NOTE: check that the component is not referring to
         //an imported schema to prevent class creation
@@ -351,17 +351,17 @@ public class SourceFactory extends BaseFactory {
         boolean createForSingleGroup = false;
         boolean creatingForAnElement =
             (component.getAnnotated().getStructureType() == Structure.ELEMENT);
-        
+
         //-- created from element definition information
         classInfo.setElementDefinition(creatingForAnElement);
-        
+
         if (type != null) {
 
             //5a--the type is a complexType
             if (type.isComplexType()) {
 
                 ComplexType complexType = (ComplexType)type;
-                
+
                 if (complexType.isTopLevel() && creatingForAnElement) {
                      //--move the view and keep the structure
                      Annotated saved = component.getAnnotated();
@@ -418,17 +418,17 @@ public class SourceFactory extends BaseFactory {
                 SimpleType simpleType = (SimpleType)type;
                 //-- handle our special case for enumerated types
                 if (simpleType.hasFacet(Facet.ENUMERATION)) {
-                    
-				    //-- Don't create source code for simple types that
-				    //-- don't belong in the elements target namespace
-				    String tns = simpleType.getSchema().getTargetNamespace();
-				    boolean create = false;
-				    if (tns == null)
-				        create = (component.getTargetNamespace() == null);
-				    else
+
+                    //-- Don't create source code for simple types that
+                    //-- don't belong in the elements target namespace
+                    String tns = simpleType.getSchema().getTargetNamespace();
+                    boolean create = false;
+                    if (tns == null)
+                        create = (component.getTargetNamespace() == null);
+                    else
                         create = tns.equals(component.getTargetNamespace());
-                        
-                        
+
+
                     if (create) {
                         ClassInfo tmpInfo = sgState.resolve(simpleType);
                         JClass tmpClass = null;
@@ -436,10 +436,10 @@ public class SourceFactory extends BaseFactory {
                             tmpClass = tmpInfo.getJClass();
                         }
                         else {
-					        tmpClass = createSourceCode(simpleType, sgState);
-					    }
-					    classInfo.setSchemaType(new XSClass(tmpClass));					        
-				    }
+                            tmpClass = createSourceCode(simpleType, sgState);
+                        }
+                        classInfo.setSchemaType(new XSClass(tmpClass));
+                    }
                 } else {
                     //////////////////////////////////////////////////////////
                     //NOTE: generate sources if the flag for generating sources
@@ -460,7 +460,7 @@ public class SourceFactory extends BaseFactory {
             //--MODEL GROUP OR GROUP
             try{
                 Group group = (Group)component.getAnnotated();
-                createForSingleGroup = (group.getMaxOccurs() == 1);                
+                createForSingleGroup = (group.getMaxOccurs() == 1);
                 processContentModel(group, state);
                 component.setView(group);
                 //-- Check Group Type
@@ -479,9 +479,9 @@ public class SourceFactory extends BaseFactory {
 
         //6--createGroupItem
         if (createGroupItem) {
-		    //-- create Bound Properties code
-		    if (component.hasBoundProperties())
-		        createPropertyChangeMethods(jClass);
+            //-- create Bound Properties code
+            if (component.hasBoundProperties())
+                createPropertyChangeMethods(jClass);
 
             sgState.bindReference(jClass, classInfo);
 
@@ -503,11 +503,11 @@ public class SourceFactory extends BaseFactory {
             fInfo.setContainer(true);
             className = className.substring(0,className.length()-4);
             state     = new FactoryState(className, sgState, packageName);
-		    classInfo = state.classInfo;
+            classInfo = state.classInfo;
             jClass    = state.jClass;
-		    initialize(jClass);
+            initialize(jClass);
             if (type != null && type.isComplexType()) {
-                
+
                 ComplexType complexType = (ComplexType)type;
                 if (complexType.isTopLevel() ^ creatingForAnElement) {
                     //process attributes and content type
@@ -524,13 +524,13 @@ public class SourceFactory extends BaseFactory {
                         SimpleType temp = simpleContent.getSimpleType();
                         XSType xsType = _typeConversion.convertType(temp, packageName, _config.useJava50());
                         FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(xsType, _config.useJava50());
-		                handleField(fieldInfo,state);
-		                temp = null;
+                        handleField(fieldInfo,state);
+                        temp = null;
                     }
-					else {
+                    else {
                         // handle multi-valued choice group
-						classInfo.setSchemaType(new XSClass(jClass));
-					}
+                        classInfo.setSchemaType(new XSClass(jClass));
+                    }
                 }
             }
 
@@ -539,7 +539,7 @@ public class SourceFactory extends BaseFactory {
             fInfo.createAccessMethods(jClass, _config.useJava50());
             fInfo.generateInitializerCode(jClass.getConstructor(0).getSourceCode());
 
-		    //-- name information
+            //-- name information
             classInfo.setNodeName(component.getXMLName());
 
             //-- mark as a container
@@ -602,7 +602,7 @@ public class SourceFactory extends BaseFactory {
                //-- #unmarshal()
                createUnmarshalMethods(jClass, sgState);
            }
-		}
+        }
 
         //create equals() method?
         if (component.hasEquals()) {
@@ -613,30 +613,30 @@ public class SourceFactory extends BaseFactory {
         if (_testable)
             createTestableMethods(jClass, state);
 
-		//-- This boolean is set to create bound properties
+        //-- This boolean is set to create bound properties
         //-- even if the user has set the SUPER CLASS property
         boolean userDerived = false;
         if (jClass.getSuperClass() != null) {
             userDerived = (jClass.getSuperClass().equals(baseClass));
             //-- create Bound Properties code
-		    if (component.hasBoundProperties() && (userDerived))
-		        createPropertyChangeMethods(jClass);
-		}
-		else {
-		    //-- no super-class, create notify method if necessary
-		    if (component.hasBoundProperties()) 
-		        createPropertyChangeMethods(jClass);
-		}
-		
+            if (component.hasBoundProperties() && (userDerived))
+                createPropertyChangeMethods(jClass);
+        }
+        else {
+            //-- no super-class, create notify method if necessary
+            if (component.hasBoundProperties())
+                createPropertyChangeMethods(jClass);
+        }
+
         sgState.bindReference(jClass, classInfo);
         sgState.bindReference(component.getAnnotated(), classInfo);
 
         classes[0] = jClass;
-        
+
         //-- Save source code bindings to prevent duplicate code
         //-- generation
         sgState.bindSourceCode(component.getAnnotated(), classes);
-        
+
         return classes;
     }
 
@@ -658,7 +658,7 @@ public class SourceFactory extends BaseFactory {
         if (sgState == null) {
             throw new IllegalArgumentException("SGStateInfo cannot be null.");
         }
-        
+
         //-- Unions are currently processed as the built-in
         //-- basetype for the member types of the Union, so
         //-- do nothing for now...however we can warn
@@ -671,7 +671,7 @@ public class SourceFactory extends BaseFactory {
             }
             return null;
         }
-        
+
         ClassInfo cInfo = sgState.resolve(simpleType);
         if (cInfo != null) return cInfo.getJClass();
 
@@ -706,7 +706,7 @@ public class SourceFactory extends BaseFactory {
         }
 
         String className   = JavaNaming.toJavaClassName(typeName);
-        
+
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
         XMLBindingComponent comp = new XMLBindingComponent(_config);
@@ -733,8 +733,8 @@ public class SourceFactory extends BaseFactory {
 
         FactoryState state = new FactoryState(className, sgState, packageName);
         state.setParent(sgState.getCurrentFactoryState());
-        
-        
+
+
         ClassInfo classInfo = state.classInfo;
         JClass    jClass    = state.jClass;
 
@@ -760,9 +760,9 @@ public class SourceFactory extends BaseFactory {
             processEnumeration(simpleType, state);
         }
 
-		//-- create Bound Properties code
-		if (state.hasBoundProperties())
-		    createPropertyChangeMethods(jClass);
+        //-- create Bound Properties code
+        if (state.hasBoundProperties())
+            createPropertyChangeMethods(jClass);
 
         sgState.bindReference(jClass, classInfo);
         sgState.bindReference(simpleType, classInfo);
@@ -783,12 +783,12 @@ public class SourceFactory extends BaseFactory {
 
 
         jClass.addInterface("java.io.Serializable");
-        
+
         if (_config.useJava50()) {
-			JAnnotation serial = new JAnnotation(new JAnnotationType("SuppressWarnings"));
-			serial.setValue(new String[] {"\"serial\""});			
-			jClass.addAnnotation(serial);
-		}
+            JAnnotation serial = new JAnnotation(new JAnnotationType("SuppressWarnings"));
+            serial.setValue(new String[] {"\"serial\""});
+            jClass.addAnnotation(serial);
+        }
 
         //-- add default constructor
         JConstructor con = jClass.createConstructor();
@@ -803,20 +803,20 @@ public class SourceFactory extends BaseFactory {
     **/
     private void createPropertyChangeMethods(JClass parent) {
 
-		parent.addImport("java.beans.PropertyChangeEvent");
-		parent.addImport("java.beans.PropertyChangeListener");
+        parent.addImport("java.beans.PropertyChangeEvent");
+        parent.addImport("java.beans.PropertyChangeListener");
 
         //-- add vector to hold listeners
         String vName = "propertyChangeSupport";
         JField field = new JField(SGTypes.PropertyChangeSupport, vName);
-        field.getModifiers().makePrivate();     
+        field.getModifiers().makePrivate();
         parent.addField(field);
 
         //---------------------------------/
         //- notifyPropertyChangeListeners -/
         //---------------------------------/
 
-        JMethod jMethod = new JMethod(null,"notifyPropertyChangeListeners");
+        JMethod jMethod = new JMethod("notifyPropertyChangeListeners");
         jMethod.getModifiers().makeProtected();
 
         String desc = "Notifies all registered "+
@@ -846,16 +846,16 @@ public class SourceFactory extends BaseFactory {
         jsc.add("if (");
         jsc.append(vName);
         jsc.append(" == null) return;");
-        
+
         jsc.add(vName);
         jsc.append(".firePropertyChange(fieldName,oldValue,newValue);");
-        
+
         //-----------------------------/
         //- addPropertyChangeListener -/
         //-----------------------------/
 
         JType jType = new JClass("java.beans.PropertyChangeListener");
-        jMethod = new JMethod(null,"addPropertyChangeListener");
+        jMethod = new JMethod("addPropertyChangeListener");
 
         desc = "Registers a PropertyChangeListener with this class.";
 
@@ -870,7 +870,7 @@ public class SourceFactory extends BaseFactory {
         parent.addMethod(jMethod);
 
         jsc = jMethod.getSourceCode();
-        
+
 
         jsc.add("if (");
         jsc.append(vName);
@@ -884,7 +884,8 @@ public class SourceFactory extends BaseFactory {
         //- removePropertyChangeListener -/
         //--------------------------------/
 
-        jMethod = new JMethod(JType.BOOLEAN, "removePropertyChangeListener");
+        jMethod = new JMethod("removePropertyChangeListener", JType.BOOLEAN,
+                              "always returns true if pcl != null");
 
         desc = "Removes the given PropertyChangeListener "+
             "from this classes list of ProperyChangeListeners.";
@@ -903,7 +904,7 @@ public class SourceFactory extends BaseFactory {
         jsc.add("if (");
         jsc.append(vName);
         jsc.append(" == null) return false;");
-        
+
         jsc.add(vName);
         jsc.append(".removePropertyChangeListener(pcl);");
         jsc.add("return true;");
@@ -926,7 +927,7 @@ public class SourceFactory extends BaseFactory {
     private void createMarshalMethods(JClass parent, boolean isAbstract) {
 
         //-- create main marshal method
-        JMethod jMethod = new JMethod(null,"marshal");
+        JMethod jMethod = new JMethod("marshal");
         jMethod.addException(SGTypes.MarshalException);
         jMethod.addException(SGTypes.ValidationException);
         jMethod.addParameter(new JParameter(SGTypes.Writer, "out"));
@@ -950,7 +951,7 @@ public class SourceFactory extends BaseFactory {
         //-- create helper marshal method
         //-- start helper marshal method, this method will
         //-- be built up as we process the given ElementDecl
-        jMethod = new JMethod(null, "marshal");
+        jMethod = new JMethod("marshal");
         JClass jc = null;
         if (_sax1) {
             jc = new JClass("org.xml.sax.DocumentHandler");
@@ -973,35 +974,35 @@ public class SourceFactory extends BaseFactory {
             jsc.add("Marshaller.marshal(this, handler);");
         }
 
-    	parent.addImport("org.exolab.castor.xml.Marshaller");
-    	parent.addImport("org.exolab.castor.xml.Unmarshaller");
+        parent.addImport("org.exolab.castor.xml.Marshaller");
+        parent.addImport("org.exolab.castor.xml.Unmarshaller");
     } //-- createMarshalMethods
 
     private void createUnmarshalMethods(JClass parent, SGStateInfo sgState) {
 
         //-- mangle method name to avoid compiler errors when this class is extended
-		String methodName = "unmarshal";
-		if (sgState.getSourceGenerator().mappingSchemaType2Java())
-			methodName+= parent.getName(true);
+        String methodName = "unmarshal";
+        if (sgState.getSourceGenerator().mappingSchemaType2Java())
+            methodName+= parent.getName(true);
 
-		//-- create main unmarshal method
-        
+        //-- create main unmarshal method
+
         //-- search for proper superclass
         JClass returnType = parent;
         while (returnType.getSuperClass() != null) {
             String superClassName = returnType.getSuperClass();
             JClass superClass = sgState.getSourceCode(superClassName);
-            
-            if ((superClass == null) && (superClassName.indexOf('.') < 0)) 
+
+            if ((superClass == null) && (superClassName.indexOf('.') < 0))
             {
                 String pkgName = returnType.getPackageName();
-                if ((pkgName != null) && (pkgName.length() > 0)) 
+                if ((pkgName != null) && (pkgName.length() > 0))
                 {
                     superClassName = pkgName + "." + superClassName;
                     superClass = sgState.getSourceCode(superClassName);
                 }
             }
-            
+
             if (superClass != null) {
                 returnType = superClass;
             }
@@ -1009,7 +1010,8 @@ public class SourceFactory extends BaseFactory {
                 break;
             }
         }
-        JMethod jMethod = new JMethod(returnType ,methodName);
+        JMethod jMethod = new JMethod(methodName, returnType,
+                                      "the unmarshaled " + returnType.getName());
         jMethod.getModifiers().setStatic(true);
         jMethod.addException(SGTypes.MarshalException);
         jMethod.addException(SGTypes.ValidationException);
@@ -1034,36 +1036,36 @@ public class SourceFactory extends BaseFactory {
 //        if (jclass == null) {
 //            throw new IllegalArgumentException("JClass must not be null");
 //        }
-//        
+//
 //        // The argument is not null
 //        JField[] fields = jclass.getFields();
-//        
+//
 //        // Creates the method signature
 //        JMethod jMethod = new JMethod(JType.Int, "hashCode");
 //        jMethod.setComment("Override the java.lang.Object.hashCode method");
-//        
+//
 //        // The hashCode method has no arguments
 //        jclass.addMethod(jMethod);
-//        
+//
 //        JSourceCode jsc = jMethod.getSourceCode();
-//        
+//
 //        // The following steps came from Effective Java Programming Language Guide by Joshua Bloch, chapter 3
 //        jsc.add("int result = 17;");
-//        
+//
 //        for (int i = 0; i <fields.length; i++) {
 //            JField temp = fields[i];
 //            // If the field is an object the hashCode method is called recursively
-//            
+//
 //            JType type = temp.getType();
 //            String name = temp.getName();
-//            if (type.isPrimitive()) { 
+//            if (type.isPrimitive()) {
 //                if (type == JType.Boolean) {
 //                    jsc.add("result = 37 * result + (" + name + "?0:1);");
-//                } else 
+//                } else
 //                if ((type == JType.Byte) ||
 //                    (type == JType.Int) ||
 //                    (type == JType.Short))
-//                {                       
+//                {
 //                    jsc.add("result = 37 * result + " + name + ";");
 //                } else if (type == JType.Long) {
 //                    jsc.add("result = 37 * result + (int)(" + name + "^(" + name + ">>>32));");
@@ -1071,7 +1073,7 @@ public class SourceFactory extends BaseFactory {
 //                    jsc.add("result = 37 * result + Float.floatToIntBits(" + name + ");");
 //                } else if (type == JType.Double) {
 //                    jsc.add("long tmp = Double.doubleToLongBits(" + name + ");");
-//                    jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");  
+//                    jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");
 //                }
 //            }   else {
 //                // Calculates hashCode in a recursive manner.
@@ -1079,9 +1081,9 @@ public class SourceFactory extends BaseFactory {
 //            }
 //        }
 //        jsc.add("");
-//        jsc.add("return result;");      
+//        jsc.add("return result;");
 //    }   //createHashCodeMethod
-    
+
     /**
      * Create an 'equals' method on the given
      * JClass
@@ -1092,40 +1094,40 @@ public class SourceFactory extends BaseFactory {
             throw new IllegalArgumentException("JClass must not be null");
 
         JField[] fields = jclass.getFields();
-        JMethod jMethod = new JMethod(JType.BOOLEAN, "equals");
+        JMethod jMethod = new JMethod("equals", JType.BOOLEAN, "true if the objects are equal");
         jMethod.setComment("Override the java.lang.Object.equals method");
         jMethod.setComment("Note: hashCode() has not been overriden");
         jMethod.addParameter(new JParameter(SGTypes.Object, "obj"));
 
         if (_config.useJava50()) {
-        	jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
-        
+
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
         jsc.add("if ( this == obj )");
         jsc.indent();
         jsc.add("return true;");
         jsc.unindent();
-		if (jclass.getSuperClass()!=null)
-		{
-			jsc.add("");
-			jsc.add("if (super.equals(obj)==false)");
-			jsc.indent();
-			jsc.add("return false;");
-			jsc.unindent();
-		}
+        if (jclass.getSuperClass()!=null)
+        {
+            jsc.add("");
+            jsc.add("if (super.equals(obj)==false)");
+            jsc.indent();
+            jsc.add("return false;");
+            jsc.unindent();
+        }
         jsc.add("");
         jsc.add("if (obj instanceof ");
         jsc.append(jclass.getName(true));
         jsc.append(") {");
         jsc.add("");
         if (fields.length > 0) {
-	        jsc.indent();
-	        jsc.add(jclass.getName(true));
-	        jsc.append(" temp = (");
-	        jsc.append(jclass.getName(true));
-	        jsc.append(")obj;");
+            jsc.indent();
+            jsc.add(jclass.getName(true));
+            jsc.append(" temp = (");
+            jsc.append(jclass.getName(true));
+            jsc.append(")obj;");
         }
         for (int i = 0; i <fields.length; i++) {
             JField temp = fields[i];
@@ -1183,7 +1185,7 @@ public class SourceFactory extends BaseFactory {
 
     /**
      * Implement org.exolab.castor.tests.framework.CastorTestable im the given JClass.
-     * 
+     *
      * @param jclass The JCLass which will implement the CastorTestable Interface.
      */
      public void createTestableMethods(JClass jclass, FactoryState state) {
@@ -1195,26 +1197,26 @@ public class SourceFactory extends BaseFactory {
         jclass.addImport("org.exolab.castor.tests.framework.RandomHelper");
 
         //implementation of randomizeFields
-        JMethod jMethod = new JMethod(null, "randomizeFields");
+        JMethod jMethod = new JMethod("randomizeFields");
         jMethod.addException(new JClass("InstantiationException"));
         jMethod.addException(new JClass("IllegalAccessException"));
         jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
         JField[] fields = jclass.getFields();
-        
+
         for (int i = 0; i <fields.length; i++) {
 
             JField temp = fields[i];
             JType type = temp.getType();
             String name = temp.getName();
-            
+
             if (state.fieldInfoForChoice != null) {
                 if (name.equals(state.fieldInfoForChoice.getName())) {
                     continue;
                 }
             }
-            
+
             if (name.startsWith("_"))
                 name = JavaNaming.toJavaClassName(name.substring(1));
             else
@@ -1271,7 +1273,8 @@ public class SourceFactory extends BaseFactory {
         }
 
         //implementation of dumpFields
-        jMethod = new JMethod(SGTypes.String, "dumpFields");
+        jMethod = new JMethod("dumpFields", SGTypes.String,
+                              "a String representation of all of the fields for " + jclass.getName());
         jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
         jclass.addMethod(jMethod);
         jsc = jMethod.getSourceCode();
@@ -1326,7 +1329,7 @@ public class SourceFactory extends BaseFactory {
         JSourceCode jsc     = null;
 
         //-- #validate
-        jMethod = new JMethod(null, "validate");
+        jMethod = new JMethod("validate");
         jMethod.addException(SGTypes.ValidationException);
 
         jClass.addMethod(jMethod);
@@ -1336,7 +1339,8 @@ public class SourceFactory extends BaseFactory {
         jsc.add("validator.validate(this);");
 
         //-- #isValid
-        jMethod  = new JMethod(JType.BOOLEAN, "isValid");
+        jMethod  = new JMethod("isValid", JType.BOOLEAN,
+                               "true if this object is valid according to the schema");
         jsc = jMethod.getSourceCode();
         jsc.add("try {");
         jsc.indent();
@@ -1371,7 +1375,7 @@ public class SourceFactory extends BaseFactory {
     //Process XML Schema structures
     //Note: This code is XML specific, it has to be
     //moved somehow in XMLBindingComponent. The aim
-    //of the SourceFactory is to generate code from 
+    //of the SourceFactory is to generate code from
     //a BindingComponent.
     ///////////////////////////////////////////////
     /**
@@ -1414,17 +1418,17 @@ public class SourceFactory extends BaseFactory {
         if (_binding != null) component.setBinding(_binding);
         while (enumeration.hasMoreElements()) {
             AttributeDecl attr = (AttributeDecl)enumeration.nextElement();
-            
+
             component.setView(attr);
-     
+
             //-- if we have a new SimpleType...generate ClassInfo
             SimpleType sType = attr.getSimpleType();
             if (sType != null) {
                 if ( ! (SimpleTypesFactory.isBuiltInType(sType.getTypeCode())) )
-                
+
                 if (sType.getSchema() == component.getSchema())
                 {
-                    if (state.resolve(sType) == null) {    
+                    if (state.resolve(sType) == null) {
                         if (sType.hasFacet(Facet.ENUMERATION)) {
                             createSourceCode(sType, state.getSGStateInfo());
                         }
@@ -1447,7 +1451,7 @@ public class SourceFactory extends BaseFactory {
         XMLBindingComponent component = new XMLBindingComponent(_config);
         if (_binding != null) component.setBinding(_binding);
         component.setView(complexType);
-        
+
         String typeName = component.getXMLName();
 
         ClassInfo classInfo = state.classInfo;
@@ -1460,37 +1464,37 @@ public class SourceFactory extends BaseFactory {
         XMLType base = complexType.getBaseType();
 
         //-- if the base is a complexType, we need to process it
-		if (base != null) {
+        if (base != null) {
             if (base.isComplexType()) {
                 String baseClassName = null;
-                
-                component.setView(base);                        
+
+                component.setView(base);
                 //-- Is this base type from the schema we are currently generating source for?
-			    //////////////////////////////////////////////////////////
+                //////////////////////////////////////////////////////////
                 //NOTE: generate sources if the flag for generating sources
                 //from imported schemas in on
                 //////////////////////////////////////////////////////////
                 if (base.getSchema() == complexType.getSchema()) {
                     ClassInfo cInfo = state.resolve(base);
-	    			//--no classInfo yet so no source code available
+                    //--no classInfo yet so no source code available
                     //--for the base type: we need to generate it
                     if (cInfo == null) {
                         JClass[] classes = createSourceCode(component, state.getSGStateInfo());
-					    cInfo = state.resolve(base);
-					    baseClassName = classes[0].getName();
-				    } else {
+                        cInfo = state.resolve(base);
+                        baseClassName = classes[0].getName();
+                    } else {
                         baseClassName = cInfo.getJClass().getName();
                     }
-                    //set the base class 
+                    //set the base class
                     classInfo.setBaseClass(cInfo);
                 } else {
-				    //-- Create qualified class name for a base type class
+                    //-- Create qualified class name for a base type class
                     //-- from another package
-				    baseClassName = component.getQualifiedName();
-			     }
-			    //-- Set super class
+                    baseClassName = component.getQualifiedName();
+                 }
+                //-- Set super class
                 //-- and reset the view on the current ComplexType
-				component.setView(complexType);
+                component.setView(complexType);
                 //--only set a super class name if the current complexType
                 //--is not a restriction of a simpleContent (--> no object hierarchy, only content hierarchy)
                 /*
@@ -1511,8 +1515,8 @@ public class SourceFactory extends BaseFactory {
                 SimpleType baseType = (SimpleType)temp.getBaseType();
                 XSType xsType = _typeConversion.convertType(temp, state.packageName, _config.useJava50());
                 FieldInfo fieldInfo = null;
-                if ((baseType != null) && 
-                     extendsSimpleType(state.jClass, baseType, state)) 
+                if ((baseType != null) &&
+                     extendsSimpleType(state.jClass, baseType, state))
                 {
                     if (xsType.isEnumerated()) {
                         fieldInfo = memberFactory.createFieldInfoForContent(xsType, _config.useJava50());
@@ -1539,18 +1543,18 @@ public class SourceFactory extends BaseFactory {
                 }
                 else {
                     while (temp.getBaseType() != null) {
-                    	temp = (SimpleType)temp.getBaseType();
+                        temp = (SimpleType)temp.getBaseType();
                     }
                     xsType = _typeConversion.convertType(temp, state.packageName, _config.useJava50());
                     fieldInfo = memberFactory.createFieldInfoForContent(xsType, _config.useJava50());
-    		        handleField(fieldInfo,state);
+                    handleField(fieldInfo,state);
                 }
             }
-		}//--base not null
-		
+        }//--base not null
 
 
-     	//---------------------/
+
+         //---------------------/
         //- handle attributes -/
         //- and mixed content -/
         //---------------------/
@@ -1586,19 +1590,19 @@ public class SourceFactory extends BaseFactory {
         Enumeration enumeration = contentModel.enumerate();
 
         //-- handle choice item
-        if (state.classInfo.isChoice() && 
-            (state.fieldInfoForChoice == null)) 
+        if (state.classInfo.isChoice() &&
+            (state.fieldInfoForChoice == null))
         {
-            state.fieldInfoForChoice 
+            state.fieldInfoForChoice
                 = memberFactory.createFieldInfoForChoiceValue();
             state.fieldInfoForChoice.createJavaField(state.jClass);
             state.fieldInfoForChoice.createAccessMethods(state.jClass, _config.useJava50());
         }
-        
+
         FieldInfo fieldInfo = null;
         XMLBindingComponent component = new XMLBindingComponent(_config);
         if (_binding != null) component.setBinding(_binding);
-        
+
         while (enumeration.hasMoreElements()) {
 
             Annotated annotated = (Annotated)enumeration.nextElement();
@@ -1609,11 +1613,11 @@ public class SourceFactory extends BaseFactory {
                 //-- handle element declarations
                 case Structure.ELEMENT:
                     fieldInfo = memberFactory.createFieldInfo(component, state, _config.useJava50());
-                    //-- Fix for element declarations being used in 
-                    //-- a group with minOccurs = 0;  
-                    //-- (kvisco - 20021007) 
-                    if (contentModel.getMinOccurs() == 0) { 
-                        fieldInfo.setRequired(false); 
+                    //-- Fix for element declarations being used in
+                    //-- a group with minOccurs = 0;
+                    //-- (kvisco - 20021007)
+                    if (contentModel.getMinOccurs() == 0) {
+                        fieldInfo.setRequired(false);
                     }
                     handleField(fieldInfo, state);
                     break;
@@ -1637,19 +1641,19 @@ public class SourceFactory extends BaseFactory {
                     if (!( (contentModel instanceof ComplexType)||
                             (contentModel instanceof ModelGroup)) )
                     {
-                        
+
                         if (contentModel instanceof ModelGroup) {
                             ModelGroup mg = (ModelGroup)contentModel;
                             if (mg.isReference()) {
                                 contentModel = mg.getReference();
                             }
                         }
-                        
+
                         if (contentModel.getParticleCount() > 0) {
-	                        fieldInfo = memberFactory.createFieldInfo(component,
-	                                                                   state.getSGStateInfo(), 
+                            fieldInfo = memberFactory.createFieldInfo(component,
+                                                                       state.getSGStateInfo(),
                                                                        _config.useJava50());
-	                        handleField(fieldInfo, state);
+                            handleField(fieldInfo, state);
                         }
                     } else {
                        //--else we just flatten the group
@@ -1668,12 +1672,12 @@ public class SourceFactory extends BaseFactory {
                         //not to loose the Particle information
                         if (modelgroup.isReference())
                             modelgroup = modelgroup.getReference();
-                            
+
                         if (modelgroup.getParticleCount() > 0) {
-	                        fieldInfo = memberFactory.createFieldInfo(component,
-	                                                  state.getSGStateInfo(),
+                            fieldInfo = memberFactory.createFieldInfo(component,
+                                                      state.getSGStateInfo(),
                                                       _config.useJava50());
-	                        handleField(fieldInfo, state);
+                            handleField(fieldInfo, state);
                         }
                         break;
                     }
@@ -1704,11 +1708,11 @@ public class SourceFactory extends BaseFactory {
     {
 
 
- 		// Added by robertlaferla at comcast dot net 01/21/2004
- 	    if (_config.useEnumeratedTypeInterface()) {
- 		    state.jClass.addImport(ENUM_ACCESS_INTERFACE);
- 		    state.jClass.addInterface(ENUM_ACCESS_INTERFACE);
- 	    } // end enumTypeInterface
+         // Added by robertlaferla at comcast dot net 01/21/2004
+         if (_config.useEnumeratedTypeInterface()) {
+             state.jClass.addImport(ENUM_ACCESS_INTERFACE);
+             state.jClass.addInterface(ENUM_ACCESS_INTERFACE);
+         } // end enumTypeInterface
 
         switch (enumerationType) {
             case BASE_TYPE_ENUMERATION:
@@ -1767,9 +1771,9 @@ public class SourceFactory extends BaseFactory {
         jsc.add("this.type = type;");
         jsc.add("this.stringValue = value;");
 
-
         //-- #valueOf method
-        JMethod mValueOf = new JMethod(jClass, "valueOf");
+        JMethod mValueOf = new JMethod("valueOf", jClass,
+                                       "the " + className + " value of parameter 'string'");
         mValueOf.addParameter(new JParameter(SGTypes.String, "string"));
         mValueOf.getModifiers().setStatic(true);
         jClass.addMethod(mValueOf);
@@ -1780,13 +1784,13 @@ public class SourceFactory extends BaseFactory {
         jsc = mValueOf.getSourceCode();
         jsc.add("java.lang.Object obj = null;");
         jsc.add("if (string != null) ");
-        
+
         if (_caseInsensitive) {
             jsc.append("obj = _memberTable.get(string.toLowerCase());");
         } else {
             jsc.append("obj = _memberTable.get(string);");
         }
-        
+
         jsc.add("if (obj == null) {");
         jsc.indent();
         jsc.add("String err = \"'\" + string + \"' is not a valid ");
@@ -1801,7 +1805,8 @@ public class SourceFactory extends BaseFactory {
 
         //-- #enumerate method
         // TODO: for the time being return Enumeration<Object> for Java 5.0; change
-        JMethod mEnumerate = new JMethod(SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()), "enumerate");
+        JMethod mEnumerate = new JMethod("enumerate", SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()),
+                                         "an Enumeration over all possible instances of " + className);
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);
         jdc = mEnumerate.getJDocComment();
@@ -1810,7 +1815,8 @@ public class SourceFactory extends BaseFactory {
         mEnumerate.getSourceCode().add("return _memberTable.elements();");
 
         //-- #toString method
-        JMethod mToString = new JMethod(SGTypes.String, "toString");
+        JMethod mToString = new JMethod("toString", SGTypes.String,
+                                        "the String representation of this " + className);
         jClass.addMethod(mToString);
         jdc = mToString.getJDocComment();
         jdc.appendComment("Returns the String representation of this ");
@@ -1818,7 +1824,8 @@ public class SourceFactory extends BaseFactory {
         mToString.getSourceCode().add("return this.stringValue;");
 
         //-- #init method
-        JMethod mInit = new JMethod(SGTypes.createHashtable(_config.useJava50()), "init");
+        JMethod mInit = new JMethod("init", SGTypes.createHashtable(_config.useJava50()),
+                                    "the initialized Hashtable for the member table");
         jClass.addMethod(mInit);
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
@@ -1829,13 +1836,14 @@ public class SourceFactory extends BaseFactory {
         }
 
         //-- #readResolve method
-        JMethod mReadResolve = new JMethod(SGTypes.Object,"readResolve");
-        mReadResolve.getModifiers().makePrivate();        
+        JMethod mReadResolve = new JMethod("readResolve", SGTypes.Object,
+                                           "this deserialized object");
+        mReadResolve.getModifiers().makePrivate();
         jClass.addMethod(mReadResolve);
         jdc = mReadResolve.getJDocComment();
         jdc.appendComment(" will be called during deserialization to replace ");
         jdc.appendComment("the deserialized object with the correct constant ");
-        jdc.appendComment("instance. <br/>");
+        jdc.appendComment("instance.");
         jsc = mReadResolve.getSourceCode();
         jsc.add("return valueOf(this.stringValue);");
 
@@ -1944,7 +1952,7 @@ public class SourceFactory extends BaseFactory {
 
         //-- add #getType method
 
-        JMethod mGetType = new JMethod(JType.INT, "getType");
+        JMethod mGetType = new JMethod("getType", JType.INT, "the type of this " + className);
         mGetType.getSourceCode().add("return this.type;");
         jdc = mGetType.getJDocComment();
         jdc.appendComment("Returns the type of this " + className);
@@ -2052,7 +2060,8 @@ public class SourceFactory extends BaseFactory {
         jClass.addField(fValues);
 
         //-- #valueOf method
-        JMethod method = new JMethod(jClass, "valueOf");
+        JMethod method = new JMethod("valueOf", jClass,
+                                     "the String value of the provided " + baseType.getJType());
         method.addParameter(new JParameter(SGTypes.String, "string"));
         method.getModifiers().setStatic(true);
         jClass.addMethod(method);
@@ -2069,7 +2078,7 @@ public class SourceFactory extends BaseFactory {
         jsc.append(": \" + string + \".\");");
 
     } //-- processEnumerationAsBaseType
-    
+
 
     /**
      * Attempts to translate a simpleType enumeration value into a legal java
@@ -2084,16 +2093,16 @@ public class SourceFactory extends BaseFactory {
      *   <li>the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any
      *       whitespace are replaced with <code>_</code></li>
      * </ul>
-     * 
+     *
      * @author rhett-sutphin@uiowa.edu
      */
-    private String translateEnumValueToIdentifier(String enumValue) 
+    private String translateEnumValueToIdentifier(String enumValue)
     {
-        
+
         try {
             int intVal = Integer.parseInt(enumValue);
             if (intVal >= 0) return "VALUE_" + intVal;
-            
+
             return "VALUE_NEG_" + Math.abs(intVal);
         } catch (NumberFormatException e) {
             // just keep going
@@ -2110,9 +2119,9 @@ public class SourceFactory extends BaseFactory {
                 sb.setCharAt(i, '_');
             }
         }
-        return sb.toString();   
-    } //-- translateEnumValueToIdentifier    
-    
+        return sb.toString();
+    } //-- translateEnumValueToIdentifier
+
 
     /**
      * Adds a given FieldInfo to the JClass and ClassInfo
@@ -2124,13 +2133,13 @@ public class SourceFactory extends BaseFactory {
     private void handleField(FieldInfo fieldInfo, FactoryState state) {
 
         if (fieldInfo == null) return;
-        
+
         if (CLASS_METHOD_SUFFIX.equals(fieldInfo.getMethodSuffix())) {
             SGStateInfo sInfo = state.getSGStateInfo();
             if (!sInfo.getSuppressNonFatalWarnings()) {
                 String warn = "warning a field name conflicts with \""
                     + CLASS_KEYWORD + "\", please use a binding file to specify "
-                    + "a different name for the " + fieldInfo.getNodeTypeName() 
+                    + "a different name for the " + fieldInfo.getNodeTypeName()
                     + " '" + fieldInfo.getNodeName() + "'.";
                 sInfo.getDialog().notify(warn);
             }
@@ -2146,7 +2155,7 @@ public class SourceFactory extends BaseFactory {
                 sInfo.getDialog().notify(warn);
             }
         }
-        
+
 
         JSourceCode scInitializer
             = state.jClass.getConstructor(0).getSourceCode();
@@ -2166,19 +2175,19 @@ public class SourceFactory extends BaseFactory {
             }
         }
 
-        
+
         state.classInfo.addFieldInfo(fieldInfo);
         present = present && !fieldInfo.isMultivalued();
         //create the relevant Java fields only if the field
         //info is not yet in the base classInfo or if it is not a collection
         if (!present) {
-            
+
             if (state.fieldInfoForChoice != null) {
                 if (fieldInfo != state.fieldInfoForChoice) {
                     fieldInfo.setReference(state.fieldInfoForChoice.getName());
                 }
             }
-            
+
             fieldInfo.createJavaField(state.jClass);
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
@@ -2192,26 +2201,26 @@ public class SourceFactory extends BaseFactory {
         fieldInfo.generateInitializerCode(scInitializer);
 
     } //-- handleField
-    
+
     /**
      * Returns true if the given JClass extends the class represented
      * by the given SimpleType.
-     * 
+     *
      * @param jClass the JClass to check
      * @param type the SimpleType to check against
-     * @param state the FactoryState 
-     * 
+     * @param state the FactoryState
+     *
      * @return true if the given JClass extends the class associated
      * with the given SimpleType, otherwise false.
      */
     private boolean extendsSimpleType
-        (JClass jClass, SimpleType type, FactoryState state) 
+        (JClass jClass, SimpleType type, FactoryState state)
     {
         String superClassName = jClass.getSuperClass();
         if (superClassName != null) {
             ClassInfo cInfo = state.resolve(type);
             if (cInfo != null) {
-               return superClassName.equals(cInfo.getJClass().getName()); 
+               return superClassName.equals(cInfo.getJClass().getName());
             }
         }
         return false;

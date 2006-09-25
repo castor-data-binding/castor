@@ -50,59 +50,77 @@ import org.exolab.javasource.*;
 
 /**
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar
+ *          2005) $
+ */
 public class IdentityInfo extends FieldInfo {
- 
-    
+
     public IdentityInfo(String name) {
         super(new XSId(), name);
         setNodeType(XMLInfo.ATTRIBUTE_TYPE);
-    } //-- SGId
-    
+    } // -- SGId
+
     public JMethod[] createAccessMethods() {
-        
-        JMethod[] methods = new JMethod[3];
-        
         String mname = getMethodSuffix();
-        JType jType  = getSchemaType().getJType();
-        
-        //-- create get method
-        methods[0] = new JMethod(jType, "get"+mname);
-        JSourceCode jsc = methods[0].getSourceCode();
+        JType jType = getSchemaType().getJType();
+
+        JMethod[] methods = new JMethod[3];
+        methods[0] = makeGetMethod(mname, jType); // -- create get method
+        methods[1] = makeSetMethod(mname, jType); // -- create set method
+        methods[2] = makeGetReferenceIdMethod(); // -- create getReferenceId
+                                                    // (from Referable
+                                                    // interface)
+
+        return methods;
+    } // -- createAccessMethods
+
+    /**
+     * @param mname
+     * @param jType
+     * @return a new JMethod that is a getter for this field
+     */
+    private JMethod makeGetMethod(String mname, JType jType) {
+        JMethod method = new JMethod("get" + mname, jType,
+                "the value of field '" + mname + "'.");
+        JSourceCode jsc = method.getSourceCode();
         jsc.add("return this.");
         jsc.append(getName());
         jsc.append(";");
-        
-        //-- create set method
-        methods[1] = new JMethod(null, "set"+mname);
-        methods[1].addParameter(new JParameter(jType, getName()));
-        jsc = methods[1].getSourceCode();
+        return method;
+    }
+
+    /**
+     * @param mname
+     * @param jType
+     * @return a new JMethod that is a setter for this field
+     */
+    private JMethod makeSetMethod(String mname, JType jType) {
+        JMethod method = new JMethod("set" + mname);
+        method.addParameter(new JParameter(jType, getName()));
+        JSourceCode jsc = method.getSourceCode();
         jsc.add("this.");
         jsc.append(getName());
         jsc.append(" = ");
         jsc.append(getName());
         jsc.append(";");
-        
-        //-- add resolver registration
-        //jsc.add("if (idResolver != null) ");
-        //jsc.indent();
-        //jsc.add("idResolver.addResolvable(");
-        //jsc.append(getName());
-        //jsc.append(", this);");
-        //jsc.unindent();
-        
-        //-- create getReferenceId (from Referable interface)
-        methods[2] = new JMethod(SGTypes.String, "getReferenceId");
-        jsc = methods[2].getSourceCode();
+
+        // -- add resolver registration
+        // jsc.add("if (idResolver != null) ");
+        // jsc.indent();
+
+        return method;
+
+    }
+
+    private JMethod makeGetReferenceIdMethod() {
+        JMethod method = new JMethod("getReferenceId", SGTypes.String,
+                "the reference ID");
+        JSourceCode jsc = method.getSourceCode();
         jsc.add("return this.");
         jsc.append(getName());
         jsc.append(";");
+        return method;
+    }
 
-        
-        return methods;
-        
-    } //-- createAccessMethods
-    
-} //-- IdentityInfo
+} // -- IdentityInfo
 

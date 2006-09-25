@@ -39,6 +39,26 @@
             	   exposed through this 'enumeration'/'iteration' method.</p>
            </summary>
             <bugs>
+				<bug id="1060" tool="jira">
+                    <description>
+		                Fixed problem in SourceGenerator generating multiple @return comments.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jeremy Nix</name>
+                        <email>jeremy.nix@sfsltd.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060925</date>
+                </bug>
 				<bug id="1575" tool="jira">
                     <description>
                         Added a feature that allows getter methods starting with the prefix 'iterate'

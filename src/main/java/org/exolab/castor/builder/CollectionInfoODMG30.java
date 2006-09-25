@@ -16,7 +16,7 @@ public class CollectionInfoODMG30 extends CollectionInfo {
 
     /**
      * Creates a new CollectionInfoODMG30
-     * 
+     *
      * @param contentType
      *            the content type of the collection, ie. the type of objects
      *            that the collection will contain
@@ -33,7 +33,7 @@ public class CollectionInfoODMG30 extends CollectionInfo {
 
     /**
      * Creates code for initialization of this Member
-     * 
+     *
      * @param jsc
      *            the JSourceCode in which to add the source to
      */
@@ -44,7 +44,9 @@ public class CollectionInfoODMG30 extends CollectionInfo {
     } // -- generateConstructorCode
 
     protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
-        JMethod method = new JMethod(SGTypes.createEnumeration(this.getContentType().getJType(), useJava50), "enumerate" + this.getMethodSuffix());
+        JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
+                                     SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
+                                     "an Enumeration over all elements of this collection");
 
         if (!jClass.hasImport("java.util.Vector")) {
             jClass.addImport("java.util.Vector");

@@ -77,7 +77,7 @@ public class DescriptorJClass extends JClass {
 
     //-- methods defined by org.exolab.castor.xml.util.XMLClassDescriptorImpl
     private JMethod _getElementDefinition    = null;
-    
+
     //-- methods defined by org.exolab.castor.xml.XMLClassDescriptor
     private JMethod _getNameSpacePrefix      = null;
     private JMethod _getNameSpaceURI         = null;
@@ -92,7 +92,7 @@ public class DescriptorJClass extends JClass {
     private JClass _type = null;
 
     private BuilderConfiguration _config = null;
-    
+
     public DescriptorJClass(BuilderConfiguration config, String className, JClass type) {
         super(className);
         _config = config;
@@ -109,7 +109,7 @@ public class DescriptorJClass extends JClass {
         JMethod     method = null;
         JSourceCode jsc    = null;
         boolean extended = false;
-		
+
         //Make sure that the Descriptor is extended XMLClassDescriptor
         //even when the user has specified a super class for all the generated
         //classes
@@ -117,12 +117,12 @@ public class DescriptorJClass extends JClass {
         if (_config != null) {
             superClass = _config.getProperty(SourceGenerator.Property.SUPER_CLASS, null);
         }
-        if ( (_type.getSuperClass()==null) || 
-			 (_type.getSuperClass().equals(superClass)) )
-			setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
-		else {
+        if ( (_type.getSuperClass()==null) ||
+             (_type.getSuperClass().equals(superClass)) )
+            setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
+        else {
                 extended = true;
-	    		setSuperClass(_type.getSuperClass()+"Descriptor");
+                setSuperClass(_type.getSuperClass()+"Descriptor");
         }
         superClass = null;
 
@@ -135,7 +135,7 @@ public class DescriptorJClass extends JClass {
 
 
         addField(new JField(JType.BOOLEAN, "elementDefinition"));
-        
+
         addField(new JField(SGTypes.String,  "nsPrefix"));
         addField(new JField(SGTypes.String,  "nsURI"));
         addField(new JField(SGTypes.String,  "xmlName"));
@@ -148,7 +148,7 @@ public class DescriptorJClass extends JClass {
         JConstructor cons = getConstructor(0);
         jsc = cons.getSourceCode();
         jsc.add("super();");
-        
+
         if (extended) {
             //-- add base class (for validation)
             jsc.add("setExtendsWithoutFlatten(");
@@ -156,30 +156,33 @@ public class DescriptorJClass extends JClass {
             jsc.append(getSuperClass());
             jsc.append("());");
         }
-        
+
         //jsc.add("Class[] emptyClassArgs = new Class[0];");
         //jsc.add("Class[] classArgs = new Class[1];");
 
         //---------------------------------------------/
         //- Methods Defined by XMLClassDescriptorImpl -/
         //---------------------------------------------/
-        
+
         //-- create isElementDefinition method
-        method = new JMethod(JType.BOOLEAN, "isElementDefinition");
+        method = new JMethod("isElementDefinition", JType.BOOLEAN,
+                             "true if XML schema definition of this Class is that of a global\n" +
+                             "element or element with anonymous type definition.");
         jsc = method.getSourceCode();
         jsc.add("return elementDefinition;");
         addMethod(method);
         _getElementDefinition = method;
-        
+
         //-----------------------------------------/
         //- Methods Defined by XMLClassDescriptor -/
         //-----------------------------------------/
 
         //-- create getNameSpacePrefix method
-        method = new JMethod(SGTypes.String, "getNameSpacePrefix");
-       
+        method = new JMethod("getNameSpacePrefix", SGTypes.String,
+                             "the namespace prefix to use when marshalling as XML.");
+
         if (_config.useJava50()) {
-	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -188,10 +191,11 @@ public class DescriptorJClass extends JClass {
         _getNameSpacePrefix = method;
 
         //-- create getNameSpaceURI method
-        method = new JMethod(SGTypes.String, "getNameSpaceURI");
-       
+        method = new JMethod("getNameSpaceURI", SGTypes.String,
+                             "the namespace URI used when marshalling and unmarshalling as XML.");
+
         if (_config.useJava50()) {
-        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -200,10 +204,11 @@ public class DescriptorJClass extends JClass {
         _getNameSpaceURI = method;
 
         //-- create getValidator method
-        method = new JMethod(_TypeValidatorClass, "getValidator");
-       
+        method = new JMethod("getValidator", _TypeValidatorClass,
+                             "a specific validator for the class described by this ClassDescriptor.");
+
         if (_config.useJava50()) {
-        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -211,10 +216,11 @@ public class DescriptorJClass extends JClass {
         addMethod(method);
 
         //-- create getXMLName method
-        method = new JMethod(SGTypes.String, "getXMLName");
-       
+        method = new JMethod("getXMLName", SGTypes.String,
+                             "the XML Name for the Class being described.");
+
         if (_config.useJava50()) {
-        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -229,10 +235,11 @@ public class DescriptorJClass extends JClass {
 
         //-- create getAccessMode method
         JClass amClass = new JClass("org.exolab.castor.mapping.AccessMode");
-        method = new JMethod(amClass, "getAccessMode");
-       
+        method = new JMethod("getAccessMode", amClass,
+                             "the access mode specified for this class.");
+
         if (_config.useJava50()) {
-        	method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -241,10 +248,11 @@ public class DescriptorJClass extends JClass {
         _getAccessMode = method;
 
         //-- create getExtends method
-        method = new JMethod(_ClassDescriptorClass, "getExtends");
-       
+        method = new JMethod("getExtends", _ClassDescriptorClass,
+                             "the class descriptor of the class extended by this class.");
+
         if (_config.useJava50()) {
-	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -254,16 +262,17 @@ public class DescriptorJClass extends JClass {
         else {
             jsc.add("return null;");
         }
-        
+
         //--don't add the type to the import list
         addMethod(method, false);
         _getExtends = method;
 
         //-- create getIdentity method
-        method = new JMethod(_FieldDescriptorClass, "getIdentity");
-       
+        method = new JMethod("getIdentity", _FieldDescriptorClass,
+                             "the identity field, null if this class has no identity.");
+
         if (_config.useJava50()) {
-	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
@@ -274,34 +283,35 @@ public class DescriptorJClass extends JClass {
             jsc.unindent();
         }
         jsc.add("return identity;");
-        
+
         //--don't add the type to the import list
         addMethod(method, false);
         _getIdentity = method;
 
         //-- create getJavaClass method
-        method = new JMethod(SGTypes.Class, "getJavaClass");
-       
+        method = new JMethod("getJavaClass", SGTypes.Class,
+                             "the Java class represented by this descriptor.");
+
         if (_config.useJava50()) {
-	        method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
         jsc = method.getSourceCode();
         jsc.add("return ");
         jsc.append(classType(_type));
         jsc.append(";");
-        
+
         //--don't add the type to the import list
         addMethod(method, false);
-        
+
         _getJavaClass = method;
 
     } //-- createSource
 
     public JMethod getElementDefinitionMethod() {
-    		return _getElementDefinition;
+            return _getElementDefinition;
     } //-- getElementDefinitionMethod
-    
+
     public JMethod getNameSpacePrefixMethod() {
         return _getNameSpacePrefix;
     } //-- getNamespaceURIMethod
@@ -341,10 +351,7 @@ public class DescriptorJClass extends JClass {
     **/
     private static String classType(JType jType) {
         if (jType.isPrimitive()) {
-            if (jType == JType.INT)
-                return "java.lang.Integer.TYPE";
-            else if (jType == JType.DOUBLE)
-                return "java.lang.Double.TYPE";
+            return jType.getWrapperName() + ".TYPE";
         }
         return jType.toString() + ".class";
     } //-- classType
