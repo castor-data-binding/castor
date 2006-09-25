@@ -475,7 +475,7 @@ public class MyClass {
 
             <p>If 'get-method' and 'set-method' attributes are not provided, Castor will try to
               find the following function:</p>
-
+            
             <code>
               public &lt;type> get&lt;capitalized-name>();
             </code>
@@ -489,6 +489,50 @@ public class MyClass {
 
             <p>The content of &lt;field> will contain the information on how to map this given
               field to SQL, XML, ...</p>
+            </li>
+          
+            <li><p><b>Exceptions concerning collection fields:</b></p>
+            
+                <p>The default is to treat the 'get-method' as a simple getter returning 
+                   the collection field, and the 'set-method' as a simple getter used to set
+                   a new instance on the collection field.</p>
+
+                <ctable>
+                    <cheader>
+                        <th>Parameter</th>
+                        <th>Description</th>
+                    </cheader>
+                    <crow>
+                        <td>'get-method'</td>
+                        <td><p>If a 'get-method' is provided for a collection field, Castor 
+                   - in adition to the default behaviour described above - will deviate from the standard
+                   case for the following special prefixes:</p>
+            
+            <code>public Iterator iterate...();</code>
+            
+                <p>A 'get-method' starting with the prefix '<tt>iterate</tt>' is treated 
+                   as Iterator method for the given collection field.</p>
+            
+            <code>public Enumeration enum...();</code>
+            
+                <p>A 'get-method' starting with '<tt>enum</tt>' is treated as Enumeration 
+                   method for the given collection field.</p></td>
+                    </crow>
+                    <crow>
+                        <td>'set-method'</td>
+                        <td><p>If 'set-method' is provided for a collection field, Castor - 
+               in addition to the default behaviour described above - will accept an 'add' prefix 
+               and expect the following signature:</p>
+            
+            <code>public void add...(&lt;type&gt; value);</code>
+            
+                <p>This method is called for each collection element while unmarshalling.</p></td>
+                    </crow>
+                </ctable>
+                
+            
+            
+          
           </li>
         </li>
 

@@ -27,8 +27,40 @@
             <description>New and on-going development</description>
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
-            <summary></summary>
+            <summary>
+            	<h2>Additions</h2>
+            	
+            	<h3>Special getter methods for XML mapping</h3>
+            	
+            	<p>As part of a field mapping, it is no possible to specify two special 
+            	   methods that will be treated in a non-standard way. If the 'get-method'
+            	   specified on a field mapping starts with either 'enum' or 'iterate',
+            	   it will be treated in a way that the collection (container) is only 
+            	   exposed through this 'enumeration'/'iteration' method.</p>
+           </summary>
             <bugs>
+				<bug id="1575" tool="jira">
+                    <description>
+                        Added a feature that allows getter methods starting with the prefix 'iterate'
+                        to be treated in a way that a collection (container) is only exposed through
+                        this 'iteration' method.
+                    </description>
+                    <contributor>
+                        <name>Ontje Lünsdorf</name>
+                        <email>The_COM@gmx.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ontje Lünsdorf</name>
+                        <email>The_COM@gmx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060925</date>
+                </bug>
 				<bug id="1551" tool="jira">
 					<description>
 						Resolved problem with mapping nested maps.

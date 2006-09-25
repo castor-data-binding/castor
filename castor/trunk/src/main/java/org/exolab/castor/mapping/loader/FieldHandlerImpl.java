@@ -53,6 +53,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
 import java.lang.reflect.InvocationTargetException;
 import java.util.Enumeration;
+import java.util.Iterator;
 
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.AbstractFieldHandler;
@@ -62,6 +63,7 @@ import org.exolab.castor.mapping.TypeConvertor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingRuntimeException;
+import org.exolab.castor.util.IteratorEnumeration;
 
 
 /**
@@ -89,6 +91,11 @@ public final class FieldHandlerImpl
      */
     private static final String ENUM_PREFIX = "enum";
 
+    /**
+     * The prefix for an "iter" method
+     */
+    private static final String ITER_PREFIX = "iter";
+    
     /**
      * The underlying field handler used by this handler.
      */
@@ -119,8 +126,15 @@ public final class FieldHandlerImpl
       */ 
     private Method        _addMethod; 
 
-
+    /**
+     * The method used to enumerate entries of a container.
+     */
     private Method		_enumMethod;
+    
+    /**
+     * The method used to iterate over a container.
+     */
+    private Method		_iterMethod;
     
     /**
      * The method used to obtain the value of this field. May be null.
@@ -322,7 +336,7 @@ public final class FieldHandlerImpl
         }
 
         if ( getMethod != null ) {
-        	// getMethod might be an enumeration.
+        	// getMethod might be an enumeration or iteration.
         	if(getMethod.getName().startsWith(ENUM_PREFIX)) {
         		Class rType = getMethod.getReturnType();
         		
@@ -331,7 +345,16 @@ public final class FieldHandlerImpl
                     setEnumMethod(getMethod);
                 else 
                 	// If getMethod does not return an enumeration, treat it as a normal getMethod.
-                    setReadMethod(getMethod);        	
+                    setReadMethod(getMethod);
+        	} else if(getMethod.getName().startsWith(ITER_PREFIX)) {
+        		Class rType = getMethod.getReturnType();
+
+        		// Check if getMethod really returns an iterator.
+                if (rType == Iterator.class)
+                    setIterMethod(getMethod);
+                else 
+                	// If getMethod does not return an iterator, treat it as a normal getMethod.
+                    setReadMethod(getMethod);
             } else
                 setReadMethod(getMethod);
         }
@@ -404,6 +427,10 @@ public final class FieldHandlerImpl
             	// If there is an enumeration method supplied, return the 
             	// enumeration.
             	value = _enumMethod.invoke(object, null);
+            } else if ( _iterMethod != null ) {
+            	// If there is an iterator method supplied, wrap it in an 
+            	// enumeration.
+            	value = new IteratorEnumeration((Iterator)_iterMethod.invoke(object, null));
             } else if ( _getMethod != null ) {
                 if ( _getSequence != null ) 
                     for ( int i = 0; i < _getSequence.length; i++ ) {
@@ -435,7 +462,8 @@ public final class FieldHandlerImpl
 
         //-- If a collection, return an enumeration of it's values.
         //-- Only use collection handler, if there is no convertor or enum method.
-        if (( _colHandler != null ) && ( _enumMethod == null) && (_convertFrom == null)) {
+        if (( _colHandler != null ) && ( _enumMethod == null) && 
+        		( _iterMethod == null) && (_convertFrom == null)) {
             if ( value == null )
                 return new CollectionHandlers.EmptyEnumerator();
             return _colHandler.elements( value );
@@ -895,6 +923,9 @@ public final class FieldHandlerImpl
         
     } //-- setAddMethod
 
+    /**
+     * Sets the enumeration method.
+     */
     public void setEnumMethod( Method method )
     	throws MappingException
     {
@@ -908,6 +939,23 @@ public final class FieldHandlerImpl
        
        _enumMethod = method;
     }
+    
+    /**
+     * Sets the iteration method.
+     */
+    public void setIterMethod( Method method )
+		throws MappingException
+	{
+	    if ( ( method.getModifiers() & Modifier.PUBLIC ) == 0 ||
+	            ( method.getModifiers() & Modifier.STATIC ) != 0 ) 
+	           throw new MappingException( "mapping.accessorNotAccessible",
+	                                       method, method.getDeclaringClass().getName() );
+	    if ( method.getParameterTypes().length != 0 )
+	           throw new MappingException( "mapping.readMethodHasParam",
+	                                       method, method.getDeclaringClass().getName() );
+	   
+	   _iterMethod = method;
+	}
     
     /** 
       * Selects the appropriate "write" method based on the 
