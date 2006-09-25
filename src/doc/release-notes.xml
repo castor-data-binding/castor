@@ -29,6 +29,26 @@
             <managed-by>Werner Guttmann</managed-by>
             <summary></summary>
             <bugs>
+				<bug id="1551" tool="jira">
+					<description>
+						Resolved problem with mapping nested maps.
+					</description>
+					<contributor>
+						<name>Steven Dolg</name>
+						<email>stevendolg@gmx.at</email>
+					</contributor>
+					<submitter>
+						<name>Werner Guttmann</name>
+						<email>werner.guttmann@gmx.net</email>
+					</submitter>
+					<reporter>
+						<name>Steven Dolg</name>
+						<email>stevendolg@gmx.at</email>
+					</reporter>
+					<type>Bug</type>
+					<module>XML</module>
+					<date>20060925</date>
+				</bug>
 				<bug id="1578" tool="jira">
                     <description>
 		                Thorough build cleanup.

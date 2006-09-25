@@ -67,6 +67,7 @@ import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
+import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.handlers.EnumFieldHandler;
 import org.exolab.castor.mapping.handlers.TransientFieldHandler;
@@ -989,6 +990,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 // return type.
                 method = javaClass.getMethod(methodName, new Class[0]);
 
+                // The MapItem is used to handle the contents of maps. Since the MapItem has to
+                // use Object for its methods we cannot (but also don't have to) check for correct
+                // types.
+                if (javaClass == MapItem.class && (methodName.equals("getKey") || methodName.equals("getValue"))) {
+                    return method;
+                }
+                
                 if (fieldType == null) {
                     fieldType = Types.typeFromPrimitive(method.getReturnType());
                 } else {
