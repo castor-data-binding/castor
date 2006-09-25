@@ -93,7 +93,11 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** The prefix for the "add" method. */
     private static final String ADD_METHOD_PREFIX = "add";
 
+    /** The prefix for an enumeration method. */
     private static final String ENUM_METHOD_PREFIX = "enum";
+    
+    /** The prefix for an enumeration method. */
+    private static final String ITER_METHOD_PREFIX = "iterate";
     
     /** The standard prefix for the getter method. */
     private static final String GET_METHOD_PREFIX = "get";
@@ -793,9 +797,12 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 	Class	rtype	= fieldType;
                 	
                     if (colType != null) {
-                    	// An enumeration method must really return a enumeration.
                         if (methodName.startsWith(ENUM_METHOD_PREFIX))
+                        	// An enumeration method must really return a enumeration.
                             rtype	= Enumeration.class;
+                        else if (methodName.startsWith(ITER_METHOD_PREFIX))
+                        	// An iterator method must really return a iterator.
+                            rtype	= Iterator.class;
                         else
                         	rtype	= colType;
                     }

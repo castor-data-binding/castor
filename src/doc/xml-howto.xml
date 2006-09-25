@@ -40,6 +40,7 @@
                 <li><a href="how-to-unmarshal-raw-xml.html">How to Unmarshal raw XML segments into arbitrary types</a></li>
                 <li><a href="how-to-use-references-in-xml.html">How to use references in XML and Castor</a></li>
                 <li><a href="how-to-wrap-a-collection-with-a-wrapper-element.html">How to wrap a collection with a wrapper element</a></li>
+                <li><a href="how-to-prevent-collection-from-being-exposed.html">How to prevent a collection from being exposed</a></li>
             </ul>
         </section>
         
