@@ -21,11 +21,11 @@
    		<!-- ******************** -->
 
    		<UnitTestCase>
-      		<Schema>topLevel_maxOccurs_failure.xsd</Schema>
+      		<Schema>toplevel_maxOccurs_failure.xsd</Schema>
       		<Failure>true</Failure>
          </UnitTestCase>
          <UnitTestCase>
-      		<Schema>topLevel_minOccurs_failure.xsd</Schema>
+      		<Schema>toplevel_minOccurs_failure.xsd</Schema>
       		<Failure>true</Failure>
          </UnitTestCase>
       

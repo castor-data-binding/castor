@@ -751,20 +751,8 @@ public abstract class XMLTestCase extends TestCase {
         }
         
         if (destDir == null) destDir = srcDir;
-        
-        Project project = new Project();
-        project.init();
-        project.setBasedir(".");
-        Javac compiler = new Javac();
-        compiler.setProject(project);
-        compiler.setDestdir(destDir.getAbsoluteFile());
-        compiler.setOptimize(false);
-        compiler.setDebug(true);
-        compiler.setDebugLevel("lines,vars,source");
-        Path classpath = compiler.createClasspath();
-        classpath.setPath(System.getProperty("java.class.path"));
-        compiler.setClasspath(classpath);
-        
+
+        Javac compiler = makeCompiler(srcDir);
         compileDirectory(srcDir, srcDir, compiler);
         
         
@@ -777,19 +765,7 @@ public abstract class XMLTestCase extends TestCase {
         
         
         if (compiler == null) {
-            Project project = new Project();
-            project.init();
-            project.setBasedir(".");
-            compiler = new Javac();
-            compiler.setProject(project);
-            compiler.setFork(true);
-            compiler.setOptimize(false);
-            compiler.setDebug(true);
-            compiler.setDebugLevel("lines,vars,source");
-            compiler.setDestdir(srcDir.getAbsoluteFile());
-            Path classpath = compiler.createClasspath();
-            classpath.setPath(System.getProperty("java.class.path"));
-            compiler.setClasspath(classpath);
+            compiler = makeCompiler(srcDir);
         }
         
         if (root == null) root = srcDir;
@@ -799,8 +775,12 @@ public abstract class XMLTestCase extends TestCase {
         
         for(int i=0; i<entries.length; i++) {
             File entry = entries[i];
-            if (entry.isDirectory() && !entry.getName().endsWith("CVS")) {
-                 compileDirectory(entry, root, compiler);
+            if (entry.isDirectory() && !entry.getName().endsWith("CVS")
+                    && !entry.getName().equals(".svn")
+                    && !entry.getName().equals("org")
+                    && !entry.getName().equals("com")
+                    && !entry.getName().equals("net")) {
+                compileDirectory(entry, root, compiler);
             }
         }
         entries = null;
@@ -815,7 +795,32 @@ public abstract class XMLTestCase extends TestCase {
         compiler.execute();
         
     }
-    
+
+    private Javac makeCompiler(File srcDir) {
+        Project project = new Project();
+        project.init();
+        project.setBasedir(srcDir.getAbsolutePath());
+
+        Javac compiler = new Javac();
+        compiler.setProject(project);
+        compiler.setDestdir(srcDir.getAbsoluteFile());
+        compiler.setOptimize(false);
+        compiler.setDebug(true);
+        compiler.setDebugLevel("lines,vars,source");
+        compiler.setIncludejavaruntime(true);
+        if (_verbose) {
+            compiler.setListfiles(true);
+            compiler.setVerbose(true);
+        }
+
+        Path classpath = compiler.createClasspath();
+        classpath.setPath(System.getProperty("java.class.path"));
+        classpath.add(new Path(project, srcDir.getAbsolutePath()));
+        compiler.setClasspath(classpath);
+        compiler.setBootclasspath(classpath);
+        return compiler;
+    }
+
     /**
      * print the message if in verbose mode.
      */

@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1583 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       CTF doesn't run properly under Fedora Core Linux.
+       Details: http://jira.codehaus.org/browse/CASTOR-1583
+       (Ralf - 20060927)
+
 XML:   Resolved issue CASTOR-1566 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with incorrect generation of unmarshal methods for extensions/restrictions 
        where extended/restricted type is in an imported schema.

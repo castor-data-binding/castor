@@ -19,7 +19,7 @@
    		<!-- ******************** -->
 
    		<UnitTestCase>
-      		<Schema>AnyType.xsd</Schema>
+      		<Schema>anyType.xsd</Schema>
          </UnitTestCase>
          
       </SchemaTest>
