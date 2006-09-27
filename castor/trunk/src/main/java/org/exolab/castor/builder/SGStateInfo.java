@@ -110,7 +110,6 @@ class SGStateInfo extends ClassInfoResolverImpl {
 
     private boolean     _verbose     = false;
 
-
     private FactoryState _currentFactoryState = null;
 
     private Dialog _dialog = null;
@@ -119,11 +118,18 @@ class SGStateInfo extends ClassInfoResolverImpl {
     
     private int _status = NORMAL_STATUS;
     
-    private Map _sourcesByComponent = null;
+    private Map _sourcesByComponent = new HashMap();
     
-    private Map _sourcesByName = null;
+    /**
+     * A cache of already generated classes (by their class name).
+     */
+    private Map _sourcesByName = new HashMap();
     
-    
+    /**
+     * A cache of already generated classes (as part of an imported schema), 
+     * keyed by their class name.
+     */
+    private Map _importedSourcesByName = new HashMap();
     
 //    private XMLBindingComponent _bindingComponent = null;
 
@@ -139,8 +145,6 @@ class SGStateInfo extends ClassInfoResolverImpl {
         packageName         = "";
         _processed          = new Vector();
         _dialog             = new ConsoleDialog();
-        _sourcesByComponent = new HashMap();
-        _sourcesByName      = new HashMap();
         _sgen               = sgen;
     } //-- SGStateInfo
     
@@ -160,6 +164,14 @@ class SGStateInfo extends ClassInfoResolverImpl {
             }
         }
     } //-- bindSourceCode
+    
+    /**
+     * Stores generated sources as processed within an imported schema.
+     * @param importedSourcesByName Generated sources as processed within an imported schema. 
+     */
+    public void storeImportedSourcesByName(Map importedSourcesByName) {
+        _importedSourcesByName.putAll(importedSourcesByName);
+    } //-- storeImportedSourcesByName
        
     /**
      * Returns the processed JClass with the given name. If
@@ -200,7 +212,20 @@ class SGStateInfo extends ClassInfoResolverImpl {
     public JClass getSourceCode(String className) {
         return (JClass)_sourcesByName.get(className);
     } //-- getSourceCode
-    
+
+    /**
+     * Returns the JClass with the given name or null
+     * if no bindings have been specified for a JClass
+     * with the name. This method consults with JClass instances
+     * imported through a Schema import only.
+     * 
+     * @param className the name of the JClass
+     * @return the (imported) JClass if found
+     */
+    public JClass getImportedSourceCode(String className) {
+        return (JClass)_importedSourcesByName.get(className);
+    } //-- getImportedSourceCode
+
     
     /**
      * Returns the Mapping file associated with 
@@ -473,5 +498,21 @@ class SGStateInfo extends ClassInfoResolverImpl {
         return jClass;
     }
     */
+
+    /**
+     * Returns the sources as generated through XML schema imports
+     * @return the sources as generated through XML schema imports
+     */
+    public Map getImportedSourcesByName() {
+        return _importedSourcesByName;
+    }
+
+    /**
+     * Returns the sources as generated through XML schema imports
+     * @return the sources as generated through XML schema imports
+     */
+    public Map getSourcesByName() {
+        return _sourcesByName;
+    }
 
 } //-- SGStateInfo

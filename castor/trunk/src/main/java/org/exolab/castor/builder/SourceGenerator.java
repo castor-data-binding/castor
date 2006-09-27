@@ -920,6 +920,10 @@ public class SourceGenerator extends BuilderConfiguration {
                         SGStateInfo importedSInfo = new SGStateInfo(importedSchema, this);
                         importedSInfo.packageName = sInfo.packageName;
                         createClasses(importedSchema, importedSInfo);
+                        
+                        //--'store' the imported JClass instances
+                        sInfo.storeImportedSourcesByName(importedSInfo.getSourcesByName());
+                        sInfo.storeImportedSourcesByName(importedSInfo.getImportedSourcesByName());
                         //--discard the SGStateInfo
                         importedSInfo = null;
                     }

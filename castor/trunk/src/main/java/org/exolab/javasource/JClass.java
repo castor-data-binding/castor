@@ -456,14 +456,23 @@ public class JClass extends JStructure {
     } //-- getStaticInitializationCode
 
     /**
-     * Teturns the super Class that this class extends
+     * Returns the qualified name of the super class that this class extends
      *
-     * @return superClass the super Class that this Class extends
+     * @return superClass teh qualified name of the super class that this class extends
      */
-    public final String getSuperClass() {
+    public final String getSuperClassQualifiedName() {
         if (_superClass == null) { return null; }
         return _superClass.getQualifiedName();
     } //-- getSuperClass
+    
+    /**
+     * Returns the super class that this class extends
+     * 
+     * @return superClass the super class that this class extends
+     */
+    public final JTypeName getSuperClass() {
+        return _superClass;
+    }
 
     /**
      * Prints the source code for this JClass to the given JSourceWriter
