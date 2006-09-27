@@ -193,8 +193,10 @@ public class ElementUnmarshaller extends ComponentReader {
         //-- @nillable
         attValue = atts.getValue(SchemaNames.NILLABLE_ATTR);
         if (attValue != null) {
-            if (attValue.equals("true")) _element.setNillable(true);
-            else if (!attValue.equals("false")) {
+            if (attValue.equals("true") || attValue.equals("1")) { 
+                _element.setNillable(true);
+            }
+            else if (!attValue.equals("false") && !attValue.equals("0")) {
                 String err = "Invalid value for the 'nillable' attribute of "+
                     "an element definition: " + attValue;
                 throw new IllegalArgumentException(err);

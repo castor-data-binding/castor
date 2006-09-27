@@ -2,8 +2,11 @@
 SVN
 -------------------------------
 
-SourceGenerator generates multiple @return comments
-
+XML:   Resolved issue CASTOR-1574 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added '0' and '1' as possible values for setting 'nillable' attribute.
+       Details: http://jira.codehaus.org/browse/CASTOR-1574
+       (Werner - 20060921)
+       
 XML:   Resolved issue CASTOR-1060 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fixed problem in SourceGenerator generating multiple @return comments.
        Details: http://jira.codehaus.org/browse/CASTOR-1060
