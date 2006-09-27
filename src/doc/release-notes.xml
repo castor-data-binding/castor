@@ -39,6 +39,26 @@
             	   exposed through this 'enumeration'/'iteration' method.</p>
            </summary>
             <bugs>
+				<bug id="1574" tool="jira">
+                    <description>
+                           Added '0' and '1' as possible values for setting 'nillable' attribute.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Frank Bechstein</name>
+                        <email>frankbechstein@hotmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060921</date>
+                </bug>
 				<bug id="1060" tool="jira">
                     <description>
 		                Fixed problem in SourceGenerator generating multiple @return comments.
