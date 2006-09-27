@@ -39,6 +39,27 @@
             	   exposed through this 'enumeration'/'iteration' method.</p>
            </summary>
             <bugs>
+				<bug id="1566" tool="jira">
+                    <description>
+		                Fixed problem with incorrect generation of unmarshal methods for extensions/
+                        restrictions where extended/restricted type is in an imported schema.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Mattias Jiderhamn</name>
+                        <email>mj-lists@expertsystem.se</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060927</date>
+                </bug>
 				<bug id="1574" tool="jira">
                     <description>
                            Added '0' and '1' as possible values for setting 'nillable' attribute.

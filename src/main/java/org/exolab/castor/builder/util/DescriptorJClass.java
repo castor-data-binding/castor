@@ -117,12 +117,12 @@ public class DescriptorJClass extends JClass {
         if (_config != null) {
             superClass = _config.getProperty(SourceGenerator.Property.SUPER_CLASS, null);
         }
-        if ( (_type.getSuperClass()==null) ||
-             (_type.getSuperClass().equals(superClass)) )
-            setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
-        else {
+        if ( (_type.getSuperClassQualifiedName()==null) || 
+			 (_type.getSuperClassQualifiedName().equals(superClass)) )
+			setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
+		else {
                 extended = true;
-                setSuperClass(_type.getSuperClass()+"Descriptor");
+	    		setSuperClass(_type.getSuperClassQualifiedName()+"Descriptor");
         }
         superClass = null;
 
@@ -153,7 +153,7 @@ public class DescriptorJClass extends JClass {
             //-- add base class (for validation)
             jsc.add("setExtendsWithoutFlatten(");
             jsc.append("new ");
-            jsc.append(getSuperClass());
+            jsc.append(getSuperClassQualifiedName());
             jsc.append("());");
         }
 

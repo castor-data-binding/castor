@@ -546,7 +546,7 @@ public class SourceFactory extends BaseFactory {
             classInfo.setContainer(true);
            // -- if we have a superclass, make sure that the actual type extends it, not the
            // xxxItem holder class.
-           String actSuperClass = classes[1].getSuperClass();
+           String actSuperClass = classes[1].getSuperClassQualifiedName();
            jClass.setSuperClass(actSuperClass);
            classes[1].setSuperClass(null);
         }
@@ -560,7 +560,7 @@ public class SourceFactory extends BaseFactory {
             //-- it means that it is a class generated for an element
             //-- that extends a class generated for a complexType. Thus
             //-- no change is possible
-            if (jClass.getSuperClass() == null)
+            if (jClass.getSuperClassQualifiedName() == null)
                 jClass.setSuperClass(baseClass);
         }
 
@@ -616,8 +616,8 @@ public class SourceFactory extends BaseFactory {
         //-- This boolean is set to create bound properties
         //-- even if the user has set the SUPER CLASS property
         boolean userDerived = false;
-        if (jClass.getSuperClass() != null) {
-            userDerived = (jClass.getSuperClass().equals(baseClass));
+        if (jClass.getSuperClassQualifiedName() != null) {
+            userDerived = (jClass.getSuperClassQualifiedName().equals(baseClass));
             //-- create Bound Properties code
             if (component.hasBoundProperties() && (userDerived))
                 createPropertyChangeMethods(jClass);
@@ -989,11 +989,15 @@ public class SourceFactory extends BaseFactory {
 
         //-- search for proper superclass
         JClass returnType = parent;
-        while (returnType.getSuperClass() != null) {
-            String superClassName = returnType.getSuperClass();
+        while (returnType.getSuperClassQualifiedName() != null) {
+            String superClassName = returnType.getSuperClassQualifiedName();
             JClass superClass = sgState.getSourceCode(superClassName);
-
-            if ((superClass == null) && (superClassName.indexOf('.') < 0))
+            
+            if (superClass == null) {
+                superClass = sgState.getImportedSourceCode(superClassName);
+            }
+            
+            if ((superClass == null) && (superClassName.indexOf('.') < 0)) 
             {
                 String pkgName = returnType.getPackageName();
                 if ((pkgName != null) && (pkgName.length() > 0))
@@ -1109,14 +1113,14 @@ public class SourceFactory extends BaseFactory {
         jsc.indent();
         jsc.add("return true;");
         jsc.unindent();
-        if (jclass.getSuperClass()!=null)
-        {
-            jsc.add("");
-            jsc.add("if (super.equals(obj)==false)");
-            jsc.indent();
-            jsc.add("return false;");
-            jsc.unindent();
-        }
+		if (jclass.getSuperClassQualifiedName()!=null)
+		{
+			jsc.add("");
+			jsc.add("if (super.equals(obj)==false)");
+			jsc.indent();
+			jsc.add("return false;");
+			jsc.unindent();
+		}
         jsc.add("");
         jsc.add("if (obj instanceof ");
         jsc.append(jclass.getName(true));
@@ -2216,7 +2220,7 @@ public class SourceFactory extends BaseFactory {
     private boolean extendsSimpleType
         (JClass jClass, SimpleType type, FactoryState state)
     {
-        String superClassName = jClass.getSuperClass();
+        String superClassName = jClass.getSuperClassQualifiedName();
         if (superClassName != null) {
             ClassInfo cInfo = state.resolve(type);
             if (cInfo != null) {
