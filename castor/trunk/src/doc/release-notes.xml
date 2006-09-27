@@ -39,6 +39,26 @@
             	   exposed through this 'enumeration'/'iteration' method.</p>
            </summary>
             <bugs>
+				<bug id="1583" tool="jira">
+                    <description>
+		                CTF doesn't run properly under Fedora Core Linux.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060927</date>
+                </bug>
 				<bug id="1566" tool="jira">
                     <description>
 		                Fixed problem with incorrect generation of unmarshal methods for extensions/

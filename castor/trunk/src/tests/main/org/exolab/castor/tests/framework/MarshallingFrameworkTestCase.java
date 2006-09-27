@@ -94,6 +94,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
     /**
      * Create a new test case with the same setup than the
      * MarshallingFrameworkTestCase given in parameter.
+     * @param name Name for the MarshallingFrameworkTestCase
      */
     public MarshallingFrameworkTestCase(String name, MarshallingFrameworkTestCase mftc) {
         super(name, mftc);
@@ -102,6 +103,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
 
     /**
      * Create a new MarshallingFrameworkTestCase with the given name.
+     * @param name Name for the MarshallingFrameworkTestCase
      */
     public MarshallingFrameworkTestCase(String name) {
         super(name);
@@ -110,6 +112,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
 
     /**
      * Returns the test suite for this given test setup.
+     * @return the test suite for this given test setup.
      */
     public Test suite() {
 
@@ -132,9 +135,9 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
 
     /**
      * Setup this test suite. Load the mapping file if any.
+     * @throws Exception if anything goes wrong
      */
-    protected void setUp()
-        throws java.lang.Exception {
+    protected void setUp() throws java.lang.Exception {
 
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
@@ -158,7 +161,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         }
         
         if (!_test.isDirectoryCompiled()) {
-            verbose("-->Compiling any necessary source files");
+            verbose("-->Compiling any necessary source files in " + _outputRootFile);
             try {
                 compileDirectory(_outputRootFile);
                 //-- if we reach here, directory was successfully compiled.
@@ -223,18 +226,15 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
                     fail("Constructing a :"+listenerName+" failed: " + iaex);
                 }
                 verbose("##### TESTING LISTENER CLASS " + listenerName + " #####");
-        } // listener != null;
-
-
+            } // listener != null;
         }
     }
 
-
     /**
      * Clean up the tests.
+     * @throws Exception if anything goes wrong
      */
-    protected void tearDown()
-        throws java.lang.Exception {
+    protected void tearDown() throws java.lang.Exception {
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
         verbose("================================================\n");

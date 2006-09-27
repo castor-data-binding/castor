@@ -86,6 +86,11 @@ public class TestCaseAggregator extends TestCase {
     private final static String CVS = "CVS";
 
     /**
+     * SVN name...to filter--> best solution for next version use a FileFilter
+     */
+    private final static String SVN = ".svn";
+
+    /**
      * Name of the system property to set up the verbose mode.
      */
     public static final String VERBOSE_PROPERTY = "org.exolab.castor.tests.Verbose";
@@ -96,7 +101,7 @@ public class TestCaseAggregator extends TestCase {
     public static final String PRINT_STACK_TRACE = "org.exolab.castor.tests.printStack";
 
     /**
-     * True if we expect a lot of info on what happen.
+     * True if we desire a lot of info on what happen.
      */
     private static boolean _verbose;
 
@@ -163,31 +168,36 @@ public class TestCaseAggregator extends TestCase {
         verbose("==================================================================\n");
 
         File[] list = _directory.listFiles();
-        CastorTestCase tc = null;
         for (int i=0; i<list.length; ++i) {
             String name = list[i].getName();
-            //1--directory
-            if (list[i].isDirectory() && !name.endsWith(CVS)) {
-                //look for jars or testDescriptor files inside the directory
-                TestCaseAggregator recurse = new TestCaseAggregator(list[i], outputRoot);
-                suite.addTest(recurse.suite());
-            //2-- jar file
-            } else if (name.endsWith(".jar")) {
+
+            // 1--directory
+            if (list[i].isDirectory()) {
+                if (!name.endsWith(CVS) && !name.equals(SVN)) {
+                    //look for jars or testDescriptor files inside the directory
+                    TestCaseAggregator recurse = new TestCaseAggregator(list[i], outputRoot);
+                    suite.addTest(recurse.suite());
+                }
+                continue;
+            }
+
+            CastorTestCase tc = null;
+
+            // 2-- jar file
+            if (name.endsWith(".jar")) {
                 tc = new CastorTestCase(list[i], outputRoot);
-            //3-- test decriptor
+            // 3-- test decriptor
             } else if (name.endsWith(CastorTestCase.TEST_DESCRIPTOR)) {
                 tc = new CastorTestCase(_directory, outputRoot);
             }
-            
-            Test test = null;
-            if (tc != null)
-                test = tc.suite();
-            
-            if (test != null)
-                suite.addTest(test);
-                
-            tc = null;
-        }//for
+
+            if (tc != null) {
+                Test test = tc.suite();
+                if (test != null) {
+                    suite.addTest(test);
+                }
+            }
+        } //for
 
         return suite;
     }
