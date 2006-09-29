@@ -43,7 +43,6 @@
  * $Id$
  *
  */
-
 package org.exolab.castor.tests.framework;
 
 import org.exolab.castor.xml.MarshalException;
@@ -56,7 +55,8 @@ import org.exolab.adaptx.xml.XMLDiff;
 
 //-- Java imports
 import java.io.StringReader;
-
+import java.util.HashMap;
+import java.util.Map;
 
 /**
  * This class contains utility methods needed by the CTF.
@@ -65,146 +65,137 @@ import java.io.StringReader;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-
 public class CTFUtils {
+    /**
+     * The Java primitives
+     */
+    public static final String BOOLEAN   = "boolean";
+    public static final String BYTE      = "byte";
+    public static final String CHARACTER = "character";
+    public static final String DOUBLE    = "double";
+    public static final String FLOAT     = "float";
+    public static final String INT       = "int";
+    public static final String LONG      = "long";
+    public static final String SHORT     = "short";
+    public static final String STRING    = "String";
+
+    private static Map nameMap = new HashMap();
+    static {
+        nameMap.put(BOOLEAN,   Boolean.TYPE);
+        nameMap.put(BYTE,      Byte.TYPE);
+        nameMap.put(CHARACTER, Character.TYPE);
+        nameMap.put(DOUBLE,    Double.TYPE);
+        nameMap.put(FLOAT,     Float.TYPE);
+        nameMap.put(INT,       Integer.TYPE);
+        nameMap.put(LONG,      Long.TYPE);
+        nameMap.put(SHORT,     Short.TYPE);
+    }
 
    /**
-    * The Java primitives
-    */
-   public static final String BOOLEAN   = "boolean";
-   public static final String BYTE      = "byte";
-   public static final String CHARACTER = "character";
-   public static final String DOUBLE    = "double";
-   public static final String FLOAT     = "float";
-   public static final String INT       = "int";
-   public static final String LONG      = "long";
-   public static final String SHORT     = "short";
-   public static final String STRING    = "String";
-   
-   /**
-	* Loads the given XML file as an XPathNode
+    * Loads the given XML file as an XPathNode.
     *
-	* @param url the filename or URL of the XML file to load
+    * @param url the filename or URL of the XML file to load
+    * @return the XML file as an XPathNode
+    * @throws java.io.IOException if an error occurs reading the XML
     */
     public static XPathNode loadXPN(String url) throws java.io.IOException {
-
-	    XPathNode node = null;
-	    XPNReader reader = new XPNReader(url);
-	    reader.setSaveLocation(true);
-	    node = reader.read();
-        return node;
+        XPNReader reader = new XPNReader(url);
+        reader.setSaveLocation(true);
+        return reader.read();
     } //-- loadXPN
 
-   /**
-    * Compares two XML documents located at 2 given URL.
-    * @param document1 the URL of the first XML document.
-    * @param document2 the URL of the second XML document.
-    * @return an int indicating the number of differences or 0 if both documents are
-    * 'XML equivalent'.
-    */
+    /**
+     * Compares two XML documents located at 2 given URLs, returning the number
+     * of differences or 0 if both documents are 'XML equivalent'.
+     *
+     * @param document1 the URL of the first XML document.
+     * @param document2 the URL of the second XML document.
+     * @return an int indicating the number of differences or 0 if both
+     *         documents are 'XML equivalent'.
+     * @throws java.io.IOException if an error occurs reading either XML
+     *             document
+     */
     public static int compare(String document1, String document2) throws java.io.IOException {
         XPathNode node1 = loadXPN(document1);
         XPNReader reader = new XPNReader(document2);
         XPathNode node2 = reader.read();
-	    XMLDiff diff = new XMLDiff();
-	    int result = diff.compare(node1, document1, node2, "In-Memory-Result");
-        return result;
-
+        XMLDiff diff = new XMLDiff();
+        return diff.compare(node1, document1, node2, "In-Memory-Result");
     }
-    
+
     /**
-     * Returns the class associated with the 
-     * given name.
-     * 
-     * @param name the fully qualified name of the class to return.
-     * Primitives are handled through their name and not their class name.
-     * For instance 'boolean' should be used instead of 'java.lang.Boolean.TYPE'.
-     * 
-     * @return the class associated with given name.
+     * Returns the class associated with the given name.
      *
+     * @param name the fully qualified name of the class to return. Primitives
+     *            are handled through their name and not their class name. For
+     *            instance 'boolean' should be used instead of
+     *            'java.lang.Boolean.TYPE'.
+     * @param loader the ClassLoader to use if the class needs to be loaded
+     * @return the class associated with given name.
+     * @throws ClassNotFoundException if the given class cannot be loaded using
+     *             the provided class loader.
      */
     public static Class getClass(String name, ClassLoader loader) throws ClassNotFoundException {
-        if (name == null)
+        if (name == null) {
             throw new IllegalArgumentException("Name shouldn't be null.");
-        
-        if (name.equals(BOOLEAN))
-            return (Boolean.TYPE);
-        else if (name.equals(BYTE))
-            return (Byte.TYPE);
-        else if (name.equals(CHARACTER))
-            return (Character.TYPE);
-        else if (name.equals(DOUBLE))
-            return (Double.TYPE);
-        else if (name.equals(FLOAT))
-            return (Float.TYPE);  
-        else if (name.equals(INT))
-            return (Integer.TYPE);
-        else if (name.equals(LONG))
-            return (Long.TYPE);
-        else if (name.equals(SHORT))
-            return (Short.TYPE);  
-        else
-            return loader.loadClass(name);
-    
+        }
+
+        Class clazz = (Class) nameMap.get(name);
+        if (clazz != null) {
+            return clazz;
+        }
+
+        return loader.loadClass(name);
     }
 
-    
    /**
-    * Converts the given value to a java representation that
-    * corresponds to the given type.
-    * 
-    * @param value the value to be converted
-    * @param type a string representation of the java type.
-    * @param loader an optional ClassLoader used in case we need to
-    * use the Unmarshaller to retrieve a complex java object.
-    * @return an java object that corresponds to the given value converted
-    * to a java type according to the type passed as parameter.
-    */
-   public static Object instantiateObject(String type, String value, ClassLoader loader) 
-       throws ClassNotFoundException, MarshalException
-   {
-       if (type.equals(STRING)) {
-           return value;
-       }
-       else if (type.equals(String.class.getName())) {
-           return value;
-       }
-       else if (type.equals(BOOLEAN) || type.equals(Boolean.class.getName())) {
-          return new Boolean(value);
-       }
-       else if (type.equals(BYTE) || type.equals(Byte.class.getName())) {
-          return new Byte(value);
-       } 
-       else if (type.equals(CHARACTER) || type.equals(Character.class.getName())) {
-           return new Character(value.charAt(0));
-       }
-       else if (type.equals(DOUBLE) || type.equals(Double.class.getName())) {
-           return new Double(value);
-       }
-       else if (type.equals(FLOAT) || type.equals(Float.class.getName())) {
-           return new Float(value);
-       }
-       else if (type.equals(INT) || type.equals(Integer.class.getName())) {
+     * Converts the given value to a Java representation that corresponds to the
+     * given type.
+     *
+     * @param value the value to be converted
+     * @param type a string representation of the java type.
+     * @param loader an optional ClassLoader used in case we need to use the
+     *            Unmarshaller to retrieve a complex java object.
+     * @return an java object that corresponds to the given value converted to a
+     *         java type according to the type passed as parameter.
+     * @throws ClassNotFoundException if the type is not a recognized primitive
+     *             type and the class loader provided cannot load the type
+     * @throws MarshalException if the type is not a recognized primitive type
+     *             and no Marshaller can be found for that type
+     */
+    public static Object instantiateObject(String type, String value, ClassLoader loader)
+                                        throws ClassNotFoundException, MarshalException {
+        if (type.equals(STRING) || type.equals(String.class.getName())) {
+            return value;
+        } else if (type.equals(BOOLEAN) || type.equals(Boolean.class.getName())) {
+            return new Boolean(value);
+        } else if (type.equals(BYTE) || type.equals(Byte.class.getName())) {
+            return new Byte(value);
+        } else if (type.equals(CHARACTER) || type.equals(Character.class.getName())) {
+            return new Character(value.charAt(0));
+        } else if (type.equals(DOUBLE) || type.equals(Double.class.getName())) {
+            return new Double(value);
+        } else if (type.equals(FLOAT) || type.equals(Float.class.getName())) {
+            return new Float(value);
+        } else if (type.equals(INT) || type.equals(Integer.class.getName())) {
             return new Integer(value);
-       }
-       else if (type.equals(LONG) || type.equals(Long.class.getName())) {
-           return new Long(value);
-       }
-       else if (type.equals(SHORT) || type.equals(Short.class.getName())) {
-           return new Short(value);
-       }
-       //-- Else we let the unmarshaller to get us the class
-       else {
-          try {
-              //-- check arbitrary class:
-              Class clazz = loader.loadClass(type);
-              Unmarshaller unm = new Unmarshaller(clazz);
-              return unm.unmarshal(new StringReader(value));
-          } catch (ValidationException e) {
-              //--this can't happen, just log it
-              e.printStackTrace();
-          }
-       }
-       return null;
-   }
+        } else if (type.equals(LONG) || type.equals(Long.class.getName())) {
+            return new Long(value);
+        } else if (type.equals(SHORT) || type.equals(Short.class.getName())) {
+            return new Short(value);
+        }
+
+        //-- Else we let the unmarshaller get us the class
+        try {
+            Class clazz = loader.loadClass(type);
+            Unmarshaller unmarshaller = new Unmarshaller(clazz);
+            return unmarshaller.unmarshal(new StringReader(value));
+        } catch (ValidationException e) {
+            //--this can't happen, just log it
+            e.printStackTrace();
+        }
+
+        return null;
+    }
+
 }

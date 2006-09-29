@@ -42,16 +42,12 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.tests.framework;
 
-
-
 /**
- * Every root object in an object model used in a tests have to implement this
- * interface as well as to override the equals() method. It can be usefull that
- * all the object in an object model used for test implment this interface.
+ * Every root object in an object model used in a tests has to implement this
+ * interface as well as to override the equals() method. It can be useful that
+ * all the objects in an object model used for tests implement this interface.
  *
  * @author <a href="mailto:gignoux@intalio.com">Sebastien Gignoux</a>
  * @version $Revision$ $Date: 2003-10-15 09:17:49 -0600 (Wed, 15 Oct 2003) $
@@ -59,22 +55,27 @@ package org.exolab.castor.tests.framework;
 public interface CastorTestable {
 
     /**
-     * Return a recursive dump of the content of the object's fields in a user
+     * Returns a recursive dump of the contents of the object's fields in a user
      * readable format. This is used to retrieve the state of the object if
-     * castor fail to marshal the object for any reason.
+     * castor fails to marshal the object for any reason.
+     * <p>
+     * We don't rely on the {@link java.lang.Object#toString()} function as
+     * might be implemented with another semantic.
      *
-     * We don't rely on the toString() function as it could have been already
-     * implemented with another semantic.
+     * @return a recursive dump of the contents of the object's fields in a user
+     *         readable format.
      */
     public String dumpFields();
 
-
     /**
-     * The instance of the object will randomize the content of its field. This
-     * is used to create an instance of the object model whithout having to
-     * unmarashal anything.
-     */ 
-    public void randomizeFields() 
-        throws InstantiationException, IllegalAccessException ;
+     * Randomizes the contents of the fields of this instance. This is used to
+     * create an instance of the object model whithout having to unmarshal
+     * anything.
+     *
+     * @throws InstantiationException if this method is called for an Interface
+     *             or abstract class
+     * @throws IllegalAccessException if this method is not accessible
+     */
+    public void randomizeFields() throws InstantiationException, IllegalAccessException;
 
 }
