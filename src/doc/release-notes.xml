@@ -39,6 +39,26 @@
             	   exposed through this 'enumeration'/'iteration' method.</p>
            </summary>
             <bugs>
+				<bug id="1590" tool="jira">
+                    <description>
+		                Source code cleanup at Castor XML test framework.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20060929</date>
+                </bug>
 				<bug id="1588" tool="jira">
                     <description>
 		                Fixed problem with stack overflow in CTF maste test suite

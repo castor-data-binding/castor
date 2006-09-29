@@ -42,16 +42,12 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.tests.framework;
 
-
-
 /**
- * Encapsulate the hard-coded generation of an instance of an object model. It
- * have probably to be connected to an XML document during the test to check
- * that they are 'equivalent'.
+ * Encapsulates the hard-coded generation of an instance of an object model. It
+ * has to be connected to an XML document during the test to check that they are
+ * 'equivalent'.
  *
  * @author <a href="mailto:gignoux@intalio.com">Sebastien Gignoux</a>
  * @version $Revision$ $Date: 2003-10-15 09:17:49 -0600 (Wed, 15 Oct 2003) $
@@ -59,7 +55,10 @@ package org.exolab.castor.tests.framework;
 public interface ObjectModelBuilder {
 
     /**
-     * Generate and return a new instance from the hard-coded data.
+     * Generates and returns a new instance from the hard-coded data.
+     *
+     * @return a new instance from the hard-coded data
+     * @throws Exception if anything goes wrong creating the instance
      */
     public Object buildInstance() throws Exception;
 

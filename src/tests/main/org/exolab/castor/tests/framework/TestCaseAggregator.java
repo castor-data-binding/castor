@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.tests.framework;
 
 import junit.framework.Test;
@@ -54,41 +52,29 @@ import java.io.File;
 
 /**
  * This class is used to inspect recursively a hierarchy of directories that
- * contain CTF tests (jars or directories). A JUnit TestSuite is created for each
- * directory.
+ * contain CTF tests (jars or directories). A JUnit TestSuite is created for
+ * each directory.
  *
  * @author <a href="mailto:gignoux@kernelcenter.org">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- *
  * @version $Revision$ $Date: 2006-04-26 15:14:53 -0600 (Wed, 26 Apr 2006) $
  */
 public class TestCaseAggregator extends TestCase {
 
-
-    /**
-     * The directory that contains CTF test cases
-     */
-    private File _directory = null;
-
-    /**
-     * Location of the temporary files when the tests are run
-     */
-    private String _testOutputRoot;
-
     /**
      * File separator for this system.
      */
-    private final static String FILE_SEPARATOR = System.getProperty("file.separator");
+    private static final String FILE_SEPARATOR = System.getProperty("file.separator");
 
     /**
      * CVS name...to filter--> best solution for next version use a FileFilter
      */
-    private final static String CVS = "CVS";
+    private static final String CVS = "CVS";
 
     /**
      * SVN name...to filter--> best solution for next version use a FileFilter
      */
-    private final static String SVN = ".svn";
+    private static final String SVN = ".svn";
 
     /**
      * Name of the system property to set up the verbose mode.
@@ -107,21 +93,29 @@ public class TestCaseAggregator extends TestCase {
 
     static {
         String v = System.getProperty(VERBOSE_PROPERTY);
-        if (v!=null && v.equals("true"))
-            _verbose = true;
-        else
-            _verbose = false;
+        _verbose = (v!=null && v.equals("true"));
     }
 
+    /**
+     * The directory that contains CTF test cases
+     */
+    private final File _directory;
+
+    /**
+     * Location of the temporary files when the tests are run
+     */
+    private final String _testOutputRoot;
 
     /**
      * Create a new TestCaseAggregator with the given name.
+     *
      * @param name the name of this TestCaseAggregator
      */
     public TestCaseAggregator(String name) {
         super(name);
+        _directory      = null;
+        _testOutputRoot = null;
     }
-
 
     /**
      * Create a new TestCaseAggregator which will inspect the directory given in
@@ -129,7 +123,7 @@ public class TestCaseAggregator extends TestCase {
      *
      * @param directory the directory to inspect for test case and subdirectory
      * @param testOutputRoot the path to the directory where the test in this
-     * directory can put there temporary files.
+     *            directory can put there temporary files.
      */
     public TestCaseAggregator(File directory, String testOutputRoot) {
         super(directory.getName());
@@ -143,7 +137,6 @@ public class TestCaseAggregator extends TestCase {
      * @return A non-null test suite.
      */
     public Test suite() {
-
         TestSuite suite = new TestSuite();
 
         if (!_directory.isDirectory()) {
@@ -153,15 +146,16 @@ public class TestCaseAggregator extends TestCase {
                 CastorTestCase tc = new CastorTestCase(_directory, _testOutputRoot);
                 return tc.suite();
             }
-			// Nothing to do
-			return suite;
-        } //!directory
+            // If not a jar file, just return the empty TestSuite
+            return suite;
+        }
 
         String outputRoot = _testOutputRoot;
-        if ( outputRoot.endsWith("/") || outputRoot.endsWith(FILE_SEPARATOR))
-           outputRoot = outputRoot + _directory.getName();
-        else
+        if ( outputRoot.endsWith("/") || outputRoot.endsWith(FILE_SEPARATOR)) {
+            outputRoot = outputRoot + _directory.getName();
+        } else {
             outputRoot = outputRoot + FILE_SEPARATOR + _directory.getName();
+        }
 
         verbose("\n==================================================================");
         verbose("Processing directory:\n"+_directory.getAbsolutePath());
@@ -169,47 +163,56 @@ public class TestCaseAggregator extends TestCase {
 
         File[] list = _directory.listFiles();
         for (int i=0; i<list.length; ++i) {
-            String name = list[i].getName();
-
-            // 1--directory
-            if (list[i].isDirectory()) {
-                if (!name.endsWith(CVS) && !name.equals(SVN)) {
-                    //look for jars or testDescriptor files inside the directory
-                    TestCaseAggregator recurse = new TestCaseAggregator(list[i], outputRoot);
-                    suite.addTest(recurse.suite());
-                }
-                continue;
-            }
-
-            CastorTestCase tc = null;
-
-            // 2-- jar file
-            if (name.endsWith(".jar")) {
-                tc = new CastorTestCase(list[i], outputRoot);
-            // 3-- test decriptor
-            } else if (name.endsWith(CastorTestCase.TEST_DESCRIPTOR)) {
-                tc = new CastorTestCase(_directory, outputRoot);
-            }
-
-            if (tc != null) {
-                Test test = tc.suite();
-                if (test != null) {
-                    suite.addTest(test);
-                }
-            }
-        } //for
+            processOneFileOrDirectory(suite, outputRoot, list[i]);
+        }
 
         return suite;
     }
 
+    /**
+     * Processes a single file or directory, recurses into directories and for
+     * files, if a JAR file or a test descriptor XML file, create a new test
+     * case and add it to our test suite.
+     *
+     * @param suite the test suite to add new tests to
+     * @param outputRoot output directory for temporary files in our tests
+     * @param file the file or directory to process
+     */
+    private void processOneFileOrDirectory(TestSuite suite, String outputRoot, File file) {
+        String name = file.getName();
+
+        // If a directory (and not a source control directory), recurse
+        if (file.isDirectory()) {
+            if (!name.endsWith(CVS) && !name.equals(SVN)) {
+                //look for jars or testDescriptor files inside the directory
+                TestCaseAggregator recurse = new TestCaseAggregator(file, outputRoot);
+                suite.addTest(recurse.suite());
+            }
+            return;
+        }
+
+        // Otherwise make a test case if a JAR file or test descriptor
+
+        Test test = null;
+        if (name.endsWith(".jar")) {
+            test = (new CastorTestCase(file, outputRoot)).suite();
+        } else if (name.endsWith(CastorTestCase.TEST_DESCRIPTOR)) {
+            test = (new CastorTestCase(_directory, outputRoot)).suite();
+        }
+
+        if (test != null) {
+            suite.addTest(test);
+        }
+    }
 
     /**
-     * print the message if in verbose mode.
+     * Prints the provided message if verbose is true
      * @param message the message to print
      */
     private void verbose(String message) {
-        if (_verbose)
+        if (_verbose) {
             System.out.println(message);
+        }
     }
 
 }

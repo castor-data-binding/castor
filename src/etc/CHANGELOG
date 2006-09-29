@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1590 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Source code cleanup at Castor XML test framework.
+       Details: http://jira.codehaus.org/browse/CASTOR-1590
+       (Ralf - 20060929)
+
 XML:   Resolved issue CASTOR-1588 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fixed problem with stack overflow in CTF maste test suite
        Details: http://jira.codehaus.org/browse/CASTOR-1588

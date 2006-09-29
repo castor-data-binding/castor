@@ -44,7 +44,6 @@
  */
 package org.exolab.castor.tests.framework;
 
-
 import java.io.InputStream;
 import java.io.IOException;
 import java.io.OutputStream;
@@ -60,68 +59,103 @@ import java.util.jar.JarFile;
 
 /**
  * This class is a set of tools for manipulating files needed by the CTF.
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class FileServices {
 
-    public static final String XSD = ".xsd";
-    public static final String XML = ".xml";
+    public static final String XSD  = ".xsd";
+    public static final String XML  = ".xml";
     public static final String JAVA = ".java";
-    public static final String JAR = ".jar";
+    public static final String JAR  = ".jar";
 
     /**
-     * Copy all the needed documents (java, xsd, xml file) of given file (jar or directory) to a specified directory.
+     * Copy all the needed documents (java, xsd, xml file) of given file (jar or
+     * directory) to a specified directory.
+     *
      * @param file the file that contains the entries to copy
-     * @param root the directory where to copy the file
+     * @param root the destination directory to copy files to
+     * @throws IOException if an error occurs while copying files
+     * @throws FileNotFoundException if an already-located file cannot be found
      */
-    protected static void copySupportFiles(File file, File root)
-        throws IOException, FileNotFoundException
-    {
-
-        if (file == null)
-           throw new IllegalArgumentException("The Entry file is null");
-        if (root == null)
-           throw new IllegalArgumentException("The destination directory is null");
+    protected static void copySupportFiles(File file, File root) throws IOException, FileNotFoundException {
+        if (file == null) {
+            throw new IllegalArgumentException("The Entry file is null");
+        }
+        if (root == null) {
+            throw new IllegalArgumentException("The destination directory is null");
+        }
 
         if (file.isDirectory()) {
-            File[] entries = file.listFiles();
-            for (int i=0 ; i<entries.length; i++) {
-                File tempEntry = entries[i];
-                if (isSupportFile(tempEntry.getName())) {
-                   InputStream src = new FileInputStream(tempEntry);
-                    File out = new File(root, tempEntry.getName());
-                    out.getParentFile().mkdir();
-                    copy(src, new FileOutputStream(out));
-                }
-                else if (tempEntry.isDirectory()) {
-                    File out = new File(root, tempEntry.getName());
-                    out.mkdir();
-                    copySupportFiles(tempEntry, out);
-                }
-            }//for
-        }//directory
-        else if (file.getName().endsWith(JAR)) {
-            JarFile jar = new JarFile(file);
-            for (Enumeration e = jar.entries(); e.hasMoreElements(); ) {
-                ZipEntry entry = (ZipEntry)e.nextElement();
-                if ( isSupportFile(entry.getName()) ) {
-                    InputStream src = jar.getInputStream(entry);
-                    File out = new File(root, entry.getName());
-                    out.getParentFile().mkdirs();
-                    copy(src, new FileOutputStream(out));
-                }
-            }//for
+            copySupportFilesForDirectory(file, root);
+        } else if (file.getName().endsWith(JAR)) {
+            copySupportFilesForJarFile(file, root);
+        } else {
+            //ignore other file type
         }
-        //ignore other file type
-
     }
-   /**
-     * Copy an InputStream into a OutputStream
+
+    /**
+     * Unzips support files out of the JAR to our output directory. See
+     * {@link #isSupportFile(String)} for the definition of support file. This
+     * method does not totally unzip the JAR file. It only extracts certain
+     * important files out of the JAR.
+     *
+     * @param file the file that contains the entries to copy
+     * @param root the destination directory to copy files to
+     * @throws IOException if an error occurs while copying files
+     * @throws FileNotFoundException if an already-located file cannot be found
      */
-    protected static void copy(InputStream src, OutputStream dst)
-        throws FileNotFoundException, IOException
-    {
+    private static void copySupportFilesForJarFile(File file, File root) throws IOException, FileNotFoundException {
+        JarFile jar = new JarFile(file);
+        for (Enumeration e = jar.entries(); e.hasMoreElements(); ) {
+            ZipEntry entry = (ZipEntry)e.nextElement();
+            if (isSupportFile(entry.getName())) {
+                InputStream src = jar.getInputStream(entry);
+                File out = new File(root, entry.getName());
+                out.getParentFile().mkdirs();
+                copy(src, new FileOutputStream(out));
+            }
+        }//for
+    }
+
+    /**
+     * Copies support files from one directory to our output directory,
+     * recursing into other directories. See {@link #isSupportFile(String)} for
+     * the definition of support file.
+     *
+     * @param file the file that contains the entries to copy
+     * @param root the destination directory to copy files to
+     * @throws IOException if an error occurs while copying files
+     * @throws FileNotFoundException if an already-located file cannot be found
+     */
+    private static void copySupportFilesForDirectory(File file, File root) throws FileNotFoundException, IOException {
+        File[] entries = file.listFiles();
+        for (int i=0 ; i<entries.length; i++) {
+            File tempEntry = entries[i];
+            if (isSupportFile(tempEntry.getName())) {
+                InputStream src = new FileInputStream(tempEntry);
+                File out = new File(root, tempEntry.getName());
+                out.getParentFile().mkdir();
+                copy(src, new FileOutputStream(out));
+            } else if (tempEntry.isDirectory()) {
+                File out = new File(root, tempEntry.getName());
+                out.mkdir();
+                copySupportFiles(tempEntry, out);
+            }
+        }//for
+    }
+
+    /**
+     * Copies an InputStream into a OutputStream.
+     *
+     * @param src Source input stream
+     * @param dst Destination output stream
+     * @throws IOException if an error occurs while copying files
+     * @throws FileNotFoundException if an already-located file cannot be found
+     */
+    protected static void copy(InputStream src, OutputStream dst) throws FileNotFoundException, IOException {
         final int BUF_SIZE = 16 * 1024;
         byte[] buf = new byte[BUF_SIZE];
         int read;
@@ -137,10 +171,12 @@ public class FileServices {
     /**
      * Return true if the file is a support file for the test. A support file is
      * a schema or a java file.
+     *
+     * @param name File name to check to see if it represents a support file
+     * @return true if the file is a support file for the test.
      */
     private static boolean isSupportFile(String name) {
-        return ((name.endsWith(XSD)) || (name.endsWith(JAVA)) || (name.endsWith(XML)) );
+        return name.endsWith(XSD) || name.endsWith(JAVA) || name.endsWith(XML);
     }
-
 
 }
