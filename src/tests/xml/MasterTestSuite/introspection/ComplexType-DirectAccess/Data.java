@@ -46,61 +46,72 @@ import org.exolab.castor.tests.framework.CastorTestable;
 import org.exolab.castor.tests.framework.RandomHelper;
 
 public class Data implements CastorTestable {
+    private static final int MAX_DEPTH = 30;
 
-    public String Name;
-    public Root   RootInfo;
+    public String     name;
+    public Root       rootInfo;
+    private final int _depth;
 
-    public Data() { }
-
-    public Data(String name) {
-        Name = name;
+    public Data() {
+        this._depth = 0;
     }
 
+    public Data(int depth) {
+        this._depth = depth + 1;
+    }
+
+    public Data(String name) {
+        this.name   = name;
+        this._depth = 0;
+    }
 
     // --- CastorTestable ------------------------
     public boolean equals(Object object) {
-
-        if ( ! (object instanceof Data))
+        if ( ! (object instanceof Data)) {
             return false;
+        }
 
         Data data = (Data)object;
 
         boolean result = true;
 
-        if ((this.Name != null) && (data.Name != null))
-            result &= (this.Name.equals(data.Name));
-        else
-            result &= (this.Name == null) && (data.Name == null);
-        
-        if ((this.RootInfo != null) && (data.RootInfo != null))
-            result &= (this.RootInfo.equals(data.RootInfo));
-        else
-            result &= (this.RootInfo == null) && (data.RootInfo == null);
+        if (this.name != null && data.name != null) {
+            result &= (this.name.equals(data.name));
+        } else {
+            result &= (this.name == null && data.name == null);
+        }
+
+        if (this.rootInfo != null && data.rootInfo != null) {
+            result &= (this.rootInfo.equals(data.rootInfo));
+        } else {
+            result &= (this.rootInfo == null && data.rootInfo == null);
+        }
 
         return result;
     }
 
-    public void randomizeFields() 
-        throws InstantiationException, IllegalAccessException {
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
+        name = RandomHelper.getRandom(name, String.class);
 
-        Name = RandomHelper.getRandom(Name, String.class);
-
-        if (RandomHelper.flip(0.6)) {
-            RootInfo = new Root();
-            ((CastorTestable)RootInfo).randomizeFields();
+        if (_depth < MAX_DEPTH && RandomHelper.flip(0.6)) {
+            rootInfo = new Root(_depth);
+            ((CastorTestable)rootInfo).randomizeFields();
+        } else {
+            rootInfo = null;
         }
-        else
-            RootInfo = null;
-
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Name=" + Name + "]\n";
-        dump += "[RootInfo=" + ((RootInfo!=null)?((CastorTestable)RootInfo).dumpFields():"null") + "]\n";
-
-        return dump;
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("[Name=" + name + "]\n");
+        buffer.append("[RootInfo=");
+        if (rootInfo == null) {
+            buffer.append("null");
+        } else {
+            buffer.append(rootInfo.dumpFields());
+        }
+        buffer.append("]\n");
+        return buffer.toString();
     }
 
 }

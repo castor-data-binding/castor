@@ -46,74 +46,93 @@ import org.exolab.castor.tests.framework.CastorTestable;
 import org.exolab.castor.tests.framework.RandomHelper;
 
 public class Root implements CastorTestable {
+    private static final int MAX_DEPTH = 30;
 
-    public String Name;
+    public String     name;
+    public Root       rootData;
+    public Data       data;
+    private final int _depth;
 
-    public Root RootData;
-    public Data Data;
+    public Root() {
+        this._depth = 0;
+    }
 
-    public Root() { }
+    public Root(int depth) {
+        this._depth = depth + 1;
+    }
 
     public Root(String name) {
-        Name = name;
+        this.name   = name;
+        this._depth = 0;
     }
 
     // --- CastorTestable ------------------------
     public boolean equals(Object object) {
-
-        if ( ! (object instanceof Root))
+        if ( ! (object instanceof Root)) {
             return false;
+        }
 
         Root root = (Root)object;
 
         boolean result = true;
 
-        if ((this.Name != null) && (root.Name != null))
-            result &= (this.Name.equals(root.Name));
-        else
-            result &= (this.Name == null) && (root.Name == null);
-        
-        if ((this.RootData != null) && (root.RootData != null))
-            result &= (this.RootData.equals(root.RootData));
-        else
-            result &= (this.RootData == null) && (root.RootData == null);
+        if (this.name != null && root.name != null) {
+            result &= (this.name.equals(root.name));
+        } else {
+            result &= (this.name == null && root.name == null);
+        }
 
-        if ((this.Data != null) && (root.Data != null))
-            result &= (this.Data.equals(root.Data));
-        else
-            result &= (this.Data == null) && (root.Data == null);
+        if (this.rootData != null && root.rootData != null) {
+            result &= (this.rootData.equals(root.rootData));
+        } else {
+            result &= (this.rootData == null && root.rootData == null);
+        }
+
+        if (this.data != null && root.data != null) {
+            result &= (this.data.equals(root.data));
+        } else {
+            result &= (this.data == null && root.data == null);
+        }
 
         return result;
     }
 
-    public void randomizeFields() 
-        throws InstantiationException, IllegalAccessException {
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
+        name = RandomHelper.getRandom(name, String.class);
 
-        Name = RandomHelper.getRandom(Name, String.class);
-
-        if (RandomHelper.flip(0.6)) {
-            RootData = new Root();
-            ((CastorTestable)RootData).randomizeFields();
+        if (_depth < MAX_DEPTH && RandomHelper.flip(0.6)) {
+            rootData = new Root(_depth);
+            ((CastorTestable)rootData).randomizeFields();
+        } else {
+            rootData = null;
         }
-        else
-            RootData = null;
 
-        if (RandomHelper.flip(0.7)) {
-            Data = new Data();
-            ((CastorTestable)Data).randomizeFields();
+        if (_depth < MAX_DEPTH && RandomHelper.flip(0.7)) {
+            data = new Data(_depth);
+            ((CastorTestable)data).randomizeFields();
+        } else {
+            data = null;
         }
-        else
-            Data = null;
-
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Name=" + Name + "]\n";
-        dump += "[RootData=" + ((RootData!=null)?((CastorTestable)RootData).dumpFields():"null") + "]\n";
-        dump += "[Data=" + ((Data!=null)?((CastorTestable)Data).dumpFields():"null") + "]\n";
-
-        return dump;
+        StringBuffer buffer = new StringBuffer();
+        buffer.append("[Name=" + name + "]\n");
+        buffer.append("[RootData=");
+        if (rootData == null) {
+            buffer.append("null");
+        } else {
+            buffer.append(rootData.dumpFields());
+        }
+        buffer.append("]\n");
+        buffer.append("[Data=");
+        if (data == null) {
+            buffer.append("null");
+        } else {
+            buffer.append(data.dumpFields());
+        }
+        buffer.append("]\n");
+        return buffer.toString();
     }
+
 }

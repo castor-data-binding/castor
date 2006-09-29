@@ -1,8 +1,7 @@
 <?xml version="1.0"?>
-
 <root>
         <name>name of the root</name>
-       <root-data>
+        <root-data>
                 <name>root in root</name>
                 <data>
                         <name>data in root in root</name>

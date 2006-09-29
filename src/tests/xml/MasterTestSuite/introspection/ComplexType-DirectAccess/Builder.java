@@ -44,47 +44,26 @@
 
 import org.exolab.castor.tests.framework.ObjectModelBuilder;
 
-import java.util.Date;
-import java.text.DateFormat;
-
 public class Builder implements ObjectModelBuilder {
 
     /**
      * Build the object we expect when we unmarshal 'input-1.xml'
+     * @return our complex object
+     * @throws Exception if something goes wrong
      */
-    public Object buildInstance()
-     throws Exception {
-
+    public Object buildInstance() throws Exception {
         Root r = new Root("name of the root");
-
-        Root rr  = new Root("root in root");
-        r.RootData = rr;
-
-        Data d   = new Data("data in root in root");
-        rr.Data = d;
-
-        Root rrr = new Root("That is the power of recursion");
-        d.RootInfo = rrr;
-
-        Data dd = new Data("data in root");
-        r.Data = dd;
-
-        rr = new Root("root in data in root");
-        dd.RootInfo = rr;
-
-        rrr = new Root("root in root in data in root");
-        rrr.RootData = new Root();
-        rrr.Data = new Data();
-
-        rr.RootData = rrr;
-
-        dd = new Data("data in root in data in root");
-        dd.RootInfo = new Root();
-
-        rr.Data = dd;
-
+        r.rootData = new Root("root in root");
+        r.rootData.data = new Data("data in root in root");
+        r.rootData.data.rootInfo = new Root("That is the power of recursion");
+        r.data = new Data("data in root");
+        r.data.rootInfo = new Root("root in data in root");
+        r.data.rootInfo.rootData = new Root("root in root in data in root");
+        r.data.rootInfo.rootData.rootData = new Root();
+        r.data.rootInfo.rootData.data = new Data();
+        r.data.rootInfo.data = new Data("data in root in data in root");
+        r.data.rootInfo.data.rootInfo = new Root();
         return r;
-
     }
 
 }
