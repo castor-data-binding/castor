@@ -200,17 +200,60 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a random string.
+     * Returns a random string that will not have leading or trailing whitespace
+     * and that will not have consecutive internal whitespace. To get a random
+     * string without these restrictions, use
+     * {@link #getRandom(String, Class, boolean)} with the boolean argument
+     * <code>false</code>.
+     *
      * @param s An unused parameter, used only for polymorphism.
      * @param c An unused parameter that indicates we are making a random
      *            Object, not a random primitive
      * @return a random string
      */
     public static String getRandom(String s, Class c) {
+        return getRandom(s, c, true);
+    }
+
+    /**
+     * Returns a random string, optionally with leading and trailing whitespace
+     * removed and internal consecutive whitespace collapsed.
+     *
+     * @param s An unused parameter, used only for polymorphism.
+     * @param c An unused parameter that indicates we are making a random
+     *            Object, not a random primitive
+     * @param collapseWhitespace if true, removes leading and trailing
+     *            whitespace and collapses multiple consecutive spaces.
+     * @return a random string
+     * @see <a href="http://www.w3.org/TR/xmlschema-2/#rf-whiteSpace">the XML
+     *      schema definition of whitespace</a>
+     */
+    public static String getRandom(String s, Class c, boolean collapseWhitespace) {
         int size = 1 + _rand.nextInt(MAX_STRING_LENGTH - 1);
         char[] data = new char[size];
         for (int i=0; i < size; ++i) {
             data[i] = rndPrintableChar();
+        }
+
+        if (! collapseWhitespace) {
+            return new String(data);
+        }
+
+        // Make sure the first character is not whitespace
+        while (Character.isWhitespace(data[0])) {
+            data[0] = rndPrintableChar();
+        }
+
+        // Make sure the last character is not whitespace
+        while (Character.isWhitespace(data[size-1])) {
+            data[size-1] = rndPrintableChar();
+        }
+
+        // Make sure there are no consecutive whitespace characters
+        for (int i = 0; i < size - 1; i++) {
+            while (Character.isWhitespace(data[i]) && Character.isWhitespace(data[i+1])) {
+                data[i] = rndPrintableChar();
+            }
         }
 
         return new String(data);

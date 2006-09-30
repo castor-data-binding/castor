@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1589 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Fixed ComplexType-DirectAccess test complaining about differences.
+       Details: http://jira.codehaus.org/browse/CASTOR-1589
+       (Ralf - 20060930)
+
 XML:   Resolved issue CASTOR-1590 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Source code cleanup at Castor XML test framework.
        Details: http://jira.codehaus.org/browse/CASTOR-1590
