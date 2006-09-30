@@ -39,6 +39,26 @@
             	   exposed through this 'enumeration'/'iteration' method.</p>
            </summary>
             <bugs>
+				<bug id="1594" tool="jira">
+                    <description>
+                        Added regression test for CASTOR-1580 to CTF regression suite.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060930</date>
+                </bug>
 				<bug id="1589" tool="jira">
                     <description>
 		                Fixed ComplexType-DirectAccess test complaining about differences.
