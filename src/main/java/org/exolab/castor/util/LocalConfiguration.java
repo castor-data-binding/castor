@@ -343,24 +343,11 @@ public final class LocalConfiguration extends Configuration {
                                                          prop, except ) );
         }
 
-        if ( parser instanceof XMLReader ) {
-            StringTokenizer token;
-            XMLReader xmlReader = (XMLReader)parser;
-            try {
-                xmlReader.setFeature( Features.Validation, validation );
-                xmlReader.setFeature( Features.Namespaces, namespaces );
-                features = getProperties().getProperty( Property.ParserFeatures, features );
-                if ( features != null ) {
-                    token = new StringTokenizer( features, ", " );
-                    while ( token.hasMoreTokens() ) {
-                        xmlReader.setFeature( token.nextToken(), true );
-                    }
-                }
-            } 
-            catch ( SAXException except ) {
-                _log.error( Messages.format( "conf.configurationError", except ) );
-            }
+        if (parser instanceof XMLReader) {
+            XMLReader xmlReader = (XMLReader) parser;
+            setFeaturesOnXmlReader(features, validation, namespaces, xmlReader);
         }
+        
         return parser;
         
     }
@@ -451,21 +438,8 @@ public final class LocalConfiguration extends Configuration {
             }
         }
 
-        StringTokenizer token;
-        try {
-            reader.setFeature( Features.Validation, validation );
-            reader.setFeature( Features.Namespaces, namespaces );
-            features = getProperties().getProperty( Property.ParserFeatures, features );
-            if ( features != null ) {
-                token = new StringTokenizer( features, ", " );
-                while ( token.hasMoreTokens() ) {
-                    reader.setFeature( token.nextToken(), true );
-                }
-            }
-        } 
-        catch ( SAXException except ) {
-            _log.error( Messages.format( "conf.configurationError", except ) );
-        }
+        setFeaturesOnXmlReader(features, validation, namespaces, reader);
+        
         return reader;
         
     } //-- getXMLReader

@@ -55,7 +55,12 @@
   # Comma separated list of SAX 2 features that should be enabled
   # for the default parser
   #
-  org.exolab.castor.features=
+  org.exolab.castor.sax.features=
+
+  # Comma separated list of SAX 2 features that should be disabled
+  # for the default parser
+  #
+  org.exolab.castor.sax.features-to-disable=
 
   # True if should produce verbose messages
   #

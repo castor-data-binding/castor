@@ -71,6 +71,8 @@ import org.exolab.castor.xml.util.DefaultNaming;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
+import org.xml.sax.SAXNotRecognizedException;
+import org.xml.sax.SAXNotSupportedException;
 import org.xml.sax.XMLReader;
 
 /**
@@ -187,6 +189,15 @@ public abstract class Configuration {
          * </pre>
          */
         public static final String ParserFeatures = "org.exolab.castor.sax.features";
+
+        /**
+         * Property specifying features to be disbaled on the underlying SAX parser.
+         * This value contains a comma separated list of features to be disabled.
+         * <pre>
+         * org.exolab.castor.sax.features-to-disable
+         * </pre>
+         */
+        public static final String ParserFeaturesToDisable = "org.exolab.castor.sax.features-to-disable";
 
         public static final String ParserFeatureSeparator = ",";
 
@@ -594,24 +605,72 @@ public abstract class Configuration {
                                                          prop, except ) );
         }
 
-        if ( parser instanceof XMLReader ) {
-            StringTokenizer token;
-            XMLReader xmlReader = (XMLReader)parser;
-            try {
-                xmlReader.setFeature( Features.Validation, validation );
-                xmlReader.setFeature( Features.Namespaces, namespaces );
-                features = getDefault().getProperty( Property.ParserFeatures, features );
-                if ( features != null ) {
-                    token = new StringTokenizer( features, ", " );
-                    while ( token.hasMoreTokens() ) {
-                        xmlReader.setFeature( token.nextToken(), true );
-                    }
-                }
-            } catch (SAXException except) {
-                LOG.error(Messages.format("conf.configurationError", except));
+        if (parser instanceof XMLReader) {
+            XMLReader xmlReader = (XMLReader) parser;
+            setFeaturesOnXmlReader(features, validation, namespaces, xmlReader);
+        }
+        
+        return parser;
+    }
+
+    /**
+     * Sets features on XML reader instance.
+     * @param features
+     * @param validation Whether to enable validation or not.
+     * @param namespaces Whether to enable namespace support for not.
+     * @param xmlReader The XMLReader instance to configure.
+     */
+    protected static void setFeaturesOnXmlReader(String features, 
+            final boolean validation, 
+            final boolean namespaces, 
+            final XMLReader xmlReader) {
+        StringTokenizer token;
+        try {
+            xmlReader.setFeature(Features.Validation, validation);
+            xmlReader.setFeature(Features.Namespaces, namespaces);
+            features = getDefault().getProperty(Property.ParserFeatures, features);
+            enableFeatures(features, xmlReader);
+            String featuresToDisable = getDefault().getProperty(Property.ParserFeaturesToDisable, "");
+            disableFeatures(featuresToDisable, xmlReader);
+        } catch (SAXException except) {
+            LOG.error(Messages.format("conf.configurationError", except));
+        }
+    }
+
+    /**
+     * Enables selected features on the XMLReader instance
+     * @param features Features to enable
+     * @param xmlReader XMLReader instance to be configured.
+     * @throws SAXNotRecognizedException If the feature is not recognized by the XMLReader.
+     * @throws SAXNotSupportedException If the feature is not supported by the XMLReader.
+     */
+    private static void enableFeatures(final String features, final XMLReader xmlReader) 
+        throws SAXNotRecognizedException, SAXNotSupportedException {
+        StringTokenizer token;
+        if (features != null) {
+            token = new StringTokenizer(features, ", ");
+            while (token.hasMoreTokens()) {
+                xmlReader.setFeature(token.nextToken(), true);
             }
         }
-        return parser;
+    }
+
+    /**
+     * Disables selected features on the XMLReader instance
+     * @param features Features to disable
+     * @param xmlReader XMLReader instance to be configured.
+     * @throws SAXNotRecognizedException If the feature is not recognized by the XMLReader.
+     * @throws SAXNotSupportedException If the feature is not supported by the XMLReader.
+     */
+    private static void disableFeatures(String features, final XMLReader xmlReader) 
+        throws SAXNotRecognizedException, SAXNotSupportedException {
+        StringTokenizer token;
+        if (features != null) {
+            token = new StringTokenizer(features, ", ");
+            while (token.hasMoreTokens()) {
+                xmlReader.setFeature(token.nextToken(), true);
+            }
+        }
     }
 
     /**
@@ -753,19 +812,7 @@ public abstract class Configuration {
         }
 
         StringTokenizer token;
-        try {
-            reader.setFeature( Features.Validation, validation );
-            reader.setFeature( Features.Namespaces, namespaces );
-            features = getDefault().getProperty( Property.ParserFeatures, features );
-            if ( features != null ) {
-                token = new StringTokenizer( features, ", " );
-                while ( token.hasMoreTokens() ) {
-                    reader.setFeature( token.nextToken(), true );
-                }
-            }
-        } catch (SAXException except) {
-            LOG.error(Messages.format("conf.configurationError", except));
-        }
+        setFeaturesOnXmlReader(features, validation, namespaces, reader);
         return reader;
     } //-- getDefaultXMLReader
 
