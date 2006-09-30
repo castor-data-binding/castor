@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1596 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Expanded JMethod.addException() to correctly insert @throws Javadoc.
+       Details: http://jira.codehaus.org/browse/CASTOR-1596
+       (Werner - 20060930)
+
 XML:   Resolved issue CASTOR-1594 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Added regression test for CASTOR-1580 to CTF regression suite.
        Details: http://jira.codehaus.org/browse/CASTOR-1594
