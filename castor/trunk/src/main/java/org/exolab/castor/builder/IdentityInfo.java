@@ -68,8 +68,7 @@ public class IdentityInfo extends FieldInfo {
         methods[0] = makeGetMethod(mname, jType); // -- create get method
         methods[1] = makeSetMethod(mname, jType); // -- create set method
         methods[2] = makeGetReferenceIdMethod(); // -- create getReferenceId
-                                                    // (from Referable
-                                                    // interface)
+                                                 // (from Referable Interface)
 
         return methods;
     } // -- createAccessMethods
@@ -104,12 +103,15 @@ public class IdentityInfo extends FieldInfo {
         jsc.append(getName());
         jsc.append(";");
 
-        // -- add resolver registration
-        // jsc.add("if (idResolver != null) ");
-        // jsc.indent();
+        //-- add resolver registration
+        //jsc.add("if (idResolver != null) ");
+        //jsc.indent();
+        //jsc.add("idResolver.addResolvable(");
+        //jsc.append(getName());
+        //jsc.append(", this);");
+        //jsc.unindent();
 
         return method;
-
     }
 
     private JMethod makeGetReferenceIdMethod() {
@@ -123,4 +125,3 @@ public class IdentityInfo extends FieldInfo {
     }
 
 } // -- IdentityInfo
-

@@ -251,7 +251,7 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createAddMethod(JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
 
@@ -375,7 +375,7 @@ public class CollectionInfo extends FieldInfo {
         JMethod method = new JMethod(this.getReadMethodName(), contentType.getJType(),
                                      "the value of the " + contentType.getJType().toString() + " at the given index");
 
-        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -456,7 +456,7 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createInsertMethod(JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
         final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
@@ -694,7 +694,7 @@ public class CollectionInfo extends FieldInfo {
     protected void createSetByIndexMethod(JClass jClass) {
         JMethod method = new JMethod("set" + this.getMethodSuffix());
 
-        method.addException(SGTypes.IndexOutOfBoundsException);
+        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
         method.addParameter(new JParameter(this.getContentType().getJType(), this.getContentName()));
 
