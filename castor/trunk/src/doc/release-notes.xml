@@ -37,8 +37,41 @@
             	   specified on a field mapping starts with either 'enum' or 'iterate',
             	   it will be treated in a way that the collection (container) is only 
             	   exposed through this 'enumeration'/'iteration' method.</p>
+
+                <h3>Added new property <tt>org.exolab.castor.sax.features-to-disable</tt></h3>
+                
+                <p>To disabled selected features on the XML parser used internally by Castor 
+                   XML, please use the new property <tt>org.exolab.castor.sax.features-to-disable</tt>
+                   as shown below</p>
+                
+                <code>
+# Comma separated list of SAX 2 features that should be disabled
+# for the default parser.
+#org.exolab.castor.sax.features-to-disable
+                </code>
            </summary>
             <bugs>
+				<bug id="1585" tool="jira">
+                    <description>
+                        Added property to disable selected features on SAX2 parser used 
+                        internally by Castor XML.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>scud</name>
+                        <email>scud@21cn.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20060930</date>
+                </bug>
 				<bug id="1596" tool="jira">
                     <description>
                         Expanded JMethod.addException() to correctly insert @throws Javadoc.
