@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1599 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with incorrect code generation for element definitions/references pointing to 
+       an abstract complex type
+       Details: http://jira.codehaus.org/browse/CASTOR-1599
+       (Werner - 20061001)
+ 
 XML:   Resolved issue CASTOR-1335 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with code generated for <xsd:choice> elements with primitive and Object types mixed.
        Details: http://jira.codehaus.org/browse/CASTOR-1335

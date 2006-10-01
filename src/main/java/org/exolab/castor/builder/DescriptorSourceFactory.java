@@ -566,31 +566,63 @@ public class DescriptorSourceFactory {
 		jsc.add("}");
 		//--end of write method
 
-		//-- newInstance method
-        if (_config.useJava50()) {
-			jsc.add("@Override");
-			jsc.add("@SuppressWarnings(\"unused\")");
-		}
-		jsc.add(
-			"public java.lang.Object newInstance( java.lang.Object parent ) {");
-		jsc.indent();
-		jsc.add("return ");
-        
+		createNewInstanceMethodForXMLFieldHandler(member, xsType, jsc, forGeneralizedHandler, any, isEnumerated);
+		jsc.unindent();
+		jsc.add("};");
+		//--end of XMLFieldHandler
+	}
+
+    /**
+     * Creates the newInstance() method of the corresponsing XMLFieldHandler.
+     * @param member The member element.
+     * @param xsType The XSType instance
+     * @param jsc The source code to which to append the 'newInstance' method.
+     * @param forGeneralizedHandler Whether to generate a generalized field handler
+     * @param any Whether to create a newInstance() method for <xs:any>
+     * @param isEnumerated Whether to create a newInstance() method for an enumeration.
+     */
+    private void createNewInstanceMethodForXMLFieldHandler(final FieldInfo member, 
+            final XSType xsType, 
+            final JSourceCode jsc, 
+            final boolean forGeneralizedHandler, 
+            final boolean any, 
+            final boolean isEnumerated) {
         boolean isAbstract = false;
 
         // Commented out according to CASTOR-1340
 //        if (member.getDeclaringClassInfo() != null) {
-//		     isAbstract = member.getDeclaringClassInfo().isAbstract();
+//           isAbstract = member.getDeclaringClassInfo().isAbstract();
 //        }
 
         // check whether class of member is declared as abstract
         if (member.getSchemaType() != null && member.getSchemaType().getJType() instanceof JClass) {
-            isAbstract = ((JClass)member.getSchemaType().getJType()).getModifiers().isAbstract();
+            JClass jClass = (JClass) member.getSchemaType().getJType(); 
+            isAbstract = jClass.getModifiers().isAbstract();
         }
 
         if (!isAbstract && xsType.getJType() instanceof JClass) {
-        	isAbstract = ((JClass)xsType.getJType()).getModifiers().isAbstract();
+            JClass jClass = (JClass) xsType.getJType();
+            isAbstract = jClass.getModifiers().isAbstract();
         }
+        
+        if (!isAbstract && member.getSchemaType() instanceof XSList) {
+            XSList xsList = (XSList) member.getSchemaType();
+            if (xsList.getContentType().getJType() instanceof JClass) {
+                JClass componentType = (JClass) xsList.getContentType().getJType();
+                if (componentType.getModifiers().isAbstract()) {
+                    isAbstract = componentType.getModifiers().isAbstract();
+                }
+            }
+        }
+        
+        if (_config.useJava50()) {
+			jsc.add("@Override");
+			jsc.add("@SuppressWarnings(\"unused\")");
+		}
+        
+		jsc.add("public java.lang.Object newInstance( java.lang.Object parent ) {");
+		jsc.indent();
+		jsc.add("return ");
         
         if (any
             || forGeneralizedHandler
@@ -603,13 +635,10 @@ public class DescriptorSourceFactory {
 		} else {
 			jsc.append(xsType.newInstanceCode());
 		}
+        
 		jsc.unindent();
 		jsc.add("}");
-		//--end of new Instance method
-		jsc.unindent();
-		jsc.add("};");
-		//--end of XMLFieldHandler
-	}
+    }
     
     /**
      * Adds additional logic or wrappers around the core handler
