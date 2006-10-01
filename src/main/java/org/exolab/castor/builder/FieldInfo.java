@@ -124,10 +124,9 @@ public class FieldInfo extends XMLInfo {
     private int _methods = READ_WRITE_METHODS;
 
     /**
-     * A reference to this field within the
-     * same class
+     * A reference to the FieldInfo instance within the same class
      */
-    private String _reference = null;
+    private FieldInfo _fieldInfoReference = null;
 
     /**
      * A flag to indicate a static member
@@ -476,11 +475,25 @@ public class FieldInfo extends XMLInfo {
         jsc.append(paramName);
         jsc.append(";");
 
-        if (_reference != null) {
+        if (_fieldInfoReference != null) {
             jsc.add("this.");
-            jsc.append(_reference);
+            jsc.append(_fieldInfoReference.getName());
             jsc.append(" = ");
-            jsc.append(paramName);
+            
+            JType referencedJType = _fieldInfoReference.getSchemaType().getJType();
+            if (referencedJType.isPrimitive()) {
+                jsc.append(paramName);
+            } else {
+                if (jType.getWrapperName() != null) {
+                    jsc.append("new ");
+                    jsc.append(jType.getWrapperName());
+                    jsc.append("(");
+                }
+                jsc.append(paramName);
+                if (jType.getWrapperName() != null) {
+                    jsc.append(")");
+                }
+            }
             jsc.append(";");
         }
 
@@ -802,8 +815,8 @@ public class FieldInfo extends XMLInfo {
      *
      * @param fieldName
      */
-    public void setReference(String fieldName) {
-        _reference = fieldName;
+    public void setFieldInfoReference(FieldInfo fieldInfo) {
+        _fieldInfoReference = fieldInfo;
     } //-- setReference
 
     /**

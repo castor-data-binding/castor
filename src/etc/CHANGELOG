@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1335 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with code generated for <xsd:choice> elements with primitive and Object types mixed.
+       Details: http://jira.codehaus.org/browse/CASTOR-1335
+       (Werner - 20061001)
+
 XML:   Resolved issue CASTOR-1595 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Refactored SourceGenerator class, moving parts to separate code artefacts.
        Details: http://jira.codehaus.org/browse/CASTOR-1595

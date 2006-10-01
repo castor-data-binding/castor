@@ -2188,7 +2188,7 @@ public class SourceFactory extends BaseFactory {
 
             if (state.fieldInfoForChoice != null) {
                 if (fieldInfo != state.fieldInfoForChoice) {
-                    fieldInfo.setReference(state.fieldInfoForChoice.getName());
+                    fieldInfo.setFieldInfoReference(state.fieldInfoForChoice);
                 }
             }
 
