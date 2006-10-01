@@ -51,6 +51,27 @@
                 </code>
            </summary>
             <bugs>
+				<bug id="1335" tool="jira">
+                    <description>
+                        Fixed problem with code generated for &lt;xsd:choice&gt; elements with 
+                        primitive and java.lang.Object types mixed.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Martin West</name>
+                        <email>martin.2.west@bt.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061001</date>
+                </bug>
 				<bug id="1595" tool="jira">
                     <description>
                         Refactored SourceGenerator class, moving parts to separate 
