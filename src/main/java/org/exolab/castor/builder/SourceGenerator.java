@@ -80,7 +80,6 @@ import org.exolab.castor.xml.XMLException;
 import org.xml.sax.*;
 
 //--Java IO imports
-import java.io.FileInputStream;
 import java.io.FileOutputStream;
 import java.io.Reader;
 import java.io.PrintWriter;
@@ -130,18 +129,6 @@ public class SourceGenerator extends BuilderConfiguration {
     **/
     static final String APP_URI = "http://www.castor.org";
 
-    /**
-     * The default code header,
-     * please leave "$" and "Id" separated with "+" so that the CVS server
-     * does not expand it here.
-    **/
-    private static final String DEFAULT_HEADER =
-        "This class was automatically generated with \n"+"<a href=\"" +
-        APP_URI + "\">" + APP_NAME + " " + VERSION +
-        "</a>, using an XML Schema.\n$" + "Id"+"$";
-
-    private static final String CDR_FILE = ".castor.cdr";
-    
     //-------------------------/
     //- Command line messages -/
     //------------------------/
@@ -185,12 +172,12 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Castor configuration
      */
-    private Configuration _config = null;
+    private final Configuration _config;
     
     /**
      * The XMLBindingComponent used to create Java classes from an XML Schema
      */
-    private XMLBindingComponent _bindingComponent = null;
+    private final XMLBindingComponent _bindingComponent;
 
 
 
@@ -198,18 +185,10 @@ public class SourceGenerator extends BuilderConfiguration {
     //- Instance Variables -/
     //----------------------/
 
-    private String _lineSeparator = null;
-    
-    private JComment _header = null;
-
-    private boolean _warnOnOverwrite = true;
-    
 	private boolean _suppressNonFatalWarnings = false;
 
     /** Determines whether or not to print extra messages. */
     private boolean _verbose = false;
-
-    private String  _destDir = null;
 
     /** A flag indicating whether or not to create
      *  descriptors for the generated classes. */
@@ -218,20 +197,15 @@ public class SourceGenerator extends BuilderConfiguration {
     /** A flag indicating whether or not to generate sources 
      *  for imported XML Schemas. */
     private boolean _generateImported = false;
-
-    /** The DescriptorSourceFactory instance. */
-    private DescriptorSourceFactory _descSourceFactory = null;
-    
-    private MappingFileSourceFactory _mappingSourceFactory = null;
     
     /** The field info factory. */
-    private FieldInfoFactory _infoFactory = null;
+    private final FieldInfoFactory _infoFactory;
 
     /** The source factory. */
     private SourceFactory _sourceFactory = null;
 
    
-    private ConsoleDialog _dialog = null;
+    private final ConsoleDialog _dialog;
     
     /** A vector that keeps track of all the schemas processed. */
     private Vector _schemasProcessed = null;
@@ -256,6 +230,8 @@ public class SourceGenerator extends BuilderConfiguration {
     /** A flag indicating that enumerated types should be constructed to perform
      *  case insensitive lookups based on the values. */
     private boolean _caseInsensitive = false;
+
+    private final SingleClassGenerator _singleClassGenerator;
 
     /**
      * Creates a SourceGenerator using the default FieldInfo factory
@@ -288,20 +264,11 @@ public class SourceGenerator extends BuilderConfiguration {
         
         _dialog = new ConsoleDialog();
 
-        if (infoFactory == null)
-            _infoFactory = new FieldInfoFactory();
-        else
-            _infoFactory = infoFactory;
+        _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
         
         load();
-        
-        // do this later (CASTOR-1346)
-        // _sourceFactory = new SourceFactory(this, _infoFactory);
-        _descSourceFactory = new DescriptorSourceFactory(this);
-        _mappingSourceFactory = new MappingFileSourceFactory(this);
-        
-        _header = new JComment(JComment.HEADER_STYLE);
-        _header.appendComment(DEFAULT_HEADER);
+
+        _singleClassGenerator = new SingleClassGenerator(_dialog, this);
         _bindingComponent = new XMLBindingComponent(this);
         //--set the binding 
         setBinding(binding);
@@ -351,7 +318,6 @@ public class SourceGenerator extends BuilderConfiguration {
         
         sInfo.packageName = packageName;
         sInfo.setDialog(_dialog);
-        sInfo.setPromptForOverwrite(_warnOnOverwrite);
         sInfo.setVerbose(_verbose);
         sInfo.setSuppressNonFatalWarnings(_suppressNonFatalWarnings);
 
@@ -418,7 +384,8 @@ public class SourceGenerator extends BuilderConfiguration {
             parser.parse(source);
         } catch(java.io.IOException ioe) {
             _dialog.notify("error reading XML Schema file");
-            return;
+            //throw ioe;
+            return; // FIXME:  Replace with previous line
         } catch(org.xml.sax.SAXException sx) {
 
             Exception except = sx.getException();
@@ -431,9 +398,11 @@ public class SourceGenerator extends BuilderConfiguration {
                 _dialog.notify(Integer.toString(spe.getLineNumber()));
                 _dialog.notify(", column ");
                 _dialog.notify(Integer.toString(spe.getColumnNumber()));
+            } else {
+                except.printStackTrace();
             }
-            else except.printStackTrace();
-            return;
+            //throw new RuntimeException(sx);
+            return; // FIXME:  Replace with previous line
         }
 
         Schema schema = schemaUnmarshaller.getSchema();
@@ -507,7 +476,7 @@ public class SourceGenerator extends BuilderConfiguration {
     }
 
     public void setSuppressNonFatalWarnings(boolean suppress) {
-        _warnOnOverwrite = (!suppress);
+        _singleClassGenerator.setPromptForOverwrite(!suppress);
 		_suppressNonFatalWarnings = suppress;
     } //-- setSuppressNonFatalWarnings
 
@@ -532,6 +501,7 @@ public class SourceGenerator extends BuilderConfiguration {
     **/
     public void setDescriptorCreation(boolean createDescriptors) {
         _createDescriptors = createDescriptors;
+        _singleClassGenerator.setDescriptorCreation(createDescriptors);
     } //-- setDescriptorCreation
 
     /**
@@ -540,7 +510,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param destDir the destination directory.
      */
     public void setDestDir(String destDir) {
-       _destDir = destDir;
+        _singleClassGenerator.setDestDir(destDir);
     }
 
     /**
@@ -891,7 +861,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * </PRE>
     **/
     public void setLineSeparator(String lineSeparator) {
-        _lineSeparator = lineSeparator;
+        _singleClassGenerator.setLineSeparator(lineSeparator);
     } //-- setLineSeparator
 
     //-------------------/
@@ -955,17 +925,8 @@ public class SourceGenerator extends BuilderConfiguration {
             createClasses((ModelGroup)structures.nextElement(), sInfo);
 
         //-- clean up any remaining JClasses which need printing
-        Enumeration keys = sInfo.keys();
-        while (keys.hasMoreElements()) {
-            ClassInfo cInfo = sInfo.resolve(keys.nextElement());
-            JClass jClass = cInfo.getJClass();
-            if (!sInfo.processed(jClass)) {
-                processJClass(jClass, sInfo);
-            }
-            if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS)
-                break;
-        }
-        
+        _singleClassGenerator.processIfNotAlreadyProcessed(sInfo.keys(), sInfo);
+
         //-- handle cdr files
         Enumeration cdrFiles = sInfo.getCDRFilenames();
         while (cdrFiles.hasMoreElements()) {
@@ -1048,12 +1009,8 @@ public class SourceGenerator extends BuilderConfiguration {
         }
         //-- ComplexType
         else if (xmlType.isComplexType()) {
-
-		    JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
-            for (int i = 0; i < classes.length; i++) {
-                processJClass(classes[i], sInfo);
-                if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS)
-                    return;
+            if (!_singleClassGenerator.process(_sourceFactory.createSourceCode(_bindingComponent, sInfo), sInfo)) {
+                return;
             }
             
             //only create classes for types that are not imported
@@ -1091,11 +1048,7 @@ public class SourceGenerator extends BuilderConfiguration {
         _bindingComponent.setView(group);
         JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
         processContentModel(group, sInfo);
-        for (int i = 0; i < classes.length; i++) {
-            processJClass(classes[i], sInfo);
-            if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS)
-                return;
-        }
+        _singleClassGenerator.process(classes, sInfo);
     } //-- createClasses
 
     /**
@@ -1116,13 +1069,9 @@ public class SourceGenerator extends BuilderConfiguration {
         ClassInfo classInfo = sInfo.resolve(complexType);
         if (classInfo == null) {
             //-- handle top-level complextypes
-            if (complexType.isTopLevel()) {
-                JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
-                for (int i = 0; i < classes.length; i++) {
-                    processJClass(classes[i], sInfo);
-                    if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS)
-                        return;
-                }
+            if (complexType.isTopLevel() &&
+                ! _singleClassGenerator.process(_sourceFactory.createSourceCode(_bindingComponent, sInfo), sInfo)) {
+                return;
             }
 
             
@@ -1146,7 +1095,7 @@ public class SourceGenerator extends BuilderConfiguration {
                 processAttributes(complexType, sInfo);
                 //-- process ContentModel
                 processContentModel(complexType, sInfo);
-                processJClass(jClass, sInfo);
+                _singleClassGenerator.process(jClass, sInfo);
             }
         }
     } //-- processComplexType
@@ -1247,10 +1196,10 @@ public class SourceGenerator extends BuilderConfiguration {
             ClassInfo classInfo = sInfo.resolve(simpleType);
             if (classInfo == null) {
                 JClass jClass = _sourceFactory.createSourceCode(simpleType, sInfo);
-                processJClass(jClass, sInfo);
+                _singleClassGenerator.process(jClass, sInfo);
             } else {
                 JClass jClass = classInfo.getJClass();
-                processJClass(jClass, sInfo);
+                _singleClassGenerator.process(jClass, sInfo);
             }
         }
     } //-- processSimpleType
@@ -1293,160 +1242,6 @@ public class SourceGenerator extends BuilderConfiguration {
     }
 
     /**
-     * Processes the given JClass by creating the
-     * corresponding MarshalInfo and print the Java classes
-     *
-     * @param jClass the classInfo to process
-     * @throws IOException 
-     * @throws FileNotFoundException 
-    **/
-    private void processJClass(JClass jClass, SGStateInfo state) 
-    throws FileNotFoundException, IOException {
-
-        if (state.getStatusCode() == SGStateInfo.STOP_STATUS) return;
-        
-        if (state.processed(jClass))
-            return;
-                        
-        ClassInfo classInfo = state.resolve(jClass);
-            
-        //-- check for class name conflicts
-        JClass conflict = state.getProcessed(jClass.getName());
-        
-        if ((conflict != null) && (!state.getSuppressNonFatalWarnings())) {
-            ClassInfo temp = state.resolve(conflict);
-            
-            //-- if the ClassInfo are equal, we can just return
-            if (temp == classInfo) return;
-            
-            //-- Find the Schema structures that are conflicting
-            Annotated a1 = null;
-            Annotated a2 = null;
-            
-            Enumeration enumeration = state.keys();
-            while (enumeration.hasMoreElements()) {
-                Object key = enumeration.nextElement();
-                if (!(key instanceof Annotated)) continue; 
-                ClassInfo cInfo = state.resolve(key);
-                if (classInfo == cInfo) a1 = (Annotated)key;
-                else if (temp == cInfo) a2 = (Annotated)key;
-                
-                if ((a1 != null) && (a2 != null)) break;                
-            }
-            
-            
-            StringBuffer error = new StringBuffer();
-            error.append("Warning: A class name generation conflict has occured between ");
-            if (a1 != null) {
-                error.append(SchemaNames.getStructureName(a1));
-                error.append(" '");
-                error.append(ExtendedBinding.getSchemaLocation(a1));
-            }
-            else {                
-                error.append(classInfo.getNodeTypeName());
-                error.append(" '");
-                error.append(classInfo.getNodeName());
-            }
-            error.append("' and ");
-            if (a2 != null) {
-                error.append(SchemaNames.getStructureName(a2));
-                error.append(" '");
-                error.append(ExtendedBinding.getSchemaLocation(a2));
-            }
-            else {
-                error.append(temp.getNodeTypeName());
-                error.append(" '");
-                error.append(temp.getNodeName());
-            }
-            error.append("'. Please use a Binding file to solve this problem.");
-            error.append("Continue anyway [not recommended] ");
-            
-            char ch = _dialog.confirm(error.toString(), "yn", "y = yes, n = no");
-            if (ch == 'n') state.setStatusCode(SGStateInfo.STOP_STATUS);
-            return;
-        }
-        
-        state.markAsProcessed(jClass);
-
-        boolean allowPrinting = true;
-
-        if (state.promptForOverwrite()) {
-            String filename = jClass.getFilename(_destDir);
-            File file = new File(filename);
-            if (file.exists()) {
-                String message = filename + " already exists. overwrite";
-                char ch = _dialog.confirm(message, "yna",
-                    "y = yes, n = no, a = all");
-                if (ch == 'a') {
-                    state.setPromptForOverwrite(false);
-                    allowPrinting = true;
-                }
-                else if (ch == 'y')
-                    allowPrinting = true;
-                else
-                    allowPrinting = false;
-            }
-        }
-        //-- print class
-        if (allowPrinting) {
-
-            //hack for the moment
-            //to avoid the compiler complaining with java.util.Date
-            jClass.removeImport("org.exolab.castor.types.Date");
-            jClass.setHeader(_header);
-            jClass.print(_destDir,_lineSeparator);
-        }
-
-        //------------------------------------/
-        //- Create ClassDescriptor and print -/
-        //------------------------------------/
-
-
-        if (_createDescriptors && (classInfo != null)) {
-
-            JClass desc = _descSourceFactory.createSource(classInfo);
-            
-            allowPrinting = true;
-            if (state.promptForOverwrite()) {
-                String filename = desc.getFilename(_destDir);
-                File file = new File(filename);
-                if (file.exists()) {
-                    String message = filename + " already exists. overwrite";
-                    char ch = _dialog.confirm(message, "yna",
-                        "y = yes, n = no, a = all");
-                    if (ch == 'a') {
-                        state.setPromptForOverwrite(false);
-                        allowPrinting = true;
-                    }
-                    else if (ch == 'y')
-                        allowPrinting = true;
-                    else
-                        allowPrinting = false;
-                }
-            }
-
-            if (allowPrinting) {
-                updateCDRFile(jClass,desc, state);
-                desc.setHeader(_header);
-                desc.print(_destDir,_lineSeparator);
-            }
-        }
-        //-- TODO: cleanup mapping file integration
-        else if (classInfo != null) {
-            //-- create a class mapping
-            String pkg = state.packageName;
-            if (pkg == null) pkg = "";
-            MappingRoot mapping = state.getMapping(pkg);
-            if (mapping == null) {
-                mapping = new MappingRoot();
-                state.setMapping(pkg, mapping);
-            }
-            mapping.addClassMapping(_mappingSourceFactory.createMapping(classInfo));
-        }
-
-    } //-- processJClass
-
-    /**
      * <p>Returns a string which is the URI of a file.
      * <ul>
      *  <li>file:///DOSpath</li>
@@ -1474,39 +1269,6 @@ public class SourceGenerator extends BuilderConfiguration {
         return result;
     }
 
-    /**
-     * Updates the CDR (ClassDescriptorResolver) file with the
-     * classname->descriptor mapping.
-     * 
-     * @param jClass JClass instance describing the entity class
-     * @param jDesc JClass instance describing is *Descriptor class
-     * @param sInfo state info
-     * @throws IOException If an already existing '.castor.cdr' file can not be loaded
-     * @throws FileNotFoundException  If an already existing '.castor.cdr' file can not be found
-     */
-    private void updateCDRFile(JClass jClass, JClass jDesc, SGStateInfo sInfo) 
-        throws FileNotFoundException, IOException 
-    {
-        String entityFilename = jClass.getFilename(_destDir);
-        File file = new File(entityFilename);
-        File parentDirectory = file.getParentFile();
-        File cdrFile = new File(parentDirectory, CDR_FILE);
-        String cdrFilename = cdrFile.getAbsolutePath();
-        
-        Properties props = sInfo.getCDRFile(cdrFilename);
-        
-        if (props == null) {
-            
-            // check for existing .castor.xml file 
-            props = new Properties();
-            if (cdrFile.exists()) {
-                props.load(new FileInputStream(cdrFile));
-            }
-            sInfo.setCDRFile(cdrFilename, props);
-        }
-        props.setProperty(jClass.getName(), jDesc.getName());
-    } //-- updateCDRFile
-    
 
 } //-- SourceGenerator
 

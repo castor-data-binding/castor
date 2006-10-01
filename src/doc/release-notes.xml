@@ -51,6 +51,27 @@
                 </code>
            </summary>
             <bugs>
+				<bug id="1595" tool="jira">
+                    <description>
+                        Refactored SourceGenerator class, moving parts to separate 
+                        code artefacts.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061001</date>
+                </bug>
 				<bug id="1585" tool="jira">
                     <description>
                         Added property to disable selected features on SAX2 parser used 
