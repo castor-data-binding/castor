@@ -668,7 +668,7 @@ public abstract class Configuration {
         if (features != null) {
             token = new StringTokenizer(features, ", ");
             while (token.hasMoreTokens()) {
-                xmlReader.setFeature(token.nextToken(), true);
+                xmlReader.setFeature(token.nextToken(), false);
             }
         }
     }
