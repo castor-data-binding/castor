@@ -51,6 +51,27 @@
                 </code>
            </summary>
             <bugs>
+				<bug id="1599" tool="jira">
+                    <description>
+						Fixed problem with incorrect code generation for element definitions/references 
+						pointing to an abstract complex type
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061001</date>
+                </bug>
 				<bug id="1335" tool="jira">
                     <description>
                         Fixed problem with code generated for &lt;xsd:choice&gt; elements with 

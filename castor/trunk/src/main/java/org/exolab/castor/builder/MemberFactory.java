@@ -291,7 +291,11 @@ public class MemberFactory extends BaseFactory {
                     else {
                         String className = temp.getQualifiedName();
                         if (className != null) {
-                        	xsType = new XSClass(new JClass(className));
+                            JClass jClass = new JClass(className);
+                            if (((ComplexType) xmlType).isAbstract()) {
+                                jClass.getModifiers().setAbstract(true);
+                            }
+                        	xsType = new XSClass(jClass);
                             className = null;
                         }
                     }
