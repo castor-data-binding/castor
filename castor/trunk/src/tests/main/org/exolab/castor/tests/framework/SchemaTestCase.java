@@ -51,7 +51,6 @@
  * 03/25/2002   Arnaud Blandin      Ported to CTF
  * 10/15/2003   Arnaud Blandin      Improved reporting
  */
-
 package org.exolab.castor.tests.framework;
 
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
@@ -63,7 +62,6 @@ import junit.framework.TestSuite;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.reader.SchemaReader;
 import org.exolab.castor.xml.schema.writer.SchemaWriter;
-import org.exolab.castor.util.NestedIOException;
 
 //-- Adaptx imports (for using XMLDiff)
 import org.exolab.adaptx.xslt.dom.XPNBuilder;
@@ -74,8 +72,6 @@ import org.exolab.adaptx.xml.XMLDiff;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.PrintWriter;
-import java.io.StringWriter;
-
 
 /**
  * A JUnit test case for testing the Castor Schema Object Model.
@@ -86,32 +82,34 @@ import java.io.StringWriter;
 **/
 public class SchemaTestCase extends XMLTestCase {
 
+    private static final String XSD = ".xsd";
+    
     /**
      * The name of the schema to test
      */
      private String _schemaName;
 
-     private static final String XSD = ".xsd";
-
     /**
      * Default constructor
      * @param name the name of the test
-    **/
+     */
     public SchemaTestCase(String name) {
         super(name);
     } //-- SchemaTest
 
     /**
      * Creates a new SchemaTest with the given name
-     *
-    **/
-	public SchemaTestCase( CastorTestCase castorTc, UnitTestCase tc, File outputFile) {
-		super(castorTc, tc, outputFile);
-	} //-- SchemaTest
-    
+     * @param castorTc the reference to the jar/directory
+     * @param tc the UnitTestCase that wraps the configuration for this XML Test case.
+     * @param outputFile the directory that contains the files needed for the test
+     */
+    public SchemaTestCase(CastorTestCase castorTc, UnitTestCase tc, File outputFile) {
+        super(castorTc, tc, outputFile);
+    } //-- SchemaTest
+
     /**
      * Sets the name of the XML schema file to test.
-     * 
+     *
      * @param name the name of the XML schema file to test.
      */
     public void setSchemaName(String name) {
@@ -119,174 +117,143 @@ public class SchemaTestCase extends XMLTestCase {
     }
 
     /**
-	 * Override to run the test and assert its state.
-	 * @exception Throwable if any exception is thrown
-    **/
+     * Override this method to run the test and assert its state.
+     *
+     * @throws Throwable if any exception is thrown
+     */
     protected void runTest() throws Throwable {
-       
        verbose("\n================================================");
        verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
        verbose("================================================\n");
-       
+
         if (_skip) {
             verbose("-->Skipping the test");
             return;
         }
+
         String schemaURL = new File (_test.getTestFile() + "/" + _schemaName).toURL().toString();
         XPathNode node1 = null;
         try {
             node1 = CTFUtils.loadXPN(schemaURL);
-	    } catch(java.io.IOException iox) {
+        } catch(java.io.IOException iox) {
             fail(iox.toString());
-            if (_printStack)
+            if (_printStack) {
                 iox.printStackTrace(System.out);
+            }
         }
+
+        //node2 will be null if the read/write fails
         XPathNode node2 = readAndWriteSchema(schemaURL);
-        //node2 can be null if the read/write fails
         if (node2 != null) {
-	        XMLDiff diff = new XMLDiff();
-	        int result = diff.compare(node1, schemaURL, node2, "In-Memory-Result");
-	        if ((_failure != null) && (_failure.getContent() == true))
+            XMLDiff diff = new XMLDiff();
+            int result = diff.compare(node1, schemaURL, node2, "In-Memory-Result");
+            if (_failure != null && _failure.getContent() == true) {
                 assertTrue(result != 0);
-            else {
-                 assertEquals(result, 0);
-                 assertTrue("-->The test case should have failed.",((_failure == null) || (_failure.getContent() == false)));
+            } else {
+                assertEquals(result, 0);
+                assertTrue("-->The test case should have failed.", _failure == null || _failure.getContent() == false);
             }
         }
     } //-- runTest
 
     /**
-     * Reads the XML Schema located at the given URL into the Castor SOM.
-     * The Schema is then written from the SOM into an XPathNode.
+     * Reads the XML Schema located at the given URL into the Castor SOM. The
+     * Schema is then written from the SOM into an XPathNode.
      *
      * @param url the URL of the Schema to read.
      * @return the XPathNode representation of the XML Schema
-    **/
+     */
     private XPathNode readAndWriteSchema(String url) {
+        Schema schema = testReadingSchema(url);
+        if (schema == null) {
+            return null;
+        }
+        XPNBuilder builder = testWritingSchema(url, schema);
+        return (builder != null) ? builder.getRoot() : null;
+    } //-- readAndWriteSchema
 
-        //-- read input schema
-	    Schema schema = null;
-	    try {
-           verbose("--> Reading XML Schema: " + url);
+    /**
+     * Reads and returns the provided XML schema.
+     *
+     * @param url the schema URL
+     * @return the Schema that was read in
+     */
+    private Schema testReadingSchema(String url) {
+        try {
+            verbose("--> Reading XML Schema: " + url);
             SchemaReader reader = new SchemaReader(url);
-            schema = reader.read();
+            return reader.read();
         } catch (java.io.IOException iox) {
-            //Handling the failure feature
-            if (_failure != null) {
-                Class actualExceptionClass = iox.getClass();
-                Exception actualException  = iox;
-                if (iox instanceof NestedIOException) {
-                    actualException = ((NestedIOException)iox).getException();
-                    actualExceptionClass = actualException.getClass();
-                }
-                String expectedExceptionName = _failure.getException();
-                if (expectedExceptionName != null) {
-                    try {
-                        Class expectedExceptionClass 
-                            = Class.forName(expectedExceptionName);
-                        if (expectedExceptionClass.isAssignableFrom(
-                                actualExceptionClass) ) {
-                            assertTrue(_failure.getContent());
-                            return null;
-                        }
-						StringWriter sw = new StringWriter();
-						PrintWriter pw = new PrintWriter(sw);
-						pw.print("Received: '");
-						pw.print(actualExceptionClass.getName());
-						pw.print("' but expected: '");
-						pw.print(expectedExceptionName);
-						pw.println("'.");
-						pw.println("Actual exception stacktrace:");
-						actualException.printStackTrace(pw);
-						pw.flush();
-						fail(sw.toString());
-                    } catch (ClassNotFoundException ex) {
-                        fail("The exception specified: '" + expectedExceptionName + 
-                                "' cannot be found in the CLASSPATH");
-                    }
-                }
-                else {
-                    assertTrue(_failure.getContent());
-                    return null;
-                }
+            if (_failure != null && checkExceptionWasExpected(iox)) {
+                assertTrue(_failure.getContent());
+                return null;
             }
-            if (_printStack)
+            if (_printStack) {
                 iox.printStackTrace();
+            }
             fail("Unable to read Schema: " + url + ";  " + iox.toString());
         }
 
-	    //-- create XPNBuilder
-	    XPNBuilder builder = new XPNBuilder();
-	    builder.setSaveLocation(true);
+        return null;
+    }
 
-	    //-- write schema to XPNBuilder
-	    try {
-	        if (_verbose) {
+    /**
+     * Creates a new XPNBuilder, uses it to make a new SchemaWriter, and writes
+     * the provided schema to that SchemaWriter.
+     *
+     * @param url schema url, used only in diagnostic output
+     * @param schema the schema to write
+     * @return a new XPNBuilder
+     */
+    private XPNBuilder testWritingSchema(String url, Schema schema) {
+        //-- create XPNBuilder
+        XPNBuilder builder = new XPNBuilder();
+        builder.setSaveLocation(true);
+
+        //-- write schema to XPNBuilder
+        try {
+            if (_verbose) {
                 String fileName = _schemaName.substring(0,_schemaName.lastIndexOf('.'))+"-output"+XSD;
                 verbose("--> Writing XML Schema: " + fileName);
                 File output = new File(_outputRootFile, fileName);
                 FileWriter writer = new FileWriter(output);
                 output = null;
                 PrintWriter pw = new PrintWriter(writer, true);
-	            SchemaWriter sw = new SchemaWriter(pw);
-	            sw.write(schema);
+                SchemaWriter sw = new SchemaWriter(pw);
+                sw.write(schema);
             }
-	        SchemaWriter sw = new SchemaWriter(builder);
-	        sw.write(schema);
+            SchemaWriter sw = new SchemaWriter(builder);
+            sw.write(schema);
         } catch (java.io.IOException iox) {
-            fail("Unable to write Schema: " + url + ";  " +
-                  iox.toString());
-            if (_printStack)
+            fail("Unable to write Schema: " + url + ";  " + iox.toString());
+            if (_printStack) {
                 iox.printStackTrace(System.out);
+            }
         } catch(org.xml.sax.SAXException sx) {
-	         //the test was intended to fail
-             if (_failure != null) {
-                //1--the exception is specified
-                String exceptionName = _failure.getException();
-                if (exceptionName != null) {
-                   try {
-                       Class expected = Class.forName(exceptionName);
-                       if (expected.isAssignableFrom(sx.getClass())) {
-                           assertTrue(_failure.getContent());
-                           return null;
-                       }
-                       fail("Received:'"+sx+"' but expected:'"+exceptionName+"'.");
-                   } catch (ClassNotFoundException ex) {
-                        //Class#forName
-                        fail("The exception specified:"+exceptionName+" cannot be found in the CLASSPATH");
-
-                    }
-                }
-                //2--No exception specified --> the test is a success.
-                else {
-                    assertTrue(_failure.getContent());
-                    return null;
-                }
-             }
-             fail("Unable to write schema: " + url + "; "
-	               + sx.toString());
-            if (_printStack)
+            if (_failure != null && checkExceptionWasExpected(sx)) {
+                assertTrue(_failure.getContent());
+                return null;
+            }
+            fail("Unable to write schema: " + url + "; " + sx.toString());
+            if (_printStack) {
                 sx.printStackTrace(System.out);
+            }
         }
+        return builder;
+    }
 
-	    return builder.getRoot();
-    } //-- readAndWriteSchema
-
-   /**
-     * Clean up the tests.
+    /**
+     * Cleans up after this unit test (nothing to do except provide output).
+     * @throws java.lang.Exception never
      */
-    protected void tearDown()
-        throws java.lang.Exception {
-
+    protected void tearDown() throws java.lang.Exception {
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
         verbose("================================================\n");
-
     }
 
     public static Test suite() {
-        TestSuite suite= new TestSuite();
-	    return suite;
-	} //-- suite
+        return new TestSuite();
+    } //-- suite
 
 } //-- SchemaTest
