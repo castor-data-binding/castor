@@ -1,0 +1,15 @@
+<?xml version="1.0"?>
+<!--DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
+                               "http://castor.org/mapping.dtd"-->
+<mapping>
+    <!-- Mapping TextContent -->
+    <class name="TextContent">
+        <map-to xml="text-content"/>        
+        <field name="contentNode" type="org.exolab.castor.types.AnyNode" required="true">
+            <bind-xml name="content-node" node="element" />
+        </field>
+        <field name="contentString" type="string" required="true">
+            <bind-xml name="content-string"/>
+        </field>
+    </class>
+</mapping>
