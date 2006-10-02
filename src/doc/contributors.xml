@@ -97,6 +97,21 @@
   </contributor>
 
   <contributor type="Committer">
+    <name surname="Kuns" given="Edward" />
+    <email>edward.kuns@aspect.com</email>
+    <project>XML</project>
+    <description>
+		Various bug fixes, enhancements and refactorings at almost all
+		parts of XML code generation, including major refactoring of XML
+		test framework   
+	</description>
+    <status>active</status>
+    <since>
+      <date>Oct. 2006</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
     <name surname="Fawcett" given="Andrew"/>
     <email>Andrew.Fawcett@coda.com</email>
     <company id="coda"/>
