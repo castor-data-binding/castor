@@ -7,14 +7,12 @@
   <BugFix>
     <Reporter>martin.2.west@bt.com</Reporter>
     <Date_Report>2006-02-24</Date_Report>
-    <Date_Fix></Date_Fix>
-    <Comment> This bug is fixed already, but the test vase requires a sample 
-        XML document for the schema provided</Comment>
+    <Date_Fix>2006-10-02</Date_Fix>
   </BugFix>
 
   <SourceGeneratorTest>
     <Schema>test.xsd</Schema>
-    <Root_Object random="false" dump="true">BusGovContent</Root_Object>
+    <Root_Object random="false" dump="true">EventList</Root_Object>
     <UnitTestCase>
       <Name>Test Generation</Name>
       <Input>input.xml</Input>
