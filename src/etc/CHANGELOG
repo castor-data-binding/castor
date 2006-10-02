@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1593 using contribution from M.-Leander Reimer [l.reimer@adaptions.de]
+       Fixed problem with AnyNode not preserving whitespace during unmarshalling.
+       Details: http://jira.codehaus.org/browse/CASTOR-1593
+       (Werner - 20061002)
+
 XML:   Resolved issue CASTOR-1591 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Cleanup and bug fixes for test framework.
        Details: http://jira.codehaus.org/browse/CASTOR-1591

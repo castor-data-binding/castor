@@ -115,6 +115,8 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private Namespaces _context;
 
+    private boolean _wsPreserve = false;
+    
     /**
      * Default constructor
      */
@@ -127,9 +129,11 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      * Constructs a SAX2ANY given a namespace context.
      *
      * @param context the namespace context in which this handler acts.
+     * @param wsPreserve if white spaces whould be preserved
      */
-    public SAX2ANY(Namespaces context) {
+    public SAX2ANY(Namespaces context, boolean wsPreserve) {
         _context = context;
+        _wsPreserve = wsPreserve; 
         init();
     }
 
@@ -371,7 +375,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         //create a Text Node
         String temp = new String(ch, start, length);
         //skip whitespaces
-        if (isWhitespace(temp) && !_character) return;
+        if (isWhitespace(temp) && !_wsPreserve && !_character) return;
 		AnyNode tempNode = new AnyNode(AnyNode.TEXT, null, null, null, temp);
 		_node.addChild(tempNode);
         _character = true;

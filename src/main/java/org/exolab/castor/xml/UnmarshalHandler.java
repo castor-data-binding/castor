@@ -2168,7 +2168,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 else {
                     //we are dealing with an AnyNode
                     //1- creates a new SAX2ANY handler
-                    _anyUnmarshaller = new SAX2ANY(_namespaces);
+                    _anyUnmarshaller = new SAX2ANY(_namespaces, state.wsPreserve);
                     //2- delegates the element handling
                     if (_elemInfo.attributeList != null) {
                         //-- SAX 1

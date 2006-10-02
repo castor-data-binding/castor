@@ -51,6 +51,26 @@
                 </code>
            </summary>
             <bugs>
+				<bug id="1593" tool="jira">
+                    <description>
+						Fixed problem with AnyNode not preserving whitespace during unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>M.-Leander Reimer</name>
+                        <email>l.reimer@adaptions.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>M.-Leander Reimer</name>
+                        <email>l.reimer@adaptions.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061002</date>
+                </bug>
 				<bug id="1591" tool="jira">
                     <description>
 						Cleanup and bug fixes for test framework.
@@ -71,7 +91,6 @@
                     <module>XML</module>
                     <date>20061002</date>
                 </bug>
-            <bugs>
 				<bug id="1599" tool="jira">
                     <description>
 						Fixed problem with incorrect code generation for element definitions/references 
