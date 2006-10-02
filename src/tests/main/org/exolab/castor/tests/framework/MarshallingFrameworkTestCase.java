@@ -55,16 +55,14 @@ import org.exolab.castor.mapping.Mapping;
 
 import org.xml.sax.InputSource;
 
-import org.apache.tools.ant.BuildException;
-
 import java.io.InputStream;
 import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 
 /**
- * This class encapsulate all the logic to run the test patterns for the
- * marshalling framework of castor. This include introspection and mapping.
+ * This class encapsulates all the logic to run the test patterns for the Castor
+ * marshalling framework. This include introspection and mapping.
  *
  * @author <a href="mailto:gignoux@kernelcenter.com">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
@@ -73,28 +71,36 @@ import java.net.URLClassLoader;
 public class MarshallingFrameworkTestCase extends XMLTestCase {
 
     /**
-     * Contains the configuration for this
-     * test case. The configuration is directly read
-     * for the test descriptor file located in a jar or
-     * in a directory.
+     * Contains the configuration for this test case. The configuration is
+     * directly read for the test descriptor file located in a jar or in a
+     * directory.
      */
-    protected MarshallingTest _marshallingConf;
+    protected final MarshallingTest _marshallingConf;
 
     /**
      * Creates a CTF test case for the Marshalling framework.
+     *
+     * @param test A Test Case
+     * @param unit A configuration element for a test case from a TestDescriptor
+     *            configuration file
+     * @param marshalling a Marshalling test definition from a TestDescriptor
+     *            configuration file
+     * @param outputRoot the Output directory for the test to be compiled/run in
      */
     public MarshallingFrameworkTestCase(CastorTestCase test, UnitTestCase unit, MarshallingTest marshalling, File outputRoot) {
         super(test, unit, outputRoot);
         _marshallingConf = marshalling;
         if (_marshallingConf.getRoot_Object() != null) {
-        	_hasRandom       = _marshallingConf.getRoot_Object().getRandom();
+            _hasRandom = _marshallingConf.getRoot_Object().getRandom();
         }
     }
 
     /**
-     * Create a new test case with the same setup than the
-     * MarshallingFrameworkTestCase given in parameter.
-     * @param name Name for the MarshallingFrameworkTestCase
+     * Creates a new test case with the same setup as the
+     * MarshallingFrameworkTestCase given as a parameter.
+     *
+     * @param name Name for this MarshallingFrameworkTestCase
+     * @param mftc a MarshallingFrameworkTestCase whose configuration to copy
      */
     public MarshallingFrameworkTestCase(String name, MarshallingFrameworkTestCase mftc) {
         super(name, mftc);
@@ -102,12 +108,14 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
     }
 
     /**
-     * Create a new MarshallingFrameworkTestCase with the given name.
+     * Create a new MarshallingFrameworkTestCase with the given name and a null
+     * marshalling configuration.  This constructor should not be used!
+     *
      * @param name Name for the MarshallingFrameworkTestCase
      */
     public MarshallingFrameworkTestCase(String name) {
         super(name);
-        _name = name;
+        _marshallingConf = null;
     }
 
     /**
@@ -115,123 +123,126 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      * @return the test suite for this given test setup.
      */
     public Test suite() {
-
-        TestSuite suite  = new TestSuite(_name);
+        TestSuite suite = new TestSuite(_name);
 
         // Use the default test implemented in XMLTestCase
         String name = getTestSuiteName();
-        if (name != null)
-            name = name + "#" + _name;
-        else
-            name = _name;     
-        suite.addTest(new TestWithReferenceDocument(name, this));
+        name = (name != null) ? name + "#" + _name : _name;
 
-        if (_hasRandom)
+        suite.addTest(new TestWithReferenceDocument(name, this));
+        if (_hasRandom) {
             suite.addTest(new TestWithRandomObject(name, this));
+        }
 
         return suite;
     }
 
-
     /**
      * Setup this test suite. Load the mapping file if any.
+     *
      * @throws Exception if anything goes wrong
      */
     protected void setUp() throws java.lang.Exception {
-
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
         verbose("================================================\n");
+
         //copy the support files--> needed for AdaptX XML Diff
         FileServices.copySupportFiles(_test.getTestFile(),_outputRootFile);
 
-        _inputName  = _unitTest.getInput();
-        _goldFileName = _unitTest.getGoldFile();
-
-        if (_inputName != null)
-            _input  = _test.getClassLoader().getResourceAsStream(_inputName);
-
-        assertNotNull("The input file specified:"+_inputName+" cannot be found.", _input);
-
         RootType rootType = _marshallingConf.getRoot_Object();
         if (rootType != null) {
-        	_rootClassName = rootType.getContent();
-            _hasDump =   rootType.getDump();
-            _hasRandom = rootType.getRandom();
+            _rootClassName = rootType.getContent();
+            _hasDump       = rootType.getDump();
+            _hasRandom     = rootType.getRandom();
         }
-        
+
+        // Compile the source directory for this test, if not already done
         if (!_test.isDirectoryCompiled()) {
             verbose("-->Compiling any necessary source files in " + _outputRootFile);
-            try {
-                compileDirectory(_outputRootFile);
-                //-- if we reach here, directory was successfully compiled.
+            Compiler compiler = new JavaCCompiler(_outputRootFile);
+            try {compiler.compileDirectory();
                 _test.setDirectoryCompiled(true);
-            } catch (BuildException e) {
-                if (_printStack)
-                    e.printStackTrace(System.out); 
+            } catch (CompilationException e) {
+                if (_printStack) {
+                    e.printStackTrace(System.out);
+                }
+                fail("Build Failed: " + e.getMessage());
             }
         }
-        
+
         //-- Add outputRoot to classpath
         ClassLoader loader = _test.getClassLoader();
         loader = new URLClassLoader(new URL[] { _outputRootFile.toURL() }, loader);
         _test.setClassLoader(loader);
 
-        //if (_rootClassName == null)
-        //    throw new Exception("No Root Object found in test descriptor");
-
         if (_rootClassName != null) {
             verbose("Root class specified in TestDescriptor...");
             verbose("Loading class: " + _rootClassName);
-            _rootClass =  loader.loadClass(_rootClassName);
-        }
-        else {
+            _rootClass = loader.loadClass(_rootClassName);
+        } else {
             verbose("No root class specified in TestDescriptor");
+            // throw new Exception("No Root Object found in test descriptor");
         }
 
         // Try to load the mapping file if any, else we will use the introspector
 
         String mappingFilePath = null;
-        if (_unitTest.getUnitTestCaseChoice() != null)
+        if (_unitTest.getUnitTestCaseChoice() != null) {
             mappingFilePath = _unitTest.getUnitTestCaseChoice().getMapping_File();
+        }
 
-        if (mappingFilePath == null) {
+        if (mappingFilePath != null) {
+            testMapping(loader, mappingFilePath);
+        } else {
             verbose("##### TESTING INTROSPECTION #####");
             _mapping = null;
-        } else {
-            verbose("##### TESTING MAPPING #####");
-            verbose("Mapping file: " + mappingFilePath);
-            InputStream mappingFile = loader.getResourceAsStream(mappingFilePath);
-
-            if (mappingFile == null)
-                throw new Exception("Unable to locate the mapping file '" + mappingFilePath + "' for the test '" + _test.getName() + "'");
-
-            _mapping = new Mapping(loader);
-            InputSource source = new InputSource(mappingFile);
-            source.setSystemId(mappingFilePath);
-            _mapping.loadMapping(source);
-
-            ListenerType listener = _unitTest.getListener();
-            if ( listener != null ) {
-                String listenerName = listener.getClassName();
-                try {
-                    // See if we can load the class...
-                    initializeListeners(listener);
-                } catch (ClassNotFoundException cnfex) {
-                    //Class#forName
-                    fail("The listener specified:"+listenerName+" cannot be found in the CLASSPATH");
-                } catch (InstantiationException iex) {
-                    fail("The listener specified:"+listenerName+" cannot be instantiated");
-                } catch (IllegalAccessException iaex) {
-                    fail("Constructing a :"+listenerName+" failed: " + iaex);
-                }
-                verbose("##### TESTING LISTENER CLASS " + listenerName + " #####");
-            } // listener != null;
         }
     }
 
     /**
-     * Clean up the tests.
+     * For a test case with a mapping, load the mapping. If there is a listener,
+     * initialize it.
+     *
+     * @param loader ClassLoader for this test case
+     * @param mappingFilePath Path to the mapping file
+     * @throws Exception if anything goes wrong during the test
+     */
+    private void testMapping(ClassLoader loader, String mappingFilePath) throws Exception {
+        verbose("##### TESTING MAPPING #####");
+        verbose("Mapping file: " + mappingFilePath);
+        InputStream mappingFile = loader.getResourceAsStream(mappingFilePath);
+
+        if (mappingFile == null) {
+            throw new Exception("Unable to locate the mapping file '" + mappingFilePath
+                                + "' for the test '" + _test.getName() + "'");
+        }
+
+        _mapping = new Mapping(loader);
+        InputSource source = new InputSource(mappingFile);
+        source.setSystemId(mappingFilePath);
+        _mapping.loadMapping(source);
+
+        ListenerType listener = _unitTest.getListener();
+        if (listener != null) {
+            String listenerName = listener.getClassName();
+            try {
+                // See if we can load the class...
+                initializeListeners(listener);
+            } catch (ClassNotFoundException cnfex) {
+                //Class#forName
+                fail("The listener specified: "+listenerName+" cannot be found in the CLASSPATH");
+            } catch (InstantiationException iex) {
+                fail("The listener specified: "+listenerName+" cannot be instantiated");
+            } catch (IllegalAccessException iaex) {
+                fail("Constructing a '"+listenerName+"' failed: " + iaex);
+            }
+            verbose("##### TESTING LISTENER CLASS " + listenerName + " #####");
+        } // listener != null;
+    }
+
+    /**
+     * Clean up after a test -- nothing to do except display output
      * @throws Exception if anything goes wrong
      */
     protected void tearDown() throws java.lang.Exception {

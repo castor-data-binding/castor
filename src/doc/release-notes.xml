@@ -51,6 +51,27 @@
                 </code>
            </summary>
             <bugs>
+				<bug id="1591" tool="jira">
+                    <description>
+						Cleanup and bug fixes for test framework.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061002</date>
+                </bug>
+            <bugs>
 				<bug id="1599" tool="jira">
                     <description>
 						Fixed problem with incorrect code generation for element definitions/references 

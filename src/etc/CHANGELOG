@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1591 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Cleanup and bug fixes for test framework.
+       Details: http://jira.codehaus.org/browse/CASTOR-1591
+       (Werner - 20061002)
+
 XML:   Resolved issue CASTOR-1599 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with incorrect code generation for element definitions/references pointing to 
        an abstract complex type
