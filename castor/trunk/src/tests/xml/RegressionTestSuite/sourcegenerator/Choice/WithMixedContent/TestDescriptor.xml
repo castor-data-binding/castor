@@ -8,6 +8,7 @@
     <Reporter>martin.2.west@bt.com</Reporter>
     <Date_Report>2006-02-24</Date_Report>
     <Date_Fix>2006-10-02</Date_Fix>
+    <Comment>Allow xs:choice with mixed content (primitive and Object)</Comment>
   </BugFix>
 
   <SourceGeneratorTest>
