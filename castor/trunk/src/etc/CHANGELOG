@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1226 using contribution from Bertrand Martel [toto@free.fr]
+       Fixed problem with type derivation for referenced/included attribute.
+       Details: http://jira.codehaus.org/browse/CASTOR-1226
+       (Edward - 20061003)
+
 XML:   Resolved issue CASTOR-1604 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fix two test case failures (one regression, one not)
        Details: http://jira.codehaus.org/browse/CASTOR-1604

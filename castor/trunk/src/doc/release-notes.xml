@@ -51,6 +51,26 @@
                 </code>
            </summary>
             <bugs>
+				<bug id="1226" tool="jira">
+                    <description>
+						Fixed problem with type derivation for referenced/included attribute.
+                    </description>
+                    <contributor>
+                        <name>Bertrand Martel</name>
+                        <email>toto@free.fr</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                         <name>Bertrand Martel</name>
+                        <email>toto@free.fr</email>
+                   </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061003</date>
+                </bug>
 				<bug id="1604" tool="jira">
                     <description>
 						Fix two test case failures (one regression, one not).
