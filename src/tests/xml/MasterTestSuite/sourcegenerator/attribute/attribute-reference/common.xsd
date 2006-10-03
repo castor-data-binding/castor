@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<xs:schema xmlns:tsd="http://namespaces.softwareag.com/tamino/TaminoSchemaDefinition" xmlns:xs="http://www.w3.org/2001/XMLSchema" elementFormDefault="qualified">
+	<xs:attribute name="xmlDBId" type="xs:string" />
+</xs:schema>

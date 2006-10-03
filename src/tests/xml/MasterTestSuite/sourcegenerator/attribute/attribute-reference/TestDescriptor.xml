@@ -1,0 +1,19 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+	<Name>
+		Test support for attribute references (more than one schema)
+	</Name>
+	<Author>Werner Guttmann</Author>
+	<Comment>
+		Test that attribute references are used correctly
+	</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		<Schema>test.xsd</Schema>
+		<Root_Object random="false" dump="true">Convoyeur</Root_Object>
+		<UnitTestCase>
+			<Name>Test Generation</Name>
+			<Input>input.xml</Input>
+		</UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>
