@@ -1,4 +1,4 @@
-<?xml version="1.0"?>
+<?xml version="1.0" encoding="ISO-8859-1"?>
 <document url="http://castor.org/release-notes.xml">
   <body>
     <title>Release notes</title>
@@ -72,7 +72,7 @@
                     <module>XML</module>
                     <date>20061003</date>
         </bug>
-				<bug id="1226" tool="jira">
+        <bug id="1226" tool="jira">
                     <description>
 						Fixed problem with type derivation for referenced/included attribute.
                     </description>
@@ -424,7 +424,7 @@
                         this 'iteration' method.
                     </description>
                     <contributor>
-                        <name>Ontje LÃ¼nsdorf</name>
+                        <name>Ontje Lünsdorf</name>
                         <email>The_COM@gmx.de</email>
                     </contributor>
                     <submitter>
@@ -432,7 +432,7 @@
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>Ontje LÃ¼nsdorf</name>
+                        <name>Ontje Lünsdorf</name>
                         <email>The_COM@gmx.de</email>
                     </reporter>
                     <type>Bug</type>
@@ -486,7 +486,7 @@
                         this enumeration method.
                     </description>
                     <contributor>
-                        <name>Ontje LÃ¼nsdorf</name>
+                        <name>Ontje Lünsdorf</name>
                         <email>The_COM@gmx.de</email>
                     </contributor>
                     <submitter>
@@ -494,7 +494,7 @@
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>Ontje LÃ¼nsdorf</name>
+                        <name>Ontje Lünsdorf</name>
                         <email>The_COM@gmx.de</email>
                     </reporter>
                     <type>Bug</type>
@@ -2485,7 +2485,7 @@ org.castor.mapping.Loaders=\
 		                Allowed to separately en-/disable logging of executed SQL statments.
                     </description>
                     <contributor>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                     </contributor>
                     <submitter>
@@ -2493,7 +2493,7 @@ org.castor.mapping.Loaders=\
                         <email>ralf.joachim@syscon-world.de</email>
                     </submitter>
                     <reporter>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                     </reporter>
                     <type>Enh.</type>
@@ -3884,7 +3884,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                     </reporter>
                     <type>Bug</type>
@@ -4279,7 +4279,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                        Added SQL statement logging support for JDBC CallableStatements
                     </description>
                     <contributor>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                     </contributor>
                     <submitter>
@@ -4287,7 +4287,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                    </reporter>
                     <type>Bug</type>
@@ -4300,7 +4300,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                        database pooling enabled.    
                     </description>
                     <contributor>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                     </contributor>
                     <submitter>
@@ -4308,7 +4308,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.wls8.WeblogicXerc
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                    </reporter>
                     <type>Bug</type>
@@ -4840,7 +4840,7 @@ org.castor.cache.Factories=\
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>RaÃºl Sanz de Acedo PÃ©rez</name>
+                        <name>Raúl Sanz de Acedo Pérez</name>
                         <email>rsanz@cein.es</email>
                    </reporter>
                     <type>Bug</type>
