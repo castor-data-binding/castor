@@ -1,6 +1,11 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1607 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add regression test for parent issue (Generated classes are not
+       compileable for simpleTypes with list-elements)
+       Details: http://jira.codehaus.org/browse/CASTOR-1607
+       (Edward - 20061003)
 
 XML:   Resolved issue CASTOR-1226 using contribution from Bertrand Martel [toto@free.fr]
        Fixed problem with type derivation for referenced/included attribute.
