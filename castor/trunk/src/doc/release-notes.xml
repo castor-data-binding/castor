@@ -51,6 +51,27 @@
                 </code>
            </summary>
             <bugs>
+        <bug id="1607" tool="jira">
+                    <description>
+                        Add regression test for parent issue (Generated classes are not
+                        compileable for simpleTypes with list-elements)
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Test</type>
+                    <module>XML</module>
+                    <date>20061003</date>
+        </bug>
 				<bug id="1226" tool="jira">
                     <description>
 						Fixed problem with type derivation for referenced/included attribute.
@@ -914,7 +935,7 @@
                 	<li><api class="org.exolab.castor.xml.Unmarshaller">unmarshal(DOMSource)</api></li>
 				</ul>                	
 				
-				<h2>Fixed problems - Ooverview</h2>
+				<h2>Fixed problems - Overview</h2>
                    
             </summary>
             <bugs>
