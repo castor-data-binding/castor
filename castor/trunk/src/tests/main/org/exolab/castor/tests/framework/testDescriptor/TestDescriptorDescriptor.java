@@ -1,22 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.tests.framework.testDescriptor;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-import org.exolab.castor.xml.validators.StringValidator;
-
 /**
  * Class TestDescriptorDescriptor.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -24,6 +18,11 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -50,16 +49,17 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
      //- Constructors -/
     //----------------/
 
-    public TestDescriptorDescriptor() {
+    public TestDescriptorDescriptor() 
+     {
         super();
-        nsPrefix = "test";
         nsURI = "http://castor.exolab.org/Test";
         xmlName = "TestDescriptor";
+        elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
-        org.exolab.castor.xml.XMLFieldHandler              handler        = null;
+        org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- initialize attribute descriptors
         
@@ -68,7 +68,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         //-- _name
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_name", "Name", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -89,7 +89,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -100,7 +100,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -108,7 +108,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         //-- _author
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_author", "Author", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -129,7 +129,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -140,7 +140,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -148,7 +148,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         //-- _commentList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_commentList", "Comment", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -169,7 +169,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -180,14 +180,14 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
         //-- _category
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.types.CategoryType.class, "_category", "Category", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -208,9 +208,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
-        desc.setHandler( new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.tests.framework.testDescriptor.types.CategoryType.class, handler));
+        };
+        handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.tests.framework.testDescriptor.types.CategoryType.class, handler);
         desc.setImmutable(true);
+        desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(false);
@@ -224,7 +225,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         desc.setValidator(fieldValidator);
         //-- _bugFix
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.BugFix.class, "_bugFix", "BugFix", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -245,7 +246,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.BugFix();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
@@ -258,7 +259,7 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         desc.setValidator(fieldValidator);
         //-- _testDescriptorChoice
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice.class, "_testDescriptorChoice", "-error-if-this-is-used-", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -279,17 +280,16 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setContainer(true);
         desc.setClassDescriptor(new org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoiceDescriptor());
-        desc.setRequired(true);
+        desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
         //-- validation code for: _testDescriptorChoice
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(1);
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
@@ -302,6 +302,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getAccessMode
+     * 
+     * 
+     * 
+     * @return the access mode specified for this class.
      */
     public org.exolab.castor.mapping.AccessMode getAccessMode()
     {
@@ -310,6 +314,11 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getExtends
+     * 
+     * 
+     * 
+     * @return the class descriptor of the class extended by this
+     * class.
      */
     public org.exolab.castor.mapping.ClassDescriptor getExtends()
     {
@@ -318,6 +327,11 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getIdentity
+     * 
+     * 
+     * 
+     * @return the identity field, null if this class has no
+     * identity.
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity()
     {
@@ -326,6 +340,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getJavaClass
+     * 
+     * 
+     * 
+     * @return the Java class represented by this descriptor.
      */
     public java.lang.Class getJavaClass()
     {
@@ -334,6 +352,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getNameSpacePrefix
+     * 
+     * 
+     * 
+     * @return the namespace prefix to use when marshalling as XML.
      */
     public java.lang.String getNameSpacePrefix()
     {
@@ -342,6 +364,11 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getNameSpaceURI
+     * 
+     * 
+     * 
+     * @return the namespace URI used when marshalling and
+     * unmarshalling as XML.
      */
     public java.lang.String getNameSpaceURI()
     {
@@ -350,6 +377,11 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getValidator
+     * 
+     * 
+     * 
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
     public org.exolab.castor.xml.TypeValidator getValidator()
     {
@@ -358,10 +390,28 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
 
     /**
      * Method getXMLName
+     * 
+     * 
+     * 
+     * @return the XML Name for the Class being described.
      */
     public java.lang.String getXMLName()
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

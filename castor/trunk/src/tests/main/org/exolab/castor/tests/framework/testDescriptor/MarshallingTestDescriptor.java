@@ -1,21 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.tests.framework.testDescriptor;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-
 /**
  * Class MarshallingTestDescriptor.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -23,6 +18,11 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -49,24 +49,25 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
      //- Constructors -/
     //----------------/
 
-    public MarshallingTestDescriptor() {
+    public MarshallingTestDescriptor() 
+     {
         super();
-        nsPrefix = "test";
         nsURI = "http://castor.exolab.org/Test";
         xmlName = "MarshallingTest";
+        elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsSequence();
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
-        org.exolab.castor.xml.XMLFieldHandler              handler        = null;
+        org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- initialize attribute descriptors
         
         //-- initialize element descriptors
         
         //-- _root_Object
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.RootType.class, "_root_Object", "Root_Object", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.Root_Object.class, "_root_Object", "Root_Object", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -78,31 +79,29 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
             {
                 try {
                     MarshallingTest target = (MarshallingTest) object;
-                    target.setRoot_Object( (org.exolab.castor.tests.framework.testDescriptor.RootType) value);
+                    target.setRoot_Object( (org.exolab.castor.tests.framework.testDescriptor.Root_Object) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.tests.framework.testDescriptor.RootType();
+                return new org.exolab.castor.tests.framework.testDescriptor.Root_Object();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
-        desc.setRequired(false);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
         //-- validation code for: _root_Object
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(0);
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
         //-- _configuration
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.Configuration.class, "_configuration", "Configuration", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -123,7 +122,7 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.Configuration();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setMultivalued(false);
@@ -136,7 +135,7 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
         desc.setValidator(fieldValidator);
         //-- _unitTestCaseList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase.class, "_unitTestCaseList", "UnitTestCase", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -157,7 +156,7 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -179,6 +178,10 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getAccessMode
+     * 
+     * 
+     * 
+     * @return the access mode specified for this class.
      */
     public org.exolab.castor.mapping.AccessMode getAccessMode()
     {
@@ -187,6 +190,11 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getExtends
+     * 
+     * 
+     * 
+     * @return the class descriptor of the class extended by this
+     * class.
      */
     public org.exolab.castor.mapping.ClassDescriptor getExtends()
     {
@@ -195,6 +203,11 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getIdentity
+     * 
+     * 
+     * 
+     * @return the identity field, null if this class has no
+     * identity.
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity()
     {
@@ -203,6 +216,10 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getJavaClass
+     * 
+     * 
+     * 
+     * @return the Java class represented by this descriptor.
      */
     public java.lang.Class getJavaClass()
     {
@@ -211,6 +228,10 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getNameSpacePrefix
+     * 
+     * 
+     * 
+     * @return the namespace prefix to use when marshalling as XML.
      */
     public java.lang.String getNameSpacePrefix()
     {
@@ -219,6 +240,11 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getNameSpaceURI
+     * 
+     * 
+     * 
+     * @return the namespace URI used when marshalling and
+     * unmarshalling as XML.
      */
     public java.lang.String getNameSpaceURI()
     {
@@ -227,6 +253,11 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getValidator
+     * 
+     * 
+     * 
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
     public org.exolab.castor.xml.TypeValidator getValidator()
     {
@@ -235,10 +266,28 @@ public class MarshallingTestDescriptor extends org.exolab.castor.xml.util.XMLCla
 
     /**
      * Method getXMLName
+     * 
+     * 
+     * 
+     * @return the XML Name for the Class being described.
      */
     public java.lang.String getXMLName()
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

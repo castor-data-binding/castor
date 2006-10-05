@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -17,7 +17,7 @@ import org.exolab.castor.xml.Unmarshaller;
 /**
  * Class UnitTestCaseChoice.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class UnitTestCaseChoice implements java.io.Serializable {
 
@@ -41,7 +41,8 @@ public class UnitTestCaseChoice implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public UnitTestCaseChoice() {
+    public UnitTestCaseChoice() 
+     {
         super();
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice()
 
@@ -53,7 +54,7 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     /**
      * Returns the value of field 'mapping_File'.
      * 
-     * @return the value of field 'mapping_File'.
+     * @return the value of field 'Mapping_File'.
      */
     public java.lang.String getMapping_File()
     {
@@ -63,7 +64,7 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     /**
      * Returns the value of field 'schema'.
      * 
-     * @return the value of field 'schema'.
+     * @return the value of field 'Schema'.
      */
     public java.lang.String getSchema()
     {
@@ -72,6 +73,10 @@ public class UnitTestCaseChoice implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -85,7 +90,7 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -97,7 +102,7 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -129,18 +134,21 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     } //-- void setSchema(java.lang.String) 
 
     /**
-     * Method unmarshalUnitTestCaseChoice
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice
      */
-    public static java.lang.Object unmarshalUnitTestCaseChoice(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice.class, reader);
-    } //-- java.lang.Object unmarshalUnitTestCaseChoice(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

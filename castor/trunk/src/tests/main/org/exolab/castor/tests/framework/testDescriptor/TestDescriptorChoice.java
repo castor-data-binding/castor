@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -17,7 +17,7 @@ import org.exolab.castor.xml.Unmarshaller;
 /**
  * Class TestDescriptorChoice.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class TestDescriptorChoice implements java.io.Serializable {
 
@@ -27,26 +27,43 @@ public class TestDescriptorChoice implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _sourceGeneratorTest
+     * Tests source generation and then tests the generated source,
+     * testing
+     *  both marshaling and unmarshaling.
+     *  
      */
     private org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest _sourceGeneratorTest;
 
     /**
-     * Field _marshallingTest
+     * Test marshaling.
+     *  
      */
     private org.exolab.castor.tests.framework.testDescriptor.MarshallingTest _marshallingTest;
 
     /**
-     * Field _schemaTest
+     * Tests a schema.
+     *  
      */
     private org.exolab.castor.tests.framework.testDescriptor.SchemaTest _schemaTest;
+
+    /**
+     * Tests source generation only, and does not attempt to use
+     * the generated code. While
+     *  a SourceGeneratorTest is better because it is more
+     * thorough, sometimes
+     *  the only thing that requires testing is the code
+     * generation.
+     *  
+     */
+    private org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest _onlySourceGenerationTest;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public TestDescriptorChoice() {
+    public TestDescriptorChoice() 
+     {
         super();
     } //-- org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice()
 
@@ -56,9 +73,12 @@ public class TestDescriptorChoice implements java.io.Serializable {
     //-----------/
 
     /**
-     * Returns the value of field 'marshallingTest'.
+     * Returns the value of field 'marshallingTest'. The field
+     * 'marshallingTest' has the following description: Test
+     * marshaling.
+     *  
      * 
-     * @return the value of field 'marshallingTest'.
+     * @return the value of field 'MarshallingTest'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.MarshallingTest getMarshallingTest()
     {
@@ -66,9 +86,29 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- org.exolab.castor.tests.framework.testDescriptor.MarshallingTest getMarshallingTest() 
 
     /**
-     * Returns the value of field 'schemaTest'.
+     * Returns the value of field 'onlySourceGenerationTest'. The
+     * field 'onlySourceGenerationTest' has the following
+     * description: Tests source generation only, and does not
+     * attempt to use the generated code. While
+     *  a SourceGeneratorTest is better because it is more
+     * thorough, sometimes
+     *  the only thing that requires testing is the code
+     * generation.
+     *  
      * 
-     * @return the value of field 'schemaTest'.
+     * @return the value of field 'OnlySourceGenerationTest'.
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest getOnlySourceGenerationTest()
+    {
+        return this._onlySourceGenerationTest;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest getOnlySourceGenerationTest() 
+
+    /**
+     * Returns the value of field 'schemaTest'. The field
+     * 'schemaTest' has the following description: Tests a schema.
+     *  
+     * 
+     * @return the value of field 'SchemaTest'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.SchemaTest getSchemaTest()
     {
@@ -76,9 +116,14 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaTest getSchemaTest() 
 
     /**
-     * Returns the value of field 'sourceGeneratorTest'.
+     * Returns the value of field 'sourceGeneratorTest'. The field
+     * 'sourceGeneratorTest' has the following description: Tests
+     * source generation and then tests the generated source,
+     * testing
+     *  both marshaling and unmarshaling.
+     *  
      * 
-     * @return the value of field 'sourceGeneratorTest'.
+     * @return the value of field 'SourceGeneratorTest'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest getSourceGeneratorTest()
     {
@@ -87,6 +132,10 @@ public class TestDescriptorChoice implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -100,7 +149,7 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -112,7 +161,7 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -124,7 +173,10 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Sets the value of field 'marshallingTest'.
+     * Sets the value of field 'marshallingTest'. The field
+     * 'marshallingTest' has the following description: Test
+     * marshaling.
+     *  
      * 
      * @param marshallingTest the value of field 'marshallingTest'.
      */
@@ -134,7 +186,28 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- void setMarshallingTest(org.exolab.castor.tests.framework.testDescriptor.MarshallingTest) 
 
     /**
-     * Sets the value of field 'schemaTest'.
+     * Sets the value of field 'onlySourceGenerationTest'. The
+     * field 'onlySourceGenerationTest' has the following
+     * description: Tests source generation only, and does not
+     * attempt to use the generated code. While
+     *  a SourceGeneratorTest is better because it is more
+     * thorough, sometimes
+     *  the only thing that requires testing is the code
+     * generation.
+     *  
+     * 
+     * @param onlySourceGenerationTest the value of field
+     * 'onlySourceGenerationTest'.
+     */
+    public void setOnlySourceGenerationTest(org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest onlySourceGenerationTest)
+    {
+        this._onlySourceGenerationTest = onlySourceGenerationTest;
+    } //-- void setOnlySourceGenerationTest(org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest) 
+
+    /**
+     * Sets the value of field 'schemaTest'. The field 'schemaTest'
+     * has the following description: Tests a schema.
+     *  
      * 
      * @param schemaTest the value of field 'schemaTest'.
      */
@@ -144,7 +217,12 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- void setSchemaTest(org.exolab.castor.tests.framework.testDescriptor.SchemaTest) 
 
     /**
-     * Sets the value of field 'sourceGeneratorTest'.
+     * Sets the value of field 'sourceGeneratorTest'. The field
+     * 'sourceGeneratorTest' has the following description: Tests
+     * source generation and then tests the generated source,
+     * testing
+     *  both marshaling and unmarshaling.
+     *  
      * 
      * @param sourceGeneratorTest the value of field
      * 'sourceGeneratorTest'.
@@ -155,18 +233,21 @@ public class TestDescriptorChoice implements java.io.Serializable {
     } //-- void setSourceGeneratorTest(org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest) 
 
     /**
-     * Method unmarshalTestDescriptorChoice
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice
      */
-    public static java.lang.Object unmarshalTestDescriptorChoice(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice.class, reader);
-    } //-- java.lang.Object unmarshalTestDescriptorChoice(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

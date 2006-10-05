@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -16,7 +16,7 @@ import java.util.Hashtable;
 /**
  * Class TypeType.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class TypeType implements java.io.Serializable {
 
@@ -75,7 +75,8 @@ public class TypeType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private TypeType(int type, java.lang.String value) {
+    private TypeType(int type, java.lang.String value) 
+     {
         super();
         this.type = type;
         this.stringValue = value;
@@ -87,8 +88,11 @@ public class TypeType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerateReturns an enumeration of all possible
-     * instances of TypeType
+     * Method enumerate
+     * 
+     * Returns an enumeration of all possible instances of TypeType
+     * 
+     * @return an Enumeration over all possible instances of TypeTyp
      */
     public static java.util.Enumeration enumerate()
     {
@@ -96,7 +100,11 @@ public class TypeType implements java.io.Serializable {
     } //-- java.util.Enumeration enumerate() 
 
     /**
-     * Method getTypeReturns the type of this TypeType
+     * Method getType
+     * 
+     * Returns the type of this TypeType
+     * 
+     * @return the type of this TypeType
      */
     public int getType()
     {
@@ -105,6 +113,10 @@ public class TypeType implements java.io.Serializable {
 
     /**
      * Method init
+     * 
+     * 
+     * 
+     * @return the initialized Hashtable for the member table
      */
     private static java.util.Hashtable init()
     {
@@ -116,8 +128,24 @@ public class TypeType implements java.io.Serializable {
     } //-- java.util.Hashtable init() 
 
     /**
-     * Method toStringReturns the String representation of this
-     * TypeType
+     * Method readResolve
+     * 
+     *  will be called during deserialization to replace the
+     * deserialized object with the correct constant instance.
+     * 
+     * @return this deserialized object
+     */
+    private java.lang.Object readResolve()
+    {
+        return valueOf(this.stringValue);
+    } //-- java.lang.Object readResolve() 
+
+    /**
+     * Method toString
+     * 
+     * Returns the String representation of this TypeType
+     * 
+     * @return the String representation of this TypeType
      */
     public java.lang.String toString()
     {
@@ -125,10 +153,12 @@ public class TypeType implements java.io.Serializable {
     } //-- java.lang.String toString() 
 
     /**
-     * Method valueOfReturns a new TypeType based on the given
-     * String value.
+     * Method valueOf
+     * 
+     * Returns a new TypeType based on the given String value.
      * 
      * @param string
+     * @return the TypeType value of parameter 'string'
      */
     public static org.exolab.castor.tests.framework.testDescriptor.types.TypeType valueOf(java.lang.String string)
     {

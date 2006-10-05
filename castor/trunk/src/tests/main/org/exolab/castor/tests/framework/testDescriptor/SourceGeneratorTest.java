@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,15 +11,16 @@ package org.exolab.castor.tests.framework.testDescriptor;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.Vector;
-
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class SourceGeneratorTest.
+ * Tests source generation and then tests the generated source,
+ * testing
+ *  both marshaling and unmarshaling.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class SourceGeneratorTest implements java.io.Serializable {
 
@@ -39,7 +40,8 @@ public class SourceGeneratorTest implements java.io.Serializable {
     private java.lang.String _property_File;
 
     /**
-     * Field _collection
+     * The data type to use in collections.
+     *  
      */
     private org.exolab.castor.tests.framework.testDescriptor.types.CollectionType _collection = org.exolab.castor.tests.framework.testDescriptor.types.CollectionType.valueOf("vector");
 
@@ -49,12 +51,15 @@ public class SourceGeneratorTest implements java.io.Serializable {
     private java.lang.String _bindingFile;
 
     /**
-     * Field _root_Object
+     * The qualified name of the root Object.
+     *  TODO: define a pattern to describe a Java quailified name.
+     *  
      */
-    private org.exolab.castor.tests.framework.testDescriptor.RootType _root_Object;
+    private org.exolab.castor.tests.framework.testDescriptor.Root_Object _root_Object;
 
     /**
-     * Field _unitTestCaseList
+     * A definition of a single Unit Test testcase.
+     *  
      */
     private java.util.Vector _unitTestCaseList;
 
@@ -63,11 +68,12 @@ public class SourceGeneratorTest implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public SourceGeneratorTest() {
+    public SourceGeneratorTest() 
+     {
         super();
-        _schemaList = new Vector();
+        this._schemaList = new java.util.Vector();
         setCollection(org.exolab.castor.tests.framework.testDescriptor.types.CollectionType.valueOf("vector"));
-        _unitTestCaseList = new Vector();
+        this._unitTestCaseList = new java.util.Vector();
     } //-- org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest()
 
 
@@ -76,71 +82,89 @@ public class SourceGeneratorTest implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addSchema
+     * 
      * 
      * @param vSchema
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addSchema(java.lang.String vSchema)
         throws java.lang.IndexOutOfBoundsException
     {
-        _schemaList.addElement(vSchema);
+        this._schemaList.addElement(vSchema);
     } //-- void addSchema(java.lang.String) 
 
     /**
-     * Method addSchema
+     * 
      * 
      * @param index
      * @param vSchema
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addSchema(int index, java.lang.String vSchema)
         throws java.lang.IndexOutOfBoundsException
     {
-        _schemaList.insertElementAt(vSchema, index);
+        this._schemaList.add(index, vSchema);
     } //-- void addSchema(int, java.lang.String) 
 
     /**
-     * Method addUnitTestCase
+     * 
      * 
      * @param vUnitTestCase
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
         throws java.lang.IndexOutOfBoundsException
     {
-        _unitTestCaseList.addElement(vUnitTestCase);
+        this._unitTestCaseList.addElement(vUnitTestCase);
     } //-- void addUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
-     * Method addUnitTestCase
+     * 
      * 
      * @param index
      * @param vUnitTestCase
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addUnitTestCase(int index, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
         throws java.lang.IndexOutOfBoundsException
     {
-        _unitTestCaseList.insertElementAt(vUnitTestCase, index);
+        this._unitTestCaseList.add(index, vUnitTestCase);
     } //-- void addUnitTestCase(int, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
      * Method enumerateSchema
+     * 
+     * 
+     * 
+     * @return an Enumeration over all java.lang.String elements
      */
     public java.util.Enumeration enumerateSchema()
     {
-        return _schemaList.elements();
+        return this._schemaList.elements();
     } //-- java.util.Enumeration enumerateSchema() 
 
     /**
      * Method enumerateUnitTestCase
+     * 
+     * 
+     * 
+     * @return an Enumeration over all
+     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCase
+     * elements
      */
     public java.util.Enumeration enumerateUnitTestCase()
     {
-        return _unitTestCaseList.elements();
+        return this._unitTestCaseList.elements();
     } //-- java.util.Enumeration enumerateUnitTestCase() 
 
     /**
      * Returns the value of field 'bindingFile'.
      * 
-     * @return the value of field 'bindingFile'.
+     * @return the value of field 'BindingFile'.
      */
     public java.lang.String getBindingFile()
     {
@@ -148,9 +172,12 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- java.lang.String getBindingFile() 
 
     /**
-     * Returns the value of field 'collection'.
+     * Returns the value of field 'collection'. The field
+     * 'collection' has the following description: The data type to
+     * use in collections.
+     *  
      * 
-     * @return the value of field 'collection'.
+     * @return the value of field 'Collection'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.types.CollectionType getCollection()
     {
@@ -160,7 +187,7 @@ public class SourceGeneratorTest implements java.io.Serializable {
     /**
      * Returns the value of field 'property_File'.
      * 
-     * @return the value of field 'property_File'.
+     * @return the value of field 'Property_File'.
      */
     public java.lang.String getProperty_File()
     {
@@ -168,91 +195,129 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- java.lang.String getProperty_File() 
 
     /**
-     * Returns the value of field 'root_Object'.
+     * Returns the value of field 'root_Object'. The field
+     * 'root_Object' has the following description: The qualified
+     * name of the root Object.
+     *  TODO: define a pattern to describe a Java quailified name.
+     *  
      * 
-     * @return the value of field 'root_Object'.
+     * @return the value of field 'Root_Object'.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.RootType getRoot_Object()
+    public org.exolab.castor.tests.framework.testDescriptor.Root_Object getRoot_Object()
     {
         return this._root_Object;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.RootType getRoot_Object() 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.Root_Object getRoot_Object() 
 
     /**
      * Method getSchema
      * 
+     * 
+     * 
      * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the java.lang.String at the given index
      */
     public java.lang.String getSchema(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _schemaList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._schemaList.size()) {
+            throw new IndexOutOfBoundsException("getSchema: Index value '" + index + "' not in range [0.." + (this._schemaList.size() - 1) + "]");
         }
         
-        return (String)_schemaList.elementAt(index);
+        return (String)_schemaList.get(index);
     } //-- java.lang.String getSchema(int) 
 
     /**
      * Method getSchema
+     * 
+     * 
+     * 
+     * @return this collection as an Array
      */
     public java.lang.String[] getSchema()
     {
-        int size = _schemaList.size();
-        java.lang.String[] mArray = new java.lang.String[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (String)_schemaList.elementAt(index);
+        int size = this._schemaList.size();
+        java.lang.String[] array = new java.lang.String[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (String)_schemaList.get(index);
         }
-        return mArray;
+        
+        return array;
     } //-- java.lang.String[] getSchema() 
 
     /**
      * Method getSchemaCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
      */
     public int getSchemaCount()
     {
-        return _schemaList.size();
+        return this._schemaList.size();
     } //-- int getSchemaCount() 
 
     /**
      * Method getUnitTestCase
      * 
+     * 
+     * 
      * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCase
+     * at the given index
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase getUnitTestCase(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _unitTestCaseList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._unitTestCaseList.size()) {
+            throw new IndexOutOfBoundsException("getUnitTestCase: Index value '" + index + "' not in range [0.." + (this._unitTestCaseList.size() - 1) + "]");
         }
         
-        return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.elementAt(index);
+        return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.get(index);
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase getUnitTestCase(int) 
 
     /**
      * Method getUnitTestCase
+     * 
+     * 
+     * 
+     * @return this collection as an Array
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] getUnitTestCase()
     {
-        int size = _unitTestCaseList.size();
-        org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] mArray = new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.elementAt(index);
+        int size = this._unitTestCaseList.size();
+        org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] array = new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.get(index);
         }
-        return mArray;
+        
+        return array;
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] getUnitTestCase() 
 
     /**
      * Method getUnitTestCaseCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
      */
     public int getUnitTestCaseCount()
     {
-        return _unitTestCaseList.size();
+        return this._unitTestCaseList.size();
     } //-- int getUnitTestCaseCount() 
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -266,7 +331,7 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -278,7 +343,7 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -290,44 +355,74 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Method removeAllSchema
      */
     public void removeAllSchema()
     {
-        _schemaList.removeAllElements();
+        this._schemaList.clear();
     } //-- void removeAllSchema() 
 
     /**
-     * Method removeAllUnitTestCase
      */
     public void removeAllUnitTestCase()
     {
-        _unitTestCaseList.removeAllElements();
+        this._unitTestCaseList.clear();
     } //-- void removeAllUnitTestCase() 
 
     /**
      * Method removeSchema
      * 
-     * @param index
+     * 
+     * 
+     * @param vSchema
+     * @return true if the object was removed from the collection.
      */
-    public java.lang.String removeSchema(int index)
+    public boolean removeSchema(java.lang.String vSchema)
     {
-        java.lang.Object obj = _schemaList.elementAt(index);
-        _schemaList.removeElementAt(index);
+        boolean removed = _schemaList.remove(vSchema);
+        return removed;
+    } //-- boolean removeSchema(java.lang.String) 
+
+    /**
+     * Method removeSchemaAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public java.lang.String removeSchemaAt(int index)
+    {
+        Object obj = this._schemaList.remove(index);
         return (String)obj;
-    } //-- java.lang.String removeSchema(int) 
+    } //-- java.lang.String removeSchemaAt(int) 
 
     /**
      * Method removeUnitTestCase
      * 
-     * @param index
+     * 
+     * 
+     * @param vUnitTestCase
+     * @return true if the object was removed from the collection.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCase(int index)
+    public boolean removeUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
     {
-        java.lang.Object obj = _unitTestCaseList.elementAt(index);
-        _unitTestCaseList.removeElementAt(index);
+        boolean removed = _unitTestCaseList.remove(vUnitTestCase);
+        return removed;
+    } //-- boolean removeUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
+
+    /**
+     * Method removeUnitTestCaseAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCaseAt(int index)
+    {
+        Object obj = this._unitTestCaseList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) obj;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCase(int) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCaseAt(int) 
 
     /**
      * Sets the value of field 'bindingFile'.
@@ -340,7 +435,10 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- void setBindingFile(java.lang.String) 
 
     /**
-     * Sets the value of field 'collection'.
+     * Sets the value of field 'collection'. The field 'collection'
+     * has the following description: The data type to use in
+     * collections.
+     *  
      * 
      * @param collection the value of field 'collection'.
      */
@@ -360,88 +458,103 @@ public class SourceGeneratorTest implements java.io.Serializable {
     } //-- void setProperty_File(java.lang.String) 
 
     /**
-     * Sets the value of field 'root_Object'.
+     * Sets the value of field 'root_Object'. The field
+     * 'root_Object' has the following description: The qualified
+     * name of the root Object.
+     *  TODO: define a pattern to describe a Java quailified name.
+     *  
      * 
      * @param root_Object the value of field 'root_Object'.
      */
-    public void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.RootType root_Object)
+    public void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.Root_Object root_Object)
     {
         this._root_Object = root_Object;
-    } //-- void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.RootType) 
+    } //-- void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.Root_Object) 
 
     /**
-     * Method setSchema
+     * 
      * 
      * @param index
      * @param vSchema
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void setSchema(int index, java.lang.String vSchema)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _schemaList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._schemaList.size()) {
+            throw new IndexOutOfBoundsException("setSchema: Index value '" + index + "' not in range [0.." + (this._schemaList.size() - 1) + "]");
         }
-        _schemaList.setElementAt(vSchema, index);
+        
+        this._schemaList.set(index, vSchema);
     } //-- void setSchema(int, java.lang.String) 
 
     /**
-     * Method setSchema
      * 
-     * @param schemaArray
+     * 
+     * @param vSchemaArray
      */
-    public void setSchema(java.lang.String[] schemaArray)
+    public void setSchema(java.lang.String[] vSchemaArray)
     {
         //-- copy array
-        _schemaList.removeAllElements();
-        for (int i = 0; i < schemaArray.length; i++) {
-            _schemaList.addElement(schemaArray[i]);
+        _schemaList.clear();
+        
+        for (int i = 0; i < vSchemaArray.length; i++) {
+                this._schemaList.add(vSchemaArray[i]);
         }
     } //-- void setSchema(java.lang.String) 
 
     /**
-     * Method setUnitTestCase
+     * 
      * 
      * @param index
      * @param vUnitTestCase
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void setUnitTestCase(int index, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _unitTestCaseList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._unitTestCaseList.size()) {
+            throw new IndexOutOfBoundsException("setUnitTestCase: Index value '" + index + "' not in range [0.." + (this._unitTestCaseList.size() - 1) + "]");
         }
-        _unitTestCaseList.setElementAt(vUnitTestCase, index);
+        
+        this._unitTestCaseList.set(index, vUnitTestCase);
     } //-- void setUnitTestCase(int, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
-     * Method setUnitTestCase
      * 
-     * @param unitTestCaseArray
+     * 
+     * @param vUnitTestCaseArray
      */
-    public void setUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] unitTestCaseArray)
+    public void setUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] vUnitTestCaseArray)
     {
         //-- copy array
-        _unitTestCaseList.removeAllElements();
-        for (int i = 0; i < unitTestCaseArray.length; i++) {
-            _unitTestCaseList.addElement(unitTestCaseArray[i]);
+        _unitTestCaseList.clear();
+        
+        for (int i = 0; i < vUnitTestCaseArray.length; i++) {
+                this._unitTestCaseList.add(vUnitTestCaseArray[i]);
         }
     } //-- void setUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
-     * Method unmarshalSourceGeneratorTest
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest
      */
-    public static java.lang.Object unmarshalSourceGeneratorTest(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest.class, reader);
-    } //-- java.lang.Object unmarshalSourceGeneratorTest(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

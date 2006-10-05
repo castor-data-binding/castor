@@ -358,7 +358,7 @@
             <fileset dir="${source}/tests">
                 <patternset refid="support.files" />
             </fileset>
-        <!-- Maven 2: copy resources from src/test/resources -->
+            <!-- Maven 2: copy resources from src/test/resources -->
             <fileset dir="${test-resources}">
                 <patternset refid="support.files" />
             </fileset>
@@ -489,7 +489,7 @@
         <jar jarfile="${dist}/${srcgen.ant.task.name}.jar"
              basedir="${classes}"
              includes="org/exolab/castor/tools/ant/taskdefs/*,
-                        org/exolab/castor/util/Version.class" />
+                       org/exolab/castor/util/Version.class" />
     </target>
 
     <target name="jar" depends="compile"
@@ -770,23 +770,23 @@
         </ant>
     </target>
 
-   <target name="automated_build" depends="jar,compile.tests">
-      <!-- this mimics the CTFRun.sh script -->
-         <delete includeEmptyDirs="true">
+    <target name="automated_build" depends="jar,compile.tests">
+        <!-- this mimics the CTFRun.sh script -->
+        <delete includeEmptyDirs="true">
             <fileset dir="build/tests" includes="output/**"/>
-         </delete>
-      <java classname="org.exolab.castor.tests.framework.CastorTestSuiteRunner"
-            failonerror="true" fork="yes">
-         <arg line="-verbose -printStack -text src/tests/MasterTestSuite"/>
+        </delete>
+        <java classname="org.exolab.castor.tests.framework.CastorTestSuiteRunner"
+              failonerror="true" fork="yes">
+            <arg line="-verbose -printStack -text src/tests/MasterTestSuite"/>
             <classpath>
-               <fileset dir="lib">
-                  <include name="**/*.jar"/>
-               </fileset>
-               <pathelement path="build/classes"/>
-               <pathelement path="build/tests"/>
+                <fileset dir="lib">
+                    <include name="**/*.jar"/>
+                </fileset>
+                <pathelement path="build/classes"/>
+                <pathelement path="build/tests"/>
             </classpath>
-      </java>
-   </target>
+        </java>
+    </target>
 
     <target name="gen.jdo.conf" depends="jar,srcgen.anttask.jar"
         description="Use the Source Generator to create the Java classes for jdo-conf.xsd">
@@ -794,7 +794,7 @@
         <mkdir dir="${gen.src}/jdo-conf"/>
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
                  classpathref="build.classpath"/>
-            <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
+        <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
                 todir="../${gen.src}/jdo-conf"
                 package="org.castor.jdo.conf"
                 lineseparator="unix"
@@ -818,6 +818,25 @@
                 lineseparator="unix"
                 bindingfile="${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
                 types="j2"
+                warnings="true"/>
+        <javac destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" deprecation="off"
+               optimize="on">
+            <src path="${gen.src}" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+
+    <target name="gen.testdescriptor" depends="jar,srcgen.anttask.jar"
+            description="Use the Source Generator to create the Java classes for TestDescriptor.xsd">
+        <delete dir="${gen.src}/testdescriptor"/>
+        <mkdir dir="${gen.src}/testdescriptor"/>
+        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${source}/tests/main/org/exolab/castor/tests/framework/TestDescriptor.xsd"
+                todir="${gen.src}/testdescriptor"
+                package="org.exolab.castor.tests.framework.testDescriptor"
+                lineseparator="unix"
                 warnings="true"/>
         <javac destdir="${classes}" excludes="${excludes}"
                debug="${main.opt.debug}" deprecation="off"

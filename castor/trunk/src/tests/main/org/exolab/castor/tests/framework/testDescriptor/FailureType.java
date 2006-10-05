@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,9 +15,22 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class FailureType.
+ * True if this test is expected to throw an Exception and if it
+ * would thus
+ *  be an error if the test does not throw an Exception. False
+ * otherwise.
+ *  <p>
+ *  If FailureType is true, then this element optionally contains
+ * the attribute
+ *  exception that contains the class of the Exception that is
+ *  expected. If this attribute is not provided, then the presence
+ * of any
+ *  exception causes the test to pass. Otherwise, the specific
+ * exception
+ *  has to be thrown for the test to pass.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class FailureType implements java.io.Serializable {
 
@@ -46,7 +59,8 @@ public class FailureType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public FailureType() {
+    public FailureType() 
+     {
         super();
     } //-- org.exolab.castor.tests.framework.testDescriptor.FailureType()
 
@@ -56,7 +70,6 @@ public class FailureType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method deleteContent
      */
     public void deleteContent()
     {
@@ -67,7 +80,7 @@ public class FailureType implements java.io.Serializable {
      * Returns the value of field 'content'. The field 'content'
      * has the following description: internal content storage
      * 
-     * @return the value of field 'content'.
+     * @return the value of field 'Content'.
      */
     public boolean getContent()
     {
@@ -77,7 +90,7 @@ public class FailureType implements java.io.Serializable {
     /**
      * Returns the value of field 'exception'.
      * 
-     * @return the value of field 'exception'.
+     * @return the value of field 'Exception'.
      */
     public java.lang.String getException()
     {
@@ -86,6 +99,10 @@ public class FailureType implements java.io.Serializable {
 
     /**
      * Method hasContent
+     * 
+     * 
+     * 
+     * @return true if at least one Content has been added
      */
     public boolean hasContent()
     {
@@ -94,6 +111,10 @@ public class FailureType implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -107,7 +128,7 @@ public class FailureType implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -119,7 +140,7 @@ public class FailureType implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -153,18 +174,21 @@ public class FailureType implements java.io.Serializable {
     } //-- void setException(java.lang.String) 
 
     /**
-     * Method unmarshalFailureType
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.FailureType
      */
-    public static java.lang.Object unmarshalFailureType(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.FailureType unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.FailureType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.FailureType.class, reader);
-    } //-- java.lang.Object unmarshalFailureType(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.FailureType unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

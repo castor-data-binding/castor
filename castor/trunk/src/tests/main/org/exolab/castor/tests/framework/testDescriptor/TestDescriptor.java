@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,15 +11,21 @@ package org.exolab.castor.tests.framework.testDescriptor;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.Vector;
-
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class TestDescriptor.
+ * Castor Testing Framework Test Descriptor XML Schema
+ *  <p>
+ *  Namespace: http://castor.exolab.org/Test
+ *  <p>
+ *  This schema is used to generate the
+ *  org.exolab.castor.tests.framework.testdescriptor package
+ *  Note: This schema is under evolution and subject to change.
+ *  This schema is under the Exolab license.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class TestDescriptor implements java.io.Serializable {
 
@@ -49,7 +55,12 @@ public class TestDescriptor implements java.io.Serializable {
     private org.exolab.castor.tests.framework.testDescriptor.types.CategoryType _category;
 
     /**
-     * Field _bugFix
+     * Encapsulates information about a bug fix, including the
+     * reporter's
+     *  name (or Email address), the date of the report and of the
+     * fix,
+     *  and one or more comments about the bug.
+     *  
      */
     private org.exolab.castor.tests.framework.testDescriptor.BugFix _bugFix;
 
@@ -63,9 +74,10 @@ public class TestDescriptor implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public TestDescriptor() {
+    public TestDescriptor() 
+     {
         super();
-        _commentList = new Vector();
+        this._commentList = new java.util.Vector();
     } //-- org.exolab.castor.tests.framework.testDescriptor.TestDescriptor()
 
 
@@ -74,40 +86,48 @@ public class TestDescriptor implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addComment
+     * 
      * 
      * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addComment(java.lang.String vComment)
         throws java.lang.IndexOutOfBoundsException
     {
-        _commentList.addElement(vComment);
+        this._commentList.addElement(vComment);
     } //-- void addComment(java.lang.String) 
 
     /**
-     * Method addComment
+     * 
      * 
      * @param index
      * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addComment(int index, java.lang.String vComment)
         throws java.lang.IndexOutOfBoundsException
     {
-        _commentList.insertElementAt(vComment, index);
+        this._commentList.add(index, vComment);
     } //-- void addComment(int, java.lang.String) 
 
     /**
      * Method enumerateComment
+     * 
+     * 
+     * 
+     * @return an Enumeration over all java.lang.String elements
      */
     public java.util.Enumeration enumerateComment()
     {
-        return _commentList.elements();
+        return this._commentList.elements();
     } //-- java.util.Enumeration enumerateComment() 
 
     /**
      * Returns the value of field 'author'.
      * 
-     * @return the value of field 'author'.
+     * @return the value of field 'Author'.
      */
     public java.lang.String getAuthor()
     {
@@ -115,9 +135,15 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- java.lang.String getAuthor() 
 
     /**
-     * Returns the value of field 'bugFix'.
+     * Returns the value of field 'bugFix'. The field 'bugFix' has
+     * the following description: Encapsulates information about a
+     * bug fix, including the reporter's
+     *  name (or Email address), the date of the report and of the
+     * fix,
+     *  and one or more comments about the bug.
+     *  
      * 
-     * @return the value of field 'bugFix'.
+     * @return the value of field 'BugFix'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.BugFix getBugFix()
     {
@@ -127,7 +153,7 @@ public class TestDescriptor implements java.io.Serializable {
     /**
      * Returns the value of field 'category'.
      * 
-     * @return the value of field 'category'.
+     * @return the value of field 'Category'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.types.CategoryType getCategory()
     {
@@ -137,44 +163,58 @@ public class TestDescriptor implements java.io.Serializable {
     /**
      * Method getComment
      * 
+     * 
+     * 
      * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the java.lang.String at the given index
      */
     public java.lang.String getComment(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _commentList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._commentList.size()) {
+            throw new IndexOutOfBoundsException("getComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
         
-        return (String)_commentList.elementAt(index);
+        return (String)_commentList.get(index);
     } //-- java.lang.String getComment(int) 
 
     /**
      * Method getComment
+     * 
+     * 
+     * 
+     * @return this collection as an Array
      */
     public java.lang.String[] getComment()
     {
-        int size = _commentList.size();
-        java.lang.String[] mArray = new java.lang.String[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (String)_commentList.elementAt(index);
+        int size = this._commentList.size();
+        java.lang.String[] array = new java.lang.String[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (String)_commentList.get(index);
         }
-        return mArray;
+        
+        return array;
     } //-- java.lang.String[] getComment() 
 
     /**
      * Method getCommentCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
      */
     public int getCommentCount()
     {
-        return _commentList.size();
+        return this._commentList.size();
     } //-- int getCommentCount() 
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
     public java.lang.String getName()
     {
@@ -184,7 +224,7 @@ public class TestDescriptor implements java.io.Serializable {
     /**
      * Returns the value of field 'testDescriptorChoice'.
      * 
-     * @return the value of field 'testDescriptorChoice'.
+     * @return the value of field 'TestDescriptorChoice'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice getTestDescriptorChoice()
     {
@@ -193,6 +233,10 @@ public class TestDescriptor implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -206,7 +250,7 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -218,7 +262,7 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -230,24 +274,39 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Method removeAllComment
      */
     public void removeAllComment()
     {
-        _commentList.removeAllElements();
+        this._commentList.clear();
     } //-- void removeAllComment() 
 
     /**
      * Method removeComment
      * 
-     * @param index
+     * 
+     * 
+     * @param vComment
+     * @return true if the object was removed from the collection.
      */
-    public java.lang.String removeComment(int index)
+    public boolean removeComment(java.lang.String vComment)
     {
-        java.lang.Object obj = _commentList.elementAt(index);
-        _commentList.removeElementAt(index);
+        boolean removed = _commentList.remove(vComment);
+        return removed;
+    } //-- boolean removeComment(java.lang.String) 
+
+    /**
+     * Method removeCommentAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public java.lang.String removeCommentAt(int index)
+    {
+        Object obj = this._commentList.remove(index);
         return (String)obj;
-    } //-- java.lang.String removeComment(int) 
+    } //-- java.lang.String removeCommentAt(int) 
 
     /**
      * Sets the value of field 'author'.
@@ -260,7 +319,13 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- void setAuthor(java.lang.String) 
 
     /**
-     * Sets the value of field 'bugFix'.
+     * Sets the value of field 'bugFix'. The field 'bugFix' has the
+     * following description: Encapsulates information about a bug
+     * fix, including the reporter's
+     *  name (or Email address), the date of the report and of the
+     * fix,
+     *  and one or more comments about the bug.
+     *  
      * 
      * @param bugFix the value of field 'bugFix'.
      */
@@ -280,32 +345,36 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- void setCategory(org.exolab.castor.tests.framework.testDescriptor.types.CategoryType) 
 
     /**
-     * Method setComment
+     * 
      * 
      * @param index
      * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void setComment(int index, java.lang.String vComment)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _commentList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._commentList.size()) {
+            throw new IndexOutOfBoundsException("setComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
-        _commentList.setElementAt(vComment, index);
+        
+        this._commentList.set(index, vComment);
     } //-- void setComment(int, java.lang.String) 
 
     /**
-     * Method setComment
      * 
-     * @param commentArray
+     * 
+     * @param vCommentArray
      */
-    public void setComment(java.lang.String[] commentArray)
+    public void setComment(java.lang.String[] vCommentArray)
     {
         //-- copy array
-        _commentList.removeAllElements();
-        for (int i = 0; i < commentArray.length; i++) {
-            _commentList.addElement(commentArray[i]);
+        _commentList.clear();
+        
+        for (int i = 0; i < vCommentArray.length; i++) {
+                this._commentList.add(vCommentArray[i]);
         }
     } //-- void setComment(java.lang.String) 
 
@@ -331,18 +400,21 @@ public class TestDescriptor implements java.io.Serializable {
     } //-- void setTestDescriptorChoice(org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice) 
 
     /**
-     * Method unmarshalTestDescriptor
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.TestDescriptor
      */
-    public static java.lang.Object unmarshalTestDescriptor(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.TestDescriptor unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.TestDescriptor) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.TestDescriptor.class, reader);
-    } //-- java.lang.Object unmarshalTestDescriptor(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.TestDescriptor unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

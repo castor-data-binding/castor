@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,9 +15,10 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class UnitTestCase.
+ * A definition of a single Unit Test testcase.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class UnitTestCase implements java.io.Serializable {
 
@@ -37,7 +38,6 @@ public class UnitTestCase implements java.io.Serializable {
     private org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice _unitTestCaseChoice;
 
     /**
-     * Field _configuration
      */
     private org.exolab.castor.tests.framework.testDescriptor.Configuration _configuration;
 
@@ -64,7 +64,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Field _failure
      */
-    private org.exolab.castor.tests.framework.testDescriptor.FailureType _failure;
+    private org.exolab.castor.tests.framework.testDescriptor.Failure _failure;
 
     /**
      * Field _skip
@@ -79,14 +79,15 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Field _listener
      */
-    private org.exolab.castor.tests.framework.testDescriptor.ListenerType _listener;
+    private org.exolab.castor.tests.framework.testDescriptor.Listener _listener;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public UnitTestCase() {
+    public UnitTestCase() 
+     {
         super();
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase()
 
@@ -96,7 +97,6 @@ public class UnitTestCase implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method deleteSkip
      */
     public void deleteSkip()
     {
@@ -106,7 +106,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'configuration'.
      * 
-     * @return the value of field 'configuration'.
+     * @return the value of field 'Configuration'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.Configuration getConfiguration()
     {
@@ -116,17 +116,17 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'failure'.
      * 
-     * @return the value of field 'failure'.
+     * @return the value of field 'Failure'.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.FailureType getFailure()
+    public org.exolab.castor.tests.framework.testDescriptor.Failure getFailure()
     {
         return this._failure;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.FailureType getFailure() 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.Failure getFailure() 
 
     /**
      * Returns the value of field 'goldFile'.
      * 
-     * @return the value of field 'goldFile'.
+     * @return the value of field 'GoldFile'.
      */
     public java.lang.String getGoldFile()
     {
@@ -136,7 +136,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'input'.
      * 
-     * @return the value of field 'input'.
+     * @return the value of field 'Input'.
      */
     public java.lang.String getInput()
     {
@@ -146,17 +146,17 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'listener'.
      * 
-     * @return the value of field 'listener'.
+     * @return the value of field 'Listener'.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.ListenerType getListener()
+    public org.exolab.castor.tests.framework.testDescriptor.Listener getListener()
     {
         return this._listener;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.ListenerType getListener() 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.Listener getListener() 
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
     public java.lang.String getName()
     {
@@ -166,7 +166,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'objectBuilder'.
      * 
-     * @return the value of field 'objectBuilder'.
+     * @return the value of field 'ObjectBuilder'.
      */
     public java.lang.String getObjectBuilder()
     {
@@ -176,7 +176,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'output'.
      * 
-     * @return the value of field 'output'.
+     * @return the value of field 'Output'.
      */
     public java.lang.String getOutput()
     {
@@ -186,7 +186,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'skip'.
      * 
-     * @return the value of field 'skip'.
+     * @return the value of field 'Skip'.
      */
     public boolean getSkip()
     {
@@ -196,7 +196,7 @@ public class UnitTestCase implements java.io.Serializable {
     /**
      * Returns the value of field 'unitTestCaseChoice'.
      * 
-     * @return the value of field 'unitTestCaseChoice'.
+     * @return the value of field 'UnitTestCaseChoice'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice getUnitTestCaseChoice()
     {
@@ -205,6 +205,10 @@ public class UnitTestCase implements java.io.Serializable {
 
     /**
      * Method hasSkip
+     * 
+     * 
+     * 
+     * @return true if at least one Skip has been added
      */
     public boolean hasSkip()
     {
@@ -213,6 +217,10 @@ public class UnitTestCase implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -226,7 +234,7 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -238,7 +246,7 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -264,10 +272,10 @@ public class UnitTestCase implements java.io.Serializable {
      * 
      * @param failure the value of field 'failure'.
      */
-    public void setFailure(org.exolab.castor.tests.framework.testDescriptor.FailureType failure)
+    public void setFailure(org.exolab.castor.tests.framework.testDescriptor.Failure failure)
     {
         this._failure = failure;
-    } //-- void setFailure(org.exolab.castor.tests.framework.testDescriptor.FailureType) 
+    } //-- void setFailure(org.exolab.castor.tests.framework.testDescriptor.Failure) 
 
     /**
      * Sets the value of field 'goldFile'.
@@ -294,10 +302,10 @@ public class UnitTestCase implements java.io.Serializable {
      * 
      * @param listener the value of field 'listener'.
      */
-    public void setListener(org.exolab.castor.tests.framework.testDescriptor.ListenerType listener)
+    public void setListener(org.exolab.castor.tests.framework.testDescriptor.Listener listener)
     {
         this._listener = listener;
-    } //-- void setListener(org.exolab.castor.tests.framework.testDescriptor.ListenerType) 
+    } //-- void setListener(org.exolab.castor.tests.framework.testDescriptor.Listener) 
 
     /**
      * Sets the value of field 'name'.
@@ -352,18 +360,21 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- void setUnitTestCaseChoice(org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice) 
 
     /**
-     * Method unmarshalUnitTestCase
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCase
      */
-    public static java.lang.Object unmarshalUnitTestCase(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.UnitTestCase unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase.class, reader);
-    } //-- java.lang.Object unmarshalUnitTestCase(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException
