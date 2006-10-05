@@ -68,7 +68,7 @@
      </p>
 
         <code-panel top-caption="Example:">
-java org.exolab.castor.builder.SourceGenerator -i foo-schema.xsd \
+java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
     -package com.xyz
         </code-panel>
 

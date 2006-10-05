@@ -23,7 +23,6 @@ JAVAC=$JAVA_HOME/bin/javac
 #
 CLASSPATH=`echo ../../../lib/*.jar | tr ' ' ':'`
 CLASSPATH=`echo ../../../dist/*.jar | tr ' ' ':'`:$CLASSPATH
-
 CLASSPATH=$JAVA_HOME/lib/tools.jar:.:$CLASSPATH
 
 echo "Using CLASSPATH: " 
@@ -34,7 +33,7 @@ echo $CLASSPATH | tr ':' '\n'
 #
 echo Castor classes
 echo Generating classes
-$JAVA -cp $CLASSPATH org.exolab.castor.builder.SourceGenerator -i invoice.xsd -f  -package test
+$JAVA -cp $CLASSPATH org.exolab.castor.builder.SourceGeneratorMain -i invoice.xsd -f -package test
 
 #
 # Compile generated code

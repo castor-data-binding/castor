@@ -49,7 +49,6 @@ import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.util.ClassDescriptorResolverImpl;
 
 import java.beans.PropertyChangeEvent;
 import java.beans.PropertyChangeListener;

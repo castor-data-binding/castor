@@ -17,9 +17,4 @@ CLASSPATH=`echo ../../lib/*.jar | tr ' ' ':'`:$CLASSPATH
 
 rm -rf `find ./main/org/exolab/castor/tests/framework/testDescriptor/ -name "*.java"`
 
-$JAVA -classpath $CLASSPATH org.exolab.castor.builder.SourceGenerator -i ./main/org/exolab/castor/tests/framework/TestDescriptor.xsd -dest ./main  -package org.exolab.castor.tests.framework.testDescriptor
-
-
-
-
-
+$JAVA -classpath $CLASSPATH org.exolab.castor.builder.SourceGeneratorMain -i ./main/org/exolab/castor/tests/framework/TestDescriptor.xsd -dest ./main  -package org.exolab.castor.tests.framework.testDescriptor
