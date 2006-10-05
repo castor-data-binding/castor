@@ -1,6 +1,11 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1608 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Split "main" out of SourceGenerator.java
+       Details: http://jira.codehaus.org/browse/CASTOR-1608
+       (Edward - 20061005)
+
 XML:   Resolved issue CASTOR-1602 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add new test case type to read schema only
        Details: http://jira.codehaus.org/browse/CASTOR-1602
@@ -115,7 +120,7 @@ XML:   Resolved issue CASTOR-1578 using contribution from Edward Kuns [edward.ku
        Details: http://jira.codehaus.org/browse/CASTOR-1578
        (Werner - 20060925)
 
-XML:   Resolved issue CASTOR-1575 using contribution from Ontje Lï¿½nsdorf [The_COM@gmx.de]
+XML:   Resolved issue CASTOR-1575 using contribution from Ontje Lünsdorf [The_COM@gmx.de]
        Added a feature that allows getter methods starting with the prefix 'enum'
        to be treated in a special way.
        Details: http://jira.codehaus.org/browse/CASTOR-1575
@@ -578,7 +583,7 @@ XML:   Fixed bug CASTOR-1406 using contribution from David Green [david.green@ma
        Details: http://jira.codehaus.org/browse/CASTOR-1406
        (Ralf - 20060427)
 
-JDO:   Fixed bug CASTOR-1318 using contribution from Raï¿½l Sanz de Acedo Pï¿½rez [rsanz@cein.es]
+JDO:   Fixed bug CASTOR-1318 using contribution from Raúl Sanz de Acedo Pérez [rsanz@cein.es]
        Allowed to separately en-/disable logging of executed SQL statments.
        Details: http://jira.codehaus.org/browse/CASTOR-1318
        (Ralf - 20060427)
@@ -940,12 +945,12 @@ JDO:   Fixed bug CASTOR-1315 using contribution from Werner Guttmann [werner.gut
        Details: http://jira.codehaus.org/browse/CASTOR-1315
        (Werner - 20060210)
 
-JDO:   Fixed bug CASTOR-1316 using contribution from Raï¿½l Sanz de Acedo Pï¿½rez [rsanz@cein.es]
+JDO:   Fixed bug CASTOR-1316 using contribution from Raúl Sanz de Acedo Pérez [rsanz@cein.es]
        Added SQL statement logging support for JDBC CallableStatements.
        Details: http://jira.codehaus.org/browse/CASTOR-1316
        (Werner - 20060210)
 
-JDO:   Fixed bug CASTOR-1317 using contribution from Raï¿½l Sanz de Acedo Pï¿½rez [rsanz@cein.es]
+JDO:   Fixed bug CASTOR-1317 using contribution from Raúl Sanz de Acedo Pérez [rsanz@cein.es]
        Prevented DatabaseImpl.finalize() from logging when used with global transactions and
        database pooling enabled.
        Details: http://jira.codehaus.org/browse/CASTOR-1317
@@ -2451,7 +2456,7 @@ JDO:   Fixed bug 1573 using contribution from Stein M. Hugubakken [dulci@start.n
        Details: http://bugzilla.exolab.org/show_bug.cgi?id=1573
        (Werner - 20040330)
 
-ALL:   Fixed bug 1568 using contribution from jpinto@inescporto.pt [Joï¿½o Luis Pinto].
+ALL:   Fixed bug 1568 using contribution from jpinto@inescporto.pt [João Luis Pinto].
        Streamlines Eclipse related project files.
        Details: http://bugzilla.exolab.org/show_bug.cgi?id=1568
        (Werner - 20040319)
@@ -2465,7 +2470,7 @@ ALL:   Fixed bug 1563 using a patch from Keith
        Details: http://bugzilla.exolab.org/show_bug.cgi?id=1563
        (Bruce - 20040323)
 
-ALL:   Fixed bug 1566 using contribution from jpinto@inescporto.pt [Joï¿½o Luis Pinto].
+ALL:   Fixed bug 1566 using contribution from jpinto@inescporto.pt [João Luis Pinto].
        Updates Eclipse related project files.
        Details: http://bugzilla.exolab.org/show_bug.cgi?id=1566
        (Werner - 20040319)
@@ -3096,7 +3101,7 @@ JDO:    Fixed Bug 1030 : OQL query with timestamp comparison fail
         (Mickael - 20021210)
 
 JDO:    Fixed Bug 1055 : SapDbQueryExpression has a problem,
-        reported by Clï¿½vis Wichoski
+        reported by Clóvis Wichoski
         (Mickael - 20021210)
 
 JDO:    Fixed Bug 944 : mapping filename not relative to correct directory

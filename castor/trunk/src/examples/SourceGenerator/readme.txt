@@ -25,11 +25,3 @@ The batch file will:
 You will be prompted to continue at each step.
 
 The example unmarshals "invoice1.xml" and displays the shipping information.
-
-
-
-
-
-
-
-

@@ -5,10 +5,4 @@ set cp=%CLASSPATH%
 for %%i in (lib\*.jar) do call cp.bat %%i
 set cp=%cp%;.
 
-
-%JAVA% -classpath %CP% org.exolab.castor.builder.SourceGenerator %*
-
-
-
-
-
+%JAVA% -classpath %CP% org.exolab.castor.builder.SourceGeneratorMain %*
