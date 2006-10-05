@@ -43,7 +43,15 @@
                 <p>To disabled selected features on the XML parser used internally by Castor 
                    XML, please use the new property <tt>org.exolab.castor.sax.features-to-disable</tt>
                    as shown below</p>
-                
+
+                <h3>Added new CTF test case type to test source generation only, especially
+                    useful for regression tests of exceptions thrown during source generation</h3>
+
+                <p>For a sample and for the place to add future test cases for the Master Test
+                   Suite, see the directory tree
+                   <tt>src/tetsts/xml/MasterTestSuite/sourcegenerator/generationOnly</tt>,
+                   although regression tests should be added to the regression suite</p>
+
                 <code>
 # Comma separated list of SAX 2 features that should be disabled
 # for the default parser.
@@ -51,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+        <bug id="1602" tool="jira">
+                    <description>
+                        Add new test case type to read schema only (CASTOR-1602)
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061005</date>
+        </bug>
         <bug id="1607" tool="jira">
                     <description>
                         Add regression test for parent issue (Generated classes are not

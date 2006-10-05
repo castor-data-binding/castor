@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,9 +15,9 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class ListenerType.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * 
+ * @version $Revision$ $Date$
  */
 public class ListenerType implements java.io.Serializable {
 
@@ -46,7 +46,8 @@ public class ListenerType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public ListenerType() {
+    public ListenerType() 
+     {
         super();
         setType(org.exolab.castor.tests.framework.testDescriptor.types.TypeType.valueOf("Both"));
     } //-- org.exolab.castor.tests.framework.testDescriptor.ListenerType()
@@ -59,7 +60,7 @@ public class ListenerType implements java.io.Serializable {
     /**
      * Returns the value of field 'className'.
      * 
-     * @return the value of field 'className'.
+     * @return the value of field 'ClassName'.
      */
     public java.lang.String getClassName()
     {
@@ -69,7 +70,7 @@ public class ListenerType implements java.io.Serializable {
     /**
      * Returns the value of field 'goldFile'.
      * 
-     * @return the value of field 'goldFile'.
+     * @return the value of field 'GoldFile'.
      */
     public java.lang.String getGoldFile()
     {
@@ -79,7 +80,7 @@ public class ListenerType implements java.io.Serializable {
     /**
      * Returns the value of field 'type'.
      * 
-     * @return the value of field 'type'.
+     * @return the value of field 'Type'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.types.TypeType getType()
     {
@@ -88,6 +89,10 @@ public class ListenerType implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -101,7 +106,7 @@ public class ListenerType implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -113,7 +118,7 @@ public class ListenerType implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -155,18 +160,21 @@ public class ListenerType implements java.io.Serializable {
     } //-- void setType(org.exolab.castor.tests.framework.testDescriptor.types.TypeType) 
 
     /**
-     * Method unmarshalListenerType
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.ListenerType
      */
-    public static java.lang.Object unmarshalListenerType(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.ListenerType unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.ListenerType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.ListenerType.class, reader);
-    } //-- java.lang.Object unmarshalListenerType(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.ListenerType unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

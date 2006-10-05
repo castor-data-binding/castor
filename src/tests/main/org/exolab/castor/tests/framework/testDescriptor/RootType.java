@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,9 +15,15 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class RootType.
+ * The definition of the Root Type in the object model. Contains
+ * two
+ *  boolean attributes: random and dump.
+ *  If random is set to true, a test using randomized objects will
+ *  be executed. If dump is set to true, the object will be dumped
+ *  to specific files.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class RootType extends org.exolab.castor.tests.framework.testDescriptor.StringType 
 implements java.io.Serializable
@@ -58,7 +64,8 @@ implements java.io.Serializable
      //- Constructors -/
     //----------------/
 
-    public RootType() {
+    public RootType() 
+     {
         super();
         setContent("");
     } //-- org.exolab.castor.tests.framework.testDescriptor.RootType()
@@ -69,7 +76,6 @@ implements java.io.Serializable
     //-----------/
 
     /**
-     * Method deleteDump
      */
     public void deleteDump()
     {
@@ -77,7 +83,6 @@ implements java.io.Serializable
     } //-- void deleteDump() 
 
     /**
-     * Method deleteRandom
      */
     public void deleteRandom()
     {
@@ -88,7 +93,7 @@ implements java.io.Serializable
      * Returns the value of field 'content'. The field 'content'
      * has the following description: internal content storage
      * 
-     * @return the value of field 'content'.
+     * @return the value of field 'Content'.
      */
     public java.lang.String getContent()
     {
@@ -98,7 +103,7 @@ implements java.io.Serializable
     /**
      * Returns the value of field 'dump'.
      * 
-     * @return the value of field 'dump'.
+     * @return the value of field 'Dump'.
      */
     public boolean getDump()
     {
@@ -108,7 +113,7 @@ implements java.io.Serializable
     /**
      * Returns the value of field 'random'.
      * 
-     * @return the value of field 'random'.
+     * @return the value of field 'Random'.
      */
     public boolean getRandom()
     {
@@ -117,6 +122,10 @@ implements java.io.Serializable
 
     /**
      * Method hasDump
+     * 
+     * 
+     * 
+     * @return true if at least one Dump has been added
      */
     public boolean hasDump()
     {
@@ -125,6 +134,10 @@ implements java.io.Serializable
 
     /**
      * Method hasRandom
+     * 
+     * 
+     * 
+     * @return true if at least one Random has been added
      */
     public boolean hasRandom()
     {
@@ -133,6 +146,10 @@ implements java.io.Serializable
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -146,7 +163,7 @@ implements java.io.Serializable
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -158,7 +175,7 @@ implements java.io.Serializable
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -203,18 +220,21 @@ implements java.io.Serializable
     } //-- void setRandom(boolean) 
 
     /**
-     * Method unmarshalRootType
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.StringType
      */
-    public static java.lang.Object unmarshalRootType(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
-        return (org.exolab.castor.tests.framework.testDescriptor.RootType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.RootType.class, reader);
-    } //-- java.lang.Object unmarshalRootType(java.io.Reader) 
+        return (org.exolab.castor.tests.framework.testDescriptor.StringType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.RootType.class, reader);
+    } //-- org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

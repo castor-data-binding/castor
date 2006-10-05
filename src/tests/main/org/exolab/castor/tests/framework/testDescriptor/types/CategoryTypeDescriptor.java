@@ -1,21 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.tests.framework.testDescriptor.types;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-
 /**
  * Class CategoryTypeDescriptor.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -23,6 +18,11 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -49,10 +49,12 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
      //- Constructors -/
     //----------------/
 
-    public CategoryTypeDescriptor() {
+    public CategoryTypeDescriptor() 
+     {
         super();
         nsURI = "http://castor.exolab.org/Test";
         xmlName = "CategoryType";
+        elementDefinition = false;
     } //-- org.exolab.castor.tests.framework.testDescriptor.types.CategoryTypeDescriptor()
 
 
@@ -62,6 +64,10 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getAccessMode
+     * 
+     * 
+     * 
+     * @return the access mode specified for this class.
      */
     public org.exolab.castor.mapping.AccessMode getAccessMode()
     {
@@ -70,6 +76,11 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getExtends
+     * 
+     * 
+     * 
+     * @return the class descriptor of the class extended by this
+     * class.
      */
     public org.exolab.castor.mapping.ClassDescriptor getExtends()
     {
@@ -78,6 +89,11 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getIdentity
+     * 
+     * 
+     * 
+     * @return the identity field, null if this class has no
+     * identity.
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity()
     {
@@ -86,6 +102,10 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getJavaClass
+     * 
+     * 
+     * 
+     * @return the Java class represented by this descriptor.
      */
     public java.lang.Class getJavaClass()
     {
@@ -94,6 +114,10 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getNameSpacePrefix
+     * 
+     * 
+     * 
+     * @return the namespace prefix to use when marshalling as XML.
      */
     public java.lang.String getNameSpacePrefix()
     {
@@ -102,6 +126,11 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getNameSpaceURI
+     * 
+     * 
+     * 
+     * @return the namespace URI used when marshalling and
+     * unmarshalling as XML.
      */
     public java.lang.String getNameSpaceURI()
     {
@@ -110,6 +139,11 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getValidator
+     * 
+     * 
+     * 
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
     public org.exolab.castor.xml.TypeValidator getValidator()
     {
@@ -118,10 +152,28 @@ public class CategoryTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getXMLName
+     * 
+     * 
+     * 
+     * @return the XML Name for the Class being described.
      */
     public java.lang.String getXMLName()
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

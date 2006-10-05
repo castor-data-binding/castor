@@ -1,22 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.tests.framework.testDescriptor;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-import org.exolab.castor.xml.validators.StringValidator;
-
 /**
  * Class ListenerTypeDescriptor.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -24,6 +18,11 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -50,16 +49,17 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
      //- Constructors -/
     //----------------/
 
-    public ListenerTypeDescriptor() {
+    public ListenerTypeDescriptor() 
+     {
         super();
-        nsPrefix = "test";
         nsURI = "http://castor.exolab.org/Test";
         xmlName = "ListenerType";
+        elementDefinition = false;
         
         //-- set grouping compositor
         setCompositorAsSequence();
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
-        org.exolab.castor.xml.XMLFieldHandler              handler        = null;
+        org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- initialize attribute descriptors
         
@@ -68,7 +68,7 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- _goldFile
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_goldFile", "GoldFile", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -89,7 +89,7 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -100,7 +100,7 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -108,7 +108,7 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
         //-- _className
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_className", "ClassName", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -129,7 +129,7 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -140,14 +140,14 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            StringValidator typeValidator = new StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
         //-- _type
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.types.TypeType.class, "_type", "Type", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -168,9 +168,10 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
-        } );
-        desc.setHandler( new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.tests.framework.testDescriptor.types.TypeType.class, handler));
+        };
+        handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.tests.framework.testDescriptor.types.TypeType.class, handler);
         desc.setImmutable(true);
+        desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
         desc.setMultivalued(false);
@@ -191,6 +192,10 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getAccessMode
+     * 
+     * 
+     * 
+     * @return the access mode specified for this class.
      */
     public org.exolab.castor.mapping.AccessMode getAccessMode()
     {
@@ -199,6 +204,11 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getExtends
+     * 
+     * 
+     * 
+     * @return the class descriptor of the class extended by this
+     * class.
      */
     public org.exolab.castor.mapping.ClassDescriptor getExtends()
     {
@@ -207,6 +217,11 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getIdentity
+     * 
+     * 
+     * 
+     * @return the identity field, null if this class has no
+     * identity.
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity()
     {
@@ -215,6 +230,10 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getJavaClass
+     * 
+     * 
+     * 
+     * @return the Java class represented by this descriptor.
      */
     public java.lang.Class getJavaClass()
     {
@@ -223,6 +242,10 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getNameSpacePrefix
+     * 
+     * 
+     * 
+     * @return the namespace prefix to use when marshalling as XML.
      */
     public java.lang.String getNameSpacePrefix()
     {
@@ -231,6 +254,11 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getNameSpaceURI
+     * 
+     * 
+     * 
+     * @return the namespace URI used when marshalling and
+     * unmarshalling as XML.
      */
     public java.lang.String getNameSpaceURI()
     {
@@ -239,6 +267,11 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getValidator
+     * 
+     * 
+     * 
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
     public org.exolab.castor.xml.TypeValidator getValidator()
     {
@@ -247,10 +280,28 @@ public class ListenerTypeDescriptor extends org.exolab.castor.xml.util.XMLClassD
 
     /**
      * Method getXMLName
+     * 
+     * 
+     * 
+     * @return the XML Name for the Class being described.
      */
     public java.lang.String getXMLName()
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

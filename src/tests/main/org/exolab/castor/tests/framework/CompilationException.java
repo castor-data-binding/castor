@@ -16,9 +16,11 @@
 package org.exolab.castor.tests.framework;
 
 /**
- * Eception that signals a compilation error.
+ * Exception that signals a compilation error.
  */
 public class CompilationException extends RuntimeException {
+
+    private static final long serialVersionUID = -1459631801932567828L;
 
     /**
      * Creates an instance of this exception type.

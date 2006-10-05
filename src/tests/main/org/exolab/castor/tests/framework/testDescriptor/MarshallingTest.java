@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,15 +11,14 @@ package org.exolab.castor.tests.framework.testDescriptor;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.Vector;
-
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class MarshallingTest.
+ * Test marshaling.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class MarshallingTest implements java.io.Serializable {
 
@@ -29,17 +28,19 @@ public class MarshallingTest implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _root_Object
+     * The qualified name of the root Object.
+     *  TODO: define a pattern to describe a Java quailified name.
+     *  
      */
-    private org.exolab.castor.tests.framework.testDescriptor.RootType _root_Object;
+    private org.exolab.castor.tests.framework.testDescriptor.Root_Object _root_Object;
 
     /**
-     * Field _configuration
      */
     private org.exolab.castor.tests.framework.testDescriptor.Configuration _configuration;
 
     /**
-     * Field _unitTestCaseList
+     * A definition of a single Unit Test testcase.
+     *  
      */
     private java.util.Vector _unitTestCaseList;
 
@@ -48,9 +49,10 @@ public class MarshallingTest implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public MarshallingTest() {
+    public MarshallingTest() 
+     {
         super();
-        _unitTestCaseList = new Vector();
+        this._unitTestCaseList = new java.util.Vector();
     } //-- org.exolab.castor.tests.framework.testDescriptor.MarshallingTest()
 
 
@@ -59,40 +61,50 @@ public class MarshallingTest implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addUnitTestCase
+     * 
      * 
      * @param vUnitTestCase
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
         throws java.lang.IndexOutOfBoundsException
     {
-        _unitTestCaseList.addElement(vUnitTestCase);
+        this._unitTestCaseList.addElement(vUnitTestCase);
     } //-- void addUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
-     * Method addUnitTestCase
+     * 
      * 
      * @param index
      * @param vUnitTestCase
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addUnitTestCase(int index, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
         throws java.lang.IndexOutOfBoundsException
     {
-        _unitTestCaseList.insertElementAt(vUnitTestCase, index);
+        this._unitTestCaseList.add(index, vUnitTestCase);
     } //-- void addUnitTestCase(int, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
      * Method enumerateUnitTestCase
+     * 
+     * 
+     * 
+     * @return an Enumeration over all
+     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCase
+     * elements
      */
     public java.util.Enumeration enumerateUnitTestCase()
     {
-        return _unitTestCaseList.elements();
+        return this._unitTestCaseList.elements();
     } //-- java.util.Enumeration enumerateUnitTestCase() 
 
     /**
      * Returns the value of field 'configuration'.
      * 
-     * @return the value of field 'configuration'.
+     * @return the value of field 'Configuration'.
      */
     public org.exolab.castor.tests.framework.testDescriptor.Configuration getConfiguration()
     {
@@ -100,54 +112,78 @@ public class MarshallingTest implements java.io.Serializable {
     } //-- org.exolab.castor.tests.framework.testDescriptor.Configuration getConfiguration() 
 
     /**
-     * Returns the value of field 'root_Object'.
+     * Returns the value of field 'root_Object'. The field
+     * 'root_Object' has the following description: The qualified
+     * name of the root Object.
+     *  TODO: define a pattern to describe a Java quailified name.
+     *  
      * 
-     * @return the value of field 'root_Object'.
+     * @return the value of field 'Root_Object'.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.RootType getRoot_Object()
+    public org.exolab.castor.tests.framework.testDescriptor.Root_Object getRoot_Object()
     {
         return this._root_Object;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.RootType getRoot_Object() 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.Root_Object getRoot_Object() 
 
     /**
      * Method getUnitTestCase
      * 
+     * 
+     * 
      * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCase
+     * at the given index
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase getUnitTestCase(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _unitTestCaseList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._unitTestCaseList.size()) {
+            throw new IndexOutOfBoundsException("getUnitTestCase: Index value '" + index + "' not in range [0.." + (this._unitTestCaseList.size() - 1) + "]");
         }
         
-        return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.elementAt(index);
+        return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.get(index);
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase getUnitTestCase(int) 
 
     /**
      * Method getUnitTestCase
+     * 
+     * 
+     * 
+     * @return this collection as an Array
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] getUnitTestCase()
     {
-        int size = _unitTestCaseList.size();
-        org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] mArray = new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.elementAt(index);
+        int size = this._unitTestCaseList.size();
+        org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] array = new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.get(index);
         }
-        return mArray;
+        
+        return array;
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] getUnitTestCase() 
 
     /**
      * Method getUnitTestCaseCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
      */
     public int getUnitTestCaseCount()
     {
-        return _unitTestCaseList.size();
+        return this._unitTestCaseList.size();
     } //-- int getUnitTestCaseCount() 
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -161,7 +197,7 @@ public class MarshallingTest implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -173,7 +209,7 @@ public class MarshallingTest implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -185,24 +221,39 @@ public class MarshallingTest implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Method removeAllUnitTestCase
      */
     public void removeAllUnitTestCase()
     {
-        _unitTestCaseList.removeAllElements();
+        this._unitTestCaseList.clear();
     } //-- void removeAllUnitTestCase() 
 
     /**
      * Method removeUnitTestCase
      * 
-     * @param index
+     * 
+     * 
+     * @param vUnitTestCase
+     * @return true if the object was removed from the collection.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCase(int index)
+    public boolean removeUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
     {
-        java.lang.Object obj = _unitTestCaseList.elementAt(index);
-        _unitTestCaseList.removeElementAt(index);
+        boolean removed = _unitTestCaseList.remove(vUnitTestCase);
+        return removed;
+    } //-- boolean removeUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
+
+    /**
+     * Method removeUnitTestCaseAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCaseAt(int index)
+    {
+        Object obj = this._unitTestCaseList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) obj;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCase(int) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCaseAt(int) 
 
     /**
      * Sets the value of field 'configuration'.
@@ -215,58 +266,69 @@ public class MarshallingTest implements java.io.Serializable {
     } //-- void setConfiguration(org.exolab.castor.tests.framework.testDescriptor.Configuration) 
 
     /**
-     * Sets the value of field 'root_Object'.
+     * Sets the value of field 'root_Object'. The field
+     * 'root_Object' has the following description: The qualified
+     * name of the root Object.
+     *  TODO: define a pattern to describe a Java quailified name.
+     *  
      * 
      * @param root_Object the value of field 'root_Object'.
      */
-    public void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.RootType root_Object)
+    public void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.Root_Object root_Object)
     {
         this._root_Object = root_Object;
-    } //-- void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.RootType) 
+    } //-- void setRoot_Object(org.exolab.castor.tests.framework.testDescriptor.Root_Object) 
 
     /**
-     * Method setUnitTestCase
+     * 
      * 
      * @param index
      * @param vUnitTestCase
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void setUnitTestCase(int index, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase vUnitTestCase)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _unitTestCaseList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._unitTestCaseList.size()) {
+            throw new IndexOutOfBoundsException("setUnitTestCase: Index value '" + index + "' not in range [0.." + (this._unitTestCaseList.size() - 1) + "]");
         }
-        _unitTestCaseList.setElementAt(vUnitTestCase, index);
+        
+        this._unitTestCaseList.set(index, vUnitTestCase);
     } //-- void setUnitTestCase(int, org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
-     * Method setUnitTestCase
      * 
-     * @param unitTestCaseArray
+     * 
+     * @param vUnitTestCaseArray
      */
-    public void setUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] unitTestCaseArray)
+    public void setUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] vUnitTestCaseArray)
     {
         //-- copy array
-        _unitTestCaseList.removeAllElements();
-        for (int i = 0; i < unitTestCaseArray.length; i++) {
-            _unitTestCaseList.addElement(unitTestCaseArray[i]);
+        _unitTestCaseList.clear();
+        
+        for (int i = 0; i < vUnitTestCaseArray.length; i++) {
+                this._unitTestCaseList.add(vUnitTestCaseArray[i]);
         }
     } //-- void setUnitTestCase(org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) 
 
     /**
-     * Method unmarshalMarshallingTest
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.MarshallingTest
      */
-    public static java.lang.Object unmarshalMarshallingTest(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.MarshallingTest unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.MarshallingTest) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.MarshallingTest.class, reader);
-    } //-- java.lang.Object unmarshalMarshallingTest(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.MarshallingTest unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

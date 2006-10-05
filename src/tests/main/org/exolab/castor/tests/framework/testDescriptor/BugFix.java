@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,15 +11,17 @@ package org.exolab.castor.tests.framework.testDescriptor;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.Vector;
-
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class BugFix.
+ * Encapsulates information about a bug fix, including the
+ * reporter's
+ *  name (or Email address), the date of the report and of the fix,
+ *  and one or more comments about the bug.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class BugFix implements java.io.Serializable {
 
@@ -53,9 +55,10 @@ public class BugFix implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public BugFix() {
+    public BugFix() 
+     {
         super();
-        _commentList = new Vector();
+        this._commentList = new java.util.Vector();
     } //-- org.exolab.castor.tests.framework.testDescriptor.BugFix()
 
 
@@ -64,77 +67,99 @@ public class BugFix implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addComment
+     * 
      * 
      * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addComment(java.lang.String vComment)
         throws java.lang.IndexOutOfBoundsException
     {
-        _commentList.addElement(vComment);
+        this._commentList.addElement(vComment);
     } //-- void addComment(java.lang.String) 
 
     /**
-     * Method addComment
+     * 
      * 
      * @param index
      * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addComment(int index, java.lang.String vComment)
         throws java.lang.IndexOutOfBoundsException
     {
-        _commentList.insertElementAt(vComment, index);
+        this._commentList.add(index, vComment);
     } //-- void addComment(int, java.lang.String) 
 
     /**
      * Method enumerateComment
+     * 
+     * 
+     * 
+     * @return an Enumeration over all java.lang.String elements
      */
     public java.util.Enumeration enumerateComment()
     {
-        return _commentList.elements();
+        return this._commentList.elements();
     } //-- java.util.Enumeration enumerateComment() 
 
     /**
      * Method getComment
      * 
+     * 
+     * 
      * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the java.lang.String at the given index
      */
     public java.lang.String getComment(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _commentList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._commentList.size()) {
+            throw new IndexOutOfBoundsException("getComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
         
-        return (String)_commentList.elementAt(index);
+        return (String)_commentList.get(index);
     } //-- java.lang.String getComment(int) 
 
     /**
      * Method getComment
+     * 
+     * 
+     * 
+     * @return this collection as an Array
      */
     public java.lang.String[] getComment()
     {
-        int size = _commentList.size();
-        java.lang.String[] mArray = new java.lang.String[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (String)_commentList.elementAt(index);
+        int size = this._commentList.size();
+        java.lang.String[] array = new java.lang.String[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (String)_commentList.get(index);
         }
-        return mArray;
+        
+        return array;
     } //-- java.lang.String[] getComment() 
 
     /**
      * Method getCommentCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
      */
     public int getCommentCount()
     {
-        return _commentList.size();
+        return this._commentList.size();
     } //-- int getCommentCount() 
 
     /**
      * Returns the value of field 'date_Fix'.
      * 
-     * @return the value of field 'date_Fix'.
+     * @return the value of field 'Date_Fix'.
      */
     public org.exolab.castor.types.Date getDate_Fix()
     {
@@ -144,7 +169,7 @@ public class BugFix implements java.io.Serializable {
     /**
      * Returns the value of field 'date_Report'.
      * 
-     * @return the value of field 'date_Report'.
+     * @return the value of field 'Date_Report'.
      */
     public org.exolab.castor.types.Date getDate_Report()
     {
@@ -154,7 +179,7 @@ public class BugFix implements java.io.Serializable {
     /**
      * Returns the value of field 'reporter'.
      * 
-     * @return the value of field 'reporter'.
+     * @return the value of field 'Reporter'.
      */
     public java.lang.String getReporter()
     {
@@ -163,6 +188,10 @@ public class BugFix implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -176,7 +205,7 @@ public class BugFix implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -188,7 +217,7 @@ public class BugFix implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -200,52 +229,71 @@ public class BugFix implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Method removeAllComment
      */
     public void removeAllComment()
     {
-        _commentList.removeAllElements();
+        this._commentList.clear();
     } //-- void removeAllComment() 
 
     /**
      * Method removeComment
      * 
-     * @param index
+     * 
+     * 
+     * @param vComment
+     * @return true if the object was removed from the collection.
      */
-    public java.lang.String removeComment(int index)
+    public boolean removeComment(java.lang.String vComment)
     {
-        java.lang.Object obj = _commentList.elementAt(index);
-        _commentList.removeElementAt(index);
-        return (String)obj;
-    } //-- java.lang.String removeComment(int) 
+        boolean removed = _commentList.remove(vComment);
+        return removed;
+    } //-- boolean removeComment(java.lang.String) 
 
     /**
-     * Method setComment
+     * Method removeCommentAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public java.lang.String removeCommentAt(int index)
+    {
+        Object obj = this._commentList.remove(index);
+        return (String)obj;
+    } //-- java.lang.String removeCommentAt(int) 
+
+    /**
+     * 
      * 
      * @param index
      * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void setComment(int index, java.lang.String vComment)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _commentList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._commentList.size()) {
+            throw new IndexOutOfBoundsException("setComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
-        _commentList.setElementAt(vComment, index);
+        
+        this._commentList.set(index, vComment);
     } //-- void setComment(int, java.lang.String) 
 
     /**
-     * Method setComment
      * 
-     * @param commentArray
+     * 
+     * @param vCommentArray
      */
-    public void setComment(java.lang.String[] commentArray)
+    public void setComment(java.lang.String[] vCommentArray)
     {
         //-- copy array
-        _commentList.removeAllElements();
-        for (int i = 0; i < commentArray.length; i++) {
-            _commentList.addElement(commentArray[i]);
+        _commentList.clear();
+        
+        for (int i = 0; i < vCommentArray.length; i++) {
+                this._commentList.add(vCommentArray[i]);
         }
     } //-- void setComment(java.lang.String) 
 
@@ -280,18 +328,21 @@ public class BugFix implements java.io.Serializable {
     } //-- void setReporter(java.lang.String) 
 
     /**
-     * Method unmarshalBugFix
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.BugFix
      */
-    public static java.lang.Object unmarshalBugFix(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.BugFix unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.BugFix) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.BugFix.class, reader);
-    } //-- java.lang.Object unmarshalBugFix(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.BugFix unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

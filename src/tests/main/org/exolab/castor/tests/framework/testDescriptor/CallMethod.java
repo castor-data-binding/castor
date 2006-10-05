@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,15 +11,13 @@ package org.exolab.castor.tests.framework.testDescriptor;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.Vector;
-
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * Class CallMethod.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class CallMethod implements java.io.Serializable {
 
@@ -43,9 +41,10 @@ public class CallMethod implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public CallMethod() {
+    public CallMethod() 
+     {
         super();
-        _valueList = new Vector();
+        this._valueList = new java.util.Vector();
     } //-- org.exolab.castor.tests.framework.testDescriptor.CallMethod()
 
 
@@ -54,40 +53,50 @@ public class CallMethod implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method addValue
+     * 
      * 
      * @param vValue
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addValue(org.exolab.castor.tests.framework.testDescriptor.Value vValue)
         throws java.lang.IndexOutOfBoundsException
     {
-        _valueList.addElement(vValue);
+        this._valueList.addElement(vValue);
     } //-- void addValue(org.exolab.castor.tests.framework.testDescriptor.Value) 
 
     /**
-     * Method addValue
+     * 
      * 
      * @param index
      * @param vValue
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void addValue(int index, org.exolab.castor.tests.framework.testDescriptor.Value vValue)
         throws java.lang.IndexOutOfBoundsException
     {
-        _valueList.insertElementAt(vValue, index);
+        this._valueList.add(index, vValue);
     } //-- void addValue(int, org.exolab.castor.tests.framework.testDescriptor.Value) 
 
     /**
      * Method enumerateValue
+     * 
+     * 
+     * 
+     * @return an Enumeration over all
+     * org.exolab.castor.tests.framework.testDescriptor.Value
+     * elements
      */
     public java.util.Enumeration enumerateValue()
     {
-        return _valueList.elements();
+        return this._valueList.elements();
     } //-- java.util.Enumeration enumerateValue() 
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return the value of field 'name'.
+     * @return the value of field 'Name'.
      */
     public java.lang.String getName()
     {
@@ -97,42 +106,62 @@ public class CallMethod implements java.io.Serializable {
     /**
      * Method getValue
      * 
+     * 
+     * 
      * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.tests.framework.testDescriptor.Value at
+     * the given index
      */
     public org.exolab.castor.tests.framework.testDescriptor.Value getValue(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _valueList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._valueList.size()) {
+            throw new IndexOutOfBoundsException("getValue: Index value '" + index + "' not in range [0.." + (this._valueList.size() - 1) + "]");
         }
         
-        return (org.exolab.castor.tests.framework.testDescriptor.Value) _valueList.elementAt(index);
+        return (org.exolab.castor.tests.framework.testDescriptor.Value) _valueList.get(index);
     } //-- org.exolab.castor.tests.framework.testDescriptor.Value getValue(int) 
 
     /**
      * Method getValue
+     * 
+     * 
+     * 
+     * @return this collection as an Array
      */
     public org.exolab.castor.tests.framework.testDescriptor.Value[] getValue()
     {
-        int size = _valueList.size();
-        org.exolab.castor.tests.framework.testDescriptor.Value[] mArray = new org.exolab.castor.tests.framework.testDescriptor.Value[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (org.exolab.castor.tests.framework.testDescriptor.Value) _valueList.elementAt(index);
+        int size = this._valueList.size();
+        org.exolab.castor.tests.framework.testDescriptor.Value[] array = new org.exolab.castor.tests.framework.testDescriptor.Value[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.Value) _valueList.get(index);
         }
-        return mArray;
+        
+        return array;
     } //-- org.exolab.castor.tests.framework.testDescriptor.Value[] getValue() 
 
     /**
      * Method getValueCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
      */
     public int getValueCount()
     {
-        return _valueList.size();
+        return this._valueList.size();
     } //-- int getValueCount() 
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -146,7 +175,7 @@ public class CallMethod implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -158,7 +187,7 @@ public class CallMethod implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -170,24 +199,39 @@ public class CallMethod implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Method removeAllValue
      */
     public void removeAllValue()
     {
-        _valueList.removeAllElements();
+        this._valueList.clear();
     } //-- void removeAllValue() 
 
     /**
      * Method removeValue
      * 
-     * @param index
+     * 
+     * 
+     * @param vValue
+     * @return true if the object was removed from the collection.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.Value removeValue(int index)
+    public boolean removeValue(org.exolab.castor.tests.framework.testDescriptor.Value vValue)
     {
-        java.lang.Object obj = _valueList.elementAt(index);
-        _valueList.removeElementAt(index);
+        boolean removed = _valueList.remove(vValue);
+        return removed;
+    } //-- boolean removeValue(org.exolab.castor.tests.framework.testDescriptor.Value) 
+
+    /**
+     * Method removeValueAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.Value removeValueAt(int index)
+    {
+        Object obj = this._valueList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.Value) obj;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.Value removeValue(int) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.Value removeValueAt(int) 
 
     /**
      * Sets the value of field 'name'.
@@ -200,48 +244,55 @@ public class CallMethod implements java.io.Serializable {
     } //-- void setName(java.lang.String) 
 
     /**
-     * Method setValue
+     * 
      * 
      * @param index
      * @param vValue
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
      */
     public void setValue(int index, org.exolab.castor.tests.framework.testDescriptor.Value vValue)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _valueList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._valueList.size()) {
+            throw new IndexOutOfBoundsException("setValue: Index value '" + index + "' not in range [0.." + (this._valueList.size() - 1) + "]");
         }
-        _valueList.setElementAt(vValue, index);
+        
+        this._valueList.set(index, vValue);
     } //-- void setValue(int, org.exolab.castor.tests.framework.testDescriptor.Value) 
 
     /**
-     * Method setValue
      * 
-     * @param valueArray
+     * 
+     * @param vValueArray
      */
-    public void setValue(org.exolab.castor.tests.framework.testDescriptor.Value[] valueArray)
+    public void setValue(org.exolab.castor.tests.framework.testDescriptor.Value[] vValueArray)
     {
         //-- copy array
-        _valueList.removeAllElements();
-        for (int i = 0; i < valueArray.length; i++) {
-            _valueList.addElement(valueArray[i]);
+        _valueList.clear();
+        
+        for (int i = 0; i < vValueArray.length; i++) {
+                this._valueList.add(vValueArray[i]);
         }
     } //-- void setValue(org.exolab.castor.tests.framework.testDescriptor.Value) 
 
     /**
-     * Method unmarshalCallMethod
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.CallMethod
      */
-    public static java.lang.Object unmarshalCallMethod(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.CallMethod unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.CallMethod) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.CallMethod.class, reader);
-    } //-- java.lang.Object unmarshalCallMethod(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.CallMethod unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

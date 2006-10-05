@@ -1,21 +1,16 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
 
 package org.exolab.castor.tests.framework.testDescriptor;
 
-  //---------------------------------/
- //- Imported classes and packages -/
-//---------------------------------/
-
-
 /**
  * Class ConfigurationDescriptor.
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
@@ -23,6 +18,11 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
+
+    /**
+     * Field elementDefinition
+     */
+    private boolean elementDefinition;
 
     /**
      * Field nsPrefix
@@ -49,24 +49,25 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
      //- Constructors -/
     //----------------/
 
-    public ConfigurationDescriptor() {
+    public ConfigurationDescriptor() 
+     {
         super();
-        nsPrefix = "test";
         nsURI = "http://castor.exolab.org/Test";
         xmlName = "Configuration";
+        elementDefinition = true;
         
         //-- set grouping compositor
         setCompositorAsChoice();
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
-        org.exolab.castor.xml.XMLFieldHandler              handler        = null;
+        org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- initialize attribute descriptors
         
         //-- initialize element descriptors
         
         //-- _marshal
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.ConfigurationType.class, "_marshal", "Marshal", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.Marshal.class, "_marshal", "Marshal", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -78,16 +79,16 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
             {
                 try {
                     Configuration target = (Configuration) object;
-                    target.setMarshal( (org.exolab.castor.tests.framework.testDescriptor.ConfigurationType) value);
+                    target.setMarshal( (org.exolab.castor.tests.framework.testDescriptor.Marshal) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.tests.framework.testDescriptor.ConfigurationType();
+                return new org.exolab.castor.tests.framework.testDescriptor.Marshal();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -101,8 +102,8 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
         }
         desc.setValidator(fieldValidator);
         //-- _unmarshal
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.ConfigurationType.class, "_unmarshal", "Unmarshal", org.exolab.castor.xml.NodeType.Element);
-        handler = (new org.exolab.castor.xml.XMLFieldHandler() {
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.Unmarshal.class, "_unmarshal", "Unmarshal", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
@@ -114,16 +115,16 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
             {
                 try {
                     Configuration target = (Configuration) object;
-                    target.setUnmarshal( (org.exolab.castor.tests.framework.testDescriptor.ConfigurationType) value);
+                    target.setUnmarshal( (org.exolab.castor.tests.framework.testDescriptor.Unmarshal) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.tests.framework.testDescriptor.ConfigurationType();
+                return new org.exolab.castor.tests.framework.testDescriptor.Unmarshal();
             }
-        } );
+        };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
         desc.setRequired(true);
@@ -145,6 +146,10 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getAccessMode
+     * 
+     * 
+     * 
+     * @return the access mode specified for this class.
      */
     public org.exolab.castor.mapping.AccessMode getAccessMode()
     {
@@ -153,6 +158,11 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getExtends
+     * 
+     * 
+     * 
+     * @return the class descriptor of the class extended by this
+     * class.
      */
     public org.exolab.castor.mapping.ClassDescriptor getExtends()
     {
@@ -161,6 +171,11 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getIdentity
+     * 
+     * 
+     * 
+     * @return the identity field, null if this class has no
+     * identity.
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity()
     {
@@ -169,6 +184,10 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getJavaClass
+     * 
+     * 
+     * 
+     * @return the Java class represented by this descriptor.
      */
     public java.lang.Class getJavaClass()
     {
@@ -177,6 +196,10 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getNameSpacePrefix
+     * 
+     * 
+     * 
+     * @return the namespace prefix to use when marshalling as XML.
      */
     public java.lang.String getNameSpacePrefix()
     {
@@ -185,6 +208,11 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getNameSpaceURI
+     * 
+     * 
+     * 
+     * @return the namespace URI used when marshalling and
+     * unmarshalling as XML.
      */
     public java.lang.String getNameSpaceURI()
     {
@@ -193,6 +221,11 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getValidator
+     * 
+     * 
+     * 
+     * @return a specific validator for the class described by this
+     * ClassDescriptor.
      */
     public org.exolab.castor.xml.TypeValidator getValidator()
     {
@@ -201,10 +234,28 @@ public class ConfigurationDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
      * Method getXMLName
+     * 
+     * 
+     * 
+     * @return the XML Name for the Class being described.
      */
     public java.lang.String getXMLName()
     {
         return xmlName;
     } //-- java.lang.String getXMLName() 
+
+    /**
+     * Method isElementDefinition
+     * 
+     * 
+     * 
+     * @return true if XML schema definition of this Class is that
+     * of a global
+     * element or element with anonymous type definition.
+     */
+    public boolean isElementDefinition()
+    {
+        return elementDefinition;
+    } //-- boolean isElementDefinition() 
 
 }

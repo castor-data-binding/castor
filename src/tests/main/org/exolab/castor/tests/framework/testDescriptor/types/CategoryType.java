@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -14,9 +14,11 @@ package org.exolab.castor.tests.framework.testDescriptor.types;
 import java.util.Hashtable;
 
 /**
- * Class CategoryType.
+ * The type of test case, either basic capability or a special
+ * case.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class CategoryType implements java.io.Serializable {
 
@@ -28,22 +30,22 @@ public class CategoryType implements java.io.Serializable {
     /**
      * The basic capability type
      */
-    public static final int VALUE_0_TYPE = 0;
+    public static final int BASIC_CAPABILITY_TYPE = 0;
 
     /**
      * The instance of the basic capability type
      */
-    public static final CategoryType VALUE_0 = new CategoryType(VALUE_0_TYPE, "basic capability");
+    public static final CategoryType BASIC_CAPABILITY = new CategoryType(BASIC_CAPABILITY_TYPE, "basic capability");
 
     /**
      * The special case type
      */
-    public static final int VALUE_1_TYPE = 1;
+    public static final int SPECIAL_CASE_TYPE = 1;
 
     /**
      * The instance of the special case type
      */
-    public static final CategoryType VALUE_1 = new CategoryType(VALUE_1_TYPE, "special case");
+    public static final CategoryType SPECIAL_CASE = new CategoryType(SPECIAL_CASE_TYPE, "special case");
 
     /**
      * Field _memberTable
@@ -65,7 +67,8 @@ public class CategoryType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private CategoryType(int type, java.lang.String value) {
+    private CategoryType(int type, java.lang.String value) 
+     {
         super();
         this.type = type;
         this.stringValue = value;
@@ -77,8 +80,13 @@ public class CategoryType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerateReturns an enumeration of all possible
-     * instances of CategoryType
+     * Method enumerate
+     * 
+     * Returns an enumeration of all possible instances of
+     * CategoryType
+     * 
+     * @return an Enumeration over all possible instances of
+     * CategoryType
      */
     public static java.util.Enumeration enumerate()
     {
@@ -86,7 +94,11 @@ public class CategoryType implements java.io.Serializable {
     } //-- java.util.Enumeration enumerate() 
 
     /**
-     * Method getTypeReturns the type of this CategoryType
+     * Method getType
+     * 
+     * Returns the type of this CategoryType
+     * 
+     * @return the type of this CategoryType
      */
     public int getType()
     {
@@ -95,18 +107,38 @@ public class CategoryType implements java.io.Serializable {
 
     /**
      * Method init
+     * 
+     * 
+     * 
+     * @return the initialized Hashtable for the member table
      */
     private static java.util.Hashtable init()
     {
         Hashtable members = new Hashtable();
-        members.put("basic capability", VALUE_0);
-        members.put("special case", VALUE_1);
+        members.put("basic capability", BASIC_CAPABILITY);
+        members.put("special case", SPECIAL_CASE);
         return members;
     } //-- java.util.Hashtable init() 
 
     /**
-     * Method toStringReturns the String representation of this
-     * CategoryType
+     * Method readResolve
+     * 
+     *  will be called during deserialization to replace the
+     * deserialized object with the correct constant instance.
+     * 
+     * @return this deserialized object
+     */
+    private java.lang.Object readResolve()
+    {
+        return valueOf(this.stringValue);
+    } //-- java.lang.Object readResolve() 
+
+    /**
+     * Method toString
+     * 
+     * Returns the String representation of this CategoryType
+     * 
+     * @return the String representation of this CategoryType
      */
     public java.lang.String toString()
     {
@@ -114,10 +146,12 @@ public class CategoryType implements java.io.Serializable {
     } //-- java.lang.String toString() 
 
     /**
-     * Method valueOfReturns a new CategoryType based on the given
-     * String value.
+     * Method valueOf
+     * 
+     * Returns a new CategoryType based on the given String value.
      * 
      * @param string
+     * @return the CategoryType value of parameter 'string'
      */
     public static org.exolab.castor.tests.framework.testDescriptor.types.CategoryType valueOf(java.lang.String string)
     {

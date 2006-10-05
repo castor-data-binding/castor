@@ -60,6 +60,7 @@ import java.net.MalformedURLException;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ValidationException;
 
+import org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest;
 import org.exolab.castor.tests.framework.testDescriptor.TestDescriptor;
 import org.exolab.castor.tests.framework.testDescriptor.MarshallingTest;
 import org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest;
@@ -266,7 +267,7 @@ public class CastorTestCase extends TestCase {
         }
 
         try {
-            _testDescriptor = (TestDescriptor) TestDescriptor.unmarshalTestDescriptor(new InputStreamReader(descriptor));
+            _testDescriptor = TestDescriptor.unmarshal(new InputStreamReader(descriptor));
         } catch (ValidationException ve) {
             verbose("Error reading: " + _testFile.getAbsolutePath());
             verbose("-> " + ve.toString());
@@ -289,9 +290,10 @@ public class CastorTestCase extends TestCase {
         verbose("Creating '" + suiteName + "' test suite");
 
         TestDescriptorChoice choice = _testDescriptor.getTestDescriptorChoice();
-        MarshallingTest marshallingTests = choice.getMarshallingTest();
-        SourceGeneratorTest sourceGenTests  = choice.getSourceGeneratorTest();
-        SchemaTest schemaTests = choice.getSchemaTest();
+        MarshallingTest marshallingTests      = choice.getMarshallingTest();
+        SourceGeneratorTest sourceGenTests    = choice.getSourceGeneratorTest();
+        SchemaTest schemaTests                = choice.getSchemaTest();
+        OnlySourceGenerationTest genOnlyTests = choice.getOnlySourceGenerationTest();
 
         if (marshallingTests != null) {
             setUpMarshallingTests(suiteName, suite, marshallingTests);
@@ -301,6 +303,9 @@ public class CastorTestCase extends TestCase {
         }
         if (schemaTests != null) {
             setUpSchemaTests(suiteName, suite, schemaTests);
+        }
+        if (genOnlyTests != null) {
+            setUpGenerationOnlyTests(suiteName, suite, genOnlyTests);
         }
         return suite;
     }
@@ -366,6 +371,23 @@ public class CastorTestCase extends TestCase {
             } else {
                 makeIndividualSchemaTest(suiteName, suite, tc, name);
             }
+        }
+    }
+
+    /**
+     * Loops over all Only-Source-Generation tests from our TestDescriptor.xml,
+     * configures each test and adds it to our suite.
+     *
+     * @param suiteName Test Suite name
+     * @param suite the Test Suite to add all unit tests to
+     * @param sg a collection of Source Generation Unit Tests
+     */
+    private void setUpGenerationOnlyTests(String suiteName, TestSuite suite, OnlySourceGenerationTest sg) {
+        for (int i=0; i < sg.getUnitTestCaseCount(); ++i) {
+            UnitTestCase tc = sg.getUnitTestCase(i);
+            OnlySourceGenerationTestCase sgtc = new OnlySourceGenerationTestCase(this, tc, sg, _outputRootFile);
+            sgtc.setTestSuiteName(suiteName);
+            suite.addTest(sgtc.suite());
         }
     }
 

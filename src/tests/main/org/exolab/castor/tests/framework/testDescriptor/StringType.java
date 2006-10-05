@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 0.9.5.2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,9 +15,10 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class StringType.
+ * A Java String.
+ *  
  * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date$
  */
 public class StringType implements java.io.Serializable {
 
@@ -36,7 +37,8 @@ public class StringType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public StringType() {
+    public StringType() 
+     {
         super();
         setContent("");
     } //-- org.exolab.castor.tests.framework.testDescriptor.StringType()
@@ -50,7 +52,7 @@ public class StringType implements java.io.Serializable {
      * Returns the value of field 'content'. The field 'content'
      * has the following description: internal content storage
      * 
-     * @return the value of field 'content'.
+     * @return the value of field 'Content'.
      */
     public java.lang.String getContent()
     {
@@ -59,6 +61,10 @@ public class StringType implements java.io.Serializable {
 
     /**
      * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
      */
     public boolean isValid()
     {
@@ -72,7 +78,7 @@ public class StringType implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param out
      */
@@ -84,7 +90,7 @@ public class StringType implements java.io.Serializable {
     } //-- void marshal(java.io.Writer) 
 
     /**
-     * Method marshal
+     * 
      * 
      * @param handler
      */
@@ -107,18 +113,21 @@ public class StringType implements java.io.Serializable {
     } //-- void setContent(java.lang.String) 
 
     /**
-     * Method unmarshalStringType
+     * Method unmarshal
+     * 
+     * 
      * 
      * @param reader
+     * @return the unmarshaled
+     * org.exolab.castor.tests.framework.testDescriptor.StringType
      */
-    public static java.lang.Object unmarshalStringType(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.tests.framework.testDescriptor.StringType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.StringType.class, reader);
-    } //-- java.lang.Object unmarshalStringType(java.io.Reader) 
+    } //-- org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(java.io.Reader) 
 
     /**
-     * Method validate
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException
