@@ -22,7 +22,6 @@ set CP=%CP%;..\..\..\build\classes;%JDK_BIN%\lib\tools.jar
 @rem Java 1.1 collection types
 %JAVA% -cp %CP% org.exolab.castor.builder.SourceGeneratorMain -i invoice.xsd -f -binding-file bindingInvoice.xml
 
-
 @echo.
 @echo About to compile generated source code...
 @pause
@@ -43,5 +42,5 @@ set CP=%CP%;..\..\..\build\classes;%JDK_BIN%\lib\tools.jar
 @echo.
 @echo Clean the directory
 @pause
-del *.class
-deltree test
+del *.class .castor.cdr invoice2.xml
+rmdir /s /q "test"

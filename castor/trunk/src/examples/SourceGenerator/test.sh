@@ -2,6 +2,14 @@
 # $Id$
 
 #
+# If the user wants to clean up after running the test, do cleanup and exit
+#
+if [ "$1" = "clean" ] ; then
+  rm -rf test *.class .castor.cdr invoice2.xml
+  exit 0
+fi
+
+#
 # Set up the environment
 #
 if [ -z "$JAVA_HOME" ] ; then
@@ -31,25 +39,27 @@ echo $CLASSPATH | tr ':' '\n'
 #
 # Generate classes
 #
-echo Castor classes
+echo
 echo Generating classes
-$JAVA -cp $CLASSPATH org.exolab.castor.builder.SourceGeneratorMain -i invoice.xsd -f -package test
+$JAVA -cp $CLASSPATH org.exolab.castor.builder.SourceGeneratorMain -i invoice.xsd -f -binding-file bindingInvoice.xml
 
 #
 # Compile generated code
 #
-echo 
+echo
 echo About to compile generated source code
-$JAVAC -classpath $CLASSPATH test/*.java
+$JAVAC -classpath $CLASSPATH test/*.java test/*/*.java
 
 #
 # Compiling test class
 #
+echo
 echo Compiling test class
 $JAVAC -classpath $CLASSPATH InvoiceTest.java
 
 #
 # run the test
 #
+echo
 echo about to run the test
 $JAVA -cp $CLASSPATH InvoiceTest

@@ -5,19 +5,18 @@
 
 <cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
              defaultBindingType='element'>
-     
-     <!--define the {namespace,package} binding -->
-     <cbf:package>
-          <cbf:name>test</cbf:name>
-          <cbf:namespace>http://castor.org/Test/Invoice</cbf:namespace>
-     </cbf:package>
-     
-     
-     <!-- Binding the Invoice element to a class -->
-     <cbf:elementBinding name="invoice">
+
+    <!--define the {namespace,package} binding -->
+    <cbf:package>
+        <cbf:name>test</cbf:name>
+        <cbf:namespace>http://castor.org/Test/Invoice</cbf:namespace>
+    </cbf:package>
+
+    <!-- Binding the Invoice element to a class -->
+    <cbf:elementBinding name="invoice">
         <cbf:java-class name="MyInvoice" final="true" equals="true"/>
-     </cbf:elementBinding>
-    
+    </cbf:elementBinding>
+
     <!-- Binding for the Item element -->
     <cbf:elementBinding name="item">
         <cbf:java-class package="test.business" final="true" equals="true">
@@ -26,21 +25,20 @@
         <!-- nested declaration for the price -->
         <cbf:elementBinding name="Price">
             <cbf:member name="specialPrice" java-type="double"/>
-         </cbf:elementBinding>
+        </cbf:elementBinding>
     </cbf:elementBinding>
-    
+
     <!-- avoid name collisions -->
     <cbf:elementBinding name="group:customer/address">
-        <cbf:java-class name="AddressElement"/>
+        <cbf:java-class package="test" name="AddressElement"/>
     </cbf:elementBinding>
-    
+
     <cbf:complexTypeBinding name="address">
-       <cbf:java-class name="MyAddress"/>
-       <!--special name for the second street -->
-       <cbf:elementBinding name='street2'>
-           <cbf:member name="SecondStreet" type="string"/>
-       </cbf:elementBinding>
+        <cbf:java-class name="MyAddress"/>
+        <!--special name for the second street -->
+        <cbf:elementBinding name="street2">
+            <cbf:member name="SecondStreet" type="string"/>
+        </cbf:elementBinding>
     </cbf:complexTypeBinding>
-    
- </cbf:binding>
-     
+
+</cbf:binding>
