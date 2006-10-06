@@ -59,7 +59,27 @@
                 </code>
            </summary>
             <bugs>
-        <bug id="1608" tool="jira">
+                <bug id="1027" tool="jira">
+                    <description>
+						demo example of SourceGenerator does not build
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Brett Wuth</name>
+                        <email>ex-in@castrov.cuug.ab.ca</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061005</date>
+                </bug>
+                <bug id="1608" tool="jira">
                     <description>
                         Split "main" out of SourceGenerator.java
                     </description>
@@ -78,8 +98,8 @@
                     <type>Enh.</type>
                     <module>XML</module>
                     <date>20061005</date>
-        </bug>
-        <bug id="1602" tool="jira">
+                </bug>
+                <bug id="1602" tool="jira">
                     <description>
                         Add new test case type to read schema only (CASTOR-1602)
                     </description>
@@ -98,8 +118,8 @@
                     <type>Enh.</type>
                     <module>XML</module>
                     <date>20061005</date>
-        </bug>
-        <bug id="1607" tool="jira">
+                </bug>
+                <bug id="1607" tool="jira">
                     <description>
                         Add regression test for parent issue (Generated classes are not
                         compileable for simpleTypes with list-elements)
@@ -119,8 +139,8 @@
                     <type>Test</type>
                     <module>XML</module>
                     <date>20061003</date>
-        </bug>
-        <bug id="1226" tool="jira">
+                </bug>
+                <bug id="1226" tool="jira">
                     <description>
 						Fixed problem with type derivation for referenced/included attribute.
                     </description>

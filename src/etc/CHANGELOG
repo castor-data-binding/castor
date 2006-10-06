@@ -1,6 +1,11 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1027 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       demo example of SourceGenerator does not build
+       Details: http://jira.codehaus.org/browse/CASTOR-1027
+       (Edward - 20061005)
+
 XML:   Resolved issue CASTOR-1608 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Split "main" out of SourceGenerator.java
        Details: http://jira.codehaus.org/browse/CASTOR-1608
