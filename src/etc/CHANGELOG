@@ -1,6 +1,11 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1417 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       hashCode() generation
+       Details: http://jira.codehaus.org/browse/CASTOR-1417
+       (Edward - 20061006)
+
 XML:   Resolved issue CASTOR-1027 using contribution from Edward Kuns [edward.kuns@aspect.com]
        demo example of SourceGenerator does not build
        Details: http://jira.codehaus.org/browse/CASTOR-1027

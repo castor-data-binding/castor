@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1417" tool="jira">
+                    <description>
+						hashCode() generation
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michele Mazzucco</name>
+                        <email>Michele.Mazzucco@ncl.ac.uk</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061006</date>
+                </bug>
                 <bug id="1027" tool="jira">
                     <description>
 						demo example of SourceGenerator does not build
