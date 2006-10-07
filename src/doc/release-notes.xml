@@ -59,6 +59,27 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1609" tool="jira">
+                    <description>
+						Implement equals() for AnyNode (already fixed, so adding
+						a regression test case)
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Derek Sayeau</name>
+                        <email>derek.sayeau@cognos.com</email>
+                    </reporter>
+                    <type>Test</type>
+                    <module>XML</module>
+                    <date>20061006</date>
+                </bug>
                 <bug id="1417" tool="jira">
                     <description>
 						hashCode() generation
