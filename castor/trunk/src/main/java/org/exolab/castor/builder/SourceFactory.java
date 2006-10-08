@@ -928,8 +928,10 @@ public class SourceFactory extends BaseFactory {
 
         //-- create main marshal method
         JMethod jMethod = new JMethod("marshal");
-        jMethod.addException(SGTypes.MarshalException);
-        jMethod.addException(SGTypes.ValidationException);
+        jMethod.addException(SGTypes.MarshalException,
+                             "if object is null or if any SAXException is thrown during marshaling");
+        jMethod.addException(SGTypes.ValidationException,
+                             "if this object is an invalid instance according to the schema");
         jMethod.addParameter(new JParameter(SGTypes.Writer, "out"));
 
         if (_config.useJava50()) {
@@ -957,10 +959,12 @@ public class SourceFactory extends BaseFactory {
             jc = new JClass("org.xml.sax.DocumentHandler");
         } else {
             jc = new JClass("org.xml.sax.ContentHandler");
-            jMethod.addException(SGTypes.IOException);
+            jMethod.addException(SGTypes.IOException, "if an IOException occurs during marshaling");
         }
-        jMethod.addException(SGTypes.MarshalException);
-        jMethod.addException(SGTypes.ValidationException);
+        jMethod.addException(SGTypes.MarshalException,
+                             "if object is null or if any SAXException is thrown during marshaling");
+        jMethod.addException(SGTypes.ValidationException,
+                             "if this object is an invalid instance according to the schema");
         jMethod.addParameter(new JParameter(jc, "handler"));
         parent.addMethod(jMethod);
 
@@ -1017,8 +1021,10 @@ public class SourceFactory extends BaseFactory {
         JMethod jMethod = new JMethod(methodName, returnType,
                                       "the unmarshaled " + returnType.getName());
         jMethod.getModifiers().setStatic(true);
-        jMethod.addException(SGTypes.MarshalException);
-        jMethod.addException(SGTypes.ValidationException);
+        jMethod.addException(SGTypes.MarshalException,
+                             "if object is null or if any SAXException is thrown during marshaling");
+        jMethod.addException(SGTypes.ValidationException,
+                             "if this object is an invalid instance according to the schema");
         jMethod.addParameter(new JParameter(SGTypes.Reader, "reader"));
         parent.addMethod(jMethod);
 
@@ -1207,8 +1213,8 @@ public class SourceFactory extends BaseFactory {
     /**
      * Implement org.exolab.castor.tests.framework.CastorTestable im the given JClass.
      *
-     * @param jclass The JCLass which will implement the CastorTestable Interface.
-     * @param state the state of the SourceFactory, e.g., our state
+     * @param jclass The JClass which will implement the CastorTestable Interface.
+     * @param state our state, e.g., state of this Factory instance.
      */
      public void createTestableMethods(JClass jclass, FactoryState state) {
          if (jclass == null) {
@@ -1221,8 +1227,10 @@ public class SourceFactory extends BaseFactory {
 
         //implementation of randomizeFields
         JMethod jMethod = new JMethod("randomizeFields");
-        jMethod.addException(new JClass("InstantiationException"));
-        jMethod.addException(new JClass("IllegalAccessException"));
+        jMethod.addException(new JClass("InstantiationException"),
+                             "if we try to instantiate an abstract class or interface");
+        jMethod.addException(new JClass("IllegalAccessException"),
+                             "if we do not have access to the field, for example if it is private");
         jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
@@ -1369,7 +1377,8 @@ public class SourceFactory extends BaseFactory {
 
         //-- #validate
         jMethod = new JMethod("validate");
-        jMethod.addException(SGTypes.ValidationException);
+        jMethod.addException(SGTypes.ValidationException,
+                             "if this object is an invalid instance according to the schema");
 
         jClass.addMethod(jMethod);
         jsc = jMethod.getSourceCode();
@@ -1747,10 +1756,16 @@ public class SourceFactory extends BaseFactory {
     } //-- process(ContentModelGroup)
 
     /**
-     * Creates all the necessary enumeration code from the given
-     * SimpleType. Enumerations are handled a couple ways.
+     * Creates all the necessary enumeration code from the given Creates all the
+     * necessary enumeration code from the given SimpleType. Enumerations are
+     * handled a couple ways.
+     * 
+     * @param simpleType
+     *            the SimpleType we are processing an enumeration for
+     * @param state
+     *            our current state
      * @see #processEnumerationAsBaseType
-    **/
+     */
     private void processEnumeration(SimpleType simpleType, FactoryState state) {
          // Added by robertlaferla at comcast dot net 01/21/2004
          if (_config.useEnumeratedTypeInterface()) {
@@ -1766,20 +1781,18 @@ public class SourceFactory extends BaseFactory {
                 processEnumerationAsNewObject(simpleType, state);
                 break;
         }
-
     } //-- processEnumeration
 
     /**
-     * Creates all the necessary enumeration code from the given
-     * SimpleType. Enumerations are handled a couple ways.
+     * Creates all the necessary enumeration code from the given SimpleType.
+     * Enumerations are handled a couple ways.
+     * 
+     * @param simpleType the SimpleType we are processing an enumeration for
+     * @param state our current state
      * @see #processEnumerationAsBaseType
-    **/
-    private void processEnumerationAsNewObject
-        (SimpleType simpleType, FactoryState state)
-    {
-
+     */
+    private void processEnumerationAsNewObject(SimpleType simpleType, FactoryState state) {
         Enumeration enumeration = simpleType.getFacets("enumeration");
-
 
         //-- select naming for types and instances
         boolean useValuesAsName = true;
@@ -2007,35 +2020,30 @@ public class SourceFactory extends BaseFactory {
     } //-- processEnumerationAsNewObject
 
     /**
-     * Creates all the necessary enumeration code from the given
-     * SimpleType.
-     * Enumerations are handled by creating an Object like the
-     * following:
-     * <BR />
-     * <CODE>
-     *    public class {name} {
-     *        // list of values
-     *        {type}[] values = {
-     *            ...
-     *        };
-     *
-     *        // Returns true if the given value is part
-     *        // of this enumeration
-     *        public boolean contains({type} value);
-     *
-     *        // Returns the {type} value whose String value
-     *        // is equal to the given String
-     *        public {type} valueOf(String strValue);
-     *    }
-     *
-     * </CODE>
-     * /// NOT YET FINISHED, so it's not enabled
-    **/
-    private void processEnumerationAsBaseType
-        (SimpleType simpleType, FactoryState state)
-    {
-
-
+     * Creates all the necessary enumeration code from the given SimpleType.
+     * Enumerations are handled by creating an Object like the following:
+     * 
+     * <pre>
+     *     public class {name} {
+     *         // list of values
+     *         {type}[] values = {
+     *             ...
+     *         };
+     * 
+     *         // Returns true if the given value is part
+     *         // of this enumeration
+     *         public boolean contains({type} value);
+     * 
+     *         // Returns the {type} value whose String value
+     *         // is equal to the given String
+     *         public {type} valueOf(String strValue);
+     *     }
+     * </pre>
+     * 
+     * @param simpleType the SimpleType we are processing an enumeration for
+     * @param state our current state
+     */
+    private void processEnumerationAsBaseType(SimpleType simpleType, FactoryState state) {
         SimpleType base = (SimpleType)simpleType.getBaseType();
         XSType baseType = null;
 
@@ -2123,7 +2131,6 @@ public class SourceFactory extends BaseFactory {
 
     } //-- processEnumerationAsBaseType
 
-
     /**
      * Attempts to translate a simpleType enumeration value into a legal java
      * identifier. Translation is through a couple of simple rules:
@@ -2137,12 +2144,11 @@ public class SourceFactory extends BaseFactory {
      *   <li>the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any
      *       whitespace are replaced with <code>_</code></li>
      * </ul>
-     *
+     * @param enumValue the enum value to turn into a legal Java identifier
+     * @return an identifier name for this enum value.
      * @author rhett-sutphin@uiowa.edu
      */
-    private String translateEnumValueToIdentifier(String enumValue)
-    {
-
+    private String translateEnumValueToIdentifier(String enumValue) {
         try {
             int intVal = Integer.parseInt(enumValue);
             if (intVal >= 0) return "VALUE_" + intVal;
