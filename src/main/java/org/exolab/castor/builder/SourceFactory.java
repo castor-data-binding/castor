@@ -1165,11 +1165,24 @@ public class SourceFactory extends BaseFactory {
                 jsc.indent();
                 jsc.append("return false;");
                 jsc.unindent();
-                jsc.add("else if (!(this.");
-                jsc.append(name);
-                jsc.append(".equals(temp.");
-                jsc.append(name);
-                jsc.append("))) ");
+                jsc.add("else if (!(");
+
+                // Special handling for comparing arrays
+                if (temp.getType().isArray()) {
+                    jsc.append("java.util.Arrays.equals(this.");
+                    jsc.append(name);
+                    jsc.append(", temp.");
+                    jsc.append(name);
+                    jsc.append(")");
+                } else {
+                    jsc.append("this.");
+                    jsc.append(name);
+                    jsc.append(".equals(temp.");
+                    jsc.append(name);
+                    jsc.append(")");
+                }
+                
+                jsc.append(")) ");
                 jsc.indent();
                 jsc.add("return false;");
                 jsc.unindent();
@@ -1195,10 +1208,12 @@ public class SourceFactory extends BaseFactory {
      * Implement org.exolab.castor.tests.framework.CastorTestable im the given JClass.
      *
      * @param jclass The JCLass which will implement the CastorTestable Interface.
+     * @param state the state of the SourceFactory, e.g., our state
      */
      public void createTestableMethods(JClass jclass, FactoryState state) {
-         if (jclass == null)
+         if (jclass == null) {
             throw new IllegalArgumentException("JClass must not be null");
+         }
 
         jclass.addInterface("org.exolab.castor.tests.framework.CastorTestable");
         jclass.addImport("org.exolab.castor.tests.framework.CastorTestable");
@@ -1214,7 +1229,6 @@ public class SourceFactory extends BaseFactory {
         JField[] fields = jclass.getFields();
 
         for (int i = 0; i <fields.length; i++) {
-
             JField temp = fields[i];
             JType type = temp.getType();
             String name = temp.getName();
@@ -1230,14 +1244,9 @@ public class SourceFactory extends BaseFactory {
             else
                 name = JavaNaming.toJavaClassName(name);
             String setName = "set" + name;
-            String componentName = null;
             if (name.indexOf("Has") == -1) {
-               //Collection needs a specific handling
                 if (type instanceof JCollectionType) {
-//               if ( (type.getName().equals("java.util.Vector<Object>")) ||
-//                    (type.getName().equals("java.util.ArrayList<Object>")) ) {
-                     //if we are dealing with a Vector or an ArrayList
-                    //we retrieve the type included in this Collection
+                    //Collection needs a specific handling
                     int listLocat = name.lastIndexOf("List");
                     String tempName = name;
                     if (listLocat != -1)
@@ -1245,38 +1254,45 @@ public class SourceFactory extends BaseFactory {
                     String methodName = JavaNaming.toJavaClassName(tempName);
                     methodName = "get"+methodName;
                     JMethod method = jclass.getMethod(methodName,0);
-                    //@todo handle the Item introduced in with the group handling
+                    // TODO: handle the Item introduced in with the group handling
                     if (method == null)
                         continue;
 
-                    componentName = method.getReturnType().getName();
-                    method = null;
-                    methodName = null;
-                    tempName = null;
+                    String componentName = method.getReturnType().getName();
+
                     jsc.add(temp.getName());
                     jsc.append(" = RandomHelper.getRandom(");
                     jsc.append(temp.getName());
                     jsc.append(", ");
                     jsc.append(componentName);
                     jsc.append(".class);");
-               }//Vector or ArrayList
-               else if (type.isPrimitive()) {
-                 jsc.add(setName);
-                 jsc.append("(RandomHelper.getRandom(");
-                 jsc.append(temp.getName());
-                 jsc.append("));");
+               } else if (type.isPrimitive()) {
+                   // Primitive
+                   jsc.add(setName);
+                   jsc.append("(RandomHelper.getRandom(");
+                   jsc.append(temp.getName());
+                   jsc.append("));");
+               } else if (type.isArray()) {
+                   // Array
+                   jsc.add(setName);
+                   jsc.append("((");
+                   jsc.append(type.toString());
+                   jsc.append(")RandomHelper.getRandom(");
+                   jsc.append(temp.getName());
+                   // Any Class will do, but Array.class seems appropriate
+                   jsc.append(", java.lang.reflect.Array.class));");
+               } else {
+                   // Object
+                   jsc.add(setName);
+                   jsc.append("((");
+                   jsc.append(type.getName());
+                   jsc.append(")RandomHelper.getRandom(");
+                   jsc.append(temp.getName());
+                   jsc.append(", ");
+                   jsc.append(type.getName());
+                   jsc.append(".class));");
                }
-               else {
-                 jsc.add(setName);
-                 jsc.append("((");
-                 jsc.append(type.getName());
-                 jsc.append(")RandomHelper.getRandom(");
-                 jsc.append(temp.getName());
-                 jsc.append(", ");
-                 jsc.append(type.getName());
-                 jsc.append(".class));");
-               }
-                jsc.add("");
+               jsc.add("");
             }
         }
 
@@ -1286,44 +1302,59 @@ public class SourceFactory extends BaseFactory {
         jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
         jclass.addMethod(jMethod);
         jsc = jMethod.getSourceCode();
-        jsc.add("String result = \"DumpFields() for element: ");
+        jsc.add("StringBuffer result = new StringBuffer(\"DumpFields() for element: ");
         jsc.append(jclass.getName());
-        jsc.append("\\n\";");
+        jsc.append("\\n\");");
         for (int i = 0; i <fields.length; i++) {
-
             JField temp = fields[i];
             String name = temp.getName();
             if ( (temp.getType().isPrimitive()) ||
                  //hack when using the option 'primitivetowrapper'
                  //this should not interfere with other cases
                  (temp.getType().getName().startsWith("java.lang."))) {
-                  jsc.add("result += \"Field ");
+                  jsc.add("result.append(\"Field ");
                   jsc.append(name);
                   jsc.append(":\" +");
                   jsc.append(name);
-                  jsc.append("+\"\\n\";");
-            }
-            else {
+                  jsc.append("+\"\\n\");");
+            } else if (temp.getType().isArray()) {
+                jsc.add("if (");
+                jsc.append(name);
+                jsc.append(" != null) {");
+                jsc.indent();
+                jsc.add("result.append(\"[\");");
+                jsc.add("for (int i = 0; i < ");
+                jsc.append(name);
+                jsc.append(".length; i++)");
+                jsc.indent();
+                jsc.add("result.append(");
+                jsc.append(name);
+                jsc.append("[i] + \" \");");
+                jsc.unindent();
+                jsc.add("result.append(\"]\");");
+                jsc.unindent();
+                jsc.add("}");
+            } else {
                 jsc.add("if ( (");
                 jsc.append(name);
                 jsc.append(" != null) && (");
                 jsc.append(name);
                 jsc.append(".getClass().isAssignableFrom(CastorTestable.class)))");
                 jsc.indent();
-                jsc.add("result += ((CastorTestable)");
+                jsc.add("result.append(((CastorTestable)");
                 jsc.append(name);
-                jsc.append(").dumpFields();");
+                jsc.append(").dumpFields());");
                 jsc.unindent();
-                jsc.add("else result += \"Field ");
+                jsc.add("else result.append(\"Field ");
                 jsc.append(name);
                 jsc.append(":\" +");
                 jsc.append(name);
-                jsc.append("+\"\\n\";");
+                jsc.append("+\"\\n\");");
             }
             jsc.add("");
         }
         jsc.add("");
-        jsc.add("return result;");
+        jsc.add("return result.toString();");
      }//CreateTestableMethods
 
 
@@ -1370,8 +1401,12 @@ public class SourceFactory extends BaseFactory {
     //-------------------/
 
     /**
-     * Resolves the className out of the given name and the packageName
-    **/
+     * Resolves the className out of the given name and the packageName.
+     * 
+     * @param name the class name
+     * @param packageName the package name
+     * @return the full qualified class name.
+     */
     private String resolveClassName(String name, String packageName) {
         if ((packageName != null) && (packageName.length() > 0)) {
             return packageName+"."+name;
@@ -1462,9 +1497,7 @@ public class SourceFactory extends BaseFactory {
      * @param complexType the ComplexType to process
      * @param state the FactoryState.
     **/
-    private void processComplexType
-        (ComplexType complexType, FactoryState state)
-    {
+    private void processComplexType(ComplexType complexType, FactoryState state) {
         XMLBindingComponent component = new XMLBindingComponent(_config);
         if (_binding != null) component.setBinding(_binding);
         component.setView(complexType);
@@ -1596,9 +1629,7 @@ public class SourceFactory extends BaseFactory {
      * @param contentModel the ContentModelGroup to process
      * @param state the current FactoryState.
     **/
-    private void processContentModel
-        (ContentModelGroup contentModel, FactoryState state)
-    {
+    private void processContentModel(ContentModelGroup contentModel, FactoryState state) {
 
         //------------------------------/
         //- handle elements and groups -/
@@ -1720,11 +1751,7 @@ public class SourceFactory extends BaseFactory {
      * SimpleType. Enumerations are handled a couple ways.
      * @see #processEnumerationAsBaseType
     **/
-    private void processEnumeration
-        (SimpleType simpleType, FactoryState state)
-    {
-
-
+    private void processEnumeration(SimpleType simpleType, FactoryState state) {
          // Added by robertlaferla at comcast dot net 01/21/2004
          if (_config.useEnumeratedTypeInterface()) {
              state.jClass.addImport(ENUM_ACCESS_INTERFACE);

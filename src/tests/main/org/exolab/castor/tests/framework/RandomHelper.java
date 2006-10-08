@@ -95,7 +95,7 @@ public class RandomHelper {
      * @param array An unused parameter, used only for polymorphism.
      * @param c An unused parameter that indicates we are making a random
      *            Object, not a random primitive
-     * @return a populated array of String of random length.
+     * @return a populated array of int of random length.
      */
     public static int[] getRandom(int[] array, Class c) {
         int size = _rand.nextInt(MAX_COLLECTION_LENGTH);
@@ -104,6 +104,23 @@ public class RandomHelper {
         for (int i=0; i<size; ++i) {
             ret[i] = _rand.nextInt();
         }
+
+        return ret;
+    }
+
+    /**
+     * Returns a populated array of byte of random length.
+     *
+     * @param array An unused parameter, used only for polymorphism.
+     * @param c An unused parameter that indicates we are making a random
+     *            Object, not a random primitive
+     * @return a populated array of byte of random length.
+     */
+    public static byte[] getRandom(byte[] array, Class c) {
+        int size = _rand.nextInt(MAX_COLLECTION_LENGTH);
+
+        byte[] ret = new byte[size];
+        _rand.nextBytes(ret);
 
         return ret;
     }
