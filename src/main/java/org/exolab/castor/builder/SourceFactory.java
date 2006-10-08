@@ -1475,7 +1475,32 @@ public class SourceFactory extends BaseFactory {
 
             //-- if we have a new SimpleType...generate ClassInfo
             SimpleType sType = attr.getSimpleType();
-            
+
+            // look for simpleType def in base type(s)
+            while (sType == null) {
+                // If no simple type found: Get the same attribute of the base
+                // type.
+                // If base type is not complex, forget it; break out of loop
+                // now.
+                final XMLType xmlType = complexType.getBaseType(); 
+                if (xmlType == null || !(xmlType instanceof ComplexType)) { 
+                    break; 
+                }
+                
+                // Get the attribute with the same name as this attribute
+                // (=attr) from the base complextype.
+                final ComplexType cType = (ComplexType) xmlType; 
+                AttributeDecl baseAttr = cType.getAttributeDecl(attr.getName()); 
+                
+                // See if this one has a simple-type...
+                sType = baseAttr.getSimpleType(); 
+                if (sType != null) {
+                    attr.setSimpleType(sType); 
+                }
+                
+                // ... if not, go another step higher in the class hierarchy
+            }
+
             // Look for referenced type (if any) for setting type, and use 
             // it, if found.
             if (sType == null) {

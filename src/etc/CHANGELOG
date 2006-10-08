@@ -1,6 +1,12 @@
 
 SVN
 -------------------------------
+
+XML:   Resolved issue CASTOR-1181 using contribution from Anton Spaans [aspaans@smarttime.com]
+       Fixed problem with code generation for attributes that are restricted.
+       Details: http://jira.codehaus.org/browse/CASTOR-1181
+       (Edward - 20061008)
+
 XML:   Resolved issue CASTOR-599 using contribution from Edward Kuns [edward.kuns@aspect.com]
        UnmarshalHandler doesn't chain exception
        Details: http://jira.codehaus.org/browse/CASTOR-599
