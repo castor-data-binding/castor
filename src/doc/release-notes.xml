@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1613" tool="jira">
+                    <description>
+						Finish @throws javadoc
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061007</date>
+                </bug>
                 <bug id="716" tool="jira">
                     <description>
 						SourceGenerator doesn't correctly generate the .equals()
@@ -76,7 +96,7 @@
                         <name>Derek Sayeau</name>
                         <email>derek.sayeau@cognos.com</email>
                     </reporter>
-                    <type>Test</type>
+                    <type>Bug</type>
                     <module>XML</module>
                     <date>20061007</date>
                 </bug>

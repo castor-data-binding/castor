@@ -1,6 +1,11 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1613 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Finish @throws javadoc
+       Details: http://jira.codehaus.org/browse/CASTOR-1613
+       (Edward - 20061007)
+
 XML:   Resolved issue CASTOR-716 using contribution from Edward Kuns [edward.kuns@aspect.com]
        SourceGenerator doesn't correctly generate the .equals() method for base64binary
        Details: http://jira.codehaus.org/browse/CASTOR-716

@@ -120,17 +120,6 @@ public final class JMethod implements JMember, JAnnotatedElement {
 
     /**
      * Adds the given Exception to this JMethod's throws clause.
-     * <p>
-     * FIXME: Remove this method later
-     *
-     * @param exp the JClass representing the Exception
-     */
-    public void addException(final JClass exp) {
-        this._signature.addException(exp);
-    } //-- addException
-
-    /**
-     * Adds the given Exception to this JMethod's throws clause.
      *
      * @param exp the JClass representing the Exception
      * @param description JavaDoc comment explaining when this exception is thrown
