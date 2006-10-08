@@ -54,6 +54,7 @@ import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.types.*;
 import org.exolab.castor.xml.schema.*;
 import org.exolab.castor.xml.schema.simpletypes.ListType;
+import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JType;
 
@@ -394,25 +395,46 @@ public class MemberFactory extends BaseFactory {
              */
         }
 
-        //--handle default value
-        //--TO CLEAN UP IN A SEPARATE METHOD???
+        // handle default value (if any is set)
+        handleDefaultValue(component, classInfo, xsType, fieldInfo, enumeration);
+        
+        //-- handle nillable values
+        if (component.isNillable())
+            fieldInfo.setNillable(true);
+        
+        
+
+        //-- add annotated comments
+        String comment = createComment(component.getAnnotated());
+        if (comment != null)
+             fieldInfo.setComment(comment);
+
+        //--specific field handler or validator?
+        if (component.getXMLFieldHandler() != null)
+            fieldInfo.setXMLFieldHandler(component.getXMLFieldHandler());
+        if (component.getValidator() != null)
+            fieldInfo.setValidator(component.getValidator());
+
+        return fieldInfo;
+    }
+
+
+    /**
+     * Handle default value, if any is set.
+     * @param component The component on which a default value is set
+     * @param classInfo The corresponding ClassInfo instance.
+     * @param xsType The schema type of the component.
+     * @param fieldInfo The FieldInfo into which to inject a default value
+     * @param enumeration If we are looking at an enumeration.
+     */
+    private void handleDefaultValue(final XMLBindingComponent component, 
+            final ClassInfo classInfo, 
+            final XSType xsType, 
+            final FieldInfo fieldInfo, 
+            final boolean enumeration) {
         String value = component.getValue();
         if (value != null) {
-            // various type adjustements
-            switch (xsType.getType()) {
-
-                case XSType.FLOAT_TYPE:
-                    value = value + 'f';
-                    break;
-
-                case XSType.BOOLEAN_TYPE:
-                    Boolean bool = new Boolean(value);
-                    value = bool.toString();
-                    break;
-
-                default:
-                    break;
-            }
+            value = adjustDefaultValue(xsType, value);
 
             if (value.length() == 0)
                 value="\"\"";
@@ -450,6 +472,12 @@ public class MemberFactory extends BaseFactory {
                  
                 
             }
+            else if (xsType.getJType() instanceof JArrayType) {
+                JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
+                value = "new " + componentType.getName() + "[] { " 
+                    + componentType.getWrapperName() + ".valueOf(\"" + value + "\")." 
+                    + componentType.getName() + "Value() }";
+            }
             //don't generate code for date/time type since the constructor that parses
             //a string is throwing exception
             else if (!xsType.getJType().isPrimitive() && !xsType.isDateTime()) {
@@ -463,25 +491,33 @@ public class MemberFactory extends BaseFactory {
             else
                 fieldInfo.setDefaultValue(value);
         }
-        
-        //-- handle nillable values
-        if (component.isNillable())
-            fieldInfo.setNillable(true);
-        
-        
+    }
 
-        //-- add annotated comments
-        String comment = createComment(component.getAnnotated());
-        if (comment != null)
-             fieldInfo.setComment(comment);
 
-        //--specific field handler or validator?
-        if (component.getXMLFieldHandler() != null)
-            fieldInfo.setXMLFieldHandler(component.getXMLFieldHandler());
-        if (component.getValidator() != null)
-            fieldInfo.setValidator(component.getValidator());
+    /**
+     * Adjusts the default value string represenation to reflect the semantics of various 'special'
+     * data types.
+     * @param xsType The XMl schems type of the value to adjust
+     * @param value The actual value to adjust
+     * @return
+     */
+    private String adjustDefaultValue(final XSType xsType, String value) {
+        // various type adjustements
+        switch (xsType.getType()) {
 
-        return fieldInfo;
+            case XSType.FLOAT_TYPE:
+                value = value + 'f';
+                break;
+
+            case XSType.BOOLEAN_TYPE:
+                Boolean bool = new Boolean(value);
+                value = bool.toString();
+                break;
+
+            default:
+                break;
+        }
+        return value;
     }
 
     /**

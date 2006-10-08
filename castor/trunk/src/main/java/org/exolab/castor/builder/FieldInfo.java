@@ -207,8 +207,8 @@ public class FieldInfo extends XMLInfo {
         if (_default != null)
             field.setInitString(_default);
 
-        if (_fixed != null && !getSchemaType().isDateTime())
-               field.setInitString(_fixed);
+        if (getFixedValue() != null && !getSchemaType().isDateTime())
+               field.setInitString(getFixedValue());
 
         //-- set Javadoc comment
         if (_comment != null) field.setComment(_comment);
