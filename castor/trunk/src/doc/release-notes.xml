@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1181" tool="jira">
+                    <description>
+						Fixed problem with code generation for attributes that are restricted.
+                    </description>
+                    <contributor>
+                        <name>Anton Spaans</name>
+                        <email>aspaans@smarttime.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Anton Spaans</name>
+                        <email>aspaans@smarttime.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061008</date>
+                </bug>
                 <bug id="599" tool="jira">
                     <description>
 						UnmarshalHandler doesn't chain exception
