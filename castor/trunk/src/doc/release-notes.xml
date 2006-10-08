@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="599" tool="jira">
+                    <description>
+						UnmarshalHandler doesn't chain exception
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jay Dunning</name>
+                        <email>jay.dunning@eds.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061007</date>
+                </bug>
                 <bug id="1613" tool="jira">
                     <description>
 						Finish @throws javadoc

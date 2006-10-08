@@ -183,7 +183,6 @@ public abstract class ComponentReader {
     /**
      * This method is called for a general error.
      * @param err the error message to report
-     * @exception org.xml.sax.SAXException always thrown.
     **/
     public void error(String err)
         throws XMLException
@@ -200,7 +199,6 @@ public abstract class ComponentReader {
      * This method is called for a general error.
      *
      * @param ex the Exception that caused the error.
-     * @exception org.xml.sax.SAXException always thrown.
      */
     public void error(Exception ex)
         throws XMLException
@@ -217,7 +215,6 @@ public abstract class ComponentReader {
     /**
      * This method is called when an illegal Attribute is encountered.
      * @param attName the name of the illegal attribute.
-     * @exception org.xml.sax.SAXException always thrown.
     **/
     public void illegalAttribute(String attName)
         throws XMLException
@@ -235,7 +232,6 @@ public abstract class ComponentReader {
     /**
      * This method is called when an illegal Element is encountered.
      * @param name the name of the illegal element
-     * @exception org.xml.sax.SAXException always thrown.
     **/
     public void illegalElement(String name)
         throws XMLException
@@ -255,7 +251,6 @@ public abstract class ComponentReader {
      * This method is called when an element which may only
      * be defined once, is redefined.
      * @param name the name of the element
-     * @exception org.xml.sax.SAXException always thrown.
     **/
     public void redefinedElement(String name)
         throws XMLException
@@ -267,7 +262,6 @@ public abstract class ComponentReader {
      * This method is called when an element which may only
      * be defined once, is redefined.
      * @param name the name of the element
-     * @exception org.xml.sax.SAXException always thrown.
     **/
     public void redefinedElement(String name, String xtraInfo)
         throws XMLException
@@ -288,7 +282,6 @@ public abstract class ComponentReader {
 
     /**
      * This method is called when an out of order element is encountered
-     * @exception org.xml.sax.SAXException always thrown.
     **/
     public void outOfOrder(String name)
         throws XMLException
