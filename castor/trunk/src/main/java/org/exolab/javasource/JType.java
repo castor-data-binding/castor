@@ -135,7 +135,7 @@ public class JType {
     /**
      * Returns the unqualified Java type name (i.e. without package).
      * 
-     * @return the unqualified Java type name
+     * @return the unqualified Java type name.
      */
     public final String getLocalName() {
 
@@ -155,7 +155,7 @@ public class JType {
     /**
      * Returns the qualified Java type name.
      * 
-     * @return the qualified Java type name
+     * @return the qualified Java type name.
      */
     public final String getName() {
         return this._name;
@@ -163,19 +163,19 @@ public class JType {
 
     /**
      * Return the name of the wrapper object for a primitive type, null for
-     * non-primitive types
+     * non-primitive types.
      * 
      * @return the name of the wrapper object for a primitive type, null for
-     *         non-primitive types
+     *         non-primitive types.
      */
     public final String getWrapperName() {
         return this._wrapperName;
     }
 
     /**
-     * Checks to see if this JType represents a primitive type
+     * Checks to see if this JType represents a primitive type.
      * 
-     * @return true if this JType represents a primitive type, otherwise false
+     * @return true if this JType represents a primitive type, otherwise false.
      */
     public final boolean isPrimitive() {
         return ((this == JType.BOOLEAN) || (this == JType.BYTE)
@@ -185,10 +185,18 @@ public class JType {
     }
 
     /**
+     * Returns true if this type represents an Array.
+     * @return true if this type represents an Array.
+     */
+    public final boolean isArray() {
+        return _name.endsWith("[]");
+    }
+
+    /**
      * Returns the String representation of this JType, which is simply the name
      * of this type.
      * 
-     * @return the String representation of this JType
+     * @return the String representation of this JType.
      */
     public String toString() {
         return this._name;
@@ -197,7 +205,7 @@ public class JType {
     /**
      * Change the package this JType belongs to. This method is protected to
      * allow subtypes, such as JClass to alter the package to which this JType
-     * belongs
+     * belongs.
      * 
      * @param newPackage
      *            the new package to which this JType belongs <BR>
