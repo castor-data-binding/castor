@@ -16,6 +16,14 @@ public class JArrayType extends JComponentizedType {
     }
 
     /**
+     * Returns true if this type represents an Array.
+     * @return true if this type represents an Array.
+     */
+    public final boolean isArray() {
+        return true;
+    }
+    
+    /**
      * Returns the String representation of this JType, which is simply the name
      * of this type.
      * 

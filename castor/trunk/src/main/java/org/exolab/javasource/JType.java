@@ -185,11 +185,12 @@ public class JType {
     }
 
     /**
-     * Returns true if this type represents an Array.
+     * Returns true if this type represents an Array.  Always returns false
+     * unless overridden by an extending class.
      * @return true if this type represents an Array.
      */
-    public final boolean isArray() {
-        return _name.endsWith("[]");
+    public boolean isArray() {
+        return false;
     }
 
     /**
