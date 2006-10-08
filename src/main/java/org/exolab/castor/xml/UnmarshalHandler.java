@@ -1085,7 +1085,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             err += ">>>--- Begin Exception ---<<< \n";
             err += sw.toString();
             err += ">>>---- End Exception ----<<< \n";
-            throw new SAXException(err);
+            throw new SAXException(err, ex);
         }
 
         //-- remove current namespace scoping
@@ -1630,7 +1630,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     catch(Exception ex) {
                         String msg = "unable to instantiate " +
                             instanceClassname + "; ";
-                        throw new SAXException(msg + ex);
+                        throw new SAXException(msg + ex, ex);
                     }
 
                     //-- try to create instance of the given Class
@@ -2123,7 +2123,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 }
                 catch(Exception ex) {
                     String msg = "unable to instantiate " + instanceType;
-                    throw new SAXException(msg + "; " + ex);
+                    throw new SAXException(msg + "; " + ex, ex);
                 }
 
             }
@@ -2314,7 +2314,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String err = "unable to add \"" + name + "\" to ";
                 err += parentState.fieldDesc.getXMLName();
                 err += " due to the following error: " + ise;
-                throw new SAXException(err);
+                throw new SAXException(err, ise);
             }
         }
 
@@ -2410,7 +2410,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         String err = "Parsing Error : "+exception.getMessage()+'\n'+
                      "Line : "+ exception.getLineNumber() + '\n'+
                      "Column : "+exception.getColumnNumber() + '\n';
-        throw new SAXException (err);
+        throw new SAXException (err, exception);
     } //-- error
 
     public void fatalError(SAXParseException exception)
@@ -2419,7 +2419,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         String err = "Parsing Error : "+exception.getMessage()+'\n'+
                      "Line : "+ exception.getLineNumber() + '\n'+
                      "Column : "+exception.getColumnNumber() + '\n';
-        throw new SAXException (err);
+        throw new SAXException (err, exception);
 
     } //-- fatalError
 
@@ -2430,7 +2430,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         String err = "Parsing Error : "+exception.getMessage()+'\n'+
                      "Line : "+ exception.getLineNumber() + '\n'+
                      "Column : "+exception.getColumnNumber() + '\n';
-        throw new SAXException (err);
+        throw new SAXException (err, exception);
 
     } //-- warning
 
@@ -2707,7 +2707,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String err = "unable to add attribute \"" + name + "\" to '";
                 err += state.classDesc.getJavaClass().getName();
                 err += "' due to the following error: " + ise;
-                throw new SAXException(err);
+                throw new SAXException(err, ise);
             }
         }
 
@@ -2819,7 +2819,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String err = "unable to add attribute \"" + name + "\" to '";
                 err += state.classDesc.getJavaClass().getName();
                 err += "' due to the following error: " + ise;
-                throw new SAXException(err);
+                throw new SAXException(err, ise);
             }
         }
 
@@ -2915,7 +2915,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     String err = "unable to add attribute \"" + name + "\" to '";
                     err += state.classDesc.getJavaClass().getName();
                     err += "' due to the following error: " + ise;
-                    throw new SAXException(err);
+                    throw new SAXException(err, ise);
                 }
             }
         }
@@ -3534,7 +3534,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 String err = "Attempting to resolve an IDREF: " +
                         id + "resulted in the following error: " +
                         ise.toString();
-                throw new SAXException(err);
+                throw new SAXException(err, ise);
             }
             refInfo = refInfo.next;
         }
@@ -3568,7 +3568,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             err += ex.getMessage();
             
             
-            throw new SAXException(err);
+            throw new SAXException(err, ex);
         }
     } //-- toPrimitiveObject
 
