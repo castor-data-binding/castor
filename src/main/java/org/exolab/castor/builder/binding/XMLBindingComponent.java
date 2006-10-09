@@ -1175,7 +1175,7 @@ public class XMLBindingComponent implements BindingComponent {
         boolean useWrapper = useWrapper();
         XMLType type = getXMLType();
 
-        if (type.isComplexType()) {
+        if (type != null && type.isComplexType()) {
             if (_type == MEMBER && _member.getJavaType() != null) {
                 String javaType = _member.getJavaType();
                 if (javaType != null && javaType.length() >0 )
@@ -1194,7 +1194,7 @@ public class XMLBindingComponent implements BindingComponent {
 
         if (result == null) {
             //--simpleType or AnyType
-            if (type.isSimpleType()) {
+            if (type != null && type.isSimpleType()) {
                 String packageName = null;
                 if (((SimpleType)type).getSchema() != getSchema()) {
                     XMLBindingComponent comp = new XMLBindingComponent(_config);

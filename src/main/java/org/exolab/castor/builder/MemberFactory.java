@@ -305,9 +305,15 @@ public class MemberFactory extends BaseFactory {
         }
         else {
             
-            //-- patch for bug 1471 (No XMLType specified)
-            //-- treat unspecified type as anyType
-            switch (component.getAnnotated().getStructureType()) {
+            if (xsType == null) {
+                xsType = component.getJavaType();
+            }
+
+            if (xsType == null) {
+
+                //-- patch for bug 1471 (No XMLType specified)
+                //-- treat unspecified type as anyType
+                switch (component.getAnnotated().getStructureType()) {
                 case Structure.ATTRIBUTE:
                 case Structure.ELEMENT:
                     xsType = new XSClass(SGTypes.Object);
@@ -315,6 +321,7 @@ public class MemberFactory extends BaseFactory {
                 default:
                     // probably a model-group
                     break;
+                }
             }
         }
 
