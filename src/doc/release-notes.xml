@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1137" tool="jira">
+                    <description>
+						Fixed problem with special characters in enumerations
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Chuck Betts</name>
+                        <email>chuckb2@rocketmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061009</date>
+                </bug>
                 <bug id="1087" tool="jira">
                     <description>
 						Fixed problem with incorrect initialization code for byte arrays.
@@ -73,7 +93,7 @@
                     </submitter>
                     <reporter>
                         <name>Michael Pliskin</name>
-                        <email>pl@tepkom.ru/email>
+                        <email>pl@tepkom.ru</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
