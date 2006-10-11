@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1597 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Introduce proper exception handling to source generator
+       Details: http://jira.codehaus.org/browse/CASTOR-1597
+       (Edward - 20061010)
+
 XML:   Resolved issue CASTOR-1117 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with setting type of untyped attribute through binding file.
        Details: http://jira.codehaus.org/browse/CASTOR-1117

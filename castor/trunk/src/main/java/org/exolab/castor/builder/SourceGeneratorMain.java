@@ -90,6 +90,7 @@ public class SourceGeneratorMain {
     private static final String ARGUMENT_TYPES_DEPRECATED          = "type-factory";
     private static final String ARGUMENT_TYPES_JAVA2               = "j2";
     private static final String ARGUMENT_VERBOSE                   = "verbose";
+    private static final String ARGUMENT_FAIL_ON_ERROR             = "fail";
 
     private static final String ARG_VALUE_LINE_SEPARATION_MAC      = "mac";
     private static final String ARG_VALUE_LINE_SEPARATION_UNIX     = "unix";
@@ -163,7 +164,8 @@ public class SourceGeneratorMain {
 
         sgen.setLineSeparator(getLineSeparator(options.getProperty(ARGUMENT_LINE_SEPARATOR)));
         sgen.setDestDir(options.getProperty(ARGUMENT_DESTINATION_DIR));
-        sgen.setVerbose((options.getProperty(ARGUMENT_VERBOSE) != null));
+        sgen.setVerbose(options.getProperty(ARGUMENT_VERBOSE) != null);
+        sgen.setFailOnFirstError(options.getProperty(ARGUMENT_FAIL_ON_ERROR) != null);
 
         boolean force = (options.getProperty(ARGUMENT_FORCE) != null);
         sgen.setSuppressNonFatalWarnings(force);
@@ -364,6 +366,10 @@ public class SourceGeneratorMain {
         //-- verbose flag
         desc = "Prints out additional messages when creating source.";
         allOptions.addFlag(ARGUMENT_VERBOSE, "", desc, true);
+
+        //-- fail on first error flag
+        desc = "Causes source generation to fail on the first error encountered.";
+        allOptions.addFlag(ARGUMENT_FAIL_ON_ERROR, "", desc, true);
 
         //-- no descriptors flag
         desc = "Disables the generation of the Class descriptors.";
