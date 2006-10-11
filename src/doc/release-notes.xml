@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1597" tool="jira">
+                    <description>
+						Introduce proper exception handling to source generator
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061010</date>
+                </bug>
                 <bug id="1117" tool="jira">
                     <description>
 						Fixed problem with setting type of untyped attribute 

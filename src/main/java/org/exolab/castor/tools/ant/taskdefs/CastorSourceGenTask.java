@@ -90,9 +90,8 @@ public class CastorSourceGenTask extends MatchingTask {
     private static final String CASTOR_TESTABLE_MSG
             = "The generated classes will implement org.exolab.castor.tests.CastorTestable";
 
-
-    private File file = null;
-    private File dir = null;
+    private File   file     = null;
+    private File   dir      = null;
     private Vector filesets = new Vector();
 
     // Begin Source Generator parameters
@@ -121,6 +120,7 @@ public class CastorSourceGenTask extends MatchingTask {
 
 
     public CastorSourceGenTask() {
+        // Nothing needed
     }
 
     public void setFile(File file) {
@@ -152,10 +152,7 @@ public class CastorSourceGenTask extends MatchingTask {
     }
 
     public void setTypes(String tf) {
-        if (tf.equals("j2")) {
-            tf = "arraylist";
-        }
-        this.types = tf;
+        this.types = (tf.equals("j2")) ? "arraylist" : tf;
     }
 
     public void setVerbose(boolean b) {
@@ -178,7 +175,6 @@ public class CastorSourceGenTask extends MatchingTask {
         this.testable = b;
     }
 
-
     /**
      * Sets the file to use for castor builder properties
      *
@@ -188,22 +184,21 @@ public class CastorSourceGenTask extends MatchingTask {
         this.properties = properties;
     }
 
-
     private void config() throws BuildException {
         // Create Source Generator with appropriate type factory
         if (types != null) {
             try {
                 FieldInfoFactory factory = new FieldInfoFactory(types);
-                sgen = new CastorSourceGenerator(factory);
+                sgen = new CastorSourceGeneratorWrapper(factory);
             } catch (Exception e) {
                 try {
-                    sgen = new CastorSourceGenerator((FieldInfoFactory) Class.forName(types).newInstance());
+                    sgen = new CastorSourceGeneratorWrapper((FieldInfoFactory) Class.forName(types).newInstance());
                 } catch (Exception e2) {
                     throw new BuildException("Invalid types \"" + types + "\": " + e.getMessage());
                 }
             }
         } else {
-            sgen = new CastorSourceGenerator(); // default
+            sgen = new CastorSourceGeneratorWrapper(); // default
         }
 
         // Set Line Separator
@@ -274,8 +269,7 @@ public class CastorSourceGenTask extends MatchingTask {
             String message = "XML Schema file \"" + file.getAbsolutePath() + "\" not found.";
             log(message);
             throw new BuildException(message);
-        }
-        catch(IOException iox) {
+        } catch (Exception iox) {
             throw new BuildException(iox);
         }
     }
@@ -283,8 +277,7 @@ public class CastorSourceGenTask extends MatchingTask {
     public void execute() throws BuildException {
         // Must have something to run the source generator on
         if (file == null && dir == null && filesets.size() == 0) {
-            throw new BuildException("At least one of the file or dir attributes, " +
-                    "or a fileset element, must be set.");
+            throw new BuildException("At least one of the file or dir attributes, or a fileset element, must be set.");
         }
 
         try {
@@ -327,16 +320,16 @@ public class CastorSourceGenTask extends MatchingTask {
      * Override Castor's SourceGenerator to inject exception handling.
      * Code based on castor-0.9.5.3-xml.jar
      */
-    private class CastorSourceGenerator extends SourceGenerator {
-        public CastorSourceGenerator() {
+    private class CastorSourceGeneratorWrapper extends SourceGenerator {
+        public CastorSourceGeneratorWrapper() {
             super();
         }
 
-        public CastorSourceGenerator(FieldInfoFactory fieldInfoFactory) {
+        public CastorSourceGeneratorWrapper(FieldInfoFactory fieldInfoFactory) {
             super(fieldInfoFactory);
         }
 
-        public CastorSourceGenerator(FieldInfoFactory fieldInfoFactory, ExtendedBinding extendedBinding) {
+        public CastorSourceGeneratorWrapper(FieldInfoFactory fieldInfoFactory, ExtendedBinding extendedBinding) {
             super(fieldInfoFactory, extendedBinding);
         }
 
@@ -371,8 +364,7 @@ public class CastorSourceGenTask extends MatchingTask {
             Schema schema = schemaUnmarshaller.getSchema();
             try {
                 generateSource(schema, packageName);
-            }
-            catch(IOException iox) {
+            } catch (Exception iox) {
                 throw new BuildException(iox);
             }
         }

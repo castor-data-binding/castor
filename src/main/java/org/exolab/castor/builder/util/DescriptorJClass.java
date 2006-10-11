@@ -48,7 +48,6 @@ package org.exolab.castor.builder.util;
 import org.exolab.javasource.*;
 
 import org.exolab.castor.builder.BuilderConfiguration;
-import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.SGTypes;
 
 /**
@@ -115,7 +114,7 @@ public class DescriptorJClass extends JClass {
         //classes
         String superClass = null;
         if (_config != null) {
-            superClass = _config.getProperty(SourceGenerator.Property.SUPER_CLASS, null);
+            superClass = _config.getProperty(BuilderConfiguration.Property.SUPER_CLASS, null);
         }
         if ( (_type.getSuperClassQualifiedName()==null) || 
 			 (_type.getSuperClassQualifiedName().equals(superClass)) )

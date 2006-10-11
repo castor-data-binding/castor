@@ -203,6 +203,7 @@ public class OnlySourceGenerationTestCase extends XMLTestCase {
             sourceGen.setEqualsMethod(true);
             sourceGen.setTestable(true);
             sourceGen.setSuppressNonFatalWarnings(true);
+            sourceGen.setFailOnFirstError(true);
             
             sourceGen.setDestDir(_outputRootFile.getAbsolutePath());
             
