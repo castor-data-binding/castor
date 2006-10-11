@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-587 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with default values for date/time types in code generation
+       Details: http://jira.codehaus.org/browse/CASTOR-587
+       (Edward - 20061011)
+
 XML:   Resolved issue CASTOR-1597 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Introduce proper exception handling to source generator
        Details: http://jira.codehaus.org/browse/CASTOR-1597

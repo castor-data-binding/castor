@@ -196,6 +196,10 @@ public class FieldInfo extends XMLInfo {
         JType jType = type.getJType();
 
         JField field = new JField(type.getJType(), name);
+        
+        if (getSchemaType().isDateTime()) {
+            field.setDateTime(true);
+        }
 
         if (_static || _final) {
             JModifiers modifiers = field.getModifiers();

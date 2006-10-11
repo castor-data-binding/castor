@@ -479,11 +479,14 @@ public class MemberFactory extends BaseFactory {
                  
                 
             }
-            else if (xsType.getJType() instanceof JArrayType) {
+            else if (xsType.getJType().isArray()) {
                 JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
                 value = "new " + componentType.getName() + "[] { " 
                     + componentType.getWrapperName() + ".valueOf(\"" + value + "\")." 
                     + componentType.getName() + "Value() }";
+            }
+            else if (!xsType.getJType().isPrimitive() && xsType.isDateTime()) {
+                value = "new " + xsType.getJType().toString() + "(\"" + value + "\")";
             }
             //don't generate code for date/time type since the constructor that parses
             //a string is throwing exception

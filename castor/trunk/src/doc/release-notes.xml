@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="587" tool="jira">
+                    <description>
+						Fixed problem with default values for date/time types in code generation
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Jesse</name>
+                        <email>jesse@ilk.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061010</date>
+                </bug>
                 <bug id="1597" tool="jira">
                     <description>
 						Introduce proper exception handling to source generator
