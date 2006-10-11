@@ -69,6 +69,11 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
     private String _initString = null;
     
     /**
+	  * Indicates whether this field os of type date/time.
+      */
+    private boolean _isDateTime = false;
+    
+    /**
      * The Class in this JField has been declared
      */
     private JClass _declaringClass = null;
@@ -206,6 +211,7 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
         this._declaringClass = declaringClass;
     } //-- setDeclaringClass
    
+    
     /**
      * @see java.lang.Object#toString()
      * {@inheritDoc}
@@ -219,5 +225,21 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
         sb.append(_name);
         return sb.toString();
     } //-- toString
+
+    /**
+     * Indicates whether this JField instance represents a field of type date/time.
+     * @return True if this field is of type date/time.
+     */
+    public boolean isDateTime() {
+        return _isDateTime;
+    }
+    
+    /**
+     * To indicate whether this JField instance represents a field of type date/time.
+     * @param isDateTime True if this field is of type date/time.
+     */
+    public void setDateTime(final boolean isDateTime) {
+        _isDateTime = isDateTime;
+    }
 
 } //-- JField

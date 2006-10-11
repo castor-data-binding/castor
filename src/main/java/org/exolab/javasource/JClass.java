@@ -646,7 +646,8 @@ public class JClass extends JStructure {
             jsw.write(jField.getName());
 
             String init = jField.getInitString();
-            if (init != null) {
+            JType jType = jField.getType();
+            if (init != null && !jField.isDateTime()) {
                 jsw.write(" = ");
                 jsw.write(init);
             }
