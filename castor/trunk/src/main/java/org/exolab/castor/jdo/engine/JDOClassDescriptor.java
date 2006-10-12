@@ -133,7 +133,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
                 _cacheParams.put(params[i].getName(), params[i].getValue());
             }
 
-            String debug = Boolean.toString(cacheMapping.getDebug());
+            String debug = new Boolean(cacheMapping.getDebug()).toString();
             _cacheParams.put(Cache.PARAM_DEBUG, debug);
 
             String type = cacheMapping.getType();

@@ -323,7 +323,9 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.add(arrayType);
         sourceCode.append(" array = new ");
         // the first brackets must contain the size...
-        sourceCode.append(arrayType.replaceFirst("\\[\\]", "[size]"));
+        int brackets = arrayType.indexOf("[]");
+        sourceCode.append(arrayType.substring(0, brackets));
+        sourceCode.append("[size]");
         sourceCode.append(";");
 
         String value = getName() + ".get(index)";

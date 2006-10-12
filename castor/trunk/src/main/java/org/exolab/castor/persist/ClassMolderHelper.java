@@ -3,7 +3,6 @@ package org.exolab.castor.persist;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.HashSet;
@@ -15,6 +14,7 @@ import java.util.Vector;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.persist.TransactionContext;
+import org.castor.util.EnumerationIterator;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
@@ -232,7 +232,7 @@ public final class ClassMolderHelper {
         } else if (object instanceof Collection) {
             return ((Collection) object).iterator();
         } else if (object instanceof Enumeration) {
-            return Collections.list(((Enumeration) object)).iterator();
+            return new EnumerationIterator((Enumeration) object);
         } else if (object instanceof Iterator) {
             return (Iterator) object;
         } else if (object instanceof Map) {
@@ -484,25 +484,22 @@ public final class ClassMolderHelper {
         }
 
         if (collection instanceof Enumeration) {
-            if (orgIds == null || orgIds.size() == 0) {
-                if (collection == null) {
-                    return new ArrayList(0);
-                }
-                return Collections.list((Enumeration) collection);
-                
-            }
-
-            if (collection == null) {
-                return new ArrayList(0);
-            }
+            if (collection == null) { return new ArrayList(0); }
 
             Enumeration newValues = (Enumeration) collection;
             ArrayList added = new ArrayList();
-            while (newValues.hasMoreElements()) {
-                Object newValue = newValues.nextElement();
-                Object newId = ch.getIdentity(tx, newValue);
-                if (newId == null || !orgIds.contains(newId)) {
+            if (orgIds == null || orgIds.size() == 0) {
+                while (newValues.hasMoreElements()) {
+                    Object newValue = newValues.nextElement();
                     added.add(newValue);
+                }
+            } else {
+                while (newValues.hasMoreElements()) {
+                    Object newValue = newValues.nextElement();
+                    Object newId = ch.getIdentity(tx, newValue);
+                    if (newId == null || !orgIds.contains(newId)) {
+                        added.add(newValue);
+                    }
                 }
             }
             return added;

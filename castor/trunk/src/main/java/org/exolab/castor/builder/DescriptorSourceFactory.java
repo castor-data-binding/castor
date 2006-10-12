@@ -139,7 +139,7 @@ public class DescriptorSourceFactory {
 		//-- set Element Definition flag
 		boolean elementDefinition = classInfo.isElementDefinition();
 		jsc.add("elementDefinition = ");
-		jsc.append(Boolean.toString(elementDefinition));
+		jsc.append(new Boolean(elementDefinition).toString());
 		jsc.append(";");
 		
 		//-- set grouping compositor

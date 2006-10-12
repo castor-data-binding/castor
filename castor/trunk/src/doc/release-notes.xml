@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1620" tool="jira">
+                    <description>
+		                Backported Castor to Java 1.3 compatibility: unknown methods.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20061012</date>
+                </bug>
                 <bug id="587" tool="jira">
                     <description>
 						Fixed problem with default values for date/time types in code generation
@@ -567,7 +587,7 @@
                     <module>XML</module>
                     <date>20060930</date>
                 </bug>
-				<bug id="1589" tool="jira">
+                <bug id="1589" tool="jira">
                     <description>
 		                Fixed ComplexType-DirectAccess test complaining about differences.
                     </description>
