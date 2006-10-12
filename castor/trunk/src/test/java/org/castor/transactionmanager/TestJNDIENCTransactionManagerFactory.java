@@ -68,7 +68,9 @@ public final class TestJNDIENCTransactionManagerFactory extends TestCase {
                + "should have been thrown.");
         } catch (Exception ex) {
             assertTrue(ex instanceof TransactionManagerAcquireException);
-            assertTrue(ex.getCause() instanceof NotContextException);
+            TransactionManagerAcquireException tmae;
+            tmae = (TransactionManagerAcquireException) ex;
+            assertTrue(tmae.getCause() instanceof NotContextException);
         }
         
         logger.setLevel(level);

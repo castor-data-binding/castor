@@ -49,6 +49,9 @@
 package org.exolab.castor.util;
 
 import java.lang.reflect.Constructor;
+import java.lang.reflect.InvocationTargetException;
+
+import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 
 /** 
  * The default implementation of ObjectFactory used for 
@@ -143,12 +146,9 @@ public class DefaultObjectFactory implements ObjectFactory {
                 err += argTypes[i].getName();
             }
             throw new InstantiationException(err);
-        }
-        catch(java.lang.reflect.InvocationTargetException ite) {
-            // storing causal exception using Java 1.4 method
-            IllegalStateException ise = new IllegalStateException(ite.getMessage());
-            ise.initCause(ite.getCause());
-            throw ise;
+        } catch(InvocationTargetException ite) {
+            throw new CastorIllegalStateException(
+                    ite.getMessage(), ite.getTargetException());
         }
             
     } //-- createInstance
