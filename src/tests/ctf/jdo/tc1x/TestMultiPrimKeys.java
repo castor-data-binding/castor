@@ -405,8 +405,8 @@ public final class TestMultiPrimKeys extends CastorTestCase {
     
     private Date getDate(final int year, final int month, final int day) {
         Calendar cal = Calendar.getInstance();
-        cal.setTimeInMillis(0);
-        cal.set(year, month, day);
+        cal.set(year, month, day, 0, 0, 0);
+        cal.set(Calendar.MILLISECOND, 0);
         return cal.getTime();
     }
     

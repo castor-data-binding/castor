@@ -23,10 +23,14 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.Properties;
+import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.castor.cache.CacheFactoryRegistry;
 
 /**
  * Class to hold Castor configuration properties.
@@ -261,9 +265,11 @@ public final class Configuration {
     public String[] getProperty(final String name) {
         String value = _props.getProperty(name);
         if (value == null) { return new String[] {}; }
-        String[] array = value.split(",");
-        for (int i = 0; i < array.length; i++) { array[i] = array[i].trim(); }
-        return array;
+        
+        List array = new ArrayList();
+        StringTokenizer tokenizer = new StringTokenizer(value, ",");
+        while (tokenizer.hasMoreTokens()) { array.add(tokenizer.nextToken().trim()); }
+        return (String[]) array.toArray(new String[array.size()]);
     }
     
     /**

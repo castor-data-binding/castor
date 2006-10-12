@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1620 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Backported Castor to Java 1.3 compatibility: unknown methods.
+       Details: http://jira.codehaus.org/browse/CASTOR-1620
+       (Ralf - 20061012)
+
 XML:   Resolved issue CASTOR-587 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with default values for date/time types in code generation
        Details: http://jira.codehaus.org/browse/CASTOR-587

@@ -59,7 +59,7 @@ public final class TestTransactionManagerRegistry extends TestCase {
         config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_FACTORIES,
                 TransactionManagerFactoryDummy.class.getName());
         config.getProperties().put(ConfigKeys.TRANSACTION_MANAGER_INIT,
-                Boolean.toString(false));
+                Boolean.FALSE.toString());
         
         TransactionManagerRegistry tmr = new TransactionManagerRegistry(config);
         String[] managers = tmr.getTransactionManagerNames();
