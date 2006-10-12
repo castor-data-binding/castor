@@ -31,6 +31,7 @@ import java.util.StringTokenizer;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.cache.CacheFactoryRegistry;
+import org.exolab.castor.core.exceptions.CastorRuntimeException;
 
 /**
  * Class to hold Castor configuration properties.
@@ -228,7 +229,7 @@ public final class Configuration {
             String msg = "Could not read the configuration file '"
                        + url.toExternalForm() + "' from the Castor JAR.";
             LOG.error(msg, ex);
-            throw new RuntimeException(msg, ex);
+            throw new CastorRuntimeException(msg, ex);
         }
     }
 

@@ -56,6 +56,7 @@ import java.util.Enumeration;
 import java.util.Iterator;
 
 import org.castor.util.Messages;
+import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
@@ -450,14 +451,13 @@ public final class FieldHandlerImpl
             } else
                 value = null;
         } catch ( IllegalAccessException except ) {
-            IllegalStateException exception = new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
-            exception.initCause(except);
-            throw exception;
+            throw new CastorIllegalStateException(
+                    Messages.format("mapping.schemaChangeNoAccess", toString()),
+                    except);
         } catch ( InvocationTargetException except ) {
-            IllegalStateException exception = new IllegalStateException(Messages.format("mapping.schemaChangeInvocation",
-                    toString(), except));
-            exception.initCause(except);
-            throw exception;
+            throw new CastorIllegalStateException(
+                    Messages.format("mapping.schemaChangeInvocation", toString(), except),
+                    except);
         }
 
         //-- If a collection, return an enumeration of it's values.
@@ -547,9 +547,9 @@ public final class FieldHandlerImpl
                                                                      toString(), value.getClass().getName() ) );
             } catch ( IllegalAccessException except ) {
                 // This should never happen
-                IllegalStateException exception = new IllegalStateException(Messages.format("mapping.schemaChangeNoAccess", toString()));
-                exception.initCause(except);
-                throw exception;
+                throw new CastorIllegalStateException(
+                        Messages.format("mapping.schemaChangeNoAccess", toString()),
+                        except);
             } catch ( InvocationTargetException except ) {
                 // This should never happen
                 throw new MappingRuntimeException(except.getTargetException());
@@ -587,9 +587,7 @@ public final class FieldHandlerImpl
                                 catch (Exception e) {
                                     String err = "Unable to instantiate an array of '" + 
                                         componentType + "' : " + e;
-                                    IllegalStateException exception = new IllegalStateException(err);
-                                    exception.initCause(e);
-                                    throw exception;
+                                    throw new CastorIllegalStateException(err, e);
                                 }
                             }
                         }
@@ -630,9 +628,7 @@ public final class FieldHandlerImpl
                                 catch (Exception e) {
                                     String err = "Unable to instantiate an array of '" + 
                                         componentType + "' : " + e;
-                                    IllegalStateException exception = new IllegalStateException(err);
-                                    exception.initCause(e);
-                                    throw exception;
+                                    throw new CastorIllegalStateException(err, e);
                                 }
                             }
                         }

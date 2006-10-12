@@ -2274,7 +2274,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         //storing causal exception using SAX non-standard method...
                         SAXException sx = new SAXException(err, ex);
                         //...and also using Java 1.4 method
-                        sx.initCause(ex);
+                        //sx.initCause(ex);
                         throw sx;
                     }
                 }
@@ -2497,7 +2497,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             // storing causal exception using SAX non-standard method...
             SAXException sx = new SAXException(msg, ex);
             //...and also using Java 1.4 method
-            sx.initCause(ex);
+            //sx.initCause(ex);
             throw sx;
         }
         return instance;

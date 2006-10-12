@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1619 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Backported Castor to Java 1.3 compatibility: Exceptions do not support claus.
+       Details: http://jira.codehaus.org/browse/CASTOR-1619
+       (Ralf - 20061012)
+
 XML:   Resolved issue CASTOR-1618 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Backported Castor to Java 1.3 compatibility: JAXP usage at Unmarshaller.
        Details: http://jira.codehaus.org/browse/CASTOR-1618

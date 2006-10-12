@@ -183,7 +183,8 @@ public final class OsCache extends AbstractBaseCache {
         try {
             return _getMethod.invoke(_cache, new Object[] {String.valueOf(key)});
         } catch (InvocationTargetException e) {
-            if (e.getCause().getClass().getName().equals(NEEDS_REFRESH_EXCEPTION)) {
+            String cause = e.getTargetException().getClass().getName(); 
+            if (cause.equals(NEEDS_REFRESH_EXCEPTION)) {
                 invokeCacheMethod(_cancelMethod, new Object[] {String.valueOf(key)});
                 return null;
             }

@@ -68,6 +68,7 @@ import org.exolab.castor.builder.binding.PackageTypeChoice;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.binding.types.BindingType;
 import org.exolab.castor.builder.util.ConsoleDialog;
+import org.exolab.castor.core.exceptions.CastorRuntimeException;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
@@ -575,7 +576,7 @@ public class SourceGenerator extends BuilderConfiguration {
                 except.printStackTrace();
             }
             if (_failOnFirstError) {
-                throw new RuntimeException(sx);
+                throw new CastorRuntimeException(sx);
             }
             return;
         }

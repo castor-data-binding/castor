@@ -37,16 +37,19 @@ public final class TestTransactionManagerAcquireException extends TestCase {
 
     public void test() {
         Exception ex;
+        TransactionManagerAcquireException tmae;
         
         ex = new TransactionManagerAcquireException("some reason");
         assertTrue(ex instanceof TransactionManagerAcquireException);
         assertEquals("some reason", ex.getMessage());
-        assertNull(ex.getCause());
+        tmae = (TransactionManagerAcquireException) ex;
+        assertNull(tmae.getCause());
         
         Exception root = new Exception("root exception");
         ex = new TransactionManagerAcquireException("other reason", root);
         assertTrue(ex instanceof TransactionManagerAcquireException);
         assertEquals("other reason", ex.getMessage());
-        assertEquals(root, ex.getCause());
+        tmae = (TransactionManagerAcquireException) ex;
+        assertEquals(root, tmae.getCause());
     }
 }

@@ -41,12 +41,12 @@ public final class TestCacheAcquireException extends TestCase {
         ex = new CacheAcquireException("some reason");
         assertTrue(ex instanceof CacheAcquireException);
         assertEquals("some reason", ex.getMessage());
-        assertNull(ex.getCause());
+        assertNull(((CacheAcquireException) ex).getCause());
         
         Exception root = new Exception("root exception");
         ex = new CacheAcquireException("other reason", root);
         assertTrue(ex instanceof CacheAcquireException);
         assertEquals("other reason", ex.getMessage());
-        assertEquals(root, ex.getCause());
+        assertEquals(root, ((CacheAcquireException) ex).getCause());
     }
 }

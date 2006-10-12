@@ -15,6 +15,9 @@
  */
 package org.castor.transactionmanager;
 
+import java.io.PrintStream;
+import java.io.PrintWriter;
+
 /**
  * An exception encapsulating an exception that occurs during the operation 
  * to acquire a <tt>javax.transaction.TransactionManager</tt>.
@@ -30,6 +33,9 @@ public final class TransactionManagerAcquireException extends Exception {
 
     /** SerialVersionUID. */
     private static final long serialVersionUID = -4473907453496999735L;
+
+    /** The cause for this exception. */
+    private Throwable _cause;
 
     /**
      * Creates a new TransactionManagerAcquireException with the given message.
@@ -48,7 +54,60 @@ public final class TransactionManagerAcquireException extends Exception {
      */
     public TransactionManagerAcquireException(
             final String message, final Throwable cause) {
-        super(message, cause);
+        super(message);
+        _cause = cause;
+    }
+
+    /**
+     * Match the JDK 1.4 Throwable version of getCause() on JDK<1.4 systems.
+     * 
+     * @return The throwable cause of this exception.
+     */
+    public Throwable getCause() {
+        return _cause;
+    }
+    
+    /**
+     * Print a stack trace to stderr.
+     */
+    public void printStackTrace() {
+        // Print the stack trace for this exception.
+        super.printStackTrace();
+
+        if (_cause != null) {
+            System.err.print("Caused by: ");
+            _cause.printStackTrace();
+        }
+    }
+
+    /**
+     * Print a stack trace to the specified PrintStream.
+     * 
+     * @param s The PrintStream to print a stack trace to.
+     */
+    public void printStackTrace(final PrintStream s) {
+        // Print the stack trace for this exception.
+        super.printStackTrace(s);
+
+        if (_cause != null) {
+            s.print("Caused by: ");
+            _cause.printStackTrace(s);
+        }
+    }
+
+    /**
+     * Print a stack trace to the specified PrintWriter.
+     * 
+     * @param w The PrintWriter to print a stack trace to.
+     */
+    public void printStackTrace(final PrintWriter w) {
+        // Print the stack trace for this exception.
+        super.printStackTrace(w);
+
+        if (_cause != null) {
+            w.print("Caused by: ");
+            _cause.printStackTrace(w);
+        }
     }
 
     //--------------------------------------------------------------------------
