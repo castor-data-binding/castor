@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.binding;
 
 //-Castor imports
@@ -70,33 +69,31 @@ import java.net.MalformedURLException;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-
 public class BindingLoader {
 
     /**
-     * The Source Generator Binding File loaded
-     * by this BindingLoader
+     * The Source Generator Binding File loaded by this BindingLoader.
      */
     private ExtendedBinding _binding;
 
     /**
-     * The binding resolver used for resolving entities
+     * The binding resolver used for resolving entities.
      */
     private BindingResolver _resolver = new BindingResolver();
-
 
     public BindingLoader() {
     }
 
-    public void loadBinding(String url) throws BindingException
-    {
-       InputSource source;
-       try {
+    public void loadBinding(String url) throws BindingException {
+        InputSource source;
+        try {
             source = _resolver.resolveEntity(null, url);
-            if (source == null)
+            if (source == null) {
                 source = new InputSource(url);
-            if (source.getSystemId() == null)
-               source.setSystemId(url);
+            }
+            if (source.getSystemId() == null) {
+                source.setSystemId(url);
+            }
             loadBinding(source);
         } catch (SAXException ex) {
             throw new BindingException(ex);
@@ -106,24 +103,25 @@ public class BindingLoader {
     }
 
     /**
-     * Loads a Binding Document. This method will load the
-     * binding document into a binding object and load all the included
-     * bindings along the way into a single collection.
+     * Loads a Binding Document. This method will load the binding document into
+     * a binding object and load all the included bindings along the way into a
+     * single collection.
      *
-     * @param source The binding document to load.
-     * @throws BindingException thrown when an error occured during the unmarshalling.
+     * @param source
+     *            The binding document to load.
+     * @throws BindingException
+     *             thrown when an error occured during the unmarshalling.
      */
-    public void loadBinding(InputSource source) throws BindingException
-    {
-
+    public void loadBinding(InputSource source) throws BindingException {
         Binding loaded = null;
         if (_binding == null) {
             _binding = new ExtendedBinding();
         }
-        //do not use the static method to ensure
-        //validation is turned on
+
+        //do not use the static method to ensure validation is turned on
         Unmarshaller unmarshaller = new Unmarshaller(Binding.class);
         unmarshaller.setValidation(true);
+
         try {
             loaded = (Binding)unmarshaller.unmarshal(source);
 
@@ -200,23 +198,22 @@ public class BindingLoader {
     /**
      * Returns the binding loaded by the BindingLoader
      *
-     * @return the binding loaded by this BindingLoader. This will
-     * return null if no call to loadBinding has been previously made.
+     * @return the binding loaded by this BindingLoader. This will return null
+     *         if no call to loadBinding has been previously made.
      */
-
     public ExtendedBinding getBinding() {
         return _binding;
     }
 
     /**
-     * Sets the base URL for the binding and related files. If the base
-     * URL is known, files can be included using relative names. Any URL
-     * can be passed, if the URL can serve as a base URL it will be used.
+     * Sets the base URL for the binding and related files. If the base URL is
+     * known, files can be included using relative names. Any URL can be passed,
+     * if the URL can serve as a base URL it will be used.
      *
-     * @param url The base URL
+     * @param url
+     *            The base URL
      */
-    public void setBaseURL( String url )
-    {
+    public void setBaseURL(String url) {
         try {
             _resolver.setBaseURL( new URL( url ) );
         } catch ( MalformedURLException except ) {
@@ -225,24 +222,24 @@ public class BindingLoader {
     }
 
     /**
-     * Factory method that returns a binding given an InputSource. The InputSource
-     * identifies a Binding Document meant to be loaded.
+     * Factory method that returns a binding given an InputSource. The
+     * InputSource identifies a Binding Document meant to be loaded.
      *
-     * @param source the InputSource identifying the binding document to be loaded.
-     * @return a binding that contains the different component bindings to be used
-     * in the source generator.
-     * @throws BindingException thrown when the given InputSource doesn't refer
-     * to a valid Binding document.
+     * @param source
+     *            the InputSource identifying the binding document to be loaded.
+     * @return a binding that contains the different component bindings to be
+     *         used in the source generator.
+     * @throws BindingException
+     *             thrown when the given InputSource doesn't refer to a valid
+     *             Binding document.
      */
-    public static ExtendedBinding createBinding(InputSource source)  throws BindingException
-    {
+    public static ExtendedBinding createBinding(InputSource source) throws BindingException {
        BindingLoader loader = new BindingLoader();
        loader.loadBinding(source);
        return loader.getBinding();
     }
 
-    public static ExtendedBinding createBinding(String fileName)  throws BindingException
-    {
+    public static ExtendedBinding createBinding(String fileName) throws BindingException {
         BindingLoader loader = new BindingLoader();
         InputSource source = new InputSource(fileName);
         loader.loadBinding(source);
@@ -250,20 +247,20 @@ public class BindingLoader {
     }
 
     class BindingResolver implements EntityResolver {
+        private static final String BINDING_PUBLICID = "-//EXOLAB/Castor Binding Schema Version 1.0//EN";
+        private static final String BINDING_SYSTEMID = "http://exolab.castor.org/binding.xsd";
+        private static final String BINDING_RESOURCE = "/org/exolab/castor/builder/binding/binding.xsd";
 
-       private static final String BINDING_PUBLICID = "-//EXOLAB/Castor Binding Schema Version 1.0//EN";
-       private static final String BINDING_SYSTEMID = "http://exolab.castor.org/binding.xsd";
-       private static final String BINDING_RESOURCE = "/org/exolab/castor/builder/binding/binding.xsd";
-       /**
-        * Base URL, if known.
-        */
+        /**
+         * Base URL, if known.
+         */
         private URL            _baseUrl;
 
-        public void setBaseURL( URL baseUrl ) {
+        public void setBaseURL(URL baseUrl) {
             _baseUrl = baseUrl;
         }
 
-        public URL getBaseURL( ) {
+        public URL getBaseURL() {
             return _baseUrl;
         }
 
@@ -272,9 +269,7 @@ public class BindingLoader {
          * @see org.exolab.castor.util.DTDResolver#resolveEntity(java.lang.String, java.lang.String)
          * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
          */
-        public InputSource resolveEntity( String publicId, String systemId )
-            throws IOException, SAXException
-        {
+        public InputSource resolveEntity( String publicId, String systemId) throws IOException, SAXException {
             InputSource source = null;
 
             // First, resolve the schema if any
@@ -283,6 +278,7 @@ public class BindingLoader {
                 source.setPublicId(publicId);
                 return source;
             }
+
             if  (systemId != null && systemId.equals(BINDING_SYSTEMID)) {
                 source =  new InputSource(getClass().getResourceAsStream(BINDING_RESOURCE));
                 source.setSystemId(systemId);
@@ -304,9 +300,9 @@ public class BindingLoader {
                         source = new InputSource( url.openStream() );
                         source.setSystemId(systemId);
                         return source;
-                     } catch ( MalformedURLException ex2 ) {
+                    } catch ( MalformedURLException ex2 ) {
                         throw new SAXException(ex2);
-                     }
+                    }
                 }
             }
             // No resolving.
@@ -314,4 +310,5 @@ public class BindingLoader {
         }
 
     }//--BindingResolver
+
 }

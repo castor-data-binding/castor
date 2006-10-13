@@ -42,192 +42,179 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
-
-
 
 /**
  * A class to hold group information
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public class GroupInfo {
-    /** 
-     * The compositor value that indicates that all fields are
-     * required, but order is not important.
-     * <I>default</I>
-    **/ 
+    /**
+     * The compositor value that indicates that all fields are required, but
+     * order is not important. <I>default</I>
+     */
     public static final int ALL    = 0;
-    
+
     /**
-     * The compositor value that indicates that only one 
-     * field may be present
-    **/
+     * The compositor value that indicates that only one field may be present.
+     */
     public static final int CHOICE = 1;
-    
-    /** 
-     * The compositor value that indicates that all fields are
-     * required and order is important
-    **/ 
+
+    /**
+     * The compositor value that indicates that all fields are required and
+     * order is important.
+     */
     public static final int SEQUENCE = 2;
-    
+
     /**
-     * A flag indicating if the object described by this
-     * XML info can appear more than once
-    **/
+     * A flag indicating if the object described by this XML info can appear
+     * more than once.
+     */
     private boolean multivalued = false;
-    
+
     /**
-     * indicates the XML object must appear at least once
-    **/
+     * indicates the XML object must appear at least once.
+     */
     private boolean required = false;
-    
-    
+
     /**
-     * The compositor for this XMLInfo
-    **/
+     * The compositor for this XMLInfo.
+     */
     private int _compositor = ALL;
-    
+
     /**
-     * The minimum occurance for this group
-    **/
+     * The minimum occurance for this group.
+     */
     private int _minOccurs = 1;
-    
+
     /**
-     * The maximum occurance for this group
-    **/
+     * The maximum occurance for this group.
+     */
     private int _maxOccurs = 1;
-    
-    
+
     /**
-     * Creates a new GroupInfo
-    **/
+     * Creates a new GroupInfo.
+     */
     public GroupInfo() {
         super();
     } //-- GroupInfo
-    
+
     /**
-     * Returns the maximum occurance for this group
+     * Returns the maximum occurance for this group.
      *
-     * @return the maximum occurance for this group
-    **/
+     * @return the maximum occurance for this group.
+     */
     public int getMaxOccurs() {
         return _maxOccurs;
     } //-- getMaxOccurs
-    
+
     /**
-     * Returns the minimum occurance for this group
+     * Returns the minimum occurance for this group.
      *
-     * @return the minimum occurance for this group
-    **/
+     * @return the minimum occurance for this group.
+     */
     public int getMinOccurs() {
         return _minOccurs;
     } //-- getMinOccurs
-    
+
     /**
-     * Return whether or not the object described by this XMLInfo
-     * is multi-valued (appears more than once in the XML document)
-     * @return true if this object can appear more than once
-    **/
+     * Return whether or not the object described by this XMLInfo is
+     * multi-valued (appears more than once in the XML document).
+     *
+     * @return true if this object can appear more than once.
+     */
     public boolean isMultivalued() {
         return multivalued;
     } //-- isMultivalued
-    
+
     /**
-     * Return true if the XML object described by this GroupInfo must
-     * appear at least once in the XML document (or object model)
-     * @return true if the XML object must appear at least once
-    **/
+     * Return true if the XML object described by this GroupInfo must appear at
+     * least once in the XML document (or object model).
+     *
+     * @return true if the XML object must appear at least once.
+     */
     public boolean isRequired() {
         return required;
     } //-- isRequired
-    
+
     /**
-     * Returns true if the compositor of this GroupInfo is a choice
-     * @return true if the compositor of this GroupInfo is a choice
-    **/
+     * Returns true if the compositor of this GroupInfo is a choice.
+     * @return true if the compositor of this GroupInfo is a choice.
+     */
     public boolean isChoice() {
         return (_compositor == CHOICE);
     } //-- isChoice
 
     /**
-     * Returns true if the compositor of this GroupInfo is a sequence
-     * @return true if the compositor of this GroupInfo is a sequence
-    **/
+     * Returns true if the compositor of this GroupInfo is a sequence.
+     *
+     * @return true if the compositor of this GroupInfo is a sequence.
+     */
     public boolean isSequence() {
         return (_compositor == SEQUENCE);
     } //-- isSequence
-    
+
     /**
-     * Sets the compositor for the fields of this group to
-     * be "all".
-    **/
+     * Sets the compositor for the fields of this group to be "all".
+     */
     public void setAsAll() {
         this._compositor = ALL;
     } //-- setAsAll
-    
+
     /**
-     * Sets the compositor for the fields of this group to
-     * be a choice
-    **/
+     * Sets the compositor for the fields of this group to be a choice.
+     */
     public void setAsChoice() {
         this._compositor = CHOICE;
     } //-- setAsChoice
-    
+
     /**
-     * Sets the compositor for the fields of this group to
-     * be a sequence
-    **/
+     * Sets the compositor for the fields of this group to be a sequence.
+     */
     public void setAsSequence() {
         this._compositor = SEQUENCE;
     } //-- setAsSequence
 
     /**
-     * Sets the maximum occurance for this group
+     * Sets the maximum occurance for this group.
      *
-     * @param maxOccurs the maximum occurance this group must appear
-    **/
+     * @param maxOccurs
+     *            the maximum occurance this group must appear
+     */
     public void setMaxOccurs(int maxOccurs) {
-        if (maxOccurs < 0) {
-            _maxOccurs = -1;
-        }
-        else {
-            _maxOccurs = maxOccurs;
-        }
+        _maxOccurs = (maxOccurs < 0) ? -1 : maxOccurs;
     } //-- setMaxOccurs
-    
+
     /**
-     * Sets the minimum occurance for this group
+     * Sets the minimum occurance for this group.
      *
-     * @param minOccurs the minimum occurance this group must appear
-    **/
+     * @param minOccurs
+     *            the minimum occurance this group must appear
+     */
     public void setMinOccurs(int minOccurs) {
-        if (minOccurs < 0) {
-            _minOccurs = 1;
-        }
-        else {
-            _minOccurs = minOccurs;
-        }
+        _minOccurs = (minOccurs < 0) ? 1 :minOccurs;
     } //-- setMinOccurs
-    
+
     /**
-     * Sets whether the XML object can appear more than once in the
-     * XML document
-     * @param multivalued the boolean indicating whether or not 
-     * the object can appear more than once
-    **/
+     * Sets whether the XML object can appear more than once in the XML document.
+     *
+     * @param multivalued
+     *            the boolean indicating whether or not the object can appear
+     *            more than once
+     */
     public void setMultivalued(boolean multivalued) {
         this.multivalued = multivalued;
     } //-- setMultivalued
-    
+
     /**
-     * Sets whether or not the XML object must appear at least once
-     * @param required the flag indicating whether or not this XML
-     * object is required
-    **/
+     * Sets whether or not the XML object must appear at least once.
+     *
+     * @param required
+     *            the flag indicating whether or not this XML object is required
+     */
     public void setRequired(boolean required) {
         this.required = required;
     } //-- setRequired
-    
+
 } //-- GroupInfo

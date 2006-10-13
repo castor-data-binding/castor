@@ -74,39 +74,34 @@ class FactoryState implements ClassInfoResolver {
     private Vector            _processed = null;
     private SGStateInfo       _sgState   = null;
     private boolean           _createGroupItem = false;
-    
-    
+
+
     /**
-     * Keeps track of whether or not the BoundProperties
-     * methods have been created
-    **/
+     * Keeps track of whether or not the BoundProperties methods have been
+     * created
+     */
     private boolean           _bound = false;
 
     /**
      * Keeps track of the different FactoryState
      */
-     private FactoryState _parent = null;
+    private FactoryState _parent = null;
 
     //----------------/
     //- Constructors -/
     //----------------/
 
-    /**
-     * Creates a new FactoryState
-    **/
-
-    protected FactoryState
-        (String className, SGStateInfo sgState, String packageName)
-    {
-       if (sgState == null)
+    protected FactoryState(String className, SGStateInfo sgState, String packageName) {
+        if (sgState == null) {
             throw new IllegalArgumentException("SGStateInfo cannot be null.");
+        }
 
         _sgState     = sgState;
         _processed   = new Vector();
 
-		//keep the elements and complexType already processed
-		//if (resolver instanceof FactoryState)
-		   //_processed = ((FactoryState)resolver)._processed;
+        //keep the elements and complexType already processed
+        //if (resolver instanceof FactoryState)
+           //_processed = ((FactoryState)resolver)._processed;
 
         jClass       = new JClass(className);
         classInfo    = new ClassInfo(jClass);
@@ -124,19 +119,22 @@ class FactoryState implements ClassInfoResolver {
     //-----------/
 
     /**
-     * Adds the given Reference to this ClassInfo resolver
-     * @param key the key to bind a reference to
-     * @param classInfo the ClassInfo which is being referenced
-    **/
+     * Adds the given Reference to this ClassInfo resolver.
+     *
+     * @param key
+     *            the key to bind a reference to
+     * @param classInfo
+     *            the ClassInfo which is being referenced
+     */
     public void bindReference(Object key, ClassInfo classInfo) {
         _resolver.bindReference(key, classInfo);
     } //-- bindReference
 
     /**
-     * Returns the SGStateInfo
+     * Returns the SGStateInfo.
      *
-     * @return the SGStateInfo
-    **/
+     * @return the SGStateInfo.
+     */
     SGStateInfo getSGStateInfo() {
         return _sgState;
     } //-- getSGStateInfo
@@ -144,19 +142,24 @@ class FactoryState implements ClassInfoResolver {
     /**
      * Marks the given Annotated XML Schema structure as having been processed.
      *
-     * @param annotated the Annotated XML Schema structure to mark as having
-     * been processed.
-    **/
+     * @param annotated
+     *            the Annotated XML Schema structure to mark as having been
+     *            processed.
+     */
     void markAsProcessed(Annotated annotated) {
         _processed.addElement(annotated);
     } //-- markAsProcessed
 
     /**
-     * Returns true if the given Annotated XML Schema structure has been marked as processed.
+     * Returns true if the given Annotated XML Schema structure has been marked
+     * as processed.
      *
-     * @param annotated the Annotated XML Schema structure to check for being marked as processed
-     * @return true if the given Annotated XML Schema structure has been marked as processed
-    **/
+     * @param annotated
+     *            the Annotated XML Schema structure to check for being marked
+     *            as processed
+     * @return true if the given Annotated XML Schema structure has been marked
+     *         as processed
+     */
     boolean processed(Annotated annotated) {
         boolean result = _processed.contains(annotated);
         if (!result) {
@@ -167,70 +170,80 @@ class FactoryState implements ClassInfoResolver {
         return result;
     } //-- processed
 
-	/**
-     * Returns true if any bound properties have been found
+    /**
+     * Returns true if any bound properties have been found.
      *
-     * @return true if any bound properties have been found
-    **/
+     * @return true if any bound properties have been found.
+     */
     boolean hasBoundProperties() {
         return _bound;
     } //-- hasBoundProperties
 
     /**
-     * Allows setting the bound properties flag
+     * Allows setting the bound properties flag.
      *
-     * @param bound the new value of the bound properties flag
+     * @param bound
+     *            the new value of the bound properties flag
      * @see #hasBoundProperties
-    **/
+     */
     void setBoundProperties(boolean bound) {
         _bound = bound;
     } //-- setBoundProperties
 
     /**
      * Returns the ClassInfo which has been bound to the given key
-     * @param key the object to which the ClassInfo has been bound
+     *
+     * @param key
+     *            the object to which the ClassInfo has been bound
      * @return the ClassInfo which has been bound to the given key
-    **/
+     */
     public ClassInfo resolve(Object key) {
         return _resolver.resolve(key);
     } //-- resolve
 
     /**
-     * Returns true if we are currently in the state of
-     * creating a group item class.
-     * @return true if we are currently in the state of
-     * creating a group item class.
+     * Returns true if we are currently in the state of creating a group item
+     * class.
+     *
+     * @return true if we are currently in the state of creating a group item
+     *         class.
      */
     boolean isCreateGroupItem() {
         return _createGroupItem;
     }
 
     /**
-     * Sets to true if we are currently generating a class
-     * to represent items in a group.
-     * @param createGroupItem true if we are currently generating a class
-     * to represent items in a group.
+     * Sets to true if we are currently generating a class to represent items in
+     * a group.
+     *
+     * @param createGroupItem
+     *            true if we are currently generating a class to represent items
+     *            in a group.
      */
      void setCreateGroupItem(boolean createGroupItem) {
          _createGroupItem = createGroupItem;
      }
 
      /**
-      * Returns the parent of this FactoryState.
-      * The parent of a factory state is the previous item
-      * of the list that contained all the created factory states.
+      * Returns the parent of this FactoryState. The parent of a factory
+      * state is the previous item of the list that contained all the created
+      * factory states.
+      *
       * @return the parent of this FactoryState.
       */
      FactoryState getParent() {
-        return _parent;
+         return _parent;
      }
 
      /**
       * Sets the parent of this FactoryState
-      * @param parent the parent FactoryState
+      *
+      * @param parent
+      *            the parent FactoryState
       * @see #getParent
       */
      void setParent(FactoryState parent) {
          _parent = parent;
      }
+
 } //-- FactoryState

@@ -48,246 +48,241 @@ package org.exolab.castor.builder;
 import org.exolab.castor.builder.types.XSType;
 
 /**
- * <p>This interface is the abstraction of any type of source that can interact with
- * the Source Code Generator.
- * From the Source Code Generator point of view, the source document used to generate
- * Java source code is totally transparent and is not exposed.
- * <p>Specific implementation of that class will represent the source document used. 
- * For instance when generating source code from an XML Schema, the source generator will 
- * interact with an {@link org.exolab.castor.builder.binding.XMLBindingComponent}
- * whereas when generating source code from an UML model object model, the source generator
- * will interact with an UMLBindingComponent (This is obviously just an example, no UML Object Model
- * has been as of today integrated in Castor).
- * <p>A binding component can be of three different types:
- *  <ul>
- *     <li>MEMBER: this type of BindingComponent will represent a java class member.</li>
- *     <li>INTERFACE: this type of BindingComponent will represent a java interface.</li>
- *     <li>CLASS: this type of BindingComponent will represent a java class.</li>
- *  </ul>
- * 
+ * This interface is the abstraction of any type of source that can interact
+ * with the Source Code Generator. From the Source Code Generator point of view,
+ * the source document used to generate Java source code is totally transparent
+ * and is not exposed.
+ * <p>
+ * Specific implementation of that class will represent the source document
+ * used. For instance when generating source code from an XML Schema, the source
+ * generator will interact with an
+ * {@link org.exolab.castor.builder.binding.XMLBindingComponent} whereas when
+ * generating source code from an UML model object model, the source generator
+ * will interact with an UMLBindingComponent (This is obviously just an example,
+ * no UML Object Model has been as of today integrated in Castor).
+ * <p>
+ * A binding component can be of three different types:
+ * <ul>
+ *   <li>MEMBER: this type of BindingComponent will represent a java class
+ *       member.</li>
+ *   <li>INTERFACE: this type of BindingComponent will represent a java
+ *       interface.</li>
+ *   <li>CLASS: this type of BindingComponent will represent a java class.</li>
+ * </ul>
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public interface BindingComponent {
 
-	//--Constants to represent the different types.
-
+    //--Constants to represent the different types.
     public final static short INTERFACE = 0;
-	public final static short CLASS = 1;
-	public final static short MEMBER = 2;
+    public final static short CLASS     = 1;
+    public final static short MEMBER    = 2;
 
-	/**
-	 * Returns true if the given Object is equal to this instance of BindingComponent.
-	 *
-	 * @return true if the given Object is equal to this instance of BindingComponent.
-	 * @see java.lang.Object#equals(java.lang.Object)
-	 */
-	public boolean equals(Object object);
-	
-	/**
-	 * Returns the name of collection type such as 'arraylist' in which we will store the different occurrences
-	 * of the java member generated to represent that BindingComponent.
-	 *
-	 * @return a string that represents the collection type such as 'arraylist' name in which we will store
-	 * the different occurrences of the java member generated to represent that BindingComponent.
-	 *
-	 */
-	public String getCollectionType();
-	
-	/**
-	 * Returns the name of a super class for the current BindingComponent.
-	 * Null is returned if this BindingComponent is not meant to be mapped to
-	 * a java class.
-	 *
-	 * @return the name of a super class for the current BindingComponent.
-	 * Null is returned if this BindingComponent is not meant to be mapped to
-	 * a java class.
-	 */
-	public String getExtends();
-	
-	
-	/**
-	 * Returns an array of the different interface names implemented by the class
-	 * that will represent the current BindingComponent. Null is returned if this
-	 * BindingComponent is not meant to be mapped to a java class.
-	 *
-	 * @return an array of the different interface names implemented by the class
-	 * that will represent the current BindingComponent. Null is returned if this
-	 * BindingComponent is not meant to be mapped to a java class.
-	 */
-	public String[] getImplements();
+    /**
+     * Returns true if the given Object is equal to this instance of
+     * BindingComponent.
+     *
+     * @return true if the given Object is equal to this instance of
+     *         BindingComponent.
+     * @see java.lang.Object#equals(java.lang.Object)
+     */
+    public boolean equals(Object object);
 
-	
-	/**
-	 * Returns a valid Java Class Name corresponding to this BindingComponent.
-	 * This name is not qualified, this is only a local Java class name.
-	 *
-	 * @return a valid Java Class Name corresponding to this BindingComponent.
-	 * This name is not qualified, this is only a local Java class name.
-	 * @see #getQualifiedName
-	 */
-	public String getJavaClassName();
+    /**
+     * Returns the name of collection type such as 'arraylist' in which we will
+     * store the different occurrences of the java member generated to represent
+     * that BindingComponent.
+     *
+     * @return a string that represents the collection type such as 'arraylist'
+     *         name in which we will store the different occurrences of the java
+     *         member generated to represent that BindingComponent.
+     */
+    public String getCollectionType();
 
-	/**
-	* Returns a valid Java Member Name corresponding to this BindingComponent.
-	* This name is not qualified, this is only a local Java Member name.
-	*
-	* @return a valid Java Member Name corresponding to this BindingComponent.
-	* This name is not qualified, this is only a local Java member name.
-	* @see #getQualifiedName
-	*/
-	public String getJavaMemberName();
-	
-	/**
-	 * Returns the java package associated with this BindingComponent.
-	 *
-	 * @return the java package associated with this BindingComponent.
-	 */
-	public String getJavaPackage();
-	
-	
-	/**
-	 * <p>Returns the XSType that corresponds to the Java type chosen to represent
-	 * this BindingComponent.
-	 * An XSType is an abstraction of a Java type used in the Source Generator. It
-	 * wraps a JType as well as the necessary methods to convert to/from String.
-	 *
-	 * @return an XSType that corresponds to the Java type chosen to represent
-	 * this BindingComponent.
-	 */
-	public XSType getJavaType();
-	
-	/**
-	 * Returns the lower bound of the collection that is generated from
-	 * this BindingComponent. The lower bound is a positive integer.
-	 * 
-	 * @return an int representing the lower bound of the collection generated
-	 * from this BindingComponent.
-	 */
-	public int getLowerBound();
+    /**
+     * Returns the name of a super class for the current BindingComponent. Null
+     * is returned if this BindingComponent is not meant to be mapped to a java
+     * class.
+     *
+     * @return the name of a super class for the current BindingComponent. Null
+     *         is returned if this BindingComponent is not meant to be mapped to
+     *         a java class.
+     */
+    public String getExtends();
 
-	/**
-	 * <p>Returns a fully qualified java class name. This name corresponds to
-	 * the class name that will be generated from this BindingComponent.
-	 *
-	 * @return a fully qualified java class name. This name corresponds to
-	 * the class name corresponding to this BindingComponent.
-	 */
-	public String getQualifiedName();
-	
-	/**
-	 * <p>Returns the type of this component binding. A component binding can
-	 * be of three different types:
-	 * <ul>
-	 *     <li>Interface: it represents the binding to a java interface.</li>
-	 *     <li>Class: it represents the binding to a java class.</li>
-	 *     <li>Member: it represents the binding to a java class member.</li>
-	 * </ul>
-	 * <p>-1 is returned if the component binding is null.
-	 *
-	 * @return the type of this component binding. A component binding can
-	 * be of three different types:
-	 * <ul>
-	 *     <li>Interface: it represents the binding to a java interface.</li>
-	 *     <li>Class: it represents the binding to a java class.</li>
-	 *     <li>Member: it represents the binding to a java class member.</li>
-	 * </ul>
-	 * -1 is returned if the component binding is null.
-	 */
-	public short getType();
-	
-	/**
-	 * Returns the upper bound of the collection that is generated from
-	 * this BindingComponent. The upper bound is a positive integer. -1 is returned
-	 * to indicate that the upper bound is unbounded.
-	 * 
-	 * @return an int representing the lower bound of the collection generated
-	 * from this BindingComponent. -1 is returned to indicate that the upper bound is uinbounded.
-	 */
-	public int getUpperBound();
-	
-	/**
-	 * Returns the default value of the member generated from this binding component.
-	 * The value is returned as its string representation.
-	 *
-	 * @return a string representation of default value for the member generated
-	 * from this binding component.
-	 */
-	public String getValue();
+    /**
+     * Returns an array of the different interface names implemented by the
+     * class that will represent the current BindingComponent. Null is returned
+     * if this BindingComponent is not meant to be mapped to a java class.
+     *
+     * @return an array of the different interface names implemented by the
+     *         class that will represent the current BindingComponent. Null is
+     *         returned if this BindingComponent is not meant to be mapped to a
+     *         java class.
+     */
+    public String[] getImplements();
 
-	/**
-	 * Returns the fully qualified name of the Validator to use.
-	 *
-	 * @return the fully qualified name of the Validator to use.
-	 */
-	public String getValidator();
+    /**
+     * Returns a valid Java Class Name corresponding to this BindingComponent.
+     * This name is not qualified, this is only a local Java class name.
+     *
+     * @return a valid Java Class Name corresponding to this BindingComponent.
+     *         This name is not qualified, this is only a local Java class name.
+     * @see #getQualifiedName
+     */
+    public String getJavaClassName();
 
-	/**
-	 * Returns the fully qualified name of the XMLFieldHandler to use.
-	 * This handler will be used when generating ClassDescriptors meant
-	 * to be used in the marshalling framework.
-	 *
-	 * @return the fully qualified name of the XMLFieldHandler to use.
-	 */
-	public String getXMLFieldHandler();
-	
-	
-	/**
-	 * Returns true if bound properties must be generated for the class
-	 * that will represent the current BindingComponent.
-	 *
-	 * @return true if bound properties must be generated for the class
-	 * the class that will represent the current BindingComponent.
-	 */
-	public boolean hasBoundProperties();
+    /**
+     * Returns a valid Java Member Name corresponding to this BindingComponent.
+     * This name is not qualified, this is only a local Java Member name.
+     *
+     * @return a valid Java Member Name corresponding to this BindingComponent.
+     *         This name is not qualified, this is only a local Java member
+     *         name.
+     * @see #getQualifiedName
+     */
+    public String getJavaMemberName();
 
-	/**
-	 * Returns true if equal method must be generated for the class
-	 * that will represent the current BindingComponent.
-	 *
-	 * @return true if equal method must be generated for the class
-	 * the class that will represent the current BindingComponent.
-	 */
-	public boolean hasEquals();
-	
-	
-	/**
-	 * Returns the hashCode value for this object.
-	 *
-	 * @return the hashcode value for this object.
-	 * @see java.lang.Object#hashCode()
-	 */
-	public int hashCode();
-	
+    /**
+     * Returns the java package associated with this BindingComponent.
+     *
+     * @return the java package associated with this BindingComponent.
+     */
+    public String getJavaPackage();
 
-	/**
-	 * Returns true if the class generated from the current BindingComponent will
-	 * be abstract.
-	 *
-	 * @return true if the class generated from the current BindingComponent will
-	 * be abstract.
-	 */
-	public boolean isAbstract();
+    /**
+     * Returns the XSType that corresponds to the Java type chosen to represent
+     * this BindingComponent. An XSType is an abstraction of a Java type used in
+     * the Source Generator. It wraps a JType as well as the necessary methods
+     * to convert to/from String.
+     *
+     * @return an XSType that corresponds to the Java type chosen to represent
+     *         this BindingComponent.
+     */
+    public XSType getJavaType();
 
-	/**
-	 * Returns true if the class generated from the current BindingComponent will
-	 * be final.
-	 *
-	 * @return true if the class generated from the current BindingComponent will
-	 * be final.
-	 */
-	public boolean isFinal();
+    /**
+     * Returns the lower bound of the collection that is generated from this
+     * BindingComponent. The lower bound is a positive integer.
+     *
+     * @return an int representing the lower bound of the collection generated
+     *         from this BindingComponent.
+     */
+    public int getLowerBound();
 
-	
-	/**
-	 * Returns true if the member represented by that BindingComponent
-	 * is to be represented by an Object wrapper. For instance an int will be
-	 * represented by a java Integer if the property is set to true.
-	 *
-	 * @return true if the member represented by that BindingComponent
-	 * is to be represented by an Object wrapper.
-	 */
-	public boolean useWrapper();
-	
+    /**
+     * Returns a fully qualified java class name. This name corresponds to the
+     * class name that will be generated from this BindingComponent.
+     *
+     * @return a fully qualified java class name. This name corresponds to the
+     *         class name corresponding to this BindingComponent.
+     */
+    public String getQualifiedName();
+
+    /**
+     * Returns the type of this component binding. A component binding can be of
+     * three different types:
+     * <ul>
+     *   <li>Interface: it represents the binding to a java interface.</li>
+     *   <li>Class: it represents the binding to a java class.</li>
+     *   <li>Member: it represents the binding to a java class member.</li>
+     * </ul>
+     * -1 is returned if the component binding is null.
+     *
+     * @return the type of this component binding.
+     */
+    public short getType();
+
+    /**
+     * Returns the upper bound of the collection that is generated from this
+     * BindingComponent. The upper bound is a positive integer. -1 is returned
+     * to indicate that the upper bound is unbounded.
+     *
+     * @return an int representing the lower bound of the collection generated
+     *         from this BindingComponent. -1 is returned to indicate that the
+     *         upper bound is uinbounded.
+     */
+    public int getUpperBound();
+
+    /**
+     * Returns the default value of the member generated from this binding
+     * component. The value is returned as its string representation.
+     *
+     * @return a string representation of default value for the member generated
+     *         from this binding component.
+     */
+    public String getValue();
+
+    /**
+     * Returns the fully qualified name of the Validator to use.
+     *
+     * @return the fully qualified name of the Validator to use.
+     */
+    public String getValidator();
+
+    /**
+     * Returns the fully qualified name of the XMLFieldHandler to use. This
+     * handler will be used when generating ClassDescriptors meant to be used in
+     * the marshalling framework.
+     *
+     * @return the fully qualified name of the XMLFieldHandler to use.
+     */
+    public String getXMLFieldHandler();
+
+    /**
+     * Returns true if bound properties must be generated for the class that
+     * will represent the current BindingComponent.
+     *
+     * @return true if bound properties must be generated for the class the
+     *         class that will represent the current BindingComponent.
+     */
+    public boolean hasBoundProperties();
+
+    /**
+     * Returns true if equal method must be generated for the class that will
+     * represent the current BindingComponent.
+     *
+     * @return true if equal method must be generated for the class the class
+     *         that will represent the current BindingComponent.
+     */
+    public boolean hasEquals();
+
+    /**
+     * Returns the hashCode value for this object.
+     *
+     * @return the hashcode value for this object.
+     * @see java.lang.Object#hashCode()
+     */
+    public int hashCode();
+
+    /**
+     * Returns true if the class generated from the current BindingComponent
+     * will be abstract.
+     *
+     * @return true if the class generated from the current BindingComponent
+     *         will be abstract.
+     */
+    public boolean isAbstract();
+
+    /**
+     * Returns true if the class generated from the current BindingComponent
+     * will be final.
+     *
+     * @return true if the class generated from the current BindingComponent
+     *         will be final.
+     */
+    public boolean isFinal();
+
+    /**
+     * Returns true if the member represented by that BindingComponent is to be
+     * represented by an Object wrapper. For instance an int will be represented
+     * by a java Integer if the property is set to true.
+     *
+     * @return true if the member represented by that BindingComponent is to be
+     *         represented by an Object wrapper.
+     */
+    public boolean useWrapper();
+
 }

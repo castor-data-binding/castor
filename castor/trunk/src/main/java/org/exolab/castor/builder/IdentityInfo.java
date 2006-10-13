@@ -42,16 +42,17 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
-import org.exolab.castor.builder.types.*;
-import org.exolab.javasource.*;
+import org.exolab.castor.builder.types.XSId;
+import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar
- *          2005) $
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class IdentityInfo extends FieldInfo {
 

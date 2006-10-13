@@ -42,30 +42,28 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
-
 /**
- * A class for "caching" ClassInfo's which later need to be
- * resolved (retrieved) by another ClassInfo
+ * A class for "caching" ClassInfo's which later need to be resolved (retrieved)
+ * by another ClassInfo
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public interface ClassInfoResolver {
-    
+
     /**
-     * Adds the given Reference to this ClassInfo resolver
+     * Adds the given Reference to this ClassInfo resolver.
      * @param key the key to bind a reference to
      * @param classInfo the ClassInfo which is being referenced
-    **/
+     */
     public void bindReference(Object key, ClassInfo classInfo);
-    
+
     /**
-     * Returns the ClassInfo which has been bound to the given key
+     * Returns the ClassInfo which has been bound to the given key.
      * @param key the object to which the ClassInfo has been bound
-     * @return the ClassInfo which has been bound to the given key
-    **/
+     * @return the ClassInfo which has been bound to the given key.
+     */
     public ClassInfo resolve(Object key);
-    
+
 } //-- ClassInfoResolver

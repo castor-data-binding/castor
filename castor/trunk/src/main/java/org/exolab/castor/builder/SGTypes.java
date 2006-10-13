@@ -42,54 +42,45 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
-
-import org.exolab.javasource.*;
-
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JCollectionType;
+import org.exolab.javasource.JType;
 
 /**
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-10-10 06:35:52 -0600 (Mon, 10 Oct 2005) $
-**/
+ */
 public class SGTypes {
 
     //-----------------------/
     //- org.xml.sax Objects -/
     //-----------------------/
 
-    public static final JClass SAXException
-        = new JClass("org.xml.sax.SAXException");
+    public static final JClass SAXException = new JClass("org.xml.sax.SAXException");
 
 
     //---------------------------/
     //- org.exolab.castor types -/
     //---------------------------/
 
-    public static final JClass UnmarshalException =
-        new JClass("org.exolab.castor.xml.UnmarshalException");
+    public static final JClass UnmarshalException  = new JClass("org.exolab.castor.xml.UnmarshalException");
 
-    public static final JClass MarshalException =
-        new JClass("org.exolab.castor.xml.MarshalException");
+    public static final JClass MarshalException    = new JClass("org.exolab.castor.xml.MarshalException");
 
-    public static final JClass ValidationException =
-        new JClass("org.exolab.castor.xml.ValidationException");
+    public static final JClass ValidationException = new JClass("org.exolab.castor.xml.ValidationException");
 
     //---------------/
     //- JDK Objects -/
     //---------------/
 
     //-- java.lang
-    public static final JClass IllegalStateException
-        = new JClass("java.lang.IllegalStateException");
+    public static final JClass IllegalStateException     = new JClass("java.lang.IllegalStateException");
 
-    public static final JClass IndexOutOfBoundsException
-        = new JClass("java.lang.IndexOutOfBoundsException");
+    public static final JClass IndexOutOfBoundsException = new JClass("java.lang.IndexOutOfBoundsException");
 
-    public static final JClass InstantiationException
-        = new JClass("java.lang.InstantiationException");
-
+    public static final JClass InstantiationException    = new JClass("java.lang.InstantiationException");
 
     public static final JClass Class         = new JClass("java.lang.Class");
     public static final JClass Object        = new JClass("java.lang.Object");
@@ -114,7 +105,7 @@ public class SGTypes {
 
     //-- java.beans
     public static final JClass PropertyChangeSupport = new JClass("java.beans.PropertyChangeSupport");
-    
+
     public static final JType createEnumeration(JType jType, boolean usejava50) {
         return new JCollectionType("java.util.Enumeration", jType, usejava50);
     }

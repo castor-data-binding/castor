@@ -53,7 +53,6 @@ public class EnumerationFactory extends BaseFactory {
      */
     private boolean _caseInsensitive = false;
 
-
     /**
      * Creates a new EnumerationFactory for the builder configuration given.
      * @param config the current BuilderConfiguration instance.
@@ -65,7 +64,7 @@ public class EnumerationFactory extends BaseFactory {
 
     /**
      * Creates all the necessary enumeration code for a given SimpleType.
-     * 
+     *
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      * @see #processEnumerationAsBaseType
@@ -88,7 +87,6 @@ public class EnumerationFactory extends BaseFactory {
         fHash.setInitString("init()");
         fHash.getModifiers().setStatic(true);
 
-        JDocComment jdc = null;
         JSourceCode jsc = null;
 
         //-- modify constructor
@@ -119,21 +117,22 @@ public class EnumerationFactory extends BaseFactory {
         int count = 0;
 
         while (enumeration.hasMoreElements()) {
-
             Facet facet = (Facet) enumeration.nextElement();
 
             String value = facet.getValue();
 
             String typeName = null;
-            String objName = null;
+            String objName  = null;
 
-            if (useValuesAsName) objName = translateEnumValueToIdentifier(value);
-            else objName = "VALUE_" + count;
+            if (useValuesAsName) {
+                objName = translateEnumValueToIdentifier(value);
+            } else {
+                objName = "VALUE_" + count;
+            }
 
             //-- create typeName
             //-- Note: this could cause name conflicts
             typeName = objName + "_TYPE";
-
 
             //-- Inheritence/Duplicate name cleanup
             boolean addInitializerCode = true;
@@ -161,7 +160,6 @@ public class EnumerationFactory extends BaseFactory {
             field.setComment("The instance of the " + value + " type");
 
             modifiers = field.getModifiers();
-
             modifiers.setFinal(true);
             modifiers.setStatic(true);
             modifiers.makePublic();
@@ -177,7 +175,6 @@ public class EnumerationFactory extends BaseFactory {
 
             field.setInitString(init.toString());
             jClass.addField(field);
-
 
             //-- initializer method
 
@@ -200,12 +197,9 @@ public class EnumerationFactory extends BaseFactory {
         //-- finish init method
         mInit.getSourceCode().add("return members;");
 
-        //-- add memberTable to the class, we can only
-        //-- add this after all the types, or we'll
-        //-- create source code that will generate
-        //-- null pointer exceptions, because calling
-        //-- init() will try to add null values to
-        //-- the hashtable.
+        //-- add memberTable to the class, we can only add this after all the types,
+        //-- or we'll create source code that will generate null pointer exceptions,
+        //-- because calling init() will try to add null values to the hashtable.
         jClass.addField(fHash);
 
         //-- add internal type
@@ -219,12 +213,12 @@ public class EnumerationFactory extends BaseFactory {
         jClass.addField(field);
 
         createGetTypeMethod(jClass, className);
-
     } //-- processEnumerationAsNewObject
 
     private boolean selectNamingScheme(Enumeration enumeration, boolean useValuesAsName) {
         boolean duplicateTranslation = false;
         short numberOfTranslationToSpecialCharacter = 0;
+
         while (enumeration.hasMoreElements()) {
             Facet facet = (Facet)enumeration.nextElement();
             String possibleId = translateEnumValueToIdentifier(facet.getValue());
@@ -234,12 +228,13 @@ public class EnumerationFactory extends BaseFactory {
                     duplicateTranslation = true;
                 }
             }
+
             if (!JavaNaming.isValidJavaIdentifier(possibleId)) {
                 useValuesAsName = false;
                 break;
             }
         }
-        
+
         if (duplicateTranslation) {
             useValuesAsName = false;
         }
@@ -252,12 +247,9 @@ public class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createGetTypeMethod(JClass jClass, String className) {
-        JDocComment jdc;
-        //-- add #getType method
-
         JMethod mGetType = new JMethod("getType", JType.INT, "the type of this " + className);
         mGetType.getSourceCode().add("return this.type;");
-        jdc = mGetType.getJDocComment();
+        JDocComment jdc = mGetType.getJDocComment();
         jdc.appendComment("Returns the type of this " + className);
         jClass.addMethod(mGetType);
     }
@@ -265,7 +257,6 @@ public class EnumerationFactory extends BaseFactory {
     /**
      * Creates 'readResolve(Object)' method for this enumeration class.
      * @param jClass The enumeration class to create this method for.
-     * @param className The name of the class.
      */
     private void createReadResolveMethod(JClass jClass) {
         JDocComment jdc;
@@ -285,7 +276,7 @@ public class EnumerationFactory extends BaseFactory {
     /**
      * Creates 'init()' method for this enumeration class.
      * @param jClass The enumeration class to create this method for.
-     * @param className The name of the class.
+     * @return an 'init()' method for this enumeration class.
      */
     private JMethod createInitMethod(JClass jClass) {
         JMethod mInit = new JMethod("init", SGTypes.createHashtable(_config.useJava50()),
@@ -307,11 +298,10 @@ public class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createToStringMethod(JClass jClass, String className) {
-        JDocComment jdc;
         JMethod mToString = new JMethod("toString", SGTypes.String,
                                         "the String representation of this " + className);
         jClass.addMethod(mToString);
-        jdc = mToString.getJDocComment();
+        JDocComment jdc = mToString.getJDocComment();
         jdc.appendComment("Returns the String representation of this ");
         jdc.appendComment(className);
         mToString.getSourceCode().add("return this.stringValue;");
@@ -323,13 +313,12 @@ public class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createEnumerateMethod(JClass jClass, String className) {
-        JDocComment jdc;
         // TODO: for the time being return Enumeration<Object> for Java 5.0; change
         JMethod mEnumerate = new JMethod("enumerate", SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()),
                                          "an Enumeration over all possible instances of " + className);
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);
-        jdc = mEnumerate.getJDocComment();
+        JDocComment jdc = mEnumerate.getJDocComment();
         jdc.appendComment("Returns an enumeration of all possible instances of ");
         jdc.appendComment(className);
         mEnumerate.getSourceCode().add("return _memberTable.elements();");
@@ -341,18 +330,17 @@ public class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createValueOfMethod(JClass jClass, String className) {
-        JDocComment jdc;
-        JSourceCode jsc;
         JMethod mValueOf = new JMethod("valueOf", jClass,
                                        "the " + className + " value of parameter 'string'");
         mValueOf.addParameter(new JParameter(SGTypes.String, "string"));
         mValueOf.getModifiers().setStatic(true);
         jClass.addMethod(mValueOf);
-        jdc = mValueOf.getJDocComment();
+
+        JDocComment jdc = mValueOf.getJDocComment();
         jdc.appendComment("Returns a new " + className);
         jdc.appendComment(" based on the given String value.");
 
-        jsc = mValueOf.getSourceCode();
+        JSourceCode jsc = mValueOf.getSourceCode();
         jsc.add("java.lang.Object obj = null;");
         jsc.add("if (string != null) ");
 
@@ -378,24 +366,24 @@ public class EnumerationFactory extends BaseFactory {
     /**
      * Creates all the necessary enumeration code from the given SimpleType.
      * Enumerations are handled by creating an Object like the following:
-     * 
+     *
      * <pre>
      *     public class {name} {
      *         // list of values
      *         {type}[] values = {
      *             ...
      *         };
-     * 
+     *
      *         // Returns true if the given value is part
      *         // of this enumeration
      *         public boolean contains({type} value);
-     * 
+     *
      *         // Returns the {type} value whose String value
      *         // is equal to the given String
      *         public {type} valueOf(String strValue);
      *     }
      * </pre>
-     * 
+     *
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */
@@ -403,17 +391,16 @@ public class EnumerationFactory extends BaseFactory {
         SimpleType base = (SimpleType)simpleType.getBaseType();
         XSType baseType = null;
 
-        if (base == null)
+        if (base == null) {
             baseType = new XSString();
-        else
+        } else {
             baseType = _typeConversion.convertType(base, _config.useJava50());
-
+        }
 
         Enumeration enumeration = simpleType.getFacets("enumeration");
 
-        JClass jClass = state.jClass;
+        JClass jClass    = state.jClass;
         String className = jClass.getLocalName();
-
 
         JField      fValues = null;
         JDocComment jdc     = null;
@@ -432,18 +419,13 @@ public class EnumerationFactory extends BaseFactory {
         StringBuffer values = new StringBuffer("{\n");
 
         while (enumeration.hasMoreElements()) {
-
             Facet facet = (Facet) enumeration.nextElement();
-
             String value = facet.getValue();
 
-            //-- Should we make sure the value is valid
-            //-- before proceeding??
+            //-- Should we make sure the value is valid before proceeding??
 
-
-            //-- we need to move this code to XSType
-            //-- so that we don't have to do special
-            //-- code here for each type
+            //-- we need to move this code to XSType so that we don't have to do
+            //-- special code here for each type
 
             if (count > 0) values.append(",\n");
 
@@ -455,9 +437,9 @@ public class EnumerationFactory extends BaseFactory {
                 //-- escape value
                 values.append(escapeValue(value));
                 values.append('\"');
-
+            } else {
+                values.append(value);
             }
-            else values.append(value);
 
             ++count;
         }
@@ -484,7 +466,6 @@ public class EnumerationFactory extends BaseFactory {
         jsc.append("Invalid value for ");
         jsc.append(className);
         jsc.append(": \" + string + \".\");");
-
     } //-- processEnumerationAsBaseType
 
     /**
@@ -520,8 +501,7 @@ public class EnumerationFactory extends BaseFactory {
             if ("[](){}<>'`\"".indexOf(c) >= 0) {
                 sb.deleteCharAt(i);
                 i--;
-            }
-            else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
+            } else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
                 sb.setCharAt(i, '_');
             }
         }
@@ -539,12 +519,12 @@ public class EnumerationFactory extends BaseFactory {
     }
 
     /**
-     * Escapes special characters in the given String so that it can
-     * be printed correctly.
+     * Escapes special characters in the given String so that it can be printed
+     * correctly.
      *
      * @param str the String to escape
      * @return the escaped String, or null if the given String was null.
-    **/
+     */
     private static String escapeValue(String str) {
         if (str == null) return str;
 
@@ -565,8 +545,6 @@ public class EnumerationFactory extends BaseFactory {
             sb.append(ch);
         }
         return sb.toString();
-
     } //-- escapeValue
-
 
 }

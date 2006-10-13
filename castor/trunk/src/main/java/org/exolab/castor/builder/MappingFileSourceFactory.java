@@ -56,175 +56,162 @@ import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 
 /**
- * A factory for creating mapping files 
- * 
+ * A factory for creating mapping files
+ *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public class MappingFileSourceFactory {
     /**
-     * Creates a new MappingFileSourceFactory with the given 
-     * configuration
+     * Creates a new MappingFileSourceFactory with the given configuration
      *
      * @param config the BuilderConfiguration instance
      */
-    public MappingFileSourceFactory(BuilderConfiguration config) 
-    {
+    public MappingFileSourceFactory(BuilderConfiguration config) {
         if (config == null) {
             String err = "The argument 'config' must not be null.";
             throw new IllegalArgumentException(err);
         }
     } //-- MappingFileSourceFactory
-    
-	/**
+
+    /**
      * Creates the class mapping for the given ClassInfo
-     * 
-	 * @param classInfo the XML Schema element declaration
-	 * @return the ClassMapping representing the ClassInfo
-	 */
-	public ClassMapping createMapping(ClassInfo classInfo) {
+     *
+     * @param classInfo the XML Schema element declaration
+     * @return the ClassMapping representing the ClassInfo
+     */
+    public ClassMapping createMapping(ClassInfo classInfo) {
+        JClass jClass    = classInfo.getJClass();
+        String className = jClass.getName();
 
         ClassMapping classMapping = new ClassMapping();
-        
-        JClass jClass = classInfo.getJClass();
-        String className = jClass.getName();
-        
         classMapping.setName(className);
-        
-		//-- Set namespace prefix
+
+        //-- Set namespace prefix
         MapTo mapTo = new MapTo();
         classMapping.setMapTo(mapTo);
-        
-		String nsPrefix = classInfo.getNamespacePrefix();
-		if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
+
+        String nsPrefix = classInfo.getNamespacePrefix();
+        if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
             mapTo.setNsPrefix(nsPrefix);
-		}
+        }
 
-		//-- Set namespace URI
-		String nsURI = classInfo.getNamespaceURI();
-		if ((nsURI != null) && (nsURI.length() > 0)) {
+        //-- Set namespace URI
+        String nsURI = classInfo.getNamespaceURI();
+        if ((nsURI != null) && (nsURI.length() > 0)) {
             mapTo.setNsUri(nsURI);
-		}
+        }
 
-		//-- set XML Name
-		mapTo.setXml(classInfo.getNodeName());
-		
-		//-- set Element Definition flag
-		mapTo.setElementDefinition(classInfo.isElementDefinition());
-		
-		//-- set grouping compositor
-		if (classInfo.isChoice()) {
-            //-- TODO: need a way to specify choice in 
+        //-- set XML Name
+        mapTo.setXml(classInfo.getNodeName());
+
+        //-- set Element Definition flag
+        mapTo.setElementDefinition(classInfo.isElementDefinition());
+
+        //-- set grouping compositor
+        if (classInfo.isChoice()) {
+            //-- TODO: need a way to specify choice in
             //-- Mapping file
-		} 
-        
+        }
+
         boolean isAbstract = classInfo.isAbstract();
         if (!isAbstract) {
             isAbstract = jClass.getModifiers().isAbstract();
         }
         classInfo.setAbstract(isAbstract);
- 
-		//-- To prevent compiler warnings...make sure
-		//-- we don't declare temp variables if field count is 0;
-		if (classInfo.getFieldCount() == 0)
-			return classMapping;
 
+        //-- To prevent compiler warnings...make sure
+        //-- we don't declare temp variables if field count is 0;
+        if (classInfo.getFieldCount() == 0) {
+            return classMapping;
+        }
 
-		//-- handle  content
-		if (classInfo.allowContent())
-			createFieldMapping(
-				classMapping,
-				classInfo.getTextField(),
-				null);
+        //-- handle  content
+        if (classInfo.allowContent()) {
+            createFieldMapping(classMapping, classInfo.getTextField(), null);
+        }
 
-		ClassInfo base = classInfo.getBaseClass();
+        ClassInfo base = classInfo.getBaseClass();
         if (base != null) {
             classMapping.setExtends(base.getJClass().getName());
         }
 
-		FieldInfo[] atts = classInfo.getAttributeFields();
-        
-		//-----------------------------/
-		//- Create attribute mappings -/
-		//-----------------------------/
+        FieldInfo[] atts = classInfo.getAttributeFields();
 
-		for (int i = 0; i < atts.length; i++) {
-			FieldInfo member = atts[i];
-			//-- skip transient members
-			if (member.isTransient())
-				continue;
-            
-            //-- skip inherited fields
-			if (base != null
-				&& base.getAttributeField(member.getNodeName()) != null)
-            {
-				continue;
+        //-----------------------------/
+        //- Create attribute mappings -/
+        //-----------------------------/
+
+        for (int i = 0; i < atts.length; i++) {
+            FieldInfo member = atts[i];
+            //-- skip transient members
+            if (member.isTransient()) {
+                continue;
             }
-            
-			createFieldMapping(classMapping, member, nsURI);
-		}
 
-		//---------------------------/
-		//- Create element mappings -/
-		//---------------------------/
-        
-		FieldInfo[] elements = classInfo.getElementFields();
-
-
-		for (int i = 0; i < elements.length; i++) {
-			FieldInfo member = elements[i];
-			//-- skip transient members
-			if (member.isTransient())
-				continue;
-            
             //-- skip inherited fields
-			if (base != null
-				&& base.getElementField(member.getNodeName()) != null)
-            {
-				continue;
+            if (base != null && base.getAttributeField(member.getNodeName()) != null) {
+                continue;
             }
-            
-			createFieldMapping(classMapping, member, nsURI);
-		}
 
-		return classMapping;
+            createFieldMapping(classMapping, member, nsURI);
+        }
 
-	} //-- createClassMapping
+        //---------------------------/
+        //- Create element mappings -/
+        //---------------------------/
 
-	//-------------------/
-	//- Private Methods -/
-	//-------------------/
+        FieldInfo[] elements = classInfo.getElementFields();
+        for (int i = 0; i < elements.length; i++) {
+            FieldInfo member = elements[i];
+            //-- skip transient members
+            if (member.isTransient()) {
+                continue;
+            }
 
-	/**
-	 * Create a FieldMapping for a given member and adds it to
-     * the given ClassMapping
-     * 
-	 */
-	private void createFieldMapping
-	    (ClassMapping classMapping,
-	     FieldInfo member,
-	     String nsURI) 
-    {
+            //-- skip inherited fields
+            if (base != null && base.getElementField(member.getNodeName()) != null) {
+                continue;
+            }
 
-        
-		XSType xsType = member.getSchemaType();
-		boolean any = false;
-		boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-		boolean isText = (member.getNodeType() == XMLInfo.TEXT_TYPE);
+            createFieldMapping(classMapping, member, nsURI);
+        }
 
-		//-- a hack, I know, I will change later (kv)
-		if (member.getName().equals("_anyObject"))
-			any = true;
+        return classMapping;
+    } //-- createClassMapping
 
-		if (xsType.getType() == XSType.COLLECTION)
-			//Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
-			xsType = ((CollectionInfo) member).getContent().getSchemaType();
+    //-------------------/
+    //- Private Methods -/
+    //-------------------/
+
+    /**
+     * Creates a FieldMapping for a given member and adds it to the given
+     * ClassMapping.
+     * @param classMapping the ClassMapping we are adding a new FieldMapping to
+     * @param member member for which we are creating a FieldMapping
+     * @param nsURI name space URI
+     */
+    private void createFieldMapping(ClassMapping classMapping, FieldInfo member, String nsURI) {
+        XSType xsType = member.getSchemaType();
+        boolean any = false;
+        boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
+        boolean isText = (member.getNodeType() == XMLInfo.TEXT_TYPE);
+
+        //-- a hack, I know, I will change later (kv)
+        if (member.getName().equals("_anyObject")) {
+            any = true;
+        }
+
+        //Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
+        if (xsType.getType() == XSType.COLLECTION) {
+            xsType = ((CollectionInfo) member).getContent().getSchemaType();
+        }
 
         //-- create class choice on demand
         ClassChoice classChoice = classMapping.getClassChoice();
         if (classChoice == null) { classChoice = new ClassChoice(); }
-        
-		//-- create field mapping
+
+        //-- create field mapping
         FieldMapping fieldMap = new FieldMapping();
         classChoice.addFieldMapping(fieldMap);
         String fieldName = member.getName();
@@ -233,7 +220,7 @@ public class MappingFileSourceFactory {
         }
         fieldMap.setName(fieldName);
         fieldMap.setType(getClassName(xsType.getJType()));
-        
+
         BindXml bindXml = new BindXml();
         fieldMap.setBindXml(bindXml);
 
@@ -241,100 +228,93 @@ public class MappingFileSourceFactory {
         if ((nodeName != null) && (!isText)) {
             bindXml.setName(nodeName);
         }
-        
-		if (isAttribute) {
+
+        if (isAttribute) {
             bindXml.setNode(BindXmlNodeType.ATTRIBUTE);
-        }
-		else if (isText) {
+        } else if (isText) {
             bindXml.setNode(BindXmlNodeType.TEXT);
-        }
-        else {
+        } else {
             bindXml.setNode(BindXmlNodeType.ELEMENT);
         }
-        
-		switch (xsType.getType()) {
-			case XSType.IDREF_TYPE :
+
+        switch (xsType.getType()) {
+            case XSType.IDREF_TYPE :
                 bindXml.setReference(true);
-				break;
-			case XSType.ID_TYPE :
+                break;
+            case XSType.ID_TYPE :
                 classMapping.addIdentity(member.getName());
-				break;
-			case XSType.QNAME_TYPE :
+                break;
+            case XSType.QNAME_TYPE :
                 bindXml.setType("QName");
-			default :
-				break;
-		} 
+            default :
+                break;
+        }
 
         //-- set any user-specified field handler
         fieldMap.setHandler(member.getXMLFieldHandler());
-        
-		//-- container
-		if (member.isContainer()) {
-            fieldMap.setContainer(true);
-		}
 
-		//-- Handle namespaces
-		//-- FieldInfo namespace has higher priority than ClassInfo
-		//-- namespace.
+        //-- container
+        if (member.isContainer()) {
+            fieldMap.setContainer(true);
+        }
+
+        //-- Handle namespaces
+        //-- FieldInfo namespace has higher priority than ClassInfo
+        //-- namespace.
         //-- TODO: We need to add better namespace support to
         //-- the bind-xml element, it's not very good at the
         //-- moment
         /*
-		nsURI = member.getNamespaceURI();
-		if (nsURI != null) {
-			jsc.add("desc.setNameSpaceURI(\"");
-			jsc.append(nsURI);
-			jsc.append("\");");
-		}
-        
+        nsURI = member.getNamespaceURI();
+        if (nsURI != null) {
+            jsc.add("desc.setNameSpaceURI(\"");
+            jsc.append(nsURI);
+            jsc.append("\");");
+        }
+
         if (any && member.getNamespaceURI() == null) {
             nsURI = null;
         }
         */
-		
+
         //-- required
-		if (member.isRequired()) {
+        if (member.isRequired()) {
             fieldMap.setRequired(true);
-		}
-        
+        }
+
         //-- nillable
         if (member.isNillable()) {
             // TODO: Mapping file needs nillable support!
         }
-        
-		//-- if any it can match all the names
-		if (any) {
+
+        //-- if any it can match all the names
+        if (any) {
             bindXml.setMatches("*");
         }
-        
-		//-- Add Validation Code
+
+        //-- Add Validation Code
         // TODO: mapping file has no validation support,
-        // users will need to use xsi:schemaLocation in 
+        // users will need to use xsi:schemaLocation in
         // their XML instances and enable schema validation
         // on the parser
+    } //-- createFieldMapping
 
-	} //-- createFieldMapping
-
-	/**
-	 * Returns the classname for the given XSType, the class
-     * name may be the fully qualified classname or the 
-     * mapping loader "short" name. 
-	 */
-	private static String getClassName(JType jType) {
-        
+    /**
+     * Returns the classname for the given JType. The class name may be the
+     * fully qualified classname or the mapping loader "short" name.
+     *
+     * @param jType
+     *            the JType for which to return the class name
+     * @return the classname for the given XSType
+     */
+    private static String getClassName(JType jType) {
         //-- XXX: Look up short names from:
         //--  org.exolab.castor.mapping.loader.Types
-        
-		if (jType.isPrimitive()) {
-			if (jType == JType.INT)
-				return "integer";
-			else if (jType == JType.DOUBLE)
-				return "double";
-			else if (jType == JType.BOOLEAN) {
-				return "boolean";
-			}
-		}
-		return jType.toString();
-	} //-- classType
+
+        if (jType.isPrimitive()) {
+            return jType.getName();
+        }
+        return jType.toString();
+    } //-- classType
 
 } //-- DescriptorSourceFactory
