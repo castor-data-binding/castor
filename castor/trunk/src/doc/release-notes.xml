@@ -59,6 +59,27 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="204" tool="jira">
+                    <description>
+                        Invalid Instance Document containing ALL elements of a schema
+                        definitions choice is not unmarshallable
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Test</type>
+                    <module>XML</module>
+                    <date>20061012</date>
+                </bug>
                 <bug id="1619" tool="jira">
                     <description>
 		                Backported Castor to Java 1.3 compatibility: Exceptions do not support claus.
