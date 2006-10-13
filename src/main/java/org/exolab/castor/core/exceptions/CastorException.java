@@ -50,7 +50,7 @@ import java.io.PrintWriter;
 
 /**
  * The base exception for Castor (or at least Castor XML)
- * 
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
@@ -70,7 +70,7 @@ public class CastorException extends Exception {
 
     /**
      * Creates a new CastorException with the given message.
-     * 
+     *
      * @param message the message for this Exception
      */
     public CastorException(String message) {
@@ -83,7 +83,7 @@ public class CastorException extends Exception {
      * @param cause A Throwable instance.
      */
     public CastorException(String message, Throwable cause) {
-    	super (message);
+        super (message);
         this.cause = cause;
     }
 
@@ -104,7 +104,7 @@ public class CastorException extends Exception {
         this.cause = cause;
         return this;
     }
-    
+
     /**
      * Match the JDK 1.4 Throwable version of getCause() on JDK<1.4 systems.
      * @return The throwable cause of this exception.
@@ -112,11 +112,15 @@ public class CastorException extends Exception {
     public Throwable getCause() {
         return cause;
     }
-    
-    /** Retrieve the cause of a specific exception.  This is a nice, safe, easy thing to call internally
-     * to ensure we never call getCause on something that shouldn't have it.  More hand-holding than anything
-     * else, really, but it makes it easy to read.
-     * @param e The exception you wish to extract a cause from.
+
+    /**
+     * Retrieve the cause of a specific exception. This is a nice, safe, easy
+     * thing to call internally to ensure we never call getCause on something
+     * that shouldn't have it. More hand-holding than anything else, really, but
+     * it makes it easy to read.
+     *
+     * @param e
+     *            The exception you wish to extract a cause from.
      * @return The throwable attached to that exception as a cause.
      */
     private static Throwable getNestedException(Throwable e) {
@@ -126,8 +130,10 @@ public class CastorException extends Exception {
     }
 
     /**
-     * Return the detailed message from this exception.  Chain message information from child exceptions into it, so that
-     * the message shows the chain of message information available.
+     * Return the detailed message from this Exception. Chain message
+     * information from child exceptions into it, so that the message shows the
+     * chain of message information available.
+     * @return the detailed message from this Exception.
      */
     public String getMessage() {
         // Get this exception's message.
@@ -140,7 +146,7 @@ public class CastorException extends Exception {
             // Get the child's message.
             String msg2 = child.getMessage();
 
-            // If we found a message for the child exception, 
+            // If we found a message for the child exception,
             // we append it.
             if (msg2 != null) {
                 if (msg != null) {
@@ -200,4 +206,5 @@ public class CastorException extends Exception {
             child.printStackTrace(w);
         }
     }
+
 }

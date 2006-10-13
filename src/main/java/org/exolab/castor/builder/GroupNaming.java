@@ -42,134 +42,140 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
-
-import org.exolab.castor.xml.schema.*;
-import org.exolab.castor.xml.JavaNaming;
 
 import java.util.Hashtable;
 
-/*** 
- * A simple class used for creating class names for unnamed Groups 
- * in XML Schema. 
- * 
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a> 
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $ 
-**/ 
-public class GroupNaming { 
+import org.exolab.castor.xml.JavaNaming;
+import org.exolab.castor.xml.schema.ComplexType;
+import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Group;
+import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.Structure;
 
-    private Hashtable _packageGroupNames = null; 
+/***
+ * A simple class used for creating class names for unnamed Groups in XML Schema.
+ *
+ * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ */
+public class GroupNaming {
 
-    /** 
-     * Creates a new GroupNaming 
-    **/ 
-    public GroupNaming() { 
-        _packageGroupNames = new Hashtable(); 
-    } //-- GroupNaming 
+    private Hashtable _packageGroupNames = null;
 
-    private String getGroupName(Group group, String packageName) { 
-        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName); 
-        if (groupNames == null) { 
-            return null; 
-        } 
-        return (String)groupNames.get(group); 
-    } 
+    /**
+     * Creates a new GroupNaming.
+     */
+    public GroupNaming() {
+        _packageGroupNames = new Hashtable();
+    } //-- GroupNaming
 
-    private void putGroupName(Group group, String packageName, String name) { 
-        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName); 
-        if (groupNames == null) { 
-            groupNames = new Hashtable(); 
-            _packageGroupNames.put(packageName, groupNames); 
-        } 
-        groupNames.put(group, name); 
-    } 
-
-    private boolean containsGroupName(String packageName, String name) { 
-        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName); 
-        if (groupNames == null) { 
-            return false; 
-        } 
-        return groupNames.contains(name); 
-    } 
-
-    /** 
-     * Creates a class name for the given Group. A null value 
-     * will be returned if a name cannot be created for the group. 
-     * 
-     * @return the class name for the given Group. 
-    **/ 
-    public String createClassName(Group group, String packageName) { 
-        String name = group.getName(); 
-        if (name != null) { 
-            return JavaNaming.toJavaClassName(name); 
+    private String getGroupName(Group group, String packageName) {
+        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
+        if (groupNames == null) {
+            return null;
         }
-        name = getGroupName(group, packageName); 
-        if (name != null) return name; 
+        return (String)groupNames.get(group);
+    }
 
-        Structure parent = group.getParent(); 
-        if (parent == null) return null; 
+    private void putGroupName(Group group, String packageName, String name) {
+        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
+        if (groupNames == null) {
+            groupNames = new Hashtable();
+            _packageGroupNames.put(packageName, groupNames);
+        }
+        groupNames.put(group, name);
+    }
 
-        boolean addOrder = true; 
-        switch(parent.getStructureType()) { 
-            case Structure.GROUP: 
-                name = createClassName((Group)parent, packageName); 
-                break; 
-            case Structure.MODELGROUP: 
-                name = ((ModelGroup)parent).getName(); 
-                name = JavaNaming.toJavaClassName(name); 
-                addOrder = false; 
-                break; 
-            case Structure.COMPLEX_TYPE: 
-                name = getClassName((ComplexType)parent); 
-                addOrder = false; 
-                break; 
-            default: 
-                break; 
-        } 
+    private boolean containsGroupName(String packageName, String name) {
+        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
+        if (groupNames == null) {
+            return false;
+        }
+        return groupNames.contains(name);
+    }
 
-        if (name != null) { 
+    /**
+     * Creates a class name for the given Group. A null value will be returned
+     * if a name cannot be created for the group.
+     *
+     * @param group the group to create a class name for
+     * @param packageName the package name for this group
+     * @return the class name for the given Group.
+     */
+    public String createClassName(Group group, String packageName) {
+        String name = group.getName();
+        if (name != null) {
+            return JavaNaming.toJavaClassName(name);
+        }
+        name = getGroupName(group, packageName);
+        if (name != null) {
+            return name;
+        }
 
-            if (addOrder) { 
-                String order = group.getOrder().toString(); 
-                name += JavaNaming.toJavaClassName(order); 
-            } 
+        Structure parent = group.getParent();
+        if (parent == null) {
+            return null;
+        }
 
-            int count = 2; 
-            String tmpName = name; 
-            while (containsGroupName(packageName, name)) { 
-                name = tmpName + count; 
-                ++count; 
-            } 
-            putGroupName(group, packageName, name); 
-        } 
-        return name; 
-    } //-- createClassName 
+        boolean addOrder = true;
+        switch(parent.getStructureType()) {
+            case Structure.GROUP:
+                name = createClassName((Group)parent, packageName);
+                break;
+            case Structure.MODELGROUP:
+                name = ((ModelGroup)parent).getName();
+                name = JavaNaming.toJavaClassName(name);
+                addOrder = false;
+                break;
+            case Structure.COMPLEX_TYPE:
+                name = getClassName((ComplexType)parent);
+                addOrder = false;
+                break;
+            default:
+                break;
+        }
 
-    /** 
-     * Returns the class name for the given ComplexType 
-     * 
-     * @return the class name for the given ComplexType 
-    **/ 
-    private static String getClassName(ComplexType complexType) { 
+        if (name != null) {
+            if (addOrder) {
+                String order = group.getOrder().toString();
+                name += JavaNaming.toJavaClassName(order);
+            }
 
-        //-- if complexType has name, simply return it 
-        String name = complexType.getName(); 
-        if (name != null) { 
-            return JavaNaming.toJavaClassName(name); 
-        } 
+            int count = 2;
+            String tmpName = name;
+            while (containsGroupName(packageName, name)) {
+                name = tmpName + count;
+                ++count;
+            }
+            putGroupName(group, packageName, name);
+        }
+        return name;
+    } //-- createClassName
 
-        //-- otherwise get name of containing element 
-        Structure parent = complexType.getParent(); 
-        if (parent != null) { 
-            if (parent.getStructureType() == Structure.ELEMENT) { 
-                name = ((ElementDecl)parent).getName(); 
-            } 
-        } 
-        if (name != null) { 
-            name = JavaNaming.toJavaClassName(name); 
-        } 
-        return name; 
-    } //-- getName 
+    /**
+     * Returns the class name for the given ComplexType
+     *
+     * @param complexType the ComplexType for which to return a class name
+     * @return the class name for the given ComplexType
+     */
+    private static String getClassName(ComplexType complexType) {
+        //-- if complexType has name, simply return it
+        String name = complexType.getName();
+        if (name != null) {
+            return JavaNaming.toJavaClassName(name);
+        }
+
+        //-- otherwise get name of containing element
+        Structure parent = complexType.getParent();
+        if (parent != null && parent.getStructureType() == Structure.ELEMENT) {
+            name = ((ElementDecl)parent).getName();
+        }
+
+        if (name != null) {
+            name = JavaNaming.toJavaClassName(name);
+        }
+        return name;
+    } //-- getName
 
 } //-- class GroupNaming

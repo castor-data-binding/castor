@@ -47,7 +47,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import org.exolab.castor.builder.types.XSListJ2;
@@ -59,9 +58,10 @@ import org.exolab.javasource.JSourceCode;
 
 /**
  * A helper used for generating source that deals with Java 2 Collections.
+ *
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
-**/
+ */
 public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
@@ -77,10 +77,11 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *            The name is NOT fully specified and is all lowercase.
      *            Currently, any value but "arraylist" does not work. See
      *            {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
      */
-    public CollectionInfoJ2(XSType contentType, String name,
-            String elementName, String collectionType,
-            final boolean useJava50) {
+    public CollectionInfoJ2(XSType contentType, String name, String elementName, String collectionType,
+                            final boolean useJava50) {
         super(contentType, name, elementName, useJava50);
         // --override the schemaType
         this.setSchemaType(new XSListJ2(contentType, collectionType, useJava50));
@@ -90,7 +91,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
      * {@inheritDoc}
      * To the Java-1 collection iterators, we add the Java-2 Iterator.
      *
-     * @see org.exolab.castor.builder.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass, boolean)
      */
     protected void createCollectionIterationMethods(JClass jClass, final boolean useJava50) {
         super.createCollectionIterationMethods(jClass, useJava50);
@@ -100,7 +101,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass, boolean)
      */
     protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
@@ -136,4 +137,5 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
         jClass.addMethod(method);
     }
+
 } // -- CollectionInfoJ2

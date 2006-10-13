@@ -110,6 +110,8 @@ public class CollectionInfo extends FieldInfo {
      *            the name of the Collection
      * @param elementName
      *            the element name for each element in collection
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
      */
     public CollectionInfo(XSType contentType, String name, String elementName, final boolean useJava50) {
         super(new XSList(contentType, useJava50), name);
@@ -128,7 +130,7 @@ public class CollectionInfo extends FieldInfo {
      * Generate the various accessor methods.
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.FieldInfo#createAccessMethods(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.FieldInfo#createAccessMethods(org.exolab.javasource.JClass, boolean)
      */
     public void createAccessMethods(JClass jClass, final boolean useJava50) {
         this.createAddAndRemoveMethods(jClass);
@@ -181,7 +183,7 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * Sets whether or not to create extra collection methods for accessing the
-     * actual collection
+     * actual collection.
      *
      * @param extraMethods
      *            a boolean that when true indicates that extra collection
@@ -414,6 +416,8 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * @param jClass
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
      */
     protected void createGetAndSetMethods(JClass jClass, final boolean useJava50) {
         // create get methods
@@ -451,6 +455,8 @@ public class CollectionInfo extends FieldInfo {
      * and then add any additional new methods.
      *
      * @param jClass
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
      */
     protected void createCollectionIterationMethods(JClass jClass, final boolean useJava50) {
         this.createEnumerateMethod(jClass, useJava50);
@@ -662,11 +668,12 @@ public class CollectionInfo extends FieldInfo {
      * field.
      *
      * @param jClass
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
      */
     protected void createSetAsReferenceMethod(JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix() + _referenceSuffix);
-        JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType(), useJava50), this.getMethodSuffix()
-                + "Vector");
+        JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType(), useJava50), this.getMethodSuffix() + "Vector");
         method.addParameter(parameter);
 
         // create Javadoc
@@ -727,11 +734,12 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * Returns the suffix (ending) that should be used when creating the extra
-     * collection methods
+     * collection methods.
      *
      * @return the suffix for the reference methods
      */
     protected final String getReferenceMethodSuffix() {
         return this._referenceSuffix;
     } // -- getReferenceMethodSuffix
+
 } // -- CollectionInfo

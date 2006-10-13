@@ -42,9 +42,9 @@
  *
  * This file was originally developed by Keith Visco during the course
  * of employment at Intalio Inc.
- * All portions of this file developed by Keith Visco after Jan 19 2005 
+ * All portions of this file developed by Keith Visco after Jan 19 2005
  * are Copyright (C) 2005 Keith Visco. All Rights Reserverd.
- * 
+ *
  * $Id$
  */
 
@@ -54,10 +54,9 @@ import org.exolab.javasource.*;
 import java.util.Vector;
 
 /**
- * This class holds the necessary information so that the
- * source generator can properly create the necessary 
- * classes for the object model.
- * 
+ * This class holds the necessary information so that the source generator can
+ * properly create the necessary classes for the object model.
+ *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
@@ -70,35 +69,30 @@ public class ClassInfo extends XMLInfo {
 
     /**
      * A reference to the JClass that this ClassInfo describes
-    **/
+     */
     private JClass _class = null;
 
     /**
      * The group information for this ClassInfo
-    **/
+     */
     private GroupInfo _groupInfo = null;
-
     private boolean _isContainer = false;
-    private boolean _abstract = false;
+    private boolean _abstract    = false;
 
     /**
-     * Creates a new ClassInfo
+     * Creates a new ClassInfo.
      * @param jClass the JClass which this ClassInfo describes
-    **/
+     */
     public ClassInfo(JClass jClass) {
         super(XMLInfo.ELEMENT_TYPE);
         if (jClass == null) {
-            String err = "JClass passed to constructor of ClassInfo "+
-                "must not be null.";
+            String err = "JClass passed to constructor of ClassInfo must not be null.";
             throw new IllegalArgumentException(err);
         }
         this._class = jClass;
 
         _groupInfo = new GroupInfo();
-
     } //-- ClassInfo
-
-
 
     //------------------/
     //- Public Methods -/
@@ -107,26 +101,31 @@ public class ClassInfo extends XMLInfo {
     /**
      * Adds the given FieldInfo to this ClassInfo
      * @param fieldInfo the FieldInfo to add
-    **/
+     */
     public void addFieldInfo(FieldInfo fieldInfo) {
+        if (fieldInfo == null) {
+            return;
+        }
 
-        if (fieldInfo == null) return;
-        
         fieldInfo.setDeclaringClassInfo(this);
 
         switch(fieldInfo.getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
                 if (_atts == null) _atts = new Vector(3);
-                if (!_atts.contains(fieldInfo))
+                if (!_atts.contains(fieldInfo)) {
                     _atts.addElement(fieldInfo);
+                }
                 break;
             case XMLInfo.TEXT_TYPE:
                 _textField = fieldInfo;
                 break;
             default:
-                if (_elements == null) _elements = new Vector(5);
-                if (!_elements.contains(fieldInfo))
+                if (_elements == null) {
+                    _elements = new Vector(5);
+                }
+                if (!_elements.contains(fieldInfo)) {
                     _elements.addElement(fieldInfo);
+                }
                 break;
         }
     } //-- addFieldInfo
@@ -134,39 +133,44 @@ public class ClassInfo extends XMLInfo {
     /**
      * Adds the given set of FieldInfos to this ClassInfo
      * @param fields an Array of FieldInfo objects
-    **/
+     */
     public void addFieldInfo(FieldInfo[] fields) {
-        for (int i = 0; i < fields.length; i++)
+        for (int i = 0; i < fields.length; i++) {
             addFieldInfo(fields[i]);
+        }
     } //-- addFieldInfo
 
     /**
-     * @return true if Classes created with this ClassInfo allow
-     * content
-    **/
+     * @return true if Classes created with this ClassInfo allow content
+     */
     public boolean allowContent() {
-        return (_textField != null);
+        return _textField != null;
     } //-- allowsTextContent
 
     /**
      * Returns true if the given FieldInfo is contained within this ClassInfo
-     * @param fieldInfo the FieldInfo to check
+     *
+     * @param fieldInfo
+     *            the FieldInfo to check
      * @return true if the given FieldInfo is contained within this ClassInfo
-    **/
+     */
     public boolean contains(FieldInfo fieldInfo) {
-        if (fieldInfo == null) return false;
+        if (fieldInfo == null) {
+            return false;
+        }
 
-        switch(fieldInfo.getNodeType()) {
-
+        switch (fieldInfo.getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
-                if (_atts != null)
+                if (_atts != null) {
                     return _atts.contains(fieldInfo);
+                }
                 break;
             case XMLInfo.TEXT_TYPE:
                 return (fieldInfo == _textField);
             default:
-                if (_elements != null)
+                if (_elements != null) {
                     return _elements.contains(fieldInfo);
+                }
                 break;
         }
 
@@ -177,16 +181,17 @@ public class ClassInfo extends XMLInfo {
     } //-- contains
 
     /**
-     * Returns an array of XML attribute associated fields
-     * @return an array of XML attribute associated fields
-    **/
+     * Returns an array of XML attribute associated fields.
+     * @return an array of XML attribute associated fields.
+     */
     public FieldInfo[] getAttributeFields() {
         FieldInfo[] fields = null;
         if (_atts != null) {
             fields = new FieldInfo[_atts.size()];
             _atts.copyInto(fields);
+        } else {
+            fields = new FieldInfo[0];
         }
-        else fields = new FieldInfo[0];
         return fields;
     } //-- getAttributeFields
 
@@ -198,20 +203,25 @@ public class ClassInfo extends XMLInfo {
      * @return a fieldInfo that corresponds to an attribute with the given node name.
      */
     public FieldInfo getAttributeField(String nodeName) {
-        if (_atts != null) {
-            for (int i = 0; i < _atts.size(); i++) {
-                FieldInfo temp = (FieldInfo)_atts.get(i);
-                if (temp.getNodeName().equals(nodeName))
-                     return temp;
+        if (_atts == null) {
+            return null;
+        }
+
+        for (int i = 0; i < _atts.size(); i++) {
+            FieldInfo temp = (FieldInfo)_atts.get(i);
+            if (temp.getNodeName().equals(nodeName)) {
+                return temp;
             }
         }
-            return null;
+
+        return null;
     }
 
     /**
-     * Returns the base class of this classInfo if any.
-     * A classInfo can indeed extend another classInfo to reflect the extension
-     * mechanism used in the XML Schema
+     * Returns the base class of this classInfo if any. A classInfo can indeed
+     * extend another classInfo to reflect the extension mechanism used in the
+     * XML Schema
+     *
      * @return the base class of this classInfo if any.
      */
     public ClassInfo getBaseClass() {
@@ -219,19 +229,20 @@ public class ClassInfo extends XMLInfo {
     }
 
     /**
-     * Returns an array of XML element associated fields
-     * @return an array of XML element associated fields
-    **/
+     * Returns an array of XML element associated fields.
+     *
+     * @return an array of XML element associated fields.
+     */
     public FieldInfo[] getElementFields() {
         FieldInfo[] members = null;
         if (_elements != null) {
             members = new FieldInfo[_elements.size()];
             _elements.copyInto(members);
+        } else {
+            members = new FieldInfo[0];
         }
-        else members = new FieldInfo[0];
         return members;
     } //-- getElementFields
-
 
     /**
      * Returns a fieldInfo that corresponds to an element with the given node name.
@@ -244,9 +255,10 @@ public class ClassInfo extends XMLInfo {
         if (_elements != null) {
             for (int i = 0; i < _elements.size(); i++) {
                 FieldInfo temp = (FieldInfo)_elements.get(i);
-			    String elementNodeName = temp.getNodeName();
-				if (elementNodeName!=null && elementNodeName.equals(nodeName))
-					return temp;
+                String elementNodeName = temp.getNodeName();
+                if (elementNodeName!=null && elementNodeName.equals(nodeName)) {
+                    return temp;
+                }
             }
         }
         return null;
@@ -256,70 +268,78 @@ public class ClassInfo extends XMLInfo {
      * Returns the number of FieldInfo definitions for this ClassInfo.
      *
      * @return the number of FieldInfo definitions for this ClassInfo.
-    **/
+     */
     public int getFieldCount() {
         int count = 0;
-        if (_atts != null)
+        if (_atts != null) {
             count += _atts.size();
-        if (_elements != null)
+        }
+        if (_elements != null) {
             count += _elements.size();
-        if (_textField != null) ++count;
+        }
+        if (_textField != null) {
+            ++count;
+        }
         return count;
     } //-- getFieldCount
-    
+
     /**
      * Returns the GroupInfo for this ClassInfo
      *
      * @return the GroupInfo for this ClassInfo
-    **/
+     */
     public GroupInfo getGroupInfo() {
         return _groupInfo;
     } //-- getGroupInfo
 
     /**
      * Returns the JClass described by this ClassInfo
+     *
      * @return the JClass which is described by this ClassInfo
-    **/
+     */
     public JClass getJClass() {
         return _class;
     } //-- getJClass
 
     /**
      * Returns the FieldInfo for the XML text associated field.
-     * @return the FieldInfo for the text content associated field,
-     * this may be null.
-    **/
+     *
+     * @return the FieldInfo for the text content associated field, this may be
+     *         null.
+     */
     public FieldInfo getTextField() {
         return _textField;
     } //-- getTextField
-     
+
     public boolean isAbstract() {
         return _abstract;
     }
 
     /**
      * Returns true if the compositor of this GroupInfo is a choice
+     *
      * @return true if the compositor of this GroupInfo is a choice
-    **/
+     */
     public boolean isChoice() {
         return _groupInfo.isChoice();
     } //-- isChoice
 
     /**
-     * Returns true if this ClassInfo describes a container
-     * class. A container class is a class which should not be
-     * marshalled as XML, but whose members should be.
+     * Returns true if this ClassInfo describes a container class. A container
+     * class is a class which should not be marshalled as XML, but whose members
+     * should be.
      *
      * @return true if this ClassInfo describes a container class.
-    **/
+     */
     public boolean isContainer() {
         return _isContainer;
     } //-- isContainer
 
     /**
      * Returns true if the compositor of this GroupInfo is a sequence
+     *
      * @return true if the compositor of this GroupInfo is a sequence
-    **/
+     */
     public boolean isSequence() {
         return _groupInfo.isSequence();
     } //-- isSequence
@@ -327,29 +347,30 @@ public class ClassInfo extends XMLInfo {
     public void setAbstract(boolean abstractClass) {
         _abstract = abstractClass;
     }
-    
+
     /**
-     * Sets the base class of this classInfo.
-     * A classInfo can indeed extend another classInfo to reflect the extension
-     * mechanism used in the XML Schema
-     * @param base the base class of this classInfo.
+     * Sets the base class of this classInfo. A classInfo can indeed extend
+     * another classInfo to reflect the extension mechanism used in the XML
+     * Schema
+     *
+     * @param base
+     *            the base class of this classInfo.
      */
     public void setBaseClass(ClassInfo base) {
         _baseClass = base;
     }
 
     /**
-     * Sets whether or not this ClassInfo describes a container
-     * class. A container class is a class which should not be
-     * marshalled as XML, but whose members should be. By default
-     * this is false.
+     * Sets whether or not this ClassInfo describes a container class. A
+     * container class is a class which should not be marshalled as XML, but
+     * whose members should be. By default this is false.
      *
-     * @param isContainer the boolean value when true indicates
-     * this class should be a container class.
-    **/
+     * @param isContainer
+     *            the boolean value when true indicates this class should be a
+     *            container class.
+     */
     public void setContainer(boolean isContainer) {
         _isContainer = isContainer;
     } //-- setContainer
-
 
 } //-- ClassInfo

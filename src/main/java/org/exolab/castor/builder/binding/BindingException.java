@@ -42,18 +42,19 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.binding;
 
 /**
- * The base exception for the <tt>binding</tt> package.
- * This exception is nested in order to keep a correct stack trace while nesting
- * the exception that causes the call to BindingException
+ * The base exception for the <tt>binding</tt> package. This exception is
+ * nested in order to keep a correct stack trace while nesting the exception
+ * that causes the call to BindingException.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Version:$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class BindingException extends Exception {
+
+    private static final long serialVersionUID = 1726983206974247107L;
 
     /**
      * The embedded exception if tunnelling, or null.
@@ -61,60 +62,62 @@ public class BindingException extends Exception {
     private Exception _exception;
 
     /**
-     * Create a new BindingException
+     * Creates a new BindingException.
      *
      * @param message The error or warning message.
      */
     public BindingException(String message) {
         super(message);
-  	    _exception = null;
+        _exception = null;
     }
 
     /**
      * Create a new BindingException wrapping an existing exception.
+     * <p>
+     * The existing exception will be embedded in the new one, and its message
+     * will become the default message for the BindingException.
+     * </p>
      *
-     * <p>The existing exception will be embedded in the new
-     * one, and its message will become the default message for
-     * the BindingException.</p>
-     *
-     * @param exception The exception to be wrapped in a BindingException.
+     * @param exception
+     *            The exception to be wrapped in a BindingException.
      */
     public BindingException(Exception exception) {
-  	    super();
-  	    _exception = exception;
+        super();
+        _exception = exception;
     }
 
-
-   /**
-    * Create a new BindingException from an existing exception.
-    *
-    * <p>The existing exception will be embedded in the new
-    * one, but the new exception will have its own message.</p>
-    *
-    * @param message The detail message.
-    * @param exception The exception to be wrapped in a BindingException.
-    */
+    /**
+     * Create a new BindingException from an existing exception.
+     * <p>
+     * The existing exception will be embedded in the new one, but the new
+     * exception will have its own message.
+     *
+     * @param message
+     *            The detail message.
+     * @param exception
+     *            The exception to be wrapped in a BindingException.
+     */
     public BindingException(String message, Exception exception) {
-    	super(message);
-    	_exception = exception;
+        super(message);
+        _exception = exception;
     }
 
-
    /**
-    * Return a detail message for this exception.
-    *
-    * <p>If there is an embedded exception, and if the BindingException
-    * has no detail message of its own, this method will return
-    * the detail message from the embedded exception.</p>
-    *
-    * @return String The error or warning message.
-    */
+     * Return a detail message for this exception.
+     * <p>
+     * If there is an embedded exception, and if the BindingException has no
+     * detail message of its own, this method will return the detail message
+     * from the embedded exception.
+     *
+     * @return String The error or warning message.
+     */
     public String getMessage() {
-    	String message = super.getMessage();
+        String message = super.getMessage();
 
-    	if (message == null && _exception != null)
-    	    return _exception.getMessage();
-      return message;
+        if (message == null && _exception != null) {
+            return _exception.getMessage();
+        }
+        return message;
     }
 
 
@@ -124,33 +127,33 @@ public class BindingException extends Exception {
     * @return Exception The embedded exception, or null if there is none.
     */
     public Exception getException() {
-    	return _exception;
+        return _exception;
     }
 
-   /**
-    * Override printStackTrace to keep the stack trace
-    * of the embedded exception
-    */
-   public void printStackTrace() {
-       if (_exception != null) {
-          System.out.println("--------------------------------");
-          System.out.println("Stack Trace for :"+_exception);
-          _exception.printStackTrace();
-          System.out.println("--------------------------------");
-       }
-       super.printStackTrace();
-   }
+    /**
+     * Override printStackTrace to keep the stack trace
+     * of the embedded exception
+     */
+    public void printStackTrace() {
+        if (_exception != null) {
+            System.out.println("--------------------------------");
+            System.out.println("Stack Trace for :"+_exception);
+            _exception.printStackTrace();
+            System.out.println("--------------------------------");
+        }
+        super.printStackTrace();
+    }
 
-   /**
-    * Override toString to pick up any embedded exception.
-    *
-    * @return String A string representation of this exception.
-    */
+    /**
+     * Override toString to pick up any embedded exception.
+     *
+     * @return String A string representation of this exception.
+     */
     public String toString() {
-        if (_exception != null)
-    	    return
-
-			 _exception.toString();
+        if (_exception != null) {
+            return _exception.toString();
+        }
         return super.toString();
     }
+
 }

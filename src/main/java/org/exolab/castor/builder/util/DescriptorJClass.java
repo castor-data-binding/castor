@@ -45,19 +45,23 @@
 
 package org.exolab.castor.builder.util;
 
-import org.exolab.javasource.*;
-
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.SGTypes;
+import org.exolab.javasource.JAnnotation;
+import org.exolab.javasource.JAnnotationType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JConstructor;
+import org.exolab.javasource.JField;
+import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
- * A class which defines the necessary methods for
- * generating ClassDescriptor source files.
+ * A class which defines the necessary methods for generating ClassDescriptor source files.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-03-10 15:42:54 -0700 (Fri, 10 Mar 2006) $
-**/
+ */
 public class DescriptorJClass extends JClass {
-
 
     //-- org.exolab.castor.mapping
     private static JClass _ClassDescriptorClass
@@ -69,7 +73,6 @@ public class DescriptorJClass extends JClass {
     //-- org.exolab.castor.xml
     private static JClass _XMLFieldDescriptorClass
         = new JClass("org.exolab.castor.xml.XMLFieldDescriptor");
-
 
     private static JType _TypeValidatorClass
         = new JClass("org.exolab.castor.xml.TypeValidator");
@@ -100,28 +103,26 @@ public class DescriptorJClass extends JClass {
     } //-- DescriptorJClass
 
     /**
-     * Initializes this DescriptorJClass with the required
-     * methods
-    **/
+     * Initializes this DescriptorJClass with the required methods
+     */
     private void init() {
-
         JMethod     method = null;
         JSourceCode jsc    = null;
         boolean extended = false;
 
-        //Make sure that the Descriptor is extended XMLClassDescriptor
-        //even when the user has specified a super class for all the generated
-        //classes
+        // Make sure that the Descriptor is extended XMLClassDescriptor even when
+        // the user has specified a super class for all the generated classes
         String superClass = null;
         if (_config != null) {
             superClass = _config.getProperty(BuilderConfiguration.Property.SUPER_CLASS, null);
         }
-        if ( (_type.getSuperClassQualifiedName()==null) || 
-			 (_type.getSuperClassQualifiedName().equals(superClass)) )
-			setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
-		else {
-                extended = true;
-	    		setSuperClass(_type.getSuperClassQualifiedName()+"Descriptor");
+
+        if (_type.getSuperClassQualifiedName() == null ||
+            _type.getSuperClassQualifiedName().equals(superClass)) {
+            setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
+        } else {
+            extended = true;
+            setSuperClass(_type.getSuperClassQualifiedName()+"Descriptor");
         }
         superClass = null;
 
@@ -131,7 +132,6 @@ public class DescriptorJClass extends JClass {
 //        addImport("org.exolab.castor.xml.util.XMLFieldDescriptorImpl");
 //        addImport("org.exolab.castor.xml.validators.*");
 //        addImport("org.exolab.castor.xml.FieldValidator");
-
 
         addField(new JField(JType.BOOLEAN, "elementDefinition"));
 
@@ -257,8 +257,7 @@ public class DescriptorJClass extends JClass {
         jsc = method.getSourceCode();
         if (extended) {
             jsc.add("return super.getExtends();");
-        }
-        else {
+        } else {
             jsc.add("return null;");
         }
 
@@ -304,11 +303,10 @@ public class DescriptorJClass extends JClass {
         addMethod(method, false);
 
         _getJavaClass = method;
-
     } //-- createSource
 
     public JMethod getElementDefinitionMethod() {
-            return _getElementDefinition;
+        return _getElementDefinition;
     } //-- getElementDefinitionMethod
 
     public JMethod getNameSpacePrefixMethod() {
@@ -345,9 +343,11 @@ public class DescriptorJClass extends JClass {
 
     /**
      * Returns the Class type (as a String) for the given XSType
-     * @param jType the JType we are to return the class name of
+     *
+     * @param jType
+     *            the JType we are to return the class name of
      * @return the Class name (as a String) for the given XSType
-    **/
+     */
     private static String classType(JType jType) {
         if (jType.isPrimitive()) {
             return jType.getWrapperName() + ".TYPE";

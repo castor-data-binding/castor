@@ -70,7 +70,7 @@ import org.exolab.javasource.JComment;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a> - Contributions.
  * @author <a href="mailto:nsgreen@thazar.com">Nathan Green</a> - Contributions.
  * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a> - Separated from SourceGenerator
- * @version $Revision:  $ $Date:  $
+ * @version $Revision: 0000 $ $Date:  $
  */
 public class SingleClassGenerator {
     /**
@@ -337,8 +337,11 @@ public class SingleClassGenerator {
             }
 
             ClassInfo cInfo = state.resolve(key);
-            if (newClassInfo == cInfo) a1 = (Annotated)key;
-            else if (oldClassInfo == cInfo) a2 = (Annotated)key;
+            if (newClassInfo == cInfo) {
+                a1 = (Annotated)key;
+            } else if (oldClassInfo == cInfo) {
+                a2 = (Annotated)key;
+            }
         }
 
         StringBuffer error = new StringBuffer();
@@ -430,8 +433,7 @@ public class SingleClassGenerator {
      *             If an already existing '.castor.cdr' file can not be loaded
      */
     private void updateCDRFile(JClass jClass, JClass jDesc, SGStateInfo sInfo)
-    throws FileNotFoundException, IOException
-    {
+                                                      throws FileNotFoundException, IOException {
         String entityFilename = jClass.getFilename(_destDir);
         File file = new File(entityFilename);
         File parentDirectory = file.getParentFile();
@@ -441,7 +443,6 @@ public class SingleClassGenerator {
         Properties props = sInfo.getCDRFile(cdrFilename);
 
         if (props == null) {
-
             // check for existing .castor.xml file
             props = new Properties();
             if (cdrFile.exists()) {

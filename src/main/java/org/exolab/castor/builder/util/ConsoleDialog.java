@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.util;
 
 /**
@@ -50,13 +49,12 @@ package org.exolab.castor.builder.util;
  *
  * @author <a href="mailto:nsgreen@thazar.com">Nathan Green</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-**/
+ */
 public class ConsoleDialog implements Dialog {
-
 
     /**
      * Creates a new Console Dialog
-    **/
+     */
     public ConsoleDialog () {
         super();
     } //-- ConsoleDialog
@@ -64,12 +62,12 @@ public class ConsoleDialog implements Dialog {
     /**
      * Presents a confirmation prompt with the given message.
      *
-     * @param message the confirmation prompt message to display
-     * @return true if the user has selected a positive confirmation,
-     * otherwise false
-    **/
+     * @param message
+     *            the confirmation prompt message to display
+     * @return true if the user has selected a positive confirmation, otherwise
+     *         false
+     */
     public boolean confirm(String message) {
-
         try {
             while (true) {
                 System.out.println();
@@ -95,8 +93,7 @@ public class ConsoleDialog implements Dialog {
                         break;
                 }
             }
-        }
-        catch (java.io.IOException ix) {
+        } catch (java.io.IOException ix) {
             System.out.println(ix);
         }
         return false;
@@ -104,13 +101,13 @@ public class ConsoleDialog implements Dialog {
 
     /**
      * Returns a single char from System.in.
-     * @return the character entered, or null if more than one was
-     * entered (not including EOLs)
-     * @throws java.io.IOException if one is encountered in System.in.read()
-    **/
-    private int getChar()
-        throws java.io.IOException
-    {
+     *
+     * @return the character entered, or null if more than one was entered (not
+     *         including EOLs)
+     * @throws java.io.IOException
+     *             if one is encountered in System.in.read()
+     */
+    private int getChar() throws java.io.IOException {
         int ch = System.in.read();
 
         //-- read eoln, or extra characters
@@ -127,28 +124,30 @@ public class ConsoleDialog implements Dialog {
     }
 
     /**
-     * Presents a confirmation prompt for values with the
-     * given messge.
+     * Presents a confirmation prompt for values with the given messge.
      *
-     * @param message the confirmation prompt to display
-     * @param values a list of valid characters to accept
+     * @param message
+     *            the confirmation prompt to display
+     * @param values
+     *            a list of valid characters to accept
      * @return whatever character the user presses
-    **/
-    public char confirm(String message, String values)
-    {
+     */
+    public char confirm(String message, String values) {
         return confirm(message, values, "no help available...");
     }
 
     /**
-     * Presents a confirmation prompt for values with the
-     * given messge
-     * @param message the confirmation prompt to display
-     * @param values a list of valid characters to accept
-     * @param help a help message when the user presses '?'
+     * Presents a confirmation prompt for values with the given messge
+     *
+     * @param message
+     *            the confirmation prompt to display
+     * @param values
+     *            a list of valid characters to accept
+     * @param help
+     *            a help message when the user presses '?'
      * @return whatever character the user presses
-    **/
-    public char confirm(String message, String values, String help)
-    {
+     */
+    public char confirm(String message, String values, String help) {
         String prompt = makeList(values);
 
         try {
@@ -161,17 +160,18 @@ public class ConsoleDialog implements Dialog {
                 System.out.println();
 
                 //-- check ch
-                if (values.indexOf(ch) != -1)
+                if (values.indexOf(ch) != -1) {
                     return (char)ch;
-                if (ch == '?')
+                }
+
+                if (ch == '?') {
                     System.out.println(help);
-                else {
+                } else {
                     System.out.print("invalid input, expecting ");
                     System.out.println(listInput(values));
                 }
             }
-        }
-        catch (java.io.IOException ix) {
+        } catch (java.io.IOException ix) {
             System.out.println(ix);
         }
         return '\0';
@@ -188,34 +188,36 @@ public class ConsoleDialog implements Dialog {
     } //-- notify
 
     /**
-     * Converts a list of characters into a delimited prompt.  A '?'
-     * is automatically put at the end.
-     * @param values a list of valid characters to accept
+     * Converts a list of characters into a delimited prompt. A '?' is
+     * automatically put at the end.
+     *
+     * @param values
+     *            a list of valid characters to accept
      * @return each character separated by a pipe and in parenthesis
-    **/
-    private String makeList(String values)
-    {
+     */
+    private String makeList(String values) {
         StringBuffer sb = new StringBuffer(values.length()*2);
         sb.append('(');
-        for (int i=0; i<values.length(); i++)
+        for (int i=0; i<values.length(); i++) {
             sb.append(values.charAt(i)).append('|');
+        }
         sb.append("?)");
         return sb.toString();
     }
 
     /**
-     * Creates a list of valid input options to give a better
-     * explanation to the user.
-     * @param values a list of valid characters to accept
+     * Creates a list of valid input options to give a better explanation to the
+     * user.
+     *
+     * @param values
+     *            a list of valid characters to accept
      * @return each character in single quotes, comma separated
-    **/
-    private String listInput(String values)
-    {
+     */
+    private String listInput(String values) {
         StringBuffer sb = new StringBuffer(values.length()*4);
-        for (int i=0; i<values.length(); i++)
-            sb.append('\'')
-              .append(values.charAt(i))
-              .append("', ");
+        for (int i=0; i<values.length(); i++) {
+            sb.append('\'') .append(values.charAt(i)) .append("', ");
+        }
         sb.append("or '?'");
         return sb.toString();
     }

@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1555 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Correct SRCGEN JavaDoc tags that fail validation
+       Details: http://jira.codehaus.org/browse/CASTOR-1555
+       (Edward - 20061012)
+
 XML:   Resolved issue CASTOR-204 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Invalid Instance Document containing ALL elements of a schema definitions choice is not unmarshallable
        Details: http://jira.codehaus.org/browse/CASTOR-204

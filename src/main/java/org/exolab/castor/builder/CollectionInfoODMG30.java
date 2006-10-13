@@ -11,7 +11,7 @@ import org.exolab.javasource.JSourceCode;
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
  * @author <a href="mailto:bernd.deichmann@poet.de">Bernd Deichmann</a>
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
-**/
+ */
 public class CollectionInfoODMG30 extends CollectionInfo {
 
     /**
@@ -24,6 +24,8 @@ public class CollectionInfoODMG30 extends CollectionInfo {
      *            the name of the Collection
      * @param elementName
      *            the element name for each element in collection
+     * @param useJava50
+     *            true if source code is supposed to be generated for Java 5
      */
     public CollectionInfoODMG30(XSType contentType, String name, String elementName,
             final boolean useJava50) {
@@ -71,4 +73,5 @@ public class CollectionInfoODMG30 extends CollectionInfo {
 
         jClass.addMethod(method);
     }
+
 } // -- CollectionInfoODMG30
