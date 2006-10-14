@@ -570,6 +570,36 @@ public class DescriptorSourceFactory {
         jsc.unindent();
         jsc.add("}");
         //--end of setValue(Object, Object) method
+        
+        //-- reset method (handle collections only)
+        if (member.isMultivalued()) {
+            CollectionInfo cInfo = (CollectionInfo) member;
+            // FieldInfo content = cInfo.getContent();
+            jsc.add("public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {");
+            jsc.indent();
+            jsc.add("try {");
+            jsc.indent();
+            jsc.add(localClassName);
+            jsc.append(" target = (");
+            jsc.append(localClassName);
+            jsc.append(") object;");
+            String cName = JavaNaming.toJavaClassName(cInfo.getElementName());
+            if (cInfo instanceof CollectionInfoJ2) {
+                jsc.add("target.clear" + cName + "();"); 
+            } else { 
+                jsc.add("target.removeAll" + cName + "();");
+            }
+            jsc.unindent();
+            jsc.add("} catch (java.lang.Exception ex) {"); 
+            jsc.indent(); 
+            jsc.add("throw new IllegalStateException(ex.toString());"); 
+            jsc.unindent(); 
+            jsc.add("}");
+            jsc.unindent();
+            jsc.add("}");
+        }
+        //-- end of reset method
+        
 
         createNewInstanceMethodForXMLFieldHandler(member, xsType, jsc, forGeneralizedHandler,
                                                   any, isEnumerated);
