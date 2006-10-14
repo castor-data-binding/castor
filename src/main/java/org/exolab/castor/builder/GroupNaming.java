@@ -70,16 +70,16 @@ public class GroupNaming {
         _packageGroupNames = new Hashtable();
     } //-- GroupNaming
 
-    private String getGroupName(Group group, String packageName) {
+    private String getGroupName(final Group group, final String packageName) {
         Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
         if (groupNames == null) {
             return null;
         }
-        return (String)groupNames.get(group);
+        return (String) groupNames.get(group);
     }
 
-    private void putGroupName(Group group, String packageName, String name) {
-        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
+    private void putGroupName(final Group group, final String packageName, final String name) {
+        Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
         if (groupNames == null) {
             groupNames = new Hashtable();
             _packageGroupNames.put(packageName, groupNames);
@@ -87,8 +87,8 @@ public class GroupNaming {
         groupNames.put(group, name);
     }
 
-    private boolean containsGroupName(String packageName, String name) {
-        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
+    private boolean containsGroupName(final String packageName, final String name) {
+        Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
         if (groupNames == null) {
             return false;
         }
@@ -103,7 +103,7 @@ public class GroupNaming {
      * @param packageName the package name for this group
      * @return the class name for the given Group.
      */
-    public String createClassName(Group group, String packageName) {
+    public String createClassName(final Group group, final String packageName) {
         String name = group.getName();
         if (name != null) {
             return JavaNaming.toJavaClassName(name);
@@ -121,15 +121,15 @@ public class GroupNaming {
         boolean addOrder = true;
         switch(parent.getStructureType()) {
             case Structure.GROUP:
-                name = createClassName((Group)parent, packageName);
+                name = createClassName((Group) parent, packageName);
                 break;
             case Structure.MODELGROUP:
-                name = ((ModelGroup)parent).getName();
+                name = ((ModelGroup) parent).getName();
                 name = JavaNaming.toJavaClassName(name);
                 addOrder = false;
                 break;
             case Structure.COMPLEX_TYPE:
-                name = getClassName((ComplexType)parent);
+                name = getClassName((ComplexType) parent);
                 addOrder = false;
                 break;
             default:
@@ -159,7 +159,7 @@ public class GroupNaming {
      * @param complexType the ComplexType for which to return a class name
      * @return the class name for the given ComplexType
      */
-    private static String getClassName(ComplexType complexType) {
+    private static String getClassName(final ComplexType complexType) {
         //-- if complexType has name, simply return it
         String name = complexType.getName();
         if (name != null) {
@@ -169,7 +169,7 @@ public class GroupNaming {
         //-- otherwise get name of containing element
         Structure parent = complexType.getParent();
         if (parent != null && parent.getStructureType() == Structure.ELEMENT) {
-            name = ((ElementDecl)parent).getName();
+            name = ((ElementDecl) parent).getName();
         }
 
         if (name != null) {

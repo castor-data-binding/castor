@@ -55,42 +55,25 @@ public class GroupInfo {
      * order is not important. <I>default</I>
      */
     public static final int ALL    = 0;
-
     /**
      * The compositor value that indicates that only one field may be present.
      */
     public static final int CHOICE = 1;
-
     /**
      * The compositor value that indicates that all fields are required and
      * order is important.
      */
     public static final int SEQUENCE = 2;
 
-    /**
-     * A flag indicating if the object described by this XML info can appear
-     * more than once.
-     */
-    private boolean multivalued = false;
-
-    /**
-     * indicates the XML object must appear at least once.
-     */
-    private boolean required = false;
-
-    /**
-     * The compositor for this XMLInfo.
-     */
+    /** A flag indicating if the object described by this XML info can appear  more than once. */
+    private boolean _multivalued = false;
+    /** indicates the XML object must appear at least once. */
+    private boolean _required = false;
+    /** The compositor for this XMLInfo. */
     private int _compositor = ALL;
-
-    /**
-     * The minimum occurance for this group.
-     */
+    /** The minimum occurance for this group. */
     private int _minOccurs = 1;
-
-    /**
-     * The maximum occurance for this group.
-     */
+    /** The maximum occurance for this group. */
     private int _maxOccurs = 1;
 
     /**
@@ -125,7 +108,7 @@ public class GroupInfo {
      * @return true if this object can appear more than once.
      */
     public boolean isMultivalued() {
-        return multivalued;
+        return _multivalued;
     } //-- isMultivalued
 
     /**
@@ -135,7 +118,7 @@ public class GroupInfo {
      * @return true if the XML object must appear at least once.
      */
     public boolean isRequired() {
-        return required;
+        return _required;
     } //-- isRequired
 
     /**
@@ -182,7 +165,7 @@ public class GroupInfo {
      * @param maxOccurs
      *            the maximum occurance this group must appear
      */
-    public void setMaxOccurs(int maxOccurs) {
+    public void setMaxOccurs(final int maxOccurs) {
         _maxOccurs = (maxOccurs < 0) ? -1 : maxOccurs;
     } //-- setMaxOccurs
 
@@ -192,8 +175,8 @@ public class GroupInfo {
      * @param minOccurs
      *            the minimum occurance this group must appear
      */
-    public void setMinOccurs(int minOccurs) {
-        _minOccurs = (minOccurs < 0) ? 1 :minOccurs;
+    public void setMinOccurs(final int minOccurs) {
+        _minOccurs = (minOccurs < 0) ? 1 : minOccurs;
     } //-- setMinOccurs
 
     /**
@@ -203,8 +186,8 @@ public class GroupInfo {
      *            the boolean indicating whether or not the object can appear
      *            more than once
      */
-    public void setMultivalued(boolean multivalued) {
-        this.multivalued = multivalued;
+    public void setMultivalued(final boolean multivalued) {
+        this._multivalued = multivalued;
     } //-- setMultivalued
 
     /**
@@ -213,8 +196,8 @@ public class GroupInfo {
      * @param required
      *            the flag indicating whether or not this XML object is required
      */
-    public void setRequired(boolean required) {
-        this.required = required;
+    public void setRequired(final boolean required) {
+        this._required = required;
     } //-- setRequired
 
 } //-- GroupInfo

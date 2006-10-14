@@ -172,7 +172,7 @@ public class BuilderConfiguration {
          * castor.properties
          * </pre>
          */
-        public static final String FileName = "castorbuilder.properties";
+        public static final String CONFIG_FILENAME_PROPERTY = "castorbuilder.properties";
 
         static final String ResourceName = "/org/exolab/castor/builder/castorbuilder.properties";
     } //--Property
@@ -233,8 +233,9 @@ public class BuilderConfiguration {
      * @return The default configuration
      */
     public synchronized Properties getDefault() {
-        if (_defaultProps == null)
+        if (_defaultProps == null) {
             load();
+        }
         return _defaultProps;
     } //-- getDefault
 
@@ -248,8 +249,8 @@ public class BuilderConfiguration {
      *            The property's default value
      * @return The property's value
      */
-    public String getProperty( String name, String defValue ) {
-        return _localProps.getProperty( name, defValue );
+    public String getProperty(final String name, final String defValue) {
+        return _localProps.getProperty(name, defValue);
     } //-- getProperty
 
     /**
@@ -283,7 +284,7 @@ public class BuilderConfiguration {
      *
      * @param equals The value we want to use.
      */
-     public void setEqualsMethod(boolean equals) {
+     public void setEqualsMethod(final boolean equals) {
         String value = (equals) ? TRUE : FALSE;
         _localProps.setProperty(Property.EqualsMethod, value);
      } //-- setEqualsMethod
@@ -299,7 +300,7 @@ public class BuilderConfiguration {
      * @return true if bound properties are enabled.
      */
     public boolean classDescFieldNames() {
-        return _localProps.getProperty(Property.ClassDescFieldNames,"").equalsIgnoreCase(TRUE);
+        return _localProps.getProperty(Property.ClassDescFieldNames, "").equalsIgnoreCase(TRUE);
     } //-- classDescFieldNames
 
     /**
@@ -314,7 +315,7 @@ public class BuilderConfiguration {
      * @return true if extra collection methods are enabled.
      */
     public boolean generateExtraCollectionMethods() {
-        return _localProps.getProperty(Property.EXTRA_COLLECTION_METHODS,"").equalsIgnoreCase(TRUE);
+        return _localProps.getProperty(Property.EXTRA_COLLECTION_METHODS, "").equalsIgnoreCase(TRUE);
     } //-- generateExtraCollectionMethods
 
     /**
@@ -323,7 +324,7 @@ public class BuilderConfiguration {
      * @param classDescFieldNames
      *            the value we want to ues
      */
-     public void setClassDescFieldNames(boolean classDescFieldNames) {
+     public void setClassDescFieldNames(final boolean classDescFieldNames) {
         String value = (classDescFieldNames) ? TRUE : FALSE;
         _localProps.getProperty(Property.ClassDescFieldNames, value);
      } //-- setClassDescFieldNames
@@ -334,7 +335,7 @@ public class BuilderConfiguration {
       * @return true if primitive types have to be used as Objects.
       */
     public boolean usePrimitiveWrapper() {
-        return _localProps.getProperty(Property.Wrapper,"").equalsIgnoreCase(TRUE);
+        return _localProps.getProperty(Property.Wrapper, "").equalsIgnoreCase(TRUE);
     } //-- usePrimitiveWrapper
 
     /**
@@ -342,7 +343,7 @@ public class BuilderConfiguration {
      *
      * @param wrapper the value we want to use.
      */
-    public void setPrimitiveWrapper(boolean wrapper) {
+    public void setPrimitiveWrapper(final boolean wrapper) {
         String value = (wrapper) ? TRUE : FALSE;
         _localProps.setProperty(Property.Wrapper, value);
     } //-- setPrimitiveWrapper
@@ -372,15 +373,17 @@ public class BuilderConfiguration {
      *
      * @param flag the value we want to use
      */
-    public void setUseEnumeratedTypeInterface(boolean flag) {
+    public void setUseEnumeratedTypeInterface(final boolean flag) {
         String value = (flag) ? TRUE : FALSE;
         _localProps.setProperty(Property.ENUM_TYPE_ACCESS_INTERFACE, value);
     } //-- setUseEnumeratedTypeInterface
 
     /**
-     * Tests the org.exolab.castor.builder.javaclassmapping property for the 'element' value.
+     * Tests the org.exolab.castor.builder.javaclassmapping property for the
+     * 'element' value.
      *
-     * @return True if the Source Generator is mapping schema elements to Java classes.
+     * @return True if the Source Generator is mapping schema elements to Java
+     *         classes.
      */
     public boolean mappingSchemaElement2Java() {
         String value = _localProps.getProperty(Property.JavaClassMapping, "");
@@ -405,7 +408,7 @@ public class BuilderConfiguration {
      * @param properties
      *            the Properties file
      */
-    public void setDefaultProperties(Properties properties) {
+    public void setDefaultProperties(final Properties properties) {
         Properties defaults = null;
         if (properties == null) {
             defaults = _defaultProps;
@@ -413,13 +416,13 @@ public class BuilderConfiguration {
             defaults = new Properties(_defaultProps);
             Enumeration enumeration = properties.keys();
             while (enumeration.hasMoreElements()) {
-                String name = (String)enumeration.nextElement();
+                String name = (String) enumeration.nextElement();
                 defaults.setProperty(name, properties.getProperty(name));
             }
         }
         _localProps = new Properties(defaults);
-        processNamespacePackageMappings(_localProps.getProperty( Property.NamespacePackagesOld, ""));
-        processNamespacePackageMappings(_localProps.getProperty( Property.NamespacePackages, ""));
+        processNamespacePackageMappings(_localProps.getProperty(Property.NamespacePackagesOld, ""));
+        processNamespacePackageMappings(_localProps.getProperty(Property.NamespacePackages, ""));
     } //-- setDefaultProperties
 
     /**
@@ -428,7 +431,7 @@ public class BuilderConfiguration {
      * @param ns the namespace URI to map
      * @param packageName the package name
      */
-    public void setNamespacePackageMapping(String ns, String packageName) {
+    public void setNamespacePackageMapping(final String ns, final String packageName) {
         _nspackages.put(ns, packageName);
     } //-- setNamespcaePackageMapping
 
@@ -438,7 +441,7 @@ public class BuilderConfiguration {
      * @param schemaLocation the schemaLocation to map
      * @param packageName the package name to map to
      */
-    public void setLocationPackageMapping(String schemaLocation, String packageName) {
+    public void setLocationPackageMapping(final String schemaLocation, final String packageName) {
         _locpackages.put(schemaLocation, packageName);
     }
 
@@ -451,7 +454,7 @@ public class BuilderConfiguration {
     protected synchronized void load() {
         if (_defaultProps == null) {
             //-- load defaults from JAR
-            _defaultProps = Configuration.loadProperties( Property.ResourceName, Property.FileName);
+            _defaultProps = Configuration.loadProperties(Property.ResourceName, Property.CONFIG_FILENAME_PROPERTY);
 
             //-- load local defaults
 
@@ -460,10 +463,10 @@ public class BuilderConfiguration {
             // Get overriding configuration from the classpath, ignore if not found.
             // If found, merge any existing properties.
             try {
-                InputStream is = SourceGenerator.class.getResourceAsStream("/" + Property.FileName);
+                InputStream is = SourceGenerator.class.getResourceAsStream("/" + Property.CONFIG_FILENAME_PROPERTY);
                 if (is != null) {
                     found = true;
-                    _defaultProps.load( is );
+                    _defaultProps.load(is);
                     is.close();
                 }
             } catch (Exception except) {
@@ -474,13 +477,13 @@ public class BuilderConfiguration {
             //-- class path, try looking at local working directory
             if (!found) {
                 try {
-                    File file = new File(Property.FileName);
+                    File file = new File(Property.CONFIG_FILENAME_PROPERTY);
                     if (file.exists() && file.canRead()) {
                         InputStream is = new FileInputStream(file);
                         _defaultProps.load(is);
                         is.close();
                     }
-                } catch ( Exception except ) {
+                } catch (Exception except) {
                     //-- do nothing
                 }
             }
@@ -490,10 +493,10 @@ public class BuilderConfiguration {
 
         // Parse XML namespace and package list from both castor.properties and
         // castorbuilder.properties
-        processNamespacePackageMappings(rtconf.getProperty( Property.NamespacePackagesOld, ""));
-        processNamespacePackageMappings(rtconf.getProperty( Property.NamespacePackages, ""));
-        processNamespacePackageMappings(_defaultProps.getProperty( Property.NamespacePackagesOld, ""));
-        processNamespacePackageMappings(_defaultProps.getProperty( Property.NamespacePackages, ""));
+        processNamespacePackageMappings(rtconf.getProperty(Property.NamespacePackagesOld, ""));
+        processNamespacePackageMappings(rtconf.getProperty(Property.NamespacePackages, ""));
+        processNamespacePackageMappings(_defaultProps.getProperty(Property.NamespacePackagesOld, ""));
+        processNamespacePackageMappings(_defaultProps.getProperty(Property.NamespacePackages, ""));
 
         //-- backward compatibility with 0.9.3.9
         String prop = _defaultProps.getProperty(JavaNaming.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
@@ -522,7 +525,9 @@ public class BuilderConfiguration {
 
     /**
      * Converts a schema location into a Java package.
-     * @param schemaLocation the Schema location to use to look up the Java package
+     *
+     * @param schemaLocation
+     *            the Schema location to use to look up the Java package
      * @return a Java package name
      */
     public String lookupPackageByLocation(String schemaLocation) {
@@ -545,14 +550,15 @@ public class BuilderConfiguration {
             Enumeration keys = _locpackages.keys();
             boolean found = false;
             while (keys.hasMoreElements() && !found) {
-                String key = (String)keys.nextElement();
+                String key = (String) keys.nextElement();
                 if (schemaLocation.endsWith(key)) {
                     javaPackage = (String) _locpackages.get(key);
                     found = true;
                 }
             }
-            if (javaPackage == null)
-            javaPackage = "";
+            if (javaPackage == null) {
+                javaPackage = "";
+            }
         }
 
         return javaPackage;
@@ -563,8 +569,11 @@ public class BuilderConfiguration {
      *
      * @param mappings the namespace-to-package mappings
      */
-    protected void processNamespacePackageMappings(String mappings) {
-        if (mappings == null) return;
+    protected void processNamespacePackageMappings(final String mappings) {
+        if (mappings == null) {
+            return;
+        }
+
         StringTokenizer tokens = new StringTokenizer(mappings, ",");
         while (tokens.hasMoreTokens()) {
             String token = tokens.nextToken();
@@ -573,8 +582,8 @@ public class BuilderConfiguration {
                 continue;
             }
 
-            String ns = token.substring(0,sepIdx).trim();
-            String javaPackage = token.substring(sepIdx+1).trim();
+            String ns = token.substring(0, sepIdx).trim();
+            String javaPackage = token.substring(sepIdx + 1).trim();
             _nspackages.put(ns, javaPackage);
         }
     } //-- processNamespacePackageMappings

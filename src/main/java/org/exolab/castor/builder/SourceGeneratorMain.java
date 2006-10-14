@@ -126,7 +126,14 @@ public class SourceGeneratorMain {
 
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();
 
-    // ////////////////
+    /**
+     * As a static utility class, we want a private constructor.
+     */
+    private SourceGeneratorMain() {
+        // Private constructor
+    }
+
+    //////////////////
     //  MAIN METHOD //
     //////////////////
 
@@ -136,7 +143,7 @@ public class SourceGeneratorMain {
      *
      * @param args the String[] consisting of the command line arguments
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         //-- Process the specified command line options
         Properties options = ALL_OPTIONS.getOptions(args);
 
@@ -220,7 +227,8 @@ public class SourceGeneratorMain {
                 sgen.setBinding(BindingLoader.createBinding(bindingFilename));
             } catch (BindingException e) {
                 System.out.print("--");
-                System.out.println(BINDING_FILE_ERROR1_MSG + "'" + bindingFilename + "'" + BINDING_FILE_ERROR2_MSG);
+                System.out.println(BINDING_FILE_ERROR1_MSG + "'" + bindingFilename + "'"
+                                   + BINDING_FILE_ERROR2_MSG);
                 e.printStackTrace();
                 System.out.print("--");
                 System.out.println(BINDING_FILE_ERROR3_MSG);
@@ -262,7 +270,7 @@ public class SourceGeneratorMain {
      *         if the default should be used
      * @see org.exolab.castor.builder.FieldInfoFactory
      */
-    private static FieldInfoFactory getTypeFactory(Properties options) {
+    private static FieldInfoFactory getTypeFactory(final Properties options) {
         String typeFactory = options.getProperty(ARGUMENT_TYPES);
         if (typeFactory == null) {
             // This backwards-compatible option is retained temporarily
@@ -290,7 +298,7 @@ public class SourceGeneratorMain {
             try {
                 // Allow someone to provide their own FieldInfoFactory implementation
                 ClassLoader classLoader = Thread.currentThread().getContextClassLoader();
-                factory = (FieldInfoFactory)classLoader.loadClass(typeFactory).newInstance();
+                factory = (FieldInfoFactory) classLoader.loadClass(typeFactory).newInstance();
             } catch (Exception e2) {
                 System.out.println("-- " + INVALID_TYPES_OPTION_MSG + typeFactory);
                 System.out.println("-- " + e.getMessage());
@@ -308,7 +316,7 @@ public class SourceGeneratorMain {
      * @param lineSepStyle the command-line argument for line separation style
      * @return the line separator string as the source generator understands it.
      */
-    private static String getLineSeparator(String lineSepStyle) {
+    private static String getLineSeparator(final String lineSepStyle) {
         String lineSep = System.getProperty("line.separator");
         if (lineSepStyle != null) {
             if (ARG_VALUE_LINE_SEPARATION_WIN.equals(lineSepStyle)) {

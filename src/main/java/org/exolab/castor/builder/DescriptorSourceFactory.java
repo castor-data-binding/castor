@@ -90,7 +90,7 @@ public class DescriptorSourceFactory {
      *
      * @param config the BuilderConfiguration instance
      */
-    public DescriptorSourceFactory(BuilderConfiguration config) {
+    public DescriptorSourceFactory(final BuilderConfiguration config) {
         if (config == null) {
             String err = "The argument 'config' must not be null.";
             throw new IllegalArgumentException(err);
@@ -106,7 +106,7 @@ public class DescriptorSourceFactory {
      *            the XML Schema element declaration
      * @return the JClass representing the MarshalInfo source code
      */
-    public JClass createSource(ClassInfo classInfo) {
+    public JClass createSource(final ClassInfo classInfo) {
         JSourceCode jsc            = null;
         JClass jClass              = classInfo.getJClass();
         String className           = jClass.getName();
@@ -144,7 +144,7 @@ public class DescriptorSourceFactory {
         //-- set Element Definition flag
         boolean elementDefinition = classInfo.isElementDefinition();
         jsc.add("elementDefinition = ");
-		jsc.append(new Boolean(elementDefinition).toString());
+        jsc.append(new Boolean(elementDefinition).toString());
         jsc.append(";");
 
         //-- set grouping compositor
@@ -233,7 +233,7 @@ public class DescriptorSourceFactory {
      * @param member the restricted member for which we generate the restriction handling.
      * @param jsc the source code to which we append the validation code.
      */
-    private static void createRestrictedDescriptor(FieldInfo member, JSourceCode jsc) {
+    private static void createRestrictedDescriptor(final FieldInfo member, final JSourceCode jsc) {
         jsc.add("desc = (org.exolab.castor.xml.util.XMLFieldDescriptorImpl) getFieldDescriptor(\"");
         jsc.append(member.getNodeName());
         jsc.append("\"");
@@ -264,8 +264,9 @@ public class DescriptorSourceFactory {
      * @param jsc
      *            the source code to which we'll add this descriptor
      */
-    private void createDescriptor(DescriptorJClass classDesc, FieldInfo member,
-            String localClassName, String nsURI, JSourceCode jsc) {
+    private void createDescriptor(final DescriptorJClass classDesc, final FieldInfo member,
+                                  final String localClassName, String nsURI,
+                                  final JSourceCode jsc) {
 
         XSType xsType       = member.getSchemaType();
         boolean any         = false;
@@ -440,8 +441,9 @@ public class DescriptorSourceFactory {
      *            the source code to which we'll add this XMLFieldHandler
      * @param forGeneralizedHandler Whether to generate a generalized field handler
      */
-    private void createXMLFieldHandler(FieldInfo member, XSType xsType,
-            String localClassName, JSourceCode jsc, boolean forGeneralizedHandler) {
+    private void createXMLFieldHandler(final FieldInfo member, final XSType xsType,
+                                       final String localClassName, final JSourceCode jsc,
+                                       final boolean forGeneralizedHandler) {
 
         boolean any          = false;
         boolean isEnumerated = false;
@@ -569,7 +571,8 @@ public class DescriptorSourceFactory {
         jsc.add("}");
         //--end of setValue(Object, Object) method
 
-        createNewInstanceMethodForXMLFieldHandler(member, xsType, jsc, forGeneralizedHandler, any, isEnumerated);
+        createNewInstanceMethodForXMLFieldHandler(member, xsType, jsc, forGeneralizedHandler,
+                                                  any, isEnumerated);
         jsc.unindent();
         jsc.add("};");
     } //--end of XMLFieldHandler
@@ -645,7 +648,8 @@ public class DescriptorSourceFactory {
      * @param xsType the field type for which extra special handler logic may be created
      * @param jsc the java source code to which this will be written
      */
-    private void addSpecialHandlerLogic(FieldInfo member, XSType xsType, JSourceCode jsc) {
+    private void addSpecialHandlerLogic(final FieldInfo member, final XSType xsType,
+                                        final JSourceCode jsc) {
         if (xsType.isEnumerated()) {
             jsc.add("handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(");
             jsc.append(classType(xsType.getJType()));
@@ -695,7 +699,7 @@ public class DescriptorSourceFactory {
      * @param jsc
      *            the JSourceCode to fill in.
      */
-    private static void validationCode(FieldInfo member, JSourceCode jsc) {
+    private static void validationCode(final FieldInfo member, final JSourceCode jsc) {
         if (member == null || jsc == null) {
             return;
         }
@@ -751,7 +755,7 @@ public class DescriptorSourceFactory {
      * @param jType the JType whose Class type will be returned
      * @return the Class type (as a String) for the given XSType.
      */
-    private static String classType(JType jType) {
+    private static String classType(final JType jType) {
         if (jType.isPrimitive()) {
             return jType.getWrapperName() + ".TYPE";
         }

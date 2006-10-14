@@ -80,7 +80,8 @@ public class CollectionInfoJ2 extends CollectionInfo {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    public CollectionInfoJ2(XSType contentType, String name, String elementName, String collectionType,
+    public CollectionInfoJ2(final XSType contentType, final String name,
+                            final String elementName, final String collectionType,
                             final boolean useJava50) {
         super(contentType, name, elementName, useJava50);
         // --override the schemaType
@@ -93,7 +94,8 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *
      * @see org.exolab.castor.builder.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass, boolean)
      */
-    protected void createCollectionIterationMethods(JClass jClass, final boolean useJava50) {
+    protected void createCollectionIterationMethods(final JClass jClass,
+                                                    final boolean useJava50) {
         super.createCollectionIterationMethods(jClass, useJava50);
         this.createIteratorMethod(jClass, useJava50);
     }
@@ -103,7 +105,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
      *
      * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass, boolean)
      */
-    protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
+    protected void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
                 SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
                 "an Enumeration over all possible elements of this collection");
@@ -116,10 +118,12 @@ public class CollectionInfoJ2 extends CollectionInfo {
         jClass.addMethod(method);
     }
 
-    protected void createAddMethod(JClass jClass) {
+    protected void createAddMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
-        final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
+        method.addException(SGTypes.IndexOutOfBoundsException,
+                            "if the index given is outside the bounds of the collection");
+        final JParameter parameter = new JParameter(this.getContentType().getJType(),
+                                                    this.getContentName());
         method.addParameter(parameter);
 
         JSourceCode sourceCode = method.getSourceCode();

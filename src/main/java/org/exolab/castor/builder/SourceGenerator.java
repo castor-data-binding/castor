@@ -50,7 +50,6 @@
 package org.exolab.castor.builder;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.FileReader;
 import java.io.FileWriter;
@@ -113,19 +112,13 @@ public class SourceGenerator extends BuilderConfiguration {
     //-------------/
     /** The application name */
     static final String APP_NAME = "Castor";
-
     /** The application description */
     static final String APP_DESC = "XML data binder for Java";
-
     /** The application version */
     static final String VERSION = Version.VERSION;
-
     /** The application URI */
     static final String APP_URI = "http://www.castor.org";
-
-    /**
-     * Warning message to remind users to create source code for imported schema.
-     */
+    /** Warning message to remind users to create source code for imported schema. */
     private static final String IMPORT_WARNING
         = "Warning: Do not forget to generate source code for the following imported schema: ";
 
@@ -135,61 +128,48 @@ public class SourceGenerator extends BuilderConfiguration {
 
     /** Castor configuration */
     private final Configuration _config;
-
     /** The XMLBindingComponent used to create Java classes from an XML Schema */
     private final XMLBindingComponent _bindingComponent;
-
+    /** Our object used to generate source for a single source file */
     private final SingleClassGenerator _singleClassGenerator;
-
-    private boolean _suppressNonFatalWarnings = false;
-
-    /** Determines whether or not to print extra messages. */
-    private boolean _verbose = false;
-
-    /** A flag indicating whether or not to create
-     *  descriptors for the generated classes. */
-    private boolean _createDescriptors = true;
-
-    /** A flag indicating whether or not to generate sources
-     *  for imported XML Schemas. */
-    private boolean _generateImported = false;
-
     /** The field info factory. */
     private final FieldInfoFactory _infoFactory;
-
-    /** The source factory. */
-    private SourceFactory _sourceFactory = null;
-
+    /** Allows us to ask the user questions */
     private final ConsoleDialog _dialog;
-
     /** A vector that keeps track of all the schemas processed. */
     private final Vector _schemasProcessed = new Vector(7);
 
+    /** True if we should suppress non-fatal warnings */
+    private boolean _suppressNonFatalWarnings = false;
+    /** Determines whether or not to print extra messages. */
+    private boolean _verbose = false;
+    /** A flag indicating whether or not to create
+     *  descriptors for the generated classes. */
+    private boolean _createDescriptors = true;
+    /** A flag indicating whether or not to generate sources
+     *  for imported XML Schemas. */
+    private boolean _generateImported = false;
+    /** The source factory. */
+    private SourceFactory _sourceFactory = null;
     /** A flag to indicate that the mapping file should be generated. */
     private boolean _generateMapping = false;
-
     /** The name of the mapping file to create used with the gen-mapping flag. */
     private String  _mappingFilename = "mapping.xml";
-
     /** A flag indicating whether or not to generate XML marshalling
      *  framework specific methods. */
     private boolean _createMarshalMethods = true;
-
     /** A flag indicating whether or not to implement CastorTestable
      *  (used by the Castor Testing Framework). */
     private boolean _testable = false;
-
     /** A flag indicating that SAX1 should be used when generating the source. */
     private boolean _sax1 = false;
-
     /** A flag indicating that enumerated types should be constructed to perform
      *  case insensitive lookups based on the values. */
     private boolean _caseInsensitive = false;
-
     /** A flag indicating, if true, that source generation should fail on the
      * first error*/
     private boolean _failOnFirstError = false;
-    
+
     /**
      * Creates a SourceGenerator using the default FieldInfo factory
      */
@@ -202,7 +182,7 @@ public class SourceGenerator extends BuilderConfiguration {
      *
      * @param infoFactory the FieldInfoFactory to use.
      */
-    public SourceGenerator(FieldInfoFactory infoFactory) {
+    public SourceGenerator(final FieldInfoFactory infoFactory) {
         this(infoFactory, null);
     }
 
@@ -213,7 +193,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param infoFactory the FieldInfoFactory to use.
      * @param binding the binding element to use.
      */
-    public SourceGenerator(FieldInfoFactory infoFactory, ExtendedBinding binding) {
+    public SourceGenerator(final FieldInfoFactory infoFactory, final ExtendedBinding binding) {
         super();
 
         _config = LocalConfiguration.getInstance();
@@ -227,13 +207,17 @@ public class SourceGenerator extends BuilderConfiguration {
         setBinding(binding);
     } //-- SourceGenerator
 
-    public void setMappingFilename(String filename) {
+    /**
+     * Sets the filename of the mapping file.
+     * @param filename filename of the mapping file
+     */
+    public void setMappingFilename(final String filename) {
         _mappingFilename = filename;
     }
 
     /**
      * Returns the version number of this SourceGenerator
-     * 
+     *
      * @return the version number of this SourceGenerator
      */
     public static String getVersion() {
@@ -244,7 +228,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * Set to true if SAX1 should be used in the marshal method
      * @param sax1 true if SAX1 should be used in the marshal method
      */
-    public void setSAX1(boolean sax1) {
+    public void setSAX1(final boolean sax1) {
         _sax1 = sax1;
     }
 
@@ -262,7 +246,7 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * If true, the source generator will fail on the first error encountered.
      * Otherwise, the source generator will continue on certain errors.
-     * 
+     *
      * @param failOnFirstError
      *            if true, the source generator will fail on the first error
      *            encountered.
@@ -271,7 +255,12 @@ public class SourceGenerator extends BuilderConfiguration {
         _failOnFirstError = failOnFirstError;
     }
 
-    public void setSuppressNonFatalWarnings(boolean suppress) {
+    /**
+     * Sets whether or not to suppress non-fatal warnings encountered during
+     * source generation.
+     * @param suppress true if non-fatal warnings should be suppressed.
+     */
+    public void setSuppressNonFatalWarnings(final boolean suppress) {
         _singleClassGenerator.setPromptForOverwrite(!suppress);
         _suppressNonFatalWarnings = suppress;
     } //-- setSuppressNonFatalWarnings
@@ -279,23 +268,23 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Sets whether or not the source code generator prints additional messages
      * during generating source code
-     * 
+     *
      * @param verbose
      *            a boolean, when true indicates to print additional messages
      */
-    public void setVerbose(boolean verbose) {
+    public void setVerbose(final boolean verbose) {
         _verbose = verbose;
     } //-- setVerbose
 
     /**
      * Sets whether or not to create ClassDescriptors for the generated classes.
      * By default, descriptors are generated.
-     * 
+     *
      * @param createDescriptors
      *            a boolean, when true indicates to generated ClassDescriptors
-     * 
+     *
      */
-    public void setDescriptorCreation(boolean createDescriptors) {
+    public void setDescriptorCreation(final boolean createDescriptors) {
         _createDescriptors = createDescriptors;
         _singleClassGenerator.setDescriptorCreation(createDescriptors);
     } //-- setDescriptorCreation
@@ -305,7 +294,7 @@ public class SourceGenerator extends BuilderConfiguration {
      *
      * @param destDir the destination directory.
      */
-    public void setDestDir(String destDir) {
+    public void setDestDir(final String destDir) {
         _singleClassGenerator.setDestDir(destDir);
     }
 
@@ -318,7 +307,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * to generated the marshalling framework methods
      *
      */
-    public void setCreateMarshalMethods(boolean createMarshalMethods) {
+    public void setCreateMarshalMethods(final boolean createMarshalMethods) {
         _createMarshalMethods = createMarshalMethods;
     } //-- setCreateMarshalMethods
 
@@ -328,7 +317,7 @@ public class SourceGenerator extends BuilderConfiguration {
      *
      * @param generate true to generate the java classes for the imported XML Schema
      */
-    public void setGenerateImportedSchemas(boolean generate) {
+    public void setGenerateImportedSchemas(final boolean generate) {
         _generateImported = generate;
     }
 
@@ -336,33 +325,33 @@ public class SourceGenerator extends BuilderConfiguration {
      * Sets whether or not a mapping file should be generated, this is false by
      * default. Note that this will only be used when generation of descriptors
      * has been disabled.
-     * 
+     *
      * @param generateMapping
      *            a flag that indicates whether or not a mapping file should be
      *            generated.
      */
-    public void setGenerateMappingFile(boolean generateMapping) {
+    public void setGenerateMappingFile(final boolean generateMapping) {
         _generateMapping = generateMapping;
     } //-- setGenerateMappingFile
 
     /**
      * Sets whether or not to implement CastorTestable
-     * 
+     *
      * @param testable
      *            a boolean, when true indicates to implement CastorTestable
      */
-    public void setTestable(boolean testable) {
+    public void setTestable(final boolean testable) {
         _testable = testable;
     } //-- setTestable
 
     /**
      * Sets the binding to use with this instance of the SourceGenerator.
-     * 
+     *
      * @param binding
      *            the binding to use, null indicates that the default binding
      *            will be used.
      */
-    public void setBinding(ExtendedBinding binding) {
+    public void setBinding(final ExtendedBinding binding) {
         if (binding != null) {
             processNamespaces(binding.getPackage());
         }
@@ -375,15 +364,14 @@ public class SourceGenerator extends BuilderConfiguration {
      *
      * @param fileName the file that represents a Binding
      */
-    public void setBinding(String fileName) {
+    public void setBinding(final String fileName) {
         try {
             ExtendedBinding binding = BindingLoader.createBinding(fileName);
             setBinding(binding);
         } catch (BindingException e) {
-           //log these messages
-            String err= "unable to load a binding file due to the following:\n";
-            err +=e.getMessage();
-            err += "\nThe Source Generator will continue with no binding file.";
+            String err = "Unable to load a binding file due to the following:\n"
+                    + e.getMessage()
+                    + "\nThe Source Generator will continue with no binding file.";
             _dialog.notify(err);
         }
     }
@@ -394,15 +382,14 @@ public class SourceGenerator extends BuilderConfiguration {
      *
      * @param source an InputSource identifying a Castor Binding File.
      */
-    public void setBinding(InputSource source) {
+    public void setBinding(final InputSource source) {
         try {
             ExtendedBinding binding = BindingLoader.createBinding(source);
             setBinding(binding);
         } catch (BindingException e) {
-           //log these messages
-            String err= "unable to load a binding file due to the following:\n";
-            err +=e.getMessage();
-            err += "\nThe Source Generator will continue with no binding file.";
+            String err = "unable to load a binding file due to the following:\n"
+                    + e.getMessage()
+                    + "\nThe Source Generator will continue with no binding file.";
             _dialog.notify(err);
         }
     }
@@ -417,14 +404,14 @@ public class SourceGenerator extends BuilderConfiguration {
      * unix systems use: "\n"
      * mac systems use: "\r"
      * </PRE>
-     * 
+     *
      * @param lineSeparator
      *            the line separator to use when printing the source code. This
      *            method is useful if you are generating source on one platform,
      *            but will be compiling the source on a different platform.
-     * 
+     *
      */
-    public void setLineSeparator(String lineSeparator) {
+    public void setLineSeparator(final String lineSeparator) {
         _singleClassGenerator.setLineSeparator(lineSeparator);
     } //-- setLineSeparator
 
@@ -438,7 +425,7 @@ public class SourceGenerator extends BuilderConfiguration {
             ExtendedBinding binding = _bindingComponent.getBinding();
             if (binding != null) {
                 BindingType type = binding.getDefaultBindingType();
-                if (type != null ) {
+                if (type != null) {
                     return (type.getType() == BindingType.ELEMENT_TYPE);
                 }
             }
@@ -468,26 +455,27 @@ public class SourceGenerator extends BuilderConfiguration {
      * Creates Java Source code (Object model) for the given XML Schema. If the
      * file exists, opens a FileReader and passes control to
      * {@link #generateSource(InputSource, String)}.
-     * 
+     *
      * @param filename
      *            the full path to the XML Schema definition
      * @param packageName
      *            the package for the generated source files
      * @throws IOException
      *             if an IOException occurs writing the new source files
-     * @throws FileNotFoundException
-     *             if this Exception occurs writing the new source files
      */
-    public void generateSource(String filename, String packageName) throws FileNotFoundException, IOException {
-        //--basic cleanup
+    public void generateSource(final String filename, final String packageName) throws IOException {
+        final File schemaFile;
         if (filename.startsWith("./")) {
-            filename = filename.substring(2);
+            schemaFile = new File(filename.substring(2));
+        } else {
+            schemaFile = new File(filename);
         }
-        FileReader reader = new FileReader(filename);
+
+        FileReader reader = new FileReader(schemaFile);
 
         try {
             InputSource source = new InputSource(reader);
-            source.setSystemId(toURIRepresentation((new File(filename)).getAbsolutePath()));
+            source.setSystemId(toURIRepresentation(schemaFile.getAbsolutePath()));
             generateSource(source, packageName);
         } finally {
             try { reader.close(); } catch (java.io.IOException iox) { }
@@ -498,7 +486,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * Creates Java Source code (Object model) for the given XML Schema. This
      * method just passes control to
      * {@link #generateSource(InputSource, String)}.
-     * 
+     *
      * @param reader
      *            the Reader with which to read the XML Schema definition. The
      *            caller should close the reader, since thie method will not do
@@ -508,7 +496,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException
      *             if an IOException occurs writing the new source files
      */
-    public void generateSource(Reader reader, String packageName) throws IOException {
+    public void generateSource(final Reader reader, final String packageName) throws IOException {
         InputSource source = new InputSource(reader);
         generateSource(source, packageName);
     } //-- generateSource
@@ -517,7 +505,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * Creates Java Source code (Object model) for the given XML Schema. Parses
      * the schema provided by the InputSource and then calls
      * {@link #generateSource(Schema, String)} to actually generate the source.
-     * 
+     *
      * @param source -
      *            the InputSource representing the XML schema.
      * @param packageName
@@ -525,12 +513,12 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException
      *             if an IOException occurs writing the new source files
      */
-    public void generateSource(InputSource source, String packageName) throws IOException {
+    public void generateSource(final InputSource source, final String packageName) throws IOException {
         // -- get default parser from Configuration
         Parser parser = null;
         try {
             parser = _config.getParser();
-        } catch(RuntimeException rte) {
+        } catch (RuntimeException rte) {
             // ignore
         }
 
@@ -561,12 +549,14 @@ public class SourceGenerator extends BuilderConfiguration {
                 throw ioe;
             }
             return;
-        } catch(org.xml.sax.SAXException sx) {
+        } catch (org.xml.sax.SAXException sx) {
             Exception except = sx.getException();
-            if (except == null) except = sx;
+            if (except == null) {
+                except = sx;
+            }
 
             if (except instanceof SAXParseException) {
-                SAXParseException spe = (SAXParseException)except;
+                SAXParseException spe = (SAXParseException) except;
                 _dialog.notify("SAXParseException: " + spe);
                 _dialog.notify(" - occured at line ");
                 _dialog.notify(Integer.toString(spe.getLineNumber()));
@@ -589,7 +579,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * Creates Java Source code (Object model) for the given XML Schema.
      * Convenience methods exist if you don't have a
      * {@link org.exolab.castor.xml.schema.Schema} already parsed.
-     * 
+     *
      * @param schema
      *            the XML schema to generate the Java sources for.
      * @param packageName
@@ -601,7 +591,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @see #generateSource(InputSource, String) to provide an InputSource for
      *      the schema
      */
-    public void generateSource(Schema schema, String packageName) throws IOException {
+    public void generateSource(final Schema schema, final String packageName) throws IOException {
         if (schema == null) {
             throw new IllegalArgumentException("The argument 'schema' must not be null.");
         }
@@ -627,7 +617,7 @@ public class SourceGenerator extends BuilderConfiguration {
 
         //-- create a new Source Generation State object for this invocation
         SGStateInfo sInfo = new SGStateInfo(schema, this);
-        sInfo.packageName = packageName;
+        sInfo._packageName = packageName;
         sInfo.setDialog(_dialog);
         sInfo.setVerbose(_verbose);
         sInfo.setSuppressNonFatalWarnings(_suppressNonFatalWarnings);
@@ -652,20 +642,20 @@ public class SourceGenerator extends BuilderConfiguration {
     //- Private Methods -/
     //-------------------/
 
-    private void generateAllClassFiles(Schema schema, SGStateInfo sInfo) throws IOException {
+    private void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo) throws IOException {
         //-- ** print warnings for imported schemas **
         if (!_suppressNonFatalWarnings || _generateImported) {
             Enumeration enumeration = schema.getImportedSchema();
             while (enumeration.hasMoreElements()) {
-                Schema importedSchema = (Schema)enumeration.nextElement();
+                Schema importedSchema = (Schema) enumeration.nextElement();
                 if (!_generateImported) {
                     System.out.println();
                     System.out.println(IMPORT_WARNING + importedSchema.getSchemaLocation());
                 } else {
                     _schemasProcessed.add(schema);
                     if (!_schemasProcessed.contains(importedSchema)) {
-                        SGStateInfo importedSInfo = new SGStateInfo(importedSchema, this);
-                        importedSInfo.packageName = sInfo.packageName;
+                        SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
+                        importedSInfo._packageName = sInfo._packageName;
                         generateAllClassFiles(importedSchema, importedSInfo);
 
                         //--'store' the imported JClass instances
@@ -684,22 +674,22 @@ public class SourceGenerator extends BuilderConfiguration {
 
         //-- handle all top-level element declarations
         for (structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
-            createClasses((ElementDecl)structures.nextElement(), sInfo);
+            createClasses((ElementDecl) structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level complextypes
         for (structures = schema.getComplexTypes(); structures.hasMoreElements(); ) {
-            processComplexType((ComplexType)structures.nextElement(), sInfo);
+            processComplexType((ComplexType) structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level simpletypes
         for (structures = schema.getSimpleTypes(); structures.hasMoreElements(); ) {
-            processSimpleType((SimpleType)structures.nextElement(), sInfo);
+            processSimpleType((SimpleType) structures.nextElement(), sInfo);
         }
 
         //-- handle all top-level groups
         for (structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
-            createClasses((ModelGroup)structures.nextElement(), sInfo);
+            createClasses((ModelGroup) structures.nextElement(), sInfo);
         }
 
         //-- clean up any remaining JClasses which need printing
@@ -709,7 +699,7 @@ public class SourceGenerator extends BuilderConfiguration {
         for (Enumeration cdrFiles = sInfo.getCDRFilenames(); cdrFiles.hasMoreElements(); ) {
             String filename = (String) cdrFiles.nextElement();
             Properties props = sInfo.getCDRFile(filename);
-            props.store(new FileOutputStream(new File(filename)),null);
+            props.store(new FileOutputStream(new File(filename)), null);
         }
     } //-- createClasses
 
@@ -718,9 +708,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param packageName Package name to be generated
      * @param sInfo Source Generator current state
      * @throws IOException if this Exception occurs while generating the mapping file
-     * @throws NestedIOException
      */
-    private void generateMappingFile(String packageName, SGStateInfo sInfo) throws IOException, NestedIOException {
+    private void generateMappingFile(final String packageName, final SGStateInfo sInfo) throws IOException {
         String pkg = (packageName != null) ? packageName : "";
         MappingRoot mapping = sInfo.getMapping(pkg);
         if (mapping == null) {
@@ -740,7 +729,7 @@ public class SourceGenerator extends BuilderConfiguration {
         }
     }
 
-    private void createClasses(ElementDecl elementDecl, SGStateInfo sInfo) throws FileNotFoundException, IOException {
+    private void createClasses(final ElementDecl elementDecl, final SGStateInfo sInfo) throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || elementDecl == null) {
             return;
         }
@@ -759,7 +748,7 @@ public class SourceGenerator extends BuilderConfiguration {
 
         //-- already processed --> just return
         ClassInfo cInfo = sInfo.resolve(elementDecl);
-        if (cInfo != null && cInfo.getJClass()!=null) {
+        if (cInfo != null && cInfo.getJClass() != null) {
             JClass jClass = cInfo.getJClass();
             if (sInfo.processed(jClass)) {
                 return;
@@ -774,29 +763,26 @@ public class SourceGenerator extends BuilderConfiguration {
                 sInfo.getDialog().notify(msg + elementDecl.getName());
             }
             return;
-        }
-        //-- ComplexType
-        else if (xmlType.isComplexType()) {
+        } else if (xmlType.isComplexType()) {
+            //-- ComplexType
             if (!_singleClassGenerator.process(_sourceFactory.createSourceCode(_bindingComponent, sInfo), sInfo)) {
                 return;
             }
 
             //only create classes for types that are not imported
             if (xmlType.getSchema() == _bindingComponent.getSchema()) {
-                processComplexType((ComplexType)xmlType, sInfo);
+                processComplexType((ComplexType) xmlType, sInfo);
             }
-        }
-        //-- SimpleType
-        else if (xmlType.isSimpleType()) {
-            processSimpleType((SimpleType)xmlType, sInfo);
-        }
-        //-- AnyType
-        else {
+        } else if (xmlType.isSimpleType()) {
+            //-- SimpleType
+            processSimpleType((SimpleType) xmlType, sInfo);
+        } else {
+            //-- AnyType
             //-- no processing needed for 'anyType'
         }
     }  //-- createClasses
 
-    private void createClasses(Group group, SGStateInfo sInfo) throws FileNotFoundException, IOException {
+    private void createClasses(final Group group, final SGStateInfo sInfo) throws IOException {
         if (group == null) {
             return;
         }
@@ -804,7 +790,7 @@ public class SourceGenerator extends BuilderConfiguration {
         //-- don't generate classes for empty groups
         if (group.getParticleCount() == 0) {
             if (group instanceof ModelGroup) {
-                ModelGroup mg = (ModelGroup)group;
+                ModelGroup mg = (ModelGroup) group;
                 if (mg.isReference()) {
                     mg = mg.getReference();
                     if (mg.getParticleCount() == 0) {
@@ -825,15 +811,14 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Processes the given ComplexType and creates all necessary class to
      * support it
-     * 
+     *
      * @param complexType
      *            the ComplexType to process
      * @param sInfo
      *            out state information
      * @throws IOException
-     * @throws FileNotFoundException
      */
-    private void processComplexType(ComplexType complexType, SGStateInfo sInfo) throws FileNotFoundException, IOException {
+    private void processComplexType(final ComplexType complexType, final SGStateInfo sInfo) throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || complexType == null) {
             return;
         }
@@ -853,7 +838,7 @@ public class SourceGenerator extends BuilderConfiguration {
             //--process content type if necessary
             ContentType temp = complexType.getContentType();
             if (temp.getType() == ContentType.SIMPLE) {
-                processSimpleType(((SimpleContent)temp).getSimpleType(), sInfo);
+                processSimpleType(((SimpleContent) temp).getSimpleType(), sInfo);
             }
 
             //-- process ContentModel
@@ -872,24 +857,22 @@ public class SourceGenerator extends BuilderConfiguration {
 
     /**
      * Processes the attribute declarations for the given complex type
-     * 
+     *
      * @param complexType
      *            the ComplexType containing the attribute declarations to
      *            process.
      * @param sInfo
      *            the current source generator state information
      * @throws IOException
-     * @throws FileNotFoundException
      */
-    private void processAttributes(ComplexType complexType, SGStateInfo sInfo)  throws FileNotFoundException,
-                                                                              IOException {
+    private void processAttributes(final ComplexType complexType, final SGStateInfo sInfo) throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || complexType == null) {
             return;
         }
 
         Enumeration enumeration = complexType.getAttributeDecls();
         while (enumeration.hasMoreElements()) {
-            AttributeDecl attribute = (AttributeDecl)enumeration.nextElement();
+            AttributeDecl attribute = (AttributeDecl) enumeration.nextElement();
             processSimpleType(attribute.getSimpleType(), sInfo);
         }
     } //-- processAttributes
@@ -900,10 +883,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param cmGroup the ContentModelGroup to process
      * @param sInfo the current source generator state information
      * @throws IOException
-     * @throws FileNotFoundException
      */
-    private void processContentModel(ContentModelGroup cmGroup, SGStateInfo sInfo) throws FileNotFoundException,
-                                                                                  IOException {
+    private void processContentModel(final ContentModelGroup cmGroup, final SGStateInfo sInfo) throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || cmGroup == null) {
             return;
         }
@@ -914,20 +895,20 @@ public class SourceGenerator extends BuilderConfiguration {
         Enumeration enumeration = cmGroup.enumerate();
 
         while (enumeration.hasMoreElements()) {
-            Structure struct = (Structure)enumeration.nextElement();
+            Structure struct = (Structure) enumeration.nextElement();
             switch(struct.getStructureType()) {
                 case Structure.ELEMENT:
-                    ElementDecl eDecl = (ElementDecl)struct;
+                    ElementDecl eDecl = (ElementDecl) struct;
                     if (eDecl.isReference()) {
                         continue;
                     }
                     createClasses(eDecl, sInfo);
                     break;
                 case Structure.GROUP:
-                    processContentModel((Group)struct, sInfo);
+                    processContentModel((Group) struct, sInfo);
                     //handle nested groups
                     if (!((cmGroup instanceof ComplexType) || (cmGroup instanceof ModelGroup))) {
-                        createClasses((Group)struct, sInfo);
+                        createClasses((Group) struct, sInfo);
                     }
                     break;
                 default:
@@ -944,8 +925,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException
      * @throws FileNotFoundException
      */
-    private void processSimpleType(SimpleType simpleType, SGStateInfo sInfo) throws FileNotFoundException,
-                                                                            IOException {
+    private void processSimpleType(final SimpleType simpleType, final SGStateInfo sInfo) throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || simpleType == null
                 || simpleType.getSchema() != sInfo.getSchema()) {
             return;
@@ -970,16 +950,16 @@ public class SourceGenerator extends BuilderConfiguration {
    /**
      * Called by setBinding to fill in the mapping between namespaces and Java
      * packages.
-     * 
+     *
      * @param packages
      *            the array of package element
      */
-    private void processNamespaces(PackageType[] packages) {
+    private void processNamespaces(final PackageType[] packages) {
         if (packages.length == 0) {
             return;
         }
 
-        for (int i=0; i<packages.length; i++) {
+        for (int i = 0; i < packages.length; i++) {
             PackageType temp = packages[i];
             PackageTypeChoice choice = temp.getPackageTypeChoice();
             if (choice.getNamespace() != null) {
@@ -991,11 +971,11 @@ public class SourceGenerator extends BuilderConfiguration {
                 currentDir = currentDir.replace('\\', '/');
                 if (tempLocation.startsWith("./")) {
                     tempLocation = tempLocation.substring(1);
-                    tempLocation = currentDir+tempLocation;
+                    tempLocation = currentDir + tempLocation;
                 } else if (tempLocation.startsWith("../")) {
                      tempLocation = tempLocation.substring(3);
                      int lastDir = currentDir.lastIndexOf('/');
-                     currentDir = currentDir.substring(0, lastDir+1);
+                     currentDir = currentDir.substring(0, lastDir + 1);
                      tempLocation = currentDir + tempLocation;
                 }
                 super.setLocationPackageMapping(tempLocation, temp.getName());
@@ -1017,7 +997,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param path The absolute path of the file.
      * @return A string representing the URI of the file.
      */
-    public static String toURIRepresentation( String path ) {
+    public static String toURIRepresentation(final String path) {
         String result = path;
         if (!new File(result).isAbsolute()) {
            throw new IllegalArgumentException("The parameter must represent an absolute path.");
@@ -1043,9 +1023,9 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param args our command line arguments.
      * @deprecated Please use {@link SourceGeneratorMain#main(String[])}
      */
-    public static void main(String[] args) {
+    public static void main(final String[] args) {
         System.out.println("org.exolab.castor.builder.SourceGenerator.main() is deprecated.");
-        System.out.println("Please use org.exolab.castor.builder.SourceGeneratorMain.main() is deprecated.");
+        System.out.println("Please use org.exolab.castor.builder.SourceGeneratorMain#main()");
         System.out.println("");
 
         SourceGeneratorMain.main(args);

@@ -75,7 +75,6 @@ class FactoryState implements ClassInfoResolver {
     private SGStateInfo       _sgState   = null;
     private boolean           _createGroupItem = false;
 
-
     /**
      * Keeps track of whether or not the BoundProperties methods have been
      * created
@@ -91,7 +90,8 @@ class FactoryState implements ClassInfoResolver {
     //- Constructors -/
     //----------------/
 
-    protected FactoryState(String className, SGStateInfo sgState, String packageName) {
+    protected FactoryState(final String className, final SGStateInfo sgState,
+                           final String packageName) {
         if (sgState == null) {
             throw new IllegalArgumentException("SGStateInfo cannot be null.");
         }
@@ -123,11 +123,11 @@ class FactoryState implements ClassInfoResolver {
      *
      * @param key
      *            the key to bind a reference to
-     * @param classInfo
+     * @param classInfoRef
      *            the ClassInfo which is being referenced
      */
-    public void bindReference(Object key, ClassInfo classInfo) {
-        _resolver.bindReference(key, classInfo);
+    public void bindReference(final Object key, final ClassInfo classInfoRef) {
+        _resolver.bindReference(key, classInfoRef);
     } //-- bindReference
 
     /**
@@ -146,7 +146,7 @@ class FactoryState implements ClassInfoResolver {
      *            the Annotated XML Schema structure to mark as having been
      *            processed.
      */
-    void markAsProcessed(Annotated annotated) {
+    void markAsProcessed(final Annotated annotated) {
         _processed.addElement(annotated);
     } //-- markAsProcessed
 
@@ -160,7 +160,7 @@ class FactoryState implements ClassInfoResolver {
      * @return true if the given Annotated XML Schema structure has been marked
      *         as processed
      */
-    boolean processed(Annotated annotated) {
+    boolean processed(final Annotated annotated) {
         boolean result = _processed.contains(annotated);
         if (!result) {
             if (_parent != null) {
@@ -186,7 +186,7 @@ class FactoryState implements ClassInfoResolver {
      *            the new value of the bound properties flag
      * @see #hasBoundProperties
      */
-    void setBoundProperties(boolean bound) {
+    void setBoundProperties(final boolean bound) {
         _bound = bound;
     } //-- setBoundProperties
 
@@ -197,7 +197,7 @@ class FactoryState implements ClassInfoResolver {
      *            the object to which the ClassInfo has been bound
      * @return the ClassInfo which has been bound to the given key
      */
-    public ClassInfo resolve(Object key) {
+    public ClassInfo resolve(final Object key) {
         return _resolver.resolve(key);
     } //-- resolve
 
@@ -220,7 +220,7 @@ class FactoryState implements ClassInfoResolver {
      *            true if we are currently generating a class to represent items
      *            in a group.
      */
-     void setCreateGroupItem(boolean createGroupItem) {
+     void setCreateGroupItem(final boolean createGroupItem) {
          _createGroupItem = createGroupItem;
      }
 
@@ -242,7 +242,7 @@ class FactoryState implements ClassInfoResolver {
       *            the parent FactoryState
       * @see #getParent
       */
-     void setParent(FactoryState parent) {
+     void setParent(final FactoryState parent) {
          _parent = parent;
      }
 

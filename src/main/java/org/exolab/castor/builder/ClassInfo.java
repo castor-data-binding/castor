@@ -50,8 +50,9 @@
 
 package org.exolab.castor.builder;
 
-import org.exolab.javasource.*;
 import java.util.Vector;
+
+import org.exolab.javasource.JClass;
 
 /**
  * This class holds the necessary information so that the source generator can
@@ -62,28 +63,31 @@ import java.util.Vector;
  */
 public class ClassInfo extends XMLInfo {
 
+    /** Vector of FieldInfo's for all attributes that are members of this Class */
     private Vector    _atts      = null;
+    /** Vector of FieldInfo's for all elements that are members of this Class */
     private Vector    _elements  = null;
+    /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo */
     private FieldInfo _textField = null;
+    /** The base class */
     private ClassInfo _baseClass = null;
-
-    /**
-     * A reference to the JClass that this ClassInfo describes
-     */
+    /**  A reference to the JClass that this ClassInfo describes */
     private JClass _class = null;
-
-    /**
-     * The group information for this ClassInfo
-     */
+    /** The group information for this ClassInfo */
     private GroupInfo _groupInfo = null;
+    /**
+     * true if this ClassInfo describes a container class. That is, a class
+     * which should not be marshalled as XML, but whose members should be.
+     */
     private boolean _isContainer = false;
+    /** true if this ClassInfo represents an abstract class */
     private boolean _abstract    = false;
 
     /**
      * Creates a new ClassInfo.
      * @param jClass the JClass which this ClassInfo describes
      */
-    public ClassInfo(JClass jClass) {
+    public ClassInfo(final JClass jClass) {
         super(XMLInfo.ELEMENT_TYPE);
         if (jClass == null) {
             String err = "JClass passed to constructor of ClassInfo must not be null.";
@@ -102,7 +106,7 @@ public class ClassInfo extends XMLInfo {
      * Adds the given FieldInfo to this ClassInfo
      * @param fieldInfo the FieldInfo to add
      */
-    public void addFieldInfo(FieldInfo fieldInfo) {
+    public void addFieldInfo(final FieldInfo fieldInfo) {
         if (fieldInfo == null) {
             return;
         }
@@ -111,7 +115,9 @@ public class ClassInfo extends XMLInfo {
 
         switch(fieldInfo.getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
-                if (_atts == null) _atts = new Vector(3);
+                if (_atts == null) {
+                    _atts = new Vector(3);
+                }
                 if (!_atts.contains(fieldInfo)) {
                     _atts.addElement(fieldInfo);
                 }
@@ -134,7 +140,7 @@ public class ClassInfo extends XMLInfo {
      * Adds the given set of FieldInfos to this ClassInfo
      * @param fields an Array of FieldInfo objects
      */
-    public void addFieldInfo(FieldInfo[] fields) {
+    public void addFieldInfo(final FieldInfo[] fields) {
         for (int i = 0; i < fields.length; i++) {
             addFieldInfo(fields[i]);
         }
@@ -154,7 +160,7 @@ public class ClassInfo extends XMLInfo {
      *            the FieldInfo to check
      * @return true if the given FieldInfo is contained within this ClassInfo
      */
-    public boolean contains(FieldInfo fieldInfo) {
+    public boolean contains(final FieldInfo fieldInfo) {
         if (fieldInfo == null) {
             return false;
         }
@@ -202,13 +208,13 @@ public class ClassInfo extends XMLInfo {
      * @param nodeName the NodeName of the field to get.
      * @return a fieldInfo that corresponds to an attribute with the given node name.
      */
-    public FieldInfo getAttributeField(String nodeName) {
+    public FieldInfo getAttributeField(final String nodeName) {
         if (_atts == null) {
             return null;
         }
 
         for (int i = 0; i < _atts.size(); i++) {
-            FieldInfo temp = (FieldInfo)_atts.get(i);
+            FieldInfo temp = (FieldInfo) _atts.get(i);
             if (temp.getNodeName().equals(nodeName)) {
                 return temp;
             }
@@ -220,7 +226,7 @@ public class ClassInfo extends XMLInfo {
     /**
      * Returns the base class of this classInfo if any. A classInfo can indeed
      * extend another classInfo to reflect the extension mechanism used in the
-     * XML Schema
+     * XML Schema.
      *
      * @return the base class of this classInfo if any.
      */
@@ -251,12 +257,12 @@ public class ClassInfo extends XMLInfo {
      * @param nodeName the NodeName of the field to get.
      * @return a fieldInfo that corresponds to an element with the given node name.
      */
-    public FieldInfo getElementField(String nodeName) {
+    public FieldInfo getElementField(final String nodeName) {
         if (_elements != null) {
             for (int i = 0; i < _elements.size(); i++) {
-                FieldInfo temp = (FieldInfo)_elements.get(i);
+                FieldInfo temp = (FieldInfo) _elements.get(i);
                 String elementNodeName = temp.getNodeName();
-                if (elementNodeName!=null && elementNodeName.equals(nodeName)) {
+                if (elementNodeName != null && elementNodeName.equals(nodeName)) {
                     return temp;
                 }
             }
@@ -311,6 +317,10 @@ public class ClassInfo extends XMLInfo {
         return _textField;
     } //-- getTextField
 
+    /**
+     * Returns true if the JClass represented by this ClassInfo is abstract
+     * @return true if the JClass represented by this ClassInfo is abstract
+     */
     public boolean isAbstract() {
         return _abstract;
     }
@@ -344,7 +354,14 @@ public class ClassInfo extends XMLInfo {
         return _groupInfo.isSequence();
     } //-- isSequence
 
-    public void setAbstract(boolean abstractClass) {
+    /**
+     * Sets the class of this ClassInfo to be abstract of
+     * <code>abstractClass</code> is true, false otherwise.
+     *
+     * @param abstractClass
+     *            true if the class represented by this ClassInfo is abstract
+     */
+    public void setAbstract(final boolean abstractClass) {
         _abstract = abstractClass;
     }
 
@@ -356,7 +373,7 @@ public class ClassInfo extends XMLInfo {
      * @param base
      *            the base class of this classInfo.
      */
-    public void setBaseClass(ClassInfo base) {
+    public void setBaseClass(final ClassInfo base) {
         _baseClass = base;
     }
 
@@ -369,7 +386,7 @@ public class ClassInfo extends XMLInfo {
      *            the boolean value when true indicates this class should be a
      *            container class.
      */
-    public void setContainer(boolean isContainer) {
+    public void setContainer(final boolean isContainer) {
         _isContainer = isContainer;
     } //-- setContainer
 

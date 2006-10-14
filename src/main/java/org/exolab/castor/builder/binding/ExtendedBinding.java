@@ -131,7 +131,7 @@ public class ExtendedBinding extends Binding {
      * @return the ComponentBinding that corresponds to the given Annotated XML
      *         Schema structure.
      */
-    public ComponentBindingType getComponentBindingType(Annotated annotated) {
+    public ComponentBindingType getComponentBindingType(final Annotated annotated) {
         if (annotated == null) {
             return null;
         }
@@ -181,7 +181,7 @@ public class ExtendedBinding extends Binding {
                 default :
                     break;
             }
-        }//--result == null
+        } //--result == null
 
         return result;
     }
@@ -199,11 +199,11 @@ public class ExtendedBinding extends Binding {
      *         found.
      * @see org.exolab.castor.builder.binding.ExtendedBinding#getSchemaLocation(Structure)
      */
-    private ComponentBindingType lookupComponentBindingType(String xPath) {
+    private ComponentBindingType lookupComponentBindingType(final String xPath) {
         if (xPath == null) {
             return null;
         }
-        return (ComponentBindingType)_componentBindings.get(xPath);
+        return (ComponentBindingType) _componentBindings.get(xPath);
     }
 
     /**
@@ -219,7 +219,7 @@ public class ExtendedBinding extends Binding {
         ComponentBindingType[] tempBindings = getAttributeBinding();
 
         //1--attributes
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             //--top-level attribute --> no location computation
             handleComponent(temp, null, ATTRIBUTE);
@@ -227,21 +227,21 @@ public class ExtendedBinding extends Binding {
 
         //2--complexTypes
         tempBindings = getComplexTypeBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, null, COMPLEXTYPE);
         }
 
         //3--elements
         tempBindings = getElementBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, null, ELEMENT);
         }
 
         //4--groups
         tempBindings = getGroupBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, null, GROUP);
         }
@@ -265,12 +265,12 @@ public class ExtendedBinding extends Binding {
      *            an integer that indicates the type of the given
      *            ComponentBindingType
      */
-    private void handleComponent(ComponentBindingType binding,String xPath, int type) {
+    private void handleComponent(final ComponentBindingType binding, String xPath, final int type) {
         if (binding == null) {
             return;
         }
 
-        if (xPath== null) {
+        if (xPath == null) {
             xPath = new String();
         }
 
@@ -324,7 +324,7 @@ public class ExtendedBinding extends Binding {
         ComponentBindingType[] tempBindings = binding.getAttributeBinding();
 
         //1--attributes
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             //--top-level attribute --> no location computation
             handleComponent(temp, xPath, ATTRIBUTE);
@@ -332,21 +332,21 @@ public class ExtendedBinding extends Binding {
 
         //2--complexTypes
         tempBindings = binding.getComplexTypeBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, xPath, COMPLEXTYPE);
         }
 
         //3--elements
         tempBindings = binding.getElementBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, xPath, ELEMENT);
         }
 
         //4--groups
         tempBindings = binding.getGroupBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, xPath, GROUP);
         }
@@ -383,7 +383,7 @@ public class ExtendedBinding extends Binding {
      *            the structure for which to return a representation.
      * @return a string representation of an XML Schema Component.
      */
-    public static String getSchemaLocation(Structure structure) {
+    public static String getSchemaLocation(final Structure structure) {
         if (structure == null) {
             return null;
         }
@@ -392,7 +392,7 @@ public class ExtendedBinding extends Binding {
         return buffer.toString();
     }
 
-    private static void getSchemaLocation(Structure structure, StringBuffer location) {
+    private static void getSchemaLocation(final Structure structure, final StringBuffer location) {
         if (structure == null) {
             throw new IllegalArgumentException("Structure cannot be null");
         }
@@ -404,28 +404,28 @@ public class ExtendedBinding extends Binding {
         Structure parent = null;
         switch (structure.getStructureType()) {
             case Structure.ELEMENT:
-                parent = ((ElementDecl)structure).getParent();
+                parent = ((ElementDecl) structure).getParent();
                 if (parent.getStructureType() != Structure.SCHEMA) {
                    getSchemaLocation(parent, location);
                 }
                 location.append(PATH_SEPARATOR);
-                location.append(((ElementDecl)structure).getName());
+                location.append(((ElementDecl) structure).getName());
                 break;
 
             case Structure.COMPLEX_TYPE:
-                ComplexType complexType = (ComplexType)structure;
+                ComplexType complexType = (ComplexType) structure;
                 parent = (complexType).getParent();
                 if (parent.getStructureType() != Structure.SCHEMA) {
                    getSchemaLocation(parent, location);
                 }
                 if (complexType.getName() != null) {
                     location.append(COMPLEXTYPE_ID);
-                    location.append(((ComplexType)structure).getName());
+                    location.append(((ComplexType) structure).getName());
                 }
                 break;
 
             case Structure.MODELGROUP:
-                ModelGroup group = (ModelGroup)structure;
+                ModelGroup group = (ModelGroup) structure;
                 parent = group.getParent();
                 if (parent.getStructureType() != Structure.SCHEMA) {
                    getSchemaLocation(parent, location);
@@ -437,18 +437,18 @@ public class ExtendedBinding extends Binding {
                 break;
 
             case Structure.ATTRIBUTE:
-                parent = ((AttributeDecl)structure).getParent();
+                parent = ((AttributeDecl) structure).getParent();
                 if (parent.getStructureType() != Structure.SCHEMA) {
                    getSchemaLocation(parent, location);
                 }
                 location.append(PATH_SEPARATOR);
                 location.append(ATTRIBUTE_PREFIX);
-                location.append(((AttributeDecl)structure).getName());
+                location.append(((AttributeDecl) structure).getName());
                 break;
 
             case Structure.GROUP:
                 //--we are inside a complexType
-                getSchemaLocation(((Group)structure).getParent(), location);
+                getSchemaLocation(((Group) structure).getParent(), location);
                 break;
 
 //            case Structure.ATTRIBUTE_GROUP:

@@ -27,8 +27,8 @@ public class CollectionInfoODMG30 extends CollectionInfo {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    public CollectionInfoODMG30(XSType contentType, String name, String elementName,
-            final boolean useJava50) {
+    public CollectionInfoODMG30(final XSType contentType, final String name,
+                                final String elementName, final boolean useJava50) {
         super(contentType, name, elementName, useJava50);
         this.setSchemaType(new XSListODMG30(contentType, useJava50));
     } // -- CollectionInfoODMG30
@@ -39,13 +39,13 @@ public class CollectionInfoODMG30 extends CollectionInfo {
      * @param jsc
      *            the JSourceCode in which to add the source to
      */
-    public void generateInitializerCode(JSourceCode jsc) {
+    public void generateInitializerCode(final JSourceCode jsc) {
         jsc.add("this.");
         jsc.append(this.getName());
         jsc.append(" = ODMG.getImplementation().newDArray();");
     } // -- generateConstructorCode
 
-    protected void createEnumerateMethod(JClass jClass, final boolean useJava50) {
+    protected void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
                                      SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
                                      "an Enumeration over all elements of this collection");

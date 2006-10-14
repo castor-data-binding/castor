@@ -45,15 +45,15 @@
 
 package org.exolab.castor.builder;
 
-import org.exolab.javasource.JClass;
-import org.exolab.javasource.JType;
-import org.exolab.castor.builder.types.*;
+import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassChoice;
 import org.exolab.castor.mapping.xml.ClassMapping;
 import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JType;
 
 /**
  * A factory for creating mapping files
@@ -67,7 +67,7 @@ public class MappingFileSourceFactory {
      *
      * @param config the BuilderConfiguration instance
      */
-    public MappingFileSourceFactory(BuilderConfiguration config) {
+    public MappingFileSourceFactory(final BuilderConfiguration config) {
         if (config == null) {
             String err = "The argument 'config' must not be null.";
             throw new IllegalArgumentException(err);
@@ -80,7 +80,7 @@ public class MappingFileSourceFactory {
      * @param classInfo the XML Schema element declaration
      * @return the ClassMapping representing the ClassInfo
      */
-    public ClassMapping createMapping(ClassInfo classInfo) {
+    public ClassMapping createMapping(final ClassInfo classInfo) {
         JClass jClass    = classInfo.getJClass();
         String className = jClass.getName();
 
@@ -110,8 +110,7 @@ public class MappingFileSourceFactory {
 
         //-- set grouping compositor
         if (classInfo.isChoice()) {
-            //-- TODO: need a way to specify choice in
-            //-- Mapping file
+            //-- TODO: need a way to specify choice in Mapping file
         }
 
         boolean isAbstract = classInfo.isAbstract();
@@ -191,7 +190,8 @@ public class MappingFileSourceFactory {
      * @param member member for which we are creating a FieldMapping
      * @param nsURI name space URI
      */
-    private void createFieldMapping(ClassMapping classMapping, FieldInfo member, String nsURI) {
+    private void createFieldMapping(final ClassMapping classMapping, final FieldInfo member,
+                                    final String nsURI) {
         XSType xsType = member.getSchemaType();
         boolean any = false;
         boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
@@ -258,24 +258,18 @@ public class MappingFileSourceFactory {
             fieldMap.setContainer(true);
         }
 
-        //-- Handle namespaces
-        //-- FieldInfo namespace has higher priority than ClassInfo
-        //-- namespace.
-        //-- TODO: We need to add better namespace support to
-        //-- the bind-xml element, it's not very good at the
-        //-- moment
-        /*
-        nsURI = member.getNamespaceURI();
-        if (nsURI != null) {
-            jsc.add("desc.setNameSpaceURI(\"");
-            jsc.append(nsURI);
-            jsc.append("\");");
-        }
-
-        if (any && member.getNamespaceURI() == null) {
-            nsURI = null;
-        }
-        */
+        //-- Handle namespaces.  FieldInfo namespace has higher priority than ClassInfo namespace.
+        //-- TODO: Need to add better namespace support to bind-xml element, it's not very good at the moment
+//      nsURI = member.getNamespaceURI();
+//      if (nsURI != null) {
+//          jsc.add("desc.setNameSpaceURI(\"");
+//          jsc.append(nsURI);
+//          jsc.append("\");");
+//      }
+//
+//      if (any && member.getNamespaceURI() == null) {
+//          nsURI = null;
+//      }
 
         //-- required
         if (member.isRequired()) {
@@ -293,10 +287,8 @@ public class MappingFileSourceFactory {
         }
 
         //-- Add Validation Code
-        // TODO: mapping file has no validation support,
-        // users will need to use xsi:schemaLocation in
-        // their XML instances and enable schema validation
-        // on the parser
+        // TODO: mapping file has no validation support so users need to use xsi:schemaLocation
+        // in their XML instances and enable schema validation on the parser
     } //-- createFieldMapping
 
     /**
@@ -307,7 +299,7 @@ public class MappingFileSourceFactory {
      *            the JType for which to return the class name
      * @return the classname for the given XSType
      */
-    private static String getClassName(JType jType) {
+    private static String getClassName(final JType jType) {
         //-- XXX: Look up short names from:
         //--  org.exolab.castor.mapping.loader.Types
 

@@ -51,7 +51,6 @@ package org.exolab.castor.builder;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
@@ -76,10 +75,11 @@ public class SingleClassGenerator {
     /**
      * The default code header. Please leave "$" and "Id" separated with "+" so
      * that the CVS server does not expand it here. */
-    private static final String DEFAULT_HEADER =
-        "This class was automatically generated with \n"+
-        "<a href=\"" + SourceGenerator.APP_URI + "\">" + SourceGenerator.APP_NAME +
-        " " + SourceGenerator.VERSION + "</a>, using an XML Schema.\n$" + "Id"+"$";
+    private static final String DEFAULT_HEADER = "This class was automatically generated with \n"
+                                                 + "<a href=\"" + SourceGenerator.APP_URI + "\">"
+                                                 + SourceGenerator.APP_NAME + " "
+                                                 + SourceGenerator.VERSION
+                                                 + "</a>, using an XML Schema.\n$" + "Id" + "$";
 
     /** Name of the CDR (Class Descriptor Resolver) file */
     private static final String CDR_FILE = ".castor.cdr";
@@ -109,7 +109,7 @@ public class SingleClassGenerator {
      * @param dialog A ConsoleDialog instance
      * @param sourceGenerator A SourceGenerator instance
      */
-    public SingleClassGenerator(ConsoleDialog dialog, SourceGenerator sourceGenerator) {
+    public SingleClassGenerator(final ConsoleDialog dialog, final SourceGenerator sourceGenerator) {
         this._dialog = dialog;
         this._sourceGenerator = sourceGenerator;
         this._header = new JComment(JComment.HEADER_STYLE);
@@ -123,7 +123,7 @@ public class SingleClassGenerator {
      *
      * @param destDir the destination directory.
      */
-    public void setDestDir(String destDir) {
+    public void setDestDir(final String destDir) {
        _destDir = destDir;
     }
 
@@ -144,7 +144,7 @@ public class SingleClassGenerator {
      * mac systems use: "\r"
      * </PRE>
      */
-    public void setLineSeparator(String lineSeparator) {
+    public void setLineSeparator(final String lineSeparator) {
         _lineSeparator = lineSeparator;
     } //-- setLineSeparator
 
@@ -155,7 +155,7 @@ public class SingleClassGenerator {
      * @param createDescriptors
      *            a boolean, when true indicates to generated ClassDescriptors
      */
-    public void setDescriptorCreation(boolean createDescriptors) {
+    public void setDescriptorCreation(final boolean createDescriptors) {
         _createDescriptors = createDescriptors;
     } //-- setDescriptorCreation
 
@@ -166,7 +166,7 @@ public class SingleClassGenerator {
      *
      * @param promptForOverwrite the new value
      */
-    public void setPromptForOverwrite(boolean promptForOverwrite) {
+    public void setPromptForOverwrite(final boolean promptForOverwrite) {
         this._promptForOverwrite = promptForOverwrite;
     } //-- setPromptForOverwrite
 
@@ -180,12 +180,11 @@ public class SingleClassGenerator {
      *
      * @return true if processing is allowed to continue, false if the
      *         SourceGenerator state is STOP_STATUS,
-     * @throws FileNotFoundException
-     *             If an already existing '.castor.cdr' file can not be found
      * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded
+     *             If an already existing '.castor.cdr' file can not be loaded or found
      */
-    boolean processIfNotAlreadyProcessed(Enumeration classKeys, SGStateInfo state) throws FileNotFoundException, IOException {
+    boolean processIfNotAlreadyProcessed(final Enumeration classKeys,
+                                         final SGStateInfo state) throws IOException {
         while (classKeys.hasMoreElements()) {
             ClassInfo classInfo = state.resolve(classKeys.nextElement());
             JClass jClass = classInfo.getJClass();
@@ -209,12 +208,10 @@ public class SingleClassGenerator {
      *            SourceGenerator state
      * @return true if processing is allowed to continue, false if the
      *         SourceGenerator state is STOP_STATUS,
-     * @throws FileNotFoundException
-     *             If an already existing '.castor.cdr' file can not be found
      * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded
+     *             If an already existing '.castor.cdr' file can not be loaded or found
      */
-    boolean process(JClass[] classes, SGStateInfo state) throws FileNotFoundException, IOException {
+    boolean process(final JClass[] classes, final SGStateInfo state) throws IOException {
         for (int i = 0; i < classes.length; i++) {
             process(classes[i], state);
             if (state.getStatusCode() == SGStateInfo.STOP_STATUS) {
@@ -238,12 +235,10 @@ public class SingleClassGenerator {
      *            SourceGenerator state
      * @return true if processing is allowed to continue, false if the
      *         SourceGenerator state is STOP_STATUS,
-     * @throws FileNotFoundException
-     *             If an already existing '.castor.cdr' file can not be found
      * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded
+     *             If an already existing '.castor.cdr' file can not be loaded or found
      */
-    boolean process(JClass jClass, SGStateInfo state) throws FileNotFoundException, IOException {
+    boolean process(final JClass jClass, final SGStateInfo state) throws IOException {
         if (state.getStatusCode() == SGStateInfo.STOP_STATUS) {
             return false;
         }
@@ -256,7 +251,7 @@ public class SingleClassGenerator {
 
         //-- Have we already processed a class with this name?
         JClass conflict = state.getProcessed(jClass.getName());
-        if (conflict != null && ! state.getSuppressNonFatalWarnings()) {
+        if (conflict != null && !state.getSuppressNonFatalWarnings()) {
             warnAboutClassNameConflict(state, classInfo, conflict);
             return state.getStatusCode() != SGStateInfo.STOP_STATUS;
         }
@@ -290,24 +285,25 @@ public class SingleClassGenerator {
      *            SourceGenerator state
      * @param classInfo
      *            the XML Schema element declaration
-     * @throws FileNotFoundException
-     *             If an already existing '.castor.cdr' file can not be found
      * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded
+     *             If an already existing '.castor.cdr' file can not be loaded or found
      */
-    private void processClassDescriptor(JClass jClass, SGStateInfo state, ClassInfo classInfo) throws FileNotFoundException, IOException {
+    private void processClassDescriptor(final JClass jClass, final SGStateInfo state,
+                                        final ClassInfo classInfo) throws IOException {
         if (_createDescriptors) {
             JClass desc = _descSourceFactory.createSource(classInfo);
             if (checkAllowPrinting(desc)) {
-                updateCDRFile(jClass,desc, state);
+                updateCDRFile(jClass, desc, state);
                 desc.setHeader(_header);
                 desc.print(_destDir, _lineSeparator);
             }
         } else {
             //-- TODO: cleanup mapping file integration
             //-- create a class mapping
-            String pkg = state.packageName;
-            if (pkg == null) pkg = "";
+            String pkg = state._packageName;
+            if (pkg == null) {
+                pkg = "";
+            }
             MappingRoot mapping = state.getMapping(pkg);
             if (mapping == null) {
                 mapping = new MappingRoot();
@@ -317,7 +313,9 @@ public class SingleClassGenerator {
         }
     }
 
-    private void warnAboutClassNameConflict(SGStateInfo state, ClassInfo newClassInfo, JClass conflict) {
+    private void warnAboutClassNameConflict(final SGStateInfo state,
+                                            final ClassInfo newClassInfo,
+                                            final JClass conflict) {
         //-- if the ClassInfo are equal, we can just return
         ClassInfo oldClassInfo = state.resolve(conflict);
         if (oldClassInfo == newClassInfo) {
@@ -338,9 +336,9 @@ public class SingleClassGenerator {
 
             ClassInfo cInfo = state.resolve(key);
             if (newClassInfo == cInfo) {
-                a1 = (Annotated)key;
+                a1 = (Annotated) key;
             } else if (oldClassInfo == cInfo) {
-                a2 = (Annotated)key;
+                a2 = (Annotated) key;
             }
         }
 
@@ -386,15 +384,15 @@ public class SingleClassGenerator {
      *            a JClass to check to see if we can write
      * @return true if we can write out the provided jClass
      */
-    private boolean checkAllowPrinting(JClass jClass) {
-        if (! _promptForOverwrite) {
+    private boolean checkAllowPrinting(final JClass jClass) {
+        if (!_promptForOverwrite) {
             return true;
         }
 
         String filename = jClass.getFilename(_destDir);
         File file = new File(filename);
 
-        if (! file.exists()) {
+        if (!file.exists()) {
             return true;
         }
 
@@ -427,13 +425,11 @@ public class SingleClassGenerator {
      *            JClass instance describing is *Descriptor class
      * @param sInfo
      *            state info
-     * @throws FileNotFoundException
-     *             If an already existing '.castor.cdr' file can not be found
      * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded
+     *             If an already existing '.castor.cdr' file can not be found or loaded
      */
-    private void updateCDRFile(JClass jClass, JClass jDesc, SGStateInfo sInfo)
-                                                      throws FileNotFoundException, IOException {
+    private void updateCDRFile(final JClass jClass, final JClass jDesc, final SGStateInfo sInfo)
+                                                      throws IOException {
         String entityFilename = jClass.getFilename(_destDir);
         File file = new File(entityFilename);
         File parentDirectory = file.getParentFile();

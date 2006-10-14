@@ -60,7 +60,7 @@ public interface Dialog {
      * @return true if the user has selected a positive confirmation, otherwise
      *         false
      */
-    public boolean confirm(String message);
+    boolean confirm(final String message);
 
     /**
      * Presents a confirmation prompt for values with the given message.
@@ -71,7 +71,7 @@ public interface Dialog {
      *            a list of valid characters to accept
      * @return whatever character the user presses
      */
-    public char confirm(String message, String values);
+    char confirm(final String message, final String values);
 
     /**
      * Presents a confirmation prompt for values with the given messge.
@@ -85,7 +85,7 @@ public interface Dialog {
      *            to give additional details about the prompt.
      * @return whatever character the user presses
      */
-    public char confirm(String message, String values, String help);
+    char confirm(final String message, final String values, final String help);
 
     /**
      * Simply displays a message to the user, no input is returned from the
@@ -94,6 +94,6 @@ public interface Dialog {
      * @param message
      *            the message to display to the user
      */
-    public void notify(String message);
+    void notify(final String message);
 
 } //-- Dialog

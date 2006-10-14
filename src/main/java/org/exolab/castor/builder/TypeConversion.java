@@ -45,21 +45,52 @@
 
 package org.exolab.castor.builder;
 
-import org.exolab.castor.builder.types.*;
-import org.exolab.castor.builder.types.XSType;
-import org.exolab.javasource.*;
+import java.util.Enumeration;
 
-import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.builder.types.XSAnyURI;
+import org.exolab.castor.builder.types.XSBinary;
+import org.exolab.castor.builder.types.XSBoolean;
+import org.exolab.castor.builder.types.XSByte;
+import org.exolab.castor.builder.types.XSClass;
+import org.exolab.castor.builder.types.XSDate;
+import org.exolab.castor.builder.types.XSDateTime;
+import org.exolab.castor.builder.types.XSDecimal;
+import org.exolab.castor.builder.types.XSDouble;
+import org.exolab.castor.builder.types.XSDuration;
+import org.exolab.castor.builder.types.XSFloat;
+import org.exolab.castor.builder.types.XSGDay;
+import org.exolab.castor.builder.types.XSGMonth;
+import org.exolab.castor.builder.types.XSGMonthDay;
+import org.exolab.castor.builder.types.XSGYear;
+import org.exolab.castor.builder.types.XSGYearMonth;
+import org.exolab.castor.builder.types.XSId;
+import org.exolab.castor.builder.types.XSIdRef;
+import org.exolab.castor.builder.types.XSInt;
+import org.exolab.castor.builder.types.XSInteger;
+import org.exolab.castor.builder.types.XSList;
+import org.exolab.castor.builder.types.XSLong;
+import org.exolab.castor.builder.types.XSNCName;
+import org.exolab.castor.builder.types.XSNMToken;
+import org.exolab.castor.builder.types.XSNegativeInteger;
+import org.exolab.castor.builder.types.XSNonNegativeInteger;
+import org.exolab.castor.builder.types.XSNonPositiveInteger;
+import org.exolab.castor.builder.types.XSNormalizedString;
+import org.exolab.castor.builder.types.XSPositiveInteger;
+import org.exolab.castor.builder.types.XSQName;
+import org.exolab.castor.builder.types.XSShort;
+import org.exolab.castor.builder.types.XSString;
+import org.exolab.castor.builder.types.XSTime;
+import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.SimpleTypesFactory;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Union;
-
-import java.util.Enumeration;
+import org.exolab.javasource.JClass;
 
 /**
  * A class used to convert XML Schema SimpleTypes into the appropriate XSType.
@@ -70,6 +101,7 @@ import java.util.Enumeration;
 public class TypeConversion {
 
     private static final String TYPES_PACKAGE = "types";
+    /** Configuration for our source generator */
     private BuilderConfiguration _config = null;
 
     /**
@@ -77,7 +109,7 @@ public class TypeConversion {
      *
      * @param config the BuilderConfiguration instance (must not be null).
      */
-    public TypeConversion(BuilderConfiguration config) {
+    public TypeConversion(final BuilderConfiguration config) {
         if (config == null) {
             String error = "The argument 'config' must not be null.";
             throw new IllegalArgumentException(error);
@@ -94,7 +126,7 @@ public class TypeConversion {
      *            true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(SimpleType simpleType, final boolean useJava50) {
+    public XSType convertType(final SimpleType simpleType, final boolean useJava50) {
         return convertType(simpleType, _config.usePrimitiveWrapper(), null, useJava50);
     }
 
@@ -109,7 +141,7 @@ public class TypeConversion {
      *            true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(SimpleType simpleType, String packageName, final boolean useJava50) {
+    public XSType convertType(final SimpleType simpleType, final String packageName, final boolean useJava50) {
          return convertType(simpleType, _config.usePrimitiveWrapper(), packageName, useJava50);
     }
 
@@ -128,8 +160,8 @@ public class TypeConversion {
      *            true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(SimpleType simpleType, boolean useWrapper, String packageName,
-                              final boolean useJava50) {
+    public XSType convertType(final SimpleType simpleType, final boolean useWrapper,
+                              String packageName, final boolean useJava50) {
         if (simpleType == null) {
             return null;
         }
@@ -139,15 +171,15 @@ public class TypeConversion {
         SimpleType base = simpleType;
 
         while ((base != null) && (!base.isBuiltInType())) {
-            base = (SimpleType)base.getBaseType();
+            base = (SimpleType) base.getBaseType();
         }
 
         if (simpleType.getStructureType() == Structure.UNION) {
-            SimpleType common = findCommonType((Union)simpleType);
+            SimpleType common = findCommonType((Union) simpleType);
             if (common == null) {
                 return new XSClass(SGTypes.Object);
             }
-            return convertType(common, useWrapper,packageName, useJava50);
+            return convertType(common, useWrapper, packageName, useJava50);
         } else if (base == null) {
             String className = JavaNaming.toJavaClassName(simpleType.getName());
             return new XSClass(new JClass(className));
@@ -159,6 +191,7 @@ public class TypeConversion {
         }
 
         // If we don't have the XSType yet, we have to look at the Type Code
+        String warning;
 
         switch (base.getTypeCode()) {
             case SimpleTypesFactory.ID_TYPE:             //-- ID
@@ -182,171 +215,127 @@ public class TypeConversion {
             case SimpleTypesFactory.BOOLEAN_TYPE:        //-- boolean
                 return new XSBoolean(useWrapper);
             case SimpleTypesFactory.BYTE_TYPE:           //--byte
-            {
                 XSByte xsByte = new XSByte(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsByte.setFacets(simpleType);
                 }
                 return xsByte;
-            }
             case SimpleTypesFactory.DATE_TYPE:           //-- date
-            {
                 XSDate xsDate = new XSDate();
                 if (!simpleType.isBuiltInType()) {
                     xsDate.setFacets(simpleType);
                 }
                 return xsDate;
-            }
             case SimpleTypesFactory.DATETIME_TYPE:       //-- dateTime
                 return new XSDateTime();
             case SimpleTypesFactory.DOUBLE_TYPE:         //-- double
-            {
                 XSDouble xsDouble = new XSDouble(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsDouble.setFacets(simpleType);
                 }
                 return xsDouble;
-            }
             case SimpleTypesFactory.DURATION_TYPE:       //-- duration
-            {
                 XSDuration xsDuration = new XSDuration();
                 if (!simpleType.isBuiltInType()) {
                     xsDuration.setFacets(simpleType);
                 }
                 return xsDuration;
-            }
             case SimpleTypesFactory.DECIMAL_TYPE:        //-- decimal
-            {
                 XSDecimal xsDecimal = new XSDecimal();
                 if (!simpleType.isBuiltInType()) {
                     xsDecimal.setFacets(simpleType);
                 }
                 return xsDecimal;
-            }
             case SimpleTypesFactory.FLOAT_TYPE:          //-- float
-            {
                 XSFloat xsFloat = new XSFloat(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsFloat.setFacets(simpleType);
                 }
                 return xsFloat;
-            }
             case SimpleTypesFactory.GDAY_TYPE:           //--GDay
-            {
                 XSGDay xsGDay = new XSGDay();
                 if (!simpleType.isBuiltInType()) {
                     xsGDay.setFacets(simpleType);
                 }
                 return xsGDay;
-            }
             case SimpleTypesFactory.GMONTHDAY_TYPE:      //--GMonthDay
-            {
                 XSGMonthDay xsGMonthDay = new XSGMonthDay();
                 if (!simpleType.isBuiltInType()) {
                     xsGMonthDay.setFacets(simpleType);
                 }
                 return xsGMonthDay;
-            }
             case SimpleTypesFactory.GMONTH_TYPE:         //--GMonth
-            {
                 XSGMonth xsGMonth = new XSGMonth();
                 if (!simpleType.isBuiltInType()) {
                     xsGMonth.setFacets(simpleType);
                 }
                 return xsGMonth;
-            }
             case SimpleTypesFactory.GYEARMONTH_TYPE:     //--GYearMonth
-            {
                 XSGYearMonth xsGYearMonth = new XSGYearMonth();
                 if (!simpleType.isBuiltInType()) {
                     xsGYearMonth.setFacets(simpleType);
                 }
                 return xsGYearMonth;
-            }
             case SimpleTypesFactory.GYEAR_TYPE:          //--GYear
-            {
                 XSGYear xsGYear = new XSGYear();
                 if (!simpleType.isBuiltInType()) {
                     xsGYear.setFacets(simpleType);
                 }
                 return xsGYear;
-            }
             case SimpleTypesFactory.INTEGER_TYPE:        //-- integer
-            {
                 XSInteger xsInteger = new XSInteger(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsInteger.setFacets(simpleType);
                 }
                 return xsInteger;
-            }
             case SimpleTypesFactory.INT_TYPE:            //-- int
-            {
                 XSInt xsInt = new XSInt(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsInt.setFacets(simpleType);
                 }
                 return xsInt;
-            }
             case SimpleTypesFactory.LANGUAGE_TYPE:       //-- Language
-            {
-                //-- since we don't actually support this type, yet,
-                //-- we'll simply treat it as a string, but warn the
-                //-- user.
-                String warning = "Warning: Currently, the W3C datatype '"+simpleType.getName();
-                warning += "' is supported only as a String by Castor Source Generator.";
+                //-- since we don't actually support this type, yet, we'll simply treat
+                //-- it as a string, but warn the user.
+                warning = "Warning: Currently, the W3C datatype '" + simpleType.getName()
+                          + "' is supported only as a String by Castor Source Generator.";
                 System.out.println(warning);
                 return new XSString();
-            }
             case SimpleTypesFactory.LONG_TYPE:           //-- long
-            {
                 XSLong xsLong = new XSLong(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsLong.setFacets(simpleType);
                 }
                 return xsLong;
-            }
             case SimpleTypesFactory.NCNAME_TYPE:         //--NCName
                 return new XSNCName();
             case SimpleTypesFactory.NON_POSITIVE_INTEGER_TYPE: //-- nonPositiveInteger
-            {
-                XSInteger xsInteger = new XSNonPositiveInteger(useWrapper);
-                xsInteger.setFacets(simpleType);
-                return xsInteger;
-            }
+                XSInteger xsNPInteger = new XSNonPositiveInteger(useWrapper);
+                xsNPInteger.setFacets(simpleType);
+                return xsNPInteger;
             case SimpleTypesFactory.NON_NEGATIVE_INTEGER_TYPE: //-- nonNegativeInteger
-            {
-                XSInteger xsInteger = new XSNonNegativeInteger(useWrapper);
-                xsInteger.setFacets(simpleType);
-                return xsInteger;
-            }
+                XSInteger xsNNInteger = new XSNonNegativeInteger(useWrapper);
+                xsNNInteger.setFacets(simpleType);
+                return xsNNInteger;
             case SimpleTypesFactory.NEGATIVE_INTEGER_TYPE:     //-- negative-integer
-            {
-                XSInteger xsInteger = new XSNegativeInteger(useWrapper);
-                xsInteger.setFacets(simpleType);
-                return xsInteger;
-            }
+                XSInteger xsNInteger = new XSNegativeInteger(useWrapper);
+                xsNInteger.setFacets(simpleType);
+                return xsNInteger;
             case SimpleTypesFactory.NORMALIZEDSTRING_TYPE:     //-- normalizedString
-            {
                 XSNormalizedString xsNormalString = new XSNormalizedString();
                 if (!simpleType.isBuiltInType()) {
                     xsNormalString.setFacets(simpleType);
                 }
                 return xsNormalString;
-            }
             case SimpleTypesFactory.POSITIVE_INTEGER_TYPE:     //-- positive-integer
-            {
-                XSInteger xsInteger = new XSPositiveInteger(useWrapper);
-                xsInteger.setFacets(simpleType);
-                return xsInteger;
-            }
+                XSInteger xsPInteger = new XSPositiveInteger(useWrapper);
+                xsPInteger.setFacets(simpleType);
+                return xsPInteger;
             case SimpleTypesFactory.QNAME_TYPE:                //-- QName
-            {
                 XSQName xsQName = new XSQName();
                 xsQName.setFacets(simpleType);
                 return xsQName;
-            }
             case SimpleTypesFactory.STRING_TYPE:               //-- string
-            {
                 //-- Enumeration ?
                 if (simpleType.hasFacet(Facet.ENUMERATION)) {
                     String typeName = simpleType.getName();
@@ -354,9 +343,9 @@ public class TypeConversion {
                     if (typeName == null) {
                         Structure parent = simpleType.getParent();
                         if (parent instanceof ElementDecl) {
-                            typeName = ((ElementDecl)parent).getName();
+                            typeName = ((ElementDecl) parent).getName();
                         } else if (parent instanceof AttributeDecl) {
-                            typeName = ((AttributeDecl)parent).getName();
+                            typeName = ((AttributeDecl) parent).getName();
                         }
                         typeName = typeName + "Type";
                     }
@@ -384,46 +373,38 @@ public class TypeConversion {
                     xsType = xsString;
                 }
                 break;
-            }
             case SimpleTypesFactory.SHORT_TYPE:               //-- short
-            {
                 XSShort xsShort = new XSShort(useWrapper);
                 if (!simpleType.isBuiltInType()) {
                     xsShort.setFacets(simpleType);
                 }
                 return xsShort;
-            }
             case SimpleTypesFactory.TIME_TYPE:                //-- time
-            {
                 XSTime xsTime = new XSTime();
                 if (!simpleType.isBuiltInType()) {
                     xsTime.setFacets(simpleType);
                 }
                 return xsTime;
-            }
             case SimpleTypesFactory.TOKEN_TYPE:               //-- token
-            {
-                //-- since we don't actually support this type, yet,
-                //-- we'll simply treat it as a string, but warn the
-                //-- user.
-                String warning = "Warning: Currently, the W3C datatype 'token'";
-                warning += " is supported only as a String by Castor Source Generator.";
+                //-- since we don't actually support this type, yet, we'll simply treat
+                //-- it as a string, but warn the user.
+                warning = "Warning: Currently, the W3C datatype 'token'"
+                          + " is supported only as a String by Castor Source Generator.";
                 System.out.println(warning);
                 XSString xsString = new XSString();
                 if (!simpleType.isBuiltInType()) {
                     xsString.setFacets(simpleType);
                 }
                 return xsString;
-            }
-            default:                                         //-- error
+            default:                                          //-- error
                 String name = simpleType.getName();
-                if (name == null || name.length() ==0) {
+                if (name == null || name.length() == 0) {
                     //--we know it is a restriction
                     name = simpleType.getBuiltInBaseType().getName();
                 }
 
-                String warning = "Warning: The W3C datatype '"+name;
-                warning += "' is not currently supported by Castor Source Generator.";
+                warning = "Warning: The W3C datatype '" + name + "' "
+                          + "is not currently supported by Castor Source Generator.";
                 System.out.println(warning);
                 String className = JavaNaming.toJavaClassName(name);
                 xsType = new XSClass(new JClass(className));
@@ -435,12 +416,13 @@ public class TypeConversion {
 
     /**
      * Returns the XSType that corresponds to the given javaType
-     * @param javaType
+     * @param javaType name of the Java type for which to look up the XSType
      * @return XSType that corresponds to the given javaType
      */
-    public static XSType convertType(String javaType) {
-        if (javaType == null)
+    public static XSType convertType(final String javaType) {
+        if (javaType == null) {
             return null;
+        }
 
         //--Boolean
         if (javaType.equals(TypeNames.BOOLEAN_OBJECT)) {
@@ -503,11 +485,11 @@ public class TypeConversion {
      *            the Union to return the common type for
      * @return the common SimpleType for the Union.
      */
-    private static SimpleType findCommonType(Union union) {
+    private static SimpleType findCommonType(final Union union) {
         SimpleType common = null;
         Enumeration enumeration = union.getMemberTypes();
         while (enumeration.hasMoreElements()) {
-            SimpleType type = (SimpleType)enumeration.nextElement();
+            SimpleType type = (SimpleType) enumeration.nextElement();
             type = type.getBuiltInBaseType();
             if (common == null) {
                 common = type;
@@ -523,7 +505,7 @@ public class TypeConversion {
     } //-- findCommonType
 
     private XSType findXSType(final SimpleType simpleType, final String packageName) {
-        if(!simpleType.hasFacet(Facet.ENUMERATION)) {
+        if (!simpleType.hasFacet(Facet.ENUMERATION)) {
             return null;
         }
 
@@ -534,9 +516,9 @@ public class TypeConversion {
         if (typeName == null) {
             Structure parent = simpleType.getParent();
             if (parent instanceof ElementDecl) {
-                typeName = ((ElementDecl)parent).getName();
+                typeName = ((ElementDecl) parent).getName();
             } else if (parent instanceof AttributeDecl) {
-                typeName = ((AttributeDecl)parent).getName();
+                typeName = ((AttributeDecl) parent).getName();
             }
             typeName = typeName + "Type";
         }
@@ -548,7 +530,7 @@ public class TypeConversion {
             String ns = simpleType.getSchema().getTargetNamespace();
             typePackageName = _config.lookupPackageByNamespace(ns);
         }
-        if ((typePackageName != null) && (typePackageName.length() > 0)) {
+        if (typePackageName != null && typePackageName.length() > 0) {
             typePackageName = typePackageName  + '.' + TYPES_PACKAGE;
         } else {
             typePackageName = TYPES_PACKAGE;
@@ -572,7 +554,7 @@ public class TypeConversion {
      * @return the common anscestor of both types if there is one, null if the
      *         types are not compatible.
      */
-    private static SimpleType compare(SimpleType aType, SimpleType bType) {
+    private static SimpleType compare(final SimpleType aType, final SimpleType bType) {
         int type1 = aType.getTypeCode();
         int type2 = bType.getTypeCode();
 
@@ -584,12 +566,12 @@ public class TypeConversion {
         if (isNumeric(aType)) {
             if (isNumeric(bType)) {
                 //-- compare numbers
-                //-- XXXX *To be added*
+                //-- TODO: *To be added*
             }
         } else if (isString(aType)) {
             if (isString(bType)) {
                 //-- compare string types
-                //-- XXXX *To be added*
+                //-- TODO: *To be added*
             }
         }
         //-- Just return string for now, as all simpleTypes can
@@ -598,7 +580,12 @@ public class TypeConversion {
         return schema.getSimpleType("string", schema.getSchemaNamespace());
     }
 
-    private static boolean isNumeric(SimpleType type) {
+    /**
+     * Returns true if this simpletype is numeric.
+     * @param type the type to be examined
+     * @return true if this simpletype is numeric.
+     */
+    private static boolean isNumeric(final SimpleType type) {
         int code = type.getTypeCode();
         switch (code) {
             case SimpleTypesFactory.BYTE_TYPE:
@@ -619,7 +606,12 @@ public class TypeConversion {
         }
     } //-- isNumeric
 
-    private static boolean isString(SimpleType type) {
+    /**
+     * Returns true if this simpletype is a String.
+     * @param type the type to be examined
+     * @return true if this simpletype is String.
+     */
+    private static boolean isString(final SimpleType type) {
         int code = type.getTypeCode();
         switch (code) {
             //-- string types
@@ -640,30 +632,30 @@ public class TypeConversion {
         }
     } //-- isString
 
-    class TypeNames {
+    static class TypeNames {
         protected static final String BOOLEAN_PRIMITIVE = "boolean";
-        protected static final String BOOLEAN_OBJECT = "java.lang.Boolean";
-        protected static final String BYTE_PRIMITIVE = "byte";
-        protected static final String BYTE_OBJECT = "java.lang.Byte";
-        protected static final String DATE = "java.util.Date";
-        protected static final String CASTOR_DATE = "org.exolab.castor.types.Date";
-        protected static final String CASTOR_TIME = "org.exolab.castor.types.Time";
-        protected static final String CASTOR_DURATION = "org.exolab.castor.types.Guration";
-        protected static final String CASTOR_GMONTH = "org.exolab.castor.types.GMonth";
-        protected static final String CASTOR_GMONTHDAY = "org.exolab.castor.types.GMonthDay";
-        protected static final String CASTOR_GYEAR = "org.exolab.castor.types.GYear";
+        protected static final String BOOLEAN_OBJECT    = "java.lang.Boolean";
+        protected static final String BYTE_PRIMITIVE    = "byte";
+        protected static final String BYTE_OBJECT       = "java.lang.Byte";
+        protected static final String DATE              = "java.util.Date";
+        protected static final String CASTOR_DATE       = "org.exolab.castor.types.Date";
+        protected static final String CASTOR_TIME       = "org.exolab.castor.types.Time";
+        protected static final String CASTOR_DURATION   = "org.exolab.castor.types.Guration";
+        protected static final String CASTOR_GMONTH     = "org.exolab.castor.types.GMonth";
+        protected static final String CASTOR_GMONTHDAY  = "org.exolab.castor.types.GMonthDay";
+        protected static final String CASTOR_GYEAR      = "org.exolab.castor.types.GYear";
         protected static final String CASTOR_GYEARMONTH = "org.exolab.castor.types.GYearMonth";
-        protected static final String CASTOR_GDAY = "org.exolab.castor.types.GDay";
-        protected static final String DECIMAL = "java.math.BigDecimal";
-        protected static final String DOUBLE_PRIMITIVE = "double";
-        protected static final String DOUBLE_OBJECT = "java.lang.Double";
-        protected static final String FLOAT_PRIMITIVE = "float";
-        protected static final String FLOAT_OBJECT = "java.lang.Float";
-        protected static final String INT = "int";
-        protected static final String INTEGER = "java.lang.Integer";
-        protected static final String SHORT_PRIMITIVE = "short";
-        protected static final String SHORT_OBJECT = "java.lang.Short";
-        protected static final String STRING = "java.lang.String";
+        protected static final String CASTOR_GDAY       = "org.exolab.castor.types.GDay";
+        protected static final String DECIMAL           = "java.math.BigDecimal";
+        protected static final String DOUBLE_PRIMITIVE  = "double";
+        protected static final String DOUBLE_OBJECT     = "java.lang.Double";
+        protected static final String FLOAT_PRIMITIVE   = "float";
+        protected static final String FLOAT_OBJECT      = "java.lang.Float";
+        protected static final String INT               = "int";
+        protected static final String INTEGER           = "java.lang.Integer";
+        protected static final String SHORT_PRIMITIVE   = "short";
+        protected static final String SHORT_OBJECT      = "java.lang.Short";
+        protected static final String STRING            = "java.lang.String";
     }
 
 } //-- TypeConversion

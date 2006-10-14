@@ -54,12 +54,18 @@ import org.exolab.javasource.JType;
  */
 public class SGTypes {
 
+    /**
+     * As a static utility class, we want a private constructor.
+     */
+    private SGTypes() {
+        // As a static utility class, we want a private constructor
+    }
+
     //-----------------------/
     //- org.xml.sax Objects -/
     //-----------------------/
 
     public static final JClass SAXException = new JClass("org.xml.sax.SAXException");
-
 
     //---------------------------/
     //- org.exolab.castor types -/
@@ -106,23 +112,23 @@ public class SGTypes {
     //-- java.beans
     public static final JClass PropertyChangeSupport = new JClass("java.beans.PropertyChangeSupport");
 
-    public static final JType createEnumeration(JType jType, boolean usejava50) {
+    public static final JType createEnumeration(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.Enumeration", jType, usejava50);
     }
 
-    public static final JType createIterator(JType jType, boolean usejava50) {
+    public static final JType createIterator(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.Iterator", jType, usejava50);
     }
 
-    public static final JType createVector(JType jType, boolean usejava50) {
+    public static final JType createVector(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.Vector", jType, usejava50);
     }
 
-    public static final JType createArrayList(JType jType, boolean usejava50) {
+    public static final JType createArrayList(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.ArrayList", jType, usejava50);
     }
 
-    public static final JType createHashtable(boolean useJava50) {
+    public static final JType createHashtable(final boolean useJava50) {
         if (useJava50) {
             return new JClass("java.util.Hashtable<Object,Object>");
         }

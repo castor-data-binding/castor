@@ -67,12 +67,12 @@ public class ConsoleDialog implements Dialog {
      * @return true if the user has selected a positive confirmation, otherwise
      *         false
      */
-    public boolean confirm(String message) {
+    public boolean confirm(final String message) {
         try {
             while (true) {
                 System.out.println();
                 System.out.print(message);
-                System.out.print( "(y|n|?) : ");
+                System.out.print("(y|n|?) : ");
 
                 int ch = getChar();
 
@@ -132,7 +132,7 @@ public class ConsoleDialog implements Dialog {
      *            a list of valid characters to accept
      * @return whatever character the user presses
      */
-    public char confirm(String message, String values) {
+    public char confirm(final String message, final String values) {
         return confirm(message, values, "no help available...");
     }
 
@@ -147,7 +147,7 @@ public class ConsoleDialog implements Dialog {
      *            a help message when the user presses '?'
      * @return whatever character the user presses
      */
-    public char confirm(String message, String values, String help) {
+    public char confirm(final String message, final String values, final String help) {
         String prompt = makeList(values);
 
         try {
@@ -161,7 +161,7 @@ public class ConsoleDialog implements Dialog {
 
                 //-- check ch
                 if (values.indexOf(ch) != -1) {
-                    return (char)ch;
+                    return (char) ch;
                 }
 
                 if (ch == '?') {
@@ -183,7 +183,7 @@ public class ConsoleDialog implements Dialog {
      *
      * @param message the message to display to the user
      */
-    public void notify(String message) {
+    public void notify(final String message) {
         System.out.println(message);
     } //-- notify
 
@@ -195,10 +195,10 @@ public class ConsoleDialog implements Dialog {
      *            a list of valid characters to accept
      * @return each character separated by a pipe and in parenthesis
      */
-    private String makeList(String values) {
-        StringBuffer sb = new StringBuffer(values.length()*2);
+    private String makeList(final String values) {
+        StringBuffer sb = new StringBuffer(values.length() * 2);
         sb.append('(');
-        for (int i=0; i<values.length(); i++) {
+        for (int i = 0; i < values.length(); i++) {
             sb.append(values.charAt(i)).append('|');
         }
         sb.append("?)");
@@ -213,9 +213,9 @@ public class ConsoleDialog implements Dialog {
      *            a list of valid characters to accept
      * @return each character in single quotes, comma separated
      */
-    private String listInput(String values) {
-        StringBuffer sb = new StringBuffer(values.length()*4);
-        for (int i=0; i<values.length(); i++) {
+    private String listInput(final String values) {
+        StringBuffer sb = new StringBuffer(values.length() * 4);
+        for (int i = 0; i < values.length(); i++) {
             sb.append('\'') .append(values.charAt(i)) .append("', ");
         }
         sb.append("or '?'");

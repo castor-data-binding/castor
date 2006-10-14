@@ -74,10 +74,9 @@ public class ClassInfoResolverImpl implements ClassInfoResolver {
      * @param classInfo
      *            the ClassInfo which is being referenced
      */
-    public void bindReference(Object key, ClassInfo classInfo) {
+    public void bindReference(final Object key, final ClassInfo classInfo) {
         if (key == null) {
-            String err = "null passed as argument to ";
-            err += "ClassInfoResolver#bindReference";
+            String err = "null passed as argument to ClassInfoResolver#bindReference";
             throw new NullPointerException(err);
         }
         _cache.put(key, classInfo);
@@ -99,7 +98,7 @@ public class ClassInfoResolverImpl implements ClassInfoResolver {
      *            the object to which the ClassInfo has been bound
      * @return the ClassInfo which has been bound to the given key
      */
-    public ClassInfo resolve(Object key) {
+    public ClassInfo resolve(final Object key) {
         return (ClassInfo) _cache.get(key);
     } //-- resolve
 

@@ -49,19 +49,20 @@
  */
 package org.exolab.castor.builder;
 
-import org.exolab.castor.builder.util.ClassInfoResolverImpl;
-import org.exolab.castor.builder.util.ConsoleDialog;
-import org.exolab.castor.builder.util.Dialog;
-import org.exolab.castor.xml.schema.Annotated;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.mapping.xml.MappingRoot;
-import org.exolab.javasource.*;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Hashtable;
 import java.util.Map;
 import java.util.Properties;
 import java.util.Vector;
+
+import org.exolab.castor.builder.util.ClassInfoResolverImpl;
+import org.exolab.castor.builder.util.ConsoleDialog;
+import org.exolab.castor.builder.util.Dialog;
+import org.exolab.castor.mapping.xml.MappingRoot;
+import org.exolab.castor.xml.schema.Annotated;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.javasource.JClass;
 
 /**
  * A class for maintaining state for the SourceGenerator
@@ -71,47 +72,38 @@ import java.util.Vector;
  */
 class SGStateInfo extends ClassInfoResolverImpl {
 
+    /** An empty Enumeration to be returned whenever we need an empty Enumeration */
     private static final Enumeration EMPTY_ENUMERATION = new Vector(0).elements();
-
+    /** The SourceGenerator is still generating source */
     public static final int NORMAL_STATUS = 0;
+    /** The SourceGenerator has been stopped by an error or by the user */
     public static final int STOP_STATUS   = 1;
 
-    /**
-     * The in memory mapping files for each package
-     */
+    /** The in memory mapping files for each package */
     private Hashtable _mappings = null;
-
-    /**
-     * The in memory package listings for each package
-     */
+    /** The in memory package listings for each package */
     private Hashtable _packageListings = null;
-
-    /**
-     * The package used when creating new classes.
-     */
-    protected String    packageName = null;
-
+    /** The package used when creating new classes. */
+    protected String    _packageName = null;
+    /** Keeps track of which JClass files have been processed */
     private Vector      _processed   = null;
-
+    /** true if existing source files should not be silently overwritten */
     private boolean     _promptForOverwrite = true;
-
-    /**
-     * The schema we are generating source code for
-     */
+    /** The schema we are generating source code for */
     private Schema      _schema = null;
-
+    /** true if non-fatal warnings should be suppressed */
     private boolean     _suppressNonFatalWarnings = false;
-
+    /** true if source generation should provide verbose output on its progress */
     private boolean     _verbose     = false;
-
+    /** The SourceFactory state */
     private FactoryState _currentFactoryState = null;
-
+    /** This class allows user interaction when Castor wants to ask a question */
     private Dialog _dialog = null;
-
+    /** The source generator whose state we track */
     private SourceGenerator _sgen = null;
-
+    /** Current status of the source generator */
     private int _status = NORMAL_STATUS;
-
+    /** Maps annotations to generated source code */
     private Map _sourcesByComponent = new HashMap();
 
     /**
@@ -125,7 +117,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      */
     private Map _importedSourcesByName = new HashMap();
 
-//    private XMLBindingComponent _bindingComponent = null;
+//  private XMLBindingComponent _bindingComponent = null;
 
     /**
      * Creates a new SGStateInfo
@@ -133,13 +125,13 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param schema the Schema to generate source for
      * @param sgen the SourceGenerator instance
      */
-    protected SGStateInfo(Schema schema, SourceGenerator sgen) {
+    protected SGStateInfo(final Schema schema, final SourceGenerator sgen) {
         super();
-        _schema     = schema;
-        packageName = "";
-        _processed  = new Vector();
-        _dialog     = new ConsoleDialog();
-        _sgen       = sgen;
+        _schema      = schema;
+        _packageName = "";
+        _processed   = new Vector();
+        _dialog      = new ConsoleDialog();
+        _sgen        = sgen;
     } //-- SGStateInfo
 
     /**
@@ -148,7 +140,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param annotated the Annotated structure to add JClass bindings for
      * @param classes the JClass[] to bind
      */
-    public void bindSourceCode(Annotated annotated, JClass[] classes) {
+    public void bindSourceCode(final Annotated annotated, final JClass[] classes) {
         _sourcesByComponent.put(annotated, classes);
         for (int i = 0; i < classes.length; i++) {
             JClass jClass = classes[i];
@@ -162,7 +154,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * Stores generated sources as processed within an imported schema.
      * @param importedSourcesByName Generated sources as processed within an imported schema.
      */
-    public void storeImportedSourcesByName(Map importedSourcesByName) {
+    public void storeImportedSourcesByName(final Map importedSourcesByName) {
         _importedSourcesByName.putAll(importedSourcesByName);
     } //-- storeImportedSourcesByName
 
@@ -174,7 +166,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            the JClass name to check against
      * @return the JClass with the given name
      */
-    JClass getProcessed(String className) {
+    JClass getProcessed(final String className) {
         for (int i = 0; i < _processed.size(); i++) {
             JClass jClass = (JClass) _processed.elementAt(i);
             if (jClass.getName().equals(className)) {
@@ -192,8 +184,8 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            the Annotated structure to search
      * @return the JClass array
      */
-    public JClass[] getSourceCode(Annotated annotated) {
-        return (JClass[])_sourcesByComponent.get(annotated);
+    public JClass[] getSourceCode(final Annotated annotated) {
+        return (JClass[]) _sourcesByComponent.get(annotated);
     } //-- getSourceCode
 
     /**
@@ -204,8 +196,8 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            the name of the JClass
      * @return the JClass if found
      */
-    public JClass getSourceCode(String className) {
-        return (JClass)_sourcesByName.get(className);
+    public JClass getSourceCode(final String className) {
+        return (JClass) _sourcesByName.get(className);
     } //-- getSourceCode
 
     /**
@@ -217,8 +209,8 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            the name of the JClass
      * @return the (imported) JClass if found
      */
-    public JClass getImportedSourceCode(String className) {
-        return (JClass)_importedSourcesByName.get(className);
+    public JClass getImportedSourceCode(final String className) {
+        return (JClass) _importedSourcesByName.get(className);
     } //-- getImportedSourceCode
 
 
@@ -229,7 +221,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            The filename to search for a Mapping File association
      * @return the Mapping file.
      */
-    public MappingRoot getMapping(String filename) {
+    public MappingRoot getMapping(final String filename) {
         if (_mappings != null && filename != null) {
             return (MappingRoot) _mappings.get(filename);
         }
@@ -239,10 +231,10 @@ class SGStateInfo extends ClassInfoResolverImpl {
     /**
      * Returns the CDRFile (Properties file) associated with the given filename.
      *
-     * @param filename
+     * @param filename filename of the CDR file to be processed
      * @return the Properties file.
      */
-    public Properties getCDRFile(String filename) {
+    public Properties getCDRFile(final String filename) {
         if (_packageListings != null && filename != null) {
             return (Properties) _packageListings.get(filename);
         }
@@ -288,7 +280,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param jClass
      *            the JClass to mark as having been processed.
      */
-    void markAsProcessed(JClass jClass) {
+    void markAsProcessed(final JClass jClass) {
         //String className = jClass.getName();
         if (!_processed.contains(jClass)) {
             _processed.addElement(jClass);
@@ -302,7 +294,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            the JClass to check for being marked as processed
      * @return true if the given JClass has been marked as processed.
      */
-    boolean processed(JClass jClass) {
+    boolean processed(final JClass jClass) {
         return _processed.contains(jClass);
     } //-- processed
 
@@ -313,7 +305,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *            the JClass name to check against
      * @return true if a JClass with the given name has been marked as processed
      */
-    boolean processed(String className) {
+    boolean processed(final String className) {
         for (int i = 0; i < _processed.size(); i++) {
             JClass jClass = (JClass) _processed.elementAt(i);
             if (jClass.getName().equals(className)) {
@@ -323,15 +315,32 @@ class SGStateInfo extends ClassInfoResolverImpl {
         return false;
     } //-- processed
 
-
+    /**
+     * Returns true if existing source files should be prompted before being
+     * overwritten
+     *
+     * @return true if existing source files should be prompted before being
+     *         overwritten
+     */
     boolean promptForOverwrite() {
         return _promptForOverwrite;
     } //-- promptForOverwrite
 
-    void setPromptForOverwrite(boolean promptForOverwrite) {
+    /**
+     * Sets whether or not existing source files should be silently overwritten
+     * or whether the user should be prompted first.
+     *
+     * @param promptForOverwrite
+     *            true if existing files should not be silently overwritten.
+     */
+    void setPromptForOverwrite(final boolean promptForOverwrite) {
         this._promptForOverwrite = promptForOverwrite;
     } //-- setPromptForOverwrite
 
+    /**
+     * Returns a reference to the schema for which we are generating source.
+     * @return a reference to the schema for which we are generating source.
+     */
     Schema getSchema() {
         return _schema;
     } //-- getSchema
@@ -344,11 +353,19 @@ class SGStateInfo extends ClassInfoResolverImpl {
         return _sgen;
     } //-- getSourceGenerator
 
+    /**
+     * Returns true if non-fatal warnings should be suppressed.
+     * @return true if non-fatal warnings should be suppressed.
+     */
     boolean getSuppressNonFatalWarnings() {
         return _suppressNonFatalWarnings;
     }
 
-    void setSuppressNonFatalWarnings(boolean suppressNonFatalWarnings) {
+    /**
+     * Sets whether non-fatal warnings should be supporessed
+     * @param suppressNonFatalWarnings true if non-fatal warnings should be supporessed
+     */
+    void setSuppressNonFatalWarnings(final boolean suppressNonFatalWarnings) {
         _suppressNonFatalWarnings = suppressNonFatalWarnings;
     }
 
@@ -361,7 +378,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param props
      *            the Properties file
      */
-    public void setCDRFile(String filename, Properties props) {
+    public void setCDRFile(final String filename, final Properties props) {
         if (filename == null) {
             String err = "The argument 'filename' must not be null.";
             throw new IllegalArgumentException(err);
@@ -386,7 +403,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param mapping
      *            the MappingRoot
      */
-    public void setMapping(String filename, MappingRoot mapping) {
+    public void setMapping(final String filename, final MappingRoot mapping) {
         if (filename == null) {
             String err = "The argument 'filename' must not be null.";
             throw new IllegalArgumentException(err);
@@ -417,32 +434,32 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *
      * @param dialog the Dialog to use
      */
-    void setDialog(Dialog dialog) {
+    void setDialog(final Dialog dialog) {
         _dialog = dialog;
     } //-- setDialog
 
-    /* *
-     * Sets the XMLBindingComponent that this SGStateInfo is working on.
-     */
-   /* void setXMLBindingComponent(XMLBindingComponent compo) {
-       _bindingComponent = compo;
-    }*/
-
-    /* *
-     * Returns the XMLBindingComponent this SGStateInfo is working on.
-     *
-     * @return the XMLBindingComponent this SGStateInfo is working on.
-     */
-   /* XMLBindingComponent getXMLBindingComponent() {
-        return _bindingComponent;
-    }*/
+//  /**
+//   * Sets the XMLBindingComponent that this SGStateInfo is working on.
+//   */
+//  void setXMLBindingComponent(XMLBindingComponent compo) {
+//      _bindingComponent = compo;
+//  }
+//
+//  /**
+//   * Returns the XMLBindingComponent this SGStateInfo is working on.
+//   *
+//   * @return the XMLBindingComponent this SGStateInfo is working on.
+//   */
+//  XMLBindingComponent getXMLBindingComponent() {
+//      return _bindingComponent;
+//  }
 
     /**
      * Sets the current status code to the given one.
      *
      * @param status the new status code
      */
-    void setStatusCode(int status) {
+    void setStatusCode(final int status) {
         _status = status;
     } //-- setStatusCode
 
@@ -453,7 +470,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param verbose
      *            a boolean, when true indicates to print additional messages
      */
-    void setVerbose(boolean verbose) {
+    void setVerbose(final boolean verbose) {
         this._verbose = verbose;
     } //-- setVerbose
 
@@ -482,22 +499,20 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * @param state the current FactoryState
      * @see #getCurrentFactoryState
      */
-    void setCurrentFactoryState(FactoryState state) {
+    void setCurrentFactoryState(final FactoryState state) {
        _currentFactoryState = state;
     }
 
-    /*
-    protected JClass getJClass(String name) {
-        if (name == null) return null;
-        JClass jClass = (JClass)classTypes.get(name);
-
-        if (jClass == null) {
-            jClass = new JClass(name);
-            classTypes.put(name, jClass);
-        }
-        return jClass;
-    }
-    */
+//  protected JClass getJClass(String name) {
+//      if (name == null) return null;
+//      JClass jClass = (JClass)classTypes.get(name);
+//
+//      if (jClass == null) {
+//          jClass = new JClass(name);
+//          classTypes.put(name, jClass);
+//      }
+//      return jClass;
+//  }
 
     /**
      * Returns the sources as generated through XML schema imports.

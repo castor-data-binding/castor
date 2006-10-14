@@ -64,18 +64,19 @@ import org.exolab.javasource.JType;
 public class DescriptorJClass extends JClass {
 
     //-- org.exolab.castor.mapping
-    private static JClass _ClassDescriptorClass
-        = new JClass("org.exolab.castor.mapping.ClassDescriptor");
-
-    private static JClass _FieldDescriptorClass
-        = new JClass("org.exolab.castor.mapping.FieldDescriptor");
+    private static final JClass _ClassDescriptorClass;
+    private static final JClass _FieldDescriptorClass;
 
     //-- org.exolab.castor.xml
-    private static JClass _XMLFieldDescriptorClass
-        = new JClass("org.exolab.castor.xml.XMLFieldDescriptor");
+    private static final JClass _XMLFieldDescriptorClass;
+    private static final JType  _TypeValidatorClass;
 
-    private static JType _TypeValidatorClass
-        = new JClass("org.exolab.castor.xml.TypeValidator");
+    static {
+        _ClassDescriptorClass    = new JClass("org.exolab.castor.mapping.ClassDescriptor");
+        _FieldDescriptorClass    = new JClass("org.exolab.castor.mapping.FieldDescriptor");
+        _XMLFieldDescriptorClass = new JClass("org.exolab.castor.xml.XMLFieldDescriptor");
+        _TypeValidatorClass      = new JClass("org.exolab.castor.xml.TypeValidator");
+    }
 
     //-- methods defined by org.exolab.castor.xml.util.XMLClassDescriptorImpl
     private JMethod _getElementDefinition    = null;
@@ -91,25 +92,57 @@ public class DescriptorJClass extends JClass {
     private JMethod _getExtends    = null;
     private JMethod _getJavaClass  = null;
 
-    private JClass _type = null;
+    private final JClass               _type;
+    private final BuilderConfiguration _config;
 
-    private BuilderConfiguration _config = null;
-
-    public DescriptorJClass(BuilderConfiguration config, String className, JClass type) {
+    public DescriptorJClass(final BuilderConfiguration config, final String className,
+                            final JClass type) {
         super(className);
-        _config = config;
-        this._type = type;
+        this._config = config;
+        this._type   = type;
         init();
     } //-- DescriptorJClass
+
+    public JMethod getElementDefinitionMethod() {
+        return _getElementDefinition;
+    } //-- getElementDefinitionMethod
+
+    public JMethod getNameSpacePrefixMethod() {
+        return _getNameSpacePrefix;
+    } //-- getNamespaceURIMethod
+
+    public JMethod getNameSpacePrefixURI() {
+        return _getNameSpaceURI;
+    } //-- getNamespacePrefixMethod
+
+    public JMethod getXMLNameMethod() {
+        return _getXMLName;
+    } //-- getIdentityMethod
+
+    public JMethod getAccessModeMethod() {
+        return _getAccessMode;
+    } //-- getAccessModeMethod
+
+    public JMethod getExtendsMethod() {
+        return _getExtends;
+    } //-- getExtendsMethod
+
+    public JMethod getIdentityMethod() {
+        return _getIdentity;
+    } //-- getIdentityMethod
+
+    public JMethod getJavaClassMethod() {
+        return _getJavaClass;
+    } // getJavaClassMethod
+
+    //-------------------/
+    //- Private Methods -/
+    //-------------------/
 
     /**
      * Initializes this DescriptorJClass with the required methods
      */
     private void init() {
-        JMethod     method = null;
-        JSourceCode jsc    = null;
-        boolean extended = false;
-
         // Make sure that the Descriptor is extended XMLClassDescriptor even when
         // the user has specified a super class for all the generated classes
         String superClass = null;
@@ -117,35 +150,66 @@ public class DescriptorJClass extends JClass {
             superClass = _config.getProperty(BuilderConfiguration.Property.SUPER_CLASS, null);
         }
 
-        if (_type.getSuperClassQualifiedName() == null ||
-            _type.getSuperClassQualifiedName().equals(superClass)) {
+        boolean extended = false;
+
+        if (_type.getSuperClassQualifiedName() == null
+            || _type.getSuperClassQualifiedName().equals(superClass)) {
             setSuperClass("org.exolab.castor.xml.util.XMLClassDescriptorImpl");
         } else {
             extended = true;
-            setSuperClass(_type.getSuperClassQualifiedName()+"Descriptor");
+            setSuperClass(_type.getSuperClassQualifiedName() + "Descriptor");
         }
         superClass = null;
 
-//        addImport("org.exolab.castor.xml.NodeType");
-//        addImport("org.exolab.castor.xml.XMLFieldHandler");
-//        addImport("org.exolab.castor.xml.handlers.*");
-//        addImport("org.exolab.castor.xml.util.XMLFieldDescriptorImpl");
-//        addImport("org.exolab.castor.xml.validators.*");
-//        addImport("org.exolab.castor.xml.FieldValidator");
+//      addImport("org.exolab.castor.xml.NodeType");
+//      addImport("org.exolab.castor.xml.XMLFieldHandler");
+//      addImport("org.exolab.castor.xml.handlers.*");
+//      addImport("org.exolab.castor.xml.util.XMLFieldDescriptorImpl");
+//      addImport("org.exolab.castor.xml.validators.*");
+//      addImport("org.exolab.castor.xml.FieldValidator");
 
         addField(new JField(JType.BOOLEAN, "elementDefinition"));
 
-        addField(new JField(SGTypes.String,  "nsPrefix"));
-        addField(new JField(SGTypes.String,  "nsURI"));
-        addField(new JField(SGTypes.String,  "xmlName"));
+        addField(new JField(SGTypes.String, "nsPrefix"));
+        addField(new JField(SGTypes.String, "nsURI"));
+        addField(new JField(SGTypes.String, "xmlName"));
         //-- if there is a super class, the identity field must remain
         //-- the same than the one in the super class
         addField(new JField(_XMLFieldDescriptorClass, "identity"));
 
         //-- create default constructor
-        addConstructor( createConstructor() );
+        addDefaultConstructor(extended);
+
+        //jsc.add("Class[] emptyClassArgs = new Class[0];");
+        //jsc.add("Class[] classArgs = new Class[1];");
+
+        //---------------------------------------------/
+        //- Methods Defined by XMLClassDescriptorImpl -/
+        //---------------------------------------------/
+
+        addXMLClassDescriptorImplOverrides();
+
+        //-----------------------------------------/
+        //- Methods Defined by XMLClassDescriptor -/
+        //-----------------------------------------/
+
+        addXMLClassDescriptorOverrides();
+
+        //--------------------------------------/
+        //- Methods defined by ClassDescriptor -/
+        //--------------------------------------/
+
+        addClassDescriptorOverrides(extended);
+    } //-- createSource
+
+    /**
+     * Adds our default constructor.
+     * @param extended true if we extend another class and thus need to call super()
+     */
+    private void addDefaultConstructor(final boolean extended) {
+        addConstructor(createConstructor());
         JConstructor cons = getConstructor(0);
-        jsc = cons.getSourceCode();
+        JSourceCode jsc = cons.getSourceCode();
         jsc.add("super();");
 
         if (extended) {
@@ -155,27 +219,29 @@ public class DescriptorJClass extends JClass {
             jsc.append(getSuperClassQualifiedName());
             jsc.append("());");
         }
+    }
 
-        //jsc.add("Class[] emptyClassArgs = new Class[0];");
-        //jsc.add("Class[] classArgs = new Class[1];");
-
-        //---------------------------------------------/
-        //- Methods Defined by XMLClassDescriptorImpl -/
-        //---------------------------------------------/
-
+    /**
+     * Adds the methods we override from
+     * {@link org.exolab.castor.xml.util.XMLClassDescriptorImpl}
+     */
+    private void addXMLClassDescriptorImplOverrides() {
         //-- create isElementDefinition method
-        method = new JMethod("isElementDefinition", JType.BOOLEAN,
-                             "true if XML schema definition of this Class is that of a global\n" +
-                             "element or element with anonymous type definition.");
-        jsc = method.getSourceCode();
+        _getElementDefinition = new JMethod("isElementDefinition", JType.BOOLEAN,
+                                            "true if XML schema definition of this Class is that of a global\n"
+                                            + "element or element with anonymous type definition.");
+        JSourceCode jsc = _getElementDefinition.getSourceCode();
         jsc.add("return elementDefinition;");
-        addMethod(method);
-        _getElementDefinition = method;
+        addMethod(_getElementDefinition);
+    }
 
-        //-----------------------------------------/
-        //- Methods Defined by XMLClassDescriptor -/
-        //-----------------------------------------/
-
+    /**
+     * Adds the methods we override from
+     * {@link org.exolab.castor.xml.XMLClassDescriptor}
+     */
+    private void addXMLClassDescriptorOverrides() {
+        JMethod method;
+        JSourceCode jsc;
         //-- create getNameSpacePrefix method
         method = new JMethod("getNameSpacePrefix", SGTypes.String,
                              "the namespace prefix to use when marshalling as XML.");
@@ -226,35 +292,38 @@ public class DescriptorJClass extends JClass {
         jsc.add("return xmlName;");
         addMethod(method);
         _getXMLName = method;
+    }
 
-        //--------------------------------------/
-        //- Methods defined by ClassDescriptor -/
-        //--------------------------------------/
-
+    /**
+     * Adds the methods we override from
+     * {@link org.exolab.castor.mapping.ClassDescriptor}
+     * @param extended true if we extend another class and thus need to call super()
+     */
+    private void addClassDescriptorOverrides(final boolean extended) {
+        JSourceCode jsc;
 
         //-- create getAccessMode method
         JClass amClass = new JClass("org.exolab.castor.mapping.AccessMode");
-        method = new JMethod("getAccessMode", amClass,
-                             "the access mode specified for this class.");
+        _getAccessMode = new JMethod("getAccessMode", amClass,
+                                     "the access mode specified for this class.");
 
         if (_config.useJava50()) {
-            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            _getAccessMode.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
-        jsc = method.getSourceCode();
+        jsc = _getAccessMode.getSourceCode();
         jsc.add("return null;");
-        addMethod(method);
-        _getAccessMode = method;
+        addMethod(_getAccessMode);
 
         //-- create getExtends method
-        method = new JMethod("getExtends", _ClassDescriptorClass,
-                             "the class descriptor of the class extended by this class.");
+        _getExtends = new JMethod("getExtends", _ClassDescriptorClass,
+                                  "the class descriptor of the class extended by this class.");
 
         if (_config.useJava50()) {
-            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            _getExtends.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
-        jsc = method.getSourceCode();
+        jsc = _getExtends.getSourceCode();
         if (extended) {
             jsc.add("return super.getExtends();");
         } else {
@@ -262,84 +331,45 @@ public class DescriptorJClass extends JClass {
         }
 
         //--don't add the type to the import list
-        addMethod(method, false);
-        _getExtends = method;
+        addMethod(_getExtends, false);
 
         //-- create getIdentity method
-        method = new JMethod("getIdentity", _FieldDescriptorClass,
-                             "the identity field, null if this class has no identity.");
+        _getIdentity = new JMethod("getIdentity", _FieldDescriptorClass,
+                                   "the identity field, null if this class has no identity.");
 
         if (_config.useJava50()) {
-            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            _getIdentity.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
-        jsc = method.getSourceCode();
+        jsc = _getIdentity.getSourceCode();
         if (extended) {
-            jsc.add("if (identity == null)");
+            jsc.add("if (identity == null) {");
             jsc.indent();
             jsc.add("return super.getIdentity();");
             jsc.unindent();
+            jsc.add("}");
         }
         jsc.add("return identity;");
 
         //--don't add the type to the import list
-        addMethod(method, false);
-        _getIdentity = method;
+        addMethod(_getIdentity, false);
 
         //-- create getJavaClass method
-        method = new JMethod("getJavaClass", SGTypes.Class,
-                             "the Java class represented by this descriptor.");
+        _getJavaClass = new JMethod("getJavaClass", SGTypes.Class,
+                                    "the Java class represented by this descriptor.");
 
         if (_config.useJava50()) {
-            method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
+            _getJavaClass.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
-        jsc = method.getSourceCode();
+        jsc = _getJavaClass.getSourceCode();
         jsc.add("return ");
         jsc.append(classType(_type));
         jsc.append(";");
 
         //--don't add the type to the import list
-        addMethod(method, false);
-
-        _getJavaClass = method;
-    } //-- createSource
-
-    public JMethod getElementDefinitionMethod() {
-        return _getElementDefinition;
-    } //-- getElementDefinitionMethod
-
-    public JMethod getNameSpacePrefixMethod() {
-        return _getNameSpacePrefix;
-    } //-- getNamespaceURIMethod
-
-    public JMethod getNameSpacePrefixURI() {
-        return _getNameSpaceURI;
-    } //-- getNamespacePrefixMethod
-
-    public JMethod getXMLNameMethod() {
-        return _getXMLName;
-    } //-- getIdentityMethod
-
-    public JMethod getAccessModeMethod() {
-        return _getAccessMode;
-    } //-- getAccessModeMethod
-
-    public JMethod getExtendsMethod() {
-        return _getExtends;
-    } //-- getExtendsMethod
-
-    public JMethod getIdentityMethod() {
-        return _getIdentity;
-    } //-- getIdentityMethod
-
-    public JMethod getJavaClassMethod() {
-        return _getJavaClass;
-    } // getJavaClassMethod
-
-    //-------------------/
-    //- Private Methods -/
-    //-------------------/
+        addMethod(_getJavaClass, false);
+    }
 
     /**
      * Returns the Class type (as a String) for the given XSType
@@ -348,7 +378,7 @@ public class DescriptorJClass extends JClass {
      *            the JType we are to return the class name of
      * @return the Class name (as a String) for the given XSType
      */
-    private static String classType(JType jType) {
+    private static String classType(final JType jType) {
         if (jType.isPrimitive()) {
             return jType.getWrapperName() + ".TYPE";
         }
