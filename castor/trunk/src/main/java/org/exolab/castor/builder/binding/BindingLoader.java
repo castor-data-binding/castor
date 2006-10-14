@@ -112,7 +112,7 @@ public class BindingLoader {
      * @throws BindingException
      *             thrown when an error occured during the unmarshalling.
      */
-    public void loadBinding(InputSource source) throws BindingException {
+    public void loadBinding(final InputSource source) throws BindingException {
         Binding loaded = null;
         if (_binding == null) {
             _binding = new ExtendedBinding();
@@ -123,7 +123,7 @@ public class BindingLoader {
         unmarshaller.setValidation(true);
 
         try {
-            loaded = (Binding)unmarshaller.unmarshal(source);
+            loaded = (Binding) unmarshaller.unmarshal(source);
 
             //--Copy one by one the components loaded in the root binding
             _binding.setDefaultBindingType(loaded.getDefaultBindingType());
@@ -131,7 +131,7 @@ public class BindingLoader {
             //--packages
             Enumeration packages = loaded.enumeratePackage();
             while (packages.hasMoreElements()) {
-                PackageType tempPackage = (PackageType)packages.nextElement();
+                PackageType tempPackage = (PackageType) packages.nextElement();
                 _binding.addPackage(tempPackage);
             }
 
@@ -144,48 +144,47 @@ public class BindingLoader {
             //--elementBindings
             Enumeration elements = loaded.enumerateElementBinding();
             while (elements.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType)elements.nextElement();
+                ComponentBindingType tempComp = (ComponentBindingType) elements.nextElement();
                 _binding.addElementBinding(tempComp);
             }
 
             //--attributeBindings
             Enumeration attributes = loaded.enumerateAttributeBinding();
             while (attributes.hasMoreElements()) {
-                ComponentBindingType  tempComp = (ComponentBindingType)attributes.nextElement();
+                ComponentBindingType  tempComp = (ComponentBindingType) attributes.nextElement();
                 _binding.addAttributeBinding(tempComp);
             }
 
             //--ComplexTypeBindings
-            Enumeration CTs = loaded.enumerateComplexTypeBinding();
-            while (CTs.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType)CTs.nextElement();
+            Enumeration complexTypes = loaded.enumerateComplexTypeBinding();
+            while (complexTypes.hasMoreElements()) {
+                ComponentBindingType tempComp = (ComponentBindingType) complexTypes.nextElement();
                 _binding.addComplexTypeBinding(tempComp);
             }
 
             //--groupBindings
             Enumeration groups = loaded.enumerateGroupBinding();
             while (groups.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType)groups.nextElement();
+                ComponentBindingType tempComp = (ComponentBindingType) groups.nextElement();
                 _binding.addGroupBinding(tempComp);
             }
 
             //--enumBinding
             //--The following is not yet implemented in the Source Generator
-            /*
-            Enumeration enums = loaded.enumerateEnumBinding();
-            while (enums.hasMoreElements()) {
-                EnumBinding tempEnum = (EnumBinding)enums.nextElement();
-                _binding.addEnumBinding(tempEnum);
-            }*/
+//          Enumeration enums = loaded.enumerateEnumBinding();
+//          while (enums.hasMoreElements()) {
+//              EnumBinding tempEnum = (EnumBinding)enums.nextElement();
+//              _binding.addEnumBinding(tempEnum);
+//          }
 
             //--included schemas
             Enumeration includes = loaded.enumerateInclude();
-            while ( includes.hasMoreElements() ) {
-                IncludeType tempInclude = (IncludeType)includes.nextElement();
+            while (includes.hasMoreElements()) {
+                IncludeType tempInclude = (IncludeType) includes.nextElement();
                 try {
                     loadBinding(tempInclude.getURI());
-                } catch ( Exception except ) {
-                    throw new BindingException( except );
+                } catch (Exception except) {
+                    throw new BindingException(except);
                 }
             }
         } catch (MarshalException e) {
@@ -213,10 +212,10 @@ public class BindingLoader {
      * @param url
      *            The base URL
      */
-    public void setBaseURL(String url) {
+    public void setBaseURL(final String url) {
         try {
-            _resolver.setBaseURL( new URL( url ) );
-        } catch ( MalformedURLException except ) {
+            _resolver.setBaseURL(new URL(url));
+        } catch (MalformedURLException except) {
             throw new IllegalArgumentException(except.getMessage());
         }
     }
@@ -233,13 +232,13 @@ public class BindingLoader {
      *             thrown when the given InputSource doesn't refer to a valid
      *             Binding document.
      */
-    public static ExtendedBinding createBinding(InputSource source) throws BindingException {
+    public static ExtendedBinding createBinding(final InputSource source) throws BindingException {
        BindingLoader loader = new BindingLoader();
        loader.loadBinding(source);
        return loader.getBinding();
     }
 
-    public static ExtendedBinding createBinding(String fileName) throws BindingException {
+    public static ExtendedBinding createBinding(final String fileName) throws BindingException {
         BindingLoader loader = new BindingLoader();
         InputSource source = new InputSource(fileName);
         loader.loadBinding(source);
@@ -256,7 +255,7 @@ public class BindingLoader {
          */
         private URL            _baseUrl;
 
-        public void setBaseURL(URL baseUrl) {
+        public void setBaseURL(final URL baseUrl) {
             _baseUrl = baseUrl;
         }
 
@@ -266,10 +265,28 @@ public class BindingLoader {
 
         /**
          * Code adapted from DTDResolver written by Assaf Arkin.
-         * @see org.exolab.castor.util.DTDResolver#resolveEntity(java.lang.String, java.lang.String)
-         * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String, java.lang.String)
+         *
+         * @param publicId
+         *            The public identifier of the external entity being
+         *            referenced, or null if none was supplied.
+         * @param systemId
+         *            The system identifier of the external entity being
+         *            referenced.
+         * @return An InputSource object describing the new input source, or
+         *         null to request that the parser open a regular URI connection
+         *         to the system identifier.
+         * @throws org.xml.sax.SAXException
+         *             Any SAX exception, possibly wrapping another exception.
+         * @throws java.io.IOException
+         *             A Java-specific IO exception, possibly the result of
+         *             creating a new InputStream or Reader for the InputSource.
+         * @see org.exolab.castor.util.DTDResolver#resolveEntity(java.lang.String,
+         *                                                       java.lang.String)
+         * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String,
+         *                                               java.lang.String)
          */
-        public InputSource resolveEntity( String publicId, String systemId) throws IOException, SAXException {
+        public InputSource resolveEntity(final String publicId, final String systemId)
+                                                               throws IOException, SAXException {
             InputSource source = null;
 
             // First, resolve the schema if any
@@ -287,20 +304,20 @@ public class BindingLoader {
 
             // Can't resolve public id, but might be able to resolve relative
             // system id, since we have a base URI.
-            if ( systemId != null && _baseUrl != null ) {
+            if (systemId != null && _baseUrl != null) {
                 URL url;
                 try {
-                    url = new URL( systemId );
-                    source = new InputSource( url.openStream() );
+                    url = new URL(systemId);
+                    source = new InputSource(url.openStream());
                     source.setSystemId(systemId);
                     return source;
-                } catch ( MalformedURLException except ) {
+                } catch (MalformedURLException except) {
                     try {
-                        url = new URL( _baseUrl, systemId );
-                        source = new InputSource( url.openStream() );
+                        url = new URL(_baseUrl, systemId);
+                        source = new InputSource(url.openStream());
                         source.setSystemId(systemId);
                         return source;
-                    } catch ( MalformedURLException ex2 ) {
+                    } catch (MalformedURLException ex2) {
                         throw new SAXException(ex2);
                     }
                 }
@@ -309,6 +326,6 @@ public class BindingLoader {
             return null;
         }
 
-    }//--BindingResolver
+    } //--BindingResolver
 
 }

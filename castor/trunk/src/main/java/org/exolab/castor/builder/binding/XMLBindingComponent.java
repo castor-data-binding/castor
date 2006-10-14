@@ -155,10 +155,11 @@ public class XMLBindingComponent implements BindingComponent {
     private boolean   _userSpecifiedMemberName = false;
 
     /**
-     * A GroupNaming helper class used to named anonymous groups
+     * A GroupNaming helper class used to named anonymous groups.
+     * <p>
+     * TODO: this property used to be static; currently, I don't see a reason as
+     * to why this was/is required. Anybody ?
      */
-    // TODO: this property used to be static; currently, I don't see a reason as to why this was/is required. Anybody ?
-    // private static GroupNaming _groupNaming = new GroupNaming();
     private GroupNaming _groupNaming = null;
 
     /**
@@ -177,7 +178,7 @@ public class XMLBindingComponent implements BindingComponent {
      * Sets the group naming instance to be used.
      * @param groupNaming The current group naming scheme to be used.
      */
-    private void setGroupNaming(GroupNaming groupNaming) {
+    private void setGroupNaming(final GroupNaming groupNaming) {
         _groupNaming = groupNaming;
     }
 
@@ -191,7 +192,7 @@ public class XMLBindingComponent implements BindingComponent {
      *
      * @param config the BuilderConfiguration instance (must not be null).
      */
-    public XMLBindingComponent(BuilderConfiguration config) {
+    public XMLBindingComponent(final BuilderConfiguration config) {
         if (config == null) {
             String error = "The argument 'config' must not be null.";
             throw new IllegalArgumentException(error);
@@ -219,7 +220,7 @@ public class XMLBindingComponent implements BindingComponent {
      *            the Extended Binding Object Model that wraps the information
      *            located in a binding file
      */
-    public void setBinding(ExtendedBinding binding) {
+    public void setBinding(final ExtendedBinding binding) {
         _binding = binding;
     }
 
@@ -233,7 +234,7 @@ public class XMLBindingComponent implements BindingComponent {
      *            an Annotated XML Schema structure.
      * @see org.exolab.castor.xml.schema.Annotated
      */
-    public void setView(Annotated annotated) {
+    public void setView(final Annotated annotated) {
         if (annotated == null) {
             throw new IllegalArgumentException("The XML Schema annotated structure is null.");
         }
@@ -282,8 +283,8 @@ public class XMLBindingComponent implements BindingComponent {
                     default:
                         break;
                 }
-            }//--naming != null;
-        }//--binding != null
+            } //--naming != null;
+        } //--binding != null
 
         if (_compBinding != null) {
             ComponentBindingTypeChoice choice = _compBinding.getComponentBindingTypeChoice();
@@ -302,24 +303,28 @@ public class XMLBindingComponent implements BindingComponent {
                 throw new IllegalStateException(err);
             }
         }
-    }//--setView
+    } //--setView
 
    //--Object manipulation methods
 
     /**
-     * Returns true if the given Object is equal to this instance of XMLBindingComponent.
+     * Returns true if the given Object is equal to this instance of
+     * XMLBindingComponent.
      *
-     * @return true if the given Object is equal to this instance of XMLBindingComponent.
+     * @return true if the given Object is equal to this instance of
+     *         XMLBindingComponent.
+     * @param object
+     *            {@inheritDoc}
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals(Object object) {
+    public boolean equals(final Object object) {
         if (object == null) {
             return false;
         }
 
         boolean result = false;
         if (object instanceof XMLBindingComponent) {
-            XMLBindingComponent temp = (XMLBindingComponent)object;
+            XMLBindingComponent temp = (XMLBindingComponent) object;
             result = _annotated.equals(temp.getAnnotated());
             if (_compBinding != null) {
                 if (temp.getComponentBinding() != null) {
@@ -349,7 +354,7 @@ public class XMLBindingComponent implements BindingComponent {
                compBindingHash = _compBinding.getName().hashCode();
             }
             //WARNING: THE CASTOR SOM doesn't override hashCode or equals
-            _hashCode = 37*(_annotated.hashCode()) + compBindingHash;
+            _hashCode = 37 * (_annotated.hashCode()) + compBindingHash;
         }
         return _hashCode;
     }
@@ -389,23 +394,23 @@ public class XMLBindingComponent implements BindingComponent {
         boolean result = false;
         switch (_annotated.getStructureType()) {
             case Structure.ELEMENT:
-                XMLType type = ((ElementDecl)_annotated).getType();
+                XMLType type = ((ElementDecl) _annotated).getType();
                 if (type.isComplexType()) {
-                    maxOccurs = ((ComplexType)type).getMaxOccurs();
+                    maxOccurs = ((ComplexType) type).getMaxOccurs();
                     if (((maxOccurs > 1) || (maxOccurs < 0)) && (type.getName() == null)) {
                         result = true;
                     }
                 }
                 break;
             case Structure.COMPLEX_TYPE:
-                maxOccurs = ((ComplexType)_annotated).getMaxOccurs();
+                maxOccurs = ((ComplexType) _annotated).getMaxOccurs();
                 if ((maxOccurs > 1) || (maxOccurs < 0)) {
                     result = true;
                 }
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:
-                Group group = (Group)_annotated;
+                Group group = (Group) _annotated;
                 maxOccurs = group.getMaxOccurs();
                 if ((maxOccurs > 1) || (maxOccurs < 0)) {
                     result = true;
@@ -446,7 +451,7 @@ public class XMLBindingComponent implements BindingComponent {
 
         switch (_annotated.getStructureType()) {
             case Structure.ATTRIBUTE:
-                AttributeDecl attribute = (AttributeDecl)_annotated;
+                AttributeDecl attribute = (AttributeDecl) _annotated;
                 //-- resolve reference
                 if (attribute.isReference()) {
                     attribute = attribute.getReference();
@@ -497,7 +502,7 @@ public class XMLBindingComponent implements BindingComponent {
                 //-- use targetNamespace of schema
                 break;
             case Structure.COMPLEX_TYPE:
-                ComplexType complexType = (ComplexType)_annotated;
+                ComplexType complexType = (ComplexType) _annotated;
                 schema = complexType.getSchema();
                 if (complexType.getParent() == schema) {
                     break;
@@ -529,7 +534,7 @@ public class XMLBindingComponent implements BindingComponent {
         switch (_annotated.getStructureType()) {
             case Structure.ATTRIBUTE:
                 //--resolve reference?
-                AttributeDecl attribute = (AttributeDecl)_annotated;
+                AttributeDecl attribute = (AttributeDecl) _annotated;
                 if (attribute.isReference()) {
                     attribute = attribute.getReference();
                 }
@@ -538,7 +543,7 @@ public class XMLBindingComponent implements BindingComponent {
                 break;
             case Structure.ELEMENT:
                 //--resolve reference?
-                ElementDecl element = (ElementDecl)_annotated;
+                ElementDecl element = (ElementDecl) _annotated;
                 if (element.isReference()) {
                     element = element.getReference();
                 }
@@ -546,11 +551,11 @@ public class XMLBindingComponent implements BindingComponent {
                 element = null;
                 break;
             case Structure.COMPLEX_TYPE:
-                _schema = ((ComplexType)_annotated).getSchema();
+                _schema = ((ComplexType) _annotated).getSchema();
                 break;
             case Structure.MODELGROUP:
                 //--resolve reference?
-                ModelGroup group = (ModelGroup)_annotated;
+                ModelGroup group = (ModelGroup) _annotated;
                 if (group.isReference()) {
                     group = group.getReference();
                 }
@@ -558,21 +563,21 @@ public class XMLBindingComponent implements BindingComponent {
                 group = null;
                 break;
             case Structure.GROUP:
-                Structure parent = ((Group)_annotated).getParent();
+                Structure parent = ((Group) _annotated).getParent();
                 short structure = parent.getStructureType();
                 while (structure == Structure.GROUP) {
-                    parent = ((Group)parent).getParent();
+                    parent = ((Group) parent).getParent();
                     structure = parent.getStructureType();
                 }
                 if (structure == Structure.COMPLEX_TYPE) {
-                    _schema = ((ComplexType)parent).getSchema();
+                    _schema = ((ComplexType) parent).getSchema();
                 } else if (structure == Structure.MODELGROUP) {
-                    _schema = ((ModelGroup)parent).getSchema();
+                    _schema = ((ModelGroup) parent).getSchema();
                 }
                 break;
             case Structure.SIMPLE_TYPE:
             case Structure.UNION:
-                _schema = ((SimpleType)_annotated).getSchema();
+                _schema = ((SimpleType) _annotated).getSchema();
                 break;
             default:
                 break;
@@ -593,13 +598,13 @@ public class XMLBindingComponent implements BindingComponent {
         XMLType result = null;
         switch (_annotated.getStructureType()) {
             case Structure.ELEMENT:
-                result = ((ElementDecl)_annotated).getType();
+                result = ((ElementDecl) _annotated).getType();
                 break;
             case Structure.COMPLEX_TYPE:
-                result = ((ComplexType)_annotated);
+                result = ((ComplexType) _annotated);
                 break;
             case Structure.ATTRIBUTE:
-                result = ((AttributeDecl)_annotated).getSimpleType();
+                result = ((AttributeDecl) _annotated).getSimpleType();
                 break;
             case Structure.MODELGROUP:
             default:
@@ -618,17 +623,17 @@ public class XMLBindingComponent implements BindingComponent {
 
         switch (_annotated.getStructureType()) {
             case Structure.ELEMENT:
-                result = ((ElementDecl)_annotated).getName();
+                result = ((ElementDecl) _annotated).getName();
                 break;
             case Structure.COMPLEX_TYPE:
-                result = ((ComplexType)_annotated).getName();
+                result = ((ComplexType) _annotated).getName();
                 break;
             case Structure.ATTRIBUTE:
-                result = ((AttributeDecl)_annotated).getName();
+                result = ((AttributeDecl) _annotated).getName();
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:
-                result = ((Group)_annotated).getName();
+                result = ((Group) _annotated).getName();
                 break;
             default:
                 break;
@@ -652,15 +657,15 @@ public class XMLBindingComponent implements BindingComponent {
         String result = null;
         switch (_annotated.getStructureType()) {
             case Structure.ELEMENT:
-                result = ((ElementDecl)_annotated).getDefaultValue();
+                result = ((ElementDecl) _annotated).getDefaultValue();
                 if (result == null) {
-                    result = ((ElementDecl)_annotated).getFixedValue();
+                    result = ((ElementDecl) _annotated).getFixedValue();
                 }
                 break;
             case Structure.ATTRIBUTE:
-                result = ((AttributeDecl)_annotated).getDefaultValue();
+                result = ((AttributeDecl) _annotated).getDefaultValue();
                 if (result == null) {
-                    result = ((AttributeDecl)_annotated).getFixedValue();
+                    result = ((AttributeDecl) _annotated).getFixedValue();
                 }
                 break;
             case Structure.COMPLEX_TYPE:
@@ -717,10 +722,9 @@ public class XMLBindingComponent implements BindingComponent {
                     result = getXMLName();
                     //--create a java name for an anonymous group
                     if (result == null &&
-                        ((_annotated.getStructureType() == Structure.GROUP) ||
-                         (_annotated.getStructureType() == Structure.MODELGROUP)) ) {
-
-                        result = getGroupNaming().createClassName((Group)_annotated, getJavaPackage());
+                        (_annotated.getStructureType() == Structure.GROUP
+                         || _annotated.getStructureType() == Structure.MODELGROUP)) {
+                        result = getGroupNaming().createClassName((Group) _annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);
@@ -774,7 +778,7 @@ public class XMLBindingComponent implements BindingComponent {
             if (result == null || result.length() <= 0) {
                 Annotated temp = null;
                 if (_annotated.getStructureType() == Structure.ATTRIBUTE) {
-                     AttributeDecl att = (AttributeDecl)_annotated;
+                     AttributeDecl att = (AttributeDecl) _annotated;
                      if (att.isReference()) {
                          temp = _annotated;
                          setView(att.getReference());
@@ -783,7 +787,7 @@ public class XMLBindingComponent implements BindingComponent {
                      }
                      att = null;
                 } else if (_annotated.getStructureType() == Structure.ELEMENT) {
-                     ElementDecl element = (ElementDecl)_annotated;
+                     ElementDecl element = (ElementDecl) _annotated;
                      if (element.isReference()) {
                          temp = _annotated;
                          setView(element.getReference());
@@ -799,12 +803,12 @@ public class XMLBindingComponent implements BindingComponent {
                             int index = 0;
                             Structure structure = element.getParent();
                             if (structure instanceof ContentModelGroup) {
-                                ContentModelGroup cmg = (ContentModelGroup)structure;
+                                ContentModelGroup cmg = (ContentModelGroup) structure;
                                 Enumeration enumeration = cmg.enumerate();
                                 while (enumeration.hasMoreElements()) {
-                                    Structure tmpStruct = (Structure)enumeration.nextElement();
+                                    Structure tmpStruct = (Structure) enumeration.nextElement();
                                     if (tmpStruct.getStructureType() == Structure.ELEMENT) {
-                                        ElementDecl tmpDecl = (ElementDecl)tmpStruct;
+                                        ElementDecl tmpDecl = (ElementDecl) tmpStruct;
                                         if (tmpDecl.isReference()) {
                                             if (tmpDecl.getReferenceName().equals(refName)) {
                                                 ++count;
@@ -831,10 +835,10 @@ public class XMLBindingComponent implements BindingComponent {
                     //--create the name
                     result = getXMLName();
                     //--create a java name for an anonymous group
-                    if (result == null &&
-                        ((_annotated.getStructureType() == Structure.GROUP)||
-                         (_annotated.getStructureType() == Structure.MODELGROUP))) {
-                        result = getGroupNaming().createClassName((Group)_annotated, getJavaPackage());
+                    if (result == null
+                        && (_annotated.getStructureType() == Structure.GROUP
+                            || _annotated.getStructureType() == Structure.MODELGROUP)) {
+                        result = getGroupNaming().createClassName((Group) _annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);
@@ -925,7 +929,7 @@ public class XMLBindingComponent implements BindingComponent {
                         break;
                     default:
                         break;
-                }//--switch
+                } //--switch
             }
 
             if  (packageName == null || packageName.length() == 0) {
@@ -960,14 +964,14 @@ public class XMLBindingComponent implements BindingComponent {
         switch (_annotated.getStructureType()) {
 
             case Structure.ELEMENT:
-                return ((ElementDecl)_annotated).getMaxOccurs();
+                return ((ElementDecl) _annotated).getMaxOccurs();
 
             case Structure.COMPLEX_TYPE:
-                return ((ComplexType)_annotated).getMaxOccurs();
+                return ((ComplexType) _annotated).getMaxOccurs();
 
             case Structure.GROUP:
             case Structure.MODELGROUP:
-                return ((Group)_annotated).getMaxOccurs();
+                return ((Group) _annotated).getMaxOccurs();
 
             case Structure.ATTRIBUTE:
             default:
@@ -1065,14 +1069,14 @@ public class XMLBindingComponent implements BindingComponent {
         if (!result) {
             switch(_annotated.getStructureType()) {
                 case Structure.COMPLEX_TYPE:
-                    ComplexType cType = (ComplexType)_annotated;
+                    ComplexType cType = (ComplexType) _annotated;
                     result = cType.isAbstract();
                     //-- if we're in element-centric mode, then all
                     //--  complexTypes are treated as abstract
                     result = result || _config.mappingSchemaElement2Java();
                     break;
                 case Structure.ELEMENT:
-                    ElementDecl eDecl = (ElementDecl)_annotated;
+                    ElementDecl eDecl = (ElementDecl) _annotated;
                     result = eDecl.isAbstract();
                     break;
                 default:
@@ -1107,11 +1111,11 @@ public class XMLBindingComponent implements BindingComponent {
 
         switch (_annotated.getStructureType()) {
             case Structure.ELEMENT:
-                String fixed = ((ElementDecl)_annotated).getFixedValue();
+                String fixed = ((ElementDecl) _annotated).getFixedValue();
                 return (fixed != null);
 
             case Structure.ATTRIBUTE:
-                return ((AttributeDecl)_annotated).isFixed();
+                return ((AttributeDecl) _annotated).isFixed();
 
             case Structure.GROUP:
             case Structure.COMPLEX_TYPE:
@@ -1130,7 +1134,7 @@ public class XMLBindingComponent implements BindingComponent {
     public boolean isNillable() {
         switch (_annotated.getStructureType()) {
             case Structure.ELEMENT:
-                return ((ElementDecl)_annotated).isNillable();
+                return ((ElementDecl) _annotated).isNillable();
             default:
                 break;
         }
@@ -1198,7 +1202,7 @@ public class XMLBindingComponent implements BindingComponent {
             //--simpleType or AnyType
             if (type != null && type.isSimpleType()) {
                 String packageName = null;
-                if (((SimpleType)type).getSchema() != getSchema()) {
+                if (((SimpleType) type).getSchema() != getSchema()) {
                     XMLBindingComponent comp = new XMLBindingComponent(_config);
                     comp.setBinding(_binding);
                     comp.setView(type);
@@ -1208,11 +1212,12 @@ public class XMLBindingComponent implements BindingComponent {
                 }
 
                 if ((packageName == null) || (packageName.length() == 0)) {
-                    String ns = ((SimpleType)type).getSchema().getTargetNamespace();
+                    String ns = ((SimpleType) type).getSchema().getTargetNamespace();
                     packageName = _config.lookupPackageByNamespace(ns);
                 }
 
-                result = _typeConversion.convertType((SimpleType)type, useWrapper, packageName, _config.useJava50());
+                result = _typeConversion.convertType((SimpleType) type, useWrapper,
+                                                     packageName, _config.useJava50());
             }
         }
 
@@ -1288,41 +1293,38 @@ public class XMLBindingComponent implements BindingComponent {
      * @return an int representing the lower bound of the collection generated
      *         from this BindingComponent. 0 is returned by default.
      */
-    private static int getLowerBound(Annotated annotated) {
+    private static int getLowerBound(final Annotated annotated) {
         switch (annotated.getStructureType()) {
             case Structure.ELEMENT:
-                return ((ElementDecl)annotated).getMinOccurs();
+                return ((ElementDecl) annotated).getMinOccurs();
             case Structure.COMPLEX_TYPE:
-                return ((ComplexType)annotated).getMinOccurs();
+                return ((ComplexType) annotated).getMinOccurs();
             case Structure.MODELGROUP:
             case Structure.GROUP:
-                Group group = (Group)annotated;
-                //-- if the group is top-level, then
-                //-- we always return 0
+                Group group = (Group) annotated;
+                //-- if the group is top-level, then we always return 0
                 Structure parent = group.getParent();
                 if (parent != null && parent.getStructureType() == Structure.SCHEMA) {
                     return 0;
                 }
                 int minOccurs = group.getMinOccurs();
-                //-- if minOccurs == 1, then check to see
-                //-- if all elements inside group are
+                //-- if minOccurs == 1, then check to see if all elements inside group are
                 //-- optional, if so, we return 0, not 1.
                 if (minOccurs == 1) {
                     Enumeration enumeration = group.enumerate();
                     while (enumeration.hasMoreElements()) {
-                        if (getLowerBound((Annotated)enumeration.nextElement()) != 0) {
+                        if (getLowerBound((Annotated) enumeration.nextElement()) != 0) {
                             return 1;
                         }
                     }
-                    //-- if we make it here, all items in group have a
-                    //-- lowerbound of 0, so the group can be considered
-                    //-- optional
+                    //-- if we make it here, all items in group have a lowerbound of 0, so
+                    //-- the group can be considered optional
                     return 0;
                 }
                 return minOccurs;
 
             case Structure.ATTRIBUTE:
-                if (((AttributeDecl)annotated).isRequired()) {
+                if (((AttributeDecl) annotated).isRequired()) {
                     return 1;
                 }
                 break;

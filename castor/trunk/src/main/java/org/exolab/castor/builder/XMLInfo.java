@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import org.exolab.castor.builder.types.XSType;
@@ -55,62 +54,29 @@ import org.exolab.castor.builder.types.XSType;
  */
 public class XMLInfo {
 
-    /**
-     * Represents the attribute node type
-     */
+    /** Represents the attribute node type */
     public static final short ATTRIBUTE_TYPE = 0;
-
-    /**
-     * Represents the element node type
-     */
+    /** Represents the element node type */
     public static final short ELEMENT_TYPE   = 1;
-
-    /**
-     * Represents the text node type
-     */
+    /** Represents the text node type */
     public static final short TEXT_TYPE      = 2;
 
-    /**
-     * A flag indicating if the object described by this XML info can appear
-     * more than once
-     */
-    private boolean multivalued = false;
-
-    /**
-     * the xml node name
-     */
-    private String name = null;
-
-    /**
-     * The xml node type
-     */
-    private short nodeType = ELEMENT_TYPE;
-
-    /**
-     * The namespace prefix
-     */
-    private String nsPrefix = null;
-
-    /**
-     * The namespace URI
-     */
-    private String nsURI    = null;
-
-    /**
-     * indicates XML schema definition is global element or element with
-     * anonymous type.
-     */
-    private boolean elementDef = false;
-
-    /**
-     * indicates the XML object must appear at least once
-     */
-    private boolean required = false;
-
-    /**
-     * The XML Schema type
-     */
-    private XSType xsType = null;
+    /** A flag indicating if the object described by this XML info can appear more than once */
+    private boolean _multivalued = false;
+    /** the xml node name */
+    private String _name         = null;
+    /** The xml node type */
+    private short _nodeType      = ELEMENT_TYPE;
+    /** The namespace prefix */
+    private String _nsPrefix     = null;
+    /** The namespace URI */
+    private String _nsURI        = null;
+    /** indicates XML schema definition is global element or element with anonymous type. */
+    private boolean _elementDef  = false;
+    /** indicates the XML object must appear at least once */
+    private boolean _required    = false;
+    /** The XML Schema type */
+    private XSType _xsType       = null;
 
     /**
      * Creates a new XML Info
@@ -125,8 +91,8 @@ public class XMLInfo {
      * @param nodeType
      *            the nodeType which this XMLInfo represents
      */
-    public XMLInfo(short nodeType) {
-        this.nodeType = nodeType;
+    public XMLInfo(final short nodeType) {
+        this._nodeType = nodeType;
     }  //-- XMLInfo
 
     /**
@@ -137,9 +103,9 @@ public class XMLInfo {
      * @param nodeType
      *            the nodeType which this XMLInfo represents
      */
-    public XMLInfo(String name, short nodeType) {
-        this.nodeType = nodeType;
-        this.name     = name;
+    public XMLInfo(final String name, final short nodeType) {
+        this._nodeType = nodeType;
+        this._name     = name;
     }  //-- XMLInfo
 
     /**
@@ -149,7 +115,7 @@ public class XMLInfo {
      *         no name has been set
      */
     public String getNodeName() {
-        return name;
+        return _name;
     } //-- getNodeName
 
     /**
@@ -158,7 +124,7 @@ public class XMLInfo {
      * @return the namespace prefix of the object described by this XMLInfo
      */
     public String getNamespacePrefix() {
-        return nsPrefix;
+        return _nsPrefix;
     } //-- getNamespacePrefix
 
     /**
@@ -167,7 +133,7 @@ public class XMLInfo {
      * @return the namespace URI of the object described by this XMLInfo
      */
     public String getNamespaceURI() {
-        return nsURI;
+        return _nsURI;
     } //-- getNamespaceURI
 
     /**
@@ -176,7 +142,7 @@ public class XMLInfo {
      * @return true if xsd is element
      */
     public boolean isElementDefinition() {
-            return elementDef;
+            return _elementDef;
     } //-- isElementDefinition
 
     /**
@@ -185,7 +151,7 @@ public class XMLInfo {
      * @return the node type for the object described by this XMLInfo
      */
     public short getNodeType() {
-        return nodeType;
+        return _nodeType;
     } //-- getNodeType
 
     /**
@@ -196,7 +162,7 @@ public class XMLInfo {
      *         XMLInfo.
      */
     public String getNodeTypeName() {
-        switch (nodeType) {
+        switch (_nodeType) {
             case ATTRIBUTE_TYPE:
                 return "attribute";
             case ELEMENT_TYPE:
@@ -214,7 +180,7 @@ public class XMLInfo {
      * @return the XML Schema type.
      */
     public XSType getSchemaType() {
-        return xsType;
+        return _xsType;
     } //-- getXSType
 
     /**
@@ -224,7 +190,7 @@ public class XMLInfo {
      * @return true if this object can appear more than once.
      */
     public boolean isMultivalued() {
-        return multivalued;
+        return _multivalued;
     } //-- isMultivalued
 
     /**
@@ -234,7 +200,7 @@ public class XMLInfo {
      * @return true if the XML object must appear at least once.
      */
     public boolean isRequired() {
-        return required;
+        return _required;
     } //-- isRequired
 
     /**
@@ -243,8 +209,8 @@ public class XMLInfo {
      * @param multivalued The boolean indicating whether or not the object can appear
      *        more than once.
      */
-    public void setMultivalued(boolean multivalued) {
-        this.multivalued = multivalued;
+    public void setMultivalued(final boolean multivalued) {
+        this._multivalued = multivalued;
     } //-- setMultivalued
 
     /**
@@ -253,8 +219,8 @@ public class XMLInfo {
      * @param name
      *            the XML node name of the described object.
      */
-    public void setNodeName(String name) {
-        this.name = name;
+    public void setNodeName(final String name) {
+        this._name = name;
     } //-- setName
 
     /**
@@ -264,8 +230,8 @@ public class XMLInfo {
      * @param nsPrefix
      *            the desired namespace prefix
      */
-    public void setNamespacePrefix(String nsPrefix) {
-        this.nsPrefix = nsPrefix;
+    public void setNamespacePrefix(final String nsPrefix) {
+        this._nsPrefix = nsPrefix;
     } //-- setNamespacePrefix
 
     /**
@@ -274,8 +240,8 @@ public class XMLInfo {
      * @param nsURI
      *            the Namespace URI for this XMLInfo
      */
-    public void setNamespaceURI(String nsURI) {
-        this.nsURI = nsURI;
+    public void setNamespaceURI(final String nsURI) {
+        this._nsURI = nsURI;
     } //-- setNamespaceURI
 
     /**
@@ -285,8 +251,8 @@ public class XMLInfo {
      *            The flag indicating whether or not XSD is global element,
      *            element with anonymous type or not.
      */
-    public void setElementDefinition(boolean elementDef) {
-        this.elementDef = elementDef;
+    public void setElementDefinition(final boolean elementDef) {
+        this._elementDef = elementDef;
     } //-- setElementDefinition
 
     /**
@@ -295,8 +261,8 @@ public class XMLInfo {
      * @param nodeType
      *            the node type of the described object
      */
-    public void setNodeType(short nodeType) {
-        this.nodeType = nodeType;
+    public void setNodeType(final short nodeType) {
+        this._nodeType = nodeType;
     } //-- setNodeType
 
     /**
@@ -305,8 +271,8 @@ public class XMLInfo {
      * @param xsType
      *            the XML Schema type
      */
-    public void setSchemaType(XSType xsType) {
-        this.xsType = xsType;
+    public void setSchemaType(final XSType xsType) {
+        this._xsType = xsType;
     } //-- setSchemaType
 
     /**
@@ -315,8 +281,8 @@ public class XMLInfo {
      * @param required
      *            the flag indicating whether or not this XML object is required
      */
-    public void setRequired(boolean required) {
-        this.required = required;
+    public void setRequired(final boolean required) {
+        this._required = required;
     } //-- setRequired
 
 } //-- XMLInfo

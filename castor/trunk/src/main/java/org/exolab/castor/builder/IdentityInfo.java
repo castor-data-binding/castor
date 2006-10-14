@@ -56,7 +56,7 @@ import org.exolab.javasource.JType;
  */
 public class IdentityInfo extends FieldInfo {
 
-    public IdentityInfo(String name) {
+    public IdentityInfo(final String name) {
         super(new XSId(), name);
         setNodeType(XMLInfo.ATTRIBUTE_TYPE);
     } // -- SGId
@@ -79,7 +79,7 @@ public class IdentityInfo extends FieldInfo {
      * @param jType
      * @return a new JMethod that is a getter for this field
      */
-    private JMethod makeGetMethod(String mname, JType jType) {
+    private JMethod makeGetMethod(final String mname, final JType jType) {
         JMethod method = new JMethod("get" + mname, jType,
                 "the value of field '" + mname + "'.");
         JSourceCode jsc = method.getSourceCode();
@@ -94,7 +94,7 @@ public class IdentityInfo extends FieldInfo {
      * @param jType
      * @return a new JMethod that is a setter for this field
      */
-    private JMethod makeSetMethod(String mname, JType jType) {
+    private JMethod makeSetMethod(final String mname, final JType jType) {
         JMethod method = new JMethod("set" + mname);
         method.addParameter(new JParameter(jType, getName()));
         JSourceCode jsc = method.getSourceCode();

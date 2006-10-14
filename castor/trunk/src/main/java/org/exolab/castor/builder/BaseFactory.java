@@ -16,14 +16,14 @@ public class BaseFactory {
     /**
      * The type factory.
      */
-    protected FieldInfoFactory infoFactory = null;
+    protected FieldInfoFactory _infoFactory = null;
 
     /**
      * Creates an instance of this class.
      * @param config XML code generator configuration
      * @param infoFactory
      */
-    public BaseFactory(BuilderConfiguration config, FieldInfoFactory infoFactory) {
+    public BaseFactory(final BuilderConfiguration config, final FieldInfoFactory infoFactory) {
         if (config == null) {
             String err = "The 'BuilderConfiguration' argument must not be null.";
             throw new IllegalArgumentException(err);
@@ -31,9 +31,9 @@ public class BaseFactory {
         _config = config;
 
         if (infoFactory == null) {
-            this.infoFactory = new FieldInfoFactory();
+            this._infoFactory = new FieldInfoFactory();
         } else {
-            this.infoFactory = infoFactory;
+            this._infoFactory = infoFactory;
         }
     }
 
@@ -44,13 +44,13 @@ public class BaseFactory {
      *            the String to normalize
      * @return the given string, normalized, for use in comments.
      */
-    protected String normalize(String value) {
+    protected String normalize(final String value) {
         if (value == null) {
             return null;
         }
 
         char[]  chars    = value.toCharArray();
-        char[]  newChars = new char[chars.length + 10];
+        char[]  newChars = new char[chars.length * 2];
         int     count    = 0;
         int     i        = 0;
         boolean skip     = false;
@@ -63,7 +63,7 @@ public class BaseFactory {
                     newChars[count++] = ' ';
                 }
                 skip = true;
-            } else if (ch =='*') {
+            } else if (ch == '*') {
                 if (chars[i] == '/') {
                     newChars[count++] = ch;
                     newChars[count++] = '\\';
@@ -79,7 +79,7 @@ public class BaseFactory {
                 skip = false;
             }
         }
-        return new String(newChars,0,count);
+        return new String(newChars, 0, count);
     }
 
 }

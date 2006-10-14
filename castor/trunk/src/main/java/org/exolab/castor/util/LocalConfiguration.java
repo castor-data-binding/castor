@@ -150,7 +150,7 @@ public final class LocalConfiguration extends Configuration {
         //-- at the moment anyway. We need to come up with a clean, fast
         //-- way to differentiate between different configurations
         //-- throughout the framework...
-        //url = LocalConfiguration.class.getResource("/" + Property.FileName);
+        //url = LocalConfiguration.class.getResource("/" + Property.CONFIG_FILENAME_PROPERTY);
         
         String key = "";
         if (url != null) {

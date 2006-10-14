@@ -50,15 +50,30 @@
 
 package org.exolab.castor.builder;
 
+import java.util.Enumeration;
+
 import org.exolab.castor.builder.binding.XMLBindingComponent;
-import org.exolab.castor.builder.types.*;
-import org.exolab.castor.xml.schema.*;
+import org.exolab.castor.builder.types.XSClass;
+import org.exolab.castor.builder.types.XSList;
+import org.exolab.castor.builder.types.XSString;
+import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.xml.schema.Annotated;
+import org.exolab.castor.xml.schema.Annotation;
+import org.exolab.castor.xml.schema.AttributeDecl;
+import org.exolab.castor.xml.schema.ComplexType;
+import org.exolab.castor.xml.schema.Documentation;
+import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.SchemaNames;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.castor.xml.schema.Structure;
+import org.exolab.castor.xml.schema.Wildcard;
+import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.castor.xml.schema.simpletypes.ListType;
 import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JType;
-
-import java.util.Enumeration;
 
 /**
  * The "Factory" responsible for creating fields for the given schema components
@@ -73,7 +88,7 @@ public class MemberFactory extends BaseFactory {
      *
      * @param config the BuilderConfiguration
      */
-    public MemberFactory(BuilderConfiguration config) {
+    public MemberFactory(final BuilderConfiguration config) {
         this(config, new FieldInfoFactory());
     } //-- MemberFactory
 
@@ -83,17 +98,17 @@ public class MemberFactory extends BaseFactory {
      * @param config the BuilderConfiguration
      * @param infoFactory the FieldInfoFactory to use
      */
-    public MemberFactory(BuilderConfiguration config, FieldInfoFactory infoFactory) {
+    public MemberFactory(final BuilderConfiguration config, final FieldInfoFactory infoFactory) {
         super(config, infoFactory);
 
         if (_config.generateExtraCollectionMethods()) {
-            this.infoFactory.setCreateExtraMethods(true);
+            this._infoFactory.setCreateExtraMethods(true);
         }
         String suffix = _config.getProperty(CollectionInfo.REFERENCE_SUFFIX_PROPERTY, null);
-        this.infoFactory.setReferenceMethodSuffix(suffix);
+        this._infoFactory.setReferenceMethodSuffix(suffix);
 
         if (_config.boundPropertiesEnabled()) {
-            this.infoFactory.setBoundProperties(true);
+            this._infoFactory.setBoundProperties(true);
         }
     } //-- MemberFactory
 
@@ -106,7 +121,7 @@ public class MemberFactory extends BaseFactory {
      *
      * @return the new FieldInfo
      */
-    public FieldInfo createFieldInfoForAny(Wildcard any, final boolean useJava50) {
+    public FieldInfo createFieldInfoForAny(final Wildcard any, final boolean useJava50) {
         if (any == null) {
             return null;
         }
@@ -122,12 +137,12 @@ public class MemberFactory extends BaseFactory {
         FieldInfo result = null;
 
         if (any.getMaxOccurs() > 1 || any.getMaxOccurs() < 0) {
-            result = this.infoFactory.createCollection(xsType, vName, "anyObject", useJava50);
-            XSList xsList = ((CollectionInfo)result).getXSList();
+            result = this._infoFactory.createCollection(xsType, vName, "anyObject", useJava50);
+            XSList xsList = ((CollectionInfo) result).getXSList();
             xsList.setMinimumSize(any.getMinOccurs());
             xsList.setMaximumSize(any.getMaxOccurs());
         } else {
-            result = this.infoFactory.createFieldInfo(xsType, vName);
+            result = this._infoFactory.createFieldInfo(xsType, vName);
         }
 
         if (any.getMinOccurs() > 0) {
@@ -142,8 +157,8 @@ public class MemberFactory extends BaseFactory {
         //-- 1- we currently support only the FIRST namespace
         //-- 2- ##other, ##any are not supported
         if (any.getNamespaces().hasMoreElements()) {
-             String nsURI = (String)any.getNamespaces().nextElement();
-             if (nsURI.length() >0) {
+             String nsURI = (String) any.getNamespaces().nextElement();
+             if (nsURI.length() > 0) {
                  if (nsURI.equals("##targetNamespace")) {
                      Schema schema = any.getSchema();
                      if (schema != null) {
@@ -153,7 +168,7 @@ public class MemberFactory extends BaseFactory {
                      result.setNamespaceURI(nsURI);
                  }
              }
-        }//--first namespace
+        } //--first namespace
         return result;
     } //-- createFieldInfoForAny()
 
@@ -166,7 +181,7 @@ public class MemberFactory extends BaseFactory {
         String fieldName = "_choiceValue";
         XSType xsType = new XSClass(SGTypes.Object, "any");
         FieldInfo fInfo = null;
-        fInfo = this.infoFactory.createFieldInfo(xsType,fieldName);
+        fInfo = this._infoFactory.createFieldInfo(xsType, fieldName);
         fInfo.setNodeType(XMLInfo.ELEMENT_TYPE);
         fInfo.setComment("Internal choice value storage");
         fInfo.setRequired(false);
@@ -185,16 +200,15 @@ public class MemberFactory extends BaseFactory {
      *            if true, code will be generated for Java 5
      * @return the new FieldInfo
      */
-    public FieldInfo createFieldInfoForContent(XSType xsType, boolean useJava50) {
+    public FieldInfo createFieldInfoForContent(final XSType xsType, final boolean useJava50) {
         String fieldName = "_content";               //new xsType()???
         FieldInfo fInfo = null;
         if (xsType.getType() == XSType.COLLECTION) {
-            fInfo = this.infoFactory.createCollection( ((XSList) xsType).getContentType(),
-                                                     fieldName,
-                                                     null, useJava50);
-
+            fInfo = this._infoFactory.createCollection(((XSList) xsType).getContentType(),
+                                                       fieldName,
+                                                       null, useJava50);
         } else {
-            fInfo = this.infoFactory.createFieldInfo(xsType,fieldName);
+            fInfo = this._infoFactory.createFieldInfo(xsType, fieldName);
         }
         fInfo.setNodeType(XMLInfo.TEXT_TYPE);
         fInfo.setComment("internal content storage");
@@ -217,11 +231,12 @@ public class MemberFactory extends BaseFactory {
      *            if true, code will be generated for Java 5
      * @return the FieldInfo for the given attribute declaration
      */
-    public FieldInfo createFieldInfo(XMLBindingComponent component, ClassInfoResolver resolver, boolean useJava50) {
+    public FieldInfo createFieldInfo(final XMLBindingComponent component,
+                                     final ClassInfoResolver resolver, final boolean useJava50) {
         String xmlName = component.getXMLName();
         String memberName = component.getJavaMemberName();
         if (!memberName.startsWith("_")) {
-            memberName = "_"+memberName;
+            memberName = "_" + memberName;
         }
 
         XMLType xmlType = component.getXMLType();
@@ -235,13 +250,13 @@ public class MemberFactory extends BaseFactory {
 
         if (xmlType != null) {
             if (xmlType.isSimpleType()) {
-                SimpleType simpleType = (SimpleType)xmlType;
+                SimpleType simpleType = (SimpleType) xmlType;
 
                 SimpleType baseType = null;
                 String derivationMethod = simpleType.getDerivationMethod();
                 if (derivationMethod != null) {
                     if (SchemaNames.RESTRICTION.equals(derivationMethod)) {
-                        baseType = (SimpleType)simpleType.getBaseType();
+                        baseType = (SimpleType) simpleType.getBaseType();
                     }
                 }
 
@@ -300,7 +315,7 @@ public class MemberFactory extends BaseFactory {
                         }
                     }
                 }
-            }//--complexType
+            } //--complexType
         } else {
             if (xsType == null) {
                 xsType = component.getJavaType();
@@ -334,18 +349,20 @@ public class MemberFactory extends BaseFactory {
             }
             className = null;
         }
+
         //--create the fieldInfo
         //-- check whether this should be a collection or not
         int maxOccurs = component.getUpperBound();
         int minOccurs = component.getLowerBound();
         if (simpleTypeCollection || ((maxOccurs < 0) || (maxOccurs > 1))) {
-            String vName = memberName+"List";
+            String vName = memberName + "List";
 
             //--if xmlName is null it means that
             //--we are processing a container object (group)
             //--so we need to adjust the name of the members of the collection
             CollectionInfo cInfo;
-            cInfo = this.infoFactory.createCollection(xsType, vName, memberName, component.getCollectionType(), useJava50);
+            cInfo = this._infoFactory.createCollection(xsType, vName, memberName,
+                                                       component.getCollectionType(), useJava50);
 
             XSList xsList = cInfo.getXSList();
             if (!simpleTypeCollection) {
@@ -356,17 +373,17 @@ public class MemberFactory extends BaseFactory {
         } else  {
             switch (xsType.getType()) {
                 case XSType.ID_TYPE:
-                     fieldInfo = this.infoFactory.createIdentity(memberName);
+                     fieldInfo = this._infoFactory.createIdentity(memberName);
                      break;
                 case XSType.COLLECTION:
                     String collectionName = component.getCollectionType();
-                    fieldInfo = this.infoFactory.createCollection( ((XSList) xsType).getContentType(),
+                    fieldInfo = this._infoFactory.createCollection(((XSList) xsType).getContentType(),
                                                                memberName,
                                                                memberName, collectionName,
                                                                useJava50);
                     break;
                 default:
-                    fieldInfo = this.infoFactory.createFieldInfo(xsType, memberName);
+                    fieldInfo = this._infoFactory.createFieldInfo(xsType, memberName);
                     break;
             }
         }
@@ -386,16 +403,15 @@ public class MemberFactory extends BaseFactory {
                 fieldInfo.setNodeName("-error-if-this-is-used-");
                 fieldInfo.setContainer(true);
                 break;
+            default:
+                break;
         }
 
         //-- handle namespace URI / prefix
         String nsURI = component.getTargetNamespace();
         if ((nsURI != null) && (nsURI.length() > 0)) {
             fieldInfo.setNamespaceURI(nsURI);
-            /*
-             * TODO: set the prefix used in the XML Schema in
-             * order to use it inside the Marshalling Framework
-             */
+            // TODO: set the prefix used in the XML Schema in order to use it inside the Marshalling Framework
         }
 
         // handle default value (if any is set)
@@ -440,10 +456,9 @@ public class MemberFactory extends BaseFactory {
             value = adjustDefaultValue(xsType, value);
 
             if (value.length() == 0) {
-                value="\"\"";
+                value = "\"\"";
             }
-            //-- XXX Need to change this...and we
-            //-- XXX need to validate the value...to be done at reading time.
+            //-- TODO: Need to change this...and to validate the value...to be done at reading time.
 
             //-- clean up value
             //-- if the xsd field is mapped into a java.lang.String
@@ -458,9 +473,7 @@ public class MemberFactory extends BaseFactory {
                         break;
                 }
             } else if (enumeration) {
-                //-- we'll need to change this
-                //-- when enumerations are no longer
-                //-- treated as strings
+                //-- we'll need to change this when enumerations are no longer treated as strings
                 JType jType = null;
                 if (classInfo != null) {
                     jType = classInfo.getJClass();
@@ -481,9 +494,8 @@ public class MemberFactory extends BaseFactory {
                 //a string is throwing exception
                 value = "new " + xsType.getJType().toString() + "(\"" + value + "\")";
             } else if (!xsType.getJType().isPrimitive() && !xsType.isDateTime()) {
-                 //XXX This works only if a constructor
-                 //XXX with String as parameter exists
-                 value = "new "+xsType.getJType().toString()+"(\""+value+"\")";
+                 //FIXME: This works only if a constructor with String as parameter exists
+                 value = "new " + xsType.getJType().toString() + "(\"" + value + "\")";
             }
 
             if (component.isFixed()) {
@@ -504,19 +516,13 @@ public class MemberFactory extends BaseFactory {
      *            The actual value to adjust
      * @return an adjusted default value.
      */
-    private String adjustDefaultValue(final XSType xsType, String value) {
-        // various type adjustements
+    private String adjustDefaultValue(final XSType xsType, final String value) {
         switch (xsType.getType()) {
-
             case XSType.FLOAT_TYPE:
-                value = value + 'f';
-                break;
-
+                return value + 'f';
             case XSType.BOOLEAN_TYPE:
                 Boolean bool = new Boolean(value);
-                value = bool.toString();
-                break;
-
+                return bool.toString();
             default:
                 break;
         }
@@ -531,7 +537,7 @@ public class MemberFactory extends BaseFactory {
      *            the Annotated structure to process
      * @return the generated comment
      */
-    private String createComment(Annotated annotated) {
+    private String createComment(final Annotated annotated) {
         //-- process annotations
         Enumeration enumeration = annotated.getAnnotations();
         if (enumeration.hasMoreElements()) {
@@ -541,13 +547,13 @@ public class MemberFactory extends BaseFactory {
         //-- there were no annotations...try possible references
         switch(annotated.getStructureType()) {
             case Structure.ELEMENT:
-                ElementDecl elem = (ElementDecl)annotated;
+                ElementDecl elem = (ElementDecl) annotated;
                 if (elem.isReference()) {
                     return createComment(elem.getReference());
                 }
                 break;
             case Structure.ATTRIBUTE:
-                AttributeDecl att = (AttributeDecl)annotated;
+                AttributeDecl att = (AttributeDecl) annotated;
                 if (att.isReference()) {
                     return createComment(att.getReference());
                 }
@@ -565,7 +571,7 @@ public class MemberFactory extends BaseFactory {
      *            the Annotation to create the comment from
      * @return the generated comment
      */
-    private String createComment(Annotation annotation) {
+    private String createComment(final Annotation annotation) {
         if (annotation == null) {
             return null;
         }

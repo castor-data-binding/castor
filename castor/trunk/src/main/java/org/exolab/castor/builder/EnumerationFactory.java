@@ -57,7 +57,7 @@ public class EnumerationFactory extends BaseFactory {
      * Creates a new EnumerationFactory for the builder configuration given.
      * @param config the current BuilderConfiguration instance.
      */
-    public EnumerationFactory(BuilderConfiguration config) {
+    public EnumerationFactory(final BuilderConfiguration config) {
         super(config, null);
         _typeConversion = new TypeConversion(_config);
     } //-- SourceFactory
@@ -69,7 +69,7 @@ public class EnumerationFactory extends BaseFactory {
      * @param state our current state
      * @see #processEnumerationAsBaseType
      */
-    void processEnumerationAsNewObject(SimpleType simpleType, FactoryState state) {
+    void processEnumerationAsNewObject(final SimpleType simpleType, final FactoryState state) {
         Enumeration enumeration = simpleType.getFacets("enumeration");
 
         //-- select naming for types and instances
@@ -215,12 +215,12 @@ public class EnumerationFactory extends BaseFactory {
         createGetTypeMethod(jClass, className);
     } //-- processEnumerationAsNewObject
 
-    private boolean selectNamingScheme(Enumeration enumeration, boolean useValuesAsName) {
+    private boolean selectNamingScheme(final Enumeration enumeration, final boolean useValuesAsName) {
         boolean duplicateTranslation = false;
         short numberOfTranslationToSpecialCharacter = 0;
 
         while (enumeration.hasMoreElements()) {
-            Facet facet = (Facet)enumeration.nextElement();
+            Facet facet = (Facet) enumeration.nextElement();
             String possibleId = translateEnumValueToIdentifier(facet.getValue());
             if (possibleId.equals("_")) {
                 numberOfTranslationToSpecialCharacter++;
@@ -230,13 +230,12 @@ public class EnumerationFactory extends BaseFactory {
             }
 
             if (!JavaNaming.isValidJavaIdentifier(possibleId)) {
-                useValuesAsName = false;
-                break;
+                return false;
             }
         }
 
         if (duplicateTranslation) {
-            useValuesAsName = false;
+            return false;
         }
         return useValuesAsName;
     }
@@ -246,7 +245,7 @@ public class EnumerationFactory extends BaseFactory {
      * @param jClass The enumeration class to create this method for.
      * @param className The name of the class.
      */
-    private void createGetTypeMethod(JClass jClass, String className) {
+    private void createGetTypeMethod(final JClass jClass, final String className) {
         JMethod mGetType = new JMethod("getType", JType.INT, "the type of this " + className);
         mGetType.getSourceCode().add("return this.type;");
         JDocComment jdc = mGetType.getJDocComment();
@@ -258,7 +257,7 @@ public class EnumerationFactory extends BaseFactory {
      * Creates 'readResolve(Object)' method for this enumeration class.
      * @param jClass The enumeration class to create this method for.
      */
-    private void createReadResolveMethod(JClass jClass) {
+    private void createReadResolveMethod(final JClass jClass) {
         JDocComment jdc;
         JSourceCode jsc;
         JMethod mReadResolve = new JMethod("readResolve", SGTypes.Object,
@@ -278,7 +277,7 @@ public class EnumerationFactory extends BaseFactory {
      * @param jClass The enumeration class to create this method for.
      * @return an 'init()' method for this enumeration class.
      */
-    private JMethod createInitMethod(JClass jClass) {
+    private JMethod createInitMethod(final JClass jClass) {
         JMethod mInit = new JMethod("init", SGTypes.createHashtable(_config.useJava50()),
                                     "the initialized Hashtable for the member table");
         jClass.addMethod(mInit);
@@ -297,7 +296,7 @@ public class EnumerationFactory extends BaseFactory {
      * @param jClass The enumeration class to create this method for.
      * @param className The name of the class.
      */
-    private void createToStringMethod(JClass jClass, String className) {
+    private void createToStringMethod(final JClass jClass, final String className) {
         JMethod mToString = new JMethod("toString", SGTypes.String,
                                         "the String representation of this " + className);
         jClass.addMethod(mToString);
@@ -312,7 +311,7 @@ public class EnumerationFactory extends BaseFactory {
      * @param jClass The enumeration class to create this method for.
      * @param className The name of the class.
      */
-    private void createEnumerateMethod(JClass jClass, String className) {
+    private void createEnumerateMethod(final JClass jClass, final String className) {
         // TODO: for the time being return Enumeration<Object> for Java 5.0; change
         JMethod mEnumerate = new JMethod("enumerate", SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()),
                                          "an Enumeration over all possible instances of " + className);
@@ -329,7 +328,7 @@ public class EnumerationFactory extends BaseFactory {
      * @param jClass The enumeration class to create this method for.
      * @param className The name of the class.
      */
-    private void createValueOfMethod(JClass jClass, String className) {
+    private void createValueOfMethod(final JClass jClass, final String className) {
         JMethod mValueOf = new JMethod("valueOf", jClass,
                                        "the " + className + " value of parameter 'string'");
         mValueOf.addParameter(new JParameter(SGTypes.String, "string"));
@@ -387,8 +386,8 @@ public class EnumerationFactory extends BaseFactory {
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */
-    void processEnumerationAsBaseType(SimpleType simpleType, FactoryState state) {
-        SimpleType base = (SimpleType)simpleType.getBaseType();
+    void processEnumerationAsBaseType(final SimpleType simpleType, final FactoryState state) {
+        SimpleType base = (SimpleType) simpleType.getBaseType();
         XSType baseType = null;
 
         if (base == null) {
@@ -427,7 +426,9 @@ public class EnumerationFactory extends BaseFactory {
             //-- we need to move this code to XSType so that we don't have to do
             //-- special code here for each type
 
-            if (count > 0) values.append(",\n");
+            if (count > 0) {
+                values.append(",\n");
+            }
 
             //-- indent for fun
             values.append("    ");
@@ -485,18 +486,21 @@ public class EnumerationFactory extends BaseFactory {
      * @return an identifier name for this enum value.
      * @author rhett-sutphin@uiowa.edu
      */
-    private String translateEnumValueToIdentifier(String enumValue) {
+    private String translateEnumValueToIdentifier(final String enumValue) {
         try {
             int intVal = Integer.parseInt(enumValue);
-            if (intVal >= 0) return "VALUE_" + intVal;
+            if (intVal >= 0) {
+                return "VALUE_" + intVal;
+            }
 
             return "VALUE_NEG_" + Math.abs(intVal);
         } catch (NumberFormatException e) {
             // just keep going
         }
+
         StringBuffer sb = new StringBuffer(enumValue.toUpperCase());
         char c;
-        for (int i = 0 ; i < sb.length() ; i++) {
+        for (int i = 0; i < sb.length(); i++) {
             c = sb.charAt(i);
             if ("[](){}<>'`\"".indexOf(c) >= 0) {
                 sb.deleteCharAt(i);
@@ -525,8 +529,10 @@ public class EnumerationFactory extends BaseFactory {
      * @param str the String to escape
      * @return the escaped String, or null if the given String was null.
      */
-    private static String escapeValue(String str) {
-        if (str == null) return str;
+    private static String escapeValue(final String str) {
+        if (str == null) {
+            return str;
+        }
 
         StringBuffer sb = new StringBuffer();
         char[] chars = str.toCharArray();

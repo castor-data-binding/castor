@@ -54,11 +54,9 @@ package org.exolab.castor.builder.binding;
  */
 public class BindingException extends Exception {
 
+    /** We add this field because an Exception is serializable */
     private static final long serialVersionUID = 1726983206974247107L;
-
-    /**
-     * The embedded exception if tunnelling, or null.
-     */
+    /** The embedded exception if tunnelling, or null. */
     private Exception _exception;
 
     /**
@@ -66,48 +64,47 @@ public class BindingException extends Exception {
      *
      * @param message The error or warning message.
      */
-    public BindingException(String message) {
+    public BindingException(final String message) {
         super(message);
         _exception = null;
     }
 
     /**
-     * Create a new BindingException wrapping an existing exception.
+     * Creates a new BindingException wrapping an existing Exception.
      * <p>
-     * The existing exception will be embedded in the new one, and its message
+     * The existing Exception will be embedded in the new one, and its message
      * will become the default message for the BindingException.
-     * </p>
      *
      * @param exception
-     *            The exception to be wrapped in a BindingException.
+     *            The Exception to be wrapped in a BindingException.
      */
-    public BindingException(Exception exception) {
+    public BindingException(final Exception exception) {
         super();
         _exception = exception;
     }
 
     /**
-     * Create a new BindingException from an existing exception.
+     * Creates a new BindingException from an existing exception.
      * <p>
-     * The existing exception will be embedded in the new one, but the new
-     * exception will have its own message.
+     * The existing Exception will be embedded in the new one, but the new
+     * Exception will have its own message.
      *
      * @param message
      *            The detail message.
      * @param exception
-     *            The exception to be wrapped in a BindingException.
+     *            The Exception to be wrapped in a BindingException.
      */
-    public BindingException(String message, Exception exception) {
+    public BindingException(final String message, final Exception exception) {
         super(message);
         _exception = exception;
     }
 
    /**
-     * Return a detail message for this exception.
+     * Returns a detailed message for this Exception.
      * <p>
-     * If there is an embedded exception, and if the BindingException has no
+     * If there is an embedded Exception, and if the BindingException has no
      * detail message of its own, this method will return the detail message
-     * from the embedded exception.
+     * from the embedded Exception.
      *
      * @return String The error or warning message.
      */
@@ -120,24 +117,23 @@ public class BindingException extends Exception {
         return message;
     }
 
-
    /**
-    * Return the embedded exception, if any.
+    * Returns the embedded Exception, if any.
     *
-    * @return Exception The embedded exception, or null if there is none.
+    * @return Exception The embedded Exception, or null if there is none.
     */
     public Exception getException() {
         return _exception;
     }
 
     /**
-     * Override printStackTrace to keep the stack trace
-     * of the embedded exception
+     * Overrides printStackTrace to keep the stack trace of the embedded
+     * Exception
      */
     public void printStackTrace() {
         if (_exception != null) {
             System.out.println("--------------------------------");
-            System.out.println("Stack Trace for :"+_exception);
+            System.out.println("Stack Trace for :" + _exception);
             _exception.printStackTrace();
             System.out.println("--------------------------------");
         }
@@ -145,9 +141,9 @@ public class BindingException extends Exception {
     }
 
     /**
-     * Override toString to pick up any embedded exception.
+     * Overrides toString to pick up any embedded Exception.
      *
-     * @return String A string representation of this exception.
+     * @return String A string representation of this Exception.
      */
     public String toString() {
         if (_exception != null) {

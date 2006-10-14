@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1623" tool="jira">
+                    <description>
+                        Clean up checkstyle complaints in builder
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061014</date>
+                </bug>
                 <bug id="1555" tool="jira">
                     <description>
                         Correct SRCGEN JavaDoc tags that fail validation

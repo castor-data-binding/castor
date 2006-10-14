@@ -76,19 +76,20 @@ import org.exolab.castor.builder.types.XSType;
 public interface BindingComponent {
 
     //--Constants to represent the different types.
-    public final static short INTERFACE = 0;
-    public final static short CLASS     = 1;
-    public final static short MEMBER    = 2;
+    short INTERFACE = 0;
+    short CLASS     = 1;
+    short MEMBER    = 2;
 
     /**
      * Returns true if the given Object is equal to this instance of
      * BindingComponent.
      *
+     * @param object the object to compare to this instance
      * @return true if the given Object is equal to this instance of
      *         BindingComponent.
      * @see java.lang.Object#equals(java.lang.Object)
      */
-    public boolean equals(Object object);
+    boolean equals(Object object);
 
     /**
      * Returns the name of collection type such as 'arraylist' in which we will
@@ -99,7 +100,7 @@ public interface BindingComponent {
      *         name in which we will store the different occurrences of the java
      *         member generated to represent that BindingComponent.
      */
-    public String getCollectionType();
+    String getCollectionType();
 
     /**
      * Returns the name of a super class for the current BindingComponent. Null
@@ -110,7 +111,7 @@ public interface BindingComponent {
      *         is returned if this BindingComponent is not meant to be mapped to
      *         a java class.
      */
-    public String getExtends();
+    String getExtends();
 
     /**
      * Returns an array of the different interface names implemented by the
@@ -122,7 +123,7 @@ public interface BindingComponent {
      *         returned if this BindingComponent is not meant to be mapped to a
      *         java class.
      */
-    public String[] getImplements();
+    String[] getImplements();
 
     /**
      * Returns a valid Java Class Name corresponding to this BindingComponent.
@@ -132,7 +133,7 @@ public interface BindingComponent {
      *         This name is not qualified, this is only a local Java class name.
      * @see #getQualifiedName
      */
-    public String getJavaClassName();
+    String getJavaClassName();
 
     /**
      * Returns a valid Java Member Name corresponding to this BindingComponent.
@@ -143,14 +144,14 @@ public interface BindingComponent {
      *         name.
      * @see #getQualifiedName
      */
-    public String getJavaMemberName();
+    String getJavaMemberName();
 
     /**
      * Returns the java package associated with this BindingComponent.
      *
      * @return the java package associated with this BindingComponent.
      */
-    public String getJavaPackage();
+    String getJavaPackage();
 
     /**
      * Returns the XSType that corresponds to the Java type chosen to represent
@@ -161,7 +162,7 @@ public interface BindingComponent {
      * @return an XSType that corresponds to the Java type chosen to represent
      *         this BindingComponent.
      */
-    public XSType getJavaType();
+    XSType getJavaType();
 
     /**
      * Returns the lower bound of the collection that is generated from this
@@ -170,7 +171,7 @@ public interface BindingComponent {
      * @return an int representing the lower bound of the collection generated
      *         from this BindingComponent.
      */
-    public int getLowerBound();
+    int getLowerBound();
 
     /**
      * Returns a fully qualified java class name. This name corresponds to the
@@ -179,7 +180,7 @@ public interface BindingComponent {
      * @return a fully qualified java class name. This name corresponds to the
      *         class name corresponding to this BindingComponent.
      */
-    public String getQualifiedName();
+    String getQualifiedName();
 
     /**
      * Returns the type of this component binding. A component binding can be of
@@ -193,7 +194,7 @@ public interface BindingComponent {
      *
      * @return the type of this component binding.
      */
-    public short getType();
+    short getType();
 
     /**
      * Returns the upper bound of the collection that is generated from this
@@ -204,7 +205,7 @@ public interface BindingComponent {
      *         from this BindingComponent. -1 is returned to indicate that the
      *         upper bound is uinbounded.
      */
-    public int getUpperBound();
+    int getUpperBound();
 
     /**
      * Returns the default value of the member generated from this binding
@@ -213,14 +214,14 @@ public interface BindingComponent {
      * @return a string representation of default value for the member generated
      *         from this binding component.
      */
-    public String getValue();
+    String getValue();
 
     /**
      * Returns the fully qualified name of the Validator to use.
      *
      * @return the fully qualified name of the Validator to use.
      */
-    public String getValidator();
+    String getValidator();
 
     /**
      * Returns the fully qualified name of the XMLFieldHandler to use. This
@@ -229,7 +230,7 @@ public interface BindingComponent {
      *
      * @return the fully qualified name of the XMLFieldHandler to use.
      */
-    public String getXMLFieldHandler();
+    String getXMLFieldHandler();
 
     /**
      * Returns true if bound properties must be generated for the class that
@@ -238,7 +239,7 @@ public interface BindingComponent {
      * @return true if bound properties must be generated for the class the
      *         class that will represent the current BindingComponent.
      */
-    public boolean hasBoundProperties();
+    boolean hasBoundProperties();
 
     /**
      * Returns true if equal method must be generated for the class that will
@@ -247,7 +248,7 @@ public interface BindingComponent {
      * @return true if equal method must be generated for the class the class
      *         that will represent the current BindingComponent.
      */
-    public boolean hasEquals();
+    boolean hasEquals();
 
     /**
      * Returns the hashCode value for this object.
@@ -255,7 +256,7 @@ public interface BindingComponent {
      * @return the hashcode value for this object.
      * @see java.lang.Object#hashCode()
      */
-    public int hashCode();
+    int hashCode();
 
     /**
      * Returns true if the class generated from the current BindingComponent
@@ -264,7 +265,7 @@ public interface BindingComponent {
      * @return true if the class generated from the current BindingComponent
      *         will be abstract.
      */
-    public boolean isAbstract();
+    boolean isAbstract();
 
     /**
      * Returns true if the class generated from the current BindingComponent
@@ -273,7 +274,7 @@ public interface BindingComponent {
      * @return true if the class generated from the current BindingComponent
      *         will be final.
      */
-    public boolean isFinal();
+    boolean isFinal();
 
     /**
      * Returns true if the member represented by that BindingComponent is to be
@@ -283,6 +284,6 @@ public interface BindingComponent {
      * @return true if the member represented by that BindingComponent is to be
      *         represented by an Object wrapper.
      */
-    public boolean useWrapper();
+    boolean useWrapper();
 
 }

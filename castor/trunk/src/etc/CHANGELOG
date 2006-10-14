@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1623 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Clean up checkstyle complaints in builder
+       Details: http://jira.codehaus.org/browse/CASTOR-1623
+       (Edward - 20061014)
+
 XML:   Resolved issue CASTOR-1555 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Correct SRCGEN JavaDoc tags that fail validation
        Details: http://jira.codehaus.org/browse/CASTOR-1555

@@ -57,13 +57,13 @@ public interface ClassInfoResolver {
      * @param key the key to bind a reference to
      * @param classInfo the ClassInfo which is being referenced
      */
-    public void bindReference(Object key, ClassInfo classInfo);
+    void bindReference(Object key, ClassInfo classInfo);
 
     /**
      * Returns the ClassInfo which has been bound to the given key.
      * @param key the object to which the ClassInfo has been bound
      * @return the ClassInfo which has been bound to the given key.
      */
-    public ClassInfo resolve(Object key);
+    ClassInfo resolve(Object key);
 
 } //-- ClassInfoResolver
