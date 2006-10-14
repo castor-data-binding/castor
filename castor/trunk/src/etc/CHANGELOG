@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-482 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Source generator now adds is<Property> methods for boolean members.
+       Details: http://jira.codehaus.org/browse/CASTOR-482
+       (Edward - 20061015)
+       
 XML:   Resolved issue CASTOR-1623 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Clean up checkstyle complaints in builder
        Details: http://jira.codehaus.org/browse/CASTOR-1623

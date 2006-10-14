@@ -90,6 +90,8 @@ public class FieldInfo extends XMLInfo {
     private static final String METHOD_PREFIX_HAS    = "has";
     /** Method prefixes for "Set" methods */
     private static final String METHOD_PREFIX_SET    = "set";
+    /** Method prefixes for "Is" methods */
+    private static final String METHOD_PREFIX_IS     = "is";
 
     /** The Java name for Members described by this FieldInfo */
     private String _name       = null;
@@ -288,6 +290,24 @@ public class FieldInfo extends XMLInfo {
         jsc.add("return this.");
         jsc.append(this._name);
         jsc.append(";");
+        
+        if (xsType.getType() == XSType.BOOLEAN_TYPE) {
+
+            // -- create is<Property>t method
+            method = new JMethod(METHOD_PREFIX_IS + mname, jType,
+                    "the value of field '" + mname + "'.");
+            if (useJava50) {
+                Java5HacksHelper.addOverrideAnnotations(method.getSignature());
+            }
+            jClass.addMethod(method);
+            createGetterComment(method.getJDocComment());
+            jsc = method.getSourceCode();
+            jsc.add("return this.");
+            jsc.append(this._name);
+            jsc.append(";");
+
+        }
+        
     } //-- createGetterMethod
 
     /**
