@@ -59,6 +59,27 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="416" tool="jira">
+                    <description>
+                        Source generator now overloads resetValues() on XMLFieldHandler for 
+                        mutli-valued properties.
+                    </description>
+                    <contributor>
+                        <name>Lars Klose</name>
+                        <email>lars.klose@klst.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Lars Klose</name>
+                        <email>lars.klose@klst.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061015</date>
+                </bug>
                 <bug id="482" tool="jira">
                     <description>
                         Source generator now adds is&lt;Property&gt; methods for boolean members.            
