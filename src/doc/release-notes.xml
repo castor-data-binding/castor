@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="482" tool="jira">
+                    <description>
+                        Source generator now adds is&lt;Property&gt; methods for boolean members.            
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dean Chalker</name>
+                        <email>dean.chalker@intelliwhere.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061015</date>
+                </bug>
                 <bug id="1623" tool="jira">
                     <description>
                         Clean up checkstyle complaints in builder
