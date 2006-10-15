@@ -59,6 +59,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1584" tool="jira">
+                    <description>
+		                Refactored AbstractMappingLoader.
+                    </description>
+                    <contributor>
+                        <name>Steven Dolg</name>
+                        <email>stevendolg@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20061015</date>
+                </bug>
                 <bug id="416" tool="jira">
                     <description>
                         Source generator now overloads resetValues() on XMLFieldHandler for 
