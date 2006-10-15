@@ -169,7 +169,7 @@ public final class JDOMappingLoader extends AbstractMappingLoader {
         // If no SQL information for class, ignore it. JDO only
         // supports JDO class descriptors.
         if ((clsMap.getMapTo() == null) || (clsMap.getMapTo().getTable() == null)) {
-            return AbstractMappingLoader.NoDescriptor;
+            return AbstractMappingLoader.NO_DESCRIPTOR;
         }
 
         // See if we have a compiled descriptor.

@@ -164,9 +164,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         _cdResolver.setLoadPackageMappings(false);
     }
     
-    protected void resolveRelations( ClassDescriptor clsDesc )
-        throws MappingException
-    {
+    protected void resolveRelations(ClassDescriptor clsDesc) {
         FieldDescriptor[] fields;
 
         fields = clsDesc.getFields();
@@ -177,7 +175,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             Class fieldType = fields[i].getFieldType();
             if (fieldType != null) {
                 relDesc = getDescriptor(fieldType.getName());
-                if ( relDesc == NoDescriptor ) {
+                if ( relDesc == NO_DESCRIPTOR ) {
                     // XXX Error message should come here
                 }
                 else if ( relDesc != null &&
