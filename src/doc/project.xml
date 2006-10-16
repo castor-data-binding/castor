@@ -166,6 +166,10 @@
         <url>xmlschema.xml</url>
         <display>Schema Support</display>
       </navLink>
+      <navLink>
+        <url>srcgen-example.xml</url>
+        <display>Example</display>
+      </navLink>
     </section>
 
     <section name="JDO">
