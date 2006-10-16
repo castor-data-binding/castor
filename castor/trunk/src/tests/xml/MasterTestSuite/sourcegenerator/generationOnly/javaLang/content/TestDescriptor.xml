@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Tests name comflicts with java.lang.*</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>
+        Tests name conflicts with Castor reserved names
+    </Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Failure>true</Failure>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>
