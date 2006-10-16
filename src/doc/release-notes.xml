@@ -59,6 +59,27 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="385" tool="jira">
+                    <description>
+                        Source Generator uses the name "Content" which conflicts
+                        with any element named "Content."
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061015</date>
+                </bug>
                 <bug id="1584" tool="jira">
                     <description>
 		                Refactored AbstractMappingLoader.

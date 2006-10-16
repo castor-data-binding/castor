@@ -92,6 +92,7 @@ import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;
 import org.exolab.castor.xml.schema.reader.SchemaUnmarshaller;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JNaming;
 
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
@@ -566,7 +567,7 @@ public class SourceGenerator extends BuilderConfiguration {
                 except.printStackTrace();
             }
             if (_failOnFirstError) {
-                throw new CastorRuntimeException(sx);
+                throw new CastorRuntimeException("Source Generator: schema parser threw an Exception", sx);
             }
             return;
         }
@@ -756,11 +757,14 @@ public class SourceGenerator extends BuilderConfiguration {
             jClass = null;
         }
 
+        //--Make sure this doesn't conflict with a java.lang.* class
+        checkNameNotReserved(elementDecl.getName(), sInfo);
+
         //-- No type definition
         if (xmlType == null) {
             if (sInfo.verbose()) {
-                String msg = "No type found for element: ";
-                sInfo.getDialog().notify(msg + elementDecl.getName());
+                String msg = "No type found for element: " + elementDecl.getName();
+                sInfo.getDialog().notify(msg);
             }
             return;
         } else if (xmlType.isComplexType()) {
@@ -802,6 +806,9 @@ public class SourceGenerator extends BuilderConfiguration {
             }
         }
 
+        //--Make sure this doesn't conflict with a java.lang.* class
+        checkNameNotReserved(group.getName(), sInfo);
+
         _bindingComponent.setView(group);
         JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
         processContentModel(group, sInfo);
@@ -824,6 +831,9 @@ public class SourceGenerator extends BuilderConfiguration {
         }
 
         _bindingComponent.setView(complexType);
+
+        //--Make sure this doesn't conflict with a java.lang.* class
+        checkNameNotReserved(complexType.getName(), sInfo);
 
         ClassInfo classInfo = sInfo.resolve(complexType);
         if (classInfo == null) {
@@ -923,7 +933,6 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param simpleType
      * @param sInfo
      * @throws IOException
-     * @throws FileNotFoundException
      */
     private void processSimpleType(final SimpleType simpleType, final SGStateInfo sInfo) throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || simpleType == null
@@ -931,10 +940,11 @@ public class SourceGenerator extends BuilderConfiguration {
             return;
         }
 
-        //-- Right now the only time we actually
-        //-- generate source for a simpletype is
+        //--Make sure this doesn't conflict with a java.lang.* class
+        checkNameNotReserved(simpleType.getName(), sInfo);
+
+        //-- Right now the only time we actually generate source for a simpletype is
         //-- when it's an enumeration
-        //if (! (simpleType instanceof BuiltInType) ) {
         if (simpleType.hasFacet(Facet.ENUMERATION)) {
             ClassInfo classInfo = sInfo.resolve(simpleType);
             if (classInfo == null) {
@@ -946,6 +956,36 @@ public class SourceGenerator extends BuilderConfiguration {
             }
         }
     } //-- processSimpleType
+
+    /**
+     * Checks the given name against various naming conflicts.  If a conflict is
+     * found, then this method generates an appropriate error message and throws
+     * an IllegalArgumentException.
+     * @param elementName element name to check against lists of reserved names
+     * @param sInfo source generator state
+     */
+    private void checkNameNotReserved(final String elementName, final SGStateInfo sInfo) {
+        if (elementName == null) {
+            return;
+        }
+
+        String nameToCompare = elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
+        if (JNaming.isInJavaLang(nameToCompare)) {
+            String err = "'" + nameToCompare + "' conflicts with a class in java.lang.*"
+                    + " and cannot be used as a class name.\nYou need to use a mapping"
+                    + " file or change the name of the schema element.";
+            sInfo.getDialog().notify(err);
+            throw new IllegalArgumentException(err);
+        }
+
+        if (JNaming.isReservedByCastor(nameToCompare)) {
+            String warn = "'" + nameToCompare + "' might conflict with a field name used"
+                    + " by Castor.  If you get a complaint\nabout a duplicate name, you will"
+                    + " need to use a mapping file or change\nthe name of the conflicting"
+                    + " schema element.";
+            sInfo.getDialog().notify(warn);
+        }
+    }
 
    /**
      * Called by setBinding to fill in the mapping between namespaces and Java

@@ -1201,7 +1201,17 @@ public class SourceFactory extends BaseFactory {
         jclass.addImport("org.exolab.castor.tests.framework.CastorTestable");
         jclass.addImport("org.exolab.castor.tests.framework.RandomHelper");
 
-        //implementation of randomizeFields
+        createRandomizeFields(jclass, state); // implementation of randomizeFields
+        createDumpFields(jclass);             // implementation of dumpFields
+     } //CreateTestableMethods
+
+     /**
+      * Creates the randomizeFields method for a class that implements the
+      * interface org.exolab.castor.tests.framework.CastorTestable.
+      *
+      * @param jclass The JClass which will implement the CastorTestable Interface.
+      */
+    private void createRandomizeFields(final JClass jclass, final FactoryState state) {
         JMethod jMethod = new JMethod("randomizeFields");
         jMethod.addException(new JClass("InstantiationException"),
                              "if we try to instantiate an abstract class or interface");
@@ -1281,16 +1291,25 @@ public class SourceFactory extends BaseFactory {
                jsc.add("");
             }
         }
+    }
 
-        //implementation of dumpFields
-        jMethod = new JMethod("dumpFields", SGTypes.String,
-                              "a String representation of all of the fields for " + jclass.getName());
+    /**
+     * Creates the dumpFields method for a class that implements the interface
+     * org.exolab.castor.tests.framework.CastorTestable.
+     *
+     * @param jclass The JClass which will implement the CastorTestable Interface.
+     */
+    private void createDumpFields(final JClass jclass) {
+        JMethod jMethod = new JMethod("dumpFields", SGTypes.String,
+                             "a String representation of all of the fields for " + jclass.getName());
         jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
         jclass.addMethod(jMethod);
-        jsc = jMethod.getSourceCode();
+        JSourceCode jsc = jMethod.getSourceCode();
         jsc.add("StringBuffer result = new StringBuffer(\"DumpFields() for element: ");
         jsc.append(jclass.getName());
         jsc.append("\\n\");");
+
+        JField[] fields = jclass.getFields();
         for (int i = 0; i < fields.length; i++) {
             JField temp = fields[i];
             String name = temp.getName();
@@ -1340,7 +1359,7 @@ public class SourceFactory extends BaseFactory {
         }
         jsc.add("");
         jsc.add("return result.toString();");
-     } //CreateTestableMethods
+    }
 
     /**
      * Creates the Validate methods for the given JClass
