@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-385 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Source Generator uses the name "Content" which conflicts with any element
+       named "Content."
+       Details: http://jira.codehaus.org/browse/CASTOR-385
+       (Edward - 20061015)
+
 All:   Resolved issue CASTOR-1584 using contribution from Steven Dolg [stevendolg@gmx.at]
        Refactored AbstractMappingLoader.
        Details: http://jira.codehaus.org/browse/CASTOR-1584

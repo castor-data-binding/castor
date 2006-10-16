@@ -69,7 +69,7 @@ import java.util.Vector;
  * the Java Reflection API as much as possible to reduce the learning curve.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a> 
+ * @author <a href="mailto:skopp AT riege DOT de">Martin Skopp</a>
  * @version $Revision$ $Date: 2005-05-08 12:32:06 -0600 (Sun, 08 May 2005) $
  */
 public class JClass extends JStructure {
@@ -82,12 +82,12 @@ public class JClass extends JStructure {
     /**
      * The list of member variables (fields) of this JClass
      */
-    protected JNamedMap _fields    = null;
+    protected JNamedMap _fields     = null;
 
     /**
      * A collection of inner classes for this JClass
      */
-    protected Vector _innerClasses = null;
+    protected Vector _innerClasses  = null;
 
     /**
      * The list of methods of this JClass
@@ -97,7 +97,7 @@ public class JClass extends JStructure {
     /**
      * The superclass for this JClass
      */
-    private JTypeName _superClass = null;
+    private JTypeName _superClass   = null;
 
     /**
      * The source code for static initialization
@@ -139,8 +139,7 @@ public class JClass extends JStructure {
                 _constructors.addElement(constructor);
             }
         } else {
-            String err = "The given JConstructor was not created ";
-            err += "by this JClass";
+            String err = "The given JConstructor was not created by this JClass";
             throw new IllegalArgumentException(err);
         }
     }
@@ -158,7 +157,18 @@ public class JClass extends JStructure {
         String name = jField.getName();
 
         if (_fields.get(name) != null) {
-            String err = "duplicate name found: " + name;
+            String nameToCompare = (name.startsWith("_")) ? name.substring(1) : name;
+            nameToCompare = nameToCompare.substring(0, 1).toUpperCase()
+                            + nameToCompare.substring(1);
+            if (JNaming.isReservedByCastor(nameToCompare)) {
+                String warn = "'" + nameToCompare + "' might conflict with a field name used"
+                        + " by Castor.  If you get a complaint\nabout a duplicate name, you will"
+                        + " need to use a mapping file or change the name\nof the conflicting"
+                        + " schema element.";
+                System.out.println(warn);
+            }
+
+            String err = "Duplicate name found as a class member: " + name;
             throw new IllegalArgumentException(err);
         }
         _fields.put(name, jField);
@@ -176,17 +186,11 @@ public class JClass extends JStructure {
         String cls = jtName.getLocalName();
         String pkg = jtName.getPackageName();
 
-        if (_superClass != null) {
-            if (_superClass.getLocalName().equals(cls)) {
-                if (_superClass.getPackageName() == null) {
-                    if (pkg != null) {
-                        // if we make it here we are extending
-                        // a class from the default package which
-                        // conflicts with this import, we cannot
-                        // import this class
-                        return;
-                    }
-                }
+        // If we are extending a class from the default package which conflicts
+        // with this import then we cannot import this class
+        if (_superClass != null && _superClass.getLocalName().equals(cls)) {
+            if (_superClass.getPackageName() == null && pkg != null) {
+                return;
             }
         }
 
@@ -464,10 +468,10 @@ public class JClass extends JStructure {
         if (_superClass == null) { return null; }
         return _superClass.getQualifiedName();
     } //-- getSuperClass
-    
+
     /**
      * Returns the super class that this class extends
-     * 
+     *
      * @return superClass the super class that this class extends
      */
     public final JTypeName getSuperClass() {
@@ -495,60 +499,84 @@ public class JClass extends JStructure {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
 
-
-        StringBuffer buffer = new StringBuffer();
-
-
+        //-- print class headers (comment header, package, imports) if desired
         if (!classOnly) {
-            printHeader(jsw);
-            printPackageDeclaration(jsw);
+            printClassHeaders(jsw);
+        }
 
-            //-- get imports from inner-classes
-            Vector removeImports = null;
-            if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
-                removeImports = new Vector();
-                for (int i = 0; i < _innerClasses.size(); i++) {
-                    JClass iClass = (JClass) _innerClasses.elementAt(i);
-                    Enumeration enumeration = iClass.getImports();
-                    while (enumeration.hasMoreElements()) {
-                        String classname = (String) enumeration.nextElement();
+        //-- JavaDoc
+        getJDocComment().print(jsw);
 
-                        int paramTypeIndex = classname.indexOf("<Object>");
-                        if (paramTypeIndex != -1) {
-                            classname = classname.substring(0, paramTypeIndex - 1);
-                        }
-                        if (!hasImport(classname)) {
-                            addImport(classname);
-                            removeImports.addElement(classname);
-                        }
+        printClassDefinitionLine(jsw); // includes the opening '{'
+
+        jsw.writeln();
+        jsw.indent();
+
+        printMemberVariables(jsw);
+        printStaticInitializers(jsw);
+        printConstructors(jsw);
+        printMethods(jsw);
+        printInnerClasses(jsw);
+
+        jsw.unindent();
+        jsw.writeln('}');
+        jsw.flush();
+    } //-- printSource
+
+    /**
+     * Writes to the JSourceWriter the headers for this class file.  Headers
+     * include the comment-header, the package declaration, and the imports.
+     * @param jsw the JSourceWriter to be used
+     */
+    private void printClassHeaders(final JSourceWriter jsw) {
+        printHeader(jsw);
+        printPackageDeclaration(jsw);
+
+        //-- get imports from inner-classes
+        Vector removeImports = null;
+        if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
+            removeImports = new Vector();
+            for (int i = 0; i < _innerClasses.size(); i++) {
+                JClass iClass = (JClass) _innerClasses.elementAt(i);
+                Enumeration enumeration = iClass.getImports();
+                while (enumeration.hasMoreElements()) {
+                    String classname = (String) enumeration.nextElement();
+
+                    int paramTypeIndex = classname.indexOf("<Object>");
+                    if (paramTypeIndex != -1) {
+                        classname = classname.substring(0, paramTypeIndex - 1);
+                    }
+                    if (!hasImport(classname)) {
+                        addImport(classname);
+                        removeImports.addElement(classname);
                     }
                 }
             }
-            printImportDeclarations(jsw);
-
-            //-- remove imports from inner-classes, if necessary
-            if (removeImports != null) {
-                for (int i = 0; i < removeImports.size(); i++) {
-                    removeImport((String) removeImports.elementAt(i));
-                }
-            }
-
         }
 
-        //------------/
-        //- Java Doc -/
-        //------------/
+        printImportDeclarations(jsw);
 
-        getJDocComment().print(jsw);
+        //-- remove imports from inner-classes, if necessary
+        if (removeImports != null) {
+            for (int i = 0; i < removeImports.size(); i++) {
+                removeImport((String) removeImports.elementAt(i));
+            }
+        }
+    }
 
-        //-- print class information
-        //-- we need to add some JavaDoc API adding comments
+    /**
+     * Writes to the JSourceWriter the line that defines this class.  This
+     * line includes the class name, extends and implements entries, and
+     * any modifiers such as "private."
+     * @param jsw the JSourceWriter to be used
+     */
+    private void printClassDefinitionLine(final JSourceWriter jsw) {
+        StringBuffer buffer = new StringBuffer();
 
-        buffer.setLength(0);
-
-        //-- print annotations
+        //-- first print our annotations
         getAnnotatedElementHelper().printAnnotations(jsw);
 
+        //-- next our modifiers
         JModifiers modifiers = getModifiers();
         if (modifiers.isPrivate()) {
             buffer.append("private ");
@@ -564,6 +592,7 @@ public class JClass extends JStructure {
             buffer.append("abstract ");
         }
 
+        //-- next our class name plus extends and implements entries
         buffer.append("class ");
         buffer.append(getLocalName());
         buffer.append(' ');
@@ -594,24 +623,16 @@ public class JClass extends JStructure {
             }
         }
 
+        //-- and we're done
         buffer.append('{');
         jsw.writeln(buffer.toString());
         buffer.setLength(0);
-        jsw.writeln();
+    }
 
-        jsw.indent();
-
-        printMemberVariables(jsw);
-        printStaticInitializers(jsw);
-        printConstructors(jsw);
-        printMethods(jsw);
-        printInnerClasses(jsw);
-
-        jsw.unindent();
-        jsw.writeln('}');
-        jsw.flush();
-    } //-- printSource
-
+    /**
+     * Writes to the JSourceWriter the member variables of this class.
+     * @param jsw the JSourceWriter to be used
+     */
     private void printMemberVariables(final JSourceWriter jsw) {
         if (_fields.size() > 0) {
             jsw.writeln();
@@ -657,6 +678,10 @@ public class JClass extends JStructure {
         }
     }
 
+    /**
+     * Writes to the JSourceWriter any static initialization used by this class.
+     * @param jsw the JSourceWriter to be used
+     */
     private void printStaticInitializers(final JSourceWriter jsw) {
         //----------------------/
         //- Static Initializer -/
@@ -671,6 +696,10 @@ public class JClass extends JStructure {
         }
     }
 
+    /**
+     * Writes to the JSourceWriter all constructors for this class
+     * @param jsw the JSourceWriter to be used
+     */
     private void printConstructors(final JSourceWriter jsw) {
         if (_constructors.size() > 0) {
             jsw.writeln();
@@ -687,6 +716,10 @@ public class JClass extends JStructure {
         }
     }
 
+    /**
+     * Writes to the JSourceWriter all methods belonging to this class.
+     * @param jsw the JSourceWriter to be used
+     */
     private void printMethods(final JSourceWriter jsw) {
         if (_methods.size() > 0) {
             jsw.writeln();
@@ -703,6 +736,10 @@ public class JClass extends JStructure {
         }
     }
 
+    /**
+     * Writes to the JSourceWriter all inner classes belonging to this class
+     * @param jsw the JSourceWriter to be used
+     */
     private void printInnerClasses(final JSourceWriter jsw) {
         if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
             jsw.writeln();
@@ -850,7 +887,6 @@ public class JClass extends JStructure {
 
         testClass.print();
     } //-- main
-    /* */
 
     final class JInnerClass extends JClass {
 
