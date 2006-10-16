@@ -17,6 +17,9 @@
  */
 package org.exolab.castor.jdo.engine;
 
+import java.lang.reflect.Field;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.sql.*;
 import java.util.ArrayList;
 import java.util.List;
@@ -33,6 +36,7 @@ import org.castor.util.ConfigKeys;
 import org.castor.util.Configuration;
 import org.castor.util.Messages;
 
+import org.exolab.castor.core.exceptions.CastorIllegalStateException;
 import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.DuplicateIdentityException;
 import org.exolab.castor.jdo.PersistenceException;
@@ -194,7 +198,16 @@ public class SQLStatementCreate {
             } else {
                 
                 if (_useJDBC30) {
-                    stmt = conn.prepareStatement(_statement, Statement.RETURN_GENERATED_KEYS);
+                    Field field = Statement.class.getField("RETURN_GENERATED_KEYS");
+                    Integer rgk = (Integer) field.get(_statement);
+                    
+                    Class[] types = new Class[] {String.class, int.class};
+                    Object[] args = new Object[] {_statement, rgk};
+                    Method method = Connection.class.getMethod("prepareStatement", types);
+                    stmt = (PreparedStatement) method.invoke(conn, args);
+                        
+                    // stmt = conn.prepareStatement(_statement,
+                    //         Statement.RETURN_GENERATED_KEYS);
                 } else {
                     stmt = conn.prepareStatement(_statement);
                 }
@@ -264,7 +277,11 @@ public class SQLStatementCreate {
                 stmt.executeUpdate();
 
                 if (_useJDBC30 && identity == null) {
-                    ResultSet keySet = stmt.getGeneratedKeys();
+                    Class cls = PreparedStatement.class;
+                    Method method = cls.getMethod("getGeneratedKeys", null);
+                    ResultSet keySet = (ResultSet) method.invoke(stmt, null);
+                    // ResultSet keySet = stmt.getGeneratedKeys();
+                    
                     int i = 1;
                     int sqlType;
                     List keys = new ArrayList();
@@ -329,6 +346,14 @@ public class SQLStatementCreate {
             }
             
             throw new PersistenceException(Messages.format("persist.nested", except), except);
+        } catch (NoSuchMethodException ex) {
+            throw new CastorIllegalStateException(ex);
+        } catch (NoSuchFieldException ex) {
+            throw new CastorIllegalStateException(ex);
+        } catch (IllegalAccessException ex) {
+            throw new CastorIllegalStateException(ex);
+        } catch (InvocationTargetException ex) {
+            throw new CastorIllegalStateException(ex);
         }
     }
 

@@ -18,6 +18,11 @@ public final class CastorIllegalStateException extends IllegalStateException {
         super(message);
     }
 
+    public CastorIllegalStateException(final Throwable cause) {
+        super();
+        _cause = cause;
+    }
+
     public CastorIllegalStateException(final String message, final Throwable cause) {
         super(message);
         _cause = cause;
