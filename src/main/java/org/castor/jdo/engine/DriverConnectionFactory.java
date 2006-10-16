@@ -27,7 +27,7 @@ import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.Driver;
 import org.castor.jdo.conf.JdoConf;
 import org.castor.jdo.conf.Param;
-import org.castor.jdo.drivers.ConnectionProxy;
+import org.castor.jdo.drivers.ConnectionProxyFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
@@ -129,7 +129,7 @@ public final class DriverConnectionFactory extends AbstractConnectionFactory {
      * @see org.castor.jdo.engine.ConnectionFactory#createConnection()
      */
     public Connection createConnection () throws SQLException {
-        return ConnectionProxy.newConnectionProxy(
+        return ConnectionProxyFactory.newConnectionProxy(
                 DriverManager.getConnection(_url, _props), getClass().getName());
     }
 

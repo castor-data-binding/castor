@@ -28,7 +28,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.conf.DatabaseChoice;
 import org.castor.jdo.conf.JdoConf;
-import org.castor.jdo.drivers.ConnectionProxy;
+import org.castor.jdo.drivers.ConnectionProxyFactory;
 import org.castor.util.Messages;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.MappingException;
@@ -107,7 +107,7 @@ public final class JNDIConnectionFactory extends AbstractConnectionFactory {
      * @see org.castor.jdo.engine.ConnectionFactory#createConnection()
      */
     public Connection createConnection () throws SQLException {
-        return ConnectionProxy.newConnectionProxy(
+        return ConnectionProxyFactory.newConnectionProxy(
                 _dataSource.getConnection(), getClass().getName());
     }
 

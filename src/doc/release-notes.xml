@@ -28,6 +28,17 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Requirements</h2>
+
+                <h3>Backported Castor to be compliant with <font color="red">Java 1.3</font>
+                   again. Therefore the dependecy on <font color="red">Java 1.4</font>
+                   introduced with 1.0 release has been removed.</h3>
+                
+                <p>To not loose features like JDBC 3.0 introduced with 1.0 release of Castor
+                   we decide to use reflection or dynamic proxies at some places. This allows
+                   to use these features with Java 1.4 while still being able to use Castor
+                   with Java 1.3.</p>
+                   
             	<h2>Additions</h2>
             	
             	<h3>Special getter methods for XML mapping</h3>
@@ -59,6 +70,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1621" tool="jira">
+                    <description>
+		                Backported Castor to Java 1.3 compatibility: JDBC 3.0.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20061016</date>
+                </bug>
                 <bug id="1625" tool="jira">
                     <description>
                         Added checks to DateTimeBase.setCentury() for (invalid) years = 0.

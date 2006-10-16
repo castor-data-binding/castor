@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1621 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Backported Castor to Java 1.3 compatibility: JDBC 3.0.
+       Details: http://jira.codehaus.org/browse/CASTOR-1621
+       (Ralf - 20061016)
+
 XML:   Resolved issue CASTOR-1625 using contribution from Rainer Montag [rmontag@hrzpub.tu-darmstadt.de]
        Added checks to DateTimeBase.setCentury() for (invalid) year 0.
        Details: http://jira.codehaus.org/browse/CASTOR-1625

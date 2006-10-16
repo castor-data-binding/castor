@@ -25,7 +25,7 @@ import junit.framework.TestCase;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.castor.jdo.drivers.ConnectionProxy;
+import org.castor.jdo.drivers.ConnectionProxyFactory;
 
 /**
  * @author Administrator
@@ -54,7 +54,7 @@ public final class TestConnectionProxies extends TestCase {
         Properties properties = new Properties();
         properties.put("user", USER_NAME);
         properties.put ("password", PASSWORD);
-        _connectionProxy = ConnectionProxy.newConnectionProxy(
+        _connectionProxy = ConnectionProxyFactory.newConnectionProxy(
                 DriverManager.getConnection(JDBC_URL, properties), getClass().getName());
         
     }
@@ -65,8 +65,8 @@ public final class TestConnectionProxies extends TestCase {
     
     public void testPreparedStatementProxy () throws Exception {
         PreparedStatement preparedStatement = _connectionProxy.prepareStatement(
-                "select * from test_item where iid = ?");
-        preparedStatement.setInt(1, 100);
+                "select * from tc1x_handling where id = ?");
+        preparedStatement.setInt(1, 3);
         
         LOG.debug (preparedStatement);
         
