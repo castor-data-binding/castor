@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1625 using contribution from Rainer Montag [rmontag@hrzpub.tu-darmstadt.de]
+       Added checks to DateTimeBase.setCentury() for (invalid) year 0.
+       Details: http://jira.codehaus.org/browse/CASTOR-1625
+       (Werner - 20061016)
+
 XML:   Resolved issue CASTOR-385 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Source Generator uses the name "Content" which conflicts with any element
        named "Content."

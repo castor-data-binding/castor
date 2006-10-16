@@ -135,6 +135,7 @@ public abstract class DateTimeBase
      public static final int GREATER_THAN = 2;
 
      protected static final String WRONGLY_PLACED = "is wrongly placed.";
+     
     //////////////////////////Setter methods////////////////////////////////////
     /**
      * set the century field
@@ -143,7 +144,11 @@ public abstract class DateTimeBase
     public void setCentury(short century) {
         String err ="";
         if (century < 0) {
-            err = "century : "+century+" must not be a negative value.";
+            err = "century : " + century + " must not be a negative value.";
+            throw new IllegalArgumentException(err);
+        }
+        else if ((_year == 0) && (century == 0)) {
+            err = "0000 is not an allowed year";
             throw new IllegalArgumentException(err);
         }
         _century = century;
