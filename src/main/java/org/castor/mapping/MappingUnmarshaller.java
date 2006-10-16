@@ -178,13 +178,14 @@ public final class MappingUnmarshaller {
         // second time based on the new mappings loaded
         _registry.clear();
         
-        String systemId = source.getSystemId();
-        if (systemId != null) {
+        Object id = source.getSystemId();
+        if (id == null) { id = source.getByteStream(); }
+        if (id != null) {
             //check that the mapping has already been processed
-            if (mapping.processed(systemId)) { return; }
+            if (mapping.processed(id)) { return; }
 
             //mark the mapping as being processed
-            mapping.markAsProcessed(systemId);
+            mapping.markAsProcessed(id);
         }
         
         MappingRoot root = mapping.getRoot();

@@ -547,24 +547,22 @@ public class Marshaller extends MarshalFramework {
     } //-- setMarshalAsDocument
 
     /**
-     * Sets the given mapping to be used by the marshalling
-     * Framework. If a ClassDescriptorResolver exists
-     * This mapping will be added to the existing Resolver. Otherwise
-     * a new ClassDescriptorResolver will be created.
+     * Sets the given mapping to be used by the marshalling Framework. If a resolver
+     * exists this mapping will be added to the existing ClassDescriptorResolver.
+     * Otherwise a new ClassDescriptorResolver will be created.
      *
-     * @param mapping the mapping to using during marshalling
-    **/
-    public void setMapping( Mapping mapping )
-        throws MappingException
-    {
-        if (_cdResolver == null)
-            _cdResolver = (XMLClassDescriptorResolver) 
-                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+     * @param mapping Mapping to using during marshalling.
+     */
+    public void setMapping(final Mapping mapping) throws MappingException {
+        if (_cdResolver == null) {
+            _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
+                .createClassDescriptorResolver(BindingType.XML);
+        }
 
         MappingUnmarshaller mum = new MappingUnmarshaller();
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
-        _cdResolver.setMappingLoader((XMLMappingLoader) resolver);
-    } //-- setMapping
+        _cdResolver.setMappingLoader(resolver);
+    }
 
     /**
      * Sets an optional MarshalListener to recieve pre and post

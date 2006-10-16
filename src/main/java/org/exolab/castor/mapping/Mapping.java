@@ -124,20 +124,20 @@ public final class Mapping {
     /**
      * Marks the given mapping as having been processed.
      * 
-     * @param systemID the key identifying the physical location of the mapping to mark.
+     * @param id systemID or stream to identify the mapping to mark.
      */
-    public void markAsProcessed(final String systemID) {
-        _processed.add(systemID);
+    public void markAsProcessed(final Object id) {
+        _processed.add(id);
     }
 
     /**
-     * Returns true if the given systemID has been marked as processed.
+     * Returns true if the given systemID or stream has been marked as processed.
      * 
-     * @param systemID location the systemID  to check for being marked as processed.
-     * @return true if the given systemID has been marked as processed.
+     * @param id systemID or stream to check for being marked as processed.
+     * @return true if the given systemID or stream has been marked as processed.
      */
-    public boolean processed(final String systemID) {
-        return _processed.contains(systemID);
+    public boolean processed(final Object id) {
+        return _processed.contains(id);
     }
     
     /**

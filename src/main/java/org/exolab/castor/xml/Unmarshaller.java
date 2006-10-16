@@ -461,30 +461,28 @@ public class Unmarshaller {
     } //-- setLogWriter
 
     /**
-     * Sets the Mapping to use during unmarshalling. If the
-     * Mapping has a ClassLoader it will be used during
-     * unmarshalling.
+     * Sets the Mapping to use during unmarshalling. If the Mapping has a ClassLoader it
+     * will be used during unmarshalling.
      *
-     * @param mapping the Mapping to use during unmarshalling.
+     * @param mapping Mapping to use during unmarshalling.
      * @see #setResolver
-    **/
-    public void setMapping( Mapping mapping )
-        throws MappingException
-    {
+     */
+    public void setMapping(final Mapping mapping) throws MappingException {
         if (_loader == null) {
             _loader = mapping.getClassLoader();
         }
+        
         if (_cdResolver == null) {
-            _cdResolver = (XMLClassDescriptorResolver) 
-                ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+            _cdResolver = (XMLClassDescriptorResolver) ClassDescriptorResolverFactory
+                .createClassDescriptorResolver(BindingType.XML);
+            
             _cdResolver.setClassLoader(_loader);
         }
-
+        
         MappingUnmarshaller mum = new MappingUnmarshaller();
         MappingLoader resolver = mum.getMappingLoader(mapping, BindingType.XML);
         _cdResolver.setMappingLoader(resolver);
-    } //-- setMapping
-
+    }
 
     /**
      * Sets a boolean that when true indicates that objects
