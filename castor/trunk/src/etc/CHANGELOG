@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1626 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added Code generation sample to HTML documentation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1626
+       (Werner - 20061016)
+
 JDO:   Resolved issue CASTOR-1621 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Backported Castor to Java 1.3 compatibility: JDBC 3.0.
        Details: http://jira.codehaus.org/browse/CASTOR-1621
