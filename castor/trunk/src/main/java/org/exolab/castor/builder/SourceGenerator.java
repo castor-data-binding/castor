@@ -202,7 +202,6 @@ public class SourceGenerator extends BuilderConfiguration {
         _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
 
         super.load();
-
         _singleClassGenerator = new SingleClassGenerator(_dialog, this);
         _bindingComponent = new XMLBindingComponent(this);
         setBinding(binding);
@@ -514,7 +513,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException
      *             if an IOException occurs writing the new source files
      */
-    public void generateSource(final InputSource source, final String packageName) throws IOException {
+    public void generateSource(final InputSource source, final String packageName)
+                                                                   throws IOException {
         // -- get default parser from Configuration
         Parser parser = null;
         try {
@@ -567,7 +567,8 @@ public class SourceGenerator extends BuilderConfiguration {
                 except.printStackTrace();
             }
             if (_failOnFirstError) {
-                throw new CastorRuntimeException("Source Generator: schema parser threw an Exception", sx);
+                String msg = "Source Generator: schema parser threw an Exception";
+                throw new CastorRuntimeException(msg, sx);
             }
             return;
         }
@@ -601,7 +602,8 @@ public class SourceGenerator extends BuilderConfiguration {
         try {
             schema.validate();
         } catch (ValidationException ve) {
-            String err = "The schema: " + schema.getSchemaLocation() + " is not valid.\n" + ve.getMessage();
+            String err = "The schema: " + schema.getSchemaLocation() + " is not valid.\n"
+                         + ve.getMessage();
             throw new IllegalArgumentException(err);
         }
 
@@ -633,7 +635,7 @@ public class SourceGenerator extends BuilderConfiguration {
 
         generateAllClassFiles(schema, sInfo);
 
-        //-- TODO Cleanup integration :
+        //-- TODO Cleanup integration (what does this comment mean?)
         if (!_createDescriptors && _generateMapping) {
             generateMappingFile(packageName, sInfo);
         }
@@ -643,30 +645,20 @@ public class SourceGenerator extends BuilderConfiguration {
     //- Private Methods -/
     //-------------------/
 
-    private void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo) throws IOException {
-        //-- ** print warnings for imported schemas **
+    /**
+     * Generate all class files for the provided schema.  Before processing
+     * the current schema, process the schemas imported by this one (unless our
+     * configuration says not to).
+     * 
+     * @param schema the schema whose imported schemas to process
+     * @param sInfo source generator state information
+     * @throws IOException if this Exception occurs while processing an import schema
+     */
+    private void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo)
+                                                                 throws IOException {
+        // Before processing the current schema, process its imported schemas
         if (!_suppressNonFatalWarnings || _generateImported) {
-            Enumeration enumeration = schema.getImportedSchema();
-            while (enumeration.hasMoreElements()) {
-                Schema importedSchema = (Schema) enumeration.nextElement();
-                if (!_generateImported) {
-                    System.out.println();
-                    System.out.println(IMPORT_WARNING + importedSchema.getSchemaLocation());
-                } else {
-                    _schemasProcessed.add(schema);
-                    if (!_schemasProcessed.contains(importedSchema)) {
-                        SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
-                        importedSInfo._packageName = sInfo._packageName;
-                        generateAllClassFiles(importedSchema, importedSInfo);
-
-                        //--'store' the imported JClass instances
-                        sInfo.storeImportedSourcesByName(importedSInfo.getSourcesByName());
-                        sInfo.storeImportedSourcesByName(importedSInfo.getImportedSourcesByName());
-                        //--discard the SGStateInfo
-                        importedSInfo = null;
-                    }
-                }
-            }
+            processImportedSchemas(schema, sInfo);
         }
 
         //-- ** Generate code for all TOP-LEVEL structures **
@@ -705,12 +697,46 @@ public class SourceGenerator extends BuilderConfiguration {
     } //-- createClasses
 
     /**
+     * Look at each schema imported by the given schema.  Either warn that the
+     * invoker needs to separately generate source from that schema or process
+     * that schema, depending on settings.
+     * @param schema the schema whose imported schemas to process
+     * @param sInfo source generator state information
+     * @throws IOException if this Exception occurs while processing an import schema
+     */
+    private void processImportedSchemas(final Schema schema, final SGStateInfo sInfo)
+                                                                    throws IOException {
+        Enumeration enumeration = schema.getImportedSchema();
+        while (enumeration.hasMoreElements()) {
+            Schema importedSchema = (Schema) enumeration.nextElement();
+            if (!_generateImported) {
+                System.out.println();
+                System.out.println(IMPORT_WARNING + importedSchema.getSchemaLocation());
+            } else {
+                _schemasProcessed.add(schema);
+                if (!_schemasProcessed.contains(importedSchema)) {
+                    SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
+                    importedSInfo._packageName = sInfo._packageName;
+                    generateAllClassFiles(importedSchema, importedSInfo);
+
+                    //--'store' the imported JClass instances
+                    sInfo.storeImportedSourcesByName(importedSInfo.getSourcesByName());
+                    sInfo.storeImportedSourcesByName(importedSInfo.getImportedSourcesByName());
+                    //--discard the SGStateInfo
+                    importedSInfo = null;
+                }
+            }
+        }
+    }
+
+    /**
      * Generates the mapping file.
      * @param packageName Package name to be generated
      * @param sInfo Source Generator current state
      * @throws IOException if this Exception occurs while generating the mapping file
      */
-    private void generateMappingFile(final String packageName, final SGStateInfo sInfo) throws IOException {
+    private void generateMappingFile(final String packageName, final SGStateInfo sInfo)
+                                                                      throws IOException {
         String pkg = (packageName != null) ? packageName : "";
         MappingRoot mapping = sInfo.getMapping(pkg);
         if (mapping == null) {
@@ -730,7 +756,19 @@ public class SourceGenerator extends BuilderConfiguration {
         }
     }
 
-    private void createClasses(final ElementDecl elementDecl, final SGStateInfo sInfo) throws IOException {
+    /**
+     * Processes the given Element declaration and creates all necessary classes
+     * to support it.
+     * 
+     * @param elementDecl
+     *            the Element declaration to process
+     * @param sInfo
+     *            our state information
+     * @throws IOException
+     *             if this exception occurs while writing source files
+     */
+    private void createClasses(final ElementDecl elementDecl, final SGStateInfo sInfo)
+                                                                     throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || elementDecl == null) {
             return;
         }
@@ -757,9 +795,6 @@ public class SourceGenerator extends BuilderConfiguration {
             jClass = null;
         }
 
-        //--Make sure this doesn't conflict with a java.lang.* class
-        checkNameNotReserved(elementDecl.getName(), sInfo);
-
         //-- No type definition
         if (xmlType == null) {
             if (sInfo.verbose()) {
@@ -769,7 +804,8 @@ public class SourceGenerator extends BuilderConfiguration {
             return;
         } else if (xmlType.isComplexType()) {
             //-- ComplexType
-            if (!_singleClassGenerator.process(_sourceFactory.createSourceCode(_bindingComponent, sInfo), sInfo)) {
+            JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
+            if (!_singleClassGenerator.process(classes, sInfo)) {
                 return;
             }
 
@@ -786,7 +822,19 @@ public class SourceGenerator extends BuilderConfiguration {
         }
     }  //-- createClasses
 
-    private void createClasses(final Group group, final SGStateInfo sInfo) throws IOException {
+    /**
+     * Processes the given Group and creates all necessary classes to support
+     * it.
+     * 
+     * @param group
+     *            the Group to process
+     * @param sInfo
+     *            our state information
+     * @throws IOException
+     *             if this exception occurs while writing source files
+     */
+    private void createClasses(final Group group, final SGStateInfo sInfo)
+                                                         throws IOException {
         if (group == null) {
             return;
         }
@@ -806,45 +854,44 @@ public class SourceGenerator extends BuilderConfiguration {
             }
         }
 
-        //--Make sure this doesn't conflict with a java.lang.* class
-        checkNameNotReserved(group.getName(), sInfo);
-
         _bindingComponent.setView(group);
+
         JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
         processContentModel(group, sInfo);
         _singleClassGenerator.process(classes, sInfo);
     } //-- createClasses
 
     /**
-     * Processes the given ComplexType and creates all necessary class to
+     * Processes the given ComplexType and creates all necessary classes to
      * support it
      *
      * @param complexType
      *            the ComplexType to process
      * @param sInfo
-     *            out state information
-     * @throws IOException
+     *            our state information
+     * @throws IOException if this exception occurs while writing source files
      */
-    private void processComplexType(final ComplexType complexType, final SGStateInfo sInfo) throws IOException {
+    private void processComplexType(final ComplexType complexType, final SGStateInfo sInfo)
+                                                                           throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || complexType == null) {
             return;
         }
 
         _bindingComponent.setView(complexType);
 
-        //--Make sure this doesn't conflict with a java.lang.* class
-        checkNameNotReserved(complexType.getName(), sInfo);
-
         ClassInfo classInfo = sInfo.resolve(complexType);
         if (classInfo == null) {
             //-- handle top-level complextypes
-            if (complexType.isTopLevel() &&
-                ! _singleClassGenerator.process(_sourceFactory.createSourceCode(_bindingComponent, sInfo), sInfo)) {
-                return;
+            if (complexType.isTopLevel()) {
+                JClass[] classes = _sourceFactory.createSourceCode(_bindingComponent, sInfo);
+                if (!_singleClassGenerator.process(classes, sInfo)) {
+                    return;
+                }
             }
 
             //-- process AttributeDecl
             processAttributes(complexType, sInfo);
+
             //--process content type if necessary
             ContentType temp = complexType.getContentType();
             if (temp.getType() == ContentType.SIMPLE) {
@@ -873,9 +920,10 @@ public class SourceGenerator extends BuilderConfiguration {
      *            process.
      * @param sInfo
      *            the current source generator state information
-     * @throws IOException
+     * @throws IOException if this Exception occurs while generating source files
      */
-    private void processAttributes(final ComplexType complexType, final SGStateInfo sInfo) throws IOException {
+    private void processAttributes(final ComplexType complexType, final SGStateInfo sInfo)
+                                                                         throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || complexType == null) {
             return;
         }
@@ -892,9 +940,10 @@ public class SourceGenerator extends BuilderConfiguration {
      *
      * @param cmGroup the ContentModelGroup to process
      * @param sInfo the current source generator state information
-     * @throws IOException
+     * @throws IOException if this Exception occurs while generating source files
      */
-    private void processContentModel(final ContentModelGroup cmGroup, final SGStateInfo sInfo) throws IOException {
+    private void processContentModel(final ContentModelGroup cmGroup, final SGStateInfo sInfo)
+                                                                             throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || cmGroup == null) {
             return;
         }
@@ -930,18 +979,16 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Handle simpleTypes
      *
-     * @param simpleType
-     * @param sInfo
-     * @throws IOException
+     * @param simpleType the SimpleType to be processed
+     * @param sInfo the current source generator state information
+     * @throws IOException if this Exception occurs while generating source files
      */
-    private void processSimpleType(final SimpleType simpleType, final SGStateInfo sInfo) throws IOException {
+    private void processSimpleType(final SimpleType simpleType, final SGStateInfo sInfo)
+                                                                       throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || simpleType == null
                 || simpleType.getSchema() != sInfo.getSchema()) {
             return;
         }
-
-        //--Make sure this doesn't conflict with a java.lang.* class
-        checkNameNotReserved(simpleType.getName(), sInfo);
 
         //-- Right now the only time we actually generate source for a simpletype is
         //-- when it's an enumeration
@@ -956,36 +1003,6 @@ public class SourceGenerator extends BuilderConfiguration {
             }
         }
     } //-- processSimpleType
-
-    /**
-     * Checks the given name against various naming conflicts.  If a conflict is
-     * found, then this method generates an appropriate error message and throws
-     * an IllegalArgumentException.
-     * @param elementName element name to check against lists of reserved names
-     * @param sInfo source generator state
-     */
-    private void checkNameNotReserved(final String elementName, final SGStateInfo sInfo) {
-        if (elementName == null) {
-            return;
-        }
-
-        String nameToCompare = elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
-        if (JNaming.isInJavaLang(nameToCompare)) {
-            String err = "'" + nameToCompare + "' conflicts with a class in java.lang.*"
-                    + " and cannot be used as a class name.\nYou need to use a mapping"
-                    + " file or change the name of the schema element.";
-            sInfo.getDialog().notify(err);
-            throw new IllegalArgumentException(err);
-        }
-
-        if (JNaming.isReservedByCastor(nameToCompare)) {
-            String warn = "'" + nameToCompare + "' might conflict with a field name used"
-                    + " by Castor.  If you get a complaint\nabout a duplicate name, you will"
-                    + " need to use a mapping file or change\nthe name of the conflicting"
-                    + " schema element.";
-            sInfo.getDialog().notify(warn);
-        }
-    }
 
    /**
      * Called by setBinding to fill in the mapping between namespaces and Java
