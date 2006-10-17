@@ -19,11 +19,19 @@ public class BaseFactory {
     protected FieldInfoFactory _infoFactory = null;
 
     /**
+     * A GroupNaming helper class used to named anonymous groups.
+     */
+    protected GroupNaming _groupNaming = null;
+
+    /**
      * Creates an instance of this class.
      * @param config XML code generator configuration
      * @param infoFactory
+     * @param groupNaming Group naming scheme to be used.
      */
-    public BaseFactory(final BuilderConfiguration config, final FieldInfoFactory infoFactory) {
+    public BaseFactory(final BuilderConfiguration config, 
+            final FieldInfoFactory infoFactory, 
+            final GroupNaming groupNaming) {
         if (config == null) {
             String err = "The 'BuilderConfiguration' argument must not be null.";
             throw new IllegalArgumentException(err);
@@ -35,6 +43,7 @@ public class BaseFactory {
         } else {
             this._infoFactory = infoFactory;
         }
+        _groupNaming = groupNaming;
     }
 
     /**

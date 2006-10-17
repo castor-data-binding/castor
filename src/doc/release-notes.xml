@@ -70,6 +70,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1600" tool="jira">
+                    <description>
+		                Fixed problem with incorrect model group naming (and numbering) scheme.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061017</date>
+                </bug>
                 <bug id="1627" tool="jira">
                     <description>
                         For directory trees, set the test suite name to the directory name.

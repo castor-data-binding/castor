@@ -172,10 +172,16 @@ public class SourceGenerator extends BuilderConfiguration {
     private boolean _failOnFirstError = false;
 
     /**
+     * A GroupNaming helper class used to named anonymous groups.
+     */
+    private GroupNaming _groupNaming = null;
+
+    /**
      * Creates a SourceGenerator using the default FieldInfo factory
      */
     public SourceGenerator() {
         this(null);
+        _groupNaming = new GroupNaming();
     } //-- SourceGenerator
 
     /**
@@ -185,6 +191,7 @@ public class SourceGenerator extends BuilderConfiguration {
      */
     public SourceGenerator(final FieldInfoFactory infoFactory) {
         this(infoFactory, null);
+        _groupNaming = new GroupNaming();
     }
 
     /**
@@ -202,8 +209,11 @@ public class SourceGenerator extends BuilderConfiguration {
         _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
 
         super.load();
+        
+        _groupNaming = new GroupNaming();
+
         _singleClassGenerator = new SingleClassGenerator(_dialog, this);
-        _bindingComponent = new XMLBindingComponent(this);
+        _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
     } //-- SourceGenerator
 
@@ -611,7 +621,7 @@ public class SourceGenerator extends BuilderConfiguration {
         // has been fully parsed, create our SourceFactory.  (See CASTOR-1346.)
         // We will reuse this SourceFactory if we are invoked multiple times.
         if (_sourceFactory == null) {
-            _sourceFactory = new SourceFactory(this, _infoFactory);
+            _sourceFactory = new SourceFactory(this, _infoFactory, _groupNaming);
             _sourceFactory.setCreateMarshalMethods(_createMarshalMethods);
             _sourceFactory.setTestable(_testable);
             _sourceFactory.setSAX1(_sax1);

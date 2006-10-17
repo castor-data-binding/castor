@@ -135,29 +135,23 @@ public class SourceFactory extends BaseFactory {
     private EnumerationFactory _enumerationFactory;
 
     /**
-     * Creates a new SourceFactory using the default FieldInfo factory.
-     *
-     * @param config the BuilderConfiguration instance (must not be null).
-     */
-    public SourceFactory(final BuilderConfiguration config) {
-        this(config, null);
-    } //-- SourceFactory
-
-    /**
      * Creates a new SourceFactory with the given FieldInfoFactory.
      *
      * @param config the BuilderConfiguration instance (must not be null).
      * @param infoFactory the FieldInfoFactory to use
+     * @param groupNaming Group naming scheme to be used.
      */
-    public SourceFactory(final BuilderConfiguration config, final FieldInfoFactory infoFactory) {
-        super(config, infoFactory);
+    public SourceFactory(final BuilderConfiguration config, 
+            final FieldInfoFactory infoFactory,
+            final GroupNaming groupNaming) {
+        super(config, infoFactory, groupNaming);
 
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
-        this.memberFactory       = new MemberFactory(config, infoFactory);
+        this.memberFactory       = new MemberFactory(config, infoFactory, _groupNaming);
         this._typeConversion     = new TypeConversion(_config);
-        this._enumerationFactory = new EnumerationFactory(_config);
+        this._enumerationFactory = new EnumerationFactory(_config, _groupNaming);
     } //-- SourceFactory
 
    /**
@@ -593,7 +587,7 @@ public class SourceFactory extends BaseFactory {
              //--move the view and keep the structure
              Annotated saved = component.getAnnotated();
              String previousPackage = component.getJavaPackage();
-             XMLBindingComponent baseComponent = new XMLBindingComponent(_config);
+             XMLBindingComponent baseComponent = new XMLBindingComponent(_config, _groupNaming);
              baseComponent.setBinding(component.getBinding());
              baseComponent.setView(complexType);
              //-- call createSourceCode to pre-process the complexType
@@ -709,7 +703,7 @@ public class SourceFactory extends BaseFactory {
 
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
-        XMLBindingComponent comp = new XMLBindingComponent(_config);
+        XMLBindingComponent comp = new XMLBindingComponent(_config, _groupNaming);
         if (_binding != null) {
             comp.setBinding(_binding);
         }
@@ -1459,7 +1453,7 @@ public class SourceFactory extends BaseFactory {
         }
 
         Enumeration enumeration = complexType.getAttributeDecls();
-        XMLBindingComponent component = new XMLBindingComponent(_config);
+        XMLBindingComponent component = new XMLBindingComponent(_config, _groupNaming);
         if (_binding != null) {
             component.setBinding(_binding);
         }
@@ -1522,7 +1516,7 @@ public class SourceFactory extends BaseFactory {
      * @param state the FactoryState.
      */
     private void processComplexType(final ComplexType complexType, final FactoryState state) {
-        XMLBindingComponent component = new XMLBindingComponent(_config);
+        XMLBindingComponent component = new XMLBindingComponent(_config, _groupNaming);
         if (_binding != null) {
             component.setBinding(_binding);
         }
@@ -1668,7 +1662,7 @@ public class SourceFactory extends BaseFactory {
         }
 
         FieldInfo fieldInfo = null;
-        XMLBindingComponent component = new XMLBindingComponent(_config);
+        XMLBindingComponent component = new XMLBindingComponent(_config, _groupNaming);
         if (_binding != null) {
             component.setBinding(_binding);
         }

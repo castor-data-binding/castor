@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1600 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with incorrect model group naming (and numbering) scheme.
+       Details: http://jira.codehaus.org/browse/CASTOR-1600
+       (Werner - 20061017)
+
 XML:   Resolved issue CASTOR-1627 using contribution from Edward Kuns [edward.kuns@aspect.com]
        For directory trees, set the test suite name to the directory name.
        Details: http://jira.codehaus.org/browse/CASTOR-1627
