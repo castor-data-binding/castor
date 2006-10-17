@@ -62,6 +62,7 @@ import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JComment;
+import org.exolab.javasource.JNaming;
 
 /**
  * Writes a single class (and any associated inner classes) to a file.
@@ -247,6 +248,9 @@ public class SingleClassGenerator {
             return true;
         }
 
+        //--Make sure this class's name doesn't conflict with a java.lang.* class
+        checkNameNotReserved(jClass.getName(), state);
+
         ClassInfo classInfo = state.resolve(jClass);
 
         //-- Have we already processed a class with this name?
@@ -413,6 +417,36 @@ public class SingleClassGenerator {
                 break;
         }
         return allowPrinting;
+    }
+
+    /**
+     * Checks the given name against various naming conflicts.  If a conflict is
+     * found, then this method generates an appropriate error message and throws
+     * an IllegalArgumentException.
+     * @param elementName element name to check against lists of reserved names
+     * @param sInfo source generator state
+     */
+    private void checkNameNotReserved(final String elementName, final SGStateInfo sInfo) {
+        if (elementName == null) {
+            return;
+        }
+
+        String nameToCompare = elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
+        if (JNaming.isInJavaLang(nameToCompare)) {
+            String err = "'" + nameToCompare + "' conflicts with a class in java.lang.*"
+                    + " and cannot be used as a class name.\nYou need to use a mapping"
+                    + " file or change the name of the schema element.";
+            sInfo.getDialog().notify(err);
+            throw new IllegalArgumentException(err);
+        }
+
+        if (JNaming.isReservedByCastor(nameToCompare)) {
+            String warn = "'" + nameToCompare + "' might conflict with a field name used"
+                    + " by Castor.  If you get a complaint\nabout a duplicate name, you will"
+                    + " need to use a mapping file or change\nthe name of the conflicting"
+                    + " schema element.";
+            sInfo.getDialog().notify(warn);
+        }
     }
 
     /**
