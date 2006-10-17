@@ -70,6 +70,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1627" tool="jira">
+                    <description>
+                        For directory trees, set the test suite name to the directory name.
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061016</date>
+                </bug>
                 <bug id="1586" tool="jira">
                     <description>
 		                Fixed error loading mapping whem migrating from 1.0.1 to 1.0.3.
