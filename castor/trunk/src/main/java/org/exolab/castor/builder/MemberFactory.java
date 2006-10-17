@@ -84,22 +84,16 @@ import org.exolab.javasource.JType;
 public class MemberFactory extends BaseFactory {
 
     /**
-     * Creates a new MemberFactory with default type factory.
-     *
-     * @param config the BuilderConfiguration
-     */
-    public MemberFactory(final BuilderConfiguration config) {
-        this(config, new FieldInfoFactory());
-    } //-- MemberFactory
-
-    /**
      * Creates a new MemberFactory using the given FieldInfo factory.
      *
      * @param config the BuilderConfiguration
      * @param infoFactory the FieldInfoFactory to use
+     * @param groupNaming Grou pnaming scheme to be used.
      */
-    public MemberFactory(final BuilderConfiguration config, final FieldInfoFactory infoFactory) {
-        super(config, infoFactory);
+    public MemberFactory(final BuilderConfiguration config, 
+            final FieldInfoFactory infoFactory, 
+            final GroupNaming groupNaming) {
+        super(config, infoFactory, groupNaming);
 
         if (_config.generateExtraCollectionMethods()) {
             this._infoFactory.setCreateExtraMethods(true);
@@ -297,7 +291,7 @@ public class MemberFactory extends BaseFactory {
                 //--if we use the type method then no class is output for
                 //--the element we are processing
                 if (_config.mappingSchemaType2Java()) {
-                    XMLBindingComponent temp = new XMLBindingComponent(_config);
+                    XMLBindingComponent temp = new XMLBindingComponent(_config, _groupNaming);
                     temp.setBinding(component.getBinding());
                     temp.setView(xmlType);
                     ClassInfo typeInfo = resolver.resolve(xmlType);

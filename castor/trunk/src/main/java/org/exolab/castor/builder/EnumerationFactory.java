@@ -56,9 +56,10 @@ public class EnumerationFactory extends BaseFactory {
     /**
      * Creates a new EnumerationFactory for the builder configuration given.
      * @param config the current BuilderConfiguration instance.
+     * @param groupNaming The group naming scheme to be used.
      */
-    public EnumerationFactory(final BuilderConfiguration config) {
-        super(config, null);
+    public EnumerationFactory(final BuilderConfiguration config, final GroupNaming groupNaming) {
+        super(config, null, groupNaming);
         _typeConversion = new TypeConversion(_config);
     } //-- SourceFactory
 

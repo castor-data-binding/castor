@@ -70,6 +70,13 @@ public class GroupNaming {
         _packageGroupNames = new Hashtable();
     } //-- GroupNaming
 
+    /**
+     * Returns the qualified group name for a given Group instance and a package name; null if there 
+     * isn't one already.
+     * @param group A Group instance
+     * @param packageName A package name
+     * @return The fully qualified group name for the Group instance/package name combination
+     */
     private String getGroupName(final Group group, final String packageName) {
         Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
         if (groupNames == null) {
@@ -87,6 +94,12 @@ public class GroupNaming {
         groupNames.put(group, name);
     }
 
+    /**
+     * Checks whether for a given group and package name combination an entry already exists
+     * @param packageName A package name
+     * @param name A group name.
+     * @return True if a mapping already exists 
+     */
     private boolean containsGroupName(final String packageName, final String name) {
         Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
         if (groupNames == null) {
@@ -154,7 +167,11 @@ public class GroupNaming {
     } //-- createClassName
 
     /**
-     * Returns the class name for the given ComplexType
+     * Returns the class name for the given ComplexType. 
+     * 
+     * a) If the ComplexType instance is named, simply return the name of the ComplexType. 
+     * b) If it is not named (in other words, if it is an anonymous ComplexType definition), 
+     *    check for the name of the containing element (definition).
      *
      * @param complexType the ComplexType for which to return a class name
      * @return the class name for the given ComplexType

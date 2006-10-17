@@ -163,14 +163,10 @@ public class XMLBindingComponent implements BindingComponent {
     private GroupNaming _groupNaming = null;
 
     /**
-     * Returns the curretn group naming scheme in use; if none has been set set,
-     * initializes a default one.
+     * Returns the current group naming scheme in use
      * @return The current group naming scheme
      */
     private synchronized GroupNaming getGroupNaming() {
-        if (_groupNaming == null) {
-            setGroupNaming(new GroupNaming());
-        }
         return _groupNaming;
     }
 
@@ -191,14 +187,16 @@ public class XMLBindingComponent implements BindingComponent {
      * Constructs an XMLBindingComponent from an XML Schema Component.
      *
      * @param config the BuilderConfiguration instance (must not be null).
+     * @param groupNaming The group naming scheme to be used.
      */
-    public XMLBindingComponent(final BuilderConfiguration config) {
+    public XMLBindingComponent(final BuilderConfiguration config, final GroupNaming groupNaming) {
         if (config == null) {
             String error = "The argument 'config' must not be null.";
             throw new IllegalArgumentException(error);
         }
         _config = config;
         _typeConversion = new TypeConversion(_config);
+        setGroupNaming(groupNaming);
     } //-- XMLBindingComponent
 
     /**
@@ -724,7 +722,8 @@ public class XMLBindingComponent implements BindingComponent {
                     if (result == null &&
                         (_annotated.getStructureType() == Structure.GROUP
                          || _annotated.getStructureType() == Structure.MODELGROUP)) {
-                        result = getGroupNaming().createClassName((Group) _annotated, getJavaPackage());
+                        GroupNaming groupNaming = getGroupNaming(); 
+                        result = groupNaming.createClassName((Group) _annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);
@@ -1203,7 +1202,7 @@ public class XMLBindingComponent implements BindingComponent {
             if (type != null && type.isSimpleType()) {
                 String packageName = null;
                 if (((SimpleType) type).getSchema() != getSchema()) {
-                    XMLBindingComponent comp = new XMLBindingComponent(_config);
+                    XMLBindingComponent comp = new XMLBindingComponent(_config, getGroupNaming());
                     comp.setBinding(_binding);
                     comp.setView(type);
                     packageName = comp.getJavaPackage();
