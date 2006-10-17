@@ -138,6 +138,7 @@ public class TestCaseAggregator extends TestCase {
      */
     public Test suite() {
         TestSuite suite = new TestSuite();
+        suite.setName(_directory.getName());
 
         if (!_directory.isDirectory()) {
             // Maybe it is a jar file, it happens if we run the

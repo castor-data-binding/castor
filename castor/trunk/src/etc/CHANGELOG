@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1627 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       For directory trees, set the test suite name to the directory name.
+       Details: http://jira.codehaus.org/browse/CASTOR-1627
+       (Edward - 20061016)
+
 XML:   Resolved issue CASTOR-1586 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed error loading mapping whem migrating from 1.0.1 to 1.0.3.
        Details: http://jira.codehaus.org/browse/CASTOR-1586
