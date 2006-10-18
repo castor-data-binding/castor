@@ -59,7 +59,7 @@ public final class Java5HacksHelper {
 //      createMethodSpec("getAttributeId",      0, "",                                         ""); 
     };
 
-    private final static JAnnotationType overrideAnnotation = new JAnnotationType("Override");
+    private static final JAnnotationType OVERRIDE_ANNOTATION = new JAnnotationType("Override");
 
     /**
      * Given the method signature, add the Override annotation if this class is
@@ -73,7 +73,7 @@ public final class Java5HacksHelper {
         boolean addOverrideAnnotation = false;
         
         // It the method already has an override annotation, then jump out 
-        JAnnotation override = jms.getAnnotation(overrideAnnotation);
+        JAnnotation override = jms.getAnnotation(OVERRIDE_ANNOTATION);
         if (override != null) {
             return;
         }

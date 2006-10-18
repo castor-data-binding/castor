@@ -69,8 +69,8 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
     private String _initString = null;
     
     /**
-	  * Indicates whether this field os of type date/time.
-      */
+     * Indicates whether this field is of type date/time.
+     */
     private boolean _isDateTime = false;
     
     /**

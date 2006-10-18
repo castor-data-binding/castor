@@ -86,7 +86,7 @@ public abstract class AbstractBaseCache implements Cache {
          * @param arguments The parameters.
          * @return The result of the method invokation.
          * @throws NoSuchMethodException If a matching method is not found or if the
-         *         name is "<init>"or "<clinit>".
+         *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
          * @throws IllegalAccessException If this Method object enforces Java language
          *         access control and the underlying method is inaccessible.
          * @throws InvocationTargetException If the underlying method throws an exception.
@@ -111,7 +111,7 @@ public abstract class AbstractBaseCache implements Cache {
          * @param arguments The parameters.
          * @return The result of the method invokation.
          * @throws NoSuchMethodException If a matching method is not found or if the
-         *         name is "<init>"or "<clinit>".
+         *         name is "&lt;init&gt;"or "&lt;clinit&gt;".
          * @throws IllegalAccessException If this Method object enforces Java language
          *         access control and the underlying method is inaccessible.
          * @throws InvocationTargetException If the underlying method throws an exception.
