@@ -105,7 +105,7 @@ public final class JAnnotationType extends JStructure {
      * @param jMember the JMember to add
      */
     public void addMember(final JMember jMember) {
-        if (! (jMember instanceof JAnnotationTypeElement)) {
+        if (!(jMember instanceof JAnnotationTypeElement)) {
             throw new IllegalArgumentException("Must be a JAnnotationTypeElement.");
         }
         addElement((JAnnotationTypeElement) jMember);

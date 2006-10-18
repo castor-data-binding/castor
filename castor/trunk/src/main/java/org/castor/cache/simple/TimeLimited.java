@@ -363,7 +363,7 @@ public class TimeLimited extends AbstractBaseCache {
      */
     private synchronized void tick() {
         if (!_map.isEmpty()) {
-            for (Iterator iter = _map.values().iterator(); iter.hasNext();) {
+            for (Iterator iter = _map.values().iterator(); iter.hasNext(); ) {
                 QueueItem queueItem = (QueueItem) iter.next();
                 Object key = queueItem._key;
                 if (queueItem._time <= 0) {

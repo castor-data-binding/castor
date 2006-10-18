@@ -83,7 +83,7 @@ public final class CacheFactoryRegistry {
      * specified a <b>count-limited</b> cache will be returned. If the type of the
      * cache specified is unknown a CacheAcquireException will be thrown.
      * <p>
-     * If the given properties contain a <b>debug</b> property set to <b>true</p> or if
+     * If the given properties contain a <b>debug</b> property set to <b>true</b> or if
      * debugging for the selected cache type is enabled, the returned cache will be
      * wrapped by a DebuggingCacheProxy. This proxy will output debug messages to the
      * log if logging for the Cache interface is enabled through the logging system.

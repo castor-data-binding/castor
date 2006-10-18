@@ -230,7 +230,7 @@ public final class OsCache extends AbstractBaseCache {
      * @see java.util.Map#putAll(java.util.Map)
      */
     public void putAll(final Map map) {
-        for (Iterator iter = map.entrySet().iterator(); iter.hasNext();) {
+        for (Iterator iter = map.entrySet().iterator(); iter.hasNext(); ) {
             Map.Entry entry = (Map.Entry) iter.next();
             String key = String.valueOf(entry.getKey());
             invokeCacheMethod(_putMethod, new Object[] {key, entry.getValue(), _groups});

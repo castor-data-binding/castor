@@ -99,7 +99,7 @@ import org.castor.util.concurrent.WriterPreferenceReadWriteLock;
  * org.castor.cache.hashbelt.reaper.RefreshingReaper<br/>
  * org.castor.cache.hashbelt.reaper.ReinsertingReaper<br/>
  * to be extended by your custom implementation.</dd>
- * <dl>
+ * </dl>
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
