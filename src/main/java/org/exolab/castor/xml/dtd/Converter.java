@@ -401,7 +401,7 @@ public class Converter {
              while (mixedChildrenIterator.hasNext()) {
                 elementRef = (String)mixedChildrenIterator.next();
                 elem = new ElementDecl(schema);
-                elem.setReference(elementRef);
+                elem.setReferenceName(elementRef);
                 group.addElementDecl(elem);
              }
              complexType.addGroup(group);
@@ -457,7 +457,7 @@ public class Converter {
        if (dtdContent.isReferenceType()) {
 
           ElementDecl elem = new ElementDecl(schema);
-          elem.setReference(dtdContent.getReference());
+          elem.setReferenceName(dtdContent.getReference());
           returnValue = elem;
 
        } else if (dtdContent.isSeqType() || dtdContent.isChoiceType()) {

@@ -93,9 +93,14 @@ public class ElementDecl extends Particle implements Referable {
     private String _default = null;
 
     /**
-     * A reference to a top-level element declaration
+     * The name of a reference to a top-level element declaration
     **/
-    private String _elementRef = null;
+    private String _elementRefName = null;
+
+    /**
+     * The top-level element declaration this element reference points to
+    **/
+    private ElementDecl _referencedElement = null;
 
     /**
      * The final value for this element definition.
@@ -299,7 +304,7 @@ public class ElementDecl extends Particle implements Referable {
     **/
     public String getName(boolean ignoreRef) {
         if (isReference() && ignoreRef == false) {
-            String localName = _elementRef;
+            String localName = _elementRefName;
             //-- check for namespace prefix
             int idx = localName.indexOf(':');
             if (idx > 0) {
@@ -365,15 +370,20 @@ public class ElementDecl extends Particle implements Referable {
      * @return the ElementDecl that this element definition references
     **/
     public ElementDecl getReference() {
+        if (_referencedElement != null) {
+            return _referencedElement;
+        }
+        
         ElementDecl result = null;
-        if (_elementRef != null) {
-            result =  _schema.getElementDecl(_elementRef);
+        if (_elementRefName != null) {
+            result = _schema.getElementDecl(_elementRefName);
             if (result == null) {
-               String err = "Unable to find element referenced :\" ";
-               err += getName();
-               err +="\"";
-               throw new IllegalStateException(err);
-           }
+                String err = "Unable to find element referenced :\" ";
+                err += getName();
+                err += "\"";
+                throw new IllegalStateException(err);
+            }
+            _referencedElement = result;
         }
         return result;
     } //-- getReference
@@ -386,7 +396,7 @@ public class ElementDecl extends Particle implements Referable {
      * @return the reference name
      */
     public String getReferenceName() {
-        return _elementRef;
+        return _elementRefName;
     } //-- getReference
     
     /**
@@ -453,6 +463,9 @@ public class ElementDecl extends Particle implements Referable {
      * may appear with no content, otherwise false.
     **/
     public boolean isNillable() {
+        if (isReference()) {
+            return _referencedElement.isNillable();
+        }
         return _nillable;
     } //-- isNullable
 
@@ -462,7 +475,7 @@ public class ElementDecl extends Particle implements Referable {
      * @return true if this element definition is a reference
     **/
     public boolean isReference() {
-        return (_elementRef != null);
+        return (_elementRefName != null);
     } //-- isReference
 
     /**
@@ -654,11 +667,14 @@ public class ElementDecl extends Particle implements Referable {
      * @param reference the Element definition that this definition references
     **/
     public void setReference(ElementDecl reference) {
-        if (reference == null)
-            _elementRef = null;
+        if (reference == null) {
+            _elementRefName = null;
+            _referencedElement = null;
+        }
         else {
             if (reference.getSchema() == this.getSchema()) {
-                _elementRef = reference.getName();
+                _elementRefName = reference.getName();
+                _referencedElement = reference;
             }
             else {
                 String qName = reference.getName();
@@ -668,22 +684,23 @@ public class ElementDecl extends Particle implements Referable {
                     if ((prefix != null) && (prefix.length() > 0))
                         qName = prefix + ":" + qName;
                 }
-                _elementRef = qName;
+                _elementRefName = qName;
+                _referencedElement = reference;
             }
         }
     } //-- setReference
 
     /**
-     * Sets the reference for this element definition
-     * @param reference the name of the element definition that this
+     * Sets the name which this element declaration refers to
+     * @param referenceName the name of the element definition that this
      * definition references
     **/
-    public void setReference(String reference) {
-        if ((reference == null) || (ValidationUtils.isQName(reference))) {
-            _elementRef = reference;
+    public void setReferenceName(String referenceName) {
+        if ((referenceName == null) || (ValidationUtils.isQName(referenceName))) {
+            _elementRefName = referenceName;
         }
         else {
-            String err = "error: '" + reference + "' is not a valid QName.";
+            String err = "error: '" + referenceName + "' is not a valid QName.";
             throw new IllegalArgumentException(err);
         }
     } //-- setReference
@@ -753,9 +770,9 @@ public class ElementDecl extends Particle implements Referable {
 
         //-- If this element merely references another element definition
         //-- just check that we can resolve the reference
-        if (_elementRef != null) {
-            if (_schema.getElementDecl(_elementRef) == null) {
-                String err = "<element ref=\"" + _elementRef + "\"> "+
+        if (_elementRefName != null) {
+            if (_schema.getElementDecl(_elementRefName) == null) {
+                String err = "<element ref=\"" + _elementRefName + "\"> "+
                     "is not resolvable.";
                 throw new ValidationException(err);
             }
