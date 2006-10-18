@@ -1,7 +1,11 @@
 
-
 SVN
 -------------------------------
+
+XML:   Resolved issue CASTOR-1229 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with code generator ignoring nillable attribute for element references.
+       Details: http://jira.codehaus.org/browse/CASTOR-1229
+       (Werner - 20061018)
 
 XML:   Resolved issue CASTOR-1635 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with generation of incorrect validation code for schema type 'gMonthDay'

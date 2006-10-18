@@ -128,7 +128,7 @@ public class ElementUnmarshaller extends ComponentReader {
         //-- @ref
         attValue = atts.getValue(SchemaNames.REF_ATTR);
         if (attValue != null) {
-            _element.setReference(attValue);
+            _element.setReferenceName(attValue);
             //-- report error if name attr exists also
             if (atts.getValue(SchemaNames.NAME_ATTR) != null) {
                 error("The attributes 'ref' and 'name' appearing on " +
