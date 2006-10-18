@@ -430,6 +430,48 @@
                   </td>
                   <td valign="top">primitive int type</td>
                </tr>
+               <tr>
+                  <td valign="top">unsignedInt</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               <tr>
+                  <td valign="top">unsignedShort</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive short type</td>
+               </tr>
+               <tr>
+                  <td valign="top">unsignedByte</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive short type</td>
+               </tr>
             </table>
          </section>
        </section>
@@ -464,6 +506,7 @@
                 <ul>
                    <li>For each top-level Model Group Definition, 
                        a class is generated either when using the 'element' mapping property or the 'type' one.</li>
+
 	           <li>If a group - nested or not - appears to have maxOccurs > 1 then a class is generated to represent the items contained in the group.</li> 
 	           <li>For each nested group, a class is generated. The name of the generated class will follow this naming convention:
 	               <tt>Name,Compositor+,Counter?</tt> where

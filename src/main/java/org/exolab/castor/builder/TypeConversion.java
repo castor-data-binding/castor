@@ -81,6 +81,7 @@ import org.exolab.castor.builder.types.XSShort;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSTime;
 import org.exolab.castor.builder.types.XSType;
+import org.exolab.castor.builder.types.XSUnsignedByte;
 import org.exolab.castor.builder.types.XSUnsignedInteger;
 import org.exolab.castor.builder.types.XSUnsignedShort;
 import org.exolab.castor.xml.JavaNaming;
@@ -327,10 +328,14 @@ public class TypeConversion {
                 XSLong xsUnsignedInteger = new XSUnsignedInteger(useWrapper);
                 xsUnsignedInteger.setFacets(simpleType);
                 return xsUnsignedInteger;
-            case SimpleTypesFactory.UNSIGNED_SHORT_TYPE:     //-- unsigned-integer
+            case SimpleTypesFactory.UNSIGNED_SHORT_TYPE:     //-- unsigned-short
                 XSInteger xsUnsignedShort = new XSUnsignedShort(useWrapper);
                 xsUnsignedShort.setFacets(simpleType);
                 return xsUnsignedShort;
+            case SimpleTypesFactory.UNSIGNED_BYTE_TYPE:     //-- unsigned-byte
+                XSShort xsUnsignedByte = new XSUnsignedByte(useWrapper);
+                xsUnsignedByte.setFacets(simpleType);
+                return xsUnsignedByte;
             case SimpleTypesFactory.NORMALIZEDSTRING_TYPE:     //-- normalizedString
                 XSNormalizedString xsNormalString = new XSNormalizedString();
                 if (!simpleType.isBuiltInType()) {
