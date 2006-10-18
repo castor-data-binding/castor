@@ -1,6 +1,12 @@
 
+
 SVN
 -------------------------------
+
+XML:   Resolved issue CASTOR-1635 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with generation of incorrect validation code for schema type 'gMonthDay'
+       Details: http://jira.codehaus.org/browse/CASTOR-1635
+       (Werner - 20061018)
 
 All:   Resolved issue CASTOR-1634 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Trivial checkstyle-based corrections

@@ -292,7 +292,7 @@ public class XSGMonthDay extends XSType {
 				max = getMaxInclusive();
 				jsc.add(
 					"org.exolab.castor.types.GMonthDay max ="
-						+ "org.exolab.castor.types.Date.parseGMonthDay("
+						+ "org.exolab.castor.types.GMonthDay.parseGMonthDay("
 						+ "\""
 						+ max.toString()
 						+ "\");");
