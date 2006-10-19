@@ -86,6 +86,14 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                     throw new IllegalStateException(ex.toString());
                 }
             }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    SourceGeneratorTest target = (SourceGeneratorTest) object;
+                    target.removeAllSchema();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
@@ -270,6 +278,14 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
                     target.addUnitTestCase( (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) value);
                 }
                 catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    SourceGeneratorTest target = (SourceGeneratorTest) object;
+                    target.removeAllUnitTestCase();
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }

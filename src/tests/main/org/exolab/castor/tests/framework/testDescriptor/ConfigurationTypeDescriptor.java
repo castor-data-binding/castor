@@ -85,6 +85,14 @@ public class ConfigurationTypeDescriptor extends org.exolab.castor.xml.util.XMLC
                     throw new IllegalStateException(ex.toString());
                 }
             }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    ConfigurationType target = (ConfigurationType) object;
+                    target.removeAllCallMethod();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.CallMethod();
             }

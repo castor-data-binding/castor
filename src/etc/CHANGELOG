@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1612 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Update CTF documentation for new test case type
+       Details: http://jira.codehaus.org/browse/CASTOR-1612
+       (Edward - 20061018)
+
 XML:   Resolved issue CASTOR-1229 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with code generator ignoring nillable attribute for element references.
        Details: http://jira.codehaus.org/browse/CASTOR-1229
@@ -15,7 +20,7 @@ XML:   Resolved issue CASTOR-1635 using contribution from Werner Guttmann [werne
 All:   Resolved issue CASTOR-1634 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Trivial checkstyle-based corrections
        Details: http://jira.codehaus.org/browse/CASTOR-1634
-       (Edward - 20061016)
+       (Edward - 20061018)
 
 XML:   Resolved issue CASTOR-1631 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for XML schema type 'unsignedByte' to XML code generator.

@@ -17,7 +17,6 @@
          <Name>Test01</Name>
          <Mapping_File>mapping.xml</Mapping_File>
          <Input>input.xml</Input>
-         <Output>output.xml</Output>
          <GoldFile>input.xml</GoldFile>
       </UnitTestCase>
 

@@ -20,8 +20,8 @@
     <UnitTestCase>
       <Name>Test complex recursive objects</Name>
       <Input>input.xml</Input>
+      <GoldFile>input.xml</GoldFile>
       <ObjectBuilder>Builder</ObjectBuilder>
-      <Output>input.xml</Output>
     </UnitTestCase>
 
   </MarshallingTest>

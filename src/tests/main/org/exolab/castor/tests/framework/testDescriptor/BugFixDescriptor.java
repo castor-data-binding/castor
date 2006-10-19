@@ -202,6 +202,14 @@ public class BugFixDescriptor extends org.exolab.castor.xml.util.XMLClassDescrip
                     throw new IllegalStateException(ex.toString());
                 }
             }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    BugFix target = (BugFix) object;
+                    target.removeAllComment();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
