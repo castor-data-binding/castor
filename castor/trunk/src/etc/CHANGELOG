@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1581 using contribution from Holger West [holger.west@syscon-informatics.de]
+       Added database appender for log4j through CastorJDO.
+       Details: http://jira.codehaus.org/browse/CASTOR-1581
+       (Ralf - 20061019)
+
 XML:   Resolved issue CASTOR-1638 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Remove trailing blanks in release notes
        Details: http://jira.codehaus.org/browse/CASTOR-1638
