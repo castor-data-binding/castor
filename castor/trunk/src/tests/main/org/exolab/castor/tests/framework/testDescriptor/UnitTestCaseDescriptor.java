@@ -249,44 +249,6 @@ public class UnitTestCaseDescriptor extends org.exolab.castor.xml.util.XMLClassD
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
-        //-- _output
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_output", "Output", org.exolab.castor.xml.NodeType.Element);
-        desc.setImmutable(true);
-        handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
-                throws IllegalStateException
-            {
-                UnitTestCase target = (UnitTestCase) object;
-                return target.getOutput();
-            }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    UnitTestCase target = (UnitTestCase) object;
-                    target.setOutput( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return null;
-            }
-        };
-        desc.setHandler(handler);
-        desc.setNameSpaceURI("http://castor.exolab.org/Test");
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _output
-        fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
-            fieldValidator.setValidator(typeValidator);
-        }
-        desc.setValidator(fieldValidator);
         //-- _objectBuilder
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_objectBuilder", "ObjectBuilder", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
@@ -360,7 +322,7 @@ public class UnitTestCaseDescriptor extends org.exolab.castor.xml.util.XMLClassD
         }
         desc.setValidator(fieldValidator);
         //-- _skip
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_skip", "Skip", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(Boolean.TYPE, "_skip", "Skip", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException

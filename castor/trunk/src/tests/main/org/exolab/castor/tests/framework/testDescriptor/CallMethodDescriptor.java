@@ -122,6 +122,14 @@ public class CallMethodDescriptor extends org.exolab.castor.xml.util.XMLClassDes
                     throw new IllegalStateException(ex.toString());
                 }
             }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    CallMethod target = (CallMethod) object;
+                    target.removeAllValue();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.Value();
             }

@@ -86,6 +86,14 @@ public class OnlySourceGenerationTestDescriptor extends org.exolab.castor.xml.ut
                     throw new IllegalStateException(ex.toString());
                 }
             }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    OnlySourceGenerationTest target = (OnlySourceGenerationTest) object;
+                    target.removeAllSchema();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return null;
             }
@@ -234,6 +242,14 @@ public class OnlySourceGenerationTestDescriptor extends org.exolab.castor.xml.ut
                     target.addUnitTestCase( (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) value);
                 }
                 catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    OnlySourceGenerationTest target = (OnlySourceGenerationTest) object;
+                    target.removeAllUnitTestCase();
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }

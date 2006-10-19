@@ -59,7 +59,7 @@ public class FailureTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- _content
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(Boolean.TYPE, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException

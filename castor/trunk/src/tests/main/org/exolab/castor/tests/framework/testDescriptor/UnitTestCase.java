@@ -52,11 +52,6 @@ public class UnitTestCase implements java.io.Serializable {
     private java.lang.String _goldFile;
 
     /**
-     * Field _output
-     */
-    private java.lang.String _output;
-
-    /**
      * Field _objectBuilder
      */
     private java.lang.String _objectBuilder;
@@ -174,16 +169,6 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- java.lang.String getObjectBuilder() 
 
     /**
-     * Returns the value of field 'output'.
-     * 
-     * @return the value of field 'Output'.
-     */
-    public java.lang.String getOutput()
-    {
-        return this._output;
-    } //-- java.lang.String getOutput() 
-
-    /**
      * Returns the value of field 'skip'.
      * 
      * @return the value of field 'Skip'.
@@ -216,6 +201,16 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- boolean hasSkip() 
 
     /**
+     * Returns the value of field 'skip'.
+     * 
+     * @return the value of field 'Skip'.
+     */
+    public boolean isSkip()
+    {
+        return this._skip;
+    } //-- boolean isSkip() 
+
+    /**
      * Method isValid
      * 
      * 
@@ -237,6 +232,10 @@ public class UnitTestCase implements java.io.Serializable {
      * 
      * 
      * @param out
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
     public void marshal(java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
@@ -249,6 +248,12 @@ public class UnitTestCase implements java.io.Serializable {
      * 
      * 
      * @param handler
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
      */
     public void marshal(org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
@@ -328,16 +333,6 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- void setObjectBuilder(java.lang.String) 
 
     /**
-     * Sets the value of field 'output'.
-     * 
-     * @param output the value of field 'output'.
-     */
-    public void setOutput(java.lang.String output)
-    {
-        this._output = output;
-    } //-- void setOutput(java.lang.String) 
-
-    /**
      * Sets the value of field 'skip'.
      * 
      * @param skip the value of field 'skip'.
@@ -365,6 +360,10 @@ public class UnitTestCase implements java.io.Serializable {
      * 
      * 
      * @param reader
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      * @return the unmarshaled
      * org.exolab.castor.tests.framework.testDescriptor.UnitTestCase
      */
@@ -375,6 +374,10 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase unmarshal(java.io.Reader) 
 
     /**
+     * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
      */
     public void validate()
         throws org.exolab.castor.xml.ValidationException

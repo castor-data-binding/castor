@@ -1,4 +1,4 @@
-#Tue Oct 03 21:24:40 CDT 2006
+#Wed Oct 18 21:52:05 CDT 2006
 org.exolab.castor.tests.framework.testDescriptor.FailureType=org.exolab.castor.tests.framework.testDescriptor.FailureTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.Unmarshal=org.exolab.castor.tests.framework.testDescriptor.UnmarshalDescriptor
 org.exolab.castor.tests.framework.testDescriptor.CallMethod=org.exolab.castor.tests.framework.testDescriptor.CallMethodDescriptor

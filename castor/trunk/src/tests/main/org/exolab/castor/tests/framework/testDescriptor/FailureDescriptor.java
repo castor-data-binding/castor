@@ -98,8 +98,9 @@ public class FailureDescriptor extends FailureTypeDescriptor {
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity()
     {
-        if (identity == null)
+        if (identity == null) {
             return super.getIdentity();
+        }
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 

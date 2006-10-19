@@ -85,6 +85,14 @@ public class SchemaTestDescriptor extends org.exolab.castor.xml.util.XMLClassDes
                     throw new IllegalStateException(ex.toString());
                 }
             }
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
+                try {
+                    SchemaTest target = (SchemaTest) object;
+                    target.removeAllUnitTestCase();
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
                 return new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase();
             }
