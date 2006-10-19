@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.javasource;
 
 /**
@@ -52,18 +51,14 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class JParameter extends JAnnotatedElementHelper {
-    /**
-     * The type associated with this JParameter
-     */
+    /** The type associated with this JParameter. */
     private JType _type = null;
-    /**
-     * The name of this JParameter
-     */
+    /** The name of this JParameter. */
     private String _name = null;
 
     /**
-     * Creates a new JParameter with the given type, and name
-     * 
+     * Creates a new JParameter with the given type, and name.
+     *
      * @param type the JType to associate with this JParameter
      * @param name name of the JParameter
      */
@@ -74,35 +69,35 @@ public final class JParameter extends JAnnotatedElementHelper {
     } //-- JParameter
 
     /**
-     * Returns the name of the parameter
+     * Returns the name of the parameter.
      *
-     * @return the name of the parameter
+     * @return the name of the parameter.
      */
     public String getName() {
         return this._name;
     } //-- getName
-    
+
     /**
-     * Returns the parameter type
-     * 
-     * @return the parameter type
+     * Returns the parameter type.
+     *
+     * @return the parameter type.
      */
     public JType getType() {
         return this._type;
     } //-- getType
 
     /**
-     * Sets the name of this parameter
-     * 
+     * Sets the name of this parameter.
+     *
      * @param name the new name of the parameter
      */
     public void setName(final String name) {
         this._name = name;
     } //-- setName
-    
+
     /**
-     * Sets the type of this parameter
-     * 
+     * Sets the type of this parameter.
+     *
      * @param type the new JType of this parameter
      */
     public void setType(final JType type) {
@@ -117,7 +112,7 @@ public final class JParameter extends JAnnotatedElementHelper {
      * Returns the String representation of this JParameter. The String returned
      * will consist of the String representation of the parameter type followed
      * by the name of the parameter.
-     * 
+     *
      * @return the String representation of this JParameter
      */
     public String toString() {
@@ -126,4 +121,5 @@ public final class JParameter extends JAnnotatedElementHelper {
         sb.append(this._name);
         return sb.toString();
     } //-- toString
+
 } //-- JParamater

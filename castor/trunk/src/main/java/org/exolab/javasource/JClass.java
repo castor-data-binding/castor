@@ -75,37 +75,37 @@ import java.util.Vector;
 public class JClass extends JStructure {
 
     /**
-     * The list of constructors for this JClass
+     * The list of constructors for this JClass.
      */
     protected Vector _constructors  = null;
 
     /**
-     * The list of member variables (fields) of this JClass
+     * The list of member variables (fields) of this JClass.
      */
     protected JNamedMap _fields     = null;
 
     /**
-     * A collection of inner classes for this JClass
+     * A collection of inner classes for this JClass.
      */
     protected Vector _innerClasses  = null;
 
     /**
-     * The list of methods of this JClass
+     * The list of methods of this JClass.
      */
     protected Vector _methods       = null;
 
     /**
-     * The superclass for this JClass
+     * The superclass for this JClass.
      */
     private JTypeName _superClass   = null;
 
     /**
-     * The source code for static initialization
+     * The source code for static initialization.
      */
     protected JSourceCode _staticInitializer = new JSourceCode();
 
     /**
-     * Creates a new JClass with the given name
+     * Creates a new JClass with the given name.
      *
      * @param name the name of the JClass to create
      */
@@ -145,7 +145,7 @@ public class JClass extends JStructure {
     }
 
     /**
-     * Adds the given JField to this JClass
+     * Adds the given JField to this JClass.
      *
      * @param jField the JField to add
      */
@@ -198,7 +198,7 @@ public class JClass extends JStructure {
     } //-- addImport
 
     /**
-     * Adds the given JMember to this JClass
+     * Adds the given JMember to this JClass.
      *
      * @param jMember the JMember to add
      */
@@ -221,7 +221,7 @@ public class JClass extends JStructure {
     } //-- addMember
 
     /**
-     * Adds the given JMethod to this JClass
+     * Adds the given JMethod to this JClass.
      *
      * @param jMethod the JMethod to add
      */
@@ -230,7 +230,7 @@ public class JClass extends JStructure {
     }
 
     /**
-     * Adds the given JMethod to this JClass
+     * Adds the given JMethod to this JClass.
      *
      * @param jMethod the JMethod to add
      * @param importReturnType true if we add the importReturnType to the class
@@ -276,7 +276,7 @@ public class JClass extends JStructure {
     } //-- addMethod
 
     /**
-     * Adds the given array of JMethods to this JClass
+     * Adds the given array of JMethods to this JClass.
      *
      * @param jMethods the JMethod[] to add
      */
@@ -311,10 +311,10 @@ public class JClass extends JStructure {
     } //-- createConstructor
 
     /**
-     * Creates and returns an inner-class for this JClass
+     * Creates and returns an inner-class for this JClass.
      *
      * @param localname the name of the class (no package name)
-     * @return the new JClass
+     * @return the new JClass.
      */
     public final JClass createInnerClass(final String localname) {
         if (localname == null) {
@@ -352,9 +352,9 @@ public class JClass extends JStructure {
     } //-- getConstructor
 
     /**
-     * Returns the an array of the JConstructors contained within this JClass
+     * Returns the an array of the JConstructors contained within this JClass.
      *
-     * @return an array of JConstructor
+     * @return an array of JConstructor.
      */
     public final JConstructor[] getConstructors() {
         int size = _constructors.size();
@@ -368,20 +368,20 @@ public class JClass extends JStructure {
 
     /**
      * Returns the member with the given name, or null if no member is found
-     * with the given name
+     * with the given name.
      *
      * @param name the name of the member to return
      * @return the member with the given name, or null if no member was found
-     *         with the given name
+     *         with the given name.
      */
     public final JField getField(final String name) {
         return (JField) _fields.get(name);
     } //-- getField
 
     /**
-     * Returns an array of all the JFields of this JClass
+     * Returns an array of all the JFields of this JClass.
      *
-     * @return an array of all the JFields of this JClass
+     * @return an array of all the JFields of this JClass.
      */
     public final JField[] getFields() {
         int size = _fields.size();
@@ -409,9 +409,9 @@ public class JClass extends JStructure {
     } //-- getInnerClasses;
 
     /**
-     * Returns an array of all the JMethods of this JClass
+     * Returns an array of all the JMethods of this JClass.
      *
-     * @return an array of all the JMethods of this JClass
+     * @return an array of all the JMethods of this JClass.
      */
     public final JMethod[] getMethods() {
         int size = _methods.size();
@@ -440,7 +440,7 @@ public class JClass extends JStructure {
     } //-- getMethod
 
     /**
-     * Returns the JMethod located at the specified index
+     * Returns the JMethod located at the specified index.
      *
      * @param index the index of the JMethod to return.
      * @return the JMethod
@@ -451,18 +451,18 @@ public class JClass extends JStructure {
 
 
     /**
-     * Returns the JSourceCode for the static initializer of this JClass
+     * Returns the JSourceCode for the static initializer of this JClass.
      *
-     * @return the JSourceCode for the static initializer of this JClass
+     * @return the JSourceCode for the static initializer of this JClass.
      */
     public final JSourceCode getStaticInitializationCode() {
         return _staticInitializer;
     } //-- getStaticInitializationCode
 
     /**
-     * Returns the qualified name of the super class that this class extends
+     * Returns the qualified name of the super class that this class extends.
      *
-     * @return superClass teh qualified name of the super class that this class extends
+     * @return superClass the qualified name of the super class that this class extends.
      */
     public final String getSuperClassQualifiedName() {
         if (_superClass == null) { return null; }
@@ -470,16 +470,16 @@ public class JClass extends JStructure {
     } //-- getSuperClass
 
     /**
-     * Returns the super class that this class extends
+     * Returns the super class that this class extends.
      *
-     * @return superClass the super class that this class extends
+     * @return superClass the super class that this class extends.
      */
     public final JTypeName getSuperClass() {
         return _superClass;
     }
 
     /**
-     * Prints the source code for this JClass to the given JSourceWriter
+     * Prints the source code for this JClass to the given JSourceWriter.
      *
      * @param jsw the JSourceWriter to print to. Must not be null.
      */
@@ -488,7 +488,7 @@ public class JClass extends JStructure {
     } //-- print
 
     /**
-     * Prints the source code for this JClass to the given JSourceWriter
+     * Prints the source code for this JClass to the given JSourceWriter.
      *
      * @param classOnly if true, the file header, package declaration, and
      *            imports are not printed
@@ -667,7 +667,6 @@ public class JClass extends JStructure {
             jsw.write(jField.getName());
 
             String init = jField.getInitString();
-            JType jType = jField.getType();
             if (init != null && !jField.isDateTime()) {
                 jsw.write(" = ");
                 jsw.write(init);
@@ -697,7 +696,7 @@ public class JClass extends JStructure {
     }
 
     /**
-     * Writes to the JSourceWriter all constructors for this class
+     * Writes to the JSourceWriter all constructors for this class.
      * @param jsw the JSourceWriter to be used
      */
     private void printConstructors(final JSourceWriter jsw) {
@@ -737,7 +736,7 @@ public class JClass extends JStructure {
     }
 
     /**
-     * Writes to the JSourceWriter all inner classes belonging to this class
+     * Writes to the JSourceWriter all inner classes belonging to this class.
      * @param jsw the JSourceWriter to be used
      */
     private void printInnerClasses(final JSourceWriter jsw) {
@@ -757,30 +756,30 @@ public class JClass extends JStructure {
     }
 
     /**
-     * Removes the given constructor from this JClass
+     * Removes the given constructor from this JClass.
      *
      * @param constructor the JConstructor to remove
-     * @return true if the constructor was removed, otherwise false
+     * @return true if the constructor was removed, otherwise false.
      */
     public final boolean removeConstructor(final JConstructor constructor) {
         return _constructors.removeElement(constructor);
     } //-- removeConstructor
 
     /**
-     * Removes the given method from this JClass
+     * Removes the given method from this JClass.
      *
      * @param method the JMethod to remove
-     * @return true if the method was removed, otherwise false
+     * @return true if the method was removed, otherwise false.
      */
     public final boolean removeMethod(final JMethod method) {
         return _methods.removeElement(method);
     } //-- removeMethod
 
     /**
-     * Removes the field with the given name from this JClass
+     * Removes the field with the given name from this JClass.
      *
      * @param name the name of the field to remove
-     * @return the JField if it was found and removed
+     * @return the JField if it was found and removed.
      */
     public final JField removeField(final String name) {
         if (name == null) { return null; }
@@ -793,10 +792,10 @@ public class JClass extends JStructure {
     } //-- removeField
 
     /**
-     * Removes the given JField from this JClass
+     * Removes the given JField from this JClass.
      *
      * @param jField the JField to remove
-     * @return true if the field was found and removed
+     * @return true if the field was found and removed.
      */
     public final boolean removeField(final JField jField) {
         if (jField == null) { return false; }
@@ -813,10 +812,10 @@ public class JClass extends JStructure {
     } //-- removeField
 
     /**
-     * Removes the given inner-class (JClass) from this JClass
+     * Removes the given inner-class (JClass) from this JClass.
      *
      * @param jClass the JClass (inner-class) to remove
-     * @return true if the JClass was removed, otherwise false
+     * @return true if the JClass was removed, otherwise false.
      */
     public final boolean removeInnerClass(final JClass jClass) {
         if (_innerClasses != null) {
@@ -826,7 +825,7 @@ public class JClass extends JStructure {
     } //-- removeInnerClass
 
     /**
-     * Sets the super Class that this class extends
+     * Sets the super Class that this class extends.
      *
      * @param superClass the super Class that this Class extends
      */
@@ -839,7 +838,7 @@ public class JClass extends JStructure {
     } //-- setSuperClass
 
     /**
-     * Test drive method...to be removed or commented out
+     * Test drive method...to be removed or commented out.
      * @param args ignored
      */
     public static void main(final String[] args) {
@@ -895,7 +894,7 @@ public class JClass extends JStructure {
         }
 
         /**
-         * Allows changing the package name of this JStructure
+         * Allows changing the package name of this JStructure.
          *
          * @param packageName the package name to use
          */

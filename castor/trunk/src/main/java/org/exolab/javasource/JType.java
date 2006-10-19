@@ -46,12 +46,11 @@
 package org.exolab.javasource;
 
 /**
- * Represents a primitive or class type
- * 
+ * Represents a primitive or class type.
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class JType {
 
@@ -96,19 +95,19 @@ public class JType {
     public static final JType SHORT = new JType("short", "Short");
 
     /**
-     * Fully qualified of the Java type represented 
+     * Fully qualified of the Java type represented.
      */
     private String _name = null;
 
     /**
      * Only populated for primitive types and indicates the wrapper Object class
-     * name for this primitive type
+     * name for this primitive type.
      */
     private String _wrapperName = null;
 
     /**
-     * Creates a new JType with the given name
-     * 
+     * Creates a new JType with the given name.
+     *
      * @param name
      *            the name of the type
      */
@@ -121,7 +120,7 @@ public class JType {
      * Creates a new JType for a primitive with the given name and wrapper name.
      * This constructor is private so it can only be used by the primitives
      * defined here.
-     * 
+     *
      * @param name
      *            the name of the type
      * @param wrapperName
@@ -134,11 +133,10 @@ public class JType {
 
     /**
      * Returns the unqualified Java type name (i.e. without package).
-     * 
+     *
      * @return the unqualified Java type name.
      */
     public final String getLocalName() {
-
         // -- use getName method in case it's been overloaded
         String name = getName();
 
@@ -154,7 +152,7 @@ public class JType {
 
     /**
      * Returns the qualified Java type name.
-     * 
+     *
      * @return the qualified Java type name.
      */
     public final String getName() {
@@ -164,7 +162,7 @@ public class JType {
     /**
      * Return the name of the wrapper object for a primitive type, null for
      * non-primitive types.
-     * 
+     *
      * @return the name of the wrapper object for a primitive type, null for
      *         non-primitive types.
      */
@@ -174,7 +172,7 @@ public class JType {
 
     /**
      * Checks to see if this JType represents a primitive type.
-     * 
+     *
      * @return true if this JType represents a primitive type, otherwise false.
      */
     public final boolean isPrimitive() {
@@ -196,7 +194,7 @@ public class JType {
     /**
      * Returns the String representation of this JType, which is simply the name
      * of this type.
-     * 
+     *
      * @return the String representation of this JType.
      */
     public String toString() {
@@ -207,17 +205,14 @@ public class JType {
      * Change the package this JType belongs to. This method is protected to
      * allow subtypes, such as JClass to alter the package to which this JType
      * belongs.
-     * 
+     *
      * @param newPackage
      *            the new package to which this JType belongs <BR>
      *            <B>Note:</B> The package name cannot be changed on a
      *            primitive type.
      */
     protected final void changePackage(final String newPackage) {
-        if (this._name == null) {
-            return;
-        }
-        if (this.isPrimitive()) {
+        if (this._name == null || this.isPrimitive()) {
             return;
         }
 

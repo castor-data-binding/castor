@@ -44,63 +44,65 @@
  *
  * $Id$
  */
-
 package org.exolab.javasource;
 
 /**
- * Represents a class name
- * 
+ * Represents a class name.
+ *
  * @author <a href="mailto:keith (at) kvisco (dot) com">Keith Visco</a>
- * @version $REVISION$ $DATE$
+ * @version $Revision: $ $Date: $
  */
 public final class JTypeName {
 
+    /** Package name for this type. */
     private String _package   = null;
+    /** Fully-qualified name for this type. */
     private String _qName     = null;
+    /** Local (unqualfied by a packagee) name for this type. */
     private String _localName = null;
-        
+
     /**
-     * Creates a default JTypeName
+     * Creates a default JTypeName.
      */
     public JTypeName() {
         super();
     }
-    
+
     /**
-     * Creates a new JTypeName with the given name
-     * 
+     * Creates a new JTypeName with the given name.
+     *
      * @param name the fully qualified class name
      */
     public JTypeName(final String name) {
         super();
         init(name);
     } //-- JTypeName
-    
+
     /**
-     * Returns the local name of this JTypeName
-     * 
+     * Returns the local name of this JTypeName.
+     *
      * @return the local name of this JTypeName
      */
     public String getLocalName() {
         return _localName;
     } //-- getLocalName
-    
+
     /**
-     * Returns the package name of this JTypeName
-     * 
+     * Returns the package name of this JTypeName.
+     *
      * @return the package name of this JTypeName
      */
     public String getPackageName() {
         return _package;
     } //-- getPackageName
-    
+
     /**
      * @see java.lang.Object#equals(java.lang.Object)
      * {@inheritDoc}
      */
     public boolean equals(final Object obj) {
         if (obj instanceof JTypeName) {
-            
+
             JTypeName jname = (JTypeName) obj;
             String qn1 = jname.getQualifiedName();
             String qn2 = getQualifiedName();
@@ -110,7 +112,7 @@ public final class JTypeName {
         }
         return false;
     }
-    
+
     /**
      * @see java.lang.Object#hashCode()
      * {@inheritDoc}
@@ -122,11 +124,11 @@ public final class JTypeName {
         }
         return 0;
     }
-    
+
     /**
-     * Returns the qualified name of this JTypeName
-     * 
-     * @return the qualified name of this JTypeName
+     * Returns the qualified name of this JTypeName.
+     *
+     * @return the qualified name of this JTypeName.
      */
     public String getQualifiedName() {
         if (_qName == null) {
@@ -142,10 +144,10 @@ public final class JTypeName {
         }
         return _qName;
     } //-- getQualifiedName
-    
+
     /**
-     * Parses the given name value and initializes the variables
-     * 
+     * Parses the given name value and initializes the variables.
+     *
      * @param name the name to initialize with
      */
     private void init(final String name) {
@@ -156,7 +158,7 @@ public final class JTypeName {
         } else {
             _qName = name;
             _localName = name;
-            
+
             int idx = name.lastIndexOf('.');
             if (idx > 0) {
                 _package = name.substring(0, idx);
@@ -169,37 +171,37 @@ public final class JTypeName {
      * Sets the local name for this JTypeName. Setting the local name will
      * modify the existing local name and will reset the existing qualified
      * name.
-     * 
+     *
      * @param localName the local name to set
      */
     public void setLocalName(final String localName) {
         _localName = localName;
         _qName = null;
     } //-- setLocalName
-    
+
     /**
      * Sets the package name of this JTypeName. Setting the package name will
      * modify the existing package name and will reset the existing qualified
      * name.
-     * 
+     *
      * @param packageName the package name to set
      */
     public void setPackageName(final String packageName) {
         _package = packageName;
         _qName = null;
     } //-- setPackageName
-    
+
     /**
      * Sets the qualified name of this JTypeName. Setting the qualified name
      * will overwrite any previous values set via calls to {@link #setLocalName(String)}
      * and {@link #setPackageName(String)}.
-     * 
+     *
      * @param qName the qualified name
      */
     public void setQualifiedName(final String qName) {
         init(qName);
-    } //-- setQualifiedName 
-    
+    } //-- setQualifiedName
+
     /**
      * @see java.lang.Object#toString()
      * {@inheritDoc}

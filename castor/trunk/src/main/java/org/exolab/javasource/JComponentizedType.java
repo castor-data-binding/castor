@@ -10,19 +10,19 @@ public class JComponentizedType extends JType {
      * Indicates the data type contained in this collection.
      */
     private JType _componentType;
-    
+
     /**
-     * Indicates whether Java 5.0 compliant code is requird 
+     * Indicates whether Java 5.0 compliant code is required.
      */
     private boolean _useJava50;
-    
+
     /**
      * Creates an instance of a componentized type, of type 'name'.
      * @param name Type name for this componentized type.
      * @param componentType Component type.
      * @param useJava50 true if Java 5.0 should be used.
      */
-    public JComponentizedType(final String name, final JType componentType, 
+    public JComponentizedType(final String name, final JType componentType,
             final boolean useJava50) {
         super (name);
         setComponentType(componentType);
@@ -36,7 +36,7 @@ public class JComponentizedType extends JType {
     private void setComponentType(final JType componentType) {
         this._componentType = componentType;
     }
-    
+
     /**
      * Returns the component type.
      * @return the component type.
@@ -52,6 +52,5 @@ public class JComponentizedType extends JType {
     public boolean isUseJava50() {
         return this._useJava50;
     }
-
 
 }

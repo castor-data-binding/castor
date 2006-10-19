@@ -61,12 +61,12 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
 
     /**
      * Stores annotations associated with the source element containing this
-     * helper
+     * helper.
      */
     private OrderedHashMap _annotations;
 
     /**
-     * Creates a JAnnodatedElementHelper
+     * Creates a JAnnodatedElementHelper.
      */
     public JAnnotatedElementHelper() {
         super();
@@ -145,7 +145,7 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * Outputs the list of annotations maintained by this object
+     * Outputs the list of annotations maintained by this object.
      *
      * @param jsw the JSourceWriter to print the annotations to
      * @return true if at least one annotation was printed, false otherwise.
@@ -165,8 +165,8 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * Test
-     * @param args
+     * Test.
+     * @param args Command-line arguments
      */
     public static void main(final String[] args) {
         JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));

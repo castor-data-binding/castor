@@ -46,7 +46,6 @@
  * --------------
  * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
-
 package org.exolab.javasource;
 
 import java.io.PrintWriter;
@@ -54,13 +53,13 @@ import java.util.Enumeration;
 import java.util.Vector;
 
 /**
- * Describes the definition of a enum type class
+ * Describes the definition of a enum type class.
  *
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public final class JEnum extends JClass {
     /**
-     * The list of elements of this JEnumConstant
+     * The list of elements of this JEnumConstant.
      */
     private JNamedMap _constants = null;
 
@@ -75,7 +74,7 @@ public final class JEnum extends JClass {
     }
 
     /**
-     * Adds the given JMember to this JEnum
+     * Adds the given JMember to this JEnum.
      *
      * @param jMember the JMember to add
      */
@@ -88,7 +87,7 @@ public final class JEnum extends JClass {
     } //-- addMember
 
     /**
-     * Adds the given JEnumConstant to this JEnum
+     * Adds the given JEnumConstant to this JEnum.
      *
      * @param jConstant the constant to add
      */
@@ -105,22 +104,22 @@ public final class JEnum extends JClass {
         _constants.put(name, jConstant);
     } //-- addConstant
 
-        /**
+    /**
      * Returns the member with the given name, or null if no member was found
-     * with the given name
+     * with the given name.
      *
      * @param name the name of the member to return
      * @return the member with the given name, or null if no member was found
-     *         with the given name
+     *         with the given name.
      */
     public JEnumConstant getConstant(final String name) {
         return (JEnumConstant) _constants.get(name);
     } //-- getElement
 
     /**
-     * Returns an array of all the JEnumConstant of this JEnum
+     * Returns an array of all the JEnumConstant of this JEnum.
      *
-     * @return an array of all the JEnumConstant of this JEnum
+     * @return an array of all the JEnumConstant of this JEnum.
      */
     public JEnumConstant[] getConstants() {
         int size = _constants.size();
@@ -142,7 +141,7 @@ public final class JEnum extends JClass {
     }
 
     /**
-     * Prints the source code for this JEnum to the given JSourceWriter
+     * Prints the source code for this JEnum to the given JSourceWriter.
      *
      * @param jsw the JSourceWriter to print to. Must not be null.
      */
@@ -371,8 +370,8 @@ public final class JEnum extends JClass {
     }
 
     /**
-     * Test drive
-     * @param args
+     * Test drive.
+     * @param args command-line arguments.
      */
     public static void main(final String[] args) {
         JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));

@@ -54,7 +54,7 @@ package org.exolab.javasource;
 public final class JNaming {
 
     /**
-     * Reserved keywords in Java as of Java 5
+     * Reserved keywords in Java as of Java 5.
      */
     private static final String[] KEYWORDS = {
         "abstract",
@@ -111,7 +111,7 @@ public final class JNaming {
     }; //-- keywords
 
     /**
-     * Collection classes in Java as of Java 5
+     * Collection classes in Java as of Java 5.
      */
     private static final String[] COLLECTIONS = {
         "ArrayList",
@@ -142,7 +142,7 @@ public final class JNaming {
     }; //-- Collections
 
     /**
-     * Classes in java.lang.* as of Java 5
+     * Classes in java.lang.* as of Java 5.
      */
     private static final String[] JAVA_LANG = {
         // Interfaces in java.lang.*
@@ -332,11 +332,11 @@ public final class JNaming {
 
     /**
      * Returns true if the given String matches the production of a valid Java
-     * identifier
+     * identifier.
      *
      * @param string the String to check the production of
      * @return true if the given String matches the production of a valid Java
-     *         name, otherwise false
+     *         name, otherwise false.
      */
     public static boolean isValidJavaIdentifier(final String string) {
         if ((string == null) || (string.length() == 0)) { return false; }

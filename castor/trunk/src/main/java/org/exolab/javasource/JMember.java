@@ -46,25 +46,24 @@
 package org.exolab.javasource;
 
 /**
- * An interface which represents a Member of a JClass,
- * modelled closely after the Java Reflection API.
- * This class is part of a package used to represent
+ * An interface which represents a Member of a JClass, modelled closely after
+ * the Java Reflection API. This class is part of a package used to represent
  * source code.
- * 
+ *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public interface JMember {
     /**
-     * Returns the modifiers for this JMember
-     * @return the modifiers for this JMember     
+     * Returns the modifiers for this JMember.
+     * @return the modifiers for this JMember.
      */
     JModifiers getModifiers();
 
     /**
-     * Returns the name of this JMember
-     * @return the name of this JMember
+     * Returns the name of this JMember.
+     * @return the name of this JMember.
      */
     String getName();
-} //-- JMember
 
+} //-- JMember
