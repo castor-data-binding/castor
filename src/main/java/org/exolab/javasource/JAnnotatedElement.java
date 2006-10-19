@@ -72,7 +72,7 @@ package org.exolab.javasource;
  *           "Unscrupulous dentists"
  *       })
  *   public class Lollipop {
- *   } 
+ *   }
  * </pre>
  * Adding the method annotations
  * <pre>
@@ -97,7 +97,7 @@ package org.exolab.javasource;
  *       date     = "4/1/2004")
  *   public void travelThroughTime(Date date)
  *   {
- *   }  
+ *   }
  * </pre>
  * Adding the field annotations
  * <pre>
@@ -119,50 +119,51 @@ public interface JAnnotatedElement {
     /**
      * Retrieves a JAnnotation for the given JAnnotationType, returns null if no
      * annotation has been set.
-     * 
-     * @param annotationType
+     *
+     * @param annotationType Annotation type to retrieve
      * @return A JAnnotation for the given JAnnotationType
      */
     JAnnotation getAnnotation(JAnnotationType annotationType);
-    
+
     /**
-     * Returns a list of JAnnotation's already set on this source element
-     * 
-     * @return A list of all JAnnotations associated with this source element
+     * Returns a list of JAnnotation's already set on this source element.
+     *
+     * @return A list of all JAnnotations associated with this source element.
      */
     JAnnotation[] getAnnotations();
-    
+
     /**
-     * Returns true if a JAnnotation exists for the given JAnnotationType
-     * 
-     * @param annotationType
+     * Returns true if a JAnnotation exists for the given JAnnotationType.
+     *
+     * @param annotationType Annotation type to check for presence or absense
      * @return True if a JAnnotation has been added for the given
-     *         JAnnotationType
+     *         JAnnotationType.
      */
     boolean isAnnotationPresent(JAnnotationType annotationType);
-    
+
     /**
      * Adds a JAnnotation to this source element. An IllegalArgumentException is
      * thrown if one already exists for the associated JAnnotationType.
-     * 
-     * @param annotation a JAnnotation to add to this source element
+     *
+     * @param annotation a JAnnotation to add to this source element.
      */
     void addAnnotation(JAnnotation annotation);
-    
+
     /**
      * Removes the JAnnotation from this source element for the given
      * JAnnotationType. An IllegalArgumentException is thrown if the provided
      * JAnnotation isn't present.
-     * 
+     *
      * @param annotationType Annotation type to remove
      * @return The JAnnotation that was associated with this source element
      */
     JAnnotation removeAnnotation(JAnnotationType annotationType);
-    
+
     /**
-     * Returns true if this source element has any annotations
-     * 
-     * @return Returns true if this source element has any annotations
+     * Returns true if this source element has any annotations.
+     *
+     * @return Returns true if this source element has any annotations.
      */
     boolean hasAnnotations();
+
 }

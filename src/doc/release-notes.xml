@@ -70,6 +70,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1636" tool="jira">
+                    <description>
+                        Checkstyle-based corrections in javasource
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061019</date>
+                </bug>
                 <bug id="1612" tool="jira">
                     <description>
                         Update CTF documentation for new test case type

@@ -42,74 +42,47 @@
  *
  * $Id$
  */
-
 package org.exolab.javasource;
 
 import java.io.Writer;
 
 /**
  * The writer used by the javasource classes.
- * 
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-30 03:29:24 -0700 (Wed, 30 Mar 2005) $
  */
 public final class JSourceWriter extends Writer {
 
-    /**
-     * The default character to use for indentation
-     */
+    /** The default character to use for indentation. */
     public static final char DEFAULT_CHAR = ' ';
-
-    /**
-     * The default indentation size
-     */
+    /** The default indentation size. */
     public static final short DEFAULT_SIZE = 4;
 
-    /**
-     * The line separator to use for the writeln methods
-     */
+    /** The line separator to use for the writeln methods. */
     private String _lineSeparator = System.getProperty("line.separator");
-
     /**
      * Flag for indicating whether we need to add the whitespace to beginning
-     * of next write call.
-     */
+     * of next write call. */
     private boolean _addIndentation = true;
-
     /**
      * A flag indicating whether this JSourceWriter should perform autoflush at
-     * the end of a new line.
-     */
+     * the end of a new line. */
     private boolean _autoflush = false;
-
-    /**
-     * The tab (indentation) size
-     */
+    /** The tab (indentation) size. */
     private short _tabSize = DEFAULT_SIZE;
-
-    /**
-     * The tab representation
-     */
+    /** The tab representation. */
     private char[] _tab;
-
-    /**
-     * The character to use for indentation
-     */
+    /** The character to use for indentation. */
     private char _tabChar = DEFAULT_CHAR;
-
-    /**
-     * The current tab level
-     */
+    /** The current tab level. */
     private short _tabLevel = 0;
-
-    /**
-     * The writer to send all output to
-     */
+    /** The writer to send all output to. */
     private Writer _out = null;
-    
+
     /**
      * Creates a new JSourceWriter.
-     * 
+     *
      * @param out the Writer to write the actual output to
      */
     public JSourceWriter(final Writer out) {
@@ -117,8 +90,8 @@ public final class JSourceWriter extends Writer {
     } //-- JSourceWriter
 
     /**
-     * Creates a new JSourceWriter
-     * 
+     * Creates a new JSourceWriter.
+     *
      * @param out the Writer to write the actual output to
      * @param autoflush a boolean indicating whether or not to perform automatic
      *        flush at the end of a line
@@ -128,8 +101,8 @@ public final class JSourceWriter extends Writer {
     } //-- JSourceWriter
 
     /**
-     * Creates a new JSourceWriter
-     * 
+     * Creates a new JSourceWriter.
+     *
      * @param out the Writer to write the actual output to
      * @param tabSize the size of each indentation
      * @param autoflush a boolean indicating whether or not to perform automatic
@@ -140,8 +113,8 @@ public final class JSourceWriter extends Writer {
     } //-- JSourceWriter
 
     /**
-     * Creates a new JSourceWriter
-     * 
+     * Creates a new JSourceWriter.
+     *
      * @param out the Writer to write the actual output to
      * @param tabSize the size of each indentation
      * @param tabChar the character to use for indentation
@@ -158,24 +131,24 @@ public final class JSourceWriter extends Writer {
     } //-- JSourceWriter
 
     /**
-     * Returns the line separator being used by this JSourceWriter
-     * 
-     * @return the line separator being used by this JSourceWriter
+     * Returns the line separator being used by this JSourceWriter.
+     *
+     * @return the line separator being used by this JSourceWriter.
      */
     public String getLineSeparator() {
         return _lineSeparator;
     } //-- getLineSeparator
 
     /**
-     * Increases the indentation level by 1
+     * Increases the indentation level by 1.
      */
     public void indent() {
         ++_tabLevel;
     } //-- increaseIndent
 
     /**
-     * Checks to see if the cursor is positioned on a new line
-     * 
+     * Checks to see if the cursor is positioned on a new line.
+     *
      * @return true if the cursor is at the start of a new line, otherwise false
      */
     public boolean isNewline() {
@@ -191,7 +164,7 @@ public final class JSourceWriter extends Writer {
      *   <li>"\n" for UNIX</li>
      *   <li>"\r" for Macintosh</li>
      * </ul>
-     * 
+     *
      * @param lineSeparator the String to use as a line separator.
      */
     public void setLineSeparator(final String lineSeparator) {
@@ -199,7 +172,7 @@ public final class JSourceWriter extends Writer {
     } //-- setLineSeparator
 
     /**
-     * Decreases the indentation level by 1
+     * Decreases the indentation level by 1.
      */
     public void unindent() {
         if (_tabLevel > 0) { --_tabLevel; }
@@ -230,7 +203,7 @@ public final class JSourceWriter extends Writer {
     } //-- write(boolean)
 
     //- writeln() methods
-    
+
     public void writeln() {
         synchronized (lock) {
             linefeed();
@@ -354,7 +327,7 @@ public final class JSourceWriter extends Writer {
             _addIndentation = true;
         }
     } //-- writeln(char)
-    
+
     //-----------------------/
     //- Methods from Writer -/
     //-----------------------/
@@ -398,7 +371,7 @@ public final class JSourceWriter extends Writer {
             if (_autoflush) { flush(); }
         }
     } //-- write
-    
+
     public void write(final char[] buf) {
         synchronized (lock) {
             ensureIndent();
@@ -410,7 +383,7 @@ public final class JSourceWriter extends Writer {
             if (_autoflush) { flush(); }
         }
     } //-- write
-    
+
     public void write(final int c) {
         synchronized (lock) {
             ensureIndent();
@@ -440,27 +413,34 @@ public final class JSourceWriter extends Writer {
     //---------------------/
 
     /**
-     * Returns the current indentation level
-     * 
-     * @return the current indentation level
+     * Returns the current indentation level.
+     *
+     * @return the current indentation level.
      */
     protected short getIndentLevel() {
         return _tabLevel;
     }
 
     /**
-     * Returns the current indent size (getIndentLevel()*tabSize);
-     * 
+     * Returns the current indent size (getIndentLevel()*tabSize).
+     *
      * @return the current indent size
      */
     protected short getIndentSize() {
         return (short) (_tabLevel * _tabSize);
     } //-- getIndentSize
 
+    /**
+     * Returns the current character used for indentation.
+     * @return the current character used for indentation.
+     */
     protected char getIndentChar() {
         return _tabChar;
     }
-    
+
+    /**
+     * Always applies the current indentation.
+     */
     protected void writeIndent() {
         try {
             for (int i = 0; i < _tabLevel; i++) { _out.write(_tab); }
@@ -472,7 +452,10 @@ public final class JSourceWriter extends Writer {
     //-------------------/
     //- Private Methods -/
     //-------------------/
-    
+
+    /**
+     * If indentation has not already been applied, then applies it.
+     */
     private void ensureIndent() {
         if (_addIndentation) {
             writeIndent();
@@ -481,7 +464,7 @@ public final class JSourceWriter extends Writer {
     } //-- ensureIndent
 
     /**
-     * Writes the line separator character to the writer
+     * Writes the line separator character to the writer.
      */
     private void linefeed() {
         try {
@@ -492,7 +475,7 @@ public final class JSourceWriter extends Writer {
     } //-- linefeed
 
     /**
-     * Creates the tab from the tabSize and the tabChar
+     * Creates the tab from the tabSize and the tabChar.
      */
     private void createTab() {
         _tab = new char[_tabSize];

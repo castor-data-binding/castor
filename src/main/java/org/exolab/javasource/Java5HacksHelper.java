@@ -15,9 +15,13 @@ import java.util.HashMap;
  */
 public final class Java5HacksHelper {
 
-    // This is a static class wrapper
-    private Java5HacksHelper() { }
-    
+    /**
+     * As a static utility class, we want a private constructor.
+     */
+    private Java5HacksHelper() {
+        // Nothing to do
+    }
+
     private static class MethodSpec {
         public String _methodName      = null;
         public int    _paramCount      = 0;
@@ -34,56 +38,57 @@ public final class Java5HacksHelper {
         temp._paramCount      = paramCount;
         temp._param1ClassName = param1ClassName;
         temp._param2ClassName = param2ClassName;
-        
+
         DEFINED_SPECS.put(methodName, temp);
     }
 
     static {
-        createMethodSpec("getAccessMode",       0, "",                                         ""); 
-        createMethodSpec("getExtends",          0, "",                                         ""); 
-        createMethodSpec("getIdentity",         0, "",                                         ""); 
-        createMethodSpec("getJavaClass",        0, "",                                         ""); 
-        createMethodSpec("getNameSpacePrefix",  0, "",                                         ""); 
-        createMethodSpec("getNameSpaceURI",     0, "",                                         ""); 
-        createMethodSpec("getValidator",        0, "",                                         ""); 
-        createMethodSpec("getXMLName",          0, "",                                         ""); 
-        createMethodSpec("getXTransients",      0, "",                                         ""); 
-        createMethodSpec("newInstance",         1, "java.lang.Object",                         ""); 
-        createMethodSpec("setValue",            1, "java.lang.Object",                         ""); 
-        createMethodSpec("equals",              1, "java.lang.Object",                         ""); 
-        createMethodSpec("getValue",            1, "java.lang.Object",                         ""); 
-        createMethodSpec("marshal",             1, "java.io.Writer",                           ""); 
-        createMethodSpec("newInstance",         1, "java.lang.Object",                         ""); 
-        createMethodSpec("setValue",            2, "java.lang.Object",                         "java.lang.Object"); 
-        createMethodSpec("setXTransients",      1, "org.openmrm.core.data.castor.XTransients", ""); 
-//      createMethodSpec("getAttributeId",      0, "",                                         ""); 
+        createMethodSpec("getAccessMode",       0, "",                                         "");
+        createMethodSpec("getExtends",          0, "",                                         "");
+        createMethodSpec("getIdentity",         0, "",                                         "");
+        createMethodSpec("getJavaClass",        0, "",                                         "");
+        createMethodSpec("getNameSpacePrefix",  0, "",                                         "");
+        createMethodSpec("getNameSpaceURI",     0, "",                                         "");
+        createMethodSpec("getValidator",        0, "",                                         "");
+        createMethodSpec("getXMLName",          0, "",                                         "");
+        createMethodSpec("getXTransients",      0, "",                                         "");
+        createMethodSpec("newInstance",         1, "java.lang.Object",                         "");
+        createMethodSpec("setValue",            1, "java.lang.Object",                         "");
+        createMethodSpec("equals",              1, "java.lang.Object",                         "");
+        createMethodSpec("getValue",            1, "java.lang.Object",                         "");
+        createMethodSpec("marshal",             1, "java.io.Writer",                           "");
+        createMethodSpec("newInstance",         1, "java.lang.Object",                         "");
+        createMethodSpec("setValue",            2, "java.lang.Object",                         "java.lang.Object");
+        createMethodSpec("setXTransients",      1, "org.openmrm.core.data.castor.XTransients", "");
+//      createMethodSpec("getAttributeId",      0, "",                                         "");
     };
 
+    /** An override annotation we use to see if we can get others of its type. */
     private static final JAnnotationType OVERRIDE_ANNOTATION = new JAnnotationType("Override");
 
     /**
      * Given the method signature, add the Override annotation if this class is
      * one that we know requires this annotation.
-     * 
+     *
      * @param jms
      *            the method signature to inspect
      */
     public static void addOverrideAnnotations(final JMethodSignature jms) {
         String name = jms.getName();
         boolean addOverrideAnnotation = false;
-        
-        // It the method already has an override annotation, then jump out 
+
+        // It the method already has an override annotation, then jump out
         JAnnotation override = jms.getAnnotation(OVERRIDE_ANNOTATION);
         if (override != null) {
             return;
         }
-        
+
         // If the method name doesn't exist in our list, then jump out
         MethodSpec methodSpec = (MethodSpec) DEFINED_SPECS.get(name);
         if (methodSpec == null) {
             return;
         }
-        
+
         // If the number of parameters isn't what we're prepared for, then jump out
         int paramCount = jms.getParameters().length;
         if (paramCount != methodSpec._paramCount) {
@@ -110,10 +115,10 @@ public final class Java5HacksHelper {
                 }
                 break;
             default:
-                // We aren't prepared for this number of parameters, so we don't add an Override annotation
+                // We aren't prepared for > 2 parameters, so we don't add an Override annotation
                 break;
         }
-        
+
         // Do the work if we need to
         if (addOverrideAnnotation) {
             jms.addAnnotation(new JAnnotation(new JAnnotationType("Override")));

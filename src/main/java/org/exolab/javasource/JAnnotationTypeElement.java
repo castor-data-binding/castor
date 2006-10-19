@@ -51,8 +51,8 @@ package org.exolab.javasource;
 import java.io.PrintWriter;
 
 /**
- * A class that holds information about a given annotation type element
- * 
+ * Holds information about a given annotation type element.
+ *
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public final class JAnnotationTypeElement implements JMember {
@@ -61,34 +61,34 @@ public final class JAnnotationTypeElement implements JMember {
     private JType       _type;
     private JModifiers  _modifiers;
     private String      _default;
-    
+
     /**
-     * Constructs a JAnnotationTypeElement with a given name and type
-     * 
-     * @param name
-     * @param type
+     * Constructs a JAnnotationTypeElement with a given name and type.
+     *
+     * @param name name of this new JAnnotatedTypeElement
+     * @param type type of this new JAnnotatedTypeElement
      */
     public JAnnotationTypeElement(final String name, final JType type) {
         setName(name);
         _type = type;
         _modifiers = new JModifiers();
         _comment = new JDocComment();
-        _comment.appendComment("Element " + name);      
+        _comment.appendComment("Element " + name);
     }
-    
+
     /**
-     * Returns the modifiers for this JAnnotationTypeElement
-     * 
-     * @return the modifiers for this JAnnotationTypeElement
-     */ 
+     * Returns the modifiers for this JAnnotationTypeElement.
+     *
+     * @return the modifiers for this JAnnotationTypeElement.
+     */
     public JModifiers getModifiers() {
         return _modifiers;
     } //-- getModifiers
 
     /**
-     * Sets the name of this JAnnotationTypeElement
-     * 
-     * @param name the name of this JAnnotationTypeElement
+     * Sets the name of this JAnnotationTypeElement.
+     *
+     * @param name the name of this JAnnotationTypeElement.
      */
     public void setName(final String name) {
         if (!JNaming.isValidJavaIdentifier(name)) {
@@ -96,7 +96,7 @@ public final class JAnnotationTypeElement implements JMember {
             if (JNaming.isKeyword(name)) {
                 err += "a reserved word and may not be used as "
                     + " a field name.";
-            } else { 
+            } else {
                 err += "not a valid Java identifier.";
             }
             throw new IllegalArgumentException(err);
@@ -105,55 +105,55 @@ public final class JAnnotationTypeElement implements JMember {
     } //-- setName
 
     /**
-     * Returns the name of this JAnnotationTypeElement
-     * 
-     * @return the name of this JAnnotationTypeElement
+     * Returns the name of this JAnnotationTypeElement.
+     *
+     * @return the name of this JAnnotationTypeElement.
      */
     public String getName() {
         return _name;
     } //-- getName
-    
+
     /**
-     * Returns the JType representing the type of this JAnnotationTypeElement
-     * 
-     * @return the JType representing the type of this JAnnotationTypeElement
-     */ 
+     * Returns the JType representing the type of this JAnnotationTypeElement.
+     *
+     * @return the JType representing the type of this JAnnotationTypeElement.
+     */
     public JType getType() {
         return _type;
     } //-- getType
 
     /**
-     * Returns the initialization string for this JAnnotationTypeElement
-     * 
-     * @return the initialization string for this JAnnotationTypeElement
-     */ 
+     * Returns the initialization string for this JAnnotationTypeElement.
+     *
+     * @return the initialization string for this JAnnotationTypeElement.
+     */
     public String getDefaultString() {
         return _default;
     } //-- getDefaultString
-    
+
     /**
      * Sets the initialization string for this JAnnotationTypeElement. This
      * method allows some flexibility in declaring default values.
-     * 
+     *
      * @param defaultString the default string for this member
-     */ 
+     */
     public void setDefaultString(final String defaultString) {
         _default = defaultString;
     } //-- setDefaultString
 
     /**
-     * Sets the JavaDoc comment describing this member
-     * 
-     * @param comment the JDocComment for this member
+     * Sets the JavaDoc comment describing this member.
+     *
+     * @param comment the JDocComment for this member.
      */
     public void setComment(final JDocComment comment) {
         this._comment = comment;
     } //-- setComment
 
     /**
-     * Sets the JavaDoc comment describing this member
-     * 
-     * @param comment the JDocComment for this member
+     * Sets the JavaDoc comment describing this member.
+     *
+     * @param comment the JDocComment for this member.
      */
     public void setComment(final String comment) {
         if (this._comment == null) {
@@ -163,18 +163,18 @@ public final class JAnnotationTypeElement implements JMember {
     } //-- setComment
 
     /**
-     * Returns the JavaDoc comment describing this member
-     * 
+     * Returns the JavaDoc comment describing this member.
+     *
      * @return the comment describing this member, or null if no comment has
-     *         been set
+     *         been set.
      */
     public JDocComment getComment() {
         return this._comment;
     } //-- getComment
-    
+
     /**
-     * Outputs the annotation type element to the provided JSourceWriter
-     * 
+     * Outputs the annotation type element to the provided JSourceWriter.
+     *
      * @param jsw the JSourceWriter to print this element to
      */
     public void print(final JSourceWriter jsw) {
@@ -189,19 +189,19 @@ public final class JAnnotationTypeElement implements JMember {
         }
         jsw.write(";");
     }
-    
+
     /**
-     * Test
-     * @param args
+     * Test.
+     * @param args command-line arguments
      */
     public static void main(final String[] args) {
         JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-        
+
         // Simple
         JAnnotationTypeElement annotationTypeElement1 = new JAnnotationTypeElement(
                 "synopsis", new JType("String"));
-        annotationTypeElement1.print(jsw);   
-        
+        annotationTypeElement1.print(jsw);
+
         jsw.writeln();
         jsw.writeln();
 
@@ -209,8 +209,8 @@ public final class JAnnotationTypeElement implements JMember {
         JAnnotationTypeElement annotationTypeElement2 = new JAnnotationTypeElement(
                 "synopsis", new JType("String"));
         annotationTypeElement2.setDefaultString("\"Good book\"");
-        annotationTypeElement2.print(jsw);   
-        
+        annotationTypeElement2.print(jsw);
+
         jsw.flush();
     }
 

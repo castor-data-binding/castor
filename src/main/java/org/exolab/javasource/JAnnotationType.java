@@ -51,8 +51,8 @@ package org.exolab.javasource;
 import java.io.PrintWriter;
 
 /**
- * Describes the definition of a annotation type class
- * 
+ * Describes the definition of a annotation type class.
+ *
  * <pre>
  *   JAnnotationType type = new JAnnotationType("RequestForEnhancement");
  *   type.addElement(new JAnnotationTypeElement("id", JType.Int));
@@ -66,7 +66,7 @@ import java.io.PrintWriter;
  *   date.setDefaultString("\"[unimplemented]\"");
  *   type.addElement(date);
  * </pre>
- * 
+ *
  *  outputs
  *
  * <pre>
@@ -75,20 +75,20 @@ import java.io.PrintWriter;
  *       String synopsis();
  *       String engineer() default "[unassigned]";
  *       String date() default "[unimplemented]";
- *   }  
+ *   }
  * </pre>
- * 
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a> 
+ *
+ * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
 public final class JAnnotationType extends JStructure {
     /**
-     * The list of elements of this JAnnotationType
+     * The list of elements of this JAnnotationType.
      */
     private JNamedMap _elements = null;
-    
+
     /**
-     * Creates a JAnnotationType of the given name
-     * 
+     * Creates a JAnnotationType of the given name.
+     *
      * @param name Annotation name
      * @throws IllegalArgumentException
      */
@@ -100,8 +100,8 @@ public final class JAnnotationType extends JStructure {
     }
 
     /**
-     * Adds the given JMember to this JAnnotationType
-     * 
+     * Adds the given JMember to this JAnnotationType.
+     *
      * @param jMember the JMember to add
      */
     public void addMember(final JMember jMember) {
@@ -110,18 +110,18 @@ public final class JAnnotationType extends JStructure {
         }
         addElement((JAnnotationTypeElement) jMember);
     } //-- addMember
-    
+
     /**
-     * Adds the given JAnnotationTypeElement to this JAnnotationType
-     * 
+     * Adds the given JAnnotationTypeElement to this JAnnotationType.
+     *
      * @param jElement the element to add
      */
     public void addElement(final JAnnotationTypeElement jElement) {
         if (jElement == null) {
             throw new IllegalArgumentException("Class members cannot be null");
         }
-        
-        String name = jElement.getName();        
+
+        String name = jElement.getName();
         if (_elements.get(name) != null) {
             String err = "duplicate name found: " + name;
             throw new IllegalArgumentException(err);
@@ -134,27 +134,27 @@ public final class JAnnotationType extends JStructure {
         while (type instanceof JArrayType) {
             type = ((JArrayType) type).getComponentType();
         }
-        if (!type.isPrimitive()) { 
-            addImport(type.getName()); 
+        if (!type.isPrimitive()) {
+            addImport(type.getName());
         }
     } //-- addElement
-    
+
     /**
      * Returns the member with the given name, or null if no member was found
-     * with the given name
-     * 
+     * with the given name.
+     *
      * @param name the name of the member to return
      * @return the member with the given name, or null if no member was found
-     *         with the given name
+     *         with the given name.
      */
     public JAnnotationTypeElement getElement(final String name) {
         return (JAnnotationTypeElement) _elements.get(name);
     } //-- getElement
-    
+
     /**
-     * Returns an Array containing all our JAnnotationTypeElements
-     * 
-     * @return an Array containing all our JAnnotationTypeElements
+     * Returns an Array containing all our JAnnotationTypeElements.
+     *
+     * @return an Array containing all our JAnnotationTypeElements.
      */
     public JAnnotationTypeElement[] getElements() {
         int size = _elements.size();
@@ -167,45 +167,45 @@ public final class JAnnotationType extends JStructure {
 
     /**
      * Not implemented. Always throws a RuntimeException.
-     * 
+     *
      * @param jField not used
      * @see org.exolab.javasource.JStructure#addField
      */
     public void addField(final JField jField) {
-        throw new RuntimeException("Not implemented."); 
+        throw new RuntimeException("Not implemented.");
     } //-- addField
 
     /**
      * Not implemented. Always throws a RuntimeException.
-     * 
+     *
      * @param name not used
      * @return nothing is ever returned
      * @see org.exolab.javasource.JStructure#getField
      */
     public JField getField(final String name) {
-        throw new RuntimeException("Not implemented."); 
+        throw new RuntimeException("Not implemented.");
     } //-- getField
 
     /**
      * Not implemented. Always throws a RuntimeException.
-     * 
+     *
      * @return nothing is ever returned
      */
     public JField[] getFields() {
-        throw new RuntimeException("Not implemented."); 
+        throw new RuntimeException("Not implemented.");
     } //-- getFields
 
     /**
      * Prints the source code for this JAnnotationType to the given
-     * JSourceWriter
-     * 
+     * JSourceWriter.
+     *
      * @param jsw the JSourceWriter to print to. Must not be null.
      */
     public void print(final JSourceWriter jsw) {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
-        
+
         StringBuffer buffer = new StringBuffer();
 
         printHeader(jsw);
@@ -233,9 +233,9 @@ public final class JAnnotationType extends JStructure {
         buffer.append(' ');
         buffer.append('{');
         jsw.writeln(buffer.toString());
-        
+
         //-- declare members
-        
+
         buffer.setLength(0);
         jsw.writeln();
         jsw.indent();
@@ -243,22 +243,22 @@ public final class JAnnotationType extends JStructure {
             JAnnotationTypeElement jElement = (JAnnotationTypeElement) _elements.get(i);
             jElement.print(jsw);
             jsw.writeln();
-        }       
+        }
         jsw.unindent();
-        
+
         // -- close class
-        
+
         jsw.writeln('}');
         jsw.flush();
     } //-- print
 
     /**
-     * Test
-     * @param args
+     * Test.
+     * @param args command-line arguments
      */
     public static void main(final String[] args) {
         JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-        
+
         JAnnotationType annotationType = new JAnnotationType("RequestForEnhancement");
         annotationType.addElement(new JAnnotationTypeElement("id", JType.INT));
         annotationType.addElement(new JAnnotationTypeElement("synopsis", new JType("String")));
@@ -269,7 +269,7 @@ public final class JAnnotationType extends JStructure {
         date.setDefaultString("\"[unimplemented]\"");
         annotationType.addElement(date);
         annotationType.print(jsw);
-        
+
         jsw.flush();
     }
 

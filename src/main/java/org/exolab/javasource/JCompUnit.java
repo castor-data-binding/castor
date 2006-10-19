@@ -42,16 +42,15 @@
  *
  * Contributors:
  * --------------
- * Gary Shea (shea AT gtsdesign DOT com)   
+ * Gary Shea (shea AT gtsdesign DOT com)
  *    - Original Author
- * 
- * Keith Visco 
+ *
+ * Keith Visco
  *   - Changed JCompElement references to JStructure, some additional
  *     tweaking to get it working with the current Javasource package.
  *
  * $Id$
  */
-
 package org.exolab.javasource;
 
 import java.io.File;
@@ -67,7 +66,7 @@ import java.util.Vector;
  * a useful utility when creating in memory source code. This package was
  * modelled after the Java Reflection API as much as possible to reduce the
  * learning curve.
- * 
+ *
  * @author <a href="mailto:shea AT gtsdesign DOT com">Gary Shea</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
@@ -80,35 +79,33 @@ public final class JCompUnit {
     private static final String DEFAULT_HEADER = "$" + "Id$";
 
     /**
-     * JavaDoc comment for this compilation unit
+     * JavaDoc comment for this compilation unit.
      */
     private JComment _header = null;
 
     /**
-     * The package for this JCompUnit
+     * The package for this JCompUnit.
      */
     private String _packageName = null;
 
     /**
-     * The file to which this JCompUnit will be written
+     * The file to which this JCompUnit will be written.
      */
     private String _fileName = null;
 
     /**
      * The set of top-level classes that live in this compilation unit.
      */
-    //private TypeList classes = null;
     private Vector _classes = null;
-    
+
     /**
      * The set of top-level interfaces that live in this compilation unit.
      */
-    //private TypeList interfaces = null;
     private Vector _interfaces = null;
 
     /**
-     * Creates a new JCompUnit
-     * 
+     * Creates a new JCompUnit.
+     *
      * @param packageName the name of the package for this JCompUnit. If
      *            packageName is null or empty, no 'package' line will be
      *            generated.
@@ -125,7 +122,7 @@ public final class JCompUnit {
      * Creates a new JCompUnit with the given JClass (which must have been
      * created with either a full class name or package/local name) as the
      * public class. Package and file name are taken from jClass.
-     * 
+     *
      * @param jClass the public class for this JCompUnit
      */
     public JCompUnit(final JClass jClass) {
@@ -135,32 +132,31 @@ public final class JCompUnit {
         // outermost enclosing class.  The file name is just the
         // simple name of the outermost enclosing class, so the
         // package name part must be stripped off.
-        
-        /*
-          Commented out until inner-class support has been added.
-          kvisco - 20021211
-    
-        String outer = jClass.getOuterName();
-        int lastDot = outer.lastIndexOf(".");
-        String filePrefix;
-        if (lastDot != -1) {
-            filePrefix = outer.substring (lastDot + 1);
-        } else {
-            filePrefix = outer;
-        }
-        */
+
+//      Commented out until inner-class support has been added.
+//      kvisco - 20021211
+//
+//      String outer = jClass.getOuterName();
+//      int lastDot = outer.lastIndexOf(".");
+//      String filePrefix;
+//      if (lastDot != -1) {
+//          filePrefix = outer.substring (lastDot + 1);
+//      } else {
+//          filePrefix = outer;
+//      }
+
         String filePrefix = jClass.getLocalName();
-        
+
         this._fileName = filePrefix + ".java";
         init();
         _classes.add(jClass);
-        
+
     } //-- JCompUnit
 
     /**
      * Creates a new JCompUnit with the given JInterface as public interface.
      * Package and file name are taken from jInterface.
-     * 
+     *
      * @param jInterface the public interface for this JCompUnit.
      */
     public JCompUnit(final JInterface jInterface) {
@@ -169,7 +165,10 @@ public final class JCompUnit {
         init();
         _interfaces.add(jInterface);
     } //-- JCompUnit
-    
+
+    /**
+     * Common initialization code.
+     */
     private void init() {
         _classes          = new Vector();
         _interfaces       = new Vector();
@@ -178,7 +177,7 @@ public final class JCompUnit {
     /**
      * Adds the given JStructure (either a JInterface or a JClass) to this
      * JCompUnit.
-     * 
+     *
      * @param jStructure the JStructure to add
      */
     public void addStructure(final JStructure jStructure) {
@@ -187,7 +186,7 @@ public final class JCompUnit {
         } else if (jStructure instanceof JClass) {
             addClass((JClass) jStructure);
         } else {
-            String err = "Unknown JStructure subclass '" 
+            String err = "Unknown JStructure subclass '"
                 + jStructure.getClass().getName() + "'.";
             throw new IllegalArgumentException(err);
         }
@@ -195,8 +194,8 @@ public final class JCompUnit {
     } //-- addStructure
 
     /**
-     * Adds a JClass to be printed in this file
-     * 
+     * Adds a JClass to be printed in this file.
+     *
      * @param jClass the JClass to be printed in this file
      */
     public void addClass(final JClass jClass) {
@@ -205,7 +204,7 @@ public final class JCompUnit {
 
     /**
      * Adds a JInterface to be printed in this file.
-     * 
+     *
      * @param jInterface the JInterface to be printed in this file
      */
     public void addInterface(final JInterface jInterface) {
@@ -215,23 +214,23 @@ public final class JCompUnit {
     /**
      * Returns a array of String containing all imported classes/packages, also
      * imports within the same package of this object.
-     * 
+     *
      * @return a array of String containing all import classes/packages, also
      *         imports within the same package of this object
      */
     public SortedSet getImports() {
         SortedSet allImports = new TreeSet();
-        
+
         // add imports from classes
         for (int i = 0; i < _classes.size(); ++i) {
             JClass jClass = (JClass) _classes.get(i);
-            
+
             Enumeration enumeration = jClass.getImports();
             while (enumeration.hasMoreElements()) {
                 allImports.add(enumeration.nextElement());
             }
         }
-        
+
         for (int i = 0; i < _interfaces.size(); ++i) {
             JInterface jInterface = (JInterface) _interfaces.get(i);
             Enumeration enumeration = jInterface.getImports();
@@ -239,7 +238,7 @@ public final class JCompUnit {
                 allImports.add(enumeration.nextElement());
             }
         }
-        
+
         return allImports;
     }
 
@@ -247,7 +246,7 @@ public final class JCompUnit {
      * Returns the name of the file that this JCompUnit would be printed to,
      * given a call to {@link #print(String, String)}, or if destDir is null, a
      * call to {@link #print()}.
-     * 
+     *
      * @param destDir the destination directory. This may be null.
      * @return the name of the file that this JCompUnit would be printed to
      */
@@ -280,8 +279,8 @@ public final class JCompUnit {
     } //-- getFilename
 
     /**
-     * Returns the name of the package that this JCompUnit is a member of
-     * 
+     * Returns the name of the package that this JCompUnit is a member of.
+     *
      * @return the name of the package that this JCompUnit is a member of, or
      *         null if there is no current package name defined
      */
@@ -289,6 +288,11 @@ public final class JCompUnit {
         return this._packageName;
     } //-- getPackageName
 
+    /**
+     * Returns the package name of the provided class name.
+     * @param className name from which to extract the package
+     * @return the package name of the provided class name.
+     */
     protected static String getPackageFromClassName(final String className) {
         int idx = className.lastIndexOf('.');
         if (idx > 0) { return className.substring(0, idx); }
@@ -298,7 +302,7 @@ public final class JCompUnit {
     /**
      * Prints the source code for this JClass in the current directory with the
      * default line seperator of the the runtime platform.
-     * 
+     *
      * @see #print(String, String)
      */
     public void print() {
@@ -308,7 +312,7 @@ public final class JCompUnit {
     /**
      * Prints the source code for this JClass with the default line seperator of
      * the the runtime platform.
-     * 
+     *
      * @param destDir the destination directory to use as the root directory for
      *            source generation
      * @see #print(String, String)
@@ -320,7 +324,7 @@ public final class JCompUnit {
     /**
      * Prints the source code for this JCompUnit using the provided root
      * directory and line separator.
-     * 
+     *
      * @param destDir the destination directory to use as the root directory for
      *            source generation
      * @param lineSeparator the line separator to use at the end of each line.
@@ -351,8 +355,8 @@ public final class JCompUnit {
     } //-- print
 
     /**
-     * Prints the source code for this JClass to the provided JSourceWriter
-     * 
+     * Prints the source code for this JClass to the provided JSourceWriter.
+     *
      * @param jsw the JSourceWriter to print to
      */
     public void print(final JSourceWriter jsw) {
@@ -375,7 +379,6 @@ public final class JCompUnit {
 
         //-- print package name
         if ((_packageName != null) && (_packageName.length() > 0)) {
-
             buffer.setLength(0);
             buffer.append("package ");
             buffer.append(_packageName);
@@ -391,11 +394,9 @@ public final class JCompUnit {
         jsw.writeln();
         SortedSet allImports = getImports();
         String compUnitPackage = getPackageName();
-        Iterator iter = allImports.iterator();
-        while (iter.hasNext()) {
+        for (Iterator iter = allImports.iterator(); iter.hasNext(); ) {
             String importName = (String) iter.next();
-            String importsPackage
-            = JStructure.getPackageFromClassName(importName);
+            String importsPackage = JStructure.getPackageFromClassName(importName);
             if ((importsPackage != null) && !importsPackage.equals(compUnitPackage)) {
                 jsw.write("import ");
                 jsw.write(importName);
@@ -416,8 +417,8 @@ public final class JCompUnit {
     } //-- print
 
     /**
-     * Print the source code for the contained JClass objects
-     * 
+     * Print the source code for the contained JClass objects.
+     *
      * @param jsw the JSourceWriter to print to.
      * @param printPublic if true, print only public classes; if false, print
      *            only non-public classes.
@@ -457,8 +458,8 @@ public final class JCompUnit {
     } //-- printElements(JSourceWriter, int)
 
     /**
-     * Sets the header comment for this JCompUnit
-     * 
+     * Sets the header comment for this JCompUnit.
+     *
      * @param comment the comment to display at the top of the source file when
      *            printed
      */
@@ -474,19 +475,17 @@ public final class JCompUnit {
      * Update the names of nested classes and interfaces.
      */
     private void resolveNames()  {
-        /*
-          Commented out until support for inner-classes is added
-          kvisco - 20021211
-          
-        for (int i = 0; i < classes.size(); i++) {
-            JClass jClass = (JClass) classes.get(i);
-            jClass.resolveNames(packageName, null);
-        }
-        for (int i = 0; i < interfaces.size(); i++) {
-            JInterface jInterface = (JInterface) interfaces.get(i);
-            jInterface.resolveNames(packageName, null);
-        }
-        */
+//      Commented out until support for inner-classes is added
+//      kvisco - 20021211
+//
+//      for (int i = 0; i < classes.size(); i++) {
+//          JClass jClass = (JClass) classes.get(i);
+//          jClass.resolveNames(packageName, null);
+//      }
+//      for (int i = 0; i < interfaces.size(); i++) {
+//          JInterface jInterface = (JInterface) interfaces.get(i);
+//          jInterface.resolveNames(packageName, null);
+//      }
     } //-- resolveNames
 
     /**
@@ -504,9 +503,9 @@ public final class JCompUnit {
         field = new JField(JType.Int, "_z");
         field.getModifiers().setStatic(true);
         testClass.addField(field);
-        
+
         testClass.getStaticInitializationCode().add("_z = 75;");
-        
+
         JClass jcString = new JClass("String");
         field = new JField(jcString, "myString");
         field.getModifiers().makePrivate();
@@ -536,12 +535,18 @@ public final class JCompUnit {
  */
 final class Header {
 
+    /**
+     * Public header.
+     */
     private static final String[] PUBLIC_HEADER = {
         "  //-----------------------------/",
         " //-  Public Class / Interface -/",
         "//-----------------------------/",
     };
-    
+
+    /**
+     * Private header.
+     */
     private static final String[] NON_PUBLIC_HEADER = {
         "  //-------------------------------------/",
         " //-  Non-Public Classes / Interfaces  -/",
@@ -550,7 +555,7 @@ final class Header {
 
     /**
      * Print the specified header to the given Writer.
-     * 
+     *
      * @param jsw an open JSourceWriter
      * @param printPublic if true print the public header, otherwise print the
      *            non-public header.
@@ -562,9 +567,12 @@ final class Header {
         }
         jsw.writeln();
     }
-    
+
     /**
-     * Hide utility class constructor. 
+     * Hide utility class constructor.
      */
-    private Header() { }
+    private Header() {
+        // Nothing to do here
+    }
+
 } //-- Header

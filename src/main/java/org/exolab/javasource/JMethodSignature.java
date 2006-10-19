@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.javasource;
 
 import java.util.Vector;
@@ -57,34 +56,17 @@ import java.util.Vector;
  */
 public final class JMethodSignature extends JAnnotatedElementHelper {
 
-    /**
-     * The set of modifiers for this JMethodSignature
-     */
+    /** The set of modifiers for this JMethodSignature. */
     private JModifiers _modifiers = null;
-
-    /**
-     * The return type of this method
-     */
-    private JType _returnType    = null;
-
-    /**
-     * The name of this JMethodSignature
-     */
+    /** The return type of this method. */
+    private JType _returnType     = null;
+    /** The name of this JMethodSignature. */
     private String _name          = null;
-
-    /**
-     * The list of parameters of this method in order declared
-     */
+    /** The list of parameters of this method in order declared. */
     private final JNamedMap _params;
-
-    /**
-     * The JavaDoc comment for this method's signature.
-     */
+    /** The JavaDoc comment for this method's signature. */
     private final JDocComment _jdc;
-
-    /**
-     * The exceptions that this method throws
-     */
+    /** The exceptions that this method throws. */
     private final Vector _exceptions;
 
     /**
@@ -105,7 +87,6 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         this._params       = new JNamedMap(3);
         this._exceptions   = new Vector(1);
     } //-- JMethodSignature
-
 
     /**
      * Creates a new method with the given name and return type.
@@ -160,7 +141,6 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
             throw new IllegalArgumentException(err.toString());
         }
 
-
         _params.put(pName, parameter);
 
         //-- create comment
@@ -181,37 +161,37 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     } //-- getExceptions
 
     /**
-     * Returns the JavaDoc comment describing this JMethodSignature
+     * Returns the JavaDoc comment describing this JMethodSignature.
      *
-     * @return the JavaDoc comment describing this JMethodSignature
+     * @return the JavaDoc comment describing this JMethodSignature.
      */
     public JDocComment getJDocComment() {
         return this._jdc;
     } //-- getJDocComment
 
     /**
-     * Returns the modifiers for this JMethodSignature
+     * Returns the modifiers for this JMethodSignature.
      *
-     * @return the modifiers for this JMethodSignature
+     * @return the modifiers for this JMethodSignature.
      */
     public JModifiers getModifiers() {
         return this._modifiers;
     } //-- getModifiers
 
     /**
-     * Returns the name of the method
+     * Returns the name of the method.
      *
-     * @return the name of the method
+     * @return the name of the method.
      */
     public String getName() {
         return this._name;
     } //-- getName
 
     /**
-     * Returns the JParameter at the given index
+     * Returns the JParameter at the given index.
      *
      * @param index the index of the JParameter to return
-     * @return the JParameter at the given index
+     * @return the JParameter at the given index.
      */
     public JParameter getParameter(final int index) {
         return (JParameter) _params.get(index);
@@ -235,17 +215,17 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
     /**
      * Returns the JType that represents the return type for the method
-     * signature
+     * signature.
      *
      * @return the JType that represents the return type for the method
-     *         signature
+     *         signature.
      */
     public JType getReturnType() {
         return _returnType;
     } //-- getReturnType
 
     /**
-     * Sets the name of the method
+     * Sets the name of the method.
      *
      * @param name the name of the method
      */
@@ -254,7 +234,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     } //-- setName
 
     /**
-     * Sets the JavaDoc comment describing this JMethodSignature
+     * Sets the JavaDoc comment describing this JMethodSignature.
      *
      * @param comment the JavaDoc comment for this member
      * @see #getJDocComment
@@ -264,7 +244,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
     } //-- setComment
 
     /**
-     * Sets the JModifiers for this method signature
+     * Sets the JModifiers for this method signature.
      *
      * @param modifiers the JModifiers for this method signature
      */

@@ -47,66 +47,66 @@ package org.exolab.javasource;
 
 /**
  * A class that represents a Java comment.
- * 
+ *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JComment {
-        
+
     /**
      * The auto style, allows this JComment to automatically choose a style for
-     * this comment
+     * this comment.
      */
     public static final short AUTO_STYLE   = 0;
-    
+
     /**
-     * The block comment style: \/* *\/
+     * The block comment style. \/* *\/
      */
     public static final short BLOCK_STYLE  = 1;
-    
+
     /**
-     * The line comment style: \/\/
+     * The line comment style. \/\/
      */
     public static final short LINE_STYLE   = 2;
-    
+
     /**
      * The header style, similiar to block, but with an '*' at the start of each
      * line.
      */
     public static final short HEADER_STYLE = 3;
-    
+
     /**
-     * Similiar to HEADER_STYLE, but starts with: \/**
+     * Similiar to HEADER_STYLE.  But starts with: \/**
      */
     public static final short JAVADOC_STYLE = 4;
-        
+
     private static final String START_BLOCK     = "/*";
     private static final String END_BLOCK       = " */";
-    
+
     private static final String START_JAVADOC   = "/**";
     private static final String END_JAVADOC     = " */";
-    
+
     private static final String ASTERIX_PREFIX          = " * ";
     private static final String LINE_COMMENT_PREFIX     = "// ";
     private static final String SPACE_PREFIX            = " ";
-    
+
     /**
-     * The style of this comment
+     * The style of this comment.
      */
     private short _style = AUTO_STYLE;
-    
+
     /**
-     * The main comment for this JDocComment
+     * The main comment for this JDocComment.
      */
     private StringBuffer _comment = null;
-    
+
     /**
-     * The maximum number of characters per line
+     * The maximum number of characters per line.
      */
     protected static final int MAX_LENGTH = 65;
-    
+
     /**
-     * Creates a new Java Comment
+     * Creates a new Java Comment.
      */
     public JComment() {
         super();
@@ -114,61 +114,59 @@ public final class JComment {
     } //-- JComment
 
     /**
-     * Creates a new Java comment with the given style
+     * Creates a new Java comment with the given style.
      * @param style the desired style
      */
     public JComment(final short style) {
         this();
         this._style = style;
     } //-- JComment
-    
+
     /**
-     * Appends the comment String to this JDocComment
-     * 
+     * Appends the comment String to this JDocComment.
+     *
      * @param comment the comment to append
      */
     public void appendComment(final String comment) {
         _comment.append(comment);
     } //-- appendComment
-    
+
     /**
-     * prints this JComment using the given JSourceWriter
-     * 
+     * Prints this JComment using the given JSourceWriter.
+     *
      * @param jsw the JSourceWriter to print to
      */
     public void print(final JSourceWriter jsw) {
         if (jsw == null) { return; }
-        
+
         LineFormatter formatter = null;
-        
+
         //-- calculate comment length
         short currentIndent = jsw.getIndentSize();
         int maxLength = MAX_LENGTH - currentIndent;
-        
+
         //-- a simple to check to make sure we have some room
         //-- to print the comment
         if (maxLength <= 17) { maxLength = MAX_LENGTH / 2; }
-        
+
         short resolvedStyle = _style;
-        
+
         if (_style == AUTO_STYLE) {
             //-- estimation of number of lines
             int nbrLines = _comment.length() / maxLength;
-            
+
             if (nbrLines > 2) {
                 resolvedStyle = BLOCK_STYLE;
-            } else { 
+            } else {
                 resolvedStyle = LINE_STYLE;
             }
         }
-        
-        
-        
+
         //-- start comment
         String prefix = null;
         String start  = null;
         String end    = null;
-        
+
         switch(resolvedStyle) {
             case BLOCK_STYLE:
                 start  = START_BLOCK;
@@ -184,11 +182,12 @@ public final class JComment {
                 start = START_JAVADOC;
                 end   = END_JAVADOC;
                 prefix = ASTERIX_PREFIX;
-                break;            
+                break;
             default: //-- LINE
                 prefix = LINE_COMMENT_PREFIX;
                 break;
         }
+
         if (start != null) { jsw.writeln(start); }
         //-- print main comment
         formatter = new LineFormatter(_comment.toString(), maxLength, prefix);
@@ -198,57 +197,57 @@ public final class JComment {
         if (end != null) { jsw.writeln(end); }
         jsw.flush();
     } //-- print
-    
+
     /**
-     * Sets the comment String of this JDocComment
-     * 
+     * Sets the comment String of this JDocComment.
+     *
      * @param comment the comment String of this JDocComment
      */
     public void setComment(final String comment) {
         _comment.setLength(0);
         _comment.append(comment);
     } //-- setComment
-    
+
     /**
-     * Sets the style for this JComment
-     * 
+     * Sets the style for this JComment.
+     *
      * @param style the style to use for this JComment
      */
     public void setStyle(final short style) {
         this._style = style;
     } //-- setStyle
-    
+
     /**
-     * Returns the String representation of this Java Doc Comment
-     * 
-     * @return the String representation of this Java Doc Comment
+     * Returns the String representation of this Java Doc Comment.
+     *
+     * @return the String representation of this Java Doc Comment.
      */
     public String toString() {
         return "";
     } //-- toString
-    
+
 } //-- JComment
 
 /**
- * Formats a given String for use within a Java comment
- * 
+ * Formats a given String for use within a Java comment.
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  */
 class LineFormatter {
-        
+
     private String _comment = null;
-        
+
     private int _maxLength = 65;
     private int _offset = 0;
     private int _length = 0;
-        
+
     private String _prefix = null;
-    
+
     private StringBuffer _sb = null;
-    
+
     /**
-     * Creates a LineFormatter for the given comment
-     * 
+     * Creates a LineFormatter for the given comment.
+     *
      * @param comment the String to format
      */
     LineFormatter(final String comment) {
@@ -256,20 +255,20 @@ class LineFormatter {
         if (comment != null) { this._length = comment.length(); }
         _sb = new StringBuffer();
     } //-- LineFormatter
-     
+
     /**
-     * Creates a new LineFormatter for the given comment
-     * 
+     * Creates a new LineFormatter for the given comment.
+     *
      * @param comment the String to format
      * @param maxLength the maximum number of characters per line
      */
     LineFormatter(final String comment, final int maxLength) {
         this(comment, maxLength, null);
     } //-- LineFormatter
-    
+
     /**
-     * Creates a new LineFormatter for the given comment
-     * 
+     * Creates a new LineFormatter for the given comment.
+     *
      * @param comment the String to format
      * @param maxLength the maximum number of characters per line
      * @param prefix a prefix to append to the beginning of each line
@@ -279,23 +278,22 @@ class LineFormatter {
         this._maxLength = maxLength;
         this._prefix = prefix;
     } //-- LineFormatter
-        
+
     boolean hasMoreLines() {
         if (_comment == null) { return false; }
         return (_offset < _length);
     } //-- isFinished
-        
+
     String nextLine() {
         if (_comment == null) { return null; }
         if (_offset >= _length) { return null; }
-            
+
         _sb.setLength(0);
         if (_prefix != null) { _sb.append(_prefix); }
-            
+
         int max = _offset + _maxLength;
         if (max > this._length) { max = this._length; }
-        
-        
+
         int index = _offset;
         int breakable = _offset;
         for ( ; index < max; index++) {
@@ -307,7 +305,7 @@ class LineFormatter {
             }
             if (isWhitespace(ch)) { breakable = index; }
         }
-        
+
         if (index < _length - 1) {
             //-- if we could not find a breakable character, we must look
             //-- ahead
@@ -324,44 +322,44 @@ class LineFormatter {
         _offset = index + 1;
         return _sb.toString();
     } //-- getNextLine
-        
+
     /**
-     * Sets the prefix that should be appended to the beginning of each line
-     * 
+     * Sets the prefix that should be appended to the beginning of each line.
+     *
      * @param prefix the prefix for this LineFormatter
      */
     void setPrefix(final String prefix) {
         this._prefix = prefix;
     } //-- setPrefix
-    
+
     /**
-     * Returns true if we can break a line at this character
-     * 
+     * Returns true if we can break a line at this character.
+     *
      * @param ch character to examine
-     * @return true if we can break a line at this character
+     * @return true if we can break a line at this character.
      */
     private boolean isBreakable(final char ch) {
         return (isWhitespace(ch) || isNewLine(ch));
     }
-    
+
     /**
-     * Returns true if this character is whitespace
-     * 
+     * Returns true if this character is whitespace.
+     *
      * @param ch character to examine
-     * @return true if this character is whitespace
+     * @return true if this character is whitespace.
      */
     private boolean isWhitespace(final char ch) {
         return ((ch == ' ') || (ch == '\t'));
     } //-- isWhitespace
-    
+
     /**
-     * Returns true if this character is a new line character
-     * 
+     * Returns true if this character is a new line character.
+     *
      * @param ch character to examine
-     * @return true if this character is a new line character
+     * @return true if this character is a new line character.
      */
     private boolean isNewLine(final char ch) {
         return ((ch == '\n') || (ch == '\r'));
     } //-- isNewLineChar
-    
+
 } //-- LineFormatter

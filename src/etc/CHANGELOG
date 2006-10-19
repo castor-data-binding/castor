@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1636 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Checkstyle-based corrections in javasource
+       Details: http://jira.codehaus.org/browse/CASTOR-1636
+       (Edward - 20061019)
+
 XML:   Resolved issue CASTOR-1612 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Update CTF documentation for new test case type
        Details: http://jira.codehaus.org/browse/CASTOR-1612
