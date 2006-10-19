@@ -41,6 +41,52 @@
 
                 <h2>Additions</h2>
 
+                <h3>Database appender for log4j through CastorJDO</h3>
+
+                <p>We have added a database appender for log4j through CastorJDO to our
+                   codebase in the <code>org.castor.tools.log4j</code> package. The appender
+                   has to be configured through log4j.xml configuration file as usual.</p>
+          
+                 <code-panel><![CDATA[
+<appender name="db" class="org.castor.tools.log4j.CastorAppender">
+    <param name="DatabaseName" value="LOGGING"/>
+    <param name="BufferSize" value="10"/>
+    <param name="ColumnWidthClass" value="100"/>
+    <param name="ColumnWidthThread" value="100"/>
+    <param name="ColumnWidthMessage" value="1000"/>
+    <param name="ColumnWidthStackTrace" value="20000"/>
+    <param name="DuplicateCount" value="true"/>
+</appender>]]></code-panel>
+
+                <p>To use the appender within your application you need to create tables
+                   to hold the log information at your database. An example script to create
+                   these tables as well as examples of mapping.xml and jdo-config.xml can
+                   also be found in <code>org.castor.tools.log4j</code> package.</p>
+                   
+                <p>Before you use the logger for the first time you need to initialize
+                   CastorJDO.</p>
+
+                <code-panel><![CDATA[
+String JDO_CONF = "/org/castor/tools/log4j/example-jdo-conf.xml";
+JDOManager.loadConfiguration(this.getClass().getResource(JDO_CONF).toString());]]></code-panel>
+
+                <p>Thereafter you can use your logger as usual. Log4j will use CastorAppender
+                   to write the log information to the database.</p>
+
+                <code-panel><![CDATA[
+LOG.warn("This is a message logged to database");]]></code-panel>
+
+                <p>One additional thing you need to take care of. As CastorAppender does
+                   some caching to reduce database operations you have to tell it to write
+                   all cached information to database before you close your application.</p>
+
+                <code-panel><![CDATA[
+CastorAppender.flush();]]></code-panel>
+
+                <p>We also provided a way to extend the information logged to database. For
+                   an example extension take a look at LogReferenceExtension and
+                   TestCastorAppender classes as well as the example mapping file.</p>
+
                 <h3>Special getter methods for XML mapping</h3>
 
                 <p>As part of a field mapping, it is no possible to specify two special
@@ -70,6 +116,26 @@
                 </code>
            </summary>
             <bugs>
+                <bug id="1581" tool="jira">
+                    <description>
+                        Added database appender for log4j through CastorJDO.
+                    </description>
+                    <contributor>
+                        <name>Holger West</name>
+                        <email>holger.west@syscon-informatics.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Holger West</name>
+                        <email>holger.west@syscon-informatics.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20061019</date>
+                </bug>
                 <bug id="1638" tool="jira">
                     <description>
                         Remove trailing blanks in release notes
