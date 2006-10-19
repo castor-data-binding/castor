@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1638 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Remove trailing blanks in release notes
+       Details: http://jira.codehaus.org/browse/CASTOR-1638
+       (Edward - 20061019)
+
 XML:   Resolved issue CASTOR-1636 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Checkstyle-based corrections in javasource
        Details: http://jira.codehaus.org/browse/CASTOR-1636
@@ -92,7 +97,7 @@ XML:   Resolved issue CASTOR-482 using contribution from Werner Guttmann [werner
        Source generator now adds is<Property> methods for boolean members.
        Details: http://jira.codehaus.org/browse/CASTOR-482
        (Werner - 20061015)
-       
+
 XML:   Resolved issue CASTOR-1623 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Clean up checkstyle complaints in builder
        Details: http://jira.codehaus.org/browse/CASTOR-1623
@@ -220,11 +225,11 @@ XML:   Resolved issue CASTOR-1591 using contribution from Edward Kuns [edward.ku
        (Werner - 20061002)
 
 XML:   Resolved issue CASTOR-1599 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Fixed problem with incorrect code generation for element definitions/references pointing to 
+       Fixed problem with incorrect code generation for element definitions/references pointing to
        an abstract complex type
        Details: http://jira.codehaus.org/browse/CASTOR-1599
        (Werner - 20061001)
- 
+
 XML:   Resolved issue CASTOR-1335 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with code generated for <xsd:choice> elements with primitive and Object types mixed.
        Details: http://jira.codehaus.org/browse/CASTOR-1335
@@ -271,7 +276,7 @@ XML:   Resolved issue CASTOR-1583 using contribution from Edward Kuns [edward.ku
        (Ralf - 20060927)
 
 XML:   Resolved issue CASTOR-1566 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Fixed problem with incorrect generation of unmarshal methods for extensions/restrictions 
+       Fixed problem with incorrect generation of unmarshal methods for extensions/restrictions
        where extended/restricted type is in an imported schema.
        Details: http://jira.codehaus.org/browse/CASTOR-1566
        (Werner - 20060927)
@@ -280,7 +285,7 @@ XML:   Resolved issue CASTOR-1574 using contribution from Werner Guttmann [werne
        Added '0' and '1' as possible values for setting 'nillable' attribute.
        Details: http://jira.codehaus.org/browse/CASTOR-1574
        (Werner - 20060921)
-       
+
 XML:   Resolved issue CASTOR-1060 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fixed problem in SourceGenerator generating multiple @return comments.
        Details: http://jira.codehaus.org/browse/CASTOR-1060
@@ -417,12 +422,12 @@ XML:   Resolved issue CASTOR-1478 using contribution from Werner Guttmann [werne
        Fixed problem with 'staticness' of group naming scheme.
        Details: http://jira.codehaus.org/browse/CASTOR-1478
        (Werner - 20060907)
-       
+
 XML:   Resolved issue CASTOR-1537 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added HOW-TO document for mapping lists at the root level.
        Details: http://jira.codehaus.org/browse/CASTOR-1537
        (Werner - 20060904)
-       
+
 JDO:   Resolved issue CASTOR-1494 using contribution from Le Duc Bao [leducbao@gmail.com]
        Fixed inconsistencies between sql types in mapping and ddl scripts of CTF.
        Details: http://jira.codehaus.org/browse/CASTOR-1494
@@ -437,7 +442,7 @@ JDO:   Resolved issue CASTOR-1487 using contribution from Gregory Block [gblock@
        Fixed minor inconsistency in getting (expired) objects from EHCache.
        Details: http://jira.codehaus.org/browse/CASTOR-1487
        (Werner - 20060830)
-       
+
 XML:   Resolved issue CASTOR-1512 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improved documentation of source generator Ant task.
        Details: http://jira.codehaus.org/browse/CASTOR-1512
@@ -464,7 +469,7 @@ JDO:   Resolved issue CASTOR-1471 using contribution from Werner Guttmann [werne
        (Werner - 20060823)
 
 XML:   Resolved issue CASTOR-1509 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Refactored Marshaller to allow instantiation through default constructor (setting 
+       Refactored Marshaller to allow instantiation through default constructor (setting
        Writer through setWriter()).
        Details: http://jira.codehaus.org/browse/CASTOR-1509
        (Werner - 20060823)
@@ -699,7 +704,7 @@ XML:   Resolved issue CASTOR-1384 using contribution from Werner Guttmann [werne
        Fixed problem with NPE related to field mappings without type declaration.
        Details: http://jira.codehaus.org/browse/CASTOR-1384
        (Werner - 20060530)
-       
+
 JDO:   Resolved issue CASTOR-1429 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed ClassNotFoundException related to using a custom XMLNaming scheme.
        Details: http://jira.codehaus.org/browse/CASTOR-1429
@@ -744,7 +749,7 @@ JDO:   Resolved issue CASTOR-1424 using contribution from Werner Guttmann [werne
        Renamed tables of CTF tests in ctf.jdo.tc7x package.
        Details: http://jira.codehaus.org/browse/CASTOR-1424
        (Werner - 20060523)
-       
+
 JDO:   Resolved issue CASTOR-1423 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved the remaining 10 CTF tests (JDO) to new ctf.jdo.tc7x package.
        Details: http://jira.codehaus.org/browse/CASTOR-1423
@@ -799,7 +804,7 @@ All:   Fixed bug CASTOR-1410 using contribution from Martin Fuchs [martin-fuchs@
        Fixed broken links to cvs.html (replaced with scm.html).
        Details: http://jira.codehaus.org/browse/CASTOR-1410
        (Werner - 20060426)
-       
+
 All:   Fixed bug CASTOR-1397 using contribution from Henk van Voorthujsen [voorth@xs4all.nl]
        Fixed compiler warnings: 212 unnecessary else clauses.
        Details: http://jira.codehaus.org/browse/CASTOR-1397
@@ -814,7 +819,7 @@ JDO:   Fixed bug CASTOR-1402 using contribution from Werner Guttmann [werner.gut
        Improved exception reporting for various JDO-related exceptions.
        Details: http://jira.codehaus.org/browse/CASTOR-1402
        (Werner - 20060422)
-       
+
 JDO:   Fixed bug CASTOR-1403 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed documentation for 'sortedset' collection type in the JDO mapping section.
        Details: http://jira.codehaus.org/browse/CASTOR-1403
@@ -859,7 +864,7 @@ JDO:   Fixed bug CASTOR-1370 using contribution from Werner Guttmann [werner.gut
        Refactored ProposedObject (and renamed it to ProposedEntity).
        Details: http://jira.codehaus.org/browse/CASTOR-1370
        (Werner - 20060411)
-       
+
 JDO:   Fixed bug CASTOR-1355 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem related to lazy loading objects part of an 1:1 relation.
        Details: http://jira.codehaus.org/browse/CASTOR-1355
@@ -950,7 +955,7 @@ XML:   Fixed bug CASTOR-824 using contribution from Benoit Maisonny [benoit@sync
        Improved exception handling in UnmarshallHandler
        Details: http://jira.codehaus.org/browse/CASTOR-824
        (Werner - 20060322)
-       
+
 JDO:   Fixed bug CASTOR-1281 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Introduced new org.castor.util.Configuration.
        Details: http://jira.codehaus.org/browse/CASTOR-1281
@@ -995,7 +1000,7 @@ JDO:   Fixed bug CASTOR-1345 using contribution from Werner Guttmann [werner.gut
        Refactored DatabaseImpl into Local/GlobaldatabaseImpl.
        Details: http://jira.codehaus.org/browse/CASTOR-1345
        (Werner - 20060314)
-      
+
 XML:   Fixed bug CASTOR-1354 using contribution from Stephen Bash [scbash@gmail.com]
        Add HOW-TO on using identities and references in XML.
        Details: http://jira.codehaus.org/browse/CASTOR-1354
@@ -1069,9 +1074,9 @@ JDO:   Fixed bug CASTOR-1326 using contribution from Werner Guttmann [werner.gut
        Added new EventProducer2 interface to allow streaming of SAX 2 events into Castor XML
        Details: http://jira.codehaus.org/browse/CASTOR-1326
        (Werner - 20060221)
-       
+
 JDO:   Fixed bug CASTOR-1127 using contribution from Tim Telcik [ttelcik@hbf.com.au]
-       Added support for non-numeric identities to sequence key generator 
+       Added support for non-numeric identities to sequence key generator
        Details: http://jira.codehaus.org/browse/CASTOR-1127
        (Werner - 20060221)
 
@@ -1081,11 +1086,11 @@ XML:   Fixed bug CASTOR-1323 using contribution from Ralf Joachim [ralf.joachim@
        (Ralf - 20060221)
 
 JDO:   Fixed bug CASTOR-998 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Added new ZIP file to distribution that contains fully self-containd Castor JDO sample 
+       Added new ZIP file to distribution that contains fully self-containd Castor JDO sample
        code running against Apache Derby (embedded).
        Details: http://jira.codehaus.org/browse/CASTOR-998
        (Werner - 20060217)
-       
+
 XML:   Fixed bug CASTOR-1325 using contribution from James Adams
        Added how to wrap a collection with a wrapper element.
        Details: http://jira.codehaus.org/browse/CASTOR-1325
@@ -1139,7 +1144,7 @@ JDO:   Fixed bug CASTOR-1317 using contribution from Raúl Sanz de Acedo Pérez [r
        (Werner - 20060210)
 
 JDO:   Fixed bug CASTOR-475 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Fixed problem with wrongly generated SQL with self-referential objects that are part of 
+       Fixed problem with wrongly generated SQL with self-referential objects that are part of
        an extend hierarchy.
        Details: http://jira.codehaus.org/browse/CASTOR-475
        (Werner - 20060207)
@@ -1150,7 +1155,7 @@ JDO:   Fixed bug CASTOR-1128 using contribution from Werner Guttmann [werner.gut
        added to the identity key generator.
        Details: http://jira.codehaus.org/browse/CASTOR-1128
        (Werner - 20060207)
-       
+
 JDO:   Fixed bug CASTOR-1310 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added identity key generator support for Borland Pointbase to Castor JDO.
        Details: http://jira.codehaus.org/browse/CASTOR-1310
@@ -1208,7 +1213,7 @@ XML:   Fixed bug CASTOR-1268 using contribution from Trygve Laugstol [trygvis@co
        Replaced incorrect use of URL.toString() with URL.toExternalForm().
        Details: http://jira.codehaus.org/browse/CASTOR-1268
        (Werner - 20060121)
-       
+
 JDO:   Fixed bug CASTOR-379 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improved exception handling by chaining original exception.
        Details: http://jira.codehaus.org/browse/CASTOR-379
@@ -1287,27 +1292,27 @@ JDO:   Fixed bug CASTOR-1274 using contribution from Ralf Joachim [ralf.joachim@
        Made TransactionManagerRegistry non static and moved it to org.castor.transactionmanager package.
        Details: http://jira.codehaus.org/browse/CASTOR-1274
        (Ralf - 20051219)
-       
+
 All:   Fixed bug CASTOR-719 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Added serialVersionUID to serializable classes.
        Details: http://jira.codehaus.org/browse/CASTOR-719
        (Ralf - 20051213)
-       
+
 All:   Fixed bug CASTOR-1279 using contribution from Dave Brosius[dbrosius@qis.net]
        Removed some unnecessary object constructions and removed manual array copy.
        Details: http://jira.codehaus.org/browse/CASTOR-1279
        (Ralf - 20051206)
-       
+
 All:   Fixed bug CASTOR-1278 using contribution from Dave Brosius[dbrosius@qis.net]
        Allowed java to be on a path with spaces.
        Details: http://jira.codehaus.org/browse/CASTOR-1278
        (Ralf - 20051206)
-       
+
 JDO:   Fixed bug CASTOR-1240 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for specifying a java.util.Comparator instance for sortedset collections
        Details: http://jira.codehaus.org/browse/CASTOR-1240
        (Werner - 20051206)
-       
+
 JDO:   Fixed bug CASTOR-1230 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Refactored cache to implement java.util.Map interface into new org.castor.cache package.
        Details: http://jira.codehaus.org/browse/CASTOR-1230
@@ -1322,7 +1327,7 @@ JDO:   Fixed bug CASTOR-1171 using contribution from Stein M. Hugubakken[dulci@s
        Refactored SQLTypes into SQLTypeInfos and SQLTypeConverters.
        Details: http://jira.codehaus.org/browse/CASTOR-1171
        (Ralf - 20051126)
-       
+
 JDO:   Fixed bug CASTOR-1265 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with OQL queries using SQL CALL statement
        Details: http://jira.codehaus.org/browse/CASTOR-1265
@@ -1332,12 +1337,12 @@ JDO:   Fixed bug CASTOR-766 using contribution from Stein M. Hugubakken[dulci@st
        Refactored TransactionContext into an interface and global/local implementations.
        Details: http://jira.codehaus.org/browse/CASTOR-766
        (Ralf - 20051124)
-       
+
 JDO:   Fixed bug CASTOR-1264 using contribution from Ralf Joachim[ralf.joachim@syscon-world.de]
        Resolved problem with keygenerator RETURNING.
        Details: http://jira.codehaus.org/browse/CASTOR-1264
        (Ralf - 20051124)
-       
+
 JDO:   Fixed bug CASTOR-1233 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for collections of type java.util.SortedSet.
        Details: http://jira.codehaus.org/browse/CASTOR-1233
@@ -1347,7 +1352,7 @@ JDO:   Fixed bug CASTOR-1266 using contribution from Ralf Joachim[ralf.joachim@s
        Move org.exolab.castor.jdo.conf to org.castor.jdo.conf.
        Details: http://jira.codehaus.org/browse/CASTOR-1266
        (Ralf - 20051119)
-       
+
 Version 0.9.9.1, Nov 15, 2005
 -------------------------------
 
@@ -1357,12 +1362,12 @@ XML:   Bug CASTOR-1024 has been fixed by some other changes.
        Fixed issue where whitespace have been deleted by Unmarshaller.
        Details: http://jira.codehaus.org/browse/CASTOR-1024
        (Ralf - 20051230)
-       
+
 JDO:   Fixed bug CASTOR-1241 using contribution from Ralf Joachim[ralf.joachim@syscon-world.de]
        Improved documentation about locking modes.
        Details: http://jira.codehaus.org/browse/CASTOR-1241
        (Ralf - 20051113)
-       
+
 JDO:   Fixed bug CASTOR-1247 using contribution from Vishal Madan [vishal.madan@wipro.com]
        Fixed problem with releasing object lock due to a LockNotGrantedException.
        Details: http://jira.codehaus.org/browse/CASTOR-1247
@@ -1373,27 +1378,27 @@ JDO:   Fixed bug CASTOR-1239 using contribution from Ralf Joachim[ralf.joachim@s
        relying on the object been loaded from the database in the same transaction.
        Details: http://jira.codehaus.org/browse/CASTOR-1239
        (Ralf - 20051110)
-       
+
 JDO:   Fixed bug CASTOR-1260 using contribution from Ralf Joachim[ralf.joachim@syscon-world.de]
        Added org.castor.jdo.util.JDOUtils.closeDatabase() helper method.
        Details: http://jira.codehaus.org/browse/CASTOR-1260
        (Ralf - 20051110)
-       
+
 JDO:   Fixed bug CASTOR-1259 using contribution from Ralf Joachim[ralf.joachim@syscon-world.de]
        Refactored org.exolab.castor.jdo.Utils into org.castor.jdo.util.JDOUtils.
        Details: http://jira.codehaus.org/browse/CASTOR-1259
        (Ralf - 20051110)
-       
+
 XML:   Fixed bug CASTOR-1249 using contribution from Ralf Joachim[ralf.joachim@syscon-world.de]
        Included new implementations of Base64Encoder/-Decoder with castor-0.9.9-xml.jar.
        Details: http://jira.codehaus.org/browse/CASTOR-1249
        (Ralf - 20051107)
-       
+
 JDO:   Fixed bug CASTOR-1253 using contribution from Sean [aoyong.liang@1cm.com.cn]
        Fixed problem with with using count() in OQL queries that involve extend relations.
        Details: http://jira.codehaus.org/browse/CASTOR-1253
        (Werner - 20051105)
-       
+
 JDO:   Fixed bug CASTOR-1254 using contribution from Sean [aoyong.liang@1cm.com.cn]
        Added support for distinct keyword in count() functions.
        Details: http://jira.codehaus.org/browse/CASTOR-1254
@@ -1403,12 +1408,12 @@ JDO:   Fixed bug CASTOR-1256 using contribution from  Martin Graney[martin.grane
        Added non-trivial sample for usage of binding file
        Details: http://jira.codehaus.org/browse/CASTOR-1256
        (Werner - 20051103)
-       
+
 JDO:   Fixed bug CASTOR-1223 using contribution from Werner Guttmann[werner.guttmann@gmx.net]
        Added TransactionManagerFactory for JOTM.
        Details: http://jira.codehaus.org/browse/CASTOR-1223
        (Werner - 20051020)
-       
+
 JDO:   Fixed bug CASTOR-1220 using contribution from Werner Guttmann[werner.guttmann@gmx.net]
        Added config entries for http://castor.org/* to DTDResolver.
        Details: http://jira.codehaus.org/browse/CASTOR-1220
@@ -1418,7 +1423,7 @@ JDO:   Fixed bug CASTOR-1219 using contribution from Werner Guttmann[werner.gutt
        Changed many references to http://castor.exolab.org to http://castor.org
        Details: http://jira.codehaus.org/browse/CASTOR-1219
        (Werner - 20051012)
-       
+
 JDO:   Fixed bug CASTOR-1224 using contribution from Werner Guttmann[werner.guttmann@gmx.net]
        Fixed problem with obtaining JDBC connection when no transaction in progress.
        Details: http://jira.codehaus.org/browse/CASTOR-1224
@@ -1461,7 +1466,7 @@ JDO:   Fixed bug CASTOR-1195 using contribution from Nick Stuart[nicholas.stuart
        Integrated original test case provided into Castor CTF.
        Details: http://jira.codehaus.org/browse/CASTOR-1195
        (Werner - 20050908)
-       
+
 JDO:   Fixed bug CASTOR-1207 using contribution from Clovis Wichosky[clovis.wichoski@gmail.com]
        Prefer to use setter with reference type before setter with primitive
        type if multiple setters are available.
@@ -1485,7 +1490,7 @@ JDO:   Fixed bug CASTOR-1204 using contribution from Werner Guttmann[werner.gutt
        Added release notes for 0.9.9M1.
        Details: http://jira.codehaus.org/browse/CASTOR-1204
        (Werner - 20050823)
-       
+
 ALL:   Fixed bug CASTOR-999 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Added ant targets to to check code conventions with checkstyle.
        Details: http://jira.codehaus.org/browse/CASTOR-999
@@ -1501,12 +1506,12 @@ JDO:   Fixed bug CASTOR-920 using contribution from Werner Guttmann[werner.guttm
        Changed argument handling code.
        Details: http://jira.codehaus.org/browse/CASTOR-920
        (Werner - 20050822)
-       
+
 JDO:   Fixed bug CASTOR-1151 using contribution from Werner Guttmann[werner.guttmann@gmx.net]
        Completely refactored ClassMolder, introducing strategy objects for field resolution.
        Details: http://jira.codehaus.org/browse/CASTOR-1151
        (Werner - 20050821)
-       
+
 XML:   Fixed bug CASTOR-1132 using contributions from Michael Westbay and
        Keith Visco. Added additional check for various built-in types
        when deciding whether or not to use the parent classes namespace
@@ -1589,7 +1594,7 @@ JDO:   Fixed bug CASTOR-778 using contribution from Werner Guttmann [werner.gutt
        Remove deleteExtend method from ClassMolder.
        Details: http://jira.codehaus.org/browse/CASTOR-778
        (Werner - 20050725)
-       
+
 JDO:   Fixed bug CASTOR-1135 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Refactor how JDBC connection factories are maintained.
        Details: http://jira.codehaus.org/browse/CASTOR-1135
@@ -1599,7 +1604,7 @@ JDO:   Fixed bug CASTOR-1018 using contribution from Werner Guttmann[werner.gutt
        Added support for polymorphism.
        Details: http://jira.codehaus.org/browse/CASTOR-1018
        (Werner - 20050715)
-       
+
 JDO:   Fixed bug CASTOR-1110 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Refactor CTF-JDO tests into subdirectories (part 2).
        Details: http://jira.codehaus.org/browse/CASTOR-1110
@@ -1609,12 +1614,12 @@ JDO:   Fixed bug CASTOR-874 using contribution from Werner Guttmann[werner.guttm
        Added DB2 category to src/tests/tests.xml.
        Details: http://jira.codehaus.org/browse/CASTOR-874
        (Werner - 20050703)
-       
+
 JDO:   Fixed bug CASTOR-1085 using contribution from Gregory Block [gblock@ctoforaday.com]
        Complete rewrite of TransactionContext with regards to obejct tracking.
        Details: http://jira.codehaus.org/browse/CASTOR-1085
        (Werner - 20050620)
-       
+
 General:   Fixed bug CASTOR-1155 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added org.castor package under src/main.
        Details: http://jira.codehaus.org/browse/CASTOR-1155
@@ -1638,12 +1643,12 @@ JDO:   Fixed bug CASTOR-633 using contribution from Werner Guttmann [werner.gutt
 Version 0.9.7, Jun 8, 2005
 ---------------------------
 
-                        
+
 JDO:   Fixed bug CASTOR-1138 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Reverted addition to src/tests/jdo/Collections due to problem with missing setItem(ArrayList).
        Details: http://jira.codehaus.org/browse/CASTOR-1147
        (Werner - 20050607)
-       
+
 JDO:   Fixed bug CASTOR-1138 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved key generators to jdo.keygen package.
        Details: http://jira.codehaus.org/browse/CASTOR-1138
@@ -1659,7 +1664,7 @@ Version 0.9.7M1, May 25, 2005
 
 XML:   Fixed bug CASTOR-938 anonymous groups in complex types are disambiguated unnecessarily
        Details: http://jira.codehaus.org/browse/CASTOR-938
-       Patch Submitted: Hendrik Schreiber 
+       Patch Submitted: Hendrik Schreiber
 
 XML:   Fixed bug CASTOR-664 relating to ignore elements not working
        Details: http://jira.codehaus.org/browse/CASTOR-664
@@ -1674,7 +1679,7 @@ JDO:   Fixed bug CASTOR-1134 using contribution from Werner Guttmann [werner.gut
        Restore default behaviour when no type is specified for a field mapping
        Details: http://jira.codehaus.org/browse/CASTOR-1134
        (Werner - 20050520)
-       
+
 JDO:   Fixed bug CASTOR-1129 using contribution from Stein M. Hugubakken [dulci@start.no]
        Changed column names in SQL statement of CallSql to lower-case.
        Details: http://jira.codehaus.org/browse/CASTOR-1129
@@ -1694,12 +1699,12 @@ JDO:   Fixed bug CASTOR-1112 using contribution from Werner Guttmann [werner.gut
        Added documentation about JDBC proxy classes (incl. property in castor.properties).
        Details: http://jira.codehaus.org/browse/CASTOR-1112
        (Werner - 20050517)
-       
+
 JDO:   Fixed bug CASTOR-1120 using contribution from Emir Causevic [emircaus@bih.net.ba]
        Changed column name 'num' to 'numb', as 'num' happens to be a keyword with SAPDB.
        Details: http://jira.codehaus.org/browse/CASTOR-1120
        (Werner - 20050517)
-       
+
 XML:   Fixed CASTOR-65 using contribution from Jene Jasper [jjasper@abz.nl]
        Added patch to allow the ablity to specify to a binding file Source Generator Ant task.
        Details: http://jira.codehaus.org/browse/CASTOR-65
@@ -1714,17 +1719,17 @@ JDO:   Fixed bug CASTOR-973 using contribution from Werner Guttmann [werner.gutt
        build.xml now uses sourc generator Ant task definitio during code generation.
        Details: http://jira.codehaus.org/browse/CASTOR-973
        (Werner - 20050511)
-       
+
 JavaSource: Added ability to output source for Java 5 enum classes
        (afawcett - 20050509)
 
-JavaSource: Added ability to add exceptions to JConstructor. 
+JavaSource: Added ability to add exceptions to JConstructor.
        Details: http://jira.codehaus.org/browse/CASTOR-1050
        Patch Submitted by: Thomas Zooman
-       (afawcett - 20050508)     
+       (afawcett - 20050508)
 
 XML:   Fixed bug CASTOR-655 also know as bugzilla 1516. This fixes the
-       issue with using location attribute with both attributes and text 
+       issue with using location attribute with both attributes and text
        nodes the same location element.
        Details: http://jira.codehaus.org/browse/CASTOR-655
        (kvisco - 20050503)
@@ -1733,7 +1738,7 @@ JDO:   Fixed bug CASTOR-954 using contribution from Werner Guttmann [werner.gutt
        Added proxy classes for JDBC Connection and PreparedStatement to improve SQL statement logging.
        Details: http://jira.codehaus.org/browse/CASTOR-954
        (Werner - 20050430)
- 
+
 JDO:   Fixed bug CASTOR-1097 using contribution from Emir Causevic [emircaus@bih.net.ba]
        Added cast of null needed for some reflection methods for Java5.
        Details: http://jira.codehaus.org/browse/CASTOR-1097
@@ -1753,17 +1758,17 @@ JDO:   Fixed bug CASTOR-1084 using contribution from Werner Guttmann [werner.gut
        Reworked the Cache interface to be 100% compliant with java.util.Map.
        Details: http://jira.codehaus.org/browse/CASTOR-1084
        (Werner - 20050430)
-       
+
 JDO:   Fixed bug CASTOR-1088 using contribution from Tim Telcik [ttelcik@hbf.com.au]
        Improved the way Castor JDO logs error messages if a transaction fails.
        Details: http://jira.codehaus.org/browse/CASTOR-1088
        (Werner - 20050429)
-       
+
 JDO:   Fixed bug CASTOR-880 using contribution from Martin Fuchs [martin-fuchs@gmx.net]
        Added java.sql.Connection getJdbcConnection() to Database interface.
        Details: http://jira.codehaus.org/browse/CASTOR-880
        (Werner - 20050427)
-       
+
 JDO:   Fixed issue CASTOR-1081. This required the refactoring of all key
        generators to extract the supportsSqlType() method which is now called
        early rather than late from within the SQLEngine constructor.
@@ -1774,7 +1779,7 @@ JDO:   Fixed bug CASTOR-1086 using contribution from Bin Liu [martin-fuchs@gmx.n
        Added type casts to Types.java to overcome runtime exceptions with Java 1.4.x.
        Details: http://jira.codehaus.org/browse/CASTOR-1086
        (Werner - 20050425)
-       
+
 All:   Fixed bug 1712 using contribution from Gregory Block [gblock@ctoforaday.com]
        Improved logging of exceptions related to security policy at Configuration.
        Details: http://bugzilla.exolab.org/show_bug.cgi?id=1712
@@ -1831,7 +1836,7 @@ XML:   Fixed bug CASTOR-635, also known as bugzilla 1496. This fixes issue
        and attributes with the same location path.
        Details: http://jira.codehaus.org/browse/CASTOR-635
        (kvisco - 20050330)
-       
+
 
 JDO:   Fixed bug 1916 using contribution from Tim Telcik [ttelcik@hbf.com.au]
        Fixed typo in transaction manager class for WAS v4 and add note that
@@ -1846,7 +1851,7 @@ JDO:   Fixed bug 1917 using contribution from Tim Telcik [ttelcik@hbf.com.au]
        (Ralf - 20050330)
 
 All:   Fixed bug 1903 using contribution from Stein M. Hugubakken [dulci@start.no]
-       Enclose debug-statements with isDebugEnabled when string-concatenation 
+       Enclose debug-statements with isDebugEnabled when string-concatenation
        is used in the debug-call.
        Details: http://bugzilla.exolab.org/show_bug.cgi?id=1903
        (Stein - 20050324)
