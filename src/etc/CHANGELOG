@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1641 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Enhance UNIX CTFRun.sh script
+       Details: http://jira.codehaus.org/browse/CASTOR-1641
+       (Edward - 20061019)
+
 ALL:   Resolved issue CASTOR-1637 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Update to checkstyle rule set
        Details: http://jira.codehaus.org/browse/CASTOR-1637

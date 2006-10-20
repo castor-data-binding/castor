@@ -116,6 +116,26 @@ CastorAppender.flush();]]></code-panel>
                 </code>
            </summary>
             <bugs>
+                <bug id="1641" tool="jira">
+                    <description>
+                        Enhance UNIX CTFRun.sh script
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061019</date>
+                </bug>
                 <bug id="1637" tool="jira">
                     <description>
                         Update to checkstyle rule set
