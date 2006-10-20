@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1643 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Remove new tree of tests of known bugs (reverse changes of CASTOR-1640)
+       Details: http://jira.codehaus.org/browse/CASTOR-1643
+       (Edward - 20061020)
+
 XML:   Resolved issue CASTOR-1641 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Enhance UNIX CTFRun.sh script
        Details: http://jira.codehaus.org/browse/CASTOR-1641

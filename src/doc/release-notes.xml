@@ -116,6 +116,27 @@ CastorAppender.flush();]]></code-panel>
                 </code>
            </summary>
             <bugs>
+                <bug id="1643" tool="jira">
+                    <description>
+                        Remove new tree of tests of known bugs (reverse changes
+                        of CASTOR-1640)
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061020</date>
+                </bug>
                 <bug id="1641" tool="jira">
                     <description>
                         Enhance UNIX CTFRun.sh script
