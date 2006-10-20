@@ -3,9 +3,9 @@
 	This configuration file was written by the eclipse-cs plugin configuration editor
 -->
 <!--
-Checkstyle-Configuration: Castor source checks (strict)
+Checkstyle-Configuration: castor-main-checks
 Description:
-none
+
 -->
 <!DOCTYPE module PUBLIC "-//Puppy Crawl//DTD Check Configuration 1.2//EN" "http://www.puppycrawl.com/dtds/configuration_1_2.dtd">
 <module name="Checker">
@@ -24,7 +24,7 @@ none
         <module name="UpperEll"/>
         <module name="AvoidNestedBlocks"/>
         <module name="EmptyBlock">
-            <property name="tokens" value="LITERAL_CATCH, LITERAL_DO, LITERAL_ELSE, LITERAL_FINALLY, LITERAL_IF, LITERAL_FOR, LITERAL_TRY, LITERAL_WHILE, STATIC_INIT"/>
+            <property name="option" value="text"/>
         </module>
         <module name="LeftCurly"/>
         <module name="NeedBraces"/>
@@ -74,11 +74,13 @@ none
         <module name="TypeName"/>
         <module name="FileLength"/>
         <module name="LineLength">
-            <property name="max" value="90"/>
+            <property name="max" value="100"/>
         </module>
         <module name="MethodLength"/>
         <module name="ParameterNumber"/>
-        <module name="EmptyForIteratorPad"/>
+        <module name="EmptyForIteratorPad">
+            <property name="option" value="space"/>
+        </module>
         <module name="NoWhitespaceAfter">
             <property name="tokens" value="ARRAY_INIT,BNOT,DEC,DOT,INC,LNOT,UNARY_MINUS,UNARY_PLUS"/>
         </module>
@@ -88,5 +90,36 @@ none
         <module name="TabCharacter"/>
         <module name="WhitespaceAfter"/>
         <module name="WhitespaceAround"/>
+        <module name="TodoComment">
+            <property name="format" value="FIXME:"/>
+        </module>
+        <module name="TodoComment">
+            <property name="format" value="TEMP:"/>
+        </module>
+        <module name="ParameterAssignment">
+            <property name="severity" value="info"/>
+        </module>
+        <module name="MultipleVariableDeclarations">
+            <property name="severity" value="info"/>
+        </module>
+        <module name="MultipleStringLiterals">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="info"/>
+            <property name="severity" value="ignore"/>
+        </module>
+        <module name="ModifiedControlVariable">
+            <property name="severity" value="info"/>
+        </module>
+        <module name="JUnitTestCase"/>
+        <module name="FinalLocalVariable">
+            <metadata name="com.atlassw.tools.eclipse.checkstyle.lastEnabledSeverity" value="info"/>
+            <property name="severity" value="ignore"/>
+            <property name="tokens" value="PARAMETER_DEF,VARIABLE_DEF"/>
+        </module>
+        <module name="CovariantEquals"/>
+        <module name="JavadocStyle"/>
+    </module>
+    <module name="Translation"/>
+    <module name="PackageHtml">
+        <property name="severity" value="info"/>
     </module>
 </module>
