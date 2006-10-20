@@ -323,6 +323,8 @@ public abstract class XMLTestCase extends TestCase {
      * @throws java.lang.Exception if anything goes wrong during the test
      */
     protected File testMarshal(Object object, String fileName) throws java.lang.Exception {
+        verbose("--> Marshaling to: '" + fileName + "'");
+
         File marshalOutput    = new File(_outputRootFile, fileName);
         Marshaller marshaller = new Marshaller(new FileWriter(marshalOutput));
         //--Configuration to use?
@@ -358,14 +360,19 @@ public abstract class XMLTestCase extends TestCase {
     }
 
     /**
-     * Unmarshals the given file with the configuration of that test.
+     * Unmarshals the given file with the configuration of that test. If we
+     * unmarshal null, complain and fail the test case.
      *
      * @param file the file containing the xml document to unmarshall.
      * @return the result of the unmarshalling of the given file.
      * @throws java.lang.Exception if anything goes wrong during the test
      */
     protected Object testUnmarshal(File file) throws java.lang.Exception {
-        return testUnmarshal(new FileInputStream(file));
+        verbose("--> Unmarshaling '" + file.getName() + "'\n");
+        Object unmarshaledObject = testUnmarshal(new FileInputStream(file));
+        assertNotNull("Unmarshaling '" + file.getName() + "' results in a NULL object.",
+                      unmarshaledObject);
+        return unmarshaledObject;
     }
 
     /**

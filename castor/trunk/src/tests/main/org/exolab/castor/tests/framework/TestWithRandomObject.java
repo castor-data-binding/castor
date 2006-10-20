@@ -1,5 +1,5 @@
 /*
- * Copyright 2005 Edward Kuns
+ * Copyright 2006 Edward Kuns
  *
  * Licensed under the Apache License, Version 2.0 (the "License");
  * you may not use this file except in compliance with the License.
@@ -12,6 +12,8 @@
  * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
  * See the License for the specific language governing permissions and
  * limitations under the License.
+ *
+ * $Id: TestWithRandomDocument.java 0000 2006-10-19 22:00:00Z ekuns $
  */
 package org.exolab.castor.tests.framework;
 
@@ -31,14 +33,14 @@ import junit.framework.TestCase;
  * <ol>
  *   <li>Instantiates a random object model using the randomize function.</li>
  *   <li>Marshals it to a file.</li>
- *   <li>Unmarshalls the created file.</li>
+ *   <li>Unmarshals the created file.</li>
  *   <li>Check that the result object is equal to the start object.</li>
  * </ol>
- * 
+ *
  * @author <a href="mailto:gignoux@kernelcenter.org">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
- * @version $Revision: $ $Date: $
+ * @version $Revision: 0000 $ $Date: $
  */
 class TestWithRandomObject extends TestCase {
     /** We add this fixed string to the end of our testcase name */
@@ -51,6 +53,7 @@ class TestWithRandomObject extends TestCase {
      * The failure object that is not null is the test intends to fail
      */
     protected final FailureType _failure;
+    protected final String _outputName;
 
     /**
      * Blank constructor for this test case.  This contructor is not useful, since
@@ -59,8 +62,9 @@ class TestWithRandomObject extends TestCase {
      */
     TestWithRandomObject(String name) {
         super(name+RANDOM);
-        _delegate = null;
-        _failure  = null;
+        _delegate   = null;
+        _failure    = null;
+        _outputName = name.replace(' ', '_') + "-testWithRandomObject";
     }
 
     /**
@@ -71,83 +75,9 @@ class TestWithRandomObject extends TestCase {
      */
     TestWithRandomObject(String name, XMLTestCase tc) {
         super(name+RANDOM);
-        _delegate = tc;
-        _failure  = tc._failure;
-    }
-
-    /**
-     * Runs our test case
-     */
-    public void runTest() {
-        if (_delegate == null) {
-            throw new IllegalStateException("No test specified to be run.");
-        }
-        
-        verbose("\n------------------------------");
-        verbose("Test with randomly generated object");
-        verbose("------------------------------\n");
-        if (_delegate._skip) {
-            verbose("-->Skipping the test");
-            return;
-        }
-        
-        try {
-            String outputName = _delegate._name.replace(' ', '_') + "-testWithRandomObject";
-            
-            // 1. Randomize an object model instance
-            verbose("--> Randomize an object model for the root '" + _delegate._rootClassName + "'.");
-            CastorTestable randomizedObject = ((CastorTestable)_delegate._rootClass.newInstance());
-            assertNotNull("Randomized object model is null", randomizedObject);
-            
-            randomizedObject.randomizeFields();
-            
-            // 2. Dump the object in a file if possible
-            if (_delegate._hasDump) {
-                verbose("----> Dump the object to '" + outputName + "-ref.dump" +"'");
-                FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, outputName + "-ref.dump"));
-                writer.write(randomizedObject.dumpFields());
-                writer.close();
-            }
-            
-            // 3. Marshal
-            verbose("--> Marshalling to: '" + outputName +"'");
-            File marshal_output = _delegate.testMarshal(randomizedObject, outputName + ".xml");
-            
-            // 4. Validate against a schema if any
-            if (_delegate._schemaFile != null) {
-                // TODO: Put validation code here
-            }
-            
-            // 5. Unmarshal
-            verbose("--> Unmarshalling '" + marshal_output + "'\n");
-            
-            Object  unmarshalledRandomizedObject = _delegate.testUnmarshal(marshal_output);
-            assertNotNull("Unmarshalling '"+marshal_output.getName()+ "' results in a NULL object.", unmarshalledRandomizedObject);
-            
-            // 6. Dump the unmarshalled object in a file if possible
-            if (_delegate._hasDump) {
-                verbose("---->Dump the object to '" + outputName + "-unmar.dump" +"'");
-                FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, outputName + "-unmar.dump"));
-                writer.write(((CastorTestable)unmarshalledRandomizedObject).dumpFields());
-                writer.close();
-            }
-            
-            // 7. compare to initial model instance
-            boolean result = unmarshalledRandomizedObject.equals(randomizedObject);
-            verbose("----> Compare unmarshalled document to reference object: " + ((result)?"OK":"### Failed ### "));
-            assertTrue("The initial randomized object and the one resulting of the marshal/unmarshal process are different", result);
-            assertTrue("-->The test case should have failed.",_failure == null || _failure.getContent() == false);
-        } catch (Exception ex) {
-            //the test was intended to fail
-            if (_failure != null && _delegate.checkExceptionWasExpected(ex)) {
-                assertTrue(_failure.getContent());
-                return;
-            }
-            fail("Unable to process the test case:"+ex);
-            if (XMLTestCase._printStack) {
-                ex.printStackTrace(System.out);
-            }
-        }        
+        _delegate   = tc;
+        _failure    = tc._failure;
+        _outputName = _delegate._name.replace(' ', '_') + "-testWithRandomObject";
     }
 
     /**
@@ -182,6 +112,88 @@ class TestWithRandomObject extends TestCase {
         } else if (_delegate instanceof SourceGeneratorTestCase) {
             ((SourceGeneratorTestCase)_delegate).tearDown();
         }
+    }
+
+    /**
+     * Runs our test case using our delegate object where necessary.
+     */
+    public void runTest() {
+        if (_delegate == null) {
+            throw new IllegalStateException("No test specified to be run.");
+        }
+
+        verbose("\n------------------------------");
+        verbose("Test with randomly generated object");
+        verbose("------------------------------\n");
+        if (_delegate._skip) {
+            verbose("-->Skipping the test");
+            return;
+        }
+
+        try {
+            // 1. Randomize an object model instance
+            CastorTestable randomizedObject = getRandomizedReference();
+
+            // 2. Dump the new random object to a file
+            if (_delegate._hasDump) {
+                verbose("----> Dump the object to '" + _outputName + "-ref.dump" +"'");
+                FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, _outputName + "-ref.dump"));
+                writer.write(randomizedObject.dumpFields());
+                writer.close();
+            }
+
+            // 3. Marshal our reference object to disk
+            File marshal_output = _delegate.testMarshal(randomizedObject, _outputName + ".xml");
+
+            // 4. Validate against a schema if one was provided
+            if (_delegate._schemaFile != null) {
+                // TODO: Put validation code here
+            }
+
+            // 5. Unmarshal from disk
+            Object unmarshaledRandomizedObject = _delegate.testUnmarshal(marshal_output);
+
+            // 6. Dump the unmarshaled object to a file
+            if (_delegate._hasDump) {
+                verbose("---->Dump the object to '" + _outputName + "-unmar.dump" +"'");
+                FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, _outputName + "-unmar.dump"));
+                writer.write(((CastorTestable)unmarshaledRandomizedObject).dumpFields());
+                writer.close();
+            }
+
+            // 7. compare unmarshaled output file to our initial randomized instance
+            boolean result = unmarshaledRandomizedObject.equals(randomizedObject);
+            verbose("----> Compare unmarshaled document to reference object: " + ((result)?"OK":"### Failed ### "));
+            assertTrue("The initial randomized object and the one resulting of the marshal/unmarshal process are different", result);
+
+            // 8. If everything above succeeded but we are supposed to fail, fail now
+            assertTrue("-->The test case should have failed.", _failure == null || _failure.getContent() == false);
+
+        } catch (Exception ex) {
+            //the test was intended to fail
+            if (_failure != null && _delegate.checkExceptionWasExpected(ex)) {
+                assertTrue(_failure.getContent());
+                return;
+            }
+            fail("Unable to process the test case:"+ex);
+            if (XMLTestCase._printStack) {
+                ex.printStackTrace(System.out);
+            }
+        }
+    }
+
+    /**
+     * Creates and returns a new instance of the root object set with random values.
+     * @return a new instance of the root object set with random values.
+     * @throws InstantiationException
+     * @throws IllegalAccessException
+     */
+    private CastorTestable getRandomizedReference() throws InstantiationException, IllegalAccessException {
+        verbose("--> Randomize an object model for the root '" + _delegate._rootClassName + "'.");
+        CastorTestable randomizedObject = ((CastorTestable)_delegate._rootClass.newInstance());
+        assertNotNull("Randomized object model is null", randomizedObject);
+        randomizedObject.randomizeFields();
+        return randomizedObject;
     }
 
     private void verbose(String message) {
