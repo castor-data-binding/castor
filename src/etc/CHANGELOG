@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1639 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Refactor CTF test-with-reference-document
+       Details: http://jira.codehaus.org/browse/CASTOR-1639
+       (Edward - 20061019)
+
 JDO:   Resolved issue CASTOR-1581 using contribution from Holger West [holger.west@syscon-informatics.de]
        Added database appender for log4j through CastorJDO.
        Details: http://jira.codehaus.org/browse/CASTOR-1581

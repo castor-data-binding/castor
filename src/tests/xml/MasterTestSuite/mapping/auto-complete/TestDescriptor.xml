@@ -1,25 +1,23 @@
 <?xml version='1.0'?>
 <TestDescriptor>
 
-   <Name>Mapping using extends and auto-complete</Name>
-   <Author>Keith Visco</Author>
+    <Name>Mapping using extends and auto-complete</Name>
+    <Author>Keith Visco</Author>
 
-	<Comment>
-      Tests mapping inheritence and auto-complete
-   </Comment>
+    <Comment>
+        Tests mapping inheritence and auto-complete
+    </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Bar</Root_Object>
-
-      <UnitTestCase>
-         <Name>Test01</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>input.xml</GoldFile>
-      </UnitTestCase>
-
-	</MarshallingTest>
+    <MarshallingTest>
+        <Root_Object>Bar</Root_Object>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
 
 </TestDescriptor>

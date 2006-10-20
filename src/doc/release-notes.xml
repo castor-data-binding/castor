@@ -46,7 +46,7 @@
                 <p>We have added a database appender for log4j through CastorJDO to our
                    codebase in the <code>org.castor.tools.log4j</code> package. The appender
                    has to be configured through log4j.xml configuration file as usual.</p>
-          
+
                  <code-panel><![CDATA[
 <appender name="db" class="org.castor.tools.log4j.CastorAppender">
     <param name="DatabaseName" value="LOGGING"/>
@@ -62,7 +62,7 @@
                    to hold the log information at your database. An example script to create
                    these tables as well as examples of mapping.xml and jdo-config.xml can
                    also be found in <code>org.castor.tools.log4j</code> package.</p>
-                   
+
                 <p>Before you use the logger for the first time you need to initialize
                    CastorJDO.</p>
 
@@ -116,6 +116,26 @@ CastorAppender.flush();]]></code-panel>
                 </code>
            </summary>
             <bugs>
+                <bug id="1639" tool="jira">
+                    <description>
+                        Refactor CTF test-with-reference-document
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20061019</date>
+                </bug>
                 <bug id="1581" tool="jira">
                     <description>
                         Added database appender for log4j through CastorJDO.
