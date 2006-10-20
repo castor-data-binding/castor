@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1640 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add new tree of tests of known bugs
+       Details: http://jira.codehaus.org/browse/CASTOR-1640
+       (Edward - 20061019)
+
 XML:   Resolved issue CASTOR-1639 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Refactor CTF test-with-reference-document
        Details: http://jira.codehaus.org/browse/CASTOR-1639
