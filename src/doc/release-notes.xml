@@ -116,6 +116,26 @@ CastorAppender.flush();]]></code-panel>
                 </code>
            </summary>
             <bugs>
+                <bug id="1637" tool="jira">
+                    <description>
+                        Update to checkstyle rule set
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20061019</date>
+                </bug>
                 <bug id="1640" tool="jira">
                     <description>
                         Add new tree of tests of known bugs
