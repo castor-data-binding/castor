@@ -19,6 +19,23 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
+        <news id="49">
+            <title>Castor 1.0.4 released</title>
+            <author>Werner Guttmann</author>
+            <date>Oct 22 2006</date>
+            <time>20:22:21</time>
+            <summary>
+                I've placed a copy of Castor 1.0.4 at the
+                <a href="http://dist.codehaus.org/castor/1.0.4/">Codehaus</a>.<br/><br/>
+
+                This is mainly a maintenance release, with more than 100 bug fixes in all 
+                areas of the product, with a heavy emphasis on the XML code generation 
+                area.<br/><br/>
+                
+                For details about all features added and bugs fixed, please have a look 
+                at the <a href="release-notes.html">release notes</a>. 
+            </summary>
+        </news>
         <news id="50">
             <title>Snapshot release of Spring factory beans for Castor XML available</title>
             <author>Werner Guttmann</author>
