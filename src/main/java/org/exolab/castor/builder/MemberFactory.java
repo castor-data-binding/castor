@@ -296,6 +296,9 @@ public class MemberFactory extends BaseFactory {
                     temp.setView(xmlType);
                     ClassInfo typeInfo = resolver.resolve(xmlType);
                     if (typeInfo != null) {
+                        // if we have not processed the <complexType> referenced by the ClassInfo yet,
+                        // this will return null
+                        // TODO: find a way to resolve an unprocessed <complexType> !
                         xsType = typeInfo.getSchemaType();
                     } else {
                         String className = temp.getQualifiedName();
