@@ -1,0 +1,26 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the reading of AnyAttribute under AttributeGroup</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression test case for bug 987</Comment>
+    <Category>basic capability</Category>
+    
+    <BugFix>
+        <Reporter>Jerome Louvel[jerome.louvel@metaserver.com]</Reporter>
+        <Date_Report>2002-07-30</Date_Report>
+        <Date_Fix>2002-07-30</Date_Fix>
+        <Comment>Added resolution of AnyType in the Schema</Comment>
+    </BugFix>
+    
+    <SchemaTest>
+
+   		<!-- ******************** -->
+   		<!-- Schema Element Tests -->
+   		<!-- ******************** -->
+
+   		<UnitTestCase>
+      		<Schema>anyType.xsd</Schema>
+         </UnitTestCase>
+         
+      </SchemaTest>
+ </TestDescriptor>

@@ -1,0 +1,464 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+    
+  <class name="ctf.jdo.tc9x.Product" identity="id">
+    <description>Product definition</description>
+    <map-to table="tc9x_poly_prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="char" />
+    </field>
+    <field name="detail" type="ctf.jdo.tc9x.ProductDetail" required="true">
+      <sql name="detail" />
+    </field>
+    <field name="owner" type="ctf.jdo.tc9x.Owner">
+    	<sql name="owner" />
+    </field>
+    <field name="orders" type="ctf.jdo.tc9x.Order" collection="collection">
+      <sql name="order_id" many-table="tc9x_poly_order_product" many-key="product_id" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Computer" extends="ctf.jdo.tc9x.Product" identity="id">
+    <description>Computer definition, extends generic product</description>
+    <map-to table="tc9x_poly_computer" xml="computer" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="cpu" type="string" required="true">
+      <sql name="cpu" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Laptop" extends="ctf.jdo.tc9x.Computer" identity="id">
+    <description>Laptop definition, extends generic computer</description>
+    <map-to table="tc9x_poly_laptop" xml="laptop" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="weight" type="integer" required="true">
+      <sql name="weight" type="integer"/>
+    </field>
+    <field name="resolution" type="string" required="true">
+      <sql name="resolution" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Server" extends="ctf.jdo.tc9x.Computer" identity="id">
+    <description>Server definition, extends generic computer</description>
+    <map-to table="tc9x_poly_server" xml="server" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="numberOfCPUs" type="integer" required="true">
+      <sql name="numberOfCPUs" type="integer" />
+    </field>
+    <field name="supportInYears" type="integer" required="true">
+      <sql name="support" type="integer"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Car" extends="ctf.jdo.tc9x.Product" identity="id">
+    <description>Car definition, extends generic product</description>
+    <map-to table="tc9x_poly_car" xml="car" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="kw" type="integer" required="true">
+      <sql name="kw" type="integer" />
+    </field>
+    <field name="make" type="string" required="true">
+      <sql name="make" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Truck" extends="ctf.jdo.tc9x.Car" identity="id">
+    <description>Truck definition, extends generic car</description>
+    <map-to table="tc9x_poly_truck" xml="truck" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="maxWeight" type="integer" required="true">
+      <sql name="max_weight" type="integer" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.ProductMulti" identity="id1 id2">
+    <description>ProductMulti definition</description>
+    <map-to table="tc9x_poly_prod_multi" xml="product-multi" />
+    <field name="id1" type="integer">
+      <sql name="id1" type="integer" />
+    </field>
+    <field name="id2" type="integer">
+      <sql name="id2" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
+    </field>
+
+  </class>
+
+  <class name="ctf.jdo.tc9x.ComputerMulti" extends="ctf.jdo.tc9x.ProductMulti" identity="id1 id2">
+    <description>ComputerMulti definition, extends generic product</description>
+    <map-to table="tc9x_poly_computer_multi" xml="computer-multi" />
+    <field name="id1" type="integer">
+      <sql name="id1" type="integer" />
+    </field>
+    <field name="id2" type="integer">
+      <sql name="id2" type="integer" />
+    </field>
+    <field name="cpu" type="string" required="true">
+      <sql name="cpu" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.LaptopMulti" extends="ctf.jdo.tc9x.ComputerMulti" identity="id1 id2">
+    <description>LaptopMulti definition, extends generic computer</description>
+    <map-to table="tc9x_poly_laptop_multi" xml="laptop-multi" />
+    <field name="id1" type="integer">
+      <sql name="id1" type="integer" />
+    </field>
+    <field name="id2" type="integer">
+      <sql name="id2" type="integer" />
+    </field>
+    <field name="weight" type="integer" required="true">
+      <sql name="weight" type="integer"/>
+    </field>
+    <field name="resolution" type="string" required="true">
+      <sql name="resolution" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.ServerMulti" extends="ctf.jdo.tc9x.ComputerMulti" identity="id1 id2">
+    <description>ServerMulti definition, extends generic computer</description>
+    <map-to table="tc9x_poly_server_multi" xml="server-multi" />
+    <field name="id1" type="integer">
+      <sql name="id1" type="integer" />
+    </field>
+    <field name="id2" type="integer">
+      <sql name="id2" type="integer" />
+    </field>
+    <field name="numberOfCPUs" type="integer" required="true">
+      <sql name="numberOfCPUs" type="integer" />
+    </field>
+    <field name="supportInYears" type="integer" required="true">
+      <sql name="support" type="integer"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Owner" identity="id">
+    <description>Owner definition</description>
+    <map-to table="tc9x_poly_owner" xml="owner" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="char" />
+    </field>
+    <field name="product" type="ctf.jdo.tc9x.Product" required="true">
+      <sql name="product" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.ProductDetail" identity="id">
+    <description>Product detail definition</description>
+    <map-to table="tc9x_poly_detail" xml="detail" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="location" type="string" required="true">
+      <sql name="location" type="varchar" />
+    </field>
+    <field name="category" type="string" required="true">
+      <sql name="category" type="varchar" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Order" identity="id">
+    <description>Order definition</description>
+    <map-to table="tc9x_poly_ordr" xml="order" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
+    </field>
+    <field name="products" type="ctf.jdo.tc9x.Product" collection="collection">
+      <sql name="product_id" many-table="tc9x_poly_order_product" many-key="order_id" />
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.M" identity="id">
+    <description>M definition</description>
+    <map-to table="tc9x_poly_table_m" xml="m" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
+    </field>
+    <field name="ns" type="ctf.jdo.tc9x.N" collection="collection">
+      <sql name="n_id" many-table="tc9x_poly_m_n" many-key="m_id" />
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.N" identity="id">
+    <description>N definition</description>
+    <map-to table="tc9x_poly_table_n" xml="n" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string" required="true">
+      <sql name="name" type="varchar" />
+    </field>
+    <field name="ms" type="ctf.jdo.tc9x.M" collection="collection">
+      <sql name="m_id" many-table="tc9x_poly_m_n" many-key="n_id" />
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Base" identity="id" >
+    <map-to table="tc9x_poly_base"/>
+    <field name="id" type="string">
+      <sql name="id" type="varchar"/>
+    </field>
+    <field name="color" type="string" required="true">
+      <sql name="color" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Derived" extends="ctf.jdo.tc9x.Base" >
+    <map-to table="tc9x_poly_derived"/>
+    <field name="scent" type="string" required="true">
+      <sql name="scent" type="varchar"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Container" identity="id" >
+    <map-to table="tc9x_poly_container"/>
+    <field name="id" type="string">
+      <sql name="id" type="varchar"/>
+    </field>
+    <field name="reference" type="ctf.jdo.tc9x.Base">
+      <sql name="reference"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Product1893" identity="id" key-generator="MAX">
+	<cache-type type="count-limited"/>
+	<map-to table="tc9x_poly_product"/>
+	<field name="id" type="integer">
+      <sql name="idprod" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="nameprod" type="varchar"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="descprod" type="varchar"/>
+    </field>
+    <field name="compositions" type="ctf.jdo.tc9x.ComposedProduct" collection="vector">
+      <sql name="offer" many-key="product" many-table="tc9x_poly_offercomposition"/>
+    </field>
+  </class>
+	
+  <class name="ctf.jdo.tc9x.Craft" identity="id" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="tc9x_poly_product"/>
+    <field name="id" type="integer">
+      <sql name="idprod" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="nameprod" type="varchar"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="descprod" type="varchar"/>
+    </field>
+    <field name="compositions" type="ctf.jdo.tc9x.ComposedProduct" collection="vector">
+      <sql name="offer" many-key="product" many-table="tc9x_poly_offercomposition"/>
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.Culture" identity="id" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="tc9x_poly_product"/>
+    <field name="id" type="integer">
+      <sql name="idprod" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="nameprod" type="varchar"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="descprod" type="varchar"/>
+    </field>
+    <field name="compositions" type="ctf.jdo.tc9x.ComposedProduct" collection="vector">
+      <sql name="offer" many-key="product" many-table="tc9x_poly_offercomposition"/>
+    </field>
+  </class>
+	
+  <class name="ctf.jdo.tc9x.Accommodation" identity="id" 
+         extends="ctf.jdo.tc9x.Product1893" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="tc9x_poly_actproduct"/>
+    <field name="id" type="integer">
+      <sql name="idact" type="integer"/>
+    </field>
+    <field name="bestSeason" type="string">
+      <sql name="bestseason" type="varchar"/>
+    </field>
+  </class>
+	
+  <class name="ctf.jdo.tc9x.ComposedProduct" identity="id" 
+         extends="ctf.jdo.tc9x.Product1893" key-generator="MAX">
+    <cache-type type="count-limited"/>
+    <map-to table="tc9x_poly_composedoffer"/>
+    <field name="id" type="integer">
+      <sql name="idcoffer" type="integer"/>
+    </field>
+    <field name="extraName" type="string">
+      <sql name="nameco" type="varchar"/>
+    </field>
+    <field name="extraDescription" type="string">
+      <sql name="descco" type="varchar"/>
+    </field>
+    <field name="subProducts" type="ctf.jdo.tc9x.Product1893" collection="vector">
+      <sql name="product" many-key="offer" many-table="tc9x_poly_offercomposition"/>
+    </field>
+  </class>
+
+  <!--  <class name="ctf.jdo.tc9x.ProductKeyGen" identity="id" key-generator="IDENTITY"> -->
+  <class name="ctf.jdo.tc9x.ProductKeyGen" identity="id" key-generator="MAX">
+    <description>Product definition</description>
+    <map-to table="tc9x_poly_prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+    </field>
+    <field name="detail" type="ctf.jdo.tc9x.ProductDetail">
+      <sql name="detail" />
+    </field>
+    <field name="orders" type="ctf.jdo.tc9x.Order" collection="collection">
+      <sql name="order_id" many-table="tc9x_poly_order_product" many-key="product_id" />
+    </field>
+  </class>
+
+  <!--  <class name="ctf.jdo.tc9x.ComputerKeyGen" extends="ctf.jdo.tc9x.ProductKeyGen" identity="id" key-generator="IDENTITY"> -->
+  <class name="ctf.jdo.tc9x.ComputerKeyGen" extends="ctf.jdo.tc9x.ProductKeyGen" identity="id" key-generator="MAX">
+    <description>Computer definition, extends generic product</description>
+    <map-to table="tc9x_poly_computer" xml="computer" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="cpu" type="string">
+      <sql name="cpu" type="char"/>
+    </field>
+  </class>
+
+  <!--  <class name="ctf.jdo.tc9x.LaptopKeyGen" extends="ctf.jdo.tc9x.ComputerKeyGen" identity="id" key-generator="IDENTITY"> -->
+  <class name="ctf.jdo.tc9x.LaptopKeyGen" extends="ctf.jdo.tc9x.ComputerKeyGen" identity="id" key-generator="MAX">
+    <description>Laptop definition, extends generic computer</description>
+    <map-to table="tc9x_poly_laptop" xml="laptop" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="weight" type="integer">
+      <sql name="weight" type="integer"/>
+    </field>
+    <field name="resolution" type="string">
+      <sql name="resolution" type="char"/>
+    </field>
+  </class>
+
+  <!--  <class name="ctf.jdo.tc9x.ServerKeyGen" extends="ctf.jdo.tc9x.ComputerKeyGen" identity="id" key-generator="IDENTITY"> -->
+  <class name="ctf.jdo.tc9x.ServerKeyGen" extends="ctf.jdo.tc9x.ComputerKeyGen" identity="id" key-generator="MAX">
+    <description>Server definition, extends generic computer</description>
+    <map-to table="tc9x_poly_server" xml="server" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="numberOfCPUs" type="integer">
+      <sql name="numberOfCPUs" type="integer" />
+    </field>
+    <field name="supportInYears" type="integer">
+      <sql name="support" type="integer"/>
+    </field>
+  </class>
+
+  <!--  <class name="ctf.jdo.tc9x.CarKeyGen" extends="ctf.jdo.tc9x.ProductKeyGen" identity="id" key-generator="IDENTITY"> -->
+  <class name="ctf.jdo.tc9x.CarKeyGen" extends="ctf.jdo.tc9x.ProductKeyGen" identity="id" key-generator="MAX">
+    <description>Car definition, extends generic product</description>
+    <map-to table="tc9x_poly_car" xml="car" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="kw" type="integer">
+      <sql name="kw" type="integer" />
+    </field>
+    <field name="make" type="string">
+      <sql name="make" type="char"/>
+    </field>
+  </class>
+
+  <!--  <class name="ctf.jdo.tc9x.TruckKeyGen" extends="ctf.jdo.tc9x.CarKeyGen" identity="id" key-generator="IDENTITY"> -->
+  <class name="ctf.jdo.tc9x.TruckKeyGen" extends="ctf.jdo.tc9x.CarKeyGen" identity="id" key-generator="MAX">
+    <description>Truck definition, extends generic car</description>
+    <map-to table="tc9x_poly_truck" xml="truck" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="maxWeight" type="integer">
+      <sql name="max_weight" type="integer" />
+    </field>
+  </class>
+
+    <!-- mappings required for TestPolymorphismDependendObject -->  
+  <key-generator name="IDENTITY"/>
+	
+    <class name="ctf.jdo.tc9x.BaseObject" identity="id">
+        <cache-type type="unlimited"/>
+        <map-to table="tc9x_poly_base_object" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="description" type="varchar"/>
+        </field>
+        <field name="saved" type="boolean">
+          <sql name="saved" type="char[01]" />
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc9x.ExtendedObject" identity="id" extends="ctf.jdo.tc9x.BaseObject">
+        <cache-type type="unlimited"/>
+        <map-to table="tc9x_poly_extend_object" />
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="description2" type="string">
+            <sql name="description2" type="varchar"/>
+        </field>
+        <field name="dependent" type="ctf.jdo.tc9x.DependentObject">
+            <sql many-key="parentId"/>
+        </field>
+    </class>
+    
+    <class name="ctf.jdo.tc9x.DependentObject" identity="id" depends="ctf.jdo.tc9x.ExtendedObject">
+        <cache-type type="unlimited"/>
+        <map-to table="tc9x_poly_depend_object"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="parent" type="ctf.jdo.tc9x.ExtendedObject">
+            <sql name="parentId"/>
+        </field>
+        <field name="description" type="string">
+            <sql name="description" type="varchar"/>
+        </field>
+    </class>
+  
+</mapping>
+

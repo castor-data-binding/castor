@@ -1,0 +1,23 @@
+#Wed Oct 18 21:52:05 CDT 2006
+org.exolab.castor.tests.framework.testDescriptor.FailureType=org.exolab.castor.tests.framework.testDescriptor.FailureTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Unmarshal=org.exolab.castor.tests.framework.testDescriptor.UnmarshalDescriptor
+org.exolab.castor.tests.framework.testDescriptor.CallMethod=org.exolab.castor.tests.framework.testDescriptor.CallMethodDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Value=org.exolab.castor.tests.framework.testDescriptor.ValueDescriptor
+org.exolab.castor.tests.framework.testDescriptor.SchemaTest=org.exolab.castor.tests.framework.testDescriptor.SchemaTestDescriptor
+org.exolab.castor.tests.framework.testDescriptor.ListenerType=org.exolab.castor.tests.framework.testDescriptor.ListenerTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.TestDescriptor=org.exolab.castor.tests.framework.testDescriptor.TestDescriptorDescriptor
+org.exolab.castor.tests.framework.testDescriptor.StringType=org.exolab.castor.tests.framework.testDescriptor.StringTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice=org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoiceDescriptor
+org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice=org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoiceDescriptor
+org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest=org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTestDescriptor
+org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest=org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTestDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Marshal=org.exolab.castor.tests.framework.testDescriptor.MarshalDescriptor
+org.exolab.castor.tests.framework.testDescriptor.BugFix=org.exolab.castor.tests.framework.testDescriptor.BugFixDescriptor
+org.exolab.castor.tests.framework.testDescriptor.ConfigurationType=org.exolab.castor.tests.framework.testDescriptor.ConfigurationTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Listener=org.exolab.castor.tests.framework.testDescriptor.ListenerDescriptor
+org.exolab.castor.tests.framework.testDescriptor.UnitTestCase=org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseDescriptor
+org.exolab.castor.tests.framework.testDescriptor.RootType=org.exolab.castor.tests.framework.testDescriptor.RootTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Root_Object=org.exolab.castor.tests.framework.testDescriptor.Root_ObjectDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Configuration=org.exolab.castor.tests.framework.testDescriptor.ConfigurationDescriptor
+org.exolab.castor.tests.framework.testDescriptor.MarshallingTest=org.exolab.castor.tests.framework.testDescriptor.MarshallingTestDescriptor
+org.exolab.castor.tests.framework.testDescriptor.Failure=org.exolab.castor.tests.framework.testDescriptor.FailureDescriptor

@@ -1,0 +1,1429 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<!-- This file contains a list of Castor contributors -->
+<document url="http://castor.codehaus.org/contributors.xml">
+  <properties>
+    <title>People who have supported the Castor project</title>
+    <abstract>
+       General information about the people that have supported the
+	   Castor project over the time.
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>Committers, contributors et alias</title>
+    <header>
+
+		<p>This page lists all people who have gone the extra mile and
+		   supported Castor in one way or the other, including committers,
+		   contributors, people who have contributed to the projedt's
+		   documentation and people who advanced the project by providing us
+		   with valuable feedback.</p>
+
+		<p>If you would like to get involved, the first step is to join the
+		   <a href="lists.html">mailing lists</a>.</p>
+
+		<p>We kindly ask to <b>not send us emails privately</b> (e.g. asking for
+           support). We are non-paid volunteers who help out with the project and
+           we do not necessarily have the time or energy to help people on an
+           individual basis.</p>
+
+		<p>Instead, we have setup <url href="lists.html">mailing lists</url> which
+           often contain hundreds of individuals. The benefit of using mailing lists
+           over private communication is that it is a shared resource, where others
+           can also learn from your messages (whether problem description, advice,
+		   or common mistakes), and as a community we all grow together.</p>
+
+		<p>In addition, use of mailing lists enables us to maintain
+		   searchable <a href="http://archive.castor.codehaus.org">archives</a>
+		   of these mailing lists, that cover a vast range of questions and
+		   answers related to the use of Castor. We simply cannot overstate
+		   the importance of such archives.</p>
+
+		<contributors>
+
+  <!-- PLEASE KEEP THIS FILE ASSORTED ACCORDING TO SECTIONS -->
+
+  <!-- ********** -->
+  <!-- COMMITTERS -->
+  <!-- ********** -->
+
+  <!--
+      PLEASE KEEP THIS SECTION (COMMITTERS) SORTED BY ORDER OF WHO COMMITS
+      MOST FREQUENTLY. Quesitons are sent more often to those people at the top
+      of this list.   -->
+
+
+  <contributor type="Committer">
+    <name surname="Guttmann" given="Werner" />
+    <email>werner.guttmann@gmx.net</email>
+    <project>JDO</project>
+    <company id="anecon" />
+    <description>
+       Current Castor project lead; JDO enhancements including distributed caches, 
+       TransactionManagerFactory API, support for polymorphism, Spring integration,
+       the API for JDBC parameters and much more.
+    </description>
+    <status>active</status>
+    <since>
+      <date>Oct. 2003</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Visco" given="Keith"/>
+    <email>keith@kvisco.com</email>
+    <project>XML</project>
+    <description>
+      Intial Castor XML author and Castor Project Lead until 1.0.2.
+      Responsible for all things wrong in Castor XML.
+      Enhancements, bug fixes, documention, etc.
+   </description>
+   <status>active</status>
+  </contributor>
+
+  <contributor type="Committer">
+     <name surname="Joachim" given="Ralf" />
+     <email>ralf.joachim@syscon-world.de</email>
+     <project>JDO</project>
+     <company id="syscon"/>
+     <description>
+        Various bug fixes, enhancements and refactorings at almost all
+		parts of JDO including major refactoring of JDO test framework.
+     </description>
+    <status>active</status>
+    <since>
+      <date>Dec. 2004</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Kuns" given="Edward" />
+    <email>edward.kuns@aspect.com</email>
+    <project>XML</project>
+    <description>
+		Various bug fixes, enhancements and refactorings at almost all
+		parts of XML code generation, including major refactoring of XML
+		test framework   
+	</description>
+    <status>active</status>
+    <since>
+      <date>Oct. 2006</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Fawcett" given="Andrew"/>
+    <email>Andrew.Fawcett@coda.com</email>
+    <company id="coda"/>
+    <project>XML</project>
+    <description>XML enhancements.</description>
+    <status>inactive</status>
+    <since>
+      <date>Apr. 2005 (again)</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Snyder" given="Bruce"/>
+    <email>bruce DOT snyder AT gmail DOT com</email>
+    <project>JDO</project>
+    <description>
+        Enhancements, bug fixes, documention, etc. (JDO project lead 
+        from 0.9 to 0.9.5)
+    </description>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Fuchs" given="Martin" />
+    <email>martin-fuchs@gmx.net</email>
+    <company id="mentopolis"/>
+    <project>JDO</project>
+    <status>inactive</status>
+    <description>
+       JDO bug fixes and enhancements including JdoConfFactory;
+       test cases; Oracle questions
+    </description>
+    <since>
+      <date>Dec. 2004</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Block" given="Gregory" />
+    <email>gblock@ctoforaday.com</email>
+    <project>JDO</project>
+    <status>inactive</status>
+    <company id="ctoforaday"/>
+    <description>
+       Bugfixes/enhancements, stress testing, performance testing, tester of
+       unusual 'runtime' environments, (Hashbelt) cache implementations et alias.
+    </description>
+    <since>
+      <date>Dec. 2004</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Hugubakken" given="Stein" />
+    <email>dulci@start.no</email>
+    <project>JDO</project>
+    <description>
+       Performance enhancements, core refactoring  and much more.
+    </description>
+    <status>inactive</status>
+    <since>
+      <date>Dec. 2004</date>
+    </since>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Blandin" given="Arnaud"/>
+    <email>blandin@intalio.com</email>
+    <company id="intalio"/>
+    <project>XML</project>
+    <description>Responsible for all the boring stuff that Keith doesn't want to do anymore.
+    Causes immense stress for the other contributors. Introduces bad franglish into the documentation.</description>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Yip" given="Thomas"/>
+	<email>tomtactic-web@yahoo.com</email>
+    <company id="leafsoft"/>    
+    <project>JDO</project>
+    <description>
+      Lead developer of Castor JDO from late v.0.8 to early v.0.9.
+      Enhancements to the lock model, LRU cache, lazy loading, multi-pk, m-n support, etc; bugs fixes, test cases, and documentation.
+    </description>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Arkin" given="Assaf"/>
+    <email>arkin@intalio.com</email>
+    <company id="intalio"/>
+    <project>JDO</project>
+    <description>
+       The initial author of Castor JDO.
+       Formally responsible for all things wrong in JDO, and all bugs in Mapping API.
+       (non-active)
+    </description>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Gignoux" given="Sebastien"/>
+    <email>gignoux@intalio.com</email>
+    <description>XML Mapping enhancements, bug fixes, documentation and some testing.</description>
+    <project>XML</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Thielen" given="Thorsten"/>
+    <email>thorsten@ipcon.de</email>
+    <description>Enhancements to OQL.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Sahuc" given="Sebastien"/>
+    <email>ssahuc@intalio.com</email>
+    <company id="intalio"/>
+    <description>Testing for Oracle and Castor XML.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Wolpert" given="Ned"/>
+    <email>wolpert@codeheadsystems.com</email>
+    <company id="codehead"/>
+    <description>JDO enhancements, refactoring and PostgreSQL integration.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Guessant" given="Mickael"/>
+    <email>mickael.guessant@fisystem.com</email>
+    <description>JDO enhancements, help on the mailing list.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Nitz" given="Oleg"/>
+    <email>on@ibis.odessa.ua</email>
+    <company id="ibis"/>
+    <description>Key generators, stored procedures, Sybase 11/12 support and
+     a variety of other design contributions.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Maucherat" given="Remy"/>
+    <email>remm@apache.org</email>
+    <company id="sun"/>
+    <description>XML enhancements, lots of testing.</description>
+    <project>XML</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Karpenstein" given="Nissim"/>
+    <email>nissim@nksystems.com</email>
+    <company id="nksystems"/>
+    <description>Develops the OQL query parser.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+  <contributor type="Committer">
+    <name surname="Fritz" given="Markus"/>
+    <email>mfritz@justis.de</email>
+    <company id="justis"/>
+    <description>JDO bugfixes, enhancements.</description>
+    <project>JDO</project>
+    <status>inactive</status>
+  </contributor>
+
+
+
+  <!-- *********** -->
+  <!-- CONTRIBUTOR -->
+  <!-- *********** -->
+
+  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
+       It makes it easier to maintain.
+  -->
+
+  <!-- Last names begin with A-D -->
+
+  <contributor type="Contributor">
+    <name surname="Ackley" given="Keith"/>
+    <email>keith.ackley@eds.com</email>
+    <company id="eds"/>
+    <description>Added support for marshalling the DOCTYPE to the marshaller.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Adamo" given="Vince" />
+    <email>vadamo@vignette.com</email>
+    <company id="Vignette" />
+    <description>Contributed API to support cache flushing/eviction.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Arriaga" given="Santiago"/>
+    <email>santiago@catnet.com.mx</email>
+    <description>Added Informix and Hypersonic SQL to the list of supported databases.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Ballanger" given="Andrew" />
+    <email>AWBALLAN@smumn.edu</email>
+   <description>An improvement for generated SQL statement syntax</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bate" given="Steve" />
+    <email>mail@technoetic.com</email>
+    <description>Fixes to JDO</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bates" given="Simon" />
+    <email>simon.bates@utoronto.ca</email>
+    <description>Proposed patch for bug 1200</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Beauregard" given="Michael" />
+    <email>michael_beauregard@transcanada.com</email>
+    <description>Patch for Ant build descriptor to construct the CLASSPATH.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bechtel" given="Patric" />
+    <email>bechtel@ipcon.de</email>
+    <description>A patch to JDO: the same-connection="false" mode of HIGH/LOW key generator didn't work</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Beloff" given="Rostislav"/>
+    <email>ros@domainforfree.com</email>
+    <description>
+       Patch to prevent instropection of static methods.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Betteridge" given="Nick"/>
+    <email>n.betteridge@syntactics.com</email>
+    <description>
+       Added setErrorHandler() to SchemaReader, added removeFacet() to SimpleType.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bolwidt" given="Erwin"/>
+    <email>erwin@klomp.org</email>
+    <description>Patches for cleanup of docs</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Braeuchi" given="Jakob"/>
+    <email>jbraeuchi@hotmail.com</email>
+    <description>Submitted a patch to enable readonly field support</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Brosius" given="Dave"/>
+    <email>dbrosius@qis.net</email>
+    <description>
+        Submitted small improvements to build.bat and various java files.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bueno" given="Leonardo"/>
+    <email>leonardo@itera.com.br</email>
+    <description>Contributed MySQL driver.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Bygrave" given="Graham"/>
+    <email>Graham.Bygrave@BarclaysGlobal.com</email>
+    <description>Offered a fix an unprotected call on a potentially null object in <tt>OQLQueryImpl#bind()</tt></description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Causevic" given="Emir"/>
+    <email>emircaus@bih.net.ba</email>
+    <description>
+        Contributed several patches for SapDb driver and fixed compilation problems with 
+		Java5. Currently involved in JPA 3.0 implementation and extension of Castor JDO
+		to meet new feature requests.
+    </description>
+    <status>active</status>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Child" given="Terry"/>
+    <email>tmchild@gmx.net</email>
+    <description>Contributed Interbase driver.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Chin" given="Stephen"/>
+    <email>schin@qrs.com</email>
+    <description>Proposed patch for bug 1530</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Christmann" given="Paul"/>
+    <email>paul@priorartisans.com</email>
+    <description>Provided UnmarshalListener feature</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Coleman" given="Alan"/>
+    <email>alan@kenamea.com</email>
+    <company id="kenamea"/>
+    <description>Contributions to Castor XML (patch for bugs 1319, 1322)</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Cumberland" given="David"/>
+    <email>dcumberl@truelink.com</email>
+    <description>Patch for DateTimeValidator.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="De Smedt" given="Thomas"/>
+    <email>thomas.de.smedt@pandora.be</email>
+    <description>Patch for bug 1530</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Deichmann" given="Bernd"/>
+    <email>bernd.deichmann@poet.de</email>
+    <company id="poet"/>
+    <description>
+       Updates for ODMG 3.0 collection support.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Detlefsen" given="August"/>
+    <email>augustd@codemagi.com</email>
+    <description>
+        Fixed issue with bad dates being persisted in Oracle 9.2.
+    </description>
+  </contributor>
+
+  <!-- Last names begin with E-H -->
+
+  <contributor type="Contributor">
+    <name surname="Eliassen" given="Stein"/>
+    <email>stein.m.eliassen@start.no</email>
+    <description>
+       Fix for but 1313, count-limited cache type is 30 not 100.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="La Ferla" given="Robert"/>
+    <email>robertlaferla@comcast.net</email>
+    <description>Conributed EnumeratedTypeaccess interface..</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Gaillard" given="Gilles"/>
+    <email>gillesGaillard@compuserve.com</email>
+    <description>
+       various bug fixes and patches for Castor XML
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Giordano" given="Chris"/>
+    <email>giordano@more.net</email>
+    <description>
+       Patch for bug 1658
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Green" given="Nathan"/>
+    <email>nsgreen@thazar.com</email>
+    <description>
+       Enhancements to ConsoleDialog and SourceGenerator to allow
+       "all" option via command line utility.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Guillemot" given="Marc" />
+    <email>mguillemot@yahoo.fr</email>
+    <description>Contributed a fix for bug 1452.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Guerin" given="Thierry" />
+    <email>thierry.guerin@prima-solutions.com</email>
+    <description>Added WeblogicXMLSerializerFactory.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Hafner" given="Ulli"/>
+    <email>hafner@sdm.de</email>
+    <description>Patch for bug 1632</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Hall" given="John"/>
+    <email>jhall@solant.com</email>
+    <company id="avolent"/>
+    <description>Patch to upgrade Mapping.xsd to latest XML Schema draft</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Higgins" given="Patrick"/>
+    <email>phiggins@transzap.com</email>
+    <description>
+        Enhancements to the javasource classes to fix support for abstract
+        methods. Some changes for Java 2 types compatibiliy.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Hogge" given="Rick"/>
+    <email>rhogge@austin.rr.com</email>
+    <description>
+       Added patch to source generator to prevent conflicts with java.lang.Object
+       when the XML Schema contains an element name of "object" or "Object".
+    </description>
+  </contributor>
+
+  <!-- Last names begin with I-L -->
+
+  <contributor type="Contributor">
+    <name surname="Kelly" given="Shaun" />
+    <email>shaun.kelly@bigpond.com</email>
+    <description>
+    Fix for OQLQueryImpl.java for multiple occurrences of the 'AS' keyword.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Kleppinger" given="Don"/>
+    <email>Don.Kleppinger@Den.Galileo.com</email>
+    <description>
+       Enhancement to Marshaller to support BigDecimal as a primitive type.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Lavandowska" given="Lance"/>
+    <email>lance@aptura.com</email>
+    <description>Mapping GUI, LIMIT and OFFSET keywords for HSQL, MySQL and PostgreSQL</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Layes" given="Jonathan"/>
+    <email>jlayes@zaplet.com</email>
+    <company id="zaplet"/>
+    <description>Some bug fixes to XML Unmarshaller</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Liebner" given="Stefan"/>
+    <email>MailLiebner@gmx.ne</email>
+    <description>Submitted code for generating mapping file from existing SQL database.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Lin" given="Peter"/>
+    <email>woolfel@yahoo.com</email>
+    <description>Provided patch for bug 1272 (fix for bound properties)</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Low" given="Heng Sin"/>
+    <email>lowhs@comline.com.my</email>
+    <description>Gives helps fellow users on the mailing list</description>
+  </contributor>
+
+  <!-- Last names begin with M-P -->
+
+  <contributor type="Contributor">
+    <name surname="Maria" given="Damon" />
+    <email>damon@mahu-ika.com</email>
+   <description>Bug reports and bug fixes for readonly locking mode in Castor JDO</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Martin" given="Margaret"/>
+    <email>mmartin@vignette.com</email>
+    <description>
+        Contributions to the mailing list to help others in the community; contributed a workaround for the lack of self-referential relationships.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Matz" given="Oliver"/>
+    <email>oliver.matz@ppi.de</email>
+    <description>Fix for rollback of fields of type primitive long.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Mauch" given="Thorsten"/>
+    <email>mauch@imkenberg.de</email>
+    <description>OQL Query tool, bug fixing for OQL.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="May" given="Andrew"/>
+    <email>amay@ingenta.com</email>
+    <description>Fixed Castor being unable to find FieldDescriptor when using auto-naming with location.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+     <name surname="McKinley" given="Will"/>
+     <email>willowmck@yahoo.com</email>
+     <description>
+        Provided a patch to source generator that allows case insensitive lookups for enumerated type values.
+     </description>
+  </contributor>
+
+  <contributor type="Contributor">
+     <name surname="Murray" given="Tom"/>
+     <email>tmurray@cup.hp.com</email>
+     <description>Provided a patch concerning the reading of AnyNode.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Moallemi" given="Ciamac" />
+    <email>ciamac@neogenesis.com</email>
+    <description>A patch to OQL parser: retrieving fields from a superclass</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Nemeshazy" given="David" />
+    <email>dnemeshazy@odyssey-group.com</email>
+    <description>Provided a fix for making the HIGH/LOW key generator name pass XML
+    schema and DTD validation.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Nielsen" given="Glenn"/>
+    <email>glenn@voyager.apg.more.net</email>
+    <description>Some patches for Castor XML, JakartaOroEvaluator</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Okamoto" given="Takashi"/>
+    <email>toraneko@kun.ne.jp</email>
+    <description>Contributed XercesRegExpEvaluator implementation</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Oines" given="Leif"/>
+    <email>leif.oines@calebtech.com</email>
+    <description>Some bug fixes for DateFieldHandler</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Olausson" given="Thomas"/>
+    <email>thomas.olausson@home.se</email>
+    <description>Contributed a patch for DB2 and identity columns</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Ostermueller" given="Erik"/>
+    <email>Erik.Ostermueller@alltel.com</email>
+    <description>Contributions to the mailing list to help others in the community</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Ozyurt" given="Burak"/>
+    <email>bozyurt@san.rr.com</email>
+    <description>Added InstantDB to the list of supported databases.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Paradis" given="Jackie"/>
+    <email>jackie_paradis@yahoo.ca</email>
+    <description>Patch for bug 1474</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Parent" given="Marc-Antoine"/>
+    <email>Marc-Antoine_Parent@mitel.com</email>
+    <description>Enhancements to the Castor DSML and bug fixing.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Pelchat" given="Stéphane"/>
+    <email>stephane@ofoto.com</email>
+    <description>Patches to enum and date field handlers to support "nillable" fields.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Picasso" given="Brent"/>
+    <email>brentpicasso@yahoo.com</email>
+    <description>Some patches for Castor XML</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Pinel" given="Phil"/>
+    <email>geek@quack.org.uk</email>
+    <description>TimeZone bug fix for DateFieldHandler</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Post" given="Ulrich"/>
+    <email>Ulrich.Post@softwareag.com</email>
+    <description>
+        Allowed restricting an complexType with complexContent to complexType with simpleContent.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Prechtl" given="Barbara"/>
+    <email>bprechtl@nortel.com</email>
+    <description>Fixed unmarshaller error with generated code when using groups.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Purnhagen" given="Ralf" />
+    <email>purnhar@gmx.net</email>
+    <description>A patch to JDO which fixed a ClassNotFoundException ocurring in a multiple ClassLoader environment</description>
+  </contributor>
+
+  <!-- Last names begin with Q-S -->
+
+  <contributor type="Contributor">
+    <name surname="Rader" given="Todd" />
+    <description>A patch for RelationCollection to fix incorrect iteration deleted items are present.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Randall" given="Brett" />
+    <email>brett_s_r@hotmail.com</email>
+    <description>Patch for bug 1272 (fix for bound properties)</description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Rehor" given="Petr" />
+    <email>petr.rehor@decros.cz</email>
+    <description>Patches to Castor OQL. Includes the support of 1:M N:M query.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Renner" given="Martin" />
+    <email>m.renner@exxcellent.de</email>
+    <description>Fixes for rollback() destroying lazy loading collections,
+      PreparedStatement not closed in SQLEngine.delete,
+      Exception during db.rollback() when db.update() fails,
+      Time limited cache is expiring too fast</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Revie" given="Jon" />
+    <email>revie@rhinointernet.com</email>
+    <description>Bug fixes for logging statements.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Rhodes" given="Phillip" />
+    <email>rhodespc@telerama.com</email>
+    <description>Fixed JDO bug: non-null columns sometimes were returned as null</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Riege" given="Christian" />
+    <email>criege@riege.com</email>
+    <description>
+       Patch for JInterface to prevent illegal cast when adding a method that uses
+       a JInterface as a parameter type
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Rotman" given="Stefan" />
+    <email>srotman@factotummedia.nl</email>
+    <description>Fix bug at CastorException</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Rousse" given="Guillaume" />
+    <email>Guillaume.Rousse@univ-reunion.fr</email>
+   <description>Mapping extension and other important feebback</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Roytenberg" given="David" />
+    <email>droytenberg@yahoo.com</email>
+    <company id="nsri"/>
+   <description>
+      Enhancements to DateFieldHandler to allow different date formats than
+      that which is defined in XML Schema.
+   </description>
+  </contributor>
+
+
+  <contributor type="Contributor">
+    <name surname="Salwinski" given="Lukasz"/>
+    <email>lukasz@mbi.ucla.edu</email>
+    <description>
+       Helped tracked down issue causing bug CASTOR-1216
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Shea" given="Gary"/>
+    <email>shea@gtsdesign.com</email>
+    <description>
+       Enhancements to the org.exolab.javasource package.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Shishakov" given="Vitaly"/>
+    <email>vitaly.shishakov@novalumen.com</email>
+    <description>Contributed "trigger" mode for SEQUENCE key generator.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Sibilev" given="Kesha"/>
+    <email>ksibilev@powernetinc.com</email>
+    <description>Patches to JDO</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Simon" given="Eric"/>
+    <email>ESimon@spss.com</email>
+    <description>Fixed thread safe issue with mapping files</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Skopp" given="Martin"/>
+    <email>skopp@riege.de</email>
+    <description>
+       Enhancements to the org.exolab.javasource package.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Small" given="Matt"/>
+    <email>msmall@clickability.com</email>
+    <description>Some patches for Castor XML Schema Writer,
+       tracked down issue for bug CASTOR-1216
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Smith" given="Ron"/>
+    <email>rsmith7209@yahoo.com</email>
+    <description>Patch to make 'Map' collection really generic.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Snowsill" given="David" />
+    <email>david.snowsill@calibreft.com.au</email>
+   <description>JDO bugfixes</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Stewart" given="George"/>
+    <email>georgestewartiv@yahoo.com</email>
+    <description>
+       Enhancement to give mapping loader higher priority than compiled descriptors
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Sutphin" given="Rhett"/>
+    <email>rhett-sutphin@uiowa.edu</email>
+    <description>
+       Fixes for mapping.xsd (the schema for the mapping object model) and the initial
+       contribution of the binding file for the mapping schema. Patch for bug 1245.
+    </description>
+  </contributor>
+
+  <!-- Last names begin with T-Z -->
+
+  <contributor type="Contributor">
+    <name surname="Telcik" given="Tim"/>
+    <email>ttelcik@hbf.com.au</email>
+    <description>
+       Patch for bug 1916 and 1917
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Thal" given="David"/>
+    <email>dthal@combimatrix.com</email>
+    <description>
+       Patch for bug 1666
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Thelen" given="Frank"/>
+    <email>Frank.Thelen@poet.de</email>
+    <company id="poet"/>
+    <description>
+       Submitted code for allowing subclassing of the special types used
+       by the Source Generator, and for supporting ODMG 3.0 collections.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Thyen" given="Michael"/>
+    <email>mthyen@excite.com</email>
+    <description>Patch to fix introspection of addXxx() method.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Tinker" given="David" />
+    <email>david@hemtech.co.za</email>
+    <description>Add support of Identity Key generator for Informix</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Tsichevski" given="Vladimir"/>
+    <email>wowa@jet.msk.su</email>
+    <description>Some patches for Castor XML + Castor JDO</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Ulrich" given="Lutz"/>
+    <email>ulrich@optimal-systems.de</email>
+    <description>Patch for Castor XML bug 1416</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Valchkov" given="Stoil" />
+    <email>svalchkov@gmail.com</email>
+    <description>Fixed NPE in case of extension of union</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="van Kann" given="Patrick" />
+    <email>patrick.vankann@fortune-cookie.com</email>
+    <description>Ported SQL for Castor JDO tests to SQL Server; updates for docs; helping others on the mailing list</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="van der Kuil" given="Roy" />
+    <email>roy@vanderkuil.nl</email>
+    <description>Patch for bug 1730; helping others on the mailing list</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="van Voorthujsen" given="Henk" />
+    <email>voorth@xs4all.nl</email>
+    <description>Fixed lots of compiler warnings</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Verlet" given="Stephane" />
+    <email>stephane@mminternet.com</email>
+    <description>Patch for High/Low key generator problem in multi DB environement</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Weir" given="John"/>
+    <email>weirja@btinternet.com</email>
+    <description>
+        enhancement to allow extra non-matched elements to simply be ignored.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Westbay" given="Michael"/>
+    <email>westbay@users.sourceforge.net</email>
+    <description>
+        Patch for bug CASTOR-1132 (JIRA)
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Wichoski" given="Clóvis"/>
+    <email>clovis.wichoski@gmail.com</email>
+    <company id="supridatta"/>
+    <description>
+        Contributed patch for SapDbQueryExpression and CASTOR-1207 (JIRA).
+        Also improved coverage of CTF tests for SapDB.
+    </description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Wise" given="Nic"/>
+    <email>nicw@xerxes.co.nz</email>
+    <description>Contributed SEQUENCE key generator for Interbase.</description>
+  </contributor>
+
+  <contributor type="Contributor">
+    <name surname="Woon" given="Mark" />
+    <email>morpheus@SMI.Stanford.EDU</email> <description>
+        Contributed patches for java.lang.Long&lt;-&gt;java.util.Date
+        type convertors and some patches to clean up docs
+    </description>
+  </contributor>
+
+
+  <!-- ******** -->
+  <!-- FEEDBACK -->
+  <!-- ******** -->
+
+  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
+      It makes it easier to maintain
+  -->
+
+  <!-- Last names begin with A-D -->
+
+  <contributor type="Feedback">
+    <name surname="Arias" given="Luis"/>
+    <email>luis@elysia.com</email>
+    <description>XML Schema related issues</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Balsoy" given="Ozgur"/>
+    <email>ozgur@csit.fsu.edu</email>
+    <description>Castor XML feedback</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Cabrera" given="Alan"/>
+    <email>adc@multex.com</email>
+    <description>Patch to add InstanceFactory support</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Christopherson" given="Dan"/>
+    <email>danch@nvisia.com</email>
+    <description>Patch for wildcard introspection bug</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Dankert" given="Edwin"/>
+    <email>edankert@cladonia.com</email>
+    <description>
+       Patch to org.exolab.castor.xml.schema.util.DatatypeHandler to
+       allow empty strings to be handled properly and prevent an
+       exception when "guessing" the type.
+    </description>
+  </contributor>
+
+  <!-- Last names begin with E-H -->
+
+  <contributor type="Feedback">
+    <name surname="Goetter" given="Stephan"/>
+    <email>stephan.goetter@newtron.net</email>
+    <description>Castor XML feedback</description>
+  </contributor>
+
+
+  <contributor type="Feedback">
+    <name surname="Goldstein" given="Peter"/>
+    <email>pgoldstein@triu.com</email>
+    <description>Suggested improvement in generated source for booleans (bug 1527)</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Haghani" given="Sasha"/>
+    <email>shaghani@activience.com</email>
+    <description>Reported bug with 1-1 Related Objects and autoStore</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Hoyle" given="Duncan"/>
+    <email>duncanh@granada-learning.com</email>
+    <description>Castor XML feedback</description>
+  </contributor>
+
+
+  <!-- Last names begin with I-L -->
+
+  <contributor type="Feedback">
+    <name surname="Judd" given="Struan"/>
+    <email>struan@motorweb.co.nz</email>
+    <description>Castor XML feedback</description>
+  </contributor>
+
+
+  <contributor type="Feedback">
+    <name surname="Kleser" given="Gerald"/>
+    <email>gerald@neofonie.de</email>
+    <description>Addition feedback and proposed workaround for bug 1449</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Kovacs" given="Zsolt"/>
+    <email>Zsolt.Kovacs@cern.ch</email>
+    <description>NullPointerException fix in XMLInstance2SchemaHandler</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="La Ferla" given="Robert"/>
+    <email>robertlaferla@comcast.net</email>
+    <description>Castor XML feedback</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Leng" given="Bill"/>
+    <email>wleng@metatomix.com</email>
+    <description>Bug Reports / Castor XML feedback</description>
+  </contributor>
+
+
+  <!-- Last names begin with M-P -->
+
+  <contributor type="Feedback">
+    <name surname="Ohlrogge" given="Joakim"/>
+    <email>j_ohlrogge@hotmail.com</email>
+    <description>Patch for bug 1449</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Paradies" given="Thomas"/>
+    <email>paradies@transit-online.de</email>
+    <description>
+       Bug report and patch for default Serializer configuration with respect
+       to UTF-8 encoding.
+    </description>
+  </contributor>
+
+  <!-- Last names begin with Q-S -->
+
+  <contributor type="Feedback">
+    <name surname="Rimac" given="Ivica"/>
+    <email>ivica.rimac@KOM.tu-darmstadt.de</email>
+    <description>A lot of bug reports, feature requrests, feedbacks and testing for Castor JDO</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Sadinoff" given="Daniel"/>
+    <email>daniel.sadinoff@gs.com</email>
+    <description>Fixed some typos in the origins document</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Schneider" given="Georg"/>
+    <email>h8825037@obelix.wu-wien.ac.at</email>
+    <description>Found an ArrayOutOfBoundsException and fixed it.</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Skolnik" given="Radovan"/>
+    <email>rskolnik@inmail.sk</email>
+    <description>
+       Testing/Feedback on mapping file usage related to Castor XML
+    </description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Soysa" given="Manjuka"/>
+    <email>manjuka@visto.com</email>
+    <description>Feedback on generated enumerations,
+         suggested adding the "enumerate" method.
+    </description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Suez" given="Eitan"/>
+    <email>eitan@uptodata.com</email>
+    <description>Various bug reports.</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Sundaranatha" given="Venkatakrishnan"/>
+    <email>ssvk@msn.com</email>
+    <description>Testing for Oracle and type conversion for Oracle JDBC driver.</description>
+  </contributor>
+
+  <!-- Last names begin with T-Z -->
+
+
+  <contributor type="Feedback">
+    <name surname="Van vlerken" given="Johan"/>
+    <email>johan.vanvlerken@b-rail.be</email>
+    <description>Castor XML feedback - patch for bug 1461</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Vaughan" given="Steve"/>
+    <email>snmvaughan92@yahoo.com</email>
+    <description>Castor XML feedback</description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Viet" given="Julien"/>
+    <email>julien.viet@int-evry.fr</email>
+    <description>
+          Reported bug in CollectionInfoJ2 with respect to unbounded collections
+    </description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Wescott" given="Jeffrey"/>
+    <email>jeff@saltare.com</email>
+    <description></description>
+  </contributor>
+
+  <contributor type="Feedback">
+    <name surname="Zamler" given="Eldad"/>
+    <email>eldad314@netvision.net.il</email>
+    <description>Found and reported bugs in ClassMolder, ObjectLock and SQLEngine</description>
+  </contributor>
+
+
+  <!-- ********** -->
+  <!-- DOCUMENTOR -->
+  <!-- ********** -->
+
+  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
+      It makes it easier to maintain
+  -->
+
+
+  <contributor type="Documentor">
+    <name surname="Gilmartin" given="Andrew"/>
+    <email>andrew.gilmartin@ingenta.com</email>
+    <description>
+       Provided examples and docs Blob support via OID with
+       PostgreSQL.
+    </description>
+  </contributor>
+
+  <contributor type="Documentor">
+    <name surname="Horowitz" given="Rick"/>
+    <email>rickhoro@yahoo.com</email>
+    <description>Improve the documentation of Castor JDO. Also, bug reports and feedback.</description>
+  </contributor>
+
+  <contributor type="Documentor">
+    <name surname="Secoske" given="Matt"/>
+    <email>secoskem@gmail.com</email>
+    <description>HOW-TO Unmarshal raw XML segments into arbitrary types.</description>
+  </contributor>
+
+  <contributor type="Documentor">
+    <name surname="Suez" given="Eitan"/>
+    <email>eitan@uptodata.com</email>
+    <description>
+        Clean-up of <i>xml-mapping</i> documentation and documentation on xsi:type.
+        The create-method addition to the <i>tip &amp; tricks</i> page.
+    </description>
+  </contributor>
+
+  <contributor type="Documentor">
+    <name surname="Tanner" given="Dan"/>
+    <email>Dan.B.Tanner@wellsfargo.com</email>
+    <description>
+       Contribution to the Castor XML FAQ.
+    </description>
+  </contributor>
+
+
+  <!-- ******************** -->
+  <!-- COMPANY INFORMATION  -->
+  <!-- ******************** -->
+  <!--
+      Company Information, so we don't have to duplicate it for
+      mulitple contributors of the same company
+  -->
+  <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
+      It makes it easier to maintain
+  -->
+
+  <!-- Company Names (A-D) -->
+
+  <company id="anecon">
+    <name>Anecon Softwaredesign und Beratung Ltd.</name>
+    <url>www.anecon.com</url>
+  </company>
+
+  <company id="apache">
+    <name>Apache Software Foundation</name>
+    <url>www.apache.org</url>
+  </company>
+
+  <company id="avolent">
+    <name>Avolent, Inc.</name>
+    <url>www.avolent.com</url>
+  </company>
+
+  <company id="coda">
+    <name>CODA</name>
+    <url>www.coda.com</url>
+  </company>
+
+  <company id="codehead">
+    <name>CodeHead Systems</name>
+    <url>www.codeheadsystems.com</url>
+  </company>
+
+  <company id="ctoforaday">
+    <name>CTO for a day</name>
+    <url>www.ctoforaday.com</url>
+  </company>
+
+
+  <!-- Company Names (E-H) -->
+
+  <company id="eds">
+    <name>EDS (Electronic Data Systems)</name>
+    <url>www.eds.com</url>
+  </company>
+
+  <!-- Company Names (I-L) -->
+
+  <company id="ibis">
+    <name>Integrated Banking Information Systems</name>
+    <url></url>
+  </company>
+
+  <company id="intalio">
+    <name>Intalio, Inc.</name>
+    <url>www.intalio.com</url>
+  </company>
+
+  <company id="kenamea">
+    <name>Kenamea, Inc.</name>
+    <url>www.kenamea.com</url>
+  </company>
+
+  <company id="leafsoft">
+    <name>Leafsoft.com</name>
+    <url>leafsoft.com/aboutus.html</url>
+  </company>
+
+  <!-- Company Names (M-P) -->
+
+  <company id="mentopolis">
+    <name>Mentopolis</name>
+    <url>www.mentopolis.de/index.htm</url>
+  </company>
+
+  <company id="nksystems">
+    <name>NK Systems</name>
+    <url>www.nksystems.com</url>
+  </company>
+
+  <company id="nsri">
+    <name>NSRI Inc.</name>
+    <url>http://www.nykline.com</url>
+  </company>
+
+  <company id="poet">
+    <name>Poet Software</name>
+    <url>www.poet.com</url>
+  </company>
+
+  <!-- Company Names (Q-S) -->
+
+  <company id="sun">
+    <name>Sun Microsystems</name>
+    <url>www.sun.com</url>
+  </company>
+
+  <company id="supridatta">
+     <name>Supridatta</name>
+     <url>www.supridatta.com.br/index.html</url>
+  </company>
+
+  <company id="syscon">
+     <name>Syscon</name>
+     <url>www.syscon-informatics.de/index.html</url>
+  </company>
+
+  <!-- Company Names (T-Z) -->
+
+  <company id="zaplet">
+    <name>Zaplet</name>
+    <url>www.zaplet.com</url>
+  </company>
+
+  <!-- description of contributor types -->
+
+  <type name="Committer">
+    Committers are contributors who have written lots of important code,
+    sacrificing all social events, and becoming a hermit at the expense
+    of providing good tools for people they don't even know. In return for
+    their love and devotion you may bug them with questions, bug fixes,
+    patches and offer them free beer.
+  </type>
+
+  <type name="Contributor">
+    Contributors are responsible for making this a better project and
+    we all end up benefiting from the bug fixes, design changes or features
+    they contributed. Contributors tend to live a balanced life and
+    hopefully eat a healthy diet.
+  </type>
+
+  <type name="Documentor">
+    Documentors do the impossible and actually explain how to use the
+    software in spite of all the complexity introduced by the committers
+    and contributors.
+  </type>
+
+  <type name="Feedback">
+    The following have offered valuable feedback (including bug reports) that has been beneficial
+    to the development and stability.
+  </type>
+
+	  </contributors>
+	</header>
+  </body>
+</document>

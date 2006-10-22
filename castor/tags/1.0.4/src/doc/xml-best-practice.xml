@@ -1,0 +1,73 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/xml-best-practice.xml">
+  <properties>
+    <title>Castor XML - Best practice</title>
+    <abstract>
+       Castor XML - Best practice
+    </abstract>
+    <status>Draft</status>
+  </properties>
+  <body>
+    <title>Castor XML - Best practice</title>
+    <header>
+    </header>
+
+    <section title="Introduction">
+
+    <p>There's many users of Castor XML out there, who (want to) use Castor XML in 
+       in high-volume applications. To fine-tune Castor for such environment, it is 
+       necessary to understand many of the product features in detail and to be able to
+       balance their use according to the application needs. Even though many of these
+       features are detailed in various places, people have frequently been asking 
+       for a 'best practise' document, a document that brings together these technical 
+       topics (in one place) and presents them as a set of easy-to-use recipes.</p>
+       
+    <p>Please be aware that this document is <i>under construction</i>, but still we 
+       believe that - even when in its conception phase - it provides valuable
+       information to users of Castor XML.</p>
+
+    </section>
+    
+    <section title="Usage of ClassDescriptorResolver">
+
+        <p>Whilst the documentation seems to indicate that creating instances of 
+           <api>org.exolab.castor.xml.Marshaller</api> and/or
+           <api>org.exolab.castor.xml.Unmarshaller</api> for the purpose of 
+           XML data binding is easy to achieve at the API usage level, it still has an 
+           impact on application performance as each instance creation involves 
+           setup operations to be executed.</p>
+           
+        <p>Whilst this is generally not an issue for one-off invocations, in a 
+           multi-threaded, high volume use scenario this can be become a serious 
+           issue. Internally, Castor uses a collection of <i>Descriptor</i> classes
+           to keep information about the Java entities to be marshalled and 
+           unmarshalled. With every instance creation of (Un)Marshaller, this collection 
+           will be built from scratch (again and again).</p>
+           
+        <p>To avoid this initial configuration 'penalty', Castor allows you 
+           to cache these Descriptor classes through its 
+           <api>org.exolab.castor.xml.ClassDescriptorResolver</api> component, and 
+           reuse this instance between (Un)Marshaller invocations.</p>
+           
+        <p>First create an instance of <tt>ClassDescriptorResolver</tt> using the 
+            following code fragment:</p>
+        
+        <code-panel>
+ClassDescriptorResolver cdResolver = (XMLClassDescriptorResolver) 
+   ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
+MappingLoader mappingLoaderr = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
+cdResolver.setMappingLoader(mappingLoader);</code-panel>
+        
+        <p>and then reuse this instance as shown below:</p>
+        
+        <code-panel>
+Unmarshaller unmarshaller = new Unmarshaller();
+unmarshaller.setResolver(cdResolver);
+unmarshaller.unmarshall(...);</code-panel>
+
+    </section>
+
+    </body>
+</document>
+

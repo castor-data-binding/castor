@@ -1,0 +1,538 @@
+<?xml version='1.0'?>
+
+<document url="http://castor.org/xmlschema.xml">
+
+  <properties>
+    <title>Castor XML Schema Support</title>
+    <author email="blandin@intalio.com">Arnaud Blandin</author>
+    <abstract>
+       Describe the features of the W3C XML Schema Recommendation supported by
+       Castor Source Code Generator
+    </abstract>
+    <status>Update to the recommendation document, first Draft</status>
+  </properties>
+
+
+
+  <body>
+
+    <title>Castor XML Schema Support</title>
+    <header>
+    	<p></p>
+    </header>
+
+    <section title="Introduction">
+
+      <p>
+         Castor XML supports the <a href="http://www.w3.org/TR/xmlschema-1/">W3C XML Schema Recommendation document (05/02/2001).</a>
+	 The Schema Object Model (located in the package <api package="org.exolab.castor.xml.schema">org.exolab.castor.xml.schema</api>) provides
+	 an in-memory representation of a given XML schema whereas the <a href="./sourcegen.xml">Source Generator</a> provides a binding between XML schema
+	 datatypes and structures into the corresponding ones in Java.
+      </p>
+      
+      <p>
+         The Castor Schema Object Model can read (<api package="org.exolab.castor.xml.schema.reader">org.exolab.castor.xml.schema.reader</api>)
+         and write (<api package="org.exolab.castor.xml.schema.writer">org.exolab.castor.xml.schema.writer</api>) an XML Schema as defined by 
+         the W3C recommandation. It allows to create and manipulate an in-memory view of an XML Schema.
+      </p>
+      
+      <p>
+         The Castor Schema Object Model supports the W3C XML Schema recommandation with no limitation. However the Source Generator does not offer currently
+         a one to one mapping from an XML Schema component to a Java component for every XML Schema components: some limitations exist. The aim of the following 
+         sections is to provide a list of supported features in the Source Generator. Please keep in mind that the Castor Schema Object Model again can handle
+         any XML Schema without limitations.
+      </p>
+      
+      <p>
+         It happens that a Schema type does not have the corresponding one in Java.
+	 Thus the Source Generator uses Castor implementation of these specific types (located in the <api package="org.exolab.castor.types"> types package</api>).
+	 for instance the <tt>duration</tt> type is implemented directly in Castor.
+	 Remember that the representation of XML Schema datatypes does not try to fit exactly the W3C XML Schema specifications,
+	 the aim is to map an XML Schema type to the java type that fit the most to the XML Schema type.
+      </p>
+		
+      <p>
+        You will find next a list of the supported XML Schema datatypes and structures in the Source Code Generator.
+        For a more detailed support of XML Schema structure and more information on the Schema Object Model, please refer to  <a href="./SourceGeneratorUser.pdf">
+        Source Generator User Document(PDF).</a></p>
+         
+     
+    </section>
+
+    <section title="Supported XML Schema Built-in Datatypes">
+
+      	<p>The following is a list of the supported datatypes with the corresponding facets and
+      	the java mapping type.</p>
+
+         <section title="Primitive Datatypes">
+
+            <table>
+               <tr><th align="left">Type</th><th align="left">Supported Facets</th><th align="left">Java mapping type</th></tr>
+               <tr>
+                   <td valign="top">string</td>
+                   <td>
+                       length<br/>
+                       minLength<br/>
+                       maxLength<br/>
+                       pattern<br/>
+                       enumeration<br/>
+                       whiteSpace<br/>
+                   </td>
+                   <td valign="top">java.lang.String</td>
+               </tr>		
+               
+               <tr>
+                  <td valign="top">boolean</td><td></td>
+               	  <td valign="top">primitive boolean type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">decimal</td>
+                  <td>
+                      totalDigits<br/>
+                      fractionDigits<br/>
+                      pattern<br/>
+                      whiteSpace<br/>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                  </td>
+                  <td valign="top">java.math.BigDecimal</td>
+               </tr>
+               
+               <tr>
+                 <td valign="top">float</td>
+               	 <td>
+                      pattern<br/>
+               	      enumeration<br/> 
+               	      maxInclusive<br/>
+               	      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                </td>
+                <td valign="top">primitive float type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">double</td>
+                  <td>
+                     pattern<br/>
+                     enumeration<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     minExclusive<br/>
+                  </td>
+                  <td valign="top">double primitive type</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">duration</td>
+                  <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>         
+                  </td>
+                  <td valign="top">org.exolab.castor.types.Duration</td>
+               </tr>
+               <tr>
+                  <td valign="top">dateTime</td>
+                  <td>
+                      enumeration<br/>
+                  </td>
+                  <td valign="top">java.util.Date</td>
+               </tr>
+
+               <tr>
+                   <td valign="top">time</td>
+                   <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                   </td>
+                   <td valign="top">org.exolab.castor.types.Time</td>
+               </tr>
+               
+               <tr>
+                   <td valign="top">gYearMonth</td>
+                   <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                   </td>
+                   <td valign="top">org.exolab.castor.types.GYearMonth</td>
+               </tr>
+               
+               <tr>
+                   <td valign="top">gYear</td>
+                   <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                   </td>
+                   <td valign="top">org.exolab.castor.types.GYear</td>
+               </tr>
+               
+               <tr>
+                   <td valign="top">gMonthDay</td>
+                   <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                   </td>
+                   <td valign="top">org.exolab.castor.types.GMonthDay</td>
+               </tr>
+              
+               <tr>
+                   <td valign="top">gDay</td>
+                   <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                   </td>
+                   <td valign="top">org.exolab.castor.types.GDay</td>
+               </tr>
+              
+               <tr>
+                   <td valign="top">gMonth</td>
+                   <td>
+                      enumeration<br/>
+                      maxInclusive<br/>
+                      maxExclusive<br/>
+                      minInclusive<br/>
+                      minExclusive<br/>
+                   </td>
+                   <td valign="top">org.exolab.castor.types.GMonth</td>
+               </tr>
+              
+               <tr>
+                 <td valign="top">hexBinary</td><td></td>
+                 <td valign="top">primitive byte array</td> 
+               </tr>
+              
+               <tr>
+                 <td valign="top">base64Binary</td><td></td>
+                 <td valign="top">primitive byte array</td> 
+               </tr>
+              
+               <tr>
+                 <td valign="top">anyURI</td>
+                 <td>
+                     enumeration<br/>
+                 </td>
+                 <td valign="top">java.lang.String</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">QName</td>
+               	  <td>
+               	     length<br/>
+               	     minLength<br/>
+               	     maxLength<br/>
+               	     pattern<br/>
+               	     enumeration<br/>
+               	  </td>
+               	  <td valign="top">java.lang.String</td>
+               </tr>
+            </table>
+         </section>
+
+         <section title="Derived Datatypes">
+            <table>
+               <tr><th align="left">Type</th><th align="left">Supported Facets</th><th align="left">Java mapping type</th></tr>
+               
+               <tr>
+               	 <td valign="top">normalizedString</td>
+               	 <td>
+               	     length<br/>
+               	     minLength<br/>
+               	     maxLength<br/>
+               	     pattern<br/>
+               	     enumeration<br/>
+               	 </td>
+               	 <td valign="top">java.lang.String</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">NMTOKEN</td>
+                  <td>
+                      enumeration<br/>
+                  </td>
+                  <td valign="top">java.lang.String</td>
+               </tr>
+                       
+               <tr>
+                  <td valign="top">NMTOKENS</td><td></td>
+                  <td valign="top">java.util.Vector of NMTOKEN</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">NCName</td>
+                  <td>
+                      enumeration<br/>
+                  </td>
+                  <td valign="top">java.lang.String</td>
+               </tr>
+              
+               <tr>
+                   <td valign="top">ID</td>
+                   <td>
+                       enumeration<br/>
+                   </td>
+                   <td valign="top">java.lang.String</td>
+               </tr>
+               <tr>
+                   <td valign="top">IDREF</td><td></td>
+                   <td valign="top">java.lang.Object</td>
+               </tr>
+               
+               <tr>
+                  <td valign="top">IDREFS</td><td></td>
+                  <td valign="top">java.util.Vector of IDREF</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">integer</td>
+                  <td>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     pattern<br/>
+                     enumeration<br/>
+                     maxInclusive<br/>
+                   </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">nonPositiveInteger</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     maxInclusive<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">NMTOKENS</td><td></td>
+                  <td valign="top">java.util.Vector of NMTOKEN</td>
+               </tr>
+
+	       <tr>
+                  <td valign="top">negativeInteger</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     maxInclusive<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">long</td>
+                  <td>
+                     pattern<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     minExclusive<br/>
+                  </td>
+                  <td valign="top">primitive long type</td>
+               </tr>
+
+                <tr>
+                  <td valign="top">int</td>
+                  <td>
+                     pattern<br/>
+                     enumeration<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     minExclusive<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               
+              
+               <tr>
+                  <td valign="top">short</td>
+                  <td>
+                     pattern<br/>
+                     enumeration<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     minExclusive<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">byte</td>
+                  <td>
+                     pattern<br/>
+                     enumeration<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     minExclusive<br/>
+                  </td>
+                  <td valign="top">primitive byte type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">nonNegativeInteger</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxInclusive<br/>
+                     maxExclusive<br/>
+                     minInclusive<br/>
+                     maxInclusive<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+
+               <tr>
+                  <td valign="top">positiveInteger</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               <tr>
+                  <td valign="top">unsignedInt</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive int type</td>
+               </tr>
+               <tr>
+                  <td valign="top">unsignedShort</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive short type</td>
+               </tr>
+               <tr>
+                  <td valign="top">unsignedByte</td>
+                  <td>
+                     pattern<br/>
+                     totalDigits<br/>
+                     fractionDigits<br/>
+                     maxExclusive<br/>
+                     minExclusive<br/>
+                     maxInclusive<br/>
+                     minInclusive<br/>
+                     pattern<br/>
+                  </td>
+                  <td valign="top">primitive short type</td>
+               </tr>
+            </table>
+         </section>
+       </section>
+
+     <section title="Supported XML Schema Structures">
+
+         <p>Supporting XML schema structure is a constant work. The main structures are already supported with sometimes some 
+            limitations. The following will give you a rough list of the supported structures.
+            For a more detailed support of XML Schema structure in the Source Generator or in the Schema Object Model,
+            please refer to  <a href="./SourceGeneratorUser.pdf">Source Generator User Document(PDF).</a></p>
+         
+         <p>Supported schema components:
+
+         <ul>
+
+            <li>Attribute Declaration (&lt;attribute&gt;)</li>
+            <li>Element Declaration (&lt;element&gt;)</li>
+            <li>ComplexType Definition (&lt;complexType&gt;)</li>
+            <li>AttributeGroup Definition (&lt;attributeGroup&gt;)</li>
+            <li>ModelGroup Definition (&lt;group&gt;)</li>
+            <li>ModelGroup (&lt;all&gt;, &lt;choice&gt;, &lt;sequence&gt;)</li>
+            <li>Annotation (&lt;annotation&gt;)</li>
+            <li>Wildcard (&lt;any&gt;)</li>
+            <li>SimpleType Definition (&lt;simpleType&gt;)</li>
+         </ul>
+         </p>
+
+         <section title="Groups">
+         
+             <p>Grouping support covers both Model Group Definitions (&lt;group&gt;) and Model Groups (&lt;all&gt;, &lt;choice&gt;, &lt;sequence&gt;).
+                In this section, we will call 'nested group', a Model Group whose first parent is another Model Group.
+                <ul>
+                   <li>For each top-level Model Group Definition, 
+                       a class is generated either when using the 'element' mapping property or the 'type' one.</li>
+
+	           <li>If a group - nested or not - appears to have maxOccurs > 1 then a class is generated to represent the items contained in the group.</li> 
+	           <li>For each nested group, a class is generated. The name of the generated class will follow this naming convention:
+	               <tt>Name,Compositor+,Counter?</tt> where
+	                   <ul>
+	                     <li>'Name' is name of the top-level component (element, complexType or group).</li>
+	                     <li>'Compositor' is the compositor of the nested group.
+	                         For instance, if a 'choice' is nested inside a sequence, the value of Compositor will be
+	                         <tt>SequenceChoice</tt> ('Sequence'+'Choice').
+	                         Note: if the 'choice' is inside a Model Group and that Model Group <b>parent</b> is a Model Group Definition 
+	                         or a complexType then the value of'Compositor' will be only 'Choice'.</li>
+	                     <li>'Counter' is a number that prevents naming collision.</li>
+	                   </ul>  
+	             </li> 
+	        </ul>
+	     </p>
+          </section>
+          
+          <section title="Wilcard">
+           <p> &lt;any&gt; is supported in the Source Generator and will map to an AnyNode. However full namespace validation is not
+           yet implemented even though an AnyNode structure is fully namespace aware.</p>
+           
+           <p>&lt;anyAttribute&gt; is currently not supported, it is a work in progress</p>
+          
+          </section>
+   </section>
+
+   </body>
+</document>
+

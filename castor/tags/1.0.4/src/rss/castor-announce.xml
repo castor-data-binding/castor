@@ -1,0 +1,513 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<rss version="2.0">
+    <channel>
+        <title>Castor JDO - Announcements</title>
+        <link>http://castor.codehaus.org</link>
+        <description>Announcements for Castor JDO</description>
+        <language>en-us</language>
+
+<!--
+        <item>
+            <title></title>
+            <pubDate>Mon, 14 Feb 2005 23:35:32 GMT</pubDate>
+            <author></author>
+            <link></link>
+            <description>
+                On ...
+            </description>
+        </item>
+--> 
+
+        <item>
+			<title>Castor 1.0.4 available</title>
+			<pubDate>Sun, 22 Oct 2006 20:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item50</link>
+			<description>
+				Castor 1.0.4 has been made available at
+				http://dist.codehaus.org/castor/1.0.4/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+        <item>
+			<title>Snapshot release of Spring factory beans for Castor XML available</title>
+			<pubDate>Sun, 10 Sep 2006 7:18:19 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item50</link>
+			<description>
+                I've made a first snapshot release of the new <b>Spring factory beans 
+                for Castor XML</b> available. This new module provides seamless integration 
+                of several Castor XML artefacts (e.g. its Un- and Marshaller components) into 
+                the application framework (http://www.springframework.org).
+
+                - Download instructions (http://castor.org/download.html#Castor-XML-Spring-factory-beans)
+                - Introduction, including several small HOW-TOs (http://castor.org/spring-xml-intro.html)
+			</description>
+		</item>
+        <item>
+			<title>Castor 1.0.3 available</title>
+			<pubDate>Thu, 7 Sep 2006 20:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item49</link>
+			<description>
+				Castor 1.0.3 has been made available at
+				http://dist.codehaus.org/castor/1.0.3/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+        <item>
+			<title>Castor 1.0.2 available</title>
+			<pubDate>Thu, 3 Aug 2006 20:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item48</link>
+			<description>
+				Castor 1.0.2 has been made available at
+				http://dist.codehaus.org/castor/1.0.2/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+        <item>
+            <title>Spring ORM for Castor JDO RC1 released</title>
+			<pubDate>Thu, 06 Jul 2006 20:21:22 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item47</link>
+			<description>
+                I've placed the first release candidate of the Spring ORM 
+                implementation for Castor JDO at the Codehaus at 
+                http://dist.codehaus.org/castor/.
+
+                For details about the functionality provided, please have a 
+                look at the documentatioj available at 
+                http://castor.codehaus.org/castor-spring-site/. 
+			</description>
+		</item>
+        <item>
+            <title>Work on JPA 3.0 support started</title>
+			<pubDate>Sun, 25 Jun 2006 10:1:12 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item46</link>
+			<description>
+				Work has been started on adding support for the Java Persistence 
+                Architecture (JPA) 3.0 to Castor JDO 
+
+                The SVN repository is available at 
+                http://svn.codehaus.org/castor/castor-jpa/trunk
+			</description>
+		</item>
+        <item>
+			<title>Castor 1.0.1 available</title>
+			<pubDate>Thu, 8 Jun 2006 20:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item45</link>
+			<description>
+				Castor 1.0.1 has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>Jira and notifications</title>
+			<pubDate>Tue, 30 May 2006 13:07:43 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item43</link>
+			<description>
+                This is a short message for those who have created Jira issues in the
+                past two or three months or so, or have commented upon existing issues.
+                
+                It looks like during some Jira upgrade a few months ago, a couple of
+                Jira settings got disabled. As a result, the original reporter of a Jira
+                issue did not get notified about any changes to the issue (incl. e.g.
+                state changes, comments, questions, etc.)...
+			</description>
+		</item>
+		<item>
+			<title>Castor up again ...</title>
+			<pubDate>Tue, 23 May 2006 13:07:43 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item42</link>
+			<description>
+                As you might (not) have noticed, all the project-related infrastructure
+                (mailing lists, SVN repository, HTML docs, binaries etc.) has been
+                off-line due to a hard disk failure on one of the Codehaus
+                servers. As a result of a lot of dedication from the Codehaus folks, 
+                we are as of now in a position to re-start life as usual.
+			</description>
+		</item>
+		<item>
+			<title>Google Summer of Code and Castor</title>
+			<pubDate>Fri, 05 May 2006 13:07:43 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item41</link>
+			<description>
+                we are proud to participate in the Summer of Code initiative
+                (http://code.google.com/soc/) sponsored by Google, and you are invited
+                to join in the fun.
+                
+                At http://docs.codehaus.org/display/CASTOR/CastorSocProjects, you'll
+                find some suggestions we find suitable for the program, and per
+                definition we would be glad to support a few projects.
+                
+                Please understand, though, that mentoring capacities will be limited,
+                though we will try to dedicate as much time as possible to the suggested
+                projects. That implies that we depend on your dedication during the
+                preparation of the detailed specification and description of the outcome.
+                
+                The timeframe for applications is May 1 - May 8. So have a look at the
+                projects at offer, before you are sign up to the program and apply as a
+                student to be mentored by us.
+			</description>
+		</item>
+		<item>
+			<title>New source repository</title>
+			<pubDate>Sun, 16 Apr 2006 13:07:43 GMT</pubDate>
+			<author>Ralf Joachim</author>
+			<link>http://castor.codehaus.org/news.html#item40</link>
+			<description>
+                On April 14. 2006 we have migrated Castor source repository from CVS
+                to SVN. At the moment we still have read only access to CVS but this
+                does not reflect commits to SVN after the migration. The read only
+                access to CVS is intended for you to create patches of your current
+                work and move it over to SVN. Be aware that we will switch off CVS soon.
+
+                For details about SVN access please have a look at: 
+				http://castor.codehaus.org/cvs.html.
+			</description>
+		</item>
+		<item>
+			<title>Final 1.0 release available</title>
+			<pubDate>Thu, 6 Apr 2006 23:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item39</link>
+			<description>
+				The final Castor 1.0 release has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>1.0M4 release available</title>
+			<pubDate>Thu, 23 Mar 2006 23:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item38</link>
+			<description>
+				The Castor 1.0M4 release has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                This is the last milestone build for the upcoming 1.0 release. For details about the 
+				features added and the bugs fixed, please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>1.0M3 release available</title>
+			<pubDate>Tue, 07 Mar 2006 11:12:13 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item37</link>
+			<description>
+				The Castor 1.0M3 release has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                This is a milestone build for the upcoming 1.0 release. For details about the 
+				features added and the bugs fixed, please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>1.0M2 release available</title>
+			<pubDate>Fri, 03 Feb 2006 11:12:13 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item36</link>
+			<description>
+				The Castor 1.0M2 release has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                This is a milestone build for the upcoming 1.0 release. For details about the 
+				features added and the bugs fixed, please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>1.0M1 release available</title>
+			<pubDate>Thu, 22 Dec 2005 10:11:12 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item35</link>
+			<description>
+				The Castor 1.0M1 release has been made available at
+				http://dist.codehaus.org/castor/1.0/
+
+                This is a milestone build for the upcoming 1.0 release, and has no correlation to 
+				Christmas at all .. ;-). For details about the features added and the bugs 
+				fixed, please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>0.9.9.1 release available</title>
+			<pubDate>Tue, 15 Oct 2005 10:11:12 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item34</link>
+			<description>
+				The Castor 0.9.9.1 release has been made available at
+				http://dist.codehaus.org/castor/0.9.9.1/
+
+                This is a maintenance release. For details about the features added 
+				and the bugs fixed, please have a look at the release notes at 
+                http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>0.9.9 release - Final release available</title>
+			<pubDate>Wed, 22 Sep 2005 10:11:12 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item33</link>
+			<description>
+				The final release of Castor 0.9.9 has been made available at
+				http://dist.codehaus.org/castor/0.9.9/
+
+                This is a major feature release. For details about the features added and the bugs 
+				fixed, please have a look at the release notes at 
+                http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+		<item>
+			<title>0.9.9 release - 2nd milestone build available</title>
+			<pubDate>Wed, 13 Sep 2005 23:23:32 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item32</link>
+			<description>
+				The second milestone build of Castor 0.9.9 has been made available at
+				http://dist.codehaus.org/castor/0.9.9/
+			</description>
+		</item>
+		<item>
+			<title>0.9.9 release - 1st milestone build available</title>
+			<pubDate>Wed, 24 Aug 2005 23:23:32 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item31</link>
+			<description>
+				The first milestone build of Castor 0.9.9 has been made available at
+				http://dist.codehaus.org/castor/0.9.9/
+			</description>
+		</item>
+		<item>
+			<title>Castor 0.9.7 released</title>
+			<pubDate>Thu, 9 Jun 2005 13:12:11 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item30</link>
+			<description>
+				I've placed a copy of Castor 0.9.7 (final) at http://dist.codehaus.org/castor/0.9.7. This 
+				is mainly a maintenance release. For details about the bugs fixed and features provided, please 
+				have a look at the release notes at http://castor.codehaus.org/release-notes.html . Please report 
+				any issues through the project's issue tracking system at http://jira.codehaus.org/browse/CASTOR
+				and/or the mailing lists. 
+			</description>
+		</item>
+		<item>
+			<title>0.9.7 release - 1st milestone build available</title>
+			<pubDate>Thu, 19 May 2005 23:25:00 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item29</link>
+			<description>
+				The first milestone build of Castor 0.9.7 has been made available at
+				http://dist.codehaus.org/castor/0.9.7/
+			</description>
+		</item>
+        <item>
+            <title>Werner Guttmann Promoted to Castor JDO Lead</title>
+            <link>http://castor.codehaus.org/news.html#item28</link>
+            <description>
+                After having lead Castor JDO since 2002, Bruce has decided to
+                pass the torch to Werner Guttmann. Werner has been a force on 
+                the project since he began contributing and his tireless efforts 
+                are exactly what the project needs to continue. Congratulations, 
+                Werner and keep up the great work! 
+            </description>
+            <author>Bruce Snyder</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Thu, 19 May 2005 14:08:00 GMT</pubDate>
+        </item>
+        <item>
+            <title>New Castor roadmap</title>
+            <link>http://castor.codehaus.org/news.html#item27</link>
+            <description>
+                For information about upcoming Castor releases and future development areas in general,
+                please have a look at the Castor roadmap at http://jira.codehaus.org/browse/CASTOR?report=com.atlassian.jira.plugin.system.project:roadmap-panel
+                As it stands right now, this will reveal that we have scheduled two releases (0.9.7
+                and 0.9.9) within the next 5 weeks, the former designated to be a maintenance release 
+                for Castor 0.9.6, the latter planned as a feature release with quite some new 
+                features and improvements to be added.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Wed, 11 May 2005 20:22:21 GMT</pubDate>
+        </item>
+        <item>
+            <title>Castor forums currently unavailable</title>
+            <link>http://castor.codehaus.org/news.html#item26</link>
+            <description>
+                Many of you will have recognized by now that the exolab.org 
+                domain had been voided as of last Friday. As a result of this, 
+                the Castor user forums are not available. Please accept our apologies 
+                for any inconvenience you are experiencing, and rest assured that 
+                we are working to get it back online as soon as possible.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Fri, 20 Apr 2005 22:22:21 GMT</pubDate>
+        </item>
+        <item>
+            <title>New issue tracking tool</title>
+            <link>http://castor.codehaus.org/news.html#item25</link>
+            <description>
+                This is to announce that we finally moved our issue tracking tool from
+                http://bugzilla.exolab.org to the Codehaus (http://www.codehaus.org), 
+                migrating to Jira at the same time. We'd like to offer our apologies 
+                for any inconvenience you experienced as a result of this migration 
+                and hope that you like our new home for tracking (and resolving) issues
+                at http://jira.codehaus.org/browse/CASTOR as much as we do.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Fri, 20 Apr 2005 21:22:21 GMT</pubDate>
+        </item>
+        <item>
+            <title>How to submit a patch - New guidelines</title>
+            <link>http://castor.codehaus.org/news.html#item24</link>
+            <description>
+                This is to announce that we now provide unified instructions on 
+                how to submit a patch at http://castor.codehaus.org/how-to-submit-a-bug.html. 
+                In addition, we have added a template for Castor JDO related patches
+                to the CVS sources.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Fri, 08 Apr 2005 21:22:21 GMT</pubDate>
+        </item>
+        <item>
+            <title>Support for polymorphism - A test drive</title>
+            <link>http://castor.codehaus.org/news.html#item23</link>
+            <description>
+                One of the major short-comings of Castor JDO always has been missing support for 
+                polymorphism. As of last week, most of the work has been finished, and we are now 
+                in a position where we'd like to ask you, our users, for feedback. I've made 
+                available binaries at http://dist.codehaus.org/castor/previews/0.9.6_with_polymorphism/. 
+                Please use the source distribution if possible, as it contains the tests mentioned above 
+                as well.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Thu, 31 Mar 2005 21:22:26 GMT</pubDate>
+        </item>
+        <item>
+            <title>Mailing list changes</title>
+            <link>http://castor.codehaus.org/news.html#item22</link>
+            <description>
+                This is to announce that we finally moved our mailing lists to the 
+                Codehaus (http://www.codehaus.org). For a period of 14 days, we'll be monitoring 
+                the old lists at Exolab, mainly referring you to the lists mentioned above. After 
+                this period, we will turn off these lists at our discretion. For details, please
+                see http://castor.codehaus.org/news.html.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Wed, 30 Mar 2005 22:23:24 GMT</pubDate>
+        </item>
+        <item>
+            <title>RSS feed available</title>
+            <link>http://castor.codehaus.org/news.html#item21</link>
+            <description>
+                We are happy to provide an RSS feed for announcements related to Castor at 
+                http://castor.codehaus.org/rss/castor-announcement.xml. This service 
+                basically mirrors the information provided at our news page at 
+                http://castor.codehaus.org/news.html.
+            </description>
+            <author>Werner Guttmann</author>
+            <guid isPermaLink="false">{2a847937-1b5f-90c4-5be1-347a3b84d29}</guid>
+            <pubDate>Thu, 10 Mar 2005 13:35:00 GMT</pubDate>
+        </item>
+        <item>
+            <title>A new home</title>
+            <pubDate>Mon, 14 Feb 2005 22:21:20 GMT</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item20</link>
+            <description>After over five years of Exolab (http://www.exolab.org)sponsoring Castor, 
+                the Castor team recently decided to move the entire project to a new home over at 
+                the Codehaus (http://www.codehaus.org). The team would like to thank Exolab and it's 
+                parent company Intalio, Inc. for it's long-standing support of the project.
+                
+                Please use the below links for access to ...
+                
+                - Main documentation (http://castor.codehaus.org)
+                - CVS repository (http://cvs.castor.codehaus.org)
+                - Download (http://dist.codehaus.org/castor)
+            </description>
+        </item>
+        <item>
+            <title>Castor JDO - new committers</title>
+            <pubDate>Mon, 14 Feb 2005 21:21:21 GMT</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item19</link>
+            <guid isPermaLink="true">http://groups.yahoo.com/group/rss-dev/message/7047</guid>
+            <description>Please join me to welcome Gregory, Martin, Ralf and Stein as new committers
+                for Castor JDO. I am more than happy to have them on board, as all of them 
+                have shown their dedication to the project through numerous occasions (incl.
+                patches and willingness to spend time with me and Bruce ...).
+            </description>
+        </item>
+        <item>
+            <title>Final 0.9.6 release available</title>
+            <pubDate>Wed, 09 Feb 2005 22:22:22 GMT</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item18</link>
+            <description>
+                The final release of Castor 0.9.6 has been made available at 
+                http://dist.codehaus.org/castor/0.9.6.
+            </description>
+        </item>
+        <item>
+            <title>0.9.6 release candidate 3 available</title>
+            <pubDate>Mon, 11 Jan 2005 23:25:00 GMT</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html</link>
+            <description>
+                The third release candidate of Castor 0.9.6 has been made available at 
+                http://dist.codehaus.org/castor/0.9.6/
+            </description>
+        </item>
+        <item>
+            <title>0.9.6 release candidate 2 available</title>
+            <pubDate>Mon, 14 Jan 2005 23:35:32 GMT</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html</link>
+            <description>
+                The second release candidate of Castor 0.9.6 has been made available at 
+                http://dist.codehaus.org/castor/0.9.6/
+            </description>
+        </item>
+        <item>
+            <title>0.9.6 release candidate 1 available</title>
+            <pubDate>Mon, 28 Oct 2004 23:35:32 GMT</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html</link>
+            <description>
+                The first release candidate of Castor 0.9.6 has been made available at 
+                http://dist.codehaus.org/castor/0.9.6/
+            </description>
+        </item>
+    </channel>
+</rss>
