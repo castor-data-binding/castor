@@ -23,9 +23,18 @@
                     <date></date>
                 </bug>
 -->
+<!--
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
+            </summary>
+        </release>
+-->        
+        <release version="1.0.4">
+            <description>Maintenance release for Castor 1.0</description>
+            <date>October 22, 2006</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
                 <h2>Requirements</h2>
@@ -76,8 +85,8 @@ JDOManager.loadConfiguration(this.getClass().getResource(JDO_CONF).toString());]
                 <code-panel><![CDATA[
 LOG.warn("This is a message logged to database");]]></code-panel>
 
-                <p>One additional thing you need to take care of. As CastorAppender does
-                   some caching to reduce database operations you have to tell it to write
+                <p>One additional thing you need to take care of: As CastorAppender does
+                   some caching to reduce database operations, you have to tell it to write
                    all cached information to database before you close your application.</p>
 
                 <code-panel><![CDATA[
@@ -101,6 +110,12 @@ CastorAppender.flush();]]></code-panel>
                    XML, please use the new property <tt>org.exolab.castor.sax.features-to-disable</tt>
                    as shown below</p>
 
+                <code>
+# Comma separated list of SAX 2 features that should be disabled
+# for the default parser.
+#org.exolab.castor.sax.features-to-disable
+                </code>
+
                 <h3>Added new CTF test case type to test source generation only, especially
                     useful for regression tests of exceptions thrown during source generation</h3>
 
@@ -108,12 +123,6 @@ CastorAppender.flush();]]></code-panel>
                    Suite, see the directory tree
                    <tt>src/tetsts/xml/MasterTestSuite/sourcegenerator/generationOnly</tt>,
                    although regression tests should be added to the regression suite</p>
-
-                <code>
-# Comma separated list of SAX 2 features that should be disabled
-# for the default parser.
-#org.exolab.castor.sax.features-to-disable
-                </code>
            </summary>
             <bugs>
                 <bug id="1645" tool="jira">
