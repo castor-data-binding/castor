@@ -56,6 +56,10 @@
         <display>Download</display>
       </navLink>
       <navLink>
+        <url>maven-integration.xml</url>
+        <display>Maven 2 support</display>
+      </navLink>
+      <navLink>
         <url>api/overview-summary.html</url>
         <display>API</display>
       </navLink>
