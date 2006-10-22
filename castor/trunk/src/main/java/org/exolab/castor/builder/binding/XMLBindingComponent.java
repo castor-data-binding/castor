@@ -710,6 +710,19 @@ public class XMLBindingComponent implements BindingComponent {
                         result = getJavaClassName();
                         setView(temp);
                         temp = null;
+                    } else if (_config.mappingSchemaType2Java()) {
+                        // deal with (global) element declarations in type mode,
+                        // where no Java class will be generated per definition;
+                        // in this case, the class name to be used should be taken from the 
+                        // underlying (complex) type
+                        XMLType xmlType = element.getType();
+                        if (xmlType != null && xmlType.isComplexType()) {
+                            ComplexType complexType = (ComplexType) xmlType;
+                            Annotated temp = _annotated;
+                            setView(complexType);
+                            result = getJavaClassName();
+                            setView(temp);
+                        }
                     }
                     element = null;
                 }
@@ -729,6 +742,7 @@ public class XMLBindingComponent implements BindingComponent {
                             throw new IllegalStateException(err);
                         }
                     }
+                    
                     if (_prefix != null) {
                         result = _prefix + result;
                     }

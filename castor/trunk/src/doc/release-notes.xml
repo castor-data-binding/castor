@@ -116,6 +116,27 @@ CastorAppender.flush();]]></code-panel>
                 </code>
            </summary>
             <bugs>
+                <bug id="1645" tool="jira">
+                    <description>
+                    	Fixed problem with incorrect handling of elememt references to 
+                    	global elements within complex type definitions during code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061022</date>
+                </bug>
                 <bug id="1643" tool="jira">
                     <description>
                         Remove new tree of tests of known bugs (reverse changes
