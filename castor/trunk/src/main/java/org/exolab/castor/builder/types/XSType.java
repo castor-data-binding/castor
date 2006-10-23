@@ -256,6 +256,11 @@ public abstract class XSType {
     **/
     public static final String POSITIVE_INTEGER_NAME  = "positiveInteger";
 
+    /**
+     * The name of the unsigned-long type
+    **/
+    public static final String UNSIGNED_LONG_NAME  = "unsignedLong";
+
     public static final short NULL               = -1;
 
     //-- this type should change to user-defined or
@@ -307,6 +312,9 @@ public abstract class XSType {
     public static final short POSITIVE_INTEGER_TYPE         = 44;
     //collection type
     public static final short COLLECTION                    = 45;
+    
+    public static final short UNSIGNED_LONG_TYPE            = 46;
+    
     private short   type       = NULL;
 
     /**
@@ -531,6 +539,8 @@ public abstract class XSType {
                 return NON_NEGATIVE_INTEGER_NAME;
             case POSITIVE_INTEGER_TYPE:
                 return POSITIVE_INTEGER_NAME;
+            case UNSIGNED_LONG_TYPE:
+                return UNSIGNED_LONG_NAME;
             case COLLECTION:
                 short type = ((XSList)this).getContentType().getType();
                 if (type == NMTOKEN_TYPE)
