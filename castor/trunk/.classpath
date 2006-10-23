@@ -18,7 +18,6 @@
 	<classpathentry kind="lib" path="lib/jndi_1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/jta1.0.1.jar"/>
 	<classpathentry kind="lib" path="lib/jtf-0.1.jar"/>
-	<classpathentry kind="lib" path="lib/junit_3.8.1.jar"/>
 	<classpathentry kind="lib" path="lib/ldapjdk_4.1.jar"/>
 	<classpathentry kind="lib" path="lib/log4j-1.2.13.jar"/>
 	<classpathentry kind="lib" path="lib/servlet.jar"/>
@@ -30,5 +29,6 @@
 	<classpathentry kind="lib" path="lib/tests/tyrex-1.0.jar"/>
 	<classpathentry kind="lib" path="lib/derby-10.1.2.1.jar"/>
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
+	<classpathentry kind="lib" path="lib/junit_3.8.2.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>
