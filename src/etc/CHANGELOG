@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1632 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for XML schema type 'unsignedLong' to XML code generator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1632
+       (Edward - 20061023)
+
 XML:   Resolved issue CASTOR-1647 using contribution from Edward Kuns [edward.kuns@aspect.com]
        log4j / junit classpath conflict with CTF
        Details: http://jira.codehaus.org/browse/CASTOR-1647
