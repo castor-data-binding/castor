@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1647 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       log4j / junit classpath conflict with CTF
+       Details: http://jira.codehaus.org/browse/CASTOR-1647
+       (Edward - 20061023)
+
 
 Version 1.0.4, Oct 22, 2006
 -------------------------------
