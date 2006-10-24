@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1655 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed broken code sample in XML best practice document.
+       Details: http://jira.codehaus.org/browse/CASTOR-1655
+       (Edward - 20061024)
+
 XML:   Resolved issue CASTOR-1652 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Castor Source Code is created with ISO-8859-1 encoding, not UTF-8
        Details: http://jira.codehaus.org/browse/CASTOR-1652

@@ -53,17 +53,17 @@
             following code fragment:</p>
         
         <code-panel>
-ClassDescriptorResolver cdResolver = (XMLClassDescriptorResolver) 
+ClassDescriptorResolver classDescriptorResolver = 
    ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
 MappingUnmarshaller mappingUnmarshaller = new MappingUnmarshaller();
-MappingLoader mappingLoaderr = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
-cdResolver.setMappingLoader(mappingLoader);</code-panel>
+MappingLoader mappingLoader = mappingUnmarshaller.getMappingLoader(mapping, BindingType.XML);
+classDescriptorResolver.setMappingLoader(mappingLoader);</code-panel>
         
         <p>and then reuse this instance as shown below:</p>
         
         <code-panel>
 Unmarshaller unmarshaller = new Unmarshaller();
-unmarshaller.setResolver(cdResolver);
+unmarshaller.setResolver((XMLClassDescriptorResolver) cdResolver);
 unmarshaller.unmarshall(...);</code-panel>
 
     </section>
