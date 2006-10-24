@@ -1,4 +1,4 @@
-<!-- =================== Build for Castor using Ant 1.5 =================== -->
+<!-- =================== Build for Castor using Ant 1.6 =================== -->
 
 <!-- $Id$ -->
 
@@ -15,37 +15,37 @@
     <property file="${user.home}/castor-build.properties"/>
 
     <property environment="env" />
-    <property name="build.sh.class.path" value="${env.CLASSPATH}" />
-    <property name="name" value="Castor"/>
-    <property name="source" value="${basedir}/src"/>
-    <property name="java" value="${source}/main/java"/>
-    <property name="main.resources" value="${source}/main/resources" />
-    <property name="test-resources" value="${source}/test/resources" />
-    <property name="etc" value="${source}/etc"/>
-    <property name="check" value="check"/>
-    <property name="build" value="${basedir}/build"/>
-    <property name="build-doc" value="build/doc"/>
-    <property name="build-howto" value="build/doc/howto"/>
-    <property name="classes" value="${build}/classes"/>
-    <property name="dist" value="dist"/>
-    <property name="lib" value="lib"/>
-    <property name="doc" value="${source}/doc"/>
-    <property name="howto" value="${source}/howto"/>
-    <property name="xml-howto" value="${source}/xml-howto"/>
-    <property name="schema" value="${build}/schema"/>
-    <property name="tests" value="${build}/tests"/>
-    <property name="gen.src" value="${build}/gen-src"/>
-    <property name="project.eclipse" value="${source}/tools/ide/eclipse" />
+    <property name="build.sh.class.path"  value="${env.CLASSPATH}" />
+    <property name="name"                 value="Castor"/>
+    <property name="source"               value="${basedir}/src"/>
+    <property name="java"                 value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources" />
+    <property name="test-resources"       value="${source}/test/resources" />
+    <property name="etc"                  value="${source}/etc"/>
+    <property name="check"                value="check"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="build-doc"            value="build/doc"/>
+    <property name="build-howto"          value="build/doc/howto"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="dist"                 value="dist"/>
+    <property name="lib"                  value="lib"/>
+    <property name="doc"                  value="${source}/doc"/>
+    <property name="howto"                value="${source}/howto"/>
+    <property name="xml-howto"            value="${source}/xml-howto"/>
+    <property name="schema"               value="${build}/schema"/>
+    <property name="tests"                value="${build}/tests"/>
+    <property name="gen.src"              value="${build}/gen-src"/>
+    <property name="project.eclipse"      value="${source}/tools/ide/eclipse" />
     <property file="${etc}/VERSION"/>
-    <property name="verbose" value="off" />
-    <property name="deprecation" value="false"/>
-    <property name="main.opt.debug" value="true"/>
-    <property name="archive.name" value="${project}-${version}${release}"/>
+    <property name="verbose"              value="off" />
+    <property name="deprecation"          value="false"/>
+    <property name="main.opt.debug"       value="true"/>
+    <property name="archive.name"         value="${project}-${version}${release}"/>
     <property name="srcgen.ant.task.name" value="${project}-${version}${release}-srcgen-ant-task"/>
-    <property name="exampleexcludes" value="SourceGenerator/*,**/dax/**"/>
-    <property name="excludes" value="**/package.html,**/dax/**,**/dax/engine/**"/>
-    <property name="testexcludes" value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
-    <property name="apipackagenames" value="
+    <property name="exampleexcludes"      value="SourceGenerator/*,**/dax/**"/>
+    <property name="excludes"             value="**/package.html,**/dax/**,**/dax/engine/**"/>
+    <property name="testexcludes"         value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
+    <property name="apipackagenames"      value="
         org.exolab.castor.types,
         org.exolab.castor.jdo,
         org.exolab.castor.jdo.util,
@@ -56,7 +56,7 @@
         org.exolab.castor.builder"
     />
     <!--    org.exolab.castor.dax, -->
-    <property name="allpackagenames" value="org.*"/>
+    <property name="allpackagenames"      value="org.*"/>
 
     <path id="build.classpath">
         <pathelement location="${classes}"/>
@@ -76,7 +76,6 @@
         </fileset>
     </path>
 
-
     <!-- ================================================================== -->
     <!--            The pattern for the support files that need             -->
     <!--                to be copied when compiling classes                 -->
@@ -94,30 +93,30 @@
 
     <property name="castor.commons.files"
           value="org/castor/cache/**/*.java,
-                     org/castor/transactionmanager/**/*.java,
-                     org/castor/util/*.java,
-    				 org/castor/mapping/*.java"/>
+                 org/castor/transactionmanager/**/*.java,
+                 org/castor/util/*.java,
+                 org/castor/mapping/*.java"/>
 
     <property name="castor.xml.files"
           value="**/org/exolab/castor/*,
-    	             org/exolab/castor/builder/**/*.java,
-                     org/exolab/castor/mapping/**/*.java,
-                     org/exolab/castor/net/**/*.java,
-                     org/exolab/castor/tools/**/*.java,
-                     org/exolab/castor/types/**/*.java,
-                     org/exolab/castor/util/**/*.java,
-                     org/exolab/castor/xml/**/*.java,
-                     org/exolab/javasource/**/*.java"/>
+                 org/exolab/castor/builder/**/*.java,
+                 org/exolab/castor/mapping/**/*.java,
+                 org/exolab/castor/net/**/*.java,
+                 org/exolab/castor/tools/**/*.java,
+                 org/exolab/castor/types/**/*.java,
+                 org/exolab/castor/util/**/*.java,
+                 org/exolab/castor/xml/**/*.java,
+                 org/exolab/javasource/**/*.java"/>
 
     <property name="castor.jdo.files"
           value="**/org/exolab/castor/dsml/**/*.java,
-                     org/exolab/castor/dtx/**/*.java,
-                     org/exolab/castor/gui/**/*.java,
-                     org/exolab/castor/jdo/**/*.java,
-                     org/exolab/castor/persist/**/*.java,
-                     org/exolab/castor/types/**/*.java,
-                     org/castor/jdo/**/*.java,
-                     org/castor/persist/**/*.java" />
+                 org/exolab/castor/dtx/**/*.java,
+                 org/exolab/castor/gui/**/*.java,
+                 org/exolab/castor/jdo/**/*.java,
+                 org/exolab/castor/persist/**/*.java,
+                 org/exolab/castor/types/**/*.java,
+                 org/castor/jdo/**/*.java,
+                 org/castor/persist/**/*.java" />
 
     <target name="targets" description="Prints static list of available targets">
         <echo>
@@ -218,7 +217,7 @@
     <target name="compile.commons" depends="prepare"
             description="Compile the Castor COMMONS packages">
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
-               debug="on" deprecation="${deprecation}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.commons.files}">
             <classpath refid="build.classpath"/>
         </javac>
@@ -227,7 +226,7 @@
     <target name="compile.xml" depends="prepare,compile.commons"
             description="Compile the Castor XML packages">
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
-               debug="on" deprecation="${deprecation}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.xml.files}">
             <classpath refid="build.classpath"/>
         </javac>
@@ -244,7 +243,7 @@
     <target name="compile.jdo" depends="prepare,compile.commons,compile.xml"
             description="Compile the Castor JDO packages">
         <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
-               debug="on" deprecation="${deprecation}"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
                includes="${castor.jdo.files}">
             <classpath refid="build.classpath"/>
         </javac>
@@ -275,7 +274,9 @@
 
     <target name="main.opt" depends="prepare"
             description="Same as the default target, but with optimization, no debug and no deprecation">
-        <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
+        <javac srcdir="${java}" destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
+               optimize="on">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
@@ -292,12 +293,14 @@
             description="Builds the example packages (including debugging info) and creates the webapp war file for the servlet example">
         <mkdir dir="${build}/examples"/>
         <mkdir dir="${build}/examples/META-INF"/>
-        <javac srcdir="${source}/examples" destdir="${build}/examples" debug="on" deprecation="${deprecation}" excludes="${exampleexcludes}">
-          <classpath refid="build.classpath"/>
-      </javac>
+        <javac srcdir="${source}/examples" destdir="${build}/examples"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
+               excludes="${exampleexcludes}">
+            <classpath refid="build.classpath"/>
+        </javac>
 
-      <!-- copy manifest file to expected location -->
-      <copy file="${source}/etc/MANIFEST.EXAMPLES.MF" tofile="${build}/examples/META-INF/MANIFEST.MF"/>
+        <!-- copy manifest file to expected location -->
+        <copy file="${source}/etc/MANIFEST.EXAMPLES.MF" tofile="${build}/examples/META-INF/MANIFEST.MF"/>
         <replace file="${build}/examples/META-INF/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
         <replace file="${build}/examples/META-INF/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
 
@@ -327,29 +330,29 @@
                 <exclude name="optional*.jar"/>
                 <exclude name="junit*.jar"/>
                 <exclude name="servlet*.jar"/>
-
             </fileset>
             <fileset dir="${dist}">
                 <include name="${archive.name}.jar" if="project_jar.present"/>
             </fileset>
         </copy>
 
-        <jar jarfile="${build}/examples/webapp-example-${project}.war" basedir="${build}/examples/webapp" includes="**"/>
-
+        <jar jarfile="${build}/examples/webapp-example-${project}.war"
+             basedir="${build}/examples/webapp" includes="**"/>
     </target>
 
     <target name="compile.tests" depends="prepare,compile"
-          description="Build the tests packages">
+            description="Build the tests packages">
 
         <!-- create directory for tests in ${build} directory -->
         <mkdir dir="${build}/tests"/>
 
         <!-- compile tests to ${build}/tests -->
         <javac srcdir="${source}/tests"
-             destdir="${build}/tests"
-             excludes="${testexcludes}"
-             debug="on"
-             deprecation="${deprecation}">
+               destdir="${build}/tests"
+               excludes="${testexcludes}"
+               debug="on"
+               encoding="ISO-8859-1"
+               deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
         </javac>
 
@@ -367,7 +370,8 @@
 
     <target name="compile.bugs" depends="prepare,compile" description="Build the tests packages">
         <mkdir dir="${build}/bugs"/>
-        <javac srcdir="${source}/bugs" destdir="${build}/bugs" debug="on" deprecation="${deprecation}">
+        <javac srcdir="${source}/bugs" destdir="${build}/bugs"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
         </javac>
 
@@ -381,19 +385,19 @@
     <target name="tests" depends="compile.bugs,compile.tests" description="Build the tests packages"/>
 
     <target name="-test.category.test"
-        description="An internal target to test if the test.category property is set">
+            description="An internal target to test if the test.category property is set">
         <condition property="test.category.present">
             <isset property="test.category" />
         </condition>
     </target>
 
-    <target name="-test.category.isset" depends="-test.category.test"
-        if="test.category.present" description="An internal target to check the state of the test.category.present property">
+    <target name="-test.category.isset" depends="-test.category.test" if="test.category.present"
+            description="An internal target to check the state of the test.category.present property">
         <echo>Executing test category: ${test.category}</echo>
     </target>
 
-    <target name="-test.category.isnotset" depends="-test.category.test"
-        unless="test.category.present" description="An internal target to check the state of the test.category.present property">
+    <target name="-test.category.isnotset" depends="-test.category.test" unless="test.category.present"
+            description="An internal target to check the state of the test.category.present property">
         <fail>
         -
         +-------------------------------------------------------------------------------
@@ -405,7 +409,7 @@
     </target>
 
     <target name="jdo.tests" depends="compile.tests, -test.category.isset, -test.category.isnotset"
-        description="Executes the JUnit tests for Castor JDO">
+            description="Executes the JUnit tests for Castor JDO">
         <java classname="MainApp" classpathref="build.classpath" fork="true">
             <arg line="-verbose ${test.category}" />
         </java>
@@ -446,7 +450,7 @@
         </jar>
     </target>
 
-  <target name="zip.examples" depends="jar.examples">
+    <target name="zip.examples" depends="jar.examples">
       <delete dir="target" />
       <mkdir dir="target" />
       <mkdir dir="target/lib" />
@@ -469,10 +473,8 @@
               <include name="derby-10.1.2.1.jar" />
           </fileset>
       </copy>
-      <zip zipfile="${dist}/${archive.name}-examples.zip"
-           basedir="target"
-           includes="**"/>
-  </target>
+      <zip zipfile="${dist}/${archive.name}-examples.zip" basedir="target" includes="**"/>
+    </target>
 
   <!--
     <target name="jar.example.webapp" depends="compile.examples"
@@ -480,14 +482,13 @@
         <delete file="${dist}/${archive.name}-example-webapp.war" />
         <war warfile="${dist}/${archive.name}-example-webapp.war"
              basedir="${build}/examples/webapp"
-           webxml="${build}/examples/webapp/WEB-INF/web.xml"
+             webxml="${build}/examples/webapp/WEB-INF/web.xml"
              includes="**"/>
     </target>
     -->
 
     <target name="srcgen.anttask.jar" depends="compile" description="Build the castor-srcgen-ant-task.jar files">
-        <jar jarfile="${dist}/${srcgen.ant.task.name}.jar"
-             basedir="${classes}"
+        <jar jarfile="${dist}/${srcgen.ant.task.name}.jar" basedir="${classes}"
              includes="org/exolab/castor/tools/ant/taskdefs/*,
                        org/exolab/castor/util/Version.class" />
     </target>
@@ -498,11 +499,6 @@
         <delete file="${dist}/${archive.name}-xml.jar"/>
         <delete file="${dist}/${archive.name}-commons.jar"/>
         <!-- <delete file="${dist}/${archive.name}-sourceGen.jar"/> -->
-
-        <!-- not needed anymore, as the LICENSE* and README file have been moved to src/main/resources
-        <copy todir="${classes}">
-            <fileset dir="${source}/etc" includes="LICENSE,LICENSE.APACHE2,README" />
-        </copy>-->
 
         <!-- copy and filter MANIFEST file for Castor JDO -->
         <delete file="${classes}/MANIFEST.MF"/>
@@ -516,7 +512,7 @@
         <jar jarfile="${dist}/${archive.name}.jar" basedir="${classes}"
              manifest="${classes}/MANIFEST.MF"
              includes="LICENSE,LICENSE.APACHE2,README,
-                 org/**"/>
+                       org/**"/>
 
         <!-- copy and filter MANIFEST file for Castor XML -->
         <delete file="${classes}/MANIFEST.MF" />
@@ -568,7 +564,7 @@
 <!--
         <jar jarfile="${dist}/${archive-name}-sourceGen.jar" basedir="${classes}"
              manifest="${classes}/MANIFEST.MF"
-           includes="LICENSE,README"/>
+             includes="LICENSE,README"/>
 -->
     </target>
 
@@ -582,7 +578,8 @@
         <copy todir="${classes}">
             <fileset dir="${source}/etc" includes="LICENSE,README" />
         </copy>
-        <jar jarfile="${dist}/CTF-${version}.jar" basedir="${build}/tests" manifest="${classes}/MANIFEST.MF" includes="LICENCE,README,org/**"/>
+        <jar jarfile="${dist}/CTF-${version}.jar" basedir="${build}/tests"
+             manifest="${classes}/MANIFEST.MF" includes="LICENCE,README,org/**"/>
      </target>
 
     <target name="rss" depends="prepare" description="Copy the RSS feeds">
@@ -598,24 +595,22 @@
         <mkdir dir="${build}/doc"/>
 
         <style basedir="${doc}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
-            includes="**.xml" excludes="style/**,project.xml" />
+               includes="**.xml" excludes="style/**,project.xml" />
 
         <style basedir="${howto}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
-            includes="**.xml" excludes="style/**,project.xml" />
+               includes="**.xml" excludes="style/**,project.xml" />
 
         <style basedir="${xml-howto}" destdir="${build}/doc" style="${doc}/style/exolab.xsl"
-            includes="**.xml" excludes="style/**,project.xml" />
+               includes="**.xml" excludes="style/**,project.xml" />
 
         <copy todir="${build}/doc">
            <fileset dir="${doc}" includes="license.txt,document.dtd,*.pdf"/>
         </copy>
         <copy todir="${build}/doc">
-           <fileset dir="${java}/org/exolab/castor/mapping"
-                    includes="mapping.dtd,mapping.xsd"/>
+           <fileset dir="${java}/org/exolab/castor/mapping" includes="mapping.dtd,mapping.xsd"/>
         </copy>
         <copy todir="${build}/doc">
-           <fileset dir="${java}/org/exolab/castor/builder/binding"
-                    includes="binding.xsd"/>
+           <fileset dir="${java}/org/exolab/castor/builder/binding" includes="binding.xsd"/>
         </copy>
         <copy todir="${build}/doc/images">
            <fileset dir="${doc}/images" />
@@ -684,13 +679,18 @@
     <target name="javadoc" depends="prepare" description="Build the full javadocs">
         <mkdir dir="${build}/doc"/>
         <mkdir dir="${build}/doc/javadoc"/>
-        <javadoc sourcepath="${java}" destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc" windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true" version="true" noindex="true" packagenames="${allpackagenames}" classpathref="javadoc.classpath"/>
+        <javadoc sourcepath="${java}" destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc"
+                 windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true"
+                 version="true" noindex="true" packagenames="${allpackagenames}"
+                 classpathref="javadoc.classpath"/>
     </target>
 
     <target name="api" depends="prepare" description="Build the public API javadocs">
         <mkdir dir="${build}/doc"/>
         <mkdir dir="${build}/doc/api"/>
-        <javadoc sourcepath="${java}" destdir="${build}/doc/api" doctitle="${name} API" windowtitle="${name} API" bottom="${copyright}" public="true" author="true" packagenames="${apipackagenames}" classpathref="javadoc.classpath"/>
+        <javadoc sourcepath="${java}" destdir="${build}/doc/api" doctitle="${name} API"
+                 windowtitle="${name} API" bottom="${copyright}" public="true" author="true"
+                 packagenames="${apipackagenames}" classpathref="javadoc.classpath"/>
     </target>
 
     <target name="docs" depends="doc,api,javadoc,rss" description="Build the HTML docs, full and API javadocs">
@@ -730,7 +730,8 @@
     <target name="release" depends="clean,jar,jar.examples,srcgen.anttask.jar,source,docs,tarball,zip.examples"
             description="An alias to call the clean, jar, source, docs and tarball targets"/>
 
-    <target name="tarball" depends="prepare,doc,jar,srcgen.anttask.jar" description="Build the binary distrutions (tarball and zip archive.names)">
+    <target name="tarball" depends="prepare,doc,jar,srcgen.anttask.jar"
+            description="Build the binary distrutions (tarball and zip archive.names)">
         <delete file="${dist}/${archive.name}.tgz"/>
         <delete file="${dist}/${archive.name}.zip"/>
         <delete dir="${build}/${archive.name}"/>
@@ -739,8 +740,7 @@
             <fileset dir="${etc}" includes="README,LICENSE,CHANGELOG,sourceGen*"/>
         </copy>
         <copy todir="${build}/${archive.name}">
-            <fileset dir="${dist}"
-            includes="${archive.name}.jar,${archive.name}-xml.jar,${srcgen.ant.task.name}.jar"/>
+            <fileset dir="${dist}" includes="${archive.name}.jar,${archive.name}-xml.jar,${srcgen.ant.task.name}.jar"/>
         </copy>
         <copy todir="${build}/${archive.name}">
             <fileset dir="${lib}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
@@ -753,13 +753,17 @@
         </copy>
 
         <delete dir="${build}/${archive.name}/doc/javadoc"/>
-        <tar tarfile="${build}/${archive.name}/examples.tar" basedir="${source}" includes="examples/**" defaultexcludes="true"/>
+        <tar tarfile="${build}/${archive.name}/examples.tar" basedir="${source}"
+             includes="examples/**" defaultexcludes="true"/>
         <gzip src="${build}/${archive.name}/examples.tar" zipfile="${build}/${archive.name}/examples.tgz"/>
-        <tar tarfile="${dist}/${archive.name}.tar" basedir="${build}" includes="${archive.name}/**" excludes="${archive.name}/*.tar,${archive.name}/*.zip"/>
+        <tar tarfile="${dist}/${archive.name}.tar" basedir="${build}" includes="${archive.name}/**"
+             excludes="${archive.name}/*.tar,${archive.name}/*.zip"/>
         <gzip src="${dist}/${archive.name}.tar" zipfile="${dist}/${archive.name}.tgz"/>
         <delete file="${dist}/${archive.name}.tar"/>
-        <zip zipfile="${build}/${archive.name}/examples.zip" basedir="${source}" includes="examples/**" defaultexcludes="true"/>
-        <zip zipfile="${dist}/${archive.name}.zip" basedir="${build}" includes="${archive.name}/**" excludes="${archive.name}/*.tar,${archive.name}/*.tgz"/>
+        <zip zipfile="${build}/${archive.name}/examples.zip" basedir="${source}"
+             includes="examples/**" defaultexcludes="true"/>
+        <zip zipfile="${dist}/${archive.name}.zip" basedir="${build}" includes="${archive.name}/**"
+             excludes="${archive.name}/*.tar,${archive.name}/*.tgz"/>
     </target>
 
     <target name="oes" depends="prepare,compile" description="Call the XSDCompiler (org.exolab.castor.tools.XSDCompiler)">
@@ -795,12 +799,14 @@
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
-                todir="../${gen.src}/jdo-conf"
-                package="org.castor.jdo.conf"
-                lineseparator="unix"
-                types="j2"
-                warnings="false"/>
-        <javac destdir="${classes}" excludes="${excludes}" debug="${main.opt.debug}" deprecation="off" optimize="on">
+                       todir="../${gen.src}/jdo-conf"
+                       package="org.castor.jdo.conf"
+                       lineseparator="unix"
+                       types="j2"
+                       warnings="false"/>
+        <javac destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
+               optimize="on">
             <src path="${gen.src}" />
             <classpath refid="build.classpath"/>
         </javac>
@@ -813,14 +819,14 @@
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${main.resources}/org/exolab/castor/mapping/mapping.xsd"
-                todir="${gen.src}/mapping"
-                package="org.exolab.castor.mapping.xml"
-                lineseparator="unix"
-                bindingfile="${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
-                types="j2"
-                warnings="true"/>
+                       todir="${gen.src}/mapping"
+                       package="org.exolab.castor.mapping.xml"
+                       lineseparator="unix"
+                       bindingfile="${main.resources}/org/exolab/castor/mapping/mapping-binding.xml"
+                       types="j2"
+                       warnings="true"/>
         <javac destdir="${classes}" excludes="${excludes}"
-               debug="${main.opt.debug}" deprecation="off"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
                optimize="on">
             <src path="${gen.src}" />
             <classpath refid="build.classpath"/>
@@ -834,12 +840,12 @@
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${source}/tests/main/org/exolab/castor/tests/framework/TestDescriptor.xsd"
-                todir="${gen.src}/testdescriptor"
-                package="org.exolab.castor.tests.framework.testDescriptor"
-                lineseparator="unix"
-                warnings="true"/>
+                       todir="${gen.src}/testdescriptor"
+                       package="org.exolab.castor.tests.framework.testDescriptor"
+                       lineseparator="unix"
+                       warnings="true"/>
         <javac destdir="${classes}" excludes="${excludes}"
-               debug="${main.opt.debug}" deprecation="off"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
                optimize="on">
             <src path="${gen.src}" />
             <classpath refid="build.classpath"/>
