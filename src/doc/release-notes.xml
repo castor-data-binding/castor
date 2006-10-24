@@ -31,9 +31,29 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1652" tool="jira">
+                    <description>
+                        Castor Source Code is created with ISO-8859-1 encoding, not UTF-8
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20061023</date>
+                </bug>
                 <bug id="1632" tool="jira">
                     <description>
-                        Added support for XML schema type 'unsignedLong' to XML 
+                        Added support for XML schema type 'unsignedLong' to XML
                         code generator.
                     </description>
                     <contributor>
@@ -172,8 +192,8 @@ CastorAppender.flush();]]></code-panel>
             <bugs>
                 <bug id="1645" tool="jira">
                     <description>
-                    	Fixed problem with incorrect handling of elememt references to 
-                    	global elements within complex type definitions during code generation.
+                        Fixed problem with incorrect handling of elememt references to
+                        global elements within complex type definitions during code generation.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
