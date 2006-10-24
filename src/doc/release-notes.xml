@@ -31,6 +31,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1655" tool="jira">
+                    <description>
+                        Fixed broken code sample in XML best practice document.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tom Carey</name>
+                        <email>tcarey@talk.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061024</date>
+                </bug>
                 <bug id="1652" tool="jira">
                     <description>
                         Castor Source Code is created with ISO-8859-1 encoding, not UTF-8
