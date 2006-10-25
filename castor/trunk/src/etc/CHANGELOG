@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1646 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Cyclic inheritence trees can cause srcgen to loop infinitely
+       Details: http://jira.codehaus.org/browse/CASTOR-1646
+       (Edward - 20061024)
+
 XML:   Resolved issue CASTOR-1658 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Clean up compilation complaint -- Java 5 varargs complaint
        Details: http://jira.codehaus.org/browse/CASTOR-1658

@@ -90,6 +90,9 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
 
 /**
  * Creates the Java Source classes for Schema components.
@@ -141,7 +144,7 @@ public class SourceFactory extends BaseFactory {
      * @param infoFactory the FieldInfoFactory to use
      * @param groupNaming Group naming scheme to be used.
      */
-    public SourceFactory(final BuilderConfiguration config, 
+    public SourceFactory(final BuilderConfiguration config,
             final FieldInfoFactory infoFactory,
             final GroupNaming groupNaming) {
         super(config, infoFactory, groupNaming);
@@ -970,29 +973,8 @@ public class SourceFactory extends BaseFactory {
 
         //-- create main unmarshal method
 
-        //-- search for proper superclass
-        JClass returnType = parent;
-        while (returnType.getSuperClassQualifiedName() != null) {
-            String superClassName = returnType.getSuperClassQualifiedName();
-            JClass superClass = sgState.getSourceCode(superClassName);
-
-            if (superClass == null) {
-                superClass = sgState.getImportedSourceCode(superClassName);
-            }
-
-            if ((superClass == null) && (superClassName.indexOf('.') < 0)) {
-                String pkgName = returnType.getPackageName();
-                if ((pkgName != null) && (pkgName.length() > 0)) {
-                    superClassName = pkgName + "." + superClassName;
-                    superClass = sgState.getSourceCode(superClassName);
-                }
-            }
-
-            if (superClass == null) {
-                break;
-            }
-            returnType = superClass;
-        }
+        //-- search for proper base class
+        JClass returnType = findBaseClass(parent, sgState);
         JMethod jMethod = new JMethod(methodName, returnType,
                                       "the unmarshaled " + returnType.getName());
         jMethod.getModifiers().setStatic(true);
@@ -1010,6 +992,68 @@ public class SourceFactory extends BaseFactory {
         jsc.append(parent.getName());
         jsc.append(".class, reader);");
     } //-- createUnmarshalMethods
+
+    /**
+     * Returns the base class (as found in the schema) of the provided class.
+     * Climbs the inheritence tree of the provided class to find and return the
+     * base class of the provided class.
+     *
+     * @param jClass class to find the base class of
+     * @param sgState current state of source generation
+     * @return the base class of the provided class.
+     */
+    private JClass findBaseClass(final JClass jClass, final SGStateInfo sgState) {
+        JClass returnType = jClass;
+
+        List classes = new LinkedList();
+        classes.add(returnType);
+
+        while (returnType.getSuperClassQualifiedName() != null) {
+            String superClassName = returnType.getSuperClassQualifiedName();
+            JClass superClass = sgState.getSourceCode(superClassName);
+            if (superClass == null) {
+                superClass = sgState.getImportedSourceCode(superClassName);
+            }
+
+            // A binding can cause us to have to look for the superclass class in
+            // the package of the current class
+            if (superClass == null && superClassName.indexOf('.') < 0) {
+                String pkgName = returnType.getPackageName();
+                if (pkgName != null && pkgName.length() > 0) {
+                    superClassName = pkgName + "." + superClassName;
+                    superClass = sgState.getSourceCode(superClassName);
+                }
+            }
+
+            // If returnClass has no superclass then it is the base class
+            if (superClass == null) {
+                break;
+            }
+
+            // Prevent inheritance loops from causing infinite loops
+            if (classes.contains(superClass)) {
+                StringBuffer buffer = new StringBuffer();
+                buffer.append("Loop found in class hierarchy: ");
+                for (Iterator i = classes.iterator(); i.hasNext(); ) {
+                    JClass element = (JClass) i.next();
+                    // If JClass told us the source of the class (ComplexType, Element, ...
+                    // then we could report that to and make name conflicts more obvious.
+                    buffer.append(element.getName());
+                    buffer.append(" -> ");
+                }
+                buffer.append(superClass.getName());
+                sgState.getDialog().notify(buffer.toString());
+                // FIXME:  We should probably throw an exception here
+                break;
+            }
+
+            classes.add(superClass);
+            returnType = superClass;
+        }
+
+        classes.clear();
+        return returnType;
+    }
 
     /**
      * Create an "hashCode" method on the given JClass.
