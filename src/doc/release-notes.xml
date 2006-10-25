@@ -31,6 +31,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1656" tool="jira">
+                    <description>
+                        Fixed broken code as generatd for XMLFieldHandler.resetValues() 
+                        for Java 2 collections.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Carlo Romero</name>
+                        <email>carlo.romero@gs.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061025</date>
+                </bug>
                 <bug id="1648" tool="jira">
                     <description>
                         Cyclic inheritence trees can cause srcgen to loop infinitely
