@@ -376,85 +376,60 @@ public final class FieldHandlerImpl
         _colHandler = typeInfo.getCollectionHandler();
     }
 
-        public TypeConvertor getConvertFrom() {
-            return _convertFrom;
-        }
-        public TypeConvertor getConvertTo() {
-            return _convertTo;
-        }
-        public String getConvertParam() {
-            return _convertParam;
-        }
+    public TypeConvertor getConvertFrom() {
+        return _convertFrom;
+    }
+    public TypeConvertor getConvertTo() {
+        return _convertTo;
+    }
+    public String getConvertParam() {
+        return _convertParam;
+    }
 
-
-    public Object getValue( Object object )
-    {
+    public Object getValue(Object object) {
         Object value;
 
         try {
-            // If field is accessed directly, get it's value, if not
-            // need to call get method. It's possible to not have a
-            // way to access the field.
-            
-            //-- DEBUG
-            /*
-            if ( _handler != null )
-                System.out.println("FieldHandlerImpl: using nested handler.");
-            else if ( _field != null )
-                System.out.println("FieldHandlerImpl: using direct field access.");
-            else if ( _getMethod != null ) {
-                System.out.println("FieldHandlerImpl: using getMethod.");
-                if ( _getSequence != null ) {
-                    System.out.println("FieldHandlerImpl: using getter sequence.");
-                }
-                
-                if (_hasMethod != null) {
-                    System.out.println("FieldHandlerImpl: checking hasMethod.");
-                }
-                
-                System.out.println("FieldHandlerImpl: calling getMethod.");
-                System.out.println("FieldHandlerImpl: getter: " + _getMethod.toString());
-                System.out.println("FieldHandlerImpl: target: " + object.getClass().getName());
-                
-            }
-            */
-            //-- /DEBUG
-             
-            if ( _handler != null )
-                value = _handler.getValue( object );
-            else if ( _field != null )
-                value = _field.get( object );
-            else if ( _enumMethod != null ) {
-            	// If there is an enumeration method supplied, return the 
-            	// enumeration.
-            	value = _enumMethod.invoke(object, null);
-            } else if ( _iterMethod != null ) {
-            	// If there is an iterator method supplied, wrap it in an 
-            	// enumeration.
-            	value = new IteratorEnumeration((Iterator)_iterMethod.invoke(object, null));
-            } else if ( _getMethod != null ) {
-                if ( _getSequence != null ) 
-                    for ( int i = 0; i < _getSequence.length; i++ ) {
-                        object = _getSequence[ i ].invoke( object, (Object[]) null );
-                        if ( object == null )
+            // If field is accessed directly, get its value.  If not, we need to call
+            // its get method. It's possible to not have a way to access the field.
+
+            if (_handler != null) {
+                value = _handler.getValue(object);
+            } else if (_field != null) {
+                value = _field.get(object);
+            } else if (_enumMethod != null) {
+                // If there is an enumeration method supplied, return the enumeration.
+                value = _enumMethod.invoke(object, (Object[]) null);
+            } else if (_iterMethod != null ) {
+                // If there is an iterator method supplied, wrap it in an enumeration.
+                value = new IteratorEnumeration((Iterator)_iterMethod.invoke(object, (Object[]) null));
+            } else if (_getMethod != null) {
+                if (_getSequence != null) {
+                    for (int i = 0; i < _getSequence.length; i++) {
+                        object = _getSequence[i].invoke(object, (Object[]) null);
+                        if (object == null) {
                             break;
+                        }
                     }
-                // Some of the objects in the sequence might be null, then 
-                // the value is null
-                // If field has 'has' method, false means field is null
-                // and do not attempt to call getValue. Otherwise, 
-                if ( object == null ||
-                          ( _hasMethod != null && ! ( (Boolean) _hasMethod.invoke( object, (Object[]) null ) ).booleanValue() ) )
+                }
+
+                // Some of the objects in the sequence might be null, then the value is null.
+                // If field has 'has' method, false means field is null and do not attempt to
+                // call getValue. Otherwise, ????
+                if (object == null || (_hasMethod != null 
+                                       && !((Boolean) _hasMethod.invoke(object, (Object[]) null)).booleanValue())) {
                     value = null;
-                else
-                    value = _getMethod.invoke( object, (Object[]) null );
-            } else
+                } else {
+                    value = _getMethod.invoke(object, (Object[]) null);
+                }
+            } else {
                 value = null;
-        } catch ( IllegalAccessException except ) {
+            }
+        } catch (IllegalAccessException except) {
             throw new CastorIllegalStateException(
                     Messages.format("mapping.schemaChangeNoAccess", toString()),
                     except);
-        } catch ( InvocationTargetException except ) {
+        } catch (InvocationTargetException except) {
             throw new CastorIllegalStateException(
                     Messages.format("mapping.schemaChangeInvocation", toString(), except),
                     except);
@@ -462,24 +437,24 @@ public final class FieldHandlerImpl
 
         //-- If a collection, return an enumeration of it's values.
         //-- Only use collection handler, if there is no convertor or enum method.
-        if (( _colHandler != null ) && ( _enumMethod == null) && 
-        		( _iterMethod == null) && (_convertFrom == null)) {
-            if ( value == null )
+        if (_colHandler != null && _enumMethod == null && _iterMethod == null && _convertFrom == null) {
+            if (value == null) {
                 return new CollectionHandlers.EmptyEnumerator();
-            return _colHandler.elements( value );
+            }
+            return _colHandler.elements(value);
         }
 
         // If there is a convertor, apply it
-        if ( _convertFrom == null || value == null )
+        if (_convertFrom == null || value == null) {
             return value;
+        }
+
         try {
-            return _convertFrom.convert( value, _convertParam );
-        } catch ( ClassCastException except ) {
-            throw new IllegalArgumentException( Messages.format( "mapping.wrongConvertor",  value.getClass().getName() ) );
+            return _convertFrom.convert(value, _convertParam);
+        } catch (ClassCastException except) {
+            throw new IllegalArgumentException(Messages.format("mapping.wrongConvertor", value.getClass().getName()));
         }
     }
-    
-
 
     public void setValue( Object object, Object value )
     {
