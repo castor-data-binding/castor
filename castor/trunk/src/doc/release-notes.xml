@@ -31,6 +31,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1658" tool="jira">
+                    <description>
+                        Clean up compilation complaint -- Java 5 varargs complaint
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20061024</date>
+                </bug>
                 <bug id="1655" tool="jira">
                     <description>
                         Fixed broken code sample in XML best practice document.

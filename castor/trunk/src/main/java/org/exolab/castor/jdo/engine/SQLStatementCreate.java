@@ -278,8 +278,8 @@ public class SQLStatementCreate {
 
                 if (_useJDBC30 && identity == null) {
                     Class cls = PreparedStatement.class;
-                    Method method = cls.getMethod("getGeneratedKeys", null);
-                    ResultSet keySet = (ResultSet) method.invoke(stmt, null);
+                    Method method = cls.getMethod("getGeneratedKeys", (Class[]) null);
+                    ResultSet keySet = (ResultSet) method.invoke(stmt, (Object[]) null);
                     // ResultSet keySet = stmt.getGeneratedKeys();
                     
                     int i = 1;
