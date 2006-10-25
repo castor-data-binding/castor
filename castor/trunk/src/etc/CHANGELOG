@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1656 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed broken code as generatd for XMLFieldHandler.resetValues() for Java 2 collections.
+       Details: http://jira.codehaus.org/browse/CASTOR-1656
+       (Werner - 20061025)
+
 XML:   Resolved issue CASTOR-1646 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Cyclic inheritence trees can cause srcgen to loop infinitely
        Details: http://jira.codehaus.org/browse/CASTOR-1646
@@ -15,7 +20,7 @@ XML:   Resolved issue CASTOR-1658 using contribution from Edward Kuns [edward.ku
 XML:   Resolved issue CASTOR-1655 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed broken code sample in XML best practice document.
        Details: http://jira.codehaus.org/browse/CASTOR-1655
-       (Edward - 20061024)
+       (Werner - 20061024)
 
 XML:   Resolved issue CASTOR-1652 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Castor Source Code is created with ISO-8859-1 encoding, not UTF-8
@@ -25,7 +30,7 @@ XML:   Resolved issue CASTOR-1652 using contribution from Edward Kuns [edward.ku
 XML:   Resolved issue CASTOR-1632 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for XML schema type 'unsignedLong' to XML code generator.
        Details: http://jira.codehaus.org/browse/CASTOR-1632
-       (Edward - 20061023)
+       (Werner - 20061023)
 
 XML:   Resolved issue CASTOR-1647 using contribution from Edward Kuns [edward.kuns@aspect.com]
        log4j / junit classpath conflict with CTF

@@ -584,11 +584,11 @@ public class DescriptorSourceFactory {
             jsc.append(localClassName);
             jsc.append(") object;");
             String cName = JavaNaming.toJavaClassName(cInfo.getElementName());
-            if (cInfo instanceof CollectionInfoJ2) {
-                jsc.add("target.clear" + cName + "();"); 
-            } else { 
+//            if (cInfo instanceof CollectionInfoJ2) {
+//                jsc.add("target.clear" + cName + "();"); 
+//            } else { 
                 jsc.add("target.removeAll" + cName + "();");
-            }
+//            }
             jsc.unindent();
             jsc.add("} catch (java.lang.Exception ex) {"); 
             jsc.indent(); 
