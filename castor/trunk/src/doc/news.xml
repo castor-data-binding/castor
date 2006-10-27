@@ -19,7 +19,20 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
-        <news id="49">
+        <news id="52">
+            <title>Welcome Edward Kuns to the team</title>
+            <author>Werner Guttmann</author>
+            <date>27 Nov 2006</date>
+            <time>19:20:19</time>
+            <summary>
+            I'd very happy to announce that <i>Edward Kuns</i> has joined the Castor
+            team as committer. Edward's initial focus will be on the XML code generator, where he 
+            has already contributed numerous patches fixing existing issues and 
+            refactoring the current codebase to increase the overall quality of the 
+            product.
+            </summary>
+        </news>
+        <news id="51">
             <title>Castor 1.0.4 released</title>
             <author>Werner Guttmann</author>
             <date>Oct 22 2006</date>
