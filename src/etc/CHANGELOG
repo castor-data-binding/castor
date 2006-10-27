@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1642 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Switched Marshaller to use Jakarta's commons-logging for logging (adding additional
+       logging statements of level warn for exceptions that so far got caught silently).
+       Details: http://jira.codehaus.org/browse/CASTOR-1642
+       (Werner - 20061027)
+
 XML:   Resolved issue CASTOR-1660 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with namespace support for collections created using "container=false".
        Details: http://jira.codehaus.org/browse/CASTOR-1660
