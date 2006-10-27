@@ -164,49 +164,46 @@
 
         <p>A mapping file look like this:</p>
 
-        <code>
-        &lt;?xml version="1.0"?>
+        <code-panel><![CDATA[
+        <?xml version="1.0"?>
 
-        &lt;!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+        <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                                  "http://castor.org/mapping.dtd">
 
-        &lt;mapping>
-                &lt;description>Description of the mapping&lt;/description>
+        <mapping>
+                <description>Description of the mapping</description>
 
-                &lt;include href="other_mapping_file.xml"/>
+                <include href="other_mapping_file.xml"/>
 
-                &lt;class name="A">
+                <class name="A">
                         .........
-                &lt;/class>
+                </class>
 
-                &lt;class name="B">
+                <class name="B">
                         .........
-                &lt;/class>
+                </class>
 
-        &lt;/mapping>
-
-        </code>
+        </mapping>]]></code-panel>
 
       </section>
 
-      <section title="3.2 The &lt;class> element  ">
+      <section title="3.2 The &lt;class> element">
 
-        <code>
-        &lt;!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
-        &lt;!ATTLIST class
+        <code-panel><![CDATA[
+        <!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
+        <!ATTLIST class
                   name            ID       #REQUIRED
                   extends         IDREF    #IMPLIED
                   depends         IDREF    #IMPLIED
                   auto-complete   ( true |false ) "false"
                   identity        CDATA    #IMPLIED
                   access          ( read-only | shared | exclusive | db-locked )  "shared"
-                  key-generator   IDREF    #IMPLIED >
-        </code>
+                  key-generator   IDREF    #IMPLIED >]]></code-panel>
 
 
-        <p>The  &lt;class> element contains all the information used to map a Java class into an
-          XML document. The content of &lt;class> is mainly used to describe the fields that
-            will be mapped.</p>
+        <p>The  <tt>&lt;class></tt> element contains all the information used to 
+           map a Java class into an XML document. The content of <tt>&lt;class></tt>
+           is mainly used to describe the fields that will be mapped.</p>
 
         <p>Description of the attributes:</p>
 
@@ -235,10 +232,10 @@
         </ul>
 
         <p>The auto-complete attributes is interesting as it allow a fine degree
-        of control of the introspector: it is possible to specifiy only the
-        fields whose Castor default behavior does not suite our needs. These
-        feature should simplify the handling of complexe class containing many
-        fields.</p>
+           of control of the introspector: it is possible to specifiy only the
+           fields whose Castor default behavior does not suite our needs. These
+           feature should simplify the handling of complexe class containing many
+           fields.</p>
 
         <p>Description of the content:</p>
 
@@ -259,6 +256,8 @@
              Java objects.</li>
         </ul>
 
+		<section title="Sample &lt;class&gt; mapping">
+		
         <p>If you want to map the following class into the element '&lt;data&gt;':</p>
 
         <code-panel>
@@ -275,37 +274,39 @@ public class MyClass {
 
         <p>Into an XML document like:</p>
 
-        <code-panel>
-  &lt;data foo-like="12"&gt;
-     &lt;something&gt;...&lt;/something&gt;
-  &lt;/data&gt;</code-panel>
+        <code-panel><![CDATA[
+  <data foo-like="12">
+     <something>...</something>
+  </data>]]></code-panel>
 
         <p>You might use the following mapping file:</p>
 
-        <code-panel>
-  &lt;mapping&gt;
+        <code-panel><![CDATA[
+  <mapping>
      ...
-     &lt;class name="mypackage.MyClass"&gt;
+     <class name="mypackage.MyClass">
                 
-        &lt;map-to xml="data"/&gt;
+        <map-to xml="data"/>
 
-        &lt;field name="foo" direct="true" ...&gt;
-           &lt;bind-xml name="foo-like" node="attribute"/&gt;
-        &lt;/field&gt;
+        <field name="foo" direct="true" ...>
+           <bind-xml name="foo-like" node="attribute"/>
+        </field>
 
-        &lt;/field name="bar" ....&gt;
-           &lt;bind-xml name="something" node="element"/&gt;
-        &lt;/field&gt;
+        </field name="bar" ....>
+           <bind-xml name="something" node="element"/>
+        </field>
 
-     &lt;/class&gt;
+     </class>
      ...
-  &lt;/mapping&gt;</code-panel>
+  </mapping>]]></code-panel>
+  
+		</section>
 
       </section>
 
       <section title="3.3 The &lt;map-to> element">
 
-        <code>
+        <code-panel>
         &lt;!ELEMENT map-to EMPTY>
         &lt;!ATTLIST map-to
                   table               NMTOKEN  #IMPLIED
@@ -315,11 +316,11 @@ public class MyClass {
                   ldap-dn             NMTOKEN  #IMPLIED
                   element-definition  (true|false) "false"     <font color="red"><b>NEW</b> as of 1.0M3</font>
                   ldap-oc             NMTOKEN  #IMPLIED>
-        </code>
+        </code-panel>
 
-        <p>&lt;map-to> is used to specify the name of the element that should be associated
-          with the given class.&lt;map-to> is only used for the root class. If this
-          information is not present, Castor will:</p>
+        <p><tt>&lt;map-to></tt> is used to specify the name of the element that should 
+           be associated with the given class. <tt>&lt;map-to></tt> is only used for 
+           the root class. If this information is not present, Castor will:</p>
 
         <ul>
           <li>for marshalling, infer the name of the element to be mapped from the name of
@@ -329,28 +330,49 @@ public class MyClass {
             for an element named 'test-element' Castor will try to use a
             class named 'TestElement'</li>
         </ul>
+        
+        <p>Please note that it is possible to set the naming scheme used by Castor 
+           to translate between the XML name and the Java class name in the 
+           <tt>castor.properties</tt> file.</p>
 
         <p>Description of the attributes:</p>
 
-        <ul>
-          <li><b>xml:</b> name of the element that the class is associated to.</li>
-          <li><b>ns-uri</b>: namespace URI</li>
-          <li><b>ns-prefix:</b> desired namespace</li>
-          <li><b>element-definition:</b> true if the descriptor as created from a schema definition that 
-              was of type element (as opposed to a &lt;complexType&gt; definition). This only is useful 
-              in the context of source code generation.</li>
-          <li><b>ldap-dn:</b> not used for XML</li>
-          <li><b>ldap-oc:</b> not used for XML</li>
-        </ul>
+        <ctable>
+        	<crow>
+        		<td><b>xml:</b></td>
+        		<td>Name of the element that the class is associated to.</td>
+        	</crow>
+        	<crow>
+	          <td><b>ns-uri</b>:</td>
+	          <td>Namespace URI</td>
+	         </crow>
+	         <crow>
+	          <td><b>ns-prefix:</b></td>
+	          <td>Desired namespace</td>
+	         </crow>
+	         <crow>
+	          <td><b>element-definition:</b></td>
+	          <td><tt>True</tt> if the descriptor as created from a schema definition that 
+	              was of type element (as opposed to a &lt;complexType&gt; definition). This 
+	              only is useful in the context of source code generation.</td>
+	         </crow>
+	         <crow>
+	          <td><b>ldap-dn:</b></td>
+	          <td>Not used for XML</td>
+	         </crow>
+	         <crow>
+	          <td><b>ldap-oc:</b></td>
+	          <td>Not used for XML</td>
+          </crow>
+        </ctable>
 
       </section>
 
-
       <section title="3.4 The &lt;field> element">
 
-        <code>
-        &lt;!ELEMENT field ( description?, sql?, bind-xml?, ldap? )>
-        &lt;!ATTLIST field
+        <code-panel><![CDATA[
+        <!ELEMENT field ( description?, sql?, bind-xml?, ldap? )>
+        <!ATTLIST field
                   name           NMTOKEN  #REQUIRED
                   type           NMTOKEN  #IMPLIED
                   handler        NMTOKEN  #IMPLIED
@@ -362,10 +384,10 @@ public class MyClass {
                   set-method     NMTOKEN  #IMPLIED
                   create-method  NMTOKEN  #IMPLIED
                   collection     ( array | vector | hashtable | collection | set | map )  #IMPLIED>
-        </code>
+        ]]></code-panel>
 
-        <p>&lt;field> is used to describe a property of a Java object we want to
-          marshal/unmarshal. It gives:</p>
+        <p><tt>&lt;field></tt> is used to describe a property of a Java object 
+           we want to marshal/unmarshal. It gives:</p>
         <ul>
           <li>its identity ('name')</li>
           <li>its type (infered from 'type' and 'collection')</li>
@@ -373,7 +395,7 @@ public class MyClass {
         </ul>
 
         <p>From this information, Castor is able to access a given property in the Java
-          class.</p>
+           class.</p>
 
         <p>In order to determine the signature that Castor expects, there are two easy
           rules to apply.</p>
@@ -529,9 +551,6 @@ public class MyClass {
                 <p>This method is called for each collection element while unmarshalling.</p></td>
                     </crow>
                 </ctable>
-                
-            
-            
           
           </li>
         </li>
@@ -610,131 +629,147 @@ public class MyClass {
 
       <section title="3.5 The &lt;bind-xml> element">
 
-        <code>
-        &lt;!ELEMENT bind-xml (class?, property*)>
-        &lt;!ATTLIST bind-xml
-                  name     NMTOKEN     #IMPLIED
-                  type     NMTOKEN     #IMPLIED
-                  location CDATA       #IMPLIED
-                  matches  NMTOKENS    #IMPLIED
-                  QName-prefix NMTOKEN #IMPLIED
-                  reference   ( true | false ) "false"
-                  node        ( attribute | element | text )    #IMPLIED
-                  auto-naming ( deriveByClass | deriveByField ) #IMPLIED
-                  transient   ( true | false ) "false">
+        <code-panel><![CDATA[
+<!ELEMENT bind-xml (class?, property*)>
+<!ATTLIST bind-xml
+          name     NMTOKEN     #IMPLIED
+          type     NMTOKEN     #IMPLIED
+          location CDATA       #IMPLIED
+          matches  NMTOKENS    #IMPLIED
+          QName-prefix NMTOKEN #IMPLIED
+          reference   ( true | false ) "false"
+          node        ( attribute | element | text )    #IMPLIED
+          auto-naming ( deriveByClass | deriveByField ) #IMPLIED
+          transient   ( true | false ) "false">]]></code-panel>
 
-
-        </code>
-
-        <p>&lt;bind-xml> is used to describe how a given Java field should appear in an XML
-          document. It is used both for marshalling and unmarshalling.</p>
+        <p><tt>&lt;bind-xml></tt> is used to describe how a given Java field 
+           should appear in an XML document. It is used both for marshalling and unmarshalling.</p>
 
         <p>Description of the attributes:</p>
-        <ul>
-          <li><b>name:</b> the name of the element or attribute. <br/>
-              Note: The name is a QName, and a namespace prefix may be used to indicate the
-              element or attribute belongs to a certain namespace. Note the prefix is not
-              preserved or used during marshalling, it's simply used for
-              qualification of which namespace the element or attribute belongs.
-          </li>
+        
+        <table cellpadding="2" cellspacing="2">
+        	<tr>
+        		<td valign="top"><b>name</b></td>
+        		<td>The name of the element or attribute.<br/>
+		              Note: The name is a QName, and a namespace prefix may be used to indicate the
+		              element or attribute belongs to a certain namespace. Note the prefix is not
+		              preserved or used during marshalling, it's simply used for
+		              qualification of which namespace the element or attribute belongs.</td>
+		    </tr>
+		    <tr>
+		    	<td valign="top"><b>auto-naming</b></td>
+		    	<td>If no name is specified, this attribute controls how castor will 
+		    	    automatically create a name for the field. Normally, the name is 
+		    	    created using the field name, however many times it is necessary 
+		    	    to create the name by using the class type instead (such as
+            		heterogenenous collections).</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>type</b></td>
+            	<td>XML Schema type (of the value of this field) that requires specific 
+            	    handling in the Castor Marshalling Framework (such as 'QName' for 
+            	    instance).</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>location</b><br/>(since 0.9.4.4)</td>
+            	<td>Allows the user to specify the "sub-path" for which the value
+                    should be marshalled to and from. This is useful for "wrapping" values in 
+                    elements or for mapping values that appear on sub-elements to the 
+                    current "element" represented by the class mapping. For more information,
+                    see the <a href="#6.-Location-attribute">Location attribute</a> below.</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>QName-prefix</b></td>
+            	<td>When the field represents a QName value, a prefix can be provided that
+                    is used when marshalling value of type QName. More information on the 
+                    use of 'QName-prefix' can be found in the 
+                    <a href="./SourceGeneratorUser.pdf">SourceGenerator Documentation</a></td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>reference</b></td>
+            	<td>Indicates if this field has to be treated as a reference by the 
+            	    unmarshaller. In order to work properly, you must specify the node 
+            	    type to 'attribute' for both the 'id' and the 'reference'. In 
+            	    newer versions of Castor, 'element' node for reference is allowed. 
+            	    Remember to make sure that an <i>identity</i> field is specified
+                    on the <tt>&lt;class&gt;</tt> mapping for the object type being 
+                    referenced so that Castor knows what the object's identity is.</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>matches</b></td>
+            	<td>Allows overriding the matches rules for the name of the element. It 
+            	    is a standard regular expression and will be used instead of the 'name'
+            	    field. A '*' will match any xml name, however it will only be matched 
+            	    if no other field exists that matches the xml name.</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>node</b></td>
+            	<td>Indicates if the name corresponds to an attribute, an element,
+                    or text content. By default, primitive types are assumed to be 
+                    an attribute, otherwise the node is assumed to be an elemen</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>transient</b></td>
+            	<td>Allows for making this field transient for XML. The default value is 
+            	    inherited from the &lt;field&gt; element.</td>
+            </tr>
+		</table>
+		
+		<section title="Nested class mapping">
+		
+          <p>Since 0.9.5.3, the bind-xml element supports a nested class mapping, which 
+             is often useful when needing to specify more than one mapping for a 
+             particular class. A good example of this is when mapping Hashtable/HashMap/Map.</p>
+              
+          <code-panel top-caption="Example"><![CDATA[
+<bind-xml ...>
+   <class name="org.exolab.castor.mapping.MapItem">
+      <field name="key" type="java.lang.String">
+        <bind-xml name="id"/>
+      </field>
+      <field name="value" type="com.acme.Foo"/>
+   </class>
+</bind-xml>]]></code-panel>
 
-          <li><b>auto-naming:</b> if no name is specified this attribute controls
-            how castor will automatically create a name for the field. Normally
-            the name is created using the field name, however many times it is
-            necessary to create the name by using the class type instead (such as
-            heterogenenous collections).
-          </li>
-
-          <li><b>type:</b>XML Schema type (of the value of this field) that requires specific handling in the
-                          Castor Marshalling Framework (such as 'QName' for instance).
-          </li>
-
-          <li><b>location:</b> (since 0.9.4.4) allows the user to specify the "sub-path" for which the value
-              should be marshalled to and from. This is useful for "wrapping" values in elements or for
-              mapping values that appear on sub-elements to the current "element" represented by the
-              class mapping. For more information see the <a href="#6.-Location-attribute">Location attribute</a> below.
-          </li>
-
-          <li><b>QName-prefix:</b> When the field represents a QName value, a prefix can be provided that
-              is used when marshalling value of type QName. More information on the use of 'QName-prefix'
-              can be found in the <a href="./SourceGeneratorUser.pdf">SourceGenerator Documentation</a></li>
-
-          <li><b>reference:</b> Indicates if this field has to be treated as a reference by the unmarshaller.
-          In order to work properly, you must specify the node type to 'attribute'
-          for both the 'id' and the 'reference'. In newer versions of Castor, 'element' node for
-          reference is allowed. Remember to make sure that an <i>identity</i> field is specified
-          on the &lt;class&gt; mapping for the object type being referenced so that Castor knows what
-          the object's identity is.
-          </li>
-
-          <li><b>matches:</b> Allows overriding the matches rules for
-          the name of the element. It is a standard regular
-          expression and will be used instead of the 'name'
-          field. A '*' will match any xml name, however it will only be matched if no
-          other field exists that matches the xml name.
-          </li>
-
-          <li><b>node:</b> indicates if the name corresponds to an attribute, an element,
-            or text content. By default, primitive types are assumed to be an attribute
-            otherwise the node is assumed to be an element</li>
-
-          <li><b>transient:</b> Allows for making this field transient for XML. The default
-              value is inherited from the &lt;field&gt; element.
-          </li>
-
-          <li><b>Nested class mapping</b> (since 0.9.5.3) the bind-xml element supports a nested class
-              mapping, which is often useful when needing to specify more than one mapping for a
-              particular class. A good example of this is when mapping Hashtable/HashMap/Map.
-              <br/>Example:
-              <code>
-                &lt;bind-xml ...&gt;
-                   &lt;class name="org.exolab.castor.mapping.MapItem"&gt;
-                      &lt;field name="key" type="java.lang.String"&gt;
-                        &lt;bind-xml name="id"/&gt;
-                      &lt;/field&gt;
-                      &lt;field name="value" type="com.acme.Foo"/&gt;
-                   &lt;/class&gt;
-                &lt;/bind-xml&gt;
-              </code>
-          </li>
-        </ul>
-
+		</section>
+		
       </section>
     </section>
+    
     <section title="4. Usage Pattern">
 
       <p>Here is an example of how Castor Mapping can be used. We want to map an XML
         document like the following one (called 'order.xml').
         model.</p>
 
-      <code-panel>
-&lt;Order reference="12343-AHSHE-314159">
-        &lt;Client>
-                &lt;Name>Jean Smith&lt;/Name>
-                &lt;Address>2000, Alameda de las Pulgas, San Mateo, CA 94403&lt;/Address>
-        &lt;/Client>
+      <code-panel><![CDATA[
+<Order reference="12343-AHSHE-314159">
+  <Client>
+    <Name>Jean Smith</Name>
+    <Address>2000, Alameda de las Pulgas, San Mateo, CA 94403</Address>
+  </Client>
 
-        &lt;Item reference="RF-0001">
-                &lt;Description>Stuffed Penguin&lt;/Description>
-                &lt;Quantity>10&lt;/Quantity>
-                &lt;UnitPrice>8.95&lt;/UnitPrice>
-        &lt;/Item>
+  <Item reference="RF-0001">
+    <Description>Stuffed Penguin</Description>
+    <Quantity>10</Quantity>
+    <UnitPrice>8.95</UnitPrice>
+  </Item>
 
-        &lt;Item reference="RF-0034">
-                &lt;Description>Chocolate&lt;/Description>
-                &lt;Quantity>5&lt;/Quantity>
-                &lt;UnitPrice>28.50&lt;/UnitPrice>
-        &lt;/Item>
+  <Item reference="RF-0034">
+    <Description>Chocolate</Description>
+    <Quantity5</Quantity>
+    <UnitPrice>28.50</UnitPrice>
+  </Item>
 
-        &lt;Item reference="RF-3341">
-                &lt;Description>Cookie&lt;/Description>
-                &lt;Quantity>30&lt;/Quantity>
-                &lt;UnitPrice>0.85&lt;/UnitPrice>
-        &lt;/Item>
-&lt;/Order>
-      </code-panel>
+  <Item reference="RF-3341">
+     <Description>Cookie</Description>
+     <Quantity>30</Quantity>
+     <UnitPrice>0.85</UnitPrice>
+  </Item>
+</Order>]]></code-panel>
 
       <p>Into the following object model composed of 3 classes:</p>
+      
       <ul>
         <li><b>MyOrder:</b> represent an order</li>
         <li><b>Client:</b> used to store information on the client</li>
@@ -798,11 +833,9 @@ public class MyOrder {
 
         return total;
     }
-}
-      </code-panel>
+}</code-panel>
 
       <code-panel top-caption="ClientData.java">
-
 public class ClientData {
 
     private String _name;
@@ -823,8 +856,7 @@ public class ClientData {
     public String getAddress() {
         return _address;
     }
-}
-      </code-panel>
+}</code-panel>
 
       <code-panel top-caption="Item.java">
 public class Item {
@@ -832,83 +864,81 @@ public class Item {
     public int    _quantity;
     public float  _unitPrice;
     public String _description;
-}
-      </code-panel>
+}</code-panel>
 
       <p>The XML document and the java object model can be connected by using the
         following mapping file:</p>
 
-      <code-panel top-caption="mapping.xml">
-&lt;?xml version="1.0"?>
-&lt;!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+      <code-panel top-caption="mapping.xml"><![CDATA[
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                          "http://castor.org/mapping.dtd">
 
-&lt;mapping>
-        &lt;class name="MyOrder">
-                &lt;map-to xml="Order"/>
+<mapping>
+  <class name="MyOrder">
+    <map-to xml="Order"/>
 
-                &lt;field name="Reference"
-                       type="java.lang.String">
-                        &lt;bind-xml name="reference" node="attribute"/>
-                &lt;/field>
+    <field name="Reference"
+           type="java.lang.String">
+      <bind-xml name="reference" node="attribute"/>
+    </field>
 
-                &lt;field name="Total"
-                       type="float">
-                        &lt;bind-xml name="total-price" node="attribute"/>
-                &lt;/field>
+    <field name="Total"
+           type="float">
+      <bind-xml name="total-price" node="attribute"/>
+    </field>
 
-                &lt;field name="ClientData"
-                       type="ClientData">
-                        &lt;bind-xml name="Client"/>
-                &lt;/field>
+    <field name="ClientData"
+           type="ClientData">
+      <bind-xml name="Client"/>
+    </field>
 
-                &lt;field name="ItemsList"
-                       type="Item"
-                          collection="vector">
-                        &lt;bind-xml name="Item"/>
-                &lt;/field>
-        &lt;/class>
+    <field name="ItemsList"
+           type="Item"
+              collection="vector">
+      <bind-xml name="Item"/>
+    </field>
+  </class>
 
-        &lt;class name="ClientData">
-                &lt;field name="Name"
-                       type="java.lang.String">
-                        &lt;bind-xml name="Name" node="element"/>
-                &lt;/field>
+  <class name="ClientData">
+    <field name="Name"
+           type="java.lang.String">
+      <bind-xml name="Name" node="element"/>
+    </field>
 
-                &lt;field name="Address"
-                       type="java.lang.String">
-                        &lt;bind-xml name="Address" node="element"/>
-                &lt;/field>
-        &lt;/class>
+    <field name="Address"
+           type="java.lang.String">
+      <bind-xml name="Address" node="element"/>
+    </field>
+  </class>
 
-        &lt;class name="Item">
-                &lt;field name="_reference"
-                       type="java.lang.String"
-                       direct="true">
-                        &lt;bind-xml name="reference" node="attribute"/>
-                &lt;/field>
+  <class name="Item">
+    <field name="_reference"
+           type="java.lang.String"
+           direct="true">
+      <bind-xml name="reference" node="attribute"/>
+    </field>
 
-                &lt;field name="_quantity"
-                       type="integer"
-                       direct="true">
-                        &lt;bind-xml name="Quantity" node="element"/>
-                &lt;/field>
+    <field name="_quantity"
+           type="integer"
+           direct="true">
+      <bind-xml name="Quantity" node="element"/>
+    </field>
 
-                &lt;field name="_unitPrice"
-                       type="float"
-                       direct="true">
-                        &lt;bind-xml name="UnitPrice" node="element"/>
-                &lt;/field>
+    <field name="_unitPrice"
+           type="float"
+           direct="true">
+      <bind-xml name="UnitPrice" node="element"/>
+    </field>
 
-                &lt;field name="_description"
-                       type="string"
-                       direct="true">
-                        &lt;bind-xml name="Description" node="element"/>
-                &lt;/field>
-        &lt;/class>
+    <field name="_description"
+           type="string"
+           direct="true">
+      <bind-xml name="Description" node="element"/>
+    </field>
+  </class>
 
-&lt;/mapping>
-      </code-panel>
+</mapping>]]></code-panel>
 
       <p>The following class is an example of how to use Castor XML Mapping to
         manipulate the file 'order.xml'. It unmarshals the document 'order.xml',
