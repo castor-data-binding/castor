@@ -31,6 +31,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1642" tool="jira">
+                    <description>
+				       Switched Marshaller to use Jakarta's commons-logging for logging (adding additional
+				       logging statements of level warn for exceptions that so far got caught silently).
+                    </description>
+                    <contributor>
+                        <name>Paul Philion</name>
+                        <email>gphilion@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Paul Philion</name>
+                        <email>gphilion@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061027</date>
+                </bug>
                 <bug id="1660" tool="jira">
                     <description>
                         Fixed problem with namespace support for collections created 
@@ -45,8 +66,8 @@
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                        <name>Gregg Fowler/name>
-                        <email>gefowler@globallink.com/email>
+                        <name>Gregg Fowler</name>
+                        <email>gefowler@globallink.com</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>

@@ -52,6 +52,8 @@ package org.exolab.castor.xml;
 
 
 //-- castor imports
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.castor.util.Base64Encoder;
@@ -109,6 +111,11 @@ public class Marshaller extends MarshalFramework {
     //---------------------------/
 
     /**
+     * Logger from commons-logging
+     */
+    private static final Log LOG = LogFactory.getLog(Marshaller.class);
+    
+    /**
      * The CDATA type..uses for SAX attributes
     **/
     private static final String CDATA = "CDATA";
@@ -147,17 +154,6 @@ public class Marshaller extends MarshalFramework {
     private static final StringClassDescriptor _StringClassDescriptor
         = new StringClassDescriptor();
 
-    
-    //---------------------------/
-    //- Public member variables -/
-    //---------------------------/
-
-    /**
-     * A static flag used to enable debugging when using
-     * the static marshal methods.
-    **/
-    public static boolean enableDebug = false;
-
     //----------------------------/
     //- Private member variables -/
     //----------------------------/
@@ -172,12 +168,6 @@ public class Marshaller extends MarshalFramework {
      * The ClassDescriptorResolver used for resolving XMLClassDescriptors
     **/
     private XMLClassDescriptorResolver _cdResolver = null;
-
-    /**
-     * A flag indicating whether or not to generate
-     * debug information
-    **/
-    private boolean _debug = false;
 
     /**
      * The depth of the sub tree, 0 denotes document level
@@ -399,7 +389,6 @@ public class Marshaller extends MarshalFramework {
     **/
     private void initialize() {
         _config          = LocalConfiguration.getInstance();
-        _debug           = enableDebug;
         _namespaces      = new Namespaces();
         _packages        = new List(3);
         _cdResolver      = (XMLClassDescriptorResolver) 
@@ -468,6 +457,9 @@ public class Marshaller extends MarshalFramework {
                 //-- happen. If _serializer is not null, it means
                 //-- we've already called this method sucessfully
                 //-- in the Marshaller() constructor
+            	if (LOG.isDebugEnabled()) {
+            		LOG.debug("Error setting up document handler", iox);
+                }
             }
         }
         else {
@@ -541,6 +533,9 @@ public class Marshaller extends MarshalFramework {
                 //-- happen. If _serializer is not null, it means
                 //-- we've already called this method sucessfully
                 //-- in the Marshaller() constructor
+            	if (LOG.isDebugEnabled()) {
+            		LOG.debug("Error setting up document handler", iox);
+                }
             }
         }
 
@@ -724,10 +719,10 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (enableDebug) {
-            System.out.print("- Marshaller called using ");
-            System.out.println("*static* marshal(Object, Writer)");
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("- Marshaller called using *static* marshal(Object, Writer)");
         }
+        
         Marshaller marshaller;
         try {
             marshaller = new Marshaller(out);
@@ -751,10 +746,10 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (enableDebug) {
-            System.out.print("- Marshaller called using ");
-            System.out.println("*static* marshal(Object, DocumentHandler)");
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("- Marshaller called using *static* marshal(Object, DocumentHandler)");
         }
+        
         Marshaller marshaller;
         marshaller = new Marshaller(handler);
         marshaller.marshal(object);
@@ -774,10 +769,10 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (enableDebug) {
-            System.out.print("- Marshaller called using ");
-            System.out.println("*static* marshal(Object, DocumentHandler)");
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("- Marshaller called using *static* marshal(Object, ContentHandler)");
         }
+        
         Marshaller marshaller;
         marshaller = new Marshaller(handler);
         marshaller.marshal(object);
@@ -797,10 +792,10 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (enableDebug) {
-            System.out.print("- Marshaller called using ");
-            System.out.println("*static* marshal(Object, Node)");
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("- Marshaller called using *static* marshal(Object, Node)");
         }
+        
         Marshaller marshaller;
         marshaller = new Marshaller(node);
         marshaller.marshal(object);
@@ -819,10 +814,10 @@ public class Marshaller extends MarshalFramework {
         if (object == null)
             throw new MarshalException("object must not be null");
 
-        if (_debug) {
-            System.out.println("Marshalling " + object.getClass().getName());
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug("Marshalling " + object.getClass().getName());
         }
-
+        
         if (object instanceof AnyNode) {
            try{
               AnyNode2SAX2.fireEvents((AnyNode)object, _handler, _namespaces);
@@ -1023,6 +1018,9 @@ public class Marshaller extends MarshalFramework {
                                 //-- exception not important as we're simply
                                 //-- testing to see if we can resolve during
                                 //-- unmarshalling
+                            	if (LOG.isDebugEnabled()) {
+                            		LOG.debug("Error resolving", rx);
+                                }
                             }
                             
                             if (tmpDesc != null) {
@@ -1174,6 +1172,9 @@ public class Marshaller extends MarshalFramework {
                  //-- exception not important as we're simply
                  //-- testing to see if we can resolve during
                  //-- unmarshalling
+             	if (LOG.isDebugEnabled()) {
+            		LOG.debug("Error resolving " + xmlElementName, rx);
+                }
              }
 
              // Test if we are not dealing with a source generated vector
@@ -1190,6 +1191,9 @@ public class Marshaller extends MarshalFramework {
                      }
                  }
                  catch(ResolverException rx) {
+                	 if (LOG.isDebugEnabled()) {
+                		 LOG.debug("Error resolving " + xmlElementName, rx);
+                	 }
                      xmlElementNameClassDesc = null;
                  }
 
@@ -1561,7 +1565,9 @@ public class Marshaller extends MarshalFramework {
                 try {
                     obj = cdesc.getHandler().getValue(object);
                 }
-                catch(IllegalStateException ise) {}
+                catch(IllegalStateException ise) {
+                	LOG.warn("Error getting value from: " + object, ise);
+                }
                 
                 if (obj != null) {
                     
@@ -1713,6 +1719,7 @@ public class Marshaller extends MarshalFramework {
                     obj = elemDescriptor.getHandler().getValue(object);
                 }
                 catch(IllegalStateException ise) {
+                    LOG.warn("Error marshalling " + object, ise);
                     continue;
                 }
             }
@@ -2044,15 +2051,6 @@ public class Marshaller extends MarshalFramework {
     } //-- declareNamespace
 
     /**
-     * Sets the flag to turn on and off debugging
-     * @param debug the flag indicating whether or not debug information
-     * should be generated
-    **/
-    public void setDebug(boolean debug) {
-        this._debug = debug;
-    } //-- setDebug
-
-    /**
      * Sets the PrintWriter used for logging
      * @param printWriter the PrintWriter to use for logging
     **/
@@ -2085,6 +2083,9 @@ public class Marshaller extends MarshalFramework {
                 //-- happen. If _serializer is not null, it means
                 //-- we've already called this method sucessfully
                 //-- in the Marshaller() constructor
+            	if (LOG.isDebugEnabled()) {
+            		LOG.debug("Error setting encoding to " + encoding, iox);
+            	}
             }
         }
         else {
@@ -2263,6 +2264,7 @@ public class Marshaller extends MarshalFramework {
             value = attDescriptor.getHandler().getValue(object);
         }
         catch(IllegalStateException ise) {
+        	LOG.warn("Error getting value from " + object, ise);
             return;
         }
 

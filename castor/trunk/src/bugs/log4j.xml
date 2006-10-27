@@ -29,6 +29,10 @@
     <category name="org.exolab.castor.persist">
       <priority value="warn" />
     </category>
+
+    <category name="org.exolab.castor.xml">
+      <priority value="info" />
+    </category>
     
     <root>
         <priority value="debug" />
