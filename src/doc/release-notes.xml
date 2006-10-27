@@ -31,6 +31,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1660" tool="jira">
+                    <description>
+                        Fixed problem with namespace support for collections created 
+                        using "container=false".
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gregg Fowler/name>
+                        <email>gefowler@globallink.com/email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061027</date>
+                </bug>
                 <bug id="1656" tool="jira">
                     <description>
                         Fixed broken code as generatd for XMLFieldHandler.resetValues() 
