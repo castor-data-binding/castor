@@ -30,5 +30,9 @@ public class XMLContainerElementFieldDescriptor extends XMLFieldDescriptorImpl {
                 primitiveNodeType);
         
         setFieldType(org.exolab.castor.xml.util.ContainerElement.class);
+
+        setNameSpaceURI(fieldDesc.getNameSpaceURI());
+        setNameSpacePrefix(fieldDesc.getNameSpacePrefix());
+//        setQNamePrefix(fieldDesc.getQNamePrefix());
     }
 }

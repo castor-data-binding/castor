@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1660 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with namespace support for collections created using "container=false".
+       Details: http://jira.codehaus.org/browse/CASTOR-1660
+       (Werner - 20061027)
+
 XML:   Resolved issue CASTOR-1656 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed broken code as generatd for XMLFieldHandler.resetValues() for Java 2 collections.
        Details: http://jira.codehaus.org/browse/CASTOR-1656
