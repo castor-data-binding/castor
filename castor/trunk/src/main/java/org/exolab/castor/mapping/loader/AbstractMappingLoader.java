@@ -657,7 +657,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         try {
             Method method = type.getMethod(VALUE_OF, STRING_ARG);
             Class returnType = method.getReturnType();
-            if (returnType != null) { return null; }
+            if (returnType == null) { return null; }
             if (!type.isAssignableFrom(returnType)) { return null; }
             if (!Modifier.isStatic(method.getModifiers())) { return null; }
             return method;

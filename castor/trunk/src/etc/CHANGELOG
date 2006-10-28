@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1653 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Fixed type conversion error when unmarshalling enum fields.
+       Details: http://jira.codehaus.org/browse/CASTOR-1653
+       (Ralf - 20061028)
+
 XML:   Resolved issue CASTOR-1667 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Switched org.exolab.castor.builder.package to use Jakarta's commons-logging for logging.
        Details: http://jira.codehaus.org/browse/CASTOR-1667
