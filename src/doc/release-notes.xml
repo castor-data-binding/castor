@@ -31,6 +31,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1653" tool="jira">
+                    <description>
+                        Fixed type conversion error when unmarshalling enum fields.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Henk van Voorthujsen</name>
+                        <email>voorth@xs4all.nl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061028</date>
+                </bug>
                 <bug id="1667" tool="jira">
                     <description>
 				       Switched org.exolab.castor.builder.package to use Jakarta's 
