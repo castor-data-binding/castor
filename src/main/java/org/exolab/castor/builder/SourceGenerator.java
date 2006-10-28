@@ -59,6 +59,8 @@ import java.util.Enumeration;
 import java.util.Properties;
 import java.util.Vector;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.binding.ExtendedBinding;
@@ -108,6 +110,12 @@ import org.xml.sax.SAXParseException;
  * @version $Revision$ $Date: 2006-03-30 14:58:45 -0700 (Thu, 30 Mar 2006) $
  */
 public class SourceGenerator extends BuilderConfiguration {
+    
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(SourceGenerator.class);
+    
     //-------------/
     //- Constants -/
     //-------------/
@@ -720,8 +728,7 @@ public class SourceGenerator extends BuilderConfiguration {
         while (enumeration.hasMoreElements()) {
             Schema importedSchema = (Schema) enumeration.nextElement();
             if (!_generateImported) {
-                System.out.println();
-                System.out.println(IMPORT_WARNING + importedSchema.getSchemaLocation());
+                LOG.warn(IMPORT_WARNING + importedSchema.getSchemaLocation());
             } else {
                 _schemasProcessed.add(schema);
                 if (!_schemasProcessed.contains(importedSchema)) {
@@ -1091,9 +1098,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @deprecated Please use {@link SourceGeneratorMain#main(String[])}
      */
     public static void main(final String[] args) {
-        System.out.println("org.exolab.castor.builder.SourceGenerator.main() is deprecated.");
-        System.out.println("Please use org.exolab.castor.builder.SourceGeneratorMain#main()");
-        System.out.println("");
+        LOG.info("org.exolab.castor.builder.SourceGenerator.main() is deprecated. "
+                + "Please use org.exolab.castor.builder.SourceGeneratorMain#main() instead.");
 
         SourceGeneratorMain.main(args);
     }

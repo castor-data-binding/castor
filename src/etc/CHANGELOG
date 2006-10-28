@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1667 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Switched org.exolab.castor.builder.package to use Jakarta's commons-logging for logging.
+       Details: http://jira.codehaus.org/browse/CASTOR-1667
+       (Werner - 20061028)
+
 XML:   Resolved issue CASTOR-1642 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Switched Marshaller to use Jakarta's commons-logging for logging (adding additional
        logging statements of level warn for exceptions that so far got caught silently).

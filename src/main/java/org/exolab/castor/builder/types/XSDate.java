@@ -44,6 +44,8 @@
 
 package org.exolab.castor.builder.types;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.types.Date;
@@ -64,6 +66,11 @@ public final class XSDate extends XSType {
 	**/
 	private static final JType jType =
 		new JClass("org.exolab.castor.types.Date");
+    
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(XSDate.class);
 
 	private Date _maxInclusive;
 	private Date _maxExclusive;
@@ -210,8 +217,7 @@ public final class XSDate extends XSType {
 				//-- pattern
 				else if (Facet.PATTERN.equals(name)) {
 					//do nothing for the moment
-					System.out.println(
-						"Warning: The facet 'pattern' is not currently supported for Date.");
+					LOG.warn("Warning: The facet 'pattern' is not currently supported for Date.");
 				}
 			} catch (ParseException e) {
 				//not possible to set the facet properly

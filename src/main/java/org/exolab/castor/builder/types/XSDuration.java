@@ -47,6 +47,8 @@
 
 package org.exolab.castor.builder.types;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.types.Duration;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
@@ -62,6 +64,11 @@ public final class XSDuration extends XSType {
 
 	private static final JType JTYPE =
 		new JClass("org.exolab.castor.types.Duration");
+
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(XSDuration.class);
 
 	private Duration _maxInclusive;
 	private Duration _maxExclusive;
@@ -198,8 +205,7 @@ public final class XSDuration extends XSType {
 				//-- pattern
 				else if (Facet.PATTERN.equals(name)) {
 					//do nothing for the moment
-					System.out.println(
-						"Warning: The facet 'pattern' is not currently supported for Duration.");
+					LOG.warn("Warning: The facet 'pattern' is not currently supported for Duration.");
 				}
 			} catch (ParseException e) {
 				//not possible to set the facet properly

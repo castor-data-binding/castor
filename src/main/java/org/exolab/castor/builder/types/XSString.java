@@ -46,6 +46,9 @@
 package org.exolab.castor.builder.types;
 
 import java.util.Enumeration;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Facet;
 
@@ -62,6 +65,11 @@ public final class XSString extends XSPatternBase {
 	 * The JType represented by this XSType
 	**/
 	private static final JType jType = new JClass("java.lang.String");
+
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(XSString.class);
 
 	/**
 	 * The length facet
@@ -224,10 +232,8 @@ public final class XSString extends XSPatternBase {
 		else if (value.equals("collapse"))
 			this._whiteSpace = value;
 		else {
-			System.out.println(
-				"Warning : "
-					+ value
-					+ " is a bad entry for the whiteSpace value");
+            // TODO: consider throwing an exception/implement exception handling strategy
+			LOG.warn("Warning : " + value + " is a bad entry for the whiteSpace value");
 			this._whiteSpace = value;
 		}
 	}

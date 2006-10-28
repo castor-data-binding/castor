@@ -47,6 +47,8 @@ package org.exolab.castor.builder;
 
 import java.util.Enumeration;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.types.XSAnyURI;
 import org.exolab.castor.builder.types.XSBinary;
 import org.exolab.castor.builder.types.XSBoolean;
@@ -103,8 +105,17 @@ import org.exolab.javasource.JClass;
  * @version $Revision$ $Date: 2006-01-21 04:43:28 -0700 (Sat, 21 Jan 2006) $
  */
 public class TypeConversion {
+    
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(TypeConversion.class);
 
+    /**
+     * Default package name for simple type (enumerations).
+     */
     private static final String TYPES_PACKAGE = "types";
+    
     /** Configuration for our source generator */
     private BuilderConfiguration _config = null;
 
@@ -301,9 +312,8 @@ public class TypeConversion {
             case SimpleTypesFactory.LANGUAGE_TYPE:       //-- Language
                 //-- since we don't actually support this type, yet, we'll simply treat
                 //-- it as a string, but warn the user.
-                warning = "Warning: Currently, the W3C datatype '" + simpleType.getName()
-                          + "' is supported only as a String by Castor Source Generator.";
-                System.out.println(warning);
+                LOG.warn("Warning: Currently, the W3C datatype '" + simpleType.getName()
+                        + "' is supported only as a String by Castor Source Generator.");
                 return new XSString();
             case SimpleTypesFactory.LONG_TYPE:           //-- long
                 XSLong xsLong = new XSLong(useWrapper);
@@ -408,9 +418,8 @@ public class TypeConversion {
             case SimpleTypesFactory.TOKEN_TYPE:               //-- token
                 //-- since we don't actually support this type, yet, we'll simply treat
                 //-- it as a string, but warn the user.
-                warning = "Warning: Currently, the W3C datatype 'token'"
-                          + " is supported only as a String by Castor Source Generator.";
-                System.out.println(warning);
+                LOG.warn("Warning: Currently, the W3C datatype 'token'"
+                        + " is supported only as a String by Castor Source Generator.");
                 XSString xsString = new XSString();
                 if (!simpleType.isBuiltInType()) {
                     xsString.setFacets(simpleType);
