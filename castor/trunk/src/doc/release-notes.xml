@@ -31,6 +31,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1667" tool="jira">
+                    <description>
+				       Switched org.exolab.castor.builder.package to use Jakarta's 
+				       commons-logging for logging.
+                    </description>
+                    <contributor>
+                         <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                         <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061028</date>
+                </bug>
                 <bug id="1642" tool="jira">
                     <description>
 				       Switched Marshaller to use Jakarta's commons-logging for logging (adding additional

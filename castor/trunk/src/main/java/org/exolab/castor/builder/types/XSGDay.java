@@ -44,6 +44,8 @@
 
 package org.exolab.castor.builder.types;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.types.GDay;
@@ -67,6 +69,11 @@ public class XSGDay extends XSType {
      */
     private static final JType jType
         = new JClass ("org.exolab.castor.types.GDay");
+    
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(XSGDay.class);
 
     private GDay _maxInclusive;
     private GDay _maxExclusive;
@@ -212,8 +219,7 @@ public class XSGDay extends XSType {
                     this.setMinInclusive(GDay.parseGDay(facet.getValue()));
                 //-- pattern
                 else if (Facet.PATTERN.equals(name)) {
-                    //do nothing for the moment
-                    System.out.println("Warning: The facet 'pattern' is not currently supported for XSGDay.");
+                    LOG.warn("Warning: The facet 'pattern' is not currently supported for XSGDay.");
                 }
             } catch (ParseException e) {
                 //not possible to set the facet properly

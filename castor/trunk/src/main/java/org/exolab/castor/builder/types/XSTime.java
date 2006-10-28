@@ -44,6 +44,8 @@
 
 package org.exolab.castor.builder.types;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.types.Time;
@@ -63,6 +65,11 @@ public final class XSTime extends XSType {
 	**/
 	private static final JType jType =
 		new JClass("org.exolab.castor.types.Time");
+    
+    /**
+     * Jakarta's common-logging logger
+     */
+    private static final Log LOG = LogFactory.getLog(XSTime.class);
 
 	private Time _maxInclusive;
 	private Time _maxExclusive;
@@ -208,8 +215,7 @@ public final class XSTime extends XSType {
 				//-- pattern
 				else if (Facet.PATTERN.equals(name)) {
 					//do nothing for the moment
-					System.out.println(
-						"Warning: The facet 'pattern' is not currently supported for XSTime.");
+					LOG.warn("Warning: The facet 'pattern' is not currently supported for XSTime.");
 				}
 			} catch (ParseException e) {
 				//not possible to set the facet properly
