@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1615 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added HTML docs about prepared statement pooling.
+       Details: http://jira.codehaus.org/browse/CASTOR-1615
+       (Werner - 20061030)
+
 XML:   Resolved issue CASTOR-1668 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added test for enums to XML test suite.
        Details: http://jira.codehaus.org/browse/CASTOR-1668

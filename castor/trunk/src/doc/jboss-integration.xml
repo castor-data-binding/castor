@@ -158,7 +158,7 @@
 </code>
             Note that if you are not using Microsoft SQL Server, you should not use 
             the sql-server engine - consult the Castor documents 
-            <a href="http://www.castor.org/database-conf.html">here</a> to find out 
+            <a href="jdo-database-conf.html">here</a> to find out 
             what engine you should use for your RDBMS. </p>    
           </section>
       

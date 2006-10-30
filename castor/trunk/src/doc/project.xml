@@ -186,7 +186,7 @@
         <display>Using JDO</display>
       </navLink>
       <navLink>
-        <url>database-conf.xml</url>
+        <url>jdo-database-conf.xml</url>
         <display>JDO Config</display>
       </navLink>
       <navLink>
@@ -249,7 +249,7 @@
         <display>Nested Attrs.</display>
       </navLink>
       <navLink>
-        <url>pooling.xml</url>
+        <url>jdo-pooling.xml</url>
         <display>Pooling Examples</display>
       </navLink>
       <navLink>

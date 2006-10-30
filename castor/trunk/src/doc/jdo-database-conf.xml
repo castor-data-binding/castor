@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.codehaus.org/database-conf.xml">
+<document url="http://castor.codehaus.org/jdo-database-conf.xml">
   <properties>
     <title>Castor JDO Configuration</title>
     <abstract>
@@ -266,6 +266,22 @@
 
     </section>
 
+	<section title="Prepared statement pooling">
+	
+		<p>Castor JDO uses <i>JDBC prepared statements</i> to execute SQL statements against 
+		   the specified RDBMS of your choice. Per definition, Castor JDO does <b>not</b>
+		   provide any prepared statement pooling. As such, Castor relies on prepared
+		   statement pooling being provided by different means.</p>
+		   
+		<p>One such way is to use 
+		   <a href="http://jakarta.apache.org/commons/dbcp/">Jakarta's Commons DBCP</a> 
+		   as database connection pool, and to turn prepared statement pooling on by 
+		   configuring DBCP accordingly.</p>
+		   
+		<p>Please check with <a href="jdo-pooling.html">Using Pooled Database Connections</a>
+		   for general information about hot to use DBCP with Castor.</p>
+		   
+	</section>
 
     <section title="Sample configurations for various databases">
 

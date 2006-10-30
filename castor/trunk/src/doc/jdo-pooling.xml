@@ -1,4 +1,4 @@
-<document url="http://castor.codehaus.org/pooling.xml">
+<document url="http://castor.codehaus.org/jdo-pooling.xml">
   <body>
     <title>Using Pooled Database Connections</title>
 
@@ -293,17 +293,38 @@
        <p>To configure Castor for the use of DBCP, please provide the following 
           &lt;data-source&gt; entry in the jdo-conf.xml file.</p>
         
-<code-panel>        
-<code><![CDATA[
+<code-panel><![CDATA[
   <data-source class-name="org.apache.commons.dbcp.BasicDataSource">
     <param name="driver-class-name" value="com.mysql.jdbc.Driver" />
     <param name="username" value="test" />
     <param name="password" value="test" />
     <param name="url" value="jdbc:mysql://localhost/test" />
     <param name="max-active" value="10" />
-  </data-source>
-]]></code>
-</code-panel>        
+  </data-source>]]></code-panel>        
+
+		<section title="Prepared statement pooling">
+		
+			<p>As mentioened above, please note that with DBCP 1.1 and later 
+			   releases, support for prepared statement pooling has been added 
+			   to DBCP. As Castor JDO does <b>not</b> implement prepared statement 
+			   pooling itself, you will to configure DBCP explicitely to enable
+			   this feature.</p>
+		   
+	        <p>To configure Castor for the use of DBCP, and to turn prepared statement
+	           pooling on, please provide the following <tt>&lt;data-source&gt;</tt>
+	           entry in the <tt>jdo-conf.xml</tt> file.</p>
+	          
+<code-panel>
+  &lt;data-source class-name="org.apache.commons.dbcp.BasicDataSource"&gt;
+    &lt;param name="driver-class-name" value="com.mysql.jdbc.Driver" /&gt;
+    &lt;param name="username" value="test" /&gt;
+    &lt;param name="password" value="test" /&gt;
+    &lt;param name="url" value="jdbc:mysql://localhost/test" /&gt;
+    &lt;param name="max-active" value="10" /&gt;
+    <b><font color="red">&lt;param name="pool-prepared-statements" value="true" /&gt;</font></b>
+  &lt;/data-source&gt;</code-panel>        
+	          
+		</section>
 
          <p>There's plenty of information on 
             <a href="http://jakarta.apache.org/commons/dbcp/configuration.html">configuration </a>

@@ -62,7 +62,7 @@
                    database is far outweighed by the nightmare of change management.</p>
 
                 <p>Have a look at 
-                   <a herf="http://castor.codehaus.org/pooling.html#Jakarta-Commons-DBCP---BasicDataSource">the HTML docs</a>
+                   <a href="jdo-pooling.html#Jakarta-Commons-DBCP---BasicDataSource">the HTML docs</a>
                    for Jakarta DBCP, which has details about how to use and configure DBCP 
                    with Castor and Tomcat.</p>
                    
