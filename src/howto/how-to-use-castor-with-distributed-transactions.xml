@@ -131,7 +131,7 @@ db.close();
 
      <section title="References">
         <ul>
-            <li><a href="pooling.html">Other pooling examples</a></li>
+            <li><a href="jdo-pooling.html">Other pooling examples</a></li>
         </ul>
      </section>
     

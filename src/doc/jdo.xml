@@ -24,7 +24,7 @@
            utility class <api class="org.exolab.castor.jdo.util.JDOConfFactory">JDOConfFactory</api>.</p>
 
 		<p>In the example code I refer to the JDO configuration file as <tt>jdo-conf.xml</tt>, but 
-		   any name can be used. See <a href="database-conf.xml">Castor JDO Configuration</a> for more 
+		   any name can be used. See <a href="jdo-database-conf.xml">Castor JDO Configuration</a> for more 
 		   information.</p>
 
         <p>As of release 0.9.6, a new JDOManager class is provided, that replaces the former JDO
@@ -76,7 +76,7 @@ db.close();
 
 		<p>For an example showing how to set up a database configuration on the fly without
 		the need of a preconfigured XML configuration file) see
-		<a href="database-conf.xml#JdoConfFactory">JdoConfFactory</a>.</p>
+		<a href="jdo-database-conf.xml#JdoConfFactory">JdoConfFactory</a>.</p>
       </section>
 
       <section title="J2EE Application">

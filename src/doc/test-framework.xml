@@ -63,7 +63,7 @@
                       This is done in the XML file corresponding to the database being tested. For example, 
                       database connections for Oracle are configured in the file oracle.xml. Change this file to contain 
                       the proper username, password, driver and any driver parameters necessary. For more information on this,
-                      see <a href="database-conf.html">JDO Config</a>.</li>
+                      see <a href="jdo-database-conf.html">JDO Config</a>.</li>
             
                   <li><b>Create the appropriate database tables.</b><br />
             
@@ -128,7 +128,7 @@
                      the database. For example, database connections for Oracle are configured in the 
                      file oracle.xml.  (Note: In this descriptor is a reference to a mapping descriptor. This 
                      should point to the mapping descriptor created in step two.) For more information on 
-                     this, see <a href="database-conf.html">JDO Config</a>.</li>
+                     this, see <a href="jdo-database-conf.html">JDO Config</a>.</li>
             
                  <li><b>Create the appropriate database tables.</b><br />
             
