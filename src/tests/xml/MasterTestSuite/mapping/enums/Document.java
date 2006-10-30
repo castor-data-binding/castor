@@ -38,4 +38,20 @@ public class Document {
     public final void setVersionWithHandler(DocumentVersion documentVersionWithHandler) {
         this.versionWithHandler = documentVersionWithHandler;
     }
+
+    public boolean equals(Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        
+        if (!(obj instanceof Document)) {
+            return false;
+        }
+        
+        Document document = (Document) obj;
+        return (getVersion() == document.getVersion() &&
+                getVersionWithHandler() == document.getVersionWithHandler()); 
+    }
+    
+    
 }
