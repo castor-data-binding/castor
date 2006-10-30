@@ -1,0 +1,25 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+   <Name>Test (un-)marshalling 'enum' style types</Name>
+   <Author>Werner Guttmann</Author>
+
+	<Comment>
+      Tests (un-)marshalling enum stype types
+   </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>Document</Root_Object>
+
+      <UnitTestCase>
+         <Name>EnumStyleClassUnmarshalling</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input.xml</Input><!--
+         <GoldFile>input.xml</GoldFile>
+      --></UnitTestCase>
+
+	</MarshallingTest>
+
+</TestDescriptor>

@@ -31,6 +31,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1668" tool="jira">
+                    <description>
+				       Added test for enums to XML test suite.
+                    </description>
+                    <contributor>
+                         <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                         <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061030</date>
+                </bug>
                 <bug id="1653" tool="jira">
                     <description>
                         Fixed type conversion error when unmarshalling enum fields.

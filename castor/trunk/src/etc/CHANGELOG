@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1668 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added test for enums to XML test suite.
+       Details: http://jira.codehaus.org/browse/CASTOR-1668
+       (Werner - 20061030)
+
 XML:   Resolved issue CASTOR-1653 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed type conversion error when unmarshalling enum fields.
        Details: http://jira.codehaus.org/browse/CASTOR-1653
