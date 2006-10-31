@@ -31,9 +31,29 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1670" tool="jira">
+                    <description>
+                        Add to CTF ability to specify failure step
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061030</date>
+                </bug>
                 <bug id="1615" tool="jira">
                     <description>
-                    	Added HTML docs for prepared statement pooling.
+                        Added HTML docs for prepared statement pooling.
                     </description>
                     <contributor>
                          <name>Werner Guttmann</name>
@@ -53,7 +73,7 @@
                 </bug>
                 <bug id="1668" tool="jira">
                     <description>
-				       Added test for enums to XML test suite.
+                       Added test for enums to XML test suite.
                     </description>
                     <contributor>
                          <name>Werner Guttmann</name>
@@ -93,8 +113,8 @@
                 </bug>
                 <bug id="1667" tool="jira">
                     <description>
-				       Switched org.exolab.castor.builder.package to use Jakarta's 
-				       commons-logging for logging.
+                       Switched org.exolab.castor.builder.package to use Jakarta's
+                       commons-logging for logging.
                     </description>
                     <contributor>
                          <name>Werner Guttmann</name>
@@ -114,8 +134,8 @@
                 </bug>
                 <bug id="1642" tool="jira">
                     <description>
-				       Switched Marshaller to use Jakarta's commons-logging for logging (adding additional
-				       logging statements of level warn for exceptions that so far got caught silently).
+                       Switched Marshaller to use Jakarta's commons-logging for logging (adding additional
+                       logging statements of level warn for exceptions that so far got caught silently).
                     </description>
                     <contributor>
                         <name>Paul Philion</name>
@@ -135,7 +155,7 @@
                 </bug>
                 <bug id="1660" tool="jira">
                     <description>
-                        Fixed problem with namespace support for collections created 
+                        Fixed problem with namespace support for collections created
                         using "container=false".
                     </description>
                     <contributor>
@@ -156,7 +176,7 @@
                 </bug>
                 <bug id="1656" tool="jira">
                     <description>
-                        Fixed broken code as generatd for XMLFieldHandler.resetValues() 
+                        Fixed broken code as generatd for XMLFieldHandler.resetValues()
                         for Java 2 collections.
                     </description>
                     <contributor>

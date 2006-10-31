@@ -8,11 +8,11 @@
 package org.exolab.castor.tests.framework.testDescriptor;
 
 /**
- * Class FailureTypeDescriptor.
+ * Class SchemaDifferencesTypeDescriptor.
  * 
  * @version $Revision$ $Date$
  */
-public class FailureTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class SchemaDifferencesTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -49,109 +49,66 @@ public class FailureTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
      //- Constructors -/
     //----------------/
 
-    public FailureTypeDescriptor() 
+    public SchemaDifferencesTypeDescriptor() 
      {
         super();
         nsURI = "http://castor.exolab.org/Test";
-        xmlName = "FailureType";
+        xmlName = "SchemaDifferencesType";
         elementDefinition = false;
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- _content
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(Boolean.TYPE, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.math.BigDecimal.class, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
-                FailureType target = (FailureType) object;
-                if(!target.hasContent())
-                    return null;
-                return (target.getContent() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
+                SchemaDifferencesType target = (SchemaDifferencesType) object;
+                return target.getContent();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    FailureType target = (FailureType) object;
-                    // if null, use delete method for optional primitives 
-                    if (value == null) {
-                        target.deleteContent();
-                        return;
-                    }
-                    target.setContent( ((java.lang.Boolean)value).booleanValue());
+                    SchemaDifferencesType target = (SchemaDifferencesType) object;
+                    target.setContent( (java.math.BigDecimal) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return null;
+                return new java.math.BigDecimal(0);
             }
         };
+        desc.setImmutable(true);
         desc.setHandler(handler);
         addFieldDescriptor(desc);
         
         //-- validation code for: _content
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            org.exolab.castor.xml.validators.DecimalValidator typeValidator = new org.exolab.castor.xml.validators.DecimalValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
         //-- initialize attribute descriptors
         
-        //-- _exception
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_exception", "exception", org.exolab.castor.xml.NodeType.Attribute);
-        desc.setImmutable(true);
-        handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
-                throws IllegalStateException
-            {
-                FailureType target = (FailureType) object;
-                return target.getException();
-            }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    FailureType target = (FailureType) object;
-                    target.setException( (java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return null;
-            }
-        };
-        desc.setHandler(handler);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _exception
-        fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
-            fieldValidator.setValidator(typeValidator);
-        }
-        desc.setValidator(fieldValidator);
         //-- _failureStep
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType.class, "_failureStep", "FailureStep", org.exolab.castor.xml.NodeType.Attribute);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
-                FailureType target = (FailureType) object;
+                SchemaDifferencesType target = (SchemaDifferencesType) object;
                 return target.getFailureStep();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    FailureType target = (FailureType) object;
+                    SchemaDifferencesType target = (SchemaDifferencesType) object;
                     target.setFailureStep( (org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType) value);
                 }
                 catch (java.lang.Exception ex) {
@@ -165,17 +122,19 @@ public class FailureTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         handler = new org.exolab.castor.xml.handlers.EnumFieldHandler(org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType.class, handler);
         desc.setImmutable(true);
         desc.setHandler(handler);
+        desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
         //-- validation code for: _failureStep
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        fieldValidator.setMinOccurs(1);
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
         //-- initialize element descriptors
         
-    } //-- org.exolab.castor.tests.framework.testDescriptor.FailureTypeDescriptor()
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesTypeDescriptor()
 
 
       //-----------/
@@ -229,7 +188,7 @@ public class FailureTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
      */
     public java.lang.Class getJavaClass()
     {
-        return org.exolab.castor.tests.framework.testDescriptor.FailureType.class;
+        return org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**

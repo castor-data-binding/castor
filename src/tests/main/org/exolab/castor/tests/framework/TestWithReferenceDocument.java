@@ -23,6 +23,7 @@ import java.io.IOException;
 import java.io.InputStream;
 
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
+import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
 
 import junit.framework.TestCase;
 
@@ -62,7 +63,7 @@ class TestWithReferenceDocument extends TestCase {
     /** Header of the name of all our output files ... marshaled and dumped. */
     protected final String         _outputName;
     protected final String         _inputName;
-    protected       String         _goldFileName; // FIXME: TEMPORARILY not final
+    protected final String         _goldFileName;
 
     /**
      * Blank constructor for this test case.  This contructor is not useful, since
@@ -71,13 +72,7 @@ class TestWithReferenceDocument extends TestCase {
      */
     TestWithReferenceDocument(String name) {
         super(name+REFERENCE);
-        _delegate         = null;
-        _test             = null;
-        _failure          = null;
-        _outputName       = name.replace(' ', '_') + "-testWithReferenceDocument.xml";
-        _builderClassName = null;
-        _inputName        = null;
-        _goldFileName     = null;
+        throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
 
     /**
@@ -94,10 +89,11 @@ class TestWithReferenceDocument extends TestCase {
         _outputName       = tc._name.replace(' ', '_') + "-testWithReferenceDocument.xml";
         _builderClassName = tc._unitTest.getObjectBuilder();
         _inputName        = tc._unitTest.getInput();
-        _goldFileName     = tc._unitTest.getGoldFile();
 
         // FIXME: TEMPORARILY suppress GOLDFILE for sourcegen tests as a few tests are broken
-        if (!(_delegate instanceof MarshallingFrameworkTestCase)) {
+        if (_delegate instanceof MarshallingFrameworkTestCase) {
+            _goldFileName     = tc._unitTest.getGoldFile();
+        } else {
             _goldFileName = null;
         }
     }
@@ -139,7 +135,7 @@ class TestWithReferenceDocument extends TestCase {
     /**
      * Runs our test case using our delegate object where necessary.
      */
-    public void runTest() {
+    public void runTest() throws Exception { // FIXME - temporarily throws Exception
         if (_delegate == null) {
             throw new IllegalStateException("No test specified to be run.");
         }
@@ -152,73 +148,119 @@ class TestWithReferenceDocument extends TestCase {
             return;
         }
 
+        // 1. Get reference document from unmarshaler + input file (if input file is provided)
+        Object refUnmarshal;
         try {
-            // 1. Get reference document from unmarshaler + input file (if input file is provided)
-            Object refUnmarshal = getUnmarshaledReference();
+            refUnmarshal = getUnmarshaledReference();
+        } catch (Exception e) {
+            if (!_delegate.checkExceptionWasExpected(e, FailureStepType.UNMARSHAL_REFERENCE)) {
+                fail("Exception Unmarshaling from disk " + e);
+            }
+            return;
+        }
 
-            // 2. Get reference document from builder (if builder is provided)
-            Object refGenerated = getBuilderReference();
+        // 2. Get reference document from builder (if builder is provided) -- should never fail
+        Object refGenerated = getBuilderReference();
 
-            // 3. If we have two reference objects, make sure they are the same
-            if (refUnmarshal != null && refGenerated != null) {
-                compareReferenceObjects(refUnmarshal, refGenerated);
+        // 3. If we have two reference objects, make sure they are the same -- should never fail
+        if (refUnmarshal != null && refGenerated != null) {
+            compareReferenceObjects(refUnmarshal, refGenerated);
+        }
+
+        // 4. Pick our reference object (at least one should be non-null)
+        final Object ref = (refUnmarshal != null) ? refUnmarshal : refGenerated;
+        if (ref == null) {
+            throw new Exception("There is no valid input file or hardcoded object in '" + _delegate._name + "'");
+        }
+
+        // 5. Marshal our reference object to disk
+        File marshal_output;
+        try {
+            marshal_output = _delegate.testMarshal(ref, _outputName);
+        } catch (Exception e) {
+            if (!_delegate.checkExceptionWasExpected(e, FailureStepType.MARSHAL_TO_DISK)) {
+                fail("Exception Unmarshaling from disk " + e);
+            }
+            return;
+        }
+
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+            _failure.getFailureStep().equals(FailureStepType.MARSHAL_TO_DISK)) {
+            fail("Marshaling the reference document to disk was expected to fail, but succeeded");
+            return;
+        }
+
+        // 6. Compare marshaled document with gold file (if one was provided)
+        if (_goldFileName != null) {
+            int result = CTFUtils.compare(_delegate._outputRootFile + "/" +  _goldFileName, marshal_output.getAbsolutePath());
+            verbose("----> Compare marshaled document to gold file '" + _goldFileName + "': " + ((result == 0)?"OK":"### Failed ### "));
+
+
+            final boolean expectedToFail = _failure != null && _failure.getContent()
+                    && _failure.getFailureStep() != null
+                    && _failure.getFailureStep().equals(FailureStepType.COMPARE_TO_REFERENCE);
+
+            if (_failure == null ||!_failure.getContent()) {
+                assertEquals("The Marshaled object differs from the gold file", result, 0);
+            } else if (expectedToFail) {
+                assertTrue("The Marshaled object was expected to differ from the" +
+                           " gold file, but did not", result != 0);
+            }
+        }
+
+        // 7. Marshal the Listener and compare it to the listener gold file, if any
+        compareListenerToItsGoldFile();
+
+        // 8. Unmarshal the output file
+        Object unmarshaledOutput;
+        try {
+            unmarshaledOutput = _delegate.testUnmarshal(marshal_output);
+        } catch (Exception e) {
+            if (!_delegate.checkExceptionWasExpected(e, FailureStepType.SECOND_UNMARSHAL)) {
+                fail("Exception Unmarshaling from disk " + e);
+            }
+            return;
+        }
+
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+            _failure.getFailureStep().equals(FailureStepType.SECOND_UNMARSHAL)) {
+            fail("Second unmarshaling was expected to fail, but succeeded");
+            return;
+        }
+
+        // 9. Compare unmarshaled output file to ObjectModelBuilder if any.
+        // TODO: Fix the tests that fail this comparison!
+        // Right now many test classes (under xml/MasterTestSuite) do not override equals.
+        // We could check "(ref instanceof CastorTestable)" except that several srcgen
+        // tests fails this check.  (Probably bugs!)  For now we have this bogus
+        // _builderClassName check.  We ideally want to ALWAYS do this comparison.
+        if (_builderClassName != null) {
+            // the equals method must be overriden
+            boolean result  = unmarshaledOutput.equals(ref);
+            if (result == false) {
+                verbose("Make sure the reference object model overrides Object#equals");
+            }
+            verbose("Compare to reference object: " + ((result)?"OK":" ### Failed ### "));
+
+            final FailureStepType step = _failure != null ? _failure.getFailureStep() : null;
+            final boolean expectedToFail = _failure != null && _failure.getContent()
+                           && (step == null || step.equals(FailureStepType.SECOND_COMPARE));
+
+            if (_failure == null || !_failure.getContent()) {
+                assertTrue("The initial reference object and the one resulting of the " +
+                           "marshal/unmarshal process are different", result);
+            } else if (expectedToFail) {
+                assertFalse("Comparing the reference object to the marshal+unmarshaled " +
+                            "one was expected to fail, but succeeded", result);
             }
 
-            // 4. Pick our reference object (at least one should be non-null)
-            final Object ref = (refUnmarshal != null) ? refUnmarshal : refGenerated;
-            if (ref == null) {
-                throw new Exception("There is no valid input file or hardcoded object in '" + _delegate._name + "'");
-            }
-
-            // 5. Marshal our reference object to disk
-            File marshal_output = _delegate.testMarshal(ref, _outputName);
-
-            // 6. Compare marshaled document with gold file (if one was provided)
-            if (_goldFileName != null) {
-                int result = CTFUtils.compare(_delegate._outputRootFile + "/" +  _goldFileName, marshal_output.getAbsolutePath());
-                verbose("----> Compare marshaled document to gold file '" + _goldFileName + "': " + ((result == 0)?"OK":"### Failed ### "));
-
-                if (_failure != null && _failure.getContent() == true)
-                    assertTrue(result != 0);
-                else {
-                    assertEquals("The Marshaled object differ from the gold file", 0, result);
-                }
-            }
-
-            // 7. Marshal the Listener and compare it to the listener gold file, if any
-            compareListenerToItsGoldFile();
-
-            // 8. Unmarshal the output file
-            Object unmarshaledOutput = _delegate.testUnmarshal(marshal_output);
-
-            // 9. Compare unmarshaled output file to ObjectModelBuilder if any.
-            // TODO: Fix the tests that fail this comparison!
-            // Right now many test classes (under xml/MasterTestSuite) do not override equals.
-            // We could check "(ref instanceof CastorTestable)" except that several srcgen
-            // tests fails this check.  (Probably bugs!)  For now we have this bogus
-            // _builderClassName check.  We ideally want to ALWAYS do this comparison.
-            if (_builderClassName != null) {
-                // the equals method must be overriden
-                boolean result  = unmarshaledOutput.equals(ref);
-                if (result == false) {
-                    verbose("Make sure the reference object model overrides Object#equals");
-                }
-                verbose("Compare to reference object: " + ((result)?"OK":" ### Failed ### "));
-                assertTrue("The unmarshaled object differs from the hardcoded object.", result);
-            }
-
-            // 10. If everything above succeeded but we are supposed to fail, fail now
-            assertTrue("-->The test case should have failed.", _failure == null || _failure.getContent() == false);
-
-        } catch (Exception ex) {
-            if (_failure != null && _delegate.checkExceptionWasExpected(ex)) {
-                assertTrue(_failure.getContent());
+            if (expectedToFail ^ result) {
                 return;
             }
-            if (XMLTestCase._printStack) {
-                ex.printStackTrace(System.out);
-            }
-            fail("Unable to process the test case:" + ex);
+        }
+
+        if (_failure != null && _failure.getContent()) {
+            fail("The test with reference document was expected to fail, but passed");
         }
     }
 
@@ -235,12 +277,23 @@ class TestWithReferenceDocument extends TestCase {
             assertNotNull("The input file '" + _inputName + "' cannot be found.", _input);
         }
 
+        verbose("--> Unmarshaling '" + _inputName  + "'\n");
+
         Object refUnmarshal = null;
         if (_input != null) {
-            verbose("--> Unmarshaling '" + _inputName  + "'\n");
             refUnmarshal = _delegate.testUnmarshal(_input);
-            assertNotNull("Unmarshaling '" + _inputName + "' results in a NULL object.", refUnmarshal);
+            _input.close();
         }
+
+        // If we didn't throw an exception, make sure we were supposed to succeed
+
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+            _failure.getFailureStep().equals(FailureStepType.UNMARSHAL_REFERENCE)) {
+            fail("Unmarshaling the reference document was expected to fail, but succeeded");
+        }
+
+        assertNotNull("Unmarshaling '" + _inputName + "' results in a NULL object.", refUnmarshal);
+
         return refUnmarshal;
     }
 
@@ -320,15 +373,27 @@ class TestWithReferenceDocument extends TestCase {
         // Unregister the listener
         _delegate._listener = null;
 
-        File outputFile = _delegate.testMarshal(listener, "Listener-" + _outputName);
+        File outputFile;
+        try {
+            outputFile = _delegate.testMarshal(listener, "Listener-" + _outputName);
+        } catch (Exception e) {
+            if (!_delegate.checkExceptionWasExpected(e, FailureStepType.LISTENER_COMPARISON)) {
+                fail("Exception Unmarshaling from disk " + e);
+            }
+            return;
+        }
 
         int result = CTFUtils.compare(_delegate._outputRootFile + "/" +  _delegate._listenerGoldFile, outputFile.getAbsolutePath());
         verbose("----> Compare marshaled document to gold file '" + _delegate._listenerGoldFile + "': " + ((result == 0)?"OK":"### Failed ### "));
 
-        if (_failure != null && _failure.getContent() == true) {
-            assertTrue(result != 0);
+        if (_failure != null && _failure.getContent()) {
+            // Are we are supposed to fail AT THIS STEP?  If not, don't check
+            if (_failure.getFailureStep() != null &&
+                _failure.getFailureStep().equals(FailureStepType.LISTENER_COMPARISON)) {
+                assertTrue("The Marshaled Listener is supposed to differ from its gold file", result != 0);
+            }
         } else {
-            assertEquals("The Marshaled object differs from the gold file", 0, result);
+            assertEquals("The Marshaled Listener differs from its gold file", 0, result);
         }
     }
 

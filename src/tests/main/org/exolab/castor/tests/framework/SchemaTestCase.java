@@ -42,7 +42,7 @@
  *
  * Portions of this file developed by Keith Visco after Jan 19 2005 are
  * Copyright (C) 2005 Keith Visco. All Rights Reserverd.
- * 
+ *
  * $Id$
  *
  * Date         Author              Changes
@@ -53,7 +53,9 @@
  */
 package org.exolab.castor.tests.framework;
 
+import org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
 //-- JUnit imports
 import junit.framework.Test;
 import junit.framework.TestSuite;
@@ -71,6 +73,7 @@ import org.exolab.adaptx.xml.XMLDiff;
 //-- Java imports
 import java.io.File;
 import java.io.FileWriter;
+import java.io.IOException;
 import java.io.PrintWriter;
 
 /**
@@ -79,15 +82,16 @@ import java.io.PrintWriter;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-26 15:14:53 -0600 (Wed, 26 Apr 2006) $
-**/
+ */
 public class SchemaTestCase extends XMLTestCase {
 
-    private static final String XSD = ".xsd";
-    
-    /**
-     * The name of the schema to test
-     */
-     private String _schemaName;
+    /** The name of the schema to test. */
+    private String         _schemaName;
+    /** The count of differences expected for the in-memory comparison. */
+    private final int      _differenceCountSchema;
+    /** The count of differences expected for the file-reference comparison. */
+    private final int      _differenceCountReference;
+    protected final String _goldFileName;
 
     /**
      * Default constructor
@@ -95,6 +99,7 @@ public class SchemaTestCase extends XMLTestCase {
      */
     public SchemaTestCase(String name) {
         super(name);
+        throw new IllegalArgumentException("You cannot use the name-only constructor");
     } //-- SchemaTest
 
     /**
@@ -105,7 +110,26 @@ public class SchemaTestCase extends XMLTestCase {
      */
     public SchemaTestCase(CastorTestCase castorTc, UnitTestCase tc, File outputFile) {
         super(castorTc, tc, outputFile);
+        _differenceCountSchema    = getSchemaDifferenceCount(tc, FailureStepType.COMPARE_SCHEMA);
+        _differenceCountReference = getSchemaDifferenceCount(tc, FailureStepType.COMPARE_TO_REFERENCE);
+        _goldFileName             = tc.getGoldFile();
     } //-- SchemaTest
+
+    /**
+     * Looks for and returns the difference count for the given step
+     * @param tc the UnitTestCase that wraps the configuration for this XML Test case.
+     * @param step the step to look for
+     * @return the difference count for the given step
+     */
+    private int getSchemaDifferenceCount(UnitTestCase tc, FailureStepType step) {
+        SchemaDifferences[] diff = tc.getSchemaDifferences();
+        for (int i = 0; i < diff.length; i++) {
+            if (diff[i].getFailureStep().equals(step)) {
+                return diff[i].getContent().intValue();
+            }
+        }
+        return 0;
+    }
 
     /**
      * Sets the name of the XML schema file to test.
@@ -116,45 +140,109 @@ public class SchemaTestCase extends XMLTestCase {
         _schemaName = name;
     }
 
+    public static Test suite() {
+        return new TestSuite();
+    } //-- suite
+
+    protected void setUp() throws Exception {
+        verbose("\n================================================");
+        verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
+        verbose("================================================\n");
+
+        try {
+            FileServices.copySupportFiles(_test.getTestFile(), _outputRootFile);
+        } catch (IOException e) {
+            fail("IOException copying support files " + e);
+        }
+    }
+
+    /**
+     * Cleans up after this unit test (nothing to do except provide output).
+     * @throws java.lang.Exception never
+     */
+    protected void tearDown() throws Exception {
+        verbose("\n================================================");
+        verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
+        verbose("================================================\n");
+    }
+
     /**
      * Override this method to run the test and assert its state.
      *
      * @throws Throwable if any exception is thrown
      */
-    protected void runTest() throws Throwable {
-       verbose("\n================================================");
-       verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
-       verbose("================================================\n");
-
+    public void runTest() throws Throwable {
         if (_skip) {
             verbose("-->Skipping the test");
             return;
         }
 
-        String schemaURL = new File (_test.getTestFile() + "/" + _schemaName).toURL().toString();
+        File schemaFile = new File(_test.getTestFile() + "/" + _schemaName);
+        String schemaURL = schemaFile.toURL().toString();
         XPathNode node1 = null;
         try {
             node1 = CTFUtils.loadXPN(schemaURL);
-        } catch(java.io.IOException iox) {
-            fail(iox.toString());
+        } catch (java.io.IOException iox) {
             if (_printStack) {
                 iox.printStackTrace(System.out);
             }
+            fail("Exception reading the schema '" + schemaURL + "': " + iox.toString());
+            return;
         }
 
-        //node2 will be null if the read/write fails
+        // node2 == null if read/write fails (which may be expected and is not an error)
         XPathNode node2 = readAndWriteSchema(schemaURL);
-        if (node2 != null) {
-            XMLDiff diff = new XMLDiff();
-            int result = diff.compare(node1, schemaURL, node2, "In-Memory-Result");
-            if (_failure != null && _failure.getContent() == true) {
-                assertTrue(result != 0);
-            } else {
-                assertEquals(result, 0);
-                assertTrue("-->The test case should have failed.", _failure == null || _failure.getContent() == false);
-            }
+        if (node2 == null) {
+            return;
+        }
+
+        // Compare marshaled schema to gold file if provided, otherwise to input file
+        compareSchemaFiles(schemaFile);
+
+        final FailureStepType step = _failure != null ? _failure.getFailureStep() : null;
+
+        XMLDiff diff = new XMLDiff();
+        final int result = diff.compare(node1, schemaURL, node2, "In-Memory-Result");
+
+        final boolean expectedToFail = _failure != null && _failure.getContent()
+                                       && (step == null || step.equals(FailureStepType.COMPARE_SCHEMA));
+
+        if (_failure == null || !_failure.getContent()) {
+            assertEquals("The schema comparison failed because the two are not equal", _differenceCountSchema, result);
+        } else if (expectedToFail) {
+            assertTrue("The schema comparison was expected to fail, but succeeded", result != _differenceCountSchema);
+        }
+
+        if (expectedToFail ^ (result == 0)) {
+            return;
+        }
+
+        if (_failure != null && _failure.getContent()) {
+            fail("The schema test was expected to fail, but passed");
         }
     } //-- runTest
+
+    private void compareSchemaFiles(File schemaFile) throws IOException {
+        File file = new File(_outputRootFile, _schemaName.substring(0,_schemaName.lastIndexOf('.'))
+                              + "-output" + FileServices.XSD);
+
+        String goldFileName = (_goldFileName != null) ? _outputRootFile + "/" +  _goldFileName
+                                                      : schemaFile.getAbsolutePath();
+
+        int result = CTFUtils.compare(goldFileName, file.getAbsolutePath());
+        verbose("----> Compare marshaled schema to gold file '" + _goldFileName + "': " + ((result == 0)?"OK":"### Failed ### "));
+
+        final FailureStepType step = _failure != null ? _failure.getFailureStep() : null;
+        final boolean expectedToFail= _failure != null && _failure.getContent()
+                                      && (step == null || step.equals(FailureStepType.COMPARE_TO_REFERENCE));
+
+        if (_failure == null || !_failure.getContent()) {
+            assertEquals("The Marshaled schema differs from the gold file", _differenceCountReference, result);
+        } else if (expectedToFail) {
+            assertTrue("The Marshaled schema was expected to differ from the" +
+                       " gold file, but did not", result != _differenceCountReference);
+        }
+    }
 
     /**
      * Reads the XML Schema located at the given URL into the Castor SOM. The
@@ -179,19 +267,19 @@ public class SchemaTestCase extends XMLTestCase {
      * @return the Schema that was read in
      */
     private Schema testReadingSchema(String url) {
+        verbose("--> Reading XML Schema: " + url);
         try {
-            verbose("--> Reading XML Schema: " + url);
             SchemaReader reader = new SchemaReader(url);
-            return reader.read();
-        } catch (java.io.IOException iox) {
-            if (_failure != null && checkExceptionWasExpected(iox)) {
-                assertTrue(_failure.getContent());
-                return null;
+            Schema returnValue  = reader.read();
+            if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+                 _failure.getFailureStep().equals(FailureStepType.PARSE_SCHEMA)) {
+                fail("Reading/Parsing the schema was expected to fail, but succeeded");
             }
-            if (_printStack) {
-                iox.printStackTrace();
+            return returnValue;
+        } catch (Exception e) {
+            if (!checkExceptionWasExpected(e, FailureStepType.PARSE_SCHEMA)) {
+                fail("Unable to read Schema '" + url + "': " + e.toString());
             }
-            fail("Unable to read Schema: " + url + ";  " + iox.toString());
         }
 
         return null;
@@ -212,48 +300,39 @@ public class SchemaTestCase extends XMLTestCase {
 
         //-- write schema to XPNBuilder
         try {
-            if (_verbose) {
-                String fileName = _schemaName.substring(0,_schemaName.lastIndexOf('.'))+"-output"+XSD;
-                verbose("--> Writing XML Schema: " + fileName);
-                File output = new File(_outputRootFile, fileName);
-                FileWriter writer = new FileWriter(output);
-                output = null;
-                PrintWriter pw = new PrintWriter(writer, true);
-                SchemaWriter sw = new SchemaWriter(pw);
-                sw.write(schema);
+            String fileName = _schemaName.substring(0,_schemaName.lastIndexOf('.'))
+                              + "-output" + FileServices.XSD;
+            verbose("--> Writing XML Schema: " + fileName);
+
+            File         output = new File(_outputRootFile, fileName);
+            FileWriter   writer = new FileWriter(output);
+            PrintWriter  pw     = new PrintWriter(writer, true);
+            SchemaWriter sw     = new SchemaWriter(pw);
+            sw.write(schema);
+        } catch (Exception e) {
+            if (!checkExceptionWasExpected(e, FailureStepType.WRITE_SCHEMA)) {
+                fail("Failed to write Schema '" + url + "' to disk: " + e.toString());
             }
+            return null;
+        }
+
+        try {
+            // Now write the schema to an internal SchemaWriter
             SchemaWriter sw = new SchemaWriter(builder);
             sw.write(schema);
-        } catch (java.io.IOException iox) {
-            fail("Unable to write Schema: " + url + ";  " + iox.toString());
-            if (_printStack) {
-                iox.printStackTrace(System.out);
+        } catch (Exception e) {
+            if (!checkExceptionWasExpected(e, FailureStepType.WRITE_SCHEMA)) {
+                fail("Unable to write Schema '" + url + "' to XPNBuilder: " + e.toString());
             }
-        } catch(org.xml.sax.SAXException sx) {
-            if (_failure != null && checkExceptionWasExpected(sx)) {
-                assertTrue(_failure.getContent());
-                return null;
-            }
-            fail("Unable to write schema: " + url + "; " + sx.toString());
-            if (_printStack) {
-                sx.printStackTrace(System.out);
-            }
+            return null;
         }
+
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+            _failure.getFailureStep().equals(FailureStepType.WRITE_SCHEMA)) {
+            fail("Writing the schema was expected to fail, but succeeded");
+        }
+
         return builder;
     }
-
-    /**
-     * Cleans up after this unit test (nothing to do except provide output).
-     * @throws java.lang.Exception never
-     */
-    protected void tearDown() throws java.lang.Exception {
-        verbose("\n================================================");
-        verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
-        verbose("================================================\n");
-    }
-
-    public static Test suite() {
-        return new TestSuite();
-    } //-- suite
 
 } //-- SchemaTest

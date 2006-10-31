@@ -10,7 +10,9 @@
         <Schema>test.xsd</Schema>
         <UnitTestCase>
             <Name>Test Source Generation</Name>
-            <Failure>true</Failure>
+            <!-- No source is generated for this test right now, so there's nothing to fail -->
+            <Failure exception="java.lang.IllegalArgumentException"
+                     FailureStep="source-generation">false</Failure>
         </UnitTestCase>
      </OnlySourceGenerationTest>
 </TestDescriptor>

@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,7 +15,12 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * 
+ * Configuration for marshaling or unmarshaling or source
+ * generation. Contains
+ *  a list of methods to be called on the marshaler or unmarshaler
+ * or source
+ *  generator with the parameters to be provided for each method.
+ *  
  * 
  * @version $Revision$ $Date$
  */
@@ -27,7 +32,9 @@ public class ConfigurationType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _callMethodList
+     * A single method to call on a marshaler or unmarshaler or
+     * source generator
+     *  
      */
     private java.util.Vector _callMethodList;
 

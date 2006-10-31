@@ -21,6 +21,7 @@ import java.io.File;
 import java.io.FileWriter;
 
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
+import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
 
 import junit.framework.TestCase;
 
@@ -43,17 +44,16 @@ import junit.framework.TestCase;
  * @version $Revision: 0000 $ $Date: $
  */
 class TestWithRandomObject extends TestCase {
-    /** We add this fixed string to the end of our testcase name */
+    /** We add this fixed string to the end of our testcase name. */
     private static final String RANDOM = "_RandomObject";
 
-    /** We delegate all actions to this test case */
-    private final XMLTestCase _delegate;
+    /** We delegate all actions to this test case. */
+    private final XMLTestCase   _delegate;
 
-    /**
-     * The failure object that is not null is the test intends to fail
-     */
+    /** The failure object that is not null is the test intends to fail. */
     protected final FailureType _failure;
-    protected final String _outputName;
+    /** File name of our marshaled output. */
+    protected final String      _outputName;
 
     /**
      * Blank constructor for this test case.  This contructor is not useful, since
@@ -62,9 +62,7 @@ class TestWithRandomObject extends TestCase {
      */
     TestWithRandomObject(String name) {
         super(name+RANDOM);
-        _delegate   = null;
-        _failure    = null;
-        _outputName = name.replace(' ', '_') + "-testWithRandomObject";
+        throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
 
     /**
@@ -86,10 +84,6 @@ class TestWithRandomObject extends TestCase {
      * @throws Exception if anything goes wrong during setup
      */
     protected void setUp() throws Exception {
-        if (_delegate == null) {
-            throw new IllegalStateException("No test specified to set up.");
-        }
-
         if (_delegate instanceof MarshallingFrameworkTestCase) {
             ((MarshallingFrameworkTestCase)_delegate).setUp();
         } else if (_delegate instanceof SourceGeneratorTestCase) {
@@ -103,10 +97,6 @@ class TestWithRandomObject extends TestCase {
      * @throws Exception if anything goes wrong during teardown
      */
     protected void tearDown() throws Exception {
-        if (_delegate == null) {
-            throw new IllegalStateException("No test specified to tear down.");
-        }
-
         if (_delegate instanceof MarshallingFrameworkTestCase) {
             ((MarshallingFrameworkTestCase)_delegate).tearDown();
         } else if (_delegate instanceof SourceGeneratorTestCase) {
@@ -117,11 +107,7 @@ class TestWithRandomObject extends TestCase {
     /**
      * Runs our test case using our delegate object where necessary.
      */
-    public void runTest() {
-        if (_delegate == null) {
-            throw new IllegalStateException("No test specified to be run.");
-        }
-
+    public void runTest() throws Exception { // FIXME - temporarily throws Exception
         verbose("\n------------------------------");
         verbose("Test with randomly generated object");
         verbose("------------------------------\n");
@@ -130,55 +116,69 @@ class TestWithRandomObject extends TestCase {
             return;
         }
 
+        // Randomize an object model instance
+        CastorTestable randomizedObject = getRandomizedReference();
+
+        // Dump the new random object to a file
+        if (_delegate._hasDump) {
+            verbose("----> Dump the object to '" + _outputName + "-ref.dump" +"'");
+            FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, _outputName + "-ref.dump"));
+            writer.write(randomizedObject.dumpFields());
+            writer.close();
+        }
+
+        // Marshal our reference object to disk
+        File marshal_output = _delegate.testMarshal(randomizedObject, _outputName + ".xml");
+        if (marshal_output == null) {
+            return;
+        }
+
+        // Unmarshal from disk
+        Object unmarshaledRandomizedObject;
         try {
-            // 1. Randomize an object model instance
-            CastorTestable randomizedObject = getRandomizedReference();
-
-            // 2. Dump the new random object to a file
-            if (_delegate._hasDump) {
-                verbose("----> Dump the object to '" + _outputName + "-ref.dump" +"'");
-                FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, _outputName + "-ref.dump"));
-                writer.write(randomizedObject.dumpFields());
-                writer.close();
+            unmarshaledRandomizedObject = _delegate.testUnmarshal(marshal_output);
+        } catch (Exception e) {
+            if (!_delegate.checkExceptionWasExpected(e, FailureStepType.SECOND_UNMARSHAL)) {
+                fail("Exception Unmarshaling from disk " + e);
             }
+            return;
+        }
 
-            // 3. Marshal our reference object to disk
-            File marshal_output = _delegate.testMarshal(randomizedObject, _outputName + ".xml");
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+            _failure.getFailureStep().equals(FailureStepType.SECOND_UNMARSHAL)) {
+            fail("Unmarshaling the marshaled random document was expected to fail, but succeeded");
+        }
 
-            // 4. Validate against a schema if one was provided
-            if (_delegate._schemaFile != null) {
-                // TODO: Put validation code here
-            }
+        // Dump the unmarshaled object to a file
+        if (_delegate._hasDump) {
+            verbose("---->Dump the object to '" + _outputName + "-unmar.dump" +"'");
+            FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, _outputName + "-unmar.dump"));
+            writer.write(((CastorTestable)unmarshaledRandomizedObject).dumpFields());
+            writer.close();
+        }
 
-            // 5. Unmarshal from disk
-            Object unmarshaledRandomizedObject = _delegate.testUnmarshal(marshal_output);
+        // Compare unmarshaled output file to our initial randomized instance
+        boolean result = unmarshaledRandomizedObject.equals(randomizedObject);
+        verbose("----> Compare unmarshaled document to reference object: " + ((result)?"OK":"### Failed ### "));
 
-            // 6. Dump the unmarshaled object to a file
-            if (_delegate._hasDump) {
-                verbose("---->Dump the object to '" + _outputName + "-unmar.dump" +"'");
-                FileWriter writer = new FileWriter(new File(_delegate._outputRootFile, _outputName + "-unmar.dump"));
-                writer.write(((CastorTestable)unmarshaledRandomizedObject).dumpFields());
-                writer.close();
-            }
+        final FailureStepType step = _failure != null ? _failure.getFailureStep() : null;
+        final boolean expectedToFail = _failure != null && _failure.getContent()
+                   && (step == null || step.equals(FailureStepType.COMPARE_TO_REFERENCE));
 
-            // 7. compare unmarshaled output file to our initial randomized instance
-            boolean result = unmarshaledRandomizedObject.equals(randomizedObject);
-            verbose("----> Compare unmarshaled document to reference object: " + ((result)?"OK":"### Failed ### "));
-            assertTrue("The initial randomized object and the one resulting of the marshal/unmarshal process are different", result);
+        if (_failure == null || !_failure.getContent()) {
+            assertTrue("The initial randomized object and the one resulting of the" +
+                       " marshal/unmarshal process are different", result);
+        } else if (expectedToFail) {
+            assertFalse("Comparing the random object to the marshal+unmarshaled one" +
+                        " was expected to fail, but succeeded", result);
+        }
 
-            // 8. If everything above succeeded but we are supposed to fail, fail now
-            assertTrue("-->The test case should have failed.", _failure == null || _failure.getContent() == false);
+        if (expectedToFail ^ result) {
+            return;
+        }
 
-        } catch (Exception ex) {
-            //the test was intended to fail
-            if (_failure != null && _delegate.checkExceptionWasExpected(ex)) {
-                assertTrue(_failure.getContent());
-                return;
-            }
-            fail("Unable to process the test case:"+ex);
-            if (XMLTestCase._printStack) {
-                ex.printStackTrace(System.out);
-            }
+        if (_failure != null && _failure.getContent()) {
+            fail("The test with random document was expected to fail, but passed");
         }
     }
 

@@ -55,6 +55,7 @@ import org.exolab.castor.mapping.Mapping;
 
 import org.xml.sax.InputSource;
 
+import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.io.File;
 import java.net.URL;
@@ -76,6 +77,8 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      * directory.
      */
     protected final MarshallingTest _marshallingConf;
+    /** If true, the randomize() function has been implemented in the root class. */
+    protected final boolean         _hasRandom;
 
     /**
      * Creates a CTF test case for the Marshalling framework.
@@ -90,21 +93,21 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
     public MarshallingFrameworkTestCase(CastorTestCase test, UnitTestCase unit, MarshallingTest marshalling, File outputRoot) {
         super(test, unit, outputRoot);
         _marshallingConf = marshalling;
-        if (_marshallingConf.getRoot_Object() != null) {
-            _hasRandom = _marshallingConf.getRoot_Object().getRandom();
-        }
-    }
 
-    /**
-     * Creates a new test case with the same setup as the
-     * MarshallingFrameworkTestCase given as a parameter.
-     *
-     * @param name Name for this MarshallingFrameworkTestCase
-     * @param mftc a MarshallingFrameworkTestCase whose configuration to copy
-     */
-    public MarshallingFrameworkTestCase(String name, MarshallingFrameworkTestCase mftc) {
-        super(name, mftc);
-        _marshallingConf = mftc._marshallingConf;
+        RootType rootType = _marshallingConf.getRoot_Object();
+        if (rootType == null) {
+            throw new IllegalArgumentException("You must give a root object for a Marshaling Test: "
+                    + outputRoot + ", " +  getName());
+        }
+
+        _rootClassName = rootType.getContent();
+        if (_rootClassName == null) {
+            throw new IllegalArgumentException("You must give a root object for a Marshaling Test:"
+                    + outputRoot + ", " +  getName());
+        }
+
+        _hasRandom = rootType.getRandom();
+        _hasDump   = rootType.getDump();
     }
 
     /**
@@ -115,7 +118,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      */
     public MarshallingFrameworkTestCase(String name) {
         super(name);
-        _marshallingConf = null;
+        throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
 
     /**
@@ -125,7 +128,6 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
     public Test suite() {
         TestSuite suite = new TestSuite(_name);
 
-        // Use the default test implemented in XMLTestCase
         String name = getTestSuiteName();
         name = (name != null) ? name + "#" + _name : _name;
 
@@ -138,30 +140,28 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
     }
 
     /**
-     * Setup this test suite. Load the mapping file if any.
+     * Sets up this test suite. Loads the mapping file if any.
+     * <p>
+     * Nothing in this setUp() method should ever be expected to fail. Thus,
+     * there are no checks against _failure. If anything goes wrong here, there
+     * is a problem with the individual test case configuration.
      *
-     * @throws Exception if anything goes wrong
+     * @throws Exception
+     *             if anything goes wrong
      */
     protected void setUp() throws java.lang.Exception {
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
         verbose("================================================\n");
 
-        //copy the support files--> needed for AdaptX XML Diff
         FileServices.copySupportFiles(_test.getTestFile(),_outputRootFile);
-
-        RootType rootType = _marshallingConf.getRoot_Object();
-        if (rootType != null) {
-            _rootClassName = rootType.getContent();
-            _hasDump       = rootType.getDump();
-            _hasRandom     = rootType.getRandom();
-        }
 
         // Compile the source directory for this test, if not already done
         if (!_test.isDirectoryCompiled()) {
             verbose("-->Compiling any necessary source files in " + _outputRootFile);
             Compiler compiler = new JavaCCompiler(_outputRootFile);
-            try {compiler.compileDirectory();
+            try {
+                compiler.compileDirectory();
                 _test.setDirectoryCompiled(true);
             } catch (CompilationException e) {
                 if (_printStack) {
@@ -176,69 +176,22 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         loader = new URLClassLoader(new URL[] { _outputRootFile.toURL() }, loader);
         _test.setClassLoader(loader);
 
-        if (_rootClassName != null) {
-            verbose("Root class specified in TestDescriptor...");
-            verbose("Loading class: " + _rootClassName);
-            _rootClass = loader.loadClass(_rootClassName);
-        } else {
-            verbose("No root class specified in TestDescriptor");
-            // throw new Exception("No Root Object found in test descriptor");
-        }
+        verbose("Root class specified in TestDescriptor...");
+        verbose("Loading class: " + _rootClassName);
+        _rootClass = loader.loadClass(_rootClassName);
 
         // Try to load the mapping file if any, else we will use the introspector
-
         String mappingFilePath = null;
         if (_unitTest.getUnitTestCaseChoice() != null) {
             mappingFilePath = _unitTest.getUnitTestCaseChoice().getMapping_File();
         }
 
         if (mappingFilePath != null) {
-            testMapping(loader, mappingFilePath);
+            configureMapping(loader, mappingFilePath);
         } else {
             verbose("##### TESTING INTROSPECTION #####");
             _mapping = null;
         }
-    }
-
-    /**
-     * For a test case with a mapping, load the mapping. If there is a listener,
-     * initialize it.
-     *
-     * @param loader ClassLoader for this test case
-     * @param mappingFilePath Path to the mapping file
-     * @throws Exception if anything goes wrong during the test
-     */
-    private void testMapping(ClassLoader loader, String mappingFilePath) throws Exception {
-        verbose("##### TESTING MAPPING #####");
-        verbose("Mapping file: " + mappingFilePath);
-        InputStream mappingFile = loader.getResourceAsStream(mappingFilePath);
-
-        if (mappingFile == null) {
-            throw new Exception("Unable to locate the mapping file '" + mappingFilePath
-                                + "' for the test '" + _test.getName() + "'");
-        }
-
-        _mapping = new Mapping(loader);
-        InputSource source = new InputSource(mappingFile);
-        source.setSystemId(mappingFilePath);
-        _mapping.loadMapping(source);
-
-        ListenerType listener = _unitTest.getListener();
-        if (listener != null) {
-            String listenerName = listener.getClassName();
-            try {
-                // See if we can load the class...
-                initializeListeners(listener);
-            } catch (ClassNotFoundException cnfex) {
-                //Class#forName
-                fail("The listener specified: "+listenerName+" cannot be found in the CLASSPATH");
-            } catch (InstantiationException iex) {
-                fail("The listener specified: "+listenerName+" cannot be instantiated");
-            } catch (IllegalAccessException iaex) {
-                fail("Constructing a '"+listenerName+"' failed: " + iaex);
-            }
-            verbose("##### TESTING LISTENER CLASS " + listenerName + " #####");
-        } // listener != null;
     }
 
     /**
@@ -249,6 +202,48 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
         verbose("================================================\n");
+    }
+
+    /**
+     * For a test case with a mapping, load the mapping. If there is a listener,
+     * initialize it.
+     *
+     * @param loader ClassLoader for this test case
+     * @param mappingFilePath Path to the mapping file
+     * @throws Exception if anything goes wrong during the test
+     */
+    private void configureMapping(ClassLoader loader, String mappingFilePath) throws Exception {
+        verbose("##### TESTING MAPPING #####");
+        verbose("Mapping file: " + mappingFilePath);
+        InputStream mappingFile = loader.getResourceAsStream(mappingFilePath);
+
+        if (mappingFile == null) {
+            throw new FileNotFoundException("Unable to locate the mapping file '"
+                     + mappingFilePath + "' for the test '" + _test.getName() + "'");
+        }
+
+        _mapping = new Mapping(loader);
+        InputSource source = new InputSource(mappingFile);
+        source.setSystemId(mappingFilePath);
+        _mapping.loadMapping(source);
+//      mappingFile.close(); // FIXME:  We never close this file!  (But cannot close it here)
+
+        ListenerType listener = _unitTest.getListener();
+        if (listener != null) {
+            String listenerName = listener.getClassName();
+            try {
+                // See if we can load the class...
+                initializeListeners(listener);
+            } catch (ClassNotFoundException cnfex) {
+                //Class#forName
+                fail("The listener '" + listenerName + "' cannot be found in the CLASSPATH");
+            } catch (InstantiationException iex) {
+                fail("The listener '" + listenerName + "' cannot be instantiated");
+            } catch (IllegalAccessException iaex) {
+                fail("Constructing a '"+listenerName+"' failed: " + iaex);
+            }
+            verbose("##### TESTING LISTENER CLASS " + listenerName + " #####");
+        } // listener != null;
     }
 
 }

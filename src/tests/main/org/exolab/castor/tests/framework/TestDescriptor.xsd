@@ -10,11 +10,11 @@
  -->
 <!-- $Id$ -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-              targetNamespace="http://castor.exolab.org/Test"
-              xmlns:test="http://castor.exolab.org/Test"
-              elementFormDefault="qualified">
+            targetNamespace="http://castor.exolab.org/Test"
+            xmlns:test="http://castor.exolab.org/Test"
+            elementFormDefault="qualified">
 
-      <!-- The root element which contains an header and a test element-->
+    <!-- The root element which contains an header and a test element-->
     <xsd:element name="TestDescriptor">
         <xsd:annotation>
             <xsd:documentation>
@@ -220,6 +220,10 @@
                 <xsd:element name="Skip"   type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
                 <!-- the listener to use for unmarshaling, marshaling or both -->
                 <xsd:element name="Listener" type="test:ListenerType" minOccurs="0" maxOccurs="1"/>
+                <!-- for a schema test, the number of differences expected -->
+                <xsd:element name="SchemaDifferences" type="test:SchemaDifferencesType" minOccurs="0" maxOccurs="2"/>
+                <!-- Some comments for describing the test -->
+                <xsd:element name="Comment" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
@@ -240,29 +244,46 @@
     <xsd:complexType name="ConfigurationType">
         <xsd:annotation>
             <xsd:documentation>
+                Configuration for marshaling or unmarshaling or source generation.  Contains
+                a list of methods to be called on the marshaler or unmarshaler or source
+                generator with the parameters to be provided for each method.
             </xsd:documentation>
         </xsd:annotation>
         <xsd:sequence>
-           <xsd:element name="Call-method" maxOccurs="unbounded">
-               <xsd:complexType>
-                   <xsd:sequence>
-                       <xsd:element name="Value" maxOccurs="unbounded">
-                           <xsd:complexType>
-                               <xsd:simpleContent>
-                                    <xsd:extension base="xsd:string">
-                                        <!-- java type -->
-                                        <xsd:attribute name="type" type="xsd:string" required="true"/>
-                                    </xsd:extension>
-                                </xsd:simpleContent>
-                           </xsd:complexType>
-                       </xsd:element>
-                   </xsd:sequence>
-                   <!-- the name of the method to call -->
-                   <xsd:attribute name="name" type="xsd:string"/>
-               </xsd:complexType>
-           </xsd:element>
+           <xsd:element ref="test:Call-method" maxOccurs="unbounded"/>
         </xsd:sequence>
     </xsd:complexType>
+
+    <xsd:element name="Call-method">
+        <xsd:annotation>
+            <xsd:documentation>
+                A single method to call on a marshaler or unmarshaler or source generator
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element ref="test:Value" maxOccurs="unbounded"/>
+            </xsd:sequence>
+            <!-- the name of the method to call -->
+            <xsd:attribute name="name" type="xsd:string"/>
+        </xsd:complexType>
+    </xsd:element>
+
+    <xsd:element name="Value">
+        <xsd:annotation>
+            <xsd:documentation>
+                A parameter to be provided to a method.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:complexType>
+            <xsd:simpleContent>
+                <xsd:extension base="xsd:string">
+                    <!-- java type -->
+                    <xsd:attribute name="type" type="xsd:string" required="true"/>
+                </xsd:extension>
+            </xsd:simpleContent>
+        </xsd:complexType>
+    </xsd:element>
 
     <xsd:simpleType name="CategoryType">
         <xsd:annotation>
@@ -325,11 +346,46 @@
         </xsd:annotation>
         <xsd:simpleContent>
             <xsd:extension base="xsd:boolean">
-                <!-- the Exception that is expected expected -->
+                <!-- if you expect a specific exception, you can specify it here -->
                 <xsd:attribute name="exception" type="xsd:string" use="optional"/>
+                <!-- if you expect the failure at a specific step, specify which step -->
+                <xsd:attribute name="FailureStep" type="test:FailureStepType" use="optional"/>
             </xsd:extension>
         </xsd:simpleContent>
     </xsd:complexType>
+
+    <!-- The failure type -->
+    <xsd:complexType name="SchemaDifferencesType">
+        <xsd:annotation>
+            <xsd:documentation>
+                If you expect a non-zero number of differences when comparing schemas,
+                add one of these elements and provide the FailureStep attribute
+                to say which step this difference applies to.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:int">
+                <xsd:attribute name="FailureStep" type="test:FailureStepType" use="required"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:simpleType name="FailureStepType">
+       <xsd:restriction base="xsd:string">
+           <xsd:enumeration value="parse-schema"/>
+           <xsd:enumeration value="write-schema"/>
+           <xsd:enumeration value="compare-schema"/>
+           <xsd:enumeration value="source-generation"/>
+           <xsd:enumeration value="source-compilation"/>
+           <xsd:enumeration value="load-generated-classes"/>
+           <xsd:enumeration value="unmarshal-reference"/>
+           <xsd:enumeration value="marshal-to-disk"/>
+           <xsd:enumeration value="compare-to-reference"/>
+           <xsd:enumeration value="second-compare"/>
+           <xsd:enumeration value="listener-comparison"/>
+           <xsd:enumeration value="second-unmarshal"/>
+       </xsd:restriction>
+    </xsd:simpleType>
 
     <!-- Marshal/Unmarshal Listener type -->
     <xsd:complexType name="ListenerType">

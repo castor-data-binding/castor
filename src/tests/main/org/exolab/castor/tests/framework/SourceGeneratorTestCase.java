@@ -42,24 +42,16 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.tests.framework;
 
 import java.io.File;
-import java.io.FileReader;
-import java.net.URL;
-import java.net.URLClassLoader;
-import java.util.Properties;
 
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
-import org.exolab.castor.builder.FieldInfoFactory;
-import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.tests.framework.testDescriptor.RootType;
 import org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
-import org.xml.sax.InputSource;
 
 /**
  * This class encapsulate all the logic to run the tests patterns for the source
@@ -72,27 +64,12 @@ import org.xml.sax.InputSource;
  */
 public class SourceGeneratorTestCase extends XMLTestCase {
 
-    /**
-     * Contains the information for the configuration for all the tests in this
-     * jar.
-     */
+    /** Contains the information for the configuration for all the tests in this jar. */
     protected final SourceGeneratorTest _sourceGenConf;
-
-    /**
-     * Name of the property file to use, null if none.
-     */
-    private String _propertyFileName;
-
-    /**
-     * Name of the collection to use by default, null if we rely on the default
-     * behavior.
-     */
-    private String _fieldInfoFactoryName;
-
-    /**
-     * Name of the schema in the jar.
-     */
-    private String _schemaName;
+    /** If true, the randomize() function has been implemented in the root class. */
+    protected final boolean             _hasRandom;
+    /** Generates and compiles source in a test harness, but does nothing else. */
+    private final TestSourceGenerator   _sourceGenerator;
 
     /**
      * Creates a new test case for the given setup.
@@ -106,21 +83,23 @@ public class SourceGeneratorTestCase extends XMLTestCase {
      */
     public SourceGeneratorTestCase(CastorTestCase test, UnitTestCase unit, SourceGeneratorTest sourceGen, File outputRoot) {
         super(test, unit, outputRoot);
-        _sourceGenConf  = sourceGen;
-        _hasRandom      = _sourceGenConf.getRoot_Object().getRandom();
-    }
+        _sourceGenConf   = sourceGen;
+        _sourceGenerator = new TestSourceGenerator(test, unit, sourceGen, outputRoot);
 
-    /**
-     * Creates a new test case with the same setup as the
-     * SourceGeneratorTestCase given in parameter.
-     *
-     * @param name name for the test case
-     * @param sgtc the SourceGeneratorTestCase whose configuration we wish to
-     *            copy for a new SourceGeneratorTestCase
-     */
-    public SourceGeneratorTestCase(String name, SourceGeneratorTestCase sgtc) {
-        super(name, sgtc);
-        _sourceGenConf = sgtc._sourceGenConf;
+        RootType rootType = _sourceGenConf.getRoot_Object();
+        if (rootType == null) {
+            throw new IllegalArgumentException("You must give a root object for a Source Generator Test"
+                    + outputRoot + ", " +  getName());
+        }
+
+        _rootClassName    = rootType.getContent();
+        if (_rootClassName == null) {
+            throw new IllegalArgumentException("You must give a root object for a Source Generator Test"
+                    + outputRoot + ", " +  getName());
+        }
+
+        _hasRandom = rootType.getRandom();
+        _hasDump   = rootType.getDump();
     }
 
     /**
@@ -129,7 +108,7 @@ public class SourceGeneratorTestCase extends XMLTestCase {
      */
     public SourceGeneratorTestCase(String name) {
         super(name);
-        _sourceGenConf = null;
+        throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
 
     /**
@@ -139,12 +118,10 @@ public class SourceGeneratorTestCase extends XMLTestCase {
     public Test suite() {
         TestSuite suite  = new TestSuite(_name);
 
-        // Use the default test implemented in XMLTestCase
         String name = getTestSuiteName();
         name = (name != null) ? name + "#" + _name : _name;
 
         suite.addTest(new TestWithReferenceDocument(name, this));
-
         if (_hasRandom) {
             suite.addTest(new TestWithRandomObject(name, this));
         }
@@ -161,116 +138,12 @@ public class SourceGeneratorTestCase extends XMLTestCase {
         verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
         verbose("================================================\n");
 
-        // 0. Get information to run the test
-        _propertyFileName     = _sourceGenConf.getProperty_File();
-        _fieldInfoFactoryName = _sourceGenConf.getCollection().toString();
+        // Set up and run the source generator so we can test using the generated source
+        _sourceGenerator.setUp();
+        _sourceGenerator.runTest();
 
-        RootType rootType = _sourceGenConf.getRoot_Object();
-        _rootClassName    = rootType.getContent();
-        _hasDump          = rootType.getDump();
-        _hasRandom        = rootType.getRandom();
-
-        if (_rootClassName == null) {
-            throw new Exception("No object root found in test descriptor");
-        }
-
-        // 1. Run the source generator
-        verbose("-->Running the source generator");
-        SourceGenerator sourceGen = null;
-
-        if (_fieldInfoFactoryName != null) {
-            FieldInfoFactory factory = new FieldInfoFactory(_fieldInfoFactoryName);
-            sourceGen = new SourceGenerator(factory);
-        } else {
-            sourceGen = new SourceGenerator();
-        }
-
-        if (_propertyFileName != null) {
-            Properties prop = new Properties();
-            prop.load(_test.getClassLoader().getResourceAsStream(_propertyFileName));
-            sourceGen.setDefaultProperties(prop);
-        } else {
-            //don't forget to reset the properties
-            sourceGen.setDefaultProperties(null);
-        }
-
-        //. Move the files in the tmp directory
-        FileServices.copySupportFiles(_test.getTestFile(), _outputRootFile);
-
-        String bindingName = _sourceGenConf.getBindingFile();
-        if (bindingName != null && bindingName.length() >0) {
-            File bindingFile = new File(_outputRootFile, bindingName);
-
-            if ( !bindingFile.exists()) {
-                fail("Unable to find the specified binding file: " + bindingName);
-            }
-
-            verbose("using binding file: " + bindingFile.getAbsolutePath());
-            InputSource source = new InputSource(new FileReader(bindingFile));
-            source.setSystemId(bindingFile.getAbsolutePath());
-            sourceGen.setBinding(source);
-
-            bindingFile = null;
-            bindingName = null;
-        }
-        // equals() is needed to compare two objects
-        sourceGen.setEqualsMethod(true);
-        sourceGen.setTestable(true);
-        sourceGen.setSuppressNonFatalWarnings(true);
-        sourceGen.setFailOnFirstError(true);
-
-        sourceGen.setDestDir(_outputRootFile.getAbsolutePath());
-
-        String[] schemas = _sourceGenConf.getSchema();
-        for (int i=0; i<schemas.length; i++) {
-            _schemaName = schemas[i];
-            _schemaFile = new File(_outputRootFile, _schemaName);
-
-            if ( !_schemaFile.exists()) {
-                assertNotNull("Unable to find the schema:", _schemaName);
-            }
-
-            InputSource source = new InputSource(new FileReader(_schemaFile));
-            source.setSystemId(_schemaFile.getAbsolutePath());
-
-            try {
-                sourceGen.generateSource(source, null);
-            } catch (Exception e) {
-                if (_failure != null && checkExceptionWasExpected(e)) {
-                    assertTrue(_failure.getContent());
-                    return;
-                }
-                if (_printStack) {
-                    e.printStackTrace(System.out);
-                }
-                fail("Source Generator threw an exception: " + e.getMessage());
-            }
-
-            // 2. Compile the file generated by the source generator
-            verbose("-->Compiling the files in " + _outputRootFile);
-            Compiler compiler = new JavaCCompiler(_outputRootFile);
-            try {
-                compiler.compileDirectory();
-            } catch (CompilationException e) {
-                if (_failure != null && checkExceptionWasExpected(e)) {
-                    assertTrue(_failure.getContent());
-                    return;
-                }
-                if (_printStack) {
-                    e.printStackTrace(System.out);
-                }
-                fail("Build Failed: " + e.getMessage());
-            }
-
-            // 3. Nest the class loader to look into the tmp dir
-            //don't forget to add the previous path
-            URL[] urlList = {_test.getTestFile().toURL(), _outputRootFile.toURL()};
-            ClassLoader loader =  new URLClassLoader(urlList, _test.getClass().getClassLoader());
-            _test.setClassLoader(loader);
-        }
-
-        // 4. Set up the root class
-        _rootClass =  _test.getClassLoader().loadClass(_rootClassName);
+        // Set up the root class
+        _rootClass = _test.getClassLoader().loadClass(_rootClassName);
     }
 
     /**
@@ -281,6 +154,7 @@ public class SourceGeneratorTestCase extends XMLTestCase {
         verbose("\n================================================");
         verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
         verbose("================================================\n");
+        _sourceGenerator.tearDown();
     }
 
 }

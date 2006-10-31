@@ -48,6 +48,7 @@ import junit.framework.TestCase;
 
 import org.exolab.castor.tests.framework.testDescriptor.CallMethod;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
 import org.exolab.castor.tests.framework.testDescriptor.types.TypeType;
 import org.exolab.castor.tests.framework.testDescriptor.Configuration;
 import org.exolab.castor.tests.framework.testDescriptor.ConfigurationType;
@@ -79,12 +80,10 @@ import java.lang.reflect.Method;
 /**
  * This class encapsulates all the common logic to run the test patterns for
  * Castor XML. Basically it handle the marshalling/marshalling/comparing. This
- * is used to factorize the common code for the source generator test and the
+ * is used to factor the common code for the source generator test and the
  * mapping/introspection tests as only the setup differ in the test patterns.
  * <p>
  * This class is not complete and expects to be extended.
- * <p>
- * TODO: I18N of error messages.
  *
  * @author <a href="mailto:gignoux@kernelcenter.org">Sebastien Gignoux</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
@@ -92,14 +91,9 @@ import java.lang.reflect.Method;
  */
 public abstract class XMLTestCase extends TestCase {
 
-    /**
-     * True if we desire a lot of info on what happen.
-     */
+    /** True if we desire a lot of info on what happen. */
     protected static boolean _verbose;
-
-    /**
-     * True if we dump the stack trace for any exception that occurs during testing
-     */
+    /** True if we dump the stack trace for any exception that occurs during testing. */
     protected static boolean _printStack;
 
     static {
@@ -110,93 +104,37 @@ public abstract class XMLTestCase extends TestCase {
         _printStack = (v!=null && v.equals(Boolean.TRUE.toString()));
     }
 
-    /**
-     * Name of the test suite to which this test belongs
-     */
-    protected String _suiteName;
-
-    /**
-     * The name of the root class for this test.  Must be set by
-     * a concrete class if a test with a random object is used.
-     */
-    protected String _rootClassName;
-
-    /**
-     * The root class for this test.  Must be set by a concrete class.
-     */
-    protected Class  _rootClass;
-
-    /**
-     * File for the schema in the temp directory.  Must be set by
-     * a concrete class if a test with a random object is used.
-     */
-    protected File _schemaFile = null;
-
-    /**
-     * If true, the dumpFields() function has been implemented in the root class.
-     */
-    protected boolean _hasDump;
-
-    /**
-     * If true, the randomize() function has been implemented in the root class.
-     */
-    protected boolean _hasRandom;
-
-    /**
-     * The name of the mapping file to use in a Marshalling Framework Test Case.
-     * Must be set by a concrete class if a test with a reference document is
-     * used.
-     */
-    protected Mapping _mapping;
-
-    /**
-     * A listener for marshalling
-     */
-     protected Object _listener;
-
-    /**
-     * Type of listener test -- Marshal, Unmarshal or Both
-     */
-    protected TypeType _listenerType;
-
-    /**
-     * Gold file for listener
-     */
-    protected String _listenerGoldFile;
-
-    /**
-     * The Configuration the Marshalling Framework
-     */
-    protected Configuration _configuration;
-
-    /**
-     * Name of this test
-     */
-    protected final String _name;
-
-    /**
-     * The unit test case this class represent
-     */
-    protected final UnitTestCase _unitTest;
-
-    /**
-     * Place where the temporary file have to be put
-     */
-    protected final File _outputRootFile;
-
-    /**
-     * True if the test needs to be skipped.
-     */
-    protected final boolean _skip;
-
-    /**
-     * The failure object that is not null is the test intends to fail
-     */
-    protected final FailureType _failure;
-
-    /**
-     * Used only to retrieved the classloader.
-     */
+    /** Name of the test suite to which this test belongs. */
+    protected String               _suiteName;
+    /** The name of the root class for this test.  Must be set by a concrete class
+     * if a test with a random object is used. */
+    protected String               _rootClassName;
+    /** The root class for this test.  Must be set by a concrete class. */
+    protected Class                _rootClass;
+    /** If true, the dumpFields() function has been implemented in the root class. */
+    protected boolean              _hasDump;
+    /** The name of the mapping file to use in a Marshalling Framework Test Case.
+     * Must be set by a concrete class if a test with a reference document is used. */
+    protected Mapping              _mapping;
+    /** A listener for marshalling. */
+    protected Object               _listener;
+    /** Type of listener test -- Marshal, Unmarshal or Both. */
+    protected TypeType             _listenerType;
+    /** Gold file for listener. */
+    protected String               _listenerGoldFile;
+    /** The Configuration the Marshalling Framework. */
+    protected Configuration        _configuration;
+    /** Name of this test. */
+    protected final String         _name;
+    /** The unit test case this class represent. */
+    protected final UnitTestCase   _unitTest;
+    /** Place where the temporary file have to be put. */
+    protected final File           _outputRootFile;
+    /** True if the test needs to be skipped. */
+    protected final boolean        _skip;
+    /** The failure object that is not null if the test is expected to fail. */
+    protected final FailureType    _failure;
+    /** Used only to retrieve the classloader. */
     protected final CastorTestCase _test;
 
     /**
@@ -206,12 +144,8 @@ public abstract class XMLTestCase extends TestCase {
      */
     public XMLTestCase(String name) {
         super(name);
-        _name           = name;
-        _unitTest       = null;
-        _outputRootFile = null;
-        _skip           = false;
-        _failure        = null;
-        _test           = null;
+        _name = name;
+        throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
 
     /**
@@ -260,58 +194,85 @@ public abstract class XMLTestCase extends TestCase {
 
     /**
      * Returns the name of the test suite to which this test case belongs to.
-     *@return the name of the test suite to which this test case belongs to.
+     * @return the name of the test suite to which this test case belongs to.
      */
     public String getTestSuiteName() {
         return _suiteName;
     }
 
     /**
-     * Called when the test case throws an Exception and the test is configured
-     * to expect and Exception to be thrown. Make sure we got the Exception we
-     * were looking for. If no Exception name was specified, then any Exception
-     * means the test was a success. Otherwise make sure we got the correct
-     * class of Exception thrown.
+     * Called when a test case throws an Exception. Returns true if we expected
+     * this test to fail (and if this was the correct Exception class, if one is
+     * specified, and if this was the correct test step for the failure to
+     * occur, if one was specified).
      *
-     * @param exception the Exception that was thrown
-     * @return true if we pass the test
+     * @param exception
+     *            the Exception that was thrown
+     * @param checkStep
+     *            the test step that threw an Exception
+     * @return true if we pass the test (because we expected this Exception)
      */
-    protected boolean checkExceptionWasExpected(Exception exception) {
-        String exceptionName = _failure.getException();
-        if (exceptionName == null) {
+    protected boolean checkExceptionWasExpected(Exception exception, FailureStepType checkStep) {
+        if (_printStack) {
+            exception.printStackTrace();
+        }
+        // If we're not expecting any failure, then we're not expecting any Exception
+        if (_failure == null || !_failure.getContent()) {
+            return false;
+        }
+        if (checkStep == null) {
+            fail("CTF coding failure ... checkStep should never be null");
+        }
+
+        // We expect failure.  Is this the failure we expected?
+
+        String          exceptionName = _failure.getException();
+        FailureStepType expectedStep  = _failure.getFailureStep();
+
+        // If no specific step or Exception, then any failure is OK
+        if (exceptionName == null && expectedStep == null) {
             return true;
         }
 
+        // If we're expecting an exception, make sure we got the right one
         Exception ex = exception;
         if (ex instanceof NestedIOException) {
             ex = ((NestedIOException)ex).getException();
         }
 
-        try {
-            Class expected = Class.forName(exceptionName);
-            if (expected.isAssignableFrom(ex.getClass())) {
-                return true;
-            }
-            StringWriter sw = new StringWriter();
-            PrintWriter pw = new PrintWriter(sw);
-            pw.print("Received Exception: '");
-            pw.print(ex.getClass().getName());
-            pw.print("' but expected Exception: '");
-            pw.print(exceptionName);
-            pw.println("'.");
-            if (_verbose) {
-                pw.println("Stacktrace for the exception that was thrown:");
-                ex.printStackTrace(pw);
-            }
-            pw.flush();
-            fail(sw.toString());
+        if (exceptionName != null) {
+            try {
+                Class expected = Class.forName(exceptionName);
+                if (!expected.isAssignableFrom(ex.getClass())) {
+                    String complaint = "Received Exception: '" + ex.getClass().getName()
+                            + ": " + ex + "' but expected: '" + exceptionName + "'.";
 
-            fail("Received Exception: '" + ex + "' but expected Exception: '" + exceptionName + "'.");
-        } catch (ClassNotFoundException cnfex) {
-            fail("The Exception specified: '"+exceptionName+"' cannot be found in the CLASSPATH");
+                    StringWriter sw = new StringWriter();
+                    PrintWriter pw = new PrintWriter(sw);
+                    pw.print(complaint);
+                    if (_verbose) {
+                        pw.println("Stacktrace for the Exception that was thrown:");
+                        ex.printStackTrace(pw);
+                    }
+                    pw.flush();
+                    System.out.println(sw.toString());
+
+                    fail(complaint);
+                }
+
+            } catch (ClassNotFoundException cnfex) {
+                fail("The Exception specified: '" + exceptionName + "' cannot be found in the CLASSPATH");
+            }
         }
 
-        return false;
+        // If we're expecting to fail at a specific step, make sure this is that step
+        if (expectedStep != null && !expectedStep.equals(checkStep)) {
+            fail("We expected to fail at test step '" + expectedStep.toString()
+                 + "' but actually failed at step '" + checkStep.toString() + "'");
+        }
+
+        // We got the expected failure!  Return true.
+        return true;
     }
 
     /**
@@ -320,15 +281,33 @@ public abstract class XMLTestCase extends TestCase {
      * @param object the object to marshall.
      * @param fileName the name of the file where to marshall the object.
      * @return a file containing marshalled output.
-     * @throws java.lang.Exception if anything goes wrong during the test
      */
-    protected File testMarshal(Object object, String fileName) throws java.lang.Exception {
+    protected File testMarshal(Object object, String fileName) {
         verbose("--> Marshaling to: '" + fileName + "'");
 
-        File marshalOutput    = new File(_outputRootFile, fileName);
+        File marshalOutput = new File(_outputRootFile, fileName);
+
+        try {
+            Marshaller marshaller = createMarshaler(marshalOutput);
+            marshaller.marshal(object);
+        } catch (Exception e) {
+            if (!checkExceptionWasExpected(e, FailureStepType.MARSHAL_TO_DISK)) {
+                fail("Exception marshaling to disk " + e);
+            }
+            return null;
+        }
+
+        if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
+             _failure.getFailureStep().equals(FailureStepType.MARSHAL_TO_DISK)) {
+            fail("Unmarshaling was expected to fail, but succeeded");
+        }
+        return marshalOutput;
+    }
+
+    private Marshaller createMarshaler(File marshalOutput) throws Exception {
         Marshaller marshaller = new Marshaller(new FileWriter(marshalOutput));
-        //--Configuration to use?
-        //-- The priority goes to the unit test case
+
+        //-- Configuration for marshaler?  Use config from unit test case if available
         Configuration config = _unitTest.getConfiguration();
         if (config == null) {
             config = _configuration;
@@ -347,16 +326,7 @@ public abstract class XMLTestCase extends TestCase {
                 && _listenerType.getType() != TypeType.UNMARSHAL_TYPE) {
             marshaller.setMarshalListener((MarshalListener)_listener);
         }
-
-        try {
-            marshaller.marshal(object);
-        } catch (MarshalException e) {
-            if (_printStack) {
-                e.printStackTrace();
-            }
-            throw e;
-        }
-        return marshalOutput;
+        return marshaller;
     }
 
     /**
@@ -365,11 +335,13 @@ public abstract class XMLTestCase extends TestCase {
      *
      * @param file the file containing the xml document to unmarshall.
      * @return the result of the unmarshalling of the given file.
-     * @throws java.lang.Exception if anything goes wrong during the test
+     * @throws Exception if anything goes wrong during the test
      */
-    protected Object testUnmarshal(File file) throws java.lang.Exception {
+    protected Object testUnmarshal(File file) throws Exception {
         verbose("--> Unmarshaling '" + file.getName() + "'\n");
-        Object unmarshaledObject = testUnmarshal(new FileInputStream(file));
+        InputStream inputStream = new FileInputStream(file);
+        Object unmarshaledObject = testUnmarshal(inputStream);
+        inputStream.close();
         assertNotNull("Unmarshaling '" + file.getName() + "' results in a NULL object.",
                       unmarshaledObject);
         return unmarshaledObject;
@@ -378,14 +350,21 @@ public abstract class XMLTestCase extends TestCase {
     /**
      * Unmarshals the given input stream with the configuration of that test.
      *
-     * @param stream the input stream containing the xml document to unmarshall.
-     * @return the result of the unmarshalling of the given file.
-     * @throws java.lang.Exception if anything goes wrong during the test
+     * @param stream
+     *            the input stream containing the xml document to unmarshall.
+     * @return the result of the unmarshalling of the given file, null if
+     *         anything went wrong.
+     * @throws Exception if anything goes wrong during the test
      */
-    protected Object testUnmarshal(InputStream stream) throws java.lang.Exception {
+    protected Object testUnmarshal(InputStream stream) throws Exception {
         Object result = null;
-        //--Configuration to use?
-        //-- The priority goes to the unit test case
+        final Unmarshaller unmar = createUnmarshaler();
+        result = unmar.unmarshal(new InputSource(stream));
+        return result;
+    }
+
+    private Unmarshaller createUnmarshaler() throws Exception {
+        //-- Configuration for unmarshaler?  Use config from unit test case if available
         Configuration config = _unitTest.getConfiguration();
         if (config == null) {
             config = _configuration;
@@ -413,15 +392,8 @@ public abstract class XMLTestCase extends TestCase {
         }
 
         unmar.setDebug(_verbose);
-        try {
-            result = unmar.unmarshal(new InputSource(stream));
-        } catch (MarshalException e) {
-            if (_printStack) {
-                e.printStackTrace();
-            }
-            throw e;
-        }
-        return result;
+
+        return unmar;
     }
 
     /**
@@ -452,13 +424,13 @@ public abstract class XMLTestCase extends TestCase {
      * Initialize listeners for marshalling/unmarshalling
      *
      * @param listener the listener to initialize
-     * @throws java.lang.ClassNotFoundException
-     * @throws java.lang.IllegalAccessException
-     * @throws java.lang.InstantiationException
+     * @throws ClassNotFoundException
+     * @throws IllegalAccessException
+     * @throws InstantiationException
      */
-    protected void initializeListeners(ListenerType listener) throws java.lang.ClassNotFoundException,
-                                                             java.lang.IllegalAccessException,
-                                                             java.lang.InstantiationException {
+    protected void initializeListeners(ListenerType listener) throws ClassNotFoundException,
+                                                                     IllegalAccessException,
+                                                                     InstantiationException {
         String listenerClassName = listener.getClassName();
         if (listenerClassName == null || listenerClassName.length() == 0) {
             throw new IllegalArgumentException("ClassName must be provided for Listener element.");
