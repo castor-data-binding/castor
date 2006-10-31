@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -76,6 +76,16 @@ public class UnitTestCase implements java.io.Serializable {
      */
     private org.exolab.castor.tests.framework.testDescriptor.Listener _listener;
 
+    /**
+     * Field _schemaDifferencesList
+     */
+    private java.util.Vector _schemaDifferencesList;
+
+    /**
+     * Field _commentList
+     */
+    private java.util.Vector _commentList;
+
 
       //----------------/
      //- Constructors -/
@@ -84,6 +94,8 @@ public class UnitTestCase implements java.io.Serializable {
     public UnitTestCase() 
      {
         super();
+        this._schemaDifferencesList = new java.util.Vector();
+        this._commentList = new java.util.Vector();
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCase()
 
 
@@ -92,11 +104,152 @@ public class UnitTestCase implements java.io.Serializable {
     //-----------/
 
     /**
+     * 
+     * 
+     * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addComment(java.lang.String vComment)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._commentList.addElement(vComment);
+    } //-- void addComment(java.lang.String) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addComment(int index, java.lang.String vComment)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._commentList.add(index, vComment);
+    } //-- void addComment(int, java.lang.String) 
+
+    /**
+     * 
+     * 
+     * @param vSchemaDifferences
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addSchemaDifferences(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences vSchemaDifferences)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check for the maximum size
+        if (this._schemaDifferencesList.size() >= 2) {
+            throw new IndexOutOfBoundsException("addSchemaDifferences has a maximum of 2");
+        }
+        
+        this._schemaDifferencesList.addElement(vSchemaDifferences);
+    } //-- void addSchemaDifferences(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vSchemaDifferences
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addSchemaDifferences(int index, org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences vSchemaDifferences)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check for the maximum size
+        if (this._schemaDifferencesList.size() >= 2) {
+            throw new IndexOutOfBoundsException("addSchemaDifferences has a maximum of 2");
+        }
+        
+        this._schemaDifferencesList.add(index, vSchemaDifferences);
+    } //-- void addSchemaDifferences(int, org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) 
+
+    /**
      */
     public void deleteSkip()
     {
         this._has_skip= false;
     } //-- void deleteSkip() 
+
+    /**
+     * Method enumerateComment
+     * 
+     * 
+     * 
+     * @return an Enumeration over all java.lang.String elements
+     */
+    public java.util.Enumeration enumerateComment()
+    {
+        return this._commentList.elements();
+    } //-- java.util.Enumeration enumerateComment() 
+
+    /**
+     * Method enumerateSchemaDifferences
+     * 
+     * 
+     * 
+     * @return an Enumeration over all
+     * org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences
+     * elements
+     */
+    public java.util.Enumeration enumerateSchemaDifferences()
+    {
+        return this._schemaDifferencesList.elements();
+    } //-- java.util.Enumeration enumerateSchemaDifferences() 
+
+    /**
+     * Method getComment
+     * 
+     * 
+     * 
+     * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the java.lang.String at the given index
+     */
+    public java.lang.String getComment(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._commentList.size()) {
+            throw new IndexOutOfBoundsException("getComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
+        }
+        
+        return (String)_commentList.get(index);
+    } //-- java.lang.String getComment(int) 
+
+    /**
+     * Method getComment
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public java.lang.String[] getComment()
+    {
+        int size = this._commentList.size();
+        java.lang.String[] array = new java.lang.String[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (String)_commentList.get(index);
+        }
+        
+        return array;
+    } //-- java.lang.String[] getComment() 
+
+    /**
+     * Method getCommentCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
+    public int getCommentCount()
+    {
+        return this._commentList.size();
+    } //-- int getCommentCount() 
 
     /**
      * Returns the value of field 'configuration'.
@@ -167,6 +320,59 @@ public class UnitTestCase implements java.io.Serializable {
     {
         return this._objectBuilder;
     } //-- java.lang.String getObjectBuilder() 
+
+    /**
+     * Method getSchemaDifferences
+     * 
+     * 
+     * 
+     * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences
+     * at the given index
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences getSchemaDifferences(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._schemaDifferencesList.size()) {
+            throw new IndexOutOfBoundsException("getSchemaDifferences: Index value '" + index + "' not in range [0.." + (this._schemaDifferencesList.size() - 1) + "]");
+        }
+        
+        return (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) _schemaDifferencesList.get(index);
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences getSchemaDifferences(int) 
+
+    /**
+     * Method getSchemaDifferences
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[] getSchemaDifferences()
+    {
+        int size = this._schemaDifferencesList.size();
+        org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[] array = new org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) _schemaDifferencesList.get(index);
+        }
+        
+        return array;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[] getSchemaDifferences() 
+
+    /**
+     * Method getSchemaDifferencesCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
+    public int getSchemaDifferencesCount()
+    {
+        return this._schemaDifferencesList.size();
+    } //-- int getSchemaDifferencesCount() 
 
     /**
      * Returns the value of field 'skip'.
@@ -263,6 +469,110 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
+     */
+    public void removeAllComment()
+    {
+        this._commentList.clear();
+    } //-- void removeAllComment() 
+
+    /**
+     */
+    public void removeAllSchemaDifferences()
+    {
+        this._schemaDifferencesList.clear();
+    } //-- void removeAllSchemaDifferences() 
+
+    /**
+     * Method removeComment
+     * 
+     * 
+     * 
+     * @param vComment
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeComment(java.lang.String vComment)
+    {
+        boolean removed = _commentList.remove(vComment);
+        return removed;
+    } //-- boolean removeComment(java.lang.String) 
+
+    /**
+     * Method removeCommentAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public java.lang.String removeCommentAt(int index)
+    {
+        Object obj = this._commentList.remove(index);
+        return (String)obj;
+    } //-- java.lang.String removeCommentAt(int) 
+
+    /**
+     * Method removeSchemaDifferences
+     * 
+     * 
+     * 
+     * @param vSchemaDifferences
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeSchemaDifferences(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences vSchemaDifferences)
+    {
+        boolean removed = _schemaDifferencesList.remove(vSchemaDifferences);
+        return removed;
+    } //-- boolean removeSchemaDifferences(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) 
+
+    /**
+     * Method removeSchemaDifferencesAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences removeSchemaDifferencesAt(int index)
+    {
+        Object obj = this._schemaDifferencesList.remove(index);
+        return (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) obj;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences removeSchemaDifferencesAt(int) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vComment
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setComment(int index, java.lang.String vComment)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._commentList.size()) {
+            throw new IndexOutOfBoundsException("setComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
+        }
+        
+        this._commentList.set(index, vComment);
+    } //-- void setComment(int, java.lang.String) 
+
+    /**
+     * 
+     * 
+     * @param vCommentArray
+     */
+    public void setComment(java.lang.String[] vCommentArray)
+    {
+        //-- copy array
+        _commentList.clear();
+        
+        for (int i = 0; i < vCommentArray.length; i++) {
+                this._commentList.add(vCommentArray[i]);
+        }
+    } //-- void setComment(java.lang.String) 
+
+    /**
      * Sets the value of field 'configuration'.
      * 
      * @param configuration the value of field 'configuration'.
@@ -331,6 +641,40 @@ public class UnitTestCase implements java.io.Serializable {
     {
         this._objectBuilder = objectBuilder;
     } //-- void setObjectBuilder(java.lang.String) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vSchemaDifferences
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setSchemaDifferences(int index, org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences vSchemaDifferences)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._schemaDifferencesList.size()) {
+            throw new IndexOutOfBoundsException("setSchemaDifferences: Index value '" + index + "' not in range [0.." + (this._schemaDifferencesList.size() - 1) + "]");
+        }
+        
+        this._schemaDifferencesList.set(index, vSchemaDifferences);
+    } //-- void setSchemaDifferences(int, org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) 
+
+    /**
+     * 
+     * 
+     * @param vSchemaDifferencesArray
+     */
+    public void setSchemaDifferences(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[] vSchemaDifferencesArray)
+    {
+        //-- copy array
+        _schemaDifferencesList.clear();
+        
+        for (int i = 0; i < vSchemaDifferencesArray.length; i++) {
+                this._schemaDifferencesList.add(vSchemaDifferencesArray[i]);
+        }
+    } //-- void setSchemaDifferences(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) 
 
     /**
      * Sets the value of field 'skip'.

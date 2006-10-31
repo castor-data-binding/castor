@@ -1,4 +1,4 @@
-#Wed Oct 18 21:52:05 CDT 2006
+#Sun Oct 29 23:21:49 CST 2006
 org.exolab.castor.tests.framework.testDescriptor.FailureType=org.exolab.castor.tests.framework.testDescriptor.FailureTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.Unmarshal=org.exolab.castor.tests.framework.testDescriptor.UnmarshalDescriptor
 org.exolab.castor.tests.framework.testDescriptor.CallMethod=org.exolab.castor.tests.framework.testDescriptor.CallMethodDescriptor
@@ -6,7 +6,9 @@ org.exolab.castor.tests.framework.testDescriptor.Value=org.exolab.castor.tests.f
 org.exolab.castor.tests.framework.testDescriptor.SchemaTest=org.exolab.castor.tests.framework.testDescriptor.SchemaTestDescriptor
 org.exolab.castor.tests.framework.testDescriptor.ListenerType=org.exolab.castor.tests.framework.testDescriptor.ListenerTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.TestDescriptor=org.exolab.castor.tests.framework.testDescriptor.TestDescriptorDescriptor
+org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType=org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.StringType=org.exolab.castor.tests.framework.testDescriptor.StringTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences=org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesDescriptor
 org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice=org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoiceDescriptor
 org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice=org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoiceDescriptor
 org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest=org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTestDescriptor

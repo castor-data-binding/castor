@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,7 +15,9 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class CallMethod.
+ * A single method to call on a marshaler or unmarshaler or source
+ * generator
+ *  
  * 
  * @version $Revision$ $Date$
  */
@@ -32,7 +34,8 @@ public class CallMethod implements java.io.Serializable {
     private java.lang.String _name;
 
     /**
-     * Field _valueList
+     * A parameter to be provided to a method.
+     *  
      */
     private java.util.Vector _valueList;
 

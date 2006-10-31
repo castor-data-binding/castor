@@ -1,28 +1,32 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-	<Name>Test code generation for 'unsignedLong' XML schema type</Name>
-	<Author>Werner Guttmann</Author>
-	<Comment>
-		Test that ensures that code generation for the XML schema type
-		'unsignedLong' produces correct (validation) code.
-	</Comment>
-	<Category>basic capability</Category>
-	<SourceGeneratorTest>
-		<Schema>test.xsd</Schema>
-		<Root_Object random="false" dump="true">RootObject</Root_Object>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Input>input-above-upper-bound.xml</Input>
-			<Failure>true</Failure>
-		</UnitTestCase>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Input>input-below-lower-bound.xml</Input>
-			<Failure>true</Failure>
-		</UnitTestCase>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Input>input.xml</Input>
-		</UnitTestCase>
-	</SourceGeneratorTest>
+    <Name>Test code generation for 'unsignedLong' XML schema type</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Test that ensures that code generation for the XML schema type
+        'unsignedLong' produces correct (validation) code.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">RootObject</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input-above-upper-bound.xml</Input>
+            <Failure exception="org.exolab.castor.xml.MarshalException"
+                     FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input-below-lower-bound.xml</Input>
+            <Failure exception="org.exolab.castor.xml.MarshalException"
+                     FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
 </TestDescriptor>

@@ -116,6 +116,7 @@ public class FileServices {
                 File out = new File(root, entry.getName());
                 out.getParentFile().mkdirs();
                 copy(src, new FileOutputStream(out));
+                src.close();
             }
         }//for
     }
@@ -139,6 +140,7 @@ public class FileServices {
                 File out = new File(root, tempEntry.getName());
                 out.getParentFile().mkdir();
                 copy(src, new FileOutputStream(out));
+                src.close();
             } else if (tempEntry.isDirectory()) {
                 File out = new File(root, tempEntry.getName());
                 out.mkdir();

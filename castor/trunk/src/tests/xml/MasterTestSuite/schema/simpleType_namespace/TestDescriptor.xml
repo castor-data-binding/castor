@@ -2,11 +2,12 @@
 <TestDescriptor>
     <Name>Test the reading of simpleType declared in different namespace</Name>
     <Author>Arnaud Blandin</Author>
-    <Comment>This test ensures that XML Schema built-in types are correctly
-    read when declared in the schema namespace (even default) and that an
-    exception is thrown when the type is not declared in the schema Namespace</Comment>
-    <Comment>Regression testing
+    <Comment>
+        This test ensures that XML Schema built-in types are correctly read when
+        declared in the schema namespace (even default) and that an exception is
+        thrown when the type is not declared in the schema Namespace
     </Comment>
+    <Comment>Regression testing</Comment>
     <Category>basic capability</Category>
 
     <BugFix>
@@ -15,26 +16,24 @@
         <Date_Fix>2002-05-01</Date_Fix>
         <Comment>Added default namespace saving in the schema reader</Comment>
     </BugFix>
+
     <SchemaTest>
-
-   		<!-- ******************** -->
-   		<!-- Schema Element Tests -->
-   		<!-- ******************** -->
-
-   		<UnitTestCase>
-      		<Schema>simpleType_namespace.xsd</Schema>
-        </UnitTestCase>
         <UnitTestCase>
-      		<Schema>simpleType_namespace_failure.xsd</Schema>
-      		<Failure>true</Failure>
-         </UnitTestCase>
-   		<UnitTestCase>
-            <!-- Added for default namespace bug reported by
-                 Stephan Goetter and Erik Ostermueller
-                 (kvisco - 20021017)
-             -->
+              <Schema>simpleType_namespace.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+              <Schema>simpleType_namespace_failure.xsd</Schema>
+              <Failure exception="org.exolab.castor.xml.XMLException"
+                       FailureStep="parse-schema">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Comment>
+                Added for default namespace bug reported by Stephan Goetter and
+                Erik Ostermueller (kvisco - 20021017)
+            </Comment>
             <Schema>simpleType_default_ns.xsd</Schema>
         </UnitTestCase>
-
       </SchemaTest>
  </TestDescriptor>

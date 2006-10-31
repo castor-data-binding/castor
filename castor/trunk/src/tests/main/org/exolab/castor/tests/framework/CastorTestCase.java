@@ -49,6 +49,7 @@ import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
 import java.io.File;
+import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
 import java.util.jar.JarFile;
@@ -282,6 +283,12 @@ public class CastorTestCase extends TestCase {
                 me.printStackTrace(System.out);
             }
             fail(me.toString());
+        } finally {
+            try {
+                descriptor.close();
+            } catch (IOException e) {
+                // ignore
+            }
         }
 
         String suiteName = _testDescriptor.getName();
@@ -307,6 +314,7 @@ public class CastorTestCase extends TestCase {
         if (genOnlyTests != null) {
             setUpGenerationOnlyTests(suiteName, suite, genOnlyTests);
         }
+
         return suite;
     }
 

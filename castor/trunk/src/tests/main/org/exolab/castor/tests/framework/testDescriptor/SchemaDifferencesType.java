@@ -15,12 +15,15 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * A parameter to be provided to a method.
+ * If you expect a non-zero number of differences when comparing
+ * schemas,
+ *  add one of these elements and provide the FailureStep attribute
+ *  to say which step this difference applies to.
  *  
  * 
  * @version $Revision$ $Date$
  */
-public class Value implements java.io.Serializable {
+public class SchemaDifferencesType implements java.io.Serializable {
 
 
       //--------------------------/
@@ -30,23 +33,22 @@ public class Value implements java.io.Serializable {
     /**
      * internal content storage
      */
-    private java.lang.String _content = "";
+    private java.math.BigDecimal _content;
 
     /**
-     * Field _type
+     * Field _failureStep
      */
-    private java.lang.String _type;
+    private org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType _failureStep;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public Value() 
+    public SchemaDifferencesType() 
      {
         super();
-        setContent("");
-    } //-- org.exolab.castor.tests.framework.testDescriptor.Value()
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType()
 
 
       //-----------/
@@ -59,20 +61,20 @@ public class Value implements java.io.Serializable {
      * 
      * @return the value of field 'Content'.
      */
-    public java.lang.String getContent()
+    public java.math.BigDecimal getContent()
     {
         return this._content;
-    } //-- java.lang.String getContent() 
+    } //-- java.math.BigDecimal getContent() 
 
     /**
-     * Returns the value of field 'type'.
+     * Returns the value of field 'failureStep'.
      * 
-     * @return the value of field 'Type'.
+     * @return the value of field 'FailureStep'.
      */
-    public java.lang.String getType()
+    public org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType getFailureStep()
     {
-        return this._type;
-    } //-- java.lang.String getType() 
+        return this._failureStep;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType getFailureStep() 
 
     /**
      * Method isValid
@@ -132,20 +134,20 @@ public class Value implements java.io.Serializable {
      * 
      * @param content the value of field 'content'.
      */
-    public void setContent(java.lang.String content)
+    public void setContent(java.math.BigDecimal content)
     {
         this._content = content;
-    } //-- void setContent(java.lang.String) 
+    } //-- void setContent(java.math.BigDecimal) 
 
     /**
-     * Sets the value of field 'type'.
+     * Sets the value of field 'failureStep'.
      * 
-     * @param type the value of field 'type'.
+     * @param failureStep the value of field 'failureStep'.
      */
-    public void setType(java.lang.String type)
+    public void setFailureStep(org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType failureStep)
     {
-        this._type = type;
-    } //-- void setType(java.lang.String) 
+        this._failureStep = failureStep;
+    } //-- void setFailureStep(org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType) 
 
     /**
      * Method unmarshal
@@ -158,13 +160,13 @@ public class Value implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      * @return the unmarshaled
-     * org.exolab.castor.tests.framework.testDescriptor.Value
+     * org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.Value unmarshal(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
-        return (org.exolab.castor.tests.framework.testDescriptor.Value) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.Value.class, reader);
-    } //-- org.exolab.castor.tests.framework.testDescriptor.Value unmarshal(java.io.Reader) 
+        return (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType.class, reader);
+    } //-- org.exolab.castor.tests.framework.testDescriptor.SchemaDifferencesType unmarshal(java.io.Reader) 
 
     /**
      * 

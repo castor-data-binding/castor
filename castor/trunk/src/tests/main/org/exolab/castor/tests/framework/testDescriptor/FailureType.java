@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -54,6 +54,11 @@ public class FailureType implements java.io.Serializable {
      */
     private java.lang.String _exception;
 
+    /**
+     * Field _failureStep
+     */
+    private org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType _failureStep;
+
 
       //----------------/
      //- Constructors -/
@@ -96,6 +101,16 @@ public class FailureType implements java.io.Serializable {
     {
         return this._exception;
     } //-- java.lang.String getException() 
+
+    /**
+     * Returns the value of field 'failureStep'.
+     * 
+     * @return the value of field 'FailureStep'.
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType getFailureStep()
+    {
+        return this._failureStep;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType getFailureStep() 
 
     /**
      * Method hasContent
@@ -193,6 +208,16 @@ public class FailureType implements java.io.Serializable {
     {
         this._exception = exception;
     } //-- void setException(java.lang.String) 
+
+    /**
+     * Sets the value of field 'failureStep'.
+     * 
+     * @param failureStep the value of field 'failureStep'.
+     */
+    public void setFailureStep(org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType failureStep)
+    {
+        this._failureStep = failureStep;
+    } //-- void setFailureStep(org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType) 
 
     /**
      * Method unmarshal

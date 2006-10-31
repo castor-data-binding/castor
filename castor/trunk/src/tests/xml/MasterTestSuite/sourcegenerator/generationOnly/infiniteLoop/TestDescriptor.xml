@@ -9,7 +9,8 @@
         <Schema>test.xsd</Schema>
         <UnitTestCase>
             <Name>Test Source Generation</Name>
-            <Failure>true</Failure>
+            <Failure exception="org.exolab.castor.tests.framework.CompilationException"
+                     FailureStep="source-compilation">true</Failure>
         </UnitTestCase>
      </OnlySourceGenerationTest>
 </TestDescriptor>
