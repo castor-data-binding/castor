@@ -136,11 +136,14 @@ public class FileServices {
         for (int i=0 ; i<entries.length; i++) {
             File tempEntry = entries[i];
             if (isSupportFile(tempEntry.getName())) {
-                InputStream src = new FileInputStream(tempEntry);
                 File out = new File(root, tempEntry.getName());
                 out.getParentFile().mkdir();
-                copy(src, new FileOutputStream(out));
+                FileOutputStream dest = new FileOutputStream(out);
+
+                InputStream src = new FileInputStream(tempEntry);
+                copy(src, dest);
                 src.close();
+                dest.close();
             } else if (tempEntry.isDirectory()) {
                 File out = new File(root, tempEntry.getName());
                 out.mkdir();
@@ -153,11 +156,11 @@ public class FileServices {
      * Copies an InputStream into a OutputStream.
      *
      * @param src Source input stream
-     * @param dst Destination output stream
+     * @param dest Destination output stream
      * @throws IOException if an error occurs while copying files
      * @throws FileNotFoundException if an already-located file cannot be found
      */
-    protected static void copy(InputStream src, OutputStream dst) throws FileNotFoundException, IOException {
+    protected static void copy(InputStream src, OutputStream dest) throws FileNotFoundException, IOException {
         final int BUF_SIZE = 16 * 1024;
         byte[] buf = new byte[BUF_SIZE];
         int read;
@@ -166,7 +169,7 @@ public class FileServices {
             if (read == -1) {
                 break;
             }
-            dst.write(buf, 0, read);
+            dest.write(buf, 0, read);
         }
     }
 

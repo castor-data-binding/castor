@@ -91,6 +91,8 @@ public class SchemaTestCase extends XMLTestCase {
     private final int      _differenceCountSchema;
     /** The count of differences expected for the file-reference comparison. */
     private final int      _differenceCountReference;
+    /** Gold file to compare a schema against.  Optional.  Only needed if
+     * schema changes during parsing, i.e., due to redefine element. */
     protected final String _goldFileName;
 
     /**
@@ -309,6 +311,7 @@ public class SchemaTestCase extends XMLTestCase {
             PrintWriter  pw     = new PrintWriter(writer, true);
             SchemaWriter sw     = new SchemaWriter(pw);
             sw.write(schema);
+            writer.close();
         } catch (Exception e) {
             if (!checkExceptionWasExpected(e, FailureStepType.WRITE_SCHEMA)) {
                 fail("Failed to write Schema '" + url + "' to disk: " + e.toString());
