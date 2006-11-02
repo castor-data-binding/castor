@@ -667,6 +667,10 @@ public class SchemaWriter {
             _handler.endElement(ELEM_CONTENT);
         }
 
+        if (complexType.getAnyAttribute() != null) {
+            processWildcard(complexType.getAnyAttribute(), schemaPrefix);
+        }
+        
         _handler.endElement(ELEMENT_NAME);
 
     } //-- processComplexType

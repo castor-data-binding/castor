@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1675 using contribution from Eric Wittmann [wittmann@snet.net]
+       Fixed problem with SchemaWriter not serializing anyAttribute child of a complexType.
+       Details: http://jira.codehaus.org/browse/CASTOR-1675
+       (Werner - 20061102)
+
 XML:   Resolved issue CASTOR-1670 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add to CTF ability to specify failure step.
        Details: http://jira.codehaus.org/browse/CASTOR-1670

@@ -31,6 +31,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1675" tool="jira">
+                    <description>
+                        Fixed problem with SchemaWriter not serializing anyAttribute 
+                        child of a complexType.
+                    </description>
+                    <contributor>
+                         <name>Eric Wittmann</name>
+                        <email>wittmann@snet.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                    	<name>Eric Wittmann</name>
+                    	<email>wittmann@snet.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061102</date>
+                </bug>
                 <bug id="1670" tool="jira">
                     <description>
                         Add to CTF ability to specify failure step
