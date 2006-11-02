@@ -59,8 +59,8 @@ import java.math.BigDecimal;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class DecimalValidator implements TypeValidator
-{
+public class DecimalValidator 
+extends PatternValidator implements TypeValidator {
 
     private BigDecimal _fixed = null;
     private BigDecimal _min = null;
@@ -217,7 +217,7 @@ public class DecimalValidator implements TypeValidator
         _fixed = fixed;
     } //-- setMinExclusive
 
-    public void validate(BigDecimal bd) throws ValidationException {
+    public void validate(BigDecimal bd, ValidationContext context) throws ValidationException {
 
         if (_fixed != null) {
             if (!bd.equals(_fixed)) {
@@ -228,7 +228,7 @@ public class DecimalValidator implements TypeValidator
         }
 
         if (_min != null) {
-        	
+            
             if (bd.compareTo(_min)== -1) {
                 String err = bd + " is less than the minimum allowable ";
                 err += "value of " + _min;
@@ -273,7 +273,8 @@ public class DecimalValidator implements TypeValidator
             }
         }
 
-        //-- do the validation of pattern
+        if (hasPattern())
+            super.validate(bd.toString(), context);
 
     } //-- validate
 
@@ -285,7 +286,7 @@ public class DecimalValidator implements TypeValidator
     public void validate(Object object) 
         throws ValidationException
     {
-        validate(object, (ValidationContext)null);
+        validate(object, (ValidationContext) null);
     } //-- validate
     
     /**
@@ -311,7 +312,7 @@ public class DecimalValidator implements TypeValidator
             err += object.getClass().getName();
             throw new ValidationException(err);
         }
-        validate(value);
+        validate(value, context);
     } //-- validate
 
 } //-- decimalValidator
