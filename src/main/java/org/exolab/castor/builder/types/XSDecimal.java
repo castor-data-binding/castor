@@ -59,7 +59,7 @@ import java.util.Enumeration;
  * TODO : handle pattern, enumeration
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
 **/
-public  class XSDecimal extends XSType
+public  class XSDecimal extends XSPatternBase
 {
 
     /**
@@ -251,6 +251,9 @@ public  class XSDecimal extends XSType
                 //--fractionDigits
                 else if (Facet.FRACTIONDIGITS.equals(name))
                    setFractionDigits(facet.toInt());
+                //--pattern
+                else if (Facet.PATTERN.equals(name))
+                    setPattern(facet.getValue());
             }
 
     } //-- setFacets
@@ -262,27 +265,27 @@ public  class XSDecimal extends XSType
         return XSDecimal.jType;
     }
 
-	/**
-	 * Returns the Java code neccessary to create a new instance of the
-	 * JType associated with this XSType
-	 */
-	public String newInstanceCode()
-	{
+    /**
+     * Returns the Java code neccessary to create a new instance of the
+     * JType associated with this XSType
+     */
+    public String newInstanceCode()
+    {
         String result = "new java.math.BigDecimal(0);";
         return result;
-	}
-	
-   	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+    }
+    
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     * 
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
 
         if (jsc == null)
             jsc = new JSourceCode();
@@ -334,7 +337,16 @@ public  class XSDecimal extends XSType
             jsc.append(fixedValue);
             jsc.append(");");
         }
+        
+        //-- pattern facet
+        String pattern = getPattern();
+        if (pattern != null) {
+            jsc.add("typeValidator.setPattern(\"");
+            jsc.append(escapePattern(pattern));
+            jsc.append("\");");
+        }
+
         jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
-		
+        
     }
 }

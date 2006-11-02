@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-384 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for 'pattern' facet for <xsd:decimal>.
+       Details: http://jira.codehaus.org/browse/CASTOR-384
+       (Werner - 20061102)
+
 XML:   Resolved issue CASTOR-1675 using contribution from Eric Wittmann [wittmann@snet.net]
        Fixed problem with SchemaWriter not serializing anyAttribute child of a complexType.
        Details: http://jira.codehaus.org/browse/CASTOR-1675
