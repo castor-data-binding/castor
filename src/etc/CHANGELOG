@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1680 using contribution from Pawel Pesz [castor@insert.net.pl]
+       Fixed issue with incorrect constants in AbstractMappingLoader.
+       Details: http://jira.codehaus.org/browse/CASTOR-1680
+       (Ralf - 20061106)
+
 XML:   Resolved issue CASTOR-384 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for 'pattern' facet for <xsd:decimal>.
        Details: http://jira.codehaus.org/browse/CASTOR-384

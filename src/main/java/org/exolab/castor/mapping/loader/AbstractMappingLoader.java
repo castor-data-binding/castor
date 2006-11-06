@@ -109,13 +109,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     private static final String SET_METHOD_PREFIX = "set";
 
     /** The prefix for the "create" method. */
-    private static final String CREATE_METHOD_PREFIX = "set";
+    private static final String CREATE_METHOD_PREFIX = "create";
 
     /** The prefix for the "has" method. */
-    private static final String HAS_METHOD_PREFIX = "set";
+    private static final String HAS_METHOD_PREFIX = "has";
 
     /** The prefix for the "delete" method. */
-    private static final String DELETE_METHOD_PREFIX = "set";
+    private static final String DELETE_METHOD_PREFIX = "delete";
 
     /** Empty array of class types used for reflection. */
     protected static final Class[] EMPTY_ARGS = new Class[0];

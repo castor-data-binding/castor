@@ -31,6 +31,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1680" tool="jira">
+                    <description>
+                        Fixed issue with incorrect constants in AbstractMappingLoader.
+                    </description>
+                    <contributor>
+                        <name>Pawel Pesz</name>
+                        <email>castor@insert.net.pl</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Pawel Pesz</name>
+                        <email>castor@insert.net.pl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061106</date>
+                </bug>
                 <bug id="384" tool="jira">
                     <description>
                         Added support for 'pattern' facet for &lt;xsd:decimal&gt;.
