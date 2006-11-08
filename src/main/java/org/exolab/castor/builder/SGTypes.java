@@ -125,7 +125,7 @@ public class SGTypes {
     }
 
     public static final JType createArrayList(final JType jType, final boolean usejava50) {
-        return new JCollectionType("java.util.ArrayList", jType, usejava50);
+        return new JCollectionType("java.util.List", "java.util.ArrayList", jType, usejava50);
     }
 
     public static final JType createHashtable(final boolean useJava50) {

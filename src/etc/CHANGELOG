@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1677 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       XML code generator now uses 'java.util.List' as signature type for 'j2' collections.
+       Details: http://jira.codehaus.org/browse/CASTOR-1677
+       (Werner - 20061108)
+
 XML:   Resolved issue CASTOR-1680 using contribution from Pawel Pesz [castor@insert.net.pl]
        Fixed issue with incorrect constants in AbstractMappingLoader.
        Details: http://jira.codehaus.org/browse/CASTOR-1680

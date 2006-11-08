@@ -56,6 +56,7 @@ import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
 import org.exolab.javasource.JMethod;
@@ -148,7 +149,8 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.add("this.");
         sourceCode.append(this.getName());
         sourceCode.append(" = new ");
-        sourceCode.append(this.getXSList().getJType().toString());
+        JType jType = this.getXSList().getJType();
+        sourceCode.append(((JCollectionType) jType).getInstanceName());
         sourceCode.append("();");
     } // -- generateConstructorCode
 

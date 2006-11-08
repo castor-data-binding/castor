@@ -29,8 +29,39 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            	<h2>Changes</h2>
+            	
+            	<h3>XML code generation - Signature type for 'j2' collections</h3>
+            	
+            	<p>The Castor code generator now uses 'java.util.List' as type 
+            	   when generating code for a Java member (as well as the type used 
+            	   for the corresponding getter and setter methods) rather than
+            	   the old 'java.util.ArrayList'.</p>
+            	   
             </summary>
             <bugs>
+
+                <bug id="1677" tool="jira">
+                    <description>
+                        XML code generator now uses 'java.util.List' as signature 
+                        type for 'j2' collections.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061108</date>
+                </bug>
                 <bug id="1680" tool="jira">
                     <description>
                         Fixed issue with incorrect constants in AbstractMappingLoader.

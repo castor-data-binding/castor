@@ -241,6 +241,8 @@ java -cp %CP% org.exolab.castor.builder.SourceGenerator -i invoice.xsd -package 
 		</section>
 			
 		<section title="The generated code">
+		
+		<section title="The Item.java class"> 
 			
 			<p>To simplify this example	we now focus on the <tt>item</tt> element.</p>
 			
@@ -402,6 +404,165 @@ public class Item implements java.io.Serializable {
 			descriptors for the different components of an ‘Item’
 			element i.e. id, quantity and price.</p>
 			
+			</section>
+			
+			<section title="The PriceType.java class">
+			
+				<p>TODO ...</p>
+				
+			</section>
+			
+			<section title="The Invoice.java class">
+			
+				<p>In this section, we focus on the 'invoice' element as
+				   shown again below:</p>
+				   
+				<code-panel><![CDATA[
+<xsd:element name="invoice">
+   <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element name="ship-to">
+            <xsd:complexType>
+               <xsd:group ref="customer" />
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element ref="item"	minOccurs="1" maxOccurs="unbounded" />
+         <xsd:element ref="shipping-method" />
+         <xsd:element ref="shipping-date" />
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:element>]]></code-panel>
+	
+				<p>Amongst other things, an <tt>&lt;invoice&gt;</tt> is made up of at least
+				   one, but potentially many <tt>&lt;item&gt;</tt> elements. The Castor XML code
+				   generator creates a Java collection named 'itemList' for this
+				   unbounded element declaration, of type <tt>java.util.List</tt>
+				   if the scode generator is used with the '<tt>arraylist</tt>'
+				   field factory.</p>
+				   
+				<code-panel>
+    private <b>java.util.List</b> _itemList;</code-panel>
+				
+				<p>If the '<tt>j1</tt>' field factory is used, this will be replaced 
+				   with ...</p>
+				   
+				<code-panel>
+    private <b>java.util.Vector</b> _itemList;</code-panel>
+				   
+				<p>The complete class as generated (with irrelevant code
+				   parts removed) in '<tt>j2</tt>' (aka '<tt>arraylist</tt>') 
+				   mode is shown below:</p>
+			
+				<code-panel><![CDATA[
+public class Invoice implements java.io.Serializable {
+
+
+    ...
+    
+    private java.util.List _itemList;
+    
+    ...
+
+    public Invoice() 
+     {
+        super();
+        this._itemList = new java.util.ArrayList();
+    } //-- xml.c1677.invoice.generated.Invoice()
+
+	...
+
+    public void addItem(xml.c1677.invoice.generated.Item vItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._itemList.add(vItem);
+    } //-- void addItem(xml.c1677.invoice.generated.Item) 
+
+    public void addItem(int index, xml.c1677.invoice.generated.Item vItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._itemList.add(index, vItem);
+    } //-- void addItem(int, xml.c1677.invoice.generated.Item) 
+
+    public java.util.Enumeration enumerateItem()
+    {
+        return java.util.Collections.enumeration(this._itemList);
+    } //-- java.util.Enumeration enumerateItem() 
+
+    public xml.c1677.invoice.generated.Item getItem(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._itemList.size()) {
+            throw new IndexOutOfBoundsException("getItem: Index value '" + index 
+               + "' not in range [0.." + (this._itemList.size() - 1) + "]");
+        }
+        
+        return (xml.c1677.invoice.generated.Item) _itemList.get(index);
+    } //-- xml.c1677.invoice.generated.Item getItem(int) 
+
+    public xml.c1677.invoice.generated.Item[] getItem()
+    {
+        int size = this._itemList.size();
+        xml.c1677.invoice.generated.Item[] array = new xml.c1677.invoice.generated.Item[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (xml.c1677.invoice.generated.Item) _itemList.get(index);
+        }
+        
+        return array;
+    } //-- xml.c1677.invoice.generated.Item[] getItem() 
+
+    public int getItemCount()
+    {
+        return this._itemList.size();
+    } //-- int getItemCount() 
+
+    public java.util.Iterator iterateItem()
+    {
+        return this._itemList.iterator();
+    } //-- java.util.Iterator iterateItem() 
+
+    public void removeAllItem()
+    {
+        this._itemList.clear();
+    } //-- void removeAllItem() 
+
+    public boolean removeItem(xml.c1677.invoice.generated.Item vItem)
+    {
+        boolean removed = _itemList.remove(vItem);
+        return removed;
+    } //-- boolean removeItem(xml.c1677.invoice.generated.Item) 
+
+    public xml.c1677.invoice.generated.Item removeItemAt(int index)
+    {
+        Object obj = this._itemList.remove(index);
+        return (xml.c1677.invoice.generated.Item) obj;
+    } //-- xml.c1677.invoice.generated.Item removeItemAt(int) 
+
+    public void setItem(int index, xml.c1677.invoice.generated.Item vItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._itemList.size()) {
+            throw new IndexOutOfBoundsException("setItem: Index value '" 
+               + index + "' not in range [0.." + (this._itemList.size() - 1) + "]");
+        }
+        
+        this._itemList.set(index, vItem);
+    } //-- void setItem(int, xml.c1677.invoice.generated.Item) 
+
+    public void setItem(xml.c1677.invoice.generated.Item[] vItemArray)
+    {
+        //-- copy array
+        _itemList.clear();
+        
+        for (int i = 0; i < vItemArray.length; i++) {
+                this._itemList.add(vItemArray[i]);
+        }
+    } //-- void setItem(xml.c1677.invoice.generated.Item) 
+
+}]]></code-panel>
+
+			</section>
 		</section>
 
 	</body>

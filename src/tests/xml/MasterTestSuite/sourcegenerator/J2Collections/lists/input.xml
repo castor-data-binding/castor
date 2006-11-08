@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<listOfStrings xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="test.xsd">
+	<strings>integer1</strings>
+	<strings>integer2</strings>
+</listOfStrings>
