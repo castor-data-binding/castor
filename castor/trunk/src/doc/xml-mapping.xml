@@ -440,7 +440,7 @@ public class MyClass {
 	              <th>default implementation</th>
               </cheader>
               <crow><td>array</td><td>&lt;type_attribute>[]</td><td>&lt;type_attribute>[]</td></crow>
-              <crow><td>arraylist</td><td>java.util.ArrayList</td><td>java.util.Arraylist </td></crow>
+              <crow><td>arraylist</td><td>java.util.List</td><td>java.util.Arraylist </td></crow>
               <crow><td>vector</td><td>java.util.Vector</td><td>java.util.Vector</td></crow>
               <crow><td>hashtable</td><td>java.util.Hashtable</td><td>java.util.Hashtable</td></crow>
               <crow><td>collection</td><td>java.util.Collection</td><td>java.util.Arraylist </td></crow>

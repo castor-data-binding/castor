@@ -95,7 +95,9 @@ public class FieldInfoFactory {
 
     public FieldInfoFactory(final String collectionName) {
         super();
-        if (!(collectionName.equals(VECTOR) || collectionName.equals(ARRAY_LIST) || collectionName.equals(ODMG))) {
+        if (!(collectionName.equals(VECTOR) 
+                || collectionName.equals(ARRAY_LIST) 
+                || collectionName.equals(ODMG))) {
             throw new IllegalArgumentException(collectionName+" is currently not a supported Java collection.");
         }
         _default = collectionName;
