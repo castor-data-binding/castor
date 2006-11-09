@@ -54,6 +54,7 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.util.*;
 
 //-- misc xml related imports
@@ -71,7 +72,6 @@ import java.io.PrintWriter;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.StringTokenizer;
-
 /**
  * An unmarshaller to allowing unmarshalling of XML documents to
  * Java Objects. The Class must specify
@@ -185,6 +185,11 @@ public class Unmarshaller {
      * A list of namespace To Package Mappings
      */
     private HashMap _namespaceToPackage = null;
+
+    /**
+     * An optional factory for unmarshalling objects
+     */
+	private ObjectFactory _objectFactory;
     
     //----------------/
     //- Constructors -/
@@ -337,6 +342,11 @@ public class Unmarshaller {
         handler.setIgnoreExtraElements(_ignoreExtraElements);
         handler.setConfiguration(_config);
         handler.setWhitespacePreserve(_wsPreserve);
+        
+        // If the object factory has been set, set it on the handler
+        if (this._objectFactory != null) {
+        	handler.setObjectFactory(this._objectFactory);
+        }
 
         //-- copy namespaceToPackageMappings
         if (_namespaceToPackage != null) {
@@ -861,5 +871,16 @@ public class Unmarshaller {
         
         return unmarshaller.unmarshal(node);
     } //-- void unmarshal(Writer)
+
+	/**
+     * Set an object factory for the unmarshaller. This
+     * factory will be used to construct the objects being
+     * unmarshalled.
+     * @param objectFactory Factory used for constructing objects
+     *        during unmarshalling.
+	 */
+	public void setObjectFactory(ObjectFactory objectFactory) {
+		this._objectFactory = objectFactory;
+	} // -- setObjectFactory
 } //-- Unmarshaller
 
