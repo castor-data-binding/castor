@@ -1,6 +1,10 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1671 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Update CTF document and merge CTFDoc.pdf into ctf.xml
+       Details: http://jira.codehaus.org/browse/CASTOR-1671
+       (Edward - 20061108)
 
 XML:   Resolved issue CASTOR-1677 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        XML code generator now uses 'java.util.List' as signature type for 'j2' collections.

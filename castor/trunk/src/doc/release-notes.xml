@@ -40,7 +40,26 @@
             	   
             </summary>
             <bugs>
-
+                <bug id="1671" tool="jira">
+                    <description>
+                        Update CTF document and merge CTFDoc.pdf into ctf.xml
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061108</date>
+                </bug>
                 <bug id="1677" tool="jira">
                     <description>
                         XML code generator now uses 'java.util.List' as signature 
