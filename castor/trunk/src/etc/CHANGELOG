@@ -1,6 +1,12 @@
 
 SVN
 -------------------------------
+
+XML:   Resolved issue CASTOR-1678 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with code generation for choices used in extension hierarchies.
+       Details: http://jira.codehaus.org/browse/CASTOR-1678
+       (Werner - 20061109)
+       
 XML:   Resolved issue CASTOR-1671 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Update CTF document and merge CTFDoc.pdf into ctf.xml
        Details: http://jira.codehaus.org/browse/CASTOR-1671

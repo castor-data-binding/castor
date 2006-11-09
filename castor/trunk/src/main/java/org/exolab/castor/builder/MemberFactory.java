@@ -397,7 +397,7 @@ public class MemberFactory extends BaseFactory {
                 break;
             case Structure.MODELGROUP:
             case Structure.GROUP:
-                fieldInfo.setNodeName("-error-if-this-is-used-");
+                fieldInfo.setNodeName(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION);
                 fieldInfo.setContainer(true);
                 break;
             default:

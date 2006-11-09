@@ -40,6 +40,27 @@
             	   
             </summary>
             <bugs>
+                <bug id="1678" tool="jira">
+                    <description>
+                         Fixed problem with code generation for choices used in extension 
+                         hierarchies.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Susan Anderson</name>
+                        <email>sanders@us.ibm.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061109</date>
+                </bug>
                 <bug id="1671" tool="jira">
                     <description>
                         Update CTF document and merge CTFDoc.pdf into ctf.xml

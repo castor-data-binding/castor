@@ -60,6 +60,11 @@ public class XMLInfo {
     public static final short ELEMENT_TYPE   = 1;
     /** Represents the text node type */
     public static final short TEXT_TYPE      = 2;
+    
+    /**
+     * Identifies the node name for a choice group 
+     */
+    public static final String CHOICE_NODE_NAME_ERROR_INDICATION = "-error-if-this-is-used-";
 
     /** A flag indicating if the object described by this XML info can appear more than once */
     private boolean _multivalued = false;

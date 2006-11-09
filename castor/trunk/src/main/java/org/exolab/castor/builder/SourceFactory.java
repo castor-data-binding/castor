@@ -1891,7 +1891,11 @@ public class SourceFactory extends BaseFactory {
                     present = (base.getAttributeField(fieldInfo.getNodeName()) != null);
                     break;
                 case XMLInfo.ELEMENT_TYPE:
-                    present = (base.getElementField(fieldInfo.getNodeName()) != null);
+                    String baseNodeName = fieldInfo.getNodeName();
+                    // TODO[WG]: replace this eror check with something more meaningful
+                    if (!(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
+                        present = (base.getElementField(baseNodeName) != null);
+                    }
                     break;
                 default:
                     break;
