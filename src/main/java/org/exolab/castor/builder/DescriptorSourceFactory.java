@@ -191,8 +191,18 @@ public class DescriptorSourceFactory {
                 continue;
             }
 
-            if (base != null && base.getAttributeField(member.getNodeName()) != null) {
-                createRestrictedDescriptor(member, jsc);
+            if (base != null) {
+                String baseNodeName = member.getNodeName();
+                if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
+                    createDescriptor(classDesc, member, localClassName, nsURI, jsc);
+                } else {
+                    if (base.getAttributeField(baseNodeName) != null) {
+                        createRestrictedDescriptor(member, jsc);
+                    } else {
+                        createDescriptor(classDesc, member, localClassName,
+                                nsURI, jsc);
+                    }
+                }
             } else {
                 createDescriptor(classDesc, member, localClassName, nsURI, jsc);
             }
@@ -213,8 +223,18 @@ public class DescriptorSourceFactory {
                 continue;
             }
 
-            if (base != null && base.getElementField(member.getNodeName()) != null) {
-                createRestrictedDescriptor(member, jsc);
+            if (base != null) {
+                String baseNodeName = member.getNodeName();
+                if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
+                    createDescriptor(classDesc, member, localClassName, nsURI, jsc);
+                } else {
+                    if (base.getElementField(baseNodeName) != null) {
+                        createRestrictedDescriptor(member, jsc);
+                    } else {
+                        createDescriptor(classDesc, member, localClassName,
+                                nsURI, jsc);
+                    }
+                }
             } else {
                 createDescriptor(classDesc, member, localClassName, nsURI, jsc);
             }
