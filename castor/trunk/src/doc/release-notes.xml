@@ -40,6 +40,27 @@
             	   
             </summary>
             <bugs>
+                <bug id="1669" tool="jira">
+                    <description>
+                         Added feature to set a custom ObjectFactory for object 
+                         creation on Unmarshaller
+                    </description>
+                    <contributor>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Enh.</module>
+                    <date>20061109</date>
+                </bug>
                 <bug id="1678" tool="jira">
                     <description>
                          Fixed problem with code generation for choices used in extension 

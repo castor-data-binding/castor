@@ -2478,30 +2478,27 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- addReference
     
     /**
-     * Creates an instance of the given class
+     * Creates an instance of the given class /type, using 
+     * the arguments provided (if there are any).
+     * @param type The class type to be used during instantiation
+     * @param args (Optional) arguments to be used during instantiation
      */
-     private Object createInstance(Class type, Arguments args) 
-        throws SAXException
-     {
+     private Object createInstance(final Class type, final Arguments args)
+            throws SAXException {
         Object instance = null;
         try {
             if (args == null) {
                 instance = _objectFactory.createInstance(type);
+            } else {
+                instance = _objectFactory.createInstance(type, args.types,
+                        args.values);
             }
-            else {
-                instance = _objectFactory.createInstance(type, args.types, args.values);
-            }
-        }
-        catch(Exception ex) {
-            String msg = "unable to instantiate " + type.getName() + "; ";
-            // storing causal exception using SAX non-standard method...
-            SAXException sx = new SAXException(msg, ex);
-            //...and also using Java 1.4 method
-            //sx.initCause(ex);
-            throw sx;
+        } catch (Exception ex) {
+            String msg = "Unable to instantiate " + type.getName() + "; ";
+            throw new SAXException(msg, ex);
         }
         return instance;
-     } //-- createInstance
+    } // -- createInstance
      
      
      
@@ -3845,6 +3842,22 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         
     } //-- ArrayHandler
+
+	/**
+     * Returns the ObjectFactory instance in use.
+	 * @return the ObjectFactory instance in use.
+	 */
+	public ObjectFactory getObjectFactory() {
+		return _objectFactory;
+	}
+
+	/**
+     * Sets a (custom) ObjectFactory instance.
+	 * @param objectFactory A (custom) ObjectFactory instance
+	 */
+	public void setObjectFactory(ObjectFactory objectFactory) {
+		_objectFactory = objectFactory;
+	}
 
 } //-- Unmarshaller
 

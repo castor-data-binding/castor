@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1669 using contribution from Paul Philion [philion@gmail.com]
+       Added feature to set a custom ObjectFactory for object creation on Unmarshaller
+       Details: http://jira.codehaus.org/browse/CASTOR-1669
+       (Werner - 20061109)
+
 XML:   Resolved issue CASTOR-1678 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with code generation for choices used in extension hierarchies.
        Details: http://jira.codehaus.org/browse/CASTOR-1678

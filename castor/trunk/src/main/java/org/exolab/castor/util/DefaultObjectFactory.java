@@ -72,10 +72,7 @@ public class DefaultObjectFactory implements ObjectFactory {
     public Object createInstance(Class type) 
         throws IllegalAccessException, InstantiationException
     {
-        if (java.util.Date.class.isAssignableFrom(type)) {
-            return handleDates(type);
-        }
-        return type.newInstance();
+        return createInstance(type, null, null);
     } //-- createInstance
     
     /**
@@ -88,12 +85,6 @@ public class DefaultObjectFactory implements ObjectFactory {
     public Object createInstance(Class type, Object[] args) 
         throws IllegalAccessException, InstantiationException
     {
-        if ((args == null) || (args.length == 0)) {
-            if (java.util.Date.class.isAssignableFrom(type)) {
-                return handleDates(type);
-            }
-            return type.newInstance();
-        }
         return createInstance(type, null, args);
     } //-- createInstance
     
@@ -116,24 +107,24 @@ public class DefaultObjectFactory implements ObjectFactory {
             return type.newInstance();
         }
         
-        if (argTypes == null) {
-            argTypes = new Class[args.length];
-            for (int i = 0; i < args.length; i++) {
-                if (args[i] != null) {
-                    argTypes[i] = args[i].getClass();
-                }
-                else {
-                    String err = "null arguments to constructor not accepted " +
-                        "if the 'argTypes' array is null.";
-                    throw new IllegalStateException(getClass().getName() + ": " + err);
-                }
-            }
-        }
-        else if (argTypes.length != args.length) {
-            String err = "The argument type array must be the same length as argument value array.";
-            throw new IllegalArgumentException(getClass().getName() + ": " + err);
-        }
+        argTypes = checkArguments(argTypes, args);
         
+        return instantiateUsingConstructor(type, argTypes, args);
+            
+    } //-- createInstance
+
+    /**
+     * Create a new instance of the given type by calling a public constructor
+     * of this class, passing the given arguments to the constructor call.
+     * @param type The class type to instantiate
+     * @param argTypes Argument types.
+     * @param args Arguments (to be used as parameters to the constructor class).
+     * @return An instance of the class type provided
+     * @throws InstantiationException If the given class type does not expose a constructor 
+     *  with the given number of argument (types).
+     * @throws IllegalAccessException If the given constructor failed during invocation.
+     */
+    private Object instantiateUsingConstructor(Class type, Class[] argTypes, Object[] args) throws InstantiationException, IllegalAccessException {
         try {
             Constructor cons = type.getConstructor(argTypes);
             return cons.newInstance(args);
@@ -150,12 +141,41 @@ public class DefaultObjectFactory implements ObjectFactory {
             throw new CastorIllegalStateException(
                     ite.getMessage(), ite.getTargetException());
         }
-            
-    } //-- createInstance
+    }
+
+    /**
+     * Check the arguments (incl. argument types, if provided) for consistency, and 
+     * deduce argument types if not provided.
+     * @param argTypes Argumemnt types.
+     * @param args Arguments
+     * @return A class array for the argument types provided.
+     */
+    private Class[] checkArguments(Class[] argTypes, Object[] args) {
+        if (argTypes == null) {
+            argTypes = new Class[args.length];
+            for (int i = 0; i < args.length; i++) {
+                if (args[i] != null) {
+                    argTypes[i] = args[i].getClass();
+                } else {
+                    String err = "null arguments to constructor not accepted " +
+                        "if the 'argTypes' array is null.";
+                    throw new IllegalStateException(getClass().getName() + ": " + err);
+                }
+            }
+        } else if (argTypes.length != args.length) {
+            String err = "The argument type array must be the same length as argument value array.";
+            throw new IllegalArgumentException(getClass().getName() + ": " + err);
+        }
+        return argTypes;
+    }
     
     
     /**
-     * Special Date Handling
+     * Handles 'Date' types in a special way.
+     * @param type The Class type 
+     * @return A new instance of the type given
+     * @throws InstantiationException If the given class type cannot be successfully instantiated. 
+     * @throws IllegalAccessException If the given constructor failed during invocation.
      */
     private Object handleDates(Class type) 
         throws IllegalAccessException, InstantiationException
