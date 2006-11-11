@@ -1,0 +1,162 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/maven-integration.xml">
+
+  <properties>
+    <title>Maven integration</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+       Describes how to use Castor with Maven.
+    </abstract>
+    <status>Final</status>
+  </properties>
+
+  <body>
+
+    <title>How to integrate Castor with Maven</title>
+
+    <section title="Introduction">
+
+		<p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b> 
+		   build artefacts of Castor available at the 
+		   <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
+
+		<p>To include Castor 1.0.4 (and future releases) in your Maven 2 project(s),
+		   please add the following Maven 2 dependency to your project POM.</p>
+
+		<code-panel><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor</artifactId>
+   <version>1.0.4</version>
+</dependency>]]></code-panel>
+
+		<p>and make sure you include the Codehaus Maven 2 repository in your
+		   POM similar to ...</p>
+
+		<code-panel><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name>
+    <url>http://maven.codehaus.org/maven2/</url>
+</repository>]]></code-panel>
+
+		<p>Once Castor 1.0.4 will have been propagated to the main Maven 2
+		   repository at ibiblio (http://www.ibiblio.org/maven2), adding just the
+		   dependency will be sufficient.</p>
+
+	</section>
+	
+	<section title="Snapshot releases">
+	
+		<p>As we are working towards new releases, we will try to make snapshot releases 
+		   available as we make progress with existing/newly created Jira 
+		   issues. Please consult with the relevant release section at
+		   the <a href="http://jira.codehaus.org/browse/CASTOR">raodmap</a>
+		   to get an idea what's been fixed as part of a (planned) release.</p>
+
+		<p>As usual, please report any issues with these Maven 2 (snapshot)
+		   releases through <a href="http://jira.codehaus.org/browse/CASTOR">Jira</a>.</p>
+
+    </section>
+
+    <section title="Available release artefacts">
+        
+        <p>The following table summarizes the build artefacts currently available
+           through the <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
+           
+        <ctable>
+            <cheader>
+                <th>Description</th>
+                <th>Dependency</th>
+            </cheader>
+            <crow>
+               <td>Castor</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor</artifactId>
+   <version>1.0.4</version>
+</dependency>]]></pre></td>
+            </crow>
+        </ctable>
+        
+        <p>Until these build artefacts have been propagated to the 
+           <a href="http://www.ibiblio.org/maven2">main Maven 2 repository</a>,
+           please make sure that your project POMS include the following 
+           <tt>&lt;repository&gt;</tt> definition:</p>
+
+            <source><![CDATA[
+<repository>
+    <id>codehaus-repository</id>
+    <name>Codehaus Maven 2 repository</name> 
+    <url>http://maven.codehaus.org/maven2/</url> 
+</repository>]]></source>
+
+    </section>
+
+    <section title="Available snapshot release artefacts">
+        
+        <p>The following table summarizes the build artefacts currently available
+           through the <a href="http://snapshots.repository.codehaus.org/">Codehaus Maven 2 snapshot repository</a>.</p>
+           
+        <ctable>
+            <cheader>
+                <th>Description</th>
+                <th>Dependency</th>
+            </cheader>
+            <crow>
+               <td>Castor</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor</artifactId>
+   <version>1.0.5-SNAPSHOT</version>
+</dependency>]]></pre></td>
+            </crow>
+            <crow>
+               <td>Castor XML code generation - Ant task</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>code-generator-ant-task</artifactId>
+   <version>1.0.5-SNAPSHOT</version>
+</dependency>]]></pre></td>
+            </crow>
+            <crow>
+               <td>Castor XML Spring factory beans</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>spring-xml</artifactId>
+   <version>1.0-SNAPSHOT</version>
+</dependency>]]></pre></td>
+            </crow>
+            <crow>
+               <td>Spring ORM for Castor JDO</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-spring</artifactId>
+   <version>1.0-SNAPSHOT</version>
+</dependency>]]></pre></td>
+            </crow>
+        </ctable>
+        
+        <p>For those artefacts available as <b>snapshot</b> releases only, please make sure
+           that your project POMS include the following <tt>&lt;repository&gt;</tt>
+           definition:</p>
+
+            <source><![CDATA[
+<repository>
+    <id>codehaus-snapshots</id>
+    <name>Maven Codehaus Snapshots</name> 
+    <url>http://snapshots.maven.codehaus.org/maven2/</url> 
+</repository>]]></source>
+
+    </section>
+
+  </body>
+
+</document>
+

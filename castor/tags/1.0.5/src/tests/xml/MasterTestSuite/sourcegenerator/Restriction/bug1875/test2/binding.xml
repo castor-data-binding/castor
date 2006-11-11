@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+      defaultBindingType="type">
+	<!-- avoid name collisions -->
+	<cbf:namingXML>
+		<cbf:complexTypeName>
+			<cbf:prefix>CT_</cbf:prefix>
+		</cbf:complexTypeName>
+		<cbf:elementName>
+			<cbf:prefix>E_</cbf:prefix>
+		</cbf:elementName>
+		<cbf:modelGroupName>
+			<cbf:prefix>G_</cbf:prefix>
+		</cbf:modelGroupName>
+	</cbf:namingXML>
+</cbf:binding>
+

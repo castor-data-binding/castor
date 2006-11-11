@@ -1,0 +1,22 @@
+<?xml version="1.0"?>
+<TestDescriptor>
+
+   <Name>Test mapping of Map of Map of Maps</Name>
+   <Author>Werner Guttmann</Author>
+
+	<Comment>Default test for deeply nested maps</Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>MapOfMapOfMaps</Root_Object>
+
+      <UnitTestCase>
+         <Name>Test01</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input.xml</Input>
+<!--         <GoldFile>output.xml</GoldFile>-->
+      </UnitTestCase>
+	</MarshallingTest>
+
+</TestDescriptor>

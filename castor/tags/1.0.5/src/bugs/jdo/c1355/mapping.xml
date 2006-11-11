@@ -1,0 +1,259 @@
+<?xml version="1.0"?>
+<mapping xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://castor.exolab.org/ file:///c:/apex/projects/internal/MyOnlineTracker/xdocs/schemas/mapping.xsd">
+
+	<class name="jdo.c1355.app.GolfCourse" key-generator="GolfCourse_SEQUENCE" verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to xml="GolfCourse" table="T_GOLF_COURSE"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+			<bind-xml name="id" node="element" transient="false"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="COURSE_NAME" type="char"/>
+			<bind-xml name="name" node="element" transient="false"/>
+		</field>
+		<field name="holes" type="integer" required="true">
+			<sql name="HOLES" type="integer"/>
+			<bind-xml name="holes" node="element" transient="false"/>
+		</field>
+		<field name="tees" type="jdo.c1355.app.GolfCourseTees" lazy="true" collection="collection">
+			<sql many-key="COURSE_ID"/>
+			<bind-xml name="tees" node="element" transient="false"/>
+		</field>
+		<field name="city" type="jdo.c1355.app.City" lazy="true">
+			<sql name="CITY_ID"/>
+			<bind-xml name="city" node="element" transient="false"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+			<bind-xml name="createdById" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+			<bind-xml name="lastModifiedById" node="element" transient="false"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+			<bind-xml name="createDate" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+			<bind-xml name="lastModifiedDate" node="element" transient="false"/>
+		</field>
+	</class>
+
+	<class name="jdo.c1355.app.GolfCourseTees" key-generator="GolfCourseTees_SEQUENCE" verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to xml="GolfCourseTees" table="T_GOLF_COURSE_TEES"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+			<bind-xml name="id" node="element" transient="false"/>
+		</field>
+		<field name="course" type="jdo.c1355.app.GolfCourse" required="true" lazy="false">
+			<sql name="COURSE_ID"/>
+			<bind-xml name="course" node="element" transient="false"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="TEES_NAME" type="char"/>
+			<bind-xml name="name" node="element" transient="false"/>
+		</field>
+		<field name="color" type="string">
+			<sql name="TEES_COLOR" type="char"/>
+			<bind-xml name="color" node="element" transient="false"/>
+		</field>
+		<field name="mensSlope" type="integer">
+			<sql name="MENS_SLOPE" type="integer"/>
+			<bind-xml name="mensSlope" node="element" transient="false"/>
+		</field>
+		<field name="mensRating" type="double">
+			<sql name="MENS_RATING" type="double"/>
+			<bind-xml name="mensRating" node="element" transient="false"/>
+		</field>
+		<field name="womensSlope" type="integer">
+			<sql name="WOMENS_SLOPE" type="integer"/>
+			<bind-xml name="womensSlope" node="element" transient="false"/>
+		</field>
+		<field name="womensRating" type="double">
+			<sql name="WOMENS_RATING" type="double"/>
+			<bind-xml name="womensRating" node="element" transient="false"/>
+		</field>
+		<field name="yardage" type="integer">
+			<sql name="YARDAGE" type="integer"/>
+			<bind-xml name="yardage" node="element" transient="false"/>
+		</field>
+		<field name="holes" type="jdo.c1355.app.GolfCourseHole" lazy="false" collection="collection">
+			<sql many-key="COURSE_TEES_ID"/>
+			<bind-xml name="holes" node="element" transient="false"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+			<bind-xml name="createdById" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+			<bind-xml name="lastModifiedById" node="element" transient="false"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+			<bind-xml name="createDate" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+			<bind-xml name="lastModifiedDate" node="element" transient="false"/>
+		</field>
+	</class>
+
+	<class name="jdo.c1355.app.GolfCourseHole" key-generator="GolfCourseHole_SEQUENCE" verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to xml="GolfCourseHole" table="T_GOLF_COURSE_HOLES"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+			<bind-xml name="id" node="element" transient="false"/>
+		</field>
+		<field name="courseTees" type="jdo.c1355.app.GolfCourseTees" required="true" lazy="false">
+			<sql name="COURSE_TEES_ID"/>
+			<bind-xml name="courseTees" node="element" transient="false"/>
+		</field>
+		<field name="number" type="integer" required="true">
+			<sql name="NUMBER" type="integer"/>
+			<bind-xml name="number" node="element" transient="false"/>
+		</field>
+		<field name="name" type="string">
+			<sql name="HOLE_NAME" type="char"/>
+			<bind-xml name="name" node="element" transient="false"/>
+		</field>
+		<field name="par" type="integer">
+			<sql name="PAR" type="integer"/>
+			<bind-xml name="par" node="element" transient="false"/>
+		</field>
+		<field name="yardage" type="integer">
+			<sql name="YARDAGE" type="integer"/>
+			<bind-xml name="yardage" node="element" transient="false"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+			<bind-xml name="createdById" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+			<bind-xml name="lastModifiedById" node="element" transient="false"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+			<bind-xml name="createDate" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+			<bind-xml name="lastModifiedDate" node="element" transient="false"/>
+		</field>
+	</class>
+
+	<class name="jdo.c1355.app.City" key-generator="City_SEQUENCE" verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to xml="City" table="L_CITY"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+			<bind-xml name="id" node="element" transient="false"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="NAME" type="char"/>
+			<bind-xml name="name" node="element" transient="false"/>
+		</field>
+		<field name="state" type="jdo.c1355.app.StateProv" required="true" lazy="true">
+			<sql name="STATE_PROV_ID"/>
+			<bind-xml name="state" node="element" transient="false"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+			<bind-xml name="createdById" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+			<bind-xml name="lastModifiedById" node="element" transient="false"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+			<bind-xml name="createDate" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+			<bind-xml name="lastModifiedDate" node="element" transient="false"/>
+		</field>
+	</class>
+
+	<class name="jdo.c1355.app.StateProv" key-generator="StateProv_SEQUENCE" verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to xml="StateProv" table="L_STATE_PROV"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+			<bind-xml name="id" node="element" transient="false"/>
+		</field>
+		<field name="code" type="string">
+			<sql name="CODE" type="char"/>
+			<bind-xml name="code" node="element" transient="false"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="NAME" type="char"/>
+			<bind-xml name="name" node="element" transient="false"/>
+		</field>
+		<field name="country" type="jdo.c1355.app.Country" required="true" lazy="true">
+			<sql name="COUNTRY_ID"/>
+			<bind-xml name="country" node="element" transient="false"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+			<bind-xml name="createdById" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+			<bind-xml name="lastModifiedById" node="element" transient="false"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+			<bind-xml name="createDate" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+			<bind-xml name="lastModifiedDate" node="element" transient="false"/>
+		</field>
+	</class>
+
+	<class name="jdo.c1355.app.Country" key-generator="Country_SEQUENCE" verify-constructable="true" auto-complete="false" identity="id">
+		<cache-type type="time-limited" capacity="3600"/>
+		<map-to xml="Country" table="L_COUNTRY"/>
+		<field name="id" type="long">
+			<sql name="ID" type="bigint"/>
+			<bind-xml name="id" node="element" transient="false"/>
+		</field>
+		<field name="name" type="string" required="true">
+			<sql name="NAME" type="char"/>
+			<bind-xml name="name" node="element" transient="false"/>
+		</field>
+		<field name="iso3Code" type="string">
+			<sql name="ISO3_COUNTRY_CODE" type="char"/>
+			<bind-xml name="iso3Code" node="element" transient="false"/>
+		</field>
+		<field name="createdById" type="long">
+			<sql name="RECORD_CREATED_BY_ID" type="bigint"/>
+			<bind-xml name="createdById" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedById" type="long">
+			<sql name="RECORD_LAST_MOD_BY_ID" type="bigint"/>
+			<bind-xml name="lastModifiedById" node="element" transient="false"/>
+		</field>
+		<field name="createDate" type="java.sql.Timestamp">
+			<sql name="RECORD_CREATE_DATE" type="timestamp"/>
+			<bind-xml name="createDate" node="element" transient="false"/>
+		</field>
+		<field name="lastModifiedDate" type="java.sql.Timestamp">
+			<sql name="RECORD_LAST_MOD_DATE" type="timestamp"/>
+			<bind-xml name="lastModifiedDate" node="element" transient="false"/>
+		</field>
+	</class>
+	<key-generator name="IDENTITY" alias="GolfCourse_SEQUENCE"/>
+	<key-generator name="IDENTITY" alias="GolfCourseTees_SEQUENCE"/>
+	<key-generator name="IDENTITY" alias="GolfCourseHole_SEQUENCE"/>
+	<key-generator name="IDENTITY" alias="City_SEQUENCE"/>
+	<key-generator name="IDENTITY" alias="Country_SEQUENCE"/>
+	<key-generator name="IDENTITY" alias="StateProv_SEQUENCE"/>
+</mapping>

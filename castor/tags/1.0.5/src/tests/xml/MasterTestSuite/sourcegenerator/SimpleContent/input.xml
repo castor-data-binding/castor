@@ -1,0 +1,4 @@
+<?xml version="1.0"?>
+<test>
+    <MyElement use="foo">Value Two</MyElement>
+</test>

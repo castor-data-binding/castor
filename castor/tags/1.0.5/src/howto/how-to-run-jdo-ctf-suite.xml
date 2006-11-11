@@ -1,0 +1,94 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/tutorial/how-to-run-do-ctf-suite.xml">
+  <properties>
+    <title>How to run Castor JDO's CTF suite</title>
+    <abstract>
+       General information about running Castor JDO's CTF suite
+    </abstract>
+    <status>Final</status>
+  </properties>
+  <body>
+    <title>How to run Castor JDO's CTF suite</title>
+    <header>
+    </header>
+    
+	<section title="Overview">
+
+        <p>Castor JDO has a JUnit test suite that is used to test various functional 
+           areas, and to give developers/committers some reassurance when changing the 
+           codebase.</p>
+
+    </section>
+    
+    <section title="Intended Audience">
+
+        <p>Anyone who wants to run the CTF test suite. This document outlines the basic 
+           steps to get people unfamiliar with this area started.</p>
+
+        <p>Our example describes the use of command-line tools for a UNIX system.</p>
+        
+    </section>
+    
+    <section title="Prerequisites">
+
+        <p>Anybody wishing to run the CTF test suite should have access to the 
+           source code of Castor. This can be obtained in one of the following 
+           ways:</p>
+
+        <ul>
+            <li>Download the sources distribution from the 
+                <a href="download.html">download page</a></li>
+            
+            <li>download the latest snapshot from SVN from (see links on the bottom 
+                left corner): <a href="http://svn.castor.codehaus.org/viewrep/castor/castor">here</a></li>
+            <li>Check out the latest code from SVN into your prefered developement 
+                environment. For instructions on this task, take a look
+                <a href="scm.html">here</a></li>
+        </ul>
+        
+        
+    </section>
+
+    <section title="Steps">
+
+        <p>Once you have obtained the Castor sources in one of the ways highlighted above,
+           here is how to proceed. In general, more information about how to 
+           execute the CTF test suite can be found <a href="test-framework.html">here</a>.</p>
+
+
+        <p>From a command line (e.g a shell), please execute the following
+           commands to run the test suite against <i>mySQL</i> (where
+           &lt;castor-root&gt; points to the directory where you installed
+           the Castor sources:</p>
+           
+        <code-panel>
+cd &lt;castor-root&gt;/bin
+build clean
+build tests
+test castor.mysql</code-panel>
+        
+        <p>To execute just one of the many tests of of the complete test suite, 
+           please change this to:</p>
+           
+
+        <code-panel>
+cd &lt;castor-root&gt;/bin
+build clean
+build tests
+test castor.mysql.TC01</code-panel>
+           
+    </section>
+    
+    <section title="References">
+
+        <ul>
+            <li><a href="test-framework.html">The testing framework</a></li>
+            <li><a href="cvs.html">Access to CVS</a></li>
+        </ul>
+    
+        
+    </section>
+
+
+    </body>
+</document>

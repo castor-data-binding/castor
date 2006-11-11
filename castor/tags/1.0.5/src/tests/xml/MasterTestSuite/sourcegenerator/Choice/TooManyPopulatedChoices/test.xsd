@@ -1,0 +1,19 @@
+<?xml version = "1.0" encoding = "ISO-8859-1"?>
+<xsd:schema xmlns:xsd = "http://www.w3.org/2001/XMLSchema"
+            xmlns="http://www.dekabank.de/schemas/dbdzgs/request/"
+            targetNamespace="http://www.dekabank.de/schemas/dbdzgs/request/"
+            elementFormDefault="qualified">
+
+<xsd:element name="Request">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="TechUserId" type="xsd:string" minOccurs="1" maxOccurs="1"/>
+      <xsd:choice minOccurs="1" maxOccurs="1">
+        <xsd:element name="TechUserPwd" type="xsd:string"/>
+        <xsd:element name="SessionId" type="xsd:string"/>
+      </xsd:choice>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+</xsd:schema>

@@ -1,0 +1,17 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                          "http://castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+   <database name="mssql" engine="sql-server" >
+      <data-source class-name="com.inet.tds.TdsDataSource"> 
+         <param name="user" value="test" />
+         <param name="password" value="test" />
+         <param name="serverName" value="localhost" />
+         <param name="databaseName" value="test" />
+         <param name="portNumber" value="1433"/>
+      </data-source>
+      <mapping href="mapping.xml" />
+   </database>
+   <transaction-demarcation mode="local" />
+</jdo-conf>

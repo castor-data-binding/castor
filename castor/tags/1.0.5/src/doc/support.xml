@@ -1,0 +1,76 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.org/support.xml">
+  <body>
+    <title>Castor Support</title>
+
+    <section title="Introduction">
+        
+       <p>Castor is an open-source product. This means that the source code is
+          available at no charge and may be obtained using <a href="scm.xml">SVN</a> or
+         <a href="download.xml">downloaded</a> via the Codehaus distribution server.</p>
+	   
+       <p>Since castor is freely available, including the source code,
+          there is no guaranteed level of support available. The online
+          <a href="#Documentation">documentation</a> is the best place to start. If 
+          you have trouble or have more advanced questions not available in the online 
+          documentation, then please consider subscribing to one of the various 
+          available <a href="lists.xml">mailing lists</a> or join the
+          <a href="/phpBB2">Castor Forums</a>. In general, the lists and forums 
+          are the best place to ask questions about the product.</p>
+	   
+	   <p>Due to our move to <a href="http://www.codehaus.org">the Codehaus</a> in January 
+		  2005, we greatly benefit from the infrastructure available at this site, and are
+		  in a position to offer you additonal communication channels:
+          
+          <ul>
+            <li>Join us on the #castor IRC channel at irc.codehaus.org, where you'll mainly be 
+                able to talk to committers and fellow users/developers exchanging ideas and 
+                bouncing off problems. For those of you behind firewalls, please use the
+                HTTP deamon available at <url>http://irc.codehaus.org</url></li>
+          </ul></p>
+		  
+		<p>Please note, though, that for problems of any kind, you should still use one of 
+		   the mailing list as your prefered way of communicating to us, as this enables other
+           users to browse through old mails at one of the available mailing list
+           archives, and/or search for specific items.</p>
+    </section>
+
+    <section title="Documentation">
+        
+       <p>The online documentation is available throughout the website. To get started
+          simply click on the appropriate sections listed in the menu bar located to the
+          left side of this page.</p>
+          
+      <p>If you can't find something in the documentation, try looking through the
+         examples (as shipped as part of the source distribution).</p>
+         
+      <p>There are also numerous <a href="presentations.xml">presentations and articles</a>
+         available about Castor to help get you started.</p>
+
+    </section>
+
+    <section title="Reporting Bugs and Bug Tracking">
+        
+       <p>If you find a bug, please file a report at Codehaus' issue management system (JIRA) 
+          available at <url>http://jira.codehaus.org/browse/CASTOR</url></p>
+          
+       <p>Before submitting bugs or asking for features to be added/implemented, please read the
+          <a href="http://bugzilla.mozilla.org/page.cgi?id=etiquette.html">Bugzilla Etiguette</a> and
+          <a href="http://bugzilla.mozilla.org/bugwritinghelp.html">Bug Writing Guidelines</a> from Mozilla.org.
+          as a general introduction to submitting such requests.</p>
+
+    </section>
+
+    <section title="Commercial Support">
+        
+       <p>Commercial support is not provided through this project at this time. Having said that,
+          please note that there is a growing number of third party individuals/companies 
+          providing such support, as detailed <a href="professional-services.html">here</a>.</p>
+    </section>
+
+  </body>
+</document>
+
+
+
+

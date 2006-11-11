@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Cyclic inheritence, srcgen should not loop forever</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Make sure that source generation does not loop infinitely</Comment>
+    <Comment>We'll generate uncompilable code, but shouldn't loop forever</Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Failure exception="org.exolab.castor.tests.framework.CompilationException"
+                     FailureStep="source-compilation">true</Failure>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

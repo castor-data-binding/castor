@@ -1,0 +1,68 @@
+<?xml version="1.0"?>
+<tasks>
+    <web-service-monitor>
+        <name>WebService Test for JIRA</name>
+        <active>false</active>
+        <composite-window>Always</composite-window>
+        <during>true</during>
+        <direct>http://qtomaneta3vsb.ad.qintra.com:9801/soap/event</direct>
+        <pattern></pattern>
+        <timeout>10</timeout>
+    </web-service-monitor>
+    <web-service-monitor>
+        <name>Webservice Test 2 for JIRA</name>
+        <active>false</active>
+        <composite-window>Always</composite-window>
+        <during>true</during>
+        <uddi>
+            <url>http://uddidev.uswc.uswest.com/uddipublic/inquire.asmx</url>
+            <business-key>00000000-0000-0000-0000-000000000000</business-key>
+            <service-name>MyWebService</service-name>
+        </uddi>
+        <pattern>Activity</pattern>
+        <timeout>10</timeout>
+    </web-service-monitor>
+    <web-service-monitor>
+        <name>WebService Test for JIRA 2</name>
+        <active>false</active>
+        <composite-window>Always</composite-window>
+        <during>true</during>
+        <direct>http://qtomaneta3vsb.ad.qintra.com:9801/soap/event</direct>
+        <pattern></pattern>
+        <timeout>10</timeout>
+        <trigger>trigger 1</trigger>
+    </web-service-monitor>
+    <web-service-monitor>
+        <name>WebService Test for JIRA 2</name>
+        <active>false</active>
+        <composite-window>Always</composite-window>
+        <during>true</during>
+        <direct>http://qtomaneta3vsb.ad.qintra.com:9801/soap/event</direct>
+        <pattern></pattern>
+        <timeout>10</timeout>
+        <trigger>trigger 1</trigger>
+    </web-service-monitor>
+    <web-service-monitor>
+        <name>WebService Test for JIRA with frequency</name>
+        <active>false</active>
+        <composite-window>Always</composite-window>
+        <during>true</during>
+        <direct>http://qtomaneta3vsb.ad.qintra.com:9801/soap/event</direct>
+        <pattern></pattern>
+        <timeout>10</timeout>
+        <frequency>frequency 1</frequency>
+    </web-service-monitor>
+    <!--
+    <web-service-monitor>
+        <name>WebService Test for JIRA with frequency and trigger</name>
+        <active>false</active>
+        <composite-window>Always</composite-window>
+        <during>true</during>
+        <direct>http://qtomaneta3vsb.ad.qintra.com:9801/soap/event</direct>
+        <pattern></pattern>
+        <timeout>10</timeout>
+        <trigger>trigger 1</trigger>
+        <frequency>frequency 1</frequency>
+    </web-service-monitor>
+    -->
+</tasks>

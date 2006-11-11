@@ -1,0 +1,36 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!-- edited with XMLSPY v2004 rel. 2 U (http://www.xmlspy.com) by Karina Abayeva (MERRIL LYNCH) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns:dsig="http://www.w3.org/2000/09/xmldsig#" xmlns:fpml="http://www.fpml.org/2005/FpML-4-2" xmlns="http://www.ml.com/FpML/2006/ML-1-0" targetNamespace="http://www.ml.com/FpML/2006/ML-1-0" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:include schemaLocation="ml-shared-1-0.xsd"/>
+	<xsd:import namespace="http://www.fpml.org/2005/FpML-4-2" schemaLocation="fpml-main-4-2.xsd"/>
+	<xsd:complexType name="PrimeBrokerageProvisions">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				store prime brokerage information on a trade
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:sequence>
+			<xsd:element name="clientPartyReference" type="fpml:Reference"/>
+			<xsd:element name="primeBrokerPartyReference" type="fpml:Reference"/>
+			<xsd:element name="executingDealerPartyReference" type="fpml:Reference"/>
+			<xsd:element name="dealId" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="blockId" type="xsd:normalizedString" minOccurs="0"/>
+			<xsd:element name="clientTradeVersion" type="xsd:nonNegativeInteger" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:complexType name="PBTrade">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				A type that refines the ml trade to add additional fields required by prime brokerage
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:complexContent>
+			<xsd:extension base="Trade">
+				<xsd:sequence>
+					<xsd:element name="primeBrokerageProvisions" type="PrimeBrokerageProvisions"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+</xsd:schema>
