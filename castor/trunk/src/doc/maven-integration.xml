@@ -15,11 +15,11 @@
 
     <title>How to integrate Castor with Maven</title>
 
-    <section title="Introduction">
+	<p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b> 
+	   build artefacts of Castor available at the 
+	   <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
 
-		<p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b> 
-		   build artefacts of Castor available at the 
-		   <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
+    <section title="Releases">
 
 		<p>To include a specific Castor release in your Maven 2 project(s),
 		   please add the following Maven 2 dependency to your project POM
