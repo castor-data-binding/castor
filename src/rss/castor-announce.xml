@@ -19,6 +19,20 @@
 --> 
 
         <item>
+			<title>Castor 1.0.5 available</title>
+			<pubDate>Sat, 11 Nov 2006 20:22:21 GMT</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item53</link>
+			<description>
+				Castor 1.0.5 has been made available at
+				http://dist.codehaus.org/castor/1.0.5/
+
+                For details about the features added and the bugs fixed, 
+                please have a look at the release notes at 
+				http://castor.codehaus.org/release-notes.html.
+			</description>
+		</item>
+        <item>
 			<title>Castor 1.0.4 available</title>
 			<pubDate>Sun, 22 Oct 2006 20:22:21 GMT</pubDate>
 			<author>Werner Guttmann</author>
