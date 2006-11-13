@@ -29,8 +29,43 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            	<h2>Changes</h2>
+            	
+            	<h3>XML test suite execution</h3>
+            	
+            	<p>The CTF currently requires the Sun JDK (or SDK) to execute, although
+                   it may be possible to execute with GNU gcj or with JRockit. The CTF
+                   will not work if you are using only a JRE. This is because the CTF
+                   uses the Sun Java compiler API to compile code as needed for Source
+                   Generator and Marshaling Framework tests. The CTF code is written to
+                   allow easy extension for additional compiler frameworks, so if you
+                   use a compiler or runtime that is not supported, you should be able
+                   to easily add support for a new framework. If you want to do this,
+                   contact Castor committors for assistance and direction and they'll
+                   set you on the right course.</p>
             </summary>
             <bugs>
+                <bug id="1603" tool="jira">
+                    <description>
+                        Moved CTF compilation away from ANT compiler task by directly
+                        calling compiler in tools.jar of Sun JDK.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061113</date>
+                </bug>
             </bugs>
         </release>
 
