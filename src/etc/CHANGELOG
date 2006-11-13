@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1603 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Moved CTF compilation away from ANT compiler task by directly calling compiler in tools.jar of Sun JDK.
+       Details: http://jira.codehaus.org/browse/CASTOR-1603
+       (Ralf - 20061113)
+
 Version 1.0.5, Nov 11, 2006
 -------------------------------
 

@@ -16,11 +16,9 @@
 package org.exolab.castor.tests.framework;
 
 public interface Compiler {
-
     /**
      * Compiles the content of a directory tree.
      * @throws CompilationException If the build fails.
      */
     void compileDirectory() throws CompilationException;
-
 }

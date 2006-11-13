@@ -11,8 +11,8 @@
         <UnitTestCase>
             <Name>Test Source Generation</Name>
             <!-- No source is generated for this test right now, so there's nothing to fail -->
-            <Failure exception="java.lang.IllegalArgumentException"
-                     FailureStep="source-generation">false</Failure>
+            <Failure exception="org.exolab.castor.tests.framework.CompilationException"
+                     FailureStep="source-compilation">true</Failure>
         </UnitTestCase>
      </OnlySourceGenerationTest>
 </TestDescriptor>
