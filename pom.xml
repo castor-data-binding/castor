@@ -185,9 +185,9 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	</mailingLists>
 
 	<scm>
-       <connection>scm:svn:svn://svn.castor.codehaus.org/castor/scm/castor/</connection>
-       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/</developerConnection>
-       <url>http://svn.castor.codehaus.org/viewrep/castor/castor</url>
+       <connection>scm:svn:http://svn.codehaus.org/castor/castor/trunk</connection>
+       <developerConnection>scm:svn:https://svn.codehaus.org/castor/castor/trunk</developerConnection>
+       <url>http://svn.castor.codehaus.org/browse/castor/castor/trunk</url>
 	</scm>	
 
     <distributionManagement>
