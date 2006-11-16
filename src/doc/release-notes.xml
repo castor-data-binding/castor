@@ -45,6 +45,26 @@
                    set you on the right course.</p>
             </summary>
             <bugs>
+                <bug id="1695" tool="jira">
+                    <description>
+                        Added 'generateImportedSchemas' option to code generator Ant task.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Vasily Lazerko</name>
+                        <email>vasily@tut.by</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061116</date>
+                </bug>
                 <bug id="936" tool="jira">
                     <description>
                         Fixed problem with generated code for unbounded choices.
