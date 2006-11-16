@@ -45,6 +45,26 @@
                    set you on the right course.</p>
             </summary>
             <bugs>
+                <bug id="936" tool="jira">
+                    <description>
+                        Fixed problem with generated code for unbounded choices.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Len Takeuchi</name>
+                        <email>ltakeuchi@excite.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061115</date>
+                </bug>
                 <bug id="1603" tool="jira">
                     <description>
                         Moved CTF compilation away from ANT compiler task by directly

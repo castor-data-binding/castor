@@ -351,7 +351,7 @@ public class MemberFactory extends BaseFactory {
         //-- check whether this should be a collection or not
         int maxOccurs = component.getUpperBound();
         int minOccurs = component.getLowerBound();
-        if (simpleTypeCollection || ((maxOccurs < 0) || (maxOccurs > 1))) {
+        if (simpleTypeCollection || (((maxOccurs < 0) || (maxOccurs > 1)) && !(memberName.endsWith("Choice")))) {
             String vName = memberName + "List";
 
             //--if xmlName is null it means that
