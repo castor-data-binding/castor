@@ -107,6 +107,11 @@ public class CastorSourceGenTask extends MatchingTask {
     private boolean nodesc;
     private boolean nomarshall;
     private boolean testable;
+    
+    /**
+     * Whether to generate code for imported schemas, too.
+     */
+    private boolean generateImportedSchemas;
 
     /**
      * CastorBuilderProperties file
@@ -176,6 +181,14 @@ public class CastorSourceGenTask extends MatchingTask {
     }
 
     /**
+     * Controls whether to generate code for imported schemas as well. 
+     * @param generateImportedSchemas True if code should be generated for imported schemas.
+     */
+    public void setGenerateImportedSchemas(final boolean generateImportedSchemas) {
+        this.generateImportedSchemas = generateImportedSchemas; 
+    }
+    
+    /**
      * Sets the file to use for castor builder properties
      *
      * @param properties the properties to use
@@ -237,6 +250,8 @@ public class CastorSourceGenTask extends MatchingTask {
         if (nomarshall) {
             log(DISABLE_MARSHALL_MSG);
         }
+        
+        sgen.setGenerateImportedSchemas(generateImportedSchemas); 
 
         sgen.setTestable(testable);
         if (this.testable) {
