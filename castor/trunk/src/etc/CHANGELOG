@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-936 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with generated code for unbounded choices.
+       Details: http://jira.codehaus.org/browse/CASTOR-936
+       (Ralf - 20061115)
+
 XML:   Resolved issue CASTOR-1603 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Moved CTF compilation away from ANT compiler task by directly calling compiler in tools.jar of Sun JDK.
        Details: http://jira.codehaus.org/browse/CASTOR-1603
