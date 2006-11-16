@@ -7,8 +7,7 @@ import junit.framework.TestCase;
 import org.exolab.castor.builder.SourceGenerator;
 import org.xml.sax.InputSource;
 
-public class TestSourceGenerator extends TestCase
-{
+public class TestSourceGenerator extends TestCase {
 
     public void testGeneration() throws Exception {
         SourceGenerator generator = new SourceGenerator();
@@ -22,7 +21,7 @@ public class TestSourceGenerator extends TestCase
 //        properties.load(getClass().getResource("special-castorbuilder.properties").openStream());
 //        generator.setDefaultProperties(properties);
         
-        generator.generateSource(inputSource, "xml.srcgen.template.generated");
+        generator.generateSource(inputSource, getClass().getPackage().getName() + ".generated");
     }
 
 }
