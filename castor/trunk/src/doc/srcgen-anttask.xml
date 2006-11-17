@@ -91,6 +91,23 @@
                     <td>No</td>
                 </crow>
                 <crow>
+                    <td><b>caseInsensitive</b></td>
+                    <td>If used, instructs the source generator to generate code for enumerated type 
+                        lookup in a case insensitive manner.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>sax1</b></td>
+                    <td>If used, instructs the source generator to generate SAX-1 compliant code.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
+                    <td><b>generateImportedSchemas</b></td>
+                    <td>If used, instructs the source generator to generate code for imported 
+                        schemas as well.</td>
+                    <td>No</td>
+                </crow>
+                <crow>
                     <td><b>properties</b></td>
                     <td>Location of file defining a set of properties to be used during source code 
                         generation. This overrides the default mechanisms of configuring the source 
