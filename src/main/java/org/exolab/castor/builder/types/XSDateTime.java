@@ -42,25 +42,41 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
+import java.util.Enumeration;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
+import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.javasource.*;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema dateTime type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
-**/
-public final class XSDateTime extends XSType {
+ */
+public final class XSDateTime extends XSPatternBase {
+    /** Jakarta's common-logging logger. */
+    private static final Log LOG = LogFactory.getLog(XSDateTime.class);
+
+    /** The JType represented by this XSType. */
+    private static final JType JTYPE = new JClass("java.util.Date");
+    /** Maximum Date (inclusive). */
+    private String _maxInclusive = null;
+    /** Maximum Date (exclusive). */
+    private String _maxExclusive = null;
+    /** Minimum Date (inclusive). */
+    private String _minInclusive = null;
+    /** Minimum Date (exclusive). */
+    private String _minExclusive = null;
 
     /**
-     * The JType represented by this XSType
-    **/
-    private static final JType jType
-        = new JClass("java.util.Date");
-
+     *  No-Arg constructor.
+     */
     public XSDateTime() {
         super(XSType.DATETIME_TYPE);
     } //-- XSNMToken
@@ -72,36 +88,190 @@ public final class XSDateTime extends XSType {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
-    public String createFromJavaObjectCode(String variableName) {
-        return "(java.util.Date)"+variableName;
+     */
+    public String createFromJavaObjectCode(final String variableName) {
+        return "(java.util.Date)" + variableName;
     } //-- fromJavaObject
 
-    public void setFacets(SimpleType simpleType) {}
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
-    **/
+     * Transfer facets from the provided simpleType to <code>this</code>. The
+     * DateTime SimpleType supports the following facets:
+     * <ul>
+     *   <li>pattern</li>
+     *   <li>enumeration (handled elsewhere, so we ignore it here)</li>
+     *   <li>whiteSpace</li>
+     *   <li>maxInclusive</li>
+     *   <li>maxExclusive</li>
+     *   <li>minInclusive</li>
+     *   <li>minExclusive</li>
+     * </ul>
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     */
+    public void setFacets(final SimpleType simpleType) {
+        Enumeration enumeration = getFacets(simpleType);
+        while (enumeration.hasMoreElements()) {
+            Facet facet = (Facet) enumeration.nextElement();
+            String name = facet.getName();
+
+            if (Facet.MAX_EXCLUSIVE.equals(name)) {
+                setMaxExclusive(facet.getValue());
+            } else if (Facet.MAX_INCLUSIVE.equals(name)) {
+                setMaxInclusive(facet.getValue());
+            } else if (Facet.MIN_EXCLUSIVE.equals(name)) {
+                setMinExclusive(facet.getValue());
+            } else if (Facet.MIN_INCLUSIVE.equals(name)) {
+                setMinInclusive(facet.getValue());
+            } else if (Facet.PATTERN.equals(name)) {
+                setPattern(facet.getValue());
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    LOG.warn("Warning: The facet 'whitespace' can only be set to '"
+                             + Facet.WHITESPACE_COLLAPSE + "' for DateTime.");
+                }
+            }
+        }
+    }
+
+    /**
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
+     */
     public JType getJType() {
-        return XSDateTime.jType;
+        return XSDateTime.JTYPE;
     }
 
     /**
-	 * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-    
-        if (jsc == null)
-            jsc = new JSourceCode();
-            
-        //--TBD
+     * Returns true if a maximum (inclusive or exclusive) has been set.
+     * @return true if a maximum (inclusive or exclusive) has been set.
+     */
+    public boolean hasMaximum() {
+        return _maxInclusive != null || _maxExclusive != null;
     }
-} //-- XSDateTime 
+
+    /**
+     * Returns true if a minimum (inclusive or exclusive) has been set.
+     * @return true if a minimum (inclusive or exclusive) has been set.
+     */
+    public boolean hasMinimum() {
+        return _minInclusive != null || _minExclusive != null;
+    }
+
+    /**
+     * Sets the maximum exclusive value that this XSDateTime can hold.
+     * @param max the maximum exclusive value this XSDateTime can hold.
+     */
+    public void setMaxExclusive(final String max) {
+        _maxExclusive = max;
+        _maxInclusive = null;
+    }
+
+    /**
+     * Sets the maximum inclusive value that this XSDateTime can hold.
+     * @param max the maximum inclusive value this XSDateTime can hold.
+     */
+    public void setMaxInclusive(final String max) {
+        _maxExclusive = null;
+        _maxInclusive = max;
+    }
+
+    /**
+     * Sets the minimum exclusive value that this XSDateTime can hold.
+     * @param min the minimum exclusive value this XSDateTime can hold.
+     */
+    public void setMinExclusive(final String min) {
+        _minExclusive = min;
+        _minInclusive = null;
+    }
+
+    /**
+     * Sets the minimum inclusive value that this XSDateTime can hold.
+     * @param min the minimum inclusive value this XSDateTime can hold.
+     */
+    public void setMinInclusive(final String min) {
+        _minExclusive = null;
+        _minInclusive = min;
+    }
+
+    /**
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
+     *
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
+     */
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.DateTimeValidator typeValidator ="
+                + " new org.exolab.castor.xml.validators.DateTimeValidator();");
+
+        boolean addTryCatch = _minInclusive != null || _minExclusive != null
+                || _maxInclusive != null || _maxExclusive != null /* || fixedValue != null */;
+
+        if (addTryCatch) {
+            jsc.add("try {");
+            jsc.indent();
+        }
+
+        // minInclusive / minExclusive facets (only one or the other, never both)
+        if (_minInclusive != null) {
+            jsc.add("org.exolab.castor.types.DateTime min = "
+                    + "new org.exolab.castor.types.DateTime(\"" + _minInclusive + "\");");
+            jsc.add("typeValidator.setMinInclusive(min);");
+        } else if (_minExclusive != null) {
+            jsc.add("org.exolab.castor.types.DateTime min = "
+                    + "new org.exolab.castor.types.DateTime(\"" + _minExclusive + "\");");
+            jsc.add("typeValidator.setMinExclusive(min);");
+        }
+
+        // maxInclusive / maxExclusive facets (only one or the other, never both)
+        if (_maxInclusive != null) {
+            jsc.add("org.exolab.castor.types.DateTime max = "
+                    + "new org.exolab.castor.types.DateTime(\"" + _maxInclusive + "\");");
+            jsc.add("typeValidator.setMaxInclusive(max);");
+        } else if (_maxExclusive != null) {
+            jsc.add("org.exolab.castor.types.DateTime max = "
+                    + "new org.exolab.castor.types.DateTime(\"" + _maxExclusive + "\");");
+            jsc.add("typeValidator.setMaxExclusive(max);");
+        }
+
+// FIXME: We can't validate on the fixed value as long as Castor treats DateTime as java.util.Date
+// because in the process any time zone information is discarded and comparisons will fail.
+//        // fixed values
+//        if (fixedValue != null) {
+//            jsc.add("typeValidator.setFixed(");
+//            jsc.append(fixedValue.replaceFirst(".toDate\\(\\)", ""));
+//            jsc.append(");");
+//        }
+
+        if (addTryCatch) {
+            jsc.unindent();
+            jsc.add("} catch (java.text.ParseException pe) {");
+            jsc.indent();
+            // FIXME:  What should we do if we are given bad values for facet values?
+            jsc.add("System.out.println(\"ParseException\" + pe);");
+            jsc.unindent();
+            jsc.add("}");
+        }
+
+        // pattern facet
+        String pattern = getPattern();
+        if (pattern != null) {
+            jsc.add("typeValidator.setPattern(\"");
+            jsc.append(escapePattern(pattern));
+            jsc.append("\");");
+        }
+
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
+    }
+
+} //-- XSDateTime

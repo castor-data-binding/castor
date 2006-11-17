@@ -90,8 +90,8 @@ public class MemberFactory extends BaseFactory {
      * @param infoFactory the FieldInfoFactory to use
      * @param groupNaming Grou pnaming scheme to be used.
      */
-    public MemberFactory(final BuilderConfiguration config, 
-            final FieldInfoFactory infoFactory, 
+    public MemberFactory(final BuilderConfiguration config,
+            final FieldInfoFactory infoFactory,
             final GroupNaming groupNaming) {
         super(config, infoFactory, groupNaming);
 
@@ -226,7 +226,7 @@ public class MemberFactory extends BaseFactory {
      * @return the FieldInfo for the given attribute declaration
      */
     public FieldInfo createFieldInfo(final XMLBindingComponent component,
-                                     final ClassInfoResolver resolver, final boolean useJava50) {
+            final ClassInfoResolver resolver, final boolean useJava50) {
         String xmlName = component.getXMLName();
         String memberName = component.getJavaMemberName();
         if (!memberName.startsWith("_")) {
@@ -438,68 +438,64 @@ public class MemberFactory extends BaseFactory {
     }
 
     /**
-     * Handle default value, if any is set.
+     * Handle default or fixed value, if any is set.
      * @param component The component on which a default value is set
      * @param classInfo The corresponding ClassInfo instance.
      * @param xsType The schema type of the component.
      * @param fieldInfo The FieldInfo into which to inject a default value
      * @param enumeration If we are looking at an enumeration.
      */
-    private void handleDefaultValue(final XMLBindingComponent component,
-            final ClassInfo classInfo, final XSType xsType,
-            final FieldInfo fieldInfo, final boolean enumeration) {
+    private void handleDefaultValue(final XMLBindingComponent component, final ClassInfo classInfo,
+            final XSType xsType, final FieldInfo fieldInfo, final boolean enumeration) {
+
         String value = component.getValue();
-        if (value != null) {
-            value = adjustDefaultValue(xsType, value);
+        if (value == null) {
+            return;
+        }
 
-            if (value.length() == 0) {
-                value = "\"\"";
+        value = adjustDefaultValue(xsType, value);
+
+        if (value.length() == 0) {
+            value = "\"\"";
+        }
+
+        //-- TODO: Need to change this...and to validate the value...to be done at reading time.
+
+        //-- clean up value
+        //-- if the xsd field is mapped into a java.lang.String
+        if  (xsType.getJType().toString().equals("java.lang.String")) {
+            char ch = value.charAt(0);
+            if (ch != '\'' && ch != '\"') {
+                value = '\"' + value + '\"';
             }
-            //-- TODO: Need to change this...and to validate the value...to be done at reading time.
-
-            //-- clean up value
-            //-- if the xsd field is mapped into a java.lang.String
-            if  (xsType.getJType().toString().equals("java.lang.String")) {
-                char ch = value.charAt(0);
-                switch (ch) {
-                    case '\'':
-                    case '\"':
-                        break;
-                    default:
-                        value = '\"' + value + '\"';
-                        break;
-                }
-            } else if (enumeration) {
-                //-- we'll need to change this when enumerations are no longer treated as strings
-                JType jType = null;
-                if (classInfo != null) {
-                    jType = classInfo.getJClass();
+        } else if (enumeration) {
+            //-- we'll need to change this when enumerations are no longer treated as strings
+            JType jType = (classInfo != null) ? classInfo.getJClass() : xsType.getJType();
+            value = jType.getName() + ".valueOf(\"" + value + "\")";
+        } else if (xsType.getJType().isArray()) {
+            JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
+            value = "new " + componentType.getName() + "[] { "
+                    + componentType.getWrapperName() + ".valueOf(\"" + value
+                    + "\")." + componentType.getName() + "Value() }";
+        } else if (!xsType.getJType().isPrimitive()) {
+            if (xsType.isDateTime()) {
+                // Castor marshals DATETIME_TYPE into java.util.Date(), so we need to convert it
+                if (xsType.getType() == XSType.DATETIME_TYPE) {
+                    // FIXME: This fails if the DateTIme has a time zone because we throw away the time zone in toDate()
+                    value = "new org.exolab.castor.types.DateTime(\"" + value + "\").toDate()";
                 } else {
-                    jType = xsType.getJType();
+                    value = "new " + xsType.getJType().getName() + "(\"" + value + "\")";
                 }
-
-                String tmp = jType.getName() + ".valueOf(\"" + value;
-                tmp += "\")";
-                value = tmp;
-            } else if (xsType.getJType().isArray()) {
-                JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
-                value = "new " + componentType.getName() + "[] { "
-                    + componentType.getWrapperName() + ".valueOf(\"" + value + "\")."
-                    + componentType.getName() + "Value() }";
-            } else if (!xsType.getJType().isPrimitive() && xsType.isDateTime()) {
-                //don't generate code for date/time type since the constructor that parses
-                //a string is throwing exception
-                value = "new " + xsType.getJType().toString() + "(\"" + value + "\")";
-            } else if (!xsType.getJType().isPrimitive() && !xsType.isDateTime()) {
-                 //FIXME: This works only if a constructor with String as parameter exists
-                 value = "new " + xsType.getJType().toString() + "(\"" + value + "\")";
-            }
-
-            if (component.isFixed()) {
-                fieldInfo.setFixedValue(value);
             } else {
-                fieldInfo.setDefaultValue(value);
+                // FIXME: This works only if a constructor with String as parameter exists
+                value = "new " + xsType.getJType().getName() + "(\"" + value + "\")";
             }
+        }
+
+        if (component.isFixed()) {
+            fieldInfo.setFixedValue(value);
+        } else {
+            fieldInfo.setDefaultValue(value);
         }
     }
 

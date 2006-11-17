@@ -1,6 +1,10 @@
 
 SVN
 -------------------------------
+XML:   Resolved issue CASTOR-1227 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Source Generator > default datetime value
+       Details: http://jira.codehaus.org/browse/CASTOR-1227
+       (Edward - 20061116)
 
 XML:   Resolved issue CASTOR-1695 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added 'generateImportedSchemas' option to code generator Ant task.
@@ -29,7 +33,7 @@ XML:   Resolved issue CASTOR-1678 using contribution from Werner Guttmann [werne
        Fixed problem with code generation for choices used in extension hierarchies.
        Details: http://jira.codehaus.org/browse/CASTOR-1678
        (Werner - 20061109)
-       
+
 XML:   Resolved issue CASTOR-1671 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Update CTF document and merge CTFDoc.pdf into ctf.xml
        Details: http://jira.codehaus.org/browse/CASTOR-1671

@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.schema;
 
 import org.exolab.castor.xml.ValidationException;
@@ -69,6 +68,10 @@ public class Facet extends Annotated {
     public static final String WHITESPACE       = "whiteSpace";
     public static final String TOTALDIGITS      = "totalDigits";
     public static final String FRACTIONDIGITS   = "fractionDigits";
+
+    public static final String WHITESPACE_PRESERVE  = "preserve";
+    public static final String WHITESPACE_REPLACE   = "replace";
+    public static final String WHITESPACE_COLLAPSE  = "collapse";
 
     /**
      * The name of this Facet

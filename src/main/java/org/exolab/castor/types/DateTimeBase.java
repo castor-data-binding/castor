@@ -46,7 +46,6 @@
  * 05/29/2001   Arnaud Blandin  Added order methods
  * 05/22/2001   Arnaud Blandin  Created
  */
-
 package org.exolab.castor.types;
 
 import java.util.Calendar;
@@ -54,89 +53,62 @@ import java.util.GregorianCalendar;
 import java.util.Date;
 
 /**
- * <p>The base class for date/time XML Schema types.
- * <p>The validation of the date/time fields is done in the set methods and follows
+ * The base class for date/time XML Schema types.
+ * <p>
+ * The validation of the date/time fields is done in the set methods and follows
  * <a href="http://www.iso.ch/markete/8601.pdf">the ISO8601 Date and Time Format</a>.
- * <p>Note: the castor date/time type are mutable, unlike the date/time types of the JDK in Java2.
- * This is needed by the Marshalling framework.
+ * <p>
+ * Note: the castor date/time types are mutable, unlike the date/time types of
+ * the JDK in Java2. This is needed by the Marshalling framework.
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
+ * @see DateTime
  * @see Date
  * @see Time
  */
-public abstract class DateTimeBase
-    implements java.io.Serializable {
+public abstract class DateTimeBase implements java.io.Serializable {
+    /** Public constant referring to an indeterminate Date/Time comparison. */
+    public static final int       INDETERMINATE   = -1;
+    /** Public constant referring to a Date/Time comparison result of "less than". */
+    public static final int       LESS_THAN       = 0;
+    /** Public constant referring to a Date/Time comparison result of "equals". */
+    public static final int       EQUALS          = 1;
+    /** Public constant referring to a Date/Time comparison result of "greater than". */
+    public static final int       GREATER_THAN    = 2;
 
-   /////////////////////////////Private members////////////////////////////////
-   /**
-    * The century field
-    */
-   private short _century = 0;
-    /**
-     * The year field
-     */
+    /** Convenience String for complaints. */
+    protected static final String WRONGLY_PLACED  = "is wrongly placed.";
 
-   private short _year = 0;
-   /**
-    * The month field
-    */
+    /** true if this date/time type is negative. */
+    private boolean               _isNegative     = false;
+    /** The century field. */
+    private short                 _century        = 0;
+    /** The year field. */
+    private short                 _year           = 0;
+    /** The month field. */
+    private short                 _month          = 0;
+    /** The day field. */
+    private short                 _day            = 0;
+    /** the hour field. */
+    private short                 _hour           = 0;
+    /** the minute field. */
+    private short                 _minute         = 0;
+    /** the second field. */
+    private short                 _second         = 0;
+    /** the millsecond field. */
+    private short                 _millsecond     = 0;
+    /** true if the time zone is negative. */
+    private boolean               _zoneNegative   = false;
+    /** true if this date/time type has a time zone assigned. */
+    private boolean               _UTC            = false;
+    /** the time zone hour field. */
+    private short                 _zoneHour       = 0;
+    /** the time zone minute field. */
+    private short                 _zoneMinute     = 0;
 
-   private short _month = 0;
-   /**
-    * The day field
-    */
-   private short _day = 0;
-
-    /**
-     * the hour field
-     */
-    private short _hour = 0;
-    /**
-     * the minute field
-     */
-    private short _minute = 0;
-    /**
-     * the second field
-     */
-    private short _second = 0;
-    /**
-     * the millsecond field
-     */
-    private short _millsecond = 0;
-    /**
-     * the time zone hour field
-     */
-    private short _zoneHour = 0;
-    /**
-     * the time zone minute field
-     */
-    private short _zoneMinute = 0;
-    /**
-     * true if this date/time type is UTC related
-     */
-    private boolean _UTC = false;
-    /**
-     * true if the time zone is negative
-     */
-    private boolean _zoneNegative = false;
-    /**
-     * true if this date/time type is negative
-     */
-    private boolean _isNegative = false;
-
-    ////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Fields used for comparison methods
-     */
-     public static final int INDETERMINATE = -1;
-     public static final int LESS_THAN = 0;
-     public static final int EQUALS = 1;
-     public static final int GREATER_THAN = 2;
-
-     protected static final String WRONGLY_PLACED = "is wrongly placed.";
-     
     //////////////////////////Setter methods////////////////////////////////////
+
     /**
      * set the century field
      * @param century the value to set up
@@ -146,8 +118,7 @@ public abstract class DateTimeBase
         if (century < 0) {
             err = "century : " + century + " must not be a negative value.";
             throw new IllegalArgumentException(err);
-        }
-        else if ((_year == 0) && (century == 0)) {
+        } else if ((_year == 0) && (century == 0)) {
             err = "0000 is not an allowed year";
             throw new IllegalArgumentException(err);
         }
@@ -159,23 +130,18 @@ public abstract class DateTimeBase
      * Note: 0000 is not allowed
      * @param year year to set up
      */
-    public void setYear(short year)
-        throws OperationNotSupportedException
-    {
+    public void setYear(short year) throws OperationNotSupportedException {
         String err ="";
         if (year < 0) {
             err = "year : "+year+" must not be a negative value.";
             throw new IllegalArgumentException(err);
-        }
-        else if ( (year == -1) && (_century != -1) ) {
+        } else if ( (year == -1) && (_century != -1) ) {
             err = "year can not be omitted if century is not omitted.";
             throw new IllegalArgumentException(err);
-        }
-        else if ( (year ==0) && (_century==0)) {
+        } else if ( (year ==0) && (_century==0)) {
             err = "0000 is not an allowed year";
             throw new IllegalArgumentException(err);
-        }
-        else if ( year > 99) {
+        } else if ( year > 99) {
             err = year+" is not correct: A year field must be ranged between 0 and 99";
             throw new IllegalArgumentException(err);
         }
@@ -187,9 +153,7 @@ public abstract class DateTimeBase
      * @param month the value to set up
      * Note 1<month<12
      */
-    public void setMonth(short month)
-        throws OperationNotSupportedException
-    {
+    public void setMonth(short month) throws OperationNotSupportedException {
         String err ="";
         if (month == -1) {
             if (_century != -1) {
@@ -197,10 +161,8 @@ public abstract class DateTimeBase
                        "only higher level components can be omitted.";
                  throw new IllegalArgumentException(err);
             }
-        }
-        else if (month < 1) {
-            err = "month : "+month+" is not a correct value."
-                  +"\n 1<month<12";
+        } else if (month < 1) {
+            err = "month : "+month+" is not a correct value.\n 1 < month < 12";
             throw new IllegalArgumentException(err);
         }
 
@@ -218,9 +180,7 @@ public abstract class DateTimeBase
      * Note a validation is done on the day field
      */
 
-    public void setDay(short day)
-        throws OperationNotSupportedException
-    {
+    public void setDay(short day) throws OperationNotSupportedException {
         String err = "";
         if  (day == -1) {
             if (_month != -1) {
@@ -490,6 +450,7 @@ public abstract class DateTimeBase
     ////////////////////////////////////////////////////////////////////////////
 
     ////////////////////////Getter methods//////////////////////////////////////
+
     public short getCentury() {
         return(_century);
     }
@@ -537,13 +498,14 @@ public abstract class DateTimeBase
      * a date/time type.
      */
     public abstract short[] getValues();
-////////////////////////////////////////////////////////////////////////////////
+
+    ////////////////////////////////////////////////////////////////////////////////
 
     /**
      * Return true if this date/time type is UTC. A date/time type is UTC if a 'Z'
      * appears at the end of the lexical representation type or if it contains a time
      * zone.
-     * 
+     *
      * @return true if this recurringDuration type is UTC else false.
      */
     public boolean isUTC() {
@@ -570,8 +532,10 @@ public abstract class DateTimeBase
           int temp = 0;
           int carry = 0;
           int sign = (duration.isNegative())?-1:1;
+
           //don't use getter methods but use direct field access for dateTime
           //in order to have the behaviour defined in the Recommendation document
+
           //Months
           try {
              temp = _month + sign*duration.getMonth();
@@ -585,6 +549,7 @@ public abstract class DateTimeBase
                    (this instanceof GDay)))
                    throw e;
           }
+
           //Years
           try {
              temp = _century * 100 + _year + sign*duration.getYear() + carry;
@@ -595,9 +560,12 @@ public abstract class DateTimeBase
           } catch (OperationNotSupportedException e) {
               //if there is no Year field in the date/time datatypes
               //we do nothing else we throw a runTime exception
-              if (!( (this instanceof Time) || (this instanceof GMonthDay)))
+              if (!( (this instanceof Time) || (this instanceof GMonthDay) || (this instanceof GMonth)
+                      || (this instanceof GDay))) {
                    throw e;
+              }
           }
+
           //Seconds
           try {
              temp = _second + sign*duration.getSeconds();
@@ -610,6 +578,7 @@ public abstract class DateTimeBase
               if (this instanceof Time)
                    throw e;
           }
+
           //Minutes
           try {
              temp = _minute + sign*duration.getMinute()+carry;
@@ -622,6 +591,7 @@ public abstract class DateTimeBase
               if (this instanceof Time)
                    throw e;
           }
+
           //Hours
           try {
              temp = _hour + sign*duration.getHour() + carry;
@@ -634,6 +604,7 @@ public abstract class DateTimeBase
               if (this instanceof Time)
                    throw e;
           }
+
           //Days
           try {
               int maxDay = maxDayInMonthFor(_century,_year,_month);
@@ -701,8 +672,7 @@ public abstract class DateTimeBase
     private final short maxDayInMonthFor(short century, short year, int month) {
         if ( month == 4 || month == 6 || month == 9 || month == 11 ) {
             return 30;
-        }
-        else if ( month == 2 ) {
+        } else if ( month == 2 ) {
             if ( isLeap(century,year) ) return 29;
             return 28;
         }
@@ -711,8 +681,9 @@ public abstract class DateTimeBase
     }
 
     ////////////////////////////////////////////////////////////////////////////
+
     /**
-     * <p>Normalizes a date/time datatype as defined in W3C XML Schema
+     * Normalizes a date/time datatype as defined in W3C XML Schema
      * Recommendation document:
      * if a timeZone is present but it is not Z then we convert the date/time datatype
      * to Z using the addition operation defined in <a href="http://www.w3.org/TR/xmlschema-2/#adding-durations-to-dateTimes">
@@ -720,97 +691,135 @@ public abstract class DateTimeBase
      * @see #addDuration
      */
     public void normalize() {
-        if (!isUTC())
+        if (!isUTC() || (_zoneHour == 0 && _zoneMinute == 0)) {
             return;
-        else if ( (_zoneHour == 0) && (_zoneMinute == 0) )
-            return;
-        else {
-            Duration temp = new Duration();
-            temp.setHour(_zoneHour);
-            temp.setMinute(_zoneMinute);
-            if (isZoneNegative())
-                temp.setNegative();
-            this.addDuration(temp);
-            //reset the zone
-            this.setZone((short)0,(short)0);
-            temp = null;
         }
 
+        Duration temp = new Duration();
+        temp.setHour(_zoneHour);
+        temp.setMinute(_zoneMinute);
+        if (isZoneNegative()) {
+            temp.setNegative();
+        }
 
+        this.addDuration(temp);
+
+        //reset the zone
+        this.setZone((short)0,(short)0);
     }
 
     /**
-     * <p>Compares two date/time data types. The algorithm of comparison
-     * is defined in <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">W3C XML
-     * Schema Recommendation (section 3.2.7.3)</a>
-     * <p>The returned values can be:
-     *        <ul>
-     *            <li>INDETERMINATE (-1): this ? dateTime</li>
-     *            <li>LESS_THAN (0): this < dateTime</li>
-     *            <li>EQUALS (1): this == dateTime</li>
-     *            <li>GREATER_THAN (2): this > dateTime</li>
-     *        </ul>
-     * @param dateTime the dateTime to compare with the current instance.
-     * @return <ul>
-     *            <li>INDETERMINATE (-1)</li>
-     *            <li>LESS_THAN (0)</li>
-     *            <li>EQUALS (1)</li>
-     *            <li>GREATER_THAN (2)</li>
-     *        </ul>
+     * Compares two date/time data types. The algorithm of comparison is defined
+     * in <a href="http://www.w3.org/TR/xmlschema-2/#dateTime">W3C XML Schema
+     * Recommendation (section 3.2.7.3)</a>
+     * <p>
+     * The returned value will be one of:
+     * <ul>
+     * <li>INDETERMINATE (-1): this ? dateTime</li>
+     * <li>LESS_THAN (0): this < dateTime</li>
+     * <li>EQUALS (1): this == dateTime</li>
+     * <li>GREATER_THAN (2): this > dateTime</li>
+     * </ul>
+     *
+     * @param dateTime
+     *            the dateTime to compare with the current instance.
+     * @return the status of the comparison.
      */
     public int compareTo(DateTimeBase dateTime) {
-        if (dateTime == null)
+        if (dateTime == null) {
             throw new IllegalArgumentException("a Date/Time datatype cannot be compared with a null value");
+        }
 
-        DateTimeBase tempDate1 = this;
-        DateTimeBase tempDate2 = dateTime;
-        //the current date/time type has a time zone
-        if (tempDate1.isUTC())
+        DateTimeBase tempDate1;
+        DateTimeBase tempDate2;
+
+        try {
+            tempDate1 = copyDateTimeInstance(this);
+            tempDate2 = copyDateTimeInstance(dateTime);
+        } catch (IllegalAccessException e) {
+            throw new IllegalArgumentException(e);
+        } catch (InstantiationException e) {
+            throw new IllegalArgumentException(e);
+        }
+
+        if (tempDate1.isUTC()) {
             tempDate1.normalize();
-        if (tempDate2.isUTC())
+        }
+        if (tempDate2.isUTC()) {
             tempDate2.normalize();
-        //if both date/time types are in Z-form (or not)
-        //we just compare the fields.
-        if ( (tempDate1.isUTC() && tempDate2.isUTC()) ||
-             (!tempDate1.isUTC() && !tempDate2.isUTC()) )
-             return compareFields(tempDate1, tempDate2);
+        }
 
+        // If both date/time types are in Z-form (or both not), we just compare the fields.
+        if (tempDate1.isUTC() == tempDate2.isUTC()) {
+            return compareFields(tempDate1, tempDate2);
+        }
+
+        //  datetime1 has a time zone and datetime2 does not
         if (tempDate1.isUTC()) {
             tempDate2.setZone((short)14,(short)0);
             tempDate2.normalize();
             int result = compareFields(tempDate1, tempDate2);
-            if (result == LESS_THAN)
+            if (result == LESS_THAN) {
                 return result;
+            }
+            tempDate2.setZone((short)14,(short)0);
+            tempDate2.setZoneNegative(true);
+            tempDate2.normalize();
+
             tempDate2.setZone((short)14,(short)0);
             tempDate2.setZoneNegative(true);
             tempDate2.normalize();
             result = compareFields(tempDate1, tempDate2);
-            if (result == GREATER_THAN)
+            if (result == GREATER_THAN) {
                 return result;
+            }
             return INDETERMINATE;
         }
 
+        //  datetime2 has a time zone and datetime1 does not
         if (tempDate2.isUTC()) {
-            tempDate1.setZone((short)14,(short)0);
+            tempDate2.setZone((short)14,(short)0);
             tempDate1.normalize();
             int result = compareFields(tempDate1, tempDate2);
-            if (result == GREATER_THAN) return result;
-            
-            tempDate1.setZone((short)14,(short)0);
+            if (result == GREATER_THAN) {
+                return result;
+            }
+            tempDate2.setZone((short)14,(short)0);
+            tempDate1.setZoneNegative(true);
+            tempDate1.normalize();
+
+            tempDate2.setZone((short)14,(short)0);
             tempDate1.setZoneNegative(true);
             tempDate1.normalize();
             result = compareFields(tempDate1, tempDate2);
-            if (result == LESS_THAN) return result;
+            if (result == LESS_THAN) {
+                return result;
+            }
             return INDETERMINATE;
         }
-        tempDate1 = null;
-        tempDate2 = null;
+
         return INDETERMINATE;
+    }
+
+    private DateTimeBase copyDateTimeInstance(DateTimeBase dateTime) throws InstantiationException, IllegalAccessException {
+        DateTimeBase tempDate1;
+        tempDate1 = (DateTimeBase) dateTime.getClass().newInstance();
+        tempDate1.setValues(dateTime.getValues());
+        if (dateTime.isNegative()) {
+           tempDate1.setNegative();
+        }
+        if (dateTime.isUTC()) {
+            tempDate1.setUTC();
+        }
+        tempDate1.setZone(dateTime.getZoneHour(), dateTime.getZoneMinute());
+        tempDate1.setZoneNegative(dateTime.isZoneNegative());
+        return tempDate1;
     }
 
     private static int compareFields(DateTimeBase date1, DateTimeBase date2) {
         short field1 = -1;
         short field2 = -1;
+
         //year
         try {
           field1 = date1.getCentury();
@@ -818,24 +827,26 @@ public abstract class DateTimeBase
         try {
           field2 = date2.getCentury();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         try {
           field1 = date1.getYear();
         } catch (OperationNotSupportedException e) {}
         try {
           field2 = date2.getYear();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         //month
         try {
           field1 = date1.getMonth();
@@ -843,12 +854,13 @@ public abstract class DateTimeBase
         try {
           field2 = date2.getMonth();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         //day
         try {
           field1 = date1.getDay();
@@ -856,12 +868,13 @@ public abstract class DateTimeBase
         try {
           field2 = date2.getDay();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         //hour
         try {
           field1 = date1.getHour();
@@ -869,12 +882,13 @@ public abstract class DateTimeBase
         try {
           field2 = date2.getHour();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         //minute
         try {
           field1 = date1.getMinute();
@@ -882,12 +896,13 @@ public abstract class DateTimeBase
         try {
           field2 = date2.getMinute();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         //second
         try {
           field1 = date1.getSeconds();
@@ -895,29 +910,32 @@ public abstract class DateTimeBase
         try {
           field2 = date2.getSeconds();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
-        //milli seconds
+
+        //milliseconds
         try {
           field1 = date1.getMilli();
         } catch (OperationNotSupportedException e) {}
         try {
           field2 = date2.getMilli();
         } catch (OperationNotSupportedException e) {}
-        if  (field1 * field2 <0)
+        if  (field1 * field2 < 0)
             return INDETERMINATE;
         else if ( field1 < field2 )
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
         return EQUALS;
     }
 
     /**
+     * {@inheritDoc}
      * Overrides the java.lang.Object#hashcode method.
      */
      public int hashCode() {
@@ -925,38 +943,39 @@ public abstract class DateTimeBase
      }
 
     /**
-     * Overrides the java.lang.Object#equals method
+     * {@inheritDoc}
+     * Overrides the java.lang.Object#equals method.
      * @see #equals(Object)
      */
      public boolean equals(Object object) {
         //no need to check if we are comparing
         //two instances of the same class (if the class
         //is not the same false will be return by #equal).
-        if (object instanceof DateTimeBase)
-            return equal( (DateTimeBase) object);
+        if (object instanceof DateTimeBase) {
+            return equal((DateTimeBase) object);
+        }
         return false;
     }
 
     /**
-     * <p> Returns true if the present instance of date/time type is equal to
+     * Returns true if the present instance of date/time type is equal to
      * the parameter.
      * <p> The equals relation is as defined in the W3C XML Schema Recommendation, part2.
      * @param dateTime the date/time type to compare with the present instance
      * @return true if the present instance is equal to the parameter false if not
      */
      protected boolean equal(DateTimeBase dateTime) {
-        return EQUALS == this.compareTo(dateTime);
-
-    }//equals
+         return EQUALS == this.compareTo(dateTime);
+     } //equals
 
      /**
       * converts this Date/Time into a local java Calendar.
       * @return a local calendar representing this Date or Time
       */
      public Calendar toCalendar(){
-       Calendar result = new GregorianCalendar();
-       result.setTime(toDate());
-       return result;
-     }//toCalendar()
+         Calendar result = new GregorianCalendar();
+         result.setTime(toDate());
+         return result;
+     } //toCalendar()
 
-}//-- DateTimeBase
+} //-- DateTimeBase

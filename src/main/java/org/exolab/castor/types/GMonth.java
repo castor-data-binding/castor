@@ -61,7 +61,7 @@ import java.util.TimeZone;
  * @version $Revision$
  */
 
-public class GMonth extends GMonthDay {
+public class GMonth extends DateTimeBase {
     /** SerialVersionUID */
     private static final long serialVersionUID = -1950758441188466762L;
 
@@ -108,6 +108,41 @@ public class GMonth extends GMonthDay {
         this();
         parseGMonthInternal(gmonth, this);
     }
+
+
+    /**
+     * Sets all the fields by reading the values in an array
+     * <p>if a Time Zone is specificied it has to be set by using
+     * {@link DateTimeBase#setZone(short, short) setZone}.
+     * @param values an array of shorts with the values
+     * the array is supposed to be of length 1 and ordered like
+     * the following:
+     * <ul>
+     *      <li>Month</li>
+     *      <li>Day</li>
+     * </ul>
+     *
+     */
+    public void setValues(short[] values) {
+        if (values.length != 1) {
+            throw new IllegalArgumentException("GDay#setValues: not the right number of values");
+        }
+        this.setMonth(values[0]);
+    }
+
+
+    /**
+     * Returns an array of short with all the fields that describe
+     * this gDay type.
+     * <p>Note:the time zone is not included.
+     * @return  an array of short with all the fields that describe
+     * this Date type.
+     */
+    public short[] getValues() {
+        short[] result = new short[1];
+        result[0] = this.getMonth();
+        return result;
+    } //getValues
 
 
 
@@ -269,10 +304,10 @@ public class GMonth extends GMonthDay {
                 case '+' :
                     if (flags != 3)
                         throw new ParseException(BAD_GMONTH+str+"\n'+' "+WRONGLY_PLACED,idx);
-                    
+
                     result.setUTC();
                     flags = 1;
-                    
+
                     hasNumber = false;
                     has2Digits = false;
                     break;
@@ -325,6 +360,63 @@ public class GMonth extends GMonthDay {
 
     public void setDay(short day) {
         String err = "GMonth: couldn't access to the Day field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public short getCentury() {
+        String err = "GMonth: couldn't access to the Century field.";
+        throw new OperationNotSupportedException(err);
+    }
+
+    public void setCentury(short century) {
+        String err = "GMonth: couldn't access to the Century field.";
+        throw new OperationNotSupportedException(err);
+    }
+
+    public short getYear() {
+        String err = "GMonth: couldn't access to the Year field.";
+        throw new OperationNotSupportedException(err);
+    }
+
+    public void setYear(short year) {
+        String err = "GMonth: couldn't access to the Year field.";
+        throw new OperationNotSupportedException(err);
+    }
+
+    public void setNegative() {
+        String err = "GMonth: couldn't set the type to be negative.";
+        throw new OperationNotSupportedException(err);
+    }
+    public short getHour(){
+        String err = "Date: couldn't access to the Hour field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public short getMinute(){
+        String err = "Date: couldn't access to the Minute field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public short getSeconds(){
+        String err = "Date: couldn't access to the Second field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public short getMilli() {
+        String err = "Date: couldn't access to the Millisecond field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public void setHour(short hour){
+        String err = "Date: couldn't access to the Hour field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public void setMinute(short minute){
+        String err = "Date: couldn't access to the Minute field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public void setSecond(short second) {
+        String err = "Date: couldn't access to the second field.";
+        throw new OperationNotSupportedException(err);
+    }
+
+    public void setMilliSecond(short millisecond) {
+        String err = "Date: couldn't access to the Millisecond field.";
         throw new OperationNotSupportedException(err);
     }
 }
