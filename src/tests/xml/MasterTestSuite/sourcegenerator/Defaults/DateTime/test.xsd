@@ -1,0 +1,43 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+<xsd:element name="DateTimeTests">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="DefaultedTypes" type="DefaultedTypesType" minOccurs="1" maxOccurs="unbounded"/>
+      <xsd:element name="FixedTypes"     type="FixedTypesType"     minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:complexType name="DefaultedTypesType">
+  <xsd:sequence>
+    <xsd:element name="Duration"            type="xsd:duration"   minOccurs="0" default="P1Y2M3DT10H30M20S"/>
+    <xsd:element name="DateTime"            type="xsd:dateTime"   minOccurs="0" default="2006-10-30T10:04:38.01"/>
+    <xsd:element name="Time"                type="xsd:time"       minOccurs="0" default="13:20:00-05:00"/>
+    <xsd:element name="Date"                type="xsd:date"       minOccurs="0" default="2002-10-10+13:00"/>
+    <xsd:element name="GregorianYearMonth"  type="xsd:gYearMonth" minOccurs="0" default="1999-10"/>
+    <xsd:element name="GregorianYear"       type="xsd:gYear"      minOccurs="0" default="1999"/>
+    <xsd:element name="GregorianMonthDay"   type="xsd:gMonthDay"  minOccurs="0" default="--10-31"/>
+    <xsd:element name="GregorianDay"        type="xsd:gDay"       minOccurs="0" default="---31"/>
+    <xsd:element name="GregorianMonth"      type="xsd:gMonth"     minOccurs="0" default="--10--"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+<xsd:complexType name="FixedTypesType">
+  <xsd:sequence>
+    <xsd:element name="fDuration"           type="xsd:duration"   minOccurs="0" fixed="P2Y3M4DT5H6M7S"/>
+    <xsd:element name="fDateTime"           type="xsd:dateTime"   minOccurs="0" fixed="1999-12-31T23:59:59.059"/>
+    <xsd:element name="fTime"               type="xsd:time"       minOccurs="0" fixed="22:04:02-05:03"/>
+    <xsd:element name="fDate"               type="xsd:date"       minOccurs="0" fixed="1972-12-30"/>
+    <xsd:element name="fGregorianYearMonth" type="xsd:gYearMonth" minOccurs="0" fixed="2000-04"/>
+    <xsd:element name="fGregorianYear"      type="xsd:gYear"      minOccurs="0" fixed="1965"/>
+    <xsd:element name="fGregorianMonthDay"  type="xsd:gMonthDay"  minOccurs="0" fixed="--12-25"/>
+    <xsd:element name="fGregorianDay"       type="xsd:gDay"       minOccurs="0" fixed="---01"/>
+    <xsd:element name="fGregorianMonth"     type="xsd:gMonth"     minOccurs="0" fixed="--03--"/>
+  </xsd:sequence>
+</xsd:complexType>
+
+</xsd:schema>

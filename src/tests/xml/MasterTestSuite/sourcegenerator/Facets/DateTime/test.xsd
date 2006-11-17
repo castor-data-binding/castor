@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
+<xsd:element name="DateTimeTests">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element ref="dateTimeRanged" minOccurs="1" maxOccurs="unbounded"/>
+      <xsd:element ref="dateTimeEnum"   minOccurs="1" maxOccurs="unbounded"/>
+      <xsd:element ref="dateRanged"     minOccurs="1" maxOccurs="unbounded"/>
+    </xsd:sequence>
+  </xsd:complexType>
+</xsd:element>
+
+<xsd:element name="dateTimeRanged">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:dateTime">
+      <xsd:minInclusive value="2006-03-01T00:00:00"/>
+      <xsd:maxInclusive value="2006-06-30T23:59:59"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<!-- BUG:  FACETS ARE NOT APPLIED TO ENUM VALUES!!! -->
+<xsd:element name="dateTimeEnum">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:dateTime">
+      <xsd:minInclusive value="2006-03-01T00:00:00"/>
+      <xsd:maxInclusive value="2006-06-30T23:59:59"/>
+      <xsd:pattern value=".*23.*"/>
+      <xsd:whiteSpace value="collapse"/>
+      <xsd:enumeration value="2006-06-23T00:00:00"/>
+      <xsd:enumeration value="2006-06-30T23:00:00"/>
+      <xsd:enumeration value="2006-06-30T22:23:00"/>
+      <xsd:enumeration value="2006-06-30T22:59:23"/>
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<xsd:element name="dateRanged">
+  <xsd:simpleType>
+    <xsd:restriction base="xsd:date">
+      <xsd:minInclusive value="2006-03-01"/>
+      <xsd:maxInclusive value="2006-06-30"/>
+<!--  <xsd:whitespace value="collapse"/> NOT SUPPORTED YET -->
+<!--  <xsd:pattern value=".*04.*"/> NOT SUPPORTED YET -->
+    </xsd:restriction>
+  </xsd:simpleType>
+</xsd:element>
+
+<!--
+      TO BE ADDED:
+      type="xsd:duration"
+      type="xsd:time"
+      type="xsd:date"
+      type="xsd:gYearMonth"
+      type="xsd:gYear"
+      type="xsd:gMonthDay"
+      type="xsd:gDay"
+      type="xsd:gMonth"
+-->
+
+</xsd:schema>
