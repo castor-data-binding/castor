@@ -139,7 +139,6 @@ public class GYear extends GYearMonth {
              throw new IllegalArgumentException("GYear#setValues: not the right number of values");
         this.setCentury(values[0]);
         this.setYear(values[1]);
-        this.setMonth(values[2]);
      }
 
 
@@ -322,7 +321,7 @@ public class GYear extends GYearMonth {
                       throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.",idx);
                     if (!has2Digits)
                       throw new ParseException(BAD_GYEAR+str+"\nThe Century field must have 2 digits.",idx);
-                    
+
                     result.setCentury(number);
                     //must test number2
                     result.setYear(number2);

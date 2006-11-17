@@ -29,11 +29,11 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-            	<h2>Changes</h2>
-            	
-            	<h3>XML test suite execution</h3>
-            	
-            	<p>The CTF currently requires the Sun JDK (or SDK) to execute, although
+                <h2>Changes</h2>
+
+                <h3>XML test suite execution</h3>
+
+                <p>The CTF currently requires the Sun JDK (or SDK) to execute, although
                    it may be possible to execute with GNU gcj or with JRockit. The CTF
                    will not work if you are using only a JRE. This is because the CTF
                    uses the Sun Java compiler API to compile code as needed for Source
@@ -45,6 +45,26 @@
                    set you on the right course.</p>
             </summary>
             <bugs>
+                <bug id="1227" tool="jira">
+                    <description>
+                        Source Generator > default datetime value
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Bertrand Martel</name>
+                        <email>toto@free.fr</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061116</date>
+                </bug>
                 <bug id="1695" tool="jira">
                     <description>
                         Added 'generateImportedSchemas' option to code generator Ant task.
@@ -114,20 +134,20 @@
             <date>November 11, 2006</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-            	<h2>Changes</h2>
-            	
-            	<h3>XML code generation - Signature type for 'j2' collections</h3>
-            	
-            	<p>The Castor code generator now uses 'java.util.List' as type 
-            	   when generating code for a Java member (as well as the type used 
-            	   for the corresponding getter and setter methods) rather than
-            	   the old 'java.util.ArrayList'.</p>
-            	   
+                <h2>Changes</h2>
+
+                <h3>XML code generation - Signature type for 'j2' collections</h3>
+
+                <p>The Castor code generator now uses 'java.util.List' as type
+                   when generating code for a Java member (as well as the type used
+                   for the corresponding getter and setter methods) rather than
+                   the old 'java.util.ArrayList'.</p>
+
             </summary>
             <bugs>
                 <bug id="1669" tool="jira">
                     <description>
-                         Added feature to set a custom ObjectFactory for object 
+                         Added feature to set a custom ObjectFactory for object
                          creation on Unmarshaller
                     </description>
                     <contributor>
@@ -148,7 +168,7 @@
                 </bug>
                 <bug id="1678" tool="jira">
                     <description>
-                         Fixed problem with code generation for choices used in extension 
+                         Fixed problem with code generation for choices used in extension
                          hierarchies.
                     </description>
                     <contributor>
@@ -189,7 +209,7 @@
                 </bug>
                 <bug id="1677" tool="jira">
                     <description>
-                        XML code generator now uses 'java.util.List' as signature 
+                        XML code generator now uses 'java.util.List' as signature
                         type for 'j2' collections.
                     </description>
                     <contributor>
@@ -241,8 +261,8 @@
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                    	<name>Serge Henneaux</name>
-                    	<email>serge.henneaux@eurocontrol.int</email>
+                        <name>Serge Henneaux</name>
+                        <email>serge.henneaux@eurocontrol.int</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
@@ -250,7 +270,7 @@
                 </bug>
                 <bug id="1675" tool="jira">
                     <description>
-                        Fixed problem with SchemaWriter not serializing anyAttribute 
+                        Fixed problem with SchemaWriter not serializing anyAttribute
                         child of a complexType.
                     </description>
                     <contributor>
@@ -262,8 +282,8 @@
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                    	<name>Eric Wittmann</name>
-                    	<email>wittmann@snet.net</email>
+                        <name>Eric Wittmann</name>
+                        <email>wittmann@snet.net</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>

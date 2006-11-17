@@ -62,7 +62,7 @@ import java.util.TimeZone;
  */
 
 
-public class GYearMonth extends Date {
+public class GYearMonth extends DateTimeBase {
     /** SerialVersionUID */
     private static final long serialVersionUID = -8864050276805766473L;
 

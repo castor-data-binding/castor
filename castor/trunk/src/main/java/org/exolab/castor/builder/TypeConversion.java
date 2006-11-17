@@ -105,7 +105,7 @@ import org.exolab.javasource.JClass;
  * @version $Revision$ $Date: 2006-01-21 04:43:28 -0700 (Sat, 21 Jan 2006) $
  */
 public class TypeConversion {
-    
+
     /**
      * Jakarta's common-logging logger
      */
@@ -115,7 +115,7 @@ public class TypeConversion {
      * Default package name for simple type (enumerations).
      */
     private static final String TYPES_PACKAGE = "types";
-    
+
     /** Configuration for our source generator */
     private BuilderConfiguration _config = null;
 
@@ -242,7 +242,11 @@ public class TypeConversion {
                 }
                 return xsDate;
             case SimpleTypesFactory.DATETIME_TYPE:       //-- dateTime
-                return new XSDateTime();
+                XSDateTime xsDateTime = new XSDateTime();
+                if (!simpleType.isBuiltInType()) {
+                    xsDateTime.setFacets(simpleType);
+                }
+                return xsDateTime;
             case SimpleTypesFactory.DOUBLE_TYPE:         //-- double
                 XSDouble xsDouble = new XSDouble(useWrapper);
                 if (!simpleType.isBuiltInType()) {

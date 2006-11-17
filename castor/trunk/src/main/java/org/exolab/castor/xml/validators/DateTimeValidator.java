@@ -44,32 +44,39 @@
  * Date         Author           Changes
  * 05/30/2001   Arnaud Blandin   Created
  */
-
 package org.exolab.castor.xml.validators;
 
+import org.exolab.castor.types.DateTime;
 import org.exolab.castor.types.DateTimeBase;
 
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.TypeValidator;
 
-public class DateTimeValidator implements TypeValidator {
-
-
+public class DateTimeValidator extends PatternValidator implements TypeValidator {
+    /** Maximum allowed value (Inclusive) for a valid instance. */
     private DateTimeBase _maxInclusive;
+    /** Maximum allowed value (Exclusive) for a valid instance. */
     private DateTimeBase _maxExclusive;
+    /** Minimum allowed value (Inclusive) for a valid instance. */
     private DateTimeBase _minInclusive;
+    /** Minimum allowed value (Exclusive) for a valid instance. */
     private DateTimeBase _minExclusive;
+    /** Fixed value.  If not null, a valid DateTime instance MUST have this value. */
+    private DateTimeBase _fixed;
 
+    /**
+     * No-arg constructor.
+     */
     public DateTimeValidator() {
         super();
     } //-- DateTimeValidator
 
-   /**
+    /**
      * Sets the maximum exclusive value that this Date/Time can hold.
      * @param max the maximum exclusive value this Date/Time can be
      * @see #setMaxInclusive
-    **/
+     */
     public void setMaxExclusive(DateTimeBase max) {
         _maxExclusive = max;
         _maxInclusive = null;
@@ -79,18 +86,17 @@ public class DateTimeValidator implements TypeValidator {
      * Sets the maximum inclusive value that this Date/Time can hold.
      * @param max the maximum inclusive value this Date/Time can be
      * @see #setMaxExclusive
-    **/
+     */
     public void setMaxInclusive(DateTimeBase max) {
-        _maxInclusive = max;
         _maxExclusive = null;
+        _maxInclusive = max;
     } //-- setMaxInclusive
-
 
     /**
      * Sets the minimum exclusive value that this Date/Time can hold.
      * @param min the minimum exclusive value this Date/Time can be
      * @see #setMinInclusive
-    **/
+     */
     public void setMinExclusive(DateTimeBase min) {
         _minExclusive = min;
         _minInclusive = null;
@@ -100,108 +106,132 @@ public class DateTimeValidator implements TypeValidator {
      * Sets the minimum inclusive value that this Date/Time can hold.
      * @param min the minimum inclusive value this Date/Time can be
      * @see #setMinExclusive
-    **/
+     */
     public void setMinInclusive(DateTimeBase min) {
-        _minInclusive = min;
         _minExclusive = null;
+        _minInclusive = min;
     } //-- setMinInclusive
 
     /**
-     * Validates a Date/Time instance
+     * Sets the fixed value that this Date/Time must equal.
+     * @param fixed the fixed value that this Date/Time must equal.
+     */
+    public void setFixed(DateTimeBase fixed) {
+        _fixed = fixed;
+    }
+
+    /**
+     * Validates a Date/Time instance.
      * @param dateTime the date/time type to validate
-     * @throws ValidationException
+     * @throws ValidationException if the DateTime fails validation
      */
     public void validate(DateTimeBase dateTime) throws ValidationException {
+        validate(dateTime, (ValidationContext)null);
+    }
 
+    /**
+     * Validates a Date/Time instance.
+     * @param dateTime the date/time type to validate
+     * @param context the ValidationContext
+     * @throws ValidationException if the DateTime fails validation
+     */
+    public void validate(DateTimeBase dateTime, ValidationContext context) throws ValidationException {
         boolean isThereMinInclusive = (_minInclusive != null);
         boolean isThereMinExclusive = (_minExclusive != null);
         boolean isThereMaxInclusive = (_maxInclusive != null);
         boolean isThereMaxExclusive = (_maxExclusive != null);
 
         if (isThereMinExclusive && isThereMinInclusive) {
-            throw new ValidationException("both minInclusive and minExclusive"
-                                          +"are set up");
+            throw new ValidationException("both minInclusive and minExclusive are defined");
         }
 
         if (isThereMaxExclusive && isThereMaxInclusive) {
-            throw new ValidationException("both maxInclusive and maxExclusive"
-                                          +"are set up");
+            throw new ValidationException("both maxInclusive and maxExclusive are defined");
         }
-        if (isThereMinInclusive) {
-            if ( (dateTime.compareTo(_minInclusive) != DateTimeBase.GREATER_THAN) &&
-               !dateTime.equals(_minInclusive) ) {
-                String err = dateTime + " must be greater than (or equal to) the minimum allowable ";
-                err += "value of " + _minInclusive;
+
+        if (isThereMinInclusive && dateTime.compareTo(_minInclusive) != DateTimeBase.GREATER_THAN &&
+                !dateTime.equals(_minInclusive)) {
+            String err = dateTime + " must be greater than (or equal to) the minimum allowable value of " + _minInclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMinExclusive && dateTime.compareTo(_minExclusive) != DateTimeBase.GREATER_THAN) {
+            String err = dateTime + " must be greater than the minimum allowable value of " + _minExclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMaxInclusive && dateTime.compareTo(_maxInclusive) != DateTimeBase.LESS_THAN &&
+                !dateTime.equals(_maxInclusive) ) {
+            String err = dateTime + " must be less than (or equal to) the maximum allowable value of " + _maxInclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMaxExclusive && dateTime.compareTo(_maxExclusive) != DateTimeBase.LESS_THAN) {
+            String err = dateTime + " must be less than the maximum allowable value of " + _maxExclusive;
+            throw new ValidationException(err);
+        }
+
+        if (_fixed != null) {
+            int comparison = dateTime.compareTo(_fixed);
+            if (comparison == DateTimeBase.INDETERMINATE) {
+                String err = dateTime + " must be equal to the fixed value: " + _fixed + " but comparison is indeterminate";
+                throw new ValidationException(err);
+            } else if (comparison != DateTimeBase.EQUALS) {
+                String err = dateTime + " must be equal to the fixed value: " + _fixed;
                 throw new ValidationException(err);
             }
         }
 
-         if (isThereMinExclusive) {
-            if (dateTime.compareTo(_minExclusive) != DateTimeBase.GREATER_THAN) {
-                String err = dateTime + " must be greater than the minimum allowable ";
-                err += "value of " + _minExclusive;
-                throw new ValidationException(err);
-            }
+        if (hasPattern()) {
+            super.validate(dateTime.toString(), context);
         }
-
-         if (isThereMaxInclusive) {
-            if ( (dateTime.compareTo(_maxInclusive) != DateTimeBase.LESS_THAN) &&
-                 !dateTime.equals(_maxInclusive) ) {
-                String err = dateTime + " must be less than (or equal to) the maximum allowable ";
-                err += "value of " + _maxInclusive;
-                throw new ValidationException(err);
-            }
-        }
-
-         if (isThereMaxExclusive) {
-            if (dateTime.compareTo(_maxExclusive) != DateTimeBase.LESS_THAN) {
-                String err = dateTime + " must be less than the maximum allowable ";
-                err += "value of " + _maxExclusive;
-                throw new ValidationException(err);
-            }
-        }
-
-        //use the pattern validator
-        /*if (hasPattern()) {
-            //something to do...
-        }*/
-
     } //-- validate
 
     /**
      * Validates the given Object
      *
      * @param object the Object to validate
+     * @throws ValidationException if the object fails validation
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
+    public void validate(Object object) throws ValidationException {
         validate(object, (ValidationContext)null);
     } //-- validate
-    
+
     /**
      * Validates the given Object
      *
      * @param object the Object to validate
      * @param context the ValidationContext
+     * @throws ValidationException if the object fails validation
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             String err = "DateTimeValidator cannot validate a null object.";
             throw new ValidationException(err);
         }
 
+        if (object instanceof String) {
+            try {
+                DateTime dateTime = new DateTime((String)object);
+                validate(dateTime, context);
+                return;
+            } catch (java.text.ParseException pe) {
+                String err = "String provided fails to parse into a DateTime: " + (String) object;
+                throw new ValidationException(err, pe);
+            }
+        }
+
         DateTimeBase value = null;
 
         try {
-            value = (DateTimeBase)object;
-        } catch(Exception ex) {
-            String err = ex.toString()+"\nExpecting a RecurringDuration, received instead: ";
+            value = (DateTimeBase) object;
+        } catch (Exception ex) {
+            String err = ex.toString() + "\nExpecting a DateTime, received instead: ";
             err += object.getClass().getName();
             throw new ValidationException(err);
         }
+
         validate(value);
     } //-- validate
-}//-- RecurringDurationValidator
+
+}
