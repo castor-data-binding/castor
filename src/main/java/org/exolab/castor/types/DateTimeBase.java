@@ -737,9 +737,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
             tempDate1 = copyDateTimeInstance(this);
             tempDate2 = copyDateTimeInstance(dateTime);
         } catch (IllegalAccessException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException(e.getMessage());
         } catch (InstantiationException e) {
-            throw new IllegalArgumentException(e);
+            throw new IllegalArgumentException(e.getMessage());
         }
 
         if (tempDate1.isUTC()) {
