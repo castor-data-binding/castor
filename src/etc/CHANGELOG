@@ -7,7 +7,7 @@ XML:   Resolved issue CASTOR-1227 using contribution from Edward Kuns [edward.ku
        (Edward - 20061116)
 
 XML:   Resolved issue CASTOR-1695 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Added 'generateImportedSchemas' option to code generator Ant task.
+       Added various new options to code generator Ant task.
        Details: http://jira.codehaus.org/browse/CASTOR-1695
        (Ralf - 20061116)
 

@@ -112,6 +112,17 @@ public class CastorSourceGenTask extends MatchingTask {
      * Whether to generate code for imported schemas, too.
      */
     private boolean generateImportedSchemas;
+    
+    /**
+     * Whether to generate SAX-1 compliant code
+     */
+    private boolean sax1;
+    
+    /**
+     * Whether enumerated type lookup should be performed in a case
+     * insensitive manner.
+     */
+    private boolean caseInsensitive;
 
     /**
      * CastorBuilderProperties file
@@ -187,7 +198,25 @@ public class CastorSourceGenTask extends MatchingTask {
     public void setGenerateImportedSchemas(final boolean generateImportedSchemas) {
         this.generateImportedSchemas = generateImportedSchemas; 
     }
-    
+
+    /**
+     * Controls whether to generate SAX-1 compliant code. 
+     * @param sax1 True if SAX-1 compliant code should be generated.
+     */
+    public void setSAX1(final boolean sax1) {
+        this.sax1 = sax1; 
+    }
+
+    /**
+     * Controls whether enumerated type lookup should be performed in a case
+     * insensitive manner.
+     * @param caseInsensitive True if enumerated type lookup should be performed in a case
+     * insensitive manner
+     */
+    public void setCaseInsensitive(final boolean caseInsensitive) {
+        this.caseInsensitive = caseInsensitive; 
+    }
+
     /**
      * Sets the file to use for castor builder properties
      *
@@ -252,6 +281,10 @@ public class CastorSourceGenTask extends MatchingTask {
         }
         
         sgen.setGenerateImportedSchemas(generateImportedSchemas); 
+        
+        sgen.setSAX1(sax1);
+        
+        sgen.setCaseInsensitive(caseInsensitive);
 
         sgen.setTestable(testable);
         if (this.testable) {

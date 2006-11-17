@@ -67,7 +67,7 @@
                 </bug>
                 <bug id="1695" tool="jira">
                     <description>
-                        Added 'generateImportedSchemas' option to code generator Ant task.
+                        Added various new options to code generator Ant task.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
