@@ -214,7 +214,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>adaptx</groupId>
 			<artifactId>adaptx</artifactId>
 			<version>0.9.13</version>
-			<scope>test</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
@@ -308,7 +308,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>org.mockejb</groupId>
 			<artifactId>mockejb</artifactId>
 			<version>0.5</version>
-            <scope>test</scope>
+			<optional>true</optional>
 		</dependency>
 
 		<dependency>
