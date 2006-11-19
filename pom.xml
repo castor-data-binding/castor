@@ -125,6 +125,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<organization>Anecon</organization>
 			<roles>
 				<role>Castor JDO Lead</role>
+				<role>Castor XML Lead</role>
 			</roles>
 			<timezone>+1</timezone>
 		</developer>
@@ -144,7 +145,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<email>kvisco@intalio.com</email>
 			<organization>Intalio</organization>
 			<roles>
-				<role>Castor XML Lead</role>
+				<role>Committer</role>
 			</roles>
 			<timezone>-5</timezone>
 		</developer>
@@ -213,6 +214,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>adaptx</groupId>
 			<artifactId>adaptx</artifactId>
 			<version>0.9.13</version>
+			<scope>test</scope>
 		</dependency>
 
 		<dependency>
