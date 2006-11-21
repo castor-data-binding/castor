@@ -16,10 +16,13 @@
 package org.castor.tools.log4j;
 
 import java.net.URL;
+import java.sql.Connection;
+import java.sql.Statement;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.apache.log4j.xml.DOMConfigurator;
+import org.exolab.castor.jdo.Database;
 import org.exolab.castor.jdo.JDOManager;
 
 import junit.framework.Test;
@@ -72,9 +75,48 @@ public final class TestCastorAppender extends TestCase {
      * 
      * @param name The name for the test.
      */
-    public TestCastorAppender(final String name) { super(name); }
+    public TestCastorAppender(final String name) { 
+        super(name);
+    }
     
     // -----------------------------------------------------------------------------------
+    
+    public void setUp () throws Exception {
+        JDOManager.loadConfiguration(
+                TestCastorAppender.class.getResource(JDO_CONF).toString());
+        JDOManager jdo = JDOManager.createInstance("LOGGING");
+        Database db = jdo.getDatabase();
+        db.begin();
+        Connection connection = db.getJdbcConnection();
+        Statement statement = connection.createStatement();
+        statement.executeUpdate("DROP TABLE LOG_EXTENSION");
+        statement.executeUpdate("DROP TABLE LOG_EXCEPTION");
+        statement.executeUpdate("DROP TABLE LOG");
+        
+        statement.executeUpdate("CREATE TABLE LOG (LOG_ID INT NOT NULL, " + 
+                " LOG_TIMESTAMP   TIMESTAMP        NOT NULL, " + 
+                " LOG_CLASS       VARCHAR  ( 100)  NOT NULL, " +  
+                " LOG_LEVEL       VARCHAR  (  10)  NOT NULL, " +   
+                " LOG_THREAD      VARCHAR  ( 100)  NOT NULL, " +   
+                " LOG_MESSAGE     VARCHAR  (1000)  DEFAULT NULL, " + 
+                " LOG_COUNT       INT              NOT NULL)");
+        statement.executeUpdate("ALTER TABLE LOG ADD PRIMARY KEY (LOG_ID)");
+        statement.executeUpdate("CREATE TABLE LOG_EXCEPTION ( " + 
+            " LOGE_ID         INT              NOT NULL, " + 
+            " LOGE_LOG_ID     INT              NOT NULL, " + 
+            " LOGE_STACKTRACE BLOB             NOT NULL)");
+        statement.executeUpdate("ALTER TABLE LOG_EXCEPTION ADD PRIMARY KEY (LOGE_ID)");
+        statement.executeUpdate("ALTER TABLE LOG_EXCEPTION ADD CONSTRAINT FK_LOGE_LOG_ID" + 
+                " FOREIGN KEY (LOGE_LOG_ID) REFERENCES LOG (LOG_ID)");
+        statement.executeUpdate("CREATE TABLE LOG_EXTENSION (LOGX_LOG_ID INT NOT NULL, LOGX_TYPE VARCHAR(100) NOT NULL, LOGX_VALUE VARCHAR(100) NOT NULL)");
+        statement.executeUpdate("ALTER TABLE LOG_EXTENSION ADD PRIMARY KEY (LOGX_LOG_ID)");
+        statement.executeUpdate("ALTER TABLE LOG_EXTENSION ADD CONSTRAINT FK_LOGX_LOG_ID " +
+                " FOREIGN KEY (LOGX_LOG_ID) REFERENCES LOG (LOG_ID)");
+        
+        statement.executeQuery("select count(*) from LOG");
+        db.commit();
+        db.close();
+    }
     
     /**
      * Test CastorAppender for LOG4J.
@@ -82,8 +124,8 @@ public final class TestCastorAppender extends TestCase {
      * @throws Exception If anything went wrong in the test.
      */
     public void testAppender() throws Exception {
-        JDOManager.loadConfiguration(
-                TestCastorAppender.class.getResource(JDO_CONF).toString());
+//        JDOManager.loadConfiguration(
+//                TestCastorAppender.class.getResource(JDO_CONF).toString());
 
         try {
             Integer.parseInt("cc");
