@@ -304,12 +304,15 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <scope>test</scope>
 		</dependency>
 
+		<!-- temp. removed as src/tests is not on the test compilation path -->
+		<!-- 
 		<dependency>
 			<groupId>org.mockejb</groupId>
 			<artifactId>mockejb</artifactId>
 			<version>0.5</version>
 			<optional>true</optional>
 		</dependency>
+		-->
 
 		<dependency>
 			<groupId>xerces</groupId>
