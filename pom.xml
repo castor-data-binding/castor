@@ -70,6 +70,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			</plugin>
 -->            
 
+<!-- 
             <plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-clover-plugin</artifactId>
@@ -88,8 +89,9 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                   </execution>
                 </executions>
             </plugin>       
+-->
 		</plugins>
-
+		
         <extensions>
             <extension>
                 <groupId>org.apache.maven.wagon</groupId>
@@ -327,6 +329,13 @@ http://maven.apache.org/maven-v4_0_0.xsd">
             <scope>test</scope>
         </dependency>
 
+        <dependency>
+            <groupId>org.apache.derby</groupId>
+            <artifactId>derby</artifactId>
+            <version>10.2.1.6</version>
+            <scope>test</scope>
+        </dependency>
+
 	</dependencies>
 
 	<repositories>
@@ -449,6 +458,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                 <artifactId>taglist-maven-plugin</artifactId>
 			</plugin>
             
+<!-- 
             <plugin> 
                 <artifactId>maven-clover-plugin</artifactId>
                 <version>2.1</version>
@@ -458,7 +468,6 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                     <licenseLocation>${basedir}/src/etc/CLOVER.LICENSE</licenseLocation>     
                 </configuration>        
             </plugin>
-<!--            
             <plugin>
                 <groupId>org.codehaus.mojo</groupId>
                 <artifactId>jdepend-maven-plugin</artifactId>
