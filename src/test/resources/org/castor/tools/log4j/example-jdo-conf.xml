@@ -3,13 +3,22 @@
                           "http://castor.codehaus.org/jdo-conf.dtd">
 
 <jdo-conf>
-	<database name="LOGGING" engine="mysql">
+   <database name="LOGGING" engine="derby" >
+        <driver url="jdbc:derby:test;create=true;retrieveMessagesFromServerOnGetMessage=true" class-name="org.apache.derby.jdbc.EmbeddedDriver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="example-mapping.xml" />
+    </database>
+    <!-- 
+    <database name="LOGGING" engine="mysql">
         <driver url="jdbc:mysql://localhost:3306/test" class-name="com.mysql.jdbc.Driver">
             <param name="user" value="test"/>
             <param name="password" value="test"/>
         </driver>
         <mapping href="example-mapping.xml"/>        
     </database>
+    -->
 <!--
 	<database name="LOGGING" engine="oracle" >
         <data-source class-name="oracle.jdbc.pool.OracleConnectionCacheImpl">
