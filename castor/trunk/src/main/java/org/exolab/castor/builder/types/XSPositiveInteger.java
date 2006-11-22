@@ -55,12 +55,12 @@ public final class XSPositiveInteger extends XSInteger {
 
     public XSPositiveInteger() {
         super();
-        setMinInclusive(new Integer(1));
+        setMinInclusive(1L);
     } //-- XSInteger
     
     public XSPositiveInteger(boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive(new Integer(1));
+        setMinInclusive(1L);
     } //-- XSInteger
     
 

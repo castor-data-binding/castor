@@ -55,6 +55,26 @@
                 </p>
             </summary>
             <bugs>
+                <bug id="1421" tool="jira">
+                    <description>
+                        Fixed support for &lt;xs:int&gt; and &lt;xs:integer&gt; for code generator.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Marcin Cinik</name>
+                        <email>Marcin.Cinik@pbpolsoft.com.pl</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061122</date>
+                </bug>
                 <bug id="1703" tool="jira">
                     <description>
                         Implement Srcgen DateTime pattern facet

@@ -64,12 +64,12 @@ public class IntegerValidator extends PatternValidator
     private boolean useMax   = false;
     private boolean useFixed = false;
 
-    private int min = 0;
-    private int max = 0;
+    private long min = 0;
+    private long max = 0;
     private int  _totalDigits = -1;
 
 
-    private int fixed = 0;
+    private long fixed = 0;
 
     /**
      * Creates a new IntegerValidator with no restrictions
@@ -106,9 +106,9 @@ public class IntegerValidator extends PatternValidator
      *
      * @return the fixed value to validate against.
      */
-    public Integer getFixed() {
+    public Long getFixed() {
         if (useFixed) {
-            return new Integer(fixed);
+            return new Long(fixed);
         }
         return null;
     } //-- getFixed
@@ -120,9 +120,9 @@ public class IntegerValidator extends PatternValidator
      *
      * @return the maximum inclusive value to validate against.
      */
-    public Integer getMaxInclusive() {
+    public Long getMaxInclusive() {
         if (useMax) {
-            return new Integer(max);
+            return new Long(max);
         }
         return null;
     } //-- getMaxInclusive
@@ -134,9 +134,9 @@ public class IntegerValidator extends PatternValidator
      *
      * @return the minimum inclusive value to validate against.
      */
-    public Integer getMinInclusive() {
+    public Long getMinInclusive() {
         if (useMin) {
-            return new Integer(min);
+            return new Long(min);
         }
         return null;
     } //-- getMinInclusive
@@ -175,12 +175,12 @@ public class IntegerValidator extends PatternValidator
      * and is really the same as setting both max-inclusive and
      * min-inclusive to the same value
     **/
-    public void setFixed(int fixedValue) {
+    public void setFixed(long fixedValue) {
         useFixed = true;
         this.fixed = fixedValue;
     } //-- setFixed
 
-    public void setFixed(Integer fixedValue) {
+    public void setFixed(Long fixedValue) {
         useFixed = true;
         this.fixed = fixedValue.intValue();
     }
@@ -190,7 +190,7 @@ public class IntegerValidator extends PatternValidator
      * @param minValue the minimum value an integer validated with this
      * validator must be greater than
     **/
-    public void setMinExclusive(int minValue) {
+    public void setMinExclusive(long minValue) {
         useMin = true;
         min = minValue+1;
     } //-- setMinExclusive
@@ -201,7 +201,7 @@ public class IntegerValidator extends PatternValidator
      * @param minValue the minimum value an integer validated with this
      * validator may be
     **/
-    public void setMinInclusive(int minValue) {
+    public void setMinInclusive(long minValue) {
         useMin = true;
         min = minValue;
     } //-- setMinInclusive
@@ -223,7 +223,7 @@ public class IntegerValidator extends PatternValidator
      * @param maxValue the maximum value an integer validated with this
      * validator may be
     **/
-    public void setMaxInclusive(int maxValue) {
+    public void setMaxInclusive(long maxValue) {
         useMax = true;
         max = maxValue;
     } //-- setMaxInclusive
@@ -238,7 +238,7 @@ public class IntegerValidator extends PatternValidator
           _totalDigits = totalDig;
      }
 
-    public void validate(int i, ValidationContext context)
+    public void validate(long i, ValidationContext context)
         throws ValidationException
     {
 
@@ -267,7 +267,7 @@ public class IntegerValidator extends PatternValidator
         }
 
         if (_totalDigits != -1) {
-            int length = Integer.toString(i).length();
+            int length = Long.toString(i).length();
             if ( length > _totalDigits ) {
                 String err = i + " doesn't have the correct number of digits, it must be less than or equal to "+_totalDigits;
                 throw new ValidationException(err);
@@ -275,7 +275,7 @@ public class IntegerValidator extends PatternValidator
         }
 
         if (hasPattern())
-            super.validate(Integer.toString(i), context);
+            super.validate(Long.toString(i), context);
 
     } //-- validate
 
@@ -304,12 +304,12 @@ public class IntegerValidator extends PatternValidator
             throw new ValidationException(err);
         }
 
-        int value = 0;
+        long value = 0;
         try {
-            value = ((Integer)object).intValue();
+            value = ((Long)object).longValue();
         }
         catch(Exception ex) {
-            String err = "Expecting an Integer, received instead: ";
+            String err = "Expecting an Long, received instead: ";
             err += object.getClass().getName();
             throw new ValidationException(err);
         }
