@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -49,55 +49,32 @@
  * 11/01/2000   Arnaud Blandin      Enhancements (constructor, methods access...)
  * 10/23/2000   Arnaud Blandin      Created
  */
-
 package org.exolab.castor.types;
 
-import java.text.SimpleDateFormat;
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.SimpleTimeZone;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
+
 /**
  * Describe an XML schema Date.
- * <p>The format is defined by W3C XML Schema Recommendation and ISO8601
- * i.e <tt>(-)CCYY-MM-DD(Z|(+|-)hh:mm)</tt>
+ * <p>
+ * The format is defined by W3C XML Schema Recommendation and ISO8601 i.e
+ * <tt>(-)CCYY-MM-DD(Z|(+|-)hh:mm)</tt>
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
  */
-
-public class Date extends DateTimeBase{
+public class Date extends DateTimeBase {
     /** SerialVersionUID */
     private static final long serialVersionUID = -1634875709019365137L;
-
-    /**
-     * Flag indicating that we are still looking for a year
-     */
-    private static final int YEAR_FLAG = 15;
-
-   /**
-    * Flag indicating that we are still looking for a month
-    */
-    private static final int MONTH_FLAG = 7;
-
-   /**
-    * Flag indicating that we are still looking for a day
-    */
-    private static final int DAY_FLAG = 3;
-
-   /**
-    * Flag indicating that we are still looking for a timeZone
-    */
-    private static final int TIMEZONE_FLAG = 1;
-
+    /** Complaint string. */
     private static final String BAD_DATE = "Bad Date format: ";
 
     /**
-     * The Date Format
+     * No-arg constructor.
      */
-    public static final String DATE_FORMAT = "yyyy-MM-dd";
-
     public Date() {
+        // Nothing to do
     }
 
     /**
@@ -106,7 +83,6 @@ public class Date extends DateTimeBase{
      * By default a Date is not UTC and is local.
      * @param values an array of shorts that represent the different fields of Time.
      */
-
     public Date(short[] values) {
         setValues(values);
     }
@@ -120,36 +96,40 @@ public class Date extends DateTimeBase{
      * @param dateAsLong Date represented in from of a long value.
      */
     public Date (long dateAsLong) {
-    	this (new java.util.Date (dateAsLong));
+        this (new java.util.Date (dateAsLong));
     }
-    
+
     /**
      * This constructor is used to convert a java.util.Date into
      * a new org.exolab.castor.types.Date
      * <p>Note : all the information concerning the time part of
      * the java.util.Date is lost since a W3C Schema Date only represents
      * CCYY-MM-YY
+     * @param dateRef the java.util.Date to use to construct a new org.exolab.castor.types.Date
      */
     public Date(java.util.Date dateRef) {
         GregorianCalendar tempCalendar = new GregorianCalendar();
         tempCalendar.setTime(dateRef);
-        setCentury((short) (tempCalendar.get(Calendar.YEAR)/100));
-        setYear((short) (tempCalendar.get(Calendar.YEAR)%100));
+        setCentury((short) (tempCalendar.get(Calendar.YEAR) / 100));
+        setYear((short) (tempCalendar.get(Calendar.YEAR) % 100));
 
         //we need to add 1 to the Month value returned by GregorianCalendar
         //because 0<MONTH<11 (i.e January is 0)
-        setMonth((short) (tempCalendar.get(Calendar.MONTH)+1));
-        setDay((short) (tempCalendar.get(Calendar.DAY_OF_MONTH)));
+        setMonth((short) (tempCalendar.get(Calendar.MONTH) + 1));
+        setDay((short) tempCalendar.get(Calendar.DAY_OF_MONTH));
     } //Date(java.util.Date)
 
     /**
      * Constructs a date from a string
      * @param date the string representing the date
+     * @throws ParseException a parse exception is thrown if the string to parse
+     *                        does not follow the right format (see the description
+     *                        of this class)
      */
     public Date(String date) throws java.text.ParseException {
-        this();
         parseDateInternal(date, this);
     }
+
     /**
      * Sets all the fields by reading the values in an array
      * <p>if a Time Zone is specificied it has to be set by using
@@ -163,17 +143,16 @@ public class Date extends DateTimeBase{
      *      <li>month</li>
      *      <li>day</li>
      * </ul>
-     *
      */
-     public void setValues(short[] values) {
-         if (values.length != 4)
-             throw new IllegalArgumentException("Date#setValues: not the right number of values");
+    public void setValues(short[] values) {
+        if (values.length != 4) {
+            throw new IllegalArgumentException("Date#setValues: not the right number of values");
+        }
         this.setCentury(values[0]);
         this.setYear(values[1]);
         this.setMonth(values[2]);
         this.setDay(values[3]);
-     }
-
+    }
 
     /**
      * Returns an array of short with all the fields that describe
@@ -183,8 +162,7 @@ public class Date extends DateTimeBase{
      * this Date type.
      */
     public short[] getValues() {
-        short[] result = null;
-        result = new short[4];
+        short[] result = new short[4];
         result[0] = this.getCentury();
         result[1] = this.getYear();
         result[2] = this.getMonth();
@@ -192,292 +170,196 @@ public class Date extends DateTimeBase{
         return result;
     } //getValues
 
-
-
     /**
-     * converts this Date into a local java Date.
+     * converts this Date into a local java.util.Date.
      * @return a local date representing this Date.
      */
-    public java.util.Date toDate(){
-
-        java.util.Date date = null;
-        SimpleDateFormat df = new SimpleDateFormat(DATE_FORMAT);
-        // Set the time zone
-        if ( isUTC() ) {
-            SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
-            int offset = 0;
-            offset = ( (this.getZoneMinute() + this.getZoneHour()*60)*60*1000);
-            offset = isZoneNegative() ? -offset : offset;
-            timeZone.setRawOffset(offset);
-            timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
-            df.setTimeZone(timeZone);
-        }
-
-        try {
-            date = df.parse(this.toString());
-        } catch (ParseException e) {
-           //this can't happen since toString() should return the proper
-           //string format
-           e.printStackTrace();
-           return null;
-        }
-        return date;
-    }//toDate()
+    public java.util.Date toDate() {
+        Calendar calendar = new GregorianCalendar(getCentury()*100+getYear(), getMonth()-1, getDay());
+        setDateFormatTimeZone(calendar);
+        return calendar.getTime();
+    } //toDate()
 
     /**
      * Converts this date into a long value.
      * @return This date instance as a long value.
      */
     public long toLong () {
-    	java.util.Date date = toDate();
-    	return date.getTime();
+        return this.toDate().getTime();
     }
-    
+
     /**
      * convert this Date to a string
      * The format is defined by W3C XML Schema recommendation and ISO8601
      * i.e (+|-)CCYY-MM-DD
      * @return a string representing this Date
      */
-     public String toString() {
-
+    public String toString() {
         StringBuffer result = new StringBuffer();
-        if (isNegative())
+        if (isNegative()) {
             result.append('-');
+        }
 
-        result.append(this.getCentury());
-        if (result.length() == 1)
-            result.insert(0,0);
-
-        if ((this.getYear()/10) == 0)
+        if ((this.getCentury() / 10) == 0) {
             result.append(0);
+        }
+        result.append(this.getCentury());
+
+        if ((this.getYear() / 10) == 0) {
+            result.append(0);
+        }
         result.append(this.getYear());
 
         result.append('-');
-        if ((this.getMonth() / 10) == 0 )
-           result.append(0);
+        if ((this.getMonth() / 10) == 0) {
+            result.append(0);
+        }
         result.append(this.getMonth());
 
         result.append('-');
-        if ((this.getDay()/10) == 0 )
+        if ((this.getDay()/10) == 0) {
             result.append(0);
-        result.append(this.getDay());
-        if (isUTC()) {
-            //By default we append a 'Z' to indicate UTC
-            if ( (this.getZoneHour() == 0) && (this.getZoneMinute() ==0) )
-                result.append('Z');
-            else {
-                StringBuffer timeZone = new StringBuffer();
-                if (isZoneNegative())
-                   timeZone.append('-');
-                else timeZone.append('+');
-
-                if ((this.getZoneHour()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneHour());
-
-                timeZone.append(':');
-                if ((this.getZoneMinute()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneMinute());
-
-               result.append(timeZone.toString());
-               timeZone = null;
-            }
         }
-        return result.toString();
+        result.append(this.getDay());
 
-    }//toString
+        appendTimeZoneString(result);
+
+        return result.toString();
+    } //toString
 
     /**
      * parse a String and convert it into an java.lang.Object
      * @param str the string to parse
      * @return an Object represented by the string
      * @throws ParseException a parse exception is thrown if the string to parse
-     *                        does not follow the rigth format (see the description
+     *                        does not follow the right format (see the description
      *                        of this class)
      */
-
     public static Object parse(String str) throws ParseException {
         return parseDate(str);
     }
 
-   /**
-    * parse a String and convert it into a Date.
-    * @param str the string to parse
-    * @return the Date represented by the string
-    * @throws ParseException a parse exception is thrown if the string to parse
-    *                        does not follow the rigth format (see the description
-    *                        of this class)
-    */
+    /**
+     * parse a String and convert it into a Date.
+     * @param str the string to parse
+     * @return the Date represented by the string
+     * @throws ParseException a parse exception is thrown if the string to parse
+     *                        does not follow the right format (see the description
+     *                        of this class)
+     */
     public static Date parseDate(String str) throws ParseException {
         Date result = new Date();
         return parseDateInternal(str, result);
-     }
+    }
 
     private static Date parseDateInternal(String str, Date result) throws ParseException {
+        if (str == null) {
+            throw new IllegalArgumentException("The string to be parsed must not be null.");
+        }
 
-        if (str == null)
-             throw new IllegalArgumentException("The string to be parsed must not "
-                                                +"be null.");
-        if (result == null)
+        if (result == null) {
             result = new Date();
-        char[] chars = str.toCharArray();
-        int idx = 0;
+        }
 
+        char[] chars = str.toCharArray();
+
+        // Year
+        int idx = 0;
         if (chars[idx] == '-') {
              idx++;
              result.setNegative();
         }
 
-        boolean hasNumber = false;
-        boolean has2Digits = false;
-        short number = 0;
-        short number2 = 0;
-        //-- parse flags
-        //-- --(char): = b1111 (15)
-        int flags = YEAR_FLAG;
-
-        while (idx < chars.length) {
-             char ch = chars[idx++];
-
-             switch (ch) {
-
-                 case '-' :
-                       //year
-                       if (flags == YEAR_FLAG) {
-                          if ((number != 0) || (number2 != 0)) {
-                              if (has2Digits)
-                                 result.setCentury(number);
-                              else throw new ParseException(BAD_DATE+str+"\nThe Century field must have 2 digits.",idx);
-                              //must test number2
-                              result.setYear(number2);
-                              number2 = -1;
-                              flags =  MONTH_FLAG;
-                          } else throw new ParseException(BAD_DATE+str+"\n'0000' is not allowed as a year.",idx);
-                       }
-                       //month
-                       else if (flags == MONTH_FLAG) {
-                          if ( (has2Digits) && (number2 == -1) ) {
-                              result.setMonth(number);
-                              flags = DAY_FLAG;
-                          } else throw new ParseException(BAD_DATE+str+"\nThe month field must have 2 digits.",idx);
-                       }
-                       //time zone
-                       else if ( (flags == DAY_FLAG) && (number2 == -1) ) {
-                           if (has2Digits) {
-                               result.setUTC();
-                               result.setZoneNegative(true);
-                               result.setDay(number);
-                               flags = TIMEZONE_FLAG;
-                           }else throw new ParseException(BAD_DATE+str+"\nThe day field must have 2 digits.",idx);
-                       }
-                       else throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
-
-                       hasNumber = false;
-                       has2Digits = false;
-                       break;
-
-                 case 'Z' :
-                      if (flags != DAY_FLAG)
-                         throw new ParseException("'Z' "+DateTimeBase.WRONGLY_PLACED,idx);
-
-                      result.setUTC();
-                      break;
-
-                 case '+' :
-                    if (flags != DAY_FLAG)
-                        throw new ParseException("'+' "+DateTimeBase.WRONGLY_PLACED,idx);
-                    if (has2Digits && number2 == -1 ) {
-                      result.setDay(number);
-                      result.setUTC();
-                      flags = TIMEZONE_FLAG;
-                      hasNumber = false;
-                      has2Digits = false;
-                    }
-                    else throw new ParseException(BAD_DATE+str+"\nThe day field must have 2 digits.",idx);
-                    break;
-
-                 case ':' :
-                     if (flags != TIMEZONE_FLAG)
-                        throw new ParseException(BAD_DATE+str+"\n':' "+DateTimeBase.WRONGLY_PLACED,idx);
-                     number2 = number;
-                     number = -1;
-                     flags = 0;
-                     hasNumber = false;
-                     has2Digits = false;
-                     break;
-                 default:
-                    //make sure we have a digit
-                    if ( ('0' <= ch) && (ch <= '9')) {
-                        if (hasNumber) {
-                            if (has2Digits)
-                                 number2 = (short) ((number2*10)+(ch-48));
-                            else {
-                                number = (short)((number*10)+(ch-48));
-                                has2Digits = true;
-                            }
-                        }
-                        else {
-                            hasNumber = true;
-                            number = (short) (ch-48);
-                        }
-                    }
-                    else
-                        throw new ParseException (str+": Invalid character: "+ch, idx);
-                    break;
-             }//switch
-        }//while
-        if (flags!= DAY_FLAG && flags != 0)
-            throw new ParseException(BAD_DATE+str+"\nA date must follow the pattern CCYY-MM-DD(Z|((+|-)hh:mm)).",idx);
-        else if (flags == DAY_FLAG) {
-            if  ( (has2Digits) && (number2 == -1) )
-                result.setDay(number);
-            else
-               throw new ParseException(BAD_DATE+str+"\nThe day field must have 2 digits.",idx);
+        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])
+                || !Character.isDigit(chars[idx + 2]) || !Character.isDigit(chars[idx + 3])) {
+            throw new ParseException(BAD_DATE+str+"\nThe Year must be 4 digits long", idx);
         }
 
-        else if (flags == 0) {
-            if (number != -1)
-                result.setZone(number2,number);
-            else throw new ParseException(str+"\n In a time zone, the minute field must always be present.",idx);
+        short value1;
+        short value2;
+
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        value2 = (short) ((chars[idx+2] - '0') * 10 + (chars[idx+3] - '0'));
+
+        if (value1 == 0 && value2 == 0) {
+            throw new ParseException(BAD_DATE+str+"\n'0000' is not allowed as a year.",idx);
         }
+
+        result.setCentury(value1);
+        result.setYear(value2);
+
+        idx += 4;
+
+        // Month
+        if (chars[idx] != '-') {
+            throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
+        }
+
+        idx++;
+
+        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+            throw new ParseException(BAD_DATE+str+"\nThe Month must be 2 digits long", idx);
+        }
+
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setMonth(value1);
+
+        idx += 2;
+
+        // Day
+        if (chars[idx] != '-') {
+            throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
+        }
+
+        idx++;
+
+        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+            throw new ParseException(BAD_DATE+str+"\nThe Day must be 2 digits long", idx);
+        }
+
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setDay(value1);
+
+        idx += 2;
+
+        parseTimeZone(str, result, chars, idx, BAD_DATE);
+
         return result;
+    } //parse
 
-    }//parse
+    /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
-    /////////////////////////DISALLOW TIME METHODS/////////////////////////////
-    public short getHour(){
-        String err = "Date: couldn't access to the Hour field.";
+    public short getHour() {
+        String err = "org.exolab.castor.types.Date does not have an Hour field.";
         throw new OperationNotSupportedException(err);
     }
-    public short getMinute(){
-        String err = "Date: couldn't access to the Minute field.";
+    public void setHour(short hour) {
+        String err = "org.exolab.castor.types.Date does not have an Hour field.";
         throw new OperationNotSupportedException(err);
     }
-    public short getSeconds(){
-        String err = "Date: couldn't access to the Second field.";
+    public short getMinute() {
+        String err = "org.exolab.castor.types.Date does not have a Minute field.";
         throw new OperationNotSupportedException(err);
     }
-    public short getMilli() {
-        String err = "Date: couldn't access to the Millisecond field.";
+    public void setMinute(short minute) {
+        String err = "org.exolab.castor.types.Date does not have a Minute field.";
         throw new OperationNotSupportedException(err);
     }
-    public void setHour(short hour){
-        String err = "Date: couldn't access to the Hour field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public void setMinute(short minute){
-        String err = "Date: couldn't access to the Minute field.";
+    public short getSeconds() {
+        String err = "org.exolab.castor.types.Date does not have a Seconds field.";
         throw new OperationNotSupportedException(err);
     }
     public void setSecond(short second) {
-        String err = "Date: couldn't access to the second field.";
+        String err = "org.exolab.castor.types.Date does not have a Seconds field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public short getMilli() {
+        String err = "org.exolab.castor.types.Date does not have a Milliseconds field.";
+        throw new OperationNotSupportedException(err);
+    }
+    public void setMilliSecond(short millisecond) {
+        String err = "org.exolab.castor.types.Date does not have a Milliseconds field.";
         throw new OperationNotSupportedException(err);
     }
 
-    public void setMilliSecond(short millisecond) {
-        String err = "Date: couldn't access to the Millisecond field.";
-        throw new OperationNotSupportedException(err);
-    }
 }// Date

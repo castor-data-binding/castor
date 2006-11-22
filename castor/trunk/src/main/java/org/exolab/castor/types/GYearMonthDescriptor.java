@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,14 +42,14 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.types;
 
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.util.*;
 import org.exolab.castor.mapping.ValidityException;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLFieldHandler;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * The GYearMonth Descriptor
@@ -59,14 +59,20 @@ import org.exolab.castor.mapping.ValidityException;
  */
 public class GYearMonthDescriptor extends BaseDescriptor {
 
-    /**
-     * The name of the XML element.
-     */
-    private static final String _xmlName = "gYearMonth";
+    /** The name of the XML element. */
+    private static final String                 _xmlName = "gYearMonth";
+    /** Our field descriptor. */
+    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    /** Our field descriptor array.  Lists the fields we describe. */
+    private static final FieldDescriptor[]      _fields;
 
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
-
-    private static FieldDescriptor[] _fields = null;
+    static {
+        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+                                                        "content", NodeType.Text);
+        _contentDescriptor.setHandler(new GYearMonthDescriptor().new GYearMonthFieldHandler());
+        _fields = new FieldDescriptor[1];
+        _fields[0] = _contentDescriptor;
+    }
 
     //----------------/
     //- Constructors -/
@@ -74,18 +80,6 @@ public class GYearMonthDescriptor extends BaseDescriptor {
 
     public GYearMonthDescriptor() {
         super(_xmlName, GYearMonth.class);
-        if (_contentDescriptor == null) {
-            _contentDescriptor = new XMLFieldDescriptorImpl(String.class,
-                "content", "content", NodeType.Text);
-            //-- setHandler
-            _contentDescriptor.setHandler(new GYearMonthFieldHandler());
-        }
-
-        if (_fields == null) {
-            _fields = new FieldDescriptor[1];
-            _fields[0] = _contentDescriptor;
-        }
-
     } //-- GYearMonthDescriptor
 
     //------------------/
@@ -97,7 +91,7 @@ public class GYearMonthDescriptor extends BaseDescriptor {
      * that should be marshalled as text content.
      * @return the XMLFieldDescriptor for the member
      * that should be marshalled as text content.
-    **/
+     */
     public XMLFieldDescriptor getContentDescriptor() {
         return _contentDescriptor;
     } // getContentDescriptor
@@ -116,7 +110,7 @@ public class GYearMonthDescriptor extends BaseDescriptor {
      * TimeDuration related types
      * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
      * @version $Revision $ $Date $
-    **/
+     */
     class GYearMonthFieldHandler extends XMLFieldHandler {
 
         //----------------/
@@ -125,7 +119,7 @@ public class GYearMonthDescriptor extends BaseDescriptor {
 
         /**
          * Creates a new TimeFieldHandler
-        **/
+         */
         public GYearMonthFieldHandler() {
             super();
         } //-- GYearMonthFieldHandler
@@ -140,13 +134,12 @@ public class GYearMonthDescriptor extends BaseDescriptor {
          * @param target the object to get the value from
          * @return the value of the field associated with this
          * descriptor from the given target object.
-        **/
-        public Object getValue(Object target)
-            throws java.lang.IllegalStateException
-        {
-           Object result = null;
-            if (target instanceof GYearMonth)
+         */
+        public Object getValue(Object target) throws java.lang.IllegalStateException {
+            Object result = null;
+            if (target instanceof GYearMonth) {
                 result = (GYearMonth) target;
+            }
             return result;
         } //-- getValue
 
@@ -154,13 +147,10 @@ public class GYearMonthDescriptor extends BaseDescriptor {
          * Sets the value of the field associated with this descriptor.
          * @param target the object in which to set the value
          * @param value the value of the field
-        **/
-        public void setValue(Object target, Object value)
-            throws java.lang.IllegalStateException
-        {
-
+         */
+        public void setValue(Object target, Object value) throws java.lang.IllegalStateException {
             if (! (target instanceof GYearMonth) ) {
-               String err = "GYearMonthDescriptor#setValue: expected GYearMonth, received instead:"
+               String err = "GYearMonthDescriptor#setValue: expected GYearMonth, received instead: "
                             + target.getClass();
                throw new IllegalStateException(err);
             }
@@ -180,20 +170,18 @@ public class GYearMonthDescriptor extends BaseDescriptor {
                 if (temp.isUTC()) {
                     GYearMonthTarget.setUTC();
                     GYearMonthTarget.setZone(temp.getZoneHour(), temp.getZoneMinute());
+                    GYearMonthTarget.setZoneNegative(temp.isZoneNegative());
                 }
                 temp = null;
-            }
-            catch (java.text.ParseException ex) {
+            } catch (java.text.ParseException ex) {
                 String err = "GYearMonthDescriptor#setValue: wrong value\n"+ex.getMessage();
                 throw new IllegalStateException(err);
             }
         } //-- setValue
 
-        public void resetValue(Object target)
-            throws java.lang.IllegalStateException
-        {
+        public void resetValue(Object target) throws java.lang.IllegalStateException {
+            // Nothing to do?
         }
-
 
         /**
          * Checks the field validity. Returns successfully if the field
@@ -206,12 +194,9 @@ public class GYearMonthDescriptor extends BaseDescriptor {
          *  is no longer supported by this handler, or the handler
          *  is not compatiable with the Java object
          */
-        public void checkValidity( Object object )
-            throws ValidityException, IllegalStateException
-        {
+        public void checkValidity(Object object) throws ValidityException, IllegalStateException {
             // nothing to do?
         } //-- checkValidity
-
 
         /**
          * Creates a new instance of the object described by this field.
@@ -221,15 +206,10 @@ public class GYearMonthDescriptor extends BaseDescriptor {
          * @throws IllegalStateException This field is a simple type and
          *  cannot be instantiated
          */
-        public Object newInstance( Object parent )
-            throws IllegalStateException
-        {
+        public Object newInstance(Object parent) throws IllegalStateException {
             return new GYearMonth();
         } //-- newInstance
 
-
     } //-- GYearMonthFieldHandler
 
-
 } //-- GYearMonthDescriptor
-

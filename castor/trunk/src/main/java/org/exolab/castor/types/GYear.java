@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,13 +44,10 @@
  * Date         Author              Changes
  * 05/24/2001   Arnaud Blandin      Created
  */
-
 package org.exolab.castor.types;
 
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
 /**
  * Describe an XML schema gYear type.
@@ -59,27 +56,25 @@ import java.util.TimeZone;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
  */
+public class GYear extends DateTimeBase {
 
-public class GYear extends GYearMonth {
     /** SerialVersionUID */
     private static final long serialVersionUID = -8977039151222106864L;
 
-    /**
-     * The gYear format
-     */
+    /** The gYear SimpleDateFormat string. */
     private static final String YEAR_FORMAT = "yyyy";
-
+    /** Prefix of any complaint we make. */
     private static final String BAD_GYEAR = "Bad gYear format: ";
 
-     /**
+    /**
      * public only for the generated source code
      */
     public GYear() {
+        // Nothing to do
     }
 
     /**
-     * Instantiates a new gYear given the value
-     * of the month and the value of the day.
+     * Instantiates a new gYear given the value of the century and year.
      * @param century the month value
      * @param year the year value
      */
@@ -89,12 +84,12 @@ public class GYear extends GYearMonth {
     }
 
     /**
-     * Instantiates a new gYear given the value
-     * of the month and the value of the day.
+     * Instantiates a new gYear given the value of the year.  Here, the year
+     * is the normal representation of a year, that is, a four-digit value.
      * @param year the year value
      */
     public GYear(int year) {
-         short century = (short) (year/100);
+         short century = (short) (year / 100);
          year = year % 100;
          setCentury(century);
          setYear((short)year);
@@ -106,19 +101,19 @@ public class GYear extends GYearMonth {
      * By default a GYear is not UTC and is local.
      * @param values an array of shorts that represent the different fields of Time.
      */
-
     public GYear(short[] values) {
-        this();
         this.setValues(values);
     }
 
-   /**
-    * Construct a GYear from a string value
-    * @param gyear the string representation of the GYear to instantiate
-    */
+    /**
+     * Construct a GYear from a string value
+     * @param gyear the string representation of the GYear to instantiate
+     * @throws ParseException a parse exception is thrown if the string to parse
+     *                        does not follow the rigth format (see the description
+     *                        of this class)
+     */
     public GYear(String gyear) throws ParseException {
-         this();
-         parseGYearInternal(gyear, this);
+        parseGYearInternal(gyear, this);
     }
 
     /**
@@ -132,15 +127,14 @@ public class GYear extends GYearMonth {
      *      <li>century</li>
      *      <li>year</li>
      * </ul>
-     *
      */
-     public void setValues(short[] values) {
-         if (values.length != 2)
-             throw new IllegalArgumentException("GYear#setValues: not the right number of values");
+    public void setValues(short[] values) {
+        if (values.length != 2) {
+            throw new IllegalArgumentException("GYear#setValues: not the right number of values");
+        }
         this.setCentury(values[0]);
         this.setYear(values[1]);
-     }
-
+    }
 
     /**
      * Returns an array of short with all the fields that describe
@@ -149,45 +143,32 @@ public class GYear extends GYearMonth {
      * @return  an array of short with all the fields that describe
      * this Date type.
      */
-    public short[] getValues() {
-        short[] result = null;
-        result = new short[2];
-        result[0] = this.getCentury();
-        result[1] = this.getYear();
-        return result;
-    } //getValues
-
-
+     public short[] getValues() {
+         short[] result = new short[2];
+         result[0] = this.getCentury();
+         result[1] = this.getYear();
+         return result;
+     } //getValues
 
     /**
      * converts this gYear into a local java Date.
      * @return a local date representing this Date.
      */
-    public java.util.Date toDate(){
+    public java.util.Date toDate() {
+        SimpleDateFormat df = new SimpleDateFormat(YEAR_FORMAT);
+        setDateFormatTimeZone(df);
 
         java.util.Date date = null;
-        SimpleDateFormat df = new SimpleDateFormat(YEAR_FORMAT);
-        // Set the time zone
-        if ( isUTC() ) {
-            SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
-            int offset = 0;
-            offset = ( (this.getZoneMinute() + this.getZoneHour()*60)*60*1000);
-            offset = isZoneNegative() ? -offset : offset;
-            timeZone.setRawOffset(offset);
-            timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
-            df.setTimeZone(timeZone);
-        }
-
         try {
             date = df.parse(this.toString());
         } catch (ParseException e) {
-           //this can't happen since toString() should return the proper
-           //string format
-           e.printStackTrace();
-           return null;
+            //this can't happen since toString() should return the proper string format
+            e.printStackTrace();
+            return null;
         }
+
         return date;
-    }//toDate()
+    } //toDate()
 
     /**
      * convert this gYear to a string
@@ -195,45 +176,25 @@ public class GYear extends GYearMonth {
      * i.e (+|-)CCYY-MM(Z|(+|-)hh:mm)
      * @return a string representing this Date
      */
-     public String toString() {
-
+    public String toString() {
         StringBuffer result = new StringBuffer();
-        if (isNegative())
+        if (isNegative()) {
             result.append('-');
+        }
 
-        result.append(this.getCentury());
-        if (result.length() == 1)
-            result.insert(0,0);
-
-        if ((this.getYear()/10) == 0)
+        if ((this.getCentury()/10) == 0) {
             result.append(0);
+        }
+        result.append(this.getCentury());
+
+        if ((this.getYear()/10) == 0) {
+            result.append(0);
+        }
         result.append(this.getYear());
 
-        if (isUTC()) {
-            //By default we append a 'Z' to indicate UTC
-            if ( (this.getZoneHour() == 0) && (this.getZoneMinute() ==0) )
-                result.append('Z');
-            else {
-                StringBuffer timeZone = new StringBuffer();
-                if (isZoneNegative())
-                   timeZone.append('-');
-                else timeZone.append('+');
+        appendTimeZoneString(result);
 
-                if ((this.getZoneHour()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneHour());
-
-                timeZone.append(':');
-                if ((this.getZoneMinute()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneMinute());
-
-               result.append(timeZone.toString());
-               timeZone = null;
-            }
-        }
         return result.toString();
-
     }//toString
 
     /**
@@ -244,10 +205,9 @@ public class GYear extends GYearMonth {
      *                        does not follow the rigth format (see the description
      *                        of this class)
      */
-
-    public static Object parse(String str) throws ParseException {
-        return parseGYear(str);
-    }
+     public static Object parse(String str) throws ParseException {
+         return parseGYear(str);
+     }
 
     /**
      * parse a String and convert it into a gYear.
@@ -257,140 +217,100 @@ public class GYear extends GYearMonth {
      *                        does not follow the rigth format (see the description
      *                        of this class)
      */
-    public static GYear parseGYear(String str) throws ParseException {
-        GYear result = new GYear();
-        return parseGYearInternal(str, result);
-    }
+     public static GYear parseGYear(String str) throws ParseException {
+         return parseGYearInternal(str, null);
+     }
 
-    private static GYear parseGYearInternal(String str, GYear result) throws ParseException{
-        if (str == null)
-             throw new IllegalArgumentException("The string to be parsed must not "
-                                                +"be null.");
-        if (result == null)
-            result = new GYear();
-        char[] chars = str.toCharArray();
-        int idx = 0;
+     private static GYear parseGYearInternal(String str, GYear result) throws ParseException{
+         if (str == null) {
+             throw new IllegalArgumentException("The string to be parsed must not be null.");
+         }
 
-        if (chars[idx] == '-') {
-             idx++;
+         if (result == null) {
+             result = new GYear();
+         }
+
+         char[] chars = str.toCharArray();
+
+         int idx = 0;
+
+         // Negative?
+         if (chars[idx] == '-') {
              result.setNegative();
-        }
+             idx++;
+         }
 
-        boolean hasNumber = false;
-        boolean has2Digits = false;
-        short number = 0;
-        short number2 = 0;
-        //-- parse flags
-        //-- (char): = b11 (3)
-        int flags = 3;
+         // Century
+         if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])
+             || !Character.isDigit(chars[idx + 2]) || !Character.isDigit(chars[idx + 3])) {
+             throw new ParseException(BAD_GYEAR+str+"\nA gYear must follow the pattern CCYY(Z|((+|-)hh:mm)).",idx);
+         }
 
-        while (idx < chars.length) {
-             char ch = chars[idx++];
+         short value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+         short value2 = (short) ((chars[idx+2] - '0') * 10 + (chars[idx+3] - '0'));
+         if (value1 == 0 && value2 == 0) {
+             throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.", idx);
+         }
 
-             switch (ch) {
+         result.setCentury(value1);
+         result.setYear(value2);
 
-                 case '-' :
-                       if (flags == 3) {
-                           if ((number != 0) || (number2 != 0)) {
-                              if (has2Digits)
-                                 result.setCentury(number);
-                              else throw new ParseException(BAD_GYEAR+str+"\nThe Century field must have 2 digits.",idx);
-                              //must test number2
-                              result.setYear(number2);
-                              flags = 1;
-                              number2 = -1;
-                              result.setUTC();
-                              result.setZoneNegative(true);
-                           } else throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.",idx);
-                       }
-                       else throw new ParseException(BAD_GYEAR+str+"\nA gYear must follow the pattern CCYY(Z|((+|-)hh:mm)).",idx);
-                       hasNumber = false;
-                       has2Digits = false;
-                       break;
+         idx += 4;
 
-                 case 'Z' :
-                      if (flags != 3)
-                         throw new ParseException(BAD_GYEAR+str+"'Z'"+WRONGLY_PLACED,idx);
-                      result.setUTC();
-                      break;
+         parseTimeZone(str, result, chars, idx, BAD_GYEAR);
 
-                case '+' :
-                    if (flags != 3)
-                        throw new ParseException(BAD_GYEAR+str+"'+' "+WRONGLY_PLACED,idx);
-                    if (number == 0 && number2 == 0)
-                      throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.",idx);
-                    if (!has2Digits)
-                      throw new ParseException(BAD_GYEAR+str+"\nThe Century field must have 2 digits.",idx);
+         return result;
+     }//parse
 
-                    result.setCentury(number);
-                    //must test number2
-                    result.setYear(number2);
-                    result.setUTC();
-                    flags = 1;
-                    hasNumber = false;
-                    has2Digits = false;
-                    break;
+     /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
-                 case ':' :
-                     if (flags != 1)
-                        throw new ParseException(BAD_GYEAR+str+"':' "+WRONGLY_PLACED,idx);
-                     number2 = number;
-                     number = -1;
-                     flags = 0;
-                     hasNumber = false;
-                     has2Digits = false;
-                     break;
-                 default:
-                    //make sure we have a digit
-                    if ( ('0' <= ch) && (ch <= '9')) {
-                        if (hasNumber) {
-                            if (has2Digits) {
-                                 number2 = (short) ((number2*10)+(ch-48));
-                            }
-                            else {
-                                number = (short)((number*10)+(ch-48));
-                                has2Digits = true;
-                            }
-                        }
-                        else {
-                            hasNumber = true;
-                            number = (short) (ch-48);
-                        }
-                    }
-                    else
-                        throw new ParseException (str+": Invalid character: "+ch, idx);
-                    break;
-             }//switch
-        }//while
-        if (flags!=3 && flags != 0)
-            throw new ParseException(BAD_GYEAR+str+"\nA gYear must follow the pattern CCYY(Z|((+|-)hh:mm)).",idx);
-        else if (flags == 3) {
-             if ((number != 0) || (number2 != 0)) {
-                 if (has2Digits)
-                     result.setCentury(number);
-                 else throw new ParseException(BAD_GYEAR+str+"\nThe Century field must have 2 digits.",idx);
-                 //must test number2
-                 result.setYear(number2);
-             } else throw new ParseException(BAD_GYEAR+str+"\n'0000' is not allowed as a year.",idx);
-        }
-
-        else if (flags == 0) {
-            if (number != -1)
-                result.setZone(number2,number);
-            else throw new ParseException(str+"\n In a time zone, the minute field must always be present.",idx);
-        }
-        return result;
-
-    }//parse
-
-    ///////////////////////////DISALLOW MONTH METHODS///////////////////////////
      public short getMonth() {
-        String err = "GYear: couldn't access to the Month field.";
-        throw new OperationNotSupportedException(err);
-    }
+         String err = "org.exolab.castor.types.GYear does not have a Month field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setMonth(short year) {
+         String err = "org.exolab.castor.types.GYear does not have a Month field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getDay() {
+         String err = "org.exolab.castor.types.GYear does not have a Day field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setDay(short month) {
+         String err = "org.exolab.castor.types.GYear does not have a Day field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getHour() {
+         String err = "org.exolab.castor.types.GYear does not have an Hour field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setHour(short hour) {
+         String err = "org.exolab.castor.types.GYear does not have an Hour field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getMinute() {
+         String err = "org.exolab.castor.types.GYear does not have a Minute field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setMinute(short minute) {
+         String err = "org.exolab.castor.types.GYear does not have a Minute field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getSeconds() {
+         String err = "org.exolab.castor.types.GYear does not have a Seconds field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setSecond(short second) {
+         String err = "org.exolab.castor.types.GYear does not have a Seconds field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getMilli() {
+         String err = "org.exolab.castor.types.GYear does not have a Milliseconds field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setMilliSecond(short millisecond) {
+         String err = "org.exolab.castor.types.GYear does not have a Milliseconds field.";
+         throw new OperationNotSupportedException(err);
+     }
 
-    public void setMonth(short month) {
-        String err = "GYear: couldn't access to the Month field.";
-        throw new OperationNotSupportedException(err);
-    }
 }

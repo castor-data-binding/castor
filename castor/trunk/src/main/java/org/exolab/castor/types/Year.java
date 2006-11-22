@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -52,15 +52,24 @@ import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 
 /**
- * <p>Describe an XML schema Year
- * <p>The date type is derived from time period by setting up the facet :
- *      <ul>
- *          <li>duration to "P1Y"</li>
- *      </ul>
+ * <p>
+ * Describe an XML schema Year.
+ * <p>
+ * The date type is derived from time period by setting up the facet :
+ * <ul>
+ * <li>duration to "P1Y"</li>
+ * </ul>
+ * <p>
+ * Note: This datatype is not included in any recommendation. It was introduced
+ * in http://www.w3.org/TR/2000/WD-xmlschema-2-20000407/ and was last in
+ * http://www.w3.org/TR/2000/CR-xmlschema-2-20001024/ and was removed by
+ * http://www.w3.org/TR/2001/PR-xmlschema-2-20010316/. It was not in the final
+ * approved recommendation: http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
+ * @deprecated since Castor 1.0.6 since this type is not in any recommendation.
  */
-
 public class Year extends TimePeriod {
     /** SerialVersionUID */
     private static final long serialVersionUID = 8485456751196062574L;

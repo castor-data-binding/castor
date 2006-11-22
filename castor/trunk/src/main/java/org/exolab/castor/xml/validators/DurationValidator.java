@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,7 +44,6 @@
  * Date         Author           Changes
  * 10/26/2000   Arnaud Blandin   Created
  */
-
 package org.exolab.castor.xml.validators;
 
 import org.exolab.castor.xml.ValidationContext;
@@ -52,14 +51,22 @@ import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.types.Duration;
 
-public class DurationValidator implements TypeValidator {
+public class DurationValidator extends PatternValidator implements TypeValidator {
 
-
+    /** Maximum allowed value (Inclusive) for a valid instance. */
     private Duration _maxInclusive;
+    /** Maximum allowed value (Exclusive) for a valid instance. */
     private Duration _maxExclusive;
+    /** Minimum allowed value (Inclusive) for a valid instance. */
     private Duration _minInclusive;
+    /** Minimum allowed value (Exclusive) for a valid instance. */
     private Duration _minExclusive;
+    /** Fixed value.  If not null, a valid duration instance MUST have this value. */
+    private Duration _fixed;
 
+    /**
+     * No-arg constructor.
+     */
     public DurationValidator() {
         super();
     } //-- TimeDurationValidator
@@ -68,7 +75,7 @@ public class DurationValidator implements TypeValidator {
      * Sets the maximum exclusive value that this Duration can hold.
      * @param max the maximum exclusive value this Duration can be
      * @see #setMaxInclusive
-    **/
+     */
     public void setMaxExclusive(Duration max) {
         _maxExclusive = max;
         _maxInclusive = null;
@@ -78,18 +85,17 @@ public class DurationValidator implements TypeValidator {
      * Sets the maximum inclusive value that this Duration can hold.
      * @param max the maximum inclusive value this Duration can be
      * @see #setMaxExclusive
-    **/
+     */
     public void setMaxInclusive(Duration max) {
         _maxInclusive = max;
         _maxExclusive = null;
     } //-- setMaxInclusive
 
-
     /**
      * Sets the minimum exclusive value that this Duration can hold.
      * @param min the minimum exclusive value this Duration can be
      * @see #setMinInclusive
-    **/
+     */
     public void setMinExclusive(Duration min) {
         _minExclusive = min;
         _minInclusive = null;
@@ -99,111 +105,124 @@ public class DurationValidator implements TypeValidator {
      * Sets the minimum inclusive value that this Duration can hold.
      * @param min the minimum inclusive value this Duration can be
      * @see #setMinExclusive
-    **/
+     */
     public void setMinInclusive(Duration min) {
         _minInclusive = min;
         _minExclusive = null;
     } //-- setMinInclusive
 
     /**
+     * Sets the fixed value that this Duration must equal.
+     * @param fixed the fixed value that this Duration must equal.
+     */
+    public void setFixed(Duration fixed) {
+        _fixed = fixed;
+    }
+
+    /**
      * Validate a duration instance
      * @param duration the duration to validate
-     * @throws ValidationException
+     * @throws ValidationException if the duration fails validation
      */
     public void validate(Duration duration) throws ValidationException {
+        validate(duration, (ValidationContext)null);
+    }
 
+    /**
+     * Validates a duration instance.
+     * @param duration the duration type to validate
+     * @param context the ValidationContext
+     * @throws ValidationException if the duration fails validation
+     */
+    public void validate(Duration duration, ValidationContext context) throws ValidationException {
         boolean isThereMinInclusive = (_minInclusive != null);
         boolean isThereMinExclusive = (_minExclusive != null);
         boolean isThereMaxInclusive = (_maxInclusive != null);
         boolean isThereMaxExclusive = (_maxExclusive != null);
 
         if (isThereMinExclusive && isThereMinInclusive) {
-            throw new ValidationException("both minInclusive and minExclusive"
-                                          +"are set up");
+            throw new ValidationException("both minInclusive and minExclusive are defined");
         }
 
         if (isThereMaxExclusive && isThereMaxInclusive) {
-            throw new ValidationException("both maxInclusive and maxExclusive"
-                                          +"are set up");
+            throw new ValidationException("both maxInclusive and maxExclusive are defined");
         }
 
-        if (isThereMinInclusive) {
-            if ( _minInclusive.isGreater(duration)) {
-                String err = duration + " is less than the minimum allowable ";
-                err += "value of " + _minInclusive;
+        if (isThereMinInclusive && _minInclusive.isGreater(duration)) {
+            String err = duration + " is less than the minimum allowable value of " + _minInclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMinExclusive && (_minExclusive.isGreater(duration) || duration.equals(_minExclusive))) {
+             String err = duration + " is less than the minimum allowable value of " + _minExclusive;
+             throw new ValidationException(err);
+        }
+
+        if (isThereMaxInclusive && duration.isGreater(_maxInclusive)) {
+            String err = duration + " is greater than the maximum allowable value of " + _maxInclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMaxExclusive && ((duration.isGreater(_maxExclusive)) || duration.equals(_maxExclusive))) {
+            String err = duration + " is greater than the maximum allowable value of " + _maxExclusive;
+            throw new ValidationException(err);
+        }
+
+        if (_fixed != null) {
+            if (!duration.equal(_fixed)) {
+                String err = duration + " must be equal to the fixed value: " + _fixed;
                 throw new ValidationException(err);
             }
         }
 
-         if (isThereMinExclusive) {
-            if ( (_minExclusive.isGreater(duration)) ||
-                  duration.equals(_minExclusive) )
-            {
-                String err = duration + " is less than the minimum allowable ";
-                err += "value of " + _minExclusive;
-                throw new ValidationException(err);
-            }
+        if (hasPattern()) {
+            super.validate(duration.toString(), context);
         }
-
-         if (isThereMaxInclusive) {
-            if ( duration.isGreater(_maxInclusive)) {
-                String err = duration + " is greater than the maximum allowable ";
-                err += "value of " + _maxInclusive;
-                throw new ValidationException(err);
-            }
-        }
-
-         if (isThereMaxExclusive) {
-            if ( (duration.isGreater(_maxExclusive)) ||
-                  duration.equals(_maxExclusive) )
-            {
-                String err = duration + " is greater than the maximum allowable ";
-                err += "value of " + _maxExclusive;
-                throw new ValidationException(err);
-            }
-        }
-
-        //use the pattern validator
-        //if (hasPattern()) {
-            //something to do...
-        //}
-
     } //-- validate
 
     /**
      * Validates the given Object
      *
      * @param object the Object to validate
+     * @throws ValidationException if the object fails validation
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
+    public void validate(Object object) throws ValidationException {
         validate(object, (ValidationContext)null);
     } //-- validate
-    
+
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
-     * @param context the ValidationContext 
+     * @param context the ValidationContext
+     * @throws ValidationException if the object fails validation
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             String err = "durationValidator cannot validate a null object.";
             throw new ValidationException(err);
         }
 
+        if (object instanceof String) {
+            try {
+                Duration duration = Duration.parseDuration((String)object);
+                validate(duration, context);
+                return;
+            } catch (java.text.ParseException pe) {
+                String err = "String provided fails to parse into a Duration: " + (String) object;
+                throw new ValidationException(err, pe);
+            }
+        }
+
         Duration value = null;
         try {
-            value = Duration.parseDuration(object.toString());
-        }
-        catch(Exception ex) {
-            String err = "Expecting a duration, received instead: ";
-            err += object.getClass().getName();
+            value = (Duration) object;
+        } catch(Exception ex) {
+            String err = "Expecting a duration, received instead: " + object.getClass().getName();
             throw new ValidationException(err);
         }
-        validate(value);
+
+        validate(value, context);
     } //-- validate
+
 }

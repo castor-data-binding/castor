@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -226,12 +226,12 @@ public class DateTimeValidator extends PatternValidator implements TypeValidator
         try {
             value = (DateTimeBase) object;
         } catch (Exception ex) {
-            String err = ex.toString() + "\nExpecting a DateTime, received instead: ";
-            err += object.getClass().getName();
+            String err = ex.toString() + "\nExpecting a DateTime, received instead: "
+                         + object.getClass().getName();
             throw new ValidationException(err);
         }
 
-        validate(value);
+        validate(value, context);
     } //-- validate
 
 }

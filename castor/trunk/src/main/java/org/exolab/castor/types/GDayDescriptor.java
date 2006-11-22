@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,14 +42,14 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.types;
 
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.util.*;
 import org.exolab.castor.mapping.ValidityException;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLFieldHandler;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * The GDay Descriptor
@@ -59,15 +59,20 @@ import org.exolab.castor.mapping.ValidityException;
  */
 public class GDayDescriptor extends BaseDescriptor {
 
+    /** The name of the XML element. */
+    private static final String                 _xmlName = "gDay";
+    /** Our field descriptor. */
+    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    /** Our field descriptor array.  Lists the fields we describe. */
+    private static final FieldDescriptor[]      _fields;
 
-    /**
-     * The name of the XML element.
-     */
-    private static final String _xmlName = "gDay";
-
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
-
-    private static FieldDescriptor[] _fields = null;
+    static {
+        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+                                                        "content", NodeType.Text);
+        _contentDescriptor.setHandler(new GDayDescriptor().new GDayFieldHandler());
+        _fields = new FieldDescriptor[1];
+        _fields[0] = _contentDescriptor;
+    }
 
     //----------------/
     //- Constructors -/
@@ -75,17 +80,6 @@ public class GDayDescriptor extends BaseDescriptor {
 
     public GDayDescriptor() {
         super(_xmlName, GDay.class);
-        if (_contentDescriptor == null) {
-            _contentDescriptor = new XMLFieldDescriptorImpl(String.class,
-                "content", "content", NodeType.Text);
-            //-- setHandler
-            _contentDescriptor.setHandler(new GDayFieldHandler());
-        }
-
-        if (_fields == null) {
-            _fields = new FieldDescriptor[1];
-            _fields[0] = _contentDescriptor;
-        }
     } //-- GDayDescriptor
 
     //------------------/
@@ -97,7 +91,7 @@ public class GDayDescriptor extends BaseDescriptor {
      * that should be marshalled as text content.
      * @return the XMLFieldDescriptor for the member
      * that should be marshalled as text content.
-    **/
+     */
     public XMLFieldDescriptor getContentDescriptor() {
         return _contentDescriptor;
     } // getContentDescriptor
@@ -116,7 +110,7 @@ public class GDayDescriptor extends BaseDescriptor {
      * TimeDuration related types
      * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
      * @version $Revision $ $Date $
-    **/
+     */
     class GDayFieldHandler extends XMLFieldHandler {
 
         //----------------/
@@ -125,7 +119,7 @@ public class GDayDescriptor extends BaseDescriptor {
 
         /**
          * Creates a new TimeFieldHandler
-        **/
+         */
         public GDayFieldHandler() {
             super();
         } //-- GDayFieldHandler
@@ -140,13 +134,12 @@ public class GDayDescriptor extends BaseDescriptor {
          * @param target the object to get the value from
          * @return the value of the field associated with this
          * descriptor from the given target object.
-        **/
-        public Object getValue(Object target)
-            throws java.lang.IllegalStateException
-        {
-           Object result = null;
-            if (target instanceof GDay)
+         */
+        public Object getValue(Object target) throws java.lang.IllegalStateException {
+            Object result = null;
+            if (target instanceof GDay) {
                 result = (GDay) target;
+            }
             return result;
         } //-- getValue
 
@@ -154,17 +147,15 @@ public class GDayDescriptor extends BaseDescriptor {
          * Sets the value of the field associated with this descriptor.
          * @param target the object in which to set the value
          * @param value the value of the field
-        **/
-        public void setValue(Object target, Object value)
-            throws java.lang.IllegalStateException
-        {
+         */
+        public void setValue(Object target, Object value) throws java.lang.IllegalStateException {
             if (! (target instanceof GDay) ) {
-               String err = "GDayDescriptor#setValue: expected GDay, received instead:"
+               String err = "GDayDescriptor#setValue: expected GDay, received instead: "
                             + target.getClass();
                throw new IllegalStateException(err);
             }
 
-            GDay GDayTarget = (GDay) target;
+            GDay gDayTarget = (GDay) target;
 
             if (value == null) {
                 String err = "GDayDescriptor#setValue: null value";
@@ -173,24 +164,22 @@ public class GDayDescriptor extends BaseDescriptor {
 
             try {
                 GDay temp = GDay.parseGDay(value.toString()) ;
-                GDayTarget.setDay(temp.getDay());
+                gDayTarget.setDay(temp.getDay());
                 if (temp.isUTC()) {
-                    GDayTarget.setUTC();
-                    GDayTarget.setZone(temp.getZoneHour(), temp.getZoneMinute());
+                    gDayTarget.setUTC();
+                    gDayTarget.setZone(temp.getZoneHour(), temp.getZoneMinute());
+                    gDayTarget.setZoneNegative(temp.isZoneNegative());
                 }
                 temp = null;
-            }
-            catch (java.text.ParseException ex) {
+            } catch (java.text.ParseException ex) {
                 String err = "GDayDescriptor#setValue: wrong value\n"+ex.getMessage();
                 throw new IllegalStateException(err);
             }
         } //-- setValue
 
-        public void resetValue(Object target)
-            throws java.lang.IllegalStateException
-        {
+        public void resetValue(Object target) throws java.lang.IllegalStateException {
+            // Nothing to do?
         }
-
 
         /**
          * Checks the field validity. Returns successfully if the field
@@ -203,12 +192,9 @@ public class GDayDescriptor extends BaseDescriptor {
          *  is no longer supported by this handler, or the handler
          *  is not compatiable with the Java object
          */
-        public void checkValidity( Object object )
-            throws ValidityException, IllegalStateException
-        {
+        public void checkValidity(Object object) throws ValidityException, IllegalStateException {
             // nothing to do?
         } //-- checkValidity
-
 
         /**
          * Creates a new instance of the object described by this field.
@@ -218,15 +204,10 @@ public class GDayDescriptor extends BaseDescriptor {
          * @throws IllegalStateException This field is a simple type and
          *  cannot be instantiated
          */
-        public Object newInstance( Object parent )
-            throws IllegalStateException
-        {
+        public Object newInstance(Object parent) throws IllegalStateException {
             return new GDay();
         } //-- newInstance
 
-
     } //-- GDayFieldHandler
 
-
 } //-- GDayDescriptor
-

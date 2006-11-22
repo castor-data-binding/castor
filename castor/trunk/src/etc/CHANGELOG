@@ -1,6 +1,12 @@
 
 SVN
 -------------------------------
+
+XML:   Resolved issue CASTOR-1703 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Implement Srcgen DateTime pattern facet
+       Details: http://jira.codehaus.org/browse/CASTOR-1703
+       (Edward - 20061121)
+
 XML:   Resolved issue CASTOR-1227 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Source Generator > default datetime value
        Details: http://jira.codehaus.org/browse/CASTOR-1227

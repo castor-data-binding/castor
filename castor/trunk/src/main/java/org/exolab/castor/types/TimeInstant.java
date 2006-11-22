@@ -1,5 +1,4 @@
-
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,23 +46,33 @@
  * 26/10/2000   Arnaud Blandin  Created
  */
 package org.exolab.castor.types;
+
 /**
- * <p>Describe an XML schema TimeInstant.
- * The time type is derived from recurringDuration by setting up the facet:
- *      <ul>
- *           <li>duration to "P0Y"</li>
- *           <li>period to "P0Y"</li>
- *      </ul>
+ * Describe an XML schema TimeInstant. The time type is derived from
+ * recurringDuration by setting up the facet:
+ * <ul>
+ * <li>duration to "P0Y"</li>
+ * <li>period to "P0Y"</li>
+ * </ul>
+ * <p>
+ * Note: This datatype is not included in any recommendation. It was introduced
+ * in http://www.w3.org/TR/1999/WD-xmlschema-2-19991105/ and was last in
+ * http://www.w3.org/TR/2000/CR-xmlschema-2-20001024/ and was removed by
+ * http://www.w3.org/TR/2001/PR-xmlschema-2-20010316/. It was not in the final
+ * approved recommendation: http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
  * @see RecurringDuration
+ * @deprecated since Castor 1.0.6 since this type is not in any recommendation.
  */
-
 public class TimeInstant extends RecurringDuration {
+
     /** SerialVersionUID */
     private static final long serialVersionUID = -5261713908033956150L;
 
     public TimeInstant() {
         super("P0Y","P0Y");
     }
+
 }

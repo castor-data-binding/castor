@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -46,20 +46,27 @@
  * 10/26/2000   Arnaud Blandin   change parse method
  * 10/23/2000   Arnaud Blandin   Created
  */
-
 package org.exolab.castor.types;
 
 import java.text.ParseException;
 
 /**
- * <p>Represents the timeDuration XML Schema type.
- * <p>This representation does not support the decimal fraction
- * for the lowest order item.
- * Besides setting TimeDuration to '0' is not possible thus there is
+ * Represents the timeDuration XML Schema type.
+ * <p>
+ * This representation does not support the decimal fraction for the lowest
+ * order item. Besides setting TimeDuration to '0' is not possible thus there is
  * no distinction between '0' and 'P0Y'
+ * <p>
+ * Note: This datatype is not included in any recommendation. It was introduced
+ * in http://www.w3.org/TR/1999/WD-xmlschema-2-19990924/ and was last in
+ * http://www.w3.org/TR/2000/CR-xmlschema-2-20001024/ and was removed by
+ * http://www.w3.org/TR/2001/PR-xmlschema-2-20010316/. It was not in the final
+ * approved recommendation: http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
- **/
+ * @deprecated since Castor 1.0.6 since this type is not in any recommendation.
+ */
 public class TimeDuration implements java.io.Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = -3080457339689062021L;

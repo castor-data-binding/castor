@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,13 +45,10 @@
  * 04/18/2002   Arnaud              Constructor with string
  * 05/24/2001   Arnaud Blandin      Created
  */
-
 package org.exolab.castor.types;
 
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.SimpleTimeZone;
-import java.util.TimeZone;
 
 /**
  * Describe an XML schema gMonthDay type.
@@ -60,22 +57,21 @@ import java.util.TimeZone;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
  */
-
 public class GMonthDay extends DateTimeBase {
+
     /** SerialVersionUID */
     private static final long serialVersionUID = -6351252242146921258L;
 
-    /**
-     * The gMonthDay format
-     */
+    /** The gMonthDay SimpleDateFormat string. */
     private static final String MONTHDAY_FORMAT = "--MM-dd";
-
+    /** Prefix of any complaint we make. */
     private static final String BAD_GMONTHDAY = "Bad gMonthDay format: ";
 
     /**
      * public only for the generated source code
      */
     public GMonthDay() {
+        // Nothing to do
     }
 
     /**
@@ -84,20 +80,20 @@ public class GMonthDay extends DateTimeBase {
      * @param month the month value
      * @param day the day value
      */
-    public GMonthDay(short month,  short day) {
-         setMonth(month);
-         setDay(day);
+    public GMonthDay(short month, short day) {
+        setMonth(month);
+        setDay(day);
     }
 
-     /**
+    /**
      * Instantiates a new gMonthDay given the value
      * of the month and the value of the day.
      * @param month the month value
      * @param day the day value
      */
     public GMonthDay(int month, int day) {
-         setMonth((short)month);
-         setDay((short)day);
+        setMonth((short)month);
+        setDay((short)day);
     }
 
     /**
@@ -106,18 +102,19 @@ public class GMonthDay extends DateTimeBase {
      * By default a GMonthDay is not UTC and is local.
      * @param values an array of shorts that represent the different fields of Time.
      */
-
     public GMonthDay(short[] values) {
-        this();
         this.setValues(values);
     }
-   /**
-    * Construct a GMonthDay from a string value
-    * @param gmonthDay the string representation of the GMonthDay to instantiate
-    */
+
+    /**
+     * Construct a GMonthDay from a string value
+     * @param gmonthDay the string representation of the GMonthDay to instantiate
+     * @throws ParseException a parse exception is thrown if the string to parse
+     *                        does not follow the rigth format (see the description
+     *                        of this class)
+     */
     public GMonthDay(String gmonthDay) throws ParseException {
-         this();
-         parseGMonthDayInternal(gmonthDay, this);
+        parseGMonthDayInternal(gmonthDay, this);
     }
 
     /**
@@ -131,7 +128,6 @@ public class GMonthDay extends DateTimeBase {
      *      <li>Month</li>
      *      <li>Day</li>
      * </ul>
-     *
      */
     public void setValues(short[] values) {
         if (values.length != 2) {
@@ -140,7 +136,6 @@ public class GMonthDay extends DateTimeBase {
         this.setMonth(values[0]);
         this.setDay(values[1]);
     }
-
 
     /**
      * Returns an array of short with all the fields that describe
@@ -156,37 +151,25 @@ public class GMonthDay extends DateTimeBase {
         return result;
     } //getValues
 
-
-
     /**
      * converts this gMonthDay into a local java Date.
      * @return a local date representing this Date.
      */
-    public java.util.Date toDate(){
+    public java.util.Date toDate() {
+        SimpleDateFormat df = new SimpleDateFormat(MONTHDAY_FORMAT);
+        setDateFormatTimeZone(df);
 
         java.util.Date date = null;
-        SimpleDateFormat df = new SimpleDateFormat(MONTHDAY_FORMAT);
-        // Set the time zone
-        if ( isUTC() ) {
-            SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
-            int offset = 0;
-            offset = ( (this.getZoneMinute() + this.getZoneHour()*60)*60*1000);
-            offset = isZoneNegative() ? -offset : offset;
-            timeZone.setRawOffset(offset);
-            timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
-            df.setTimeZone(timeZone);
-        }
-
         try {
             date = df.parse(this.toString());
         } catch (ParseException e) {
-           //this can't happen since toString() should return the proper
-           //string format
-           e.printStackTrace();
-           return null;
+            //this can't happen since toString() should return the proper string format
+            e.printStackTrace();
+            return null;
         }
+
         return date;
-    }//toDate()
+    } //toDate()
 
     /**
      * convert this gMonthDay to a string
@@ -195,240 +178,151 @@ public class GMonthDay extends DateTimeBase {
      * @return a string representing this Date
      */
      public String toString() {
+         StringBuffer result = new StringBuffer("--");
 
-        StringBuffer result = new StringBuffer();
-        result.append('-');
-        result.append('-');
+         if ((this.getMonth()/10) == 0) {
+             result.append(0);
+         }
+         result.append(this.getMonth());
 
-        result.append(this.getMonth());
-        if (result.length() == 3)
-            result.insert(2,0);
+         result.append("-");
 
-        result.append('-');
-        if ((this.getDay()/10) == 0)
-            result.append(0);
-        result.append(this.getDay());
+         if ((this.getDay()/10) == 0) {
+             result.append(0);
+         }
+         result.append(this.getDay());
 
-        if (isUTC()) {
-            //By default we append a 'Z' to indicate UTC
-            if ( (this.getZoneHour() == 0) && (this.getZoneMinute() ==0) )
-                result.append('Z');
-            else {
-                StringBuffer timeZone = new StringBuffer();
-                if (isZoneNegative())
-                   timeZone.append('-');
-                else timeZone.append('+');
+         appendTimeZoneString(result);
 
-                if ((this.getZoneHour()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneHour());
+         return result.toString();
+     } //toString
 
-                timeZone.append(':');
-                if ((this.getZoneMinute()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneMinute());
+     /**
+      * parse a String and convert it into an java.lang.Object
+      * @param str the string to parse
+      * @return an Object represented by the string
+      * @throws ParseException a parse exception is thrown if the string to parse
+      *                        does not follow the rigth format (see the description
+      *                        of this class)
+      */
+     public static Object parse(String str) throws ParseException {
+         return parseGMonthDay(str);
+     }
 
-               result.append(timeZone.toString());
-               timeZone = null;
-            }
-        }
-        return result.toString();
+     /**
+      * parse a String and convert it into a gMonthDay.
+      * @param str the string to parse
+      * @return the Date represented by the string
+      * @throws ParseException a parse exception is thrown if the string to parse
+      *                        does not follow the rigth format (see the description
+      *                        of this class)
+      */
+     public static GMonthDay parseGMonthDay(String str) throws ParseException {
+         return parseGMonthDayInternal(str, null);
+     }
 
-    }//toString
+     private static GMonthDay parseGMonthDayInternal(String str, GMonthDay result) throws ParseException {
+         if (str == null) {
+             throw new IllegalArgumentException("The string to be parsed must not be null.");
+         }
 
-    /**
-     * parse a String and convert it into an java.lang.Object
-     * @param str the string to parse
-     * @return an Object represented by the string
-     * @throws ParseException a parse exception is thrown if the string to parse
-     *                        does not follow the rigth format (see the description
-     *                        of this class)
-     */
+         if (result == null) {
+             result = new GMonthDay();
+         }
 
-    public static Object parse(String str) throws ParseException {
-        return parseGMonthDay(str);
-    }
+         char[] chars = str.toCharArray();
 
-    /**
-     * parse a String and convert it into a gMonthDay.
-     * @param str the string to parse
-     * @return the Date represented by the string
-     * @throws ParseException a parse exception is thrown if the string to parse
-     *                        does not follow the rigth format (see the description
-     *                        of this class)
-     */
-    public static GMonthDay parseGMonthDay(String str) throws ParseException {
-        GMonthDay result = new GMonthDay();
-        return parseGMonthDayInternal(str, result);
-    }
+         int idx = 0;
+         if (chars[idx] != '-' || chars[idx+1] != '-') {
+             throw new ParseException(BAD_GMONTHDAY+str+"\nA gMonthDay must follow the pattern --MM-DD(Z|((+|-)hh:mm)).", 0);
+         }
 
-    private static GMonthDay parseGMonthDayInternal(String str, GMonthDay result) throws ParseException {
+         idx += 2;
 
-        if (str == null)
-             throw new IllegalArgumentException("The string to be parsed must not "
-                                                +"be null.");
-        if (result == null)
-            result = new GMonthDay();
-        char[] chars = str.toCharArray();
-        int idx = 0;
+         // Month
+         if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+             throw new ParseException(BAD_GMONTHDAY+str+"\nThe Month must be 2 digits long", idx);
+         }
 
-        boolean hasNumber = false;
-        boolean has2Digits = false;
-        short number = -1;
-        short number2 = 0;
-        //-- parse flags
-        //-- ---(char): = b11111 (31)
-        int flags = 31;
+         short value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+         result.setMonth(value1);
 
-        while (idx < chars.length) {
-             char ch = chars[idx++];
+         idx += 2;
 
-             switch (ch) {
+         if (chars[idx] != '-') {
+             throw new ParseException(BAD_GMONTHDAY+str+"\nA gMonthDay must follow the pattern --MM-DD(Z|((+|-)hh:mm)).", 0);
+         }
 
-                 case '-' :
-                       if ( (flags == 31) && (number == -1))
-                          flags = 15;
-                       else if ((flags == 15)  && (number == -1))
-                          flags = 7;
-                       else if  ((flags == 7) && (number != -1) ) {
-                           if (has2Digits) {
-                               result.setMonth(number);
-                               flags = 3;
-                           } else throw new ParseException(BAD_GMONTHDAY+str+"\nThe month field must have 2 digits.", idx);
-                       }
-                       else if (flags == 3) {
-                           if (has2Digits) {
-                               result.setDay(number);
-                               result.setUTC();
-                               result.setZoneNegative(true);
-                               flags = 1;
-                           } else throw new ParseException(BAD_GMONTHDAY+str+"\nThe day field must have 2 digits.",idx);
-                       }
-                       else throw new ParseException(BAD_GMONTHDAY+str+"\nA gMonthDay must follow the pattern --MM-DD(Z|((+|-)hh:mm)).",idx);
+         idx++;
 
-                       hasNumber = false;
-                       has2Digits = false;
-                       break;
+         // Day
+         if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+             throw new ParseException(BAD_GMONTHDAY+str+"\nThe Day must be 2 digits long", idx);
+         }
 
-                 case 'Z' :
-                      if (flags != 3)
-                          throw new ParseException(BAD_GMONTHDAY+str+"\n'Z' "+WRONGLY_PLACED,idx);
-                      result.setUTC();
-                      break;
+         value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+         result.setDay(value1);
 
-                case '+' :
-                    if (flags != 3)
-                      throw new ParseException(BAD_GMONTHDAY+str+"\n'+' "+WRONGLY_PLACED,idx);
-                    if (!has2Digits)
-                      throw new ParseException(BAD_GMONTHDAY+str+"\nTthe day field must have 2 digits.",idx);
+         idx += 2;
 
-                    result.setDay(number);
-                    result.setUTC();
-                    flags = 1;
-                    hasNumber = false;
-                    has2Digits = false;
-                    break;
+         parseTimeZone(str, result, chars, idx, BAD_GMONTHDAY);
 
-                 case ':' :
-                     if (flags != 1)
-                        throw new ParseException(BAD_GMONTHDAY+str+"\n':' "+WRONGLY_PLACED,idx);
-                     number2 = number;
-                     number = -1;
-                     flags = 0;
-                     hasNumber = false;
-                     has2Digits = false;
-                     break;
-                 default:
-                    //make sure we have a digit
-                    if ( ('0' <= ch) && (ch <= '9')) {
-                        if (hasNumber) {
-                            number = (short)((number*10)+(ch-48));
-                            has2Digits = true;
-                        }
-                        else {
-                            hasNumber = true;
-                            number = (short) (ch-48);
-                        }
-                    }
-                    else
-                        throw new ParseException (str+": Invalid character: "+ch, idx);
-                    break;
-             }//switch
-        }//while
-          if (flags!=3 && flags != 0)
-            throw new ParseException(BAD_GMONTHDAY+str+"\nA gMonthDay must follow the pattern --MM-DD(Z|((+|-)hh:mm)).",idx);
-        else if (flags == 3) {
-            if (has2Digits)
-                result.setDay(number);
-            else
-               throw new ParseException(BAD_GMONTHDAY+str+"\nThe day field must have 2 digits.",idx);
-        }
+         return result;
+     } //parse
 
-        else if (flags == 0) {
-            if (number != -1)
-                result.setZone(number2,number);
-            else throw new ParseException(str+"\n In a time zone, the minute field must always be present.",idx);
-        }
-        return result;
+     /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
-    }//parse
-
-    ///////////////////////////DISALLOW YEAR METHODS///////////////////////////
+     public void setNegative() {
+         String err = "org.exolab.castor.types.GMonthDay cannot be negative.";
+         throw new OperationNotSupportedException(err);
+     }
      public short getCentury() {
-        String err = "GMonthDay: couldn't access to the Century field.";
-        throw new OperationNotSupportedException(err);
-    }
+         String err = "org.exolab.castor.types.GMonthDay does not have a Century field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setCentury(short century) {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Century field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getYear() {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Year field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setYear(short year) {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Year field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getHour() {
+         String err = "org.exolab.castor.types.GMonthDay does not have an Hour field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setHour(short hour) {
+         String err = "org.exolab.castor.types.GMonthDay does not have an Hour field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getMinute() {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Minute field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setMinute(short minute) {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Minute field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getSeconds() {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Seconds field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setSecond(short second) {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Seconds field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public short getMilli() {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Milliseconds field.";
+         throw new OperationNotSupportedException(err);
+     }
+     public void setMilliSecond(short millisecond) {
+         String err = "org.exolab.castor.types.GMonthDay does not have a Milliseconds field.";
+         throw new OperationNotSupportedException(err);
+     }
 
-    public void setCentury(short century) {
-        String err = "GMonthDay: couldn't access to the Century field.";
-        throw new OperationNotSupportedException(err);
-    }
-
-    public short getYear() {
-        String err = "GMonthDay: couldn't access to the Year field.";
-        throw new OperationNotSupportedException(err);
-    }
-
-    public void setYear(short year) {
-        String err = "GMonthDay: couldn't access to the Year field.";
-        throw new OperationNotSupportedException(err);
-    }
-
-    public void setNegative() {
-        String err = "GMonthDay: couldn't set the type to be negative.";
-        throw new OperationNotSupportedException(err);
-    }
-    public short getHour(){
-        String err = "Date: couldn't access to the Hour field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public short getMinute(){
-        String err = "Date: couldn't access to the Minute field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public short getSeconds(){
-        String err = "Date: couldn't access to the Second field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public short getMilli() {
-        String err = "Date: couldn't access to the Millisecond field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public void setHour(short hour){
-        String err = "Date: couldn't access to the Hour field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public void setMinute(short minute){
-        String err = "Date: couldn't access to the Minute field.";
-        throw new OperationNotSupportedException(err);
-    }
-    public void setSecond(short second) {
-        String err = "Date: couldn't access to the second field.";
-        throw new OperationNotSupportedException(err);
-    }
-
-    public void setMilliSecond(short millisecond) {
-        String err = "Date: couldn't access to the Millisecond field.";
-        throw new OperationNotSupportedException(err);
-    }
 }
