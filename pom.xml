@@ -215,7 +215,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>adaptx</artifactId>
-			<version>0.9.14-SNAPSHOT</version>
+			<version>0.9.14</version>
 		</dependency>
 
 		<dependency>
