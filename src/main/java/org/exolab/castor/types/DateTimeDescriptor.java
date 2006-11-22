@@ -1,7 +1,19 @@
 /*
- * Copyright 2006 (C) Edward Kuns, All Rights Reserved.
+ * Copyright 2006 Edward Kuns
  *
- * $Id: DateTimeDescriptor.java 0000 $
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ *
+ * $Id:  $
  */
 package org.exolab.castor.types;
 
@@ -122,7 +134,7 @@ public class DateTimeDescriptor extends BaseDescriptor {
          */
         public void setValue(Object target, Object value) throws java.lang.IllegalStateException {
             if (!(target instanceof DateTime)) {
-                String err = "DateTimeDescriptor#setValue: expected DateTime, received instead:"
+                String err = "DateTimeDescriptor#setValue: expected DateTime, received instead: "
                         + target.getClass();
                 throw new IllegalStateException(err);
             }
@@ -147,9 +159,7 @@ public class DateTimeDescriptor extends BaseDescriptor {
                 if (temp.isUTC()) {
                     dateTarget.setUTC();
                     dateTarget.setZone(temp.getZoneHour(), temp.getZoneMinute());
-                    if (temp.isZoneNegative()) {
-                        dateTarget.setZoneNegative(true);
-                    }
+                    dateTarget.setZoneNegative(temp.isZoneNegative());
                 }
             } catch (java.text.ParseException ex) {
                 String err = "DateDescriptor#setValue: wrong value\n" + ex.getMessage();
@@ -157,8 +167,7 @@ public class DateTimeDescriptor extends BaseDescriptor {
             }
         } // -- setValue
 
-        public void resetValue(Object target)
-                throws java.lang.IllegalStateException {
+        public void resetValue(Object target) throws java.lang.IllegalStateException {
             // nothing to do?
         }
 

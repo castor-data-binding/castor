@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -65,33 +65,138 @@ public final class XSDateTime extends XSPatternBase {
 
     /** The JType represented by this XSType. */
     private static final JType JTYPE = new JClass("java.util.Date");
+
     /** Maximum Date (inclusive). */
-    private String _maxInclusive = null;
+    private String _maxInclusive;
     /** Maximum Date (exclusive). */
-    private String _maxExclusive = null;
+    private String _maxExclusive;
     /** Minimum Date (inclusive). */
-    private String _minInclusive = null;
+    private String _minInclusive;
     /** Minimum Date (exclusive). */
-    private String _minExclusive = null;
+    private String _minExclusive;
 
     /**
      *  No-Arg constructor.
      */
     public XSDateTime() {
         super(XSType.DATETIME_TYPE);
-    } //-- XSNMToken
+    } //-- XSDateTime
 
     /**
-     * Returns the String necessary to convert an Object to
-     * an instance of this XSType. This method is really only useful
-     * for primitive types
-     * @param variableName the name of the Object
-     * @return the String necessary to convert an Object to an
-     * instance of this XSType
+     * Returns the String necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
      */
     public String createFromJavaObjectCode(final String variableName) {
         return "(java.util.Date)" + variableName;
     } //-- fromJavaObject
+
+    /**
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
+     */
+    public JType getJType() {
+        return XSDateTime.JTYPE;
+    }
+
+    /**
+     * Returns the maximum exclusive value that this XSDateTime can hold.
+     * @return the maximum exclusive value that this XSDateTime can hold. If
+     * no maximum exclusive value has been set, Null will be returned
+     * @see #getMaxInclusive
+     */
+    public String getMaxExclusive() {
+        return _maxExclusive;
+    } //-- getMaxExclusive
+
+    /**
+     * Returns the maximum inclusive value that this XSDateTime can hold.
+     * @return the maximum inclusive value that this XSDateTime can hold. If
+     * no maximum inclusive value has been set, Null will be returned
+     * @see #getMaxExclusive
+     */
+    public String getMaxInclusive() {
+        return _maxInclusive;
+    } //-- getMaxInclusive
+
+    /**
+     * Returns the minimum exclusive value that this XSDateTime can hold.
+     * @return the minimum exclusive value that this XSDateTime can hold. If
+     * no minimum exclusive value has been set, Null will be returned
+     * @see #getMinInclusive
+     */
+    public String getMinExclusive() {
+        return _minExclusive;
+    } //-- getMinExclusive
+
+    /**
+     * Returns the minimum inclusive value that this XSDateTime can hold.
+     * @return the minimum inclusive value that this XSDateTime can be.
+     * @see #getMinExclusive
+     */
+    public String getMinInclusive() {
+        return _minInclusive;
+    } //-- getMinInclusive
+
+    /**
+     * Sets the maximum exclusive value that this XSDateTime can hold.
+     * @param max the maximum exclusive value this XSDateTime can hold.
+     * @see #setMaxInclusive
+     */
+    public void setMaxExclusive(final String max) {
+        _maxExclusive = max;
+        _maxInclusive = null;
+    }
+
+    /**
+     * Sets the maximum inclusive value that this XSDateTime can hold.
+     * @param max the maximum inclusive value this XSDateTime can hold.
+     * @see #setMaxExclusive
+     */
+    public void setMaxInclusive(final String max) {
+        _maxExclusive = null;
+        _maxInclusive = max;
+    }
+
+    /**
+     * Sets the minimum exclusive value that this XSDateTime can hold.
+     * @param min the minimum exclusive value this XSDateTime can hold.
+     * @see #setMinInclusive
+     */
+    public void setMinExclusive(final String min) {
+        _minExclusive = min;
+        _minInclusive = null;
+    }
+
+    /**
+     * Sets the minimum inclusive value that this XSDateTime can hold.
+     * @param min the minimum inclusive value this XSDateTime can hold.
+     * @see #setMinExclusive
+     */
+    public void setMinInclusive(final String min) {
+        _minExclusive = null;
+        _minInclusive = min;
+    }
+
+    /**
+     * Returns true if a maximum (inclusive or exclusive) has been set.
+     * @return true if a maximum (inclusive or exclusive) has been set.
+     */
+    public boolean hasMaximum() {
+        return _maxInclusive != null || _maxExclusive != null;
+    }
+
+    /**
+     * Returns true if a minimum (inclusive or exclusive) has been set.
+     * @return true if a minimum (inclusive or exclusive) has been set.
+     */
+    public boolean hasMinimum() {
+        return _minInclusive != null || _minExclusive != null;
+    }
 
     /**
      * Transfer facets from the provided simpleType to <code>this</code>. The
@@ -108,6 +213,7 @@ public final class XSDateTime extends XSPatternBase {
      *
      * @param simpleType
      *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
      */
     public void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
@@ -133,66 +239,6 @@ public final class XSDateTime extends XSPatternBase {
                 }
             }
         }
-    }
-
-    /**
-     * Returns the JType that this XSType represents.
-     * @return the JType that this XSType represents.
-     */
-    public JType getJType() {
-        return XSDateTime.JTYPE;
-    }
-
-    /**
-     * Returns true if a maximum (inclusive or exclusive) has been set.
-     * @return true if a maximum (inclusive or exclusive) has been set.
-     */
-    public boolean hasMaximum() {
-        return _maxInclusive != null || _maxExclusive != null;
-    }
-
-    /**
-     * Returns true if a minimum (inclusive or exclusive) has been set.
-     * @return true if a minimum (inclusive or exclusive) has been set.
-     */
-    public boolean hasMinimum() {
-        return _minInclusive != null || _minExclusive != null;
-    }
-
-    /**
-     * Sets the maximum exclusive value that this XSDateTime can hold.
-     * @param max the maximum exclusive value this XSDateTime can hold.
-     */
-    public void setMaxExclusive(final String max) {
-        _maxExclusive = max;
-        _maxInclusive = null;
-    }
-
-    /**
-     * Sets the maximum inclusive value that this XSDateTime can hold.
-     * @param max the maximum inclusive value this XSDateTime can hold.
-     */
-    public void setMaxInclusive(final String max) {
-        _maxExclusive = null;
-        _maxInclusive = max;
-    }
-
-    /**
-     * Sets the minimum exclusive value that this XSDateTime can hold.
-     * @param min the minimum exclusive value this XSDateTime can hold.
-     */
-    public void setMinExclusive(final String min) {
-        _minExclusive = min;
-        _minInclusive = null;
-    }
-
-    /**
-     * Sets the minimum inclusive value that this XSDateTime can hold.
-     * @param min the minimum inclusive value this XSDateTime can hold.
-     */
-    public void setMinInclusive(final String min) {
-        _minExclusive = null;
-        _minInclusive = min;
     }
 
     /**
@@ -244,7 +290,7 @@ public final class XSDateTime extends XSPatternBase {
             jsc.add("typeValidator.setMaxExclusive(max);");
         }
 
-// FIXME: We can't validate on the fixed value as long as Castor treats DateTime as java.util.Date
+// TODO: We can't validate on the fixed value as long as Castor treats DateTime as java.util.Date
 // because in the process any time zone information is discarded and comparisons will fail.
 //        // fixed values
 //        if (fixedValue != null) {
@@ -257,7 +303,6 @@ public final class XSDateTime extends XSPatternBase {
             jsc.unindent();
             jsc.add("} catch (java.text.ParseException pe) {");
             jsc.indent();
-            // FIXME:  What should we do if we are given bad values for facet values?
             jsc.add("System.out.println(\"ParseException\" + pe);");
             jsc.unindent();
             jsc.add("}");

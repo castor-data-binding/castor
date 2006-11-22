@@ -1,5 +1,17 @@
-/**
- * Copyright 2006 (C) Edward Kuns, All Rights Reserved.
+/*
+ * Copyright 2006 Edward Kuns
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ * http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  *
  * $Id:  $
  */
@@ -7,9 +19,7 @@ package org.exolab.castor.types;
 
 import java.text.ParseException;
 import java.util.Calendar;
-import java.util.SimpleTimeZone;
 import java.util.GregorianCalendar;
-import java.util.TimeZone;
 
 /**
  * Describe an XML schema DateTime.
@@ -77,8 +87,7 @@ public class DateTime extends DateTimeBase {
 
         setCentury((short) (tempCalendar.get(Calendar.YEAR) / 100));
         setYear((short) (tempCalendar.get(Calendar.YEAR) % 100));
-        //we need to add 1 to the Month value returned by GregorianCalendar
-        //because 0<MONTH<11 (i.e January is 0)
+        // In GregorianCalendar, 0 <= Month <= 11; January == 0
         setMonth((short) (tempCalendar.get(Calendar.MONTH) + 1));
         setDay((short) tempCalendar.get(Calendar.DAY_OF_MONTH));
 
@@ -173,18 +182,7 @@ public class DateTime extends DateTimeBase {
     public java.util.Date toDate() {
         Calendar calendar = new GregorianCalendar(getCentury()*100+getYear(), getMonth()-1, getDay(), getHour(), getMinute(), getSeconds());
         calendar.set(Calendar.MILLISECOND, getMilli());
-
-        // Set the time zone, if one is set (otherwise we use the default time zone)
-        if (isUTC()) {
-            int offset = (this.getZoneMinute() + this.getZoneHour()*60)*60*1000;
-            offset = isZoneNegative() ? -offset : offset;
-
-            SimpleTimeZone timeZone = new SimpleTimeZone(0, "UTC");
-            timeZone.setRawOffset(offset);
-            timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
-            calendar.setTimeZone(timeZone);
-        }
-
+        setDateFormatTimeZone(calendar);
         return calendar.getTime();
     } //toDate()
 
@@ -260,32 +258,8 @@ public class DateTime extends DateTimeBase {
             result.append(this.getMilli());
         }
 
-        if (isUTC()) {
-            if (this.getZoneHour() == 0 && this.getZoneMinute() == 0) {
-                result.append('Z');
-            } else {
-                StringBuffer timeZone = new StringBuffer();
-                if (isZoneNegative()) {
-                    timeZone.append('-');
-                } else {
-                    timeZone.append('+');
-                }
+        appendTimeZoneString(result);
 
-                if ((this.getZoneHour()/10) == 0) {
-                    timeZone.append(0);
-                }
-                timeZone.append(this.getZoneHour());
-
-                timeZone.append(':');
-                if ((this.getZoneMinute()/10) == 0) {
-                    timeZone.append(0);
-                }
-                timeZone.append(this.getZoneMinute());
-
-                result.append(timeZone.toString());
-                timeZone = null;
-            }
-        }
         return result.toString();
     } //toString
 
@@ -475,25 +449,7 @@ public class DateTime extends DateTimeBase {
             result.setMilliSecond((short)decimalValue);
         }
 
-        if (idx < chars.length) {
-            if (chars[idx] == 'Z') {
-                idx++;
-                result.setUTC();
-            } else if (chars[idx] == '+' || chars[idx] == '-') {
-                if (chars[idx] == '-') {
-                    result.setZoneNegative(true);
-                }
-                idx++;
-                if (idx + 5 < chars.length || chars[idx + 2] != ':'
-                    || !Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])
-                    || !Character.isDigit(chars[idx + 3]) || !Character.isDigit(chars[idx + 4])) {
-                    throw new ParseException(BAD_DATE+str+"\nTimeZone has a bad format", idx);
-                }
-                value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-                value2 = (short) ((chars[idx+3] - '0') * 10 + (chars[idx+4] - '0'));
-                result.setZone(value1,value2);
-            }
-        }
+        parseTimeZone(str, result, chars, idx, BAD_DATE);
 
         return result;
     } //parse

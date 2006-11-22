@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,14 +42,15 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.types;
 
+import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLFieldDescriptor;
 
 /**
  * The Base Descriptor class, this class is extended
@@ -58,33 +59,17 @@ import org.exolab.castor.xml.*;
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-16 22:49:25 -0700 (Thu, 16 Dec 2004) $
  */
-public class BaseDescriptor
-    implements XMLClassDescriptor
-{
+public class BaseDescriptor implements XMLClassDescriptor {
 
-
-    /**
-     * Used for returning no attribute and no element fields
-     */
-    protected static final XMLFieldDescriptor[] noXMLFields
-        = new XMLFieldDescriptor[0];
-
-    /**
-     * Used for returning no attribute and no element fields
-     */
-    private static final FieldDescriptor[] noJavaFields 
-        = new FieldDescriptor[0]; 
-    
-    /**
-     * The name of the XML element.
-     */
+    /** Used for returning no attribute and no element fields */
+    protected static final XMLFieldDescriptor[] noXMLFields = new XMLFieldDescriptor[0];
+    /** Used for returning no attribute and no element fields */
+    private static final FieldDescriptor[] noJavaFields = new FieldDescriptor[0];
+    /** The name of the XML element. */
     private String _xmlName = null;
-
-    /**
-     * The class type for the descriptor
-     */
+    /** The class type for the descriptor */
     private Class _class = null;
-    
+
     //----------------/
     //- Constructors -/
     //----------------/
@@ -92,7 +77,7 @@ public class BaseDescriptor
     protected BaseDescriptor(String xmlName, Class type) {
         super();
         _xmlName = xmlName;
-        _class = type;
+        _class   = type;
     } //-- BaseDescriptor
 
     //------------------/
@@ -100,52 +85,55 @@ public class BaseDescriptor
     //------------------/
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshalled as XML attributes.
      *
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshalled as XML attributes.
      */
     public XMLFieldDescriptor[]  getAttributeDescriptors() {
         return noXMLFields;
     } // getAttributeDescriptors
 
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
+     * Returns the XMLFieldDescriptor for the member that should be marshalled
+     * as text content.
      *
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
+     * @return the XMLFieldDescriptor for the member that should be marshalled
+     *         as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
         return null;
     } // getContentDescriptor
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshalled as XML elements.
      *
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshalled as XML elements.
      */
     public XMLFieldDescriptor[]  getElementDescriptors() {
         return noXMLFields;
     } // getElementDescriptors
 
     /**
-     * Returns the XML field descriptor matching the given xml name and nodeType. If
-     * NodeType is null, then either an AttributeDescriptor, or ElementDescriptor may be
-     * returned. Null is returned if no matching descriptor is available.
+     * Returns the XML field descriptor matching the given xml name and
+     * nodeType. If NodeType is null, then either an AttributeDescriptor, or
+     * ElementDescriptor may be returned. Null is returned if no matching
+     * descriptor is available.
      *
-     * @param name The xml name to match against.
-     * @param namespace The namespace uri.
-     * @param nodeType The NodeType to match against, or null if the node type is not
-     *        known.
-     * @return The matching descriptor, or null if no matching descriptor is available.
+     * @param name
+     *            The xml name to match against.
+     * @param namespace
+     *            The namespace uri.
+     * @param nodeType
+     *            The NodeType to match against, or null if the node type is not
+     *            known.
+     * @return The matching descriptor, or null if no matching descriptor is
+     *         available.
      */
-    public XMLFieldDescriptor getFieldDescriptor(
-            String name, String namespace, NodeType nodeType) {
-        
+    public XMLFieldDescriptor getFieldDescriptor(String name, String namespace, NodeType nodeType) {
         return null;
     } //-- getFieldDescriptor
 
@@ -164,12 +152,12 @@ public class BaseDescriptor
     } //-- getNameSpaceURI
 
     /**
-     * Returns a specific validator for the class described by
-     * this ClassDescriptor. A null value may be returned
-     * if no specific validator exists.
+     * Returns a specific validator for the class described by this
+     * ClassDescriptor. A null value may be returned if no specific validator
+     * exists.
      *
      * @return the type validator for the class described by this
-     * ClassDescriptor.
+     *         ClassDescriptor.
      */
     public TypeValidator getValidator() {
         return null;
@@ -185,28 +173,21 @@ public class BaseDescriptor
     } //-- getXMLName
 
     /**
-     * Returns the String representation of this XMLClassDescriptor
+     * Returns the String representation of this XMLClassDescriptor.
      *
-     * @return the String representation of this XMLClassDescriptor
+     * @return the String representation of this XMLClassDescriptor.
      */
     public String toString() {
-
         String className = null;
         Class type = getJavaClass();
-        if (type != null) 
+        if (type != null) {
             className = type.getName();
-        else
+        } else {
             className = "unspecified";
-        
-        String str = super.toString() +
-            "; descriptor for class: " + className;
+        }
 
-        //-- add xml name
-        str += "; xml name: " + getXMLName();
-
-        return str;
+        return super.toString() + "; descriptor for class: " + className + "; xml name: " + getXMLName();
     } //-- toString
-
 
     //-------------------------------------/
     //- Implementation of ClassDescriptor -/
@@ -241,7 +222,6 @@ public class BaseDescriptor
         return null;
     } //-- getExtends
 
-
     /**
      * Returns the identity field, null if this class has no identity.
      *
@@ -260,23 +240,27 @@ public class BaseDescriptor
         return null;
     } //-- getAccessMode
 
-
     /**
-     * <p>Returns true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
-     * An XMLClassDescriptor can accept a field if it contains a descriptor that matches
-     * the given name and if the given object can hold this field (i.e a value is not already set for
+     * Returns true if the given object represented by this XMLClassDescriptor
+     * can accept a member whose name is given. An XMLClassDescriptor can accept
+     * a field if it contains a descriptor that matches the given name and if
+     * the given object can hold this field (i.e a value is not already set for
      * this field).
-     * <p>This is mainly used for container object (that can contains other object), in this particular case
-     * the implementation will return null.
-     * @param name the xml name of the field to check
-     * @param namespace the namespace uri
-     * @param object the object represented by this XMLCLassDescriptor
+     * <p>
+     * This is mainly used for container object (that can contains other
+     * object), in this particular case the implementation will return null.
+     *
+     * @param name
+     *            the xml name of the field to check
+     * @param namespace
+     *            the namespace uri
+     * @param object
+     *            the object represented by this XMLCLassDescriptor
      * @return true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
+     *         can accept a member whose name is given.
      */
     public boolean canAccept(String name, String namespace, Object object) {
-         return false;
+        return false;
     }
-    
+
 } //-- BaseDescriptor

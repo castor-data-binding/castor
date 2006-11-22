@@ -26,7 +26,7 @@
     <FixedTypes>
         <fDuration>P2Y3M4DT5H6M7S</fDuration>
         <fDateTime>1999-12-31T23:59:59.059</fDateTime>
-        <fTime>22:04:02-05:03</fTime>
+        <fTime>22:04:02</fTime>
         <fDate>1972-12-30</fDate>
         <fGregorianYearMonth>2000-04</fGregorianYearMonth>
         <fGregorianYear>1965</fGregorianYear>

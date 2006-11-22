@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -49,10 +49,7 @@
  * 11/02/2000   Arnaud Blandin  Changed the constructor
  * 10/26/2000   Arnaud Blandin  Created
  */
-
 package org.exolab.castor.types;
-
-import org.exolab.castor.xml.ValidationException;
 
 import java.util.Date;
 import java.util.SimpleTimeZone;
@@ -61,17 +58,29 @@ import java.util.TimeZone;
 import java.text.ParseException;
 import java.text.SimpleDateFormat;
 
+import org.exolab.castor.xml.ValidationException;
+
 /**
- * <p> Represents recurringDuration utterly
- * a recurringDuration must contain all the fields :
- * <p> (+|-)CCYY-MM-DDThh:mm:ss.sss(Z|(+|-)hh:mm)
- * <p> The validation of the date fields is done in the set methods and follows
- * <a href="http://www.iso.ch/markete/8601.pdf">the ISO8601 Date and Time Format</a>
- * <p>It is possible to omit higher components by using '-'.
+ * Represents recurringDuration utterly a recurringDuration must contain all the
+ * fields:
+ * <p>
+ * (+|-)CCYY-MM-DDThh:mm:ss.sss(Z|(+|-)hh:mm)
+ * <p>
+ * The validation of the date fields is done in the set methods and follows <a
+ * href="http://www.iso.ch/markete/8601.pdf">the ISO8601 Date and Time Format</a>
+ * <p>
+ * It is possible to omit higher components by using '-'.
+ * <p>
+ * Note: This datatype is not included in any recommendation. It was introduced
+ * in http://www.w3.org/TR/1999/WD-xmlschema-2-19990924/ and was last in
+ * http://www.w3.org/TR/2000/CR-xmlschema-2-20001024/ and was removed by
+ * http://www.w3.org/TR/2001/PR-xmlschema-2-20010316/. It was not in the final
+ * approved recommendation: http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
-**/
+ * @deprecated since Castor 1.0.6 since this type is not in any recommendation.
+ */
 public class RecurringDuration extends RecurringDurationBase{
     /** SerialVersionUID */
     private static final long serialVersionUID = -6037158412155942249L;
@@ -477,7 +486,7 @@ public class RecurringDuration extends RecurringDurationBase{
 
     /**
      * Parse a String and convert it into a recurringDuration.
-     * 
+     *
      * @param str The string to parse.
      * @return The recurringDuration represented by the string.
      * @throws ParseException A parse exception is thrown if the string to parse

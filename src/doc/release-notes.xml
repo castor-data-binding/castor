@@ -33,18 +33,48 @@
 
                 <h3>XML test suite execution</h3>
 
-                <p>The CTF currently requires the Sun JDK (or SDK) to execute, although
-                   it may be possible to execute with GNU gcj or with JRockit. The CTF
-                   will not work if you are using only a JRE. This is because the CTF
-                   uses the Sun Java compiler API to compile code as needed for Source
-                   Generator and Marshaling Framework tests. The CTF code is written to
-                   allow easy extension for additional compiler frameworks, so if you
-                   use a compiler or runtime that is not supported, you should be able
-                   to easily add support for a new framework. If you want to do this,
-                   contact Castor committors for assistance and direction and they'll
-                   set you on the right course.</p>
+                <p>
+                  The CTF currently requires the Sun JDK (or SDK) to execute, although
+                  it may be possible to execute with GNU gcj or with JRockit. The CTF
+                  will not work if you are using only a JRE. This is because the CTF
+                  uses the Sun Java compiler API to compile code as needed for Source
+                  Generator and Marshaling Framework tests. The CTF code is written to
+                  allow easy extension for additional compiler frameworks, so if you
+                  use a compiler or runtime that is not supported, you should be able
+                  to easily add support for a new framework. If you want to do this,
+                  contact Castor committors for assistance and direction and they'll
+                  set you on the right course.
+                </p>
+                <p>
+                  In the source generator, all facets are now implemented for all of the
+                  XML Schema date/time types with one exception:  validation for the
+                  "fixed" facet of xsd:dateTime is not implemented.  This is because
+                  Castor marshals dateTime as a java.util.Date, which does not contain
+                  time zone information.  A later release of Castor may marshal
+                  xsd:dateTime into a java.util.Calendar instead of java.util.Date.
+                </p>
             </summary>
             <bugs>
+                <bug id="1703" tool="jira">
+                    <description>
+                        Implement Srcgen DateTime pattern facet
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061121</date>
+                </bug>
                 <bug id="1227" tool="jira">
                     <description>
                         Source Generator > default datetime value

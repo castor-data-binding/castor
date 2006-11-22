@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,31 +42,37 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.types;
 
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.util.*;
 import org.exolab.castor.mapping.ValidityException;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLFieldHandler;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * The gMonthDay Descriptor.
+ *
  * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class GMonthDayDescriptor extends BaseDescriptor {
 
+    /** The name of the XML element. */
+    private static final String                 _xmlName = "gMonthDay";
+    /** Our field descriptor. */
+    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    /** Our field descriptor array.  Lists the fields we describe. */
+    private static final FieldDescriptor[]      _fields;
 
-    /**
-     * The name of the XML element.
-     */
-    private static final String _xmlName = "gMonthDay";
-
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
-
-    private static FieldDescriptor[] _fields = null;
+    static {
+        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+                                                        "content", NodeType.Text);
+        _contentDescriptor.setHandler(new GMonthDayDescriptor().new GMonthDayFieldHandler());
+        _fields = new FieldDescriptor[1];
+        _fields[0] = _contentDescriptor;
+    }
 
     //----------------/
     //- Constructors -/
@@ -74,31 +80,19 @@ public class GMonthDayDescriptor extends BaseDescriptor {
 
     public GMonthDayDescriptor() {
         super(_xmlName, GMonthDay.class);
-        if (_contentDescriptor == null) {
-            _contentDescriptor = new XMLFieldDescriptorImpl(String.class,
-                "content", "content", NodeType.Text);
-            //-- setHandler
-            _contentDescriptor.setHandler(new GMonthDayFieldHandler());
-        }
-
-        if (_fields == null) {
-            _fields = new FieldDescriptor[1];
-            _fields[0] = _contentDescriptor;
-        }
-
     } //-- gMonthDayDescriptor
 
     //------------------/
     //- Public Methods -/
     //------------------/
 
-
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-    **/
+     * Returns the XMLFieldDescriptor for the member that should be marshaled
+     * as text content.
+     *
+     * @return the XMLFieldDescriptor for the member that should be marshaled
+     *         as text content.
+     */
     public XMLFieldDescriptor getContentDescriptor() {
         return _contentDescriptor;
     } // getContentDescriptor
@@ -112,13 +106,11 @@ public class GMonthDayDescriptor extends BaseDescriptor {
         return _fields;
     } //-- getFields
 
-
     /**
-     * A specialized FieldHandler for the XML Schema
-     * TimeDuration related types
+     * A specialized FieldHandler for the XML Schema TimeDuration related types
      * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
      * @version $Revision $ $Date $
-    **/
+     */
     class GMonthDayFieldHandler extends XMLFieldHandler {
 
         //----------------/
@@ -127,7 +119,7 @@ public class GMonthDayDescriptor extends BaseDescriptor {
 
         /**
          * Creates a new TimeFieldHandler
-        **/
+         */
         public GMonthDayFieldHandler() {
             super();
         } //-- GMonthDayFieldHandler
@@ -137,18 +129,19 @@ public class GMonthDayDescriptor extends BaseDescriptor {
         //------------------/
 
         /**
-         * Returns the value of the field associated with this
-         * descriptor from the given target object.
-         * @param target the object to get the value from
-         * @return the value of the field associated with this
-         * descriptor from the given target object.
-        **/
-        public Object getValue(Object target)
-            throws java.lang.IllegalStateException
-        {
-           Object result = null;
-            if (target instanceof GMonthDay)
+         * Returns the value of the field associated with this descriptor from
+         * the given target object.
+         *
+         * @param target
+         *            the object to get the value from
+         * @return the value of the field associated with this descriptor from
+         *         the given target object.
+         */
+        public Object getValue(Object target) throws java.lang.IllegalStateException {
+            Object result = null;
+            if (target instanceof GMonthDay) {
                 result = (GMonthDay) target;
+            }
             return result;
         } //-- getValue
 
@@ -156,13 +149,10 @@ public class GMonthDayDescriptor extends BaseDescriptor {
          * Sets the value of the field associated with this descriptor.
          * @param target the object in which to set the value
          * @param value the value of the field
-        **/
-        public void setValue(Object target, Object value)
-            throws java.lang.IllegalStateException
-        {
-
+         */
+        public void setValue(Object target, Object value) throws java.lang.IllegalStateException {
             if (! (target instanceof GMonthDay) ) {
-               String err = "GMonthDayDescriptor#setValue: expected GMonthDay, received instead:"
+               String err = "GMonthDayDescriptor#setValue: expected GMonthDay, received instead: "
                             + target.getClass();
                throw new IllegalStateException(err);
             }
@@ -181,20 +171,18 @@ public class GMonthDayDescriptor extends BaseDescriptor {
                 if (temp.isUTC()) {
                     gMonthDayTarget.setUTC();
                     gMonthDayTarget.setZone(temp.getZoneHour(), temp.getZoneMinute());
+                    gMonthDayTarget.setZoneNegative(temp.isZoneNegative());
                 }
                 temp = null;
-            }
-            catch (java.text.ParseException ex) {
+            } catch (java.text.ParseException ex) {
                 String err = "GMonthDayDescriptor#setValue: wrong value\n"+ex.getMessage();
                 throw new IllegalStateException(err);
             }
         } //-- setValue
 
-        public void resetValue(Object target)
-            throws java.lang.IllegalStateException
-        {
+        public void resetValue(Object target) throws java.lang.IllegalStateException {
+            // Nothing to do?
         }
-
 
         /**
          * Checks the field validity. Returns successfully if the field
@@ -207,12 +195,9 @@ public class GMonthDayDescriptor extends BaseDescriptor {
          *  is no longer supported by this handler, or the handler
          *  is not compatiable with the Java object
          */
-        public void checkValidity( Object object )
-            throws ValidityException, IllegalStateException
-        {
+        public void checkValidity(Object object) throws ValidityException, IllegalStateException {
             // nothing to do?
         } //-- checkValidity
-
 
         /**
          * Creates a new instance of the object described by this field.
@@ -222,15 +207,10 @@ public class GMonthDayDescriptor extends BaseDescriptor {
          * @throws IllegalStateException This field is a simple type and
          *  cannot be instantiated
          */
-        public Object newInstance( Object parent )
-            throws IllegalStateException
-        {
+        public Object newInstance(Object parent) throws IllegalStateException {
             return new GMonthDay();
         } //-- newInstance
 
-
     } //-- GmonthDayFieldHandler
 
-
 } //-- GMonthDayDescriptor
-

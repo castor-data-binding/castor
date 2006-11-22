@@ -30,7 +30,7 @@
   <xsd:sequence>
     <xsd:element name="fDuration"           type="xsd:duration"   minOccurs="0" fixed="P2Y3M4DT5H6M7S"/>
     <xsd:element name="fDateTime"           type="xsd:dateTime"   minOccurs="0" fixed="1999-12-31T23:59:59.059"/>
-    <xsd:element name="fTime"               type="xsd:time"       minOccurs="0" fixed="22:04:02-05:03"/>
+    <xsd:element name="fTime"               type="xsd:time"       minOccurs="0" fixed="22:04:02"/>
     <xsd:element name="fDate"               type="xsd:date"       minOccurs="0" fixed="1972-12-30"/>
     <xsd:element name="fGregorianYearMonth" type="xsd:gYearMonth" minOccurs="0" fixed="2000-04"/>
     <xsd:element name="fGregorianYear"      type="xsd:gYear"      minOccurs="0" fixed="1965"/>

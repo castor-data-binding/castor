@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -41,60 +41,62 @@
  * Copyright 2000-2002 (C) Intalio, Inc. All Rights Reserved.
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
+
+import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Facet;
-import org.exolab.castor.types.Date;
-import org.exolab.javasource.*;
-
-import java.text.ParseException;
-import java.util.Enumeration;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
- * The XML Schema Date type
+ * The XML Schema Date type.
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ */
 public final class XSDate extends XSPatternBase {
-
-    /**
-     * The JType represented by this XSType
-    **/
-    private static final JType jType =
-        new JClass("org.exolab.castor.types.Date");
-
-    /**
-     * Jakarta's common-logging logger
-     */
+    /** Jakarta's common-logging logger. */
     private static final Log LOG = LogFactory.getLog(XSDate.class);
 
-    private Date _maxInclusive;
-    private Date _maxExclusive;
-    private Date _minInclusive;
-    private Date _minExclusive;
+    /** The JType represented by this XSType. */
+    private static final JType JTYPE = new JClass("org.exolab.castor.types.Date");
 
+    /** Maximum Date (inclusive). */
+    private String _maxInclusive;
+    /** Maximum Date (exclusive). */
+    private String _maxExclusive;
+    /** Minimum Date (inclusive). */
+    private String _minInclusive;
+    /** Minimum Date (exclusive). */
+    private String _minExclusive;
+
+    /**
+     *  No-Arg constructor.
+     */
     public XSDate() {
         super(XSType.DATE_TYPE);
     } //-- XSDate
 
     /**
-    * Returns the Java code necessary to create a new instance of the
-    * JType associated with this XSType
-    */
+     * Returns the Java code necessary to create a new instance of the
+     * JType associated with this XSType.
+     * @return the Java code necessary to create a new instance of the
+     * JType associated with this XSType.
+     */
     public String newInstanceCode() {
         return "new " + getJType().getName() + "();";
     } //-- newInstanceCode
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
-    **/
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
+     */
     public JType getJType() {
-        return XSDate.jType;
+        return XSDate.JTYPE;
     }
 
     /**
@@ -102,8 +104,8 @@ public final class XSDate extends XSPatternBase {
      * @return the maximum exclusive value that this XSDate can hold. If
      * no maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
-    **/
-    public Date getMaxExclusive() {
+     */
+    public String getMaxExclusive() {
         return _maxExclusive;
     } //-- getMaxExclusive
 
@@ -112,8 +114,8 @@ public final class XSDate extends XSPatternBase {
      * @return the maximum inclusive value that this XSDate can hold. If
      * no maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
-    **/
-    public Date getMaxInclusive() {
+     */
+    public String getMaxInclusive() {
         return _maxInclusive;
     } //-- getMaxInclusive
 
@@ -122,19 +124,17 @@ public final class XSDate extends XSPatternBase {
      * @return the minimum exclusive value that this XSDate can hold. If
      * no minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive
-     * @see #setMaxInclusive
-    **/
-    public Date getMinExclusive() {
+     */
+    public String getMinExclusive() {
         return _minExclusive;
     } //-- getMinExclusive
 
     /**
      * Returns the minimum inclusive value that this XSDate can hold.
-     * @return the minimum inclusive value that this can XSDate hold. If
-     * no minimum inclusive value has been set, Null will be returned
+     * @return the minimum inclusive value that this XSDate can be.
      * @see #getMinExclusive
-    **/
-    public Date getMinInclusive() {
+     */
+    public String getMinInclusive() {
         return _minInclusive;
     } //-- getMinInclusive
 
@@ -142,8 +142,8 @@ public final class XSDate extends XSPatternBase {
      * Sets the maximum exclusive value that this XSDate can hold.
      * @param max the maximum exclusive value this XSDate can be
      * @see #setMaxInclusive
-    **/
-    public void setMaxExclusive(Date max) {
+     */
+    public void setMaxExclusive(final String max) {
         _maxExclusive = max;
         _maxInclusive = null;
     } //-- setMaxExclusive
@@ -152,8 +152,8 @@ public final class XSDate extends XSPatternBase {
      * Sets the maximum inclusive value that this XSDate can hold.
      * @param max the maximum inclusive value this XSDate can be
      * @see #setMaxExclusive
-    **/
-    public void setMaxInclusive(Date max) {
+     */
+    public void setMaxInclusive(final String max) {
         _maxInclusive = max;
         _maxExclusive = null;
     } //-- setMaxInclusive
@@ -162,74 +162,82 @@ public final class XSDate extends XSPatternBase {
      * Sets the minimum exclusive value that this XSDate can hold.
      * @param min the minimum exclusive value this XSDate can be
      * @see #setMinInclusive
-    **/
-    public void setMinExclusive(Date min) {
+     */
+    public void setMinExclusive(final String min) {
         _minExclusive = min;
         _minInclusive = null;
     } //-- setMinExclusive
 
     /**
-     * Sets the minimum inclusive value that this XSInt can hold.
-     * @param min the minimum inclusive value this XSInt can be
+     * Sets the minimum inclusive value that this XSDate can hold.
+     * @param min the minimum inclusive value this XSDate can be
      * @see #setMinExclusive
-    **/
-    public void setMinInclusive(Date min) {
+     */
+    public void setMinInclusive(final String min) {
         _minInclusive = min;
         _minExclusive = null;
     } //-- setMinInclusive
 
-    public boolean hasMinimum() {
-        return ((_minInclusive != null) || (_minExclusive != null));
-    }
-
+    /**
+     * Returns true if a maximum (inclusive or exclusive) has been set.
+     * @return true if a maximum (inclusive or exclusive) has been set.
+     */
     public boolean hasMaximum() {
-        return ((_maxInclusive != null) || (_maxExclusive != null));
+        return _maxInclusive != null || _maxExclusive != null;
     }
 
     /**
-     * Reads and sets the facets for XSDate
-     * override the readFacet method of XSType
-     * @param simpleType the Simpletype containing the facets
+     * Returns true if a minimum (inclusive or exclusive) has been set.
+     * @return true if a minimum (inclusive or exclusive) has been set.
+     */
+    public boolean hasMinimum() {
+        return _minInclusive != null || _minExclusive != null;
+    }
+
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>. The
+     * Date SimpleType supports the following facets:
+     * <ul>
+     *   <li>pattern</li>
+     *   <li>enumeration (handled elsewhere, so we ignore it here)</li>
+     *   <li>whiteSpace</li>
+     *   <li>maxInclusive</li>
+     *   <li>maxExclusive</li>
+     *   <li>minInclusive</li>
+     *   <li>minExclusive</li>
+     * </ul>
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
      * @see org.exolab.castor.builder.types.XSType#getFacets
      */
-
-    public void setFacets(SimpleType simpleType) {
-        //-- copy valid facets
+    public void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-
             Facet facet = (Facet) enumeration.nextElement();
             String name = facet.getName();
 
-            try {
-                //-- maxExclusive
-                if (Facet.MAX_EXCLUSIVE.equals(name))
-                    this.setMaxExclusive(Date.parseDate(facet.getValue()));
-                //-- maxInclusive
-                else if (Facet.MAX_INCLUSIVE.equals(name))
-                    this.setMaxInclusive(Date.parseDate(facet.getValue()));
-                //-- minExclusive
-                else if (Facet.MIN_EXCLUSIVE.equals(name))
-                    this.setMinExclusive(Date.parseDate(facet.getValue()));
-                //-- minInclusive
-                else if (Facet.MIN_INCLUSIVE.equals(name))
-                    this.setMinInclusive(Date.parseDate(facet.getValue()));
-                //-- pattern
-                else if (Facet.PATTERN.equals(name)) {
-                    //do nothing for the moment
-                    LOG.warn("Warning: The facet 'pattern' is not currently supported for Date.");
+            if (Facet.MAX_EXCLUSIVE.equals(name)) {
+                this.setMaxExclusive(facet.getValue());
+            } else if (Facet.MAX_INCLUSIVE.equals(name)) {
+                this.setMaxInclusive(facet.getValue());
+            } else if (Facet.MIN_EXCLUSIVE.equals(name)) {
+                this.setMinExclusive(facet.getValue());
+            } else if (Facet.MIN_INCLUSIVE.equals(name)) {
+                this.setMinInclusive(facet.getValue());
+            } else if (Facet.PATTERN.equals(name)) {
+                setPattern(facet.getValue());
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    LOG.warn("Warning: The facet 'whitespace' can only be set to '"
+                             + Facet.WHITESPACE_COLLAPSE + "' for 'date'.");
                 }
-            } catch (ParseException e) {
-                //not possible to set the facet properly
-                //This can't happen since a ParseException would have been set
-                //during the unmarshalling of the facets
-                e.printStackTrace();
-                return;
             }
         } //while
     } //setFacets
 
-      /**
+    /**
      * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
@@ -239,83 +247,64 @@ public final class XSDate extends XSPatternBase {
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.DateTimeValidator typeValidator ="
+                + " new org.exolab.castor.xml.validators.DateTimeValidator();");
 
-        if (jsc == null)
-            jsc = new JSourceCode();
+        boolean addTryCatch = _minInclusive != null || _minExclusive != null
+                || _maxInclusive != null || _maxExclusive != null || fixedValue != null;
 
-        jsc.add("org.exolab.castor.xml.validators.DateTimeValidator typeValidator = new org.exolab.castor.xml.validators.DateTimeValidator();");
-        if (hasMinimum()) {
+        if (addTryCatch) {
             jsc.add("try {");
             jsc.indent();
-            Date min = getMinExclusive();
-            if (min != null) {
-                jsc.add(
-                    "org.exolab.castor.types.Date min ="
-                        + "org.exolab.castor.types.Date.parseDate("
-                        + "\""
-                        + min.toString()
-                        + "\");");
-                jsc.add("typeValidator.setMinExclusive(");
-            } else {
-                min = getMinInclusive();
-                jsc.add(
-                    "org.exolab.castor.types.Date min ="
-                        + "org.exolab.castor.types.Date.parseDate("
-                        + "\""
-                        + min.toString()
-                        + "\");");
-                jsc.add("typeValidator.setMinInclusive(");
-            }
-            jsc.append("min");
-            jsc.append(");");
+        }
+
+        // minInclusive / minExclusive facets (only one or the other, never both)
+        if (_minInclusive != null) {
+            jsc.add("org.exolab.castor.types.Date min = "
+                    + "org.exolab.castor.types.Date.parseDate(\"" + _minInclusive + "\");");
+            jsc.add("typeValidator.setMinInclusive(min);");
+        } else if (_minExclusive != null) {
+            jsc.add("org.exolab.castor.types.Date min = "
+                    + "org.exolab.castor.types.Date.parseDate(\"" + _minExclusive + "\");");
+            jsc.add("typeValidator.setMinExclusive(min);");
+        }
+
+        // maxInclusive / maxExclusive facets (only one or the other, never both)
+        if (_maxInclusive != null) {
+            jsc.add("org.exolab.castor.types.Date max = "
+                    + "org.exolab.castor.types.Date.parseDate(\"" + _maxInclusive + "\");");
+            jsc.add("typeValidator.setMaxInclusive(max);");
+        } else if (_maxExclusive != null) {
+            jsc.add("org.exolab.castor.types.Date max = "
+                    + "org.exolab.castor.types.Date.parseDate(\"" + _maxExclusive + "\");");
+            jsc.add("typeValidator.setMaxExclusive(max);");
+        }
+
+        // fixed values
+        if (fixedValue != null) {
+            jsc.add("typeValidator.setFixed(" + fixedValue + ");");
+        }
+
+        if (addTryCatch) {
             jsc.unindent();
-            jsc.add("} catch (java.text.ParseException e) {");
+            jsc.add("} catch (java.text.ParseException pe) {");
             jsc.indent();
-            jsc.add("System.out.println(e);");
-            jsc.add("e.printStackTrace();");
-            jsc.add("return;");
+            jsc.add("System.out.println(\"ParseException\" + pe);");
             jsc.unindent();
             jsc.add("}");
+        }
 
-        } //hasMinimum?
+        // pattern facet
+        String pattern = getPattern();
+        if (pattern != null) {
+            jsc.add("typeValidator.setPattern(\"");
+            jsc.append(escapePattern(pattern));
+            jsc.append("\");");
+        }
 
-        if (hasMaximum()) {
-            jsc.add("try {");
-            jsc.indent();
-            Date max = getMaxExclusive();
-            if (max != null) {
-                jsc.add(
-                    "org.exolab.castor.types.Date max ="
-                        + "org.exolab.castor.types.Date.parseDate("
-                        + "\""
-                        + max.toString()
-                        + "\");");
-                jsc.add("typeValidator.setMaxExclusive(");
-            } else {
-                max = getMaxInclusive();
-                jsc.add(
-                    "org.exolab.castor.types.Date max ="
-                        + "org.exolab.castor.types.Date.parseDate("
-                        + "\""
-                        + max.toString()
-                        + "\");");
-                jsc.add("typeValidator.setMaxInclusive(");
-            }
-            jsc.append("max");
-            jsc.append(");");
-            jsc.unindent();
-            jsc.add("} catch (java.text.ParseException e) {");
-            jsc.indent();
-            jsc.add("System.out.println(e);");
-            jsc.add("e.printStackTrace();");
-            jsc.add("return;");
-            jsc.unindent();
-            jsc.add("}");
-
-        } //hasMaximum
-        //-- pattern facet
-        jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
 } //-- XSDate

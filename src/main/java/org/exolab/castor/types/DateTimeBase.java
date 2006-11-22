@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -48,9 +48,13 @@
  */
 package org.exolab.castor.types;
 
+import java.text.DateFormat;
+import java.text.ParseException;
 import java.util.Calendar;
 import java.util.GregorianCalendar;
 import java.util.Date;
+import java.util.SimpleTimeZone;
+import java.util.TimeZone;
 
 /**
  * The base class for date/time XML Schema types.
@@ -58,8 +62,8 @@ import java.util.Date;
  * The validation of the date/time fields is done in the set methods and follows
  * <a href="http://www.iso.ch/markete/8601.pdf">the ISO8601 Date and Time Format</a>.
  * <p>
- * Note: the castor date/time types are mutable, unlike the date/time types of
- * the JDK in Java2. This is needed by the Marshalling framework.
+ * Note: the Castor date/time types are mutable, unlike the date/time types of
+ * the JDK in Java2. This is needed by the Marshaling framework.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
@@ -78,7 +82,7 @@ public abstract class DateTimeBase implements java.io.Serializable {
     public static final int       GREATER_THAN    = 2;
 
     /** Convenience String for complaints. */
-    protected static final String WRONGLY_PLACED  = "is wrongly placed.";
+    protected static final String WRONGLY_PLACED  = " is wrongly placed.";
 
     /** true if this date/time type is negative. */
     private boolean               _isNegative     = false;
@@ -107,159 +111,201 @@ public abstract class DateTimeBase implements java.io.Serializable {
     /** the time zone minute field. */
     private short                 _zoneMinute     = 0;
 
+    //////////////////////////Abstract methods////////////////////////////////////
+
+    /**
+     * Returns a java.util.Date that represents the XML Schema Date datatype.
+     * @return a java.util.Date that represents the XML Schema Date datatype.
+     */
+    public abstract Date toDate();
+
+    /**
+     * Sets all the fields by reading the values in an array.
+     * @param values an array of shorts with the values.
+     */
+    public abstract void setValues(short[] values);
+
+    /**
+     * returns an array of short with all the fields that describe a date/time
+     * type.
+     * @return an array of short with all the fields that describe a date/time
+     *         type.
+     */
+    public abstract short[] getValues();
+
+    ////////////////////////////////////////////////////////////////////////////
+
+    /**
+     * Returns true if the given year represents a leap year. A specific year is
+     * a leap year if it is either evenly divisible by 400 OR evenly divisible
+     * by 4 and not evenly divisible by 100.
+     *
+     * @param year
+     *            the year to test where 0 < year <= 9999
+     * @return true if the given year represents a leap year
+     */
+    public final boolean isLeap(int year) {
+        return ((year % 4) == 0 && (year % 100) != 0) || (year % 400) == 0;
+    }
+
+    /**
+     * Returns true if the given year represents a leap year. A specific year is
+     * a leap year if it is either evenly divisible by 400 OR evenly divisible
+     * by 4 and not evenly divisible by 100.
+     *
+     * @param year
+     *            the year to test where 0 <= year <= 99
+     * @param century
+     *            the century to test where 0 <= century <= 99
+     * @return true if the given year represents a leap year
+     */
+    private final boolean isLeap(short century, short year) {
+        return isLeap(century * 100 + year);
+    }
+
     //////////////////////////Setter methods////////////////////////////////////
 
     /**
-     * set the century field
-     * @param century the value to set up
+     * Set the negative field to true.
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the
+     *             "century+year is negative" field is not allowed.
      */
-    public void setCentury(short century) {
-        String err ="";
+    public void setNegative() throws OperationNotSupportedException {
+        _isNegative = true;
+    }
+
+    /**
+     * Set the century field. Note: year 0000 is not allowed.
+     * @param century the value to set
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the
+     *             century field is not allowed
+     */
+    public void setCentury(short century) throws OperationNotSupportedException {
+        String err = "";
         if (century < 0) {
-            err = "century : " + century + " must not be a negative value.";
+            err = "century " + century + " must not be negative.";
             throw new IllegalArgumentException(err);
-        } else if ((_year == 0) && (century == 0)) {
-            err = "0000 is not an allowed year";
+        } else if (_year == 0 && century == 0) {
+            err = "century:  0000 is not an allowed year.";
             throw new IllegalArgumentException(err);
         }
+
         _century = century;
     }
 
     /**
-     * set the Year field
-     * Note: 0000 is not allowed
-     * @param year year to set up
+     * Sets the Year field. Note: year 0000 is not allowed.
+     *
+     * @param year
+     *            the year to set
+     * @throws OperationNotSupportedException
+     *             in an overridden method in a derived class if that derived
+     *             class does not support the year element.
      */
     public void setYear(short year) throws OperationNotSupportedException {
-        String err ="";
+        String err = "";
         if (year < 0) {
-            err = "year : "+year+" must not be a negative value.";
+            err = "year " + year + " must not be negative.";
             throw new IllegalArgumentException(err);
-        } else if ( (year == -1) && (_century != -1) ) {
-            err = "year can not be omitted if century is not omitted.";
+        } else if (year == -1) {
+            if (_century != -1) {
+                err = "year can not be omitted unless century is also omitted.";
+                throw new IllegalArgumentException(err);
+            }
+        } else if (year == 0 && _century == 0) {
+            err = "year:  0000 is not an allowed year";
             throw new IllegalArgumentException(err);
-        } else if ( (year ==0) && (_century==0)) {
-            err = "0000 is not an allowed year";
-            throw new IllegalArgumentException(err);
-        } else if ( year > 99) {
-            err = year+" is not correct: A year field must be ranged between 0 and 99";
+        } else if (year > 99) {
+            err = "year " + year + " is out of range:  0 <= year <= 99.";
             throw new IllegalArgumentException(err);
         }
+
         _year = year;
     }
 
     /**
-     * set the Month Field
+     * Sets the Month Field. Note 1 <= month <= 12.
      * @param month the value to set up
-     * Note 1<month<12
+     * @throws OperationNotSupportedException
+     *             in an overridden method in a derived class if that derived
+     *             class does not support the month element.
      */
     public void setMonth(short month) throws OperationNotSupportedException {
-        String err ="";
+        String err = "";
         if (month == -1) {
             if (_century != -1) {
-                 err = "month cannot be omitted if the previous component is not omitted.\n"+
-                       "only higher level components can be omitted.";
+                 err = "month cannot be omitted unless the previous component is also omitted.\n"
+                       + "only higher level components can be omitted.";
                  throw new IllegalArgumentException(err);
             }
-        } else if (month < 1) {
-            err = "month : "+month+" is not a correct value.\n 1 < month < 12";
+        } else if (month < 1 || month > 12) {
+            err = "month " + month + " is out of range:  1 <= month <= 12";
             throw new IllegalArgumentException(err);
         }
 
-        else if (month > 12) {
-            err = "month : "+month+" is not a correct value.";
-            err+= "\n 1<month<12";
-            throw new IllegalArgumentException(err);
-        }
         _month = month;
     }
 
     /**
-     * set the Day Field
-     * @param day the value to set up
-     * Note a validation is done on the day field
+     * Sets the Day Field. Note:  This field is validated before the assignment
+     * is done.
+     *
+     * @param day
+     *            the value to set up
+     * @throws OperationNotSupportedException
+     *             in an overridden method in a derived class if that derived
+     *             class does not support the day element.
      */
-
     public void setDay(short day) throws OperationNotSupportedException {
         String err = "";
         if  (day == -1) {
             if (_month != -1) {
-                 err = "day cannot be omitted if the previous component is not omitted.\n"+
-                       "only higher level components can be omitted.";
-                 throw new IllegalArgumentException(err);
+                err = "day cannot be omitted unless the previous component is also omitted.\n"
+                      + "only higher level components can be omitted.";
+                throw new IllegalArgumentException(err);
             }
-        }
-        else if (day < 0) {
-            err = "day : "+day+" is not a correct value.";
-            err+= "\n 1<day";
+        } else if (day < 1) {
+            err = "day " + day + " cannot be negative.";
             throw new IllegalArgumentException(err);
         }
-        // in february
-        if (_month == 2) {
-            if (isLeap(_century, _year)) {
-                if (day > 29) {
-                    err = "day : "+day+" is not a correct value.";
-                    err+= "\n day<30 (leap year and month is february)";
-                    throw new IllegalArgumentException(err);
-                }
-            } else if (day > 28) {
-                    err = "day : "+day+" is not a correct value.";
-                    err+= "\n day<30 (not a leap year and month is february)";
-                    throw new IllegalArgumentException(err);
-            } //february
-        } else if ( (_month == 4) || (_month == 6) ||
-                    (_month == 9) || (_month == 11) )
-                {
-                    if (day > 30) {
-                    err = "day : "+day+" is not a correct value.";
-                    err+= "\n day<31 ";
-                    throw new IllegalArgumentException(err);
-                }
-        } else if (day > 31) {
-                    err = "day : "+day+" is not a correct value.";
-                    err+= "\n day<=31 ";
-                    throw new IllegalArgumentException(err);
-                }
+
+        short maxDay = maxDayInMonthFor(_century, _year, _month);
+        if (day > maxDay) {
+            if (_month != 2) {
+                err = "day " + day + " is out of range for month " + _month + ":  "
+                      + "1 <= day <= " + maxDay;
+                throw new IllegalArgumentException(err);
+            } else if (isLeap(_century, _year)) {
+                err = "day " + day + " is out of range for February in a leap year:  "
+                      + "1 <= day <= 29";
+                throw new IllegalArgumentException(err);
+            } else {
+                err = "day " + day + " is out of range for February in a non-leap year:  "
+                      + "1 <= day <= 28";
+                throw new IllegalArgumentException(err);
+            }
+        }
 
         _day = day;
     }
 
     /**
-     * Returns true if the given year  represents a leap year
-     * A specific year is a leap year if it is either evenly
-     * divisible by 400 OR evenly divisible by 4 and not evenly divisible by 100
-     * @param year the year to test.
-     * @return true if the given year represents a leap year
+     * Sets the hour field for this date/time type.
+     *
+     * @param hour
+     *            the hour to set
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the hour
+     *             field is not allowed
      */
-    public final boolean isLeap(int year) {
-        short century = (short) (year/100);
-        year = year % 100;
-        return isLeap(century, (short)year);
-    }
-
-    private final boolean isLeap (short century, short year) {
-        int temp = (century * 100 + year) ;
-        boolean result =( ((temp % 4) == 0) && ((temp % 100) != 0) );
-        result = (result || ((temp % 400)==0) );
-        return result;
-    }
-
-    /**
-     * set the hour field for this date/time type.
-     * @param hour the hour to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the hour field is not allowed
-     */
-    public void setHour(short hour)
-        throws OperationNotSupportedException
-    {
+    public void setHour(short hour) throws OperationNotSupportedException {
         if (hour > 23) {
-            String err = "the hour field ("+hour+")must be strictly lower than 24";
+            String err = "hour " + hour + " must be strictly less than 24";
             throw new IllegalArgumentException(err);
-        }
-        else if (hour < 0) {
-            String err = "hour : "+hour+" is not a correct value.";
-            err+= "\n 0<hour";
+        } else if (hour < 0) {
+            String err = "hour " + hour + " cannot be negative.";
             throw new IllegalArgumentException(err);
         }
 
@@ -268,426 +314,427 @@ public abstract class DateTimeBase implements java.io.Serializable {
 
     /**
      * set the minute field for this date/time type.
-     * @param minute the minute to set.
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the minute field is not allowed
+     *
+     * @param minute
+     *            the minute to set.
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the
+     *             minute field is not allowed
      */
-    public void setMinute(short minute)
-        throws OperationNotSupportedException
-    {
-         if (minute > 59) {
-            String err = "the minute field ("+minute+")must be lower than 59.";
+    public void setMinute(short minute) throws OperationNotSupportedException {
+        if (minute > 59) {
+            String err = "minute " + minute + " must be strictly less than 60.";
+            throw new IllegalArgumentException(err);
+        } else if (minute < 0) {
+            String err = "minute " + minute + " cannot be negative.";
             throw new IllegalArgumentException(err);
         }
-        else if (minute < 0) {
-            String err = "minute : "+minute+" is not a correct value.";
-            err+= "\n 0<minute";
-            throw new IllegalArgumentException(err);
-        }
+
         _minute = minute ;
     }
 
     /**
-     * set the second field for this date/time type
-     * @param second the second to set
-     * @param millsecond the millisecond to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the second field is not allowed
+     * Sets the seconds field for this date/time type, including fractional
+     * seconds.  (In this implementation, fractional seconds are limited
+     * to milliseconds and are truncated at millseconds if more precision
+     * is provided.)
+     *
+     * @param second
+     *            the second to set
+     * @param millsecond
+     *            the millisecond to set
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the
+     *             second field is not allowed
      */
-    public void setSecond(short second,short millsecond)
-        throws OperationNotSupportedException
-    {
+    public void setSecond(short second,short millsecond) throws OperationNotSupportedException {
         setSecond(second);
         setMilliSecond(millsecond);
     }
 
     /**
-     * Sets the second field for this date/time type
-     * @param second the second to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the second field is not allowed
+     * Sets the seconds field for this date/time type, not including the
+     * fractional seconds.  Any fractional seconds previously set is unmodified.
+     *
+     * @param second
+     *            the second to set
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the
+     *             second field is not allowed
      */
-    public void setSecond(short second)
-        throws OperationNotSupportedException
-     {
+    public void setSecond(short second) throws OperationNotSupportedException {
         if (second > 60) {
-           String err = "the second field ("+second+")must be lower than 60";
+           String err = "seconds " + second + " must be less than 60";
+           throw new IllegalArgumentException(err);
+        } else if (second < 0) {
+           String err = "seconds "+second+" cannot be negative.";
            throw new IllegalArgumentException(err);
         }
-        else if (second < 0) {
-           String err = "second : "+second+" is not a correct value.";
-           err+= "\n 0<second";
-           throw new IllegalArgumentException(err);
-        }
+
         _second = second;
     }
 
     /**
-     * Sets the millisecond field for this date/time type
-     * @param millisecond the millisecond to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the second field is not allowed
+     * Sets the millisecond field for this date/time type.
+     *
+     * @param millisecond
+     *            the millisecond to set
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the
+     *             millisecond field is not allowed
      */
-    public void setMilliSecond(short millisecond)
-        throws OperationNotSupportedException
-     {
+    public void setMilliSecond(short millisecond) throws OperationNotSupportedException {
         if (millisecond < 0) {
-            String err = "millisecond : "+millisecond+" is not a correct value.";
-            err+= "\n 0<millisecond";
+            String err = "milliseconds " + millisecond + " cannot be negative.";
+            throw new IllegalArgumentException(err);
+        } else if (millisecond > 999) {
+            String err = "milliseconds " + millisecond + " is out of bounds: 0 <= milliseconds <= 999.";
             throw new IllegalArgumentException(err);
         }
+
         _millsecond = millisecond;
     }
 
     /**
-     * Sets the time zone fields for this date/time type.
-     * A call to this method means that the date/time type
-     * used is UTC.
-     * @param hour the time zone hour to set
-     * @param minute the time zone minute to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the time zone fields is not allowed
+     * Sets the UTC field.
      */
-    public void setZone(short hour, short minute)
-        throws OperationNotSupportedException
-    {
+    public void setUTC() {
+        _UTC = true;
+    }
+
+    /**
+     * Sets the time zone negative field to true.
+     *
+     * @param zoneNegative
+     *            indicates whether or not the time zone is negative.
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the time zone fields
+     *             is not allowed
+     */
+    public void setZoneNegative(boolean zoneNegative) {
+        _zoneNegative = zoneNegative;
+    }
+
+    /**
+     * Sets the time zone fields for this date/time type. A call to this method
+     * means that the date/time type used is UTC.
+     * <p>
+     * For a negative time zone, you first assign the absolute value of the time
+     * zone using this method and then you call
+     * {@link #setZoneNegative(boolean)}.
+     *
+     * @param hour
+     *            The time zone hour to set. Must be positive.
+     * @param minute
+     *            The time zone minute to set.
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the time
+     *             zone fields is not allowed
+     */
+    public void setZone(short hour, short minute) {
         setZoneHour(hour);
         setZoneMinute(minute);
     }
 
     /**
-     * Sets the time zone hour field for this date/time type.
-     * A call to this method means that the date/time type
-     * used is UTC.
-     * @param hour the time zone hour to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the time zone fields is not allowed
+     * Sets the time zone hour field for this date/time type. A call to this
+     * method means that the date/time type used is UTC.
+     * <p>
+     * For a negative time zone, you first assign the absolute value of the time
+     * zone using this method and then you call
+     * {@link #setZoneNegative(boolean)}.
+     *
+     * @param hour
+     *            the time zone hour to set.  Must be positive.
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the time
+     *             zone fields is not allowed
      */
-    public void setZoneHour(short hour)
-        throws OperationNotSupportedException
-    {
+    public void setZoneHour(short hour) {
          if (hour > 23) {
-            String err = "the zone hour field ("+hour+")must be strictly lower than 24";
+            String err = "time zone hour " + hour + " must be strictly less than 24";
+            throw new IllegalArgumentException(err);
+        } else if (hour < 0) {
+            String err = "time zone hour " + hour + " cannot be negative.";
             throw new IllegalArgumentException(err);
         }
-        else if (hour < 0) {
-            String err = "hour : "+hour+" is not a correct value.";
-            err+= "\n 0<hour";
-            throw new IllegalArgumentException(err);
-        }
-        _zoneHour = hour;
-        //any call to setZone means that you
-        //use the date/time you use is UTC
+
+         _zoneHour = hour;
+
+        // Any call to setZone means that you use the date/time you use is UTC
         setUTC();
     }
 
     /**
-     * Sets the time zone minute field for this date/time type.
-     * A call to this method means that the date/time type
-     * used is UTC.
-     * @param minute the time zone minute to set
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the value of the time zone fields is not allowed
+     * Sets the time zone minute field for this date/time type. A call to this
+     * method means that the date/time type used is UTC.
+     *
+     * @param minute
+     *            the time zone minute to set
+     * @throws OperationNotSupportedException
+     *             this exception is thrown when changing the value of the time
+     *             zone fields is not allowed
      */
-    public void setZoneMinute(short minute)
-        throws OperationNotSupportedException
-    {
+    public void setZoneMinute(short minute) {
         if (minute > 59) {
-            String err = "the minute field ("+minute+")must be lower than 59";
+            String err = "time zone minute " + minute + " must be strictly lower than 60";
             throw new IllegalArgumentException(err);
-        }
-        else if (minute < 0) {
-            String err = "minute : "+minute+" is not a correct value.";
-            err+= "\n 0<minute";
+        } else if (minute < 0) {
+            String err = "time zone minute " + minute + " cannot be negative.";
             throw new IllegalArgumentException(err);
         }
 
         _zoneMinute = minute;
-        //any call to setZone means that you
-        //use the date/time you use is UTC
+
+        // Any call to setZone means that you use the date/time you use is UTC
         setUTC();
     }
 
-
-    /**
-     * Sets all the fields by reading the values in an array
-     * @param values an array of shorts with the values
-     */
-     public abstract void setValues(short[] values);
-
-    /**
-     * set the negative field to true
-     */
-    public void setNegative() {
-        _isNegative = true;
-    }
-
-    /**
-     * Returns a java.util.Date that represents
-     * the XML Schema Date datatype
-     */
-     public abstract Date toDate();
-
-
-    /**
-     * set the time zone negative field to true
-     * @throws OperationNotSupportedException this exception is thrown when
-     *         changing the time zone fields is not allowed
-     */
-
-    public void setZoneNegative(boolean zoneNegative)
-        throws OperationNotSupportedException
-    {
-        _zoneNegative = zoneNegative;
-    }
-
-    /**
-     * set the UTC field.
-     */
-    public void setUTC() {
-        _UTC = true;
-    }
-    ////////////////////////////////////////////////////////////////////////////
-
     ////////////////////////Getter methods//////////////////////////////////////
 
-    public short getCentury() {
-        return(_century);
+    public boolean isNegative() throws OperationNotSupportedException {
+        return _isNegative;
     }
 
-    public short getYear() {
-        return(_year);
+    public short getCentury() throws OperationNotSupportedException {
+        return _century;
     }
 
-    public short getMonth() {
-        return(_month);
+    public short getYear() throws OperationNotSupportedException {
+        return _year;
     }
 
-    public short getDay() {
-        return(_day);
+    public short getMonth() throws OperationNotSupportedException {
+        return _month;
     }
 
-    public short getHour() {
-        return(_hour);
+    public short getDay() throws OperationNotSupportedException {
+        return _day;
     }
 
-    public short getMinute() {
-        return(_minute);
+    public short getHour() throws OperationNotSupportedException {
+        return _hour;
     }
 
-    public short getSeconds() {
-        return(_second);
+    public short getMinute() throws OperationNotSupportedException {
+        return _minute;
     }
 
-    public short getMilli() {
-        return(_millsecond);
+    public short getSeconds() throws OperationNotSupportedException {
+        return _second;
     }
 
-    public short getZoneHour() {
-        return(_zoneHour);
-    }
-
-    public short getZoneMinute() {
-        return(_zoneMinute);
+    public short getMilli() throws OperationNotSupportedException {
+        return _millsecond;
     }
 
     /**
-     * returns an array of short with all the fields that describe
-     * a date/time type.
-     * @return  an array of short with all the fields that describe
-     * a date/time type.
-     */
-    public abstract short[] getValues();
-
-    ////////////////////////////////////////////////////////////////////////////////
-
-    /**
-     * Return true if this date/time type is UTC. A date/time type is UTC if a 'Z'
-     * appears at the end of the lexical representation type or if it contains a time
-     * zone.
+     * Returns true if this date/time type is UTC, that is, has a time zone
+     * assigned. A date/time type is UTC if a 'Z' appears at the end of the
+     * lexical representation type or if it contains a time zone.
      *
-     * @return true if this recurringDuration type is UTC else false.
+     * @return true if this type has a time zone assigned, else false.
      */
     public boolean isUTC() {
-        return(_UTC);
-    }
-
-    public boolean isNegative() {
-        return _isNegative;
+        return _UTC;
     }
 
     public boolean isZoneNegative() {
         return _zoneNegative;
     }
 
+    public short getZoneHour() {
+        return _zoneHour;
+    }
+
+    public short getZoneMinute() {
+        return _zoneMinute;
+    }
+
+    ////////////////////////////////////////////////////////////////////////////////
+
     /**
-     * <p>Adds a Duration to this Date/Time type as defined in
-     * <a href="http://www.w3.org/TR/xmlschema-2/#adding-durations-to-dateTimes">
+     * Adds a Duration to this Date/Time type as defined in <a
+     * href="http://www.w3.org/TR/xmlschema-2/#adding-durations-to-dateTimes">
      * Adding Duration to dateTimes (W3C XML Schema, part 2 appendix E).</a>
-     * This version is using the algorithm defined in the document from W3C, next version
-     * may optimize it.
-     * @param duration the duration to add
+     * This version uses the algorithm defined in the document from W3C.
+     * A later version may optimize it.
+     *
+     * @param duration
+     *            the duration to add
      */
-     public void addDuration(Duration duration) {
-          int temp = 0;
-          int carry = 0;
-          int sign = (duration.isNegative())?-1:1;
+    public void addDuration(Duration duration) {
+        int temp  = 0;
+        int carry = 0;
+        int sign  = (duration.isNegative()) ? -1 : 1;
 
-          //don't use getter methods but use direct field access for dateTime
-          //in order to have the behaviour defined in the Recommendation document
+        // Don't use getter methods but use direct field access for dateTime
+        // in order to have the behaviour defined in the Recommendation document
 
-          //Months
-          try {
-             temp = _month + sign*duration.getMonth();
-             carry = fQuotient(temp-1,12);
-             temp = modulo(temp-1,12)+1;
-             this.setMonth((short)temp);
-          } catch (OperationNotSupportedException e) {
-              //if there is no Month field in the date/time datatypes
-              //we do nothing else we throw a runTime exception
-              if (!( (this instanceof Time) || (this instanceof GYear) ||
-                   (this instanceof GDay)))
-                   throw e;
-          }
+        // Months
+        try {
+            temp = _month + sign*duration.getMonth();
+            carry = fQuotient(temp-1, 12);
+            temp = modulo(temp - 1, 12) + 1;
+            this.setMonth((short)temp);
+        } catch (OperationNotSupportedException e) {
+            //if there is no Month field in the date/time datatypes
+            //we do nothing else we throw a runTime exception
+            if (!( (this instanceof Time) || (this instanceof GYear) || (this instanceof GDay))) {
+                throw e;
+            }
+        }
 
-          //Years
-          try {
-             temp = _century * 100 + _year + sign*duration.getYear() + carry;
-             short century = (short) (temp/100);
-             temp = temp % 100;
-             this.setCentury(century);
-             this.setYear((short)temp);
-          } catch (OperationNotSupportedException e) {
-              //if there is no Year field in the date/time datatypes
-              //we do nothing else we throw a runTime exception
-              if (!( (this instanceof Time) || (this instanceof GMonthDay) || (this instanceof GMonth)
-                      || (this instanceof GDay))) {
-                   throw e;
-              }
-          }
+        // Years
+        try {
+            temp = _century * 100 + _year + sign*duration.getYear() + carry;
+            short century = (short) (temp/100);
+            temp = temp % 100;
+            this.setCentury(century);
+            this.setYear((short)temp);
+        } catch (OperationNotSupportedException e) {
+            //if there is no Year field in the date/time datatypes
+            //we do nothing else we throw a runTime exception
+            if (!( (this instanceof Time) || (this instanceof GMonthDay) || (this instanceof GMonth)
+                    || (this instanceof GDay))) {
+                throw e;
+            }
+        }
 
-          //Seconds
-          try {
-             temp = _second + sign*duration.getSeconds();
-             carry = fQuotient(temp, 60);
-             temp = modulo(temp , 60);
-             this.setSecond((short)temp, this.getMilli());
-          } catch (OperationNotSupportedException e) {
-              //if there is no Second field in the date/time datatypes
-              //we do nothing else we throw a runTime exception
-              if (this instanceof Time)
-                   throw e;
-          }
+        // Seconds
+        try {
+            temp = _second + sign * duration.getSeconds();
+            carry = fQuotient(temp, 60);
+            temp = modulo(temp , 60);
+            this.setSecond((short)temp, this.getMilli());
+        } catch (OperationNotSupportedException e) {
+            //if there is no Second field in the date/time datatypes
+            //we do nothing else we throw a runTime exception
+            if (this instanceof Time) {
+                throw e;
+            }
+        }
 
-          //Minutes
-          try {
-             temp = _minute + sign*duration.getMinute()+carry;
-             carry = fQuotient(temp, 60);
-             temp = modulo(temp , 60);
-             this.setMinute((short)temp);
-          } catch (OperationNotSupportedException e) {
-              //if there is no Minute field in the date/time datatypes
-              //we do nothing else we throw a runTime exception
-              if (this instanceof Time)
-                   throw e;
-          }
+        // Minutes
+        try {
+            temp = _minute + sign*duration.getMinute()+carry;
+            carry = fQuotient(temp, 60);
+            temp = modulo(temp , 60);
+            this.setMinute((short)temp);
+        } catch (OperationNotSupportedException e) {
+            //if there is no Minute field in the date/time datatypes
+            //we do nothing else we throw a runTime exception
+            if (this instanceof Time) {
+                throw e;
+            }
+        }
 
-          //Hours
-          try {
-             temp = _hour + sign*duration.getHour() + carry;
-             carry = fQuotient(temp, 24);
-             temp = modulo(temp , 24);
-             this.setHour((short)temp);
-          } catch (OperationNotSupportedException e) {
-              //if there is no Hour field in the date/time datatypes
-              //we do nothing else we throw a runTime exception
-              if (this instanceof Time)
-                   throw e;
-          }
+        // Hours
+        try {
+            temp = _hour + sign*duration.getHour() + carry;
+            carry = fQuotient(temp, 24);
+            temp = modulo(temp , 24);
+            this.setHour((short)temp);
+        } catch (OperationNotSupportedException e) {
+            //if there is no Hour field in the date/time datatypes
+            //we do nothing else we throw a runTime exception
+            if (this instanceof Time) {
+                throw e;
+            }
+        }
 
-          //Days
-          try {
-              int maxDay = maxDayInMonthFor(_century,_year,_month);
-              int tempDay = (_day > maxDay)?maxDay:_day;
-              //how to handle day < 1????this makes sense only if we create a new
-              //dateTime type (rare situation)
-              tempDay = tempDay + sign*duration.getDay() + carry;
-              while (true) {
-                  if (tempDay < 1) {
-                      tempDay = (short)(tempDay+maxDayInMonthFor(_century, _year, _month-1));
-                      this.setDay((short)tempDay);
-                      carry = -1;
-                  }
-                  else if (tempDay > maxDay) {
-                      tempDay = (short)(tempDay - (short)maxDay);
-                      carry = 1;
-                  } else break;
-                  try {
-                     temp = _month + carry;
-                     this.setMonth( (short)(modulo(temp-1,12)+1));
-                     temp = fQuotient(temp-1, 12);
-                     temp = this.getCentury() * 100 + this.getYear() + temp;
-                     short century = (short) (temp/100);
-                     temp = temp % 100;
-                     this.setCentury(century);
-                     this.setYear((short)temp);
-                  } catch (OperationNotSupportedException e) {
-                      //--if there is no Year field in the date/time datatypes
-                      //--we do nothing else we throw a runTime exception
-                      if (!( (this instanceof Time) || (this instanceof GMonthDay)))
-                         throw e;
-                  }
-              }
-              this.setDay((short)tempDay);
+        // Days
+        try {
+            int maxDay = maxDayInMonthFor(_century,_year,_month);
+            int tempDay = (_day > maxDay)?maxDay:_day;
 
+            //how to handle day < 1????this makes sense only if we create a new
+            //dateTime type (rare situation)
+            tempDay = tempDay + sign * duration.getDay() + carry;
+            while (true) {
+                if (tempDay < 1) {
+                    tempDay = (short) (tempDay + maxDayInMonthFor(_century, _year, _month - 1));
+                    this.setDay((short)tempDay);
+                    carry = -1;
+                } else if (tempDay > maxDay) {
+                    tempDay = (short)(tempDay - (short)maxDay);
+                    carry = 1;
+                } else {
+                    break;
+                }
 
-          } catch (OperationNotSupportedException e) {
-              // if there is no Month field in the date/time datatypes
-              // we do nothing else we throw a runTime exception
-              if (!( (this instanceof Time) || (this instanceof GYearMonth) ||
-                   (this instanceof GMonth)))
-                   throw e;
-          }
+                try {
+                    temp = _month + carry;
+                    this.setMonth((short)(modulo(temp-1,12) + 1));
+                    temp = fQuotient(temp-1, 12);
+                    temp = this.getCentury() * 100 + this.getYear() + temp;
+                    short century = (short) (temp/100);
+                    temp = temp % 100;
+                    this.setCentury(century);
+                    this.setYear((short)temp);
+                } catch (OperationNotSupportedException e) {
+                    //--if there is no Year field in the date/time datatypes
+                    //--we do nothing else we throw a runTime exception
+                    if (!( (this instanceof Time) || (this instanceof GMonthDay))) {
+                        throw e;
+                    }
+                }
+            }
 
-     } // addDuration
+            this.setDay((short)tempDay);
+        } catch (OperationNotSupportedException e) {
+            // if there is no Month field in the date/time datatypes
+            // we do nothing else we throw a runTime exception
+            if (!( (this instanceof Time) || (this instanceof GYearMonth) ||
+                    (this instanceof GMonth))) {
+                throw e;
+            }
+        }
+    } // addDuration
 
     ///////////////////////W3C XML SCHEMA Helpers///////////////////////////////
+
     /**
-     * Helper functions defines in W3C XML Schema Recommendation
-     * part 2.
+     * Helper function defined in W3C XML Schema Recommendation part 2.
      */
      private int fQuotient(int a, int b) {
-         return (int)Math.floor((float)a/b);
+         return (int) Math.floor((float)a/b);
      }
+
+     /**
+      * Helper function defined in W3C XML Schema Recommendation part 2.
+      */
      private int modulo(int a, int b) {
-         return (a - fQuotient(a,b)*b);
+         return a - fQuotient(a,b) * b;
      }
 
     /**
      * Returns the maximum day in the given month of the given year.
+     *
      * @param year
      * @param month
      * @return the maximum day in the given month of the given year.
      */
     private final short maxDayInMonthFor(short century, short year, int month) {
-        if ( month == 4 || month == 6 || month == 9 || month == 11 ) {
+        if (month == 4 || month == 6 || month == 9 || month == 11) {
             return 30;
-        } else if ( month == 2 ) {
-            if ( isLeap(century,year) ) return 29;
-            return 28;
-        }
-        else
+        } else if (month == 2) {
+            return (short) ((isLeap(century,year)) ? 29 : 28);
+        } else {
             return 31;
+        }
     }
 
     ////////////////////////////////////////////////////////////////////////////
 
     /**
      * Normalizes a date/time datatype as defined in W3C XML Schema
-     * Recommendation document:
-     * if a timeZone is present but it is not Z then we convert the date/time datatype
-     * to Z using the addition operation defined in <a href="http://www.w3.org/TR/xmlschema-2/#adding-durations-to-dateTimes">
+     * Recommendation document: if a timeZone is present but it is not Z then we
+     * convert the date/time datatype to Z using the addition operation defined
+     * in <a
+     * href="http://www.w3.org/TR/xmlschema-2/#adding-durations-to-dateTimes">
      * Adding Duration to dateTimes (W3C XML Schema, part 2 appendix E).</a>
+     *
      * @see #addDuration
      */
     public void normalize() {
@@ -730,6 +777,7 @@ public abstract class DateTimeBase implements java.io.Serializable {
             throw new IllegalArgumentException("a Date/Time datatype cannot be compared with a null value");
         }
 
+        // Make copies of the date/times we compare so we DO NOT MODIFY THE CURRENT VALUES!
         DateTimeBase tempDate1;
         DateTimeBase tempDate2;
 
@@ -754,7 +802,7 @@ public abstract class DateTimeBase implements java.io.Serializable {
             return compareFields(tempDate1, tempDate2);
         }
 
-        //  datetime1 has a time zone and datetime2 does not
+        // If datetime1 has a time zone and datetime2 does not
         if (tempDate1.isUTC()) {
             tempDate2.setZone((short)14,(short)0);
             tempDate2.normalize();
@@ -776,7 +824,7 @@ public abstract class DateTimeBase implements java.io.Serializable {
             return INDETERMINATE;
         }
 
-        //  datetime2 has a time zone and datetime1 does not
+        // If datetime2 has a time zone and datetime1 does not
         if (tempDate2.isUTC()) {
             tempDate2.setZone((short)14,(short)0);
             tempDate1.normalize();
@@ -834,6 +882,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
         else if ( field1 > field2 )
             return GREATER_THAN;
 
+        field1 = -1;
+        field2 = -1;
+
         try {
           field1 = date1.getYear();
         } catch (OperationNotSupportedException e) {}
@@ -846,6 +897,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
+        field1 = -1;
+        field2 = -1;
 
         //month
         try {
@@ -861,6 +915,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
         else if ( field1 > field2 )
             return GREATER_THAN;
 
+        field1 = -1;
+        field2 = -1;
+
         //day
         try {
           field1 = date1.getDay();
@@ -874,6 +931,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
+        field1 = -1;
+        field2 = -1;
 
         //hour
         try {
@@ -889,6 +949,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
         else if ( field1 > field2 )
             return GREATER_THAN;
 
+        field1 = -1;
+        field2 = -1;
+
         //minute
         try {
           field1 = date1.getMinute();
@@ -903,6 +966,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
         else if ( field1 > field2 )
             return GREATER_THAN;
 
+        field1 = -1;
+        field2 = -1;
+
         //second
         try {
           field1 = date1.getSeconds();
@@ -916,6 +982,9 @@ public abstract class DateTimeBase implements java.io.Serializable {
             return LESS_THAN;
         else if ( field1 > field2 )
             return GREATER_THAN;
+
+        field1 = -1;
+        field2 = -1;
 
         //milliseconds
         try {
@@ -938,19 +1007,18 @@ public abstract class DateTimeBase implements java.io.Serializable {
      * {@inheritDoc}
      * Overrides the java.lang.Object#hashcode method.
      */
-     public int hashCode() {
-         return _year^_month^_day^_hour^_minute^_second^_zoneHour^_zoneMinute;
-     }
+    public int hashCode() {
+        return _year^_month^_day^_hour^_minute^_second^_millsecond^_zoneHour^_zoneMinute;
+    }
 
     /**
      * {@inheritDoc}
      * Overrides the java.lang.Object#equals method.
      * @see #equals(Object)
      */
-     public boolean equals(Object object) {
-        //no need to check if we are comparing
-        //two instances of the same class (if the class
-        //is not the same false will be return by #equal).
+    public boolean equals(Object object) {
+        // No need to check if we are comparing two instances of the same class.
+        // (if the class is not the same then #equal will return false).
         if (object instanceof DateTimeBase) {
             return equal((DateTimeBase) object);
         }
@@ -958,24 +1026,129 @@ public abstract class DateTimeBase implements java.io.Serializable {
     }
 
     /**
-     * Returns true if the present instance of date/time type is equal to
-     * the parameter.
-     * <p> The equals relation is as defined in the W3C XML Schema Recommendation, part2.
-     * @param dateTime the date/time type to compare with the present instance
-     * @return true if the present instance is equal to the parameter false if not
+     * Returns true if the present instance of date/time type is equal to the
+     * parameter.
+     * <p>
+     * The equals relation is as defined in the W3C XML Schema Recommendation,
+     * part2.
+     *
+     * @param dateTime
+     *            the date/time type to compare with the present instance
+     * @return true if the present instance is equal to the parameter false if
+     *         not
      */
-     protected boolean equal(DateTimeBase dateTime) {
-         return EQUALS == this.compareTo(dateTime);
-     } //equals
+    protected boolean equal(DateTimeBase dateTime) {
+        return EQUALS == this.compareTo(dateTime);
+    } //equals
 
-     /**
-      * converts this Date/Time into a local java Calendar.
-      * @return a local calendar representing this Date or Time
-      */
-     public Calendar toCalendar(){
-         Calendar result = new GregorianCalendar();
-         result.setTime(toDate());
-         return result;
-     } //toCalendar()
+    /**
+     * converts this Date/Time into a local java Calendar.
+     * @return a local calendar representing this Date or Time
+     */
+    public Calendar toCalendar(){
+        Calendar result = new GregorianCalendar();
+        result.setTime(toDate());
+        return result;
+    } //toCalendar()
+
+    ////////////// COMMON CODE USED BY EXTENDING CLASSES ///////////////////////
+
+    /**
+     * Sets the time zone in the provided DateFormat.
+     * @param df
+     */
+    protected void setDateFormatTimeZone(DateFormat df) {
+        // If no time zone, nothing to do
+        if (! isUTC()) {
+            return;
+        }
+
+        int offset = (this.getZoneMinute() + this.getZoneHour() * 60) * 60 * 1000;
+        offset = isZoneNegative() ? -offset : offset;
+
+        SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
+        timeZone.setRawOffset(offset);
+        timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
+        df.setTimeZone(timeZone);
+    }
+
+    /**
+     * Sets the time zone in the provided Calendar.
+     * @param calendar
+     */
+    protected void setDateFormatTimeZone(Calendar calendar) {
+        // If no time zone, nothing to do
+        if (! isUTC()) {
+            return;
+        }
+
+        int offset = (this.getZoneMinute() + this.getZoneHour() * 60) * 60 * 1000;
+        offset = isZoneNegative() ? -offset : offset;
+
+        SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
+        timeZone.setRawOffset(offset);
+        timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
+        calendar.setTimeZone(timeZone);
+    }
+
+    protected void appendTimeZoneString(StringBuffer result) {
+        if (!isUTC()) {
+            return;
+        }
+
+        // By default we append a 'Z' to indicate UTC
+        if (this.getZoneHour() == 0 && this.getZoneMinute() == 0) {
+            result.append('Z');
+            return;
+        }
+
+        if (isZoneNegative()) {
+            result.append('-');
+        } else {
+            result.append('+');
+        }
+
+        if ((this.getZoneHour()/10) == 0) {
+            result.append(0);
+        }
+        result.append(this.getZoneHour());
+
+        result.append(':');
+        if ((this.getZoneMinute()/10) == 0) {
+            result.append(0);
+        }
+        result.append(this.getZoneMinute());
+    }
+
+    protected static int parseTimeZone(String str, DateTimeBase result, char[] chars,
+                                int idx, String complaint) throws ParseException {
+        // If we're at the end of the string, there's no time zone to parse
+        if (idx >= chars.length) {
+            return idx;
+        }
+
+        if (chars[idx] == 'Z') {
+            result.setUTC();
+            return ++idx;
+        }
+
+        if (chars[idx] == '+' || chars[idx] == '-') {
+            if (chars[idx] == '-') {
+                result.setZoneNegative(true);
+            }
+            idx++;
+            if (idx + 5 < chars.length || chars[idx + 2] != ':'
+                || !Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])
+                || !Character.isDigit(chars[idx + 3]) || !Character.isDigit(chars[idx + 4])) {
+                throw new ParseException(complaint+str+"\nTimeZone must have the format (+/-)hh:mm", idx);
+            }
+            short value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+            short value2 = (short) ((chars[idx+3] - '0') * 10 + (chars[idx+4] - '0'));
+            result.setZone(value1,value2);
+            idx += 5;
+        }
+
+        return idx;
+    }
 
 } //-- DateTimeBase

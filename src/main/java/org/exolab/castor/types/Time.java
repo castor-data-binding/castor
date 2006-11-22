@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -50,22 +50,23 @@ package org.exolab.castor.types;
 
 import java.text.SimpleDateFormat;
 import java.text.ParseException;
-import java.util.SimpleTimeZone;
 import java.util.Date;
-import java.util.TimeZone;
 
 /**
- * <p>Describes an XML schema Time.
- * <p>The format is defined by W3C XML Schema Recommendation and ISO8601
- * i.e <tt>(-)hh:mm:ss.sss(Z|(+|-)hh:mm)</tt>
- * <p> Currently deep support of milli seconds is not implemented.
- * This implementation only support up to <b>3</b> figures for milli-seconds.
+ * Describes an XML schema Time.
+ * <p>
+ * The format is defined by W3C XML Schema Recommendation and ISO8601 i.e
+ * <tt>(-)hh:mm:ss.sss(Z|(+|-)hh:mm)</tt>
+ * <p>
+ * Currently deep support of milli seconds is not implemented. This
+ * implementation only support up to <b>3</b> figures for milli-seconds.
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
  * @see DateTimeBase
  */
-
 public class Time extends DateTimeBase {
+
     /** SerialVersionUID */
     private static final long serialVersionUID = -8268707778437931489L;
 
@@ -73,35 +74,13 @@ public class Time extends DateTimeBase {
     private static final String TIME_FORMAT_MILLI = "HH:mm:ss.SSS";
     private static final String TIME_FORMAT_NO_MILLI = "HH:mm:ss";
 
-    /**
-     * Flag indicating that we are still looking for an hour
-     */
-    private static final int HOUR_FLAG = 31;
-
-   /**
-    * Flag indicating that we are still looking for a minute
-    */
-    private static final int MINUTE_FLAG = 15;
-
-   /**
-    * Flag indicating that we are still looking for a second
-    */
-    private static final int SECOND_FLAG = 7;
-
-   /**
-    * Flag indication that we are still looking for milliseconds
-    */
-    private static final int MILLI_FLAG = 3;
-
-   /**
-    * Flag indicating that we are still looking for a timeZone
-    */
-    private static final int TIMEZONE_FLAG = 1;
-
     private static final String BAD_TIME = "Bad Time format: ";
 
-
+    /**
+     * No-arg constructor.
+     */
     public Time() {
+        // Nothing to do
     }
 
     /**
@@ -120,40 +99,47 @@ public class Time extends DateTimeBase {
      * @param l The long value that represents the time instance.
      */
     public Time (long l) {
-        if (l>86400000L)
+        if (l > 86400000L) {
             throw new IllegalArgumentException("Bad Time: the long value can't represent more than 24h.");
-        this.setHour((short)(l/3600000));
+        }
+        this.setHour((short)(l / 3600000));
         l = l % 3600000;
-        this.setMinute((short)(l/60000));
+        this.setMinute((short)(l / 60000));
         l = l % 60000;
-        this.setSecond((short)(l / 1000), (short)(l%1000));
+        this.setSecond((short)(l / 1000), (short)(l % 1000));
     }
 
    /**
     * Constructs a Time given a string representation.
     * @param time the string representation of the Time to instantiate
+    * @throws ParseException a parse exception is thrown if the string to parse
+    *                        does not follow the rigth format (see the description
+    *                        of this class)
     */
     public Time(String time) throws ParseException {
-       this();
        parseTimeInternal(time, this);
     }
 
     /**
      * Sets all the fields by reading the values in an array.
-     * <p>if a Time Zone is specificied it has to be set by using
+     * <p>
+     * if a Time Zone is specified it has to be set by using
      * {@link DateTimeBase#setZone(short, short) setZone}.
-     * @param values an array of shorts with the values
-     * the array is supposed to be of length 4 and ordered like that:
-     * <ul>
-     *      <li>hour</li>
-     *      <li>minute</li>
-     *      <li>second</li>
-     *      <li>millisecond</li>
-     * </ul>
+     *
+     * @param values
+     *            an array of shorts with the values the array is supposed to be
+     *            of length 4 and ordered like that:
+     *            <ul>
+     *            <li>hour</li>
+     *            <li>minute</li>
+     *            <li>second</li>
+     *            <li>millisecond</li>
+     *            </ul>
      */
      public void setValues(short[] values) {
-        if (values.length != 4)
+        if (values.length != 4) {
              throw new IllegalArgumentException("Time#setValues: not the right number of values");
+        }
         this.setHour(values[0]);
         this.setMinute(values[1]);
         this.setSecond(values[2],values[3]);
@@ -167,8 +153,7 @@ public class Time extends DateTimeBase {
      * this time type.
      */
     public short[] getValues() {
-        short[] result = null;
-        result = new short[4];
+        short[] result = new short[4];
         result[0] = this.getHour();
         result[1] = this.getMinute();
         result[2] = this.getSeconds();
@@ -176,43 +161,31 @@ public class Time extends DateTimeBase {
         return result;
     } //getValues
 
-
-
     /**
      * converts this Time into a local java Date.
      * @return a local date representing this Time
      */
-    public Date toDate(){
-
+    public Date toDate() {
         Date date = null;
         SimpleDateFormat df = null;
         String temp = this.toString();
-        if (temp.indexOf('.') > 0)
+        if (temp.indexOf('.') > 0) {
             df = new SimpleDateFormat(TIME_FORMAT_MILLI);
-        else
+        } else {
             df = new SimpleDateFormat(TIME_FORMAT_NO_MILLI);
-
-        // Set the time zone
-        if ( isUTC() ) {
-            SimpleTimeZone timeZone = new SimpleTimeZone(0,"UTC");
-            int offset = 0;
-            offset = ( (this.getZoneMinute() + this.getZoneHour()*60)*60*1000);
-            offset = isZoneNegative() ? -offset : offset;
-            timeZone.setRawOffset(offset);
-            timeZone.setID(TimeZone.getAvailableIDs(offset)[0]);
-            df.setTimeZone(timeZone);
         }
+
+        setDateFormatTimeZone(df);
 
         try {
             date = df.parse(temp);
         } catch (ParseException e) {
-           //this can't happen since toString() should return the proper
-           //string format
+            //this can't happen since toString() should return the proper string format
            e.printStackTrace();
            return null;
         }
         return date;
-    }//toDate()
+    } //toDate()
 
     /**
      * convert this Time to a string
@@ -221,62 +194,45 @@ public class Time extends DateTimeBase {
      * @return a string representing this Time
      */
     public String toString() {
-
         StringBuffer result = new StringBuffer();
-         if (isNegative())
-           result.append('-');
+        if (isNegative()) {
+            result.append('-');
+        }
 
-        //two figures are required
-        if ((this.getHour()/10) == 0)
+        if ((this.getHour()/10) == 0) {
             result.append(0);
+        }
         result.append(this.getHour());
 
         result.append(':');
-        if ((this.getMinute() / 10) == 0 )
-           result.append(0);
+
+        if ((this.getMinute() / 10) == 0) {
+            result.append(0);
+        }
         result.append(this.getMinute());
 
         result.append(':');
-        if ((this.getSeconds()/10) == 0 )
+
+        if ((this.getSeconds() / 10) == 0) {
             result.append(0);
+        }
         result.append(this.getSeconds());
+
         if (this.getMilli() != 0) {
             result.append('.');
-            if(this.getMilli()<100){
+            if (this.getMilli() < 100){
                 result.append('0');
-                    if(this.getMilli()<10){
-                        result.append('0');
-                    }
+                if (this.getMilli() < 10){
+                    result.append('0');
+                }
             }
             result.append(this.getMilli());
         }
 
-        if (isUTC()) {
-            //By default we append a 'Z' to indicate UTC
-            if ( (this.getZoneHour() == 0) && (this.getZoneMinute() ==0) )
-                result.append('Z');
-            else {
-                StringBuffer timeZone = new StringBuffer();
-                if (isZoneNegative())
-                   timeZone.append('-');
-                else timeZone.append('+');
+        appendTimeZoneString(result);
 
-                if ((this.getZoneHour()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneHour());
-
-                timeZone.append(':');
-                if ((this.getZoneMinute()/10) == 0)
-                    timeZone.append(0);
-                timeZone.append(this.getZoneMinute());
-
-               result.append(timeZone.toString());
-               timeZone = null;
-            }
-        }
         return result.toString();
-
-    }//toString
+    } //toString
 
    /**
     * parses a String and converts it into a java.lang.Object
@@ -290,7 +246,7 @@ public class Time extends DateTimeBase {
         return parseTime(str);
     }
 
-     /**
+    /**
      * parses a String and converts it into a Time.
      * @param str the string to parse
      * @return the Time represented by the string
@@ -298,188 +254,129 @@ public class Time extends DateTimeBase {
      *                        does not follow the rigth format (see the description
      *                        of this class)
      */
-     public static Time parseTime(String str) throws ParseException {
-         Time result = new Time();
-         return parseTimeInternal(str, result);
-     }
+    public static Time parseTime(String str) throws ParseException {
+        return parseTimeInternal(str, null);
+    }
 
-     private static Time parseTimeInternal(String str, Time result) throws ParseException {
+    private static Time parseTimeInternal(String str, Time result) throws ParseException {
+        if (str == null) {
+            throw new IllegalArgumentException("The string to be parsed must not be null.");
+        }
 
-        if (str == null)
-             throw new IllegalArgumentException("The string to be parsed must not"
-                                                +"be null.");
-        if (result == null)
+        if (result == null) {
             result = new Time();
+        }
+
         char[] chars = str.toCharArray();
         int idx = 0;
 
-        if (chars[idx] == '-') {
-             idx++;
-             result.setNegative();
+        // Hours
+        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+            throw new ParseException(BAD_TIME+str+"\nThe Hour must be 2 digits long", idx);
         }
 
-        boolean hasNumber = false;
-        boolean has2Digits = false;
-        short currentNumber = 0;
-        short savedNumber = 0;
-        //-- parse flags
-        //-- ::.(char): = b11111 (31)
-        int flags = HOUR_FLAG;
+        short value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setHour(value1);
 
-        while (idx < chars.length) {
-             char ch = chars[idx++];
+        idx += 2;
 
-             switch (ch) {
-
-                 case ':' :
-                       //the string representation must have 2 digits
-                       if (!has2Digits)
-                           throw new ParseException(BAD_TIME+str+"\nAn hour field must have 2 digits.",idx);
-                       if (flags == HOUR_FLAG) {
-                          result.setHour(currentNumber);
-                          flags =  MINUTE_FLAG;
-                       }
-                       else if (flags == MINUTE_FLAG) {
-                          result.setMinute(currentNumber);
-                          flags = SECOND_FLAG;
-                       }
-                       else if (flags == MILLI_FLAG) {
-                           result.setSecond(savedNumber, currentNumber);
-                       }
-                       else if (flags == TIMEZONE_FLAG) {
-                           savedNumber = currentNumber;
-                           currentNumber = 0;
-                           flags = 0;
-                       }
-                       else throw new ParseException(BAD_TIME+str+"\nA Time must follow the pattern hh:mm:ss.s(Z|((+|-)hh:mm)).",idx);
-                       hasNumber = false;
-                       has2Digits = false;
-                       break;
-
-                 case '.' :
-                      if (flags != SECOND_FLAG)
-                         throw new ParseException(BAD_TIME+str+"\n'.'"+DateTimeBase.WRONGLY_PLACED,idx);
-                      savedNumber = currentNumber;
-                      currentNumber = 0;
-                      hasNumber = false;
-                      has2Digits = false;
-                      flags = MILLI_FLAG;
-                      break;
-
-                 case 'Z' :
-                      if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
-                         throw new ParseException(BAD_TIME+str+"\n'Z'"+DateTimeBase.WRONGLY_PLACED,idx);
-                      result.setUTC();
-                      break;
-
-                 case '-' :
-                     if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
-                        throw new ParseException(BAD_TIME+str+"\n'-'"+DateTimeBase.WRONGLY_PLACED,idx);
-                    if (flags == SECOND_FLAG)
-                        result.setSecond(currentNumber, (short)0);
-                    else if (flags == MILLI_FLAG)
-                        result.setSecond(savedNumber, currentNumber);
-                    result.setUTC();
-                    result.setZoneNegative(true);
-                    flags = 1;
-                    hasNumber = false;
-                    has2Digits = false;
-                    break;
-
-                 case '+' :
-                    if ( (flags != SECOND_FLAG) && (flags != MILLI_FLAG) )
-                        throw new ParseException(BAD_TIME+str+"\n'+'"+DateTimeBase.WRONGLY_PLACED,idx);
-                    if (flags == SECOND_FLAG)
-                        result.setSecond(currentNumber, (short)0);
-                    else if (flags == MILLI_FLAG)
-                        result.setSecond(savedNumber, currentNumber);
-                    result.setUTC();
-                    flags = TIMEZONE_FLAG;
-                    hasNumber = false;
-                    has2Digits = false;
-                    break;
-
-                 default:
-                    //make sure we have a digit
-                    if ( ('0' <= ch) && (ch <= '9')) {
-                        if (hasNumber) {
-                            if (flags == MILLI_FLAG) {
-                                if (has2Digits)
-                                    currentNumber = (short)(currentNumber + (ch - 48));
-                                else {
-                                    currentNumber = (short)(currentNumber + 10*(ch-48));
-                                    has2Digits = true;
-                                }
-                            }
-                            else {
-                                currentNumber = (short)((currentNumber*10)+(ch-48));
-                                has2Digits = true;
-                            }
-                        }
-                        else {
-                            hasNumber = true;
-                            //--trick to handle 3 figures for milliseconds
-                            if (flags == MILLI_FLAG)
-                                currentNumber = (short) (100*(ch-48));
-                            else
-                                currentNumber = (short) (ch-48);
-                        }
-                    }
-                    else
-                        throw new ParseException (str+": Invalid character: "+ch, idx);
-                    break;
-             }//switch
-        }//while
-        //we have to set the seconds or the time zone
-         if (flags != SECOND_FLAG && flags != MILLI_FLAG && flags != 0)
-            throw new ParseException(BAD_TIME+str+"\nA Time must follow the pattern hh:mm:ss.s(Z|((+|-)hh:mm)).",idx);
-        else if (flags == SECOND_FLAG) {
-            result.setSecond(currentNumber, (short)0);
-        }
-        else if (flags == MILLI_FLAG) {
-            result.setSecond(savedNumber, currentNumber);
+        // Minutes
+        if (chars[idx] != ':') {
+            throw new ParseException(BAD_TIME+str+"\n ':#1' "+DateTimeBase.WRONGLY_PLACED,idx);
         }
 
-        else if (flags == 0) {
-            if (currentNumber != -1)
-                result.setZone(savedNumber,currentNumber);
-            else throw new ParseException(str+"\n In a time zone, the minute field must always be present.",idx);
+        idx++;
+
+        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+            throw new ParseException(BAD_TIME+str+"\nThe Minute must be 2 digits long", idx);
         }
+
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setMinute(value1);
+
+        idx += 2;
+
+        // Seconds
+        if (chars[idx] != ':') {
+            throw new ParseException(BAD_TIME+str+"\n ':#2' "+DateTimeBase.WRONGLY_PLACED,idx);
+        }
+
+        idx++;
+
+        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
+            throw new ParseException(BAD_TIME+str+"\nThe Second must be 2 digits long", idx);
+        }
+
+        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
+        result.setSecond(value1);
+
+        idx += 2;
+
+        // Milliseconds?
+        if (idx < chars.length && chars[idx] == '.') {
+            idx++;
+
+            long decimalValue = 0;
+            long powerOfTen   = 1;
+            while (idx < chars.length && Character.isDigit(chars[idx])) {
+                decimalValue = decimalValue * 10 + (chars[idx] - '0');
+                powerOfTen *= 10;
+                idx++;
+            }
+
+            // FIXME: We truncate to milliseconds
+            if (powerOfTen > 1000) {
+                decimalValue /= (powerOfTen / 1000);
+                powerOfTen = 1000;
+            } else if (powerOfTen < 1000) {
+                decimalValue *= (1000 / powerOfTen);
+                powerOfTen = 1000;
+            }
+            result.setMilliSecond((short)decimalValue);
+        }
+
+        parseTimeZone(str, result, chars, idx, BAD_TIME);
+
         return result;
-    }//parse
+    } //parse
 
+    /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
-    //////////////////////DISALLOW DATE METHODS////////////////////////
-    public short getCentury(){
-        String err = "Time: couldn't access to the Century field.";
+    public void setNegative() {
+        String err = "org.exolab.castor.types.Time cannot be negative.";
         throw new OperationNotSupportedException(err);
     }
-    public short getYear(){
-        String err = "Time: couldn't access to the Year field.";
+    public short getCentury() {
+        String err = "org.exolab.castor.types.Time does not have a Century field.";
         throw new OperationNotSupportedException(err);
     }
-    public short getMonth(){
-        String err = "Time: couldn't access to the Month field.";
+    public void setCentury(short century) {
+        String err = "org.exolab.castor.types.Time does not have a Century field.";
         throw new OperationNotSupportedException(err);
     }
-    public short getDay(){
-        String err = "Time: couldn't access to the Day field.";
+    public short getYear() {
+        String err = "org.exolab.castor.types.Time does not have a Year field.";
         throw new OperationNotSupportedException(err);
     }
-     public void setCentury(short century){
-        String err = "Time: couldn't access to the Century field.";
+    public void setYear(short year) {
+        String err = "org.exolab.castor.types.Time does not have a Year field.";
         throw new OperationNotSupportedException(err);
     }
-    public void getYear(short year){
-        String err = "Time: couldn't access to the Year field.";
+    public short getMonth() {
+        String err = "org.exolab.castor.types.Time does not have a Month field.";
         throw new OperationNotSupportedException(err);
     }
-    public void getMonth(short month){
-        String err = "Time: couldn't access to the Month field.";
+    public void setMonth(short month) {
+        String err = "org.exolab.castor.types.Time does not have a Month field.";
         throw new OperationNotSupportedException(err);
     }
-    public void getDay(short day){
-        String err = "Time: couldn't access to the Day field.";
+    public short getDay() {
+        String err = "org.exolab.castor.types.Time does not have a Day field.";
         throw new OperationNotSupportedException(err);
     }
-}//Time
+    public void setDay(short month) {
+        String err = "org.exolab.castor.types.Time does not have a Day field.";
+        throw new OperationNotSupportedException(err);
+    }
+
+} //Time

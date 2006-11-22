@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -52,16 +52,21 @@ package org.exolab.castor.types;
 import java.text.ParseException;
 
 /**
- * <p>This class is the representation of XML Schema datatype: <b>duration</b>.
- * <p>This representation does not support the decimal fraction
- * for the lowest order item.
- * <p>The order relation provided by this implementation does not follow the
+ * This class is the representation of XML Schema datatype: <b>duration</b>.
+ * <p>
+ * This representation does not support the decimal fraction for the lowest
+ * order item.
+ * <p>
+ * The order relation provided by this implementation does not follow the
  * guidelines of XML Schema Specification that defines only a partial order.
- * <p>For more information see <a href="http://www.w3.org/TR/xmlschema-2/#duration">
- * X3C XML Schema Specification</a>.
+ * <p>
+ * For more information see <a
+ * href="http://www.w3.org/TR/xmlschema-2/#duration"> X3C XML Schema
+ * Specification</a>.
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
- **/
+ */
 public class Duration implements java.io.Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = -6475091654291323029L;
@@ -70,41 +75,22 @@ public class Duration implements java.io.Serializable {
     private static final boolean DEBUG = false;
     /**the flag representing the 'T' position*/
     private static final int TIME_FLAG = 8;
-    //Private variables
 
-    /**
-     * the number of years
-     */
+    /** the number of years. */
     private short _year = 0;
-    /**
-     * the number of months
-     */
+    /** the number of months. */
     private short _month = 0;
-    /**
-     * the number of days
-     */
+    /** the number of days. */
     private short _day = 0;
-    /**
-     * the number of hours
-     */
+    /** the number of hours. */
     private short _hour = 0;
-    /**
-     * the number of minutes
-     */
+    /** the number of minutes. */
     private short _minute = 0;
-    /**
-     * the number of seconds
-     */
+    /** the number of seconds. */
     private short _second = 0;
-
-   /**
-    * the potential number of milliseconds
-    */
+    /** the potential number of milliseconds. */
     private long _millisecond = 0;
-
-    /**
-     * true if the Duration is negative
-     */
+    /** true if the Duration is negative. */
     private boolean _isNegative = false;
 
     /**
@@ -113,48 +99,47 @@ public class Duration implements java.io.Serializable {
     public Duration() {
     }
 
-   /**
-    * Constructs a duration from a string
-    * @param duration the string representation of the duration to create
-    */
+    /**
+     * Constructs a duration from a string
+     * @param duration the string representation of the duration to create
+     */
     public Duration(String duration) throws ParseException {
-        this();
         parseDurationInternal(duration, this);
     }
 
-     /**
-     * <p>This constructor fills in the duration fields according to the
-     * value of the long by calling setValue.
+    /**
+     * This constructor fills in the duration fields according to the value of
+     * the long by calling setValue.
+     *
      * @see #setValue
-     * @param l the long value of the Duration
+     * @param l  the long value of the Duration
      */
     public Duration(long l) {
-
         long refSecond = 1000;
         long refMinute = 60 * refSecond;
-        long refHour = 60 * refMinute;
-        long refDay = 24 * refHour;
-        long refMonth = (long) (30.42 * refDay);
-        long refYear = 12 * refMonth;
+        long refHour   = 60 * refMinute;
+        long refDay    = 24 * refHour;
+        long refMonth  = (long) (30.42 * refDay);
+        long refYear   = 12 * refMonth;
 
         if (DEBUG) {
             System.out.println("In time duration Constructor");
             System.out.println("long : "+l);
         }
 
-        if (l<0) {
+        if (l < 0) {
             this.setNegative();
-            l =-l;
+            l = -l;
         }
 
-        short year = (short) (l/refYear);
+        short year = (short) (l / refYear);
         l = l % refYear;
         if (DEBUG) {
             System.out.println("nb years:"+year);
             System.out.println("New long : "+l);
         }
 
-        short month = (short) (l/refMonth);
+        short month = (short) (l / refMonth);
         l = l % refMonth;
         if (DEBUG) {
             System.out.println("nb months:"+month);
@@ -162,28 +147,28 @@ public class Duration implements java.io.Serializable {
             System.out.println(refDay);
         }
 
-        short day = (short) (l/refDay);
+        short day = (short) (l / refDay);
         l = l % refDay;
          if (DEBUG) {
             System.out.println("nb days:"+day);
             System.out.println("New long : "+l);
         }
 
-        short hour = (short) (l/refHour);
+        short hour = (short) (l / refHour);
         l = l % refHour;
         if (DEBUG) {
             System.out.println("nb hours:"+hour);
             System.out.println("New long : "+l);
         }
 
-        short minute = (short) (l/refMinute);
+        short minute = (short) (l / refMinute);
         l = l % refMinute;
         if (DEBUG) {
             System.out.println("nb minutes:"+minute);
             System.out.println("New long : "+l);
         }
 
-        short seconds = (short) (l/refSecond);
+        short seconds = (short) (l / refSecond);
         l = l % refSecond;
         if (DEBUG) {
             System.out.println("nb seconds:"+seconds);
@@ -198,6 +183,7 @@ public class Duration implements java.io.Serializable {
     }
 
     //Set methods
+
     public void setYear(short year) {
         if (year < 0) {
              String err = "In a duration all fields have to be positive.";
@@ -207,7 +193,6 @@ public class Duration implements java.io.Serializable {
     }
 
     public void setMonth(short month) {
-
         if (month < 0) {
              String err = "In a duration all fields have to be positive.";
              throw new IllegalArgumentException(err);
@@ -267,10 +252,10 @@ public class Duration implements java.io.Serializable {
      * @param hour the hour value
      * @param minute the minute value
      * @param second the second value
+     * @param millisecond the second value
      */
      public void setValue(short year, short month, short day,
-                         short hour, short minute, short second, long millisecond)
-    {
+                          short hour, short minute, short second, long millisecond) {
         this.setYear(year);
         this.setMonth(month);
         this.setDay(day);
@@ -280,58 +265,57 @@ public class Duration implements java.io.Serializable {
         this.setMilli(millisecond);
     }
 
-
-
     //Get methods
-    public short getYear() {
-        return(_year);
-    }
 
-    public short getMonth() {
-        return(_month);
-    }
+     public short getYear() {
+         return(_year);
+     }
 
-    public short getDay() {
-        return(_day);
-    }
+     public short getMonth() {
+         return(_month);
+     }
 
-    public short getHour() {
-        return(_hour);
-    }
+     public short getDay() {
+         return(_day);
+     }
 
-    public short getMinute() {
-        return(_minute);
-    }
+     public short getHour() {
+         return(_hour);
+     }
 
-    public short getSeconds() {
-        return(_second);
-    }
+     public short getMinute() {
+         return(_minute);
+     }
 
-    public long getMilli() {
-        return(_millisecond);
-    }
+     public short getSeconds() {
+         return(_second);
+     }
 
-    public boolean isNegative() {
-        return _isNegative;
-    }
+     public long getMilli() {
+         return(_millisecond);
+     }
 
-   /**
-    * <p>Convert a duration into a long
-    * This long represents the duration in milliseconds.
-    * @return a long representing the duration
-    */
-    public long toLong() {
-        long result = 0;
-        //30.42 days in a month (365/12)
-        //Horner method
-        result = ( (long) ( ((((( (_year*12L) +_month ) * 30.42
-                                    +_day)*24L
-                                    +_hour)*60L
-                                    +_minute)*60L
-                                    +_second)*1000L
-                                    +_millisecond));
+     public boolean isNegative() {
+         return _isNegative;
+     }
 
-        result = isNegative()? -result : result;
+     /**
+      * <p>Convert a duration into a long
+      * This long represents the duration in milliseconds.
+      * @return a long representing the duration
+      */
+     public long toLong() {
+         long result = 0;
+
+         // 30.42 days in a month (365/12) (Horner method)
+         result = (long) (((((((_year*12L) +_month) * 30.42
+                                    +_day) * 24L
+                                    +_hour) * 60L
+                                    +_minute) * 60L
+                                    +_second) * 1000L
+                                    +_millisecond);
+
+        result = isNegative() ? -result : result;
         return result;
     }
 
@@ -343,102 +327,98 @@ public class Duration implements java.io.Serializable {
      *@return a string representing the duration
      */
      public String toString() {
-        StringBuffer result = new StringBuffer();
-        result.append('P');
-        if (this.toLong() == 0) {
-            // if the duration is empty
-            //we chose as a standard to return "PTOS"
-            result.append("T0S");
-        }
-        else {
-            if (_year != 0) {
-                result.append(_year);
-                result.append('Y');
-            }
-            if (_month != 0) {
-                result.append(_month);
-                result.append('M');
-            }
-            if (_day !=0 ) {
-                result.append(_day);
-                result.append('D');
-            }
-            boolean isThereTime = ( (_hour != 0) || (_minute != 0) || (_second != 0) || (_millisecond != 0));
-            if (isThereTime) {
-                result.append('T');
-                if (_hour !=0 ) {
-                    result.append(_hour);
-                    result.append('H');
-                }
-                if (_minute !=0) {
-                    result.append(_minute);
-                    result.append('M');
-                }
-                if ((_second != 0) || (_millisecond != 0)) {
-                    result.append(_second);
-                    if (_millisecond != 0) {
-                        result.append('.');
-                        if (_millisecond < 100) {
-                            result.append('0');
-                            if (_millisecond < 10)
-                                result.append('0');
-                        }
-                        result.append(_millisecond);
-                    }
-                    result.append('S');
-                }
-            }
-            if (_isNegative)
-                result.insert(0,'-');
-        }
-        return result.toString();
-    } //toString
+         // if the duration is empty, we choose as a standard to return "PTOS"
+         if (this.toLong() == 0) {
+             return "PT0S";
+         }
 
-   /**
-    * parse a String and convert it into a java.lang.Object
-    * @param str the string to parse
-    * @return the java.lang.Object represented by the string
-    * @throws ParseException a parse exception is thrown if the string to parse
-    *                        does not follow the rigth format (see the description
-    *                        of this class)
-    */
-    public static Object parse(String str) throws ParseException {
-        return parseDuration(str);
-    }
+         StringBuffer result = new StringBuffer("P");
+         if (_isNegative) {
+             result.insert(0,'-');
+         }
 
-    /**
-     * <p>Parse the given string and return a time duration
-     * which represents this string.
-     * @param str the string to parse
-     * @return a TimeDuration instance which represent the string
-     * @throws ParseException thrown when the string is not valid
-     */
-     public static Duration parseDuration (String str) throws ParseException
-     {
+         if (_year != 0) {
+             result.append(_year);
+             result.append('Y');
+         }
+         if (_month != 0) {
+             result.append(_month);
+             result.append('M');
+         }
+         if (_day !=0) {
+             result.append(_day);
+             result.append('D');
+         }
+
+         boolean isThereTime = _hour != 0 || _minute != 0 || _second != 0 || _millisecond != 0;
+         if (isThereTime) {
+             result.append('T');
+             if (_hour != 0) {
+                 result.append(_hour);
+                 result.append('H');
+             }
+             if (_minute != 0) {
+                 result.append(_minute);
+                 result.append('M');
+             }
+             if (_second != 0 || _millisecond != 0) {
+                 result.append(_second);
+                 if (_millisecond != 0) {
+                     result.append('.');
+                     if (_millisecond < 100) {
+                         result.append('0');
+                         if (_millisecond < 10)
+                             result.append('0');
+                     }
+                     result.append(_millisecond);
+                 }
+                 result.append('S');
+             }
+         }
+
+         return result.toString();
+     } //toString
+
+     /**
+      * parse a String and convert it into a java.lang.Object
+      * @param str the string to parse
+      * @return the java.lang.Object represented by the string
+      * @throws ParseException a parse exception is thrown if the string to parse
+      *                        does not follow the rigth format (see the description
+      *                        of this class)
+      */
+     public static Object parse(String str) throws ParseException {
+         return parseDuration(str);
+     }
+
+     /**
+      * <p>Parse the given string and return a time duration
+      * which represents this string.
+      * @param str the string to parse
+      * @return a TimeDuration instance which represent the string
+      * @throws ParseException thrown when the string is not valid
+      */
+     public static Duration parseDuration(String str) throws ParseException {
          Duration result = new Duration();
          return parseDurationInternal(str, result);
      }
 
-     private static Duration parseDurationInternal(String str, Duration result) throws ParseException
-     {
-
-
+     private static Duration parseDurationInternal(String str, Duration result) throws ParseException {
         if (str == null) {
-            throw new IllegalArgumentException("the string to be parsed must not"
-                                                +" be null");
-
+            throw new IllegalArgumentException("the string to be parsed must not be null");
         }
 
-        if (result == null)
-            result = new Duration();
-        char[] chars = str.toCharArray();
-        int idx = 0;
-
-
-        if (chars.length == 0) {
-            //str = "" means a null TimeDuration
+        //str = "" means a null TimeDuration
+        if (str.length() == 0) {
             return null;
         }
+
+        if (result == null) {
+            result = new Duration();
+        }
+
+        char[] chars = str.toCharArray();
+        int idx = 0;
 
         if (chars[idx] == '-') {
             ++idx;
@@ -454,8 +434,9 @@ public class Duration implements java.io.Serializable {
         }
         ++idx;
 
-        if (idx == chars.length)
+        if (idx == chars.length) {
             throw new ParseException("Bad format for a duration:"+str, idx);
+        }
         int number = 0;
         boolean hasNumber = false;
 
@@ -624,7 +605,7 @@ public class Duration implements java.io.Serializable {
                         String err = str+": Missing 'T' before 'S'";
                         throw new ParseException(err, idx);
                     }
-                    
+
                     if ((flags | 1) == 1) {
                         String err =str+": Syntax error '.' may not exist more than once.";
                         throw new ParseException(err, idx);
@@ -672,13 +653,11 @@ public class Duration implements java.io.Serializable {
             throw new ParseException(str+": expecting ending delimiter", idx);
         }
 
-
-
         return result;
-
     } //parse
 
     /**
+     * {@inheritDoc}
      * Overrides the java.lang.Object#hashcode method.
      */
      public int hashCode() {
@@ -686,12 +665,14 @@ public class Duration implements java.io.Serializable {
      }
 
     /**
+     * {@inheritDoc}
      * Override the java.lang.equals method
      * @see #equal
      */
      public boolean equals(Object object) {
-        if (object instanceof Duration)
-               return equal( (Duration) object);
+        if (object instanceof Duration) {
+            return equal((Duration) object);
+        }
         return false;
     }
 
@@ -703,8 +684,9 @@ public class Duration implements java.io.Serializable {
      */
     public boolean equal(Duration duration) {
         boolean result = false;
-        if (duration == null)
+        if (duration == null) {
             return result;
+        }
         result = (_year == duration.getYear());
         result = result && (_month == duration.getMonth());
         result = result && (_day == duration.getDay());
@@ -717,13 +699,16 @@ public class Duration implements java.io.Serializable {
     } //equals
 
     /**
-     * <p>Returns true if the present instance of TimeDuration is greater than
-     * the parameter
-     * <p>Note This definition does not follow the XML SCHEMA RECOMMENDATION 05022001
-     * the following total order relation is used :
+     * Returns true if the present instance of TimeDuration is greater than the
+     * parameter
+     * <p>
+     * Note This definition does not follow the XML SCHEMA RECOMMENDATION
+     * 05022001 the following total order relation is used :
      * <tt>givent t1,t2 timeDuration types
      * t1>t2 iff t1.toLong()>t2.toLong()</tt>
-     * @param duration the time duration to compare with the present instance
+     *
+     * @param duration
+     *            the time duration to compare with the present instance
      * @return true if the present instance is the greatest, false if not
      */
      public boolean isGreater(Duration duration) {
@@ -732,6 +717,5 @@ public class Duration implements java.io.Serializable {
         result = this.toLong() > duration.toLong();
         return result;
      } //isGreater
-     
-    
-}//Duration
+
+} //Duration

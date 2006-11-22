@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -41,20 +41,20 @@
  * Copyright 1999-2000 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
- *
  */
- 
- package org.exolab.castor.types;
- 
- public class OperationNotSupportedException  extends RuntimeException {
-     /** SerialVersionUID */
+package org.exolab.castor.types;
+
+public class OperationNotSupportedException extends RuntimeException {
+
+    /** SerialVersionUID */
     private static final long serialVersionUID = 7426855587564117483L;
 
     public OperationNotSupportedException() {
         super();
     }
-    
+
     public OperationNotSupportedException(final String message) {
         super(message);
     }
+
 }

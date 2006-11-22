@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,23 +47,32 @@
  */
 package org.exolab.castor.types;
 
-import org.exolab.castor.types.TimePeriod;
-
 import java.text.ParseException;
 import java.util.StringTokenizer;
 import java.util.TimeZone;
 import java.text.SimpleDateFormat;
 import java.util.SimpleTimeZone;
+
+import org.exolab.castor.types.TimePeriod;
+
 /**
- * <p>Describe an XML schema Month.
- * <p>The date type is derived from time period by setting up the facet :
- *  <ul>
- *      <li>duration to "P1M"</li>
- *  </ul>
+ * Describe an XML schema Month.
+ * <p>
+ * The date type is derived from time period by setting up the facet :
+ * <ul>
+ * <li>duration to "P1M"</li>
+ * </ul>
+ * <p>
+ * Note: This datatype is not included in any recommendation. It was introduced
+ * in http://www.w3.org/TR/2000/WD-xmlschema-2-20000407/ and was last in
+ * http://www.w3.org/TR/2000/CR-xmlschema-2-20001024/ and was removed by
+ * http://www.w3.org/TR/2001/PR-xmlschema-2-20010316/. It was not in the final
+ * approved recommendation: http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$
+ * @deprecated since Castor 1.0.6 since this type is not in any recommendation.
  */
-
 public class Month extends TimePeriod {
     /** SerialVersionUID */
     private static final long serialVersionUID = 8102039626686892932L;

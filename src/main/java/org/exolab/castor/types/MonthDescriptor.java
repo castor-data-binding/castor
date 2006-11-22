@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,14 +42,14 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.types;
 
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.util.*;
 import org.exolab.castor.mapping.ValidityException;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLFieldHandler;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
  * The Month Descriptor
@@ -60,14 +60,20 @@ import org.exolab.castor.mapping.ValidityException;
  */
 public class MonthDescriptor extends BaseDescriptor {
 
-    /**
-     * The name of the XML element.
-     */
-    private static final String _xmlName = "month";
+    /** The name of the XML element. */
+    private static final String                 _xmlName = "month";
+    /** Our field descriptor. */
+    private static final XMLFieldDescriptorImpl _contentDescriptor;
+    /** Our field descriptor array.  Lists the fields we describe. */
+    private static final FieldDescriptor[]      _fields;
 
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
-
-    private static FieldDescriptor[] _fields = null;
+    static {
+        _contentDescriptor = new XMLFieldDescriptorImpl(String.class, "content",
+                                                        "content", NodeType.Text);
+        _contentDescriptor.setHandler(new MonthDescriptor().new MonthFieldHandler());
+        _fields = new FieldDescriptor[1];
+        _fields[0] = _contentDescriptor;
+    }
 
     //----------------/
     //- Constructors -/
@@ -75,18 +81,6 @@ public class MonthDescriptor extends BaseDescriptor {
 
     public MonthDescriptor() {
         super(_xmlName, Month.class);
-        if (_contentDescriptor == null) {
-            _contentDescriptor = new XMLFieldDescriptorImpl(String.class,
-                "content", "content", NodeType.Text);
-            //-- setHandler
-            _contentDescriptor.setHandler(new MonthFieldHandler());
-        }
-
-        if (_fields == null) {
-            _fields = new FieldDescriptor[1];
-            _fields[0] = _contentDescriptor;
-        }
-
     } //--MonthDescriptor
 
     //------------------/
@@ -94,11 +88,12 @@ public class MonthDescriptor extends BaseDescriptor {
     //------------------/
 
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-    **/
+     * Returns the XMLFieldDescriptor for the member that should be marshalled
+     * as text content.
+     *
+     * @return the XMLFieldDescriptor for the member that should be marshalled
+     *         as text content.
+     */
     public XMLFieldDescriptor getContentDescriptor() {
         return _contentDescriptor;
     } // getContentDescriptor
@@ -112,13 +107,12 @@ public class MonthDescriptor extends BaseDescriptor {
         return _fields;
     } //-- getFields
 
-
     /**
-     * A specialized FieldHandler for the XML Schema
-     * Month related types
+     * A specialized FieldHandler for the XML Schema Month related types
+     *
      * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
      * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-    **/
+     */
     class MonthFieldHandler extends XMLFieldHandler {
 
         //----------------/
@@ -127,7 +121,7 @@ public class MonthDescriptor extends BaseDescriptor {
 
         /**
          * Creates a new TimeFieldHandler
-        **/
+         */
         public MonthFieldHandler() {
             super();
         } //-- MonthFieldHandler
@@ -137,31 +131,29 @@ public class MonthDescriptor extends BaseDescriptor {
         //------------------/
 
         /**
-         * Returns the value of the field associated with this
-         * descriptor from the given target object.
-         * @param target the object to get the value from
-         * @return the value of the field associated with this
-         * descriptor from the given target object.
-        **/
-        public Object getValue(Object target)
-            throws java.lang.IllegalStateException
-        {
-
+         * Returns the value of the field associated with this descriptor from
+         * the given target object.
+         *
+         * @param target
+         *            the object to get the value from
+         * @return the value of the field associated with this descriptor from
+         *         the given target object.
+         */
+        public Object getValue(Object target) throws java.lang.IllegalStateException {
             //-- check for Month class  -- add later
             Month month = (Month) target;
-
             return month.toString();
         } //-- getValue
 
         /**
          * Sets the value of the field associated with this descriptor.
-         * @param target the object in which to set the value
-         * @param value the value of the field
-        **/
-        public void setValue(Object target, Object value)
-            throws java.lang.IllegalStateException
-        {
-
+         *
+         * @param target
+         *            the object in which to set the value
+         * @param value
+         *            the value of the field
+         */
+        public void setValue(Object target, Object value) throws java.lang.IllegalStateException {
             if (! (target instanceof Month) ) {
                //-- throw exception
             }
@@ -178,53 +170,46 @@ public class MonthDescriptor extends BaseDescriptor {
                 monthTarget.setCentury(temp.getCentury());
                 monthTarget.setYear(temp.getYear());
                 monthTarget.setMonth(temp.getMonth());
-            }
-            catch (Exception ex) {
+            } catch (Exception ex) {
                 //-- ignore for now
             }
         } //-- setValue
 
-        public void resetValue(Object target)
-            throws java.lang.IllegalStateException
-        {
+        public void resetValue(Object target) throws java.lang.IllegalStateException {
+            // Nothing to do?
         }
 
-
         /**
-         * Checks the field validity. Returns successfully if the field
-         * can be stored, is valid, etc, throws an exception otherwise.
+         * Checks the field validity. Returns successfully if the field can be
+         * stored, is valid, etc, throws an exception otherwise.
          *
-         * @param object The object
-         * @throws ValidityException The field is invalid, is required and
-         *  null, or any other validity violation
-         * @throws IllegalStateException The Java object has changed and
-         *  is no longer supported by this handler, or the handler
-         *  is not compatiable with the Java object
+         * @param object
+         *            The object
+         * @throws ValidityException
+         *             The field is invalid, is required and null, or any other
+         *             validity violation
+         * @throws IllegalStateException
+         *             The Java object has changed and is no longer supported by
+         *             this handler, or the handler is not compatiable with the
+         *             Java object
          */
-        public void checkValidity( Object object )
-            throws ValidityException, IllegalStateException
-        {
+        public void checkValidity(Object object) throws ValidityException, IllegalStateException {
             // nothing to do?
-        } //-- checkValidity
-
+        } // -- checkValidity
 
         /**
          * Creates a new instance of the object described by this field.
          *
-         * @param parent The object for which the field is created
+         * @param parent
+         *            The object for which the field is created
          * @return A new instance of the field's value
-         * @throws IllegalStateException This field is a simple type and
-         *  cannot be instantiated
+         * @throws IllegalStateException
+         *             This field is a simple type and cannot be instantiated
          */
-        public Object newInstance( Object parent )
-            throws IllegalStateException
-        {
+        public Object newInstance(Object parent) throws IllegalStateException {
             return new Month();
         } //-- newInstance
 
-
     } //-- MonthFieldHandler
 
-
 } //-- MonthDescriptor
-
