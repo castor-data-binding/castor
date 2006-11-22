@@ -48,12 +48,12 @@ public class XSNonNegativeInteger extends XSInteger {
 
     public XSNonNegativeInteger() {
         super();
-        setMinInclusive(0);
+        setMinInclusive(0L);
     }
     
     public XSNonNegativeInteger(boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive(0);
+        setMinInclusive(0L);
     }
     
 }

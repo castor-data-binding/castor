@@ -49,12 +49,12 @@ public class XSNonPositiveInteger extends XSInteger {
 
     public XSNonPositiveInteger() {
         super();
-        setMaxExclusive(0);
+        setMaxExclusive(0L);
     }
     
     public XSNonPositiveInteger(boolean asWrapper) {
         super(asWrapper);
-        setMaxExclusive(0);
+        setMaxExclusive(0L);
     }
     
 }

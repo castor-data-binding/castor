@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1421 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed support for <xs:int> and <xs:integer> for code generator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1421
+       (Werner - 20061122)
+       
 XML:   Resolved issue CASTOR-1703 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Implement Srcgen DateTime pattern facet
        Details: http://jira.codehaus.org/browse/CASTOR-1703
@@ -15,7 +20,7 @@ XML:   Resolved issue CASTOR-1227 using contribution from Edward Kuns [edward.ku
 XML:   Resolved issue CASTOR-1695 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added various new options to code generator Ant task.
        Details: http://jira.codehaus.org/browse/CASTOR-1695
-       (Ralf - 20061116)
+       (Werner - 20061116)
 
 XML:   Resolved issue CASTOR-936 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with generated code for unbounded choices.

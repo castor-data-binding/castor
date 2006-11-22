@@ -53,12 +53,12 @@ package org.exolab.castor.builder.types;
 public final class XSNegativeInteger extends XSInteger {
     public XSNegativeInteger() {
         super();
-        super.setMaxInclusive(-1);
+        super.setMaxInclusive(-1L);
     } //-- XSInteger
 
     public XSNegativeInteger(boolean asWrapper) {
         super(asWrapper);
-        super.setMaxInclusive(-1);
+        super.setMaxInclusive(-1L);
     } //-- XSInteger
 
 } //-- XSNegativeInteger

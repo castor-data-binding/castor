@@ -14,13 +14,13 @@
 			    <xsd:element name="longTest" type="xsd:long" maxOccurs="1"/>
 				<xsd:element name="shortTest" type="xsd:short" maxOccurs="1"/>
 			</xsd:sequence>
-			<xsd:attribute name="booleanTestAtt" type="xsd:boolean" maxOccurs="1"/>
-			<xsd:attribute name="floatTestAtt" type="xsd:float" maxOccurs="1"/>
-			<xsd:attribute name="doubleTestAtt" type="xsd:double" maxOccurs="1"/>
-	        <xsd:attribute name="intTestAtt" type="xsd:int" maxOccurs="1"/>
-			<xsd:attribute name="integerTestAtt" type="xsd:integer" maxOccurs="1"/>
-			<xsd:attribute name="longTestAtt" type="xsd:long" maxOccurs="1"/>
-			<xsd:attribute name="shortTestAtt" type="xsd:short" maxOccurs="1"/>
+			<xsd:attribute name="booleanTestAtt" type="xsd:boolean" />
+			<xsd:attribute name="floatTestAtt" type="xsd:float" />
+			<xsd:attribute name="doubleTestAtt" type="xsd:double" />
+	        <xsd:attribute name="intTestAtt" type="xsd:int" />
+			<xsd:attribute name="integerTestAtt" type="xsd:integer" />
+			<xsd:attribute name="longTestAtt" type="xsd:long" />
+			<xsd:attribute name="shortTestAtt" type="xsd:short" />
 		</xsd:complexType>
 	</xsd:element>
 </xsd:schema>

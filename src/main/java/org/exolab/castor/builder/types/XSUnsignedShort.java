@@ -26,14 +26,14 @@ public final class XSUnsignedShort extends XSInteger {
 
     public XSUnsignedShort() {
         super();
-        setMinInclusive(0);
-        setMaxInclusive(65535);
+        setMinInclusive(0L);
+        setMaxInclusive(65535L);
     }
 
     public XSUnsignedShort(boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive(0);
-        setMaxInclusive(65535);
+        setMinInclusive(0L);
+        setMaxInclusive(65535L);
     }
 
 }
