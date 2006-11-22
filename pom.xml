@@ -213,10 +213,9 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<dependencies>
 
 		<dependency>
-			<groupId>adaptx</groupId>
+			<groupId>org.codehaus.castor</groupId>
 			<artifactId>adaptx</artifactId>
-			<version>0.9.13</version>
-			<optional>true</optional>
+			<version>0.9.14-SNAPSHOT</version>
 		</dependency>
 
 		<dependency>
@@ -374,6 +373,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                 <artifactId>maven-surefire-plugin</artifactId>
                 <configuration>
                     <excludes>
+                        <exclude>org/castor/tools/log4j/TestCastorAppender.java</exclude>
                         <exclude>org/castor/cache/simple/TestTimeLimited.java</exclude>
                         <exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
                         <exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
