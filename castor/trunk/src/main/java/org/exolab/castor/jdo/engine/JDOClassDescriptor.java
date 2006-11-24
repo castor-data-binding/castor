@@ -124,7 +124,7 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
 
         CacheTypeMapping cacheMapping = getMapping().getCacheTypeMapping();
         if (cacheMapping != null) {
-            String capacity = Integer.toString(cacheMapping.getCapacity());
+            String capacity = Long.toString(cacheMapping.getCapacity());
             _cacheParams.put(CountLimited.PARAM_CAPACITY, capacity);
             _cacheParams.put(TimeLimited.PARAM_TTL, capacity);
             

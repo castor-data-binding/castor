@@ -143,7 +143,7 @@ public class CacheTypeMappingDescriptor extends org.exolab.castor.xml.util.XMLCl
         }
         desc.setValidator(fieldValidator);
         //-- _capacity
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Integer.TYPE, "_capacity", "capacity", org.exolab.castor.xml.NodeType.Attribute);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Long.TYPE, "_capacity", "capacity", org.exolab.castor.xml.NodeType.Attribute);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
@@ -151,7 +151,7 @@ public class CacheTypeMappingDescriptor extends org.exolab.castor.xml.util.XMLCl
                 CacheTypeMapping target = (CacheTypeMapping) object;
                 if(!target.hasCapacity())
                     return null;
-                return new java.lang.Integer(target.getCapacity());
+                return new java.lang.Long(target.getCapacity());
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
@@ -163,7 +163,7 @@ public class CacheTypeMappingDescriptor extends org.exolab.castor.xml.util.XMLCl
                         target.deleteCapacity();
                         return;
                     }
-                    target.setCapacity( ((java.lang.Integer)value).intValue());
+                    target.setCapacity( ((java.lang.Long)value).longValue());
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());

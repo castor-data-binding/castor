@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1706 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with JDO test suite (introduced with commit set 6424).
+       Details: http://jira.codehaus.org/browse/CASTOR-1706
+       (Werner - 20061124)
+
 XML:   Resolved issue CASTOR-1421 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed support for <xs:int> and <xs:integer> for code generator.
        Details: http://jira.codehaus.org/browse/CASTOR-1421
