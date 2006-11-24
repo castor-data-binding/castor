@@ -41,7 +41,7 @@ public class CacheTypeMapping implements java.io.Serializable {
     /**
      * Field _capacity
      */
-    private int _capacity;
+    private long _capacity;
 
     /**
      * keeps track of state for field: _capacity
@@ -142,7 +142,7 @@ public class CacheTypeMapping implements java.io.Serializable {
      * @return int
      * @return the value of field 'capacity'.
      */
-    public int getCapacity()
+    public long getCapacity()
     {
         return this._capacity;
     } //-- int getCapacity() 
@@ -306,7 +306,7 @@ public class CacheTypeMapping implements java.io.Serializable {
      * 
      * @param capacity the value of field 'capacity'.
      */
-    public void setCapacity(int capacity)
+    public void setCapacity(long capacity)
     {
         this._capacity = capacity;
         this._has_capacity = true;

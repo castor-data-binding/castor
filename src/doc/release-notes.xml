@@ -55,6 +55,26 @@
                 </p>
             </summary>
             <bugs>
+                <bug id="1706" tool="jira">
+                    <description>
+                        Fixed problem with JDO test suite (introduced with commit set 6424).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20061124</date>
+                </bug>
                 <bug id="1421" tool="jira">
                     <description>
                         Fixed support for &lt;xs:int&gt; and &lt;xs:integer&gt; for code generator.
