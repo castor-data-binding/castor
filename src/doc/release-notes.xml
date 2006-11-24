@@ -31,6 +31,39 @@
             <summary>
                 <h2>Changes</h2>
 
+                <h3>Code generation for &lt;xs:int&gt; and &lt;xs:integer&gt;</h3>
+                
+                <p>As part of the work for fixing bug 
+                   <a href="http://jira.codehaus.org/browse/CASTOR-1421">1421</a>, it has been
+                   recognized that the code generated pre-patch did not comply with
+                   the set of rules defined in the XML schema specification.</p>
+                   
+                <p>As such, the XML code generator has been changed to generate the
+                   following Java types for elements/attributes typed with
+                   &lt;xs:int&gt; and &lt;xs:integer&gt;:</p>
+                   
+                <ctable>
+                	<crow>
+                		<th><p>Type</p></th>
+                		<th><p>Old Java type</p></th>
+                		<th><p>New Java type</p></th>
+                	</crow>
+                	<crow>
+                		<td>&lt;xs:int&gt;</td>
+                		<td>java.lang.Integer/int</td>
+                		<td>java.lang.Long/long</td>
+                	</crow>
+                	<crow>
+                		<td>&lt;xs:integer&gt;</td>
+                		<td>java.lang.Integer/int</td>
+                		<td>java.lang.Long/long</td>
+                	</crow>
+                </ctable>
+                
+                <p>The main and only difference between the artefacts generated is the 
+                   value range that will be accepted by the generated Java instance 
+                   variables.</p>
+
                 <h3>XML test suite execution</h3>
 
                 <p>
