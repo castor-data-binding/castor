@@ -113,7 +113,7 @@
     
     <section name="Related projects">
         <navLink>
-            <url>castor-spring-site/index.html</url>
+            <url>spring-orm-integration.html</url>
             <display>Spring ORM support</display>
         </navLink>
         <navLink>
