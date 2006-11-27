@@ -56,7 +56,9 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.SortedMap;
 import java.util.SortedSet;
+import java.util.TreeMap;
 import java.util.TreeSet;
 
 import org.exolab.castor.mapping.CollectionHandler;
@@ -259,6 +261,9 @@ public final class J2CollectionHandlers
         // For SortedSet (1.2 aka 1.4)
         new CollectionHandlers.Info("sortedset", SortedSet.class, false, new SortedSetCollectionHandler()),
 
+        // For SortedMap (1.2 aka 1.4)
+        new CollectionHandlers.Info("sortedmap", SortedMap.class, false, new SortedMapCollectionHandler()),
+        
         // For java.util.Iterator
         new CollectionHandlers.Info( "iterator", Iterator.class, false, new CollectionHandler() {
             public Object add(Object collection, Object object) {
@@ -340,6 +345,58 @@ public final class J2CollectionHandlers
         }
     }
 
+    private static final class SortedMapCollectionHandler implements CollectionHandler {
+        
+        public Object add(Object collection, Object object) {
+
+            Object key = object;
+            Object value = object;
+
+            if (object instanceof MapItem) {
+                MapItem item = (MapItem) object;
+                key = item.getKey();
+                value = item.getValue();
+                if (value == null) {
+                    value = object;
+                }
+                if (key == null) {
+                    key = value;
+                }
+            }
+
+            if (collection == null) {
+                collection = new TreeMap();
+                ((SortedMap) collection).put(key, value);
+                return collection;
+            }
+            ((SortedMap) collection).put(key, value);
+            return null;
+        }
+        
+        public Enumeration elements(final Object collection) {
+            if (collection == null)
+                return new CollectionHandlers.EmptyEnumerator();
+            return new IteratorEnumerator(((SortedMap) collection).values()
+                    .iterator());
+        }
+        
+        public int size(final Object collection) {
+            if (collection == null)
+                return 0;
+            return ((SortedMap) collection).size();
+        }
+        
+        public Object clear(final Object collection) {
+            if (collection != null)
+                ((SortedMap) collection).clear();
+            return null;
+        }
+        
+        public String toString() {
+            return "SortedMap";
+        }
+    }
+    
 
     /**
      * Enumerator for an iterator.

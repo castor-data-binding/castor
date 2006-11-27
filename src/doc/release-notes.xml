@@ -103,10 +103,29 @@
 
             </summary>
             <bugs>
-
+                <bug id="1707" tool="jira">
+                    <description>
+                    	Added support for collection type java.util.SortedMap
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061127</date>
+                </bug>
                 <bug id="1708" tool="jira">
                     <description>
-                        Add support for specifying collection types 'collection', 'set' and 
+                        Added support for specifying collection types 'collection', 'set' and 
                         'sortedset' in binding file.
                     </description>
                     <contributor>

@@ -50,6 +50,7 @@
 package org.exolab.castor.xml;
 
 import org.castor.mapping.BindingType;
+import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.FieldHandler;
@@ -359,7 +360,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         //-- handle special case for HashMap/Hashtable
         if ((fieldMap.getType() == null) && (colType != null)) {
             if ((colType == FieldMappingCollectionType.HASHTABLE) ||
-                (colType == FieldMappingCollectionType.MAP)) 
+                (colType == FieldMappingCollectionType.MAP) ||
+                (colType == FieldMappingCollectionType.SORTEDMAP)) 
             {
                 fieldMap.setType(MapItem.class.getName());
             }
@@ -521,7 +523,8 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         //-- isMapped item
         if (colType != null) {    
             if ((colType == FieldMappingCollectionType.HASHTABLE) ||
-                (colType == FieldMappingCollectionType.MAP))
+                (colType == FieldMappingCollectionType.MAP) ||
+                (colType == FieldMappingCollectionType.SORTEDMAP))
             {
                 //-- Make sure user is not using an addMethod
                 //-- before setting the mapped field to true.
@@ -552,7 +555,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 }
             }
         }
-        
+
         //-- is Type-Safe Enumeration?
         //-- This is not very clean, we should have a way
         //-- to specify something is a type-safe enumeration

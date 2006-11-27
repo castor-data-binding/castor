@@ -114,7 +114,17 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      * The instance of the sorted set type
     **/
     public static final FieldTypeCollectionType SORTED_SET = new FieldTypeCollectionType(SORTED_SET_TYPE, "sortedset");
-    
+
+    /**
+     * The sorted map type
+    **/
+    public static final int SORTED_MAP_TYPE = 9;
+
+    /**
+     * The instance of the sorted map type
+    **/
+    public static final FieldTypeCollectionType SORTED_MAP = new FieldTypeCollectionType(SORTED_MAP_TYPE, "sortedmap");
+
     private static java.util.Hashtable _memberTable = init();
 
     private int type = -1;
@@ -168,6 +178,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
         members.put("set", SET);
         members.put("map", MAP);
         members.put("sortedset", SORTED_SET);
+        members.put("sortedmap", SORTED_MAP);
         return members;
     } //-- java.util.Hashtable init() 
 

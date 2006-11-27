@@ -126,6 +126,16 @@ public class FieldMappingCollectionType implements java.io.Serializable {
     public static final FieldMappingCollectionType ITERATOR = new FieldMappingCollectionType(ITERATOR_TYPE, "iterator");
 
     /**
+     * The sortedset type
+     */
+    public static final int SORTEDMAP_TYPE = 10;
+
+    /**
+     * The instance of the sortedset type
+     */
+    public static final FieldMappingCollectionType SORTEDMAP = new FieldMappingCollectionType(SORTEDMAP_TYPE, "sortedmap");
+
+    /**
      * Field _memberTable
      */
     private static java.util.Hashtable _memberTable = init();
@@ -184,9 +194,7 @@ public class FieldMappingCollectionType implements java.io.Serializable {
 
     /**
      * Method init
-     * 
-     * 
-     * 
+
      * @return Hashtable
      */
     private static java.util.Hashtable init()
@@ -202,6 +210,7 @@ public class FieldMappingCollectionType implements java.io.Serializable {
         members.put("enumerate", ENUMERATE);
         members.put("sortedset", SORTEDSET);
         members.put("iterator", ITERATOR);
+        members.put("sortedmap", SORTEDMAP);
         return members;
     } //-- java.util.Hashtable init() 
 
