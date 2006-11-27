@@ -1,0 +1,30 @@
+<?xml version="1.0"?>
+<TestDescriptor>
+
+   <Name>Mapping of a Map (TreeMap)</Name>
+   <Author>Werner Guttmann</Author>
+
+	<Comment>
+      Test for TreeMap using custom mapping with MapItem entry
+   </Comment>
+
+	<Category>basic capability</Category>
+
+	<MarshallingTest>
+      <Root_Object>Root</Root_Object>
+
+      <UnitTestCase>
+         <Name>Test01</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input-identical-order.xml</Input>
+         <GoldFile>output.xml</GoldFile>
+      </UnitTestCase>
+      <UnitTestCase>
+         <Name>Test02</Name>
+         <Mapping_File>mapping.xml</Mapping_File>
+         <Input>input-reverse-order.xml</Input>
+         <GoldFile>output.xml</GoldFile>
+      </UnitTestCase>
+	</MarshallingTest>
+
+</TestDescriptor>
