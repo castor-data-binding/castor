@@ -61,12 +61,13 @@ public class XSListJ2 extends XSList {
         this.contentType = contentType;
         if (collectionType.equalsIgnoreCase("arraylist")) {
             this.jType = new JCollectionType("java.util.List", "java.util.ArrayList", contentType.getJType(), useJava50);
+        } else if (collectionType.equalsIgnoreCase("collection")) {
+            this.jType = new JCollectionType("java.util.Collection", "java.util.LinkedList", contentType.getJType(), useJava50);
+        } else if (collectionType.equalsIgnoreCase("set")) {
+            this.jType = new JCollectionType("java.util.Set", "java.util.HashSet", contentType.getJType(), useJava50);
+        } else if (collectionType.equalsIgnoreCase("sortedset")) {
+            this.jType = new JCollectionType("java.util.SortedSet", "java.util.TreeSet", contentType.getJType(), useJava50);
         }
-//        else if (collectionType.equalsIgnoreCase("collection")) {
-//            this.jType = JType.createCollection("java.util.Collection", contentType.getJType());
-//        } else if (collectionType.equalsIgnoreCase("set")) {
-//            this.jType = JType.createCollection("java.util.HashSet", contentType.getJType());
-//        }
     } //-- XSListJ2
 
 

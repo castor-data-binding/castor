@@ -86,8 +86,45 @@
                   time zone information.  A later release of Castor may marshal
                   xsd:dateTime into a java.util.Calendar instead of java.util.Date.
                 </p>
+
+                <h2>Additions</h2>
+
+                <h3>Support for additional collection types in binding file</h3>
+                
+				<p>Added support for specifying additional collection types 
+				   in a binding file, similar to ...</p>
+				   
+				<code-panel><![CDATA[
+<elementBinding name="complexType:rootType/list">
+  <member name="myList" collection="set"/>
+</elementBinding>]]></code-panel>
+
+				<p>The following types have been added: 'collection', 'set' and 'sortedset'.</p>
+
             </summary>
             <bugs>
+
+                <bug id="1708" tool="jira">
+                    <description>
+                        Add support for specifying collection types 'collection', 'set' and 
+                        'sortedset' in binding file.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20061127</date>
+                </bug>
                 <bug id="1706" tool="jira">
                     <description>
                         Fixed problem with JDO test suite (introduced with commit set 6424).
