@@ -229,6 +229,7 @@
 
 
        <section title="&lt;member> element">
+       
          <code-panel>
  &lt;member
   name? = xsd:string
@@ -237,19 +238,66 @@
   handler? = xsd:string
   collection? = (array|vector|arraylist|hashtable|collection|odmg|set|map|sortedset)
   validator? = xsd:string/></code-panel>
+
+         <p>This element represents the binding for class member. It allows the definition
+         of its name and java type as well as an implementation of FieldHandler
+         to help the Marshalling framework in handling that member. Defining a validator is also
+         possible. The names given for the validator and the fieldHandler must be fully qualified.</p>
+            
          <ul>
             <li><b>name:</b>The name of the class member that will be generated.</li>
             <li><b>java-type:</b>the fully qualified name of the java type.</li>
-            <li><b>wrapper:</b>If true, a wrapper object will be generated in case the java type is a java primitive.</li>
+            <li><b>wrapper:</b>If true, a wrapper object will be generated in case the java 
+                type is a java primitive.</li>
             <li><b>handler:</b>The fully qualified name of the FieldHandler to use.</li>
-            <li><b>collection:</b>If the schema component can occur more than once then this attribute allows to specify the collection to use
-            to represent the component in Java.</li>
+            <li><b>collection:</b>If the schema component can occur more than once then this 
+                 attribute allows to specify the collection to use to represent the 
+                 component in Java.</li>
             <li><b>validator:</b>The fully qualified name of the FieldValidator to use.</li>
          </ul>
-            <p>This element represents the binding for class member. It allows the definition
-            of its name and java type as well as an implementation of FieldHandler
-            to help the Marshalling framework in handling that member. Defining a validator is also
-            possible. The names given for the validator and the fieldHandler must be fully qualified.</p>
+         
+		<p>For instance, the following binding definition ...</p>
+		
+         <code-panel>
+   &lt;elementBinding name=&quot;/root/members&quot;&gt;
+      &lt;member collection=&quot;set&quot;/&gt;
+   &lt;/elementBinding&gt;</code-panel>
+   
+		<p>instructs the source generator
+		   to generate - within a class <tt>Root</tt> - a Java member named <tt>members</tt>, 
+		   using the collection type <tt>java.util.Set</tt> instead of the default 
+		   <tt>java.util.List</tt> as follows:</p>
+
+   		<code-panel>
+public class Root {
+   		
+   private <b>java.util.Set</b> members;
+   
+   ...
+   
+}</code-panel>   		
+
+		<p>The following (slightly amended) binding element ...</p>
+		
+         <code-panel>
+   &lt;elementBinding name=&quot;/root/members&quot;&gt;
+      &lt;member name=&quot;memberSet&quot; collection=&quot;set&quot;/&gt;
+   &lt;/elementBinding&gt;</code-panel>
+
+		<p>instructs the source generator to generate - again within a class <tt>Root</tt> - 
+		   a Java member named <tt>memberSet</tt> (of the same collection type as in the 
+		   previous example), overriding the name of the member as specified in the 
+		   XML schema:</p>
+
+   		<code-panel>
+public class Root {
+   		
+   private java.util.Set <b>memberSet</b>;
+   
+   ...
+   
+}</code-panel>   		
+            
        </section>
 
        <section title="Not implemented yet">
