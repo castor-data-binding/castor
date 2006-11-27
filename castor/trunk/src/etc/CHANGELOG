@@ -2,8 +2,13 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1707 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for collection type java.util.SortedMap.
+       Details: http://jira.codehaus.org/browse/CASTOR-1707
+       (Werner - 20061127)
+       
 XML:   Resolved issue CASTOR-1708 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Add support for specifying collection types 'collection', 'set' and 'sortedset' in binding file.
+       Added support for specifying collection types 'collection', 'set' and 'sortedset' in binding file.
        Details: http://jira.codehaus.org/browse/CASTOR-1708
        (Werner - 20061127)
        

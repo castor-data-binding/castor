@@ -88,6 +88,7 @@ public class FieldMolder {
     private static final String COLLECTION_TYPE_SORTED_SET = "sortedset";
     private static final String COLLECTION_TYPE_ITERATOR = "iterator";
     private static final String COLLECTION_TYPE_ENUMERATON = "enumerate";
+    private static final String COLLECTION_TYPE_SORTED_MAP = "sortedmap";
     
 	private static final String FIELD_TYPE_SERIALIZABLE = "serializable";
 	
@@ -145,7 +146,7 @@ public class FieldMolder {
     private boolean _transient;
     
     /**
-     * Specifies the jav.autil.Comparator instance to use with a SortedSet collection.
+     * Specifies the jav.autil.Comparator instance to use with a SortedSet/SortedMap collection.
      */
     private String _comparator;
 
@@ -448,7 +449,8 @@ public class FieldMolder {
           new CollectionInfo( COLLECTION_TYPE_ARRAY, Object[].class ),
           new CollectionInfo( COLLECTION_TYPE_SORTED_SET, java.util.SortedSet.class ),
           new CollectionInfo (COLLECTION_TYPE_ITERATOR, java.util.Iterator.class),
-          new CollectionInfo (COLLECTION_TYPE_ENUMERATON, java.util.Enumeration.class)};
+          new CollectionInfo (COLLECTION_TYPE_ENUMERATON, java.util.Enumeration.class),
+          new CollectionInfo( COLLECTION_TYPE_SORTED_MAP, java.util.SortedMap.class )};
 
           //( array | vector | hashtable | collection | set | map )
 

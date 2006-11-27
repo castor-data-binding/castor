@@ -78,19 +78,7 @@ public abstract class CollectionProxy {
         } else if (cls == SortedSet.class) {
             String comparatorClassName = fieldMolder.getComparator();
             if (comparatorClassName != null) {
-                Comparator comparator;
-                try {
-                    comparator = (Comparator) ClassLoadingUtils.loadClass(classLoader, comparatorClassName).newInstance();
-                } catch (InstantiationException e) {
-                    LOG.error ("Problem instantiating instance of " + comparatorClassName);
-                    throw new IllegalArgumentException("Problem instantiating instance of " + comparatorClassName);
-                } catch (IllegalAccessException e) {
-                    LOG.error ("Problem accessing constructor of " + comparatorClassName);
-                    throw new IllegalArgumentException("Problem accessing constructor of " + comparatorClassName);
-                } catch (ClassNotFoundException e) {
-                    LOG.error ("Problem loading class for " + comparatorClassName);
-                    throw new IllegalArgumentException("Problem instantiating instance of " + comparatorClassName);
-                }
+                Comparator comparator = loadComparator(classLoader, comparatorClassName);
                 return new ColProxy(fieldMolder, object, classLoader, new TreeSet(comparator));
             }
             return new ColProxy(fieldMolder, object, classLoader, new TreeSet());
@@ -98,6 +86,33 @@ public abstract class CollectionProxy {
             throw new IllegalArgumentException(
                     "Collection Proxy doesn't exist for this type : " + cls);
         }
+    }
+
+    /**
+     * Instantiates the specified java.util.Comparator implementation.
+     * @param classLoader The class loader to use for instantiation.
+     * @param comparatorClassName The name of the java.util.Comparator implementation.
+     * @return An instance of the specified java.util.Comparator implementation.
+     */
+    private static Comparator loadComparator(final ClassLoader classLoader,
+            final String comparatorClassName) {
+        Comparator comparator;
+        String message = "Problem instantiating instance of " + comparatorClassName;
+        try {
+            Class comparatorClass = ClassLoadingUtils.loadClass(classLoader, comparatorClassName);
+            comparator = (Comparator) comparatorClass.newInstance();
+        } catch (InstantiationException e) {
+            LOG.error (message);
+            throw new IllegalArgumentException(message);
+        } catch (IllegalAccessException e) {
+            message = "Problem accessing constructor of " + comparatorClassName;
+            LOG.error (message);
+            throw new IllegalArgumentException(message);
+        } catch (ClassNotFoundException e) {
+            LOG.error ("Problem loading class for " + comparatorClassName);
+            throw new IllegalArgumentException(message);
+        }
+        return comparator;
     }
 
     private static final class ColProxy extends CollectionProxy {
