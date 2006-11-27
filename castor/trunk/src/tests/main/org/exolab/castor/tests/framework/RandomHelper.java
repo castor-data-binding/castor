@@ -44,12 +44,19 @@
  */
 package org.exolab.castor.tests.framework;
 
-import java.util.Random;
-import java.util.Vector;
-import java.util.ArrayList;
-import org.exolab.castor.types.*;
-
 import java.math.BigDecimal;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.LinkedList;
+import java.util.Random;
+import java.util.Set;
+import java.util.SortedSet;
+import java.util.TreeSet;
+import java.util.Vector;
+
+import org.exolab.castor.types.RecurringDuration;
+import org.exolab.castor.types.TimeDuration;
 
 /**
  * Assists in the generation of random instances of a given object model.
@@ -216,6 +223,54 @@ public class RandomHelper {
         return new ArrayList(RandomHelper.getRandom(new Vector(al), c));
     }
 
+    /**
+     * Returns a populated ArrayList of random length. If the class of the
+     * object contained into the vector implement CastorTestable,
+     * randomizeFields() will be called on the objects.
+     *
+     * @param al the ArrayList to populate
+     * @param c the type of object to put in the vector
+     * @return a populated ArrayList of random length.
+     * @throws InstantiationException if the class cannot be instantiated
+     * @throws IllegalAccessException if the class cannot be accessed
+     */
+    public static Collection getRandom(Collection al, Class c)
+        throws InstantiationException, IllegalAccessException {
+        return new LinkedList(RandomHelper.getRandom(new Vector(al), c));
+    }
+
+    /**
+     * Returns a populated Set of random length. If the class of the
+     * object contained into the vector implement CastorTestable,
+     * randomizeFields() will be called on the objects.
+     *
+     * @param al the Set to populate
+     * @param c the type of object to put in the vector
+     * @return a populated Set of random length.
+     * @throws InstantiationException if the class cannot be instantiated
+     * @throws IllegalAccessException if the class cannot be accessed
+     */
+    public static Set getRandom(Set al, Class c)
+        throws InstantiationException, IllegalAccessException {
+        return new HashSet(RandomHelper.getRandom(new Vector(al), c));
+    }
+
+    /**
+     * Returns a populated SortedSet of random length. If the class of the
+     * object contained into the vector implement CastorTestable,
+     * randomizeFields() will be called on the objects.
+     *
+     * @param al the SortedSet to populate
+     * @param c the type of object to put in the vector
+     * @return a populated SortedSet of random length.
+     * @throws InstantiationException if the class cannot be instantiated
+     * @throws IllegalAccessException if the class cannot be accessed
+     */
+    public static SortedSet getRandom(SortedSet al, Class c)
+        throws InstantiationException, IllegalAccessException {
+        return new TreeSet(RandomHelper.getRandom(new Vector(al), c));
+    }
+    
     /**
      * Returns a random string that will not have leading or trailing whitespace
      * and that will not have consecutive internal whitespace. To get a random

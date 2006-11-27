@@ -332,8 +332,9 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.append(arrayType.substring(0, brackets));
         sourceCode.append("[size]");
         sourceCode.append(";");
+        sourceCode.add("java.util.Iterator iter = " + this.getName() + ".iterator();");
 
-        String value = getName() + ".get(index)";
+        String value = "iter.next()";
         sourceCode.add("for (int index = 0; index < size; index++)");
         sourceCode.append("{");
         sourceCode.indent();
@@ -409,7 +410,7 @@ public class CollectionInfo extends FieldInfo {
     protected void createAddAndRemoveMethods(final JClass jClass) {
         // create add methods
         this.createAddMethod(jClass);
-        this.createInsertMethod(jClass);
+        this.createAddByIndexMethod(jClass);
 
         // create remove methods
         this.createRemoveObjectMethod(jClass);
@@ -465,7 +466,7 @@ public class CollectionInfo extends FieldInfo {
         this.createEnumerateMethod(jClass, useJava50);
     } // -- createCollectionAccessMethods
 
-    protected void createInsertMethod(final JClass jClass) {
+    protected void createAddByIndexMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException,
                             "if the index given is outside the bounds of the collection");

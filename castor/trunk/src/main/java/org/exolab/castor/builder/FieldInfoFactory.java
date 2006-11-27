@@ -63,6 +63,9 @@ public class FieldInfoFactory {
     public static final String VECTOR     = "vector";
     public static final String ARRAY_LIST = "arraylist";
     public static final String ODMG       = "odmg";
+    public static final String COLLECTION = "collection";
+    public static final String SET = "set";
+    public static final String SORTED_SET = "sortedset";
 
     /**
      * The default collection name
@@ -132,12 +135,13 @@ public class FieldInfoFactory {
              cInfo = new CollectionInfoJ2(contentType, name, elementName, "arraylist", useJava50);
         } else if (temp.equals(ODMG)) {
              cInfo = new CollectionInfoODMG30(contentType, name, elementName, useJava50);
+        } else if (temp.equals(COLLECTION)) {
+            cInfo = new CollectionInfoJ2Collection(contentType, name, elementName, useJava50);
+        } else if (temp.equalsIgnoreCase(SET)) {
+            cInfo = new CollectionInfoJ2Set(contentType, name, elementName, useJava50);
+        } else if (temp.equalsIgnoreCase(SORTED_SET)) {
+            cInfo = new CollectionInfoJ2SortedSet(contentType, name, elementName, useJava50);
         }
-//         else if (temp.equals("collection")) {
-//            cInfo = new CollectionInfoJ2(contentType,name,elementName, "collection");
-//       } else if(temp.equalsIgnoreCase("set")) {
-//            cInfo = new CollectionInfoJ2(contentType,name,elementName, "set");
-//        }
 
         //--other to come here
         //--not sure it is pluggable enough, it is not really beautiful to specify
