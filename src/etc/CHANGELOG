@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1709 using contribution from Ontje Lünsdorf [The_COM@gmx.de]
+       Added support for mapping sub-classes of java.util.Enumeration/Iterator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1709
+       (Werner - 20061129)
+       
 XML:   Resolved issue CASTOR-1707 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for collection type java.util.SortedMap.
        Details: http://jira.codehaus.org/browse/CASTOR-1707

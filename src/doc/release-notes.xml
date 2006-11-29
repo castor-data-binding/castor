@@ -103,6 +103,26 @@
 
             </summary>
             <bugs>
+                <bug id="1709" tool="jira">
+                    <description>
+                    	Added support for mapping sub-classes of java.util.Enumeration/Iterator.
+                    </description>
+                    <contributor>
+                        <name>Ontje Lünsdorf</name>
+                        <email>The_COM@gmx.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ontje Lünsdorf</name>
+                        <email>The_COM@gmx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061129</date>
+                </bug>
                 <bug id="1707" tool="jira">
                     <description>
                     	Added support for collection type java.util.SortedMap
