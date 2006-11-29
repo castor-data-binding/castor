@@ -270,7 +270,7 @@
 <!ELEMENT param EMPTY>
 <!ATTLIST param
           name   NMTOKEN  #REQUIRED
-          value  NMTOKEN  #REQUIRED>
+          value  CDATA    #REQUIRED>
 
 <!--
     A textual description.
