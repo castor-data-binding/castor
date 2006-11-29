@@ -342,7 +342,7 @@ public final class FieldHandlerImpl
         		Class rType = getMethod.getReturnType();
         		
         		// Check if getMethod really returns an enumeration.
-                if (rType == Enumeration.class )
+                if (Enumeration.class.isAssignableFrom(rType))
                     setEnumMethod(getMethod);
                 else 
                 	// If getMethod does not return an enumeration, treat it as a normal getMethod.
@@ -351,7 +351,7 @@ public final class FieldHandlerImpl
         		Class rType = getMethod.getReturnType();
 
         		// Check if getMethod really returns an iterator.
-                if (rType == Iterator.class)
+                if (Iterator.class.isAssignableFrom(rType))
                     setIterMethod(getMethod);
                 else 
                 	// If getMethod does not return an iterator, treat it as a normal getMethod.
