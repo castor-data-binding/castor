@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1711 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
+       Allowed param value to be CDATA instead of NMTOKEN at mapping.dtd.
+       Details: http://jira.codehaus.org/browse/CASTOR-1711
+       (Ralf - 20061129)
+       
 XML:   Resolved issue CASTOR-1709 using contribution from Ontje Lünsdorf [The_COM@gmx.de]
        Added support for mapping sub-classes of java.util.Enumeration/Iterator.
        Details: http://jira.codehaus.org/browse/CASTOR-1709

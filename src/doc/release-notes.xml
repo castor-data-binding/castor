@@ -103,6 +103,26 @@
 
             </summary>
             <bugs>
+                <bug id="1711" tool="jira">
+                    <description>
+                        Allowed param value to be CDATA instead of NMTOKEN at mapping.dtd.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>All</module>
+                    <date>20061129</date>
+                </bug>
                 <bug id="1709" tool="jira">
                     <description>
                     	Added support for mapping sub-classes of java.util.Enumeration/Iterator.
