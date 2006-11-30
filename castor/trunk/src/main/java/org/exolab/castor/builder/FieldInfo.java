@@ -127,6 +127,8 @@ public class FieldInfo extends XMLInfo {
     private boolean _nillable = false;
     /** The fully qualified name of the Validator (if any) to use in the generated descriptor. */
     private String _validator;
+    /** Visibility of this FieldInfo */
+    private String _visibility = "private";
 
     /**
      * Creates a new FieldInfo with the given XML Schema type and the given
@@ -164,6 +166,15 @@ public class FieldInfo extends XMLInfo {
             JModifiers modifiers = field.getModifiers();
             modifiers.setFinal(_final);
             modifiers.setStatic(_static);
+        }
+        
+        if (!(_visibility.equals("private"))) {
+            JModifiers modifiers = field.getModifiers();
+            if (_visibility.equals("protected")) {
+                modifiers.makeProtected();
+            } else if (_visibility.equals("public")) {
+                modifiers.makePublic();
+            }
         }
 
         //-- set init String
@@ -845,6 +856,16 @@ public class FieldInfo extends XMLInfo {
             return JavaNaming.toJavaClassName(_name.substring(1));
         }
         return JavaNaming.toJavaClassName(_name);
+    }
+
+    /**
+     * Sets the visibility of this FieldInfo.
+     *
+     * @param visiblity the visibility of this FieldInfo
+     */
+    public void setVisibility(String visibility) {
+        _visibility = visibility;
+        
     }
 
 } //-- FieldInfo
