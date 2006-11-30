@@ -54,6 +54,17 @@ public class EnumerationFactory extends BaseFactory {
     private boolean _caseInsensitive = false;
 
     /**
+     * Current (hence maximum) suffix for init methods, used to avoid
+     * the static initializer limits of a JVM
+     */
+    private int _maxSuffix = 0;
+
+    /**
+     * Maximum number of enumeration-based constants within a class file.
+     */
+    private int _maxEnumerationsPerClass;
+
+    /**
      * Creates a new EnumerationFactory for the builder configuration given.
      * @param config the current BuilderConfiguration instance.
      * @param groupNaming The group naming scheme to be used.
@@ -61,6 +72,9 @@ public class EnumerationFactory extends BaseFactory {
     public EnumerationFactory(final BuilderConfiguration config, final GroupNaming groupNaming) {
         super(config, null, groupNaming);
         _typeConversion = new TypeConversion(_config);
+
+        // TODO[WG]: add code to read in max. value from builder property file
+        _maxEnumerationsPerClass = config.getMaximumNumberOfConstants();
     } //-- SourceFactory
 
     /**
@@ -71,7 +85,13 @@ public class EnumerationFactory extends BaseFactory {
      * @see #processEnumerationAsBaseType
      */
     void processEnumerationAsNewObject(final SimpleType simpleType, final FactoryState state) {
-        Enumeration enumeration = simpleType.getFacets("enumeration");
+        // reset _maxSuffix value to 0
+        _maxSuffix = 0;
+        boolean generateConstantDefinitions = true;
+        int numberOfEnumerationFacets = simpleType.getNumberOfFacets("enumeration");
+        if (numberOfEnumerationFacets > _maxEnumerationsPerClass) {
+            generateConstantDefinitions = false;
+        }        Enumeration enumeration = simpleType.getFacets("enumeration");
 
         //-- select naming for types and instances
         boolean useValuesAsName = true;
@@ -146,41 +166,43 @@ public class EnumerationFactory extends BaseFactory {
                 addInitializerCode = false;
             }
 
-            //-- handle int type
-            field = new JField(JType.INT, typeName);
-            field.setComment("The " + value + " type");
-            JModifiers modifiers = field.getModifiers();
-            modifiers.setFinal(true);
-            modifiers.setStatic(true);
-            modifiers.makePublic();
-            field.setInitString(Integer.toString(count));
-            jClass.addField(field);
+            if (generateConstantDefinitions) {
+                //-- handle int type
+                field = new JField(JType.INT, typeName);
+                field.setComment("The " + value + " type");
+                JModifiers modifiers = field.getModifiers();
+                modifiers.setFinal(true);
+                modifiers.setStatic(true);
+                modifiers.makePublic();
+                field.setInitString(Integer.toString(count));
+                jClass.addField(field);
 
-            //-- handle Class type
-            field = new JField(jClass, objName);
-            field.setComment("The instance of the " + value + " type");
+                //-- handle Class type
+                field = new JField(jClass, objName);
+                field.setComment("The instance of the " + value + " type");
 
-            modifiers = field.getModifiers();
-            modifiers.setFinal(true);
-            modifiers.setStatic(true);
-            modifiers.makePublic();
+                modifiers = field.getModifiers();
+                modifiers.setFinal(true);
+                modifiers.setStatic(true);
+                modifiers.makePublic();
 
-            StringBuffer init = new StringBuffer();
-            init.append("new ");
-            init.append(className);
-            init.append("(");
-            init.append(typeName);
-            init.append(", \"");
-            init.append(escapeValue(value));
-            init.append("\")");
+                StringBuffer init = new StringBuffer();
+                init.append("new ");
+                init.append(className);
+                init.append("(");
+                init.append(typeName);
+                init.append(", \"");
+                init.append(escapeValue(value));
+                init.append("\")");
 
-            field.setInitString(init.toString());
-            jClass.addField(field);
+                field.setInitString(init.toString());
+                jClass.addField(field);
 
+            }
             //-- initializer method
 
             if (addInitializerCode) {
-                jsc = mInit.getSourceCode();
+                jsc = getSourceCodeForInitMethod(jClass);
                 jsc.add("members.put(\"");
                 jsc.append(escapeValue(value));
                 if (_caseInsensitive) {
@@ -188,7 +210,19 @@ public class EnumerationFactory extends BaseFactory {
                 } else {
                     jsc.append("\", ");
                 }
+                if (generateConstantDefinitions) {
                 jsc.append(objName);
+                } else {
+                    StringBuffer init = new StringBuffer();
+                    init.append("new ");
+                    init.append(className);
+                    init.append("(");
+                    init.append(Integer.toString(count));
+                    init.append(", \"");
+                    init.append(escapeValue(value));
+                    init.append("\")");
+                    jsc.append(init.toString());
+                }
                 jsc.append(");");
             }
 
@@ -196,7 +230,8 @@ public class EnumerationFactory extends BaseFactory {
         }
 
         //-- finish init method
-        mInit.getSourceCode().add("return members;");
+        final JMethod method = jClass.getMethod(this.getInitMethodName(_maxSuffix), 0);
+        method.getSourceCode().add("return members;");
 
         //-- add memberTable to the class, we can only add this after all the types,
         //-- or we'll create source code that will generate null pointer exceptions,
@@ -215,6 +250,34 @@ public class EnumerationFactory extends BaseFactory {
 
         createGetTypeMethod(jClass, className);
     } //-- processEnumerationAsNewObject
+    
+    /**
+     * Returns the JSourceCode instance for the current init() method, dealing with 
+     * static initializer limits of the JVM by creating new init() methods
+     * as needed.
+     * @param jClass The JClass instance for which an init method needs to be added
+     * @return the JSourceCode instance for the current init() method
+     */
+    private JSourceCode getSourceCodeForInitMethod(JClass jClass) {
+        final JMethod currentInitMethod = jClass.getMethod(getInitMethodName(_maxSuffix), 0);
+        if (currentInitMethod.getSourceCode().size() > _maxEnumerationsPerClass) {
+            ++_maxSuffix;
+            JMethod mInit = createInitMethod(jClass);
+            currentInitMethod.getSourceCode().add("members.putAll(" + mInit.getName() + "());");
+            currentInitMethod.getSourceCode().add("return members;");
+            
+            return mInit.getSourceCode();
+        }
+        return currentInitMethod.getSourceCode();
+    }
+    
+    private String getInitMethodName(int index) {
+        if (index == 0) {
+            return "init";
+        }
+        
+        return "init" + index;
+    }
 
     private boolean selectNamingScheme(final Enumeration enumeration, final boolean useValuesAsName) {
         boolean duplicateTranslation = false;
@@ -279,7 +342,8 @@ public class EnumerationFactory extends BaseFactory {
      * @return an 'init()' method for this enumeration class.
      */
     private JMethod createInitMethod(final JClass jClass) {
-        JMethod mInit = new JMethod("init", SGTypes.createHashtable(_config.useJava50()),
+        final String initMethodName = getInitMethodName(_maxSuffix);
+        JMethod mInit = new JMethod(initMethodName, SGTypes.createHashtable(_config.useJava50()),
                                     "the initialized Hashtable for the member table");
         jClass.addMethod(mInit);
         mInit.getModifiers().makePrivate();
