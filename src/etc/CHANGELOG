@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1710 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with 'excessive' sizes of classes generated for enumerations.
+       Details: http://jira.codehaus.org/browse/CASTOR-1710
+       (Werner - 20061130)
+
 All:   Resolved issue CASTOR-1711 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Allowed param value to be CDATA instead of NMTOKEN at mapping.dtd.
        Details: http://jira.codehaus.org/browse/CASTOR-1711

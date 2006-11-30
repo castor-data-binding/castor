@@ -174,6 +174,19 @@ public class BuilderConfiguration {
          */
         public static final String CONFIG_FILENAME_PROPERTY = "castorbuilder.properties";
 
+        /**
+         * Maximum number of constant definitions within one file. This property
+         * is used to allow the user to configure the maximum number of
+         * constant definitions (within a Java class as generated as a result of
+         * an enumeration); default is 1000. Is this number if exceeded, no constants 
+         * will be generated anymore. 
+         *
+         * <pre>
+         * org.exolab.castor.builder.maxNumberOfConstants
+         * </pre>
+         */
+        public static final String MAX_CONSTANTS_PROPERTY = "org.exolab.castor.builder.maxNumberOfConstants";
+        
         static final String ResourceName = "/org/exolab/castor/builder/castorbuilder.properties";
     } //--Property
 
@@ -368,6 +381,18 @@ public class BuilderConfiguration {
         return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JavaVersion, "1.4"));
     } //-- useEnumeratedTypeInterface
 
+    /**
+     * Returns the maximum number of static constant definitions that are 
+     * acceptable within one class file; default is 1000.
+     *
+     * @return the maximum number of static constant definitions acceptable within 
+     *    one class file
+     */
+    public int getMaximumNumberOfConstants() {
+        String property = _localProps.getProperty(Property.MAX_CONSTANTS_PROPERTY, "1000");
+        return Integer.valueOf(property).intValue();
+    }
+    
     /**
      * Sets the 'enumTypeAccessInterface' property
      *

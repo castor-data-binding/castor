@@ -103,6 +103,26 @@
 
             </summary>
             <bugs>
+                <bug id="1710" tool="jira">
+                    <description>
+                    	Fixed problem with 'excessive' sizes of classes generated for enumerations.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Quince D. Wilson</name>
+                        <email>qwilson1843@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061130</date>
+                </bug>
                 <bug id="1711" tool="jira">
                     <description>
                         Allowed param value to be CDATA instead of NMTOKEN at mapping.dtd.

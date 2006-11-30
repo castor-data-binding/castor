@@ -205,6 +205,14 @@ public final class JSourceCode {
         }
         return sb.toString();
     } //-- toString
+    
+    /**
+     * Returns the number of source code lines (aka JCodeStatements) set so far. 
+     * @return The number of source code lines set so far.
+     */
+    public int size() {
+        return _source.size();
+    }
 
     /**
      * Adds the given JCodeStatement to this JSourceCode.

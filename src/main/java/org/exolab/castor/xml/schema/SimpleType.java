@@ -48,6 +48,7 @@ package org.exolab.castor.xml.schema;
 import org.exolab.castor.xml.*;
 
 import java.util.Enumeration;
+import java.util.Iterator;
 
 /**
  * An XML Schema SimpleType
@@ -479,5 +480,21 @@ public abstract class SimpleType extends XMLType
     protected void copyFacets(SimpleType target) { 
         target.facets.add(facets); 
     } //-- copyFacets
+    
+    /**
+     * Returns the number of facets named 'name' within the list of facets of this simple type.
+     * @param name Name (type) of the facet. 
+     * @return number of facets named 'name'
+     */
+    public int getNumberOfFacets(final String name) {
+        int counter = 0;
+        for (Enumeration enumerator = getFacets(); enumerator.hasMoreElements(); ) {
+            Facet facet = (Facet) enumerator.nextElement();
+            if (facet.getName().equals(name)) {
+                counter++;
+            }
+        }
+        return counter;
+    }
     
 } //-- SimpleType
