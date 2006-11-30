@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-399 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for specifying member visibility during code generation through binding file.
+       Details: http://jira.codehaus.org/browse/CASTOR-399
+       (Werner - 20061130)
+
 XML:   Resolved issue CASTOR-1710 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with 'excessive' sizes of classes generated for enumerations.
        Details: http://jira.codehaus.org/browse/CASTOR-1710

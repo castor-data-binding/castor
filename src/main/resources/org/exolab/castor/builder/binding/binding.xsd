@@ -188,6 +188,15 @@
                  </xsd:restriction>
 	         </xsd:simpleType> 
 	     </xsd:attribute>        
+         <xsd:attribute name="visibility">
+             <xsd:simpleType>
+	             <xsd:restriction base="xsd:string">
+                     <xsd:enumeration value="public"/>
+                     <xsd:enumeration value="protected"/>
+	                 <xsd:enumeration value="private"/>
+                 </xsd:restriction>
+	         </xsd:simpleType> 
+	     </xsd:attribute>        
 	     <xsd:attribute name="validator" type="xsd:string"/>
      </xsd:complexType>
      

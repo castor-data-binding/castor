@@ -52,6 +52,7 @@ import org.exolab.castor.builder.BindingComponent;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.GroupNaming;
 import org.exolab.castor.builder.TypeConversion;
+import org.exolab.castor.builder.binding.types.FieldTypeVisibilityType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
@@ -1278,6 +1279,22 @@ public class XMLBindingComponent implements BindingComponent {
         return null;
     }
 
+    /**
+     * Returns the visibility of the Java member to generate.
+     *
+     * @return the visibility of the Java member to generate.
+     */
+     public String getVisiblity() {
+         if (_type == MEMBER) {
+             final FieldTypeVisibilityType visibility = _member.getVisibility();
+             if (visibility != null) {
+                 return visibility.toString();
+             }
+             return "private";
+         }
+         return null;
+     }
+    
     /**
      * Returns the type of this component binding. A component binding can be of
      * three different types:

@@ -89,6 +89,33 @@
 
                 <h2>Additions</h2>
 
+                <h3>Code generation - Specifying member visibility in binding file</h3>
+                
+                <p>It is now - at the &lt;member&gt; level - possible tp specify a Java 
+                   member's visibility (different from the default value"private") 
+                   similar to ...</p>
+                   
+				<code-panel><![CDATA[
+<elementBinding name="complexType:rootType/value">
+  <member visibility="protected"/>
+</elementBinding>]]></code-panel>
+
+				<p>Valid values for the visibility attribute are <tt>protected</tt>, 
+				   <tt>private</tt> and <tt>public</tt>, as per the definition in 
+				   <tt>binding.xsd</tt>.</p>
+				   
+				<code-panel><![CDATA[
+<xsd:attribute name="visibility">
+   <xsd:simpleType>
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="public"/>
+         <xsd:enumeration value="protected"/>
+         <xsd:enumeration value="private"/>
+      </xsd:restriction>
+   </xsd:simpleType> 
+</xsd:attribute>]]></code-panel>
+				   
+
                 <h3>Support for additional collection types in binding file</h3>
                 
 				<p>Added support for specifying additional collection types 
@@ -103,6 +130,27 @@
 
             </summary>
             <bugs>
+                <bug id="399" tool="jira">
+                    <description>
+                    	Added support for specifying member visibility during code generation 
+                    	through binding file.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061130</date>
+                </bug>
                 <bug id="1710" tool="jira">
                     <description>
                     	Fixed problem with 'excessive' sizes of classes generated for enumerations.

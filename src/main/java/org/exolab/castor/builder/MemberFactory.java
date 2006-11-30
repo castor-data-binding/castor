@@ -433,6 +433,11 @@ public class MemberFactory extends BaseFactory {
         if (component.getValidator() != null) {
             fieldInfo.setValidator(component.getValidator());
         }
+        
+        if (component.getVisiblity() != null) {
+            String visibility = component.getVisiblity();
+            fieldInfo.setVisibility(visibility);
+        }
 
         return fieldInfo;
     }
