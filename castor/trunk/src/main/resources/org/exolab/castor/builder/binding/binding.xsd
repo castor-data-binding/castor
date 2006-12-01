@@ -16,7 +16,7 @@
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
 	    targetNamespace="http://www.castor.org/SourceGenerator/Binding"
 	    xmlns="http://www.castor.org/SourceGenerator/Binding"
-	    elementFormDefault="unqualified">
+	    elementFormDefault="qualified">
 
    <!-- The root element -->
     <xsd:element name="binding">
@@ -37,8 +37,8 @@
                 <xsd:element ref="attributeBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="complexTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="groupBinding" minOccurs="0" maxOccurs="unbounded"/>
-                <!-- Not yet implemented -->
-                <!--<xsd:element name="enumBinding" type="enumBindingType" minOccurs="0" maxOccurs="unbounded"/>-->
+                <xsd:element ref="enumBinding" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="simpleTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
             <!-- the binding type: 'element' approach or 'type' approach -->
             <xsd:attribute name="defaultBindingType" type="bindingType"/>
@@ -50,6 +50,8 @@
     <xsd:element name="attributeBinding" type="componentBindingType"/>
     <xsd:element name="complexTypeBinding" type="componentBindingType"/>
     <xsd:element name="groupBinding" type="componentBindingType"/>
+    <xsd:element name="enumBinding" type="componentBindingType"/>
+    <xsd:element name="simpleTypeBinding" type="componentBindingType"/>
                 
     <!--ComplexTypes definitions-->
     <xsd:complexType name="includeType">
@@ -122,11 +124,14 @@
                      </xsd:complexType> 
                  </xsd:element>
                  <xsd:element name="member" type="fieldType"/>
+                 <xsd:element name="enum" type="enumBindingType"/>
              </xsd:choice>
              <xsd:element ref="elementBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="attributeBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="complexTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="groupBinding" minOccurs="0" maxOccurs="unbounded"/>   
+             <xsd:element ref="enumBinding" minOccurs="0" maxOccurs="unbounded"/>
+             <xsd:element ref="simpleTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
          </xsd:sequence>
          <!--the name of the schema component or an XPath expression that identify the component-->
          <xsd:attribute name="name" type="pathType" use="required"/>
@@ -200,15 +205,17 @@
 	     <xsd:attribute name="validator" type="xsd:string"/>
      </xsd:complexType>
      
-    <!-- <xsd:complexType name="enumBindingType">
+    <xsd:complexType name="enumBindingType">
          <xsd:annotation>
             <xsd:documentation>
                 This type allows the mapping between an XML schema enumeration
                 and a java class that follows the type-safe enumeration paradigm.
+                Additionally, it allows the specify the name of the Java constant
+                definition for a given enumeraton value.
             </xsd:documentation>
          </xsd:annotation>
          <xsd:sequence>
-             <xsd:element name="enumClassName">
+             <xsd:element name="enumClassName" minOccurs="0" maxOccurs="1">
                  <xsd:complexType>
                      <xsd:simpleContent>
                          <xsd:extension base="xsd:string">
@@ -217,7 +224,7 @@
                      </xsd:simpleContent>
                  </xsd:complexType>
              </xsd:element>
-             <xsd:element name="enumMember">
+             <xsd:element name="enumMember" minOccurs="0" maxOccurs="unbounded">
                  <xsd:complexType>
                      <xsd:sequence>
                          <xsd:element name="value" type="xsd:string"/>
@@ -226,7 +233,7 @@
                  </xsd:complexType>
              </xsd:element>
          </xsd:sequence>
-     </xsd:complexType>-->
+     </xsd:complexType>
 
      <!--simpleType definitions-->
      <xsd:simpleType name="pathType">

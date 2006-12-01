@@ -1,7 +1,7 @@
 /*
  * This class was automatically generated with 
- * <a href="http://castor.exolab.org">Castor 0.9.4</a>, using an
- * XML Schema.
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * Schema.
  * $Id$
  */
 
@@ -11,24 +11,23 @@ package org.exolab.castor.builder.binding;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import java.util.Vector;
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.Unmarshaller;
 
 /**
+ * A binding element is defined to express the binding between an
+ * XML Schema Component
+ *  and Java class OR a java interface or a java member class. The
+ * XML Schema component can 
+ *  be an element, an attribute, a complexType or a group.
+ * Attribute cannot be mapped to 
+ *  class, the reader of a binding file will take care that class
+ * or interface are not
+ *  used for component whose xml-type is attribute.
+ *  
  * 
- *                 A binding element is defined to express the
- * binding between an XML Schema Component
- *                 and Java class OR a java interface or a java
- * member class. The XML Schema component can 
- *                 be an element, an attribute, a complexType or a
- * group. Attribute cannot be mapped to 
- *                 class, the reader of a binding file will take
- * care that class or interface are not
- *                 used for component whose xml-type is attribute.
- *             
- * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ * @version $Revision$ $Date$
+ */
 public class ComponentBindingType implements java.io.Serializable {
 
 
@@ -36,29 +35,60 @@ public class ComponentBindingType implements java.io.Serializable {
      //- Class/Member Variables -/
     //--------------------------/
 
+    /**
+     * Field _name
+     */
     private java.lang.String _name;
 
-    private ComponentBindingTypeChoice _componentBindingTypeChoice;
+    /**
+     * Field _componentBindingTypeChoice
+     */
+    private org.exolab.castor.builder.binding.ComponentBindingTypeChoice _componentBindingTypeChoice;
 
-    private java.util.Vector _elementBindingList;
+    /**
+     * Field _elementBindingList
+     */
+    private java.util.List _elementBindingList;
 
-    private java.util.Vector _attributeBindingList;
+    /**
+     * Field _attributeBindingList
+     */
+    private java.util.List _attributeBindingList;
 
-    private java.util.Vector _complexTypeBindingList;
+    /**
+     * Field _complexTypeBindingList
+     */
+    private java.util.List _complexTypeBindingList;
 
-    private java.util.Vector _groupBindingList;
+    /**
+     * Field _groupBindingList
+     */
+    private java.util.List _groupBindingList;
+
+    /**
+     * Field _enumBindingList
+     */
+    private java.util.List _enumBindingList;
+
+    /**
+     * Field _simpleTypeBindingList
+     */
+    private java.util.List _simpleTypeBindingList;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public ComponentBindingType() {
+    public ComponentBindingType() 
+     {
         super();
-        _elementBindingList = new Vector();
-        _attributeBindingList = new Vector();
-        _complexTypeBindingList = new Vector();
-        _groupBindingList = new Vector();
+        this._elementBindingList = new java.util.ArrayList();
+        this._attributeBindingList = new java.util.ArrayList();
+        this._complexTypeBindingList = new java.util.ArrayList();
+        this._groupBindingList = new java.util.ArrayList();
+        this._enumBindingList = new java.util.ArrayList();
+        this._simpleTypeBindingList = new java.util.ArrayList();
     } //-- org.exolab.castor.builder.binding.ComponentBindingType()
 
 
@@ -70,284 +100,593 @@ public class ComponentBindingType implements java.io.Serializable {
      * 
      * 
      * @param vAttributeBinding
-    **/
-    public void addAttributeBinding(ComponentBindingType vAttributeBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType vAttributeBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _attributeBindingList.addElement(vAttributeBinding);
-    } //-- void addAttributeBinding(ComponentBindingType) 
+        this._attributeBindingList.add(vAttributeBinding);
+    } //-- void addAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param index
      * @param vAttributeBinding
-    **/
-    public void addAttributeBinding(int index, ComponentBindingType vAttributeBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addAttributeBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vAttributeBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _attributeBindingList.insertElementAt(vAttributeBinding, index);
-    } //-- void addAttributeBinding(int, ComponentBindingType) 
+        this._attributeBindingList.add(index, vAttributeBinding);
+    } //-- void addAttributeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param vComplexTypeBinding
-    **/
-    public void addComplexTypeBinding(ComponentBindingType vComplexTypeBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType vComplexTypeBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _complexTypeBindingList.addElement(vComplexTypeBinding);
-    } //-- void addComplexTypeBinding(ComponentBindingType) 
+        this._complexTypeBindingList.add(vComplexTypeBinding);
+    } //-- void addComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param index
      * @param vComplexTypeBinding
-    **/
-    public void addComplexTypeBinding(int index, ComponentBindingType vComplexTypeBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addComplexTypeBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vComplexTypeBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _complexTypeBindingList.insertElementAt(vComplexTypeBinding, index);
-    } //-- void addComplexTypeBinding(int, ComponentBindingType) 
+        this._complexTypeBindingList.add(index, vComplexTypeBinding);
+    } //-- void addComplexTypeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param vElementBinding
-    **/
-    public void addElementBinding(ComponentBindingType vElementBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addElementBinding(org.exolab.castor.builder.binding.ComponentBindingType vElementBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _elementBindingList.addElement(vElementBinding);
-    } //-- void addElementBinding(ComponentBindingType) 
+        this._elementBindingList.add(vElementBinding);
+    } //-- void addElementBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param index
      * @param vElementBinding
-    **/
-    public void addElementBinding(int index, ComponentBindingType vElementBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addElementBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vElementBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _elementBindingList.insertElementAt(vElementBinding, index);
-    } //-- void addElementBinding(int, ComponentBindingType) 
+        this._elementBindingList.add(index, vElementBinding);
+    } //-- void addElementBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * 
+     * 
+     * @param vEnumBinding
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType vEnumBinding)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._enumBindingList.add(vEnumBinding);
+    } //-- void addEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vEnumBinding
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addEnumBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vEnumBinding)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._enumBindingList.add(index, vEnumBinding);
+    } //-- void addEnumBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param vGroupBinding
-    **/
-    public void addGroupBinding(ComponentBindingType vGroupBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType vGroupBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _groupBindingList.addElement(vGroupBinding);
-    } //-- void addGroupBinding(ComponentBindingType) 
+        this._groupBindingList.add(vGroupBinding);
+    } //-- void addGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param index
      * @param vGroupBinding
-    **/
-    public void addGroupBinding(int index, ComponentBindingType vGroupBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addGroupBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vGroupBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        _groupBindingList.insertElementAt(vGroupBinding, index);
-    } //-- void addGroupBinding(int, ComponentBindingType) 
+        this._groupBindingList.add(index, vGroupBinding);
+    } //-- void addGroupBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-    **/
+     * 
+     * 
+     * @param vSimpleTypeBinding
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType vSimpleTypeBinding)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._simpleTypeBindingList.add(vSimpleTypeBinding);
+    } //-- void addSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vSimpleTypeBinding
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void addSimpleTypeBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vSimpleTypeBinding)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._simpleTypeBindingList.add(index, vSimpleTypeBinding);
+    } //-- void addSimpleTypeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method enumerateAttributeBinding
+     * 
+     * 
+     * 
+     * @return an Enumeration over all possible elements of this
+     * collection
+     */
     public java.util.Enumeration enumerateAttributeBinding()
     {
-        return _attributeBindingList.elements();
+        return java.util.Collections.enumeration(this._attributeBindingList);
     } //-- java.util.Enumeration enumerateAttributeBinding() 
 
     /**
-    **/
+     * Method enumerateComplexTypeBinding
+     * 
+     * 
+     * 
+     * @return an Enumeration over all possible elements of this
+     * collection
+     */
     public java.util.Enumeration enumerateComplexTypeBinding()
     {
-        return _complexTypeBindingList.elements();
+        return java.util.Collections.enumeration(this._complexTypeBindingList);
     } //-- java.util.Enumeration enumerateComplexTypeBinding() 
 
     /**
-    **/
+     * Method enumerateElementBinding
+     * 
+     * 
+     * 
+     * @return an Enumeration over all possible elements of this
+     * collection
+     */
     public java.util.Enumeration enumerateElementBinding()
     {
-        return _elementBindingList.elements();
+        return java.util.Collections.enumeration(this._elementBindingList);
     } //-- java.util.Enumeration enumerateElementBinding() 
 
     /**
-    **/
+     * Method enumerateEnumBinding
+     * 
+     * 
+     * 
+     * @return an Enumeration over all possible elements of this
+     * collection
+     */
+    public java.util.Enumeration enumerateEnumBinding()
+    {
+        return java.util.Collections.enumeration(this._enumBindingList);
+    } //-- java.util.Enumeration enumerateEnumBinding() 
+
+    /**
+     * Method enumerateGroupBinding
+     * 
+     * 
+     * 
+     * @return an Enumeration over all possible elements of this
+     * collection
+     */
     public java.util.Enumeration enumerateGroupBinding()
     {
-        return _groupBindingList.elements();
+        return java.util.Collections.enumeration(this._groupBindingList);
     } //-- java.util.Enumeration enumerateGroupBinding() 
 
     /**
+     * Method enumerateSimpleTypeBinding
+     * 
+     * 
+     * 
+     * @return an Enumeration over all possible elements of this
+     * collection
+     */
+    public java.util.Enumeration enumerateSimpleTypeBinding()
+    {
+        return java.util.Collections.enumeration(this._simpleTypeBindingList);
+    } //-- java.util.Enumeration enumerateSimpleTypeBinding() 
+
+    /**
+     * Method getAttributeBinding
+     * 
      * 
      * 
      * @param index
-    **/
-    public ComponentBindingType getAttributeBinding(int index)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.builder.binding.ComponentBindingType at
+     * the given index
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType getAttributeBinding(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _attributeBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._attributeBindingList.size()) {
+            throw new IndexOutOfBoundsException("getAttributeBinding: Index value '" + index + "' not in range [0.." + (this._attributeBindingList.size() - 1) + "]");
         }
         
-        return (ComponentBindingType) _attributeBindingList.elementAt(index);
-    } //-- ComponentBindingType getAttributeBinding(int) 
+        return (org.exolab.castor.builder.binding.ComponentBindingType) _attributeBindingList.get(index);
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType getAttributeBinding(int) 
 
     /**
-    **/
-    public ComponentBindingType[] getAttributeBinding()
+     * Method getAttributeBinding
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType[] getAttributeBinding()
     {
-        int size = _attributeBindingList.size();
-        ComponentBindingType[] mArray = new ComponentBindingType[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (ComponentBindingType) _attributeBindingList.elementAt(index);
+        int size = this._attributeBindingList.size();
+        org.exolab.castor.builder.binding.ComponentBindingType[] array = new org.exolab.castor.builder.binding.ComponentBindingType[size];
+        java.util.Iterator iter = _attributeBindingList.iterator();
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.builder.binding.ComponentBindingType) iter.next();
         }
-        return mArray;
-    } //-- ComponentBindingType[] getAttributeBinding() 
+        
+        return array;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getAttributeBinding() 
 
     /**
-    **/
+     * Method getAttributeBindingCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
     public int getAttributeBindingCount()
     {
-        return _attributeBindingList.size();
+        return this._attributeBindingList.size();
     } //-- int getAttributeBindingCount() 
 
     /**
+     * Method getComplexTypeBinding
+     * 
      * 
      * 
      * @param index
-    **/
-    public ComponentBindingType getComplexTypeBinding(int index)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.builder.binding.ComponentBindingType at
+     * the given index
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType getComplexTypeBinding(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _complexTypeBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._complexTypeBindingList.size()) {
+            throw new IndexOutOfBoundsException("getComplexTypeBinding: Index value '" + index + "' not in range [0.." + (this._complexTypeBindingList.size() - 1) + "]");
         }
         
-        return (ComponentBindingType) _complexTypeBindingList.elementAt(index);
-    } //-- ComponentBindingType getComplexTypeBinding(int) 
+        return (org.exolab.castor.builder.binding.ComponentBindingType) _complexTypeBindingList.get(index);
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType getComplexTypeBinding(int) 
 
     /**
-    **/
-    public ComponentBindingType[] getComplexTypeBinding()
+     * Method getComplexTypeBinding
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType[] getComplexTypeBinding()
     {
-        int size = _complexTypeBindingList.size();
-        ComponentBindingType[] mArray = new ComponentBindingType[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (ComponentBindingType) _complexTypeBindingList.elementAt(index);
+        int size = this._complexTypeBindingList.size();
+        org.exolab.castor.builder.binding.ComponentBindingType[] array = new org.exolab.castor.builder.binding.ComponentBindingType[size];
+        java.util.Iterator iter = _complexTypeBindingList.iterator();
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.builder.binding.ComponentBindingType) iter.next();
         }
-        return mArray;
-    } //-- ComponentBindingType[] getComplexTypeBinding() 
+        
+        return array;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getComplexTypeBinding() 
 
     /**
-    **/
+     * Method getComplexTypeBindingCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
     public int getComplexTypeBindingCount()
     {
-        return _complexTypeBindingList.size();
+        return this._complexTypeBindingList.size();
     } //-- int getComplexTypeBindingCount() 
 
     /**
      * Returns the value of field 'componentBindingTypeChoice'.
      * 
-     * @return the value of field 'componentBindingTypeChoice'.
-    **/
-    public ComponentBindingTypeChoice getComponentBindingTypeChoice()
+     * @return the value of field 'ComponentBindingTypeChoice'.
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingTypeChoice getComponentBindingTypeChoice()
     {
         return this._componentBindingTypeChoice;
-    } //-- ComponentBindingTypeChoice getComponentBindingTypeChoice() 
+    } //-- org.exolab.castor.builder.binding.ComponentBindingTypeChoice getComponentBindingTypeChoice() 
 
     /**
+     * Method getElementBinding
+     * 
      * 
      * 
      * @param index
-    **/
-    public ComponentBindingType getElementBinding(int index)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.builder.binding.ComponentBindingType at
+     * the given index
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType getElementBinding(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _elementBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._elementBindingList.size()) {
+            throw new IndexOutOfBoundsException("getElementBinding: Index value '" + index + "' not in range [0.." + (this._elementBindingList.size() - 1) + "]");
         }
         
-        return (ComponentBindingType) _elementBindingList.elementAt(index);
-    } //-- ComponentBindingType getElementBinding(int) 
+        return (org.exolab.castor.builder.binding.ComponentBindingType) _elementBindingList.get(index);
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType getElementBinding(int) 
 
     /**
-    **/
-    public ComponentBindingType[] getElementBinding()
+     * Method getElementBinding
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType[] getElementBinding()
     {
-        int size = _elementBindingList.size();
-        ComponentBindingType[] mArray = new ComponentBindingType[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (ComponentBindingType) _elementBindingList.elementAt(index);
+        int size = this._elementBindingList.size();
+        org.exolab.castor.builder.binding.ComponentBindingType[] array = new org.exolab.castor.builder.binding.ComponentBindingType[size];
+        java.util.Iterator iter = _elementBindingList.iterator();
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.builder.binding.ComponentBindingType) iter.next();
         }
-        return mArray;
-    } //-- ComponentBindingType[] getElementBinding() 
+        
+        return array;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getElementBinding() 
 
     /**
-    **/
+     * Method getElementBindingCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
     public int getElementBindingCount()
     {
-        return _elementBindingList.size();
+        return this._elementBindingList.size();
     } //-- int getElementBindingCount() 
 
     /**
+     * Method getEnumBinding
+     * 
      * 
      * 
      * @param index
-    **/
-    public ComponentBindingType getGroupBinding(int index)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.builder.binding.ComponentBindingType at
+     * the given index
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType getEnumBinding(int index)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _groupBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._enumBindingList.size()) {
+            throw new IndexOutOfBoundsException("getEnumBinding: Index value '" + index + "' not in range [0.." + (this._enumBindingList.size() - 1) + "]");
         }
         
-        return (ComponentBindingType) _groupBindingList.elementAt(index);
-    } //-- ComponentBindingType getGroupBinding(int) 
+        return (org.exolab.castor.builder.binding.ComponentBindingType) _enumBindingList.get(index);
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType getEnumBinding(int) 
 
     /**
-    **/
-    public ComponentBindingType[] getGroupBinding()
+     * Method getEnumBinding
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType[] getEnumBinding()
     {
-        int size = _groupBindingList.size();
-        ComponentBindingType[] mArray = new ComponentBindingType[size];
-        for (int index = 0; index < size; index++) {
-            mArray[index] = (ComponentBindingType) _groupBindingList.elementAt(index);
+        int size = this._enumBindingList.size();
+        org.exolab.castor.builder.binding.ComponentBindingType[] array = new org.exolab.castor.builder.binding.ComponentBindingType[size];
+        java.util.Iterator iter = _enumBindingList.iterator();
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.builder.binding.ComponentBindingType) iter.next();
         }
-        return mArray;
-    } //-- ComponentBindingType[] getGroupBinding() 
+        
+        return array;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getEnumBinding() 
 
     /**
-    **/
+     * Method getEnumBindingCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
+    public int getEnumBindingCount()
+    {
+        return this._enumBindingList.size();
+    } //-- int getEnumBindingCount() 
+
+    /**
+     * Method getGroupBinding
+     * 
+     * 
+     * 
+     * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.builder.binding.ComponentBindingType at
+     * the given index
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType getGroupBinding(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._groupBindingList.size()) {
+            throw new IndexOutOfBoundsException("getGroupBinding: Index value '" + index + "' not in range [0.." + (this._groupBindingList.size() - 1) + "]");
+        }
+        
+        return (org.exolab.castor.builder.binding.ComponentBindingType) _groupBindingList.get(index);
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType getGroupBinding(int) 
+
+    /**
+     * Method getGroupBinding
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType[] getGroupBinding()
+    {
+        int size = this._groupBindingList.size();
+        org.exolab.castor.builder.binding.ComponentBindingType[] array = new org.exolab.castor.builder.binding.ComponentBindingType[size];
+        java.util.Iterator iter = _groupBindingList.iterator();
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.builder.binding.ComponentBindingType) iter.next();
+        }
+        
+        return array;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getGroupBinding() 
+
+    /**
+     * Method getGroupBindingCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
     public int getGroupBindingCount()
     {
-        return _groupBindingList.size();
+        return this._groupBindingList.size();
     } //-- int getGroupBindingCount() 
 
     /**
      * Returns the value of field 'name'.
      * 
-     * @return the value of field 'name'.
-    **/
+     * @return the value of field 'Name'.
+     */
     public java.lang.String getName()
     {
         return this._name;
     } //-- java.lang.String getName() 
 
     /**
-    **/
+     * Method getSimpleTypeBinding
+     * 
+     * 
+     * 
+     * @param index
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     * @return the value of the
+     * org.exolab.castor.builder.binding.ComponentBindingType at
+     * the given index
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType getSimpleTypeBinding(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._simpleTypeBindingList.size()) {
+            throw new IndexOutOfBoundsException("getSimpleTypeBinding: Index value '" + index + "' not in range [0.." + (this._simpleTypeBindingList.size() - 1) + "]");
+        }
+        
+        return (org.exolab.castor.builder.binding.ComponentBindingType) _simpleTypeBindingList.get(index);
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType getSimpleTypeBinding(int) 
+
+    /**
+     * Method getSimpleTypeBinding
+     * 
+     * 
+     * 
+     * @return this collection as an Array
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType[] getSimpleTypeBinding()
+    {
+        int size = this._simpleTypeBindingList.size();
+        org.exolab.castor.builder.binding.ComponentBindingType[] array = new org.exolab.castor.builder.binding.ComponentBindingType[size];
+        java.util.Iterator iter = _simpleTypeBindingList.iterator();
+        for (int index = 0; index < size; index++){
+            array[index] = (org.exolab.castor.builder.binding.ComponentBindingType) iter.next();
+        }
+        
+        return array;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getSimpleTypeBinding() 
+
+    /**
+     * Method getSimpleTypeBindingCount
+     * 
+     * 
+     * 
+     * @return the size of this collection
+     */
+    public int getSimpleTypeBindingCount()
+    {
+        return this._simpleTypeBindingList.size();
+    } //-- int getSimpleTypeBindingCount() 
+
+    /**
+     * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
+     */
     public boolean isValid()
     {
         try {
@@ -360,10 +699,92 @@ public class ComponentBindingType implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
+     * Method iterateAttributeBinding
+     * 
+     * 
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateAttributeBinding()
+    {
+        return this._attributeBindingList.iterator();
+    } //-- java.util.Iterator iterateAttributeBinding() 
+
+    /**
+     * Method iterateComplexTypeBinding
+     * 
+     * 
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateComplexTypeBinding()
+    {
+        return this._complexTypeBindingList.iterator();
+    } //-- java.util.Iterator iterateComplexTypeBinding() 
+
+    /**
+     * Method iterateElementBinding
+     * 
+     * 
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateElementBinding()
+    {
+        return this._elementBindingList.iterator();
+    } //-- java.util.Iterator iterateElementBinding() 
+
+    /**
+     * Method iterateEnumBinding
+     * 
+     * 
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateEnumBinding()
+    {
+        return this._enumBindingList.iterator();
+    } //-- java.util.Iterator iterateEnumBinding() 
+
+    /**
+     * Method iterateGroupBinding
+     * 
+     * 
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateGroupBinding()
+    {
+        return this._groupBindingList.iterator();
+    } //-- java.util.Iterator iterateGroupBinding() 
+
+    /**
+     * Method iterateSimpleTypeBinding
+     * 
+     * 
+     * 
+     * @return an Iterator over all possible elements in this
+     * collection
+     */
+    public java.util.Iterator iterateSimpleTypeBinding()
+    {
+        return this._simpleTypeBindingList.iterator();
+    } //-- java.util.Iterator iterateSimpleTypeBinding() 
+
+    /**
      * 
      * 
      * @param out
-    **/
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
     public void marshal(java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
@@ -375,7 +796,13 @@ public class ComponentBindingType implements java.io.Serializable {
      * 
      * 
      * @param handler
-    **/
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     */
     public void marshal(org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
@@ -384,217 +811,401 @@ public class ComponentBindingType implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-    **/
+     */
     public void removeAllAttributeBinding()
     {
-        _attributeBindingList.removeAllElements();
+        this._attributeBindingList.clear();
     } //-- void removeAllAttributeBinding() 
 
     /**
-    **/
+     */
     public void removeAllComplexTypeBinding()
     {
-        _complexTypeBindingList.removeAllElements();
+        this._complexTypeBindingList.clear();
     } //-- void removeAllComplexTypeBinding() 
 
     /**
-    **/
+     */
     public void removeAllElementBinding()
     {
-        _elementBindingList.removeAllElements();
+        this._elementBindingList.clear();
     } //-- void removeAllElementBinding() 
 
     /**
-    **/
+     */
+    public void removeAllEnumBinding()
+    {
+        this._enumBindingList.clear();
+    } //-- void removeAllEnumBinding() 
+
+    /**
+     */
     public void removeAllGroupBinding()
     {
-        _groupBindingList.removeAllElements();
+        this._groupBindingList.clear();
     } //-- void removeAllGroupBinding() 
 
     /**
-     * 
-     * 
-     * @param index
-    **/
-    public ComponentBindingType removeAttributeBinding(int index)
+     */
+    public void removeAllSimpleTypeBinding()
     {
-        java.lang.Object obj = _attributeBindingList.elementAt(index);
-        _attributeBindingList.removeElementAt(index);
-        return (ComponentBindingType) obj;
-    } //-- ComponentBindingType removeAttributeBinding(int) 
+        this._simpleTypeBindingList.clear();
+    } //-- void removeAllSimpleTypeBinding() 
 
     /**
+     * Method removeAttributeBinding
      * 
      * 
-     * @param index
-    **/
-    public ComponentBindingType removeComplexTypeBinding(int index)
+     * 
+     * @param vAttributeBinding
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType vAttributeBinding)
     {
-        java.lang.Object obj = _complexTypeBindingList.elementAt(index);
-        _complexTypeBindingList.removeElementAt(index);
-        return (ComponentBindingType) obj;
-    } //-- ComponentBindingType removeComplexTypeBinding(int) 
+        boolean removed = _attributeBindingList.remove(vAttributeBinding);
+        return removed;
+    } //-- boolean removeAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
+     * Method removeAttributeBindingAt
+     * 
      * 
      * 
      * @param index
-    **/
-    public ComponentBindingType removeElementBinding(int index)
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType removeAttributeBindingAt(int index)
     {
-        java.lang.Object obj = _elementBindingList.elementAt(index);
-        _elementBindingList.removeElementAt(index);
-        return (ComponentBindingType) obj;
-    } //-- ComponentBindingType removeElementBinding(int) 
+        Object obj = this._attributeBindingList.remove(index);
+        return (org.exolab.castor.builder.binding.ComponentBindingType) obj;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType removeAttributeBindingAt(int) 
 
     /**
+     * Method removeComplexTypeBinding
+     * 
+     * 
+     * 
+     * @param vComplexTypeBinding
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType vComplexTypeBinding)
+    {
+        boolean removed = _complexTypeBindingList.remove(vComplexTypeBinding);
+        return removed;
+    } //-- boolean removeComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method removeComplexTypeBindingAt
+     * 
      * 
      * 
      * @param index
-    **/
-    public ComponentBindingType removeGroupBinding(int index)
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType removeComplexTypeBindingAt(int index)
     {
-        java.lang.Object obj = _groupBindingList.elementAt(index);
-        _groupBindingList.removeElementAt(index);
-        return (ComponentBindingType) obj;
-    } //-- ComponentBindingType removeGroupBinding(int) 
+        Object obj = this._complexTypeBindingList.remove(index);
+        return (org.exolab.castor.builder.binding.ComponentBindingType) obj;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType removeComplexTypeBindingAt(int) 
+
+    /**
+     * Method removeElementBinding
+     * 
+     * 
+     * 
+     * @param vElementBinding
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeElementBinding(org.exolab.castor.builder.binding.ComponentBindingType vElementBinding)
+    {
+        boolean removed = _elementBindingList.remove(vElementBinding);
+        return removed;
+    } //-- boolean removeElementBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method removeElementBindingAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType removeElementBindingAt(int index)
+    {
+        Object obj = this._elementBindingList.remove(index);
+        return (org.exolab.castor.builder.binding.ComponentBindingType) obj;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType removeElementBindingAt(int) 
+
+    /**
+     * Method removeEnumBinding
+     * 
+     * 
+     * 
+     * @param vEnumBinding
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType vEnumBinding)
+    {
+        boolean removed = _enumBindingList.remove(vEnumBinding);
+        return removed;
+    } //-- boolean removeEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method removeEnumBindingAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType removeEnumBindingAt(int index)
+    {
+        Object obj = this._enumBindingList.remove(index);
+        return (org.exolab.castor.builder.binding.ComponentBindingType) obj;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType removeEnumBindingAt(int) 
+
+    /**
+     * Method removeGroupBinding
+     * 
+     * 
+     * 
+     * @param vGroupBinding
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType vGroupBinding)
+    {
+        boolean removed = _groupBindingList.remove(vGroupBinding);
+        return removed;
+    } //-- boolean removeGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method removeGroupBindingAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType removeGroupBindingAt(int index)
+    {
+        Object obj = this._groupBindingList.remove(index);
+        return (org.exolab.castor.builder.binding.ComponentBindingType) obj;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType removeGroupBindingAt(int) 
+
+    /**
+     * Method removeSimpleTypeBinding
+     * 
+     * 
+     * 
+     * @param vSimpleTypeBinding
+     * @return true if the object was removed from the collection.
+     */
+    public boolean removeSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType vSimpleTypeBinding)
+    {
+        boolean removed = _simpleTypeBindingList.remove(vSimpleTypeBinding);
+        return removed;
+    } //-- boolean removeSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method removeSimpleTypeBindingAt
+     * 
+     * 
+     * 
+     * @param index
+     * @return the element removed from the collection
+     */
+    public org.exolab.castor.builder.binding.ComponentBindingType removeSimpleTypeBindingAt(int index)
+    {
+        Object obj = this._simpleTypeBindingList.remove(index);
+        return (org.exolab.castor.builder.binding.ComponentBindingType) obj;
+    } //-- org.exolab.castor.builder.binding.ComponentBindingType removeSimpleTypeBindingAt(int) 
 
     /**
      * 
      * 
      * @param index
      * @param vAttributeBinding
-    **/
-    public void setAttributeBinding(int index, ComponentBindingType vAttributeBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setAttributeBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vAttributeBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _attributeBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._attributeBindingList.size()) {
+            throw new IndexOutOfBoundsException("setAttributeBinding: Index value '" + index + "' not in range [0.." + (this._attributeBindingList.size() - 1) + "]");
         }
-        _attributeBindingList.setElementAt(vAttributeBinding, index);
-    } //-- void setAttributeBinding(int, ComponentBindingType) 
+        
+        this._attributeBindingList.set(index, vAttributeBinding);
+    } //-- void setAttributeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
-     * @param attributeBindingArray
-    **/
-    public void setAttributeBinding(ComponentBindingType[] attributeBindingArray)
+     * @param vAttributeBindingArray
+     */
+    public void setAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType[] vAttributeBindingArray)
     {
         //-- copy array
-        _attributeBindingList.removeAllElements();
-        for (int i = 0; i < attributeBindingArray.length; i++) {
-            _attributeBindingList.addElement(attributeBindingArray[i]);
+        _attributeBindingList.clear();
+        
+        for (int i = 0; i < vAttributeBindingArray.length; i++) {
+                this._attributeBindingList.add(vAttributeBindingArray[i]);
         }
-    } //-- void setAttributeBinding(ComponentBindingType) 
+    } //-- void setAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param index
      * @param vComplexTypeBinding
-    **/
-    public void setComplexTypeBinding(int index, ComponentBindingType vComplexTypeBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setComplexTypeBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vComplexTypeBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _complexTypeBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._complexTypeBindingList.size()) {
+            throw new IndexOutOfBoundsException("setComplexTypeBinding: Index value '" + index + "' not in range [0.." + (this._complexTypeBindingList.size() - 1) + "]");
         }
-        _complexTypeBindingList.setElementAt(vComplexTypeBinding, index);
-    } //-- void setComplexTypeBinding(int, ComponentBindingType) 
+        
+        this._complexTypeBindingList.set(index, vComplexTypeBinding);
+    } //-- void setComplexTypeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
-     * @param complexTypeBindingArray
-    **/
-    public void setComplexTypeBinding(ComponentBindingType[] complexTypeBindingArray)
+     * @param vComplexTypeBindingArray
+     */
+    public void setComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType[] vComplexTypeBindingArray)
     {
         //-- copy array
-        _complexTypeBindingList.removeAllElements();
-        for (int i = 0; i < complexTypeBindingArray.length; i++) {
-            _complexTypeBindingList.addElement(complexTypeBindingArray[i]);
+        _complexTypeBindingList.clear();
+        
+        for (int i = 0; i < vComplexTypeBindingArray.length; i++) {
+                this._complexTypeBindingList.add(vComplexTypeBindingArray[i]);
         }
-    } //-- void setComplexTypeBinding(ComponentBindingType) 
+    } //-- void setComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * Sets the value of field 'componentBindingTypeChoice'.
      * 
      * @param componentBindingTypeChoice the value of field
      * 'componentBindingTypeChoice'.
-    **/
-    public void setComponentBindingTypeChoice(ComponentBindingTypeChoice componentBindingTypeChoice)
+     */
+    public void setComponentBindingTypeChoice(org.exolab.castor.builder.binding.ComponentBindingTypeChoice componentBindingTypeChoice)
     {
         this._componentBindingTypeChoice = componentBindingTypeChoice;
-    } //-- void setComponentBindingTypeChoice(ComponentBindingTypeChoice) 
+    } //-- void setComponentBindingTypeChoice(org.exolab.castor.builder.binding.ComponentBindingTypeChoice) 
 
     /**
      * 
      * 
      * @param index
      * @param vElementBinding
-    **/
-    public void setElementBinding(int index, ComponentBindingType vElementBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setElementBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vElementBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _elementBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._elementBindingList.size()) {
+            throw new IndexOutOfBoundsException("setElementBinding: Index value '" + index + "' not in range [0.." + (this._elementBindingList.size() - 1) + "]");
         }
-        _elementBindingList.setElementAt(vElementBinding, index);
-    } //-- void setElementBinding(int, ComponentBindingType) 
+        
+        this._elementBindingList.set(index, vElementBinding);
+    } //-- void setElementBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
-     * @param elementBindingArray
-    **/
-    public void setElementBinding(ComponentBindingType[] elementBindingArray)
+     * @param vElementBindingArray
+     */
+    public void setElementBinding(org.exolab.castor.builder.binding.ComponentBindingType[] vElementBindingArray)
     {
         //-- copy array
-        _elementBindingList.removeAllElements();
-        for (int i = 0; i < elementBindingArray.length; i++) {
-            _elementBindingList.addElement(elementBindingArray[i]);
+        _elementBindingList.clear();
+        
+        for (int i = 0; i < vElementBindingArray.length; i++) {
+                this._elementBindingList.add(vElementBindingArray[i]);
         }
-    } //-- void setElementBinding(ComponentBindingType) 
+    } //-- void setElementBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * 
+     * 
+     * @param index
+     * @param vEnumBinding
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setEnumBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vEnumBinding)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._enumBindingList.size()) {
+            throw new IndexOutOfBoundsException("setEnumBinding: Index value '" + index + "' not in range [0.." + (this._enumBindingList.size() - 1) + "]");
+        }
+        
+        this._enumBindingList.set(index, vEnumBinding);
+    } //-- void setEnumBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * 
+     * 
+     * @param vEnumBindingArray
+     */
+    public void setEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType[] vEnumBindingArray)
+    {
+        //-- copy array
+        _enumBindingList.clear();
+        
+        for (int i = 0; i < vEnumBindingArray.length; i++) {
+                this._enumBindingList.add(vEnumBindingArray[i]);
+        }
+    } //-- void setEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
      * @param index
      * @param vGroupBinding
-    **/
-    public void setGroupBinding(int index, ComponentBindingType vGroupBinding)
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setGroupBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vGroupBinding)
         throws java.lang.IndexOutOfBoundsException
     {
-        //-- check bounds for index
-        if ((index < 0) || (index > _groupBindingList.size())) {
-            throw new IndexOutOfBoundsException();
+        // check bounds for index
+        if (index < 0 || index >= this._groupBindingList.size()) {
+            throw new IndexOutOfBoundsException("setGroupBinding: Index value '" + index + "' not in range [0.." + (this._groupBindingList.size() - 1) + "]");
         }
-        _groupBindingList.setElementAt(vGroupBinding, index);
-    } //-- void setGroupBinding(int, ComponentBindingType) 
+        
+        this._groupBindingList.set(index, vGroupBinding);
+    } //-- void setGroupBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * 
      * 
-     * @param groupBindingArray
-    **/
-    public void setGroupBinding(ComponentBindingType[] groupBindingArray)
+     * @param vGroupBindingArray
+     */
+    public void setGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType[] vGroupBindingArray)
     {
         //-- copy array
-        _groupBindingList.removeAllElements();
-        for (int i = 0; i < groupBindingArray.length; i++) {
-            _groupBindingList.addElement(groupBindingArray[i]);
+        _groupBindingList.clear();
+        
+        for (int i = 0; i < vGroupBindingArray.length; i++) {
+                this._groupBindingList.add(vGroupBindingArray[i]);
         }
-    } //-- void setGroupBinding(ComponentBindingType) 
+    } //-- void setGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
      * Sets the value of field 'name'.
      * 
      * @param name the value of field 'name'.
-    **/
+     */
     public void setName(java.lang.String name)
     {
         this._name = name;
@@ -603,8 +1214,50 @@ public class ComponentBindingType implements java.io.Serializable {
     /**
      * 
      * 
+     * @param index
+     * @param vSimpleTypeBinding
+     * @throws java.lang.IndexOutOfBoundsException if the index
+     * given is outside the bounds of the collection
+     */
+    public void setSimpleTypeBinding(int index, org.exolab.castor.builder.binding.ComponentBindingType vSimpleTypeBinding)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._simpleTypeBindingList.size()) {
+            throw new IndexOutOfBoundsException("setSimpleTypeBinding: Index value '" + index + "' not in range [0.." + (this._simpleTypeBindingList.size() - 1) + "]");
+        }
+        
+        this._simpleTypeBindingList.set(index, vSimpleTypeBinding);
+    } //-- void setSimpleTypeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * 
+     * 
+     * @param vSimpleTypeBindingArray
+     */
+    public void setSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType[] vSimpleTypeBindingArray)
+    {
+        //-- copy array
+        _simpleTypeBindingList.clear();
+        
+        for (int i = 0; i < vSimpleTypeBindingArray.length; i++) {
+                this._simpleTypeBindingList.add(vSimpleTypeBindingArray[i]);
+        }
+    } //-- void setSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
+
+    /**
+     * Method unmarshalComponentBindingType
+     * 
+     * 
+     * 
      * @param reader
-    **/
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.builder.binding.ComponentBindingType
+     */
     public static org.exolab.castor.builder.binding.ComponentBindingType unmarshalComponentBindingType(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
@@ -612,7 +1265,11 @@ public class ComponentBindingType implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType unmarshalComponentBindingType(java.io.Reader) 
 
     /**
-    **/
+     * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
     public void validate()
         throws org.exolab.castor.xml.ValidationException
     {

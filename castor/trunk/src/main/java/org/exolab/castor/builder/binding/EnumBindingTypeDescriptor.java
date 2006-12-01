@@ -8,11 +8,11 @@
 package org.exolab.castor.builder.binding;
 
 /**
- * Class ComponentBindingTypeChoiceDescriptor.
+ * Class EnumBindingTypeDescriptor.
  * 
  * @version $Revision$ $Date$
  */
-public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -49,14 +49,15 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
      //- Constructors -/
     //----------------/
 
-    public ComponentBindingTypeChoiceDescriptor() 
+    public EnumBindingTypeDescriptor() 
      {
         super();
         nsURI = "http://www.castor.org/SourceGenerator/Binding";
+        xmlName = "enumBindingType";
         elementDefinition = false;
         
         //-- set grouping compositor
-        setCompositorAsChoice();
+        setCompositorAsSequence();
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
@@ -64,151 +65,84 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         
         //-- initialize element descriptors
         
-        //-- _javaClass
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ClassType.class, "_javaClass", "java-class", org.exolab.castor.xml.NodeType.Element);
+        //-- _enumClassName
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumClassName.class, "_enumClassName", "enumClassName", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
-                ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                return target.getJavaClass();
+                EnumBindingType target = (EnumBindingType) object;
+                return target.getEnumClassName();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setJavaClass( (org.exolab.castor.builder.binding.ClassType) value);
+                    EnumBindingType target = (EnumBindingType) object;
+                    target.setEnumClassName( (org.exolab.castor.builder.binding.EnumClassName) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.builder.binding.ClassType();
+                return new org.exolab.castor.builder.binding.EnumClassName();
             }
         };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
-        desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _javaClass
+        //-- validation code for: _enumClassName
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(1);
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-        //-- _interface
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.Interface.class, "_interface", "interface", org.exolab.castor.xml.NodeType.Element);
+        //-- _enumMemberList
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumMember.class, "_enumMemberList", "enumMember", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
-                ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                return target.getInterface();
+                EnumBindingType target = (EnumBindingType) object;
+                return target.getEnumMember();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setInterface( (org.exolab.castor.builder.binding.Interface) value);
+                    EnumBindingType target = (EnumBindingType) object;
+                    target.addEnumMember( (org.exolab.castor.builder.binding.EnumMember) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.builder.binding.Interface();
-            }
-        };
-        desc.setHandler(handler);
-        desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
-        desc.setRequired(true);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _interface
-        fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(1);
-        { //-- local scope
-        }
-        desc.setValidator(fieldValidator);
-        //-- _member
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.FieldType.class, "_member", "member", org.exolab.castor.xml.NodeType.Element);
-        handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
-                throws IllegalStateException
-            {
-                ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                return target.getMember();
-            }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
                 try {
-                    ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setMember( (org.exolab.castor.builder.binding.FieldType) value);
-                }
-                catch (java.lang.Exception ex) {
+                    EnumBindingType target = (EnumBindingType) object;
+                    target.removeAllEnumMember();
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.builder.binding.FieldType();
+                return new org.exolab.castor.builder.binding.EnumMember();
             }
         };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
-        desc.setRequired(true);
-        desc.setMultivalued(false);
+        desc.setMultivalued(true);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _member
+        //-- validation code for: _enumMemberList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(1);
+        fieldValidator.setMinOccurs(0);
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-        //-- _enum
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumBindingType.class, "_enum", "enum", org.exolab.castor.xml.NodeType.Element);
-        handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
-                throws IllegalStateException
-            {
-                ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                return target.getEnum();
-            }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
-                try {
-                    ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setEnum( (org.exolab.castor.builder.binding.EnumBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.builder.binding.EnumBindingType();
-            }
-        };
-        desc.setHandler(handler);
-        desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
-        desc.setRequired(true);
-        desc.setMultivalued(false);
-        addFieldDescriptor(desc);
-        
-        //-- validation code for: _enum
-        fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(1);
-        { //-- local scope
-        }
-        desc.setValidator(fieldValidator);
-    } //-- org.exolab.castor.builder.binding.ComponentBindingTypeChoiceDescriptor()
+    } //-- org.exolab.castor.builder.binding.EnumBindingTypeDescriptor()
 
 
       //-----------/
@@ -262,7 +196,7 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
      */
     public java.lang.Class getJavaClass()
     {
-        return org.exolab.castor.builder.binding.ComponentBindingTypeChoice.class;
+        return org.exolab.castor.builder.binding.EnumBindingType.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**
