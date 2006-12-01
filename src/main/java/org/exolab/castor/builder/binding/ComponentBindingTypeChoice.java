@@ -1,7 +1,7 @@
 /*
  * This class was automatically generated with 
- * <a href="http://castor.exolab.org">Castor 0.9.4</a>, using an
- * XML Schema.
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * Schema.
  * $Id$
  */
 
@@ -11,13 +11,14 @@ package org.exolab.castor.builder.binding;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.Unmarshaller;
 
 /**
+ * Class ComponentBindingTypeChoice.
  * 
- * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ * @version $Revision$ $Date$
+ */
 public class ComponentBindingTypeChoice implements java.io.Serializable {
 
 
@@ -25,18 +26,33 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
      //- Class/Member Variables -/
     //--------------------------/
 
-    private ClassType _javaClass;
+    /**
+     * Field _javaClass
+     */
+    private org.exolab.castor.builder.binding.ClassType _javaClass;
 
-    private Interface _interface;
+    /**
+     * Field _interface
+     */
+    private org.exolab.castor.builder.binding.Interface _interface;
 
-    private FieldType _member;
+    /**
+     * Field _member
+     */
+    private org.exolab.castor.builder.binding.FieldType _member;
+
+    /**
+     * Field _enum
+     */
+    private org.exolab.castor.builder.binding.EnumBindingType _enum;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public ComponentBindingTypeChoice() {
+    public ComponentBindingTypeChoice() 
+     {
         super();
     } //-- org.exolab.castor.builder.binding.ComponentBindingTypeChoice()
 
@@ -46,37 +62,52 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     //-----------/
 
     /**
+     * Returns the value of field 'enum'.
+     * 
+     * @return the value of field 'Enum'.
+     */
+    public org.exolab.castor.builder.binding.EnumBindingType getEnum()
+    {
+        return this._enum;
+    } //-- org.exolab.castor.builder.binding.EnumBindingType getEnum() 
+
+    /**
      * Returns the value of field 'interface'.
      * 
-     * @return the value of field 'interface'.
-    **/
-    public Interface getInterface()
+     * @return the value of field 'Interface'.
+     */
+    public org.exolab.castor.builder.binding.Interface getInterface()
     {
         return this._interface;
-    } //-- Interface getInterface() 
+    } //-- org.exolab.castor.builder.binding.Interface getInterface() 
 
     /**
      * Returns the value of field 'javaClass'.
      * 
-     * @return the value of field 'javaClass'.
-    **/
-    public ClassType getJavaClass()
+     * @return the value of field 'JavaClass'.
+     */
+    public org.exolab.castor.builder.binding.ClassType getJavaClass()
     {
         return this._javaClass;
-    } //-- ClassType getJavaClass() 
+    } //-- org.exolab.castor.builder.binding.ClassType getJavaClass() 
 
     /**
      * Returns the value of field 'member'.
      * 
-     * @return the value of field 'member'.
-    **/
-    public FieldType getMember()
+     * @return the value of field 'Member'.
+     */
+    public org.exolab.castor.builder.binding.FieldType getMember()
     {
         return this._member;
-    } //-- FieldType getMember() 
+    } //-- org.exolab.castor.builder.binding.FieldType getMember() 
 
     /**
-    **/
+     * Method isValid
+     * 
+     * 
+     * 
+     * @return true if this object is valid according to the schema
+     */
     public boolean isValid()
     {
         try {
@@ -92,7 +123,11 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
      * 
      * 
      * @param out
-    **/
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
     public void marshal(java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
@@ -104,7 +139,13 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
      * 
      * 
      * @param handler
-    **/
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     */
     public void marshal(org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
@@ -113,40 +154,59 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
+     * Sets the value of field 'enum'.
+     * 
+     * @param enum the value of field 'enum'.
+     */
+    public void setEnum(org.exolab.castor.builder.binding.EnumBindingType enum)
+    {
+        this._enum = enum;
+    } //-- void setEnum(org.exolab.castor.builder.binding.EnumBindingType) 
+
+    /**
      * Sets the value of field 'interface'.
      * 
-     * @param _interface the value of field 'interface'.
-    **/
-    public void setInterface(Interface _interface)
+     * @param _interface
+     * @param interface the value of field 'interface'.
+     */
+    public void setInterface(org.exolab.castor.builder.binding.Interface _interface)
     {
         this._interface = _interface;
-    } //-- void setInterface(Interface) 
+    } //-- void setInterface(org.exolab.castor.builder.binding.Interface) 
 
     /**
      * Sets the value of field 'javaClass'.
      * 
      * @param javaClass the value of field 'javaClass'.
-    **/
-    public void setJavaClass(ClassType javaClass)
+     */
+    public void setJavaClass(org.exolab.castor.builder.binding.ClassType javaClass)
     {
         this._javaClass = javaClass;
-    } //-- void setJavaClass(ClassType) 
+    } //-- void setJavaClass(org.exolab.castor.builder.binding.ClassType) 
 
     /**
      * Sets the value of field 'member'.
      * 
      * @param member the value of field 'member'.
-    **/
-    public void setMember(FieldType member)
+     */
+    public void setMember(org.exolab.castor.builder.binding.FieldType member)
     {
         this._member = member;
-    } //-- void setMember(FieldType) 
+    } //-- void setMember(org.exolab.castor.builder.binding.FieldType) 
 
     /**
+     * Method unmarshalComponentBindingTypeChoice
+     * 
      * 
      * 
      * @param reader
-    **/
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.builder.binding.ComponentBindingTypeChoice
+     */
     public static org.exolab.castor.builder.binding.ComponentBindingTypeChoice unmarshalComponentBindingTypeChoice(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
@@ -154,7 +214,11 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingTypeChoice unmarshalComponentBindingTypeChoice(java.io.Reader) 
 
     /**
-    **/
+     * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
     public void validate()
         throws org.exolab.castor.xml.ValidationException
     {

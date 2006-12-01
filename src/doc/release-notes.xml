@@ -130,6 +130,26 @@
 
             </summary>
             <bugs>
+                <bug id="1490" tool="jira">
+                    <description>
+                    	Added new elements &lt;enumBinding&gt; et alias to binding XML schema.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061201</date>
+                </bug>
                 <bug id="399" tool="jira">
                     <description>
                     	Added support for specifying member visibility during code generation 
