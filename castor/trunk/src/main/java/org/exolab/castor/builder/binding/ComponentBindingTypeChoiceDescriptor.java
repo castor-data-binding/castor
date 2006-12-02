@@ -172,21 +172,21 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-        //-- _enum
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumBindingType.class, "_enum", "enum", org.exolab.castor.xml.NodeType.Element);
+        //-- _enumDef
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumBindingType.class, "_enumDef", "enum-def", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
                 ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                return target.getEnum();
+                return target.getEnumDef();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setEnum( (org.exolab.castor.builder.binding.EnumBindingType) value);
+                    target.setEnumDef( (org.exolab.castor.builder.binding.EnumBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -202,7 +202,7 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _enum
+        //-- validation code for: _enumDef
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope

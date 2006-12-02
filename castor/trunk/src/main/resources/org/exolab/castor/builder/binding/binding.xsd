@@ -124,7 +124,7 @@
                      </xsd:complexType> 
                  </xsd:element>
                  <xsd:element name="member" type="fieldType"/>
-                 <xsd:element name="enum" type="enumBindingType"/>
+                 <xsd:element name="enum-def" type="enumBindingType"/>
              </xsd:choice>
              <xsd:element ref="elementBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="attributeBinding" minOccurs="0" maxOccurs="unbounded"/>
