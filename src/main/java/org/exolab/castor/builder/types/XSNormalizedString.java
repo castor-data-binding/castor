@@ -1,4 +1,3 @@
-
 /**
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
@@ -54,206 +53,207 @@ import org.exolab.javasource.JClass;
 import java.util.Enumeration;
 
 /**
- * <p>The XSType representing a normalizedString type.
- * <p>normalizedString is simply a XSString with some specific validation
+ * The XSType representing a normalizedString type.
+ * normalizedString is simply a XSString with some specific validation.
  * @author <a href="blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-03-16 10:34:22 -0700 (Thu, 16 Mar 2006) $
  */
 public final class XSNormalizedString extends XSPatternBase {
 
-	/**
-	 * The JType represented by this XSType
-	**/
-	private static final JType jType = new JClass("java.lang.String");
+    /** The JType represented by this XSType. */
+    private static final JType jType = new JClass("java.lang.String");
 
-	/**
-	 * The length facet
-	 */
-	private int _length = 0;
+    /** The length facet. */
+    private int _length   = 0;
+    /** The max length facet. */
+    private int maxLength = -1;
+    /** The min length facet. */
+    private int minLength = 0;
 
-	/**
-	 * The max length facet
-	**/
-	private int maxLength = -1;
+    /**
+     * Creates a new XSString
+     */
+    public XSNormalizedString() {
+        super(XSType.NORMALIZEDSTRING_TYPE);
+    }
 
-	/**
-	 * The min length facet
-	**/
-	private int minLength = 0;
+    /**
+     * Returns the Cdata necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types.
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
+     */
+    public String createFromJavaObjectCode(String variableName) {
+        return "(java.lang.String)" + variableName;
+    } //-- fromJavaObject
 
-	/**
-	 * Creates a new XSString
-	 */
-	public XSNormalizedString() {
-		super(XSType.NORMALIZEDSTRING_TYPE);
-	}
+    /**
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
+     */
+    public JType getJType() {
+        return XSNormalizedString.jType;
+    } //-- getJType
 
-	/**
-	 * Returns the Cdata necessary to convert an Object to
-	 * an instance of this XSType. This method is really only useful
-	 * for primitive types
-	 * @param variableName the name of the Object
-	 * @return the String necessary to convert an Object to an
-	 * instance of this XSType
-	**/
-	public String createFromJavaObjectCode(String variableName) {
-		return "(String)" + variableName;
-	} //-- fromJavaObject
+    /**
+     * Returns the maximum length occurances of this type can be.
+     * A negative value denotes no maximum length.
+     * @return the maximum length facet
+     */
+    public int getMaxLength() {
+        return maxLength;
+    } //-- getMaxLength
 
-	/**
-	 * Returns the JType that this XSType represents
-	 * @return the JType that this XSType represents
-	**/
-	public JType getJType() {
-		return XSNormalizedString.jType;
-	} //-- getJType
+    /**
+     * Returns the minimum length occurances of this type can be.
+     * @return the minimum length facet.
+     */
+    public int getMinLength() {
+        return minLength;
+    } //-- getMinLength
 
-	/**
-	 * Returns the maximum length occurances of this type can be.
-	 * A negative value denotes no maximum length
-	 * @return the maximum length facet
-	**/
-	public int getMaxLength() {
-		return maxLength;
-	} //-- getMaxLength
+    /**
+     * Returns the length that this type must have.
+     * @return the length that this type must have.
+     */
+    public int getLength() {
+        return this._length;
+    }
 
-	/**
-	 * Returns the minimum length occurances of this type can be.
-	 * @return the minimum length facet
-	**/
-	public int getMinLength() {
-		return minLength;
-	} //-- getMinLength
+    /**
+     * Returns true if a maximum length has been set.
+     * @return true if a maximum length has been set.
+     */
+    public boolean hasMaxLength() {
+        return (maxLength >= 0);
+    } //-- hasMaxLength
 
-	/**
-	 * Returns the length that this type must have
-	 * @return the length that this type must have
-	 */
-	public int getLength() {
-		return this._length;
-	}
-	/**
-	 * Returns true if a maximum length has been set
-	 * @return true if a maximum length has been set
-	**/
-	public boolean hasMaxLength() {
-		return (maxLength >= 0);
-	} //-- hasMaxLength
+    /**
+     * Returns true if a minimum length has been set.
+     * @return true if a minimum length has been set.
+     */
+    public boolean hasMinLength() {
+        return (minLength > 0);
+    } //-- hasMinLength
 
-	/**
-	 * Returns true if a minimum length has been set
-	 * @return true if a minimum length has been set
-	**/
-	public boolean hasMinLength() {
-		return (minLength > 0);
-	} //-- hasMinLength
+    /**
+     * Returns true if a length has been set.
+     * @return true if a length has been set.
+     */
+    public boolean hasLength() {
+        return (_length > 0);
+    }
 
-	/**
-	 * Returns true if a length has been set
-	 * @return true if a length has been set
-	 */
-	public boolean hasLength() {
-		return (_length > 0);
-	}
+    /**
+     * Sets the length of this XSCDATA. While setting the length, the maxLength
+     * and minLength are also set up to this length.
+     *
+     * @param length
+     *            the length to set
+     * @see #setMaxLength
+     * @see #setMinLength
+     */
+    public void setLength(int length) {
+        this._length = length;
+        setMaxLength(length);
+        setMinLength(length);
+    }
 
-	/**
-	 * Sets the length of this XSCDATA
-	 * While setting the length, the maxLength and minLength are also
-	 * set up to this length
-	 * @param length the length to set
-	 * @see #setMaxLength
-	 * @see #setMinLength
-	 */
-	public void setLength(int length) {
-		this._length = length;
-		setMaxLength(length);
-		setMinLength(length);
-	}
+    /**
+     * Sets the maximum length of this XSCDATA. To remove the max length
+     * facet, use a negative value.
+     * @param maxLength the maximum length for occurances of this type
+     */
+    public void setMaxLength(int maxLength) {
+        this.maxLength = maxLength;
+    } //-- setMaxLength
 
-	/**
-	 * Sets the maximum length of this XSCDATA. To remove the max length
-	 * facet, use a negative value.
-	 * @param maxLength the maximum length for occurances of this type
-	**/
-	public void setMaxLength(int maxLength) {
-		this.maxLength = maxLength;
-	} //-- setMaxLength
+    /**
+     * Sets the minimum length of this XSCDATA.
+     * @param minLength the minimum length for occurances of this type
+     */
+    public void setMinLength(int minLength) {
+        this.minLength = minLength;
+    } //-- setMinLength
 
-	/**
-	 * Sets the minimum length of this XSCDATA.
-	 * @param minLength the minimum length for occurances of this type
-	**/
-	public void setMinLength(int minLength) {
-		this.minLength = minLength;
-	} //-- setMinLength
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(SimpleType simpleType) {
+        Enumeration enumeration = getFacets(simpleType);
+        while (enumeration.hasMoreElements()) {
+            Facet facet = (Facet) enumeration.nextElement();
+            String name = facet.getName();
 
-	public void setFacets(SimpleType simpleType) {
-		//-- copy valid facets
-		Enumeration enumeration = getFacets(simpleType);
-		while (enumeration.hasMoreElements()) {
+            if (Facet.MAX_LENGTH.equals(name)) {
+                setMaxLength(facet.toInt());
+            } else if (Facet.MIN_LENGTH.equals(name)) {
+                setMinLength(facet.toInt());
+            } else if (Facet.LENGTH.equals(name)) {
+                setLength(facet.toInt());
+            } else if (Facet.PATTERN.equals(name)) {
+                setPattern(facet.getValue());
+            }
+        }
+    }
 
-			Facet facet = (Facet) enumeration.nextElement();
-			String name = facet.getName();
-
-			//-- maxLength
-			if (Facet.MAX_LENGTH.equals(name))
-				setMaxLength(facet.toInt());
-			//-- minLength
-			else if (Facet.MIN_LENGTH.equals(name))
-				setMinLength(facet.toInt());
-			//-- length
-			else if (Facet.LENGTH.equals(name))
-				setLength(facet.toInt());
-			else if (Facet.PATTERN.equals(name))
-				setPattern(facet.getValue());
-
-		}
-	}
-
-	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-		if (jsc == null)
-			jsc = new JSourceCode();
-		jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.CDATA);");
-		if ((hasMinLength()) && (!hasLength())) {
-			jsc.add("typeValidator.setMinLength(");
-			jsc.append(Integer.toString(getMinLength()));
-			jsc.append(");");
-		}
-		if ((hasMaxLength()) && (!hasLength())) {
-			jsc.add("typeValidator.setMaxLength(");
-			jsc.append(Integer.toString(getMaxLength()));
-			jsc.append(");");
-		}
-		if (hasLength()) {
-			jsc.add("typeValidator.setLength(");
-			jsc.append(Integer.toString(getLength()));
-			jsc.append(");");
-		}
-		//-- fixed values
-		if (fixedValue != null) {
-			jsc.add("typeValidator.setFixed(");
+     */
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = "
+                + "new org.exolab.castor.xml.validators.NameValidator("
+                + "org.exolab.castor.xml.validators.NameValidator.CDATA);");
+
+        if (hasLength()) {
+            jsc.add("typeValidator.setLength(");
+            jsc.append(Integer.toString(getLength()));
+            jsc.append(");");
+        } else {
+            if (hasMinLength()) {
+                jsc.add("typeValidator.setMinLength(");
+                jsc.append(Integer.toString(getMinLength()));
+                jsc.append(");");
+            }
+            if (hasMaxLength()) {
+                jsc.add("typeValidator.setMaxLength(");
+                jsc.append(Integer.toString(getMaxLength()));
+                jsc.append(");");
+            }
+        }
+
+        //-- fixed values
+        if (fixedValue != null) {
+            jsc.add("typeValidator.setFixed(");
             //fixed should be "the value"
-			jsc.append(fixedValue);
-			jsc.append(");");
-		}
-		//-- pattern facet
-		String pattern = getPattern();
-		if (pattern != null) {
-			jsc.add("typeValidator.setPattern(\"");
-			jsc.append(escapePattern(pattern));
-			jsc.append("\");");
-		}
-        jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
-		
-	}
+            jsc.append(fixedValue);
+            jsc.append(");");
+        }
+
+        //-- pattern facet
+        String pattern = getPattern();
+        if (pattern != null) {
+            jsc.add("typeValidator.setPattern(\"");
+            jsc.append(escapePattern(pattern));
+            jsc.append("\");");
+        }
+
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
+    }
+
 } //-- XSNormalizedString

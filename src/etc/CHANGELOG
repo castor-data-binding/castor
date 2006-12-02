@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1715 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       SRCGEN needs to qualify all uses of members of java.lang
+       Details: http://jira.codehaus.org/browse/CASTOR-1715
+       (Edward - 20061202)
+
 XML:   Resolved issue CASTOR-1713 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Regression with date/time classes using String instead of java.lang.String
        Details: http://jira.codehaus.org/browse/CASTOR-1713

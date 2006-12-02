@@ -1101,9 +1101,9 @@ public class SourceFactory extends BaseFactory {
                 } else if (type == JType.LONG) {
                     jsc.add("result = 37 * result + (int)(" + name + "^(" + name + ">>>32));");
                 } else if (type == JType.FLOAT) {
-                    jsc.add("result = 37 * result + Float.floatToIntBits(" + name + ");");
+                    jsc.add("result = 37 * result + java.lang.Float.floatToIntBits(" + name + ");");
                 } else if (type == JType.DOUBLE) {
-                    jsc.add("tmp = Double.doubleToLongBits(" + name + ");");
+                    jsc.add("tmp = java.lang.Double.doubleToLongBits(" + name + ");");
                     jsc.add("result = 37 * result + (int)(tmp^(tmp>>>32));");
                 }
             } else {

@@ -130,6 +130,26 @@
 
             </summary>
             <bugs>
+                <bug id="1715" tool="jira">
+                    <description>
+                        SRCGEN needs to qualify all uses of members of java.lang
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061202</date>
+                </bug>
                 <bug id="1713" tool="jira">
                     <description>
                         Regression with date/time classes using String instead of java.lang.String

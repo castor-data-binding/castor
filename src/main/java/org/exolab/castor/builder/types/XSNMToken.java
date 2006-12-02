@@ -42,183 +42,190 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
 import java.util.Enumeration;
 
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.javasource.*;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
- * The XML Schema String type
+ * The XML Schema NMToken type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ */
 public final class XSNMToken extends XSType {
 
-    /**
-     * The JType represented by this XSType
-    **/
-    private static final JType jType
-        = new JClass("java.lang.String");
+    /** The JType represented by this XSType. */
+    private static final JType jType = new JClass("java.lang.String");
 
-    /**
-     * The length facet
-     */
-    private int _length = 0;
-
-    /**
-     * The max length facet
-    **/
+    /**  The length facet. */
+    private int _length   = 0;
+    /** The max length facet. */
     private int maxLength = -1;
-
-    /**
-     * The min length facet
-    **/
+    /** The min length facet. */
     private int minLength = 0;
 
+    /**
+     * No-arg constructor.
+     */
     public XSNMToken() {
         super(XSType.NMTOKEN_TYPE);
     } //-- XSNMToken
 
     /**
-     * Returns the String necessary to convert an Object to
-     * an instance of this XSType. This method is really only useful
-     * for primitive types
-     * @param variableName the name of the Object
-     * @return the String necessary to convert an Object to an
-     * instance of this XSType
-    **/
-    public String createFromJavaObjectCode(String variableName) {
-        return "(String)"+variableName;
+     * Returns the String necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types,
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
+     */
+    public String createFromJavaObjectCode(final String variableName) {
+        return "(java.lang.String)" + variableName;
     } //-- fromJavaObject
 
-    public void setFacets(SimpleType simpleType) {
-        //-- extract valid facets
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-
             Facet facet = (Facet) enumeration.nextElement();
             String name = facet.getName();
 
-            //-- maxLength
-            if (Facet.MAX_LENGTH.equals(name))
+            if (Facet.MAX_LENGTH.equals(name)) {
                 setMaxLength(facet.toInt());
-            //-- minLength
-            else if (Facet.MIN_LENGTH.equals(name))
+            } else if (Facet.MIN_LENGTH.equals(name)) {
                 setMinLength(facet.toInt());
-            //-- length
-            else if (Facet.LENGTH.equals(name))
+            } else if (Facet.LENGTH.equals(name)) {
                 setLength(facet.toInt());
-
+            }
         }
     }
-    
+
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
-    **/
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
+     */
     public JType getJType() {
         return XSNMToken.jType;
     }
 
-  	/**
-	 * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    /**
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
+     *
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
+     */
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator ="
+                + " new org.exolab.castor.xml.validators.NameValidator("
+                + "org.exolab.castor.xml.validators.NameValidator.NMTOKEN);");
 
-		if (jsc == null)
-			jsc = new JSourceCode();
-	    jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = new org.exolab.castor.xml.validators.NameValidator(org.exolab.castor.xml.validators.NameValidator.NMTOKEN);");
-        
-        if ((hasMinLength()) && (!hasLength())) {
-            jsc.add("typeValidator.setMinLength(");
-            jsc.append(Integer.toString(getMinLength()));
-            jsc.append(");");
-        }
-        if ((hasMaxLength()) && (!hasLength())) {
-            jsc.add("typeValidator.setMaxLength(");
-            jsc.append(Integer.toString(getMaxLength()));
-            jsc.append(");");
-        }
         if (hasLength()) {
             jsc.add("typeValidator.setLength(");
             jsc.append(Integer.toString(getLength()));
             jsc.append(");");
+        } else {
+            if (hasMinLength()) {
+                jsc.add("typeValidator.setMinLength(");
+                jsc.append(Integer.toString(getMinLength()));
+                jsc.append(");");
+            }
+            if (hasMaxLength()) {
+                jsc.add("typeValidator.setMaxLength(");
+                jsc.append(Integer.toString(getMaxLength()));
+                jsc.append(");");
+            }
         }
-        
-	    jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
-	}
+
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
+    }
 
     /**
-     * Returns true if a maximum length has been set
-     * @return true if a maximum length has been set
-    **/
+     * Returns true if a maximum length has been set.
+     * @return true if a maximum length has been set.
+     */
     public boolean hasMaxLength() {
         return (maxLength >= 0);
     } //-- hasMaxLength
 
     /**
-     * Returns true if a minimum length has been set
-     * @return true if a minimum length has been set
-    **/
+     * Returns true if a minimum length has been set.
+     * @return true if a minimum length has been set.
+     */
     public boolean hasMinLength() {
         return (minLength > 0);
     } //-- hasMinLength
 
     /**
-     * Returns true if a length has been set
-     * @return true if a length has been set
+     * Returns true if a length has been set.
+     * @return true if a length has been set.
      */
     public boolean hasLength() {
         return (_length > 0);
     }
 
     /**
-     * Sets the length of this XSNMToken.
-     * While setting the length, the maxLength and minLength are also
-     * set up to this length
-     * @param length the length to set
+     * Sets the length of this XSNMToken. While setting the length, the
+     * maxLength and minLength are also set up to this length.
+     *
+     * @param length
+     *            the length to set
      * @see #setMaxLength
      * @see #setMinLength
      */
-    public void setLength(int length) {
+    public void setLength(final int length) {
         this._length = length;
         setMaxLength(length);
         setMinLength(length);
     }
 
     /**
-     * Sets the maximum length of this XSString. To remove the max length
-     * facet, use a negative value.
-     * @param maxLength the maximum length for occurances of this type
-    **/
-    public void setMaxLength(int maxLength) {
+     * Sets the maximum length of this XSString. To remove the max length facet,
+     * use a negative value.
+     *
+     * @param maxLength
+     *            the maximum length for occurances of this type
+     */
+    public void setMaxLength(final int maxLength) {
         this.maxLength = maxLength;
     } //-- setMaxLength
 
     /**
      * Sets the minimum length of this XSString.
-     * @param minLength the minimum length for occurances of this type
-    **/
-    public void setMinLength(int minLength) {
+     *
+     * @param minLength
+     *            the minimum length for occurances of this type
+     */
+    public void setMinLength(final int minLength) {
         this.minLength = minLength;
     } //-- setMinLength
 
     /**
-     * Returns the maximum length occurances of this type can be.
-     * A negative value denotes no maximum length
+     * Returns the maximum length occurances of this type can be. A negative
+     * value denotes no maximum length.
+     *
      * @return the maximum length facet
-    **/
+     */
     public int getMaxLength() {
         return maxLength;
     } //-- getMaxLength
@@ -226,19 +233,17 @@ public final class XSNMToken extends XSType {
     /**
      * Returns the minimum length occurances of this type can be.
      * @return the minimum length facet
-    **/
+     */
     public int getMinLength() {
         return minLength;
     } //-- getMinLength
 
     /**
-     * Returns the length that this type must have
-     * @return the length that this type must have
+     * Returns the length that this type must have.
+     * @return the length that this type must have.
      */
     public int getLength() {
         return this._length;
     }
-    
-    
 
 } //-- XSNMToken
