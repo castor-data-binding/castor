@@ -42,9 +42,9 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     private org.exolab.castor.builder.binding.FieldType _member;
 
     /**
-     * Field _enum
+     * Field _enumDef
      */
-    private org.exolab.castor.builder.binding.EnumBindingType _enum;
+    private org.exolab.castor.builder.binding.EnumBindingType _enumDef;
 
 
       //----------------/
@@ -62,14 +62,14 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     //-----------/
 
     /**
-     * Returns the value of field 'enum'.
+     * Returns the value of field 'enumDef'.
      * 
-     * @return the value of field 'Enum'.
+     * @return the value of field 'EnumDef'.
      */
-    public org.exolab.castor.builder.binding.EnumBindingType getEnum()
+    public org.exolab.castor.builder.binding.EnumBindingType getEnumDef()
     {
-        return this._enum;
-    } //-- org.exolab.castor.builder.binding.EnumBindingType getEnum() 
+        return this._enumDef;
+    } //-- org.exolab.castor.builder.binding.EnumBindingType getEnumDef() 
 
     /**
      * Returns the value of field 'interface'.
@@ -154,14 +154,14 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Sets the value of field 'enum'.
+     * Sets the value of field 'enumDef'.
      * 
-     * @param enum the value of field 'enum'.
+     * @param enumDef the value of field 'enumDef'.
      */
-    public void setEnum(org.exolab.castor.builder.binding.EnumBindingType enum)
+    public void setEnumDef(org.exolab.castor.builder.binding.EnumBindingType enumDef)
     {
-        this._enum = enum;
-    } //-- void setEnum(org.exolab.castor.builder.binding.EnumBindingType) 
+        this._enumDef = enumDef;
+    } //-- void setEnumDef(org.exolab.castor.builder.binding.EnumBindingType) 
 
     /**
      * Sets the value of field 'interface'.
