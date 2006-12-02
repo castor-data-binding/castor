@@ -42,120 +42,100 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.Facet;
-import org.exolab.javasource.*;
-
-import java.util.Hashtable;
 import java.util.Enumeration;
+import java.util.Hashtable;
 
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The base XML Schema Type class
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+  */
 public abstract class XSType {
-
 
     ////////////primitive types/////////////////////
     /**
      * The name of the string type
      */
-     public static final String STRING_NAME = "string";
-
+    public static final String STRING_NAME = "string";
     /**
      * The name of the boolean type
      */
     public static final String BOOLEAN_NAME = "boolean";
-
     /**
      * The name of the float type
      */
-     public static final String FLOAT_NAME = "float";
-
+    public static final String FLOAT_NAME = "float";
     /**
      * The name of the double type
-    **/
+      */
     public static final String DOUBLE_NAME = "double";
-
     /**
      * The name of the decimal type
-    **/
+      */
     public static final String DECIMAL_NAME = "decimal";
-
     /**
      * the name of the duration type
      */
     public static final String DURATION_NAME = "duration";
-
-   /**
+    /**
      * The name of the the dateTime type
      */
-     public static final String DATETIME_NAME = "dateTime";
-
+    public static final String DATETIME_NAME = "dateTime";
     /**
      * the name of the time type
      */
-     public static final String TIME_NAME = "time";
-
+    public static final String TIME_NAME = "time";
     /**
      * The name of the date type
      */
     public static final String DATE_NAME = "date";
-
     /**
      * The name of the gYearMonth type.
      */
     public static final String GYEARMONTH_NAME = "gYearMonth";
-
     /**
      * The name of the gYear type.
      */
     public static final String GYEAR_NAME = "gYear";
-
     /**
      * The name of the gMonthDay type.
      */
     public static final String GMONTHDAY_NAME  = "gMonthDay";
-
     /**
      * The name of the gDay type.
      */
     public static final String GDAY_NAME = "gDay";
-
     /**
      * The name of the gMonth type.
      */
     public static final String GMONTH_NAME = "gMonth";
-
     /**
      * The name of the hexBinary type
      */
     public static final String HEXBINARY_NAME = "hexBinary";
-
     /**
      * The name of the base64Binary type
      */
     public static final String BASE64BINARY_NAME = "base64Binary";
-
     /**
      * the name of the anyURI type.
      */
     public static final String ANYURI_NAME = "anyURI";
-
     /**
      * the name of the QName type
      */
     public static final String QNAME_NAME = "QName";
-
     /**
      * the name of the notation type
      */
-     public static final String NOTATION_NAME = "NOTATION";
+    public static final String NOTATION_NAME = "NOTATION";
 
     /////////////derived types//////////////////////
 
@@ -163,102 +143,81 @@ public abstract class XSType {
      * The name of the normalizedString type.
      */
     public static final String NORMALIZEDSTRING_NAME = "normalizedString";
-
     /**
      * The name of the token type
      */
     public static final String TOKEN_NAME = "token";
-
     /**
      * The name of the language type.
      */
     public  static final String LANGUAGE_NAME = "language";
-
     /**
      * The Name of the IDREFS type
      */
-     public static final String IDREFS_NAME = "IDREFS";
-
-
+    public static final String IDREFS_NAME = "IDREFS";
     /**
      * The name of the NMTOKEN type
-    **/
+      */
     public static final String NMTOKEN_NAME = "NMTOKEN";
-
-   /**
-    * The of the NMTOKENS type
-    */
+    /**
+     * The of the NMTOKENS type
+     */
     public static String NMTOKENS_NAME  = "NMTOKENS";
-
-   /**
-    * The name of the Name type
-    */
+    /**
+     * The name of the Name type
+     */
     public static final String NAME_NAME = "Name";
-
-   /**
-    * The name of the NCName type
-    */
+    /**
+     * The name of the NCName type
+     */
     public static final String NCNAME_NAME = "NCName";
-
     /**
      * The name of the ID type
-     **/
+      */
     public static final String ID_NAME = "ID";
-
     /**
      * The name of the IDREF type
-    **/
+      */
     public static final String IDREF_NAME = "IDREF";
-
-
     /**
      * The name of the integer type
-    **/
+      */
     public static final String INTEGER_NAME = "integer";
-
     /**
      * The name of the non-positive-integer type
      */
-     public static final String NON_NEGATIVE_INTEGER_NAME = "nonNegativeInteger";
-
+    public static final String NON_NEGATIVE_INTEGER_NAME = "nonNegativeInteger";
     /**
      * The name of the non-positive-integer type
      */
-     public static final String NON_POSITIVE_INTEGER_NAME = "nonPositiveInteger";
-
+    public static final String NON_POSITIVE_INTEGER_NAME = "nonPositiveInteger";
     /**
      * The name of the negative-integer type
-    **/
+      */
     public static final String NEGATIVE_INTEGER_NAME  = "negativeInteger";
-
-   /**
-    * The name of the long type
-   **/
-    public static final String LONG_NAME = "long";
-
-  	/**
-	 * The name of the int type
-	 */
-	public static final String INT_NAME = "int";
-
     /**
-	 * The name of the short type
-	 */
-	public static final String SHORT_NAME = "short";
-
+     * The name of the long type
+      */
+    public static final String LONG_NAME = "long";
+    /**
+     * The name of the int type
+     */
+    public static final String INT_NAME = "int";
+    /**
+     * The name of the short type
+     */
+    public static final String SHORT_NAME = "short";
     /**
      * The name of the byte type
      */
     public static final String BYTE_NAME = "byte";
-
     /**
      * The name of the positive-integer type
-    **/
+      */
     public static final String POSITIVE_INTEGER_NAME  = "positiveInteger";
-
     /**
      * The name of the unsigned-long type
-    **/
+      */
     public static final String UNSIGNED_LONG_NAME  = "unsignedLong";
 
     public static final short NULL               = -1;
@@ -312,19 +271,19 @@ public abstract class XSType {
     public static final short POSITIVE_INTEGER_TYPE         = 44;
     //collection type
     public static final short COLLECTION                    = 45;
-    
+
     public static final short UNSIGNED_LONG_TYPE            = 46;
-    
+
     private short   type       = NULL;
 
     /**
      * Flag signaling an enumerated type
-    **/
+      */
     private boolean enumerated = false;
 
     /**
      * Creates a new XSType of the given type
-    **/
+      */
     protected XSType(short type) {
         this.type = type;
     } //-- XSType
@@ -332,42 +291,40 @@ public abstract class XSType {
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+      */
     public abstract JType getJType();
 
     /**
      * Reads and sets the facets for XSType
      * @param simpleType the SimpleType containing the facets
      */
-     public abstract void setFacets(SimpleType simpleType);
+    public abstract void setFacets(SimpleType simpleType);
 
     /**
      * Returns the type of this XSType
      * @return the type of this XSType
-    **/
+      */
     public short getType() {
         return this.type;
     } //-- getType
 
-
-	/**
-	 * Returns a list of Facets from the simpleType
-	 *	(duplicate facets due to extension are filtered out)
+    /**
+     * Returns a list of Facets from the simpleType
+     * (duplicate facets due to extension are filtered out)
      * @param simpleType the Simpletype we want the facets for
      * @return Unique list of facets from the simple type
-	 */
-	protected static Enumeration getFacets(SimpleType simpleType)
-	{
-		Hashtable hashTable = new Hashtable();
+     */
+    protected static Enumeration getFacets(SimpleType simpleType) {
+        Hashtable hashTable = new Hashtable();
         Enumeration enumeration = simpleType.getFacets();
-		while (enumeration.hasMoreElements()) {
+        while (enumeration.hasMoreElements()) {
 
             Facet facet = (Facet)enumeration.nextElement();
             String name = facet.getName();
-			hashTable.put(name, facet);
-		}
-		return hashTable.elements();
-	}
+            hashTable.put(name, facet);
+        }
+        return hashTable.elements();
+    }
 
     /**
      * Returns the String necessary to convert an instance of this XSType
@@ -375,7 +332,7 @@ public abstract class XSType {
      * @param variableName the name of the instance variable
      * @return the String necessary to convert an instance of this XSType
      * to an Object
-    **/
+      */
     public String createToJavaObjectCode(String variableName) {
         return variableName;
     } //-- toJavaObject
@@ -395,7 +352,7 @@ public abstract class XSType {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+      */
     public String createFromJavaObjectCode(String variableName) {
         StringBuffer sb = new StringBuffer();
 
@@ -412,7 +369,7 @@ public abstract class XSType {
     /**
      * Returns true if this XSType represents an enumerated type
      * @return true if this XSType represents an enumerated type
-    **/
+      */
     public boolean isEnumerated() {
         return enumerated;
     } //-- isEnumerated
@@ -459,10 +416,11 @@ public abstract class XSType {
                 return false;
         }
     }
+
     /**
      * Returns the name of this XSType
      * @return the name of this XSType
-    **/
+      */
     public String getName() {
         switch (type) {
             case STRING_TYPE:
@@ -556,32 +514,31 @@ public abstract class XSType {
      * Sets the enumerated flag for this XSClass
      * @param enumerated a boolean indicating whether or not this XSClass
      * represents an enumerated type
-    **/
+      */
     public void setAsEnumerated(boolean enumerated) {
         this.enumerated = enumerated;
     } //-- setAsEnumerated
-    
-    
-	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+
+
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public abstract void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName); 
+     */
+    public abstract void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName);
 
-    
     /**
      * Escapes special characters in the given String so that it can
      * be printed correctly.
      *
      * @param str the String to escape
      * @return the escaped String, or null if the given String was null.
-    **/
+      */
     protected static String escapePattern(String str) {
         if (str == null) return str;
 
@@ -598,8 +555,6 @@ public abstract class XSType {
             sb.append(ch);
         }
         return sb.toString();
-
     } //-- escape
-    
 
 } //-- XSType

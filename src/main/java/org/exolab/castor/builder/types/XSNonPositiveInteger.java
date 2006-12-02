@@ -1,4 +1,3 @@
-
 /**
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
@@ -51,10 +50,10 @@ public class XSNonPositiveInteger extends XSInteger {
         super();
         setMaxExclusive(0L);
     }
-    
+
     public XSNonPositiveInteger(boolean asWrapper) {
         super(asWrapper);
         setMaxExclusive(0L);
     }
-    
+
 }

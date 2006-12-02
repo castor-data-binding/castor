@@ -42,20 +42,21 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.Facet;
-import org.exolab.javasource.*;
-
 import java.util.Enumeration;
+
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema double type
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
-**/
+ */
 public final class XSDouble extends XSPatternBase {
 
     //- Constraints for integer type
@@ -66,10 +67,9 @@ public final class XSDouble extends XSPatternBase {
 
     /**
      * The JType represented by this XSType
-    **/
+     */
     private static JType jType = JType.DOUBLE;
     private boolean _asWrapper = false;
-
 
     public XSDouble() {
        this(false);
@@ -83,11 +83,10 @@ public final class XSDouble extends XSPatternBase {
         else jType = JType.DOUBLE;
     } //-- XSReal
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return jType;
     }
@@ -97,7 +96,7 @@ public final class XSDouble extends XSPatternBase {
      * @return the maximum exclusive value that this XSReal can hold. If
      * no maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
-    **/
+     */
     public Double getMaxExclusive() {
         return maxExclusive;
     } //-- getMaxExclusive
@@ -107,11 +106,10 @@ public final class XSDouble extends XSPatternBase {
      * @return the maximum inclusive value that this XSReal can hold. If
      * no maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
-    **/
+     */
     public Double getMaxInclusive() {
         return maxInclusive;
     } //-- getMaxInclusive
-
 
     /**
      * Returns the minimum exclusive value that this XSReal can hold.
@@ -119,7 +117,7 @@ public final class XSDouble extends XSPatternBase {
      * no minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive
      * @see #setMaxInclusive(Double)
-    **/
+     */
     public Double getMinExclusive() {
         return minExclusive;
     } //-- getMinExclusive
@@ -129,7 +127,7 @@ public final class XSDouble extends XSPatternBase {
      * @return the minimum inclusive value that this XSReal can hold. If
      * no minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
-    **/
+     */
     public Double getMinInclusive() {
         return minInclusive;
     } //-- getMinInclusive
@@ -142,17 +140,15 @@ public final class XSDouble extends XSPatternBase {
         return ((minInclusive != null) || (minExclusive != null));
     } //-- hasMinimum
 
-
     //public String toString() {
     //    return value.toString();
     //}
-
 
     /**
      * Sets the maximum exclusive value that this XSReal can hold.
      * @param max the maximum exclusive value this XSReal can be
      * @see #setMaxInclusive(Double)
-    **/
+     */
     public void setMaxExclusive(double max) {
         maxExclusive = new Double(max);
     } //-- setMaxExclusive
@@ -161,7 +157,7 @@ public final class XSDouble extends XSPatternBase {
      * Sets the maximum exclusive value that this XSReal can hold.
      * @param max the maximum exclusive value this XSReal can be
      * @see #setMaxInclusive(double)
-    **/
+     */
     public void setMaxExclusive(Double max) {
         maxExclusive = max;
     } //-- setMaxExclusive
@@ -170,7 +166,7 @@ public final class XSDouble extends XSPatternBase {
      * Sets the maximum inclusive value that this XSReal can hold.
      * @param max the maximum inclusive value this XSReal can be
      * @see #setMaxExclusive(Double)
-    **/
+     */
     public void setMaxInclusive(double max) {
         maxInclusive = new Double(max);
     } //-- setMaxInclusive
@@ -179,17 +175,16 @@ public final class XSDouble extends XSPatternBase {
      * Sets the maximum inclusive value that this XSReal can hold.
      * @param max the maximum inclusive value this XSReal can be
      * @see #setMaxExclusive(double)
-    **/
+     */
     public void setMaxInclusive(Double max) {
         maxInclusive = max;
     } //-- setMaxInclusive
-
 
     /**
      * Sets the minimum exclusive value that this XSReal can hold.
      * @param min the minimum exclusive value this XSReal can be
      * @see #setMinInclusive(Double)
-    **/
+     */
     public void setMinExclusive(double min) {
         minExclusive = new Double(min);
     } //-- setMinExclusive
@@ -198,7 +193,7 @@ public final class XSDouble extends XSPatternBase {
      * Sets the minimum exclusive value that this XSReal can hold.
      * @param min the minimum exclusive value this XSReal can be
      * @see #setMinInclusive(double)
-    **/
+     */
     public void setMinExclusive(Double min) {
         minExclusive = min;
     } //-- setMinExclusive
@@ -207,7 +202,7 @@ public final class XSDouble extends XSPatternBase {
      * Sets the minimum inclusive value that this XSReal can hold.
      * @param min the minimum inclusive value this XSReal can be
      * @see #setMinExclusive(Double)
-    **/
+     */
     public void setMinInclusive(double min) {
         minInclusive = new Double(min);
     } //-- setMinInclusive
@@ -216,7 +211,7 @@ public final class XSDouble extends XSPatternBase {
      * Sets the minimum inclusive value that this XSReal can hold.
      * @param min the minimum inclusive value this XSReal can be
      * @see #setMinExclusive(double)
-    **/
+     */
     public void setMinInclusive(Double min) {
         minInclusive = min;
     } //-- setMinInclusive
@@ -226,8 +221,6 @@ public final class XSDouble extends XSPatternBase {
      * @param simpleType the SimpleType containing the facets
      */
     public void setFacets(SimpleType simpleType) {
-
-        //-- copy valid facets
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
 
@@ -258,7 +251,7 @@ public final class XSDouble extends XSPatternBase {
      * @param variableName the name of the instance variable
      * @return the String necessary to convert an instance of this XSType
      * to an Object
-    **/
+     */
     public String createToJavaObjectCode(String variableName) {
         if (_asWrapper) return super.createToJavaObjectCode(variableName);
         StringBuffer sb = new StringBuffer("new java.lang.Double(");
@@ -274,7 +267,7 @@ public final class XSDouble extends XSPatternBase {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+     */
     public String createFromJavaObjectCode(String variableName) {
         StringBuffer sb = new StringBuffer("((java.lang.Double)");
         sb.append(variableName);
@@ -285,22 +278,17 @@ public final class XSDouble extends XSPatternBase {
         return sb.toString();
     } //-- fromJavaObject
 
-   
-   	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-         if (jsc == null) 
-            jsc = new JSourceCode();
-       
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.DoubleValidator typeValidator = new org.exolab.castor.xml.validators.DoubleValidator();");
         if (hasMinimum()) {
             Double min = getMinExclusive();
@@ -340,7 +328,6 @@ public final class XSDouble extends XSPatternBase {
              jsc.append("\");");
         }
         jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
-
-		
     }
+
 } //-- XSDouble

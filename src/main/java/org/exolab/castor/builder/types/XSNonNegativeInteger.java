@@ -50,10 +50,10 @@ public class XSNonNegativeInteger extends XSInteger {
         super();
         setMinInclusive(0L);
     }
-    
+
     public XSNonNegativeInteger(boolean asWrapper) {
         super(asWrapper);
         setMinInclusive(0L);
     }
-    
+
 }

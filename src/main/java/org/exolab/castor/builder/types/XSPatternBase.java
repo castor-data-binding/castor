@@ -42,27 +42,24 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
 /**
  * A base class for types which support the pattern facet
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ */
 public abstract class XSPatternBase extends XSType {
-
 
     /**
      * The value of the pattern facet
-    **/
+     */
     private String _pattern = null;
-
 
     /**
      * Creates a new XSPatternBase
      * @param type that this XSType represents
-    **/
+     */
     protected XSPatternBase(short type) {
         super(type);
     } //-- XSPatternBase
@@ -73,7 +70,7 @@ public abstract class XSPatternBase extends XSType {
      *
      * @param type that this XSType represents
      * @param pattern the regular expression
-    **/
+     */
     public XSPatternBase(short type, String pattern) {
         super(type);
         _pattern = pattern;
@@ -83,7 +80,7 @@ public abstract class XSPatternBase extends XSType {
      * Returns the pattern facet for this XSType
      *
      * @return the pattern facet for this XSType
-    **/
+     */
     public String getPattern() {
         return _pattern;
     } //-- setPattern
@@ -91,10 +88,9 @@ public abstract class XSPatternBase extends XSType {
     /**
      * Sets the pattern facet for this XSType
      * @param pattern the regular expression for this XSType
-    **/
+     */
     public void setPattern(String pattern) {
         _pattern = pattern;
     } //-- setPattern
-
 
 } //-- XSPatternBase

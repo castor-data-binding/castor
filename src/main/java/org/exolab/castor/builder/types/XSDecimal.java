@@ -45,22 +45,22 @@
  * 06/01/2001   Arnaud Blandin  Upgrade to XML Schema Recommendation
  * 10/31/200    Arnaud Blandin  support for min/max, scale&precision facets
  */
-
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.Facet;
-import org.exolab.javasource.*;
-
 import java.util.Enumeration;
+
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The decimal XML Schema datatype
  * TODO : handle pattern, enumeration
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
-**/
-public  class XSDecimal extends XSPatternBase
-{
+  */
+public  class XSDecimal extends XSPatternBase {
 
     /**
      * Facets for Decimal type
@@ -72,13 +72,10 @@ public  class XSDecimal extends XSPatternBase
     private int  _totalDigits = -1;
     private int _fractionDigits = -1;
 
-
-
     /**
      * The JType represented by this XSType
-    **/
-    private static final JType jType
-        = new JClass("java.math.BigDecimal");
+      */
+    private static final JType jType = new JClass("java.math.BigDecimal");
 
     public XSDecimal() {
         super(XSType.DECIMAL_TYPE);
@@ -91,7 +88,7 @@ public  class XSDecimal extends XSPatternBase
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+      */
     public String createFromJavaObjectCode(String variableName) {
         return "(java.math.BigDecimal)"+variableName;
     } //-- fromJavaObject
@@ -101,7 +98,7 @@ public  class XSDecimal extends XSPatternBase
      * @return the maximum exclusive value that this XSInteger can hold. If
      * no maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
-    **/
+      */
     public java.math.BigDecimal  getMaxExclusive() {
         return _maxExclusive;
     } //-- getMaxExclusive
@@ -111,11 +108,10 @@ public  class XSDecimal extends XSPatternBase
      * @return the maximum inclusive value that this XSInteger can hold. If
      * no maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
-    **/
+      */
     public java.math.BigDecimal  getMaxInclusive() {
         return _maxInclusive;
     } //-- getMaxInclusive
-
 
     /**
      * Returns the minimum exclusive value that this XSInteger can hold.
@@ -123,7 +119,7 @@ public  class XSDecimal extends XSPatternBase
      * no minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive
      * @see #setMaxInclusive
-    **/
+      */
     public java.math.BigDecimal  getMinExclusive() {
         return _minExclusive;
     } //-- getMinExclusive
@@ -133,11 +129,11 @@ public  class XSDecimal extends XSPatternBase
      * @return the minimum inclusive value that this XSInteger can hold. If
      * no minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
-    **/
+      */
     public java.math.BigDecimal  getMinInclusive() {
         return _minInclusive;
     } //-- getMinInclusive
-      /**
+    /**
      * Returns the totalDigits facet value of this XSInteger.
      * @return the totalDigits facet value of this XSInteger.
      */
@@ -161,45 +157,41 @@ public  class XSDecimal extends XSPatternBase
         return ((_minInclusive != null) || (_minExclusive != null));
     } //-- hasMinimum
 
-
     /**
      * Sets the maximum exclusive value that this XSDecimal can hold.
      * @param max the maximum exclusive value this XSDecimal can be
      * @see #setMaxInclusive
-    **/
+      */
     public void setMaxExclusive(java.math.BigDecimal  max) {
         _maxExclusive = max;
         _maxInclusive = null;
     } //-- setMaxExclusive
 
-
     /**
      * Sets the maximum inclusive value that this XSDecimal can hold.
      * @param max the maximum inclusive value this XSDecimal can be
      * @see #setMaxExclusive
-    **/
+      */
     public void setMaxInclusive(java.math.BigDecimal  max) {
         _maxInclusive = max;
         _maxExclusive = null;
     } //-- setMaxInclusive
 
-
     /**
      * Sets the minimum exclusive value that this XSDecimal can hold.
      * @param min the minimum exclusive value this XSDecimal can be
      * @see #setMinInclusive
-    **/
+      */
     public void setMinExclusive(java.math.BigDecimal min) {
         _minExclusive = min;
         _minInclusive = null;
     } //-- setMinExclusive
 
-
     /**
      * Sets the minimum inclusive value that this XSDecimalcan hold.
      * @param min the minimum inclusive value this XSDecimal can be
      * @see #setMinExclusive
-    **/
+      */
     public void setMinInclusive(java.math.BigDecimal  min) {
         _minInclusive = min;
         _minExclusive = null;
@@ -209,58 +201,58 @@ public  class XSDecimal extends XSPatternBase
      * Sets the totalDigits facet for this XSInteger.
      * @param totalDig the value of totalDigits (must be >0)
      */
-     public void setTotalDigits(int totalDig) {
-          if (totalDig <= 0)
-              throw new IllegalArgumentException(this.getName()+": the totalDigits facet must be positive");
-          _totalDigits = totalDig;
-     }
+    public void setTotalDigits(int totalDig) {
+        if (totalDig <= 0)
+            throw new IllegalArgumentException(this.getName()+": the totalDigits facet must be positive");
+        _totalDigits = totalDig;
+    }
 
     /**
      * Sets the fractionDigits facet for this XSInteger.
      * @param fractionDig the value of fractionDigits (must be >=0)
      */
-     public void setFractionDigits(int fractionDig) {
-          if (fractionDig < 0)
-              throw new IllegalArgumentException(this.getName()+": the fractionDigits facet must be positive");
-          _fractionDigits = fractionDig;
-     }
-
+    public void setFractionDigits(int fractionDig) {
+        if (fractionDig < 0)
+            throw new IllegalArgumentException(this.getName()+": the fractionDigits facet must be positive");
+        _fractionDigits = fractionDig;
+    }
 
     public void setFacets(SimpleType simpleType) {
-     Enumeration enumeration = getFacets(simpleType);
-            while (enumeration.hasMoreElements()) {
+        Enumeration enumeration = getFacets(simpleType);
+        while (enumeration.hasMoreElements()) {
 
-                Facet facet = (Facet)enumeration.nextElement();
-                String name = facet.getName();
+            Facet facet = (Facet)enumeration.nextElement();
+            String name = facet.getName();
 
-                //-- maxExclusive
-                if (Facet.MAX_EXCLUSIVE.equals(name))
-                    setMaxExclusive(new java.math.BigDecimal(facet.getValue()));
-                //-- maxInclusive
-                else if (Facet.MAX_INCLUSIVE.equals(name))
-                    setMaxInclusive(new java.math.BigDecimal(facet.getValue()));
-                //-- minExclusive
-                else if (Facet.MIN_EXCLUSIVE.equals(name))
-                    setMinExclusive(new java.math.BigDecimal(facet.getValue()));
-                //-- minInclusive
-                else if (Facet.MIN_INCLUSIVE.equals(name))
-                    setMinInclusive(new java.math.BigDecimal(facet.getValue()));
-                //--totalDigits
-                else if (Facet.TOTALDIGITS.equals(name))
-                    setTotalDigits(facet.toInt());
-                //--fractionDigits
-                else if (Facet.FRACTIONDIGITS.equals(name))
-                   setFractionDigits(facet.toInt());
-                //--pattern
-                else if (Facet.PATTERN.equals(name))
-                    setPattern(facet.getValue());
-            }
+            //-- maxExclusive
+            if (Facet.MAX_EXCLUSIVE.equals(name))
+                setMaxExclusive(new java.math.BigDecimal(facet.getValue()));
+            //-- maxInclusive
+            else if (Facet.MAX_INCLUSIVE.equals(name))
+                setMaxInclusive(new java.math.BigDecimal(facet.getValue()));
+            //-- minExclusive
+            else if (Facet.MIN_EXCLUSIVE.equals(name))
+                setMinExclusive(new java.math.BigDecimal(facet.getValue()));
+            //-- minInclusive
+            else if (Facet.MIN_INCLUSIVE.equals(name))
+                setMinInclusive(new java.math.BigDecimal(facet.getValue()));
+            //--totalDigits
+            else if (Facet.TOTALDIGITS.equals(name))
+                setTotalDigits(facet.toInt());
+            //--fractionDigits
+            else if (Facet.FRACTIONDIGITS.equals(name))
+                setFractionDigits(facet.toInt());
+            //--pattern
+            else if (Facet.PATTERN.equals(name))
+                setPattern(facet.getValue());
+        }
 
     } //-- setFacets
+
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+      */
     public JType getJType() {
         return XSDecimal.jType;
     }
@@ -269,26 +261,22 @@ public  class XSDecimal extends XSPatternBase
      * Returns the Java code neccessary to create a new instance of the
      * JType associated with this XSType
      */
-    public String newInstanceCode()
-    {
+    public String newInstanceCode() {
         String result = "new java.math.BigDecimal(0);";
         return result;
     }
-    
+
     /**
      * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-     * 
+     *
      * @param fixedValue a fixed value to use if any
      * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
      */
     public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-        if (jsc == null)
-            jsc = new JSourceCode();
         jsc.add("org.exolab.castor.xml.validators.DecimalValidator typeValidator = new org.exolab.castor.xml.validators.DecimalValidator();");
         if (hasMinimum()) {
             java.math. BigDecimal min = getMinExclusive();
@@ -332,12 +320,11 @@ public  class XSDecimal extends XSPatternBase
 
         //-- fixed values
         if (fixedValue != null) {
-
             jsc.add("typeValidator.setFixed(");
             jsc.append(fixedValue);
             jsc.append(");");
         }
-        
+
         //-- pattern facet
         String pattern = getPattern();
         if (pattern != null) {
@@ -347,6 +334,6 @@ public  class XSDecimal extends XSPatternBase
         }
 
         jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
-        
     }
+
 }

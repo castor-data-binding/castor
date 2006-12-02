@@ -42,8 +42,8 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
+
 import org.exolab.castor.xml.schema.SimpleType;
 
 import org.exolab.javasource.JType;
@@ -54,7 +54,7 @@ import org.exolab.javasource.JSourceCode;
  * The XML Schema URIReference type
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ */
 public final class XSAnyURI extends XSType {
 
     /**
@@ -62,9 +62,8 @@ public final class XSAnyURI extends XSType {
      * It could be better to use the org.apache.xerces.utils.URI
      * pro : represent a real URI
      * con : the source code generated must rely on Xerces
-    **/
-    private static final JType jType
-        = new JClass("java.lang.String");
+     */
+    private static final JType jType = new JClass("java.lang.String");
 
     private String value = null;
 
@@ -81,16 +80,17 @@ public final class XSAnyURI extends XSType {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+     */
     public String createFromJavaObjectCode(String variableName) {
         return "(String)"+variableName;
     } //-- fromJavaObject
 
     public void setFacets(SimpleType simpleType) {}
+
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return XSAnyURI.jType;
     }
@@ -101,16 +101,12 @@ public final class XSAnyURI extends XSType {
 
     /**
      * Returns a JSourceCode that contains the validation method for this XSAnyURI.
-     * 
+     *
      * @param fixedValue a fixed value to use if any
      * @param jsc the JSourceCode to fill in.
      */
      public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-     
-        if (jsc == null)
-            jsc = new JSourceCode();
-            
         //--TBD
      }
-     
+
 } //-- XSAnyURI

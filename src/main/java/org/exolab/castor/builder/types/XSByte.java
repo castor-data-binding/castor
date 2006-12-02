@@ -42,21 +42,21 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
+
+import java.util.Enumeration;
 
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
-
-import org.exolab.javasource.*;
-
-import java.util.Enumeration;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema Byte type
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
-**/
+ */
 public class XSByte extends XSPatternBase {
 
     //- Constraints for Byte type
@@ -67,10 +67,9 @@ public class XSByte extends XSPatternBase {
 
     /**
      * The JType represented by this XSType
-    **/
+     */
     private static JType jType = JType.BYTE;
     private boolean _asWrapper = false;
-
 
     public XSByte(){
          this(false);
@@ -84,11 +83,10 @@ public class XSByte extends XSPatternBase {
         else jType = JType.BYTE;
     } //-- XSByte
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return jType;
     }
@@ -98,7 +96,7 @@ public class XSByte extends XSPatternBase {
      * @return the maximum exclusive value that this XSByte can hold. If
      * no maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
-    **/
+     */
     public Byte getMaxExclusive() {
         return maxExclusive;
     } //-- getMaxExclusive
@@ -108,11 +106,10 @@ public class XSByte extends XSPatternBase {
      * @return the maximum inclusive value that this XSByte can hold. If
      * no maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
-    **/
+     */
     public Byte getMaxInclusive() {
         return maxInclusive;
     } //-- getMaxInclusive
-
 
     /**
      * Returns the minimum exclusive value that this XSByte can hold.
@@ -120,7 +117,7 @@ public class XSByte extends XSPatternBase {
      * no minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive()
      * @see #setMaxInclusive(byte)
-    **/
+     */
     public Byte getMinExclusive() {
         return minExclusive;
     } //-- getMinExclusive
@@ -130,7 +127,7 @@ public class XSByte extends XSPatternBase {
      * @return the minimum inclusive value that this XSByte can hold. If
      * no minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
-    **/
+     */
     public Byte getMinInclusive() {
         return minInclusive;
     } //-- getMinInclusive
@@ -143,12 +140,11 @@ public class XSByte extends XSPatternBase {
         return ((minInclusive != null) || (minExclusive != null));
     } //-- hasMinimum
 
-
     /**
      * Sets the maximum exclusive value that this XSByte can hold.
      * @param max the maximum exclusive value this XSByte can be
      * @see #setMaxInclusive(Byte)
-    **/
+     */
     public void setMaxExclusive(byte max) {
         maxExclusive = new Byte(max);
         maxInclusive = null;
@@ -158,7 +154,7 @@ public class XSByte extends XSPatternBase {
      * Sets the maximum exclusive value that this XSByte can hold.
      * @param max the maximum exclusive value this XSByte can be
      * @see #setMaxInclusive(byte)
-    **/
+     */
     public void setMaxExclusive(Byte max) {
         maxExclusive = max;
         maxInclusive = null;
@@ -168,7 +164,7 @@ public class XSByte extends XSPatternBase {
      * Sets the maximum inclusive value that this XSByte can hold.
      * @param max the maximum inclusive value this XSByte can be
      * @see #setMaxExclusive(Byte)
-    **/
+     */
     public void setMaxInclusive(byte max) {
         maxInclusive = new Byte(max);
         maxExclusive = null;
@@ -178,18 +174,17 @@ public class XSByte extends XSPatternBase {
      * Sets the maximum inclusive value that this XSByte can hold.
      * @param max the maximum inclusive value this XSByte can be
      * @see #setMaxExclusive(byte)
-    **/
+     */
     public void setMaxInclusive(Byte max) {
         maxInclusive = max;
         maxExclusive = null;
     } //-- setMaxInclusive
 
-
     /**
      * Sets the minimum exclusive value that this XSByte can hold.
      * @param min the minimum exclusive value this XSByte can be
      * @see #setMinInclusive(Byte)
-    **/
+     */
     public void setMinExclusive(byte min) {
         minExclusive = new Byte(min);
         minInclusive = null;
@@ -199,7 +194,7 @@ public class XSByte extends XSPatternBase {
      * Sets the minimum exclusive value that this XSByte can hold.
      * @param min the minimum exclusive value this XSByte can be
      * @see #setMinInclusive(byte)
-    **/
+     */
     public void setMinExclusive(Byte min) {
         minExclusive = min;
         minInclusive = null;
@@ -209,7 +204,7 @@ public class XSByte extends XSPatternBase {
      * Sets the minimum inclusive value that this XSByte can hold.
      * @param min the minimum inclusive value this XSByte can be
      * @see #setMinExclusive(Byte)
-    **/
+     */
     public void setMinInclusive(byte min) {
         minInclusive = new Byte(min);
         minExclusive = null;
@@ -219,12 +214,11 @@ public class XSByte extends XSPatternBase {
      * Sets the minimum inclusive value that this XSByte can hold.
      * @param min the minimum inclusive value this XSByte can be
      * @see #setMinExclusive(byte)
-    **/
+     */
     public void setMinInclusive(Byte min) {
         minInclusive = min;
         minExclusive = null;
     } //-- setMinInclusive
-
 
     /**
      * Reads and sets the facets for XSByte
@@ -259,17 +253,16 @@ public class XSByte extends XSPatternBase {
         }
     } //-- setFacets
 
-
     /**
      * Returns the String necessary to convert an instance of this XSType
      * to an Object. This method is really only useful for primitive types
      * @param variableName the name of the instance variable
      * @return the String necessary to convert an instance of this XSType
      * to an Object
-    **/
+     */
     public String createToJavaObjectCode(String variableName) {
         if (_asWrapper) return super.createToJavaObjectCode(variableName);
-        
+
         StringBuffer sb = new StringBuffer("new Byte(");
         sb.append(variableName);
         sb.append(")");
@@ -283,7 +276,7 @@ public class XSByte extends XSPatternBase {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+     */
     public String createFromJavaObjectCode(String variableName) {
         StringBuffer sb = new StringBuffer("((Byte)");
         sb.append(variableName);
@@ -293,24 +286,20 @@ public class XSByte extends XSPatternBase {
         }
         return sb.toString();
     } //-- fromJavaObject
-    
-  	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-         if (jsc == null) 
-            jsc = new JSourceCode();
-         
-         jsc.add("org.exolab.castor.xml.validators.ByteValidator typeValidator = new org.exolab.castor.xml.validators.ByteValidator();");
-         if (hasMinimum()) {
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.ByteValidator typeValidator = new org.exolab.castor.xml.validators.ByteValidator();");
+        if (hasMinimum()) {
             Byte min = getMinExclusive();
             if (min != null)
                 jsc.add("typeValidator.setMinExclusive(");
@@ -321,8 +310,8 @@ public class XSByte extends XSPatternBase {
             jsc.append("(byte)");
             jsc.append(min.toString());
             jsc.append(");");
-         }
-         if (hasMaximum()) {
+        }
+        if (hasMaximum()) {
             Byte max = getMaxExclusive();
             if (max != null)
                 jsc.add("typeValidator.setMaxExclusive(");
@@ -333,26 +322,25 @@ public class XSByte extends XSPatternBase {
             jsc.append("(byte)");
             jsc.append(max.toString());
             jsc.append(");");
-         }
+        }
 
-          //-- fixed values
-          if (fixedValue != null) {
-               //-- make sure we have a valid value...
-               Byte.parseByte(fixedValue);
-               jsc.add("typeValidator.setFixed(");
-               jsc.append("(byte)");
-               jsc.append(fixedValue);
-               jsc.append(");");
-          }
-          //-- pattern facet
-          String pattern = getPattern();
-          if (pattern != null) {
-                jsc.add("typeValidator.setPattern(\"");
-                jsc.append(escapePattern(pattern));
-                jsc.append("\");");
-          }     
-          jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
-
+        //-- fixed values
+        if (fixedValue != null) {
+            //-- make sure we have a valid value...
+            Byte.parseByte(fixedValue);
+            jsc.add("typeValidator.setFixed(");
+            jsc.append("(byte)");
+            jsc.append(fixedValue);
+            jsc.append(");");
+        }
+        //-- pattern facet
+        String pattern = getPattern();
+        if (pattern != null) {
+            jsc.add("typeValidator.setPattern(\"");
+            jsc.append(escapePattern(pattern));
+            jsc.append("\");");
+        }
+        jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
     }
 
 } //-- XSByte

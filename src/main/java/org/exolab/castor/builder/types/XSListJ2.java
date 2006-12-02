@@ -34,17 +34,15 @@
  */
 package org.exolab.castor.builder.types;
 
-
-import org.exolab.javasource.*;
-
+import org.exolab.javasource.JCollectionType;
+import org.exolab.javasource.JType;
 
 /**
  * A list type for Java 2 collection that adapts the Castor preset list type.
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
-**/
+ */
 public class XSListJ2 extends XSList {
-
 
     int maxSize = -1; //-- undefined
     int minSize = 0;
@@ -53,7 +51,7 @@ public class XSListJ2 extends XSList {
 
     /**
      * The JType represented by this XSType
-    **/
+     */
     private JType jType = null;
 
     public XSListJ2(XSType contentType, String collectionType, final boolean useJava50) {
@@ -70,11 +68,10 @@ public class XSListJ2 extends XSList {
         }
     } //-- XSListJ2
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return this.jType;
     }
@@ -100,4 +97,3 @@ public class XSListJ2 extends XSList {
     } //-- setMinimumSize
 
 } //-- XSListJ2
-

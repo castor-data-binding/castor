@@ -42,18 +42,19 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
+
 import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.javasource.*;
+import org.exolab.javasource.JCollectionType;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * A list type....this will change soon
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
-**/
+ */
 public class XSList extends XSType {
-
 
     int maxSize = -1; //-- undefined
     int minSize = 0;
@@ -62,7 +63,7 @@ public class XSList extends XSType {
 
     /**
      * The JType represented by this XSType
-    **/
+     */
     private JType jType = null;
 
     public XSList(XSType contentType, final boolean useJava50) {
@@ -71,11 +72,10 @@ public class XSList extends XSType {
         this.jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
     } //-- XSList
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return this.jType;
     }
@@ -101,22 +101,19 @@ public class XSList extends XSType {
     } //-- setMinimumSize
 
     public void setFacets(SimpleType simpleType) {}
-    
-    	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-    
-        if (jsc == null)
-            jsc = new JSourceCode();
-            
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
         //--TBD
     }
+
 } //-- XSList

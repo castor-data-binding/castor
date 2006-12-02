@@ -40,20 +40,17 @@
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  */
-
 package org.exolab.castor.builder.types;
 
-
-import org.exolab.javasource.*;
-
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JType;
 
 /**
  * A list type for ODMG 3.0 that adapts the Castor preset list type.
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
-**/
+ */
 public class XSListODMG30 extends XSList {
-
 
     int maxSize = -1; //-- undefined
     int minSize = 0;
@@ -62,21 +59,18 @@ public class XSListODMG30 extends XSList {
 
     /**
      * The JType represented by this XSType
-    **/
-    private static final JType jType
-        //= new JClass("java.util.Vector");
-        = new JClass("org.odmg.DArray");
+     */
+    private static final JType jType = new JClass("org.odmg.DArray");
 
     public XSListODMG30(XSType contentType, final boolean useJava50) {
         super(contentType, useJava50);
         this.contentType = contentType;
     } //-- XSListODMG30
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return XSListODMG30.jType;
     }
