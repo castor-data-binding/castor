@@ -82,14 +82,14 @@ public class SingleClassGenerator {
                                                  + SourceGenerator.VERSION
                                                  + "</a>, using an XML Schema.\n$" + "Id" + "$";
 
-    /** Name of the CDR (Class Descriptor Resolver) file */
+    /** Name of the CDR (Class Descriptor Resolver) file. */
     private static final String CDR_FILE = ".castor.cdr";
 
-    /** True if the user should be prompted to overwrite when a file already exists */
+    /** True if the user should be prompted to overwrite when a file already exists. */
     private boolean _promptForOverwrite = true;
-    /** Destination directory where all our output goes */
+    /** Destination directory where all our output goes. */
     private String _destDir = null;
-    /** The line separator to use for output */
+    /** The line separator to use for output. */
     private String _lineSeparator = null;
     /** A flag indicating whether or not to create descriptors for the generated classes. */
     private boolean _createDescriptors = true;
@@ -129,13 +129,12 @@ public class SingleClassGenerator {
     }
 
     /**
-     * Sets the line separator to use when printing the source code
+     * Sets the line separator to use when printing the source code.
      *
      * @param lineSeparator
      *            the line separator to use when printing the source code. This
      *            method is useful if you are generating source on one platform,
      *            but will be compiling the source on a different platform.
-     *            <p>
      *            <B>Note:</B>This can be any string, so be careful. I
      *            recommend either using the default or using one of the
      *            following:
@@ -302,7 +301,7 @@ public class SingleClassGenerator {
                 desc.print(_destDir, _lineSeparator);
             }
         } else {
-            //-- TODO: cleanup mapping file integration
+            //-- TODO: cleanup mapping file integration (what does this TODO mean?)
             //-- create a class mapping
             String pkg = state._packageName;
             if (pkg == null) {
@@ -317,6 +316,19 @@ public class SingleClassGenerator {
         }
     }
 
+    /**
+     * Checks for a class name conflict. If one is found, notifies the user and
+     * prompts (depending on various srcgen settings) on whether or not to
+     * continue source generation.
+     *
+     * @param state
+     *            SourceGenerator state
+     * @param newClassInfo
+     *            XML Schema element declaration for the class to check
+     * @param conflict
+     *            JClass for the class to check
+     *
+     */
     private void warnAboutClassNameConflict(final SGStateInfo state,
                                             final ClassInfo newClassInfo,
                                             final JClass conflict) {
@@ -347,7 +359,7 @@ public class SingleClassGenerator {
         }
 
         StringBuffer error = new StringBuffer();
-        error.append("Warning: A class name generation conflict has occured between ");
+        error.append("Warning: A class name generation conflict has occurred between ");
         if (a1 != null) {
             error.append(SchemaNames.getStructureName(a1));
             error.append(" '");
@@ -433,11 +445,11 @@ public class SingleClassGenerator {
 
         String nameToCompare = elementName.substring(0, 1).toUpperCase() + elementName.substring(1);
         if (JNaming.isInJavaLang(nameToCompare)) {
-            String err = "'" + nameToCompare + "' conflicts with a class in java.lang.*"
-                    + " and cannot be used as a class name.\nYou need to use a mapping"
-                    + " file or change the name of the schema element.";
+            String err = "'" + nameToCompare
+                      + "' conflicts with a class in java.lang.* and may cause a conflict during\n"
+                      + " compilation. If you get this complaint during compilation, you need to\n"
+                      + " use a mapping file or change the name of the schema element.";
             sInfo.getDialog().notify(err);
-            throw new IllegalArgumentException(err);
         }
 
         if (JNaming.isReservedByCastor(nameToCompare)) {

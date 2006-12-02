@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1713 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Regression with date/time classes using String instead of java.lang.String
+       Details: http://jira.codehaus.org/browse/CASTOR-1713
+       (Edward - 20061201)
+
 XML:   Resolved issue CASTOR-1490 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added new elements <enumBinding> et alias to binding XML schema.
        Details: http://jira.codehaus.org/browse/CASTOR-1490
@@ -21,22 +26,22 @@ All:   Resolved issue CASTOR-1711 using contribution from Ralf Joachim [ralf.joa
        Allowed param value to be CDATA instead of NMTOKEN at mapping.dtd.
        Details: http://jira.codehaus.org/browse/CASTOR-1711
        (Ralf - 20061129)
-       
+
 XML:   Resolved issue CASTOR-1709 using contribution from Ontje Lünsdorf [The_COM@gmx.de]
        Added support for mapping sub-classes of java.util.Enumeration/Iterator.
        Details: http://jira.codehaus.org/browse/CASTOR-1709
        (Werner - 20061129)
-       
+
 XML:   Resolved issue CASTOR-1707 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for collection type java.util.SortedMap.
        Details: http://jira.codehaus.org/browse/CASTOR-1707
        (Werner - 20061127)
-       
+
 XML:   Resolved issue CASTOR-1708 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for specifying collection types 'collection', 'set' and 'sortedset' in binding file.
        Details: http://jira.codehaus.org/browse/CASTOR-1708
        (Werner - 20061127)
-       
+
 XML:   Resolved issue CASTOR-1706 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with JDO test suite (introduced with commit set 6424).
        Details: http://jira.codehaus.org/browse/CASTOR-1706
@@ -46,7 +51,7 @@ XML:   Resolved issue CASTOR-1421 using contribution from Werner Guttmann [werne
        Fixed support for <xs:int> and <xs:integer> for code generator.
        Details: http://jira.codehaus.org/browse/CASTOR-1421
        (Werner - 20061122)
-       
+
 XML:   Resolved issue CASTOR-1703 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Implement Srcgen DateTime pattern facet
        Details: http://jira.codehaus.org/browse/CASTOR-1703

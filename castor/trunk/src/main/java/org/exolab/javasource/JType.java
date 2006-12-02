@@ -57,42 +57,42 @@ public class JType {
     /**
      * JType for a boolean (Boolean).
      */
-    public static final JType BOOLEAN = new JType("boolean", "Boolean");
+    public static final JType BOOLEAN = new JType("boolean", "java.lang.Boolean");
 
     /**
      * JType instance for a byte (Byte).
      */
-    public static final JType BYTE = new JType("byte", "Byte");
+    public static final JType BYTE = new JType("byte", "java.lang.Byte");
 
     /**
      * JType instance for a char (Char).
      */
-    public static final JType CHAR = new JType("char", "Character");
+    public static final JType CHAR = new JType("char", "java.lang.Character");
 
     /**
      * JType instance for a double (Double).
      */
-    public static final JType DOUBLE = new JType("double", "Double");
+    public static final JType DOUBLE = new JType("double", "java.lang.Double");
 
     /**
      * JType instance for a float (Float).
      */
-    public static final JType FLOAT = new JType("float", "Float");
+    public static final JType FLOAT = new JType("float", "java.lang.Float");
 
     /**
      * JType instance for a int (Integer).
      */
-    public static final JType INT = new JType("int", "Integer");
+    public static final JType INT = new JType("int", "java.lang.Integer");
 
     /**
      * JType instance for a long (Long).
      */
-    public static final JType LONG = new JType("long", "Long");
+    public static final JType LONG = new JType("long", "java.lang.Long");
 
     /**
      * JType instance for a short (Short).
      */
-    public static final JType SHORT = new JType("short", "Short");
+    public static final JType SHORT = new JType("short", "java.lang.Short");
 
     /**
      * Fully qualified of the Java type represented.
@@ -176,10 +176,7 @@ public class JType {
      * @return true if this JType represents a primitive type, otherwise false.
      */
     public final boolean isPrimitive() {
-        return ((this == JType.BOOLEAN) || (this == JType.BYTE)
-                || (this == JType.CHAR) || (this == JType.DOUBLE)
-                || (this == JType.FLOAT) || (this == JType.INT)
-                || (this == JType.LONG) || (this == JType.SHORT));
+        return (_wrapperName != null);
     }
 
     /**

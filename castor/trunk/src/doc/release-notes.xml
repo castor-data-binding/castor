@@ -32,36 +32,36 @@
                 <h2>Changes</h2>
 
                 <h3>Code generation for &lt;xs:int&gt; and &lt;xs:integer&gt;</h3>
-                
-                <p>As part of the work for fixing bug 
+
+                <p>As part of the work for fixing bug
                    <a href="http://jira.codehaus.org/browse/CASTOR-1421">1421</a>, it has been
                    recognized that the code generated pre-patch did not comply with
                    the set of rules defined in the XML schema specification.</p>
-                   
+
                 <p>As such, the XML code generator has been changed to generate the
                    following Java types for elements/attributes typed with
                    &lt;xs:int&gt; and &lt;xs:integer&gt;:</p>
-                   
+
                 <ctable>
-                	<crow>
-                		<th><p>Type</p></th>
-                		<th><p>Old Java type</p></th>
-                		<th><p>New Java type</p></th>
-                	</crow>
-                	<crow>
-                		<td>&lt;xs:int&gt;</td>
-                		<td>java.lang.Integer/int</td>
-                		<td>java.lang.Long/long</td>
-                	</crow>
-                	<crow>
-                		<td>&lt;xs:integer&gt;</td>
-                		<td>java.lang.Integer/int</td>
-                		<td>java.lang.Long/long</td>
-                	</crow>
+                    <crow>
+                        <th><p>Type</p></th>
+                        <th><p>Old Java type</p></th>
+                        <th><p>New Java type</p></th>
+                    </crow>
+                    <crow>
+                        <td>&lt;xs:int&gt;</td>
+                        <td>java.lang.Integer/int</td>
+                        <td>java.lang.Long/long</td>
+                    </crow>
+                    <crow>
+                        <td>&lt;xs:integer&gt;</td>
+                        <td>java.lang.Integer/int</td>
+                        <td>java.lang.Long/long</td>
+                    </crow>
                 </ctable>
-                
-                <p>The main and only difference between the artefacts generated is the 
-                   value range that will be accepted by the generated Java instance 
+
+                <p>The main and only difference between the artifacts generated is the
+                   value range that will be accepted by the generated Java instance
                    variables.</p>
 
                 <h3>XML test suite execution</h3>
@@ -90,21 +90,21 @@
                 <h2>Additions</h2>
 
                 <h3>Code generation - Specifying member visibility in binding file</h3>
-                
-                <p>It is now - at the &lt;member&gt; level - possible tp specify a Java 
-                   member's visibility (different from the default value"private") 
+
+                <p>It is now - at the &lt;member&gt; level - possible to specify a Java
+                   member's visibility (different from the default value "private")
                    similar to ...</p>
-                   
-				<code-panel><![CDATA[
+
+                <code-panel><![CDATA[
 <elementBinding name="complexType:rootType/value">
   <member visibility="protected"/>
 </elementBinding>]]></code-panel>
 
-				<p>Valid values for the visibility attribute are <tt>protected</tt>, 
-				   <tt>private</tt> and <tt>public</tt>, as per the definition in 
-				   <tt>binding.xsd</tt>.</p>
-				   
-				<code-panel><![CDATA[
+                <p>Valid values for the visibility attribute are <tt>protected</tt>,
+                   <tt>private</tt> and <tt>public</tt>, as per the definition in
+                   <tt>binding.xsd</tt>.</p>
+
+                <code-panel><![CDATA[
 <xsd:attribute name="visibility">
    <xsd:simpleType>
       <xsd:restriction base="xsd:string">
@@ -112,27 +112,47 @@
          <xsd:enumeration value="protected"/>
          <xsd:enumeration value="private"/>
       </xsd:restriction>
-   </xsd:simpleType> 
+   </xsd:simpleType>
 </xsd:attribute>]]></code-panel>
-				   
+
 
                 <h3>Support for additional collection types in binding file</h3>
-                
-				<p>Added support for specifying additional collection types 
-				   in a binding file, similar to ...</p>
-				   
-				<code-panel><![CDATA[
+
+                <p>Added support for specifying additional collection types
+                   in a binding file, similar to ...</p>
+
+                <code-panel><![CDATA[
 <elementBinding name="complexType:rootType/list">
   <member name="myList" collection="set"/>
 </elementBinding>]]></code-panel>
 
-				<p>The following types have been added: 'collection', 'set' and 'sortedset'.</p>
+                <p>The following types have been added: 'collection', 'set' and 'sortedset'.</p>
 
             </summary>
             <bugs>
+                <bug id="1713" tool="jira">
+                    <description>
+                        Regression with date/time classes using String instead of java.lang.String
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Quince D. Wilson</name>
+                        <email>qwilson1843@yahoo.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061201</date>
+                </bug>
                 <bug id="1490" tool="jira">
                     <description>
-                    	Added new elements &lt;enumBinding&gt; et alias to binding XML schema.
+                        Added new elements &lt;enumBinding&gt; et alias to binding XML schema.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -152,8 +172,8 @@
                 </bug>
                 <bug id="399" tool="jira">
                     <description>
-                    	Added support for specifying member visibility during code generation 
-                    	through binding file.
+                        Added support for specifying member visibility during code generation
+                        through binding file.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -173,7 +193,7 @@
                 </bug>
                 <bug id="1710" tool="jira">
                     <description>
-                    	Fixed problem with 'excessive' sizes of classes generated for enumerations.
+                        Fixed problem with 'excessive' sizes of classes generated for enumerations.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -213,7 +233,7 @@
                 </bug>
                 <bug id="1709" tool="jira">
                     <description>
-                    	Added support for mapping sub-classes of java.util.Enumeration/Iterator.
+                        Added support for mapping sub-classes of java.util.Enumeration/Iterator.
                     </description>
                     <contributor>
                         <name>Ontje Lünsdorf</name>
@@ -233,7 +253,7 @@
                 </bug>
                 <bug id="1707" tool="jira">
                     <description>
-                    	Added support for collection type java.util.SortedMap
+                        Added support for collection type java.util.SortedMap
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -253,7 +273,7 @@
                 </bug>
                 <bug id="1708" tool="jira">
                     <description>
-                        Added support for specifying collection types 'collection', 'set' and 
+                        Added support for specifying collection types 'collection', 'set' and
                         'sortedset' in binding file.
                     </description>
                     <contributor>
