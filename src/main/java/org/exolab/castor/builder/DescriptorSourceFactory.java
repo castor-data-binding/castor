@@ -339,7 +339,7 @@ public class DescriptorSourceFactory {
         } else if (isText) {
             jsc.append("\"PCDATA\"");
         } else {
-            jsc.append("(String)null");
+            jsc.append("(java.lang.String)null");
         }
 
         if (isElement) {
@@ -573,7 +573,7 @@ public class DescriptorSourceFactory {
                     && xsType.getType() != XSType.DATETIME_TYPE) {
                 jsc.append(".parse");
                 jsc.append(JavaNaming.toJavaClassName(xsType.getName()));
-                jsc.append("((String) value))");
+                jsc.append("((java.lang.String) value))");
             } else {
                 jsc.append(") value");
             }
@@ -590,7 +590,7 @@ public class DescriptorSourceFactory {
         jsc.unindent();
         jsc.add("}");
         //--end of setValue(Object, Object) method
-        
+
         //-- reset method (handle collections only)
         if (member.isMultivalued()) {
             CollectionInfo cInfo = (CollectionInfo) member;
@@ -605,21 +605,21 @@ public class DescriptorSourceFactory {
             jsc.append(") object;");
             String cName = JavaNaming.toJavaClassName(cInfo.getElementName());
 //            if (cInfo instanceof CollectionInfoJ2) {
-//                jsc.add("target.clear" + cName + "();"); 
-//            } else { 
+//                jsc.add("target.clear" + cName + "();");
+//            } else {
                 jsc.add("target.removeAll" + cName + "();");
 //            }
             jsc.unindent();
-            jsc.add("} catch (java.lang.Exception ex) {"); 
-            jsc.indent(); 
-            jsc.add("throw new IllegalStateException(ex.toString());"); 
-            jsc.unindent(); 
+            jsc.add("} catch (java.lang.Exception ex) {");
+            jsc.indent();
+            jsc.add("throw new IllegalStateException(ex.toString());");
+            jsc.unindent();
             jsc.add("}");
             jsc.unindent();
             jsc.add("}");
         }
         //-- end of reset method
-        
+
 
         createNewInstanceMethodForXMLFieldHandler(member, xsType, jsc, forGeneralizedHandler,
                                                   any, isEnumerated);
