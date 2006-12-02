@@ -42,17 +42,18 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
 import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.javasource.*;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema user-defined archetype
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public class XSClass extends XSType {
 
     private JClass  jClass     = null;
@@ -61,7 +62,7 @@ public class XSClass extends XSType {
     /**
      * Creates a new XSClass with the given JClass reference
      * @param jClass the JClass type of this XSClass
-    **/
+     */
     public XSClass(JClass jClass) {
         this(jClass, null);
     } //-- XSClass
@@ -70,7 +71,7 @@ public class XSClass extends XSType {
      * Creates a new XSClass with the given JClass reference
      * @param jClass the JClass associated with this XSType
      * @param schemaTypeName The XML Schema type name
-    **/
+     */
     public XSClass(JClass jClass, String schemaTypeName) {
         super(XSType.CLASS);
         this.jClass = jClass;
@@ -81,10 +82,11 @@ public class XSClass extends XSType {
     } //-- XSClass
 
     public void setFacets(SimpleType simpleType) {}
+
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return this.jClass;
     } //-- getJType
@@ -94,20 +96,17 @@ public class XSClass extends XSType {
     } //-- getName
 
     /**
-	 * Creates the validation code for an instance of this XSType. The validation
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-        if (jsc == null)
-            jsc = new JSourceCode();
-            
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
         //--TBD
     }
+
 } //-- XSClass

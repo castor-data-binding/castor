@@ -42,54 +42,51 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
 import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.javasource.*;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema IDREF type
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
+ */
 public final class XSIdRef extends XSType {
 
     /**
      * The JType represented by this XSType
-    **/
-    private static final JType jType
-        = new JClass("java.lang.Object");
+     */
+    private static final JType jType = new JClass("java.lang.Object");
 
     public XSIdRef() {
         super(XSType.IDREF_TYPE);
     } //-- XSId
 
     public void setFacets(SimpleType simpleType) {}
+
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return XSIdRef.jType;
     }
 
-	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-    
-        if (jsc == null)
-            jsc = new JSourceCode();
-            
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
         //--TBD
     }
+
 } //-- XSIdRef

@@ -44,21 +44,21 @@
  * Date         Author          Changes
  * 12/06/2000   Arnaud Blandin  Created
  */
-
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.Facet;
-
-import org.exolab.javasource.*;
-
 import java.util.Enumeration;
+
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema Float type
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
-**/
+ */
 public final class XSFloat extends XSPatternBase {
 
     //- Constraints for integer type
@@ -69,7 +69,7 @@ public final class XSFloat extends XSPatternBase {
 
     /**
      * The JType represented by this XSType
-    **/
+     */
     private static JType jType = JType.FLOAT;
     private boolean _asWrapper = false;
 
@@ -85,11 +85,10 @@ public final class XSFloat extends XSPatternBase {
         else jType = JType.FLOAT;
     } //-- XSFloat
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return jType;
     }
@@ -99,7 +98,7 @@ public final class XSFloat extends XSPatternBase {
      * @return the maximum exclusive value that this XSFloat can hold. If
      * no maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
-    **/
+     */
     public Float getMaxExclusive() {
         return maxExclusive;
     } //-- getMaxExclusive
@@ -109,11 +108,10 @@ public final class XSFloat extends XSPatternBase {
      * @return the maximum inclusive value that this XSFloat can hold. If
      * no maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
-    **/
+     */
     public Float getMaxInclusive() {
         return maxInclusive;
     } //-- getMaxInclusive
-
 
     /**
      * Returns the minimum exclusive value that this XSFloat can hold.
@@ -121,7 +119,7 @@ public final class XSFloat extends XSPatternBase {
      * no minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive()
      * @see #setMaxInclusive(float)
-    **/
+     */
     public Float getMinExclusive() {
         return minExclusive;
     } //-- getMinExclusive
@@ -131,7 +129,7 @@ public final class XSFloat extends XSPatternBase {
      * @return the minimum inclusive value that this XSFloat can hold. If
      * no minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
-    **/
+     */
     public Float getMinInclusive() {
         return minInclusive;
     } //-- getMinInclusive
@@ -144,13 +142,11 @@ public final class XSFloat extends XSPatternBase {
         return ((minInclusive != null) || (minExclusive != null));
     } //-- hasMinimum
 
-
-
     /**
      * Sets the maximum exclusive value that this XSFloat can hold.
      * @param max the maximum exclusive value this XSFloat can be
      * @see #setMaxInclusive(Float)
-    **/
+     */
     public void setMaxExclusive(float max) {
         maxExclusive = new Float(max);
     } //-- setMaxExclusive
@@ -159,7 +155,7 @@ public final class XSFloat extends XSPatternBase {
      * Sets the maximum exclusive value that this XSFloat can hold.
      * @param max the maximum exclusive value this XSFloat can be
      * @see #setMaxInclusive(float)
-    **/
+     */
     public void setMaxExclusive(Float max) {
         maxExclusive = max;
     } //-- setMaxExclusive
@@ -168,7 +164,7 @@ public final class XSFloat extends XSPatternBase {
      * Sets the maximum inclusive value that this XSFloat can hold.
      * @param max the maximum inclusive value this XSFloat can be
      * @see #setMaxExclusive(Float)
-    **/
+     */
     public void setMaxInclusive(float max) {
         maxInclusive = new Float(max);
     } //-- setMaxInclusive
@@ -177,17 +173,16 @@ public final class XSFloat extends XSPatternBase {
      * Sets the maximum inclusive value that this XSFloat can hold.
      * @param max the maximum inclusive value this XSFloat can be
      * @see #setMaxExclusive(float)
-    **/
+     */
     public void setMaxInclusive(Float max) {
         maxInclusive = max;
     } //-- setMaxInclusive
-
 
     /**
      * Sets the minimum exclusive value that this XSFloat can hold.
      * @param min the minimum exclusive value this XSFloat can be
      * @see #setMinInclusive(Float)
-    **/
+     */
     public void setMinExclusive(float min) {
         minExclusive = new Float(min);
     } //-- setMinExclusive
@@ -196,7 +191,7 @@ public final class XSFloat extends XSPatternBase {
      * Sets the minimum exclusive value that this XSFloat can hold.
      * @param min the minimum exclusive value this XSFloat can be
      * @see #setMinInclusive(float)
-    **/
+     */
     public void setMinExclusive(Float min) {
         minExclusive = min;
     } //-- setMinExclusive
@@ -205,7 +200,7 @@ public final class XSFloat extends XSPatternBase {
      * Sets the minimum inclusive value that this XSFloat can hold.
      * @param min the minimum inclusive value this XSFloat can be
      * @see #setMinExclusive(Float)
-    **/
+     */
     public void setMinInclusive(float min) {
         minInclusive = new Float(min);
     } //-- setMinInclusive
@@ -214,7 +209,7 @@ public final class XSFloat extends XSPatternBase {
      * Sets the minimum inclusive value that this XSFloat can hold.
      * @param min the minimum inclusive value this XSFloat can be
      * @see #setMinExclusive(float)
-    **/
+     */
     public void setMinInclusive(Float min) {
         minInclusive = min;
     } //-- setMinInclusive
@@ -224,11 +219,9 @@ public final class XSFloat extends XSPatternBase {
      * @param simpleType the SimpleType containing the facets
      */
     public void setFacets(SimpleType simpleType) {
-
         //-- copy valid facets
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-
             Facet facet = (Facet)enumeration.nextElement();
             String name = facet.getName();
 
@@ -256,7 +249,7 @@ public final class XSFloat extends XSPatternBase {
      * @param variableName the name of the instance variable
      * @return the String necessary to convert an instance of this XSType
      * to an Object
-    **/
+     */
     public String createToJavaObjectCode(String variableName) {
         if (_asWrapper) return super.createToJavaObjectCode(variableName);
         StringBuffer sb = new StringBuffer("new java.lang.Float(");
@@ -272,7 +265,7 @@ public final class XSFloat extends XSPatternBase {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+     */
     public String createFromJavaObjectCode(String variableName) {
         StringBuffer sb = new StringBuffer("((java.lang.Float)");
         sb.append(variableName);
@@ -282,21 +275,18 @@ public final class XSFloat extends XSPatternBase {
         }
         return sb.toString();
     } //-- fromJavaObject
-    
-   	/**
-	 * Creates the validation code for an instance of this XSType. The validation
+
+    /**
+     * Creates the validation code for an instance of this XSType. The validation
      * code should if necessary create a newly configured TypeValidator, that
      * should then be added to a FieldValidator instance whose name is provided.
-	 * 
-	 * @param fixedValue a fixed value to use if any
-	 * @param jsc the JSourceCode to fill in.
+     *
+     * @param fixedValue a fixed value to use if any
+     * @param jsc the JSourceCode to fill in.
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
-	 */
-	public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-         if (jsc == null) 
-            jsc = new JSourceCode();
+     */
+    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.FloatValidator typeValidator = new org.exolab.castor.xml.validators.FloatValidator();");
         if (hasMinimum()) {
             Float min = getMinExclusive();
@@ -347,6 +337,5 @@ public final class XSFloat extends XSPatternBase {
         }
         jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
     }
-   
 
 } //-- XStype

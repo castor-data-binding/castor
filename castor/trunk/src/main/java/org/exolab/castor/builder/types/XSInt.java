@@ -42,22 +42,20 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
-
 /**
- * The XML Schema 'int' type
+ * The XML Schema 'int' type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
-**/
+ */
 public final class XSInt extends XSLong {
 
     public XSInt() {
         this(false);
     }
-    
+
     public XSInt(boolean asWrapper) {
         super(asWrapper);
         setMinInclusive(-2147483647L);

@@ -42,24 +42,24 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.types;
 
 import org.exolab.castor.xml.schema.SimpleType;
-
-import org.exolab.javasource.*;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The boolean XML Schema datatype.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
-**/
+ */
 public final class XSBoolean extends XSType {
 
     /**
      * The JType represented by this XSType
-    **/
+     */
     private static JType jType = JType.BOOLEAN;
     private boolean _asWrapper = false;
 
@@ -75,11 +75,10 @@ public final class XSBoolean extends XSType {
         else jType = JType.BOOLEAN;
     } //-- XSBoolean
 
-
     /**
      * Returns the JType that this XSType represents
      * @return the JType that this XSType represents
-    **/
+     */
     public JType getJType() {
         return jType;
     } //-- getJType
@@ -92,7 +91,7 @@ public final class XSBoolean extends XSType {
      * @param variableName the name of the instance variable
      * @return the String necessary to convert an instance of this XSType
      * to an Object
-    **/
+     */
     public String createToJavaObjectCode(String variableName) {
         if (_asWrapper) return super.createToJavaObjectCode(variableName);
         StringBuffer sb = new StringBuffer("(");
@@ -108,7 +107,7 @@ public final class XSBoolean extends XSType {
      * @param variableName the name of the Object
      * @return the String necessary to convert an Object to an
      * instance of this XSType
-    **/
+     */
     public String createFromJavaObjectCode(String variableName) {
         StringBuffer sb = new StringBuffer("((java.lang.Boolean)");
         sb.append(variableName);
@@ -118,17 +117,14 @@ public final class XSBoolean extends XSType {
         }
         return sb.toString();
     } //-- fromJavaObject
-    
+
     /**
      * Returns a JSourceCode that contains the validation method for this XSBoolean.
-     * 
+     *
      * @param fixedValue a fixed value to use if any
      * @param jsc the JSourceCode to fill in.
      */
     public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-
-        if (jsc == null) 
-            jsc = new JSourceCode();
         jsc.add("org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();");
         if (fixedValue != null) {
             Boolean.valueOf(fixedValue);
@@ -136,7 +132,8 @@ public final class XSBoolean extends XSType {
             jsc.append(fixedValue);
             jsc.append(");");
         }
-        
+
         jsc.add("fieldValidator.setValidator(typeValidator);");
     }
+
 } //-- XSBoolean
