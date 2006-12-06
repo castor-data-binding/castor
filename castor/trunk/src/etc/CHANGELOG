@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1721 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added new isValidating() method to Unmarshaller.
+       Details: http://jira.codehaus.org/browse/CASTOR-1721
+       (Werner - 20061206)
+
 XML:   Resolved issue CASTOR-1715 using contribution from Edward Kuns [edward.kuns@aspect.com]
        SRCGEN needs to qualify all uses of members of java.lang
        Details: http://jira.codehaus.org/browse/CASTOR-1715
