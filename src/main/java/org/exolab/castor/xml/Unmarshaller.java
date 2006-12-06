@@ -372,6 +372,14 @@ public class Unmarshaller {
 
         return handler;
     } //-- createHandler
+    
+    /**
+     * Indicates whether or not validation should be performed during umarshalling.
+     * @return True if validation is performed during umarshalling.
+     */
+    public boolean isValidating() {
+        return _validate;
+    }
 
     /**
      * Sets the ClassLoader to use when loading new classes.

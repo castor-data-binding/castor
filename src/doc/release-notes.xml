@@ -130,6 +130,26 @@
 
             </summary>
             <bugs>
+                <bug id="1721" tool="jira">
+                    <description>
+                        Added isValidating() method to Unmarshaller.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061206</date>
+                </bug>
                 <bug id="1715" tool="jira">
                     <description>
                         SRCGEN needs to qualify all uses of members of java.lang
