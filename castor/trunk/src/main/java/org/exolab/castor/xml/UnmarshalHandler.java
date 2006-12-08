@@ -45,7 +45,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 //-- Castor imports
@@ -79,12 +78,11 @@ import java.util.Stack;
 import java.util.Enumeration;
 import java.util.StringTokenizer;
 
-
 /**
- * An unmarshaller to allowing unmarshalling of XML documents to
+ * An unmarshaller to allowing unmarshaling of XML documents to
  * Java Objects. The Class must specify
  * the proper access methods (setters/getters) in order for instances
- * of the Class to be properly unmarshalled.
+ * of the Class to be properly unmarshaled.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-05-25 06:41:12 -0600 (Thu, 25 May 2006) $
@@ -2967,7 +2965,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             try {
                 _idResolver.bind(attValue, parent);
             } catch (ValidationException e) {
-                throw new SAXException("Dupliacate ID " + attValue + " encountered.", e);
+                throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }
 
             //-- save key in current state
