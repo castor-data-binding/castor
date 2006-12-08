@@ -60,9 +60,12 @@
                     </crow>
                 </ctable>
 
-                <p>The main and only difference between the artifacts generated is the
-                   value range that will be accepted by the generated Java instance
-                   variables.</p>
+                <p>The only difference between the artifacts generated is that
+                   a different Java type is used with a different (and appropriate
+                   to the specification) value range.  Thus, the value range
+                   that will be accepted by the generated Java instance
+                   variables has changed.
+                </p>
 
                 <h3>XML test suite execution</h3>
 
@@ -128,10 +131,12 @@
 
                 <p>The following types have been added: 'collection', 'set' and 'sortedset'.</p>
 
-                <h3>Extended support for validation of IDs during unmarshalling</h3>
+                <h3>Extended support for validation of IDs during unmarshaling</h3>
                 
-                <p>The default IDResolverImpl class has been changed so that a validation
-                   exception is empty of duplicate ID values are encountered./p>
+                <p>The default IDResolverImpl class has been changed so that a
+                   validation exception will be thrown if an empty or duplicate
+                   ID value is encountered.
+                </p>
 
             </summary>
             <bugs>

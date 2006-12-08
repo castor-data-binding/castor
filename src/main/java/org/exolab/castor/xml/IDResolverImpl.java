@@ -4,7 +4,7 @@ import java.util.Hashtable;
 import java.util.Map;
 
 /**
- * Default {@link IDResolver} for Castor XML during (un)marshalling.
+ * Default {@link IDResolver} for Castor XML during (un)marshaling.
  * @see org.exolab.castor.xml.IDResolver
  */
 class IDResolverImpl implements IDResolver {
