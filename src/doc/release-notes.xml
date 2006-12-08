@@ -128,8 +128,34 @@
 
                 <p>The following types have been added: 'collection', 'set' and 'sortedset'.</p>
 
+                <h3>Extended support for validation of IDs during unmarshalling</h3>
+                
+                <p>The default IDResolverImpl class has been changed so that a validation
+                   exception is empty of duplicate ID values are encountered./p>
+
             </summary>
             <bugs>
+                <bug id="1723" tool="jira">
+                    <description>
+                        Extended support for complete validation of ID values 
+                        during unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061208</date>
+                </bug>
                 <bug id="1721" tool="jira">
                     <description>
                         Added isValidating() method to Unmarshaller.

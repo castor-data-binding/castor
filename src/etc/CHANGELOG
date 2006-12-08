@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1723 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Extended support for complete validation of ID values during unmarshalling.
+       Details: http://jira.codehaus.org/browse/CASTOR-1723
+       (Werner - 20061208)
+
 XML:   Resolved issue CASTOR-1721 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added new isValidating() method to Unmarshaller.
        Details: http://jira.codehaus.org/browse/CASTOR-1721
