@@ -370,11 +370,6 @@ public abstract class XMLTestCase extends TestCase {
             config = _configuration;
         }
 
-        if (config != null) {
-            ConfigurationType unmarshal = config.getUnmarshal();
-            invokeEnumeratedMethods(unmarshal, unmarshal);
-        }//-- config != null
-
         final Unmarshaller unmar;
         if (_mapping != null) {
             unmar = new Unmarshaller(_mapping);
@@ -393,6 +388,11 @@ public abstract class XMLTestCase extends TestCase {
 
         unmar.setDebug(_verbose);
 
+        if (config != null) {
+            ConfigurationType unmarshal = config.getUnmarshal();
+            invokeEnumeratedMethods(unmar, unmarshal);
+        }//-- config != null
+        
         return unmar;
     }
 
@@ -413,7 +413,7 @@ public abstract class XMLTestCase extends TestCase {
         while (methods.hasMoreElements()) {
             CallMethod method = (CallMethod) methods.nextElement();
             //-- search for the method to invoke
-            Method toBeinvoked = getInvokeMethod(method.getName(), method.getValue());
+            Method toBeinvoked = getInvokeMethod(objectInvoked.getClass(), method.getName(), method.getValue());
             //-- construct the objects representing the arguments of the method
             Object[] arguments = getArguments(method.getValue());
             toBeinvoked.invoke(objectInvoked, arguments);
@@ -474,8 +474,10 @@ public abstract class XMLTestCase extends TestCase {
         return builder.buildInstance();
     }
 
-    private Method getInvokeMethod(String methodName, Value[] values) throws ClassNotFoundException,
-                                                                     NoSuchMethodException {
+    private Method getInvokeMethod(final Class dataBinder, 
+            final String methodName, 
+            final Value[] values) 
+        throws ClassNotFoundException, NoSuchMethodException {
         if (methodName == null) {
             throw new IllegalArgumentException("The name of the method to invoke is null");
         }
@@ -490,7 +492,7 @@ public abstract class XMLTestCase extends TestCase {
                 argumentsClass[i] = CTFUtils.getClass(value.getType(), _test.getClassLoader());
             }
         }
-        return Marshaller.class.getMethod(methodName, argumentsClass);
+        return dataBinder.getMethod(methodName, argumentsClass);
     }
 
     private Object[] getArguments(Value[] values) throws ClassNotFoundException, MarshalException {

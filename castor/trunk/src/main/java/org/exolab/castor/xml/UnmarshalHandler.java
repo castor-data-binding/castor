@@ -2472,7 +2472,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_resolveTable == null) 
             _resolveTable = new Hashtable();
         else {
-            refInfo.next = (ReferenceInfo)_resolveTable.get(idRef);
+            refInfo.setNext((ReferenceInfo)_resolveTable.get(idRef));
         }
         _resolveTable.put(idRef, refInfo);
     } //-- addReference
@@ -2964,7 +2964,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- if this is the identity then save id
         if (classDesc.getIdentity() == descriptor) {
             
-            _idResolver.bind(attValue, parent);
+            try {
+                _idResolver.bind(attValue, parent);
+            } catch (ValidationException e) {
+                throw new SAXException("Dupliacate ID " + attValue + " encountered.", e);
+            }
 
             //-- save key in current state
             UnmarshalState state = (UnmarshalState) _stateInfo.peek();
@@ -3517,13 +3521,13 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         ReferenceInfo refInfo = (ReferenceInfo)_resolveTable.remove(id);
         while (refInfo != null) {
             try {
-                FieldHandler handler = refInfo.descriptor.getHandler();
+                FieldHandler handler = refInfo.getDescriptor().getHandler();
                 if (handler != null)
-                    handler.setValue(refInfo.target, value);
+                    handler.setValue(refInfo.getTarget(), value);
                     
                 //-- special handling for MapItems
-                if (refInfo.target instanceof MapItem) {
-                    resolveReferences(refInfo.target.toString(), refInfo.target);
+                if (refInfo.getTarget() instanceof MapItem) {
+                    resolveReferences(refInfo.getTarget().toString(), refInfo.getTarget());
                 }
             }
             catch(java.lang.IllegalStateException ise) {
@@ -3533,7 +3537,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         ise.toString();
                 throw new SAXException(err, ise);
             }
-            refInfo = refInfo.next;
+            refInfo = refInfo.getNext();
         }
     } //-- resolveReferences
 
@@ -3701,76 +3705,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             attributeList = null;
         }
     } //-- ElementInfo
-    
-    /**
-     * Local IDResolver
-    **/
-    class IDResolverImpl implements IDResolver {
-
-        private Hashtable  _idReferences = null;
-        private IDResolver _idResolver   = null;
-
-        IDResolverImpl() {
-        } //-- IDResolverImpl
-
-        void bind(String id, Object obj) {
-
-            if (_idReferences == null)
-                _idReferences = new Hashtable();
-
-
-            _idReferences.put(id, obj);
-
-        } //-- bind
-
-        /**
-         * Returns the Object whose id matches the given IDREF,
-         * or null if no Object was found.
-         * @param idref the IDREF to resolve.
-         * @return the Object whose id matches the given IDREF.
-        **/
-        public Object resolve(String idref) {
-
-            if (_idReferences != null) {
-                Object obj = _idReferences.get(idref);
-                if (obj != null) return obj;
-            }
-
-            if (_idResolver != null) {
-                return _idResolver.resolve(idref);
-            }
-            return null;
-        } //-- resolve
-
-
-        void setResolver(IDResolver idResolver) {
-            _idResolver = idResolver;
-        }
-
-    } //-- IDResolverImpl
-
-    /**
-     * Internal class used to save state for reference resolving
-    **/
-    class ReferenceInfo {
-        
-        String id = null;
-        Object target = null;
-        XMLFieldDescriptor descriptor = null;
-        ReferenceInfo next = null;
-
-        public ReferenceInfo() {
-            super();
-        }
-
-        public ReferenceInfo
-            (String id, Object target, XMLFieldDescriptor descriptor)
-        {
-            this.id = id;
-            this.target = target;
-            this.descriptor = descriptor;
-        }
-    }
     
     /**
      * Internal class used for passing constructor argument
