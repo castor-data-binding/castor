@@ -213,7 +213,7 @@ public class TestSourceGenerator extends XMLTestCase {
         sourceGen.setTestable(true);
         sourceGen.setSuppressNonFatalWarnings(true);
         sourceGen.setFailOnFirstError(true);
-        sourceGen.setGenerateImportedSchemas(true);
+//      sourceGen.setGenerateImportedSchemas(true);
         sourceGen.setDestDir(_outputRootFile.getAbsolutePath());
         return sourceGen;
     }
