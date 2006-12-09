@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -146,6 +146,16 @@ public class FailureStepType implements java.io.Serializable {
     public static final FailureStepType SECOND_UNMARSHAL = new FailureStepType(SECOND_UNMARSHAL_TYPE, "second-unmarshal");
 
     /**
+     * The custom-test type
+     */
+    public static final int CUSTOM_TEST_TYPE = 12;
+
+    /**
+     * The instance of the custom-test type
+     */
+    public static final FailureStepType CUSTOM_TEST = new FailureStepType(CUSTOM_TEST_TYPE, "custom-test");
+
+    /**
      * Field _memberTable
      */
     private static java.util.Hashtable _memberTable = init();
@@ -225,6 +235,7 @@ public class FailureStepType implements java.io.Serializable {
         members.put("second-compare", SECOND_COMPARE);
         members.put("listener-comparison", LISTENER_COMPARISON);
         members.put("second-unmarshal", SECOND_UNMARSHAL);
+        members.put("custom-test", CUSTOM_TEST);
         return members;
     } //-- java.util.Hashtable init() 
 

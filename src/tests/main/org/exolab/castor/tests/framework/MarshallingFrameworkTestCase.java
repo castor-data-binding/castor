@@ -131,11 +131,14 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         String name = getTestSuiteName();
         name = (name != null) ? name + "#" + _name : _name;
 
-        suite.addTest(new TestWithReferenceDocument(name, this));
-        if (_hasRandom) {
-            suite.addTest(new TestWithRandomObject(name, this));
+        if (_unitTest.getCustomTest() != null) {
+            suite.addTest(new TestWithCustomTest(name, this));
+        } else {
+            suite.addTest(new TestWithReferenceDocument(name, this));
+            if (_hasRandom) {
+                suite.addTest(new TestWithRandomObject(name, this));
+            }
         }
-
         return suite;
     }
 

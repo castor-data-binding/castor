@@ -6,15 +6,15 @@
 <xsd:element name="DateTimeTests">
   <xsd:complexType>
     <xsd:sequence>
-      <xsd:element ref="dateRanged"       minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="timeRanged"       minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="dateTimeRanged"   minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="durationRanged"   minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="gdayRanged"       minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="gmonthRanged"     minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="gyearRanged"      minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="gyearmonthRanged" minOccurs="1" maxOccurs="unbounded"/>
-      <xsd:element ref="gmonthdayRanged"  minOccurs="1" maxOccurs="unbounded"/>
+      <xsd:element ref="dateRanged"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="timeRanged"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="dateTimeRanged"   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="durationRanged"   minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="gdayRanged"       minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="gmonthRanged"     minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="gyearRanged"      minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="gyearmonthRanged" minOccurs="0" maxOccurs="unbounded"/>
+      <xsd:element ref="gmonthdayRanged"  minOccurs="0" maxOccurs="unbounded"/>
     </xsd:sequence>
   </xsd:complexType>
 </xsd:element>
