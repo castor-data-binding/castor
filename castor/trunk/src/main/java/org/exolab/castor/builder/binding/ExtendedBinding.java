@@ -51,6 +51,7 @@ import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
 
 import java.util.Hashtable;
@@ -92,23 +93,28 @@ public class ExtendedBinding extends Binding {
      */
     protected static final String PATH_SEPARATOR   = "/";
     protected static final String ATTRIBUTE_PREFIX = "@";
-    protected static final String COMPLEXTYPE_ID   = "complexType:";
-    protected static final String GROUP_ID         = "group:";
+    protected static final String COMPLEXTYPE_ID = "complexType:";
+    protected static final String SIMPLETYPE_ID = "simpleType:";
+    protected static final String ENUMTYPE_ID = "enumType:";
+    protected static final String GROUP_ID = "group:";
 
     private static final short ATTRIBUTE   = 10;
     private static final short ELEMENT     = 11;
     private static final short COMPLEXTYPE = 12;
     private static final short GROUP       = 13;
+    private static final short ENUM_TYPE   = 14;
+    private static final short SIMPLETYPE = 15;
+    
+	/**
+	 * The hashtables that contain the different componentBindings
+	 */
+	private Hashtable _componentBindings;
 
-    /**
-     * The hashtables that contain the different componentBindings
-     */
-    private Hashtable _componentBindings;
-
-    /**
-     * A flag that indicates if the component bindings of that Binding have been processed.
-     */
-    private boolean _bindingProcessed = false;
+	/**
+	 * A flag that indicates if the component bindings of that 
+     * Binding have been processed.
+	 */
+	private boolean _bindingProcessed = false;
 
     /**
      * Default constructor.
@@ -246,6 +252,20 @@ public class ExtendedBinding extends Binding {
             handleComponent(temp, null, GROUP);
         }
 
+        //5--enums
+        tempBindings = getEnumBinding();
+        for (int i=0; i<tempBindings.length; i++) {
+            temp = tempBindings[i];
+            handleComponent(temp, null, ENUM_TYPE);
+        }
+
+        //6--simpleTypes
+        tempBindings = getSimpleTypeBinding();
+        for (int i=0; i<tempBindings.length; i++) {
+            temp = tempBindings[i];
+            handleComponent(temp, null, SIMPLETYPE);
+        }
+
         temp = null;
         tempBindings = null;
 
@@ -287,6 +307,24 @@ public class ExtendedBinding extends Binding {
                 _componentBindings.put(xPath, binding);
                 break;
 
+            case SIMPLETYPE :
+                //--handle simpleType
+                if (!xpathUsed) {
+                    xPath += SIMPLETYPE_ID;
+                }
+                xPath += name;
+                _componentBindings.put(xPath, binding);
+                break;
+
+		    case ELEMENT :
+			    //--handle element
+			    if (!xpathUsed) {
+				    xPath += PATH_SEPARATOR;
+			    }
+			    xPath += name;
+			    _componentBindings.put(xPath, binding);
+			    break;
+
             case COMPLEXTYPE :
                 //--handle complexType
                 if (!xpathUsed) {
@@ -296,10 +334,10 @@ public class ExtendedBinding extends Binding {
                 _componentBindings.put(xPath, binding);
                 break;
 
-            case ELEMENT :
-                //--handle element
+            case ENUM_TYPE :
+                //--handle enum
                 if (!xpathUsed) {
-                    xPath += PATH_SEPARATOR;
+                    xPath += ENUMTYPE_ID;
                 }
                 xPath += name;
                 _componentBindings.put(xPath, binding);
@@ -315,10 +353,10 @@ public class ExtendedBinding extends Binding {
                 break;
 
             default :
-                //--there's a problem somewhere
-                throw new IllegalStateException("Invalid ComponentBindingType: the type (attribute, element, complextype or group) is unknown");
-        }
-
+			    //--there's a problem somewhere
+			    throw new IllegalStateException("Invalid ComponentBindingType: the type (attribute, element, complextype or group) is unknown");
+	    }
+	    
         //--process children
         ComponentBindingType temp;
         ComponentBindingType[] tempBindings = binding.getAttributeBinding();
@@ -337,6 +375,13 @@ public class ExtendedBinding extends Binding {
             handleComponent(temp, xPath, COMPLEXTYPE);
         }
 
+        //X--simpleTypes
+        tempBindings = binding.getSimpleTypeBinding();
+        for (int i=0; i<tempBindings.length; i++) {
+            temp = tempBindings[i];
+            handleComponent(temp, xPath, SIMPLETYPE);
+        }
+
         //3--elements
         tempBindings = binding.getElementBinding();
         for (int i = 0; i < tempBindings.length; i++) {
@@ -349,6 +394,13 @@ public class ExtendedBinding extends Binding {
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, xPath, GROUP);
+        }
+
+        //5--enums
+        tempBindings = binding.getEnumBinding();
+        for (int i=0; i<tempBindings.length; i++) {
+            temp = tempBindings[i];
+            handleComponent(temp, xPath, ENUM_TYPE);
         }
 
         temp = null;
@@ -374,6 +426,10 @@ public class ExtendedBinding extends Binding {
      *       representation "/@attribute_name"</li>
      *   <li>If the structure is a <b>ComplexType</b>: the location is
      *       "complexType:complexType_name"</li>
+     *   <li>If the structure is a <b>SimpleType</b>: the location is
+     *       "simpleType:simpleType_name"</li>
+     *   <li>If the structure is a <b>Enumeration</b>: the location is
+     *       "enumType:enumType_name"</li>
      *   <li>If the structure is a <b>ModelGroup</b>: the location is
      *       "group:group_name"</li>
      * </ul>
@@ -419,8 +475,29 @@ public class ExtendedBinding extends Binding {
                    getSchemaLocation(parent, location);
                 }
                 if (complexType.getName() != null) {
+                    location.append(PATH_SEPARATOR);
                     location.append(COMPLEXTYPE_ID);
                     location.append(((ComplexType) structure).getName());
+                } else {
+                    location.append(PATH_SEPARATOR);
+                    location.append(COMPLEXTYPE_ID);
+                    location.append("anonymous");
+                }
+                break;
+
+            case Structure.SIMPLE_TYPE:
+                SimpleType simpleType = (SimpleType)structure;
+                parent = simpleType.getParent();
+                if (parent != null && parent.getStructureType() != Structure.SCHEMA)
+                   getSchemaLocation(parent, location);
+                if (parent != null && simpleType.getName() != null) {
+                    location.append(PATH_SEPARATOR);
+                    location.append(ENUMTYPE_ID);
+                    location.append(((SimpleType)structure).getName());
+                } else {
+                    location.append(PATH_SEPARATOR);
+                    location.append(ENUMTYPE_ID);
+                    location.append("anonymous");
                 }
                 break;
 

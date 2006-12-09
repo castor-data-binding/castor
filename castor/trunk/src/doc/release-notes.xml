@@ -148,9 +148,59 @@
                    validation exception will be thrown if an empty or duplicate
                    ID value is encountered.
                 </p>
+                
+                <h3>Added support for &lt;enumBinding&gt;s</h3>
+                
+                <p>The XML code generator has been enhanced so that it is possible
+                   to provide a binding for the folowing enumeration ...</p>
+                   
+                <code-panel><![CDATA[
+<xs:simpleType name="durationUnitType">
+  <xs:restriction base='xs:string'>
+    <xs:enumeration value='Y' />
+    <xs:enumeration value='M' />
+    <xs:enumeration value='D' />
+    <xs:enumeration value='h' />
+    <xs:enumeration value='m' />
+    <xs:enumeration value='s' />
+  </xs:restriction>
+</simpleType>]]></code-panel>
+                   
+                <p>as follows:</p>
+                   
+                <code-panel><![CDATA[
+<enumBinding name="/enumType:durationUnitType">
+  <enum-def>
+    <enumMember>
+      <value>M</value>
+      <javaName>CUSTOM_M</javaName>
+    </enumMember>
+  </enum-def>
+</enumBinding>]]></code-panel>
 
             </summary>
             <bugs>
+                <bug id="1491" tool="jira">
+                    <description>
+                        Added support for &lt;enumBinding&gt; elements during XML 
+                        code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Frederik Uyttersprot</name>
+                        <email>frederik.uyttersprot@gmail.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061208</date>
+                </bug>
                 <bug id="1724" tool="jira">
                     <description>
                         Add ability to invoke arbitrary user-supplied code in a CTF unit test

@@ -1012,7 +1012,7 @@ public class SourceGenerator extends BuilderConfiguration {
         if (simpleType.hasFacet(Facet.ENUMERATION)) {
             ClassInfo classInfo = sInfo.resolve(simpleType);
             if (classInfo == null) {
-                JClass jClass = _sourceFactory.createSourceCode(simpleType, sInfo);
+                JClass jClass = _sourceFactory.createSourceCode(_bindingComponent.getBinding(), simpleType, sInfo);
                 _singleClassGenerator.process(jClass, sInfo);
             } else {
                 JClass jClass = classInfo.getJClass();
