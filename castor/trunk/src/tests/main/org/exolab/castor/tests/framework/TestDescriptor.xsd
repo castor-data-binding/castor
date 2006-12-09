@@ -10,8 +10,8 @@
  -->
 <!-- $Id$ -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-            targetNamespace="http://castor.exolab.org/Test"
             xmlns:test="http://castor.exolab.org/Test"
+            targetNamespace="http://castor.exolab.org/Test"
             elementFormDefault="qualified">
 
     <!-- The root element which contains an header and a test element-->
@@ -199,13 +199,28 @@
                 <!-- The name of the test -->
                 <xsd:element name="Name" type="xsd:string" minOccurs="0" maxOccurs="1"/>
                 <xsd:choice minOccurs="0">
-                    <!-- the mapping file used (if any) -->
-                    <xsd:element name="Mapping_File" type="xsd:string" minOccurs="0" maxOccurs="1"/>
-                    <!-- the name of the schema to read/write -->
-                    <!-- a '*' will indicate that the CTF will try to read/write -->
-                    <!-- all the schemas present in the directory or jar -->
-                    <xsd:element name="Schema" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                    <!-- the mapping file used (if any) ... only for MarshallingTest -->
+                    <xsd:element name="Mapping_File" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                This element is used only for a MarshallingTest and is
+                                optional.  It specifies the mapping file to be used (if any).
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
+                    <xsd:element name="Schema" type="xsd:string" minOccurs="0" maxOccurs="1">
+                        <xsd:annotation>
+                            <xsd:documentation>
+                                This element is used only for a SchemaTest and is required
+                                for a SchemaTest.  It gives the name of the schema to read + write.
+                                If the value if this element is '*' then the CTF will use all of
+                                the schemas present in the directory or jar.
+                            </xsd:documentation>
+                        </xsd:annotation>
+                    </xsd:element>
                 </xsd:choice>
+                <!-- Optional custom test, only for MarshallingTest and SourceGeneratorTest -->
+                <xsd:element name="CustomTest" type="test:CustomTestType" minOccurs="0" maxOccurs="1"/>
                 <!-- the configuration for the marshalling framework -->
                 <xsd:element ref="test:Configuration" minOccurs="0" maxOccurs="1"/>
                 <!-- the input XML file for unmarshaling -->
@@ -227,6 +242,20 @@
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>
+
+    <xsd:complexType name="CustomTestType">
+        <xsd:annotation>
+            <xsd:documentation>
+                This element specifies an optional user-provided test.  A user-
+                provided test consists of a test class name to be instantiated
+                and a non-static method to call for the method.
+            </xsd:documentation>
+        </xsd:annotation>
+        <xsd:sequence>
+           <xsd:element name="TestClass" type="xsd:string"/>
+           <xsd:element name="Methods"   type="test:ConfigurationType"/>
+        </xsd:sequence>
+    </xsd:complexType>
 
     <xsd:element name="Configuration">
         <xsd:annotation>
@@ -257,12 +286,12 @@
     <xsd:element name="Call-method">
         <xsd:annotation>
             <xsd:documentation>
-                A single method to call on a marshaler or unmarshaler or source generator
+                A single method to call
             </xsd:documentation>
         </xsd:annotation>
         <xsd:complexType>
             <xsd:sequence>
-                <xsd:element ref="test:Value" maxOccurs="unbounded"/>
+                <xsd:element ref="test:Value" minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
             <!-- the name of the method to call -->
             <xsd:attribute name="name" type="xsd:string"/>
@@ -384,6 +413,7 @@
            <xsd:enumeration value="second-compare"/>
            <xsd:enumeration value="listener-comparison"/>
            <xsd:enumeration value="second-unmarshal"/>
+           <xsd:enumeration value="custom-test"/>
        </xsd:restriction>
     </xsd:simpleType>
 

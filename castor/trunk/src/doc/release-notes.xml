@@ -89,6 +89,17 @@
                   time zone information.  A later release of Castor may marshal
                   xsd:dateTime into a java.util.Calendar instead of java.util.Date.
                 </p>
+                <p>
+                  An additional unit test type has been added to the
+                  <tt>MarshallingTest</tt> and <tt>SourceGeneratorTest</tt> test types
+                  that allows invoking user-supplied arbitrary code that will either
+                  return a boolean "false" or an Exception if the user-test fails or
+                  it will throw an exception if the user-test fails.  For a sample
+                  of this new unit test type, see the tests in the directory
+                </p>
+                <p>
+                  <tt>MasterTestSuite/sourcegenerator/Facets/DateTimeNoTimeZone/</tt>
+                </p>
 
                 <h2>Additions</h2>
 
@@ -132,7 +143,7 @@
                 <p>The following types have been added: 'collection', 'set' and 'sortedset'.</p>
 
                 <h3>Extended support for validation of IDs during unmarshaling</h3>
-                
+
                 <p>The default IDResolverImpl class has been changed so that a
                    validation exception will be thrown if an empty or duplicate
                    ID value is encountered.
@@ -140,9 +151,29 @@
 
             </summary>
             <bugs>
+                <bug id="1724" tool="jira">
+                    <description>
+                        Add ability to invoke arbitrary user-supplied code in a CTF unit test
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Test</module>
+                    <date>20061209</date>
+                </bug>
                 <bug id="1723" tool="jira">
                     <description>
-                        Extended support for complete validation of ID values 
+                        Extended support for complete validation of ID values
                         during unmarshalling.
                     </description>
                     <contributor>

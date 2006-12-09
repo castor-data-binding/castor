@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -59,7 +59,7 @@ public class FailureTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- _content
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(Boolean.TYPE, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException

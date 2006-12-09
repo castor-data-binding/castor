@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -36,6 +36,11 @@ public class UnitTestCase implements java.io.Serializable {
      * Field _unitTestCaseChoice
      */
     private org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice _unitTestCaseChoice;
+
+    /**
+     * Field _customTest
+     */
+    private org.exolab.castor.tests.framework.testDescriptor.CustomTest _customTest;
 
     /**
      */
@@ -260,6 +265,16 @@ public class UnitTestCase implements java.io.Serializable {
     {
         return this._configuration;
     } //-- org.exolab.castor.tests.framework.testDescriptor.Configuration getConfiguration() 
+
+    /**
+     * Returns the value of field 'customTest'.
+     * 
+     * @return the value of field 'CustomTest'.
+     */
+    public org.exolab.castor.tests.framework.testDescriptor.CustomTest getCustomTest()
+    {
+        return this._customTest;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.CustomTest getCustomTest() 
 
     /**
      * Returns the value of field 'failure'.
@@ -581,6 +596,16 @@ public class UnitTestCase implements java.io.Serializable {
     {
         this._configuration = configuration;
     } //-- void setConfiguration(org.exolab.castor.tests.framework.testDescriptor.Configuration) 
+
+    /**
+     * Sets the value of field 'customTest'.
+     * 
+     * @param customTest the value of field 'customTest'.
+     */
+    public void setCustomTest(org.exolab.castor.tests.framework.testDescriptor.CustomTest customTest)
+    {
+        this._customTest = customTest;
+    } //-- void setCustomTest(org.exolab.castor.tests.framework.testDescriptor.CustomTest) 
 
     /**
      * Sets the value of field 'failure'.

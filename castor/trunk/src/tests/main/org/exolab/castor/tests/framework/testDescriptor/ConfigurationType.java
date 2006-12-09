@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -32,8 +32,7 @@ public class ConfigurationType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * A single method to call on a marshaler or unmarshaler or
-     * source generator
+     * A single method to call
      *  
      */
     private java.util.Vector _callMethodList;

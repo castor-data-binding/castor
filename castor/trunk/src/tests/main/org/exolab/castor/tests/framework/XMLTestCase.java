@@ -74,7 +74,10 @@ import java.io.FileWriter;
 import java.io.PrintWriter;
 import java.io.StringWriter;
 import java.util.Enumeration;
+import java.util.LinkedList;
+import java.util.List;
 
+import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -304,7 +307,7 @@ public abstract class XMLTestCase extends TestCase {
         return marshalOutput;
     }
 
-    private Marshaller createMarshaler(File marshalOutput) throws Exception {
+    private Marshaller createMarshaler(final File marshalOutput) throws Exception {
         Marshaller marshaller = new Marshaller(new FileWriter(marshalOutput));
 
         //-- Configuration for marshaler?  Use config from unit test case if available
@@ -315,7 +318,8 @@ public abstract class XMLTestCase extends TestCase {
 
         if (config != null) {
             ConfigurationType marshal = config.getMarshal();
-            invokeEnumeratedMethods(marshaller, marshal);
+            List returnValues = invokeEnumeratedMethods(marshaller, marshal);
+            returnValues.clear(); // We don't care about the return values
         }//-- config != null
 
         if (_mapping != null) {
@@ -390,22 +394,29 @@ public abstract class XMLTestCase extends TestCase {
 
         if (config != null) {
             ConfigurationType unmarshal = config.getUnmarshal();
-            invokeEnumeratedMethods(unmar, unmarshal);
-        }//-- config != null
-        
+            List returnValues = invokeEnumeratedMethods(unmar, unmarshal);
+            returnValues.clear(); // We don't care about the return values
+        }
+
         return unmar;
     }
 
     /**
-     * Invokes all requested methods on the object we are supplied
+     * Invokes all requested methods on the object we are supplied.  Keeps track
+     * of the objects returned from each invocation and returns a List containing
+     * all of the return values.  Some of the return values may be null.  This
+     * is not an error!
      *
      * @param objectInvoked the object on which to invoke the methods
      * @param config configuration object listing the methods we are to call
      * @throws java.lang.Exception if anything goes wrong during the test
      */
-    private void invokeEnumeratedMethods(Object objectInvoked, ConfigurationType config) throws java.lang.Exception {
+    protected List invokeEnumeratedMethods(final Object objectInvoked, final ConfigurationType config)
+                                                                  throws java.lang.Exception {
+        final List returnValues = new LinkedList();
+
         if (config == null) {
-            return;
+            return returnValues;
         }
 
         Enumeration methods = config.enumerateCallMethod();
@@ -416,8 +427,11 @@ public abstract class XMLTestCase extends TestCase {
             Method toBeinvoked = getInvokeMethod(objectInvoked.getClass(), method.getName(), method.getValue());
             //-- construct the objects representing the arguments of the method
             Object[] arguments = getArguments(method.getValue());
-            toBeinvoked.invoke(objectInvoked, arguments);
+            //-- Invoke the method and keep a copy of the returned object
+            returnValues.add(toBeinvoked.invoke(objectInvoked, arguments));
         }
+
+        return returnValues;
     }
 
     /**
@@ -428,7 +442,7 @@ public abstract class XMLTestCase extends TestCase {
      * @throws IllegalAccessException
      * @throws InstantiationException
      */
-    protected void initializeListeners(ListenerType listener) throws ClassNotFoundException,
+    protected void initializeListeners(final ListenerType listener) throws ClassNotFoundException,
                                                                      IllegalAccessException,
                                                                      InstantiationException {
         String listenerClassName = listener.getClassName();
@@ -463,7 +477,7 @@ public abstract class XMLTestCase extends TestCase {
      *         ObjectModelBuilder.
      * @throws java.lang.Exception if anything goes wrong during the test
      */
-    protected Object buildObjectModel(String builderName) throws java.lang.Exception {
+    protected Object buildObjectModel(final String builderName) throws java.lang.Exception {
         Class builderClass = null;
         if (_test.getClassLoader() != null) {
             builderClass = _test.getClassLoader().loadClass(builderName);
@@ -474,17 +488,15 @@ public abstract class XMLTestCase extends TestCase {
         return builder.buildInstance();
     }
 
-    private Method getInvokeMethod(final Class dataBinder, 
-            final String methodName, 
-            final Value[] values) 
-        throws ClassNotFoundException, NoSuchMethodException {
+    private Method getInvokeMethod(final Class dataBinder, final String methodName,
+                                   final Value[] values)
+                                 throws ClassNotFoundException, NoSuchMethodException {
         if (methodName == null) {
             throw new IllegalArgumentException("The name of the method to invoke is null");
         }
         Class[] argumentsClass = null;
 
-        //-- the value object represent the arguments
-        //--of the method if any
+        //-- the value object represents the arguments of the method if any
         if (values != null && values.length > 0) {
             argumentsClass = new Class[values.length];
             for (int i = 0; i < values.length; i++) {
@@ -495,7 +507,7 @@ public abstract class XMLTestCase extends TestCase {
         return dataBinder.getMethod(methodName, argumentsClass);
     }
 
-    private Object[] getArguments(Value[] values) throws ClassNotFoundException, MarshalException {
+    private Object[] getArguments(final Value[] values) throws ClassNotFoundException, MarshalException {
         Object[] result = new Object[values.length];
         for (int i = 0; i < values.length; i++) {
             Value value = values[i];
@@ -508,7 +520,7 @@ public abstract class XMLTestCase extends TestCase {
      * print the message if in verbose mode.
      * @param message the message to print
      */
-    protected void verbose(String message) {
+    protected void verbose(final String message) {
         if (_verbose) {
             System.out.println(message);
         }

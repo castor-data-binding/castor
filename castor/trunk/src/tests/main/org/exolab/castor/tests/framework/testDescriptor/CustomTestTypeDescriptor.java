@@ -8,11 +8,11 @@
 package org.exolab.castor.tests.framework.testDescriptor;
 
 /**
- * Class CallMethodDescriptor.
+ * Class CustomTestTypeDescriptor.
  * 
  * @version $Revision$ $Date$
  */
-public class CallMethodDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class CustomTestTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -49,12 +49,12 @@ public class CallMethodDescriptor extends org.exolab.castor.xml.util.XMLClassDes
      //- Constructors -/
     //----------------/
 
-    public CallMethodDescriptor() 
+    public CustomTestTypeDescriptor() 
      {
         super();
         nsURI = "http://castor.exolab.org/Test";
-        xmlName = "Call-method";
-        elementDefinition = true;
+        xmlName = "CustomTestType";
+        elementDefinition = false;
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -63,22 +63,24 @@ public class CallMethodDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- initialize attribute descriptors
         
-        //-- _name
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", org.exolab.castor.xml.NodeType.Attribute);
+        //-- initialize element descriptors
+        
+        //-- _testClass
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_testClass", "TestClass", org.exolab.castor.xml.NodeType.Element);
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
-                CallMethod target = (CallMethod) object;
-                return target.getName();
+                CustomTestType target = (CustomTestType) object;
+                return target.getTestClass();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    CallMethod target = (CallMethod) object;
-                    target.setName( (java.lang.String) value);
+                    CustomTestType target = (CustomTestType) object;
+                    target.setTestClass( (java.lang.String) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -89,63 +91,57 @@ public class CallMethodDescriptor extends org.exolab.castor.xml.util.XMLClassDes
             }
         };
         desc.setHandler(handler);
+        desc.setNameSpaceURI("http://castor.exolab.org/Test");
+        desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _name
+        //-- validation code for: _testClass
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        fieldValidator.setMinOccurs(1);
         { //-- local scope
             org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
-        //-- initialize element descriptors
-        
-        //-- _valueList
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.Value.class, "_valueList", "Value", org.exolab.castor.xml.NodeType.Element);
+        //-- _methods
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.tests.framework.testDescriptor.Methods.class, "_methods", "Methods", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue( java.lang.Object object ) 
                 throws IllegalStateException
             {
-                CallMethod target = (CallMethod) object;
-                return target.getValue();
+                CustomTestType target = (CustomTestType) object;
+                return target.getMethods();
             }
             public void setValue( java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
-                    CallMethod target = (CallMethod) object;
-                    target.addValue( (org.exolab.castor.tests.framework.testDescriptor.Value) value);
+                    CustomTestType target = (CustomTestType) object;
+                    target.setMethods( (org.exolab.castor.tests.framework.testDescriptor.Methods) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {
-                try {
-                    CallMethod target = (CallMethod) object;
-                    target.removeAllValue();
-                } catch (java.lang.Exception ex) {
-                    throw new IllegalStateException(ex.toString());
-                }
-            }
             public java.lang.Object newInstance( java.lang.Object parent ) {
-                return new org.exolab.castor.tests.framework.testDescriptor.Value();
+                return new org.exolab.castor.tests.framework.testDescriptor.Methods();
             }
         };
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://castor.exolab.org/Test");
-        desc.setMultivalued(true);
+        desc.setRequired(true);
+        desc.setMultivalued(false);
         addFieldDescriptor(desc);
         
-        //-- validation code for: _valueList
+        //-- validation code for: _methods
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        fieldValidator.setMinOccurs(0);
+        fieldValidator.setMinOccurs(1);
         { //-- local scope
         }
         desc.setValidator(fieldValidator);
-    } //-- org.exolab.castor.tests.framework.testDescriptor.CallMethodDescriptor()
+    } //-- org.exolab.castor.tests.framework.testDescriptor.CustomTestTypeDescriptor()
 
 
       //-----------/
@@ -199,7 +195,7 @@ public class CallMethodDescriptor extends org.exolab.castor.xml.util.XMLClassDes
      */
     public java.lang.Class getJavaClass()
     {
-        return org.exolab.castor.tests.framework.testDescriptor.CallMethod.class;
+        return org.exolab.castor.tests.framework.testDescriptor.CustomTestType.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**

@@ -15,11 +15,14 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * Class UnitTestCaseChoice.
+ * This element specifies an optional user-provided test. A user-
+ *  provided test consists of a test class name to be instantiated
+ *  and a non-static method to call for the method.
+ *  
  * 
  * @version $Revision$ $Date$
  */
-public class UnitTestCaseChoice implements java.io.Serializable {
+public class CustomTestType implements java.io.Serializable {
 
 
       //--------------------------/
@@ -27,33 +30,24 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * This element is used only for a MarshallingTest and is
-     *  optional. It specifies the mapping file to be used (if
-     * any).
-     *  
+     * Field _testClass
      */
-    private java.lang.String _mapping_File;
+    private java.lang.String _testClass;
 
     /**
-     * This element is used only for a SchemaTest and is required
-     *  for a SchemaTest. It gives the name of the schema to read +
-     * write.
-     *  If the value if this element is '' then the CTF will use
-     * all of
-     *  the schemas present in the directory or jar.
-     *  
+     * Field _methods
      */
-    private java.lang.String _schema;
+    private org.exolab.castor.tests.framework.testDescriptor.Methods _methods;
 
 
       //----------------/
      //- Constructors -/
     //----------------/
 
-    public UnitTestCaseChoice() 
+    public CustomTestType() 
      {
         super();
-    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice()
+    } //-- org.exolab.castor.tests.framework.testDescriptor.CustomTestType()
 
 
       //-----------/
@@ -61,37 +55,24 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     //-----------/
 
     /**
-     * Returns the value of field 'mapping_File'. The field
-     * 'mapping_File' has the following description: This element
-     * is used only for a MarshallingTest and is
-     *  optional. It specifies the mapping file to be used (if
-     * any).
-     *  
+     * Returns the value of field 'methods'.
      * 
-     * @return the value of field 'Mapping_File'.
+     * @return the value of field 'Methods'.
      */
-    public java.lang.String getMapping_File()
+    public org.exolab.castor.tests.framework.testDescriptor.Methods getMethods()
     {
-        return this._mapping_File;
-    } //-- java.lang.String getMapping_File() 
+        return this._methods;
+    } //-- org.exolab.castor.tests.framework.testDescriptor.Methods getMethods() 
 
     /**
-     * Returns the value of field 'schema'. The field 'schema' has
-     * the following description: This element is used only for a
-     * SchemaTest and is required
-     *  for a SchemaTest. It gives the name of the schema to read +
-     * write.
-     *  If the value if this element is '' then the CTF will use
-     * all of
-     *  the schemas present in the directory or jar.
-     *  
+     * Returns the value of field 'testClass'.
      * 
-     * @return the value of field 'Schema'.
+     * @return the value of field 'TestClass'.
      */
-    public java.lang.String getSchema()
+    public java.lang.String getTestClass()
     {
-        return this._schema;
-    } //-- java.lang.String getSchema() 
+        return this._testClass;
+    } //-- java.lang.String getTestClass() 
 
     /**
      * Method isValid
@@ -146,37 +127,24 @@ public class UnitTestCaseChoice implements java.io.Serializable {
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
-     * Sets the value of field 'mapping_File'. The field
-     * 'mapping_File' has the following description: This element
-     * is used only for a MarshallingTest and is
-     *  optional. It specifies the mapping file to be used (if
-     * any).
-     *  
+     * Sets the value of field 'methods'.
      * 
-     * @param mapping_File the value of field 'mapping_File'.
+     * @param methods the value of field 'methods'.
      */
-    public void setMapping_File(java.lang.String mapping_File)
+    public void setMethods(org.exolab.castor.tests.framework.testDescriptor.Methods methods)
     {
-        this._mapping_File = mapping_File;
-    } //-- void setMapping_File(java.lang.String) 
+        this._methods = methods;
+    } //-- void setMethods(org.exolab.castor.tests.framework.testDescriptor.Methods) 
 
     /**
-     * Sets the value of field 'schema'. The field 'schema' has the
-     * following description: This element is used only for a
-     * SchemaTest and is required
-     *  for a SchemaTest. It gives the name of the schema to read +
-     * write.
-     *  If the value if this element is '' then the CTF will use
-     * all of
-     *  the schemas present in the directory or jar.
-     *  
+     * Sets the value of field 'testClass'.
      * 
-     * @param schema the value of field 'schema'.
+     * @param testClass the value of field 'testClass'.
      */
-    public void setSchema(java.lang.String schema)
+    public void setTestClass(java.lang.String testClass)
     {
-        this._schema = schema;
-    } //-- void setSchema(java.lang.String) 
+        this._testClass = testClass;
+    } //-- void setTestClass(java.lang.String) 
 
     /**
      * Method unmarshal
@@ -189,13 +157,13 @@ public class UnitTestCaseChoice implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      * @return the unmarshaled
-     * org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice
+     * org.exolab.castor.tests.framework.testDescriptor.CustomTestType
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice unmarshal(java.io.Reader reader)
+    public static org.exolab.castor.tests.framework.testDescriptor.CustomTestType unmarshal(java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
-        return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice.class, reader);
-    } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice unmarshal(java.io.Reader) 
+        return (org.exolab.castor.tests.framework.testDescriptor.CustomTestType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.CustomTestType.class, reader);
+    } //-- org.exolab.castor.tests.framework.testDescriptor.CustomTestType unmarshal(java.io.Reader) 
 
     /**
      * 

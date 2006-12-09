@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1724 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add ability to invoke arbitrary user-supplied code in a CTF unit test
+       Details: http://jira.codehaus.org/browse/CASTOR-1724
+       (Edward - 20061209)
+
 XML:   Resolved issue CASTOR-1723 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Extended support for complete validation of ID values during unmarshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-1723
