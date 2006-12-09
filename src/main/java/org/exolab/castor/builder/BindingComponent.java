@@ -45,6 +45,7 @@
 
 package org.exolab.castor.builder;
 
+import org.exolab.castor.builder.binding.EnumBindingType;
 import org.exolab.castor.builder.types.XSType;
 
 /**
@@ -134,6 +135,7 @@ public interface BindingComponent {
      * @see #getQualifiedName
      */
     String getJavaClassName();
+    public final static short ENUM_TYPE = 3;
 
     /**
      * Returns a valid Java Member Name corresponding to this BindingComponent.
@@ -223,6 +225,13 @@ public interface BindingComponent {
      */
     String getValidator();
 
+    
+    /**
+     * Returns the EnumBindingType instance for the active binding component.
+     * @return The EnumBindingType instance
+     */
+    public EnumBindingType getEnumBinding();
+	
     /**
      * Returns the fully qualified name of the XMLFieldHandler to use. This
      * handler will be used when generating ClassDescriptors meant to be used in

@@ -394,7 +394,7 @@ public class SourceFactory extends BaseFactory {
                 if (complexType.isTopLevel() ^ creatingForAnElement) {
                     //process attributes and content type since it has not be performed before
                     Annotated saved = component.getAnnotated();
-                    processAttributes(complexType, state);
+                    processAttributes(component.getBinding(), complexType, state);
                     component.setView(saved);
                     if (complexType.getContentType() == ContentType.mixed) {
                         FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(new XSString(), _config.useJava50());
@@ -572,7 +572,7 @@ public class SourceFactory extends BaseFactory {
             if (tmpInfo != null) {
                 tmpClass = tmpInfo.getJClass();
             } else {
-                tmpClass = createSourceCode(simpleType, sgState);
+                tmpClass = createSourceCode(component.getBinding(), simpleType, sgState);
             }
             classInfo.setSchemaType(new XSClass(tmpClass));
         }
@@ -645,7 +645,9 @@ public class SourceFactory extends BaseFactory {
      *            the current SGStateInfo (cannot be null).
      * @return the JClass representation of the given Simpletype
      */
-    public JClass createSourceCode(final SimpleType simpleType, final SGStateInfo sgState) {
+    public JClass createSourceCode(final ExtendedBinding binding, 
+            final SimpleType simpleType, 
+            final SGStateInfo sgState) {
         if (SimpleTypesFactory.isBuiltInType(simpleType.getTypeCode())) {
             String err = "You cannot construct a ClassInfo for a built-in SimpleType.";
             throw new IllegalArgumentException(err);
@@ -707,10 +709,11 @@ public class SourceFactory extends BaseFactory {
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
         XMLBindingComponent comp = new XMLBindingComponent(_config, _groupNaming);
-        if (_binding != null) {
-            comp.setBinding(_binding);
+        if (binding != null) {
+            comp.setBinding(binding);
         }
         comp.setView(simpleType);
+        
         String packageName = comp.getJavaPackage();
         if ((packageName == null) || (packageName.length() == 0)) {
             packageName = sgState._packageName;
@@ -724,6 +727,12 @@ public class SourceFactory extends BaseFactory {
             } else {
                 packageName = "types";
             }
+        }
+
+        String boundClassName = comp.getJavaClassName(); 
+        if ((boundClassName != null) && (boundClassName.length() > 0)) {
+            className = boundClassName;
+            typeName = boundClassName;
         }
 
         className = resolveClassName(className, packageName);
@@ -754,7 +763,7 @@ public class SourceFactory extends BaseFactory {
         //-- handle enumerated types
         if (enumeration) {
             xsClass.setAsEnumerated(true);
-            processEnumeration(simpleType, state);
+            processEnumeration(binding, simpleType, state);
         }
 
         //-- create Bound Properties code
@@ -1491,7 +1500,9 @@ public class SourceFactory extends BaseFactory {
      * @param complexType the given complex type.
      * @param state the given FactoryState
      */
-    private void processAttributes(final ComplexType complexType, final FactoryState state) {
+    private void processAttributes(final ExtendedBinding binding, 
+            final ComplexType complexType, 
+            final FactoryState state) {
         if (complexType == null) {
             return;
         }
@@ -1544,7 +1555,7 @@ public class SourceFactory extends BaseFactory {
                     if (sType.getSchema() == component.getSchema()) {
                         if (state.resolve(sType) == null) {
                             if (sType.hasFacet(Facet.ENUMERATION)) {
-                                createSourceCode(sType, state.getSGStateInfo());
+                                createSourceCode(component.getBinding(), sType, state.getSGStateInfo());
                             }
                         }
                     }
@@ -1671,7 +1682,7 @@ public class SourceFactory extends BaseFactory {
         //---------------------/
 
         if (!state.isCreateGroupItem()) {
-            processAttributes(complexType, state);
+            processAttributes(component.getBinding(), complexType, state);
             //--reset the view on the current ComplexType
             component.setView(complexType);
             if (complexType.getContentType() == ContentType.mixed) {
@@ -1807,7 +1818,9 @@ public class SourceFactory extends BaseFactory {
      *            our current state
      * @see #processEnumerationAsBaseType
      */
-    private void processEnumeration(final SimpleType simpleType, final FactoryState state) {
+    private void processEnumeration(final ExtendedBinding binding, 
+            final SimpleType simpleType, 
+            final FactoryState state) {
         // Added by robertlaferla at comcast dot net 01/21/2004
         if (_config.useEnumeratedTypeInterface()) {
             state.jClass.addImport(ENUM_ACCESS_INTERFACE);
@@ -1816,10 +1829,10 @@ public class SourceFactory extends BaseFactory {
 
         switch (enumerationType) {
             case BASE_TYPE_ENUMERATION:
-                processEnumerationAsBaseType(simpleType, state);
+                processEnumerationAsBaseType(binding, simpleType, state);
                 break;
             default:
-                processEnumerationAsNewObject(simpleType, state);
+                processEnumerationAsNewObject(binding, simpleType, state);
                 break;
         }
     } //-- processEnumeration
@@ -1832,9 +1845,10 @@ public class SourceFactory extends BaseFactory {
      * @param state our current state
      * @see #processEnumerationAsBaseType
      */
-    private void processEnumerationAsNewObject(final SimpleType simpleType,
-                                               final FactoryState state) {
-        _enumerationFactory.processEnumerationAsNewObject(simpleType, state);
+    private void processEnumerationAsNewObject(final ExtendedBinding binding,
+            final SimpleType simpleType,
+            final FactoryState state) {
+        _enumerationFactory.processEnumerationAsNewObject(binding, simpleType, state);
     } //-- processEnumerationAsNewObject
 
     /**
@@ -1843,10 +1857,13 @@ public class SourceFactory extends BaseFactory {
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */
-    private void processEnumerationAsBaseType(final SimpleType simpleType,
-                                              final FactoryState state) {
-        _enumerationFactory.processEnumerationAsBaseType(simpleType, state);
+    private void processEnumerationAsBaseType(final ExtendedBinding binding,
+            final SimpleType simpleType,
+            final FactoryState state) {
+        _enumerationFactory.processEnumerationAsBaseType(binding, simpleType, state);
     } //-- processEnumerationAsBaseType
+
+    
 
     /**
      * Adds a given FieldInfo to the JClass and ClassInfo stored in the given

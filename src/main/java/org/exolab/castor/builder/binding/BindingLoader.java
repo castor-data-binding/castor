@@ -162,6 +162,13 @@ public class BindingLoader {
                 _binding.addComplexTypeBinding(tempComp);
             }
 
+            //--SimpleTypeBindings
+            Enumeration STs = loaded.enumerateSimpleTypeBinding();
+            while (STs.hasMoreElements()) {
+                ComponentBindingType tempComp = (ComponentBindingType)STs.nextElement();
+                _binding.addSimpleTypeBinding(tempComp);
+            }
+
             //--groupBindings
             Enumeration groups = loaded.enumerateGroupBinding();
             while (groups.hasMoreElements()) {
@@ -170,12 +177,12 @@ public class BindingLoader {
             }
 
             //--enumBinding
-            //--The following is not yet implemented in the Source Generator
-//          Enumeration enums = loaded.enumerateEnumBinding();
-//          while (enums.hasMoreElements()) {
+            Enumeration enums = loaded.enumerateEnumBinding();
+            while (enums.hasMoreElements()) {
+                ComponentBindingType tempEnum = (ComponentBindingType)enums.nextElement();
 //              EnumBinding tempEnum = (EnumBinding)enums.nextElement();
-//              _binding.addEnumBinding(tempEnum);
-//          }
+                _binding.addEnumBinding(tempEnum);
+            }
 
             //--included schemas
             Enumeration includes = loaded.enumerateInclude();

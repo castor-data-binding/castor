@@ -91,4 +91,12 @@ public class BaseFactory {
         return new String(newChars, 0, count);
     }
 
+    public GroupNaming getGroupNaming() {
+        return _groupNaming;
+    }
+
+    public void setGroupNaming(GroupNaming groupNaming) {
+        _groupNaming = groupNaming;
+    }
+
 }

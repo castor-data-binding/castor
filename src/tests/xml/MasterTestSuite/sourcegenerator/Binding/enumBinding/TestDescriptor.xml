@@ -1,0 +1,28 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test specification of enum binding(s) through the binding file</Name>
+    <Author>Werer Guttmann</Author>
+	<Comment>Very basic test that ensures that it is possible - through the binding
+		file - to specify an enum binding</Comment>
+	<Category>basic capability</Category>
+	<SourceGeneratorTest>
+		    <Schema>test.xsd</Schema>
+		    <BindingFile>binding.xml</BindingFile> 	
+            <Root_Object random="false" dump="true">ProcessDefinition</Root_Object>
+ 		    <UnitTestCase>
+ 		    	<Name>UnmarshallingWithStandardValue</Name>
+                <Comment>Test unmarshalling with standard value</Comment>
+                <Input>input.xml</Input>
+            </UnitTestCase>
+ 		    <UnitTestCase>
+ 		    	<Name>UnamrshallingWithEnumBinding</Name>
+                <Comment>Test unmarshallig with value where there is an enum binding</Comment>
+                <Input>input2.xml</Input>
+            </UnitTestCase>
+ 		    <UnitTestCase>
+                <Name>UnmarshallingWithNoBindingButContenttousValue</Name>
+                <Comment>Test unmarshallig with value where there is no enum binding, but a contentous value</Comment>
+                <Input>input3.xml</Input>
+            </UnitTestCase>
+	</SourceGeneratorTest>
+</TestDescriptor>

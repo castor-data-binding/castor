@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding
+                C:\\Castor\\xsd\\binding.xsd"
+	defaultBinding="element">
+
+	<enumBinding
+		name="/processDefinition/complexType:anonymous/durUnit/enumType:anonymous">
+		<enum-def>
+			<enumMember>
+				<value>M</value>
+				<javaName>CUSTOM_M</javaName>
+			</enumMember>
+		</enum-def>
+	</enumBinding>
+
+</binding>

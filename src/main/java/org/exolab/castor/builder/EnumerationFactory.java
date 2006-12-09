@@ -17,6 +17,10 @@ package org.exolab.castor.builder;
 
 import java.util.Enumeration;
 
+import org.exolab.castor.builder.binding.EnumBindingType;
+import org.exolab.castor.builder.binding.EnumMember;
+import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
@@ -84,23 +88,38 @@ public class EnumerationFactory extends BaseFactory {
      * @param state our current state
      * @see #processEnumerationAsBaseType
      */
-    void processEnumerationAsNewObject(final SimpleType simpleType, final FactoryState state) {
+    void processEnumerationAsNewObject(final ExtendedBinding binding,
+            final SimpleType simpleType, 
+            final FactoryState state) {
         // reset _maxSuffix value to 0
         _maxSuffix = 0;
         boolean generateConstantDefinitions = true;
         int numberOfEnumerationFacets = simpleType.getNumberOfFacets("enumeration");
         if (numberOfEnumerationFacets > _maxEnumerationsPerClass) {
             generateConstantDefinitions = false;
-        }        Enumeration enumeration = simpleType.getFacets("enumeration");
+        }        
+        
+        Enumeration enumeration = simpleType.getFacets("enumeration");
+        
+        XMLBindingComponent component = new XMLBindingComponent(_config, getGroupNaming());
+        if (binding != null) {
+            component.setBinding(binding);        
+            component.setView(simpleType);
+        }
+
 
         //-- select naming for types and instances
         boolean useValuesAsName = true;
-        useValuesAsName = selectNamingScheme(enumeration, useValuesAsName);
+        useValuesAsName = selectNamingScheme(component, enumeration, useValuesAsName);
 
         enumeration = simpleType.getFacets("enumeration");
 
         JClass jClass = state.jClass;
         String className = jClass.getLocalName();
+                
+        if (component.getJavaClassName() != null) {
+            className = component.getJavaClassName();
+        }
 
         jClass.addImport("java.util.Hashtable");
         JField  field  = null;
@@ -146,7 +165,7 @@ public class EnumerationFactory extends BaseFactory {
             String objName  = null;
 
             if (useValuesAsName) {
-                objName = translateEnumValueToIdentifier(value);
+                objName = translateEnumValueToIdentifier(component.getEnumBinding(), facet);
             } else {
                 objName = "VALUE_" + count;
             }
@@ -279,13 +298,15 @@ public class EnumerationFactory extends BaseFactory {
         return "init" + index;
     }
 
-    private boolean selectNamingScheme(final Enumeration enumeration, final boolean useValuesAsName) {
+    private boolean selectNamingScheme(final XMLBindingComponent component, 
+            final Enumeration enumeration, 
+            final boolean useValuesAsName) {
         boolean duplicateTranslation = false;
         short numberOfTranslationToSpecialCharacter = 0;
 
         while (enumeration.hasMoreElements()) {
             Facet facet = (Facet) enumeration.nextElement();
-            String possibleId = translateEnumValueToIdentifier(facet.getValue());
+            String possibleId = translateEnumValueToIdentifier(component.getEnumBinding(), facet);
             if (possibleId.equals("_")) {
                 numberOfTranslationToSpecialCharacter++;
                 if (numberOfTranslationToSpecialCharacter > 1) {
@@ -451,7 +472,9 @@ public class EnumerationFactory extends BaseFactory {
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */
-    void processEnumerationAsBaseType(final SimpleType simpleType, final FactoryState state) {
+    void processEnumerationAsBaseType(final ExtendedBinding binding, 
+            final SimpleType simpleType, 
+            final FactoryState state) {
         SimpleType base = (SimpleType) simpleType.getBaseType();
         XSType baseType = null;
 
@@ -551,31 +574,91 @@ public class EnumerationFactory extends BaseFactory {
      * @return an identifier name for this enum value.
      * @author rhett-sutphin@uiowa.edu
      */
-    private String translateEnumValueToIdentifier(final String enumValue) {
-        try {
-            int intVal = Integer.parseInt(enumValue);
-            if (intVal >= 0) {
-                return "VALUE_" + intVal;
+//    private String translateEnumValueToIdentifier(final String enumValue) {
+//        try {
+//            int intVal = Integer.parseInt(enumValue);
+//            if (intVal >= 0) {
+//                return "VALUE_" + intVal;
+//            }
+//
+//            return "VALUE_NEG_" + Math.abs(intVal);
+//        } catch (NumberFormatException e) {
+//            // just keep going
+//        }
+//
+//        StringBuffer sb = new StringBuffer(enumValue.toUpperCase());
+//        char c;
+//        for (int i = 0; i < sb.length(); i++) {
+//            c = sb.charAt(i);
+//            if ("[](){}<>'`\"".indexOf(c) >= 0) {
+//                sb.deleteCharAt(i);
+//                i--;
+//            } else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
+//                sb.setCharAt(i, '_');
+//            }
+//        }
+//        return sb.toString();
+//    } //-- translateEnumValueToIdentifier
+    
+    /**
+         * Attempts to translate a simpleType enumeration value into a legal
+         * java identifier.  Translation is through a couple of simple rules:
+         *   - if the value parses as a non-negative int, the string 'VALUE_' is
+         *     prepended to it
+         *   - if the value parses as a negative int, the string 'VALUE_NEG_' is
+         *     prepended to it
+         *   - the value is uppercased
+         *   - the characters <code>[](){}<>'`"</code> are removed
+         *   - the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any whitespace are replaced with <code>_</code>
+         * @author rhett-sutphin@uiowa.edu 
+         * @param type 
+         */
+        private String translateEnumValueToIdentifier(EnumBindingType enumBinding, Facet facet) 
+        {
+            String enumValue = facet.getValue();
+            
+            try {
+                int intVal = Integer.parseInt(facet.getValue());
+                if (intVal >= 0) return "VALUE_" + intVal;
+                
+                return "VALUE_NEG_" + Math.abs(intVal);
+            } catch (NumberFormatException e) {
+                // just keep going
             }
-
-            return "VALUE_NEG_" + Math.abs(intVal);
-        } catch (NumberFormatException e) {
-            // just keep going
-        }
-
-        StringBuffer sb = new StringBuffer(enumValue.toUpperCase());
-        char c;
-        for (int i = 0; i < sb.length(); i++) {
-            c = sb.charAt(i);
-            if ("[](){}<>'`\"".indexOf(c) >= 0) {
-                sb.deleteCharAt(i);
-                i--;
-            } else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
-                sb.setCharAt(i, '_');
+            
+            StringBuffer sb = new StringBuffer();
+            String customMemberName = null;
+                
+            // check whether there's a custom binding for the member name
+            if (enumBinding != null) {
+                EnumMember[] enumMembers = enumBinding.getEnumMember();
+                for (int i = 0; i < enumMembers.length; i++) {
+                    if (enumMembers[i].getValue().equals(enumValue)) {
+                        customMemberName = enumMembers[i].getJavaName();
+                    }
+                }
             }
-        }
-        return sb.toString();
-    } //-- translateEnumValueToIdentifier
+            
+            if (customMemberName != null) {
+                sb.append(customMemberName);
+            } else {
+                
+                sb.append(enumValue.toUpperCase());
+                char c;
+                for (int i = 0 ; i < sb.length() ; i++) {
+                    c = sb.charAt(i);
+                    if ("[](){}<>'`\"".indexOf(c) >= 0) {
+                        sb.deleteCharAt(i);
+                        i--;
+                    }
+                    else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
+                        sb.setCharAt(i, '_');
+                    }
+                }
+            }
+            return sb.toString();   
+        } //-- translateEnumValueToIdentifier    
+    
 
     /**
      * Set to true if enumerated type lookups should be performed in a case
@@ -618,4 +701,5 @@ public class EnumerationFactory extends BaseFactory {
         return sb.toString();
     } //-- escapeValue
 
+    
 }

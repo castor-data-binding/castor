@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1491 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for <enumBinding> elements during XML code generation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1491
+       (Werner - 20061209)
+
 XML:   Resolved issue CASTOR-1724 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add ability to invoke arbitrary user-supplied code in a CTF unit test
        Details: http://jira.codehaus.org/browse/CASTOR-1724
