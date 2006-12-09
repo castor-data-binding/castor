@@ -36,7 +36,8 @@ class IDResolverImpl implements IDResolver {
         }
 
         if (_idReferences.containsKey(id)) {
-            if (!(id.equals("org.exolab.castor.mapping.MapItem"))) {
+            if (!(id.equals("org.exolab.castor.mapping.MapItem") ||
+                    id.equals("HIGH-LOW"))) {
                 throw new ValidationException("Duplicate ID " + id + " encountered");
             }
         } else {

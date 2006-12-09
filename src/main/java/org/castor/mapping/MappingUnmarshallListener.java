@@ -15,6 +15,8 @@
  */
 package org.castor.mapping;
 
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.mapping.xml.Include;
 import org.exolab.castor.util.DTDResolver;
@@ -27,6 +29,8 @@ import org.exolab.castor.xml.UnmarshalListener;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class MappingUnmarshallListener implements UnmarshalListener {
+    
+    private static final Log LOG = LogFactory.getLog(MappingUnmarshallListener.class);
     private final MappingUnmarshaller _unmarshaller;
     
     private final Mapping _mapping;
@@ -83,6 +87,7 @@ public final class MappingUnmarshallListener implements UnmarshalListener {
             try {
                 _unmarshaller.loadMappingInternal(_mapping, _resolver, include.getHref());
             } catch (Exception ex) {
+                LOG.warn("Problem", ex);
                 //-- ignore error, it'll get reported
                 //-- later when we re-process the
                 //-- includes of the parent Mapping in
