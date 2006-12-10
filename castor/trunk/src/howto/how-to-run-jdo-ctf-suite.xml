@@ -66,6 +66,11 @@ cd &lt;castor-root&gt;/bin
 build clean
 build tests
 test castor.mysql</code-panel>
+
+		<p>Please note that you might have to amend the user credentials in the 
+		   JDO configuration file of the JDO CTF suite before running (building) 
+		   the tests. For mySQL, the configuration is to be found in 
+		   <tt>src/test/resources/jdo/mysql.xml</tt>.</p>
         
         <p>To execute just one of the many tests of of the complete test suite, 
            please change this to:</p>

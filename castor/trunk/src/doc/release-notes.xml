@@ -180,6 +180,27 @@
 
             </summary>
             <bugs>
+                <bug id="1659" tool="jira">
+                    <description>
+                        Fixed problem with attribute declaration in complexType hierarchies 
+                        where the attribute is untyped.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Tom Carey</name>
+                        <email>tcarey@talk.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061210</date>
+                </bug>
                 <bug id="1491" tool="jira">
                     <description>
                         Added support for &lt;enumBinding&gt; elements during XML 
@@ -199,7 +220,7 @@
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
-                    <date>20061208</date>
+                    <date>20061209</date>
                 </bug>
                 <bug id="1724" tool="jira">
                     <description>
