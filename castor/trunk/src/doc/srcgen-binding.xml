@@ -119,6 +119,7 @@
          <ul>
             <li><b>name:</b>The name of the XML schema component for which we are defining a binding.</li>
          </ul>
+         
          <p>These elements are the tenets of the binding file since they contain the binding definition for an XML Schema element, attribute, complexType
          and modelGroup definition. The first child element (&lt;java-class/>, &lt;interface> or &lt;member>) will determine the type of binding one is defining.
          Please note that defining a &lt;java-class> binding on an XML Schema attribute will have absolutely no <b>effect</b>.</p>
@@ -129,15 +130,20 @@
          The grammar of that language can be defined by the following BNF:</p>
          <pre>
             [1]Path         ::= LocationPath('/'LocationPath)*
-            [2]LocationPath ::= (Complex|ModelGroup|Attribute|Element)
-            [3]Complex      ::= 'complexType:'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
+            [2]LocationPath ::= (Complex|ModelGroup|Attribute|Element|Enumeration)
+            [3]Complex      ::= 'complexType:'(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>|'anonymous')
             [4]ModelGroup   ::= 'group:'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
             [5]Attribute    ::= '@'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
             [6]Element      ::= <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
+            [7]Enumeration  ::= 'enumType':(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>|'anonymous')
          </pre>
-         <p>The second option to identify a XML Schema Component is to embed its binding definition inside its parent binding definition.</p>
-         <p>For instance, the following
-         binding definition will be equivalent and will identify the element 'foo' defined in the top-level complexType 'fooType'.</p>
+         
+         <p>The second option to identify a XML Schema Component is to embed its 
+            binding definition inside its parent binding definition.</p>
+            
+         <p>For instance, the following binding definition will be equivalent and will 
+            identify the element '<tt>foo</tt>' defined in the top-level complexType 
+            '<tt>fooType</tt>'.</p>
 
          <code-panel>
 &lt;elementBinding name="complexType:fooType/foo>
@@ -149,6 +155,23 @@
       &lt;member name="MyFoo" handler="mypackage.myHandler"/>
    &lt;/elementBinding>
 &lt;complexTypeBinding></code-panel>
+
+			<section title="Bindings for anonymous components">
+			
+				<p>As shown above in the grammar, for the component types
+				   'Complex' and 'Enumeration', it is possible to specify that
+				   a component binding should affect an anonymous type 
+				   definition. To qualify such an anonymous type definition
+				   as part of the '<tt>name</tt>' attribute of a component
+				   binding, please use the type name qualifier '<tt>anonymous</tt>'
+				   as shown below.</p>
+				   
+         <code-panel>
+&lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
+   &lt;member name="MyFoo" handler="mypackage.myHandler"/>
+&lt;/elementBinding></code-panel>
+				   
+			</section>
        </section>
 
        <section title="&lt;java-class> element">
@@ -320,7 +343,7 @@ public class Root {
 		   code generated for type safe enumerations, used to represent an XML Schema 
 		   <tt>&lt;simpleType&gt;</tt> enumeration.</p>
 		   
-		<section title="Sample">
+		<section title="Sample - Global &lt;simpleType&gt; enumeration">
 
 			<p>For instance, given the following XML schema enumeration definition ... </p>
 			
@@ -359,6 +382,46 @@ public class Root {
 			   <tt>DurationUnitType</tt> - a constant definition named <tt>CUSTOM_M</tt> 
 			   for the enumeration value <tt>M</tt>.</p>
 		   
+		</section>
+
+		<section title="Sample - Nested (anonymous) &lt;simpleType&gt; enumeration">
+
+			<p>For instance, given the following <b>nested</b> (anonymous) XML schema 
+			   enumeration definition ... </p>
+			
+	        <code-panel><![CDATA[
+<xs:element name="processDefinition">
+  <xs:complexType>
+    <xs:attribute name="duration">
+      <xs:simpleType name="durationUnitType">
+        <xs:restriction base='xs:string'>
+          <xs:enumeration value='Y' />
+          <xs:enumeration value='M' />
+          <xs:enumeration value='D' />
+          <xs:enumeration value='h' />
+          <xs:enumeration value='m' />
+          <xs:enumeration value='s' />
+        </xs:restriction>
+      </xs:simpleType>
+    </attribute>
+  </xs:complexType>
+</xs:element>]]></code-panel>
+	
+			<p>one could use a slightly modified <tt>&lt;enumBinding&gt;</tt> definition 
+			   based upon the previous exampl by altering the value of the
+			   '<tt>name</tt>' attribute to specify the correct XPATH to the anonymous
+			   enumeration <tt>&lt;simplyType&gt;</tt> definition.</p>
+	                   
+	        <code-panel>
+&lt;enumBinding name="<b>/processDefinition/complexType:anonymous/@duration/enumType:anonymous</b>">
+  &lt;enum-def>
+    &lt;enumMember>
+      &lt;value>M&lt;/value>
+      &lt;javaName>CUSTOM_M&lt;/javaName>
+    &lt;/enumMember>
+  &lt;/enum-def>
+&lt;/enumBinding></code-panel>
+	
 		</section>
 
 	   </section>
