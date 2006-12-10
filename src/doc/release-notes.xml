@@ -178,8 +178,64 @@
   </enum-def>
 </enumBinding>]]></code-panel>
 
+                <h3>Added support for anonymous type definition in XML code generation bindings</h3>
+                
+				<p>For &lt;complexType&gt; and &lt;simpleType&gt; enumerations, it is 
+				   now possible to specify that a component binding should effect 
+				   an anonymous type definition. To qualify such an anonymous type definition
+				   as part of the '<tt>name</tt>' attribute of a component
+				   binding, please use the type name qualifier '<tt>anonymous</tt>'
+				   as shown below.</p>
+				   
+         <code-panel>
+&lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
+   &lt;member name="MyFoo" handler="mypackage.myHandler"/>
+&lt;/elementBinding></code-panel>
+
             </summary>
             <bugs>
+                <bug id="1726" tool="jira">
+                    <description>
+                        Add documentation about support for anonymous complex/simply types in 
+                        binding files
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061210</date>
+                </bug>
+                <bug id="1725" tool="jira">
+                    <description>
+                        Add documentation about new &lt;enumBinding&gt;s in code 
+                        generation binding
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061210</date>
+                </bug>
                 <bug id="1659" tool="jira">
                     <description>
                         Fixed problem with attribute declaration in complexType hierarchies 

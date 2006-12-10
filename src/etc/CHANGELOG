@@ -2,10 +2,15 @@
 SVN
 -------------------------------
 
-XML:   Resolved issue CASTOR-1659 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Fixed problem with attribute declaration in complexType hierarchies where 
-       the attribute is untyped.
-       Details: http://jira.codehaus.org/browse/CASTOR-1659
+
+XML:   Resolved issue CASTOR-1726 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Add documentation about support for anonymous complex/simply types in binding files
+       Details: http://jira.codehaus.org/browse/CASTOR-1726
+       (Werner - 20061210)
+
+XML:   Resolved issue CASTOR-1725 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Add documentation about new <enumBinding>s in code generation binding
+       Details: http://jira.codehaus.org/browse/CASTOR-1725
        (Werner - 20061210)
 
 XML:   Resolved issue CASTOR-1491 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
