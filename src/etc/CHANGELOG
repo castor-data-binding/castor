@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1659 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with attribute declaration in complexType hierarchies where 
+       the attribute is untyped.
+       Details: http://jira.codehaus.org/browse/CASTOR-1659
+       (Werner - 20061210)
+
 XML:   Resolved issue CASTOR-1491 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for <enumBinding> elements during XML code generation.
        Details: http://jira.codehaus.org/browse/CASTOR-1491
