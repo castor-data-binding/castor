@@ -300,19 +300,70 @@ public class Root {
             
        </section>
 
-       <section title="Not implemented yet">
+	   <section title="&lt;enumBinding&gt;">
+
+		<code-panel>
+&lt;enumBinding>
+   (enumDef)
+&gt;/enumBinding>
+
+&lt;enumDef>
+   (enumClassName = xsd:string, enumMember*)
+&lt;/enumDef>
+
+&lt;enumMember>
+   (name = xsd:string, value = xsd:string)
+&gt;enumMember>
+</code-panel>
 		   
-		   <section title="&lt;enumBinding&gt;">
+		<p>The <tt>&lt;enumBinding&gt;</tt> element allows more control on the 
+		   code generated for type safe enumerations, used to represent an XML Schema 
+		   <tt>&lt;simpleType&gt;</tt> enumeration.</p>
+		   
+		<section title="Sample">
 
-			  <code-panel>
-	 &lt;enumBinding>
-		(enumClassName|enumMemberName)
-	 &lt;/enumBinding></code-panel>
-			   
-			  <p>This element will allow more control on the type safe enumerations 
-				 generated to represent an XML Schema simpleType enumeration</p>
+			<p>For instance, given the following XML schema enumeration definition ... </p>
+			
+	        <code-panel><![CDATA[
+<xs:simpleType name="durationUnitType">
+  <xs:restriction base='xs:string'>
+    <xs:enumeration value='Y' />
+    <xs:enumeration value='M' />
+    <xs:enumeration value='D' />
+    <xs:enumeration value='h' />
+    <xs:enumeration value='m' />
+    <xs:enumeration value='s' />
+  </xs:restriction>
+</simpleType>]]></code-panel>
+	
+			<p>the Castor code generator would generate code where the default
+			   naming convention used during the generation would overwrite the first 
+			   constant definition for value '<tt>M</tt>' with the one generated for 
+			   value '<tt>m</tt>'.</p>
+	                   
+			<p>The following binding definition defines - through the means of an
+			   <tt>&lt;enumMember&gt;</tt> definition for the enumeration value
+			   '<tt>M</tt>' - a special binding for this value ...</p>
+	                   
+	        <code-panel><![CDATA[
+<enumBinding name="/enumType:durationUnitType">
+  <enum-def>
+    <enumMember>
+      <value>M</value>
+      <javaName>CUSTOM_M</javaName>
+    </enumMember>
+  </enum-def>
+</enumBinding>]]></code-panel>
+	
+			<p>and instructs the source generator to generate - within a class 
+			   <tt>DurationUnitType</tt> - a constant definition named <tt>CUSTOM_M</tt> 
+			   for the enumeration value <tt>M</tt>.</p>
+		   
+		</section>
 
-   		   </section>
+	   </section>
+
+       <section title="Not implemented yet">
 		   
 		   <section title="&lt;javadoc&gt;">
 
