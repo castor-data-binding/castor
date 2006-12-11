@@ -6,16 +6,16 @@
         Regression Test for container suppport with respect to primitives
     </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Foo</Root_Object>
-		<UnitTestCase>
-         <Name>Test unmarshalling containers</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>output.xml</GoldFile>
-		</UnitTestCase>
-	</MarshallingTest>
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+        <UnitTestCase>
+            <Name>Test unmarshalling containers</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
 
 </TestDescriptor>

@@ -11,15 +11,12 @@
         <Comment>Look first for the targetNamespace when resolving an XML Type</Comment>
     </BugFix>
     <Category>basic capability</Category>
+
     <SchemaTest>
 
-   		<!-- ******************** -->
-   		<!-- Schema Element Tests -->
-   		<!-- ******************** -->
+        <UnitTestCase>
+            <Schema>restriction.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>restriction.xsd</Schema>
-         </UnitTestCase>
-
-      </SchemaTest>
- </TestDescriptor>
+    </SchemaTest>
+</TestDescriptor>

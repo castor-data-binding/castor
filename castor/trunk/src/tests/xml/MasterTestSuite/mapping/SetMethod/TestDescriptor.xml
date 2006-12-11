@@ -1,11 +1,10 @@
 <?xml version='1.0'?>
-<!--Example of a testDescriptor-->
 <TestDescriptor>
 
-	<Name>Set Method Specification</Name>
-	<Author>Sebastien Gignoux</Author>
+    <Name>Set Method Specification</Name>
+    <Author>Sebastien Gignoux</Author>
 
-	<Comment>
+    <Comment>
         Specifying a set method in the mapping file (using set-method attribute)
         should disable the get method, unless one is specified as well (using
         the get-method attribute).
@@ -19,18 +18,18 @@
         object model.
     </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
+    <MarshallingTest>
 
-		<Root_Object>Set_Root</Root_Object>
-  
-		<UnitTestCase>
+        <Root_Object>Set_Root</Root_Object>
+
+        <UnitTestCase>
             <Name>Simple Test</Name>
             <Mapping_File>mapping.xml</Mapping_File>
             <Input>set-input.xml</Input>
-			<GoldFile>set-output.xml</GoldFile>
-		</UnitTestCase>
+            <GoldFile>set-output.xml</GoldFile>
+        </UnitTestCase>
 
-	</MarshallingTest>
+    </MarshallingTest>
 </TestDescriptor>

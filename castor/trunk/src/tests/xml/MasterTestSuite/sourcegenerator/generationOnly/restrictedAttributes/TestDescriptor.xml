@@ -7,9 +7,9 @@
     </Comment>
     <Category>basic capability</Category>
     <OnlySourceGenerationTest>
-		<Schema>test.xsd</Schema>
+        <Schema>test.xsd</Schema>
         <UnitTestCase>
             <Name>Test Source Generation</Name>
         </UnitTestCase>
-     </OnlySourceGenerationTest>
+    </OnlySourceGenerationTest>
 </TestDescriptor>

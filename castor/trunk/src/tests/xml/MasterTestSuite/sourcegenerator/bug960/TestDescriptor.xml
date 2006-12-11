@@ -1,20 +1,20 @@
 <?xml version='1.0'?>
 <TestDescriptor>
     <Name>SimpleContent restriction was leading to the generation of code in a .types package</Name>
-	<Author>Arnaud Blandin</Author>
-	<Comment>Regression test case for bug 960</Comment>
-	<Category>basic capability</Category>
-	<BugFix>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression test case for bug 960</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
         <Reporter>j Lenzkes[jlenzkes@acm.org]</Reporter>
-        <Date_Report>2002-06-15</Date_Report>     
+        <Date_Report>2002-06-15</Date_Report>
         <Date_Fix>2002-12-23</Date_Fix>
         <Comment>ContentType has been updated to reflect the XML Schema recommendation</Comment>
     </BugFix>
 
-	<SourceGeneratorTest>
-		<Schema>bug960.xsd</Schema> 	
+    <SourceGeneratorTest>
+        <Schema>bug960.xsd</Schema>
         <Root_Object random="false" dump="true">StockCheckView</Root_Object>
-		<UnitTestCase>
+        <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input.xml</Input>
         </UnitTestCase>

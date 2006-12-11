@@ -1,27 +1,27 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-   <Name>Simple test for type-centric binding</Name>
-   <Author>Keith Visco</Author>
-   <Comment>Reported by Bryan Field-Elliot</Comment>
-	<Category>basic capability</Category>
-	<BugFix>
+    <Name>Simple test for type-centric binding</Name>
+    <Author>Keith Visco</Author>
+    <Comment>Reported by Bryan Field-Elliot</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
         <Reporter>Bryan Field-Elliot (bryan_lists@netmeme.org)</Reporter>
         <Date_Report>2003-01-11</Date_Report>
         <Date_Fix>2003-01-11</Date_Fix>
         <Comment>
-           A NullPointerException was happening in type mode for
-           elements with anonymous complexType definitions.
+            A NullPointerException was happening in type mode for
+            elements with anonymous complexType definitions.
         </Comment>
     </BugFix>
 
-   <SourceGeneratorTest>
-      <Schema>test.xsd</Schema>
-      <Root_Object random="false" dump="true">test.Test1Type</Root_Object>
-      <Property_File>castorbuilder.properties</Property_File>
-      <UnitTestCase>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">test.Test1Type</Root_Object>
+        <Property_File>castorbuilder.properties</Property_File>
+        <UnitTestCase>
             <Name>Test type-centric binding</Name>
             <Input>input.xml</Input>
             <GoldFile>input.xml</GoldFile>
-       </UnitTestCase>
-  </SourceGeneratorTest>
+        </UnitTestCase>
+    </SourceGeneratorTest>
 </TestDescriptor>

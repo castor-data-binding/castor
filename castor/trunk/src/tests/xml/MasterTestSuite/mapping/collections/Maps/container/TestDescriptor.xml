@@ -1,24 +1,24 @@
 <?xml version="1.0"?>
 <TestDescriptor>
 
-   <Name>Mapping-HashMap</Name>
-   <Author>Keith Visco</Author>
+    <Name>Mapping-HashMap</Name>
+    <Author>Keith Visco</Author>
 
-	<Comment>
+    <Comment>
       Container=false Test for HashMap/Hashtable
-   </Comment>
+    </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Root</Root_Object>
+    <MarshallingTest>
+        <Root_Object>Root</Root_Object>
 
-      <UnitTestCase>
-         <Name>Test01</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>output.xml</GoldFile>
-      </UnitTestCase>
-	</MarshallingTest>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
 
 </TestDescriptor>

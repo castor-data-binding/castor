@@ -4,24 +4,24 @@
    <Name>Test (un)marshalling classes with identical names in hierarchy</Name>
    <Author>Werner Guttmann</Author>
 
-	<Comment>
+    <Comment>
       Test (un)marshalling classes with identical names in hierarchy. This test basically ensures
-      that - provided individual &lt;map-to&gt; elements - two classes of the same name (in separate 
+      that - provided individual &lt;map-to&gt; elements - two classes of the same name (in separate
       packages) where one class extends the other can be successfully (un)marshalled.
    </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Container</Root_Object>
+    <MarshallingTest>
+        <Root_Object>Container</Root_Object>
 
-      <UnitTestCase>
-         <Name>Test01</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>input.xml</GoldFile>
-      </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
 
-	</MarshallingTest>
+    </MarshallingTest>
 
 </TestDescriptor>

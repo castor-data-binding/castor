@@ -1,17 +1,19 @@
 <?xml version='1.0'?>
 <TestDescriptor>
     <Name>Test specification of an interface through the binding file</Name>
-    <Author>Werer Guttmann</Author>
-	<Comment>Very basic test that ensures that it is possible - through the binding
-		file - to declare that a generated class should implement a given interface.</Comment>
-	<Category>basic capability</Category>
-	<SourceGeneratorTest>
-		    <Schema>test.xsd</Schema>
-		    <BindingFile>binding.xml</BindingFile> 	
-            <Root_Object random="false" dump="true">ExpUserProperties</Root_Object>
-		    <UnitTestCase>
-                <Name>Test Generation</Name>
-                <Input>input.xml</Input>
-            </UnitTestCase>
-	</SourceGeneratorTest>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Very basic test that ensures that it is possible - through the binding
+        file - to declare that a generated class should implement a given interface.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">ExpUserProperties</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
 </TestDescriptor>

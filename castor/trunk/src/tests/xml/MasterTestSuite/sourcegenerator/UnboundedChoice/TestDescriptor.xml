@@ -5,12 +5,11 @@
     <Comment>See CASTOR-1493</Comment>
     <Category>basic capability</Category>
     <SourceGeneratorTest>
-      <Schema>unbounded-choice.xsd</Schema>
-      <Root_Object random="false" dump="true">TestTop</Root_Object>
-      <UnitTestCase>
-         <Name>Test Generation</Name>
-         <Input>input.xml</Input>
-      </UnitTestCase>
-	</SourceGeneratorTest>
+        <Schema>unbounded-choice.xsd</Schema>
+        <Root_Object random="false" dump="true">TestTop</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
 </TestDescriptor>
-

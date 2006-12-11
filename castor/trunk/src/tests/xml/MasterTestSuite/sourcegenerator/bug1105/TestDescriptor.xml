@@ -1,21 +1,21 @@
 <?xml version='1.0'?>
 <TestDescriptor>
     <Name>Test the generation of default value for Float</Name>
-	<Author>Arnaud Blandin</Author>
-	<Comment>Regression test case for bug 1105</Comment>
-	<Comment>The test case doesn't test for validation of the schema</Comment>
-	<Category>basic capability</Category>
-	<BugFix>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression test case for bug 1105</Comment>
+    <Comment>The test case doesn't test for validation of the schema</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
         <Reporter>Rhett Sutphin[rhett-sutphin@uiowa.edu]</Reporter>
-        <Date_Report>2002-11-08</Date_Report>     
+        <Date_Report>2002-11-08</Date_Report>
         <Date_Fix>2002-11-25</Date_Fix>
         <Comment>The fix consisted in removing typos from the class XSFloat</Comment>
     </BugFix>
 
-	<SourceGeneratorTest>
-		<Schema>bug1105.xsd</Schema> 	
+    <SourceGeneratorTest>
+        <Schema>bug1105.xsd</Schema>
         <Root_Object random="false" dump="true">RestrictSimple</Root_Object>
-		<UnitTestCase>
+        <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input.xml</Input>
         </UnitTestCase>

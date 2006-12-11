@@ -5,15 +5,12 @@
     <Comment>Regression testing
     </Comment>
     <Category>basic capability</Category>
+
     <SchemaTest>
 
-   		<!-- ******************** -->
-   		<!-- Schema Element Tests -->
-   		<!-- ******************** -->
+        <UnitTestCase>
+            <Schema>prefix.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>prefix.xsd</Schema>
-         </UnitTestCase>
-
-      </SchemaTest>
- </TestDescriptor>
+    </SchemaTest>
+</TestDescriptor>
