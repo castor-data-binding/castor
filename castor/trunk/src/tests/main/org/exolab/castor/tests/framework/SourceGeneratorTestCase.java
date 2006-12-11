@@ -44,8 +44,6 @@
  */
 package org.exolab.castor.tests.framework;
 
-import java.io.File;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -81,21 +79,22 @@ public class SourceGeneratorTestCase extends XMLTestCase {
      * @param outputRoot the directory that contains the files needed for the
      *            test
      */
-    public SourceGeneratorTestCase(CastorTestCase test, UnitTestCase unit, SourceGeneratorTest sourceGen, File outputRoot) {
-        super(test, unit, outputRoot);
+    public SourceGeneratorTestCase(final CastorTestCase test, final UnitTestCase unit,
+                                   final SourceGeneratorTest sourceGen) {
+        super(test, unit);
         _sourceGenConf   = sourceGen;
-        _sourceGenerator = new TestSourceGenerator(test, unit, sourceGen, outputRoot);
+        _sourceGenerator = new TestSourceGenerator(test, unit, sourceGen);
 
         RootType rootType = _sourceGenConf.getRoot_Object();
         if (rootType == null) {
             throw new IllegalArgumentException("You must give a root object for a Source Generator Test"
-                    + outputRoot + ", " +  getName());
+                    + _outputRootFile + ", " +  getName());
         }
 
         _rootClassName    = rootType.getContent();
         if (_rootClassName == null) {
             throw new IllegalArgumentException("You must give a root object for a Source Generator Test"
-                    + outputRoot + ", " +  getName());
+                    + _outputRootFile + ", " +  getName());
         }
 
         _hasRandom = rootType.getRandom();
@@ -106,7 +105,7 @@ public class SourceGeneratorTestCase extends XMLTestCase {
      * Create a new SourceGeneratorTestCase with the given name.
      * @param name name for the test case
      */
-    public SourceGeneratorTestCase(String name) {
+    public SourceGeneratorTestCase(final String name) {
         super(name);
         throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
@@ -120,7 +119,6 @@ public class SourceGeneratorTestCase extends XMLTestCase {
 
         String name = getTestSuiteName();
         name = (name != null) ? name + "#" + _name : _name;
-
         if (_unitTest.getCustomTest() != null) {
             suite.addTest(new TestWithCustomTest(name, this));
         } else {
