@@ -8,13 +8,17 @@
     <SchemaTest>
 
         <UnitTestCase>
-            <Schema>AnyAttribute_AttributeGroup.xsd</Schema>
-            <Skip>true</Skip>
+            <Schema>anyAttribute_AttributeGroup.xsd</Schema>
         </UnitTestCase>
 
         <UnitTestCase>
-            <Schema>AnyAttribute_Annotation.xsd</Schema>
-            <Skip>true</Skip>
+            <Schema>anyAttribute_Annotation.xsd</Schema>
+            <Comment>
+                We lose an Annotation during processing.
+                The lost annotation is counted as two differences.
+            </Comment>
+            <SchemaDifferences FailureStep="compare-schema">2</SchemaDifferences>
+            <SchemaDifferences FailureStep="compare-to-reference">2</SchemaDifferences>
         </UnitTestCase>
 
     </SchemaTest>

@@ -190,10 +190,10 @@
             <Schema>TestForComplexType_06.xsd</Schema>
         </UnitTestCase>
 
-        <!-- This test is being skipped until I add a way to check for correct error reporting -->
-        <UnitTestCase skip="true">
+        <UnitTestCase>
             <Schema>TestForComplexType_07.xsd</Schema>
-            <Skip>true</Skip>
+            <Failure exception="org.exolab.castor.xml.XMLException"
+                     FailureStep="parse-schema">true</Failure>
         </UnitTestCase>
 
         <UnitTestCase>
