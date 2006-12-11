@@ -77,7 +77,6 @@ import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-import java.lang.reflect.InvocationTargetException;
 import java.lang.reflect.Method;
 
 /**
@@ -145,9 +144,9 @@ public abstract class XMLTestCase extends TestCase {
      *
      * @param name the name of this test case.
      */
-    public XMLTestCase(String name) {
+    public XMLTestCase(final String name) {
         super(name);
-        _name = name;
+        _name = cleanup(name);
         throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
 
@@ -156,16 +155,15 @@ public abstract class XMLTestCase extends TestCase {
      *
      * @param test the reference to the jar/directory
      * @param unit the UnitTestCase that wraps the configuration for this XML Test case.
-     * @param outputRoot the directory that contains the files needed for the test
      */
-    public XMLTestCase(CastorTestCase test, UnitTestCase unit, File outputRoot) {
+    public XMLTestCase(final CastorTestCase test, final UnitTestCase unit) {
         super(unit.getName());
-        _name           = unit.getName();
+        _name           = cleanup(unit.getName());
         _unitTest       = unit;
-        _outputRootFile = outputRoot;
         _skip           = unit.getSkip();
         _failure        = unit.getFailure();
         _test           = test;
+        _outputRootFile = test.getOutputRootFile();
     }
 
     /**
@@ -175,9 +173,9 @@ public abstract class XMLTestCase extends TestCase {
      * @param name the name of the test case
      * @param tc the XML test case that hold the configuration for this test case
      */
-    public XMLTestCase(String name, XMLTestCase tc) {
+    public XMLTestCase(final String name, final XMLTestCase tc) {
         super(name);
-        _name           = tc._name;
+        _name           = cleanup(tc._name);
         _unitTest       = tc._unitTest;
         _outputRootFile = tc._outputRootFile;
         _skip           = tc._skip;
@@ -186,13 +184,31 @@ public abstract class XMLTestCase extends TestCase {
     }
 
     /**
+     * Returns a version of the input name that is suitable for JUnit test case
+     * or test suite use. Apparently, JUnit truncates test case names after
+     * encountering certain characters, so we scrub those characters from the
+     * test case or test suite name.
+     * <p>
+     * We also translate all whitespace to blanks, remove all leading and
+     * trailing whitespace, and collapse consecutive whitespace to a single
+     * blank.
+     *
+     * @param name
+     *            the input name
+     * @return a name suitable for JUnit test case or test suite use.
+     */
+    static String cleanup(final String name) {
+        return name.replaceAll("[\\*()\\t\\n\\r\\f]", " ").replaceAll(" {2,}", " ").trim();
+    }
+
+    /**
      * Sets the name of the test suite to which this test case belongs to.
      *
      * @param suiteName the name of the test suite.
      *
      */
-    public void setTestSuiteName(String suiteName) {
-        _suiteName = suiteName;
+    public void setTestSuiteName(final String suiteName) {
+        _suiteName = cleanup(suiteName);
     }
 
     /**
@@ -215,7 +231,7 @@ public abstract class XMLTestCase extends TestCase {
      *            the test step that threw an Exception
      * @return true if we pass the test (because we expected this Exception)
      */
-    protected boolean checkExceptionWasExpected(Exception exception, FailureStepType checkStep) {
+    protected boolean checkExceptionWasExpected(final Exception exception, final FailureStepType checkStep) {
         if (_printStack) {
             exception.printStackTrace();
         }
@@ -285,7 +301,7 @@ public abstract class XMLTestCase extends TestCase {
      * @param fileName the name of the file where to marshall the object.
      * @return a file containing marshalled output.
      */
-    protected File testMarshal(Object object, String fileName) {
+    protected File testMarshal(final Object object, final String fileName) {
         verbose("--> Marshaling to: '" + fileName + "'");
 
         File marshalOutput = new File(_outputRootFile, fileName);
@@ -341,7 +357,7 @@ public abstract class XMLTestCase extends TestCase {
      * @return the result of the unmarshalling of the given file.
      * @throws Exception if anything goes wrong during the test
      */
-    protected Object testUnmarshal(File file) throws Exception {
+    protected Object testUnmarshal(final File file) throws Exception {
         verbose("--> Unmarshaling '" + file.getName() + "'\n");
         InputStream inputStream = new FileInputStream(file);
         Object unmarshaledObject = testUnmarshal(inputStream);
@@ -360,7 +376,7 @@ public abstract class XMLTestCase extends TestCase {
      *         anything went wrong.
      * @throws Exception if anything goes wrong during the test
      */
-    protected Object testUnmarshal(InputStream stream) throws Exception {
+    protected Object testUnmarshal(final InputStream stream) throws Exception {
         Object result = null;
         final Unmarshaller unmar = createUnmarshaler();
         result = unmar.unmarshal(new InputSource(stream));

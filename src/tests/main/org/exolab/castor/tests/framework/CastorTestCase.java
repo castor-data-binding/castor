@@ -74,33 +74,24 @@ import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
  * be driven by a directory or by a JAR file.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date: 2004-03-08 17:23:25 -0700 (Mon, 08 Mar
- *          2004) $
+ * @version $Revision$ $Date: 2004-03-08 17:23:25 -0700 (Mon, 08 Mar 2004) $
  */
 public class CastorTestCase extends TestCase {
 
+    /** An unknown type of Castor test case. */
     public static final short UNKNOWN   = -1;
+    /** A directory-based Castor test case. */
     public static final short DIRECTORY = 0;
+    /** A JAR-based Castor test case. */
     public static final short JAR       = 1;
 
-    /**
-     * Name of the resource for the test descriptor XML document.
-     */
+    /** Name of the resource for the test descriptor XML document. */
     public static final String TEST_DESCRIPTOR = "TestDescriptor.xml";
-
-    /**
-     * Name of the resource for the test descriptor XML document if a JAR file is used.
-     */
+    /** Name of the resource for the test descriptor XML document if a JAR file is used. */
     private static final String TEST_DESCRIPTOR_JAR = "META-INF/TestDescriptor.xml";
-
-    /**
-     * File separator for this system.
-     */
+    /** File separator for this system. */
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-
-    /**
-     * True if we desire a lot of information on what is happening during the test.
-     */
+    /** True if we desire a lot of information on what is happening during the test. */
     private static final boolean _verbose;
 
     static {
@@ -115,50 +106,38 @@ public class CastorTestCase extends TestCase {
      * Description.
      */
     private static boolean _printStack;
+
     static {
         String v = System.getProperty(TestCaseAggregator.PRINT_STACK_TRACE);
         _printStack = (v != null && v.equals("true"));
         v = null;
     }
 
-    /**
-     * Indicates whether or not the output root directory has been compiled.
-     */
+    /** Indicates whether or not the output root directory has been compiled. */
     private boolean _compiled = false;
-
-    /**
-     * Class loader to use for the jar.
-     */
+    /** Class loader to use for the jar. */
     private ClassLoader _loader;
-
-    /**
-     * The test descriptor from the jar.
-     */
+    /** The test descriptor from the jar. */
     private TestDescriptor _testDescriptor;
-
-    /**
-     * The file that contains the tests. This can either be a directory or a jar
-     * file.
-     */
+    /** The file that contains the tests. This can either be a directory or a jar file. */
     private final File _testFile;
-    /**
-     * The Type of the test (directory or jar).
-     */
+    /** The Type of the test (directory or jar). */
     private final short _type;
-    /**
-     * Place where the temporary files and other output are created
-     */
+    /** Place where the temporary files and other output are created. */
     private final File _outputRootFile;
+    /** String containing the directory path from the test root to here. */
+    private final String _directoryToHere;
 
     /**
      * Constructs a CTF test case given only a test case name
      * @param name the name of the test case
      */
-    public CastorTestCase(String name) {
+    public CastorTestCase(final String name) {
         super(name);
-        _testFile       = null;
-        _outputRootFile = null;
-        _type           = UNKNOWN;
+        _testFile        = null;
+        _outputRootFile  = null;
+        _directoryToHere = "";
+        _type            = UNKNOWN;
     }
 
     /**
@@ -168,14 +147,16 @@ public class CastorTestCase extends TestCase {
      *
      * @param file Either a directory containing TestDescriptor.xml or a JAR
      *            file containing META-INF/TestDescriptor.xml
+     * @param directoryToHere directory path leading to the current test.
      * @param outputRoot Directory where temporary files and output will go.
      */
-    public CastorTestCase(File file, String outputRoot) {
-        super(file.getName());
+    public CastorTestCase(final File file, final String directoryToHere, final String outputRoot) {
+        super(directoryToHere);
+        _directoryToHere = directoryToHere;
 
         if (file.isDirectory()) {
             _type = DIRECTORY;
-            _outputRootFile = new File(outputRoot + FILE_SEPARATOR );
+            _outputRootFile = new File(outputRoot + FILE_SEPARATOR);
         } else {
             _type = JAR;
             try {
@@ -214,6 +195,14 @@ public class CastorTestCase extends TestCase {
         return _type;
     }
 
+    public String getDirectoryToHere() {
+        return _directoryToHere;
+    }
+
+    public File getOutputRootFile() {
+        return _outputRootFile;
+    }
+
     /**
      * Returns a boolean that when true indicates the output directory has been
      * compiled. This is useful for preventing the compilation of a directory
@@ -231,7 +220,7 @@ public class CastorTestCase extends TestCase {
      *
      * @param loader the class loader to use
      */
-    public void setClassLoader(ClassLoader loader) {
+    public void setClassLoader(final ClassLoader loader) {
         _loader = loader;
     }
 
@@ -243,7 +232,7 @@ public class CastorTestCase extends TestCase {
      * @param compiled true if the output directory for this test case has been
      *            compiled
      */
-    public void setDirectoryCompiled(boolean compiled) {
+    public void setDirectoryCompiled(final boolean compiled) {
         _compiled = compiled;
     } //-- setDirectoryCompiled
 
@@ -291,9 +280,8 @@ public class CastorTestCase extends TestCase {
             }
         }
 
-        String suiteName = _testDescriptor.getName();
-        TestSuite suite = new TestSuite(suiteName);
-
+        final String suiteName = _directoryToHere + _testDescriptor.getName();
+        final TestSuite suite = new TestSuite(suiteName);
         verbose("Creating '" + suiteName + "' test suite");
 
         TestDescriptorChoice choice = _testDescriptor.getTestDescriptorChoice();
@@ -326,10 +314,11 @@ public class CastorTestCase extends TestCase {
      * @param suite the Test Suite to add all unit tests to
      * @param mar a collection of Marshalling Unit Tests
      */
-    private void setUpMarshallingTests(String suiteName, TestSuite suite, MarshallingTest mar) {
-        for (int i=0; i < mar.getUnitTestCaseCount(); ++i) {
+    private void setUpMarshallingTests(final String suiteName, final TestSuite suite,
+                                       final MarshallingTest mar) {
+        for (int i = 0; i < mar.getUnitTestCaseCount(); ++i) {
             UnitTestCase tc = mar.getUnitTestCase(i);
-            MarshallingFrameworkTestCase mftc = new MarshallingFrameworkTestCase(this, tc, mar, _outputRootFile);
+            MarshallingFrameworkTestCase mftc = new MarshallingFrameworkTestCase(this, tc, mar);
             mftc._configuration = mar.getConfiguration();
             mftc.setTestSuiteName(suiteName);
             suite.addTest(mftc.suite());
@@ -344,10 +333,11 @@ public class CastorTestCase extends TestCase {
      * @param suite the Test Suite to add all unit tests to
      * @param sg a collection of Source Generation Unit Tests
      */
-    private void setUpSourceGeneratorTests(String suiteName, TestSuite suite, SourceGeneratorTest sg) {
-        for (int i=0; i < sg.getUnitTestCaseCount(); ++i) {
+    private void setUpSourceGeneratorTests(final String suiteName, final TestSuite suite,
+                                           final SourceGeneratorTest sg) {
+        for (int i = 0; i < sg.getUnitTestCaseCount(); ++i) {
             UnitTestCase tc = sg.getUnitTestCase(i);
-            SourceGeneratorTestCase sgtc = new SourceGeneratorTestCase(this, tc, sg, _outputRootFile);
+            SourceGeneratorTestCase sgtc = new SourceGeneratorTestCase(this, tc, sg);
             sgtc.setTestSuiteName(suiteName);
             suite.addTest(sgtc.suite());
         }
@@ -361,14 +351,15 @@ public class CastorTestCase extends TestCase {
      * @param suite the Test Suite to add all unit tests to
      * @param schemaTest a collection of Schema Unit Tests
      */
-    private void setUpSchemaTests(String suiteName, TestSuite suite, SchemaTest schemaTest) {
-        for (int i=0 ; i<schemaTest.getUnitTestCaseCount(); i++) {
+    private void setUpSchemaTests(final String suiteName, final TestSuite suite,
+                                  final SchemaTest schemaTest) {
+        for (int i = 0 ; i < schemaTest.getUnitTestCaseCount(); i++) {
             UnitTestCase tc = schemaTest.getUnitTestCase(i);
             // Little trick: getUnitTestCaseChoice should not be null at this point
             String name = tc.getUnitTestCaseChoice().getSchema();
             if (name.equals("*")) {
                 File[] list = _testFile.listFiles();
-                for (int j=0; j < list.length; ++j) {
+                for (int j = 0; j < list.length; ++j) {
                     String fileName = list[j].getName();
                     // FIXME:  It would be better to use a file filter and to make
                     // sure our SchemaReader can read this file
@@ -390,26 +381,28 @@ public class CastorTestCase extends TestCase {
      * @param suite the Test Suite to add all unit tests to
      * @param sg a collection of Source Generation Unit Tests
      */
-    private void setUpGenerationOnlyTests(String suiteName, TestSuite suite, OnlySourceGenerationTest sg) {
-        for (int i=0; i < sg.getUnitTestCaseCount(); ++i) {
+    private void setUpGenerationOnlyTests(final String suiteName, final TestSuite suite,
+                                          final OnlySourceGenerationTest sg) {
+        for (int i = 0; i < sg.getUnitTestCaseCount(); ++i) {
             UnitTestCase tc = sg.getUnitTestCase(i);
-            OnlySourceGenerationTestCase sgtc = new OnlySourceGenerationTestCase(this, tc, sg, _outputRootFile);
+            OnlySourceGenerationTestCase sgtc = new OnlySourceGenerationTestCase(this, tc, sg);
             sgtc.setTestSuiteName(suiteName);
             suite.addTest(sgtc.suite());
         }
     }
 
     /**
-     * Makes an individual Schema test and adds it to our Test Suite
+     * Makes an individual Schema test and adds it to our Test Suite.
      *
      * @param suiteName Test Suite name
      * @param suite the Test Suite to add all unit tests to
      * @param tc our Test Case
      * @param name Schema name
      */
-    private void makeIndividualSchemaTest(String suiteName, TestSuite suite, UnitTestCase tc, String name) {
-        tc.setName(suiteName+'#'+name);
-        SchemaTestCase stc = new SchemaTestCase(this, tc, _outputRootFile);
+    private void makeIndividualSchemaTest(final String suiteName, final TestSuite suite,
+                                          final UnitTestCase tc, final String name) {
+        tc.setName(suiteName + '#' + name);
+        SchemaTestCase stc = new SchemaTestCase(this, tc);
         stc.setSchemaName(name);
         suite.addTest(stc);
     }
@@ -419,7 +412,7 @@ public class CastorTestCase extends TestCase {
      *
      * @param message The message to display if verbose is true.
      */
-    private void verbose(String message) {
+    private void verbose(final String message) {
         if (_verbose) {
             System.out.println(message);
         }

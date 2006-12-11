@@ -57,7 +57,6 @@ import org.xml.sax.InputSource;
 
 import java.io.FileNotFoundException;
 import java.io.InputStream;
-import java.io.File;
 import java.net.URL;
 import java.net.URLClassLoader;
 
@@ -90,20 +89,21 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      *            configuration file
      * @param outputRoot the Output directory for the test to be compiled/run in
      */
-    public MarshallingFrameworkTestCase(CastorTestCase test, UnitTestCase unit, MarshallingTest marshalling, File outputRoot) {
-        super(test, unit, outputRoot);
+    public MarshallingFrameworkTestCase(final CastorTestCase test, final UnitTestCase unit,
+                                        final MarshallingTest marshalling) {
+        super(test, unit);
         _marshallingConf = marshalling;
 
         RootType rootType = _marshallingConf.getRoot_Object();
         if (rootType == null) {
             throw new IllegalArgumentException("You must give a root object for a Marshaling Test: "
-                    + outputRoot + ", " +  getName());
+                    + _outputRootFile + ", " +  getName());
         }
 
         _rootClassName = rootType.getContent();
         if (_rootClassName == null) {
             throw new IllegalArgumentException("You must give a root object for a Marshaling Test:"
-                    + outputRoot + ", " +  getName());
+                    + _outputRootFile + ", " +  getName());
         }
 
         _hasRandom = rootType.getRandom();
@@ -116,7 +116,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      *
      * @param name Name for the MarshallingFrameworkTestCase
      */
-    public MarshallingFrameworkTestCase(String name) {
+    public MarshallingFrameworkTestCase(final String name) {
         super(name);
         throw new IllegalArgumentException("You cannot use the name-only constructor");
     }
@@ -215,7 +215,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      * @param mappingFilePath Path to the mapping file
      * @throws Exception if anything goes wrong during the test
      */
-    private void configureMapping(ClassLoader loader, String mappingFilePath) throws Exception {
+    private void configureMapping(final ClassLoader loader, final String mappingFilePath) throws Exception {
         verbose("##### TESTING MAPPING #####");
         verbose("Mapping file: " + mappingFilePath);
         InputStream mappingFile = loader.getResourceAsStream(mappingFilePath);

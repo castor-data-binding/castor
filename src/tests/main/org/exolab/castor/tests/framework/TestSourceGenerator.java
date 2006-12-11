@@ -52,16 +52,16 @@ public class TestSourceGenerator extends XMLTestCase {
     /** Array of schemas we'll process. */
     private String[] _schemas;
 
-    public TestSourceGenerator(CastorTestCase test, UnitTestCase unit, OnlySourceGenerationTest sourceGen, File outputRoot) {
-        super(test, unit, outputRoot);
+    public TestSourceGenerator(final CastorTestCase test, final UnitTestCase unit, final OnlySourceGenerationTest sourceGen) {
+        super(test, unit);
         _propertyFileName     = sourceGen.getProperty_File();
         _fieldInfoFactoryName = sourceGen.getCollection().toString();
         _bindingFileName      = sourceGen.getBindingFile();
         _schemas              = sourceGen.getSchema();
     }
 
-    public TestSourceGenerator(CastorTestCase test, UnitTestCase unit, SourceGeneratorTest sourceGen, File outputRoot) {
-        super(test, unit, outputRoot);
+    public TestSourceGenerator(final CastorTestCase test, final UnitTestCase unit, final SourceGeneratorTest sourceGen) {
+        super(test, unit);
         _propertyFileName     = sourceGen.getProperty_File();
         _fieldInfoFactoryName = sourceGen.getCollection().toString();
         _bindingFileName      = sourceGen.getBindingFile();

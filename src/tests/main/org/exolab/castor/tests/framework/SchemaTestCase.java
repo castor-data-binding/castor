@@ -99,7 +99,7 @@ public class SchemaTestCase extends XMLTestCase {
      * Default constructor
      * @param name the name of the test
      */
-    public SchemaTestCase(String name) {
+    public SchemaTestCase(final String name) {
         super(name);
         throw new IllegalArgumentException("You cannot use the name-only constructor");
     } //-- SchemaTest
@@ -110,8 +110,8 @@ public class SchemaTestCase extends XMLTestCase {
      * @param tc the UnitTestCase that wraps the configuration for this XML Test case.
      * @param outputFile the directory that contains the files needed for the test
      */
-    public SchemaTestCase(CastorTestCase castorTc, UnitTestCase tc, File outputFile) {
-        super(castorTc, tc, outputFile);
+    public SchemaTestCase(final CastorTestCase castorTc, final UnitTestCase tc) {
+        super(castorTc, tc);
         _differenceCountSchema    = getSchemaDifferenceCount(tc, FailureStepType.COMPARE_SCHEMA);
         _differenceCountReference = getSchemaDifferenceCount(tc, FailureStepType.COMPARE_TO_REFERENCE);
         _goldFileName             = tc.getGoldFile();
@@ -123,7 +123,7 @@ public class SchemaTestCase extends XMLTestCase {
      * @param step the step to look for
      * @return the difference count for the given step
      */
-    private int getSchemaDifferenceCount(UnitTestCase tc, FailureStepType step) {
+    private int getSchemaDifferenceCount(final UnitTestCase tc, final FailureStepType step) {
         SchemaDifferences[] diff = tc.getSchemaDifferences();
         for (int i = 0; i < diff.length; i++) {
             if (diff[i].getFailureStep().equals(step)) {
@@ -138,7 +138,7 @@ public class SchemaTestCase extends XMLTestCase {
      *
      * @param name the name of the XML schema file to test.
      */
-    public void setSchemaName(String name) {
+    public void setSchemaName(final String name) {
         _schemaName = name;
     }
 
@@ -224,7 +224,7 @@ public class SchemaTestCase extends XMLTestCase {
         }
     } //-- runTest
 
-    private void compareSchemaFiles(File schemaFile) throws IOException {
+    private void compareSchemaFiles(final File schemaFile) throws IOException {
         File file = new File(_outputRootFile, _schemaName.substring(0,_schemaName.lastIndexOf('.'))
                               + "-output" + FileServices.XSD);
 
@@ -253,7 +253,7 @@ public class SchemaTestCase extends XMLTestCase {
      * @param url the URL of the Schema to read.
      * @return the XPathNode representation of the XML Schema
      */
-    private XPathNode readAndWriteSchema(String url) {
+    private XPathNode readAndWriteSchema(final String url) {
         Schema schema = testReadingSchema(url);
         if (schema == null) {
             return null;
@@ -268,7 +268,7 @@ public class SchemaTestCase extends XMLTestCase {
      * @param url the schema URL
      * @return the Schema that was read in
      */
-    private Schema testReadingSchema(String url) {
+    private Schema testReadingSchema(final String url) {
         verbose("--> Reading XML Schema: " + url);
         try {
             SchemaReader reader = new SchemaReader(url);
@@ -295,7 +295,7 @@ public class SchemaTestCase extends XMLTestCase {
      * @param schema the schema to write
      * @return a new XPNBuilder
      */
-    private XPNBuilder testWritingSchema(String url, Schema schema) {
+    private XPNBuilder testWritingSchema(final String url, final Schema schema) {
         //-- create XPNBuilder
         XPNBuilder builder = new XPNBuilder();
         builder.setSaveLocation(true);

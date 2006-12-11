@@ -44,8 +44,6 @@
  */
 package org.exolab.castor.tests.framework;
 
-import java.io.File;
-
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
@@ -64,6 +62,9 @@ import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
  */
 public class OnlySourceGenerationTestCase extends XMLTestCase {
 
+    /** We add this fixed string to the end of our testcase name. */
+    private static final String ONLY_GENERATION = "_OnlySourceGeneration";
+
     /** Generates and compiles source in a test harness, but does nothing else. */
     private final TestSourceGenerator        _sourceGenerator;
 
@@ -77,16 +78,17 @@ public class OnlySourceGenerationTestCase extends XMLTestCase {
      * @param outputRoot the directory that contains the files needed for the
      *            test
      */
-    public OnlySourceGenerationTestCase(CastorTestCase test, UnitTestCase unit, OnlySourceGenerationTest sourceGen, File outputRoot) {
-        super(test, unit, outputRoot);
-        _sourceGenerator = new TestSourceGenerator(test, unit, sourceGen, outputRoot);
+    public OnlySourceGenerationTestCase(final CastorTestCase test, final UnitTestCase unit,
+                                        final OnlySourceGenerationTest sourceGen) {
+        super(test, unit);
+        _sourceGenerator = new TestSourceGenerator(test, unit, sourceGen);
     }
 
     /**
      * Create a new SourceGeneratorTestCase with the given name.
      * @param name name for the test case
      */
-    public OnlySourceGenerationTestCase(String name) {
+    public OnlySourceGenerationTestCase(final String name) {
         super(name);
         _sourceGenerator = null;
     }
@@ -97,6 +99,11 @@ public class OnlySourceGenerationTestCase extends XMLTestCase {
      */
     public Test suite() {
         TestSuite suite  = new TestSuite(_name);
+
+        String name = getTestSuiteName();
+        name = (name != null) ? name + "#" + _name : _name;
+        this.setName(name + ONLY_GENERATION);
+
         suite.addTest(this);
         return suite;
     }
