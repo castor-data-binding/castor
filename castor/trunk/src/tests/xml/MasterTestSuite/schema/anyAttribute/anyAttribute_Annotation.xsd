@@ -1,23 +1,23 @@
 <?xml version='1.0' encoding='UTF-8' ?>
-
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-           targetNamespace="http://www.castor.org/tests/AnyAttribute/" >
-           
-   <!-- Envelope, header and body -->
-  <xsd:element name="Envelope">
-  <xsd:complexType>
-    <xsd:sequence>
-      <xsd:element name="Header" type="xsd:string" minOccurs="0" />
-      <xsd:element name="Body" type="xsd:string"/>
-     </xsd:sequence>
-    <xsd:anyAttribute namespace="##other" processContents="lax">
-      <xsd:annotation>
-	      <xsd:documentation>
-	         Some docs 
-	       </xsd:documentation>
-	    </xsd:annotation>
-      </xsd:anyAttribute> 
-  </xsd:complexType>
-  </xsd:element>
-  
+            targetNamespace="http://www.castor.org/tests/AnyAttribute/" >
+
+    <!-- Envelope, header and body -->
+    <xsd:element name="Envelope">
+        <xsd:complexType>
+            <xsd:sequence>
+                <xsd:element name="Header" type="xsd:string" minOccurs="0" />
+                <xsd:element name="Body" type="xsd:string"/>
+            </xsd:sequence>
+            <xsd:anyAttribute namespace="##other" processContents="lax">
+                <!-- This annotation is lost in our processing and is counted as two differences -->
+                <xsd:annotation>
+                    <xsd:documentation>
+                        Some docs
+                    </xsd:documentation>
+                </xsd:annotation>
+            </xsd:anyAttribute>
+        </xsd:complexType>
+    </xsd:element>
+
 </xsd:schema>
