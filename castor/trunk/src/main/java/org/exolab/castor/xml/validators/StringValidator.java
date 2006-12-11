@@ -288,10 +288,10 @@ public class StringValidator extends PatternValidator
                 String err = "this is a required field and cannot be null.";
                 throw new ValidationException(err);
             }
+            return;
         }
-        else {
-            validate(object.toString(), context);
-        }
+        
+        validate(object.toString(), context);
     } //-- validate
 
 
