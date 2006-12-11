@@ -2,270 +2,262 @@
 <TestDescriptor>
     <Name>Part of the W3C test suite for XML Schema</Name>
     <Author>Keith Visco</Author>
-    <Comment>This test suite is a work in progress that needs
-    to be completed.
-    </Comment>
+    <Comment>This test suite is a work in progress that needs to be completed.</Comment>
     <Category>basic capability</Category>
     <SchemaTest>
 
-   		<!-- ******************** -->
-   		<!-- Schema Element Tests -->
-   		<!-- ******************** -->
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_01.xsd</Schema>
-         </UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_02.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_03.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_04.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_01.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_05.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_02.xsd</Schema>
         </UnitTestCase>
 
-  		<UnitTestCase>
-      		<Schema>TestForSchemaElement_06.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_07.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_08.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForSchemaElement_09.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_03.xsd</Schema>
         </UnitTestCase>
 
-   		<!-- *************************** -->
-   		<!-- Attribute Declaration Tests -->
-  		<!-- *************************** -->
-
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_01.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_04.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_02.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_05.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_03.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_06.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_04.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_07.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_05.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_08.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase >
-        	<Schema>TestForAttributeDecl_06.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForAttributeDecl_07.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForSchemaElement_09.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase >
-     		 <Schema>TestForAttributeDecl_08.xsd</Schema>
-      	</UnitTestCase>
+        <!-- *************************** -->
+        <!-- Attribute Declaration Tests -->
+        <!-- *************************** -->
 
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_09.xsd</Schema>
-		</UnitTestCase>
-
-   		<UnitTestCase >
-      		<Schema>TestForAttributeDecl_10.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_01.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForAttributeDecl_11.xsd</Schema>
-      	</UnitTestCase>
-
-   		<!-- ************************* -->
-   		<!-- Element Declaration Tests -->
-	    <!-- ************************* -->
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_01.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_02.xsd</Schema>
-	    </UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_03.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_04.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_05.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_06.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_07.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_08.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_09.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_10.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_02.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_11.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_12.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_03.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_13.xsd</Schema>
-         </UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_14.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_04.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase>
-     		 <Schema>TestForElementDecl_15.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_05.xsd</Schema>
         </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_16.xsd</Schema>
-      </UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForElementDecl_17.xsd</Schema>
-      	</UnitTestCase>
-
-   		<!-- **************************** -->
-   		<!-- ComplexType Definition Tests -->
-   		<!-- **************************** -->
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_01.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_02.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_03.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_04.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_05.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_06.xsd</Schema>
-      	</UnitTestCase>
-
-   		<!-- This test is being skipped until I add a way to check for correct error
-        reporting -->
-   		<UnitTestCase skip="true">
-      		<Schema>TestForComplexType_07.xsd</Schema>
-      		<Skip>true</Skip>
-   		</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_08.xsd</Schema>
-	   </UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_09.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_10.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_11.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_12.xsd</Schema>
-       </UnitTestCase>
-
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_13.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_14.xsd</Schema>
-      	</UnitTestCase>
-
-   		<UnitTestCase>
-      		<Schema>TestForComplexType_15.xsd</Schema>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_06.xsd</Schema>
         </UnitTestCase>
 
-  		 <UnitTestCase>
-      		<Schema>TestForComplexType_16.xsd</Schema>
-      	 </UnitTestCase>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_07.xsd</Schema>
+        </UnitTestCase>
 
-   		<!-- *************************** -->
-		<!-- SimpleType Definition Tests -->
-   		<!-- *************************** -->
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_08.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForSimpleType_01.xsd</Schema>
-      	</UnitTestCase>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_09.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForSimpleType_02.xsd</Schema>
-      	</UnitTestCase>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_10.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForSimpleType_03.xsd</Schema>
-      	</UnitTestCase>
+        <UnitTestCase>
+            <Schema>TestForAttributeDecl_11.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForSimpleType_04.xsd</Schema>
-      	</UnitTestCase>
+        <!-- ************************* -->
+        <!-- Element Declaration Tests -->
+        <!-- ************************* -->
 
-   		<UnitTestCase>
-      		<Schema>TestForSimpleType_05.xsd</Schema>
-      	</UnitTestCase>
+        <UnitTestCase>
+            <Schema>TestForElementDecl_01.xsd</Schema>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>TestForSimpleType_06.xsd</Schema>
-      	</UnitTestCase>
-      </SchemaTest>
- </TestDescriptor>
+        <UnitTestCase>
+            <Schema>TestForElementDecl_02.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_03.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_04.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_05.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_06.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_07.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_08.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_09.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_10.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_11.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_12.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_13.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_14.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_15.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_16.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForElementDecl_17.xsd</Schema>
+        </UnitTestCase>
+
+        <!-- **************************** -->
+        <!-- ComplexType Definition Tests -->
+        <!-- **************************** -->
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_01.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_02.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_03.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_04.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_05.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_06.xsd</Schema>
+        </UnitTestCase>
+
+        <!-- This test is being skipped until I add a way to check for correct error reporting -->
+        <UnitTestCase skip="true">
+            <Schema>TestForComplexType_07.xsd</Schema>
+            <Skip>true</Skip>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_08.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_09.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_10.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_11.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_12.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_13.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_14.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_15.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForComplexType_16.xsd</Schema>
+        </UnitTestCase>
+
+        <!-- *************************** -->
+        <!-- SimpleType Definition Tests -->
+        <!-- *************************** -->
+
+        <UnitTestCase>
+            <Schema>TestForSimpleType_01.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForSimpleType_02.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForSimpleType_03.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForSimpleType_04.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForSimpleType_05.xsd</Schema>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Schema>TestForSimpleType_06.xsd</Schema>
+        </UnitTestCase>
+    </SchemaTest>
+</TestDescriptor>

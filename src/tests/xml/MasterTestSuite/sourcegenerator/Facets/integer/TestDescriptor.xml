@@ -1,32 +1,32 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-	<Name>Test xsd:integer schema facets</Name>
-	<Author>Werner Guttmann</Author>
-	<Comment>CASTOR-1421</Comment>
-	<Category>basic capability</Category>
+    <Name>Test xsd:integer schema facets</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>CASTOR-1421</Comment>
+    <Category>basic capability</Category>
 
-	<SourceGeneratorTest>
-		<Schema>test.xsd</Schema>
-		<Root_Object random="false" dump="true">IntegerTest</Root_Object>
-		<Property_File>builder.properties</Property_File>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Input>input.xml</Input>
-		</UnitTestCase>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Failure>true</Failure>
-			<Input>fail-max.xml</Input>
-		</UnitTestCase>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Failure>true</Failure>
-			<Input>fail-int-max.xml</Input>
-		</UnitTestCase>
-		<UnitTestCase>
-			<Name>Test Generation</Name>
-			<Failure>true</Failure>
-			<Input>fail-int-min.xml</Input>
-		</UnitTestCase>
-	</SourceGeneratorTest>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">IntegerTest</Root_Object>
+        <Property_File>builder.properties</Property_File>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Failure>true</Failure>
+            <Input>fail-max.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Failure>true</Failure>
+            <Input>fail-int-max.xml</Input>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Failure>true</Failure>
+            <Input>fail-int-min.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
 </TestDescriptor>

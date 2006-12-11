@@ -13,16 +13,16 @@
       <Comment>Bug 907 (Intalio CVS)</Comment>
    </BugFix>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Foo</Root_Object>
-		<UnitTestCase>
-         <Name>Test unmarshalling namespace prefixed attributes</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>output.xml</GoldFile>
-		</UnitTestCase>
-	</MarshallingTest>
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
+        <UnitTestCase>
+            <Name>Test unmarshalling namespace prefixed attributes</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
 
 </TestDescriptor>

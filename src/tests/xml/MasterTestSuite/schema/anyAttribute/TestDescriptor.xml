@@ -7,19 +7,15 @@
     <Category>basic capability</Category>
     <SchemaTest>
 
-   		<!-- ******************** -->
-   		<!-- Schema Element Tests -->
-   		<!-- ******************** -->
+        <UnitTestCase>
+            <Schema>AnyAttribute_AttributeGroup.xsd</Schema>
+            <Skip>true</Skip>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>AnyAttribute_AttributeGroup.xsd</Schema>
-      		<Skip>true</Skip>
-         </UnitTestCase>
+        <UnitTestCase>
+            <Schema>AnyAttribute_Annotation.xsd</Schema>
+            <Skip>true</Skip>
+        </UnitTestCase>
 
-   		<UnitTestCase>
-      		<Schema>AnyAttribute_Annotation.xsd</Schema>
-      		<Skip>true</Skip>
-      	</UnitTestCase>
-
-      </SchemaTest>
+    </SchemaTest>
  </TestDescriptor>

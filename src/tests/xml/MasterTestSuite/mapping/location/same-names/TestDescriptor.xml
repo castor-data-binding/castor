@@ -1,25 +1,25 @@
 <?xml version='1.0'?>
 <TestDescriptor>
 
-   <Name>Mapping-Location-SameNames</Name>
-   <Author>Keith Visco</Author>
+    <Name>Mapping-Location-SameNames</Name>
+    <Author>Keith Visco</Author>
 
-	<Comment>
-      Tests the special handling of the location attribute.
-   </Comment>
+    <Comment>
+        Tests the special handling of the location attribute.
+    </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Foo</Root_Object>
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
 
-      <UnitTestCase>
-         <Name>Test01</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>input.xml</GoldFile>
-      </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
 
-	</MarshallingTest>
+    </MarshallingTest>
 
 </TestDescriptor>

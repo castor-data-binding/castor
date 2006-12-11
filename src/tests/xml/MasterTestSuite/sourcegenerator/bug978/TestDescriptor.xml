@@ -1,21 +1,21 @@
 <?xml version='1.0'?>
 <TestDescriptor>
     <Name>Test the generation of javadoc for annotation</Name>
-	<Author>Arnaud Blandin</Author>
-	<Comment>Regression test case for bug 978</Comment>
-	<Comment>The test case doesn't test for validation of the schema</Comment>
-	<Category>basic capability</Category>
-	<BugFix>
+    <Author>Arnaud Blandin</Author>
+    <Comment>Regression test case for bug 978</Comment>
+    <Comment>The test case doesn't test for validation of the schema</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
         <Reporter>patmoore@brocade.com</Reporter>
-        <Date_Report>2002-07-12</Date_Report>     
+        <Date_Report>2002-07-12</Date_Report>
         <Date_Fix>2002-11-26</Date_Fix>
         <Comment>The fix consisted in removing typos from the class XSFloat</Comment>
     </BugFix>
 
-	<SourceGeneratorTest>
-		<Schema>bug978.xsd</Schema> 	
+    <SourceGeneratorTest>
+        <Schema>bug978.xsd</Schema>
         <Root_Object random="false" dump="true">Root</Root_Object>
-		<UnitTestCase>
+        <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input.xml</Input>
         </UnitTestCase>

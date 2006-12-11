@@ -1,7 +1,6 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-    <Name>Make sure that xs:choice works in an environemnt where complexType extension
-    	is used and choices are used in both the extending and the extended types</Name>
+    <Name>Test xs:choice with complexType extension and choices used in both extending and extended types</Name>
     <Author>Edward Kuns</Author>
     <Comment>Regression test case for bug CASTOR-1678</Comment>
     <Category>basic capability</Category>
@@ -11,7 +10,7 @@
         <Date_Fix>2006-11-09</Date_Fix>
         <Comment>
             WebServiceMonitor was missing a member for the &lt;choice&gt; definition in
-            its complex type definition. 
+            its complex type definition.
         </Comment>
         <Comment>This bug was fixed, so this test case makes sure it stays fixed</Comment>
     </BugFix>

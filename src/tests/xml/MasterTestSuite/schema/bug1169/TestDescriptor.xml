@@ -12,13 +12,9 @@
     <Category>basic capability</Category>
     <SchemaTest>
 
-         <!-- ************ -->
-         <!-- Schema Tests -->
-         <!-- ************ -->
-
-   		<UnitTestCase>
+        <UnitTestCase>
             <Schema>test.xsd</Schema>
-         </UnitTestCase>
+        </UnitTestCase>
 
       </SchemaTest>
  </TestDescriptor>

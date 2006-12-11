@@ -1,25 +1,25 @@
 <?xml version='1.0'?>
 <TestDescriptor>
 
-   <Name>Test get methods starting with 'enum'</Name>
-   <Author>Werner Guttmann</Author>
+    <Name>Test get methods starting with 'enum'</Name>
+    <Author>Werner Guttmann</Author>
 
-	<Comment>
+    <Comment>
       Tests getter methods starting with 'enum'.
-   </Comment>
+    </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>ObjectWithContainer</Root_Object>
+    <MarshallingTest>
+        <Root_Object>ObjectWithContainer</Root_Object>
 
-      <UnitTestCase>
-         <Name>Test01</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-         <GoldFile>input.xml</GoldFile>
-      </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
 
-	</MarshallingTest>
+    </MarshallingTest>
 
 </TestDescriptor>

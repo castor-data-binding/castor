@@ -1,85 +1,85 @@
 <?xml version='1.0'?>
 <TestDescriptor>
 
-  <Name>Unmarshalling Listener Test</Name>
-  <Author>Paul Christmann</Author>
-  <Comment>
-    This test checks the behavior of the Unmarshal Listener, making
-    sure it is invoked at appropriate times.
-  </Comment>
+    <Name>Unmarshalling Listener Test</Name>
+    <Author>Paul Christmann</Author>
+    <Comment>
+        This test checks the behavior of the Unmarshal Listener, making
+        sure it is invoked at appropriate times.
+    </Comment>
 
-  <Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-  <MarshallingTest>
+    <MarshallingTest>
 
-    <Root_Object random="false" dump="false">A</Root_Object>
+        <Root_Object random="false" dump="false">A</Root_Object>
 
-    <UnitTestCase>
-      <Name>Vanilla test with no listener</Name>
-      <Mapping_File>mapping.xml</Mapping_File>
-      <Input>input.xml</Input>
-      <GoldFile>goldfiles/data/output.xml</GoldFile>
-    </UnitTestCase>
+        <UnitTestCase>
+            <Name>Vanilla test with no listener</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>goldfiles/data/output.xml</GoldFile>
+        </UnitTestCase>
 
-    <UnitTestCase>
-      <Name>Unmarshal listener test</Name>
-      <Mapping_File>mapping.xml</Mapping_File>
-      <Input>input.xml</Input>
-      <GoldFile>goldfiles/data/output.xml</GoldFile>
-      <Listener>
-        <ClassName>SimpleListener</ClassName>
-        <GoldFile>goldfiles/listeners/simple-unmarshal.xml</GoldFile>
-        <Type>Unmarshal</Type>
-      </Listener>
-    </UnitTestCase>
+        <UnitTestCase>
+            <Name>Unmarshal listener test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>goldfiles/data/output.xml</GoldFile>
+            <Listener>
+                <ClassName>SimpleListener</ClassName>
+                <GoldFile>goldfiles/listeners/simple-unmarshal.xml</GoldFile>
+                <Type>Unmarshal</Type>
+            </Listener>
+        </UnitTestCase>
 
-    <UnitTestCase>
-      <Name>Marshal listener test</Name>
-      <Mapping_File>mapping.xml</Mapping_File>
-      <Input>input.xml</Input>
-      <GoldFile>goldfiles/data/output.xml</GoldFile>
-      <Listener>
-        <ClassName>SimpleListener</ClassName>
-        <GoldFile>goldfiles/listeners/simple-marshal.xml</GoldFile>
-        <Type>Marshal</Type>
-      </Listener>
-    </UnitTestCase>
+        <UnitTestCase>
+            <Name>Marshal listener test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>goldfiles/data/output.xml</GoldFile>
+            <Listener>
+                <ClassName>SimpleListener</ClassName>
+                <GoldFile>goldfiles/listeners/simple-marshal.xml</GoldFile>
+                <Type>Marshal</Type>
+            </Listener>
+        </UnitTestCase>
 
-    <UnitTestCase>
-      <Name>Marshal and Unmarshal listener test</Name>
-      <Mapping_File>mapping.xml</Mapping_File>
-      <Input>input.xml</Input>
-      <GoldFile>goldfiles/data/output.xml</GoldFile>
-      <Listener>
-        <ClassName>SimpleListener</ClassName>
-        <GoldFile>goldfiles/listeners/simple-listener.xml</GoldFile>
-        <Type>Both</Type>
-      </Listener>
-    </UnitTestCase>
+        <UnitTestCase>
+            <Name>Marshal and Unmarshal listener test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>goldfiles/data/output.xml</GoldFile>
+            <Listener>
+                <ClassName>SimpleListener</ClassName>
+                <GoldFile>goldfiles/listeners/simple-listener.xml</GoldFile>
+                <Type>Both</Type>
+            </Listener>
+        </UnitTestCase>
 
-    <UnitTestCase>
-      <Name>Modifying Unmarshal listener test</Name>
-      <Mapping_File>mapping.xml</Mapping_File>
-      <Input>input.xml</Input>
-      <GoldFile>goldfiles/data/modified-unmarshal.xml</GoldFile>
-      <Listener>
-        <ClassName>MutatingListener</ClassName>
-        <GoldFile>goldfiles/listeners/modified-unmarshal.xml</GoldFile>
-        <Type>Unmarshal</Type>
-      </Listener>
-    </UnitTestCase>
+        <UnitTestCase>
+            <Name>Modifying Unmarshal listener test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>goldfiles/data/modified-unmarshal.xml</GoldFile>
+            <Listener>
+                <ClassName>MutatingListener</ClassName>
+                <GoldFile>goldfiles/listeners/modified-unmarshal.xml</GoldFile>
+                <Type>Unmarshal</Type>
+            </Listener>
+        </UnitTestCase>
 
-    <UnitTestCase>
-      <Name>Modifying Marshal listener test</Name>
-      <Mapping_File>mapping.xml</Mapping_File>
-      <Input>input.xml</Input>
-      <GoldFile>goldfiles/data/modified-marshal.xml</GoldFile>
-      <Listener>
-        <ClassName>MutatingListener</ClassName>
-        <GoldFile>goldfiles/listeners/modified-marshal.xml</GoldFile>
-        <Type>Marshal</Type>
-      </Listener>
-    </UnitTestCase>
+        <UnitTestCase>
+            <Name>Modifying Marshal listener test</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+            <GoldFile>goldfiles/data/modified-marshal.xml</GoldFile>
+            <Listener>
+                <ClassName>MutatingListener</ClassName>
+                <GoldFile>goldfiles/listeners/modified-marshal.xml</GoldFile>
+                <Type>Marshal</Type>
+            </Listener>
+        </UnitTestCase>
 
-  </MarshallingTest>
+    </MarshallingTest>
 </TestDescriptor>

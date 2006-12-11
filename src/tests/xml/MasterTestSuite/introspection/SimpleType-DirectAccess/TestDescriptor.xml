@@ -1,10 +1,9 @@
 <?xml version='1.0'?>
-<!--Example of a testDescriptor-->
 <TestDescriptor>
 
-	<Name>Simple type handling with direct field access with introspection</Name>
+    <Name>Simple type handling with direct field access with introspection</Name>
     <Author>Sebastien Gignoux</Author>
-	<Comment>
+    <Comment>
         This test check the proper handling of simple type for introspected
         classes. All the field are accessed directly (and should be public...).
 
@@ -19,28 +18,27 @@
            - byte
            - date // Problem...
            - char
-
     </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
+    <MarshallingTest>
 
-		<Root_Object random="true" dump="true">Root</Root_Object>
+        <Root_Object random="true" dump="true">Root</Root_Object>
 
-		<UnitTestCase>
+        <UnitTestCase>
             <Name>Element node</Name>
-			<Input>input-element.xml</Input>
-			<ObjectBuilder>Builder</ObjectBuilder>
-			<GoldFile>output.xml</GoldFile>
-		</UnitTestCase>
+            <Input>input-element.xml</Input>
+            <ObjectBuilder>Builder</ObjectBuilder>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
 
-		<UnitTestCase>
+        <UnitTestCase>
             <Name>Attribute node</Name>
-			<Input>input-attribute.xml</Input>
-			<ObjectBuilder>Builder</ObjectBuilder>
-			<GoldFile>output.xml</GoldFile>
-		</UnitTestCase>
+            <Input>input-attribute.xml</Input>
+            <ObjectBuilder>Builder</ObjectBuilder>
+            <GoldFile>output.xml</GoldFile>
+        </UnitTestCase>
 
-	</MarshallingTest>
+    </MarshallingTest>
 </TestDescriptor>

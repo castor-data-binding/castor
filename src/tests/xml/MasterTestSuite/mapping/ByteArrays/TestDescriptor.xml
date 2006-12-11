@@ -1,24 +1,24 @@
 <?xml version='1.0'?>
 <TestDescriptor>
 
-   <Name>Mapping-ByteArrayAttributes</Name>
-   <Author>Werner Guttmann</Author>
+    <Name>Mapping-ByteArrayAttributes</Name>
+    <Author>Werner Guttmann</Author>
 
-	<Comment>
-      Tests the special handling of byte[] in the mapping file for attributes.
-   </Comment>
+    <Comment>
+        Tests the special handling of byte[] in the mapping file for attributes.
+    </Comment>
 
-	<Category>basic capability</Category>
+    <Category>basic capability</Category>
 
-	<MarshallingTest>
-      <Root_Object>Foo</Root_Object>
+    <MarshallingTest>
+        <Root_Object>Foo</Root_Object>
 
-      <UnitTestCase>
-         <Name>Test01</Name>
-         <Mapping_File>mapping.xml</Mapping_File>
-         <Input>input.xml</Input>
-      </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test01</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input.xml</Input>
+        </UnitTestCase>
 
-	</MarshallingTest>
+    </MarshallingTest>
 
 </TestDescriptor>
