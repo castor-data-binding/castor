@@ -2,6 +2,10 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1716 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Enhance CTF test names to include the directory tree path information
+       Details: http://jira.codehaus.org/browse/CASTOR-1716
+       (Edward - 20061210)
 
 XML:   Resolved issue CASTOR-1726 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Add documentation about support for anonymous complex/simply types in binding files

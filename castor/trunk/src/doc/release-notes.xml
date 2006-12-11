@@ -148,12 +148,12 @@
                    validation exception will be thrown if an empty or duplicate
                    ID value is encountered.
                 </p>
-                
+
                 <h3>Added support for &lt;enumBinding&gt;s</h3>
-                
+
                 <p>The XML code generator has been enhanced so that it is possible
                    to provide a binding for the folowing enumeration ...</p>
-                   
+
                 <code-panel><![CDATA[
 <xs:simpleType name="durationUnitType">
   <xs:restriction base='xs:string'>
@@ -165,9 +165,9 @@
     <xs:enumeration value='s' />
   </xs:restriction>
 </simpleType>]]></code-panel>
-                   
+
                 <p>as follows:</p>
-                   
+
                 <code-panel><![CDATA[
 <enumBinding name="/enumType:durationUnitType">
   <enum-def>
@@ -179,14 +179,14 @@
 </enumBinding>]]></code-panel>
 
                 <h3>Added support for anonymous type definition in XML code generation bindings</h3>
-                
-				<p>For &lt;complexType&gt; and &lt;simpleType&gt; enumerations, it is 
-				   now possible to specify that a component binding should effect 
-				   an anonymous type definition. To qualify such an anonymous type definition
-				   as part of the '<tt>name</tt>' attribute of a component
-				   binding, please use the type name qualifier '<tt>anonymous</tt>'
-				   as shown below.</p>
-				   
+
+                <p>For &lt;complexType&gt; and &lt;simpleType&gt; enumerations, it is
+                   now possible to specify that a component binding should effect
+                   an anonymous type definition. To qualify such an anonymous type definition
+                   as part of the '<tt>name</tt>' attribute of a component
+                   binding, please use the type name qualifier '<tt>anonymous</tt>'
+                   as shown below.</p>
+
          <code-panel>
 &lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
    &lt;member name="MyFoo" handler="mypackage.myHandler"/>
@@ -194,9 +194,29 @@
 
             </summary>
             <bugs>
+                <bug id="1716" tool="jira">
+                    <description>
+                        Enhance CTF test names to include the directory tree path information
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Test</module>
+                    <date>20061210</date>
+                </bug>
                 <bug id="1726" tool="jira">
                     <description>
-                        Add documentation about support for anonymous complex/simply types in 
+                        Add documentation about support for anonymous complex/simply types in
                         binding files
                     </description>
                     <contributor>
@@ -217,7 +237,7 @@
                 </bug>
                 <bug id="1725" tool="jira">
                     <description>
-                        Add documentation about new &lt;enumBinding&gt;s in code 
+                        Add documentation about new &lt;enumBinding&gt;s in code
                         generation binding
                     </description>
                     <contributor>
@@ -238,7 +258,7 @@
                 </bug>
                 <bug id="1659" tool="jira">
                     <description>
-                        Fixed problem with attribute declaration in complexType hierarchies 
+                        Fixed problem with attribute declaration in complexType hierarchies
                         where the attribute is untyped.
                     </description>
                     <contributor>
@@ -259,7 +279,7 @@
                 </bug>
                 <bug id="1491" tool="jira">
                     <description>
-                        Added support for &lt;enumBinding&gt; elements during XML 
+                        Added support for &lt;enumBinding&gt; elements during XML
                         code generation.
                     </description>
                     <contributor>
