@@ -46,10 +46,13 @@
 
 package org.exolab.castor.xml;
 
+import java.util.HashSet;
+import java.util.Set;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
-
-import java.util.HashSet;
 
 /**
  * A class which can be used to hold validation information, used
@@ -59,6 +62,8 @@ import java.util.HashSet;
  * @version $Revision$ $Date: 2004-10-06 02:10:17 -0600 (Wed, 06 Oct 2004) $
  */
 public class ValidationContext {
+    
+    private static final Log LOG = LogFactory.getLog(ValidationContext.class);
     
     /**
      * The Castor configuration
@@ -84,7 +89,7 @@ public class ValidationContext {
     /**
      * List of objects marked as validated
      */
-    private HashSet _validated = null;
+    private Set _validated = new HashSet();
     
     
     /**
@@ -174,25 +179,32 @@ public class ValidationContext {
         _resolver = resolver;
     } //-- setResolver
 
-    protected boolean isValidated(Object obj) {
-    	if (_validated != null) {
-    		return _validated.contains(obj);
-        }
-        return false;
+    /**
+     * Checks whetehr an object has already been validated
+     * @param object The object for which the check should be performed
+     * @return True if the object specified has already been validated.
+     */
+    protected boolean isValidated(Object object) {
+        LOG.trace("Called isValidated(" + object + ")");
+        return _validated.contains(object);
     }
     
-    protected void addValidated(Object obj) {
-    	if (_validated == null) {
-            _validated = new HashSet();
-        }
-        _validated.add(obj);
+    /**
+     * Adds the specified object to the cache of already validated objects
+     * @param object Object about to be validated.
+     */
+    protected void addValidated(Object object) {
+        LOG.trace("Called addValidated(" + object + ")");
+        _validated.add(object);
     }
     
-    protected void removeValidated(Object obj) {
-        if (_validated != null) {
-            _validated.remove(obj);
-        }
+    /**
+     * Removes the specified object from the cache of already validated objects
+     * @param object The object to be removed from the cache.
+     */
+    protected void removeValidated(Object object) {
+        LOG.trace("Called removeValidated(" + object + ")");
+        _validated.remove(object);
     }
-    
     
 } //-- ValidationContext
