@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1689 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Removed redundant 'API' Javadocs from build/HTML docs.
+       Details: http://jira.codehaus.org/browse/CASTOR-1689
+       (Edward - 20061212)
+
 XML:   Resolved issue CASTOR-1592 using contribution from Edward Kuns [edward.kuns@aspect.com]
        regression import test fails
        Details: http://jira.codehaus.org/browse/CASTOR-1592

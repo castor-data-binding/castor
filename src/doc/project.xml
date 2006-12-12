@@ -56,12 +56,12 @@
         <display>Download</display>
       </navLink>
       <navLink>
-        <url>maven-integration.xml</url>
-        <display>Maven 2 support</display>
+        <url>javadoc/overview-summary.html</url>
+        <display>JavaDoc</display>
       </navLink>
       <navLink>
-        <url>api/overview-summary.html</url>
-        <display>API</display>
+        <url>maven-integration.xml</url>
+        <display>Maven 2 support</display>
       </navLink>
       <navLink>
         <url>schema.xml</url>
@@ -291,10 +291,6 @@
       <navLink>
         <url>tips-tricks.xml</url>
         <display>Tips &amp; Tricks</display>
-      </navLink>
-      <navLink>
-        <url>javadoc/overview-summary.html</url>
-        <display>Full JavaDoc</display>
       </navLink>
       <navLink>
          <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
