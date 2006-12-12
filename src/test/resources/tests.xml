@@ -83,6 +83,7 @@
     <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
@@ -187,6 +188,7 @@
     <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
@@ -284,6 +286,7 @@
     <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
+    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
     <!-- <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/> -->
     <!-- <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/> -->
@@ -383,6 +386,7 @@
     <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
@@ -483,6 +487,7 @@
     <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
@@ -581,6 +586,7 @@
     <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
+    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
     <!-- <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/> -->
     <!-- <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/> -->
@@ -678,6 +684,7 @@
     <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
@@ -775,6 +782,7 @@
     <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
+    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
     <!-- <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/> -->
     <!-- <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/> -->
     <!-- <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/> -->
@@ -877,6 +885,7 @@
     <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
@@ -979,6 +988,7 @@
     <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC97" class="ctf.jdo.tc9x.TestPolymorphism"/>
@@ -1074,6 +1084,7 @@
     <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
+    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>

@@ -226,6 +226,27 @@
 
             </summary>
             <bugs>
+                <bug id="1688" tool="jira">
+                    <description>
+                        Fixed NullPointerException thrown in ClassMolderHelper.getFullFields()
+                        during JDO initialization.
+                    </description>
+                    <contributor>
+                        <name>James Abley</name>
+                        <email>james.abley@volantis.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>James Abley</name>
+                        <email>james.abley@volantis.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20061213</date>
+                </bug>
                 <bug id="1072" tool="jira">
                     <description>
                         Fixed problem with incorrectly marshalled location tags for 

@@ -1212,6 +1212,54 @@ insert into tc8x_child_compound (id1, id2, descr) values (1, 1, 'childCompound1'
 
 -- tc9x TESTS
 
+drop table tc9x_foo;
+create table tc9x_foo (
+  id        		int not null,
+  field     		varchar(200) not null
+);
+
+insert into tc9x_foo (id, field) values (1, 'a foo');
+insert into tc9x_foo (id, field) values (2, 'a bar');
+
+drop table tc9x_bar;
+create table tc9x_bar (
+  id        int not null
+);
+
+insert into tc9x_bar (id) values (2);
+
+drop table tc9x_customer;
+create table tc9x_customer (
+	id				int not null,
+	description 	varchar(200) not null			
+);
+
+insert into tc9x_customer (id, description) values (1, 'alice');
+insert into tc9x_customer (id, description) values (2, 'bob');
+
+drop table tc9x_subscription;
+create table tc9x_subscription (
+	id				int not null,
+	createddate		datetime,
+	description		varchar(200),
+	customer_id		int not null
+);
+
+insert into tc9x_subscription (id, createddate, customer_id) values (1, now(), 2);
+insert into tc9x_subscription (id, createddate, customer_id) values (2, now(), 2);
+
+drop table tc9x_supersubscription;
+create table tc9x_supersubscription (
+	id			int not null
+);
+
+drop table tc9x_credit;
+create table tc9x_credit (
+	id						int not null,
+	balance					int not null,
+	supersubscription_id	int not null
+);
+
 drop table  tc9x_poly_ordr;
 create table tc9x_poly_ordr (
   id int not null,
