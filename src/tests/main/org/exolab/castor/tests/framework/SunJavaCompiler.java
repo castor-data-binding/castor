@@ -40,6 +40,8 @@ public class SunJavaCompiler implements Compiler {
 
     private static Method _compileMethod = null;
     private static boolean _initialized = false;
+    /** Java version of the JVM we are running in. */
+    private static final float JAVA_VERSION = Float.parseFloat(System.getProperty("java.specification.version"));
 
     private String _javaVersion = null;
 
@@ -119,7 +121,9 @@ public class SunJavaCompiler implements Compiler {
         List args = new ArrayList();
 
         args.add("-g");
-        args.add("-Xlint:unchecked");
+        if (JAVA_VERSION == 1.5F) {
+            args.add("-Xlint:unchecked");
+        }
         if (XMLTestCase._verbose) {
             args.add("-verbose");
         } else {
