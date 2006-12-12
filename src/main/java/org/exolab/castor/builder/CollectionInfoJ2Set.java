@@ -110,12 +110,4 @@ public class CollectionInfoJ2Set extends CollectionInfoJ2 {
         // do not create such method
     }
     
-    /**
-     * @see org.exolab.castor.builder.CollectionInfo#createSetAsReferenceMethod(org.exolab.javasource.JClass, boolean)
-     */
-    protected void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
-        // do not create such method
-    }
-    
-
 }

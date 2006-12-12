@@ -83,8 +83,9 @@ public class CollectionInfo extends FieldInfo {
      * A flag indicating that "extra" accessor methods should be created for
      * returning and setting a reference to the underlying collection
      */
-    private boolean            _extraMethods;
-    private String             _methodSuffix;
+    private boolean _extraMethods;
+    private String _methodSuffix;
+    private String _parameterPrefix;
 
     /**
      * The reference suffix to use.
@@ -124,6 +125,7 @@ public class CollectionInfo extends FieldInfo {
         }
 
         this._methodSuffix = JavaNaming.toJavaClassName(this.getElementName());
+        this._parameterPrefix = JavaNaming.toJavaMemberName(this.getElementName()); 
         this._content = new FieldInfo(contentType, ("v" + this.getMethodSuffix()));
     } // -- CollectionInfo
 
@@ -680,7 +682,8 @@ public class CollectionInfo extends FieldInfo {
      */
     protected void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix() + _referenceSuffix);
-        JParameter parameter = new JParameter(SGTypes.createVector(this.getContentType().getJType(), useJava50), this.getMethodSuffix() + "Vector");
+        final JType collectionJType = getSchemaType().getJType();  
+        JParameter parameter = new JParameter(collectionJType, this.getParameterPrefix() + collectionJType.getLocalName());
         method.addParameter(parameter);
 
         // create Javadoc
@@ -689,6 +692,7 @@ public class CollectionInfo extends FieldInfo {
         comment.appendComment(this.getName());
         comment.appendComment("' by setting it to the given Vector.");
         comment.appendComment(" No type checking is performed.");
+        comment.appendComment("\n@deprecated");
         JDocDescriptor jDesc = comment.getParamDescriptor(parameter.getName());
         jDesc.setDescription("the Vector to set.");
 
@@ -705,6 +709,10 @@ public class CollectionInfo extends FieldInfo {
         }
 
         jClass.addMethod(method);
+    }
+
+    private String getParameterPrefix() {
+        return _parameterPrefix;
     }
 
     protected void createSetByIndexMethod(final JClass jClass) {

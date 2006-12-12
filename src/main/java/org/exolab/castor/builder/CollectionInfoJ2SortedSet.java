@@ -109,13 +109,5 @@ public class CollectionInfoJ2SortedSet extends CollectionInfoJ2 {
     protected void createRemoveByIndexMethod(final JClass jClass) {
         // do not create such method
     }
-    
-    /**
-     * @see org.exolab.castor.builder.CollectionInfo#createSetAsReferenceMethod(org.exolab.javasource.JClass, boolean)
-     */
-    protected void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
-        // do not create such method
-    }
-    
 
 }
