@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1592 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       regression import test fails
+       Details: http://jira.codehaus.org/browse/CASTOR-1592
+       (Edward - 20061211)
+
 XML:   Resolved issue CASTOR-1672 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add to CTF test header the minimum JVM version for this test
        Details: http://jira.codehaus.org/browse/CASTOR-1672

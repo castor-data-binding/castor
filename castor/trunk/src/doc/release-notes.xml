@@ -226,6 +226,26 @@
 
             </summary>
             <bugs>
+                <bug id="1592" tool="jira">
+                    <description>
+                        regression import test fails
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Test</module>
+                    <date>20061211</date>
+                </bug>
                 <bug id="1672" tool="jira">
                     <description>
                         Add to CTF test header the minimum JVM version for this test
