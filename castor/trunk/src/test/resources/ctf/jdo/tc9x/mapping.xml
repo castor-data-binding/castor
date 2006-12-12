@@ -2,7 +2,65 @@
 <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
                          "http://castor.org/mapping.dtd">
 <mapping>
-    
+  <class name="ctf.jdo.tc9x.Foo" identity="id">
+    <description>Foo</description>
+    <map-to table="tc9x_foo"/>
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="field" type="string">
+      <sql name="field"/>
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.Bar" extends="ctf.jdo.tc9x.Foo">
+    <description>Bar</description>
+    <map-to table="tc9x_bar"/>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.Customer" identity="id">
+    <map-to table="tc9x_customer" />
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="description"/>
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.Subscription" identity="id">
+    <map-to table="tc9x_subscription" />
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="createdDate" type="date">
+      <sql name="createdDate" type="timestamp"/>
+    </field>
+    <field name="customer" type="ctf.jdo.tc9x.Customer">
+      <sql name="customer_id"/>
+    </field>
+  </class>
+  
+  <class name="ctf.jdo.tc9x.SuperSubscription" extends="ctf.jdo.tc9x.Subscription">
+    <map-to table="tc9x_supersubscription" />
+    <field name="credits" collection="collection" type="ctf.jdo.tc9x.Credit">
+      <sql many-key="supersubscription_id"/>
+    </field>
+  </class>
+
+  <class name="ctf.jdo.tc9x.Credit" identity="id">
+    <map-to table="tc9x_credit" />
+    <field name="id" type="integer" get-method="getID" set-method="setID">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="balance" type="integer">
+      <sql name="balance"/>
+    </field>
+    <field name="superSubscription" type="ctf.jdo.tc9x.SuperSubscription">
+      <sql name="supersubscription_id"/>
+    </field>
+  </class>
+
   <class name="ctf.jdo.tc9x.Product" identity="id">
     <description>Product definition</description>
     <map-to table="tc9x_poly_prod" xml="product" />
@@ -415,50 +473,49 @@
     </field>
   </class>
 
-    <!-- mappings required for TestPolymorphismDependendObject -->  
+  <!-- mappings required for TestPolymorphismDependendObject -->  
+  <class name="ctf.jdo.tc9x.BaseObject" identity="id">
+    <cache-type type="unlimited"/>
+    <map-to table="tc9x_poly_base_object" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="description" type="varchar"/>
+    </field>
+    <field name="saved" type="boolean">
+      <sql name="saved" type="char[01]" />
+    </field>
+  </class>
+    
+  <class name="ctf.jdo.tc9x.ExtendedObject" identity="id" extends="ctf.jdo.tc9x.BaseObject">
+    <cache-type type="unlimited"/>
+    <map-to table="tc9x_poly_extend_object" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="description2" type="string">
+      <sql name="description2" type="varchar"/>
+    </field>
+    <field name="dependent" type="ctf.jdo.tc9x.DependentObject">
+      <sql many-key="parentId"/>
+    </field>
+  </class>
+    
+  <class name="ctf.jdo.tc9x.DependentObject" identity="id" depends="ctf.jdo.tc9x.ExtendedObject">
+    <cache-type type="unlimited"/>
+    <map-to table="tc9x_poly_depend_object"/>
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="parent" type="ctf.jdo.tc9x.ExtendedObject">
+      <sql name="parentId"/>
+    </field>
+    <field name="description" type="string">
+      <sql name="description" type="varchar"/>
+    </field>
+  </class>
+    
   <key-generator name="IDENTITY"/>
-	
-    <class name="ctf.jdo.tc9x.BaseObject" identity="id">
-        <cache-type type="unlimited"/>
-        <map-to table="tc9x_poly_base_object" />
-        <field name="id" type="integer">
-            <sql name="id" type="integer"/>
-        </field>
-        <field name="description" type="string">
-            <sql name="description" type="varchar"/>
-        </field>
-        <field name="saved" type="boolean">
-          <sql name="saved" type="char[01]" />
-        </field>
-    </class>
-    
-    <class name="ctf.jdo.tc9x.ExtendedObject" identity="id" extends="ctf.jdo.tc9x.BaseObject">
-        <cache-type type="unlimited"/>
-        <map-to table="tc9x_poly_extend_object" />
-        <field name="id" type="integer">
-            <sql name="id" type="integer"/>
-        </field>
-        <field name="description2" type="string">
-            <sql name="description2" type="varchar"/>
-        </field>
-        <field name="dependent" type="ctf.jdo.tc9x.DependentObject">
-            <sql many-key="parentId"/>
-        </field>
-    </class>
-    
-    <class name="ctf.jdo.tc9x.DependentObject" identity="id" depends="ctf.jdo.tc9x.ExtendedObject">
-        <cache-type type="unlimited"/>
-        <map-to table="tc9x_poly_depend_object"/>
-        <field name="id" type="integer">
-            <sql name="id" type="integer"/>
-        </field>
-        <field name="parent" type="ctf.jdo.tc9x.ExtendedObject">
-            <sql name="parentId"/>
-        </field>
-        <field name="description" type="string">
-            <sql name="description" type="varchar"/>
-        </field>
-    </class>
-  
 </mapping>
 

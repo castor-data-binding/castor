@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1688 using contribution from James Abley [james.abley@volantis.com]
+       Fixed NullPointerException thrown in ClassMolderHelper.getFullFields() during JDO initialization.
+       Details: http://jira.codehaus.org/browse/CASTOR-1688
+       (Ralf - 20061213)
+
 XML:   Resolved issue CASTOR-1072 using contribution from Erik Pearson [epearson@cariboulake.com]
        Fixed problem with incorrectly marshalled location tags for null collections.
        Details: http://jira.codehaus.org/browse/CASTOR-1072

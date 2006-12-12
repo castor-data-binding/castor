@@ -102,7 +102,9 @@ public final class SQLHelper {
                 for (int i = 0; i < potentialFields.length; i++) {
                     JDOFieldDescriptor jdoFieldDescriptor = (JDOFieldDescriptor) potentialFields[i];
                     String[] columnNames = jdoFieldDescriptor.getSQLName();
-                    columnIndex = columnIndex + columnNames.length;
+                    if (columnNames != null) {
+                        columnIndex = columnIndex + columnNames.length;
+                    }
                 }
                 
                 // the JDOClassDescriptor we just looked at is definitely part of the extends hierarchy,

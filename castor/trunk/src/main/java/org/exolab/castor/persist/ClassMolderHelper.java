@@ -291,7 +291,11 @@ public final class ClassMolderHelper {
             identities = origin.getIdentity();
             identities = AbstractMappingLoader.getIdentityColumnNames (identities, origin);
             extendFields = getFullFields(extend);
-            thisFields = clsMap.getClassChoice().getFieldMapping();
+            if (clsMap.getClassChoice() != null) {
+                thisFields = clsMap.getClassChoice().getFieldMapping();
+            } else {
+                thisFields = new FieldMapping[0];
+            }
 
             fieldList = new ArrayList(extendFields.length + thisFields.length
                     - identities.length);
