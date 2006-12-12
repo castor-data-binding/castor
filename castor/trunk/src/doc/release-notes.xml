@@ -226,6 +226,27 @@
 
             </summary>
             <bugs>
+                <bug id="1072" tool="jira">
+                    <description>
+                        Fixed problem with incorrectly marshalled location tags for 
+                        null collections.
+                    </description>
+                    <contributor>
+                        <name>Erik Pearson</name>
+                        <email>epearson@cariboulake.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Erik Pearson</name>
+                        <email>epearson@cariboulake.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061212</date>
+                </bug>
                 <bug id="1696" tool="jira">
                     <description>
                         Fixed problem related to creating incorrectly typed 
@@ -244,7 +265,7 @@
                         <email>werner.guttmann@gmx.net</email>
                     </reporter>
                     <type>Enh.</type>
-                    <module>All</module>
+                    <module>XML</module>
                     <date>20061212</date>
                 </bug>
                 <bug id="1689" tool="jira">

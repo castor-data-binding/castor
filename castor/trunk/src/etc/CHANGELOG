@@ -2,15 +2,20 @@
 SVN
 -------------------------------
 
-All:   Resolved issue CASTOR-1696 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+XML:   Resolved issue CASTOR-1072 using contribution from Erik Pearson [epearson@cariboulake.com]
+       Fixed problem with incorrectly marshalled location tags for null collections.
+       Details: http://jira.codehaus.org/browse/CASTOR-1072
+       (Werner - 20061212)
+
+XML:   Resolved issue CASTOR-1696 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem related to creating incorrectly typed setXXXAsReference() method for 'j2' mode.
        Details: http://jira.codehaus.org/browse/CASTOR-1696
-       (Edward - 20061212)
+       (Werner - 20061212)
 
 All:   Resolved issue CASTOR-1689 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Removed redundant 'API' Javadocs from build/HTML docs.
        Details: http://jira.codehaus.org/browse/CASTOR-1689
-       (Edward - 20061212)
+       (Werner - 20061212)
 
 XML:   Resolved issue CASTOR-1592 using contribution from Edward Kuns [edward.kuns@aspect.com]
        regression import test fails
