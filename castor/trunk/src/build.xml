@@ -45,16 +45,6 @@
     <property name="exampleexcludes"      value="SourceGenerator/*,**/dax/**"/>
     <property name="excludes"             value="**/package.html,**/dax/**,**/dax/engine/**"/>
     <property name="testexcludes"         value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
-    <property name="apipackagenames"      value="
-        org.exolab.castor.types,
-        org.exolab.castor.jdo,
-        org.exolab.castor.jdo.util,
-        org.exolab.castor.xml,
-        org.exolab.castor.dsml,
-        org.exolab.castor.mapping,
-        org.exolab.castor.util,
-        org.exolab.castor.builder"
-    />
     <!--    org.exolab.castor.dax, -->
     <property name="allpackagenames"      value="org.*"/>
 
@@ -142,7 +132,6 @@
             jar              Builds the binary JAR in the dist directory
             CTFjar           Builds the JAR of the Castor Testing Framework in the dist directory
             doc              Builds the documentation
-            api              Builds the API JavaDocs
             javadoc          Builds the full JavaDocs
             source           Builds the source tarball in the dist directory
             tarball          Builds the binary distribution in the dist directory
@@ -685,15 +674,7 @@
                  classpathref="javadoc.classpath"/>
     </target>
 
-    <target name="api" depends="prepare" description="Build the public API javadocs">
-        <mkdir dir="${build}/doc"/>
-        <mkdir dir="${build}/doc/api"/>
-        <javadoc sourcepath="${java}" destdir="${build}/doc/api" doctitle="${name} API"
-                 windowtitle="${name} API" bottom="${copyright}" public="true" author="true"
-                 packagenames="${apipackagenames}" classpathref="javadoc.classpath"/>
-    </target>
-
-    <target name="docs" depends="doc,api,javadoc,rss" description="Build the HTML docs, full and API javadocs">
+    <target name="docs" depends="doc,javadoc,rss" description="Build the HTML docs, full and API javadocs">
         <zip zipfile="${dist}/${archive.name}-doc.zip" basedir="${build}" includes="doc/**"/>
         <tar tarfile="${dist}/${archive.name}-doc.tar" basedir="${build}" includes="doc/**"/>
         <gzip src="${dist}/${archive.name}-doc.tar" zipfile="${dist}/${archive.name}-doc.tgz"/>
