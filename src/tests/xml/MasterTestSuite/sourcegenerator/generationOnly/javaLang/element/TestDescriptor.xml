@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-    <Name>Tests name comflicts with java.lang.*</Name>
+    <Name>Tests name conflicts with java.lang.*</Name>
     <Author>Edward Kuns</Author>
     <Comment>
         Tests name conflicts with java.lang.*
