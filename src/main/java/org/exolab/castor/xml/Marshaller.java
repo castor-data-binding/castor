@@ -1724,7 +1724,7 @@ public class Marshaller extends MarshalFramework {
                 }
             }
             
-            if (obj == null) {
+            if (obj == null || (obj instanceof Enumeration && !((Enumeration)obj).hasMoreElements())) {
                 if (elemDescriptor.isNillable() && (elemDescriptor.isRequired())) {
                     nil = true;
                 }
