@@ -128,8 +128,9 @@ public class ConfigurationType implements java.io.Serializable {
     {
         int size = this._callMethodList.size();
         org.exolab.castor.tests.framework.testDescriptor.CallMethod[] array = new org.exolab.castor.tests.framework.testDescriptor.CallMethod[size];
+        java.util.Iterator iter = _callMethodList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (org.exolab.castor.tests.framework.testDescriptor.CallMethod) _callMethodList.get(index);
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.CallMethod) iter.next();
         }
         
         return array;

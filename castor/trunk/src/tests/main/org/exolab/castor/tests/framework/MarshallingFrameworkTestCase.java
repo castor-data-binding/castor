@@ -163,6 +163,9 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         if (!_test.isDirectoryCompiled()) {
             verbose("-->Compiling any necessary source files in " + _outputRootFile);
             Compiler compiler = new SunJavaCompiler(_outputRootFile);
+            if (_unitTest.hasJavaSourceVersion()) {
+                compiler.setJavaSourceVersion(_unitTest.getJavaSourceVersion());
+            }
             try {
                 compiler.compileDirectory();
                 _test.setDirectoryCompiled(true);

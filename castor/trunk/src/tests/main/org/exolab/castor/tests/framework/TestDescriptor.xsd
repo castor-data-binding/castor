@@ -6,7 +6,7 @@
     This schema is used to generate the
     org.exolab.castor.tests.framework.testdescriptor package
     *Note*: This schema is under evolution and subject to change.
-     This schema is under the Exolab license
+    This schema is under the Exolab license.
  -->
 <!-- $Id$ -->
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
@@ -40,6 +40,8 @@
                 <xsd:element name="Category" type="test:CategoryType" minOccurs="1" maxOccurs="1"/>
                 <!-- Is it a bug fix?-->
                 <xsd:element ref="test:BugFix" minOccurs="0" maxOccurs="1"/>
+                <!-- Minimum Java version for this test-->
+                <xsd:element name="MinimumJavaVersion" type="xsd:float" minOccurs="0" maxOccurs="1"/>
                 <!-- Test for the SourceGenerator OR the Marshaling Framework-->
                 <xsd:choice>
                     <!-- Test case for the SourceGenerator -->
@@ -239,6 +241,8 @@
                 <xsd:element name="SchemaDifferences" type="test:SchemaDifferencesType" minOccurs="0" maxOccurs="2"/>
                 <!-- Some comments for describing the test -->
                 <xsd:element name="Comment" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
+                <!-- Java source version for this test -->
+                <xsd:element name="JavaSourceVersion" type="xsd:float" minOccurs="0" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

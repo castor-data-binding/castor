@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -65,6 +65,16 @@ public class TestDescriptor implements java.io.Serializable {
     private org.exolab.castor.tests.framework.testDescriptor.BugFix _bugFix;
 
     /**
+     * Field _minimumJavaVersion
+     */
+    private float _minimumJavaVersion;
+
+    /**
+     * keeps track of state for field: _minimumJavaVersion
+     */
+    private boolean _has_minimumJavaVersion;
+
+    /**
      * Field _testDescriptorChoice
      */
     private org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice _testDescriptorChoice;
@@ -111,6 +121,13 @@ public class TestDescriptor implements java.io.Serializable {
     {
         this._commentList.add(index, vComment);
     } //-- void addComment(int, java.lang.String) 
+
+    /**
+     */
+    public void deleteMinimumJavaVersion()
+    {
+        this._has_minimumJavaVersion= false;
+    } //-- void deleteMinimumJavaVersion() 
 
     /**
      * Method enumerateComment
@@ -178,7 +195,7 @@ public class TestDescriptor implements java.io.Serializable {
             throw new IndexOutOfBoundsException("getComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
         
-        return (String)_commentList.get(index);
+        return (java.lang.String)_commentList.get(index);
     } //-- java.lang.String getComment(int) 
 
     /**
@@ -192,8 +209,9 @@ public class TestDescriptor implements java.io.Serializable {
     {
         int size = this._commentList.size();
         java.lang.String[] array = new java.lang.String[size];
+        java.util.Iterator iter = _commentList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (String)_commentList.get(index);
+            array[index] = (java.lang.String)iter.next();
         }
         
         return array;
@@ -210,6 +228,16 @@ public class TestDescriptor implements java.io.Serializable {
     {
         return this._commentList.size();
     } //-- int getCommentCount() 
+
+    /**
+     * Returns the value of field 'minimumJavaVersion'.
+     * 
+     * @return the value of field 'MinimumJavaVersion'.
+     */
+    public float getMinimumJavaVersion()
+    {
+        return this._minimumJavaVersion;
+    } //-- float getMinimumJavaVersion() 
 
     /**
      * Returns the value of field 'name'.
@@ -230,6 +258,18 @@ public class TestDescriptor implements java.io.Serializable {
     {
         return this._testDescriptorChoice;
     } //-- org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice getTestDescriptorChoice() 
+
+    /**
+     * Method hasMinimumJavaVersion
+     * 
+     * 
+     * 
+     * @return true if at least one MinimumJavaVersion has been adde
+     */
+    public boolean hasMinimumJavaVersion()
+    {
+        return this._has_minimumJavaVersion;
+    } //-- boolean hasMinimumJavaVersion() 
 
     /**
      * Method isValid
@@ -315,7 +355,7 @@ public class TestDescriptor implements java.io.Serializable {
     public java.lang.String removeCommentAt(int index)
     {
         Object obj = this._commentList.remove(index);
-        return (String)obj;
+        return (java.lang.String)obj;
     } //-- java.lang.String removeCommentAt(int) 
 
     /**
@@ -387,6 +427,18 @@ public class TestDescriptor implements java.io.Serializable {
                 this._commentList.add(vCommentArray[i]);
         }
     } //-- void setComment(java.lang.String) 
+
+    /**
+     * Sets the value of field 'minimumJavaVersion'.
+     * 
+     * @param minimumJavaVersion the value of field
+     * 'minimumJavaVersion'.
+     */
+    public void setMinimumJavaVersion(float minimumJavaVersion)
+    {
+        this._minimumJavaVersion = minimumJavaVersion;
+        this._has_minimumJavaVersion = true;
+    } //-- void setMinimumJavaVersion(float) 
 
     /**
      * Sets the value of field 'name'.

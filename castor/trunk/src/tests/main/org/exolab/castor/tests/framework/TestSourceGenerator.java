@@ -134,6 +134,9 @@ public class TestSourceGenerator extends XMLTestCase {
         verbose("-->Compiling the files in " + _outputRootFile);
         try {
             Compiler compiler = new SunJavaCompiler(_outputRootFile);
+            if (_unitTest.hasJavaSourceVersion()) {
+                compiler.setJavaSourceVersion(_unitTest.getJavaSourceVersion());
+            }
             compiler.compileDirectory();
         } catch (CompilationException e) {
             if (!checkExceptionWasExpected(e, FailureStepType.SOURCE_COMPILATION)) {

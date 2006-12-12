@@ -91,6 +91,16 @@ public class UnitTestCase implements java.io.Serializable {
      */
     private java.util.Vector _commentList;
 
+    /**
+     * Field _javaSourceVersion
+     */
+    private float _javaSourceVersion;
+
+    /**
+     * keeps track of state for field: _javaSourceVersion
+     */
+    private boolean _has_javaSourceVersion;
+
 
       //----------------/
      //- Constructors -/
@@ -174,6 +184,13 @@ public class UnitTestCase implements java.io.Serializable {
 
     /**
      */
+    public void deleteJavaSourceVersion()
+    {
+        this._has_javaSourceVersion= false;
+    } //-- void deleteJavaSourceVersion() 
+
+    /**
+     */
     public void deleteSkip()
     {
         this._has_skip= false;
@@ -223,7 +240,7 @@ public class UnitTestCase implements java.io.Serializable {
             throw new IndexOutOfBoundsException("getComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
         
-        return (String)_commentList.get(index);
+        return (java.lang.String)_commentList.get(index);
     } //-- java.lang.String getComment(int) 
 
     /**
@@ -237,8 +254,9 @@ public class UnitTestCase implements java.io.Serializable {
     {
         int size = this._commentList.size();
         java.lang.String[] array = new java.lang.String[size];
+        java.util.Iterator iter = _commentList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (String)_commentList.get(index);
+            array[index] = (java.lang.String)iter.next();
         }
         
         return array;
@@ -307,6 +325,16 @@ public class UnitTestCase implements java.io.Serializable {
     } //-- java.lang.String getInput() 
 
     /**
+     * Returns the value of field 'javaSourceVersion'.
+     * 
+     * @return the value of field 'JavaSourceVersion'.
+     */
+    public float getJavaSourceVersion()
+    {
+        return this._javaSourceVersion;
+    } //-- float getJavaSourceVersion() 
+
+    /**
      * Returns the value of field 'listener'.
      * 
      * @return the value of field 'Listener'.
@@ -370,8 +398,9 @@ public class UnitTestCase implements java.io.Serializable {
     {
         int size = this._schemaDifferencesList.size();
         org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[] array = new org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences[size];
+        java.util.Iterator iter = _schemaDifferencesList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) _schemaDifferencesList.get(index);
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) iter.next();
         }
         
         return array;
@@ -408,6 +437,18 @@ public class UnitTestCase implements java.io.Serializable {
     {
         return this._unitTestCaseChoice;
     } //-- org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice getUnitTestCaseChoice() 
+
+    /**
+     * Method hasJavaSourceVersion
+     * 
+     * 
+     * 
+     * @return true if at least one JavaSourceVersion has been added
+     */
+    public boolean hasJavaSourceVersion()
+    {
+        return this._has_javaSourceVersion;
+    } //-- boolean hasJavaSourceVersion() 
 
     /**
      * Method hasSkip
@@ -522,7 +563,7 @@ public class UnitTestCase implements java.io.Serializable {
     public java.lang.String removeCommentAt(int index)
     {
         Object obj = this._commentList.remove(index);
-        return (String)obj;
+        return (java.lang.String)obj;
     } //-- java.lang.String removeCommentAt(int) 
 
     /**
@@ -636,6 +677,18 @@ public class UnitTestCase implements java.io.Serializable {
     {
         this._input = input;
     } //-- void setInput(java.lang.String) 
+
+    /**
+     * Sets the value of field 'javaSourceVersion'.
+     * 
+     * @param javaSourceVersion the value of field
+     * 'javaSourceVersion'.
+     */
+    public void setJavaSourceVersion(float javaSourceVersion)
+    {
+        this._javaSourceVersion = javaSourceVersion;
+        this._has_javaSourceVersion = true;
+    } //-- void setJavaSourceVersion(float) 
 
     /**
      * Sets the value of field 'listener'.
