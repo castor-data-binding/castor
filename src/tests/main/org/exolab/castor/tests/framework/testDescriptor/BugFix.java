@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -123,7 +123,7 @@ public class BugFix implements java.io.Serializable {
             throw new IndexOutOfBoundsException("getComment: Index value '" + index + "' not in range [0.." + (this._commentList.size() - 1) + "]");
         }
         
-        return (String)_commentList.get(index);
+        return (java.lang.String)_commentList.get(index);
     } //-- java.lang.String getComment(int) 
 
     /**
@@ -137,8 +137,9 @@ public class BugFix implements java.io.Serializable {
     {
         int size = this._commentList.size();
         java.lang.String[] array = new java.lang.String[size];
+        java.util.Iterator iter = _commentList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (String)_commentList.get(index);
+            array[index] = (java.lang.String)iter.next();
         }
         
         return array;
@@ -270,7 +271,7 @@ public class BugFix implements java.io.Serializable {
     public java.lang.String removeCommentAt(int index)
     {
         Object obj = this._commentList.remove(index);
-        return (String)obj;
+        return (java.lang.String)obj;
     } //-- java.lang.String removeCommentAt(int) 
 
     /**

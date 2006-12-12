@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1672 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add to CTF test header the minimum JVM version for this test
+       Details: http://jira.codehaus.org/browse/CASTOR-1672
+       (Edward - 20061211)
+
 XML:   Resolved issue CASTOR-1716 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Enhance CTF test names to include the directory tree path information
        Details: http://jira.codehaus.org/browse/CASTOR-1716

@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -124,8 +124,9 @@ public class SchemaTest implements java.io.Serializable {
     {
         int size = this._unitTestCaseList.size();
         org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] array = new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[size];
+        java.util.Iterator iter = _unitTestCaseList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.get(index);
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) iter.next();
         }
         
         return array;

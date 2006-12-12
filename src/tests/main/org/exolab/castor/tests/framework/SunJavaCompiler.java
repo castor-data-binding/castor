@@ -25,8 +25,8 @@ import java.util.List;
  * Compiles a directory tree, recursively. This class is built to use the Sun Javac
  * compiler contained in tools.jar. A IllegalStateException will be thrown if tools.jar
  * is not on the classpath at construction of the class and execution of the
- * compileDirectory() method. 
- * 
+ * compileDirectory() method.
+ *
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0.5
@@ -35,15 +35,17 @@ public class SunJavaCompiler implements Compiler {
     private static final String COMPILE_CLASSNAME = "com.sun.tools.javac.Main";
     private static final String COMPILE_METHODNAME = "compile";
     private static final Class[] COMPILE_PARAMTYPE = new Class[] {String[].class};
-    
+
     private static final HashSet IGNORE_DIRS = new HashSet();
-    
+
     private static Method _compileMethod = null;
     private static boolean _initialized = false;
-    
+
+    private String _javaVersion = null;
+
     private final File _baseDirectory;
     private final File _outputDirectory;
-    
+
     /**
      * Creates a compiler for a given directory.
      * @param baseDirectory The directory that holds the files to be compiled.
@@ -54,14 +56,21 @@ public class SunJavaCompiler implements Compiler {
         }
         _baseDirectory   = baseDirectory;
         _outputDirectory = baseDirectory;
-        
+
         if (!_initialized) { initialize(); }
     }
-    
+
+    public void setJavaSourceVersion(float javaSourceVersion) {
+        if (javaSourceVersion >= 5F && javaSourceVersion < 10F) {
+            javaSourceVersion = 1.0F + (javaSourceVersion / 10F);
+        }
+        _javaVersion = "" + javaSourceVersion;
+    }
+
     private void initialize() {
-        IGNORE_DIRS.add("CVS");
-        IGNORE_DIRS.add(".svn");
-        
+        IGNORE_DIRS.add(FileServices.CVS);
+        IGNORE_DIRS.add(FileServices.SVN);
+
         try {
             ClassLoader loader = this.getClass().getClassLoader();
             Class cls = loader.loadClass(COMPILE_CLASSNAME);
@@ -81,10 +90,10 @@ public class SunJavaCompiler implements Compiler {
         List filesList = findSourceFiles(_baseDirectory);
         if (filesList.size() > 0) {
             filesList.addAll(0, getCompileArguments(_baseDirectory, _outputDirectory));
-            
+
             String[] args = new String[filesList.size()];
             args = (String[]) filesList.toArray(args);
-            
+
             int status;
             try {
                 Object result = _compileMethod.invoke(null, new Object[] {args});
@@ -92,7 +101,7 @@ public class SunJavaCompiler implements Compiler {
             } catch (Exception ex) {
                 throw new IllegalStateException("Failed to call compile method.");
             }
-            
+
             switch (status) {
             case 0: break;
             case 1: throw new CompilationException("Compile status: ERROR");
@@ -108,12 +117,21 @@ public class SunJavaCompiler implements Compiler {
 
     private List getCompileArguments(final File srcDir, final File destDir) {
         List args = new ArrayList();
-        
+
         args.add("-g");
+        args.add("-Xlint:unchecked");
         if (XMLTestCase._verbose) {
             args.add("-verbose");
         } else {
             args.add("-nowarn");
+            args.add("-Xmaxwarns");
+            args.add("0");
+            args.add("-Xmaxerrs");
+            args.add("5");
+        }
+        if (_javaVersion != null) {
+            args.add("-source");
+            args.add(_javaVersion);
         }
         args.add("-classpath");
         args.add(System.getProperty("java.class.path") + ";" + destDir.getAbsolutePath());
@@ -121,13 +139,13 @@ public class SunJavaCompiler implements Compiler {
         args.add(destDir.getAbsolutePath());
         args.add("-sourcepath");
         args.add(srcDir.getAbsolutePath());
-        
+
         return args;
     }
 
     private List findSourceFiles(final File srcDir) {
         List files = new ArrayList();
-        
+
         File[] entries = srcDir.listFiles();
         for (int i = 0; i < entries.length; i++) {
             File entry = entries[i];
@@ -137,7 +155,8 @@ public class SunJavaCompiler implements Compiler {
                 files.addAll(findSourceFiles(entry));
             }
         }
-        
+
         return files;
     }
+
 }

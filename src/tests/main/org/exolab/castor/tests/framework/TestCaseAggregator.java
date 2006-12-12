@@ -63,10 +63,6 @@ public class TestCaseAggregator extends TestCase {
 
     /** File separator for this system. */
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
-    /** CVS name. To filter--> best solution for next version use a FileFilter. */
-    private static final String CVS = "CVS";
-    /** SVN name. To filter--> best solution for next version use a FileFilter. */
-    private static final String SVN = ".svn";
     /** Name of the system property to set up the verbose mode. */
     public static final String VERBOSE_PROPERTY = "org.exolab.castor.tests.Verbose";
     /** Name of the system property to set up the printStackTrace mode. */
@@ -185,10 +181,12 @@ public class TestCaseAggregator extends TestCase {
         // If a directory (and not a source control directory), recurse
         if (file.isDirectory()) {
             // Directories that contain TestDescriptor.xml do not get recursed any deeper
-            if (!name.endsWith(CVS) && !name.equals(SVN) && !((new File(file.getParentFile(), "TestDescriptor.xml")).exists())) {
+            if (!FileServices.isScmDirectory(name) && !((new File(file.getParentFile(), "TestDescriptor.xml")).exists())) {
                 //look for jars or testDescriptor files inside the directory
-                TestCaseAggregator recurse = new TestCaseAggregator(file, _directoryToHere + file.getName(), outputRoot);
-                suite.addTest(recurse.suite());
+                Test test = new TestCaseAggregator(file, _directoryToHere + file.getName(), outputRoot).suite();
+                if (test != null) {
+                    suite.addTest(test);
+                }
             }
             return;
         }

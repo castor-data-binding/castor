@@ -82,6 +82,38 @@
                   set you on the right course.
                 </p>
                 <p>
+                  Two new features have been added to the CTF that allow users to add
+                  Java-version-specific tests.  The first new feature applies to an
+                  entire test, that is, the full suite of tests described by a single
+                  TestDescriptor.xml file.  If you add the following tag to a
+                  TestDescriptor.xml:
+                </p>
+                <p>
+                  <tt>&lt;MinimumJavaVersion>1.5&lt;/MinimumJavaVersion></tt>
+                </p>
+                <p>
+                  then the entire suite of tests described by that test descriptor
+                  will be skipped if the version of Java executing the test suite is
+                  not at least the minimum version specified.
+                </p>
+                <p>
+                  For the second new feature, if you add the following tag to an
+                  individual Unit Test in a TestDescriptor.xml:
+                </p>
+                <p>
+                  <tt>&lt;JavaSourceVersion>1.2&lt;/JavaSourceVersion></tt>
+                </p>
+                <p>
+                  then for that individual unit test, all code will be compiled with
+                  the javac parameter <tt>-source 1.2</tt>, using the version specified.
+                </p>
+                <p>
+                  For both of these parameters, you are expected to supply a value that
+                  is allowed by the <tt>javac -source</tt> command-line option, although
+                  if you specify an integer between <tt>5</tt> and <tt>9</tt> (inclusive),
+                  that value will automatically be converted to the correct value.
+                </p>
+                <p>
                   In the source generator, all facets are now implemented for all of the
                   XML Schema date/time types with one exception:  validation for the
                   "fixed" facet of xsd:dateTime is not implemented.  This is because
@@ -194,6 +226,26 @@
 
             </summary>
             <bugs>
+                <bug id="1672" tool="jira">
+                    <description>
+                        Add to CTF test header the minimum JVM version for this test
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Test</module>
+                    <date>20061211</date>
+                </bug>
                 <bug id="1716" tool="jira">
                     <description>
                         Enhance CTF test names to include the directory tree path information

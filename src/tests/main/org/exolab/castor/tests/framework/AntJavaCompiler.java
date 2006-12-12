@@ -29,10 +29,10 @@ import org.apache.tools.ant.types.Path;
  */
 public class AntJavaCompiler implements Compiler {
     private static final HashSet IGNORE_DIRS = new HashSet();
-    
+
     static {
-        IGNORE_DIRS.add("CVS");
-        IGNORE_DIRS.add(".svn");
+        IGNORE_DIRS.add(FileServices.CVS);
+        IGNORE_DIRS.add(FileServices.SVN);
         IGNORE_DIRS.add("org");
         IGNORE_DIRS.add("com");
         IGNORE_DIRS.add("net");
@@ -40,12 +40,13 @@ public class AntJavaCompiler implements Compiler {
 
     private final File  _baseDirectory;
     private final File  _outputDirectory;
-    
+
+    private String _javaVersion = null;
     private Javac _compiler;
 
     /**
      * Creates a compiler for a given directory.
-     * 
+     *
      * @param baseDirectory The directory that holds the files to be compiled.
      */
     public AntJavaCompiler(final File baseDirectory) {
@@ -54,6 +55,13 @@ public class AntJavaCompiler implements Compiler {
         }
         _baseDirectory = baseDirectory;
         _outputDirectory = baseDirectory;
+    }
+
+    public void setJavaSourceVersion(float javaSourceVersion) {
+        if (javaSourceVersion >= 5F && javaSourceVersion < 10F) {
+            javaSourceVersion = 1.0F + (javaSourceVersion / 10F);
+        }
+        _javaVersion = "" + javaSourceVersion;
     }
 
     /**
@@ -67,7 +75,7 @@ public class AntJavaCompiler implements Compiler {
 
     /**
      * Creates and returns a Ant Javac compiler.
-     * 
+     *
      * @return Ant Javac compiler
      */
     private Javac makeCompiler(final File srcDir, final File destDir) {
@@ -88,7 +96,9 @@ public class AntJavaCompiler implements Compiler {
         } else {
             compiler.setNowarn(true);
         }
-
+        if (_javaVersion != null) {
+            compiler.setSource(_javaVersion);
+        }
         Path classpath = compiler.createClasspath();
         classpath.setPath(System.getProperty("java.class.path"));
         classpath.add(new Path(project, destDir.getAbsolutePath()));
@@ -99,7 +109,7 @@ public class AntJavaCompiler implements Compiler {
     /**
      * Compiles a directory tree. Throws a <code>CompilationException</code> if build
      * fails.
-     * 
+     *
      * @param srcDir Source directory holding the files to be compiled.
      * @param destDir Destination directory to put the compiled classes in.
      */
@@ -122,4 +132,5 @@ public class AntJavaCompiler implements Compiler {
             throw new CompilationException("Problem compiling directory " + srcDir, ex);
         }
     }
+
 }

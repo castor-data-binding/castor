@@ -91,6 +91,8 @@ public class CastorTestCase extends TestCase {
     private static final String TEST_DESCRIPTOR_JAR = "META-INF/TestDescriptor.xml";
     /** File separator for this system. */
     private static final String FILE_SEPARATOR = System.getProperty("file.separator");
+    /** Java version of the JVM we are running in. */
+    private static final float JAVA_VERSION = Float.parseFloat(System.getProperty("java.specification.version"));
     /** True if we desire a lot of information on what is happening during the test. */
     private static final boolean _verbose;
 
@@ -277,6 +279,19 @@ public class CastorTestCase extends TestCase {
                 descriptor.close();
             } catch (IOException e) {
                 // ignore
+            }
+        }
+
+        if (_testDescriptor.hasMinimumJavaVersion()) {
+            // Get minimum Java version & convert to our Canonical form
+            float minVersion = _testDescriptor.getMinimumJavaVersion();
+            if (minVersion > 5F && minVersion < 10F) {
+                minVersion = 1.0F + (minVersion / 10F);
+            }
+            if (minVersion > JAVA_VERSION) {
+                verbose("-->Test requires Java " + minVersion + " but we are running Java " + JAVA_VERSION);
+                verbose("-->Skipping the test");
+                return null;
             }
         }
 

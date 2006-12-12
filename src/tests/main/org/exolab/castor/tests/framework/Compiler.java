@@ -21,4 +21,17 @@ public interface Compiler {
      * @throws CompilationException If the build fails.
      */
     void compileDirectory() throws CompilationException;
+
+    /**
+     * Configures the compiler to provide the -source argument for compilation.
+     * The Java source version is a float that is expected to be a value such as
+     * <tt>1.3</tt>, <tt>1.4</tt>, or<tt>1.5</tt>. However, integral
+     * values higher than 4 will be converted to the proper value so for example
+     * you can provide <tt>5</tt> as the Java source version.
+     *
+     * @param javaSourceVersion
+     *            The Java source version.
+     */
+    void setJavaSourceVersion(float javaSourceVersion);
+
 }

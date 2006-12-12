@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -263,6 +263,49 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         //-- validation code for: _bugFix
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
+        }
+        desc.setValidator(fieldValidator);
+        //-- _minimumJavaVersion
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Float.TYPE, "_minimumJavaVersion", "MinimumJavaVersion", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                TestDescriptor target = (TestDescriptor) object;
+                if(!target.hasMinimumJavaVersion())
+                    return null;
+                return new java.lang.Float(target.getMinimumJavaVersion());
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    TestDescriptor target = (TestDescriptor) object;
+                    // if null, use delete method for optional primitives 
+                    if (value == null) {
+                        target.deleteMinimumJavaVersion();
+                        return;
+                    }
+                    target.setMinimumJavaVersion( ((java.lang.Float)value).floatValue());
+                }
+                catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance( java.lang.Object parent ) {
+                return null;
+            }
+        };
+        desc.setHandler(handler);
+        desc.setNameSpaceURI("http://castor.exolab.org/Test");
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        
+        //-- validation code for: _minimumJavaVersion
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        { //-- local scope
+            org.exolab.castor.xml.validators.FloatValidator typeValidator = new org.exolab.castor.xml.validators.FloatValidator();
+            fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
         //-- _testDescriptorChoice

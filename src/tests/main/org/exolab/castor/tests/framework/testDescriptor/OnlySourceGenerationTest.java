@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.3</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -207,7 +207,7 @@ public class OnlySourceGenerationTest implements java.io.Serializable {
             throw new IndexOutOfBoundsException("getSchema: Index value '" + index + "' not in range [0.." + (this._schemaList.size() - 1) + "]");
         }
         
-        return (String)_schemaList.get(index);
+        return (java.lang.String)_schemaList.get(index);
     } //-- java.lang.String getSchema(int) 
 
     /**
@@ -221,8 +221,9 @@ public class OnlySourceGenerationTest implements java.io.Serializable {
     {
         int size = this._schemaList.size();
         java.lang.String[] array = new java.lang.String[size];
+        java.util.Iterator iter = _schemaList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (String)_schemaList.get(index);
+            array[index] = (java.lang.String)iter.next();
         }
         
         return array;
@@ -274,8 +275,9 @@ public class OnlySourceGenerationTest implements java.io.Serializable {
     {
         int size = this._unitTestCaseList.size();
         org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[] array = new org.exolab.castor.tests.framework.testDescriptor.UnitTestCase[size];
+        java.util.Iterator iter = _unitTestCaseList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) _unitTestCaseList.get(index);
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) iter.next();
         }
         
         return array;
@@ -384,7 +386,7 @@ public class OnlySourceGenerationTest implements java.io.Serializable {
     public java.lang.String removeSchemaAt(int index)
     {
         Object obj = this._schemaList.remove(index);
-        return (String)obj;
+        return (java.lang.String)obj;
     } //-- java.lang.String removeSchemaAt(int) 
 
     /**

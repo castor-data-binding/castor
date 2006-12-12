@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.4</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -15,8 +15,7 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
- * A single method to call on a marshaler or unmarshaler or source
- * generator
+ * A single method to call
  *  
  * 
  * @version $Revision$ $Date$
@@ -140,8 +139,9 @@ public class CallMethod implements java.io.Serializable {
     {
         int size = this._valueList.size();
         org.exolab.castor.tests.framework.testDescriptor.Value[] array = new org.exolab.castor.tests.framework.testDescriptor.Value[size];
+        java.util.Iterator iter = _valueList.iterator();
         for (int index = 0; index < size; index++){
-            array[index] = (org.exolab.castor.tests.framework.testDescriptor.Value) _valueList.get(index);
+            array[index] = (org.exolab.castor.tests.framework.testDescriptor.Value) iter.next();
         }
         
         return array;

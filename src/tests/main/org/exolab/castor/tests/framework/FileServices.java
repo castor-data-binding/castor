@@ -65,6 +65,8 @@ import java.util.jar.JarFile;
  */
 public class FileServices {
 
+    public static final String CVS  = "CVS";
+    public static final String SVN  = ".svn";
     public static final String XSD  = ".xsd";
     public static final String XML  = ".xml";
     public static final String JAVA = ".java";
@@ -182,6 +184,16 @@ public class FileServices {
      */
     private static boolean isSupportFile(String name) {
         return name.endsWith(XSD) || name.endsWith(JAVA) || name.endsWith(XML);
+    }
+
+    /**
+     * Return true if the file provided is a special source control management
+     * directory that we want to ignore.
+     * @param name Name of a directory
+     * @return true if the file provided is an SCM directory
+     */
+    public static boolean isScmDirectory(String name) {
+        return name.endsWith(FileServices.CVS) || name.equals(FileServices.SVN);
     }
 
 }
