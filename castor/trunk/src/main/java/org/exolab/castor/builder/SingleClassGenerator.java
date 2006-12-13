@@ -106,17 +106,28 @@ public class SingleClassGenerator {
     private final SourceGenerator _sourceGenerator;
 
     /**
+     * The class name conflict error handling strategy to use for 
+     * resolving class name conflicts.
+     */
+    private ClassNameConflictResolutionStrategy _conflictStrategy;
+
+    /**
      * Creates an instance of this class.
      * @param dialog A ConsoleDialog instance
      * @param sourceGenerator A SourceGenerator instance
+     * @param conflictStrategyType Type of the {@link ClassNameConflictResolutionStrategy} instance to be used.
      */
-    public SingleClassGenerator(final ConsoleDialog dialog, final SourceGenerator sourceGenerator) {
+    public SingleClassGenerator(final ConsoleDialog dialog, 
+            final SourceGenerator sourceGenerator, 
+            final String conflictStrategyType) {
         this._dialog = dialog;
         this._sourceGenerator = sourceGenerator;
         this._header = new JComment(JComment.HEADER_STYLE);
         this._header.appendComment(DEFAULT_HEADER);
         this._descSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
+        
+        createNameConflictStrategy(conflictStrategyType);
     }
 
     /**
@@ -255,8 +266,10 @@ public class SingleClassGenerator {
         //-- Have we already processed a class with this name?
         JClass conflict = state.getProcessed(jClass.getName());
         if (conflict != null && !state.getSuppressNonFatalWarnings()) {
-            warnAboutClassNameConflict(state, classInfo, conflict);
-            return state.getStatusCode() != SGStateInfo.STOP_STATUS;
+            SGStateInfo stateAfterResolution = 
+                _conflictStrategy.dealWithClassNameConflict(state, classInfo, conflict);
+            // warnAboutClassNameConflict(state, classInfo, conflict);
+            return stateAfterResolution.getStatusCode() != SGStateInfo.STOP_STATUS;
         }
 
         //-- Mark the current class as processed
@@ -313,78 +326,6 @@ public class SingleClassGenerator {
                 state.setMapping(pkg, mapping);
             }
             mapping.addClassMapping(_mappingSourceFactory.createMapping(classInfo));
-        }
-    }
-
-    /**
-     * Checks for a class name conflict. If one is found, notifies the user and
-     * prompts (depending on various srcgen settings) on whether or not to
-     * continue source generation.
-     *
-     * @param state
-     *            SourceGenerator state
-     * @param newClassInfo
-     *            XML Schema element declaration for the class to check
-     * @param conflict
-     *            JClass for the class to check
-     *
-     */
-    private void warnAboutClassNameConflict(final SGStateInfo state,
-                                            final ClassInfo newClassInfo,
-                                            final JClass conflict) {
-        //-- if the ClassInfo are equal, we can just return
-        ClassInfo oldClassInfo = state.resolve(conflict);
-        if (oldClassInfo == newClassInfo) {
-            return;
-        }
-
-        //-- Find the Schema structures that are conflicting
-        Annotated a1 = null;
-        Annotated a2 = null;
-
-        // Loop until we exhaust the Enumeration or until we have found both
-        Enumeration enumeration = state.keys();
-        while (enumeration.hasMoreElements() && (a1 == null || a2 == null)) {
-            Object key = enumeration.nextElement();
-            if (!(key instanceof Annotated)) {
-                continue;
-            }
-
-            ClassInfo cInfo = state.resolve(key);
-            if (newClassInfo == cInfo) {
-                a1 = (Annotated) key;
-            } else if (oldClassInfo == cInfo) {
-                a2 = (Annotated) key;
-            }
-        }
-
-        StringBuffer error = new StringBuffer();
-        error.append("Warning: A class name generation conflict has occurred between ");
-        if (a1 != null) {
-            error.append(SchemaNames.getStructureName(a1));
-            error.append(" '");
-            error.append(ExtendedBinding.getSchemaLocation(a1));
-        } else {
-            error.append(newClassInfo.getNodeTypeName());
-            error.append(" '");
-            error.append(newClassInfo.getNodeName());
-        }
-        error.append("' and ");
-        if (a2 != null) {
-            error.append(SchemaNames.getStructureName(a2));
-            error.append(" '");
-            error.append(ExtendedBinding.getSchemaLocation(a2));
-        } else {
-            error.append(oldClassInfo.getNodeTypeName());
-            error.append(" '");
-            error.append(oldClassInfo.getNodeName());
-        }
-        error.append("'. Please use a Binding file to solve this problem.");
-        error.append("Continue anyway [not recommended] ");
-
-        char ch = _dialog.confirm(error.toString(), "yn", "y = yes, n = no");
-        if (ch == 'n') {
-            state.setStatusCode(SGStateInfo.STOP_STATUS);
         }
     }
 
@@ -494,5 +435,23 @@ public class SingleClassGenerator {
         }
         props.setProperty(jClass.getName(), jDesc.getName());
     } //-- updateCDRFile
+
+    /**
+     * Sets the desired {@link ClassNameConflictResolutionStrategy} instance type to be used
+     * for name conflict resolution.
+     * @param nameConflictStrategy the desired {@link ClassNameConflictResolutionStrategy} instance type 
+     */
+    public void setNameConflictStrategy(String nameConflictStrategy) {
+        createNameConflictStrategy(nameConflictStrategy);
+    }
+
+    /**
+     * Creates a new {@link ClassNameConflictResolutionStrategy} instance by calling the
+     * {@link ClassNameConflictResolutionStrategyFactory}.
+     * @param nameConflictStrategy The desired {@link ClassNameConflictResolutionStrategy} type.
+     */
+    private void createNameConflictStrategy(String nameConflictStrategy) {
+        this._conflictStrategy = ClassNameConflictResolutionStrategyFactory.newInstance(nameConflictStrategy, _dialog);
+    }
 
 }
