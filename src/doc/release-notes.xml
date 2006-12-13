@@ -226,6 +226,27 @@
 
             </summary>
             <bugs>
+                <bug id="1734" tool="jira">
+                    <description>
+                        Introduced strategy pattern for class name conflict resolution 
+                        during code generation (foundation)
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061213</date>
+                </bug>
                 <bug id="1693" tool="jira">
                     <description>
                         Moved Ant JARs into bin/lib (and thus out of lib), and amended build 

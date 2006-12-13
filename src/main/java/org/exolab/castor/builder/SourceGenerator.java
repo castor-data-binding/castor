@@ -185,6 +185,11 @@ public class SourceGenerator extends BuilderConfiguration {
     private GroupNaming _groupNaming = null;
 
     /**
+     * Strategy for name conflict resolution. 
+     */
+    private String _nameConflictStrategy = "warnViaConsole";
+
+    /**
      * Creates a SourceGenerator using the default FieldInfo factory
      */
     public SourceGenerator() {
@@ -220,7 +225,7 @@ public class SourceGenerator extends BuilderConfiguration {
         
         _groupNaming = new GroupNaming();
 
-        _singleClassGenerator = new SingleClassGenerator(_dialog, this);
+        _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy);
         _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
     } //-- SourceGenerator
@@ -233,6 +238,10 @@ public class SourceGenerator extends BuilderConfiguration {
         _mappingFilename = filename;
     }
 
+    public void setNameConflictStrategy(final String nameConflictStrategy) {
+        _nameConflictStrategy = nameConflictStrategy;
+        _singleClassGenerator.setNameConflictStrategy(nameConflictStrategy);
+    }
     /**
      * Returns the version number of this SourceGenerator
      *
