@@ -1,0 +1,70 @@
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0
+http://maven.apache.org/maven-v4_0_0.xsd">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.codehaus.castor</groupId>
+	<artifactId>castor-ddlgen</artifactId>
+	<version>1.1-SNAPSHOT</version>
+	
+	<parent>
+		<groupId>org.codehaus.castor</groupId>
+		<artifactId>castor</artifactId>
+		<version>1.1-SNAPSHOT</version>
+	</parent>
+	<packaging>jar</packaging>
+
+	<name>Castor DDL generator</name>
+	<url>http://castor.org</url>
+
+<!--  
+	<build>
+		<plugins>
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.4</source>
+					<target>1.4</target>
+				</configuration>
+			</plugin>
+		</plugins>
+		
+        <extensions>
+            <extension>
+                <groupId>org.apache.maven.wagon</groupId>
+                <artifactId>wagon-webdav</artifactId>
+                <version>1.0-beta-1</version>
+            </extension>
+        </extensions>
+	
+	</build>
+-->
+
+	<developers>
+		<developer>
+			<name>Ralf Joachim</name>
+			<email>ralf.joachim@syscon-world.de</email>
+			<organization>Syscon</organization>
+			<roles>
+				<role>Castor JDO committer</role>
+			</roles>
+			<timezone>+1</timezone>
+		</developer>
+
+	</developers>
+
+	<dependencies>
+
+		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor</artifactId>
+			<version>1.0.6-SNAPSHOT</version>
+		</dependency>
+
+	</dependencies>
+
+</project>
+
+
