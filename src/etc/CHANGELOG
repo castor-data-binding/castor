@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1693 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Moved Ant JARs into bin/lib (and thus out of lib), and amended build scripts accordingly.
+       Details: http://jira.codehaus.org/browse/CASTOR-1693
+       (Werner - 20061210)
+
 JDO:   Resolved issue CASTOR-1688 using contribution from James Abley [james.abley@volantis.com]
        Fixed NullPointerException thrown in ClassMolderHelper.getFullFields() during JDO initialization.
        Details: http://jira.codehaus.org/browse/CASTOR-1688
