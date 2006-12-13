@@ -1,8 +1,8 @@
 @echo off
 REM $Id$
 set JAVA="%JAVA_HOME%\bin\java"
-set LIB_DIR="..\lib"
-set ANT_LIB_DIR="lib"
+set LIB_DIR=..\lib
+set ANT_LIB_DIR=lib
 REM Include Ant infrastructure on CLASSPATH
 set "CP=%ANT_LIB_DIR%\ant-1.6.jar;%ANT_LIB_DIR%\ant-1.6-launcher.jar;%ANT_LIB_DIR%\ant-1.6-trax.jar"
 REM Include compiled Castor artefacts
