@@ -16,11 +16,19 @@ JAVA=$JAVA_HOME/bin/java
 
 DIRNAME=`dirname $0`
 CASTOR_HOME=`cd $DIRNAME/..; pwd`
+BIN_LIB_D=$CASTOR_HOME/bin/lib
 LIB_D=$CASTOR_HOME/lib
 BUILD_D=$CASTOR_HOME/build
 SRC_D=$CASTOR_HOME/src
 
-CLASSPATH=$LIB_D/ant-1.6.jar:$LIB_D/ant-1.6-launcher.jar:$LIB_D/ant-1.6-trax.jar:$LIB_D/xerces-J_1.4.0.jar:$BUILD_D/classes/:$CLASSPATH:$JAVA_HOME/lib/tools.jar:$LIB_D/commons-logging-1.1.jar
+# Ant infrastructure
+CLASSPATH=$BIN_LIB_D/ant-1.6.jar:$BIN_LIB_D/ant-1.6-launcher.jar:$BIN_LIB_D/ant-1.6-trax.jar
+# Build artefacts
+CLASSPATH=$CLASSPATH:$BUILD_D/classes
+# Sun's tools.jar, required for compilation
+CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
+# Various 3rd party deps
+CLASSPATH=$CLASSPATH:$LIB_D/xerces-J_1.4.0.jar:$LIB_D/commons-logging-1.1.jar
 
 for i in `ls $LIB_D/*.jar`
    do 
