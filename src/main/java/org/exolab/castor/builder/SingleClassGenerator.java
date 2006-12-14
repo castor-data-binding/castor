@@ -468,6 +468,7 @@ public class SingleClassGenerator {
     private void createNameConflictStrategy(String nameConflictStrategy) { 
         this._conflictStrategy = 
             _classNameConflictResolutionStrategyRegistry.getClassNameConflictResolutionStrategy(nameConflictStrategy);
+        this._conflictStrategy.setConsoleDialog(_dialog);
     }
 
 }
