@@ -32,8 +32,13 @@ import org.exolab.javasource.JClass;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 1.1
  */
-public class WarningViaConsoleDialogClassNameConflictResolutionStrategy implements
-ClassNameConflictResolutionStrategy {
+public class WarningViaConsoleDialogClassNameConflictResolutionStrategy 
+    implements ClassNameConflictResolutionStrategy {
+    
+    /**
+     * Name of this strategy.
+     */
+    static final String NAME = "warnViaConsoleDialog";
     
     /**
      * The {@link ConsoleDialog} instance to use for output
@@ -44,10 +49,8 @@ ClassNameConflictResolutionStrategy {
      * Creates an instance of this name conflict resolution strategy, that 
      * will use the specified {@link ConsoleDialog} instance to emit warnings
      * to zhe user and ask about an approach to deal with them.
-     * @param dialog the {@link ConsoleDialog} instance to use for output
      */
-    public WarningViaConsoleDialogClassNameConflictResolutionStrategy(ConsoleDialog dialog) {
-        setDialog(dialog);
+    public WarningViaConsoleDialogClassNameConflictResolutionStrategy() {
     }
 
     /**
@@ -117,6 +120,20 @@ ClassNameConflictResolutionStrategy {
         
         return state;
 
+    }
+
+    /**
+     * @see org.exolab.castor.builder.ClassNameConflictResolutionStrategy#getName()
+     */
+    public String getName() {
+        return NAME;
+    }
+
+    /**
+     * @see org.exolab.castor.builder.ClassNameConflictResolutionStrategy#setConsoleDialog(org.exolab.castor.builder.util.ConsoleDialog)
+     */
+    public void setConsoleDialog(ConsoleDialog dialog) {
+        this._dialog = dialog;
     }
     
 }

@@ -55,11 +55,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
-import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.mapping.xml.MappingRoot;
-import org.exolab.castor.xml.schema.Annotated;
-import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JComment;
 import org.exolab.javasource.JNaming;
@@ -112,6 +109,11 @@ public class SingleClassGenerator {
     private ClassNameConflictResolutionStrategy _conflictStrategy;
 
     /**
+     * The registry for {@link ClassNameConflictResolutionStrategy} implementations.
+     */
+    private ClassNameConflictResolutionStrategyRegistry _classNameConflictResolutionStrategyRegistry;
+
+    /**
      * Creates an instance of this class.
      * @param dialog A ConsoleDialog instance
      * @param sourceGenerator A SourceGenerator instance
@@ -127,6 +129,8 @@ public class SingleClassGenerator {
         this._descSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
         
+        this._classNameConflictResolutionStrategyRegistry = 
+            new ClassNameConflictResolutionStrategyRegistry(sourceGenerator.getProperty(BuilderConfiguration.Property.NAME_CONFLICT_STRATEGIES, ""));
         createNameConflictStrategy(conflictStrategyType);
     }
 
@@ -461,8 +465,9 @@ public class SingleClassGenerator {
      * {@link ClassNameConflictResolutionStrategyFactory}.
      * @param nameConflictStrategy The desired {@link ClassNameConflictResolutionStrategy} type.
      */
-    private void createNameConflictStrategy(String nameConflictStrategy) {
-        this._conflictStrategy = ClassNameConflictResolutionStrategyFactory.newInstance(nameConflictStrategy, _dialog);
+    private void createNameConflictStrategy(String nameConflictStrategy) { 
+        this._conflictStrategy = 
+            _classNameConflictResolutionStrategyRegistry.getClassNameConflictResolutionStrategy(nameConflictStrategy);
     }
 
 }

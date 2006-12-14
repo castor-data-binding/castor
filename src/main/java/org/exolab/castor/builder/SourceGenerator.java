@@ -187,7 +187,7 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Strategy for name conflict resolution. 
      */
-    private String _nameConflictStrategy = "warnViaConsole";
+    private String _nameConflictStrategy = WarningViaConsoleDialogClassNameConflictResolutionStrategy.NAME;
 
     /**
      * Creates a SourceGenerator using the default FieldInfo factory

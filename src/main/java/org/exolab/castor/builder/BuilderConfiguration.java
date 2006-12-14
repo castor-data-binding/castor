@@ -188,6 +188,15 @@ public class BuilderConfiguration {
         public static final String MAX_CONSTANTS_PROPERTY = "org.exolab.castor.builder.maxNumberOfConstants";
         
         static final String ResourceName = "/org/exolab/castor/builder/castorbuilder.properties";
+
+        /**
+         * Registered class name conflict resolution strategies.
+         *
+         * <pre>
+         * org.exolab.castor.builder.nameConflictStrategies
+         * </pre>
+         */
+        public static final String NAME_CONFLICT_STRATEGIES = "org.exolab.castor.builder.nameConflictStrategies";
     } //--Property
 
     /**
