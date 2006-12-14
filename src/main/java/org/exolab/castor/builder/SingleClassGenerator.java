@@ -400,6 +400,17 @@ public class SingleClassGenerator {
                     + " schema element.";
             sInfo.getDialog().notify(warn);
         }
+
+        if (JNaming.isReservedByWindows(nameToCompare)) {
+            // FIXME:  We should fail under Windows and warn under other OSes
+            String warn = "'" + nameToCompare + "' is reserved by the Windows filesystem and"
+                    + " cannot be\nused as a class name.  Windows will not allow you to create"
+                    + " a file with this\nname.  You will have to use a mapping file or change"
+                    + " the name of the conflicting\nschema element.  For more information,"
+                    + " see\nhttp://msdn.microsoft.com/library/default.asp?"
+                    + "url=/library/en-us/fileio/fs/naming_a_file.asp";
+            sInfo.getDialog().notify(warn);
+        }
     }
 
     /**
