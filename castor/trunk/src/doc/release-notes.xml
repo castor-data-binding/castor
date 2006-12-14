@@ -226,6 +226,26 @@
 
             </summary>
             <bugs>
+                <bug id="1539" tool="jira">
+                    <description>
+                        toArray instead of loop
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Roland Spatzenegger</name>
+                        <email>spatzenegger@4soft.de</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061213</date>
+                </bug>
                 <bug id="644" tool="jira">
                     <description>
                         unable to create a file called Con.java on Windows

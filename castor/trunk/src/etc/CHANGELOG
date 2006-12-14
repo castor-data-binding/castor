@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1539 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       toArray instead of loop
+       Details: http://jira.codehaus.org/browse/CASTOR-1539
+       (Edward - 20061213)
+
 XML:   Resolved issue CASTOR-644 using contribution from Edward Kuns [edward.kuns@aspect.com]
        unable to create a file called Con.java on Windows
        Details: http://jira.codehaus.org/browse/CASTOR-644

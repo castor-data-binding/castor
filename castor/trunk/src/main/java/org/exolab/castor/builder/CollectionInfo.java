@@ -65,7 +65,7 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * A helper used for generating source that deals with Collections
+ * A helper used for generating source that deals with Collections.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
 **/
@@ -125,7 +125,7 @@ public class CollectionInfo extends FieldInfo {
         }
 
         this._methodSuffix = JavaNaming.toJavaClassName(this.getElementName());
-        this._parameterPrefix = JavaNaming.toJavaMemberName(this.getElementName()); 
+        this._parameterPrefix = JavaNaming.toJavaMemberName(this.getElementName());
         this._content = new FieldInfo(contentType, ("v" + this.getMethodSuffix()));
     } // -- CollectionInfo
 
@@ -317,44 +317,63 @@ public class CollectionInfo extends FieldInfo {
     } // -- extraMethods
 
     protected void createGetAsArrayMethod(final JClass jClass, final boolean useJava50) {
-        JType jType = new JArrayType(this.getContentType().getJType(), useJava50);
-        JMethod method = new JMethod(this.getReadMethodName(), jType,
+        JType baseType = this.getContentType().getJType();
+        JType arrayType = new JArrayType(baseType, useJava50);
+        JMethod method = new JMethod(this.getReadMethodName(), arrayType,
                                      "this collection as an Array");
 
         JSourceCode sourceCode = method.getSourceCode();
-        sourceCode.add("int size = this.");
-        sourceCode.append(this.getName());
-        sourceCode.append(".size();");
 
-        final String arrayType = jType.toString();
-        sourceCode.add(arrayType);
-        sourceCode.append(" array = new ");
-        // the first brackets must contain the size...
-        int brackets = arrayType.indexOf("[]");
-        sourceCode.append(arrayType.substring(0, brackets));
-        sourceCode.append("[size]");
-        sourceCode.append(";");
-        sourceCode.add("java.util.Iterator iter = " + this.getName() + ".iterator();");
+        // create Javadoc
+        JDocComment comment = method.getJDocComment();
+        comment.appendComment("Returns the contents of the collection in an Array.  ");
 
-        String value = "iter.next()";
-        sourceCode.add("for (int index = 0; index < size; index++)");
-        sourceCode.append("{");
-        sourceCode.indent();
-        sourceCode.add("array[index] = ");
-        if (getContentType().getType() == XSType.CLASS) {
-            sourceCode.append("(");
-            sourceCode.append(jType.getName());
-            sourceCode.append(") ");
-            sourceCode.append(value);
+        if (!baseType.isPrimitive()) {
+            // For non-primitive types, we use the API method made for this purpose
+            comment.appendComment("<p>");
+            comment.appendComment("Note:  Just in case the collection contents are changing in ");
+            comment.appendComment("another thread, we pass a 0-length Array of the correct type ");
+            comment.appendComment("into the API call.  This way we <i>know</i> that the Array ");
+            comment.appendComment("returned is of exactly the correct length.");
+
+            sourceCode.add(arrayType.toString() + " array = new " + baseType.toString() + "[0];");
+            sourceCode.add("return (" + arrayType.toString() + ") ");
+            sourceCode.append("this." + this.getName() + ".toArray(array);");
         } else {
-            sourceCode.append(getContentType().createFromJavaObjectCode(value));
-        }
-        sourceCode.append(";");
-        sourceCode.unindent();
-        sourceCode.add("}");
+            // For primitive types, we have to do this the hard way
+            sourceCode.add("int size = this.");
+            sourceCode.append(this.getName());
+            sourceCode.append(".size();");
 
-        sourceCode.add("");
-        sourceCode.add("return array;");
+            sourceCode.add(arrayType.toString());
+            sourceCode.append(" array = new ");
+            // the first brackets must contain the size...
+            int brackets = arrayType.toString().indexOf("[]");
+            sourceCode.append(arrayType.toString().substring(0, brackets));
+            sourceCode.append("[size]");
+            sourceCode.append(";");
+            sourceCode.add("java.util.Iterator iter = " + this.getName() + ".iterator();");
+
+            String value = "iter.next()";
+            sourceCode.add("for (int index = 0; index < size; index++)");
+            sourceCode.append("{");
+            sourceCode.indent();
+            sourceCode.add("array[index] = ");
+            if (getContentType().getType() == XSType.CLASS) {
+                sourceCode.append("(");
+                sourceCode.append(arrayType.getName());
+                sourceCode.append(") ");
+                sourceCode.append(value);
+            } else {
+                sourceCode.append(getContentType().createFromJavaObjectCode(value));
+            }
+            sourceCode.append(";");
+            sourceCode.unindent();
+            sourceCode.add("}");
+
+            sourceCode.add("");
+            sourceCode.add("return array;");
+        }
 
         jClass.addMethod(method);
     }
@@ -682,7 +701,7 @@ public class CollectionInfo extends FieldInfo {
      */
     protected void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix() + _referenceSuffix);
-        final JType collectionJType = getSchemaType().getJType();  
+        final JType collectionJType = getSchemaType().getJType();
         JParameter parameter = new JParameter(collectionJType, this.getParameterPrefix() + collectionJType.getLocalName());
         method.addParameter(parameter);
 
