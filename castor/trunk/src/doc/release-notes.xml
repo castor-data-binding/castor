@@ -226,9 +226,29 @@
 
             </summary>
             <bugs>
+                <bug id="644" tool="jira">
+                    <description>
+                        unable to create a file called Con.java on Windows
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Adrian Smith</name>
+                        <email>adrian.p.smith@bt.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061213</date>
+                </bug>
                 <bug id="1734" tool="jira">
                     <description>
-                        Introduced strategy pattern for class name conflict resolution 
+                        Introduced strategy pattern for class name conflict resolution
                         during code generation (foundation)
                     </description>
                     <contributor>
@@ -249,7 +269,7 @@
                 </bug>
                 <bug id="1693" tool="jira">
                     <description>
-                        Moved Ant JARs into bin/lib (and thus out of lib), and amended build 
+                        Moved Ant JARs into bin/lib (and thus out of lib), and amended build
                         scripts accordingly.
                     </description>
                     <contributor>
@@ -291,7 +311,7 @@
                 </bug>
                 <bug id="1072" tool="jira">
                     <description>
-                        Fixed problem with incorrectly marshalled location tags for 
+                        Fixed problem with incorrectly marshalled location tags for
                         null collections.
                     </description>
                     <contributor>
@@ -312,7 +332,7 @@
                 </bug>
                 <bug id="1696" tool="jira">
                     <description>
-                        Fixed problem related to creating incorrectly typed 
+                        Fixed problem related to creating incorrectly typed
                         setXXXAsReference() method for 'j2' mode.
                     </description>
                     <contributor>

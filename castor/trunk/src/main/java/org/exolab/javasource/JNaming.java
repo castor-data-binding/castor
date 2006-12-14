@@ -249,7 +249,41 @@ public final class JNaming {
      * uses depend on the contents of the schema, so we only warn.
      */
     private static final String[] CASTOR_RESERVED = {
-        "Content"
+        "Content",
+        "MenuItem",
+    };
+
+    /**
+     * Special reserved names within Windows that prevent a user from using the
+     * same name as an element without using a mapping file. Windows will not
+     * allow the use of any of these names with any case with any extension.
+     * At least, not without contortions.
+     * @see <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/fs/naming_a_file.asp">
+     * the MSDN web page on file naming</a>
+     */
+    private static final String[] WINDOWS_RESERVED = {
+        "CON",
+        "PRN",
+        "AUX",
+        "NUL",
+        "COM1",
+        "COM2",
+        "COM3",
+        "COM4",
+        "COM5",
+        "COM6",
+        "COM7",
+        "COM8",
+        "COM9",
+        "LPT1",
+        "LPT2",
+        "LPT3",
+        "LPT4",
+        "LPT5",
+        "LPT6",
+        "LPT7",
+        "LPT8",
+        "LPT9",
     };
 
     /**
@@ -324,6 +358,26 @@ public final class JNaming {
         if (name == null) { return false; }
         for (int i = 0; i < CASTOR_RESERVED.length; i++) {
             if (CASTOR_RESERVED[i].equals(name)) {
+                return true;
+            }
+        }
+        return false;
+    } //-- isKeyword
+
+    /**
+     * Returns true if the given String is a reserved name by the Windows
+     * filesystem which will cause a problem when used as a class name under
+     * Windows.
+     *
+     * @param name
+     *            the String to check against the list of keywords
+     * @return true if the given String is a reserved name by Castor which may
+     *         cause a problem when used as a variable name.
+     */
+    public static boolean isReservedByWindows(final String name) {
+        if (name == null) { return false; }
+        for (int i = 0; i < WINDOWS_RESERVED.length; i++) {
+            if (WINDOWS_RESERVED[i].equalsIgnoreCase(name)) {
                 return true;
             }
         }

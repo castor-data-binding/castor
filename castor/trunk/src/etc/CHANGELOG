@@ -2,10 +2,15 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-644 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       unable to create a file called Con.java on Windows
+       Details: http://jira.codehaus.org/browse/CASTOR-644
+       (Edward - 20061213)
+
 XML:   Resolved issue CASTOR-1734 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Introduced strategy pattern for class name conflict resolution during code generation (foundation).
        Details: http://jira.codehaus.org/browse/CASTOR-1734
-       (Werner - 2006123)
+       (Werner - 20061213)
 
 XML:   Resolved issue CASTOR-1693 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved Ant JARs into bin/lib (and thus out of lib), and amended build scripts accordingly.
