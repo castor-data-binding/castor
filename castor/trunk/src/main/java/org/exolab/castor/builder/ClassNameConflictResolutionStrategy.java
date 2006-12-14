@@ -15,6 +15,7 @@
  */
 package org.exolab.castor.builder;
 
+import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.javasource.JClass;
 
 /**
@@ -36,5 +37,17 @@ public interface ClassNameConflictResolutionStrategy {
      */
     SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
             final ClassInfo newClassInfo, final JClass conflict);
+
+    /**
+     * Returns the name of this strategy.
+     * @return The name of this strategy.
+     */
+    String getName();
+    
+    /**
+     * Sets the {@link ConsoleDialog} instance to use (if required).
+     * @param dialog the {@link ConsoleDialog} instance to use (if required).
+     */
+    void setConsoleDialog(ConsoleDialog dialog);
 
 }

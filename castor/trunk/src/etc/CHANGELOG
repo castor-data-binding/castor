@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1736 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added registry for ClassNameConflictResolutionStrategy implementations.
+       Details: http://jira.codehaus.org/browse/CASTOR-1736
+       (Werner - 20061214)
+
 XML:   Resolved issue CASTOR-1539 using contribution from Edward Kuns [edward.kuns@aspect.com]
        toArray instead of loop
        Details: http://jira.codehaus.org/browse/CASTOR-1539
