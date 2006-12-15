@@ -134,6 +134,17 @@ public final class MappingUnmarshaller {
         }
     }
 
+    public void loadMappingOnly(final Mapping mapping)
+    throws MappingException {
+        synchronized (this) {
+            Iterator iter = mapping.getMappingSources().iterator();
+            while (iter.hasNext()) {
+                MappingSource source = (MappingSource) iter.next();
+                loadMappingInternal(mapping, source.getResolver(), source.getSource());
+            }
+        }
+    }
+
     //--------------------------------------------------------------------------
 
     /**
