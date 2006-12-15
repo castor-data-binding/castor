@@ -46,5 +46,15 @@
             <Input>input-with-duplicate-ids.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>
         </UnitTestCase>
+        <UnitTestCase>
+            <Name>Test marshalling XML document instance after manually nulling ID</Name>
+            <CustomTest>
+                <TestClass>TestMarshalIDs</TestClass>
+                <Methods>
+                    <Call-method name="testMarshallingAfterManuallyNullingID"/>
+                    <Call-method name="testMarshallingAfterManuallySettingDuplicateID"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

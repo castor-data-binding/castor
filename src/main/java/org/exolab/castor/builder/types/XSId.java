@@ -86,7 +86,8 @@ public final class XSId extends XSType {
      * that the configured TypeValidator should be added to.
      */
     public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-        //--TBD
+        jsc.add("org.exolab.castor.xml.validators.IdValidator typeValidator = new org.exolab.castor.xml.validators.IdValidator();");
+        jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
     }
 
 } //-- XSId

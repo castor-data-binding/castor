@@ -224,8 +224,39 @@
    &lt;member name="MyFoo" handler="mypackage.myHandler"/>
 &lt;/elementBinding></code-panel>
 
+				<h3>Add support for validating &lt;xsd:ID&gt; during marshalling.</h3>
+				
+				<p>Castor XML now supports validation of &lt;xsd:ID&gt;s during 
+				   marshalling, preventing the following scenarios from being
+				   marshalled successfully (throwing a ValidationException instead):</p>
+				   
+				<ul>
+					<li>&lt;xsd:ID&gt; with empty values</li>
+					<li>&lt;xsd:ID&gt; with duplicate values</li>
+				</ul>
+
             </summary>
             <bugs>
+                <bug id="1720" tool="jira">
+                    <description>
+                        Add support for validating &lt;xsd:ID&gt;s during marshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061215</date>
+                </bug>
                 <bug id="1737" tool="jira">
                     <description>
                         Added new ClassNameCRStrategy that simply logs such conflicts 

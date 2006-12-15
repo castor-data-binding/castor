@@ -121,7 +121,7 @@ public class Validator implements ClassValidator {
         TypeValidator validator = classDesc.getValidator();
 
         XMLFieldDescriptor fieldDesc = null;
-
+        
         try {
             if (validator != null) {
                 validator.validate(object, context);
@@ -159,8 +159,9 @@ public class Validator implements ClassValidator {
                  loc.addParent(classDesc.getXMLName());
             throw vx;
         }
-
     } //-- validate
+    
+    // TODO: add cleanup life-cycle method to be called from outside
 
     /**
      * Validates an Object model, ClassDescriptor classes will be used
