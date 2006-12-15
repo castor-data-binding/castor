@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.conflictresolution;
 
 import java.util.HashMap;
 import java.util.Map;
@@ -21,47 +21,48 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
+import org.exolab.castor.builder.BuilderConfiguration;
 
 /**
- * Registry for {@link ClassNameConflictResolutionStrategy} implementations obtained from the
+ * Registry for {@link ClassNameCRStrategy} implementations obtained from the
  * Castor builder properties file.
  * 
  * @author <a href="mailto:werner DOT guttmann @gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 5951 $ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
  * @since 1.1
  */
-public final class ClassNameConflictResolutionStrategyRegistry {
+public final class ClassNameCRStrategyRegistry {
     //--------------------------------------------------------------------------
 
     /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta
      *  Commons Logging</a> instance used for all logging. */
     private static final Log LOG = LogFactory.getLog(
-            ClassNameConflictResolutionStrategyRegistry.class);
+            ClassNameCRStrategyRegistry.class);
 
     /**
-     * Association between name of {@link ClassNameConflictResolutionStrategy} 
-     * implementation and {@link ClassNameConflictResolutionStrategy} instance. 
+     * Association between name of {@link ClassNameCRStrategy} 
+     * implementation and {@link ClassNameCRStrategy} instance. 
      */
     private Map _strategies = new HashMap();
 
     //--------------------------------------------------------------------------
 
     /**
-     * Construct an instance of {@link ClassNameConflictResolutionStrategyRegistry} 
-     * that loads the {@link ClassNameConflictResolutionStrategy} implementations 
+     * Construct an instance of {@link ClassNameCRStrategyRegistry} 
+     * that loads the {@link ClassNameCRStrategy} implementations 
      * specified in the given {@link BuilderConfiguration}.
      * 
      * @param  The {@link BuilderConfiguration}.
      */
-    public ClassNameConflictResolutionStrategyRegistry(final String enlistedNameConflictStrategies) {
+    public ClassNameCRStrategyRegistry(final String enlistedNameConflictStrategies) {
         StringTokenizer tokenizer = new StringTokenizer(enlistedNameConflictStrategies, ", ");
-        ClassLoader loader = ClassNameConflictResolutionStrategyRegistry.class.getClassLoader();
+        ClassLoader loader = ClassNameCRStrategyRegistry.class.getClassLoader();
         while (tokenizer.hasMoreTokens()) {
             String classname = tokenizer.nextToken();
             try {
                 Class cls = loader.loadClass(classname);
                 Object obj = cls.newInstance();
-                ClassNameConflictResolutionStrategy strategy = (ClassNameConflictResolutionStrategy) obj;
+                ClassNameCRStrategy strategy = (ClassNameCRStrategy) obj;
                 _strategies.put(strategy.getName(), strategy);
             } catch (Exception except) {
                 LOG.error("The ClassNameConflictResolutionStrategy " + classname + " "
@@ -74,11 +75,11 @@ public final class ClassNameConflictResolutionStrategyRegistry {
     //--------------------------------------------------------------------------
 
     /**
-     * Returns the names of all the configured {@link ClassNameConflictResolutionStrategy}
-     * implementations. A {@link ClassNameConflictResolutionStrategy} instance can be obtained
+     * Returns the names of all the configured {@link ClassNameCRStrategy}
+     * implementations. A {@link ClassNameCRStrategy} instance can be obtained
      * by the {@link #getClassNameConflictResolutionStrategy} method.
      *
-     * @return Names of {@link ClassNameConflictResolutionStrategy} implementations
+     * @return Names of {@link ClassNameCRStrategy} implementations
      */
     public String[] getClassNameConflictResolutionStrategyNames() {
         String[] names = new String[_strategies.size()];
@@ -86,7 +87,7 @@ public final class ClassNameConflictResolutionStrategyRegistry {
     }
 
     /**
-     * Returns a {@link ClassNameConflictResolutionStrategy} with the specified name. Returns
+     * Returns a {@link ClassNameCRStrategy} with the specified name. Returns
      * null if the named strategy is not supported.
      *
      * @param name The name of the ClassNameConflictResolutionStrategy.
@@ -94,7 +95,7 @@ public final class ClassNameConflictResolutionStrategyRegistry {
      * @throws IllegalArgumentException If TransactoinManagerFactory
      *         with given name could not be found.
      */
-    public ClassNameConflictResolutionStrategy getClassNameConflictResolutionStrategy(final String name)
+    public ClassNameCRStrategy getClassNameConflictResolutionStrategy(final String name)
         throws IllegalArgumentException {
         Object factory = _strategies.get(name);
         if (factory == null) {
@@ -104,7 +105,7 @@ public final class ClassNameConflictResolutionStrategyRegistry {
             LOG.error(msg);
             throw new IllegalArgumentException(msg);
         }
-        return (ClassNameConflictResolutionStrategy) factory;
+        return (ClassNameCRStrategy) factory;
     }
 
 }

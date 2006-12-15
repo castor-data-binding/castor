@@ -226,6 +226,27 @@
 
             </summary>
             <bugs>
+                <bug id="1737" tool="jira">
+                    <description>
+                        Added new ClassNameCRStrategy that simply logs such conflicts 
+                        without possibility of user intervention
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061215</date>
+                </bug>
                 <bug id="1736" tool="jira">
                     <description>
                         Added registry for ClassNameConflictResolutionStrategy implementations.

@@ -55,6 +55,8 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy;
+import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.javasource.JClass;
@@ -106,18 +108,18 @@ public class SingleClassGenerator {
      * The class name conflict error handling strategy to use for 
      * resolving class name conflicts.
      */
-    private ClassNameConflictResolutionStrategy _conflictStrategy;
+    private ClassNameCRStrategy _conflictStrategy;
 
     /**
-     * The registry for {@link ClassNameConflictResolutionStrategy} implementations.
+     * The registry for {@link ClassNameCRStrategy} implementations.
      */
-    private ClassNameConflictResolutionStrategyRegistry _classNameConflictResolutionStrategyRegistry;
+    private ClassNameCRStrategyRegistry _classNameConflictResolutionStrategyRegistry;
 
     /**
      * Creates an instance of this class.
      * @param dialog A ConsoleDialog instance
      * @param sourceGenerator A SourceGenerator instance
-     * @param conflictStrategyType Type of the {@link ClassNameConflictResolutionStrategy} instance to be used.
+     * @param conflictStrategyType Type of the {@link ClassNameCRStrategy} instance to be used.
      */
     public SingleClassGenerator(final ConsoleDialog dialog, 
             final SourceGenerator sourceGenerator, 
@@ -130,7 +132,7 @@ public class SingleClassGenerator {
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
         
         this._classNameConflictResolutionStrategyRegistry = 
-            new ClassNameConflictResolutionStrategyRegistry(sourceGenerator.getProperty(BuilderConfiguration.Property.NAME_CONFLICT_STRATEGIES, ""));
+            new ClassNameCRStrategyRegistry(sourceGenerator.getProperty(BuilderConfiguration.Property.NAME_CONFLICT_STRATEGIES, ""));
         createNameConflictStrategy(conflictStrategyType);
     }
 
@@ -269,10 +271,9 @@ public class SingleClassGenerator {
 
         //-- Have we already processed a class with this name?
         JClass conflict = state.getProcessed(jClass.getName());
-        if (conflict != null && !state.getSuppressNonFatalWarnings()) {
+        if (conflict != null) {
             SGStateInfo stateAfterResolution = 
                 _conflictStrategy.dealWithClassNameConflict(state, classInfo, conflict);
-            // warnAboutClassNameConflict(state, classInfo, conflict);
             return stateAfterResolution.getStatusCode() != SGStateInfo.STOP_STATUS;
         }
 
@@ -452,18 +453,18 @@ public class SingleClassGenerator {
     } //-- updateCDRFile
 
     /**
-     * Sets the desired {@link ClassNameConflictResolutionStrategy} instance type to be used
+     * Sets the desired {@link ClassNameCRStrategy} instance type to be used
      * for name conflict resolution.
-     * @param nameConflictStrategy the desired {@link ClassNameConflictResolutionStrategy} instance type 
+     * @param nameConflictStrategy the desired {@link ClassNameCRStrategy} instance type 
      */
     public void setNameConflictStrategy(String nameConflictStrategy) {
         createNameConflictStrategy(nameConflictStrategy);
     }
 
     /**
-     * Creates a new {@link ClassNameConflictResolutionStrategy} instance by calling the
+     * Creates a new {@link ClassNameCRStrategy} instance by calling the
      * {@link ClassNameConflictResolutionStrategyFactory}.
-     * @param nameConflictStrategy The desired {@link ClassNameConflictResolutionStrategy} type.
+     * @param nameConflictStrategy The desired {@link ClassNameCRStrategy} type.
      */
     private void createNameConflictStrategy(String nameConflictStrategy) { 
         this._conflictStrategy = 

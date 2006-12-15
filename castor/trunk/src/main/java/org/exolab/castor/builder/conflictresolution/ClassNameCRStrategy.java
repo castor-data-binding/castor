@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.conflictresolution;
 
+import org.exolab.castor.builder.ClassInfo;
+import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.javasource.JClass;
 
@@ -25,8 +27,9 @@ import org.exolab.javasource.JClass;
  * collision.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+ * @since 1.1
  */
-public interface ClassNameConflictResolutionStrategy {
+public interface ClassNameCRStrategy {
 
     /**
      * Implements a specific strategy for dealing with class name conflicts 
