@@ -91,6 +91,10 @@ public class ValidationContext {
      */
     private Set _validated = new HashSet();
     
+    /**
+     * Set of already encountered IDs (of type <xsd:ID>)
+     */
+    private Set _ids = new HashSet(); 
     
     /**
      * Creates a new ValidationContext
@@ -206,5 +210,28 @@ public class ValidationContext {
         LOG.trace("Called removeValidated(" + object + ")");
         _validated.remove(object);
     }
-    
+
+    /**
+     * Adds current ID (as seen during (un)marshalling) to ID cache
+     * @param id The current ID
+     * @throws ValidationException If an ID is used more than once.
+     */
+    public void addID(String id) throws ValidationException {
+        if (!_ids.contains(id)) {
+            _ids.add(id);
+        } else {
+            throw new ValidationException ("ID " + id + " already used within current document.");
+        }
+    }
+
+
+    /**
+     * Life-cycle method for proper 'shutdown operations'.
+     */
+    public void cleanup() {
+        _ids.clear();
+        // TODO: enable ???? !!
+        // _validated.clear();
+    }
+       
 } //-- ValidationContext

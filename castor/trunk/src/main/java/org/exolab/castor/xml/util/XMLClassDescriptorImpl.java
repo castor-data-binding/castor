@@ -776,6 +776,7 @@ public class XMLClassDescriptorImpl extends Validator
         //-- /DEBUG
 
         XMLFieldDescriptor[] localElements = getElementArray();
+        XMLFieldDescriptor[] localAttributes = getAttributeArray();
         
         if (_extends != null) {
             
@@ -789,17 +790,16 @@ public class XMLClassDescriptorImpl extends Validator
                     validator.validate(object, context);
             }
 
-            //-- get local element descriptors by filtering
-            //-- out inherited ones
-            XMLFieldDescriptor[] inherited   = _extends.getElementDescriptors();
+            //-- get local element descriptors by filtering out inherited ones
+            XMLFieldDescriptor[] inheritedElements   = _extends.getElementDescriptors();
             XMLFieldDescriptor[] allElements = localElements;
-            localElements = new XMLFieldDescriptor[allElements.length - inherited.length];
+            localElements = new XMLFieldDescriptor[allElements.length - inheritedElements.length];
             int localIdx = 0;
             for (int i = 0; i < allElements.length; i++) {
                 XMLFieldDescriptor desc = allElements[i];
                 boolean isInherited = false;
-                for (int idx = 0; idx < inherited.length; idx++) {
-                    if (inherited[idx].equals(desc)) {
+                for (int idx = 0; idx < inheritedElements.length; idx++) {
+                    if (inheritedElements[idx].equals(desc)) {
                         isInherited = true;
                         break;
                     }
@@ -809,6 +809,27 @@ public class XMLClassDescriptorImpl extends Validator
                     ++localIdx;
                 }
             }
+
+            //-- get local attribute descriptors by filtering out inherited ones
+            XMLFieldDescriptor[] inheritedAttributes = _extends.getAttributeDescriptors();
+            XMLFieldDescriptor[] allAttributes = localAttributes;
+            localAttributes = new XMLFieldDescriptor[allAttributes.length - inheritedAttributes.length];
+            localIdx = 0;
+            for (int i = 0; i < allAttributes.length; i++) {
+                XMLFieldDescriptor desc = allAttributes[i];
+                boolean isInherited = false;
+                for (int idx = 0; idx < inheritedAttributes.length; idx++) {
+                    if (inheritedAttributes[idx].equals(desc)) {
+                        isInherited = true;
+                        break;
+                    }
+                }
+                if (!isInherited) {
+                    localAttributes[localIdx] = desc;
+                    ++localIdx;
+                }
+            }
+        
         }
 
         switch (_compositor) {
@@ -923,8 +944,9 @@ public class XMLClassDescriptorImpl extends Validator
                         fieldValidator.validate(object, context);
                 }
                 //-- handle attributes
-                for (int i = 0; i < _attributes.size(); i++) {
-                    FieldValidator fieldValidator = _attributes.get(i).getValidator();
+            	// for (int i = 0; i < _attributes.size(); i++) {
+                for (int i = 0; i < localAttributes.length; i++) {
+                    FieldValidator fieldValidator = localAttributes[i].getValidator();
                     if (fieldValidator != null)
                         fieldValidator.validate(object, context);
                 }
