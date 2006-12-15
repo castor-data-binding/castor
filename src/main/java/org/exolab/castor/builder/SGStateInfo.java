@@ -70,7 +70,7 @@ import org.exolab.javasource.JClass;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-06-22 22:13:21 -0600 (Wed, 22 Jun 2005) $
  */
-class SGStateInfo extends ClassInfoResolverImpl {
+public class SGStateInfo extends ClassInfoResolverImpl {
 
     /** An empty Enumeration to be returned whenever we need an empty Enumeration */
     private static final Enumeration EMPTY_ENUMERATION = new Vector(0).elements();
@@ -357,7 +357,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      * Returns true if non-fatal warnings should be suppressed.
      * @return true if non-fatal warnings should be suppressed.
      */
-    boolean getSuppressNonFatalWarnings() {
+    public boolean getSuppressNonFatalWarnings() {
         return _suppressNonFatalWarnings;
     }
 
@@ -459,7 +459,7 @@ class SGStateInfo extends ClassInfoResolverImpl {
      *
      * @param status the new status code
      */
-    void setStatusCode(final int status) {
+    public void setStatusCode(final int status) {
         _status = status;
     } //-- setStatusCode
 

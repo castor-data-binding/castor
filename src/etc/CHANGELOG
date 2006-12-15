@@ -2,6 +2,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1737 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added new ClassNameCRStrategy that simply logs such conflicts without possibility of 
+       user intervention.
+       Details: http://jira.codehaus.org/browse/CASTOR-1737
+       (Werner - 20061215)
+
 XML:   Resolved issue CASTOR-1736 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added registry for ClassNameConflictResolutionStrategy implementations.
        Details: http://jira.codehaus.org/browse/CASTOR-1736
