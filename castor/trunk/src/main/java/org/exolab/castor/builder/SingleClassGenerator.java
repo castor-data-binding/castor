@@ -271,7 +271,7 @@ public class SingleClassGenerator {
 
         //-- Have we already processed a class with this name?
         JClass conflict = state.getProcessed(jClass.getName());
-        if (conflict != null) {
+        if (conflict != null && !state.getSuppressNonFatalWarnings()) {
             SGStateInfo stateAfterResolution = 
                 _conflictStrategy.dealWithClassNameConflict(state, classInfo, conflict);
             return stateAfterResolution.getStatusCode() != SGStateInfo.STOP_STATUS;
