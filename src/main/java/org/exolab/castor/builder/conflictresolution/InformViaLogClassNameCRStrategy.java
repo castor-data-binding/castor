@@ -19,9 +19,9 @@ import java.util.Enumeration;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.exolab.castor.builder.ClassInfo;
 import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -57,7 +57,7 @@ public class InformViaLogClassNameCRStrategy
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo, org.exolab.castor.builder.ClassInfo, org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo, org.exolab.castor.builder.info.ClassInfo, org.exolab.javasource.JClass)
      */
     public SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
             final ClassInfo newClassInfo, final JClass conflict) {

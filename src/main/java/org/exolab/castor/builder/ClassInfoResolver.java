@@ -44,6 +44,8 @@
  */
 package org.exolab.castor.builder;
 
+import org.exolab.castor.builder.info.ClassInfo;
+
 /**
  * A class for "caching" ClassInfo's which later need to be resolved (retrieved)
  * by another ClassInfo

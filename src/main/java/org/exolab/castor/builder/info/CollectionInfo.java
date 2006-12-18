@@ -49,8 +49,9 @@
  * $Id$
  */
 
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
+import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
@@ -133,7 +134,7 @@ public class CollectionInfo extends FieldInfo {
      * Generate the various accessor methods.
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.FieldInfo#createAccessMethods(org.exolab.javasource.JClass, boolean)
+     * @see org.exolab.castor.builder.info.FieldInfo#createAccessMethods(org.exolab.javasource.JClass, boolean)
      */
     public void createAccessMethods(final JClass jClass, final boolean useJava50) {
         this.createAddAndRemoveMethods(jClass);
@@ -145,7 +146,7 @@ public class CollectionInfo extends FieldInfo {
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.FieldInfo#generateInitializerCode(org.exolab.javasource.JSourceCode)
+     * @see org.exolab.castor.builder.info.FieldInfo#generateInitializerCode(org.exolab.javasource.JSourceCode)
      */
     public void generateInitializerCode(final JSourceCode sourceCode) {
         sourceCode.add("this.");
@@ -179,7 +180,7 @@ public class CollectionInfo extends FieldInfo {
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.XMLInfo#isMultivalued()
+     * @see org.exolab.castor.builder.info.XMLInfo#isMultivalued()
      */
     public boolean isMultivalued() {
         return true;
@@ -762,9 +763,9 @@ public class CollectionInfo extends FieldInfo {
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.FieldInfo#getMethodSuffix()
+     * @see org.exolab.castor.builder.info.FieldInfo#getMethodSuffix()
      */
-    protected String getMethodSuffix() {
+    public String getMethodSuffix() {
         return this._methodSuffix;
     }
 

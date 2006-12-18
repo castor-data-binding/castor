@@ -1,5 +1,6 @@
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
+import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSListODMG30;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;

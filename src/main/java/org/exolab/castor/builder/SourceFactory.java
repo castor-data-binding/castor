@@ -51,6 +51,9 @@ package org.exolab.castor.builder;
 
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
+import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;

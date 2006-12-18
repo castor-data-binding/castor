@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.types.XSType;
 

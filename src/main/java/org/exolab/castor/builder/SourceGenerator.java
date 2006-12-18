@@ -69,6 +69,7 @@ import org.exolab.castor.builder.binding.PackageTypeChoice;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.binding.types.BindingType;
 import org.exolab.castor.builder.conflictresolution.WarningViaDialogClassNameCRStrategy;
+import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.core.exceptions.CastorRuntimeException;
 import org.exolab.castor.mapping.xml.MappingRoot;

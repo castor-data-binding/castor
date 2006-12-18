@@ -57,6 +57,7 @@ import java.util.Properties;
 
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
+import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.javasource.JClass;

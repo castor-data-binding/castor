@@ -47,23 +47,23 @@
  *
  * $Id: CollectionInfoJ2.java 6302 2006-10-14 05:51:42Z ekuns $
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 
 /**
  * A helper used for generating source that deals with Java 2 Collections of 
- * type 'java.util.SortedSet'.
+ * type 'java.util.Set'.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net"">Werner Guttmann</a>
  * @version $Revision: 6302 $ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
  */
-public class CollectionInfoJ2SortedSet extends CollectionInfoJ2 {
+public class CollectionInfoJ2Set extends CollectionInfoJ2 {
 
     /**
      * Creates an instance of this class that represents information about a 
-     * Java collection type of type 'java.util.SortedSet'.
+     * Java collection type of type 'java.util.Set'.
      *  
      * @param contentType
      *            The content type of the collection, ie. the type of objects
@@ -75,39 +75,39 @@ public class CollectionInfoJ2SortedSet extends CollectionInfoJ2 {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    public CollectionInfoJ2SortedSet(final XSType contentType, 
+    public CollectionInfoJ2Set(final XSType contentType, 
             final String name, 
             final String elementName, 
             final boolean useJava50) {
-        super(contentType, name, elementName, "sortedset", useJava50);
+        super(contentType, name, elementName, "set", useJava50);
     }
 
     /**
-     * @see org.exolab.castor.builder.CollectionInfo#createAddByIndexMethod(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.info.CollectionInfo#createAddByIndexMethod(org.exolab.javasource.JClass)
      */
     protected void createAddByIndexMethod(final JClass jClass) {
         // do not create such method,
     }
 
     /**
-     * @see org.exolab.castor.builder.CollectionInfo#createGetByIndexMethod(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.info.CollectionInfo#createGetByIndexMethod(org.exolab.javasource.JClass)
      */
     protected void createGetByIndexMethod(final JClass jClass) {
         // do not create such method
     }
 
     /**
-     * @see org.exolab.castor.builder.CollectionInfo#createSetByIndexMethod(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.info.CollectionInfo#createSetByIndexMethod(org.exolab.javasource.JClass)
      */
     protected void createSetByIndexMethod(final JClass jClass) {
         // do not create such method
     }
 
     /**
-     * @see org.exolab.castor.builder.CollectionInfo#createRemoveByIndexMethod(org.exolab.javasource.JClass)
+     * @see org.exolab.castor.builder.info.CollectionInfo#createRemoveByIndexMethod(org.exolab.javasource.JClass)
      */
     protected void createRemoveByIndexMethod(final JClass jClass) {
         // do not create such method
     }
-
+    
 }

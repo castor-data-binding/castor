@@ -45,6 +45,10 @@
 
 package org.exolab.castor.builder;
 
+import org.exolab.castor.builder.info.ClassInfo;
+import org.exolab.castor.builder.info.CollectionInfo;
+import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.XMLInfo;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.mapping.xml.BindXml;
 import org.exolab.castor.mapping.xml.ClassChoice;
