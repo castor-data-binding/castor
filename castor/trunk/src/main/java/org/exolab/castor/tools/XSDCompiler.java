@@ -43,9 +43,7 @@
  * $Id$
  */
 
-
 package org.exolab.castor.tools;
-
 
 import java.io.IOException;
 import java.io.File;
@@ -55,29 +53,15 @@ import org.apache.tools.ant.Task;
 import org.apache.tools.ant.BuildException;
 import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.FieldInfoFactory;
-
+import org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask;
 
 /**
- * A Task to process via XSLT a set of XML documents. This is
- * useful for building views of XML based documentation.
- * arguments:
- * <ul>
- * <li>basedir
- * <li>destdir
- * <li>style
- * <li>includes
- * <li>excludes
- * </ul>
- * Of these arguments, the <b>sourcedir</b> and <b>destdir</b> are required.
- * <p>
- * This task will recursively scan the sourcedir and destdir
- * looking for XML documents to process via XSLT. Any other files,
- * such as images, or html files in the source directory will be 
- * copied into the destination directory.
- *
+ * Ant task that enables code generation from an XML schema from within Ant.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
- **/
+ * @deprecated Please use {@link CastorSourceGenTask} instead.
+ */
 public class XSDCompiler
     extends Task
 {
