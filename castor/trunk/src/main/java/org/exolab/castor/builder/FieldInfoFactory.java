@@ -44,6 +44,14 @@
  */
 package org.exolab.castor.builder;
 
+import org.exolab.castor.builder.info.CollectionInfo;
+import org.exolab.castor.builder.info.CollectionInfoJ2;
+import org.exolab.castor.builder.info.CollectionInfoJ2Collection;
+import org.exolab.castor.builder.info.CollectionInfoJ2Set;
+import org.exolab.castor.builder.info.CollectionInfoJ2SortedSet;
+import org.exolab.castor.builder.info.CollectionInfoODMG30;
+import org.exolab.castor.builder.info.FieldInfo;
+import org.exolab.castor.builder.info.IdentityInfo;
 import org.exolab.castor.builder.types.XSType;
 
 /**

@@ -45,8 +45,8 @@
 
 package org.exolab.castor.builder.util;
 
-import org.exolab.castor.builder.ClassInfo;
 import org.exolab.castor.builder.ClassInfoResolver;
+import org.exolab.castor.builder.info.ClassInfo;
 
 import java.util.Enumeration;
 import java.util.Hashtable;

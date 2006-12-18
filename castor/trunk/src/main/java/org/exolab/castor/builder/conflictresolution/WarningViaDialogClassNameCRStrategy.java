@@ -17,9 +17,9 @@ package org.exolab.castor.builder.conflictresolution;
 
 import java.util.Enumeration;
 
-import org.exolab.castor.builder.ClassInfo;
 import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.SchemaNames;
@@ -57,7 +57,7 @@ public class WarningViaDialogClassNameCRStrategy
 
     /**
      * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo,
-     *      org.exolab.castor.builder.ClassInfo, org.exolab.javasource.JClass)
+     *      org.exolab.castor.builder.info.ClassInfo, org.exolab.javasource.JClass)
      */
     public SGStateInfo dealWithClassNameConflict(SGStateInfo state,
             ClassInfo newClassInfo, JClass conflict) {

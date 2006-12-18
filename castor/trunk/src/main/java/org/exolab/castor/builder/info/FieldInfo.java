@@ -48,7 +48,7 @@
  * $Id$
  */
 
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
@@ -851,7 +851,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return the method suffix used when creating method names.
      */
-    protected String getMethodSuffix() {
+    public String getMethodSuffix() {
         if (_name.startsWith("_")) {
             return JavaNaming.toJavaClassName(_name.substring(1));
         }

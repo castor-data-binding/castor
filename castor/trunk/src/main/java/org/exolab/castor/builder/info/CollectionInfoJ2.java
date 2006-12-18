@@ -47,8 +47,10 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
+import org.exolab.castor.builder.FieldInfoFactory;
+import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSListJ2;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
@@ -92,7 +94,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
      * {@inheritDoc}
      * To the Java-1 collection iterators, we add the Java-2 Iterator.
      *
-     * @see org.exolab.castor.builder.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass, boolean)
+     * @see org.exolab.castor.builder.info.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass, boolean)
      */
     protected void createCollectionIterationMethods(final JClass jClass,
                                                     final boolean useJava50) {
@@ -103,7 +105,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass, boolean)
+     * @see org.exolab.castor.builder.info.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass, boolean)
      */
     protected void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),

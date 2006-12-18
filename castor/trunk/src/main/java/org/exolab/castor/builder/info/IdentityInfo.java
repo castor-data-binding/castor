@@ -42,8 +42,9 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
+import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSId;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;

@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1741 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Moved all *Info classes to a new builder.info package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1741
+       (Werner - 20061218)
+
 XML:   Resolved issue CASTOR-1720 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for validating <xsd:ID>s during marshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-1720

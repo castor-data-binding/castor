@@ -48,7 +48,7 @@
  * $Id$
  */
 
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.info;
 
 import java.util.Vector;
 
