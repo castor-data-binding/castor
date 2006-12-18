@@ -237,6 +237,27 @@
 
             </summary>
             <bugs>
+                <bug id="1740" tool="jira">
+                    <description>
+                    	Moved all XMLFieldHandler-related code within DescriptorSourceFactory 
+                    	to new XMLFieldHandlerFactory component.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061218</date>
+                </bug>
                 <bug id="1741" tool="jira">
                     <description>
                         Moved all *Info classes to a new 'builder.info' package.

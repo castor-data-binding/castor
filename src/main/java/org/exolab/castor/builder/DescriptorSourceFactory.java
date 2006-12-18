@@ -58,8 +58,6 @@ import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.builder.util.DescriptorJClass;
-import org.exolab.castor.xml.JavaNaming;
-import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JField;
@@ -90,6 +88,11 @@ public class DescriptorSourceFactory {
     private BuilderConfiguration _config = null;
 
     /**
+     * Factory for creating XMLFieldHandler instances embedded in descriptors
+     */
+    private XMLFieldHandlerFactory _xmlFieldHandlerFactory;
+
+    /**
      * Creates a new DescriptorSourceFactory with the given configuration
      *
      * @param config the BuilderConfiguration instance
@@ -100,6 +103,7 @@ public class DescriptorSourceFactory {
             throw new IllegalArgumentException(err);
         }
         _config = config;
+        _xmlFieldHandlerFactory = new XMLFieldHandlerFactory(config);
     } //-- DescriptorSourceFactory
 
     /**
@@ -387,13 +391,13 @@ public class DescriptorSourceFactory {
             jsc.append(" gfh = (");
             jsc.append(GENERALIZED_FIELD_HANDLER_CLASS.getName());
             jsc.append(")handler;");
-            createXMLFieldHandler(member, xsType, localClassName, jsc, true);
+            _xmlFieldHandlerFactory.createXMLFieldHandler(member, xsType, localClassName, jsc, true);
             jsc.add("gfh.setFieldHandler(handler);");
             jsc.add("handler = gfh;");
             jsc.unindent();
             jsc.add("}");
         } else {
-            createXMLFieldHandler(member, xsType, localClassName, jsc, false);
+            _xmlFieldHandlerFactory.createXMLFieldHandler(member, xsType, localClassName, jsc, false);
             addSpecialHandlerLogic(member, xsType, jsc);
         }
 
@@ -452,247 +456,6 @@ public class DescriptorSourceFactory {
         //-- Add Validation Code
         validationCode(member, jsc);
     } //--CreateDescriptor
-
-    /**
-     * Creates the XMLFieldHandler for the given FieldInfo.
-     *
-     * @param member
-     *            the member for which to create an XMLFieldHandler
-     * @param xsType the XSType (XML Schema Type) of this field
-     * @param localClassName
-     *            unqualified (no package) name of this class
-     * @param jsc
-     *            the source code to which we'll add this XMLFieldHandler
-     * @param forGeneralizedHandler Whether to generate a generalized field handler
-     */
-    private void createXMLFieldHandler(final FieldInfo member, final XSType xsType,
-                                       final String localClassName, final JSourceCode jsc,
-                                       final boolean forGeneralizedHandler) {
-
-        boolean any          = false;
-        boolean isEnumerated = false;
-
-        //-- a hack, I know, I will change later (kv)
-        if (member.getName().equals("_anyObject")) {
-            any = true;
-        }
-
-        if (xsType.getType() == XSType.CLASS) {
-            isEnumerated = ((XSClass) xsType).isEnumerated();
-        }
-
-        jsc.add("handler = new org.exolab.castor.xml.XMLFieldHandler() {");
-        jsc.indent();
-
-        //-- getValue(Object) method
-        if (_config.useJava50()) {
-            jsc.add("@Override");
-        }
-        jsc.add("public java.lang.Object getValue( java.lang.Object object ) ");
-        jsc.indent();
-        jsc.add("throws IllegalStateException");
-        jsc.unindent();
-        jsc.add("{");
-        jsc.indent();
-        jsc.add(localClassName);
-        jsc.append(" target = (");
-        jsc.append(localClassName);
-        jsc.append(") object;");
-        //-- handle primitives
-        if ((!xsType.isEnumerated()) && xsType.getJType().isPrimitive() && (!member.isMultivalued())) {
-            jsc.add("if(!target." + member.getHasMethodName() + "())");
-            jsc.indent();
-            jsc.add("return null;");
-            jsc.unindent();
-        }
-        //-- Return field value
-        jsc.add("return ");
-        String value = "target." + member.getReadMethodName() + "()";
-        if (member.isMultivalued()) {
-            jsc.append(value); //--Be careful : different for attributes
-        } else {
-            jsc.append(xsType.createToJavaObjectCode(value));
-        }
-        jsc.append(";");
-        jsc.unindent();
-        jsc.add("}");
-        //--end of getValue(Object) method
-
-        boolean isAttribute = (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE);
-        boolean isContent   = (member.getNodeType() == XMLInfo.TEXT_TYPE);
-
-        //-- setValue(Object, Object) method
-        if (_config.useJava50()) {
-            jsc.add("@Override");
-        }
-        jsc.add("public void setValue( java.lang.Object object, java.lang.Object value) ");
-        jsc.indent();
-        jsc.add("throws IllegalStateException, IllegalArgumentException");
-        jsc.unindent();
-        jsc.add("{");
-        jsc.indent();
-        jsc.add("try {");
-        jsc.indent();
-        jsc.add(localClassName);
-        jsc.append(" target = (");
-        jsc.append(localClassName);
-        jsc.append(") object;");
-        //-- check for null primitives
-        if (xsType.isPrimitive() && !_config.usePrimitiveWrapper()) {
-            if ((!member.isRequired()) && (!xsType.isEnumerated()) && (!member.isMultivalued())) {
-                jsc.add("// if null, use delete method for optional primitives ");
-                jsc.add("if (value == null) {");
-                jsc.indent();
-                jsc.add("target.");
-                jsc.append(member.getDeleteMethodName());
-                jsc.append("();");
-                jsc.add("return;");
-                jsc.unindent();
-                jsc.add("}");
-            } else {
-                jsc.add("// ignore null values for non optional primitives");
-                jsc.add("if (value == null) return;");
-                jsc.add("");
-            }
-        } //if primitive
-
-        jsc.add("target.");
-        jsc.append(member.getWriteMethodName());
-        jsc.append("( ");
-        if (xsType.isPrimitive() && !_config.usePrimitiveWrapper()) {
-            jsc.append(xsType.createFromJavaObjectCode("value"));
-        } else if (any) {
-            jsc.append(" value ");
-        } else {
-            jsc.append("(");
-            jsc.append(xsType.getJType().toString());
-            //special handling for the type package
-            //when we are dealing with attributes
-            //This is a temporary solution since we need to handle
-            //the 'types' in specific handlers in the future
-            //i.e add specific FieldHandler in org.exolab.castor.xml.handlers
-            //dateTime is not concerned by the following since it is directly
-            //handle by DateFieldHandler
-            if ((isAttribute | isContent) && xsType.isDateTime()
-                    && xsType.getType() != XSType.DATETIME_TYPE) {
-                jsc.append(".parse");
-                jsc.append(JavaNaming.toJavaClassName(xsType.getName()));
-                jsc.append("((java.lang.String) value))");
-            } else {
-                jsc.append(") value");
-            }
-        }
-        jsc.append(");");
-
-        jsc.unindent();
-        jsc.add("}");
-        jsc.add("catch (java.lang.Exception ex) {");
-        jsc.indent();
-        jsc.add("throw new IllegalStateException(ex.toString());");
-        jsc.unindent();
-        jsc.add("}");
-        jsc.unindent();
-        jsc.add("}");
-        //--end of setValue(Object, Object) method
-
-        //-- reset method (handle collections only)
-        if (member.isMultivalued()) {
-            CollectionInfo cInfo = (CollectionInfo) member;
-            // FieldInfo content = cInfo.getContent();
-            jsc.add("public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {");
-            jsc.indent();
-            jsc.add("try {");
-            jsc.indent();
-            jsc.add(localClassName);
-            jsc.append(" target = (");
-            jsc.append(localClassName);
-            jsc.append(") object;");
-            String cName = JavaNaming.toJavaClassName(cInfo.getElementName());
-//            if (cInfo instanceof CollectionInfoJ2) {
-//                jsc.add("target.clear" + cName + "();");
-//            } else {
-                jsc.add("target.removeAll" + cName + "();");
-//            }
-            jsc.unindent();
-            jsc.add("} catch (java.lang.Exception ex) {");
-            jsc.indent();
-            jsc.add("throw new IllegalStateException(ex.toString());");
-            jsc.unindent();
-            jsc.add("}");
-            jsc.unindent();
-            jsc.add("}");
-        }
-        //-- end of reset method
-
-
-        createNewInstanceMethodForXMLFieldHandler(member, xsType, jsc, forGeneralizedHandler,
-                                                  any, isEnumerated);
-        jsc.unindent();
-        jsc.add("};");
-    } //--end of XMLFieldHandler
-
-    /**
-     * Creates the newInstance() method of the corresponsing XMLFieldHandler.
-     * @param member The member element.
-     * @param xsType The XSType instance
-     * @param jsc The source code to which to append the 'newInstance' method.
-     * @param forGeneralizedHandler Whether to generate a generalized field handler
-     * @param any Whether to create a newInstance() method for <xs:any>
-     * @param isEnumerated Whether to create a newInstance() method for an enumeration.
-     */
-    private void createNewInstanceMethodForXMLFieldHandler(
-            final FieldInfo member, final XSType xsType, final JSourceCode jsc,
-            final boolean forGeneralizedHandler, final boolean any,
-            final boolean isEnumerated) {
-        boolean isAbstract = false;
-
-        // Commented out according to CASTOR-1340
-//        if (member.getDeclaringClassInfo() != null) {
-//           isAbstract = member.getDeclaringClassInfo().isAbstract();
-//        }
-
-        // check whether class of member is declared as abstract
-        if (member.getSchemaType() != null && member.getSchemaType().getJType() instanceof JClass) {
-            JClass jClass = (JClass) member.getSchemaType().getJType();
-            isAbstract = jClass.getModifiers().isAbstract();
-        }
-
-        if (!isAbstract && xsType.getJType() instanceof JClass) {
-            JClass jClass = (JClass) xsType.getJType();
-            isAbstract = jClass.getModifiers().isAbstract();
-        }
-
-        if (!isAbstract && member.getSchemaType() instanceof XSList) {
-            XSList xsList = (XSList) member.getSchemaType();
-            if (xsList.getContentType().getJType() instanceof JClass) {
-                JClass componentType = (JClass) xsList.getContentType().getJType();
-                if (componentType.getModifiers().isAbstract()) {
-                    isAbstract = componentType.getModifiers().isAbstract();
-                }
-            }
-        }
-
-        if (_config.useJava50()) {
-            jsc.add("@Override");
-            jsc.add("@SuppressWarnings(\"unused\")");
-        }
-
-        jsc.add("public java.lang.Object newInstance( java.lang.Object parent ) {");
-        jsc.indent();
-        jsc.add("return ");
-
-        if (any || forGeneralizedHandler || isEnumerated
-                || xsType.isPrimitive()
-                || xsType.getJType() instanceof JArrayType
-                || (xsType.getType() == XSType.STRING_TYPE) || isAbstract) {
-            jsc.append("null;");
-        } else {
-            jsc.append(xsType.newInstanceCode());
-        }
-
-        jsc.unindent();
-        jsc.add("}");
-    }
 
     /**
      * Adds additional logic or wrappers around the core handler for special
