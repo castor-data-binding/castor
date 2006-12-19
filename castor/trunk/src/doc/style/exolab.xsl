@@ -35,7 +35,7 @@
     <table border="0" cellpadding="0" cellspacing="0" height="400">
 
       <tr>
-      	<td width="10" valign="top" align="left" bgcolor="#7270c2"><img
+          <td width="10" valign="top" align="left" bgcolor="#7270c2"><img
         src="images/dotTrans.gif" width="1" height="1" border="0"/></td>
         <td valign="top" align="left" bgcolor="#7270c2"><xsl:attribute name="width"><xsl:value-of select="$second_col_width"></xsl:value-of></xsl:attribute><img
           src="images/dotTrans.gif" width="1" height="1" border="0"/></td>
@@ -239,37 +239,37 @@
     <xsl:choose>
       <xsl:when test='$level=2'>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
-		<xsl:if test="@title">
+        <xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h2><xsl:value-of select="@title"/></h2></a>
         </xsl:if>
-		<xsl:if test="@name">
+        <xsl:if test="@name">
         <a name="{translate(@name,' ','-')}"><h2><xsl:value-of select="@name"/></h2></a>
         </xsl:if>
       </xsl:when>
       <xsl:when test='$level=3'>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
-		<xsl:if test="@title">
+        <xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h3><xsl:value-of select="@title"/></h3></a>
         </xsl:if>
-		<xsl:if test="@name">
+        <xsl:if test="@name">
         <a name="{translate(@name,' ','-')}"><h3><xsl:value-of select="@name"/></h3></a>
         </xsl:if>
       </xsl:when>
       <xsl:when test='$level=4'>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
-		<xsl:if test="@title">
+        <xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h4><xsl:value-of select="@title"/></h4></a>
         </xsl:if>
-		<xsl:if test="@name">
+        <xsl:if test="@name">
         <a name="{translate(@name,' ','-')}"><h4><xsl:value-of select="@name"/></h4></a>
         </xsl:if>
       </xsl:when>
       <xsl:otherwise>
         <xsl:if test="@ref-id"><a name="{@ref-id}"/></xsl:if>
-		<xsl:if test="@title">
+        <xsl:if test="@title">
         <a name="{translate(@title,' ','-')}"><h5><xsl:value-of select="@title"/></h5></a>
         </xsl:if>
-		<xsl:if test="@name">
+        <xsl:if test="@name">
         <a name="{translate(@name,' ','-')}"><h5><xsl:value-of select="@name"/></h5></a>
         </xsl:if>
       </xsl:otherwise>
@@ -387,13 +387,13 @@
   <xsl:template match="api">
     <xsl:choose>
       <xsl:when test="@package">
-        <a href="api/{translate(@package,'.','/')}/package-summary.html"><xsl:copy-of select="."/></a>
+        <a href="javadoc/{translate(@package,'.','/')}/package-summary.html"><xsl:copy-of select="."/></a>
       </xsl:when>
       <xsl:when test="@class">
-        <a href="api/{translate(@class,'.','/')}.html#{.}"><xsl:value-of select="."/></a>
+        <a href="javadoc/{translate(@class,'.','/')}.html#{.}"><xsl:value-of select="."/></a>
       </xsl:when>
       <xsl:otherwise>
-        <a href="api/{translate(.,'.','/')}.html"><xsl:copy-of select="."/></a>
+        <a href="javadoc/{translate(.,'.','/')}.html"><xsl:copy-of select="."/></a>
       </xsl:otherwise>
     </xsl:choose>
   </xsl:template>
@@ -402,11 +402,11 @@
     <xsl:choose>
       <xsl:when test="@title">
         <a href="{.}"><xsl:value-of select="@title"/></a>
-	  </xsl:when>
-	  <xsl:otherwise>
+      </xsl:when>
+      <xsl:otherwise>
         <a href="{.}"><xsl:copy-of select="."/></a>
-	  </xsl:otherwise>
-	</xsl:choose>
+      </xsl:otherwise>
+    </xsl:choose>
   </xsl:template>
 
   <xsl:template match="email">
@@ -419,7 +419,7 @@
   <xsl:template match="body-note">
     <hr size="1" noshadow=""/><span class="bodyGrey"><xsl:apply-templates/><hr size="1" noshadow=""/></span>
   </xsl:template>
-  
+
   <xsl:template match="note">
     <p>
     <table width="100%" border="0" cellspacing="1" cellpadding="3" bgcolor="#7270c2">
@@ -429,8 +429,8 @@
       <tr>
         <td>
           <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#ededed">
-        	<tr>
-            	<td><span class="noteBody">
+            <tr>
+                <td><span class="noteBody">
                     <xsl:apply-templates/>
                 </span></td>
             </tr>
@@ -444,11 +444,11 @@
   <xsl:template match="code-panel">
     <p/>
     <table width="100%" border="0" cellspacing="1" cellpadding="1" bgcolor="#7270c2">
-	    <xsl:if test="@top-caption">
-		       <tr>
-		          <td><i><font color="yellow"><xsl:value-of select="@top-caption"/></font></i></td>
-		       </tr>
-	    </xsl:if>
+        <xsl:if test="@top-caption">
+               <tr>
+                  <td><i><font color="yellow"><xsl:value-of select="@top-caption"/></font></i></td>
+               </tr>
+        </xsl:if>
       <tr>
         <td>
           <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#ededed">
@@ -464,7 +464,7 @@
       </tr>
     </table>
     <xsl:if test="@caption">
-	  <i><xsl:value-of select="@caption"/></i>
+      <i><xsl:value-of select="@caption"/></i>
     </xsl:if>
     <p/>
   </xsl:template>
@@ -472,11 +472,11 @@
   <xsl:template match="source">
     <p/>
     <table width="100%" border="0" cellspacing="1" cellpadding="1" bgcolor="#7270c2">
-	    <xsl:if test="@top-caption">
-		       <tr>
-		          <td><i><font color="yellow"><xsl:value-of select="@top-caption"/></font></i></td>
-		       </tr>
-	    </xsl:if>
+        <xsl:if test="@top-caption">
+               <tr>
+                  <td><i><font color="yellow"><xsl:value-of select="@top-caption"/></font></i></td>
+               </tr>
+        </xsl:if>
       <tr>
         <td>
           <table width="100%" border="0" cellspacing="1" cellpadding="4" bgcolor="#ededed">
@@ -492,7 +492,7 @@
       </tr>
     </table>
     <xsl:if test="@caption">
-	  <i><xsl:value-of select="@caption"/></i>
+      <i><xsl:value-of select="@caption"/></i>
     </xsl:if>
     <p/>
   </xsl:template>
@@ -518,7 +518,7 @@
       </tr>
     </table>
     <xsl:if test="@caption">
-	  <i><xsl:value-of select="@caption"/></i>
+      <i><xsl:value-of select="@caption"/></i>
     </xsl:if>
   </xsl:template>
 
@@ -671,16 +671,16 @@
             <xsl:variable name="name" select="name"/>
             <xsl:variable name="url" select="url"/>
             <xsl:variable name="description" select="description"/>
-			<tr><td colspan="2">
-				<h3>
+            <tr><td colspan="2">
+                <h3>
                      <a>
                          <xsl:attribute name="href">
                              <xsl:apply-templates select="url"/>
                          </xsl:attribute>
                          <xsl:value-of select="name"/>
                      </a>
-				</h3>
-			</td></tr>
+                </h3>
+            </td></tr>
             <tr valign="top">
                 <td bgcolor="{$color-epsilon}">
                     <span class="bodyGrey">
@@ -716,13 +716,13 @@
         </xsl:for-each>
     </table>
   </xsl:template>
-  
+
     <xsl:template match="contact">
         <td>
             <span class="bodyGrey">
-                <xsl:copy-of select="name"/><br/> 
+                <xsl:copy-of select="name"/><br/>
                 email: <xsl:copy-of select="email"/><br/>
-                phone: <xsl:value-of select="phone"/> 
+                phone: <xsl:value-of select="phone"/>
             </span>
         </td>
     </xsl:template>
@@ -766,7 +766,7 @@
   </xsl:template>
 
   <xsl:template match="news">
-	<xsl:param name="id" select="@id" />
+    <xsl:param name="id" select="@id" />
     <br />
       <table width="100%" border="0" cellspacing="1" cellpadding="2" bgcolor="#7270c2"><tr><td>
           <table width="100%" border="0" cellspacing="1" cellpadding="8" bgcolor="#ededed"><tr><td>
@@ -788,7 +788,7 @@
   <xsl:template match="release">
     <br/>
     <hr/>
-	<h1>Release <xsl:value-of select="@version"/></h1>
+    <h1>Release <xsl:value-of select="@version"/></h1>
     <hr/>
     <table width="100%" border="0" cellspacing="1" cellpadding="2">
       <tr>
@@ -799,8 +799,8 @@
         <td>managed by:</td><td><xsl:value-of select="managed-by"/></td>
       </tr>
     </table><br/>
-  	<xsl:apply-templates select="summary"/><br/>
-  	<xsl:apply-templates select="bugs"/><br/>
+      <xsl:apply-templates select="summary"/><br/>
+      <xsl:apply-templates select="bugs"/><br/>
   </xsl:template>
 
   <xsl:template match="bugs">
@@ -810,7 +810,7 @@
       <CAPTION style="font-weight:bold">
          Bug Fixes And Issues Addressed
       </CAPTION>
-	  	 <tr bgcolor="#7270c2">
+           <tr bgcolor="#7270c2">
            <th align="left">Id</th>
            <th align="left">Date</th>
            <th align="left">Fixed by</th>
@@ -888,28 +888,28 @@
          <td>
             <xsl:choose>
                <xsl:when test="@id != ''">
-				  <xsl:choose>
-					  <xsl:when test="@tool = 'jira'">
-						  <xsl:choose>
-							 <xsl:when test="@id > 0">
-								<a href="http://jira.codehaus.org/browse/CASTOR-{@id}"><xsl:value-of select="@id" /></a>
-							 </xsl:when>
-							 <xsl:otherwise>
-								<xsl:value-of select="@id"/>
-							 </xsl:otherwise>
-						  </xsl:choose>
-	 				  </xsl:when>
-					  <xsl:otherwise>
-						<xsl:choose>
-						 <xsl:when test="@id > 0">
-							<a href="http://bugzilla.exolab.org/show_bug.cgi?id={@id}"><xsl:value-of select="@id" /></a>
-						 </xsl:when>
-						 <xsl:otherwise>
-							<xsl:value-of select="@id"/>
-						 </xsl:otherwise>
-						</xsl:choose>
-					  </xsl:otherwise>
-				  </xsl:choose>
+                  <xsl:choose>
+                      <xsl:when test="@tool = 'jira'">
+                          <xsl:choose>
+                             <xsl:when test="@id > 0">
+                                <a href="http://jira.codehaus.org/browse/CASTOR-{@id}"><xsl:value-of select="@id" /></a>
+                             </xsl:when>
+                             <xsl:otherwise>
+                                <xsl:value-of select="@id"/>
+                             </xsl:otherwise>
+                          </xsl:choose>
+                       </xsl:when>
+                      <xsl:otherwise>
+                        <xsl:choose>
+                         <xsl:when test="@id > 0">
+                            <a href="http://bugzilla.exolab.org/show_bug.cgi?id={@id}"><xsl:value-of select="@id" /></a>
+                         </xsl:when>
+                         <xsl:otherwise>
+                            <xsl:value-of select="@id"/>
+                         </xsl:otherwise>
+                        </xsl:choose>
+                      </xsl:otherwise>
+                  </xsl:choose>
                </xsl:when>
                <xsl:otherwise>
                      ----
@@ -948,7 +948,7 @@
         </tr>
       </table>
   </xsl:template>
-  
+
   <xsl:template match="ctable">
 
       <xsl:variable name="cellpadding">
@@ -975,9 +975,9 @@
            </td>
         </tr>
      </table>
-    
+
   </xsl:template>
-  
+
   <xsl:template match="cheader">
     <xsl:copy-of select="." />
   </xsl:template>
@@ -990,10 +990,10 @@
         <xsl:if test="(position() mod 2) = 1">
            <xsl:attribute name="bgcolor">#DDDDDD</xsl:attribute>
         </xsl:if>
-		<xsl:apply-templates/>
-<!--		
+        <xsl:apply-templates/>
+<!--
         <xsl:copy-of select="." />
--->		
+-->
     </tr>
   </xsl:template>
 

@@ -579,7 +579,7 @@
         </copy>
     </target>
 
-    <target name="doc" depends="prepare" description="Build the HTML docs">
+    <target name="doc" depends="prepare" description="Build the HTML docs, not including JavaDoc">
         <delete dir="${build}/doc"/>
         <mkdir dir="${build}/doc"/>
 
@@ -674,7 +674,7 @@
                  classpathref="javadoc.classpath"/>
     </target>
 
-    <target name="docs" depends="doc,javadoc,rss" description="Build the HTML docs, full and API javadocs">
+    <target name="docs" depends="doc,javadoc,rss" description="Build the HTML docs and full javadocs">
         <zip zipfile="${dist}/${archive.name}-doc.zip" basedir="${build}" includes="doc/**"/>
         <tar tarfile="${dist}/${archive.name}-doc.tar" basedir="${build}" includes="doc/**"/>
         <gzip src="${dist}/${archive.name}-doc.tar" zipfile="${dist}/${archive.name}-doc.tgz"/>
