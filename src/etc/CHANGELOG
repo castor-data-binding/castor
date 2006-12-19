@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1744 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Fix build for <api> links in web page
+       Details: http://jira.codehaus.org/browse/CASTOR-1744
+       (Edward - 20061218)
+
 XML:   Resolved issue CASTOR-1740 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved all XMLFieldHandler-related code within DescriptorSourceFactory to new
        XMLFieldHandlerFactory.
@@ -19,7 +24,7 @@ XML:   Resolved issue CASTOR-1720 using contribution from Werner Guttmann [werne
        (Werner - 20061215)
 
 XML:   Resolved issue CASTOR-1737 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Added new ClassNameCRStrategy that simply logs such conflicts without possibility of 
+       Added new ClassNameCRStrategy that simply logs such conflicts without possibility of
        user intervention.
        Details: http://jira.codehaus.org/browse/CASTOR-1737
        (Werner - 20061215)

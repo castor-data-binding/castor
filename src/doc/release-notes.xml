@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.org/release-notes.xml">
+<document url="http://castor.exolab.org/release-notes.xml">
   <body>
     <title>Release notes</title>
     <section title="Releases">
@@ -135,9 +135,9 @@
 
                 <h2>Additions</h2>
 
-                <h3>Code generation - Specifying member visibility in binding file</h3>
+                <h3>Code generation -- Specifying member visibility in binding file</h3>
 
-                <p>It is now - at the &lt;member&gt; level - possible to specify a Java
+                <p>It is now -- at the &lt;member&gt; level -- possible to specify a Java
                    member's visibility (different from the default value "private")
                    similar to ...</p>
 
@@ -161,7 +161,6 @@
    </xsd:simpleType>
 </xsd:attribute>]]></code-panel>
 
-
                 <h3>Support for additional collection types in binding file</h3>
 
                 <p>Added support for specifying additional collection types
@@ -184,7 +183,7 @@
                 <h3>Added support for &lt;enumBinding&gt;s</h3>
 
                 <p>The XML code generator has been enhanced so that it is possible
-                   to provide a binding for the folowing enumeration ...</p>
+                   to provide a binding for the following enumeration ...</p>
 
                 <code-panel><![CDATA[
 <xs:simpleType name="durationUnitType">
@@ -213,34 +212,54 @@
                 <h3>Added support for anonymous type definition in XML code generation bindings</h3>
 
                 <p>For &lt;complexType&gt; and &lt;simpleType&gt; enumerations, it is
-                   now possible to specify that a component binding should effect
+                   now possible to specify that a component binding should affect
                    an anonymous type definition. To qualify such an anonymous type definition
                    as part of the '<tt>name</tt>' attribute of a component
                    binding, please use the type name qualifier '<tt>anonymous</tt>'
                    as shown below.</p>
 
-         <code-panel>
-&lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
-   &lt;member name="MyFoo" handler="mypackage.myHandler"/>
-&lt;/elementBinding></code-panel>
+         <code-panel><![CDATA[
+<elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
+   <member name="MyFoo" handler="mypackage.myHandler"/>
+</elementBinding>]]></code-panel>
 
-				<h3>Add support for validating &lt;xsd:ID&gt; during marshalling.</h3>
-				
-				<p>Castor XML now supports validation of &lt;xsd:ID&gt;s during 
-				   marshalling, preventing the following scenarios from being
-				   marshalled successfully (throwing a ValidationException instead):</p>
-				   
-				<ul>
-					<li>&lt;xsd:ID&gt; with empty values</li>
-					<li>&lt;xsd:ID&gt; with duplicate values</li>
-				</ul>
+                <h3>Add support for validating &lt;xsd:ID&gt; during marshaling.</h3>
+
+                <p>Castor XML now supports validation of &lt;xsd:ID&gt;s during
+                   marshaling, preventing the following scenarios from being
+                   marshaled successfully (throwing a ValidationException instead):</p>
+
+                <ul>
+                    <li>&lt;xsd:ID&gt; with empty values</li>
+                    <li>&lt;xsd:ID&gt; with duplicate values</li>
+                </ul>
 
             </summary>
             <bugs>
+                <bug id="1744" tool="jira">
+                    <description>
+                        Fix build for &lt;api> links in web page
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>All</module>
+                    <date>20061218</date>
+                </bug>
                 <bug id="1740" tool="jira">
                     <description>
-                    	Moved all XMLFieldHandler-related code within DescriptorSourceFactory 
-                    	to new XMLFieldHandlerFactory component.
+                        Moved all XMLFieldHandler-related code within DescriptorSourceFactory
+                        to new XMLFieldHandlerFactory component.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
@@ -300,7 +319,7 @@
                 </bug>
                 <bug id="1737" tool="jira">
                     <description>
-                        Added new ClassNameCRStrategy that simply logs such conflicts 
+                        Added new ClassNameCRStrategy that simply logs such conflicts
                         without possibility of user intervention
                     </description>
                     <contributor>
