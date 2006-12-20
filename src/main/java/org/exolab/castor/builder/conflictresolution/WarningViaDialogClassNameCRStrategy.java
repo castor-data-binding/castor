@@ -137,4 +137,29 @@ public class WarningViaDialogClassNameCRStrategy
         this._dialog = dialog;
     }
 
+    /**     
+     * Present the user with a console dialog, asking for confirmation 
+     * whether an existing file should be overwritten (or not).
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithFileOverwrite(java.lang.String, boolean)
+     */
+    public boolean dealWithFileOverwrite(final String filename, boolean promptForOverwrite) {
+        boolean allowPrinting = true;
+
+        String message = filename + " already exists. overwrite";
+        char ch = _dialog.confirm(message, "yna", "y = yes, n = no, a = all");
+        switch (ch) {
+            case 'a':
+                promptForOverwrite = false;
+                allowPrinting = true;
+                break;
+            case 'y':
+                allowPrinting = true;
+                break;
+            default:
+                allowPrinting = false;
+                break;
+        }
+        return allowPrinting;
+    }
+
 }

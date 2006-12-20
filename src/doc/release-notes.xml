@@ -236,6 +236,26 @@
 
             </summary>
             <bugs>
+                <bug id="1746" tool="jira">
+                    <description>
+                        Enhanced ClassNameCRStrategy with dealWithFileOverwrite() functionality.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061220</date>
+                </bug>
                 <bug id="1745" tool="jira">
                     <description>
                         Update and extend comments in castorbuilder.properties

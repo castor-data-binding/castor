@@ -126,5 +126,13 @@ public class InformViaLogClassNameCRStrategy
     public void setConsoleDialog(ConsoleDialog dialog) {
         // this._dialog = dialog;
     }
+
+    /**
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithFileOverwrite(java.lang.String, boolean)
+     */
+    public boolean dealWithFileOverwrite(String filename, boolean promptForOverwrite) {
+        LOG.warn(filename + " already exists, but will be overwritten.");
+        return true;
+    }
     
 }
