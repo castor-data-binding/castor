@@ -35,7 +35,7 @@ import org.exolab.javasource.JClass;
  * @since 1.1
  */
 public class WarningViaDialogClassNameCRStrategy
-        implements ClassNameCRStrategy {
+    extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
 
     /**
      * Name of this strategy.
@@ -142,14 +142,14 @@ public class WarningViaDialogClassNameCRStrategy
      * whether an existing file should be overwritten (or not).
      * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithFileOverwrite(java.lang.String, boolean)
      */
-    public boolean dealWithFileOverwrite(final String filename, boolean promptForOverwrite) {
+    public boolean dealWithFileOverwrite(final String filename) {
         boolean allowPrinting = true;
 
         String message = filename + " already exists. overwrite";
         char ch = _dialog.confirm(message, "yna", "y = yes, n = no, a = all");
         switch (ch) {
             case 'a':
-                promptForOverwrite = false;
+                getSingleClassGenerator().setPromptForOverwrite(false);
                 allowPrinting = true;
                 break;
             case 'y':
@@ -160,6 +160,14 @@ public class WarningViaDialogClassNameCRStrategy
                 break;
         }
         return allowPrinting;
+    }
+    
+    /**
+     * Returns the {@link ConsoleDialog} instance in use.
+     * @return the {@link ConsoleDialog} used for output/feedback gathering.
+     */
+    protected ConsoleDialog getConsoleDialog() {
+        return this._dialog;
     }
 
 }

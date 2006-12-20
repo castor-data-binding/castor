@@ -37,7 +37,7 @@ import org.exolab.javasource.JClass;
  * @since 1.1
  */
 public class InformViaLogClassNameCRStrategy 
-    implements ClassNameCRStrategy {
+    extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
     
     /**
      * Logger instance used for logging naming conflicts
@@ -48,7 +48,7 @@ public class InformViaLogClassNameCRStrategy
      * Name of this strategy.
      */
     public static final String NAME = "informViaLog";
-    
+
     /**
      * Creates an instance of this name conflict resolution strategy, that 
      * will emit warnings to the user as part of a standard logging aproach.
@@ -130,7 +130,7 @@ public class InformViaLogClassNameCRStrategy
     /**
      * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithFileOverwrite(java.lang.String, boolean)
      */
-    public boolean dealWithFileOverwrite(String filename, boolean promptForOverwrite) {
+    public boolean dealWithFileOverwrite(String filename) {
         LOG.warn(filename + " already exists, but will be overwritten.");
         return true;
     }

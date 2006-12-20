@@ -361,7 +361,7 @@ public class SingleClassGenerator {
             return true;
         }
 
-        return _conflictStrategy.dealWithFileOverwrite(filename, _promptForOverwrite);
+        return _conflictStrategy.dealWithFileOverwrite(filename);
     }
 
     /**
@@ -457,6 +457,7 @@ public class SingleClassGenerator {
         this._conflictStrategy = 
             _classNameConflictResolutionStrategyRegistry.getClassNameConflictResolutionStrategy(nameConflictStrategy);
         this._conflictStrategy.setConsoleDialog(_dialog);
+        this._conflictStrategy.setSingleClassGenerator(this);
     }
 
 }
