@@ -218,10 +218,10 @@
                    binding, please use the type name qualifier '<tt>anonymous</tt>'
                    as shown below.</p>
 
-         <code-panel><![CDATA[
-<elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
-   <member name="MyFoo" handler="mypackage.myHandler"/>
-</elementBinding>]]></code-panel>
+         <code-panel>
+&lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
+   &lt;member name="MyFoo" handler="mypackage.myHandler"/>
+&lt;/elementBinding></code-panel>
 
                 <h3>Add support for validating &lt;xsd:ID&gt; during marshaling.</h3>
 
