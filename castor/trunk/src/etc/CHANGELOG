@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1745 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Update and extend comments in castorbuilder.properties
+       Details: http://jira.codehaus.org/browse/CASTOR-1745
+       (Edward - 20061219)
+
 XML:   Resolved issue CASTOR-1744 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fix build for <api> links in web page
        Details: http://jira.codehaus.org/browse/CASTOR-1744
