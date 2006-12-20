@@ -236,6 +236,26 @@
 
             </summary>
             <bugs>
+                <bug id="1745" tool="jira">
+                    <description>
+                        Update and extend comments in castorbuilder.properties
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061219</date>
+                </bug>
                 <bug id="1744" tool="jira">
                     <description>
                         Fix build for &lt;api> links in web page
