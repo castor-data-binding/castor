@@ -16,6 +16,7 @@
 package org.exolab.castor.builder.conflictresolution;
 
 import org.exolab.castor.builder.SGStateInfo;
+import org.exolab.castor.builder.SingleClassGenerator;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.javasource.JClass;
@@ -45,10 +46,9 @@ public interface ClassNameCRStrategy {
      * Implements a specific strategy for dealing with the fact that - for a given file
      * name - an artefact with the same name already exists 
      * @param filename The name of the file to be overwritten.
-     * @param promptForOverwrite General builder setting for overwriting files 
      * @return True of the file should be overwritten.
      */
-    boolean dealWithFileOverwrite(String filename, boolean promptForOverwrite);    
+    boolean dealWithFileOverwrite(String filename);    
 
     /**
      * Returns the name of this strategy.
@@ -61,5 +61,13 @@ public interface ClassNameCRStrategy {
      * @param dialog the {@link ConsoleDialog} instance to use (if required).
      */
     void setConsoleDialog(ConsoleDialog dialog);
+
+    /**
+     * Injects the {@link SingleClassGenerator} instance that actually is calling
+     * a method of this strategy.
+     * @param generator The calling {@link SingleClassGenerator}
+     * @see SingleClassGenerator
+     */
+    void setSingleClassGenerator(SingleClassGenerator generator);
 
 }
