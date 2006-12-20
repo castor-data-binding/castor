@@ -352,6 +352,8 @@ public class SingleClassGenerator {
             return true;
         }
 
+        // Check whether there exists already a file with the same name;
+        // if not, it is OK to write (aka create) the (new) file
         String filename = jClass.getFilename(_destDir);
         File file = new File(filename);
 
@@ -359,23 +361,7 @@ public class SingleClassGenerator {
             return true;
         }
 
-        boolean allowPrinting = true;
-
-        String message = filename + " already exists. overwrite";
-        char ch = _dialog.confirm(message, "yna", "y = yes, n = no, a = all");
-        switch (ch) {
-            case 'a':
-                _promptForOverwrite = false;
-                allowPrinting = true;
-                break;
-            case 'y':
-                allowPrinting = true;
-                break;
-            default:
-                allowPrinting = false;
-                break;
-        }
-        return allowPrinting;
+        return _conflictStrategy.dealWithFileOverwrite(filename, _promptForOverwrite);
     }
 
     /**

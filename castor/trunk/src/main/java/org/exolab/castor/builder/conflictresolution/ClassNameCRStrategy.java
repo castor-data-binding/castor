@@ -40,6 +40,15 @@ public interface ClassNameCRStrategy {
      */
     SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
             final ClassInfo newClassInfo, final JClass conflict);
+    
+    /**
+     * Implements a specific strategy for dealing with the fact that - for a given file
+     * name - an artefact with the same name already exists 
+     * @param filename The name of the file to be overwritten.
+     * @param promptForOverwrite General builder setting for overwriting files 
+     * @return True of the file should be overwritten.
+     */
+    boolean dealWithFileOverwrite(String filename, boolean promptForOverwrite);    
 
     /**
      * Returns the name of this strategy.
