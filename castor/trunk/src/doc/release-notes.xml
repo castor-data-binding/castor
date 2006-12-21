@@ -133,6 +133,46 @@
                   <tt>MasterTestSuite/sourcegenerator/Facets/DateTimeNoTimeZone/</tt>
                 </p>
 
+                <h3>The Source Generator now creates class descriptors in a subdirectory</h3>
+
+                <p>
+                  Previously, the class descriptors (used during marshaling and
+                  unmarshaling to provide constraints, validation assistance, etc.) were
+                  generated into the same directory (same package) as the classes
+                  they describe.  Starting with this release, the class descriptors
+                  are generated into a subpackage named "descriptors" one directory
+                  lower than the package where the classes being described are
+                  generated.  Doing so prevents the class descriptors from cluttering
+                  up the directory where the code the developer cares about will be
+                  generated.
+                </p>
+
+                <p>
+                  An additional benefit of this change occurs if you generate source
+                  into a directory that already contains other source code.  In this
+                  instance, it can be difficult for ANT to determine whether or not
+                  you need to regenerate the generated source code, that is, whether
+                  the XSD file is newer or older than the generated source.  Under the
+                  usual circumstance where the descriptors subpackage contains only
+                  generated code, you can use the ANT <tt>&lt;uptodate></tt> task
+                  to compare the timestamp of the XSD file against the timestamps of the
+                  descriptors, and thus reliably know whether or not you have to
+                  regenerate source code.
+                </p>
+
+                <p>
+                  For marshaling and unmarshaling, the class descriptors will be
+                  located via the "<tt>.castor.cdr</tt>" files located in the
+                  directories (packages) where the classes are generated.  If these
+                  files are deleted or are not kept (<i>we highly recommend including
+                  these files in your JAR file</i>) then the class descriptor resolver
+                  will first look for the class descriptors in the same package
+                  where the classes to be described are.  If they are not found
+                  there, then the class descriptor resolver will look in a
+                  subpackage "descriptors."  This maintains backwards compatibility
+                  with code generated under older Castor releases.
+                </p>
+
                 <h2>Additions</h2>
 
                 <h3>Code generation -- Specifying member visibility in binding file</h3>
