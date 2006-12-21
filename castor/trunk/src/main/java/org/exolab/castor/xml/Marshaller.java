@@ -73,6 +73,7 @@ import org.exolab.castor.xml.handlers.EnumFieldHandler;
 import org.exolab.castor.xml.util.*;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.util.SafeStack;
 
 //-- misc xml related imports
 import org.xml.sax.*;
@@ -391,7 +392,7 @@ public class Marshaller extends MarshalFramework {
         _packages        = new ArrayList(3);
         _cdResolver      = (XMLClassDescriptorResolver)
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
-        _parents         = new Stack();
+        _parents         = new SafeStack();
         _validate        = _config.marshallingValidation();
         _naming          = XMLNaming.getInstance();
         _processingInstructions = new ArrayList(3);
@@ -1577,7 +1578,7 @@ public class Marshaller extends MarshalFramework {
                     if (path != null) {
                         _attributes.clear();
                         if (wrappers == null) {
-                            wrappers  = new Stack();
+                            wrappers  = new SafeStack();
                         }
                         try {
                             while (path != null) {
@@ -1762,7 +1763,7 @@ public class Marshaller extends MarshalFramework {
             if (path != null) {
                 _attributes.clear();
                 if (wrappers == null) {
-                    wrappers  = new Stack();
+                    wrappers  = new SafeStack();
                 }
                 try {
                     while (path != null) {
@@ -1884,7 +1885,7 @@ public class Marshaller extends MarshalFramework {
         //-- Handle any additional attribute locations that were
         //-- not handled when dealing with wrapper elements
         if (nestedAttCount > 0) {
-            if (wrappers == null) wrappers = new Stack();
+            if (wrappers == null) wrappers = new SafeStack();
             for (int i = 0; i < nestedAtts.length; i++) {
                 if (nestedAtts[i] == null) continue;
                 String path = nestedAtts[i].getLocationPath();
