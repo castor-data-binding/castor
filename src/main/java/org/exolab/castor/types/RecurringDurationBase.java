@@ -68,6 +68,8 @@ import java.text.ParseException;
  * @see Time
  * @see TimeInstant
  * @see TimePeriod
+ * @deprecated since Castor 1.0.6 since type derived from this base class are
+ * not in any recommendation.
  */
 public abstract class RecurringDurationBase implements java.io.Serializable {
 

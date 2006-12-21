@@ -57,7 +57,7 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
- *
+ * @deprecated since Castor 1.0.6 since this type is not in any recommendation.
  */
 public class TimeDurationDescriptor extends BaseDescriptor {
 
