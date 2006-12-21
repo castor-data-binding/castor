@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1738 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Clean up Castor XML; remove unnecessary replacements of Java 1.2 classes
+       Details: http://jira.codehaus.org/browse/CASTOR-1738
+       (Edward - 20061220)
+
 XML:   Resolved issue CASTOR-597 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Have SourceGenerator use a separate packages for class descriptor classes
        Details: http://jira.codehaus.org/browse/CASTOR-597

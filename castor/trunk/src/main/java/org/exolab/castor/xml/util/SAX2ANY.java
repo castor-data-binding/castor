@@ -47,6 +47,8 @@
 
 package org.exolab.castor.xml.util;
 
+import java.util.Stack;
+
 import org.exolab.castor.types.AnyNode;
 
 import org.xml.sax.ContentHandler;
@@ -58,7 +60,6 @@ import org.xml.sax.AttributeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
 
-import org.exolab.castor.util.Stack;
 import org.exolab.castor.xml.Namespaces;
 
 /**
@@ -96,11 +97,11 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      * A stack to store the namespaces declaration
      */
     private Stack _namespaces = new Stack();
-    
+
     /**
-     * A flag indicating if the SAX2 Parser is processing the 
+     * A flag indicating if the SAX2 Parser is processing the
      * namespace or not. 'true' will indicate that the code of this
-     * Content Handler will have to deal with Namespaces.This is the default 
+     * Content Handler will have to deal with Namespaces.This is the default
      * value.
      */
     private boolean _processNamespace = true;
@@ -116,7 +117,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     private Namespaces _context;
 
     private boolean _wsPreserve = false;
-    
+
     /**
      * Default constructor
      */
@@ -133,7 +134,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public SAX2ANY(Namespaces context, boolean wsPreserve) {
         _context = context;
-        _wsPreserve = wsPreserve; 
+        _wsPreserve = wsPreserve;
         init();
     }
 
@@ -170,7 +171,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     public void startPrefixMapping(String prefix, String uri) throws SAXException {
         AnyNode temp = new AnyNode(AnyNode.NAMESPACE, null, prefix, uri, null);
        _namespaces.push(temp);
-       if (_processNamespace) { 
+       if (_processNamespace) {
            _context = _context.createNamespaces();
            _processNamespace = true;
        }
@@ -251,8 +252,8 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
                             String qName, Attributes atts)
           throws SAXException
     {
-        AnyNode tempNode;            	
-    	
+        AnyNode tempNode;
+
         //--SAX2 Parser has not processed the namespaces so we need to do it.
         if (_processNamespace)
         {
@@ -282,12 +283,12 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
                         namespaceURI = value;
                 }
             }
-            ////////////////////////END OF NAMESPACE HANDLING///////////////        	
+            ////////////////////////END OF NAMESPACE HANDLING///////////////
         }
-        
+
         //create element
         createNodeElement(namespaceURI, localName, qName);
-        
+
         //process attributes
         for (int i=0; i<atts.getLength(); ++i) {
 
@@ -295,28 +296,28 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
             String attqName  = atts.getQName(i);
             String value     = atts.getValue(i);
             String prefix    = null;
-            
-            //-- skip namespace declarations? (handled above) 
+
+            //-- skip namespace declarations? (handled above)
             if (_processNamespace )
-            	if(attqName.startsWith(XMLNS_PREFIX))
-            		continue;
-            
+                if(attqName.startsWith(XMLNS_PREFIX))
+                    continue;
+
             //--attribute namespace prefix?
             if ((attqName.length() != 0) && (attqName.indexOf(':') != -1 ))
                 prefix = attqName.substring(0,attqName.indexOf(':'));
-                
+
             //--namespace not yet processed?
             if (_processNamespace ) {
                 // attribute namespace
-            	if(prefix!=null)
-            		uri = _context.getNamespaceURI(prefix);
+                if(prefix!=null)
+                    uri = _context.getNamespaceURI(prefix);
             }
             //--add attribute
             tempNode = new AnyNode(AnyNode.ATTRIBUTE, getLocalPart(attqName), prefix, uri, value);
             _node.addAttribute(tempNode);
         }
-        
-        //--empty the namespace stack and add 
+
+        //--empty the namespace stack and add
         //--the namespace nodes to the current node.
         while (!_namespaces.empty()) {
             tempNode = (AnyNode)_namespaces.pop();
@@ -330,9 +331,9 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     public void endElement(String name)
            throws SAXException
     {
-		int idx = name.indexOf(':');
-		String prefix = (idx >= 0) ? name.substring(0,idx) : "";
-		String namespaceURI = _context.getNamespaceURI(prefix);
+        int idx = name.indexOf(':');
+        String prefix = (idx >= 0) ? name.substring(0,idx) : "";
+        String namespaceURI = _context.getNamespaceURI(prefix);
         endElement(namespaceURI,getLocalPart(name), name);
         _context = _context.getParent();
     }
@@ -349,7 +350,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         } else {
             name = getLocalPart(qName);
         }
-        
+
         //--if it is the starting element just returns
         if (_startingNode.getLocalName().equals(name) && _nodeStack.empty())
            return;
@@ -376,8 +377,8 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         String temp = new String(ch, start, length);
         //skip whitespaces
         if (isWhitespace(temp) && !_wsPreserve && !_character) return;
-		AnyNode tempNode = new AnyNode(AnyNode.TEXT, null, null, null, temp);
-		_node.addChild(tempNode);
+        AnyNode tempNode = new AnyNode(AnyNode.TEXT, null, null, null, temp);
+        _node.addChild(tempNode);
         _character = true;
     }
 
@@ -479,17 +480,17 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     private void createNodeElement(String namespaceURI, String localName,
                                    String qName)
    {
-    	
+
         String prefix = null;
         //retrieves the prefix if any
         if (namespaceURI != null) {
             prefix = _context.getNamespacePrefix(namespaceURI);
-        }            
+        }
         else if (qName != null) {
             if ((qName.length() != 0) && (qName.indexOf(':') != -1 ))
                 prefix = qName.substring(0,qName.indexOf(':'));
-        } 
-            
+        }
+
         String name = null;
         //-- if namespace processing is disabled then the localName might be null, in that case
         //-- we use the localpart of the QName
@@ -497,7 +498,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
             name = localName;
         else
              name = getLocalPart(qName);
-             
+
         //creates the starting ELEMENT node
         //or a default ELEMENT node
         if ( (_nodeStack.empty()) && (_startingNode == null)) {

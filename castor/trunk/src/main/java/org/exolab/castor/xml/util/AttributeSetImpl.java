@@ -42,11 +42,13 @@
  *
  * $Id$
  */
- 
+
 package org.exolab.castor.xml.util;
 
+import java.util.ArrayList;
+import java.util.List;
+
 import org.exolab.castor.xml.AttributeSet;
-import org.exolab.castor.util.List;
 
 /**
  * The default implementation of AttributeSet used by
@@ -55,29 +57,29 @@ import org.exolab.castor.util.List;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
 **/
-public class AttributeSetImpl 
-    implements AttributeSet 
+public class AttributeSetImpl
+    implements AttributeSet
 {
- 
+
     /**
      * The XML namespace declaration prefix.
      * It is an error for an attribute name to be equal to this value.
     **/
     public static final String XMLNS = "xmlns";
-     
+
     private static final String EMPTY_STRING = "";
-    
+
     /**
      * The list of attributes in this AttributeSet
     **/
     private List _attributes = null;
-    
-    
+
+
     /**
      * Creates a new AttributeSetImpl
     **/
     public AttributeSetImpl() {
-        _attributes = new List(3);
+        _attributes = new ArrayList();
     } //-- AttributeSetImpl
 
     /**
@@ -90,21 +92,21 @@ public class AttributeSetImpl
             String err = "size cannot be less than zero";
             throw new IllegalArgumentException(err);
         }
-        _attributes = new List(size);
+        _attributes = new ArrayList(size);
     } //-- AttributeSetImpl
-    
+
     /**
      * Removes all Attributes in this AttributeSetImpl
     **/
     public void clear() {
         _attributes.clear();
     } //-- clear
-    
-    
+
+
     /**
      * Returns the index of the attribute associated with the given name
      * and namespace.
-     * 
+     *
      *
      * @param name the name of the attribute whose value should be returned.
      * @param namespace the namespace of the attribute
@@ -120,7 +122,7 @@ public class AttributeSetImpl
         }
         return -1;
     } //-- getIndex
-    
+
     /**
      * Returns the name of the attribute located at the given index.
      *
@@ -131,7 +133,7 @@ public class AttributeSetImpl
         Attribute attr = (Attribute)_attributes.get(index);
         return attr.name;
     } //-- getName
-    
+
     /**
      * Returns the namespace of the attribute located at the given index.
      *
@@ -141,7 +143,7 @@ public class AttributeSetImpl
         Attribute attr = (Attribute)_attributes.get(index);
         return attr.namespace;
     } //-- getNamespace
-    
+
     /**
      * Returns the number of Attributes within this AttributeSet.
      *
@@ -150,7 +152,7 @@ public class AttributeSetImpl
     public int getSize() {
         return _attributes.size();
     } //-- getSize
-    
+
     /**
      * Returns the value of the attribute located at the given index
      * within this AttributeSet.
@@ -161,7 +163,7 @@ public class AttributeSetImpl
         Attribute attr = (Attribute)_attributes.get(index);
         return attr.value;
     } //-- getValue
-    
+
     /**
      * Returns the value of the attribute associated with the given name.
      * This method is equivalent to call #getValue(name, null);
@@ -171,11 +173,11 @@ public class AttributeSetImpl
     public String getValue(String name) {
         if (name == null) return null;
         Attribute attr = getAttribute(name, "");
-        if (attr != null) 
+        if (attr != null)
             return attr.value;
         return null;
     } //-- getValue
-    
+
     /**
      * Returns the value of the attribute associated with the given name.
      * This method is equivalent to call #getValue(name, null);
@@ -186,7 +188,7 @@ public class AttributeSetImpl
     public String getValue(String name, String namespace) {
         if (name == null) return null;
         Attribute attr = getAttribute(name, namespace);
-        if (attr != null) 
+        if (attr != null)
             return attr.value;
         return null;
     } //-- getValue
@@ -201,7 +203,7 @@ public class AttributeSetImpl
     public void setAttribute(String name, String value) {
         setAttribute(name, value, EMPTY_STRING);
     } //-- setAttribute
-    
+
     /**
      * Adds or replaces the attribute with the given name.
      * No namespace is associated with the attribute.
@@ -209,28 +211,28 @@ public class AttributeSetImpl
      * @param name the name of the attribute
      * @param value the attribute value.
     **/
-    public void setAttribute(String name, String value, String namespace) 
+    public void setAttribute(String name, String value, String namespace)
     {
         if ((name == null) || (name.length() == 0))
             throw new IllegalArgumentException("name must not be null");
-            
+
         if (XMLNS.equals(name)) {
-            String err = "'xmlns' is a reserved word for use with XML " 
+            String err = "'xmlns' is a reserved word for use with XML "
                 + "namespace declarations. It may not be used as an "
                 + "attribute name.";
             throw new IllegalArgumentException(err);
         }
 
         if (namespace == null) namespace = EMPTY_STRING;
-        
+
         Attribute attr = getAttribute(name, namespace);
         if (attr == null) {
             _attributes.add(new Attribute(name, value, namespace));
         }
         else attr.value = value;
-        
+
     } //-- setAttribute
-    
+
     private Attribute getAttribute(String name, String namespace) {
         if (namespace == null) namespace = EMPTY_STRING;
         for (int i = 0; i < _attributes.size(); i++) {
@@ -241,30 +243,29 @@ public class AttributeSetImpl
         }
         return null;
     } //-- getAttribute
-    
+
     /**
      * A representation of an Attribute
     **/
     class Attribute {
-        
+
         String name      = null;
         String value     = null;
         String namespace = null;
-        
+
         public Attribute() {
             super();
         } //-- Attribute
-        
+
         public Attribute(String name, String value, String namespace) {
             this.name = name;
             this.value = value;
             this.namespace = namespace;
         } //-- Attribute
-        
+
     } //-- class Attribute
-    
+
 } //-- class AttributeSetImpl
- 
- 
- 
- 
+
+
+
