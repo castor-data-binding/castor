@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import java.util.Enumeration;
@@ -97,6 +96,7 @@ import org.exolab.castor.xml.schema.SimpleTypesFactory;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.Union;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JType;
 
 /**
  * A class used to convert XML Schema SimpleTypes into the appropriate XSType.
@@ -106,21 +106,14 @@ import org.exolab.javasource.JClass;
  */
 public class TypeConversion {
 
-    /**
-     * Jakarta's common-logging logger
-     */
+    /** Jakarta's common-logging logger. */
     private static final Log LOG = LogFactory.getLog(TypeConversion.class);
 
-    /**
-     * Default package name for simple type (enumerations).
-     */
-    private static final String TYPES_PACKAGE = "types";
-
-    /** Configuration for our source generator */
-    private BuilderConfiguration _config = null;
+    /** Configuration for our source generator. */
+    private final BuilderConfiguration _config;
 
     /**
-     * Creates a new TypeConversion instance
+     * Creates a new TypeConversion instance.
      *
      * @param config the BuilderConfiguration instance (must not be null).
      */
@@ -156,7 +149,8 @@ public class TypeConversion {
      *            true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(final SimpleType simpleType, final String packageName, final boolean useJava50) {
+    public XSType convertType(final SimpleType simpleType, final String packageName,
+                              final boolean useJava50) {
          return convertType(simpleType, _config.usePrimitiveWrapper(), packageName, useJava50);
     }
 
@@ -176,7 +170,7 @@ public class TypeConversion {
      * @return the XSType which represets the given Simpletype
      */
     public XSType convertType(final SimpleType simpleType, final boolean useWrapper,
-                              String packageName, final boolean useJava50) {
+                              final String packageName, final boolean useJava50) {
         if (simpleType == null) {
             return null;
         }
@@ -200,13 +194,12 @@ public class TypeConversion {
             return new XSClass(new JClass(className));
         }
 
-        xsType = findXSType(simpleType, packageName);
+        xsType = findXSTypeForEnumeration(simpleType, packageName);
         if (xsType != null) {
             return xsType;
         }
 
         // If we don't have the XSType yet, we have to look at the Type Code
-        String warning;
 
         switch (base.getTypeCode()) {
             case SimpleTypesFactory.ID_TYPE:             //-- ID
@@ -370,36 +363,9 @@ public class TypeConversion {
                 xsQName.setFacets(simpleType);
                 return xsQName;
             case SimpleTypesFactory.STRING_TYPE:               //-- string
-                //-- Enumeration ?
-                if (simpleType.hasFacet(Facet.ENUMERATION)) {
-                    String typeName = simpleType.getName();
-                    //-- anonymous type
-                    if (typeName == null) {
-                        Structure parent = simpleType.getParent();
-                        if (parent instanceof ElementDecl) {
-                            typeName = ((ElementDecl) parent).getName();
-                        } else if (parent instanceof AttributeDecl) {
-                            typeName = ((AttributeDecl) parent).getName();
-                        }
-                        typeName = typeName + "Type";
-                    }
-                    String className = JavaNaming.toJavaClassName(typeName);
-
-                    if (packageName == null) {
-                        String ns = simpleType.getSchema().getTargetNamespace();
-                        packageName = _config.lookupPackageByNamespace(ns);
-                    }
-                    if (packageName  != null && packageName .length() > 0) {
-                        packageName  = packageName  + '.' + TYPES_PACKAGE;
-                    } else {
-                        packageName  = TYPES_PACKAGE;
-                    }
-
-                    className = packageName  + '.' + className;
-                    xsType = new XSClass(new JClass(className));
-                    xsType.setAsEnumerated(true);
-                    //- End Enumeration
-                } else {
+                xsType = findXSTypeForEnumeration(simpleType, packageName);
+                if (xsType == null) {
+                    // Not an enumerated String type
                     XSString xsString = new XSString();
                     if (!simpleType.isBuiltInType()) {
                         xsString.setFacets(simpleType);
@@ -436,9 +402,8 @@ public class TypeConversion {
                     name = simpleType.getBuiltInBaseType().getName();
                 }
 
-                warning = "Warning: The W3C datatype '" + name + "' "
-                          + "is not currently supported by Castor Source Generator.";
-                System.out.println(warning);
+                LOG.warn("Warning: The W3C datatype '" + name + "' "
+                        + "is not currently supported by Castor Source Generator.");
                 String className = JavaNaming.toJavaClassName(name);
                 xsType = new XSClass(new JClass(className));
                 break;
@@ -448,7 +413,7 @@ public class TypeConversion {
     } //-- convertType
 
     /**
-     * Returns the XSType that corresponds to the given javaType
+     * Returns the XSType that corresponds to the given javaType.
      * @param javaType name of the Java type for which to look up the XSType
      * @return XSType that corresponds to the given javaType
      */
@@ -511,33 +476,13 @@ public class TypeConversion {
     }
 
     /**
-     * Returns the common type for the Union, or null if no common type exists
-     * among the members of the Union.
-     *
-     * @param union
-     *            the Union to return the common type for
-     * @return the common SimpleType for the Union.
+     * Returns an XSType for an enumerated type.  For non-enumerated types,
+     * returns null.
+     * @param simpleType the SimpleType being inspected
+     * @param packageName current package name
+     * @return an XSType for an enumerated type, null for a non-enumerated type.
      */
-    private static SimpleType findCommonType(final Union union) {
-        SimpleType common = null;
-        Enumeration enumeration = union.getMemberTypes();
-        while (enumeration.hasMoreElements()) {
-            SimpleType type = (SimpleType) enumeration.nextElement();
-            type = type.getBuiltInBaseType();
-            if (common == null) {
-                common = type;
-            } else {
-                common = compare(common, type);
-                //-- no common types
-                if (common == null) {
-                    break;
-                }
-            }
-        }
-        return common;
-    } //-- findCommonType
-
-    private XSType findXSType(final SimpleType simpleType, final String packageName) {
+    private XSType findXSTypeForEnumeration(final SimpleType simpleType, final String packageName) {
         if (!simpleType.hasFacet(Facet.ENUMERATION)) {
             return null;
         }
@@ -558,18 +503,21 @@ public class TypeConversion {
 
         String className = JavaNaming.toJavaClassName(typeName);
 
+        // Get the appropriate package name for this type
         String typePackageName = packageName;
         if (typePackageName == null) {
             String ns = simpleType.getSchema().getTargetNamespace();
             typePackageName = _config.lookupPackageByNamespace(ns);
         }
+
         if (typePackageName != null && typePackageName.length() > 0) {
-            typePackageName = typePackageName  + '.' + TYPES_PACKAGE;
+            typePackageName = typePackageName  + '.' + SourceGeneratorConstants.TYPES_PACKAGE;
         } else {
-            typePackageName = TYPES_PACKAGE;
+            typePackageName = SourceGeneratorConstants.TYPES_PACKAGE;
         }
 
         className = typePackageName  + '.' + className;
+
         xsType = new XSClass(new JClass(className));
         xsType.setAsEnumerated(true);
 
@@ -577,17 +525,45 @@ public class TypeConversion {
     }
 
     /**
-     * Compares the two SimpleTypes. The common ancestor of both types will be
-     * returned, otherwise null is returned if the types are not compatible.
+     * Returns the common type for the Union, or null if no common type exists
+     * among the members of the Union.
+     *
+     * @param union
+     *            the Union to return the common type for
+     * @return the common SimpleType for the Union.
+     */
+    private static SimpleType findCommonType(final Union union) {
+        SimpleType common = null;
+        Enumeration enumeration = union.getMemberTypes();
+        while (enumeration.hasMoreElements()) {
+            SimpleType type = (SimpleType) enumeration.nextElement();
+            type = type.getBuiltInBaseType();
+            if (common == null) {
+                common = type;
+            } else {
+                common = findCommonType(common, type);
+                //-- no common types
+                if (common == null) {
+                    break;
+                }
+            }
+        }
+        return common;
+    } //-- findCommonType
+
+    /**
+     * Compares the two SimpleTypes. The lowest common ancestor of both types
+     * will be returned, otherwise null is returned if the types are not
+     * compatible.
      *
      * @param aType
      *            the first type to compare
      * @param bType
      *            the second type to compare
-     * @return the common anscestor of both types if there is one, null if the
+     * @return the common ancestor of both types if there is one, null if the
      *         types are not compatible.
      */
-    private static SimpleType compare(final SimpleType aType, final SimpleType bType) {
+    private static SimpleType findCommonType(final SimpleType aType, final SimpleType bType) {
         int type1 = aType.getTypeCode();
         int type2 = bType.getTypeCode();
 
@@ -595,20 +571,13 @@ public class TypeConversion {
             return aType;
         }
 
-        //-- add comparison code
-        if (isNumeric(aType)) {
-            if (isNumeric(bType)) {
-                //-- compare numbers
-                //-- TODO: *To be added*
-            }
-        } else if (isString(aType)) {
-            if (isString(bType)) {
-                //-- compare string types
-                //-- TODO: *To be added*
-            }
+        if (isNumeric(aType) && isNumeric(bType)) {
+            //-- TODO: Finish this so we can implement Unions
+        } else if (isString(aType) && isString(bType)) {
+            //-- TODO: Finish this so we can implement Unions
         }
-        //-- Just return string for now, as all simpleTypes can
-        //-- fit into a string
+
+        //-- Just return string for now, as all simpleTypes can fit into a string
         Schema schema = aType.getSchema();
         return schema.getSimpleType("string", schema.getSchemaNamespace());
     }
@@ -665,29 +634,32 @@ public class TypeConversion {
         }
     } //-- isString
 
-    static class TypeNames {
-        protected static final String BOOLEAN_PRIMITIVE = "boolean";
-        protected static final String BOOLEAN_OBJECT    = "java.lang.Boolean";
-        protected static final String BYTE_PRIMITIVE    = "byte";
-        protected static final String BYTE_OBJECT       = "java.lang.Byte";
+    /**
+     * Constants.
+     */
+    protected static class TypeNames {
+        protected static final String BOOLEAN_PRIMITIVE = JType.BOOLEAN.getName();
+        protected static final String BOOLEAN_OBJECT    = JType.BOOLEAN.getWrapperName();
+        protected static final String BYTE_PRIMITIVE    = JType.BYTE.getName();
+        protected static final String BYTE_OBJECT       = JType.BYTE.getWrapperName();
         protected static final String DATE              = "java.util.Date";
         protected static final String CASTOR_DATE       = "org.exolab.castor.types.Date";
         protected static final String CASTOR_TIME       = "org.exolab.castor.types.Time";
-        protected static final String CASTOR_DURATION   = "org.exolab.castor.types.Guration";
+        protected static final String CASTOR_DURATION   = "org.exolab.castor.types.Duration";
         protected static final String CASTOR_GMONTH     = "org.exolab.castor.types.GMonth";
         protected static final String CASTOR_GMONTHDAY  = "org.exolab.castor.types.GMonthDay";
         protected static final String CASTOR_GYEAR      = "org.exolab.castor.types.GYear";
         protected static final String CASTOR_GYEARMONTH = "org.exolab.castor.types.GYearMonth";
         protected static final String CASTOR_GDAY       = "org.exolab.castor.types.GDay";
         protected static final String DECIMAL           = "java.math.BigDecimal";
-        protected static final String DOUBLE_PRIMITIVE  = "double";
-        protected static final String DOUBLE_OBJECT     = "java.lang.Double";
-        protected static final String FLOAT_PRIMITIVE   = "float";
-        protected static final String FLOAT_OBJECT      = "java.lang.Float";
-        protected static final String INT               = "int";
-        protected static final String INTEGER           = "java.lang.Integer";
-        protected static final String SHORT_PRIMITIVE   = "short";
-        protected static final String SHORT_OBJECT      = "java.lang.Short";
+        protected static final String DOUBLE_PRIMITIVE  = JType.DOUBLE.getName();
+        protected static final String DOUBLE_OBJECT     = JType.DOUBLE.getWrapperName();
+        protected static final String FLOAT_PRIMITIVE   = JType.FLOAT.getName();
+        protected static final String FLOAT_OBJECT      = JType.FLOAT.getWrapperName();
+        protected static final String INT               = JType.INT.getName();
+        protected static final String INTEGER           = JType.INT.getWrapperName();
+        protected static final String SHORT_PRIMITIVE   = JType.SHORT.getName();
+        protected static final String SHORT_OBJECT      = JType.SHORT.getWrapperName();
         protected static final String STRING            = "java.lang.String";
     }
 

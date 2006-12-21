@@ -156,14 +156,9 @@ public final class JTypeName {
             _localName = null;
             _package   = null;
         } else {
-            _qName = name;
-            _localName = name;
-
-            int idx = name.lastIndexOf('.');
-            if (idx > 0) {
-                _package = name.substring(0, idx);
-                _localName = name.substring(idx + 1);
-            }
+            _qName     = name;
+            _localName = JNaming.getLocalNameFromClassName(name);
+            _package   = JNaming.getPackageFromClassName(name);
         }
     } //-- init
 

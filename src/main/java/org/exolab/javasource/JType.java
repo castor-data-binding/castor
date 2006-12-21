@@ -138,16 +138,7 @@ public class JType {
      */
     public final String getLocalName() {
         // -- use getName method in case it's been overloaded
-        String name = getName();
-
-        if (name == null) {
-            return null;
-        }
-        int idx = name.lastIndexOf('.');
-        if (idx >= 0) {
-            name = name.substring(idx + 1);
-        }
-        return name;
+        return JNaming.getLocalNameFromClassName(getName());
     }
 
     /**
@@ -199,29 +190,23 @@ public class JType {
     }
 
     /**
-     * Change the package this JType belongs to. This method is protected to
+     * Changes the package this JType belongs to. This method is protected to
      * allow subtypes, such as JClass to alter the package to which this JType
      * belongs.
+     * <p>
+     * <B>Note:</B> The package name cannot be changed on a primitive type.
      *
      * @param newPackage
-     *            the new package to which this JType belongs <BR>
-     *            <B>Note:</B> The package name cannot be changed on a
-     *            primitive type.
+     *            the new package to which this JType belongs
      */
     protected final void changePackage(final String newPackage) {
         if (this._name == null || this.isPrimitive()) {
             return;
         }
 
-        String localName = null;
-        int idx = _name.lastIndexOf('.');
-        if (idx >= 0) {
-            localName = this._name.substring(idx + 1);
-        } else {
-            localName = this._name;
-        }
+        String localName = JNaming.getLocalNameFromClassName(_name);
 
-        if ((newPackage == null) || (newPackage.length() == 0)) {
+        if (newPackage == null || newPackage.length() == 0) {
             this._name = localName;
         } else {
             this._name = newPackage + "." + localName;
