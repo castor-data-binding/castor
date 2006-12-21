@@ -42,15 +42,16 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 import java.io.PrintWriter;
 import java.lang.reflect.Field;
 import java.lang.reflect.Method;
 import java.lang.reflect.Modifier;
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Hashtable;
+import java.util.List;
 import java.util.Vector;
 
 import org.exolab.castor.mapping.CollectionHandler;
@@ -63,7 +64,6 @@ import org.exolab.castor.mapping.loader.CollectionHandlers;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
 import org.exolab.castor.mapping.loader.TypeInfo;
 import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.List;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.descriptors.CoreDescriptors;
 import org.exolab.castor.xml.handlers.ContainerFieldHandler;
@@ -83,12 +83,12 @@ import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  */
 public final class Introspector {
-    
-    
+
+
     /**
      * The property name for enabling collection wrapping.
-     * The property controls whether or not collections 
-     * (arrays, vectors, etc) should be wrapped in a container element. 
+     * The property controls whether or not collections
+     * (arrays, vectors, etc) should be wrapped in a container element.
      * For example:
      *
      * <pre>
@@ -96,15 +96,15 @@ public final class Introspector {
      *       &lt;foo&gt;foo1&lt;/foo&gt;
      *       &lt;foo&gt;foo2&lt;/foo&gt;
      *    &lt;/foos&gt;
-     * 
+     *
      *   instead of the default:
      *
      *    &lt;foos&gt;foo1&lt;foos&gt;
      *    &lt;foos&gt;foo2&lt;/foos&gt;
      *
      * </pre>
-     * 
-     * Use this property with a value of true or false in the 
+     *
+     * Use this property with a value of true or false in the
      * castor.properties file
      *
      * org.exolab.castor.xml.introspector.wrapCollections=true
@@ -115,30 +115,30 @@ public final class Introspector {
      */
      public static final String WRAP_COLLECTIONS_PROPERTY =
         "org.exolab.castor.xml.introspector.wrapCollections";
-     
+
     private static final String ADD     = "add";
     private static final String GET     = "get";
     private static final String IS      = "is";
     private static final String SET     = "set";
     private static final String CREATE  = "create";
-    
+
     /**
      * The default FieldHandlerFactory
      */
     private FieldHandlerFactory DEFAULT_HANDLER_FACTORY = new DefaultFieldHandlerFactory();
-    
+
     private static final Class[] EMPTY_CLASS_ARGS = new Class[0];
 
     /**
      * Name of the java.util.List collection
      */
     private static final String LIST = "java.util.List";
-    
+
     /**
      * Name of the java.util.Map collection
      */
     private static final String MAP = "java.util.Map";
-    
+
     /**
      * Name of the java.util.Map collection
      */
@@ -148,42 +148,42 @@ public final class Introspector {
      * Used as a prefix for the name of a container field
      */
     private static final String COLLECTION_WRAPPER_PREFIX = "##container_for_";
-    
-    
+
+
     /**
-     * The default flag indicating whether or not collections 
-     * (arrays, vectors, etc) should be wrapped in a container element. 
+     * The default flag indicating whether or not collections
+     * (arrays, vectors, etc) should be wrapped in a container element.
      *
      * @see _wrapCollectionsInContainer
      */
     private static final boolean WRAP_COLLECTIONS_DEFAULT = false;
-    
+
     /**
      * The set of available collections to use
      * during introspection. JDK dependant.
     **/
     private static final Class[] _collections = loadCollections();
 
-    
+
     /**
      * The default naming conventions
     **/
     private static XMLNaming _defaultNaming = null;
-    
+
     /**
      * The naming conventions to use
     **/
-    private XMLNaming _naming = null;   
-    
+    private XMLNaming _naming = null;
+
     /**
      * The NodeType to use for primitives
     **/
     private NodeType _primitiveNodeType = null;
-    
-    
+
+
     /**
-     * The variable flag indicating whether or not collections 
-     * (arrays, vectors, etc) should be wrapped in a container element. 
+     * The variable flag indicating whether or not collections
+     * (arrays, vectors, etc) should be wrapped in a container element.
      * For example:
      *
      * <pre>
@@ -191,7 +191,7 @@ public final class Introspector {
      *       &lt;foo&gt;foo1&lt;/foo&gt;
      *       &lt;foo&gt;foo2&lt;/foo&gt;
      *    &lt;/foos&gt;
-     * 
+     *
      *   instead of the default:
      *
      *    &lt;foos&gt;foo1&lt;foos&gt;
@@ -201,22 +201,22 @@ public final class Introspector {
      *
      */
     private boolean _wrapCollectionsInContainer = WRAP_COLLECTIONS_DEFAULT;
-    
-    
+
+
     /**
      * The set of registered FieldHandlerFactory instances
      */
     private Vector _handlerFactoryList = null;
-    
+
     /**
      * The set of registered FieldHandlerFactory instances
      * associated with their supported types
      */
     private Hashtable _handlerFactoryMap =  null;
-    
+
     /**
      * A flag indicating that MapKeys should be saved. To remain
-     * backward compatible this may be disable via the 
+     * backward compatible this may be disable via the
      * castor.properties.
      */
     private boolean _saveMapKeys = true;
@@ -225,18 +225,18 @@ public final class Introspector {
      * Specifies class loader to be used.
      */
     private ClassLoader _classLoader = null;
-     
+
     /**
      * Creates a new instance of the Introspector.
      */
     public Introspector() {
         this(null);
     } //-- Introspector
-    
+
     /**
      * Creates a new instance of the Introspector.
-     * 
-     * @param classLoader 
+     *
+     * @param classLoader
      */
     public Introspector(ClassLoader classLoader) {
         super();
@@ -245,21 +245,21 @@ public final class Introspector {
     } //-- Introspector
 
     private void init() {
-        
+
         LocalConfiguration config = LocalConfiguration.getInstance();
-        
+
         if (_defaultNaming == null) {
             _defaultNaming = config.getXMLNaming(_classLoader);
         }
         _naming = _defaultNaming;
         setPrimitiveNodeType(config.getPrimitiveNodeType());
-        
+
         //-- wrap collections in a container element?
         String wrap = config.getProperty(WRAP_COLLECTIONS_PROPERTY, null);
         if (wrap != null) {
             _wrapCollectionsInContainer = Boolean.valueOf(wrap).booleanValue();
         }
-        
+
         //-- Save Hashtable / Map keys ?
         String saveKeys = config.getProperty(Configuration.Property.SaveMapKeys, null);
         if (saveKeys != null) {
@@ -267,15 +267,15 @@ public final class Introspector {
                 _saveMapKeys = false;
             }
         }
-        
+
     } //-- init
-    
-    
+
+
     /**
      * Registers the given "generalized" FieldHandlerFactory with this
-     * Introspector. 
+     * Introspector.
      *
-     * @param factory the FieldHandlerFactory to add to this 
+     * @param factory the FieldHandlerFactory to add to this
      * introspector
      * @throws IllegalArgumentException if the given factory is null
      */
@@ -286,11 +286,11 @@ public final class Introspector {
         }
         if (_handlerFactoryList == null) {
             _handlerFactoryList = new Vector();
-        }        
+        }
         _handlerFactoryList.addElement(factory);
         registerHandlerFactory(factory);
     } //-- addFieldHandlerFactory
-    
+
     /**
      * Returns the NodeType for java primitives
      *
@@ -299,7 +299,7 @@ public final class Introspector {
     public NodeType getPrimitiveNodeType() {
         return _primitiveNodeType;
     } //-- getPrimitiveNodeType
-    
+
     /**
      * Creates an XMLClassDescriptor for the given class by using Reflection.
      * @param c the Class to create the XMLClassDescriptor for
@@ -307,12 +307,12 @@ public final class Introspector {
      * @exception MarshalException when an error occurs during the creation
      * of the ClassDescriptor.
      **/
-    public XMLClassDescriptor generateClassDescriptor(Class c) 
+    public XMLClassDescriptor generateClassDescriptor(Class c)
         throws MarshalException
     {
         return generateClassDescriptor(c, null);
     } //-- generateClassDescriptor(Class)
-    
+
     /**
      * Creates an XMLClassDescriptor for the given class by using Reflection.
      * @param c the Class to create the XMLClassDescriptor for
@@ -324,50 +324,50 @@ public final class Introspector {
     public XMLClassDescriptor generateClassDescriptor
         (Class c, PrintWriter errorWriter) throws MarshalException
     {
-        
+
         if (c == null) return null;
-        
+
         //-- handle arrays
         if (c.isArray()) return null;
-        
+
         //-- handle base objects
-        if ((c == Void.class) || 
+        if ((c == Void.class) ||
             (c == Class.class)||
             (c == Object.class)) {
             throw new MarshalException (
                 MarshalException.BASE_CLASS_OR_VOID_ERR );
         }
-        
+
         //-- handle core descriptors
         XMLClassDescriptor coreDesc = CoreDescriptors.getDescriptor(c);
-        if (coreDesc != null) 
+        if (coreDesc != null)
             return coreDesc;
-        
-        
+
+
         //--------------------------/
         //- handle complex objects -/
         //--------------------------/
-        
-        XMLClassDescriptorImpl classDesc 
+
+        XMLClassDescriptorImpl classDesc
             = new IntrospectedXMLClassDescriptor(c);
-        
+
         Method[] methods = c.getMethods();
-        List      dateDescriptors = new List(3);
+        List      dateDescriptors = new ArrayList(3);
         Hashtable methodSets      = new Hashtable();
-        
+
         int methodCount = 0;
-        
+
         Class superClass = c.getSuperclass();
         Class[] interfaces = c.getInterfaces();
-        
-        
-        
+
+
+
         //-- create method sets
         for (int i = 0; i < methods.length; i++) {
             Method method = methods[i];
-            
+
             Class owner = method.getDeclaringClass();
-            
+
             //-- ignore methods from super-class, that will be
             //-- introspected separately, if necessary
             if (owner != c) {
@@ -376,7 +376,7 @@ public final class Introspector {
                 //-- the field comes from a super class
                 //-- (e.g. java.lang.Object)
                 if (!owner.isInterface()) continue;
-                
+
                 //-- owner is an interface, is it an
                 //-- interface this class implements
                 //-- or a parent class?
@@ -406,28 +406,28 @@ public final class Introspector {
                     if (tmpMethod != null) continue;
                 }
             }
-            
-            
+
+
             //-- if method is static...ignore
             if ((method.getModifiers() & Modifier.STATIC) != 0) continue;
-            
+
             String methodName = method.getName();
-            
+
             //-- read methods
             if (methodName.startsWith(GET)) {
                 if (method.getParameterTypes().length != 0) continue;
                 //-- disable direct field access
                 ++methodCount;
-                //-- make sure return type is "descriptable" 
+                //-- make sure return type is "descriptable"
                 //-- and not null
                 Class type = method.getReturnType();
                 if (type == null) continue;
                 if (!isDescriptable(type)) continue;
-                
+
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
                 fieldName = JavaNaming.toJavaMemberName(fieldName);
-                
+
                 MethodSet methodSet = (MethodSet)methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
@@ -445,13 +445,13 @@ public final class Introspector {
                 }
                 else {
                     if (type != Boolean.class) continue;
-                }                
+                }
                 //-- disable direct field access
                 ++methodCount;
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(IS.length());
                 fieldName = JavaNaming.toJavaMemberName(fieldName);
-                
+
                 MethodSet methodSet = (MethodSet)methodSets.get(fieldName);
                 if (methodSet == null) {
                     methodSet = new MethodSet(fieldName);
@@ -465,7 +465,7 @@ public final class Introspector {
                 if (method.getParameterTypes().length != 1) continue;
                 //-- disable direct field access
                 ++methodCount;
-                //-- make sure parameter type is "descriptable" 
+                //-- make sure parameter type is "descriptable"
                 if (!isDescriptable(method.getParameterTypes()[0])) continue;
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
@@ -482,7 +482,7 @@ public final class Introspector {
                 if (method.getParameterTypes().length != 1) continue;
                 //-- disable direct field access
                 ++methodCount;
-                //-- make sure parameter type is "descriptable" 
+                //-- make sure parameter type is "descriptable"
                 if (!isDescriptable(method.getParameterTypes()[0])) continue;
                 //-- caclulate name from Method name
                 String fieldName = methodName.substring(3);
@@ -497,7 +497,7 @@ public final class Introspector {
             else if (methodName.startsWith(CREATE)) {
                 if (method.getParameterTypes().length != 0) continue;
                 Class type = method.getReturnType();
-                //-- make sure return type is "descriptable" 
+                //-- make sure return type is "descriptable"
                 //-- and not null
                 if (!isDescriptable(type)) continue;
                 //-- caclulate name from Method name
@@ -511,12 +511,12 @@ public final class Introspector {
                 methodSet.create = method;
             }
         } //-- end create method sets
-        
-        
+
+
         //-- Loop Through MethodSets and create
         //-- descriptors
         Enumeration enumeration = methodSets.elements();
-        
+
         while (enumeration.hasMoreElements()) {
 
             MethodSet methodSet = (MethodSet) enumeration.nextElement();
@@ -552,22 +552,22 @@ public final class Introspector {
 
             //-- Handle Collections
             isCollection = (isCollection || isCollection(type));
-            
+
             TypeInfo typeInfo = null;
             CollectionHandler colHandler = null;
-            
-            //-- If the type is a collection and there is no add method, 
+
+            //-- If the type is a collection and there is no add method,
             //-- then we obtain a CollectionHandler
             if (isCollection && (methodSet.add == null)) {
-                
+
                 try {
                     colHandler = CollectionHandlers.getHandler(type);
                 }
                 catch(MappingException mx) {
-                    //-- No collection handler available, 
+                    //-- No collection handler available,
                     //-- proceed anyway...
                 }
-                
+
                 //-- Find component type
                 if (type.isArray()) {
                     //-- Byte arrays are handled as a special case
@@ -578,9 +578,9 @@ public final class Introspector {
                     else type = type.getComponentType();
                 }
             }
-            
+
             typeInfo = new TypeInfo(type, null, null, false, null, colHandler);
-            
+
             //-- Create FieldHandler first, before the XMLFieldDescriptor
             //-- in case we need to use a custom handler
 
@@ -591,20 +591,20 @@ public final class Introspector {
                                                 null,
                                                 null,
                                                 methodSet.get,
-                                                methodSet.set, 
+                                                methodSet.set,
                                                 typeInfo);
                 //-- clean up
-                if (methodSet.add != null) 
+                if (methodSet.add != null)
                     ((FieldHandlerImpl)handler).setAddMethod(methodSet.add);
-                                                
-                if (methodSet.create != null) 
+
+                if (methodSet.create != null)
                     ((FieldHandlerImpl)handler).setCreateMethod(methodSet.create);
 
-                //-- handle Hashtable/Map 
+                //-- handle Hashtable/Map
                 if (isCollection && _saveMapKeys && isMapCollection(type)) {
                     ((FieldHandlerImpl)handler).setConvertFrom(new IdentityConvertor());
                 }
-                    
+
                 //-- look for GeneralizedFieldHandler
                 FieldHandlerFactory factory = getHandlerFactory(type);
                 if (factory != null) {
@@ -619,22 +619,22 @@ public final class Introspector {
                             type = gfh.getFieldType();
                         }
                     }
-                } 
-                
+                }
+
             }
             catch (MappingException mx) {
                 throw new MarshalException(mx);
             }
-                    
-            
-            XMLFieldDescriptorImpl fieldDesc 
+
+
+            XMLFieldDescriptorImpl fieldDesc
                 = createFieldDescriptor(type, methodSet.fieldName, xmlName);
-                        
+
             if (isCollection) {
                 fieldDesc.setMultivalued(true);
                 fieldDesc.setNodeType(NodeType.Element);
             }
-            
+
             //-- check for instances of java.util.Date
             if (java.util.Date.class.isAssignableFrom(type)) {
                 //handler = new DateFieldHandler(handler);
@@ -642,40 +642,40 @@ public final class Introspector {
                     dateDescriptors.add(fieldDesc);
                 }
             }
-            
+
             fieldDesc.setHandler(handler);
-            
+
             //-- Wrap collections?
             if (isCollection && _wrapCollectionsInContainer) {
                 String fieldName = COLLECTION_WRAPPER_PREFIX + methodSet.fieldName;
                 //-- If we have a field 'c' that is a collection and
                 //-- we want to wrap that field in an element <e>, we
-                //-- need to create a field descriptor for 
+                //-- need to create a field descriptor for
                 //-- an object that represents the element <e> and
-                //-- acts as a go-between from the parent of 'c' 
+                //-- acts as a go-between from the parent of 'c'
                 //-- denoted as P(c) and 'c' itself
-                //  
+                //
                 //   object model: P(c) -> c
                 //   xml : <p><e><c></e><p>
-                
+
                 //-- Make new class descriptor for the field that
                 //-- will represent the container element <e>
                 Class cType = ContainerElement.class;
                 XMLClassDescriptorImpl containerClassDesc = new XMLClassDescriptorImpl(cType);
-                
+
                 //-- add the field descriptor to our new class descriptor
-                containerClassDesc.addFieldDescriptor(fieldDesc);        
-                //-- nullify xmlName so that auto-naming will be enabled, 
+                containerClassDesc.addFieldDescriptor(fieldDesc);
+                //-- nullify xmlName so that auto-naming will be enabled,
                 //-- we can't do this in the constructor because
                 //-- XMLFieldDescriptorImpl will create a default one.
                 fieldDesc.setXMLName(null);
                 fieldDesc.setMatches("*");
-                                
+
                 //-- wrap the field handler in a special container field
-                //-- handler that will actually do the delgation work 
+                //-- handler that will actually do the delgation work
                 FieldHandler cHandler = new ContainerFieldHandler(handler);
                 fieldDesc.setHandler(cHandler);
-                
+
                 fieldDesc = createFieldDescriptor(cType, fieldName, xmlName);
                 fieldDesc.setClassDescriptor(containerClassDesc);
                 fieldDesc.setHandler(cHandler);
@@ -683,20 +683,20 @@ public final class Introspector {
             //-- add FieldDescriptor to ClassDescriptor
             classDesc.addFieldDescriptor(fieldDesc);
 
-            
+
         } //-- end of method loop
-        
+
         //-- If we didn't find any methods we can try
         //-- direct field access
-        if (methodCount == 0) {           
-            
-            Field[] fields = c.getFields();            
+        if (methodCount == 0) {
+
+            Field[] fields = c.getFields();
             Hashtable descriptors = new Hashtable();
-            for (int i = 0; i < fields.length; i++) {                
+            for (int i = 0; i < fields.length; i++) {
                 Field field = fields[i];
-                
+
                 Class owner = field.getDeclaringClass();
-                
+
                 //-- ignore fields from super-class, that will be
                 //-- introspected separately, if necessary
                 if (owner != c) {
@@ -705,7 +705,7 @@ public final class Introspector {
                     //-- the field comes from a super class
                     //-- (e.g. java.lang.Object)
                     if (!owner.isInterface()) continue;
-                    
+
                     //-- owner is an interface, is it an
                     //-- interface this class implements
                     //-- or a parent class?
@@ -720,33 +720,33 @@ public final class Introspector {
                         if (!found) continue;
                     }
                 }
-            
+
                 //-- make sure field is not transient or static final
                 int modifiers = field.getModifiers();
                 if (Modifier.isTransient(modifiers)) continue;
-                if (Modifier.isFinal(modifiers) && 
+                if (Modifier.isFinal(modifiers) &&
                     Modifier.isStatic(modifiers))
                     continue;
-                
+
                 Class type = field.getType();
-                
-                
-                
+
+
+
                 if (!isDescriptable(type)) continue;
-                
+
                 //-- Built-in support for JDK 1.1 Collections
-                //-- we need to a pluggable interface for 
+                //-- we need to a pluggable interface for
                 //-- JDK 1.2+
                 boolean isCollection = isCollection(type);
-                
-                
+
+
                 TypeInfo typeInfo = null;
                 CollectionHandler colHandler = null;
-                
-                //-- If the type is a collection and there is no add method, 
+
+                //-- If the type is a collection and there is no add method,
                 //-- then we obtain a CollectionHandler
                 if (isCollection) {
-                    
+
                     try {
                         colHandler = CollectionHandlers.getHandler(type);
                     }
@@ -754,7 +754,7 @@ public final class Introspector {
                         //-- No CollectionHandler available, continue
                         //-- without one...
                     }
-                    
+
                     //-- Find component type
                     if (type.isArray()) {
                         //-- Byte arrays are handled as a special case
@@ -763,28 +763,28 @@ public final class Introspector {
                             colHandler = null;
                         }
                         else type = type.getComponentType();
-                        
+
                     }
                 }
-                
+
                 String fieldName = field.getName();
                 String xmlName = _naming.toXMLName(fieldName);
-                
+
                 //-- Create FieldHandler first, before the XMLFieldDescriptor
                 //-- in case we need to use a custom handler
-                
+
                 typeInfo = new TypeInfo(type, null, null, false, null, colHandler);
-                
+
                 FieldHandler handler = null;
                 boolean customHandler = false;
                 try {
                     handler = new FieldHandlerImpl(field, typeInfo);
-                    
-                    //-- handle Hashtable/Map 
+
+                    //-- handle Hashtable/Map
                     if (isCollection && _saveMapKeys && isMapCollection(type)) {
                         ((FieldHandlerImpl)handler).setConvertFrom(new IdentityConvertor());
                     }
-                        
+
                     //-- look for GeneralizedFieldHandler
                     FieldHandlerFactory factory = getHandlerFactory(type);
                     if (factory != null) {
@@ -799,15 +799,15 @@ public final class Introspector {
                                 type = gfh.getFieldType();
                             }
                         }
-                    } 
+                    }
                 }
                 catch (MappingException mx) {
                     throw new MarshalException(mx);
                 }
-                
-                XMLFieldDescriptorImpl fieldDesc = 
+
+                XMLFieldDescriptorImpl fieldDesc =
                         createFieldDescriptor(type, fieldName, xmlName);
-                        
+
                 if (isCollection) {
                     fieldDesc.setNodeType(NodeType.Element);
                     fieldDesc.setMultivalued(true);
@@ -815,18 +815,18 @@ public final class Introspector {
                 descriptors.put(xmlName, fieldDesc);
                 classDesc.addFieldDescriptor(fieldDesc);
                 fieldDesc.setHandler(handler);
-                   
+
                 //-- check for instances of java.util.Date
                 if (java.util.Date.class.isAssignableFrom(type)) {
                     if (!customHandler) {
                         dateDescriptors.add(fieldDesc);
                     }
                 }
-                
-            }            
+
+            }
         } //-- end of direct field access
-        
-        
+
+
         //-- A temporary fix for java.util.Date
         if (dateDescriptors != null) {
             for (int i = 0; i < dateDescriptors.size(); i++) {
@@ -835,7 +835,7 @@ public final class Introspector {
                 FieldHandler handler = fieldDesc.getHandler();
                 fieldDesc.setImmutable(true);
                 DateFieldHandler dfh = new DateFieldHandler(handler);
-                
+
                 //-- patch for java.sql.Date
                 Class type = fieldDesc.getFieldType();
                 if (java.sql.Date.class.isAssignableFrom(type)) {
@@ -844,12 +844,12 @@ public final class Introspector {
                 fieldDesc.setHandler(dfh);
             }
         }
-        
+
         //-- Add reference to superclass...if necessary
         if ((superClass != null) &&
             (superClass != Void.class) &&
             (superClass != Object.class) &&
-            (superClass != Class.class)) 
+            (superClass != Class.class))
         {
             try {
                 XMLClassDescriptor parent = generateClassDescriptor(superClass, errorWriter);
@@ -862,33 +862,33 @@ public final class Introspector {
             }
 
         }
-             
+
         return classDesc;
     } //-- generateClassDescriptor
-    
+
     /**
      * Removes the given FieldHandlerFactory from this Introspector
      *
-     * @param factory the FieldHandlerFactory to remove 
+     * @param factory the FieldHandlerFactory to remove
      * @return true if the given FieldHandlerFactory was removed, or
      * false otherwise.
      * @throws IllegalArgumentException if the given factory is null
      */
-    public synchronized boolean removeFieldHandlerFactory(FieldHandlerFactory factory) 
+    public synchronized boolean removeFieldHandlerFactory(FieldHandlerFactory factory)
     {
         if (factory == null) {
             String err = "The argument 'factory' must not be null.";
             throw new IllegalArgumentException(err);
         }
-        
+
         //-- if list is null, just return
         if (_handlerFactoryList == null) return false;
-        
+
         if (_handlerFactoryList.removeElement(factory)) {
             //-- re-register remaining handlers
             _handlerFactoryMap.clear();
             for (int i = 0; i < _handlerFactoryList.size(); i++) {
-                FieldHandlerFactory tmp = 
+                FieldHandlerFactory tmp =
                     (FieldHandlerFactory)_handlerFactoryList.elementAt(i);
                 registerHandlerFactory(tmp);
             }
@@ -896,10 +896,10 @@ public final class Introspector {
         }
         return false;
     } //-- removeFieldHandlerFactory
-    
-    
+
+
     /**
-     * Sets whether or not collections (arrays, vectors, etc) 
+     * Sets whether or not collections (arrays, vectors, etc)
      * should be wrapped in a container element. For example:
      *
      * <pre>
@@ -908,7 +908,7 @@ public final class Introspector {
      *       &lt;foo&gt;foo1&lt;/foo&gt;
      *       &lt;foo&gt;foo2&lt;/foo&gt;
      *    &lt;/foos&gt;
-     * 
+     *
      *   instead of the default:
      *
      *    &lt;foos&gt;foo1&lt;foos&gt;
@@ -923,7 +923,7 @@ public final class Introspector {
     public void setWrapCollections(boolean wrapCollections) {
         _wrapCollectionsInContainer = wrapCollections;
     } //-- setWrapCollections
-    
+
     /**
      * Returns true if the given XMLClassDescriptor was created via
      * introspection
@@ -931,7 +931,7 @@ public final class Introspector {
     public static boolean introspected(XMLClassDescriptor descriptor) {
         return (descriptor instanceof IntrospectedXMLClassDescriptor);
     } //-- introspected
-    
+
     /**
      * Returns true if the given Class can be marshalled.
      *
@@ -939,27 +939,27 @@ public final class Introspector {
      * @return true if the given Class can be marshalled.
     **/
     public static boolean marshallable(Class type) {
-        
+
         //-- make sure type is not Void, or Class;
         if  (type == Void.class || type == Class.class ) return false;
-        
+
         if (( !type.isInterface() || (type == Object.class))) {
-            
+
             if (!isPrimitive(type)) {
-                
+
                 //-- make sure type is serializable
                 // if (!Serializable.class.isAssignableFrom( type ))
                 // return false;
-                
+
                 //-- make sure we can construct the Object
                 if (!type.isArray() ) {
                     //-- try to get the default constructor and make
-                    //-- sure we are only looking at classes that can 
+                    //-- sure we are only looking at classes that can
                     //-- be instantiated by calling Class#newInstance
                     try {
                         type.getConstructor( EMPTY_CLASS_ARGS );
                     }
-                    catch ( NoSuchMethodException e ) { 
+                    catch ( NoSuchMethodException e ) {
                         //-- Allow any built-in descriptor classes
                         //-- that don't have default constructors
                         //-- such as java.sql.Date, java.sql.Time, etc.
@@ -970,7 +970,7 @@ public final class Introspector {
         }
         return true;
     } //-- marshallable
-    
+
     /**
      * Sets the Naming conventions to be used by the Introspector
      *
@@ -979,12 +979,12 @@ public final class Introspector {
      * default specified in the castor.properties file.
     **/
     public void setNaming(XMLNaming naming) {
-        if (naming == null) 
+        if (naming == null)
             _naming = _defaultNaming;
-        else 
+        else
             _naming = naming;
     } //-- setNaming
-    
+
     /**
      * Sets the NodeType for primitives. If the
      * NodeType is NodeType.Element, all primitives will
@@ -996,14 +996,14 @@ public final class Introspector {
     public void setPrimitiveNodeType(NodeType nodeType) {
         if (nodeType == NodeType.Element)
             _primitiveNodeType = nodeType;
-        else 
+        else
             _primitiveNodeType = NodeType.Attribute;
     } //-- setPrimitiveNodeType
-    
+
     /**
      * Sets whether or not keys from Hastable / Map instances
-     * should be saved in the XML. 
-     * 
+     * should be saved in the XML.
+     *
      * <p>Note: This is true by default since Castor 0.9.5.3</p>
      *
      * @param saveMapKeys a boolean that when true indicates keys
@@ -1013,24 +1013,24 @@ public final class Introspector {
     public void setSaveMapKeys(boolean saveMapKeys) {
         _saveMapKeys = saveMapKeys;
     } //-- setSaveMapKeys
-    
+
     /**
      * Converts the given xml name to a Java name.
      * @param name the name to convert to a Java Name
      * @param upperFirst a flag to indicate whether or not the
-     * the first character should be converted to uppercase. 
+     * the first character should be converted to uppercase.
      **/
     public static String toJavaName(String name, boolean upperFirst) {
-        
+
         int size = name.length();
         char[] ncChars = name.toCharArray();
         int next = 0;
-        
+
         boolean uppercase = upperFirst;
-        
+
         for (int i = 0; i < size; i++) {
             char ch = ncChars[i];
-            
+
             switch(ch) {
             case ':':
             case '-':
@@ -1048,19 +1048,19 @@ public final class Introspector {
         }
         return new String(ncChars,0,next);
     } //-- toJavaName
-    
-    
+
+
     //-------------------/
     //- Private Methods -/
     //-------------------/
-    
+
     private XMLFieldDescriptorImpl createFieldDescriptor
-        (Class type, String fieldName, String xmlName) 
+        (Class type, String fieldName, String xmlName)
     {
 
         XMLFieldDescriptorImpl fieldDesc =
             new XMLFieldDescriptorImpl(type, fieldName, xmlName, null);
-            
+
         if (type.isArray()) {
             fieldDesc.setNodeType(NodeType.Element);
         }
@@ -1071,12 +1071,12 @@ public final class Introspector {
         else {
             fieldDesc.setNodeType(NodeType.Element);
         }
-        
+
         //-- wildcard?
         if (type == java.lang.Object.class) {
             fieldDesc.setMatches(xmlName + " *");
         }
-        
+
         return fieldDesc;
     } //-- createFieldDescriptor
 
@@ -1089,7 +1089,7 @@ public final class Introspector {
      * FieldHandlerFactory for
      */
     private FieldHandlerFactory getHandlerFactory(Class type) {
-        if (_handlerFactoryMap != null) {               
+        if (_handlerFactoryMap != null) {
             Class tmp = type;
             while (tmp != null) {
                 Object obj = _handlerFactoryMap.get(tmp);
@@ -1099,14 +1099,14 @@ public final class Introspector {
                 tmp = tmp.getSuperclass();
             }
         }
-        
+
         //-- check DefaultFieldHandlerFactory
         if (DEFAULT_HANDLER_FACTORY.isSupportedType(type))
             return DEFAULT_HANDLER_FACTORY;
-            
+
         return null;
     } //-- getHandlerFactory
-    
+
     /**
      * Registers the supported class types for the given
      * FieldHandlerFactory into the map (for faster lookups)
@@ -1114,7 +1114,7 @@ public final class Introspector {
     private void registerHandlerFactory(FieldHandlerFactory factory) {
         if (_handlerFactoryMap == null)
             _handlerFactoryMap = new Hashtable();
-            
+
         Class[] types = factory.getSupportedTypes();
         for (int i = 0; i < types.length; i++) {
             _handlerFactoryMap.put(types[i], factory);
@@ -1127,14 +1127,14 @@ public final class Introspector {
      * collection class.
      */
     public static boolean isCollection(Class clazz) {
-        
+
         if (clazz.isArray()) return true;
-        
+
         for (int i = 0; i < _collections.length; i++) {
             //-- check to see if clazz is either the
             //-- same as or a subclass of one of the
             //-- available collections. For performance
-            //-- reasons we first check if class is 
+            //-- reasons we first check if class is
             //-- directly equal to one of the collections
             //-- instead of just calling isAssignableFrom.
             if ((clazz == _collections[i]) ||
@@ -1145,21 +1145,21 @@ public final class Introspector {
         }
         return false;
     } //-- isCollection
-    
-    
+
+
     /**
      * Returns true if the given Class is an instance of a
      * collection class.
      */
     public static boolean isMapCollection(Class clazz) {
-        
+
         if (clazz.isArray()) return false;
-        
+
         for (int i = 0; i < _collections.length; i++) {
             //-- check to see if clazz is either the
             //-- same as or a subclass of one of the
             //-- available collections. For performance
-            //-- reasons we first check if class is 
+            //-- reasons we first check if class is
             //-- directly equal to one of the collections
             //-- instead of just calling isAssignableFrom.
             if ((clazz == _collections[i]) ||
@@ -1174,8 +1174,8 @@ public final class Introspector {
         }
         return false;
     } //-- isMapCollection
-    
-    
+
+
     /**
      * Returns true if we are allowed to create a descriptor
      * for a given class type
@@ -1186,26 +1186,26 @@ public final class Introspector {
     private static boolean isDescriptable(Class type) {
         //-- make sure type is not Void, or Class;
         if  (type == Void.class || type == Class.class ) return false;
-        
-        if ( (!type.isInterface())  && 
+
+        if ( (!type.isInterface())  &&
              (type != Object.class) &&
              (!isPrimitive(type))) {
-            
+
             //-- make sure type is serializable
             //if (!Serializable.class.isAssignableFrom( type ))
             // return false;
-            
+
             //-- make sure we can construct the Object
             if (!type.isArray() ) {
-                
+
                 //-- try to get the default constructor and make
-                //-- sure we are only looking at classes that can 
+                //-- sure we are only looking at classes that can
                 //-- be instantiated by calling Class#newInstance
                 try {
                     type.getConstructor( EMPTY_CLASS_ARGS );
                 }
-                catch ( NoSuchMethodException e ) { 
-                    
+                catch ( NoSuchMethodException e ) {
+
                     //-- Allow any built-in descriptor classes
                     //-- that don't have default constructors
                     //-- such as java.sql.Date, java.sql.Time, etc.
@@ -1225,14 +1225,14 @@ public final class Introspector {
     private static boolean isPrimitive(Class type) {
 
         if (type.isPrimitive()) return true;
-        
+
         if ((type == Boolean.class) || (type == Character.class))
             return true;
-            
+
         return (type.getSuperclass() == Number.class);
-       
+
     } //-- isPrimitive
-    
+
     /**
      * Returns an array of collections available during
      * introspection. Allows JDK 1.2+ support without
@@ -1241,19 +1241,19 @@ public final class Introspector {
      * @return a list of available collections
     **/
     private static Class[] loadCollections() {
-        
-        
+
+
         Vector collections = new Vector(6);
-        
+
         //-- JDK 1.1
         collections.addElement(Vector.class);
         collections.addElement(Enumeration.class);
         collections.addElement(Hashtable.class);
-        
+
         //-- JDK 1.2+
         ClassLoader loader = Vector.class.getClassLoader();
-        
-        
+
+
         Class clazz = null;
         try {
             if (loader != null) {
@@ -1263,14 +1263,14 @@ public final class Introspector {
         }
         catch(ClassNotFoundException cnfx) {
             //-- just ignore...either JDK 1.1
-            //-- or some nasty ClassLoader 
+            //-- or some nasty ClassLoader
             //-- issue has occurred.
-        } 
+        }
         if (clazz != null) {
-            //-- java.util.List found, add to collections, 
+            //-- java.util.List found, add to collections,
             //-- also add java.util.Map
             collections.addElement(clazz);
-        
+
             clazz = null;
             try {
                 //-- java.util.Map
@@ -1289,23 +1289,23 @@ public final class Introspector {
                 if (clazz != null) {
                     collections.addElement(clazz);
                 }
-                
-                
+
+
             }
             catch(ClassNotFoundException cnfx) {
                 //-- just ignore...for now
                 //-- some nasty ClassLoader issue has occurred.
-            } 
+            }
         }
-        
-        
+
+
         Class[] classes = new Class[collections.size()];
         collections.copyInto(classes);
-        
+
         return classes;
     } //-- loadCollections
-    
-    
+
+
     /**
      * A special TypeConvertor that simply returns the object
      * given. This is used for preventing the FieldHandlerImpl
@@ -1318,12 +1318,12 @@ public final class Introspector {
             return object;
         }
     } //-- class: IdentityConvertor
-    
+
     /**
      * A simple struct for holding a set of accessor methods
     **/
     class MethodSet {
-        
+
         /**
          * A reference to the add method.
         **/
@@ -1343,39 +1343,39 @@ public final class Introspector {
          * A reference to the set method.
         **/
         Method set    = null;
-        
+
         /**
          * The fieldName for the field accessed by the methods in
          * this method set.
         **/
         String fieldName = null;
-        
+
         MethodSet(String fieldName) {
             super();
             this.fieldName = fieldName;
         }
     } //-- inner class: MethodSet
-    
-    
-    
-    
+
+
+
+
 } //-- Introspector
 
 /**
  * A simple extension of XMLClassDescriptor
  * so that we can set the "instrospected" flag.
 **/
-class IntrospectedXMLClassDescriptor 
-    extends XMLClassDescriptorImpl 
+class IntrospectedXMLClassDescriptor
+    extends XMLClassDescriptorImpl
 {
     /**
      * Creates an IntrospectedXMLClassDescriptor
-     * @param type the Class type with which this 
+     * @param type the Class type with which this
      * ClassDescriptor describes.
     **/
     IntrospectedXMLClassDescriptor(Class type) {
         super(type);
-        setIntrospected(true);        
+        setIntrospected(true);
     } //-- XMLClassDescriptorImpl
 
     /**
@@ -1386,7 +1386,7 @@ class IntrospectedXMLClassDescriptor
     public IntrospectedXMLClassDescriptor(Class type, String xmlName)
     {
         super(type, xmlName);
-        setIntrospected(true);        
+        setIntrospected(true);
     } //-- XMLClassDescriptorImpl
-    
+
 } //-- IntrospectedClassDescriptor

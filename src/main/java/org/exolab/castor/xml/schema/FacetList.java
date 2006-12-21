@@ -42,12 +42,12 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.schema;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
-import org.exolab.castor.util.List;
 
 /**
  * A list for maintaining facets
@@ -68,7 +68,7 @@ public class FacetList implements java.io.Serializable {
      * Creates a new FacetList
     **/
     public FacetList() {
-        facets = new List();
+        facets = new ArrayList();
     } //-- FacetList
 
     /**
@@ -76,7 +76,7 @@ public class FacetList implements java.io.Serializable {
      * @param facet the facet to add
     **/
     public void add(Facet facet) {
-        if (facet != null) 
+        if (facet != null)
             facets.add(facet);
     } //-- add
 
@@ -90,8 +90,8 @@ public class FacetList implements java.io.Serializable {
         for (int i = 0; i < facetList.facets.size(); i++)
             facets.add(facetList.facets.get(i));
     } //-- add
-    
-    
+
+
     /**
      * Returns the facet at the given index
      * @param index the index of the Facet to return
@@ -107,7 +107,7 @@ public class FacetList implements java.io.Serializable {
     public boolean remove(Facet facet) {
         return facets.remove(facet);
     } //-- remove
-    
+
     /**
      * Removes the facet located at the given index
      *
@@ -117,7 +117,7 @@ public class FacetList implements java.io.Serializable {
     public Facet remove(int index) {
         return (Facet) facets.remove(index);
     } //-- remove
-    
+
 
     /**
      * Returns the number of Facets in this list
@@ -140,7 +140,7 @@ public class FacetList implements java.io.Serializable {
      * In case of an ENUMERATION the first facet is returned.
      * If none of the name of the facets of that list
      * correspond to the given name, null is returned.
-     * 
+     *
      * @param name the facet name to look for.
      *
      * @return The facet of the list with the given name
