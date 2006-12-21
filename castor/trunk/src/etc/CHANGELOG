@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-597 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Have SourceGenerator use a separate packages for class descriptor classes
+       Details: http://jira.codehaus.org/browse/CASTOR-597
+       (Edward - 20061220)
+
 XML:   Resolved issue CASTOR-1746 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Enhanced ClassNameCRStrategy with dealWithFileOverwrite() functionality.
        Details: http://jira.codehaus.org/browse/CASTOR-1746

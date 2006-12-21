@@ -236,6 +236,26 @@
 
             </summary>
             <bugs>
+                <bug id="597" tool="jira">
+                    <description>
+                        Have SourceGenerator use a separate packages for class descriptor classes
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Robert La Ferla</name>
+                        <email>robertlaferla@comcast.net</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061220</date>
+                </bug>
                 <bug id="1746" tool="jira">
                     <description>
                         Enhanced ClassNameCRStrategy with dealWithFileOverwrite() functionality.
