@@ -47,8 +47,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.util;
 
 import java.io.IOException;
@@ -77,22 +75,21 @@ import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ResolverException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLClassDescriptorResolver;
+import org.exolab.castor.xml.XMLConstants;
 import org.exolab.castor.xml.XMLMappingLoader;
 
 /**
- * The default implementation of the ClassDescriptorResolver interface
+ * The default implementation of the ClassDescriptorResolver interface.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class XMLClassDescriptorResolverImpl
     implements XMLClassDescriptorResolver {
- 
-    private static final String DESCRIPTOR_SUFFIX  = "Descriptor";
-    
+
     /**
      * internal cache for class loading (this is used to avoid trying to load
-     * missing classes again and again)
+     * missing classes again and again).
      */
     private ClassCache _classCache       = null;
 
@@ -103,30 +100,30 @@ public class XMLClassDescriptorResolverImpl
     private DescriptorCache _descriptorCache  = null;
 
     /**
-     * The introspector to use, if necessary, to 
-     * create dynamic ClassDescriptors
+     * The introspector to use, if necessary, to
+     * create dynamic ClassDescriptors.
      */
     private Introspector _introspector = null;
-    
+
     /**
-     * The classloader to use
+     * The classloader to use.
      */
     private ClassLoader _loader  = null;
-    
+
     /**
      * MappingLoader instance for finding user-defined
-     * mappings from a mapping-file
+     * mappings from a mapping-file.
      */
     private XMLMappingLoader _mappingLoader = null;
-    
-    /** 
-     * A flag to indicate the use of introspection
+
+    /**
+     * A flag to indicate the use of introspection.
      */
     private boolean _useIntrospection = true;
-        
-    
+
+
     /**
-     * Creates a new ClassDescriptorResolverImpl
+     * Creates a new ClassDescriptorResolverImpl.
      */
     public XMLClassDescriptorResolverImpl() {
         _classCache = new ClassCache();
@@ -150,7 +147,7 @@ public class XMLClassDescriptorResolverImpl
 
         return _introspector;
     } //-- getIntrospector
-    
+
     /**
      * {@inheritDoc}
      *
@@ -159,8 +156,8 @@ public class XMLClassDescriptorResolverImpl
     public MappingLoader getMappingLoader() {
         return _mappingLoader;
     } //-- getXMLMappingLoader
-    
- 
+
+
     /**
      * {@inheritDoc}
      *
@@ -198,7 +195,7 @@ public class XMLClassDescriptorResolverImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.xml.ClassDescriptorResolver#resolve(java.lang.Class)
      */
     public ClassDescriptor resolve(Class type) throws ResolverException {
@@ -207,16 +204,16 @@ public class XMLClassDescriptorResolverImpl
 
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolve(java.lang.String)
      */
     public XMLClassDescriptor resolve(String className) throws ResolverException {
         return resolve(className, null);
     } // -- resolve(String)
-    
+
     /**
      * {@inheritDoc}
-     * 
+     *
      * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolve(java.lang.String,
      *      java.lang.ClassLoader)
      */
@@ -248,7 +245,7 @@ public class XMLClassDescriptorResolverImpl
         _descriptorCache.addMissingDescriptor(className);
         return null;
     } //-- resolve(String, ClassLoader)
-    
+
     /**
      * {@inheritDoc}
      *
@@ -301,8 +298,8 @@ public class XMLClassDescriptorResolverImpl
         // get all descriptors with the correct xml name
         return new XCDEnumerator(_descriptorCache.getDescriptors(xmlName));
     } //-- resolveAllByXMLName
-    
-    
+
+
     /**
      * {@inheritDoc}
      *
@@ -311,7 +308,7 @@ public class XMLClassDescriptorResolverImpl
     public void setClassLoader(ClassLoader loader) {
         this._loader = loader;
     } //-- setClassLoader
-    
+
     /**
      * Enables or disables introspection. Introspection is
      * enabled by default.
@@ -322,18 +319,18 @@ public class XMLClassDescriptorResolverImpl
     public void setIntrospection(boolean enable) {
         _useIntrospection = enable;
     } //-- setIntrospection
-    
+
     /**
      * Sets whether or not to look for and load package specific
      * mapping files (".castor.xml" files).
-     * 
+     *
      * @param loadPackageMappings a boolean that enables or
      * disables the loading of package specific mapping files
      */
     public void setLoadPackageMappings(boolean loadPackageMappings) {
         _descriptorCache.setLoadPackageMappings(loadPackageMappings);
     } //-- setLoadPackageMappings
-    
+
     /**
      * {@inheritDoc}
      *
@@ -350,7 +347,7 @@ public class XMLClassDescriptorResolverImpl
             }
         }
     } //-- setMappingLoader
-    
+
     /**
      * Creates an XMLClassDescriptor for the given type by using introspection.<br>
      * This method will rely on the <code>Introspector</code> set with
@@ -360,7 +357,7 @@ public class XMLClassDescriptorResolverImpl
      * <br>
      * <b>NOTE</b>: If this XMLClassDescriptorResolver is NOT configured to use
      * introspection this method will NOT create an descriptor.<br>
-     * 
+     *
      * @param type
      *            The type to create an descriptor for.
      * @return The created XMLClassDescriptor or <code>null</code> if not
@@ -397,7 +394,7 @@ public class XMLClassDescriptorResolverImpl
      * <li> If the loader of this XMLClassDescriptor is not <code>null</code>,
      * it is used.
      * <li> The context class loader of the current thread is used. </lu>
-     * 
+     *
      * @param loader The "preferred" <code>ClassLoader</code>.
      * @return The loader to be used.
      */
@@ -420,7 +417,7 @@ public class XMLClassDescriptorResolverImpl
      * name <code>className</code> + "Descriptor", and contain a valid
      * XMLClassDescriptor.<br>
      * If a descriptor is found it is added to the internal descriptor cache.
-     * 
+     *
      * @param className
      *            The name of the class to load the descriptor for (This is NOT
      *            the class name of the descriptor!)
@@ -432,7 +429,7 @@ public class XMLClassDescriptorResolverImpl
      *         <code>XMLClassDescriptor</code>.
      */
     private XMLClassDescriptor loadDescriptorClass(String className, ClassLoader loader) {
-        String descriptorClassName = className + DESCRIPTOR_SUFFIX;
+        String descriptorClassName = className + XMLConstants.DESCRIPTOR_SUFFIX;
         Class descriptorClass = _classCache.loadClass(descriptorClassName, this.getClassLoader(loader));
         if (descriptorClass == null) {
             return null;
@@ -450,7 +447,7 @@ public class XMLClassDescriptorResolverImpl
         return null;
     }
 
-    /** 
+    /**
      * Compares the two strings for equality. A Null and empty
      * strings are considered equal.
      *
@@ -467,10 +464,10 @@ public class XMLClassDescriptorResolverImpl
 
         return ns1.equals(ns2);
     } //-- namespaceEquals
-    
+
     /**
      * Gets the XMLClassDescriptor for the class with the given name.<br>
-     * 
+     *
      * The descriptor is searched in the following resources are search: <lu>
      * <li>The internal descriptor cache of this XMLClassDescriptorResolver
      * <li>The MappingLoader of this XMLClassDescriptorResolver
@@ -481,7 +478,7 @@ public class XMLClassDescriptorResolverImpl
      * <br>
      * If any of these resources yield an XMLClassDescriptor it is added to the
      * internal cache and returned as result.
-     * 
+     *
      * @param className
      *            The class to get the descriptor for.
      * @param loader
@@ -521,6 +518,15 @@ public class XMLClassDescriptorResolverImpl
 
         // try loading the descriptor from .class file
         descriptor = this.loadDescriptorClass(className, loader);
+        if (descriptor == null) {
+            // If we didn't find the descriptor, look in a lower package
+            int offset = className.lastIndexOf(".");
+            if (offset > 0 && !className.endsWith(".")) {
+                String newClassName = className.substring(0, offset+1)
+                        + XMLConstants.DESCRIPTOR_PACKAGE + className.substring(offset);
+                descriptor = this.loadDescriptorClass(newClassName, loader);
+            }
+        }
         if (descriptor != null) {
             return descriptor;
         }
@@ -530,7 +536,7 @@ public class XMLClassDescriptorResolverImpl
 
     /**
      * Gets the package name of the given class name.
-     * 
+     *
      * @param className
      *            The class name to retrieve the package name from.
      * @return The package name or the empty String if <code>className</code>
@@ -547,14 +553,14 @@ public class XMLClassDescriptorResolverImpl
         }
         return "";
     }
-    
+
 
     /**
      * Internal cache for Class objects.<br>
      * <br>
      * The cache keeps a list of classes that could not be loaded to prevent
      * loading those classes again.
-     * 
+     *
      * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
      */
     private class ClassCache {
@@ -571,7 +577,7 @@ public class XMLClassDescriptorResolverImpl
          * If the requested class could not be loaded its name is stored in the
          * list of missing classes. Further requests to load such classes will
          * prevent asking the class loader again.
-         * 
+         *
          * @param className
          *            The name of the class to be loaded. This must be a fully
          *            qualified name (i.e. including the package).
@@ -614,10 +620,10 @@ public class XMLClassDescriptorResolverImpl
      * mapping files and CDR lists that have been loaded. Just like the
      * ClassCache it also has a list of missing descriptors to avoid trying to
      * load those descriptors again.
-     * 
+     *
      * The cached descriptors are available via the name of the classes they
      * describe or via their XML name from a mapping file.
-     * 
+     *
      * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
      */
     private class DescriptorCache {
@@ -650,7 +656,7 @@ public class XMLClassDescriptorResolverImpl
         private List                _loadedCDRLists;
         /**
          * Flag indicating whether package mappings should be loaded or not.
-         * 
+         *
          * @see XMLClassDescriptorResolverImpl#setLoadPackageMappings(boolean)
          */
         private boolean             _loadPackageMappings    = true;
@@ -673,21 +679,21 @@ public class XMLClassDescriptorResolverImpl
         /**
          * Adds a descriptor to this caches maps.<br>
          * The descriptor is mapped both with the class name and its XML name.
-         * 
+         *
          * The descriptor will not be mapped with its XML name is
          * <code>null</code>, the empty string (""), or has the value of the
          * constant INTERNAL_CONTAINER_NAME.
-         * 
+         *
          * If there already is a descriptor for the given <code>className</code>
          * and/or the descriptor's XML name the previously cached descriptor is
          * replaced.
-         * 
+         *
          * @param className
          *            The class name to be used for mapping the given
          *            descriptor.
          * @param descriptor
          *            The descriptor to be mapped.
-         * 
+         *
          * @see #INTERNAL_CONTAINER_NAME
          */
         private void addDescriptor(String className, XMLClassDescriptor descriptor) {
@@ -713,9 +719,9 @@ public class XMLClassDescriptorResolverImpl
         /**
          * Adds the given descriptor to this DescriptorCache.<br>
          * The descriptor will be mapped to its class name and its XML name.
-         * 
+         *
          * @see #addDescriptor(String, XMLClassDescriptor) for details.
-         * 
+         *
          * @param descriptor
          *            The XMLClassDescriptor to be added.
          */
@@ -726,10 +732,10 @@ public class XMLClassDescriptorResolverImpl
         /**
          * Adds the given class name to the list of classes a descriptor is
          * unavailable for.
-         * 
+         *
          * @param className
          *            The class name to be added.
-         * 
+         *
          * @see #isMissingDescriptor(String)
          */
         public void addMissingDescriptor(String className) {
@@ -738,7 +744,7 @@ public class XMLClassDescriptorResolverImpl
 
         /**
          * Gets the descriptor that is mapped to the given class name.
-         * 
+         *
          * @param className
          *            The class name to get a descriptor for.
          * @return The descriptor mapped to the given name or <code>null</code>
@@ -753,7 +759,7 @@ public class XMLClassDescriptorResolverImpl
          * <br>
          * This method will return all previously cached descriptors with the
          * given XML name regardless of their namespace.
-         * 
+         *
          * @param xmlName
          *            The XML name of the descriptors to get.
          * @return A list of descriptors with the given XML name or an empty
@@ -780,7 +786,7 @@ public class XMLClassDescriptorResolverImpl
          * NOTE: If an descriptor with the XML name in question is added to this
          * cache, the iterator will fail due to an
          * <code>ConcurrentModificationException</code>
-         * 
+         *
          * @param xmlName
          *            The XML name of the descriptors to get.
          * @return An iterator over descriptors with the given XML name. If no
@@ -788,7 +794,7 @@ public class XMLClassDescriptorResolverImpl
          *         the iterator will never return an object (.hasNext() will
          *         immediately return <code>false</code>). This method will
          *         never return <code>null</code>!
-         * 
+         *
          * @see ConcurrentModificationException
          * @see List#iterator()
          */
@@ -805,14 +811,14 @@ public class XMLClassDescriptorResolverImpl
          * XMLClassDescriptorResolverImpl found to have no descriptor. The cache
          * itself has no means of determining that this is the case and thus
          * will never add/remove class names to/from it.
-         * 
+         *
          * @param className
          *            The class name to be checked.
          * @return <code>true</code> If the given class name was stated to
          *         have no descriptor by a previous call to
          *         <code>addMissingDescriptor</code> with exactly the same
          *         class name. <code>false</code> otherwise.
-         * 
+         *
          * @see #addMissingDescriptor(String)
          */
         public boolean isMissingDescriptor(String className) {
@@ -825,17 +831,17 @@ public class XMLClassDescriptorResolverImpl
          * <br>
          * If the CDR file is available and could be loaded properly the
          * descriptors listed in it are added to this cache.
-         * 
+         *
          * If a descriptor is listed in the CDR file for the given package but
          * could not be loaded (e.g. because the reference class file is not
          * available) the descriptor is ignored but no exception is thrown.
-         * 
+         *
          * If a CDR file is not available for the given package this method will
          * not load any descriptors and not throw any exceptions.
-         * 
+         *
          * Further calls to this method with the same package name will not be
          * processed.
-         * 
+         *
          * @param packageName
          *            The package to load the CDR file for.
          * @param loader
@@ -891,7 +897,7 @@ public class XMLClassDescriptorResolverImpl
          * <br>
          * Further calls to this method with the same package name will not be
          * processed.
-         * 
+         *
          * @param packageName
          *            The name of the package to load the mapping file for.
          * @param loader
@@ -924,7 +930,7 @@ public class XMLClassDescriptorResolverImpl
 
         /**
          * Enables or disabled the loading of package mapping files.
-         * 
+         *
          * @param loadPackageMappings
          *            <code>true</code> if package mapping files should be
          *            loaded. <code>false</code> if not.
@@ -938,14 +944,14 @@ public class XMLClassDescriptorResolverImpl
          * the given URL.<br>
          * The provided URL must exist and be suitable for loading properties
          * from.
-         * 
+         *
          * @param url
          *            The URL to load the properties from. This must not be
          *            null!
          * @return The loaded properties.
          * @throws IOException
          *             If loading the properties from the given ULR failed.
-         * 
+         *
          * @see Properties
          * @see Properties#load(InputStream)
          */
@@ -964,7 +970,7 @@ public class XMLClassDescriptorResolverImpl
          * <code>packageName</code> and returns the resulting file path.<br>
          * If <code>packageName</code> is <code>null</code> or a zero-length
          * String, this method will return <code>fileName</code>.<br>
-         * 
+         *
          * @param fileName
          *            The file name to be qualified.
          * @param packageName
@@ -986,7 +992,7 @@ public class XMLClassDescriptorResolverImpl
         /**
          * Loads a package mapping file for the given package name using the
          * provided ClassLoader.<br>
-         * 
+         *
          * @param packageName
          *            The name of the package to load the mapping file for.
          * @param loader
@@ -1030,7 +1036,7 @@ public class XMLClassDescriptorResolverImpl
 
         /**
          * {@inheritDoc}
-         * 
+         *
          * @see org.exolab.castor.xml.ClassDescriptorEnumeration#getNext()
          */
         public XMLClassDescriptor getNext() {
@@ -1039,7 +1045,7 @@ public class XMLClassDescriptorResolverImpl
 
         /**
          * {@inheritDoc}
-         * 
+         *
          * @see org.exolab.castor.xml.ClassDescriptorEnumeration#hasNext()
          */
         public boolean hasNext() {

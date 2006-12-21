@@ -55,6 +55,7 @@ import java.io.IOException;
 import java.util.Enumeration;
 import java.util.Properties;
 
+import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
 import org.exolab.castor.builder.info.ClassInfo;
@@ -106,7 +107,7 @@ public class SingleClassGenerator {
     private final SourceGenerator _sourceGenerator;
 
     /**
-     * The class name conflict error handling strategy to use for 
+     * The class name conflict error handling strategy to use for
      * resolving class name conflicts.
      */
     private ClassNameCRStrategy _conflictStrategy;
@@ -122,8 +123,8 @@ public class SingleClassGenerator {
      * @param sourceGenerator A SourceGenerator instance
      * @param conflictStrategyType Type of the {@link ClassNameCRStrategy} instance to be used.
      */
-    public SingleClassGenerator(final ConsoleDialog dialog, 
-            final SourceGenerator sourceGenerator, 
+    public SingleClassGenerator(final ConsoleDialog dialog,
+            final SourceGenerator sourceGenerator,
             final String conflictStrategyType) {
         this._dialog = dialog;
         this._sourceGenerator = sourceGenerator;
@@ -131,8 +132,8 @@ public class SingleClassGenerator {
         this._header.appendComment(DEFAULT_HEADER);
         this._descSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
-        
-        this._classNameConflictResolutionStrategyRegistry = 
+
+        this._classNameConflictResolutionStrategyRegistry =
             new ClassNameCRStrategyRegistry(sourceGenerator.getProperty(BuilderConfiguration.Property.NAME_CONFLICT_STRATEGIES, ""));
         createNameConflictStrategy(conflictStrategyType);
     }
@@ -273,7 +274,7 @@ public class SingleClassGenerator {
         //-- Have we already processed a class with this name?
         JClass conflict = state.getProcessed(jClass.getName());
         if (conflict != null && !state.getSuppressNonFatalWarnings()) {
-            SGStateInfo stateAfterResolution = 
+            SGStateInfo stateAfterResolution =
                 _conflictStrategy.dealWithClassNameConflict(state, classInfo, conflict);
             return stateAfterResolution.getStatusCode() != SGStateInfo.STOP_STATUS;
         }
@@ -442,7 +443,7 @@ public class SingleClassGenerator {
     /**
      * Sets the desired {@link ClassNameCRStrategy} instance type to be used
      * for name conflict resolution.
-     * @param nameConflictStrategy the desired {@link ClassNameCRStrategy} instance type 
+     * @param nameConflictStrategy the desired {@link ClassNameCRStrategy} instance type
      */
     public void setNameConflictStrategy(String nameConflictStrategy) {
         createNameConflictStrategy(nameConflictStrategy);
@@ -453,8 +454,8 @@ public class SingleClassGenerator {
      * {@link ClassNameConflictResolutionStrategyFactory}.
      * @param nameConflictStrategy The desired {@link ClassNameCRStrategy} type.
      */
-    private void createNameConflictStrategy(String nameConflictStrategy) { 
-        this._conflictStrategy = 
+    private void createNameConflictStrategy(String nameConflictStrategy) {
+        this._conflictStrategy =
             _classNameConflictResolutionStrategyRegistry.getClassNameConflictResolutionStrategy(nameConflictStrategy);
         this._conflictStrategy.setConsoleDialog(_dialog);
         this._conflictStrategy.setSingleClassGenerator(this);

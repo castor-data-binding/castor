@@ -34,7 +34,7 @@ import org.exolab.javasource.JSourceCode;
  * @version $Revision: 6469 $ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public class XMLFieldHandlerFactory {
-    
+
     /**
      * The XML code generator configuration.
      */
@@ -50,7 +50,7 @@ public class XMLFieldHandlerFactory {
 
     /**
      * Creates the XMLFieldHandler for the given FieldInfo.
-     * 
+     *
      * @param member
      *            the member for which to create an XMLFieldHandler
      * @param xsType
@@ -62,7 +62,7 @@ public class XMLFieldHandlerFactory {
      * @param forGeneralizedHandler
      *            Whether to generate a generalized field handler
      */
-    void createXMLFieldHandler(final FieldInfo member,
+    public void createXMLFieldHandler(final FieldInfo member,
             final XSType xsType, final String localClassName,
             final JSourceCode jsc, final boolean forGeneralizedHandler) {
 
@@ -92,14 +92,14 @@ public class XMLFieldHandlerFactory {
 
         createNewInstanceMethod(member, xsType, jsc,
                 forGeneralizedHandler, any, isEnumerated);
-        
+
         jsc.unindent();
         jsc.add("};");
     } // --end of XMLFieldHandler
 
     /**
      * Creates the getValue() method of the corresponsing XMLFieldHandler.
-     * 
+     *
      * @param member
      *            The member element.
      * @param xsType
@@ -148,7 +148,7 @@ public class XMLFieldHandlerFactory {
 
     /**
      * Creates the setValue() method of the corresponsing XMLFieldHandler.
-     * 
+     *
      * @param member
      *            The member element.
      * @param xsType
@@ -168,12 +168,12 @@ public class XMLFieldHandlerFactory {
      * @param isContent
      *            Whether to create a setValue() method for XML content.
      */
-    private void createSetValueMethod(final FieldInfo member, 
-            final XSType xsType, 
-            final String localClassName, 
-            final JSourceCode jsc, 
-            boolean any, 
-            boolean isAttribute, 
+    private void createSetValueMethod(final FieldInfo member,
+            final XSType xsType,
+            final String localClassName,
+            final JSourceCode jsc,
+            boolean any,
+            boolean isAttribute,
             boolean isContent) {
         if (_config.useJava50()) {
             jsc.add("@Override");
@@ -253,7 +253,7 @@ public class XMLFieldHandlerFactory {
 
     /**
      * Creates the resetValue() method of the corresponsing XMLFieldHandler.
-     * 
+     *
      * @param member
      *            The member element.
      * @param jsc
@@ -261,8 +261,8 @@ public class XMLFieldHandlerFactory {
      * @param localClassName
      *            Name of the object instance as used locally
      */
-    private void createResetMethod(final FieldInfo member, 
-            final String localClassName, 
+    private void createResetMethod(final FieldInfo member,
+            final String localClassName,
             final JSourceCode jsc) {
         // -- reset method (handle collections only)
         if (member.isMultivalued()) {
@@ -297,7 +297,7 @@ public class XMLFieldHandlerFactory {
 
     /**
      * Creates the newInstance() method of the corresponsing XMLFieldHandler.
-     * 
+     *
      * @param member
      *            The member element.
      * @param xsType

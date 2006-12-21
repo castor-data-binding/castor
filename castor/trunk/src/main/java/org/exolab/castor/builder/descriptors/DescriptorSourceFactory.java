@@ -48,52 +48,48 @@
  * $Id$
  */
 
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.descriptors;
 
+import org.exolab.castor.builder.BuilderConfiguration;
+import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.builder.XMLFieldHandlerFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
-import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.builder.util.DescriptorJClass;
+import org.exolab.castor.xml.XMLConstants;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JModifiers;
+import org.exolab.javasource.JNaming;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * A factory for creating the source code of descriptor classes
+ * A factory for creating the source code of descriptor classes.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public class DescriptorSourceFactory {
 
-    /**
-     * GeneralizedFieldHandler
-     */
+    /** GeneralizedFieldHandler. */
     private static final JClass GENERALIZED_FIELD_HANDLER_CLASS =
         new JClass("org.exolab.castor.mapping.GeneralizedFieldHandler");
-
-    private static final String DESCRIPTOR_NAME      = "Descriptor";
+    /** Name of the field validator instance variable in generated code. */
     private static final String FIELD_VALIDATOR_NAME = "fieldValidator";
 
-    /**
-     * The BuilderConfiguration instance
-     */
-    private BuilderConfiguration _config = null;
+    /** The BuilderConfiguration instance. */
+    private final BuilderConfiguration _config;
 
-    /**
-     * Factory for creating XMLFieldHandler instances embedded in descriptors
-     */
+    /** Factory for creating XMLFieldHandler instances embedded in descriptors. */
     private XMLFieldHandlerFactory _xmlFieldHandlerFactory;
 
     /**
-     * Creates a new DescriptorSourceFactory with the given configuration
+     * Creates a new DescriptorSourceFactory with the given configuration.
      *
      * @param config the BuilderConfiguration instance
      */
@@ -108,22 +104,22 @@ public class DescriptorSourceFactory {
 
     /**
      * Creates the Source code of a MarshalInfo for a given XML Schema element
-     * declaration
+     * declaration.
      *
      * @param classInfo
      *            the XML Schema element declaration
      * @return the JClass representing the MarshalInfo source code
      */
     public JClass createSource(final ClassInfo classInfo) {
-        JSourceCode jsc            = null;
         JClass jClass              = classInfo.getJClass();
-        String className           = jClass.getName();
         String localClassName      = jClass.getLocalName();
-        DescriptorJClass classDesc = new DescriptorJClass(_config, className + DESCRIPTOR_NAME, jClass);
+
+        String descriptorClassName = getQualifiedDescriptorClassName(jClass.getName(false));
+        DescriptorJClass classDesc = new DescriptorJClass(_config, descriptorClassName, jClass);
 
         //-- get handle to default constuctor
         JConstructor cons = classDesc.getConstructor(0);
-        jsc = cons.getSourceCode();
+        JSourceCode jsc   = cons.getSourceCode();
 
         //-- Set namespace prefix
         String nsPrefix = classInfo.getNamespacePrefix();
@@ -254,6 +250,27 @@ public class DescriptorSourceFactory {
     //-------------------/
     //- Private Methods -/
     //-------------------/
+
+    /**
+     * Returns the fully-qualified class name of the Descriptor to create. Given
+     * the fully-qualified class name of the class we are creating a Descriptor
+     * for, return the correct fully-qualified name for the Descriptor.
+     *
+     * @param name
+     *            fully-qualified class name of the class we are describing
+     * @return the fully-qualified class name of the Descriptor to create
+     */
+    private String getQualifiedDescriptorClassName(final String name) {
+        String descPackage   = JNaming.getPackageFromClassName(name);
+        String descClassName = JNaming.getLocalNameFromClassName(name);
+
+        if (descPackage != null && descPackage.length() > 0) {
+            descPackage = descPackage +  "." + XMLConstants.DESCRIPTOR_PACKAGE + ".";
+        } else {
+            descPackage = "";
+        }
+        return descPackage + descClassName + XMLConstants.DESCRIPTOR_SUFFIX;
+    }
 
     /**
      * Create special code for handling a member that is a restriction.
@@ -412,7 +429,8 @@ public class DescriptorSourceFactory {
             if (className.equals(localClassName)) {
                 jsc.add("desc.setClassDescriptor(this);");
             } else {
-                jsc.add("desc.setClassDescriptor(new " + className + DESCRIPTOR_NAME + "());");
+                String descriptorClassName = getQualifiedDescriptorClassName(className);
+                jsc.add("desc.setClassDescriptor(new " + descriptorClassName + "());");
             }
         }
 
@@ -425,6 +443,7 @@ public class DescriptorSourceFactory {
             jsc.append("\");");
         }
 
+        // FIXME:  This next statement does nothing ... why is it here?
         if (any && member.getNamespaceURI() == null) {
             nsURI = null;
         }

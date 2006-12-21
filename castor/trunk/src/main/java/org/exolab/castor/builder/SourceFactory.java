@@ -648,8 +648,8 @@ public class SourceFactory extends BaseFactory {
      *            the current SGStateInfo (cannot be null).
      * @return the JClass representation of the given Simpletype
      */
-    public JClass createSourceCode(final ExtendedBinding binding, 
-            final SimpleType simpleType, 
+    public JClass createSourceCode(final ExtendedBinding binding,
+            final SimpleType simpleType,
             final SGStateInfo sgState) {
         if (SimpleTypesFactory.isBuiltInType(simpleType.getTypeCode())) {
             String err = "You cannot construct a ClassInfo for a built-in SimpleType.";
@@ -716,7 +716,7 @@ public class SourceFactory extends BaseFactory {
             comp.setBinding(binding);
         }
         comp.setView(simpleType);
-        
+
         String packageName = comp.getJavaPackage();
         if ((packageName == null) || (packageName.length() == 0)) {
             packageName = sgState._packageName;
@@ -726,13 +726,13 @@ public class SourceFactory extends BaseFactory {
             enumeration = true;
             //-- Fix packageName TODO: this is a hack I know, we should change this
             if ((packageName != null) && (packageName.length() > 0)) {
-                packageName = packageName + ".types";
+                packageName = packageName + "." + SourceGeneratorConstants.TYPES_PACKAGE;
             } else {
-                packageName = "types";
+                packageName = SourceGeneratorConstants.TYPES_PACKAGE;
             }
         }
 
-        String boundClassName = comp.getJavaClassName(); 
+        String boundClassName = comp.getJavaClassName();
         if ((boundClassName != null) && (boundClassName.length() > 0)) {
             className = boundClassName;
             typeName = boundClassName;
@@ -1503,8 +1503,8 @@ public class SourceFactory extends BaseFactory {
      * @param complexType the given complex type.
      * @param state the given FactoryState
      */
-    private void processAttributes(final ExtendedBinding binding, 
-            final ComplexType complexType, 
+    private void processAttributes(final ExtendedBinding binding,
+            final ComplexType complexType,
             final FactoryState state) {
         if (complexType == null) {
             return;
@@ -1525,7 +1525,7 @@ public class SourceFactory extends BaseFactory {
             SimpleType sType = attr.getSimpleType();
 
             // look for simpleType def in base type(s)
-            XMLType baseXMLType = complexType.getBaseType(); 
+            XMLType baseXMLType = complexType.getBaseType();
             while (sType == null) {
                 // If no simple type found: Get the same attribute of the base type.
                 // If base type is not complex, forget it; break out of loop now.
@@ -1533,11 +1533,11 @@ public class SourceFactory extends BaseFactory {
                     break;
                 }
 
-                // There's a base complexType; get the attribute with the same name 
+                // There's a base complexType; get the attribute with the same name
                 // as this attribute (=attr) from it
                 final ComplexType baseComplexType = (ComplexType) baseXMLType;
                 AttributeDecl baseAttribute = baseComplexType.getAttributeDecl(attr.getName());
-                
+
                 if (baseAttribute != null) {
                     // See if this one has a simple-type...
                     sType = baseAttribute.getSimpleType();
@@ -1545,7 +1545,7 @@ public class SourceFactory extends BaseFactory {
                         attr.setSimpleType(sType);
                         break;
                     }
-                } 
+                }
 
                 // ... if not, go another step higher in the class hierarchy
                 baseXMLType = baseXMLType.getBaseType();
@@ -1825,8 +1825,8 @@ public class SourceFactory extends BaseFactory {
      *            our current state
      * @see #processEnumerationAsBaseType
      */
-    private void processEnumeration(final ExtendedBinding binding, 
-            final SimpleType simpleType, 
+    private void processEnumeration(final ExtendedBinding binding,
+            final SimpleType simpleType,
             final FactoryState state) {
         // Added by robertlaferla at comcast dot net 01/21/2004
         if (_config.useEnumeratedTypeInterface()) {
@@ -1870,7 +1870,7 @@ public class SourceFactory extends BaseFactory {
         _enumerationFactory.processEnumerationAsBaseType(binding, simpleType, state);
     } //-- processEnumerationAsBaseType
 
-    
+
 
     /**
      * Adds a given FieldInfo to the JClass and ClassInfo stored in the given

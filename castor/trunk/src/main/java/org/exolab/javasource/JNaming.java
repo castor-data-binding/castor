@@ -247,6 +247,14 @@ public final class JNaming {
      * Field names used within Castor that prevent a user from using the same
      * name as an element without using a mapping file. Some fields that Castor
      * uses depend on the contents of the schema, so we only warn.
+     * <p>
+     * Reserved:
+     * <pre>
+     * _items -- might be fetched using getXXXXItems where XXX == class name
+     * _content
+     * _choiceValue
+     * _anyObject
+     * </pre>
      */
     private static final String[] CASTOR_RESERVED = {
         "Content",
@@ -410,5 +418,39 @@ public final class JNaming {
         if (isKeyword(string)) { return false; }
         return true;
     } //-- isValidJavaIdentifier
+
+    /**
+     * Returns the package name from the given class name.
+     *
+     * @param className an arbitrary class name, optionally including a package
+     * @return the package name from the given class name.
+     */
+    public static String getPackageFromClassName(final String className) {
+        if (className == null) {
+            return null;
+        }
+        int idx = className.lastIndexOf('.');
+        if (idx > 0) {
+            return className.substring(0, idx);
+        }
+        return null;
+    } //-- getPackageFromClassName
+
+    /**
+     * Returns the local class name from the given fully qualified class name.
+     *
+     * @param className an arbitrary class name, optionally including a package
+     * @return the local name from the given class name.
+     */
+    public static String getLocalNameFromClassName(final String className) {
+        if (className == null) {
+            return null;
+        }
+        int idx = className.lastIndexOf('.');
+        if (idx > 0) {
+            return className.substring(idx + 1);
+        }
+        return className;
+    } //-- getLocalNameFromClassName
 
 } //-- JNaming

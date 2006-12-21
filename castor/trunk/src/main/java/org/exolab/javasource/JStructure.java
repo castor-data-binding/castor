@@ -137,7 +137,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
             }
             throw new IllegalArgumentException(err);
         }
-        this._packageName = getPackageFromClassName(name);
+        this._packageName = JNaming.getPackageFromClassName(name);
         _imports          = new Vector();
         _interfaces       = new Vector();
         _jdc              = new JDocComment();
@@ -170,7 +170,8 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     public abstract void addMember(JMember jMember);
 
     /**
-     * Adds the given import to this JStructure.
+     * Adds the given import to this JStructure.  Note:  You cannot import
+     * from the "default package," so imports with no package are ignored.
      *
      * @param className name of the class to import.
      */
@@ -178,7 +179,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         if (className == null || className.length() == 0) { return; }
 
         //-- getPackageName
-        String pkgName = getPackageFromClassName(className);
+        String pkgName = JNaming.getPackageFromClassName(className);
 
         if (pkgName != null) {
             if (pkgName.equals(this._packageName) || pkgName.equals("java.lang")) {
@@ -492,8 +493,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
     public final String getName(final boolean stripPackage) {
         String name = super.getName();
         if (stripPackage) {
-            int period = name.lastIndexOf(".");
-            if (period > 0) { name = name.substring(period + 1); }
+            name = JNaming.getLocalNameFromClassName(name);
         }
         return name;
     } //-- getName
@@ -542,10 +542,7 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         }
 
         //-- ignore package information, for now
-        int period = name.lastIndexOf(".");
-        if (period > 0) {
-            name = name.substring(period + 1);
-        }
+        name = JNaming.getLocalNameFromClassName(name);
 
         return JNaming.isValidJavaIdentifier(name);
     } //-- isValidClassName
@@ -879,17 +876,5 @@ public abstract class JStructure extends JType implements JAnnotatedElement {
         }
         jsw.writeln();
     } //-- printlnWithPrefix
-
-    /**
-     * Returns the package name from the given class name.
-     *
-     * @param className an arbitrary class name, optionally including a package
-     * @return the package name from the given class name.
-     */
-    protected static String getPackageFromClassName(final String className) {
-        int idx = className.lastIndexOf('.');
-        if (idx > 0) { return className.substring(0, idx); }
-        return null;
-    } //-- getPackageFromClassName
 
 } //-- JStructure
