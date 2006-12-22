@@ -1,14 +1,13 @@
-<?xml version="1.0"?>
-
-<document url="http://castor.org/sourcegen.xml">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/sourcegen.xml">
 
   <properties>
     <title>The Source Code Generator</title>
     <author email="keith AT kvisco DOT com">Keith Visco</author>
     <author email="blandin@intalio.com">Arnaud Blandin</author>
     <abstract>
-       Describes how to use the Source Code Generator, and what
-       is currently supported.
+       Describes how to use the Source Code Generator, and what features and
+       options are currently supported.
     </abstract>
     <status>Draft</status>
   </properties>
@@ -17,253 +16,328 @@
 
     <title>Using the Source Code Generator</title>
     <header>
-      <p>API Reference: <api package="org.exolab.castor.builder">The Source Builder API</api></p>
+      <p>
+        API Reference: <api package="org.exolab.castor.builder">The Source
+         Builder API</api>
+      </p>
     </header>
 
     <section title="News">
 
-	    <section title="Source generation &amp; Java 5.0">
-	
-	        <p>Since <b>release 1.0.2</b>, the Castor source generator now supports the 
-	           generation of Java 5.0 compliant code. The generated code - with the 
-	           new feature enabled - will make use of the following Java 5.0-specific
-	           artefacts:
-	           
-	           <ul>
-	            <li>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</li>
-	            <li>Use of @Override annotations with the generated methods 
-	                that require it.</li>
-	            <li>Use of @SupressWarnings with "unused" method parameters 
-	                on the generated methods that needed it.</li>
-	            <li>Added "enum" to the list of reserved keywords.</li>
-	           </ul></p>
-	                   
-	        <p>To enable this feature (off by default), please uncomment the
-	           following property in your custom <tt>castorbuilder.properties</tt>
-	           file:</p>
-	                   
-	        <code-panel>
-	# This property specifies whether the sources generated
-	# should comply with java 1.4 or 5.0; defaults to 1.4
-	org.exolab.castor.builder.javaVersion=5.0
-	        </code-panel>
-	                
-	    </section>
+      <section title="Source generation &amp; Java 5.0">
 
-    </section>
-    
-    <section title="Introduction">
+        <p>
+          Since <b>release 1.0.2</b>, the Castor source generator supports
+          the generation of Java 5.0 compliant code. The generated code --
+          with the new feature enabled -- will make use of the following
+          Java 5.0-specific artifacts:
+        </p>
 
+        <ul>
+          <li>
+            Use of parameterized collections, e.g.
+            <tt>ArrayList&lt;String&gt;</tt>.
+          </li>
+          <li>
+            Use of <tt>@Override</tt> annotations with the generated methods
+            that require it.
+          </li>
+          <li>
+            Use of <tt>@SuppressWarnings</tt> with "unused" method parameters
+            on the generated methods that needed it.
+          </li>
+          <li>Added "enum" to the list of reserved keywords.</li>
+        </ul>
 
-      <p>Castor's Source Code Generator creates
-         a set of Java classes
-         which represent an object model for an XML Schema
-         (W3C XML Schema, 20010502 Recommendation)<sup>1</sup>, as well as the
-         necessary Class Descriptors used by the <a href="xml-framework.xml">marshalling framework</a>
-         to obtain information about the generated classes.
-         <note>
-            Currently the generated source files will need to be compiled. We
-            will be adding an Ant taskdef eventually to handle this automatically.
-         </note>
-     </p>
+        <p>
+          To enable this feature (off by default), please add or uncomment
+          the following property in your custom
+          <tt>castorbuilder.properties</tt> file:
+        </p>
 
-        <code-panel top-caption="Example:">
-java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
-    -package com.xyz
+        <code-panel>
+# Specifies whether the sources generated should be source compatible with
+# Java 1.4 or Java 5.  Legal values are "1.4" and "5.0".  When "5.0" is
+# selected, generated source will use Java 5 features such as generics and
+# annotations.
+# Defaults to "1.4".
+#
+org.exolab.castor.builder.javaVersion=5.0
         </code-panel>
 
-      <p>This will generate a set of source files from the the XML Schema, foo-schema.xsd,
+      </section>
 
-         and place them in the com/xyz/* package.</p>
+    </section>
 
+    <section title="Introduction">
 
-
-      <p>To compile the generated classes simply run javac, or your favorite compiler:
-
-         <code-panel>javac com/xyz/*.java</code-panel>
+      <p>
+        Castor's Source Code Generator creates a set of Java classes which
+        represent an object model for an XML Schema (W3C XML Schema 1.0 Second
+        Edition, Recommendation)<sup>1</sup>, as well as the necessary Class
+        Descriptors used by the <a href="xml-framework.xml">marshaling
+        framework</a> to obtain information about the generated classes.
       </p>
 
-      <p>Created class will have marshal and unmarshal methods which are used to go back
+      <note>
+        The generated source files will need to be compiled.  A later
+        release may add an Ant taskdef to handle this automatically.
+      </note>
 
-         and forth between XML and an Object instance.</p>
+      <code-panel top-caption="Example:">
+java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
+    -package com.xyz
+      </code-panel>
+
+      <p>
+        This will generate a set of source files from the the XML Schema
+        <tt>foo-schema.xsd</tt> and place them in the package
+        <tt>com.xyz</tt>.
+      </p>
+
+      <p>
+        To compile the generated classes, simply run javac or your favorite
+        compiler:
+      </p>
+
+      <code-panel>javac com/xyz/*.java</code-panel>
+
+      <p>
+        Created class will have marshal and unmarshal methods which are used to
+        go back and forth between XML and an Object instance.
+      </p>
 
     </section>
 
     <section title="Source Generator Options">
 
-      <tip>For additional information about the Source Generator and options, you can 
-           download the <a href="./SourceGeneratorUser.pdf">Source Generator User 
-           Document(PDF).</a> Please note that the usage of the binding file is 
-           not dicussed in that document.</tip>
+      <tip>
+        For additional information about the Source Generator and its options,
+        you can download the <a href="./SourceGeneratorUser.pdf">Source
+        Generator User Document (PDF).</a> Please note that the use of a
+        binding file is not dicussed in that document.
+      </tip>
 
-       <p>The source code generator has a number of different options which
-          may be set. Some of these are done using the command line, and 
-          others are done using a properties file located at 
-          <tt>"org/exolab/castor/builder/castorbuilder.properties"</tt>.</p>
+      <p>
+        The source code generator has a number of different options which may
+        be set. Some of these are done using the command line and others are
+        done using a properties file located by default at
+        <tt>"org/exolab/castor/builder/castorbuilder.properties"</tt>.
+      </p>
 
-       <section title="Command Line Options">
-        
-          <ctable border="1" cellspacing="0">
-             <cheader>
-               <th align="center">Option</th>
-               <th>Args</th>
-               <th>Description</th>
-               <th>Optional?</th>
-             </cheader>
-             <crow>
-               <td align="center">i</td>
-               <td><i>filename</i></td>
-               <td>The input XML Schema file</td>
-               <td>Required</td>
-             </crow>
-             <crow>
-               <td align="center">package</td>
-               <td><i>package-name</i></td>
-               <td>The package for the generated source</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">dest</td>
-               <td><i>path</i></td>
-               <td>The destination in which to put the generated source</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">line-separator</td>
-               <td><i>unix | mac | win</i></td>
-               <td>Sets the line separator style for the desired platform. This is
-                   useful if you are generating source on one platform, but will
-                   be compiling/modifying on another platform.</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">types</td>
-               <td><i>type-factory</i></td>
-               <td>Sets which type factory to use. This is useful if you want JDK 1.2 
-                   collections instead of JDK 1.1 or if you want to pass in your own 
-                   FieldInfoFactory (see <a href="#Collection Types">Collection types</a>).
-               </td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">h</td>
-               <td><br/></td>
-               <td>Shows the help/usage screen.</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">f</td>
-               <td><br/></td>
-               <td>Forces the source generator to supress all non-fatal errors, such
-                   as overwriting of pre-existing files.</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">nodesc</td>
-               <td><br/></td>
-               <td>Do not generate the class descriptors</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">nomarshall</td>
-               <td><br/></td>
-               <td>Do not generate the marshalling framework methods (marshall, unmarshall, validate)</td>
-               <td>Optional</td>
-             </crow>
-			 <crow>
-               <td align="center">testable</td>
-               <td><br/></td>
-               <td>Generate the specific methods used by the Castor Marshalling Framework</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">sax1</td><td><br/></td>
-               <td>Generate marshalling methods that are using SAX1 framework (default is false).</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">binding-file</td><td>The binding file name.</td>
-               <td>Allows the setting of a Binding File to allow a fine-grained control 
-                   the classes generated</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">generateImportedSchemas</td>
-               <td><br/></td>
-               <td>Generates automatically sources for imported XML Schemas (default is false).</td>
-               <td>Optional</td>
-             </crow>
-             <crow>
-               <td align="center">case-insensitive</td><td><br/></td>
-               <td>The generated classes will use a case insensitive method for looking up 
-                   enumerated type values.</td>
-               <td>Optional</td>
-             </crow>
+      <section title="Command Line Options">
+
+        <ctable border="1" cellspacing="0">
+          <cheader>
+            <th align="center">Option</th>
+            <th>Args</th>
+            <th>Description</th>
+            <th>Optional?</th>
+          </cheader>
+          <crow>
+            <td align="center">i</td>
+            <td><i>filename</i></td>
+            <td>The input XML Schema file</td>
+            <td>Required</td>
+          </crow>
+          <crow>
+            <td align="center">package</td>
+            <td><i>package-name</i></td>
+            <td>The package for the generated source</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">dest</td>
+            <td><i>path</i></td>
+            <td>
+              The destination directory in which to create the generated source
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">line-separator</td>
+            <td><i>unix | mac | win</i></td>
+            <td>
+              Sets the line separator style for the desired platform. This is
+              useful if you are generating source on one platform, but will
+              be compiling/modifying on another platform.
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">types</td>
+            <td><i>type-factory</i></td>
+            <td>
+              Sets which type factory to use. This is useful if you want JDK
+              1.2 collections instead of JDK 1.1 or if you want to pass in your
+              own FieldInfoFactory (see <a href="#Collection-Types">Collection
+              types</a>).
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">h</td>
+            <td><br/></td>
+            <td>Shows the help/usage information.</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">f</td>
+            <td><br/></td>
+            <td>
+              Forces the source generator to suppress all non-fatal errors,
+              such as overwriting pre-existing files.</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">nodesc</td>
+            <td><br/></td>
+            <td>Do not generate the class descriptors</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">nomarshall</td>
+            <td><br/></td>
+            <td>
+              Do not generate the marshaling framework methods (marshal,
+              unmarshal, validate)</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">testable</td>
+            <td><br/></td>
+            <td>
+              Generate the extra methods used by the CTF (Castor Testing
+              Framework)
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">sax1</td>
+            <td><br/></td>
+            <td>
+              Generate marshaling methods that use the SAX1 framework
+              (default is false).
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">binding-file</td>
+            <td>The binding file name.</td>
+            <td>
+              Configures the use of a Binding File to allow finely-grained
+              control of the generated classes
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">generateImportedSchemas</td>
+            <td><br/></td>
+            <td>
+              Generates sources for imported XML Schemas in addition to the
+              schema provided on the command line (default is false).
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">case-insensitive</td>
+            <td><br/></td>
+            <td>
+              The generated classes will use a case insensitive method for
+              looking up enumerated type values.
+            </td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">verbose</td>
+            <td><br/></td>
+            <td>Enables extra diagnostic output from the source generator</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
+            <td align="center">fail</td>
+            <td><br/></td>
+            <td>
+              Instructs the source generator to fail on the first error. When
+              you are trying to figure out what is failing during source
+              generation, this option will help.
+            </td>
+            <td>Optional</td>
+          </crow>
+        </ctable>
+
+        <section title="Collection Types">
+
+          <p>
+            The source code generator has the ability to use the following
+            types of collections when generating source code:
+          </p>
+
+          <ctable>
+            <crow>
+              <th>Type</th>
+              <th>Value</th>
+              <th>Default</th>
+            </crow>
+            <crow>
+              <td>Java 1.1</td>
+              <td><i>default</i></td>
+              <td><tt>java.util.Vector</tt></td>
+            </crow>
+            <crow>
+              <td>Java 1.2</td>
+              <td><tt>-type j2</tt></td>
+              <td><tt>java.util.Collection</tt></td>
+            </crow>
+            <crow>
+              <td>ODMG 3.0</td>
+              <td><tt>-types odmg</tt></td>
+              <td><tt>odmg.DArray</tt></td>
+            </crow>
           </ctable>
 
-         <section title="Collection Types">
-            
-             <p>The source code generator has the ability to use the following types 
-                of collections when generating source code:</p>
-      
-             <ctable>
-             	<crow>
-             		<th>Type</th>
-             		<th>Value</th>
-             		<th>Default</th>
-             	</crow>
-             	<crow>
-             		<td>Java 1.1</td>
-             		<td><i>default</i></td>
-             		<td><tt>java.util.Vector</tt></td>
-             	</crow>
-             	<crow>
-             		<td>Java 1.2</td>
-             		<td><tt>-type j2</tt></td>
-             		<td><tt>java.util.Collection</tt></td>
-             	</crow>
-             	<crow>
-             		<td>ODMG 3.0</td>
-             		<td><tt>-types odmg</tt></td>
-             		<td><tt>odmg.DArray</tt></td>
-             	</crow>
-             </ctable>
-                
-             <p>You can also write your own FieldInfoFactory to handle specific collection 
-                types. All you have to do is to pass in the fully qualified name of 
-                that FieldInfoFactory as follows:</p>
-                
-             <code-panel>-types com.personal.MyCoolFactory</code-panel>
-    
-         </section>
+          <p>
+            You can also write your own FieldInfoFactory to handle specific
+            collection types. All you have to do is to pass in the fully
+            qualified name of that FieldInfoFactory as follows:
+          </p>
 
-       </section>
+          <code-panel>-types com.personal.MyCoolFactory</code-panel>
+
+        </section>
+
+      </section>
 
     </section>
 
     <section title="XML Schema">
 
-       <p>
-          The input file to the source code generator is an XML Schema<sup>2</sup>.
-          The current supported version is the <b>W3C XML Schema Recommendation</b><sup>1</sup>.
-          For more information about XML Schema Support, check the <a href="xmlschema.xml">XML Schema page</a>
-       </p>
-
+      <p>
+        The input file for the source code generator is an XML
+        Schema<sup>2</sup>.  The currently supported version is the
+        <b>W3C XML Schema 1.0, Second Edition Recommendation</b><sup>1</sup>.
+        For more information about XML Schema Support, check the
+        <a href="xmlschema.xml">XML Schema page</a>
+      </p>
 
     </section>
 
-   <section>
-      <body-note><sup>1</sup>Castor 0.9.4.1 uses <a href="http://www.w3.org/TR/XMLschema-1"> XML Schema Recommendation 20010502</a></body-note>
+    <section>
       <body-note>
-         <sup>2</sup>XML Schema is a <a href="http://www.w3.org">W3C</a> Recommendation
+        <sup>1</sup>Castor supports the
+        <a href="http://www.w3.org/TR/XMLschema-1">XML Schema 1.0 Second
+        Edition Recommendation</a></body-note>
+      <body-note>
+        <sup>2</sup>XML Schema is a <a href="http://www.w3.org">W3C</a>
+        Recommendation
       </body-note>
       <body-note>
-         <sup>3</sup>XPath is a <a href="http://www.w3.org">W3C</a> Recommendation
+        <sup>3</sup>XPath is a <a href="http://www.w3.org">W3C</a>
+        Recommendation
       </body-note>
 
-   </section>
+    </section>
 
   </body>
 
 </document>
-
