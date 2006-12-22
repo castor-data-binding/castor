@@ -287,10 +287,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private AttributeSetImpl _reusableAtts = null;
     
-    
-    private ArrayList _statePool = null;
-    
-    
     /**
      * The top-level xml:space value
      */
@@ -322,7 +318,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 		_javaPackages 		= new HashMap();        
         _topClass           = _class;
         _namespaces         = new Namespaces();
-        _statePool          = new ArrayList();
         _namespaceToPackage = new HashMap();
     } //-- UnmarshalHandler(Class)
     
@@ -764,7 +759,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             
             //-- remove current namespace scoping
             _namespaces = _namespaces.getParent();
-            freeState(state);
             return;
         }
 
@@ -779,7 +773,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if ((state.object == null) && (!state.primitiveOrImmutable)) {
             //-- remove current namespace scoping
             _namespaces = _namespaces.getParent();
-            freeState(state);
             return;
         }
         
@@ -870,7 +863,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 UnmarshalState pState = (UnmarshalState)_stateInfo.peek();
                 processIDREF(state.buffer.toString(), descriptor, pState.object);
                 _namespaces = _namespaces.getParent();
-                freeState(state);
                 return;
             }
             else {
@@ -938,7 +930,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (descriptor.isIncremental()) {
             //-- remove current namespace scoping
            _namespaces = _namespaces.getParent();
-           freeState(state);
            return; //-- already added
         }
 
@@ -1088,8 +1079,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- remove current namespace scoping
         _namespaces = _namespaces.getParent();
-        //-- free fieldState 
-        freeState(fieldState);
 
     } //-- endElement
 
@@ -1489,7 +1478,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 _cdResolver.setClassLoader(_loader);
             }
 
-            _topState = getState();            
+            _topState = new UnmarshalState();            
             _topState.elementName = name;
             _topState.wsPreserve = (xmlSpace != null) ? PRESERVE.equals(xmlSpace) : _wsPreserve;
             
@@ -1715,7 +1704,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
         //-- create new state object
-        state = getState();
+        state = new UnmarshalState();
         state.elementName = name;
         state.parent = parentState;
         
@@ -2498,28 +2487,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         return instance;
     } // -- createInstance
      
-     
-     
      /**
-      * Marks the given state as available for use
-      */
-     private void freeState(UnmarshalState state) {
-        state.clear();
-        _statePool.add(state);
-     } //-- freeState
-     
-     /**
-      * Returns a free state from the state pool
-      *
-      * @return a free state from the state pool
-      */
-     private UnmarshalState getState() {
-        if (_statePool.isEmpty()) return new UnmarshalState();
-        return (UnmarshalState) _statePool.remove(_statePool.size()-1);
-     } //-- freeState
-     
-     
-    /**
      * Returns the resolved instance type attribute (xsi:type).
      * If present the instance type attribute is resolved into
      * a java class name and then returned.
