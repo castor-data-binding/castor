@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1749 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Update comments in castor.properties
+       Details: http://jira.codehaus.org/browse/CASTOR-1749
+       (Edward - 20061221)
+
 XML:   Resolved issue CASTOR-1738 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Clean up Castor XML; remove unnecessary replacements of Java 1.2 classes
        Details: http://jira.codehaus.org/browse/CASTOR-1738
