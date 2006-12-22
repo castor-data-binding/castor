@@ -46,10 +46,12 @@
  * 04/18/2002   Arnaud           String constructor
  * 05/22/2000   Arnaud Blandin   Created
  */
-
 package org.exolab.castor.types;
 
 import java.text.ParseException;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 
 /**
  * This class is the representation of XML Schema datatype: <b>duration</b>.
@@ -65,15 +67,18 @@ import java.text.ParseException;
  * Specification</a>.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class Duration implements java.io.Serializable {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -6475091654291323029L;
+    /** Jakarta's common-logging logger. */
+    private static final Log LOG = LogFactory.getLog(Duration.class);
 
     /** Set to true and recompile to include debugging code in class. */
     private static final boolean DEBUG = false;
-    /**the flag representing the 'T' position*/
+    /** the flag representing the 'T' position. */
     private static final int TIME_FLAG = 8;
 
     /** the number of years. */
@@ -94,14 +99,16 @@ public class Duration implements java.io.Serializable {
     private boolean _isNegative = false;
 
     /**
-     * default constructor
+     * default constructor.
      */
     public Duration() {
+        // Nothing to do
     }
 
     /**
-     * Constructs a duration from a string
+     * Constructs a duration from a string.
      * @param duration the string representation of the duration to create
+     * @throws ParseException thrown when the string is not a valid duration
      */
     public Duration(String duration) throws ParseException {
         parseDurationInternal(duration, this);
@@ -149,7 +156,7 @@ public class Duration implements java.io.Serializable {
 
         short day = (short) (l / refDay);
         l = l % refDay;
-         if (DEBUG) {
+        if (DEBUG) {
             System.out.println("nb days:"+day);
             System.out.println("New long : "+l);
         }
@@ -175,7 +182,7 @@ public class Duration implements java.io.Serializable {
         }
 
         long milliseconds = l;
-          if (DEBUG) {
+        if (DEBUG) {
             System.out.println("nb milliseconds:"+milliseconds);
         }
 
@@ -186,56 +193,56 @@ public class Duration implements java.io.Serializable {
 
     public void setYear(short year) {
         if (year < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _year = year;
     }
 
     public void setMonth(short month) {
         if (month < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _month = month;
     }
 
     public void setDay(short day) {
         if (day < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _day = day;
     }
 
     public void setHour(short hour) {
         if (hour < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _hour = hour;
     }
 
     public void setMinute(short minute) {
         if (minute < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _minute = minute ;
     }
 
     public void setSeconds(short second) {
         if (second < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _second = second;
     }
 
     public void setMilli(long milli) {
         if (milli < 0) {
-             String err = "In a duration all fields have to be positive.";
-             throw new IllegalArgumentException(err);
+            String err = "In a duration all fields have to be positive.";
+            throw new IllegalArgumentException(err);
         }
         _millisecond = milli;
     }
@@ -254,8 +261,8 @@ public class Duration implements java.io.Serializable {
      * @param second the second value
      * @param millisecond the second value
      */
-     public void setValue(short year, short month, short day,
-                          short hour, short minute, short second, long millisecond) {
+    public void setValue(short year, short month, short day,
+                         short hour, short minute, short second, long millisecond) {
         this.setYear(year);
         this.setMonth(month);
         this.setDay(day);
@@ -267,48 +274,48 @@ public class Duration implements java.io.Serializable {
 
     //Get methods
 
-     public short getYear() {
-         return(_year);
-     }
+    public short getYear() {
+        return _year;
+    }
 
-     public short getMonth() {
-         return(_month);
-     }
+    public short getMonth() {
+        return _month;
+    }
 
-     public short getDay() {
-         return(_day);
-     }
+    public short getDay() {
+        return _day;
+    }
 
-     public short getHour() {
-         return(_hour);
-     }
+    public short getHour() {
+        return _hour;
+    }
 
-     public short getMinute() {
-         return(_minute);
-     }
+    public short getMinute() {
+        return _minute;
+    }
 
-     public short getSeconds() {
-         return(_second);
-     }
+    public short getSeconds() {
+        return _second;
+    }
 
-     public long getMilli() {
-         return(_millisecond);
-     }
+    public long getMilli() {
+        return _millisecond;
+    }
 
-     public boolean isNegative() {
-         return _isNegative;
-     }
+    public boolean isNegative() {
+        return _isNegative;
+    }
 
-     /**
-      * <p>Convert a duration into a long
-      * This long represents the duration in milliseconds.
-      * @return a long representing the duration
-      */
-     public long toLong() {
-         long result = 0;
+    /**
+     * <p>Convert a duration into a long
+     * This long represents the duration in milliseconds.
+     * @return a long representing the duration
+     */
+    public long toLong() {
+        long result = 0;
 
-         // 30.42 days in a month (365/12) (Horner method)
-         result = (long) (((((((_year*12L) +_month) * 30.42
+        // 30.42 days in a month (365/12) (Horner method)
+        result = (long) (((((((_year*12L) +_month) * 30.42
                                     +_day) * 24L
                                     +_hour) * 60L
                                     +_minute) * 60L
@@ -320,90 +327,95 @@ public class Duration implements java.io.Serializable {
     }
 
     /**
-     * <p> Convert a duration into a String
-     * conforming to ISO8601 and
-     * <a href="http://www.w3.org/TR/xmlschema-2/#duration">
-     * XML Schema specs </a>
-     *@return a string representing the duration
+     * Convert a duration into a String conforming to ISO8601 and <a
+     * href="http://www.w3.org/TR/xmlschema-2/#duration"> XML Schema specs </a>
+     *
+     * @return a string representing the duration
      */
-     public String toString() {
-         // if the duration is empty, we choose as a standard to return "PTOS"
-         if (this.toLong() == 0) {
-             return "PT0S";
-         }
+    public String toString() {
+        // if the duration is empty, we choose as a standard to return "PTOS"
+        if (this.toLong() == 0) {
+            return "PT0S";
+        }
 
-         StringBuffer result = new StringBuffer("P");
-         if (_isNegative) {
-             result.insert(0,'-');
-         }
+        StringBuffer result = new StringBuffer();
+        if (_isNegative) {
+            result.append('-');
+        }
+        result.append("P");
 
-         if (_year != 0) {
-             result.append(_year);
-             result.append('Y');
-         }
-         if (_month != 0) {
-             result.append(_month);
-             result.append('M');
-         }
-         if (_day !=0) {
-             result.append(_day);
-             result.append('D');
-         }
+        if (_year != 0) {
+            result.append(_year);
+            result.append('Y');
+        }
 
-         boolean isThereTime = _hour != 0 || _minute != 0 || _second != 0 || _millisecond != 0;
-         if (isThereTime) {
-             result.append('T');
-             if (_hour != 0) {
-                 result.append(_hour);
-                 result.append('H');
-             }
-             if (_minute != 0) {
-                 result.append(_minute);
-                 result.append('M');
-             }
-             if (_second != 0 || _millisecond != 0) {
-                 result.append(_second);
-                 if (_millisecond != 0) {
-                     result.append('.');
-                     if (_millisecond < 100) {
-                         result.append('0');
-                         if (_millisecond < 10)
-                             result.append('0');
-                     }
-                     result.append(_millisecond);
-                 }
-                 result.append('S');
-             }
-         }
+        if (_month != 0) {
+            result.append(_month);
+            result.append('M');
+        }
 
-         return result.toString();
-     } //toString
+        if (_day != 0) {
+            result.append(_day);
+            result.append('D');
+        }
 
-     /**
-      * parse a String and convert it into a java.lang.Object
-      * @param str the string to parse
-      * @return the java.lang.Object represented by the string
-      * @throws ParseException a parse exception is thrown if the string to parse
-      *                        does not follow the rigth format (see the description
-      *                        of this class)
-      */
-     public static Object parse(String str) throws ParseException {
-         return parseDuration(str);
-     }
+        boolean isThereTime = _hour != 0 || _minute != 0 || _second != 0 || _millisecond != 0;
+        if (isThereTime) {
+            result.append('T');
 
-     /**
-      * <p>Parse the given string and return a time duration
-      * which represents this string.
-      * @param str the string to parse
-      * @return a TimeDuration instance which represent the string
-      * @throws ParseException thrown when the string is not valid
-      */
-     public static Duration parseDuration(String str) throws ParseException {
-         Duration result = new Duration();
-         return parseDurationInternal(str, result);
-     }
+            if (_hour != 0) {
+                result.append(_hour);
+                result.append('H');
+            }
 
-     private static Duration parseDurationInternal(String str, Duration result) throws ParseException {
+            if (_minute != 0) {
+                result.append(_minute);
+                result.append('M');
+            }
+
+            if (_second != 0 || _millisecond != 0) {
+                result.append(_second);
+                if (_millisecond != 0) {
+                    result.append('.');
+                    if (_millisecond < 100) {
+                        result.append('0');
+                        if (_millisecond < 10)
+                            result.append('0');
+                    }
+                    result.append(_millisecond);
+                }
+                result.append('S');
+            }
+        }
+
+        return result.toString();
+    } //toString
+
+    /**
+     * parse a String and convert it into a java.lang.Object
+     * @param str the string to parse
+     * @return the java.lang.Object represented by the string
+     * @throws ParseException a parse exception is thrown if the string to parse
+     *                        does not follow the rigth format (see the description
+     *                        of this class)
+     */
+    public static Object parse(String str) throws ParseException {
+        return parseDuration(str);
+    }
+
+    /**
+     * <p>Parse the given string and return a time duration
+     * which represents this string.
+     * @param str the string to parse
+     * @return a TimeDuration instance which represent the string
+     * @throws ParseException thrown when the string is not valid
+     */
+    public static Duration parseDuration(String str) throws ParseException {
+        Duration result = new Duration();
+        return parseDurationInternal(str, result);
+    }
+
+    private static Duration parseDurationInternal(String str, Duration result) throws ParseException {
         if (str == null) {
             throw new IllegalArgumentException("the string to be parsed must not be null");
         }
@@ -424,7 +436,7 @@ public class Duration implements java.io.Serializable {
             ++idx;
             result.setNegative();
             if (idx >= chars.length) {
-                throw new ParseException("'-' is wrong placed",0);
+                throw new ParseException("'-' is wrongly placed",0);
             }
         }
 
@@ -455,8 +467,7 @@ public class Duration implements java.io.Serializable {
                 case 'Y':
                     //-- check for error
                     if (flags > 0) {
-                        String err = str+":Syntax error, 'Y' must " +
-                            "proceed all other delimiters.";
+                        String err = str + ":Syntax error, 'Y' must proceed all other delimiters.";
                         throw new ParseException(err, idx);
                     }
                     //--set flags
@@ -464,8 +475,7 @@ public class Duration implements java.io.Serializable {
                     if (hasNumber) {
                         result.setYear((short)number);
                         hasNumber = false;
-                    }
-                    else {
+                    } else {
                         String err = str+":missing number of years before 'Y'";
                         throw new ParseException(err, idx);
                     }
@@ -486,10 +496,8 @@ public class Duration implements java.io.Serializable {
                         if (hasNumber) {
                             result.setMinute((short)number);
                             hasNumber = false;
-                        }
-                        else {
-                            String err =str+": missing number of minutes " +
-                                "before 'M'";
+                        } else {
+                            String err =str+": missing number of minutes before 'M'";
                             throw new ParseException(err, idx);
                         }
                     }
@@ -504,14 +512,13 @@ public class Duration implements java.io.Serializable {
                         if (hasNumber) {
                             result.setMonth((short)number);
                             hasNumber = false;
-                        }
-                        else {
+                        } else {
                             String err = str+":missing number of months before 'M'";
                             throw new ParseException(err, idx);
                         }
                     }
                     break;
-                //-- Day
+                    //-- Day
                 case 'D':
                     // make sure no day or time flags have been set
                     if ((flags & 31) > 0) {
@@ -521,8 +528,7 @@ public class Duration implements java.io.Serializable {
                     if (hasNumber) {
                         result.setDay((short)number);
                         hasNumber = false;
-                    }
-                    else {
+                    } else {
                         String err = str+":missing number of days before 'D'";
                         throw new ParseException(err, idx);
                     }
@@ -537,7 +543,7 @@ public class Duration implements java.io.Serializable {
                     }
                     flags = flags | 8;
                     break;
-                //-- Hour
+                    //-- Hour
                 case 'H':
                     // make sure no time flags have been set, but
                     // that T exists
@@ -553,47 +559,45 @@ public class Duration implements java.io.Serializable {
                     if (hasNumber) {
                         result.setHour((short)number);
                         hasNumber = false;
-                    }
-                    else {
+                    } else {
                         String err =str+":missing number of hours before 'H'";
                         throw new ParseException(err, idx);
                     }
                     break;
                 case 'S':
                     if (flags != 0) {
-                         // make sure T exists, but no 'S'
-                         if ((flags & 8) != 8) {
-                             String err = str+": Missing 'T' before 'S'";
-                             throw new ParseException(err, idx);
-                         }
-                         if ((flags & 1) == 1) {
-                             String err =str+": Syntax error 'S' may not exist more than once.";
-                             throw new ParseException(err, idx);
-                         }
+                        // make sure T exists, but no 'S'
+                        if ((flags & 8) != 8) {
+                            String err = str+": Missing 'T' before 'S'";
+                            throw new ParseException(err, idx);
+                        }
+                        if ((flags & 1) == 1) {
+                            String err =str+": Syntax error 'S' may not exist more than once.";
+                            throw new ParseException(err, idx);
+                        }
 
-                          flags = flags | 1;
-                          if (hasNumber) {
-                             result.setSeconds((short)number);
-                             hasNumber = false;
-                          }
-                          else {
-                             String err = str+": missing number of seconds before 'S'";
-                             throw new ParseException(err, idx);
-                          }
+                        flags = flags | 1;
+                        if (hasNumber) {
+                            result.setSeconds((short)number);
+                            hasNumber = false;
+                        } else {
+                            String err = str+": missing number of seconds before 'S'";
+                            throw new ParseException(err, idx);
+                        }
                     } else {
                         if (hasNumber) {
                             String numb = Integer.toString(number);
-                            if (numb.length() <3) {
-                                if (numb.length() < 2)
-                                   number = number * 10;
+                            if (numb.length() < 3) {
+                                if (numb.length() < 2) {
+                                    number = number * 10;
+                                }
                                 number = number * 10;
                             }
                             result.setMilli(number);
                             hasNumber = false;
-                        }
-                        else {
-                             String err = str+": missing number of milliseconds before 'S'";
-                             throw new ParseException(err, idx);
+                        } else {
+                            String err = str+": missing number of milliseconds before 'S'";
+                            throw new ParseException(err, idx);
                         }
                     }
 
@@ -616,9 +620,7 @@ public class Duration implements java.io.Serializable {
                     if (hasNumber) {
                         result.setSeconds((short)number);
                         hasNumber = false;
-                    }
-
-                    else {
+                    } else {
                         String err = str+": missing number of seconds before 'S'";
                         throw new ParseException(err, idx);
                     }
@@ -626,27 +628,23 @@ public class Duration implements java.io.Serializable {
 
                 default:
                     // make sure ch is a digit...
-                    if (('0' <= ch) && (ch <= '9')) {
-
-                        if (hasNumber)
-                            number = (number*10)+(ch-48);
-                        else {
+                    if ('0' <= ch && ch <= '9') {
+                        if (hasNumber) {
+                            number = (number*10) + (ch-48);
+                        } else {
                             hasNumber = true;
                             number = (ch-48);
                         }
-                    }
-                    else
+                    } else {
                         throw new ParseException(str+":Invalid character: " + ch, idx);
+                    }
                     break;
             }
         }
 
         //-- check for T, but no HMS
         if ((flags & 15) == 8) {
-            /**
-             *@todo use a logger to log the warning message
-             */
-            System.out.println("Warning: "+str+": T shall be omitted");
+            LOG.warn("Warning: " + str + ": T shall be omitted");
         }
 
         if (hasNumber) {
@@ -660,16 +658,16 @@ public class Duration implements java.io.Serializable {
      * {@inheritDoc}
      * Overrides the java.lang.Object#hashcode method.
      */
-     public int hashCode() {
-         return _year^_month^_day^_hour^_minute^_second;
-     }
+    public int hashCode() {
+        return 37 * (_year ^ _month ^ _day ^ _hour ^ _minute ^ _second);
+    }
 
     /**
      * {@inheritDoc}
      * Override the java.lang.equals method
      * @see #equal
      */
-     public boolean equals(Object object) {
+    public boolean equals(Object object) {
         if (object instanceof Duration) {
             return equal((Duration) object);
         }
@@ -711,11 +709,11 @@ public class Duration implements java.io.Serializable {
      *            the time duration to compare with the present instance
      * @return true if the present instance is the greatest, false if not
      */
-     public boolean isGreater(Duration duration) {
+    public boolean isGreater(Duration duration) {
         boolean result = false;
         // to be optimized ??
         result = this.toLong() > duration.toLong();
         return result;
-     } //isGreater
+    } //isGreater
 
 } //Duration

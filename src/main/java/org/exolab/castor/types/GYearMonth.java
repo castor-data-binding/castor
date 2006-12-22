@@ -55,6 +55,7 @@ import java.text.ParseException;
  * <p>The format is defined by W3C XML Schema Recommendation and ISO8601
  * i.e <tt>(-)CCYY-MM(Z|(+|-)hh:mm)</tt>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$
  */
 public class GYearMonth extends DateTimeBase {
@@ -297,6 +298,9 @@ public class GYearMonth extends DateTimeBase {
 
      /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
+     public boolean hasDay() {
+         return false;
+     }
      public short getDay() {
          String err = "org.exolab.castor.types.GYearMonth does not have a Day field.";
          throw new OperationNotSupportedException(err);
@@ -304,6 +308,9 @@ public class GYearMonth extends DateTimeBase {
      public void setDay(short day) {
          String err = "org.exolab.castor.types.GYearMonth does not have a Day field.";
          throw new OperationNotSupportedException(err);
+     }
+     public boolean hasHour() {
+         return false;
      }
      public short getHour() {
          String err = "org.exolab.castor.types.GYearMonth does not have an Hour field.";
@@ -313,6 +320,9 @@ public class GYearMonth extends DateTimeBase {
          String err = "org.exolab.castor.types.GYearMonth does not have an Hour field.";
          throw new OperationNotSupportedException(err);
      }
+     public boolean hasMinute() {
+         return false;
+     }
      public short getMinute() {
          String err = "org.exolab.castor.types.GYearMonth does not have a Minute field.";
          throw new OperationNotSupportedException(err);
@@ -321,6 +331,9 @@ public class GYearMonth extends DateTimeBase {
          String err = "org.exolab.castor.types.GYearMonth does not have a Minute field.";
          throw new OperationNotSupportedException(err);
      }
+     public boolean hasSeconds() {
+         return false;
+     }
      public short getSeconds() {
          String err = "org.exolab.castor.types.GYearMonth does not have a Seconds field.";
          throw new OperationNotSupportedException(err);
@@ -328,6 +341,9 @@ public class GYearMonth extends DateTimeBase {
      public void setSecond(short second) {
          String err = "org.exolab.castor.types.GYearMonth does not have a Seconds field.";
          throw new OperationNotSupportedException(err);
+     }
+     public boolean hasMilli() {
+         return false;
      }
      public short getMilli() {
          String err = "org.exolab.castor.types.GYearMonth does not have a Milliseconds field.";

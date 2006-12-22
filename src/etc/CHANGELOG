@@ -2,6 +2,10 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1755 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Complete (to first pass) the test for all date/time types
+       Details: http://jira.codehaus.org/browse/CASTOR-1755
+       (Edward - 20061222)
 
 XML:   Resolved issue CASTOR-1748 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Removed state pool in UnmarshalHandler.

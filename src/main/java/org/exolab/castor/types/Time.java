@@ -56,12 +56,13 @@ import java.util.Date;
  * Describes an XML schema Time.
  * <p>
  * The format is defined by W3C XML Schema Recommendation and ISO8601 i.e
- * <tt>(-)hh:mm:ss.sss(Z|(+|-)hh:mm)</tt>
+ * <tt>hh:mm:ss.sss(Z|(+|-)hh:mm)</tt>
  * <p>
- * Currently deep support of milli seconds is not implemented. This
- * implementation only support up to <b>3</b> figures for milli-seconds.
+ * Deep support of fractional seconds is not implemented. This implementation
+ * only supports fractional second resolution of milliseconds.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$
  * @see DateTimeBase
  */
@@ -190,47 +191,13 @@ public class Time extends DateTimeBase {
     /**
      * convert this Time to a string
      * The format is defined by W3C XML Schema Recommendation and ISO8601
-     * i.e (-)hh:mm:ss.sss(Z|(+|-)hh:mm)
+     * i.e hh:mm:ss.sss(Z|(+|-)hh:mm)
      * @return a string representing this Time
      */
     public String toString() {
         StringBuffer result = new StringBuffer();
-        if (isNegative()) {
-            result.append('-');
-        }
-
-        if ((this.getHour()/10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getHour());
-
-        result.append(':');
-
-        if ((this.getMinute() / 10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getMinute());
-
-        result.append(':');
-
-        if ((this.getSeconds() / 10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getSeconds());
-
-        if (this.getMilli() != 0) {
-            result.append('.');
-            if (this.getMilli() < 100){
-                result.append('0');
-                if (this.getMilli() < 10){
-                    result.append('0');
-                }
-            }
-            result.append(this.getMilli());
-        }
-
+        appendTimeString(result);
         appendTimeZoneString(result);
-
         return result.toString();
     } //toString
 
@@ -268,73 +235,7 @@ public class Time extends DateTimeBase {
         }
 
         char[] chars = str.toCharArray();
-        int idx = 0;
-
-        // Hours
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_TIME+str+"\nThe Hour must be 2 digits long", idx);
-        }
-
-        short value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setHour(value1);
-
-        idx += 2;
-
-        // Minutes
-        if (chars[idx] != ':') {
-            throw new ParseException(BAD_TIME+str+"\n ':#1' "+DateTimeBase.WRONGLY_PLACED,idx);
-        }
-
-        idx++;
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_TIME+str+"\nThe Minute must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setMinute(value1);
-
-        idx += 2;
-
-        // Seconds
-        if (chars[idx] != ':') {
-            throw new ParseException(BAD_TIME+str+"\n ':#2' "+DateTimeBase.WRONGLY_PLACED,idx);
-        }
-
-        idx++;
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_TIME+str+"\nThe Second must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setSecond(value1);
-
-        idx += 2;
-
-        // Milliseconds?
-        if (idx < chars.length && chars[idx] == '.') {
-            idx++;
-
-            long decimalValue = 0;
-            long powerOfTen   = 1;
-            while (idx < chars.length && Character.isDigit(chars[idx])) {
-                decimalValue = decimalValue * 10 + (chars[idx] - '0');
-                powerOfTen *= 10;
-                idx++;
-            }
-
-            // FIXME: We truncate to milliseconds
-            if (powerOfTen > 1000) {
-                decimalValue /= (powerOfTen / 1000);
-                powerOfTen = 1000;
-            } else if (powerOfTen < 1000) {
-                decimalValue *= (1000 / powerOfTen);
-                powerOfTen = 1000;
-            }
-            result.setMilliSecond((short)decimalValue);
-        }
-
+        int idx = parseTime(str, result, chars, 0, BAD_TIME);
         parseTimeZone(str, result, chars, idx, BAD_TIME);
 
         return result;
@@ -342,9 +243,19 @@ public class Time extends DateTimeBase {
 
     /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
+    public boolean hasIsNegative() {
+        return false;
+    }
+    public boolean isNegative() {
+        String err = "org.exolab.castor.types.Time does not have a 'negative' field.";
+        throw new OperationNotSupportedException(err);
+    }
     public void setNegative() {
         String err = "org.exolab.castor.types.Time cannot be negative.";
         throw new OperationNotSupportedException(err);
+    }
+    public boolean hasCentury() {
+        return false;
     }
     public short getCentury() {
         String err = "org.exolab.castor.types.Time does not have a Century field.";
@@ -354,6 +265,9 @@ public class Time extends DateTimeBase {
         String err = "org.exolab.castor.types.Time does not have a Century field.";
         throw new OperationNotSupportedException(err);
     }
+    public boolean hasYear() {
+        return false;
+    }
     public short getYear() {
         String err = "org.exolab.castor.types.Time does not have a Year field.";
         throw new OperationNotSupportedException(err);
@@ -362,6 +276,9 @@ public class Time extends DateTimeBase {
         String err = "org.exolab.castor.types.Time does not have a Year field.";
         throw new OperationNotSupportedException(err);
     }
+    public boolean hasMonth() {
+        return false;
+    }
     public short getMonth() {
         String err = "org.exolab.castor.types.Time does not have a Month field.";
         throw new OperationNotSupportedException(err);
@@ -369,6 +286,9 @@ public class Time extends DateTimeBase {
     public void setMonth(short month) {
         String err = "org.exolab.castor.types.Time does not have a Month field.";
         throw new OperationNotSupportedException(err);
+    }
+    public boolean hasDay() {
+        return false;
     }
     public short getDay() {
         String err = "org.exolab.castor.types.Time does not have a Day field.";
