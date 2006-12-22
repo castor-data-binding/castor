@@ -4,9 +4,17 @@
     <section title="How to contact us">
 
       <p>
-         The best way to get in touch with us is via the dev and user lists.
-         For more information, please see <a href="lists.xml">Mailing Lists</a>. You may also
-         get in touch with various <a href="contributors.xml">contributors and committers</a>.
+        The best way to get in touch with us is via the dev and user mailing
+        lists.  For more information, please see <a href="lists.xml">Mailing
+        Lists</a>. You can also get directly in touch with various
+        <a href="contributors.xml">contributors and committers</a>.
+      </p>
+
+      <p>
+        Castor developers and committors can also sometimes be found at the
+        #castor IRC channel at irc.codehaus.org.  You can find more information
+        and alternate means of access to the IRC channel at our
+        <a href="./support.xml">support</a> page.
       </p>
 
     </section>

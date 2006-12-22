@@ -1,21 +1,52 @@
-<?xml version="1.0"?>
-<document url="http://castor.org/library.xml">
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehaus.org/library.xml">
   <body>
     <title>Library</title>
     <header>
+
+    <p><b>XML</b></p>
     <ul>
       <li><a href="http://www.w3.org/XML/">Extensible Markup Language (XML) at the W3C</a></li>
-      <li><a href="http://www.w3.org/TR/xmlschema-1/">XML Schema Part 1: Structures at the W3C</a></li>
-      <li><a href="http://www.w3.org/TR/xmlschema-2/">XML Schema Part 2: Datatypes at the W3C</a></li>
+    </ul>
+
+    <p><b>XML Schema 1.0 Second Edition</b> (W3C Recommendation 28 October 2004)</p>
+    <ul>
+      <li><a href="http://www.w3.org/TR/xmlschema-0/">XML Schema Part 0: Primer, Second Edition</a></li>
+      <li><a href="http://www.w3.org/TR/xmlschema-1/">XML Schema Part 1: Structures, Second Edition</a></li>
+      <li><a href="http://www.w3.org/TR/xmlschema-2/">XML Schema Part 2: Datatypes, Second Edition</a></li>
+    </ul>
+
+    <p><b>XML Schema 1.0 (First Edition)</b> (W3C Recommendation, 2 May 2001)</p>
+    <ul>
+      <li><a href="http://www.w3.org/TR/2001/REC-xmlschema-0-20010502/">XML Schema Part 0: Primer</a></li>
+      <li><a href="http://www.w3.org/TR/2001/REC-xmlschema-1-20010502/">XML Schema Part 1: Primer</a></li>
+      <li><a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/">XML Schema Part 2: Primer</a></li>
+    </ul>
+
+    <p><b>XML Schema 1.1 Draft</b></p>
+    <ul>
+      <li><a href="http://www.w3.org/TR/xmlschema11-1/">Draft XML Schema 1.1 Part 1: Structures</a></li>
+      <li><a href="http://www.w3.org/TR/xmlschema11-2/">Draft XML Schema 1.1 Part 1: Datatypes</a></li>
+    </ul>
+
+    <p><b>Java and other standards</b></p>
+    <ul>
       <li><a href="http://java.sun.com/aboutJava/communityprocess/jsr/jsr_031_xmld.html">JSR-000031
-        XML Data Binding Specification at java.sun.com</a></li>
+                          XML Data Binding Specification at java.sun.com</a></li>
       <li><a href="http://java.sun.com/aboutJava/communityprocess/jsr/jsr_012_dataobj.html">JSR-000012
-        Java Data Objects Specification</a></li>
+                          Java Data Objects Specification</a></li>
       <li><a href="http://java.sun.com/products/jdbc">JDBC 2.0 and standard extensions</a></li>
       <li><a href="http://www.mozilla.org/directory">The Mozilla Directory SDK</a></li>
+    </ul>
+
+    <p><b>Other Castor documentation</b></p>
+    <ul>
       <li><a href="./SourceGeneratorUser.pdf">The Source Generator User documentation</a></li>
-      <li><a href="./CTFdoc.pdf">Castor Testing Framework User Document(PDF)</a></li>
       <li><a href="./ExolabJavaConventions.pdf">The Exolab guidelines for Java developers</a></li>
+    </ul>
+
+    <p><b>Other external documentation of interest</b></p>
+    <ul>
       <li><a href="ftp://kalamazoolinux.org/pub/pdf/ldapv3.pdf">LDAP and OpenLDAP on the linux platform</a></li>
     </ul>
     </header>
