@@ -1105,7 +1105,7 @@ public class XMLClassDescriptorImpl extends Validator
             //-- with the same as the defaults
             if (hasValue && 
                 checkPrimitiveValue && 
-                fieldDesc.getFieldType().isPrimitive());
+                fieldDesc.getFieldType().isPrimitive())
             {
                 if (isDefaultPrimitiveValue(handler.getValue( object ))) {
                     hasValue = false;

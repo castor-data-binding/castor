@@ -276,6 +276,26 @@
 
             </summary>
             <bugs>
+                <bug id="1748" tool="jira">
+                    <description>
+                        Removed state pool in UnmarshalHandler.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061222</date>
+                </bug>
                 <bug id="1752" tool="jira">
                     <description>
                         Update xmlschema.xml srcgen documentation
