@@ -593,7 +593,7 @@
                includes="**.xml" excludes="style/**,project.xml" />
 
         <copy todir="${build}/doc">
-           <fileset dir="${doc}" includes="license.txt,document.dtd,*.pdf"/>
+           <fileset dir="${doc}" includes="license.txt,new-license.txt,document.dtd,*.pdf"/>
         </copy>
         <copy todir="${build}/doc">
            <fileset dir="${java}/org/exolab/castor/mapping" includes="mapping.dtd,mapping.xsd"/>
