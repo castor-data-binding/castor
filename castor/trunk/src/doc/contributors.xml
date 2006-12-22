@@ -5,41 +5,52 @@
     <title>People who have supported the Castor project</title>
     <abstract>
        General information about the people that have supported the
-	   Castor project over the time.
+       Castor project over the time.
     </abstract>
     <status>Final</status>
   </properties>
+
   <body>
     <title>Committers, contributors et alias</title>
     <header>
 
-		<p>This page lists all people who have gone the extra mile and
-		   supported Castor in one way or the other, including committers,
-		   contributors, people who have contributed to the projedt's
-		   documentation and people who advanced the project by providing us
-		   with valuable feedback.</p>
+      <p>
+        This page lists all people who have gone the extra mile and
+        supported Castor in one way or another.  This list includes committers,
+        contributors, people who have contributed to the project's
+        documentation, and people who advanced the project by providing us
+        with valuable feedback.
+      </p>
 
-		<p>If you would like to get involved, the first step is to join the
-		   <a href="lists.html">mailing lists</a>.</p>
+      <p>
+        If you would like to get involved, the first step is to join the
+        <a href="lists.html">mailing lists</a>.
+      </p>
 
-		<p>We kindly ask to <b>not send us emails privately</b> (e.g. asking for
-           support). We are non-paid volunteers who help out with the project and
-           we do not necessarily have the time or energy to help people on an
-           individual basis.</p>
+      <p>
+        We kindly ask that you <b>not send us emails privately</b> (e.g. asking for
+        support). We are non-paid volunteers who help out with the project and
+        we do not necessarily have the time or energy to help people on an
+        individual basis.
+      </p>
 
-		<p>Instead, we have setup <url href="lists.html">mailing lists</url> which
-           often contain hundreds of individuals. The benefit of using mailing lists
-           over private communication is that it is a shared resource, where others
-           can also learn from your messages (whether problem description, advice,
-		   or common mistakes), and as a community we all grow together.</p>
+      <p>
+        Instead, we have set up <a href="lists.html">mailing lists</a> which
+        often contain hundreds of individuals. The benefit of using mailing lists
+        instead of private communication is that these mailing lists are a shared
+        resource where others can also learn from your messages.  This is true
+        whether your request contains a problem description, advice, or even a
+        common mistake, and as a community we all grow together.
+      </p>
 
-		<p>In addition, use of mailing lists enables us to maintain
-		   searchable <a href="http://archive.castor.codehaus.org">archives</a>
-		   of these mailing lists, that cover a vast range of questions and
-		   answers related to the use of Castor. We simply cannot overstate
-		   the importance of such archives.</p>
+      <p>
+        In addition, use of mailing lists enables us to maintain searchable
+        <a href="http://archive.castor.codehaus.org">archives</a> of these mailing
+        lists that cover a vast range of questions and answers related to the use
+        of Castor. We simply cannot overstate the importance of these archives.
+      </p>
 
-		<contributors>
+      <contributors>
 
   <!-- PLEASE KEEP THIS FILE ASSORTED ACCORDING TO SECTIONS -->
 
@@ -52,16 +63,15 @@
       MOST FREQUENTLY. Quesitons are sent more often to those people at the top
       of this list.   -->
 
-
   <contributor type="Committer">
     <name surname="Guttmann" given="Werner" />
     <email>werner.guttmann@gmx.net</email>
     <project>JDO</project>
     <company id="anecon" />
     <description>
-       Current Castor project lead; JDO enhancements including distributed caches, 
-       TransactionManagerFactory API, support for polymorphism, Spring integration,
-       the API for JDBC parameters and much more.
+      Current Castor project lead; JDO enhancements including distributed caches,
+      TransactionManagerFactory API, support for polymorphism, Spring integration,
+      the API for JDBC parameters and much more.
     </description>
     <status>active</status>
     <since>
@@ -77,19 +87,22 @@
       Intial Castor XML author and Castor Project Lead until 1.0.2.
       Responsible for all things wrong in Castor XML.
       Enhancements, bug fixes, documention, etc.
-   </description>
-   <status>active</status>
+    </description>
+    <status>active</status>
+    <since>
+      <date>The beginning</date>
+    </since>
   </contributor>
 
   <contributor type="Committer">
-     <name surname="Joachim" given="Ralf" />
-     <email>ralf.joachim@syscon-world.de</email>
-     <project>JDO</project>
-     <company id="syscon"/>
-     <description>
-        Various bug fixes, enhancements and refactorings at almost all
-		parts of JDO including major refactoring of JDO test framework.
-     </description>
+    <name surname="Joachim" given="Ralf" />
+    <email>ralf.joachim@syscon-world.de</email>
+    <project>JDO</project>
+    <company id="syscon"/>
+    <description>
+      Various bug fixes, enhancements and refactorings at almost all
+      parts of JDO including major refactoring of JDO test framework.
+    </description>
     <status>active</status>
     <since>
       <date>Dec. 2004</date>
@@ -101,10 +114,10 @@
     <email>edward.kuns@aspect.com</email>
     <project>XML</project>
     <description>
-		Various bug fixes, enhancements and refactorings at almost all
-		parts of XML code generation, including major refactoring of XML
-		test framework   
-	</description>
+      Various bug fixes, enhancements and refactorings at almost all
+      parts of XML code generation, including major refactoring of XML
+      test framework.
+    </description>
     <status>active</status>
     <since>
       <date>Oct. 2006</date>
@@ -128,8 +141,8 @@
     <email>bruce DOT snyder AT gmail DOT com</email>
     <project>JDO</project>
     <description>
-        Enhancements, bug fixes, documention, etc. (JDO project lead 
-        from 0.9 to 0.9.5)
+      Enhancements, bug fixes, documention, etc. (JDO project lead
+      from 0.9 to 0.9.5)
     </description>
     <status>inactive</status>
   </contributor>
@@ -141,8 +154,8 @@
     <project>JDO</project>
     <status>inactive</status>
     <description>
-       JDO bug fixes and enhancements including JdoConfFactory;
-       test cases; Oracle questions
+      JDO bug fixes and enhancements including JdoConfFactory;
+      test cases; Oracle questions
     </description>
     <since>
       <date>Dec. 2004</date>
@@ -156,8 +169,8 @@
     <status>inactive</status>
     <company id="ctoforaday"/>
     <description>
-       Bugfixes/enhancements, stress testing, performance testing, tester of
-       unusual 'runtime' environments, (Hashbelt) cache implementations et alias.
+      Bugfixes/enhancements, stress testing, performance testing, tester of
+      unusual 'runtime' environments, (Hashbelt) cache implementations et alias.
     </description>
     <since>
       <date>Dec. 2004</date>
@@ -169,7 +182,7 @@
     <email>dulci@start.no</email>
     <project>JDO</project>
     <description>
-       Performance enhancements, core refactoring  and much more.
+      Performance enhancements, core refactoring  and much more.
     </description>
     <status>inactive</status>
     <since>
@@ -182,19 +195,23 @@
     <email>blandin@intalio.com</email>
     <company id="intalio"/>
     <project>XML</project>
-    <description>Responsible for all the boring stuff that Keith doesn't want to do anymore.
-    Causes immense stress for the other contributors. Introduces bad franglish into the documentation.</description>
+    <description>
+      Responsible for all the boring stuff that Keith doesn't want to do anymore.
+      Causes immense stress for the other contributors. Introduces bad franglish
+      into the documentation.
+    </description>
     <status>inactive</status>
   </contributor>
 
   <contributor type="Committer">
     <name surname="Yip" given="Thomas"/>
-	<email>tomtactic-web@yahoo.com</email>
-    <company id="leafsoft"/>    
+    <email>tomtactic-web@yahoo.com</email>
+    <company id="leafsoft"/>
     <project>JDO</project>
     <description>
       Lead developer of Castor JDO from late v.0.8 to early v.0.9.
-      Enhancements to the lock model, LRU cache, lazy loading, multi-pk, m-n support, etc; bugs fixes, test cases, and documentation.
+      Enhancements to the lock model, LRU cache, lazy loading, multi-pk,
+      m-n support, etc; bugs fixes, test cases, and documentation.
     </description>
     <status>inactive</status>
   </contributor>
@@ -205,11 +222,14 @@
     <company id="intalio"/>
     <project>JDO</project>
     <description>
-       The initial author of Castor JDO.
-       Formally responsible for all things wrong in JDO, and all bugs in Mapping API.
-       (non-active)
+      The initial author of Castor JDO.
+      Formally responsible for all things wrong in JDO, and all bugs in Mapping API.
+      (non-active)
     </description>
     <status>inactive</status>
+    <since>
+      <date>The beginning</date>
+    </since>
   </contributor>
 
   <contributor type="Committer">
@@ -258,8 +278,10 @@
     <name surname="Nitz" given="Oleg"/>
     <email>on@ibis.odessa.ua</email>
     <company id="ibis"/>
-    <description>Key generators, stored procedures, Sybase 11/12 support and
-     a variety of other design contributions.</description>
+    <description>
+      Key generators, stored procedures, Sybase 11/12 support and a variety of other
+      design contributions.
+    </description>
     <project>JDO</project>
     <status>inactive</status>
   </contributor>
@@ -290,8 +312,6 @@
     <project>JDO</project>
     <status>inactive</status>
   </contributor>
-
-
 
   <!-- *********** -->
   <!-- CONTRIBUTOR -->
@@ -326,7 +346,7 @@
   <contributor type="Contributor">
     <name surname="Ballanger" given="Andrew" />
     <email>AWBALLAN@smumn.edu</email>
-   <description>An improvement for generated SQL statement syntax</description>
+    <description>An improvement for generated SQL statement syntax</description>
   </contributor>
 
   <contributor type="Contributor">
@@ -385,7 +405,7 @@
     <name surname="Brosius" given="Dave"/>
     <email>dbrosius@qis.net</email>
     <description>
-        Submitted small improvements to build.bat and various java files.
+      Submitted small improvements to build.bat and various java files.
     </description>
   </contributor>
 
@@ -405,9 +425,9 @@
     <name surname="Causevic" given="Emir"/>
     <email>emircaus@bih.net.ba</email>
     <description>
-        Contributed several patches for SapDb driver and fixed compilation problems with 
-		Java5. Currently involved in JPA 3.0 implementation and extension of Castor JDO
-		to meet new feature requests.
+      Contributed several patches for SapDb driver and fixed compilation problems with
+      Java5. Currently involved in JPA 3.0 implementation and extension of Castor JDO
+      to meet new feature requests.
     </description>
     <status>active</status>
   </contributor>
@@ -462,7 +482,7 @@
     <name surname="Detlefsen" given="August"/>
     <email>augustd@codemagi.com</email>
     <description>
-        Fixed issue with bad dates being persisted in Oracle 9.2.
+      Fixed issue with bad dates being persisted in Oracle 9.2.
     </description>
   </contributor>
 
@@ -472,7 +492,7 @@
     <name surname="Eliassen" given="Stein"/>
     <email>stein.m.eliassen@start.no</email>
     <description>
-       Fix for but 1313, count-limited cache type is 30 not 100.
+      Fix for but 1313, count-limited cache type is 30 not 100.
     </description>
   </contributor>
 
@@ -486,7 +506,7 @@
     <name surname="Gaillard" given="Gilles"/>
     <email>gillesGaillard@compuserve.com</email>
     <description>
-       various bug fixes and patches for Castor XML
+      various bug fixes and patches for Castor XML
     </description>
   </contributor>
 
@@ -494,7 +514,7 @@
     <name surname="Giordano" given="Chris"/>
     <email>giordano@more.net</email>
     <description>
-       Patch for bug 1658
+      Patch for bug 1658
     </description>
   </contributor>
 
@@ -502,8 +522,8 @@
     <name surname="Green" given="Nathan"/>
     <email>nsgreen@thazar.com</email>
     <description>
-       Enhancements to ConsoleDialog and SourceGenerator to allow
-       "all" option via command line utility.
+      Enhancements to ConsoleDialog and SourceGenerator to allow
+      "all" option via command line utility.
     </description>
   </contributor>
 
@@ -536,8 +556,8 @@
     <name surname="Higgins" given="Patrick"/>
     <email>phiggins@transzap.com</email>
     <description>
-        Enhancements to the javasource classes to fix support for abstract
-        methods. Some changes for Java 2 types compatibiliy.
+      Enhancements to the javasource classes to fix support for abstract
+      methods. Some changes for Java 2 types compatibiliy.
     </description>
   </contributor>
 
@@ -545,8 +565,8 @@
     <name surname="Hogge" given="Rick"/>
     <email>rhogge@austin.rr.com</email>
     <description>
-       Added patch to source generator to prevent conflicts with java.lang.Object
-       when the XML Schema contains an element name of "object" or "Object".
+      Added patch to source generator to prevent conflicts with java.lang.Object
+      when the XML Schema contains an element name of "object" or "Object".
     </description>
   </contributor>
 
@@ -556,7 +576,7 @@
     <name surname="Kelly" given="Shaun" />
     <email>shaun.kelly@bigpond.com</email>
     <description>
-    Fix for OQLQueryImpl.java for multiple occurrences of the 'AS' keyword.
+      Fix for OQLQueryImpl.java for multiple occurrences of the 'AS' keyword.
     </description>
   </contributor>
 
@@ -564,14 +584,16 @@
     <name surname="Kleppinger" given="Don"/>
     <email>Don.Kleppinger@Den.Galileo.com</email>
     <description>
-       Enhancement to Marshaller to support BigDecimal as a primitive type.
+      Enhancement to Marshaller to support BigDecimal as a primitive type.
     </description>
   </contributor>
 
   <contributor type="Contributor">
     <name surname="Lavandowska" given="Lance"/>
     <email>lance@aptura.com</email>
-    <description>Mapping GUI, LIMIT and OFFSET keywords for HSQL, MySQL and PostgreSQL</description>
+    <description>
+      Mapping GUI, LIMIT and OFFSET keywords for HSQL, MySQL and PostgreSQL
+    </description>
   </contributor>
 
   <contributor type="Contributor">
@@ -584,7 +606,9 @@
   <contributor type="Contributor">
     <name surname="Liebner" given="Stefan"/>
     <email>MailLiebner@gmx.ne</email>
-    <description>Submitted code for generating mapping file from existing SQL database.</description>
+    <description>
+      Submitted code for generating mapping file from existing SQL database.
+    </description>
   </contributor>
 
   <contributor type="Contributor">
@@ -611,7 +635,7 @@
     <name surname="Martin" given="Margaret"/>
     <email>mmartin@vignette.com</email>
     <description>
-        Contributions to the mailing list to help others in the community; contributed a workaround for the lack of self-referential relationships.
+      Contributions to the mailing list to help others in the community; contributed a workaround for the lack of self-referential relationships.
     </description>
   </contributor>
 
@@ -634,17 +658,17 @@
   </contributor>
 
   <contributor type="Contributor">
-     <name surname="McKinley" given="Will"/>
-     <email>willowmck@yahoo.com</email>
-     <description>
-        Provided a patch to source generator that allows case insensitive lookups for enumerated type values.
-     </description>
+    <name surname="McKinley" given="Will"/>
+    <email>willowmck@yahoo.com</email>
+    <description>
+      Provided a patch to source generator that allows case insensitive lookups for enumerated type values.
+    </description>
   </contributor>
 
   <contributor type="Contributor">
-     <name surname="Murray" given="Tom"/>
-     <email>tmurray@cup.hp.com</email>
-     <description>Provided a patch concerning the reading of AnyNode.</description>
+    <name surname="Murray" given="Tom"/>
+    <email>tmurray@cup.hp.com</email>
+    <description>Provided a patch concerning the reading of AnyNode.</description>
   </contributor>
 
   <contributor type="Contributor">
@@ -730,7 +754,7 @@
     <name surname="Post" given="Ulrich"/>
     <email>Ulrich.Post@softwareag.com</email>
     <description>
-        Allowed restricting an complexType with complexContent to complexType with simpleContent.
+      Allowed restricting an complexType with complexContent to complexType with simpleContent.
     </description>
   </contributor>
 
@@ -759,7 +783,6 @@
     <description>Patch for bug 1272 (fix for bound properties)</description>
   </contributor>
 
-
   <contributor type="Contributor">
     <name surname="Rehor" given="Petr" />
     <email>petr.rehor@decros.cz</email>
@@ -772,7 +795,8 @@
     <description>Fixes for rollback() destroying lazy loading collections,
       PreparedStatement not closed in SQLEngine.delete,
       Exception during db.rollback() when db.update() fails,
-      Time limited cache is expiring too fast</description>
+      Time limited cache is expiring too fast
+    </description>
   </contributor>
 
   <contributor type="Contributor">
@@ -784,15 +808,17 @@
   <contributor type="Contributor">
     <name surname="Rhodes" given="Phillip" />
     <email>rhodespc@telerama.com</email>
-    <description>Fixed JDO bug: non-null columns sometimes were returned as null</description>
+    <description>
+      Fixed JDO bug: non-null columns sometimes were returned as null
+    </description>
   </contributor>
 
   <contributor type="Contributor">
     <name surname="Riege" given="Christian" />
     <email>criege@riege.com</email>
     <description>
-       Patch for JInterface to prevent illegal cast when adding a method that uses
-       a JInterface as a parameter type
+      Patch for JInterface to prevent illegal cast when adding a method that uses
+      a JInterface as a parameter type
     </description>
   </contributor>
 
@@ -812,18 +838,17 @@
     <name surname="Roytenberg" given="David" />
     <email>droytenberg@yahoo.com</email>
     <company id="nsri"/>
-   <description>
+    <description>
       Enhancements to DateFieldHandler to allow different date formats than
       that which is defined in XML Schema.
    </description>
   </contributor>
 
-
   <contributor type="Contributor">
     <name surname="Salwinski" given="Lukasz"/>
     <email>lukasz@mbi.ucla.edu</email>
     <description>
-       Helped tracked down issue causing bug CASTOR-1216
+      Helped tracked down issue causing bug CASTOR-1216
     </description>
   </contributor>
 
@@ -831,7 +856,7 @@
     <name surname="Shea" given="Gary"/>
     <email>shea@gtsdesign.com</email>
     <description>
-       Enhancements to the org.exolab.javasource package.
+      Enhancements to the org.exolab.javasource package.
     </description>
   </contributor>
 
@@ -857,7 +882,7 @@
     <name surname="Skopp" given="Martin"/>
     <email>skopp@riege.de</email>
     <description>
-       Enhancements to the org.exolab.javasource package.
+      Enhancements to the org.exolab.javasource package.
     </description>
   </contributor>
 
@@ -865,7 +890,7 @@
     <name surname="Small" given="Matt"/>
     <email>msmall@clickability.com</email>
     <description>Some patches for Castor XML Schema Writer,
-       tracked down issue for bug CASTOR-1216
+      tracked down issue for bug CASTOR-1216
     </description>
   </contributor>
 
@@ -885,7 +910,7 @@
     <name surname="Stewart" given="George"/>
     <email>georgestewartiv@yahoo.com</email>
     <description>
-       Enhancement to give mapping loader higher priority than compiled descriptors
+      Enhancement to give mapping loader higher priority than compiled descriptors
     </description>
   </contributor>
 
@@ -893,8 +918,8 @@
     <name surname="Sutphin" given="Rhett"/>
     <email>rhett-sutphin@uiowa.edu</email>
     <description>
-       Fixes for mapping.xsd (the schema for the mapping object model) and the initial
-       contribution of the binding file for the mapping schema. Patch for bug 1245.
+      Fixes for mapping.xsd (the schema for the mapping object model) and the initial
+      contribution of the binding file for the mapping schema. Patch for bug 1245.
     </description>
   </contributor>
 
@@ -904,7 +929,7 @@
     <name surname="Telcik" given="Tim"/>
     <email>ttelcik@hbf.com.au</email>
     <description>
-       Patch for bug 1916 and 1917
+      Patch for bug 1916 and 1917
     </description>
   </contributor>
 
@@ -912,7 +937,7 @@
     <name surname="Thal" given="David"/>
     <email>dthal@combimatrix.com</email>
     <description>
-       Patch for bug 1666
+      Patch for bug 1666
     </description>
   </contributor>
 
@@ -921,8 +946,8 @@
     <email>Frank.Thelen@poet.de</email>
     <company id="poet"/>
     <description>
-       Submitted code for allowing subclassing of the special types used
-       by the Source Generator, and for supporting ODMG 3.0 collections.
+      Submitted code for allowing subclassing of the special types used
+      by the Source Generator, and for supporting ODMG 3.0 collections.
     </description>
   </contributor>
 
@@ -984,7 +1009,7 @@
     <name surname="Weir" given="John"/>
     <email>weirja@btinternet.com</email>
     <description>
-        enhancement to allow extra non-matched elements to simply be ignored.
+      enhancement to allow extra non-matched elements to simply be ignored.
     </description>
   </contributor>
 
@@ -992,7 +1017,7 @@
     <name surname="Westbay" given="Michael"/>
     <email>westbay@users.sourceforge.net</email>
     <description>
-        Patch for bug CASTOR-1132 (JIRA)
+      Patch for bug CASTOR-1132 (JIRA)
     </description>
   </contributor>
 
@@ -1001,8 +1026,8 @@
     <email>clovis.wichoski@gmail.com</email>
     <company id="supridatta"/>
     <description>
-        Contributed patch for SapDbQueryExpression and CASTOR-1207 (JIRA).
-        Also improved coverage of CTF tests for SapDB.
+      Contributed patch for SapDbQueryExpression and CASTOR-1207 (JIRA).
+      Also improved coverage of CTF tests for SapDB.
     </description>
   </contributor>
 
@@ -1015,11 +1040,10 @@
   <contributor type="Contributor">
     <name surname="Woon" given="Mark" />
     <email>morpheus@SMI.Stanford.EDU</email> <description>
-        Contributed patches for java.lang.Long&lt;-&gt;java.util.Date
-        type convertors and some patches to clean up docs
+      Contributed patches for java.lang.Long&lt;-&gt;java.util.Date
+      type convertors and some patches to clean up docs
     </description>
   </contributor>
-
 
   <!-- ******** -->
   <!-- FEEDBACK -->
@@ -1059,9 +1083,9 @@
     <name surname="Dankert" given="Edwin"/>
     <email>edankert@cladonia.com</email>
     <description>
-       Patch to org.exolab.castor.xml.schema.util.DatatypeHandler to
-       allow empty strings to be handled properly and prevent an
-       exception when "guessing" the type.
+      Patch to org.exolab.castor.xml.schema.util.DatatypeHandler to
+      allow empty strings to be handled properly and prevent an
+      exception when "guessing" the type.
     </description>
   </contributor>
 
@@ -1072,7 +1096,6 @@
     <email>stephan.goetter@newtron.net</email>
     <description>Castor XML feedback</description>
   </contributor>
-
 
   <contributor type="Feedback">
     <name surname="Goldstein" given="Peter"/>
@@ -1092,7 +1115,6 @@
     <description>Castor XML feedback</description>
   </contributor>
 
-
   <!-- Last names begin with I-L -->
 
   <contributor type="Feedback">
@@ -1100,7 +1122,6 @@
     <email>struan@motorweb.co.nz</email>
     <description>Castor XML feedback</description>
   </contributor>
-
 
   <contributor type="Feedback">
     <name surname="Kleser" given="Gerald"/>
@@ -1126,7 +1147,6 @@
     <description>Bug Reports / Castor XML feedback</description>
   </contributor>
 
-
   <!-- Last names begin with M-P -->
 
   <contributor type="Feedback">
@@ -1139,8 +1159,8 @@
     <name surname="Paradies" given="Thomas"/>
     <email>paradies@transit-online.de</email>
     <description>
-       Bug report and patch for default Serializer configuration with respect
-       to UTF-8 encoding.
+      Bug report and patch for default Serializer configuration with respect
+      to UTF-8 encoding.
     </description>
   </contributor>
 
@@ -1168,7 +1188,7 @@
     <name surname="Skolnik" given="Radovan"/>
     <email>rskolnik@inmail.sk</email>
     <description>
-       Testing/Feedback on mapping file usage related to Castor XML
+      Testing/Feedback on mapping file usage related to Castor XML
     </description>
   </contributor>
 
@@ -1176,7 +1196,7 @@
     <name surname="Soysa" given="Manjuka"/>
     <email>manjuka@visto.com</email>
     <description>Feedback on generated enumerations,
-         suggested adding the "enumerate" method.
+      suggested adding the "enumerate" method.
     </description>
   </contributor>
 
@@ -1194,7 +1214,6 @@
 
   <!-- Last names begin with T-Z -->
 
-
   <contributor type="Feedback">
     <name surname="Van vlerken" given="Johan"/>
     <email>johan.vanvlerken@b-rail.be</email>
@@ -1211,7 +1230,7 @@
     <name surname="Viet" given="Julien"/>
     <email>julien.viet@int-evry.fr</email>
     <description>
-          Reported bug in CollectionInfoJ2 with respect to unbounded collections
+      Reported bug in CollectionInfoJ2 with respect to unbounded collections
     </description>
   </contributor>
 
@@ -1227,7 +1246,6 @@
     <description>Found and reported bugs in ClassMolder, ObjectLock and SQLEngine</description>
   </contributor>
 
-
   <!-- ********** -->
   <!-- DOCUMENTOR -->
   <!-- ********** -->
@@ -1236,13 +1254,11 @@
       It makes it easier to maintain
   -->
 
-
   <contributor type="Documentor">
     <name surname="Gilmartin" given="Andrew"/>
     <email>andrew.gilmartin@ingenta.com</email>
     <description>
-       Provided examples and docs Blob support via OID with
-       PostgreSQL.
+      Provided examples and docs Blob support via OID with PostgreSQL.
     </description>
   </contributor>
 
@@ -1262,8 +1278,8 @@
     <name surname="Suez" given="Eitan"/>
     <email>eitan@uptodata.com</email>
     <description>
-        Clean-up of <i>xml-mapping</i> documentation and documentation on xsi:type.
-        The create-method addition to the <i>tip &amp; tricks</i> page.
+      Clean-up of <i>xml-mapping</i> documentation and documentation on xsi:type.
+      The create-method addition to the <i>tip &amp; tricks</i> page.
     </description>
   </contributor>
 
@@ -1271,17 +1287,16 @@
     <name surname="Tanner" given="Dan"/>
     <email>Dan.B.Tanner@wellsfargo.com</email>
     <description>
-       Contribution to the Castor XML FAQ.
+      Contribution to the Castor XML FAQ.
     </description>
   </contributor>
-
 
   <!-- ******************** -->
   <!-- COMPANY INFORMATION  -->
   <!-- ******************** -->
   <!--
       Company Information, so we don't have to duplicate it for
-      mulitple contributors of the same company
+      multiple contributors from the same company
   -->
   <!-- PLEASE KEEP THIS LIST SORTED ALPHABETICALLY
       It makes it easier to maintain
@@ -1318,7 +1333,6 @@
     <name>CTO for a day</name>
     <url>www.ctoforaday.com</url>
   </company>
-
 
   <!-- Company Names (E-H) -->
 
@@ -1419,11 +1433,13 @@
   </type>
 
   <type name="Feedback">
-    The following have offered valuable feedback (including bug reports) that has been beneficial
-    to the development and stability.
+    These contributor types have offered valuable feedback (including bug
+    reports) that have been beneficial to the development and stability
+    of this project.
   </type>
 
-	  </contributors>
-	</header>
+      </contributors>
+    </header>
   </body>
+
 </document>

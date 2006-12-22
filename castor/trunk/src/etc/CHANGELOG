@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+Doc:   Resolved issue CASTOR-1750 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       General cleanup of several documentation files
+       Details: http://jira.codehaus.org/browse/CASTOR-1750
+       (Edward - 20061221)
+
 All:   Resolved issue CASTOR-1749 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Update comments in castor.properties
        Details: http://jira.codehaus.org/browse/CASTOR-1749

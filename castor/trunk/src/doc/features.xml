@@ -1,5 +1,5 @@
 <?xml version="1.0" encoding="ISO-8859-1"?>
-<document url="http://castor.org/features.xml">
+<document url="http://castor.codehaus.org/features.xml">
   <properties>
     <title>Features</title>
     <abstract>
@@ -7,6 +7,7 @@
     </abstract>
     <status>Draft</status>
   </properties>
+
   <body>
     <title>Features</title>
     <header>
@@ -14,31 +15,47 @@
 
     <section title="Features">
 
-      <p>Short feature list (we haven't got all day):
-        <ul>
-          <li>
-             Castor XML: Java object model to and from XML (XML databinding)
-             <br/>&#160;&#160; - Generate source code from an XML Schema
-             <br/>&#160;&#160; - Default introspection or mapping file for existing object models
-          </li>
-          <li>Castor JDO: Java object persistence to RDBMS
-              <li>Castor JDO is not the same-as or compatible with Sun's JDO. We have
-                  a different approach to handling data object to RDBMS mappings.
-                  Please see the <a href="jdo-faq.html">JDO FAQ</a> for more information.
-              </li>
-          </li>
-          <li>XML-based mapping file to specify bindings for existing object models</li>
-          <li>Support for schema-less Java to XML binding</li>
-          <li>In memory caching and write-at-commit reduces JDBC operations</li>
-          <li>Two phase commit transactions, object rollback and deadlock detection</li>
-          <li>OQL query mapping to SQL queries</li>
-          <li>EJB container managed persistence provider for OpenEJB</li>
-          <li>Ability to create base mapping from existing Java classes</li>
-          <li>Ability to create an XML Schema from an XML input document</li>
-        </ul>
-        See the <a href="status.xml">status page</a> for more information.</p>
+      <p>
+        Short feature list (we haven't got all day):
+      </p>
+
+      <ul>
+        <li>
+          Castor XML: Java object model to and from XML (XML databinding).
+          <ul>
+            <li>Generate source code from an XML Schema</li>
+            <li>Default introspection or mapping file for existing object models</li>
+          </ul>
+        </li>
+
+        <li>
+          Castor JDO: Java object persistence to RDBMS
+          <ul>
+            <li>
+              Castor JDO is not the same-as or compatible with Sun's JDO. We have
+              a different approach to handling data object to RDBMS mappings.
+              Please see the <a href="jdo-faq.html">JDO FAQ</a> for more information.
+            </li>
+          </ul>
+        </li>
+
+        <li>XML-based mapping file to specify bindings for existing object models</li>
+        <li>Support for schemaless Java-to-XML binding</li>
+        <li>In-memory caching and write-at-commit reduce JDBC operations</li>
+        <li>Two-phase commit transactions, object rollback, and deadlock detection</li>
+        <li>OQL query mapping to SQL queries</li>
+        <li>EJB container managed persistence provider for OpenEJB</li>
+        <li>Ability to create base mapping from existing Java classes</li>
+        <li>Ability to create an XML Schema from an XML input document</li>
+      </ul>
+
+      <p>
+        See the <a href="status.xml">status page</a> for a more complete feature
+        list and for more information.
+      </p>
 
     </section>
 
   </body>
+
 </document>

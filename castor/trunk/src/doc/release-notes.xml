@@ -276,9 +276,9 @@
 
             </summary>
             <bugs>
-                <bug id="1738" tool="jira">
+                <bug id="1750" tool="jira">
                     <description>
-                        Clean up Castor XML; remove unnecessary replacements of Java 1.2 classes
+                        General cleanup of several documentation files
                     </description>
                     <contributor>
                         <name>Edward Kuns</name>
@@ -293,8 +293,8 @@
                         <email>edward.kuns@aspect.com</email>
                     </reporter>
                     <type>Enh</type>
-                    <module>XML</module>
-                    <date>20061220</date>
+                    <module>Doc</module>
+                    <date>20061221</date>
                 </bug>
                 <bug id="1749" tool="jira">
                     <description>
@@ -315,6 +315,26 @@
                     <type>Enh</type>
                     <module>All</module>
                     <date>20061221</date>
+                </bug>
+                <bug id="1738" tool="jira">
+                    <description>
+                        Clean up Castor XML; remove unnecessary replacements of Java 1.2 classes
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061220</date>
                 </bug>
                 <bug id="597" tool="jira">
                     <description>
