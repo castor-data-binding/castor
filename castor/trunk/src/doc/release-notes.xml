@@ -276,6 +276,26 @@
 
             </summary>
             <bugs>
+                <bug id="1752" tool="jira">
+                    <description>
+                        Update xmlschema.xml srcgen documentation
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>Doc</module>
+                    <date>20061222</date>
+                </bug>
                 <bug id="1751" tool="jira">
                     <description>
                         Cleanup/update of srcgen/test documentation

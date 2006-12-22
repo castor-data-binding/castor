@@ -2,6 +2,11 @@
 SVN
 -------------------------------
 
+Doc:   Resolved issue CASTOR-1752 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Update xmlschema.xml srcgen documentation
+       Details: http://jira.codehaus.org/browse/CASTOR-1752
+       (Edward - 20061222)
+
 Doc:   Resolved issue CASTOR-1751 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Cleanup/update of srcgen/test documentation
        Details: http://jira.codehaus.org/browse/CASTOR-1751
