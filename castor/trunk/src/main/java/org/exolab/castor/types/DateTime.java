@@ -202,62 +202,10 @@ public class DateTime extends DateTimeBase {
      */
      public String toString() {
         StringBuffer result = new StringBuffer();
-        if (isNegative()) {
-            result.append('-');
-        }
 
-        result.append(this.getCentury());
-        if (result.length() == 1) {
-            result.insert(0,0);
-        }
-
-        if ((this.getYear()/10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getYear());
-
-        result.append('-');
-        if ((this.getMonth() / 10) == 0 ) {
-            result.append(0);
-        }
-        result.append(this.getMonth());
-
-        result.append('-');
-        if ((this.getDay()/10) == 0 ) {
-            result.append(0);
-        }
-        result.append(this.getDay());
-
+        appendDateString(result);
         result.append('T');
-
-        //two figures are required
-        if ((this.getHour()/10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getHour());
-
-        result.append(':');
-        if ((this.getMinute() / 10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getMinute());
-
-        result.append(':');
-        if ((this.getSeconds()/10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getSeconds());
-        if (this.getMilli() != 0) {
-            result.append('.');
-            if (this.getMilli() < 100) {
-                result.append('0');
-                if (this.getMilli() < 10) {
-                    result.append('0');
-                }
-            }
-            result.append(this.getMilli());
-        }
-
+        appendTimeString(result);
         appendTimeZoneString(result);
 
         return result.toString();
@@ -315,140 +263,22 @@ public class DateTime extends DateTimeBase {
 
         char[] chars = str.toCharArray();
 
-        // Year
+        if (chars.length < 19) {
+            throw new ParseException(BAD_DATE + str + "\nDateTime is not long enough", 0);
+        }
+
         int idx = 0;
-        if (chars[idx] == '-') {
-             idx++;
-             result.setNegative();
-        }
+        idx = parseYear(str, result, chars, idx, BAD_DATE);
+        idx = parseMonth(str, result, chars, idx, BAD_DATE);
+        idx = parseDay(str, result, chars, idx, BAD_DATE);
 
-        if (chars.length - idx < 19) {
-            throw new ParseException(BAD_DATE+str+"\nDateTime is not long enough", idx);
-        }
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])
-                || !Character.isDigit(chars[idx + 2]) || !Character.isDigit(chars[idx + 3])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Year must be 4 digits long", idx);
-        }
-
-        short value1;
-        short value2;
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        value2 = (short) ((chars[idx+2] - '0') * 10 + (chars[idx+3] - '0'));
-
-        if (value1 == 0 && value2 == 0) {
-            throw new ParseException(BAD_DATE+str+"\n'0000' is not allowed as a year.",idx);
-        }
-
-        result.setCentury(value1);
-        result.setYear(value2);
-
-        idx += 4;
-
-        // Month
-        if (chars[idx] != '-') {
-            throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
-        }
-
-        idx++;
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Month must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setMonth(value1);
-
-        idx += 2;
-
-        // Day
-        if (chars[idx] != '-') {
-            throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
-        }
-
-        idx++;
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Day must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setDay(value1);
-
-        idx += 2;
-
-        // Hours
         if (chars[idx] != 'T') {
-            throw new ParseException(BAD_DATE+str+"\n 'T' "+DateTimeBase.WRONGLY_PLACED,idx);
+            throw new ParseException(BAD_DATE + str + "\n 'T' " + DateTimeBase.WRONGLY_PLACED, idx);
         }
 
         idx++;
 
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Hour must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setHour(value1);
-
-        idx += 2;
-
-        // Minutes
-        if (chars[idx] != ':') {
-            throw new ParseException(BAD_DATE+str+"\n ':#1' "+DateTimeBase.WRONGLY_PLACED,idx);
-        }
-
-        idx++;
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Minute must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setMinute(value1);
-
-        idx += 2;
-
-        // Seconds
-        if (chars[idx] != ':') {
-            throw new ParseException(BAD_DATE+str+"\n ':#2' "+DateTimeBase.WRONGLY_PLACED,idx);
-        }
-
-        idx++;
-
-        if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Second must be 2 digits long", idx);
-        }
-
-        value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
-        result.setSecond(value1);
-
-        idx += 2;
-
-        // Milliseconds?
-        if (idx < chars.length && chars[idx] == '.') {
-            idx++;
-
-            long decimalValue = 0;
-            long powerOfTen   = 1;
-            while (idx < chars.length && Character.isDigit(chars[idx])) {
-                decimalValue = decimalValue * 10 + (chars[idx] - '0');
-                powerOfTen *= 10;
-                idx++;
-            }
-
-            // FIXME: We truncate to milliseconds
-            if (powerOfTen > 1000) {
-                decimalValue /= (powerOfTen / 1000);
-                powerOfTen = 1000;
-            } else if (powerOfTen < 1000) {
-                decimalValue *= (1000 / powerOfTen);
-                powerOfTen = 1000;
-            }
-            result.setMilliSecond((short)decimalValue);
-        }
-
+        idx = parseTime(str, result, chars, idx, BAD_DATE);
         parseTimeZone(str, result, chars, idx, BAD_DATE);
 
         return result;

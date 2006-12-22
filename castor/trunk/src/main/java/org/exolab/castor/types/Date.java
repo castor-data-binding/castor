@@ -56,12 +56,13 @@ import java.util.Calendar;
 import java.util.GregorianCalendar;
 
 /**
- * Describe an XML schema Date.
+ * Describe an XML Schema Date.
  * <p>
  * The format is defined by W3C XML Schema Recommendation and ISO8601 i.e
  * <tt>(-)CCYY-MM-DD(Z|(+|-)hh:mm)</tt>
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$
  */
 public class Date extends DateTimeBase {
@@ -78,34 +79,41 @@ public class Date extends DateTimeBase {
     }
 
     /**
-     * Constructs a XML Schema Date instance given all the values of
-     * the different fields.
-     * By default a Date is not UTC and is local.
-     * @param values an array of shorts that represent the different fields of Time.
+     * Constructs a XML Schema Date instance given all the values of the
+     * different fields. By default a Date is not UTC and is local.
+     *
+     * @param values
+     *            an array of shorts that represent the different fields of
+     *            Time.
      */
     public Date(short[] values) {
         setValues(values);
     }
 
     /**
-     * This constructor is used to convert a long value representing a Date
-     * to a new org.exolab.castor.types.Date instance.
-     * <p>Note : all the information concerning the time part of
-     * the java.util.Date is lost since a W3C Schema Date only represents
-     * CCYY-MM-YY
-     * @param dateAsLong Date represented in from of a long value.
+     * This constructor is used to convert a long value representing a Date to a
+     * new org.exolab.castor.types.Date instance.
+     * <p>
+     * Note : all the information concerning the time part of the java.util.Date
+     * is lost since a W3C Schema Date only represents CCYY-MM-YY
+     *
+     * @param dateAsLong
+     *            Date represented in from of a long value.
      */
     public Date (long dateAsLong) {
         this (new java.util.Date (dateAsLong));
     }
 
     /**
-     * This constructor is used to convert a java.util.Date into
-     * a new org.exolab.castor.types.Date
-     * <p>Note : all the information concerning the time part of
-     * the java.util.Date is lost since a W3C Schema Date only represents
-     * CCYY-MM-YY
-     * @param dateRef the java.util.Date to use to construct a new org.exolab.castor.types.Date
+     * This constructor is used to convert a java.util.Date into a new
+     * org.exolab.castor.types.Date.
+     * <p>
+     * Note : all the information concerning the time part of the java.util.Date
+     * is lost since a W3C Schema Date only represents CCYY-MM-YY.
+     *
+     * @param dateRef
+     *            the java.util.Date to use to construct a new
+     *            org.exolab.castor.types.Date
      */
     public Date(java.util.Date dateRef) {
         GregorianCalendar tempCalendar = new GregorianCalendar();
@@ -120,7 +128,7 @@ public class Date extends DateTimeBase {
     } //Date(java.util.Date)
 
     /**
-     * Constructs a date from a string
+     * Constructs a date from a string.
      * @param date the string representing the date
      * @throws ParseException a parse exception is thrown if the string to parse
      *                        does not follow the right format (see the description
@@ -131,18 +139,20 @@ public class Date extends DateTimeBase {
     }
 
     /**
-     * Sets all the fields by reading the values in an array
-     * <p>if a Time Zone is specificied it has to be set by using
+     * Sets all the fields by reading the values in an array.
+     * <p>
+     * If a Time Zone is specified, it has to be set by using
      * {@link DateTimeBase#setZone(short, short) setZone}.
-     * @param values an array of shorts with the values
-     * the array is supposed to be of length 4 and ordered like
-     * the following:
-     * <ul>
-     *      <li>century</li>
-     *      <li>year</li>
-     *      <li>month</li>
-     *      <li>day</li>
-     * </ul>
+     *
+     * @param values
+     *            an array of shorts with the values the array is supposed to be
+     *            of length 4 and ordered like the following:
+     *            <ul>
+     *            <li>century</li>
+     *            <li>year</li>
+     *            <li>month</li>
+     *            <li>day</li>
+     *            </ul>
      */
     public void setValues(short[] values) {
         if (values.length != 4) {
@@ -155,11 +165,13 @@ public class Date extends DateTimeBase {
     }
 
     /**
-     * Returns an array of short with all the fields that describe
-     * this Date type.
-     * <p>Note:the time zone is not included.
-     * @return  an array of short with all the fields that describe
-     * this Date type.
+     * Returns an array of short with all the fields that describe this Date
+     * type.
+     * <p>
+     * Note:the time zone is not included.
+     *
+     * @return an array of short with all the fields that describe this Date
+     *         type.
      */
     public short[] getValues() {
         short[] result = new short[4];
@@ -171,7 +183,7 @@ public class Date extends DateTimeBase {
     } //getValues
 
     /**
-     * converts this Date into a local java.util.Date.
+     * Converts this Date into a local java.util.Date.
      * @return a local date representing this Date.
      */
     public java.util.Date toDate() {
@@ -196,32 +208,8 @@ public class Date extends DateTimeBase {
      */
     public String toString() {
         StringBuffer result = new StringBuffer();
-        if (isNegative()) {
-            result.append('-');
-        }
 
-        if ((this.getCentury() / 10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getCentury());
-
-        if ((this.getYear() / 10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getYear());
-
-        result.append('-');
-        if ((this.getMonth() / 10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getMonth());
-
-        result.append('-');
-        if ((this.getDay()/10) == 0) {
-            result.append(0);
-        }
-        result.append(this.getDay());
-
+        appendDateString(result);
         appendTimeZoneString(result);
 
         return result.toString();
@@ -272,7 +260,7 @@ public class Date extends DateTimeBase {
 
         if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])
                 || !Character.isDigit(chars[idx + 2]) || !Character.isDigit(chars[idx + 3])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Year must be 4 digits long", idx);
+            throw new ParseException(BAD_DATE + "'" + str + "'\nThe Year must be 4 digits long", idx);
         }
 
         short value1;
@@ -282,7 +270,7 @@ public class Date extends DateTimeBase {
         value2 = (short) ((chars[idx+2] - '0') * 10 + (chars[idx+3] - '0'));
 
         if (value1 == 0 && value2 == 0) {
-            throw new ParseException(BAD_DATE+str+"\n'0000' is not allowed as a year.",idx);
+            throw new ParseException(BAD_DATE+str+"\n'0000' is not allowed as a year.", idx);
         }
 
         result.setCentury(value1);
@@ -292,13 +280,13 @@ public class Date extends DateTimeBase {
 
         // Month
         if (chars[idx] != '-') {
-            throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
+            throw new ParseException(BAD_DATE + "'" + str + "'\n '-' " + DateTimeBase.WRONGLY_PLACED, idx);
         }
 
         idx++;
 
         if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Month must be 2 digits long", idx);
+            throw new ParseException(BAD_DATE + "'" + str + "'\nThe Month must be 2 digits long", idx);
         }
 
         value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
@@ -308,13 +296,13 @@ public class Date extends DateTimeBase {
 
         // Day
         if (chars[idx] != '-') {
-            throw new ParseException(BAD_DATE+str+"\n '-' "+DateTimeBase.WRONGLY_PLACED,idx);
+            throw new ParseException(BAD_DATE + "'" + str + "'\n '-' " + DateTimeBase.WRONGLY_PLACED, idx);
         }
 
         idx++;
 
         if (!Character.isDigit(chars[idx]) || !Character.isDigit(chars[idx + 1])) {
-            throw new ParseException(BAD_DATE+str+"\nThe Day must be 2 digits long", idx);
+            throw new ParseException(BAD_DATE + "'" + str + "'\nThe Day must be 2 digits long", idx);
         }
 
         value1 = (short) ((chars[idx] - '0') * 10 + (chars[idx+1] - '0'));
@@ -329,6 +317,9 @@ public class Date extends DateTimeBase {
 
     /////////////////////////// DISALLOWED METHODS ///////////////////////////
 
+    public boolean hasHour() {
+        return false;
+    }
     public short getHour() {
         String err = "org.exolab.castor.types.Date does not have an Hour field.";
         throw new OperationNotSupportedException(err);
@@ -336,6 +327,9 @@ public class Date extends DateTimeBase {
     public void setHour(short hour) {
         String err = "org.exolab.castor.types.Date does not have an Hour field.";
         throw new OperationNotSupportedException(err);
+    }
+    public boolean hasMinute() {
+        return false;
     }
     public short getMinute() {
         String err = "org.exolab.castor.types.Date does not have a Minute field.";
@@ -345,6 +339,9 @@ public class Date extends DateTimeBase {
         String err = "org.exolab.castor.types.Date does not have a Minute field.";
         throw new OperationNotSupportedException(err);
     }
+    public boolean hasSeconds() {
+        return false;
+    }
     public short getSeconds() {
         String err = "org.exolab.castor.types.Date does not have a Seconds field.";
         throw new OperationNotSupportedException(err);
@@ -352,6 +349,9 @@ public class Date extends DateTimeBase {
     public void setSecond(short second) {
         String err = "org.exolab.castor.types.Date does not have a Seconds field.";
         throw new OperationNotSupportedException(err);
+    }
+    public boolean hasMilli() {
+        return false;
     }
     public short getMilli() {
         String err = "org.exolab.castor.types.Date does not have a Milliseconds field.";
