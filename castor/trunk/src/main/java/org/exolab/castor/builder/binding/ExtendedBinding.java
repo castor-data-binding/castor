@@ -478,11 +478,12 @@ public class ExtendedBinding extends Binding {
                     location.append(PATH_SEPARATOR);
                     location.append(COMPLEXTYPE_ID);
                     location.append(((ComplexType) structure).getName());
-                } else {
-                    location.append(PATH_SEPARATOR);
-                    location.append(COMPLEXTYPE_ID);
-                    location.append("anonymous");
                 }
+//                else {
+//                    location.append(PATH_SEPARATOR);
+//                    location.append(COMPLEXTYPE_ID);
+//                    location.append("anonymous");
+//                }
                 break;
 
             case Structure.SIMPLE_TYPE:
@@ -494,11 +495,12 @@ public class ExtendedBinding extends Binding {
                     location.append(PATH_SEPARATOR);
                     location.append(ENUMTYPE_ID);
                     location.append(((SimpleType)structure).getName());
-                } else {
-                    location.append(PATH_SEPARATOR);
-                    location.append(ENUMTYPE_ID);
-                    location.append("anonymous");
                 }
+//                else {
+//                    location.append(PATH_SEPARATOR);
+//                    location.append(ENUMTYPE_ID);
+//                    location.append("anonymous");
+//                }
                 break;
 
             case Structure.MODELGROUP:

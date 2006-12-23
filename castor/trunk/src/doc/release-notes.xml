@@ -259,6 +259,7 @@
   </enum-def>
 </enumBinding>]]></code-panel>
 
+<!-- 
                 <h3>Added support for anonymous type definition in XML code generation bindings</h3>
 
                 <p>For &lt;complexType&gt; and &lt;simpleType&gt; enumerations, it is
@@ -272,7 +273,7 @@
 &lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
    &lt;member name="MyFoo" handler="mypackage.myHandler"/>
 &lt;/elementBinding></code-panel>
-
+ -->
                 <h3>Add support for validating &lt;xsd:ID&gt; during marshaling.</h3>
 
                 <p>Castor XML now supports validation of &lt;xsd:ID&gt;s during

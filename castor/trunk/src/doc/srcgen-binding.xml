@@ -232,11 +232,11 @@
         <pre>
             [1]Path         ::= LocationPath('/'LocationPath)*
             [2]LocationPath ::= (Complex|ModelGroup|Attribute|Element|Enumeration)
-            [3]Complex      ::= 'complexType:'(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>|'anonymous')
+            [3]Complex      ::= 'complexType:'(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
             [4]ModelGroup   ::= 'group:'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
             [5]Attribute    ::= '@'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
             [6]Element      ::= <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
-            [7]Enumeration  ::= 'enumType':(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>|'anonymous')
+            [7]Enumeration  ::= 'enumType':(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
         </pre>
 
         <p>
@@ -261,6 +261,7 @@
    </elementBinding>
 <complexTypeBinding>]]></code-panel>
 
+<!-- 
         <section title="Bindings for anonymous components">
 
           <p>
@@ -272,14 +273,14 @@
             '<tt>anonymous</tt>' as shown below.
           </p>
 
-          <!-- We cannot use a CDATA for this code panel because we want <b> interpreted -->
           <code-panel>
 &lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
    &lt;member name="MyFoo" handler="mypackage.myHandler"/>
 &lt;/elementBinding></code-panel>
 
         </section>
-      </section>
+ -->
+       </section>
 
       <section title="&lt;java-class> element">
         <code-panel><![CDATA[
