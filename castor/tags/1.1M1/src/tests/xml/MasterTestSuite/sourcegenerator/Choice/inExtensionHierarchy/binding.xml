@@ -1,0 +1,21 @@
+<?xml version="1.0"?>
+<!-- This file contains the binding information -->
+<!-- for the invoice XML Schema -->
+<!-- It is meant to be used by the Castor Source Code Generator -->
+
+<cbf:binding xmlns:cbf="http://www.castor.org/SourceGenerator/Binding"
+	defaultBindingType='element'>
+
+	<cbf:namingXML>
+		<cbf:complexTypeName>
+			<cbf:suffix>Type</cbf:suffix>
+		</cbf:complexTypeName>
+		<cbf:elementName>
+			<cbf:suffix>Element</cbf:suffix>
+		</cbf:elementName>
+	</cbf:namingXML>
+	
+	<elementBinding name="web-service-monitor/proxy">
+      <java-class name="WebServiceMonitorProxy" />
+	</elementBinding>
+</cbf:binding>

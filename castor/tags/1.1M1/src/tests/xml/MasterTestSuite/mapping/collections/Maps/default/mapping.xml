@@ -1,0 +1,5 @@
+<mapping>
+      <class name="Root">
+          <field name="children" collection="map"/>
+      </class>
+</mapping>

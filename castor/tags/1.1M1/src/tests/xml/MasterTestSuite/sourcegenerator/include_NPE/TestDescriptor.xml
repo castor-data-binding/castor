@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test that includes do not throw null pointer exception</Name>
+    <Author>Dean Hiller</Author>
+    <Comment>IncludeUnmarshaller was throwing a null pointer exception when calling _state.processed(include)</Comment>
+    <Comment>The _state was never being set in the constructor so it always threw.</Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>button-press.xsd</Schema>
+        <Root_Object random="true" dump="true">ButtonPress</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input1.xml</Input>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

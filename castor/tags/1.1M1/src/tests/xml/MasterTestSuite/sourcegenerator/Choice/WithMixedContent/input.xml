@@ -1,0 +1,33 @@
+<?xml version='1.0'?>
+<EventList>
+  <Event>
+    <EventType>xs:choice Test number 1</EventType>
+    <Location>
+      <LinkID>Location1010223</LinkID>
+    </Location>
+  </Event>
+  <Event>
+    <EventType>xs:choice Test number 2</EventType>
+    <Location>
+      <Link>
+        <TargetType>Target Type</TargetType>
+        <SiteID>200</SiteID>
+        <UniqueID>
+          <OID>4433221144</OID>
+        </UniqueID>
+      </Link>
+    </Location>
+  </Event>
+  <Event>
+    <EventType>xs:choice Test number 3</EventType>
+    <Location>
+      <Link>
+        <TargetType>Target Type</TargetType>
+        <SiteID>200</SiteID>
+        <UniqueID>
+          <Name>This is the site name</Name>
+        </UniqueID>
+      </Link>
+    </Location>
+  </Event>
+</EventList>

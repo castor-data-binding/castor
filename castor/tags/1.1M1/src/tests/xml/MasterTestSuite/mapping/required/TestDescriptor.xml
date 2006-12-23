@@ -1,0 +1,37 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test the required attribute in the field member</Name>
+    <Author>Arnaud Blandin</Author>
+    <Comment>
+        The field element allows to specify if an element or an attribute is required
+        or not. The aim of this test is to check that the validation is correct.
+    </Comment>
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>Required_Root</Root_Object>
+
+        <UnitTestCase>
+            <Name>Valid document</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>required_input.xml</Input>
+            <GoldFile>required_input.xml</GoldFile>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Missing element</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input_failure_element.xml</Input>
+            <Failure exception="org.exolab.castor.xml.MarshalException"
+                     FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Missing attribute</Name>
+            <Mapping_File>mapping.xml</Mapping_File>
+            <Input>input_failure_attribute.xml</Input>
+            <Failure exception="org.exolab.castor.xml.MarshalException"
+                     FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+    </MarshallingTest>
+</TestDescriptor>

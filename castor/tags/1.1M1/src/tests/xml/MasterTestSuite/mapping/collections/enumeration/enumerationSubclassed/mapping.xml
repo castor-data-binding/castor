@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="Entity">
+    <map-to xml="entity" />
+    <field name="vector" type="string" collection="vector" set-method="addString" get-method="enumVector">
+      <bind-xml name="vector"/>
+    </field>
+  </class>
+
+</mapping>
+
