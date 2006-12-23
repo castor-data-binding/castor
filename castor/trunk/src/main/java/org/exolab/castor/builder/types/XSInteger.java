@@ -260,7 +260,7 @@ public class XSInteger extends XSPatternBase {
 
     /**
      * Sets the totalDigits facet for this XSInteger.
-     * @param totalDig the value of totalDigits (must be >0)
+     * @param totalDig the value of totalDigits (must be > 0)
      */
      public void setTotalDigits(final int totalDig) {
           if (totalDig <= 0) {
@@ -295,6 +295,19 @@ public class XSInteger extends XSPatternBase {
                 setPattern(facet.getValue());
             } else if (Facet.TOTALDIGITS.equals(name)) {
                 setTotalDigits(facet.toInt());
+            } else if (Facet.FRACTIONDIGITS.equals(name)) {
+                if (facet.toInt() != 0) {
+                    throw new IllegalArgumentException("fractionDigits must be 0 for "
+                                                       + this.getName());
+                }
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for '"
+                            + this.getName() + "'.");
+                }
             }
         }
     } //-- setFacets
@@ -315,12 +328,13 @@ public class XSInteger extends XSPatternBase {
     } //-- toJavaObject
 
     /**
-     * Returns the String necessary to convert an Object to
-     * an instance of this XSType. This method is really only useful
-     * for primitive types
-     * @param variableName the name of the Object
-     * @return the String necessary to convert an Object to an
-     * instance of this XSType
+     * Returns the String necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
      */
     public String createFromJavaObjectCode(final String variableName) {
         StringBuffer sb = new StringBuffer("((java.lang.Long) ");
@@ -347,27 +361,16 @@ public class XSInteger extends XSPatternBase {
         jsc.add("org.exolab.castor.xml.validators.IntegerValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.IntegerValidator();");
 
-        if (hasMinimum()) {
-            Long min = getMinExclusive();
-            if (min != null) {
-                jsc.add("typeValidator.setMinExclusive(");
-            } else {
-                min = getMinInclusive();
-                jsc.add("typeValidator.setMinInclusive(");
-            }
-            jsc.append(min.toString());
-            jsc.append(");");
+        if (_minExclusive != null) {
+            jsc.add("typeValidator.setMinExclusive(" + _minExclusive + ");");
+        } else if (_minInclusive != null) {
+            jsc.add("typeValidator.setMinInclusive(" + _minInclusive + ");");
         }
-        if (hasMaximum()) {
-            Long max = getMaxExclusive();
-            if (max != null) {
-                jsc.add("typeValidator.setMaxExclusive(");
-            } else {
-                max = getMaxInclusive();
-                jsc.add("typeValidator.setMaxInclusive(");
-            }
-            jsc.append(max.toString());
-            jsc.append(");");
+
+        if (_maxExclusive != null) {
+            jsc.add("typeValidator.setMaxExclusive(" + _maxExclusive + ");");
+        } else if (_maxInclusive != null) {
+            jsc.add("typeValidator.setMaxInclusive(" + _maxInclusive + ");");
         }
 
         // -- fixed values

@@ -168,11 +168,9 @@ public class DurationValidator extends PatternValidator implements TypeValidator
             throw new ValidationException(err);
         }
 
-        if (_fixed != null) {
-            if (!duration.equal(_fixed)) {
-                String err = duration + " must be equal to the fixed value: " + _fixed;
-                throw new ValidationException(err);
-            }
+        if (_fixed != null && !duration.equal(_fixed)) {
+            String err = duration + " must be equal to the fixed value: " + _fixed;
+            throw new ValidationException(err);
         }
 
         if (hasPattern()) {

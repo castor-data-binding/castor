@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,8 +42,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml;
 
 /**
@@ -53,16 +51,14 @@ package org.exolab.castor.xml;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public interface TypeValidator {
-    
-    
+
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @param context the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException;
-    
-    
+    public void validate(Object object, ValidationContext context) throws ValidationException;
+
 } //-- TypeValidator

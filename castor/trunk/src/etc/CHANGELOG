@@ -2,6 +2,11 @@
 Version 1.1-M1, Dec 23, 2006
 -------------------------------
 
+XML:   Resolved issue CASTOR-1758 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Complete facet handling for numerical types
+       Details: http://jira.codehaus.org/browse/CASTOR-1758
+       (Edward - 20061223)
+
 XML:   Resolved issue CASTOR-1756 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Checkstyle-based cleanup in builder/types
        Details: http://jira.codehaus.org/browse/CASTOR-1756

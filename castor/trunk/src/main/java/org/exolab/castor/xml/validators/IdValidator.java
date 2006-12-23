@@ -19,53 +19,52 @@ import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
-
 /**
- * The Integer Validation class. This class handles validation
- * for the integer type as well as all integer derived types
- * such as positive-integer and negative-integer
+ * The ID Validation class.
  *
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttman</a>
  * @version $Revision: 5951 $ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
  */
-public class IdValidator extends StringValidator
-    implements TypeValidator
-{
+public class IdValidator extends StringValidator implements TypeValidator {
 
     /**
-     * Creates a new IdValidator with no restrictions
-    **/
+     * Creates a new IdValidator with no restrictions.
+     */
     public IdValidator() {
         super();
     } //-- IdValidator
 
-    public void validate(String value, ValidationContext context)
-        throws ValidationException
-    {
-    	super.validate(value, context);
-
+    /**
+     * Validates the given Object
+     *
+     * @param value
+     *            the string to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
+     */
+    public void validate(String value, ValidationContext context) throws ValidationException {
+        super.validate(value, context);
     } //-- validate
 
     /**
      * Validates the given Object
      *
      * @param object the Object to validate
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
+    public void validate(Object object) throws ValidationException {
         validate(object, (ValidationContext)null);
     } //-- validate
-    
+
     /**
      * Validates the given Object
      *
      * @param object the Object to validate
      * @param context the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             String err = "IdValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -76,16 +75,16 @@ public class IdValidator extends StringValidator
             throw new ValidationException("IDs should be of type String");
         }
 
-    	value = (String) object;
-        
+        value = (String) object;
+
         if (value.equals("")) {
-        	String err = "Invalud ID value: '' is not a valid value.";
-        	throw new ValidationException(err);
+            String err = "Invalud ID value: '' is not a valid value.";
+            throw new ValidationException(err);
         }
-        
+
         context.addID(value);
-        
+
         // validate(value, context);
     } //-- validate
 
-} //-- LongValidator
+} //-- IdValidator

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,64 +42,68 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.validators;
 
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Integer Validation class. This class handles validation
- * for the integer type as well as all integer derived types
- * such as positive-integer and negative-integer
+ * The Integer Validation class. This class handles validation for the integer
+ * type as well as all integer derived types such as positive-integer and
+ * negative-integer
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
+ * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar
+ *          2003) $
  */
-public class LongValidator extends PatternValidator
-    implements TypeValidator
-{
+public class LongValidator extends PatternValidator implements TypeValidator {
 
     private boolean useMin   = false;
+
     private boolean useMax   = false;
+
     private boolean useFixed = false;
 
-    private long min = 0;
-    private long max = 0;
+    private long    min      = 0;
 
-    private long fixed = 0;
+    private long    max      = 0;
+
+    private int     _totalDigits = -1;
+
+    private long    fixed    = 0;
 
     /**
      * Creates a new LongValidator with no restrictions
-    **/
+     */
     public LongValidator() {
         super();
-    } //-- LongValidator
+    } // -- LongValidator
 
     /**
      * Clears the fixed value for this LongValidator
-    **/
+     */
     public void clearFixed() {
         useFixed = false;
-    } //-- clearFixed
+    } // -- clearFixed
 
     /**
      * Clears the maximum value for this LongValidator
-    **/
+     */
     public void clearMax() {
         useMax = false;
-    } //-- clearMax
+    } // -- clearMax
 
     /**
      * Clears the minimum value for this LongValidator
-    **/
+     */
     public void clearMin() {
         useMin = false;
-    } //-- clearMin
+    } // -- clearMin
+
     /**
-     * Returns the fixed value that longs validated with this
-     * validator must be equal to. A null value is returned
-     * if no fixed value has been specified.
+     * Returns the fixed value that longs validated with this validator must be
+     * equal to. A null value is returned if no fixed value has been specified.
      *
      * @return the fixed value to validate against.
      */
@@ -108,12 +112,12 @@ public class LongValidator extends PatternValidator
             return new Long(fixed);
         }
         return null;
-    } //-- getFixed
+    } // -- getFixed
 
     /**
-     * Returns the maximum value that longs validated with this
-     * validator must be equal to or less than. A null value 
-     * is returned if no maximum value has been specified.
+     * Returns the maximum value that longs validated with this validator must
+     * be equal to or less than. A null value is returned if no maximum value
+     * has been specified.
      *
      * @return the maximum inclusive value to validate against.
      */
@@ -122,12 +126,12 @@ public class LongValidator extends PatternValidator
             return new Long(max);
         }
         return null;
-    } //-- getMaxInclusive
-    
+    } // -- getMaxInclusive
+
     /**
-     * Returns the minimum value that longs validated with this
-     * validator must be equal to or greater than. A null value 
-     * is returned if no minimum value has been specified.
+     * Returns the minimum value that longs validated with this validator must
+     * be equal to or greater than. A null value is returned if no minimum value
+     * has been specified.
      *
      * @return the minimum inclusive value to validate against.
      */
@@ -136,130 +140,177 @@ public class LongValidator extends PatternValidator
             return new Long(min);
         }
         return null;
-    } //-- getMinInclusive
+    } // -- getMinInclusive
 
     /**
-     * Returns true if a fixed value, to validate against, has been
-     * set.
+     * Returns the total number of digits that integers validated with this
+     * validator must have. A null value is returned if no total number of
+     * digits has been specified.
+     *
+     * @return the total number of digits
+     */
+    public Integer getTotalDigits() {
+        if (_totalDigits >= 0) {
+            return new Integer(_totalDigits);
+        }
+        return null;
+    } // -- getTotalDigits
+
+    /**
+     * Returns true if a fixed value, to validate against, has been set.
      *
      * @return true if a fixed value has been set.
      */
     public boolean hasFixed() {
         return useFixed;
-    } //-- hasFixed
+    } // -- hasFixed
 
     /**
-     * Sets the fixed value that integers validated with this
-     * validated must be equal to
-     * @param fixedValue the fixed value that a long validated with
-     * this validator must be equal to.
-     * <BR>
-     * NOTE: Using Fixed values takes preceedence over using max and mins,
-     * and is really the same as setting both max-inclusive and
-     * min-inclusive to the same value
-    **/
+     * Sets the fixed value that integers validated with this validated must be
+     * equal to
+     *
+     * @param fixedValue
+     *            the fixed value that a long validated with this validator must
+     *            be equal to. <BR>
+     *            NOTE: Using Fixed values takes preceedence over using max and
+     *            mins, and is really the same as setting both max-inclusive and
+     *            min-inclusive to the same value
+     */
     public void setFixed(long fixedValue) {
         useFixed = true;
         this.fixed = fixedValue;
-    } //-- setFixed
+    } // -- setFixed
 
     /**
-     * Sets the minimum value that longs validated with this
-     * validator must be greater than
-     * @param minValue the minimum value that a long validated with this
-     * validator must be greater than
-    **/
+     * Sets the minimum value that longs validated with this validator must be
+     * greater than
+     *
+     * @param minValue
+     *            the minimum value that a long validated with this validator
+     *            must be greater than
+     */
     public void setMinExclusive(long minValue) {
         useMin = true;
-        min = minValue+1;
-    } //-- setMinExclusive
+        min = minValue + 1;
+    } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that longs validated with this
-     * validator are allowed to be
-     * @param minValue the minimum value that a long validated with this
-     * validator may be
-    **/
+     * Sets the minimum value that longs validated with this validator are
+     * allowed to be
+     *
+     * @param minValue
+     *            the minimum value that a long validated with this validator
+     *            may be
+     */
     public void setMinInclusive(long minValue) {
         useMin = true;
         min = minValue;
-    } //-- setMinInclusive
+    } // -- setMinInclusive
 
     /**
-     * Sets the maximum value that longs validated with this
-     * validator must be less than
-     * @param maxValue the maximum value that a long validated
-     * with this validator must be less than
-    **/
+     * Sets the maximum value that longs validated with this validator must be
+     * less than
+     *
+     * @param maxValue
+     *            the maximum value that a long validated with this validator
+     *            must be less than
+     */
     public void setMaxExclusive(long maxValue) {
         useMax = true;
-        max = maxValue-1;
-    } //-- setMaxExclusive
+        max = maxValue - 1;
+    } // -- setMaxExclusive
 
     /**
-     * Sets the maximum value that longs validated with this
-     * validator are allowed to be
-     * @param maxValue the maximum value that a long validated
-     * with this validator may be
-    **/
+     * Sets the maximum value that longs validated with this validator are
+     * allowed to be
+     *
+     * @param maxValue
+     *            the maximum value that a long validated with this validator
+     *            may be
+     */
     public void setMaxInclusive(long maxValue) {
         useMax = true;
         max = maxValue;
-    } //-- setMaxInclusive
+    } // -- setMaxInclusive
 
-    public void validate(long value, ValidationContext context)
-        throws ValidationException
-    {
+    /**
+     * Sets the totalDigits facet for this Integer type.
+     *
+     * @param totalDig
+     *            the value of totalDigits (must be >0)
+     */
+    public void setTotalDigits(int totalDig) {
+        if (totalDig <= 0) {
+            throw new IllegalArgumentException(
+                    "IntegerValidator: the totalDigits facet must be positive");
+        }
+        _totalDigits = totalDig;
+    }
 
-        if (useFixed) {
-            if (value != fixed) {
-                String err = value + " is not equal to the fixed value of "
-                    + fixed;
-                throw new ValidationException(err);
-            }
-            return;
+    /**
+     * Validates the given Object
+     *
+     * @param value
+     *            the long to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
+     */
+    public void validate(long value, ValidationContext context) throws ValidationException {
+        if (useFixed && value != fixed) {
+            String err = value + " is not equal to the fixed value of " + fixed;
+            throw new ValidationException(err);
         }
 
-        if (useMin) {
-            if (value < min) {
-                String err = value + " is less than the minimum allowable ";
-                err += "value of " + min;
-                throw new ValidationException(err);
-            }
+        if (useMin && value < min) {
+            String err = value + " is less than the minimum allowable value of " + min;
+            throw new ValidationException(err);
         }
-        if (useMax) {
-            if (value > max) {
-                String err = value + " is greater than the maximum allowable ";
-                err += "value of " + max;
+
+        if (useMax && value > max) {
+            String err = value + " is greater than the maximum allowable value of " + max;
+            throw new ValidationException(err);
+        }
+
+        if (_totalDigits != -1) {
+            int length = Long.toString(value).length();
+            if (value < 0) {
+                length--;
+            }
+            if (length > _totalDigits) {
+                String err = value
+                        + " doesn't have the correct number of digits, it must be less than or equal to "
+                        + _totalDigits;
                 throw new ValidationException(err);
             }
         }
 
-        if (hasPattern())
+        if (hasPattern()) {
             super.validate(Long.toString(value), context);
-
-    } //-- validate
+        }
+    } // -- validate
 
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
+     * @param object
+     *            the Object to validate
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
-        validate(object, (ValidationContext)null);
-    } //-- validate
-    
+    public void validate(Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
+    } // -- validate
+
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
-     * @param context the ValidationContext
+     * @param object
+     *            the Object to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             String err = "LongValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -267,14 +318,13 @@ public class LongValidator extends PatternValidator
 
         long value = 0;
         try {
-            value = ((Long)object).longValue();
-        }
-        catch(Exception ex) {
+            value = ((Long) object).longValue();
+        } catch (Exception ex) {
             String err = "Expecting a Long, received instead: ";
             err += object.getClass().getName();
             throw new ValidationException(err);
         }
         validate(value, context);
-    } //-- validate
+    } // -- validate
 
-} //-- LongValidator
+} // -- LongValidator

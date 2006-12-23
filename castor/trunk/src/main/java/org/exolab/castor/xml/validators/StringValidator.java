@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,12 +42,11 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.validators;
 
-import org.exolab.castor.xml.*;
-
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
 
 /**
  * The String Validation class
@@ -55,130 +54,150 @@ import org.exolab.castor.xml.*;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
-public class StringValidator extends PatternValidator
-    implements TypeValidator
-{
+public class StringValidator extends PatternValidator implements TypeValidator {
 
+    private final static String PRESERVE    = "preserve";
 
-    private final static String PRESERVE = "preserve";
-    private final static String REPLACE = "replace";
-    private final static String COLLAPSE = "collapse";
+    private final static String REPLACE     = "replace";
 
-    private String  fixed      = null;
+    private final static String COLLAPSE    = "collapse";
 
-    private boolean required   = false;
+    private String              fixed       = null;
 
-    private int _length        = 0;
-    private int     minLength  = 0;
+    private boolean             required    = false;
 
-    private int     maxLength  = -1;
-    private String _whiteSpace = PRESERVE;
+    private int                 _length     = 0;
 
+    private int                 minLength   = 0;
+
+    private int                 maxLength   = -1;
+
+    private String              _whiteSpace = PRESERVE;
 
     /**
      * Creates a new StringValidator with no restrictions
-    **/
+     */
     public StringValidator() {
         super();
-    } //-- StringValidator
-
+    } // -- StringValidator
 
     /**
      * Sets the fixed value in which all valid Strings must match.
-     * @param fixedValue the fixed value that all Strings must match
-    **/
+     *
+     * @param fixedValue
+     *            the fixed value that all Strings must match
+     */
     public void setFixed(String fixedValue) {
         this.fixed = fixedValue;
-    } //-- setFixedValue
+    } // -- setFixedValue
 
     /**
-     * Only used for backward compatibility for object model generated with an old
-     * version of Castor
-     * @deprecated since 0.9.4_beta
+     * Only used for backward compatibility for object model generated with an
+     * old version of Castor
      *
+     * @param fixedValue
+     *            the fixed value that all Strings must match
+     *
+     * @deprecated since 0.9.4_beta
      */
-     public void setFixedValue(String fixedValue) {
-          setFixed(fixedValue);
-     }
+    public void setFixedValue(String fixedValue) {
+        setFixed(fixedValue);
+    }
+
     /**
-     * Sets the maximum length of that a valid String must be.
-     * To remove the max length facet, use a negative value.
-     * @param maxLength the maximum length for valid Strings
-    **/
+     * Sets the maximum length of that a valid String must be. To remove the max
+     * length facet, use a negative value.
+     *
+     * @param maxLength
+     *            the maximum length for valid Strings
+     */
     public void setMaxLength(int maxLength) {
         this.maxLength = maxLength;
-    } //-- setMaxLength
+    } // -- setMaxLength
 
     /**
      * Sets the minimum length that valid Strings must be
-     * @param minLength the minimum length that valid Strings must be
-    **/
+     *
+     * @param minLength
+     *            the minimum length that valid Strings must be
+     */
     public void setMinLength(int minLength) {
         this.minLength = minLength;
-    } //-- setMinLength
+    } // -- setMinLength
 
     /**
      * Sets the length that valid Strings must be
-     * @param length the length that valid Strings must be
+     *
+     * @param length
+     *            the length that valid Strings must be
      */
-     public void setLength( int length) {
+    public void setLength(int length) {
         this._length = length;
         setMaxLength(length);
         setMinLength(length);
-    }//-- setLength
+    }// -- setLength
 
     /**
      * Sets whether or not a String is required (non null)
-     * @param required the flag indicating whether Strings are required
-    **/
+     *
+     * @param required
+     *            the flag indicating whether Strings are required
+     */
     public void setRequired(boolean required) {
         this.required = required;
-    } //-- setRequired
-
-     /**
-     * <p>Sets the whiteSpace facet of the validator
-     * <p>The value of the whiteSpace facet must be one of the following:
-     * <ul>
-     *  <li>preserve</li>
-     *  <li>replace</li>
-     *  <li>collapse</li>
-     * </ul>
-     * any other value will generate a Warning and set the whiteSpace to preserved
-     * @param value the whiteSpace value
-     */
-     public void setWhiteSpace(String value) {
-        if (value.equals(PRESERVE))
-            this._whiteSpace = value;
-        else if (value.equals(REPLACE))
-            this._whiteSpace = value;
-        else if (value.equals(COLLAPSE))
-            this._whiteSpace = value;
-        else {
-            System.out.println("Warning : "+value+" is a bad entry for the whiteSpace value");
-            this._whiteSpace = value;
-        }
-     }//-- setWhiteSpace
+    } // -- setRequired
 
     /**
-     * NOTE: THIS METHOD SHOULD NOT BE HERE..SHOULD BE MOVED
-     * TO A FieldHandler or to the Unmarshaller...but not
-     * here!!! (kvisco 20030125)
+     * Sets the whiteSpace facet of the validator
+     * <p>
+     * The value of the whiteSpace facet must be one of the following:
+     * <ul>
+     * <li>preserve</li>
+     * <li>replace</li>
+     * <li>collapse</li>
+     * </ul>
+     * any other value will generate a Warning and set the whiteSpace to
+     * preserved
      *
-     * Normalizes the given string according to the whiteSpace
-     * facet used
-     *
-     * @param value the String to normalize
+     * @param value
+     *            the whiteSpace value
      */
-    public String normalize (String value) {
+    public void setWhiteSpace(String value) {
+        if (value.equals(PRESERVE)) {
+            this._whiteSpace = value;
+        } else if (value.equals(REPLACE)) {
+            this._whiteSpace = value;
+        } else if (value.equals(COLLAPSE)) {
+            this._whiteSpace = value;
+        } else {
+            System.out.println("Warning: '" + value
+                    + "' is a bad entry for the whiteSpace value");
+            this._whiteSpace = value;
+        }
+    } // -- setWhiteSpace
 
-        if (value == null) return null;
+    /**
+     * Normalizes the given string according to the whiteSpace facet used.
+     * <p>
+     * FIXME: THIS METHOD SHOULD NOT BE HERE..SHOULD BE MOVED TO A FieldHandler
+     * or to the Unmarshaller...but not here!!! (kvisco 20030125)
+     * @return the normalized string.
+     * @param value
+     *            the String to normalize
+     */
+    public String normalize(String value) {
+        if (value == null) {
+            return null;
+        }
 
-        if (value.length() == 0) return value;
-        
+        if (value.length() == 0) {
+            return value;
+        }
+
         char[] chars = value.toCharArray();
         int length = chars.length;
 
-        for (int i=0; i<length; i++) {
+        for (int i = 0; i < length; i++) {
             switch (chars[i]) {
                 case '\t':
                 case '\r':
@@ -191,98 +210,109 @@ public class StringValidator extends PatternValidator
         }
 
         if (_whiteSpace.equals(COLLAPSE)) {
-            //-- heavy method to keep compatibility
-            //-- with JDK 1.1 (can't use Vector.toArray)
+            // -- heavy method to keep compatibility
+            // -- with JDK 1.1 (can't use Vector.toArray)
             char[] temp = new char[chars.length];
             int temp_count = 0;
             int i = 0;
-            while (i<length-1) {
-                if (chars[i] ==' ') {
-                    //--put the first space
+            while (i < length - 1) {
+                if (chars[i] == ' ') {
+                    // --put the first space
                     temp[temp_count] = chars[i];
                     temp_count++;
-                    //--skip the others
-                     i++;
-                     while (i<length-1 && chars[i] == ' ')
-                         i++;
-                     continue;
+                    // --skip the others
+                    i++;
+                    while (i < length - 1 && chars[i] == ' ') {
+                        i++;
+                    }
+                    continue;
                 }
                 temp[temp_count] = chars[i];
                 temp_count++;
                 i++;
             }
-            //--we are at the end
-            if (chars[i] != ' ')
+            // --we are at the end
+            if (chars[i] != ' ') {
                 temp[temp_count] = chars[i];
+            }
 
             length = ++temp_count;
             chars = temp;
         }
 
-        return new String(chars,0,length);
+        return new String(chars, 0, length);
     }
 
-    public void validate(String value, ValidationContext context)
-        throws ValidationException
-    {
-
-       if (value == null) {
-            if (required && (!isNillable())) {
+    /**
+     * Validates the given Object
+     *
+     * @param value
+     *            the string to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
+     */
+    public void validate(String value, ValidationContext context) throws ValidationException {
+        if (value == null) {
+            if (required && !isNillable()) {
                 String err = "this is a required field and cannot be null.";
                 throw new ValidationException(err);
             }
+            return;
         }
-        else {
-       if (fixed != null) {
-                if (!fixed.equals(value)) {
-                    String err = "strings of this type must be equal to the "
-                        + "fixed value of " + fixed;
-                    throw new ValidationException(err);
-                }
-            }
-            int len = value.length();
-            if ( (_length > 0) && (len != _length) ) {
-                String err = "strings of this type must have a length of "
-                            +_length;
-                throw new ValidationException(err);
-            }
-            if ((minLength > 0) && (len < minLength)) {
-                String err = "strings of this type must have a minimum "
-                    + "length of " + minLength;
-                throw new ValidationException(err);
-            }
-            else if ((maxLength >= 0) && (len > maxLength)) {
-                String err = "strings of this type must have a maximum "
-                    + "length of " + maxLength;
-                throw new ValidationException(err);
-            }
-            if (hasPattern()) super.validate(value, context);
 
-            if ( !this._whiteSpace.equals(PRESERVE) )
-                normalize(value);
+        if (fixed != null && !fixed.equals(value)) {
+            String err = "strings of this type must be equal to the fixed value of " + fixed;
+            throw new ValidationException(err);
         }
-    } //-- validate
+
+        int len = value.length();
+
+        if (_length > 0 && len != _length) {
+            String err = "strings of this type must have a length of " + _length;
+            throw new ValidationException(err);
+        }
+
+        if (minLength > 0 && len < minLength) {
+            String err = "strings of this type must have a minimum length of " + minLength;
+            throw new ValidationException(err);
+        }
+
+        if (maxLength >= 0 && len > maxLength) {
+            String err = "strings of this type must have a maximum length of " + maxLength;
+            throw new ValidationException(err);
+        }
+
+        if (hasPattern()) {
+            super.validate(value, context);
+        }
+
+        if (!this._whiteSpace.equals(PRESERVE)) {
+            normalize(value);
+        }
+    } // -- validate
 
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
+     * @param object
+     *            the Object to validate
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
-        validate(object, (ValidationContext)null);
-    } //-- validate
-    
+    public void validate(Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
+    } // -- validate
+
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
-     * @param context the ValidationContext 
+     * @param object
+     *            the Object to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             if (required) {
                 String err = "this is a required field and cannot be null.";
@@ -290,10 +320,8 @@ public class StringValidator extends PatternValidator
             }
             return;
         }
-        
+
         validate(object.toString(), context);
     } //-- validate
 
-
 } //-- StringValidator
-

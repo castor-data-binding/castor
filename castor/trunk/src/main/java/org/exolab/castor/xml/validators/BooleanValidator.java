@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,11 +42,11 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.validators;
 
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
 
 /**
  * The Boolean Validation class. This class handles validation
@@ -55,27 +55,26 @@ import org.exolab.castor.xml.*;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
  */
-public class BooleanValidator implements TypeValidator
-{
+public class BooleanValidator implements TypeValidator {
 
     private boolean _useFixed = false;
 
-    private boolean _fixed = false;
+    private boolean _fixed    = false;
 
     /**
      * Creates a new BooleanValidator with no restrictions
-    **/
+     */
     public BooleanValidator() {
         super();
     } //-- ByteValidator
 
     /**
      * Clears the fixed value for this BooleanValidator
-    **/
+     */
     public void clearFixed() {
         _useFixed = false;
     } //-- clearFixed
-    
+
     /**
      * Returns the fixed value that boolean validated with this
      * validator must be equal to. A null value is returned
@@ -90,7 +89,6 @@ public class BooleanValidator implements TypeValidator
         return null;
     } //-- getFixed
 
-
     /**
      * Returns true if a fixed value, to validate against, has been
      * set.
@@ -100,7 +98,7 @@ public class BooleanValidator implements TypeValidator
     public boolean hasFixed() {
         return _useFixed;
     } //-- hasFixed
-    
+
     /**
      * Sets the fixed value that boolean validated with this
      * validator must be equal to.
@@ -123,41 +121,31 @@ public class BooleanValidator implements TypeValidator
         _fixed = fixedValue.booleanValue();
     }
 
-    public void validate(boolean b)
-        throws ValidationException
-    {
-
-        if (_useFixed) {
-            if (b != _fixed) {
-                String err = b + " is not equal to the fixed value of "
-                    + _fixed;
-                throw new ValidationException(err);
-            }
-            return;
+    public void validate(boolean b) throws ValidationException {
+        if (_useFixed && b != _fixed) {
+            String err = b + " is not equal to the fixed value of " + _fixed;
+            throw new ValidationException(err);
         }
-
     } //-- validate
 
     /**
      * Validates the given Object.
      *
      * @param object the Object to validate
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
-        validate(object, (ValidationContext)null);
+    public void validate(Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
     } //-- validate
-    
+
     /**
      * Validates the given Object
      *
      * @param object the Object to validate
      * @param context the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             String err = "BooleanValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -165,9 +153,8 @@ public class BooleanValidator implements TypeValidator
 
         boolean value = false;
         try {
-            value = ((Boolean)object).booleanValue();
-        }
-        catch(Exception ex) {
+            value = ((Boolean) object).booleanValue();
+        } catch (Exception ex) {
             String err = "Expecting a Boolean, received instead: ";
             err += object.getClass().getName();
             throw new ValidationException(err);

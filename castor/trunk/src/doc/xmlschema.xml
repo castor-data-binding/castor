@@ -151,6 +151,7 @@
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>java.math.BigDecimal</tt></td>
           </tr>
@@ -164,6 +165,7 @@
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>double</tt> or <tt>java.lang.Double</tt><a href="#sup-2"><sup>2</sup></a>
@@ -185,18 +187,19 @@
           </tr>
 
           <tr>
-             <td valign="top">float</td>
-             <td>
-               pattern<br/>
-               enumeration<br/>
-               maxInclusive<br/>
-               maxExclusive<br/>
-               minInclusive<br/>
-               minExclusive<br/>
-             </td>
-             <td valign="top">
-               primitive <tt>float</tt> or <tt>java.lang.Float</tt><a href="#sup-2"><sup>2</sup></a>
-             </td>
+            <td valign="top">float</td>
+            <td>
+              pattern<br/>
+              enumeration<br/>
+              maxInclusive<br/>
+              maxExclusive<br/>
+              minInclusive<br/>
+              minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
+            </td>
+            <td valign="top">
+              primitive <tt>float</tt> or <tt>java.lang.Float</tt><a href="#sup-2"><sup>2</sup></a>
+            </td>
           </tr>
 
           <tr>
@@ -327,12 +330,15 @@
           <tr>
             <td valign="top">byte</td>
             <td>
+              totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>byte</tt> or <tt>java.lang.Byte</tt><a href="#sup-2"><sup>2</sup></a>
@@ -342,13 +348,13 @@
           <tr>
             <td valign="top">ENTITY</td>
             <td>&#160;</td>
-            <td valign="top">Not implemented?</td>
+            <td valign="top"><i>Not implemented</i></td>
           </tr>
 
           <tr>
             <td valign="top">ENTITIES</td>
             <td>&#160;</td>
-            <td valign="top">Not implemented?</td>
+            <td valign="top"><i>Not implemented</i></td>
           </tr>
 
           <tr>
@@ -374,12 +380,15 @@
           <tr>
             <td valign="top">int</td>
             <td>
+              totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -390,12 +399,14 @@
             <td valign="top">integer</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -421,12 +432,14 @@
             <td valign="top">long</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -436,7 +449,7 @@
           <tr>
             <td valign="top">Name</td>
             <td>&#160;</td>
-            <td valign="top">Not implemented?</td>
+            <td valign="top"><i>Not implemented</i></td>
           </tr>
 
           <tr>
@@ -451,12 +464,14 @@
             <td valign="top">negativeInteger</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -483,19 +498,21 @@
           <tr>
             <td valign="top">NOTATION</td>
             <td>&#160;</td>
-            <td valign="top">Not implemented?</td>
+            <td valign="top"><i>Not implemented</i></td>
           </tr>
 
           <tr>
             <td valign="top">nonNegativeInteger</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -506,12 +523,14 @@
             <td valign="top">nonPositiveInteger</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -534,12 +553,14 @@
             <td valign="top">positiveInteger</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -549,12 +570,15 @@
           <tr>
             <td valign="top">short</td>
             <td>
+              totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>short</tt> or <tt>java.lang.Short</tt><a href="#sup-2"><sup>2</sup></a>
@@ -579,14 +603,14 @@
           <tr>
             <td valign="top">unsignedByte</td>
             <td>
-              pattern<br/>
               totalDigits<br/>
-              fractionDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               maxExclusive<br/>
               minExclusive<br/>
               maxInclusive<br/>
               minInclusive<br/>
               pattern<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>short</tt> or <tt>java.lang.Short</tt><a href="#sup-2"><sup>2</sup></a>
@@ -596,14 +620,14 @@
           <tr>
             <td valign="top">unsignedInt</td>
             <td>
-              pattern<br/>
               totalDigits<br/>
-              fractionDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               maxExclusive<br/>
               minExclusive<br/>
               maxInclusive<br/>
               minInclusive<br/>
               pattern<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -613,12 +637,15 @@
           <tr>
             <td valign="top">unsignedLong</td>
             <td>
+              totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>java.math.BigInteger</tt></td>
           </tr>
@@ -627,12 +654,14 @@
             <td valign="top">unsignedShort</td>
             <td>
               totalDigits<br/>
+              fractionDigits<a href="#sup-4"><sup>4</sup></a><br/>
               pattern<br/>
               enumeration<br/>
               maxInclusive<br/>
               maxExclusive<br/>
               minInclusive<br/>
               minExclusive<br/>
+              whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
@@ -645,8 +674,8 @@
         </p>
 
         <p>
-          <a name="sup-1"><sup>1</sup></a> For the date/time types, the only
-          supported value for whitespace is "collapse".
+          <a name="sup-1"><sup>1</sup></a> For the date/time and numeric types,
+          the only supported value for whitespace is "collapse".
         </p>
 
         <p>
@@ -662,6 +691,11 @@
         <p>
           <a name="sup-3"><sup>3</sup></a> Currently, xsd:language and xsd:token
           are treated as if they were xsd:string.
+        </p>
+
+        <p>
+          <a name="sup-4"><sup>4</sup></a> For the integral types, the only
+          allowed value for fractionDigits is 0.
         </p>
       </section>
     </section>

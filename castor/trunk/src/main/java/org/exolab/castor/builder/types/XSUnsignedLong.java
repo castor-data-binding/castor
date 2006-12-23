@@ -68,6 +68,8 @@ public class XSUnsignedLong extends XSPatternBase {
     private BigInteger _minInclusive = null;
     /** Minimum Unsigned Long (exclusive). */
     private BigInteger _minExclusive = null;
+    /** Total number of digits. */
+    private int  _totalDigits = -1;
 
     /** The JType represented by this XSType. */
     private static final JType JTYPE = new JClass("java.math.BigInteger");
@@ -146,6 +148,14 @@ public class XSUnsignedLong extends XSPatternBase {
     } //-- getMinInclusive
 
     /**
+     * Returns the totalDigits facet value of this XSInteger.
+     * @return the totalDigits facet value of this XSInteger.
+     */
+    public int getTotalDigits() {
+        return _totalDigits;
+    }
+
+    /**
      * Returns true if a maximum (inclusive or exclusive) has been set.
      * @return true if a maximum (inclusive or exclusive) has been set.
      */
@@ -210,6 +220,18 @@ public class XSUnsignedLong extends XSPatternBase {
     } //-- setMinInclusive
 
     /**
+     * Sets the totalDigits facet for this XSInteger.
+     * @param totalDig the value of totalDigits (must be > 0)
+     */
+     public void setTotalDigits(final int totalDig) {
+          if (totalDig <= 0) {
+              throw new IllegalArgumentException(this.getName()
+                      + ": the totalDigits facet must be positive");
+          }
+          _totalDigits = totalDig;
+     }
+
+    /**
      * Transfer facets from the provided simpleType to <code>this</code>.
      *
      * @param simpleType
@@ -227,11 +249,36 @@ public class XSUnsignedLong extends XSPatternBase {
             } else if (Facet.MAX_INCLUSIVE.equals(name)) {
                 setMaxInclusive(new BigInteger(facet.getValue()));
             } else if (Facet.MIN_EXCLUSIVE.equals(name)) {
-                setMinExclusive(new BigInteger(facet.getValue()));
+                BigInteger min = new BigInteger(facet.getValue());
+                if (min.compareTo(new BigInteger("-1")) == -1) {
+                    throw new IllegalArgumentException("minExclusive must be > -1 for "
+                            + this.getName());
+                }
+                setMinExclusive(min);
             } else if (Facet.MIN_INCLUSIVE.equals(name)) {
-                setMinInclusive(new BigInteger(facet.getValue()));
+                BigInteger min = new BigInteger(facet.getValue());
+                if (min.compareTo(new BigInteger("0")) == -1) {
+                    throw new IllegalArgumentException("minInclusive must be > 0 for "
+                            + this.getName());
+                }
+                setMinInclusive(min);
             } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
+            } else if (Facet.TOTALDIGITS.equals(name)) {
+                setTotalDigits(facet.toInt());
+            } else if (Facet.FRACTIONDIGITS.equals(name)) {
+                if (facet.toInt() != 0) {
+                    throw new IllegalArgumentException("fractionDigits must be 0 for "
+                                                       + this.getName());
+                }
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for '"
+                            + this.getName() + "'.");
+                }
             }
         } //setFacets
     } //-- readLongFacets
@@ -263,33 +310,26 @@ public class XSUnsignedLong extends XSPatternBase {
         jsc.add("org.exolab.castor.xml.validators.BigIntegerValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.BigIntegerValidator();");
 
-        if (hasMinimum()) {
-            BigInteger min = getMinExclusive();
-            if (min != null) {
-                jsc.add("typeValidator.setMinExclusive(new java.math.BigInteger(\"");
-            } else {
-                min = getMinInclusive();
-                jsc.add("typeValidator.setMinInclusive(new java.math.BigInteger(\"");
-            }
-            jsc.append(min.toString());
-            jsc.append("\"));");
+        if (_minExclusive != null) {
+            jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"" + _minExclusive + "\");");
+            jsc.add("typeValidator.setMinExclusive(min);");
+        } else if (_minInclusive != null) {
+            jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"" + _minInclusive + "\");");
+            jsc.add("typeValidator.setMinInclusive(min);");
         }
-        if (hasMaximum()) {
-            BigInteger max = getMaxExclusive();
-            if (max != null) {
-                jsc.add("typeValidator.setMaxExclusive(new java.math.BigInteger(\"");
-            } else {
-                max = getMaxInclusive();
-                jsc.add("typeValidator.setMaxInclusive(new java.math.BigInteger(\"");
-            }
-            jsc.append(max.toString());
-            jsc.append("\"));");
+
+        if (_maxExclusive != null) {
+            jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"" + _maxExclusive + "\");");
+            jsc.add("typeValidator.setMaxExclusive(max);");
+        } else if (_maxInclusive != null) {
+            jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"" + _maxInclusive + "\");");
+            jsc.add("typeValidator.setMaxInclusive(max);");
         }
 
         //-- fixed values
         if (fixedValue != null) {
-            //-- make sure we have a valid value...
-            BigInteger value = new BigInteger(fixedValue);
+            //-- just make sure we have a valid value...
+            new BigInteger(fixedValue);
 
             jsc.add("typeValidator.setFixed(new BigInteger(\"");
             jsc.append(fixedValue);
@@ -302,6 +342,14 @@ public class XSUnsignedLong extends XSPatternBase {
             jsc.add("typeValidator.setPattern(\"");
             jsc.append(escapePattern(pattern));
             jsc.append("\");");
+        }
+
+        // -- totalDigits
+        int totalDigits = getTotalDigits();
+        if (totalDigits != -1) {
+            jsc.add("typeValidator.setTotalDigits(");
+            jsc.append(Integer.toString(totalDigits));
+            jsc.append(");");
         }
 
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");

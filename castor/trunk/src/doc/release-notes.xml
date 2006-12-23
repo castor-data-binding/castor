@@ -287,6 +287,26 @@
 
             </summary>
             <bugs>
+                <bug id="1758" tool="jira">
+                    <description>
+                        Complete facet handling for numerical types
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061223</date>
+                </bug>
                 <bug id="1756" tool="jira">
                     <description>
                         Checkstyle-based cleanup in builder/types

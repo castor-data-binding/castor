@@ -67,6 +67,8 @@ public class XSShort extends XSPatternBase {
     private Short _minInclusive = null;
     /** Minimum short (exclusive). */
     private Short _minExclusive = null;
+    /** Total number of digits. */
+    private int  _totalDigits = -1;
 
     /** The JType represented by this XSType. */
     private final JType _jType;
@@ -142,6 +144,14 @@ public class XSShort extends XSPatternBase {
     public Short getMinInclusive() {
         return _minInclusive;
     } //-- getMinInclusive
+
+    /**
+     * Returns the totalDigits facet value of this XSInteger.
+     * @return the totalDigits facet value of this XSInteger.
+     */
+    public int getTotalDigits() {
+        return _totalDigits;
+    }
 
     /**
      * Returns true if a maximum (inclusive or exclusive) has been set.
@@ -240,6 +250,18 @@ public class XSShort extends XSPatternBase {
     } //-- setMinInclusive
 
     /**
+     * Sets the totalDigits facet for this XSShort.
+     * @param totalDig the value of totalDigits (must be > 0)
+     */
+     public void setTotalDigits(final int totalDig) {
+          if (totalDig <= 0) {
+              throw new IllegalArgumentException(this.getName()
+                      + ": the totalDigits facet must be positive");
+          }
+          _totalDigits = totalDig;
+     }
+
+    /**
      * Transfer facets from the provided simpleType to <code>this</code>.
      *
      * @param simpleType
@@ -262,6 +284,21 @@ public class XSShort extends XSPatternBase {
                 setMinInclusive(facet.toShort());
             } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
+            } else if (Facet.TOTALDIGITS.equals(name)) {
+                setTotalDigits(facet.toInt());
+            } else if (Facet.FRACTIONDIGITS.equals(name)) {
+                if (facet.toInt() != 0) {
+                    throw new IllegalArgumentException("fractionDigits must be 0 for "
+                                                       + this.getName());
+                }
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for '"
+                            + this.getName() + "'.");
+                }
             }
         }
     } //-- toXSShort
@@ -324,29 +361,16 @@ public class XSShort extends XSPatternBase {
         jsc.add("org.exolab.castor.xml.validators.ShortValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.ShortValidator();");
 
-        if (hasMinimum()) {
-            Short min = getMinExclusive();
-            if (min != null) {
-                jsc.add("typeValidator.setMinExclusive(");
-            } else {
-                min = getMinInclusive();
-                jsc.add("typeValidator.setMinInclusive(");
-            }
-            jsc.append("(short)");
-            jsc.append(min.toString());
-            jsc.append(");");
+        if (_minExclusive != null) {
+            jsc.add("typeValidator.setMinExclusive((short) " + _minExclusive + ");");
+        } else if (_minInclusive != null) {
+            jsc.add("typeValidator.setMinInclusive((short) " + _minInclusive + ");");
         }
-        if (hasMaximum()) {
-            Short max = getMaxExclusive();
-            if (max != null) {
-                jsc.add("typeValidator.setMaxExclusive(");
-            } else {
-                max = getMaxInclusive();
-                jsc.add("typeValidator.setMaxInclusive(");
-            }
-            jsc.append("(short)");
-            jsc.append(max.toString());
-            jsc.append(");");
+
+        if (_maxExclusive != null) {
+            jsc.add("typeValidator.setMaxExclusive((short) " + _maxExclusive + ");");
+        } else if (_maxInclusive != null) {
+            jsc.add("typeValidator.setMaxInclusive((short) " + _maxInclusive + ");");
         }
 
         //-- fixed values
@@ -366,6 +390,14 @@ public class XSShort extends XSPatternBase {
             jsc.add("typeValidator.setPattern(\"");
             jsc.append(escapePattern(pattern));
             jsc.append("\");");
+        }
+
+        // -- totalDigits
+        int totalDigits = getTotalDigits();
+        if (totalDigits != -1) {
+            jsc.add("typeValidator.setTotalDigits(");
+            jsc.append(Integer.toString(totalDigits));
+            jsc.append(");");
         }
 
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
