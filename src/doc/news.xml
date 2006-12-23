@@ -21,6 +21,20 @@
               <span class="newsSummary"-->
 
         <news id="53">
+            <title>Milestone build for Castor 1.1 released</title>
+            <author>Werner Guttmann</author>
+            <date>Dec 23 2006</date>
+            <time>22:23:24</time>
+            <summary>
+                I've placed a copy of the Castor 1.1-M1 at the
+                <a href="http://dist.codehaus.org/castor/1.1/">Codehaus</a>.<br/><br/>
+
+                This is a milestone build for the upcoming 1.1 release. For details about 
+                the features added and the bugs fixed, please have a look at the
+                <a href="http://castor.codehaus.org/release-notes.html">release notes</a>.
+            </summary>
+        </news>
+        <news id="53">
             <title>Castor 1.0.5 released</title>
             <author>Werner Guttmann</author>
             <date>Nov 11 2006</date>
