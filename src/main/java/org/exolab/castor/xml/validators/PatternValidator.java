@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,136 +42,147 @@
  *
  * $Id$
  */
- 
 package org.exolab.castor.xml.validators;
- 
-import org.exolab.castor.xml.*;
+
 import org.exolab.castor.util.RegExpEvaluator;
- 
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
+
 /**
- * A simple abstract class used for validating types
- * which allow the pattern facet
+ * A simple abstract class used for validating types which allow the pattern
+ * facet
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
 public abstract class PatternValidator {
-    
+
     /**
      * The regular expression
      */
-    private String  _pattern  = null;
-    private boolean _nillable = false;
-    
+    private String          _pattern  = null;
+
+    private boolean         _nillable = false;
+
     /**
-     * An instance of the regular expression evaluator
-     * if necessary
+     * An instance of the regular expression evaluator if necessary
      */
-    private RegExpEvaluator _regex = null;    
-    
-    
+    private RegExpEvaluator _regex    = null;
+
     /**
-     * Creates a new PatternValidator with no default
-     * regular expression
-    **/
+     * Creates a new PatternValidator with no default regular expression
+     */
     public PatternValidator() {
         super();
-    } //-- PatternValidator
-    
+    } // -- PatternValidator
+
     /**
-     * Creates a new PatternValidator with the given
-     * regular expresion
+     * Creates a new PatternValidator with the given regular expresion
      *
-     * @param pattern the regular expression to validate against
-    **/
+     * @param pattern
+     *            the regular expression to validate against
+     */
     public PatternValidator(String pattern) {
         _pattern = pattern;
-    } //-- PatternValidator
-    
+    } // -- PatternValidator
+
     /**
-     * Returns the regular expression pattern for this PatternValidator,
-     * or null if no pattern has been set.
+     * Returns the regular expression pattern for this PatternValidator, or null
+     * if no pattern has been set.
      *
      * @return the regular expression pattern
      * @see #setPattern
-    **/
+     */
     public String getPattern() {
         return _pattern;
-    } //-- getPattern
-    
-    
+    } // -- getPattern
+
     /**
-     * Returns whether or not objects validated by this
-     * Validator are nillable (are allowed to be null).
-     * 
+     * Returns whether or not objects validated by this Validator are nillable
+     * (are allowed to be null).
+     *
      * @return true if null is a valid value
      */
     public boolean isNillable() {
-    	return _nillable;
-    } //-- isNillable
-    
+        return _nillable;
+    } // -- isNillable
+
     /**
-     * Returns true if a regular expression has been set
-     * for this PatternValidator
+     * Returns true if a regular expression has been set for this
+     * PatternValidator
      *
-     * @return true if a regular expression has been set
-     * for this PatternValidator
-    **/
+     * @return true if a regular expression has been set for this
+     *         PatternValidator
+     */
     public boolean hasPattern() {
         return (_pattern != null);
-    } //-- hasPattern
-    
+    } // -- hasPattern
+
     /**
-     * Sets whether or not objects validated by this
-     * Validator are allowed to be null (nillable).
-     * 
-     * @param nillable a boolean that when true indicates
-     * null values pass validation
+     * Sets whether or not objects validated by this Validator are allowed to be
+     * null (nillable).
+     *
+     * @param nillable
+     *            a boolean that when true indicates null values pass validation
      */
     public void setNillable(boolean nillable) {
-    	_nillable = nillable;
-    } //-- setNillable
-    
+        _nillable = nillable;
+    } // -- setNillable
+
     /**
      * Sets the regular expression to validate against
-     * @param pattern the regular expression to use when validating
-    **/
+     *
+     * @param pattern
+     *            the regular expression to use when validating
+     */
     public void setPattern(String pattern) {
         _pattern = pattern;
-        if (_regex != null) 
+        if (_regex != null) {
             _regex.setExpression(_pattern);
-    } //-- setPattern
-    
-    /**
-     * Validates the given String against the regular expression pattern
-     * of this PatternValidator. 
-     * @see #setPattern
-     * @exception ValidationException if the given String is not
-     * matched by the regular expression pattern
-    **/
-    public void validate(String str, ValidationContext context)
-        throws ValidationException 
-    {
-        if (_pattern != null) {
-            if (_regex == null)
-                initEvaluator(context);
-            if (!_regex.matches(str)) {
-                String err = "objects of this type must match the " +
-                    " following regular expression: " + _pattern;
-                throw new ValidationException(err);
-            }
         }
-    } //-- validate
-    
+    } // -- setPattern
+
+    /**
+     * Validates the given String against the regular expression pattern of this
+     * PatternValidator.
+     *
+     * @param str
+     *            the string to validate
+     * @param context
+     *            the validation context
+     *
+     * @see #setPattern
+     * @throws ValidationException
+     *             if the given String is not matched by the regular expression
+     *             pattern
+     */
+    public void validate(String str, ValidationContext context) throws ValidationException {
+        if (_pattern == null) {
+            return;
+        }
+
+        if (_regex == null) {
+            initEvaluator(context);
+        }
+        if (!_regex.matches(str)) {
+            String err = "objects of this type must match the "
+                + " following regular expression: " + _pattern;
+            throw new ValidationException(err);
+        }
+    } // -- validate
+
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
-     * @param context the ValidationContext
+     * @param object
+     *            the Object to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException
+     *             if the given String is not matched by the regular expression
+     *             pattern
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException 
-    {
+    public void validate(Object object, ValidationContext context) throws ValidationException {
         if (object == null) {
             if (!_nillable) {
                 String err = "PatternValidator cannot validate a null object.";
@@ -180,63 +191,61 @@ public abstract class PatternValidator {
             return;
         }
         validate(object.toString(), context);
-    } //-- validate
-    
+    } // -- validate
+
     /**
      * Initializes the regular expression validator
-    **/
+     */
     private void initEvaluator(ValidationContext context) {
         _regex = context.getConfiguration().getRegExpEvaluator();
-        if (_regex == null)
+        if (_regex == null) {
             _regex = new DefaultRegExpEvaluator();
+        }
         _regex.setExpression(_pattern);
-    } //-- initRegExpValidator
-    
+    } // -- initRegExpValidator
+
     /**
-     * A simple implementation of a regular expression validator
-     * which always returns false. 
-     
+     * A simple implementation of a regular expression validator which always
+     * returns false.
+     *
      * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
      * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
-    **/
-    class DefaultRegExpEvaluator 
-        implements RegExpEvaluator
-    {
-        
+     */
+    class DefaultRegExpEvaluator implements RegExpEvaluator {
+
         /**
          * Creates a new DefaultRegExpValidator
-        **/
+         */
         DefaultRegExpEvaluator() {
             super();
-        } //-- DefaultRegExpEvalutator
-        
+        } // -- DefaultRegExpEvalutator
+
         /**
-         * Sets the regular expression to match against during
-         * a call to #matches
+         * Sets the regular expression to match against during a call to
+         * #matches
          *
-         * @param rexpr the regular expression
-        **/
+         * @param rexpr
+         *            the regular expression
+         */
         public void setExpression(String rexpr) {
-            //-- nothing to do...we don't care since
-            //-- match will always evaluate to false
-        } //-- setExpression
-    
+            // -- nothing to do...we don't care since
+            // -- match will always evaluate to false
+        } // -- setExpression
+
         /**
-         * Returns true if the given String is matched by the 
-         * regular expression of this RegExpEvaluator
+         * Returns true if the given String is matched by the regular expression
+         * of this RegExpEvaluator
          *
-         * @param value the String to check the production of
-         * @return true if the given string matches the regular
-         * expression of this RegExpEvaluator
+         * @param value
+         *            the String to check the production of
+         * @return true if the given string matches the regular expression of
+         *         this RegExpEvaluator
          * @see #setExpression
-        **/
-        public boolean matches(String value)
-        {
+         */
+        public boolean matches(String value) {
             return false;
-        } //-- matches
-        
-    } //-- DefaultRegExpEvaluator
-    
-} //-- PatternValidator
- 
- 
+        } // -- matches
+
+    } // -- DefaultRegExpEvaluator
+
+} // -- PatternValidator

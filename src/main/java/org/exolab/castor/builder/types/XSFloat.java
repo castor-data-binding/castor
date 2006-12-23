@@ -277,6 +277,13 @@ public final class XSFloat extends XSPatternBase {
                 setMinInclusive(facet.toFloat());
             } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for 'float'.");
+                }
             }
         }
     }

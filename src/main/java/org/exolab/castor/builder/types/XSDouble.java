@@ -274,6 +274,13 @@ public final class XSDouble extends XSPatternBase {
                 setMinInclusive(facet.toDouble());
             } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for 'double'.");
+                }
             }
         }
     }
@@ -333,27 +340,16 @@ public final class XSDouble extends XSPatternBase {
         jsc.add("org.exolab.castor.xml.validators.DoubleValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.DoubleValidator();");
 
-        if (hasMinimum()) {
-            Double min = getMinExclusive();
-            if (min != null) {
-                jsc.add("typeValidator.setMinExclusive(");
-            } else {
-                min = getMinInclusive();
-                jsc.add("typeValidator.setMinInclusive(");
-            }
-            jsc.append(min.toString());
-            jsc.append(");");
+        if (_minExclusive != null) {
+            jsc.add("typeValidator.setMinExclusive(" + _minExclusive + ");");
+        } else if (_minInclusive != null) {
+            jsc.add("typeValidator.setMinInclusive(" + _minInclusive + ");");
         }
-        if (hasMaximum()) {
-            Double max = getMaxExclusive();
-            if (max != null) {
-                jsc.add("typeValidator.setMaxExclusive(");
-            } else {
-                max = getMaxInclusive();
-                jsc.add("typeValidator.setMaxInclusive(");
-            }
-            jsc.append(max.toString());
-            jsc.append(");");
+
+        if (_maxExclusive != null) {
+            jsc.add("typeValidator.setMaxExclusive(" + _maxExclusive + ");");
+        } else if (_maxInclusive != null) {
+            jsc.add("typeValidator.setMaxInclusive(" + _maxInclusive + ");");
         }
 
         // -- fixed values

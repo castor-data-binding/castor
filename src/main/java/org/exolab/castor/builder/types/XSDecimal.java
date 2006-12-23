@@ -284,6 +284,13 @@ public  class XSDecimal extends XSPatternBase {
                 setFractionDigits(facet.toInt());
             } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for 'decimal'.");
+                }
             }
         }
     } //-- setFacets
@@ -314,27 +321,21 @@ public  class XSDecimal extends XSPatternBase {
                                final String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.DecimalValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.DecimalValidator();");
-        if (hasMinimum()) {
-            java.math.BigDecimal min = getMinExclusive();
-            if (min != null) {
-                jsc.add("typeValidator.setMinExclusive(new java.math.BigDecimal(\"");
-            } else {
-                min = getMinInclusive();
-                jsc.add("typeValidator.setMinInclusive(new java.math.BigDecimal(\"");
-            }
-            jsc.append(min.toString() + "\")");
-            jsc.append(");");
+
+        if (_minExclusive != null) {
+            jsc.add("java.math.BigDecimal min = new java.math.BigDecimal(\"" + _minExclusive + "\");");
+            jsc.add("typeValidator.setMinExclusive(min);");
+        } else if (_minInclusive != null) {
+            jsc.add("java.math.BigDecimal min = new java.math.BigDecimal(\"" + _minInclusive + "\");");
+            jsc.add("typeValidator.setMinInclusive(min);");
         }
-        if (hasMaximum()) {
-            java.math.BigDecimal max = getMaxExclusive();
-            if (max != null) {
-                jsc.add("typeValidator.setMaxExclusive(new java.math.BigDecimal(\"");
-            } else {
-                max = getMaxInclusive();
-                jsc.add("typeValidator.setMaxInclusive(new java.math.BigDecimal(\"");
-            }
-            jsc.append(max.toString() + "\")");
-            jsc.append(");");
+
+        if (_maxExclusive != null) {
+            jsc.add("java.math.BigDecimal max = new java.math.BigDecimal(\"" + _maxExclusive + "\");");
+            jsc.add("typeValidator.setMaxExclusive(max);");
+        } else if (_maxInclusive != null) {
+            jsc.add("java.math.BigDecimal max = new java.math.BigDecimal(\"" + _maxInclusive + "\");");
+            jsc.add("typeValidator.setMaxInclusive(max);");
         }
 
         //-- totalDigits

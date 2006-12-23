@@ -112,7 +112,7 @@ public abstract class XSType {
     public static final String IDREFS_NAME = "IDREFS";
     /** The name of the NMTOKEN type. */
     public static final String NMTOKEN_NAME = "NMTOKEN";
-    /** The of the NMTOKENS type. */
+    /** The name of the NMTOKENS type. */
     public static final String NMTOKENS_NAME  = "NMTOKENS";
     /** The name of the Name type. */
     public static final String NAME_NAME = "Name";
@@ -261,6 +261,11 @@ public abstract class XSType {
     public static final long MIN_UNSIGNED_SHORT             = 0L;
     /** Maximum unsigned short. */
     public static final long MAX_UNSIGNED_SHORT             = 65535L;
+    /** Maximum negative integer. */
+    public static final long MIN_INTEGER                    = -2147483647L;
+    /** Maximum negative integer. */
+    public static final long MAX_INTEGER                    = 2147483647L;
+
 
     /** The type of the element. */
     private final short   _type;

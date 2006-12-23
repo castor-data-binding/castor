@@ -52,11 +52,6 @@ package org.exolab.castor.builder.types;
  */
 public final class XSInt extends XSLong {
 
-    /** Maximum negative integer. */
-    private static final long MIN_INTEGER = -2147483647L;
-    /** Maximum negative integer. */
-    private static final long MAX_INTEGER = 2147483647L;
-
     /**
      * No-arg constructor.
      */

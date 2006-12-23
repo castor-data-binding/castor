@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,70 +42,79 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.validators;
 
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Name Validation class. This class handles validation
- * for XML Name production types such as NCName and NMToken
+ * The Name Validation class. This class handles validation for XML Name
+ * production types such as NCName and NMToken
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class NameValidator extends StringValidator {
 
-
     public static final short NCNAME  = 0;
-    public static final short NMTOKEN = 1;
-    public static final short CDATA = 2;
 
-    private short type = NCNAME;
+    public static final short NMTOKEN = 1;
+
+    public static final short CDATA   = 2;
+
+    private short             type    = NCNAME;
 
     /**
-     * Creates a new NameValidator with the default validation
-     * set to NCName
-    **/
+     * Creates a new NameValidator with the default validation set to NCName
+     */
     public NameValidator() {
         super();
-    } //-- NameValidator
+    } // -- NameValidator
 
     /**
      * Creates a new NameValidator with the given validation type
-     * @param type the validation type for this NameValidator
-    **/
+     *
+     * @param type
+     *            the validation type for this NameValidator
+     */
     public NameValidator(short type) {
         super();
         this.type = type;
-    } //-- NMTokenValidator
+    } // -- NMTokenValidator
 
     /**
      * Sets whether or not a String is required (non null)
-     * @param required the flag indicating whether Strings are required
-    **/
-    public void setRequired(final boolean required) { }
+     *
+     * @param required
+     *            the flag indicating whether Strings are required
+     */
+    public void setRequired(final boolean required) {
+        // not implemented?
+    }
 
-    public void validate(String value, ValidationContext context)
-        throws ValidationException
-    {
+    /**
+     * Validates the given Object
+     *
+     * @param value
+     *            the string to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
+     */
+    public void validate(String value, ValidationContext context) throws ValidationException {
         super.validate(value, context);
 
         switch (type) {
-
             case CDATA:
                 if (!ValidationUtils.isCDATA(value)) {
-                    String err = "\"";
-                    err += value + "\" is not a valid CDATA.";
+                    String err = "'" + value + "' is not a valid CDATA.";
                     throw new ValidationException(err);
                 }
                 break;
 
             case NMTOKEN:
                 if (!ValidationUtils.isNMToken(value)) {
-                    String err = "\"";
-                    err += value + "\" is not a valid NMToken.";
+                    String err = "'" + value + "' is not a valid NMToken.";
                     throw new ValidationException(err);
                 }
                 break;
@@ -113,40 +122,39 @@ public class NameValidator extends StringValidator {
             case NCNAME:
             default:
                 if (!ValidationUtils.isNCName(value)) {
-                    String err = "\"";
-                    err += value + "\" is not a valid NCName.";
+                    String err = "'" + value + "' is not a valid NCName.";
                     throw new ValidationException(err);
                 }
                 break;
         }
-
-    } //-- validate
+    } // -- validate
 
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
+     * @param object
+     *            the Object to validate
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
-        validate(object, (ValidationContext)null);
-    } //-- validate
-    
+    public void validate(Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
+    } // -- validate
+
     /**
      * Validates the given Object
      *
-     * @param object the Object to validate
-     * @param context the ValidationContext
+     * @param object
+     *            the Object to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
-        if (object != null)
+    public void validate(Object object, ValidationContext context) throws ValidationException {
+        if (object != null) {
             validate(object.toString(), context);
-        else
+        } else {
             validate(null, context);
+        }
+    } // -- validate
 
-    } //-- validate
-
-} //-- NameValidator
+} // -- NameValidator
