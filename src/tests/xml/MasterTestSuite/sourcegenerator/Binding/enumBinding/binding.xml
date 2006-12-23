@@ -6,7 +6,7 @@
 	defaultBinding="element">
 
 	<enumBinding
-		name="/processDefinition/complexType:anonymous/durUnit/enumType:anonymous">
+		name="/enumType:DurUnitType">
 		<enum-def>
 			<enumMember>
 				<value>M</value>
