@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -52,14 +52,26 @@ package org.exolab.castor.builder.types;
  */
 public final class XSInt extends XSLong {
 
+    /** Maximum negative integer. */
+    private static final long MIN_INTEGER = -2147483647L;
+    /** Maximum negative integer. */
+    private static final long MAX_INTEGER = 2147483647L;
+
+    /**
+     * No-arg constructor.
+     */
     public XSInt() {
         this(false);
     }
 
-    public XSInt(boolean asWrapper) {
+    /**
+     * Constructs a new XSInt.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSInt(final boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive(-2147483647L);
-        setMaxInclusive(2147483647L);
+        setMinInclusive(MIN_INTEGER);
+        setMaxInclusive(MAX_INTEGER);
     }
 
 } //-- XSInt

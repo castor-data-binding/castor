@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -53,45 +53,64 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema Integer type
+ * The XML Schema Integer type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class XSInteger extends XSPatternBase {
 
-    //- Constraints for integer type
-    Long maxInclusive = null;
-    Long maxExclusive = null;
-    Long minInclusive = null;
-    Long minExclusive = null;
+    /** Maximum integer (inclusive). */
+    private Long _maxInclusive = null;
+    /** Maximum integer (exclusive). */
+    private Long _maxExclusive = null;
+    /** Minimum integer (inclusive). */
+    private Long _minInclusive = null;
+    /** Minimum integer (exclusive). */
+    private Long _minExclusive = null;
+    /** Total number of digits. */
     private int  _totalDigits = -1;
 
+    /** The JType represented by this XSType. */
+    private final JType _jType;
+    /** True if this type is implemented using the wrapper class. */
+    private final boolean _asWrapper;
+
     /**
-     * The JType represented by this XSType
+     * No-arg constructor.
      */
-    private static JType jType = JType.LONG;
-    private boolean _asWrapper = false;
-
-    //private Integer value = null;
-
     public XSInteger() {
         this(false);
     }
 
-    public XSInteger(boolean asWrapper) {
+    /**
+     * Constructs a new XSInteger.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSInteger(final boolean asWrapper) {
         super(XSType.INTEGER_TYPE);
          _asWrapper = asWrapper;
-        if (_asWrapper)
-            jType = new JClass("java.lang.Long");
-        else jType = JType.LONG;
+         _jType = (_asWrapper) ? new JClass("java.lang.Long") : JType.LONG;
     } //-- XSInteger
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Constructs a new XSInteger.  This constructor is used by derived
+     * classes.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     * @param type the type code to be constructed, either XSType.INTEGER_TYPE
+     * or one of the types derived from it.
+     */
+    protected XSInteger(final boolean asWrapper, final short type) {
+        super(type);
+         _asWrapper = asWrapper;
+         _jType = (_asWrapper) ? new JClass("java.lang.Long") : JType.LONG;
+    } //-- XSInteger
+
+    /**
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return jType;
+        return _jType;
     }
 
     /**
@@ -101,7 +120,7 @@ public class XSInteger extends XSPatternBase {
      * @see #getMaxInclusive
      */
     public Long getMaxExclusive() {
-        return maxExclusive;
+        return _maxExclusive;
     } //-- getMaxExclusive
 
     /**
@@ -111,7 +130,7 @@ public class XSInteger extends XSPatternBase {
      * @see #getMaxExclusive
      */
     public Long getMaxInclusive() {
-        return maxInclusive;
+        return _maxInclusive;
     } //-- getMaxInclusive
 
     /**
@@ -122,7 +141,7 @@ public class XSInteger extends XSPatternBase {
      * @see #setMaxInclusive(int)
      */
     public Long getMinExclusive() {
-        return minExclusive;
+        return _minExclusive;
     } //-- getMinExclusive
 
     /**
@@ -132,7 +151,7 @@ public class XSInteger extends XSPatternBase {
      * @see #getMinExclusive
      */
     public Long getMinInclusive() {
-        return minInclusive;
+        return _minInclusive;
     } //-- getMinInclusive
 
     /**
@@ -143,12 +162,20 @@ public class XSInteger extends XSPatternBase {
         return _totalDigits;
     }
 
+    /**
+     * Returns true if a maximum (inclusive or exclusive) has been set.
+     * @return true if a maximum (inclusive or exclusive) has been set.
+     */
     public boolean hasMaximum() {
-        return ((maxInclusive != null) || (maxExclusive != null));
+        return _maxInclusive != null || _maxExclusive != null;
     } //-- hasMaximum
 
+    /**
+     * Returns true if a minimum (inclusive or exclusive) has been set.
+     * @return true if a minimum (inclusive or exclusive) has been set.
+     */
     public boolean hasMinimum() {
-        return ((minInclusive != null) || (minExclusive != null));
+        return _minInclusive != null || _minExclusive != null;
     } //-- hasMinimum
 
     /**
@@ -156,9 +183,9 @@ public class XSInteger extends XSPatternBase {
      * @param max the maximum exclusive value this XSInteger can be
      * @see #setMaxInclusive(Integer)
      */
-    public void setMaxExclusive(long max) {
-        maxExclusive = new Long(max);
-        maxInclusive = null;
+    public void setMaxExclusive(final long max) {
+        _maxExclusive = new Long(max);
+        _maxInclusive = null;
     } //-- setMaxExclusive
 
     /**
@@ -166,9 +193,9 @@ public class XSInteger extends XSPatternBase {
      * @param max the maximum exclusive value this XSInteger can be
      * @see #setMaxInclusive(int)
      */
-    public void setMaxExclusive(Long max) {
-        maxExclusive = max;
-        maxInclusive = null;
+    public void setMaxExclusive(final Long max) {
+        _maxExclusive = max;
+        _maxInclusive = null;
     } //-- setMaxExclusive
 
     /**
@@ -176,9 +203,9 @@ public class XSInteger extends XSPatternBase {
      * @param max the maximum inclusive value this XSInteger can be
      * @see #setMaxExclusive(Integer)
      */
-    public void setMaxInclusive(long max) {
-        maxInclusive = new Long(max);
-        maxExclusive = null;
+    public void setMaxInclusive(final long max) {
+        _maxInclusive = new Long(max);
+        _maxExclusive = null;
     } //-- setMaxInclusive
 
     /**
@@ -186,9 +213,9 @@ public class XSInteger extends XSPatternBase {
      * @param max the maximum inclusive value this XSInteger can be
      * @see #setMaxExclusive(int)
      */
-    public void setMaxInclusive(Long max) {
-        maxInclusive = max;
-        maxExclusive = null;
+    public void setMaxInclusive(final Long max) {
+        _maxInclusive = max;
+        _maxExclusive = null;
     } //-- setMaxInclusive
 
     /**
@@ -196,9 +223,9 @@ public class XSInteger extends XSPatternBase {
      * @param min the minimum exclusive value this XSInteger can be
      * @see #setMinInclusive(Integer)
      */
-    public void setMinExclusive(long min) {
-        minExclusive = new Long(min);
-        minInclusive = null;
+    public void setMinExclusive(final long min) {
+        _minExclusive = new Long(min);
+        _minInclusive = null;
     } //-- setMinExclusive
 
     /**
@@ -206,9 +233,9 @@ public class XSInteger extends XSPatternBase {
      * @param min the minimum exclusive value this XSInteger can be
      * @see #setMinInclusive(int)
      */
-    public void setMinExclusive(Long min) {
-        minExclusive = min;
-        minInclusive = null;
+    public void setMinExclusive(final Long min) {
+        _minExclusive = min;
+        _minInclusive = null;
     } //-- setMinExclusive
 
     /**
@@ -216,9 +243,9 @@ public class XSInteger extends XSPatternBase {
      * @param min the minimum inclusive value this XSInteger can be
      * @see #setMinExclusive(Integer)
      */
-    public void setMinInclusive(long min) {
-        minInclusive = new Long(min);
-        minExclusive = null;
+    public void setMinInclusive(final long min) {
+        _minInclusive = new Long(min);
+        _minExclusive = null;
     } //-- setMinInclusive
 
     /**
@@ -226,51 +253,49 @@ public class XSInteger extends XSPatternBase {
      * @param min the minimum inclusive value this XSInteger can be
      * @see #setMinExclusive(int)
      */
-    public void setMinInclusive(Long min) {
-        minInclusive = min;
-        minExclusive = null;
+    public void setMinInclusive(final Long min) {
+        _minInclusive = min;
+        _minExclusive = null;
     } //-- setMinInclusive
 
     /**
      * Sets the totalDigits facet for this XSInteger.
      * @param totalDig the value of totalDigits (must be >0)
      */
-     public void setTotalDigits(int totalDig) {
-          if (totalDig <= 0)
-              throw new IllegalArgumentException(this.getName()+": the totalDigits facet must be positive");
+     public void setTotalDigits(final int totalDig) {
+          if (totalDig <= 0) {
+              throw new IllegalArgumentException(this.getName()
+                      + ": the totalDigits facet must be positive");
+          }
           _totalDigits = totalDig;
      }
 
-    /**
-     * Reads and sets the facets for this XSInteger.
-     * override the readFacet method of XSType
-     * @param simpleType the Simpletype containing the facets
-     * @see org.exolab.castor.builder.types.XSType#getFacets
-     */
-    public void setFacets(SimpleType simpleType) {
+     /**
+      * Transfer facets from the provided simpleType to <code>this</code>.
+      *
+      * @param simpleType
+      *            The SimpleType containing our facets.
+      * @see org.exolab.castor.builder.types.XSType#getFacets
+      */
+    public void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-            Facet facet = (Facet)enumeration.nextElement();
+            Facet facet = (Facet) enumeration.nextElement();
             String name = facet.getName();
 
-            //-- maxExclusive
-            if (Facet.MAX_EXCLUSIVE.equals(name))
+            if (Facet.MAX_EXCLUSIVE.equals(name)) {
                 setMaxExclusive(facet.toLong());
-            //-- maxInclusive
-            else if (Facet.MAX_INCLUSIVE.equals(name))
+            } else if (Facet.MAX_INCLUSIVE.equals(name)) {
                 setMaxInclusive(facet.toLong());
-            //-- minExclusive
-            else if (Facet.MIN_EXCLUSIVE.equals(name))
+            } else if (Facet.MIN_EXCLUSIVE.equals(name)) {
                 setMinExclusive(facet.toLong());
-            //-- minInclusive
-            else if (Facet.MIN_INCLUSIVE.equals(name))
+            } else if (Facet.MIN_INCLUSIVE.equals(name)) {
                 setMinInclusive(facet.toLong());
-            //--pattern
-            else if (Facet.PATTERN.equals(name))
+            } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
-            //--totalDigits
-            else if (Facet.TOTALDIGITS.equals(name))
+            } else if (Facet.TOTALDIGITS.equals(name)) {
                 setTotalDigits(facet.toInt());
+            }
         }
     } //-- setFacets
 
@@ -281,13 +306,12 @@ public class XSInteger extends XSPatternBase {
      * @return the String necessary to convert an instance of this XSType
      * to an Object
      */
-    public String createToJavaObjectCode(String variableName) {
-        if (_asWrapper) return super.createToJavaObjectCode(variableName);
+    public String createToJavaObjectCode(final String variableName) {
+        if (_asWrapper) {
+            return super.createToJavaObjectCode(variableName);
+        }
 
-        StringBuffer sb = new StringBuffer("new java.lang.Long(");
-        sb.append(variableName);
-        sb.append(")");
-        return sb.toString();
+        return "new java.lang.Long(" + variableName + ")";
     } //-- toJavaObject
 
     /**
@@ -298,13 +322,13 @@ public class XSInteger extends XSPatternBase {
      * @return the String necessary to convert an Object to an
      * instance of this XSType
      */
-    public String createFromJavaObjectCode(String variableName) {
-        StringBuffer sb = new StringBuffer("((java.lang.Long)");
+    public String createFromJavaObjectCode(final String variableName) {
+        StringBuffer sb = new StringBuffer("((java.lang.Long) ");
         sb.append(variableName);
-         if (_asWrapper)
-           sb.append(")");
-        else
-           sb.append(").intValue()");
+        sb.append(")");
+         if (!_asWrapper) {
+            sb.append(".intValue()");
+        }
         return sb.toString();
     } //-- fromJavaObject
 
@@ -318,14 +342,16 @@ public class XSInteger extends XSPatternBase {
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-        jsc.add("org.exolab.castor.xml.validators.IntegerValidator typeValidator = new org.exolab.castor.xml.validators.IntegerValidator();");
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.IntegerValidator typeValidator"
+                + " = new org.exolab.castor.xml.validators.IntegerValidator();");
 
         if (hasMinimum()) {
             Long min = getMinExclusive();
-            if (min != null)
+            if (min != null) {
                 jsc.add("typeValidator.setMinExclusive(");
-            else {
+            } else {
                 min = getMinInclusive();
                 jsc.add("typeValidator.setMinInclusive(");
             }
@@ -334,9 +360,9 @@ public class XSInteger extends XSPatternBase {
         }
         if (hasMaximum()) {
             Long max = getMaxExclusive();
-            if (max != null)
+            if (max != null) {
                 jsc.add("typeValidator.setMaxExclusive(");
-            else {
+            } else {
                 max = getMaxInclusive();
                 jsc.add("typeValidator.setMaxInclusive(");
             }
@@ -349,13 +375,15 @@ public class XSInteger extends XSPatternBase {
             // -- make sure we have a valid value...
             // -- Only if we are not using Object
 
-            if (XSInteger.jType == JType.LONG)
+            if (this._jType == JType.LONG) {
                 Long.parseLong(fixedValue);
+            }
 
             jsc.add("typeValidator.setFixed(");
             jsc.append(fixedValue);
             jsc.append(");");
         }
+
         // -- pattern facet
         String pattern = getPattern();
         if (pattern != null) {
@@ -363,14 +391,15 @@ public class XSInteger extends XSPatternBase {
             jsc.append(escapePattern(pattern));
             jsc.append("\");");
         }
+
         // -- totalDigits
         int totalDigits = getTotalDigits();
-
         if (totalDigits != -1) {
             jsc.add("typeValidator.setTotalDigits(");
             jsc.append(Integer.toString(totalDigits));
             jsc.append(");");
         }
+
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 

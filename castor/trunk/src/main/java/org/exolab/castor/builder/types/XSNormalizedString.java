@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -61,17 +61,17 @@ import java.util.Enumeration;
 public final class XSNormalizedString extends XSPatternBase {
 
     /** The JType represented by this XSType. */
-    private static final JType jType = new JClass("java.lang.String");
+    private static final JType JTYPE = new JClass("java.lang.String");
 
     /** The length facet. */
-    private int _length   = 0;
+    private int _length    = 0;
     /** The max length facet. */
-    private int maxLength = -1;
+    private int _maxLength = -1;
     /** The min length facet. */
-    private int minLength = 0;
+    private int _minLength = 0;
 
     /**
-     * Creates a new XSString
+     * Creates a new XSString.
      */
     public XSNormalizedString() {
         super(XSType.NORMALIZEDSTRING_TYPE);
@@ -86,8 +86,8 @@ public final class XSNormalizedString extends XSPatternBase {
      * @return the String necessary to convert an Object to an instance of this
      *         XSType
      */
-    public String createFromJavaObjectCode(String variableName) {
-        return "(java.lang.String)" + variableName;
+    public String createFromJavaObjectCode(final String variableName) {
+        return "(java.lang.String) " + variableName;
     } //-- fromJavaObject
 
     /**
@@ -95,7 +95,7 @@ public final class XSNormalizedString extends XSPatternBase {
      * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSNormalizedString.jType;
+        return XSNormalizedString.JTYPE;
     } //-- getJType
 
     /**
@@ -104,7 +104,7 @@ public final class XSNormalizedString extends XSPatternBase {
      * @return the maximum length facet
      */
     public int getMaxLength() {
-        return maxLength;
+        return _maxLength;
     } //-- getMaxLength
 
     /**
@@ -112,7 +112,7 @@ public final class XSNormalizedString extends XSPatternBase {
      * @return the minimum length facet.
      */
     public int getMinLength() {
-        return minLength;
+        return _minLength;
     } //-- getMinLength
 
     /**
@@ -128,7 +128,7 @@ public final class XSNormalizedString extends XSPatternBase {
      * @return true if a maximum length has been set.
      */
     public boolean hasMaxLength() {
-        return (maxLength >= 0);
+        return (_maxLength >= 0);
     } //-- hasMaxLength
 
     /**
@@ -136,7 +136,7 @@ public final class XSNormalizedString extends XSPatternBase {
      * @return true if a minimum length has been set.
      */
     public boolean hasMinLength() {
-        return (minLength > 0);
+        return (_minLength > 0);
     } //-- hasMinLength
 
     /**
@@ -148,35 +148,37 @@ public final class XSNormalizedString extends XSPatternBase {
     }
 
     /**
-     * Sets the length of this XSCDATA. While setting the length, the maxLength
-     * and minLength are also set up to this length.
+     * Sets the length of this XSNormalizedString. While setting the length, the
+     * maxLength and minLength are also set up to this length.
      *
      * @param length
      *            the length to set
      * @see #setMaxLength
      * @see #setMinLength
      */
-    public void setLength(int length) {
+    public void setLength(final int length) {
         this._length = length;
         setMaxLength(length);
         setMinLength(length);
     }
 
     /**
-     * Sets the maximum length of this XSCDATA. To remove the max length
-     * facet, use a negative value.
-     * @param maxLength the maximum length for occurances of this type
+     * Sets the maximum length of this XSNormalizedString. To remove the max
+     * length facet, use a negative value.
+     *
+     * @param maxLength
+     *            the maximum length for occurances of this type
      */
-    public void setMaxLength(int maxLength) {
-        this.maxLength = maxLength;
+    public void setMaxLength(final int maxLength) {
+        this._maxLength = maxLength;
     } //-- setMaxLength
 
     /**
-     * Sets the minimum length of this XSCDATA.
+     * Sets the minimum length of this XSNormalizedString.
      * @param minLength the minimum length for occurances of this type
      */
-    public void setMinLength(int minLength) {
-        this.minLength = minLength;
+    public void setMinLength(final int minLength) {
+        this._minLength = minLength;
     } //-- setMinLength
 
     /**
@@ -186,7 +188,7 @@ public final class XSNormalizedString extends XSPatternBase {
      *            The SimpleType containing our facets.
      * @see org.exolab.castor.builder.types.XSType#getFacets
      */
-    public void setFacets(SimpleType simpleType) {
+    public void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
             Facet facet = (Facet) enumeration.nextElement();
@@ -205,14 +207,18 @@ public final class XSNormalizedString extends XSPatternBase {
     }
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
     public void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {

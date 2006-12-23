@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,51 +45,47 @@
 package org.exolab.castor.builder.types;
 
 /**
- * A base class for types which support the pattern facet
+ * A base class for types which support the pattern facet.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public abstract class XSPatternBase extends XSType {
 
-    /**
-     * The value of the pattern facet
-     */
+    /** The value of the pattern facet. */
     private String _pattern = null;
 
     /**
-     * Creates a new XSPatternBase
+     * Creates a new XSPatternBase.
      * @param type that this XSType represents
      */
-    protected XSPatternBase(short type) {
+    protected XSPatternBase(final short type) {
         super(type);
     } //-- XSPatternBase
 
     /**
-     * Creates a new XSPatternBase with the given regular
-     * expression and type.
+     * Creates a new XSPatternBase with the given regular expression and type.
      *
      * @param type that this XSType represents
      * @param pattern the regular expression
      */
-    public XSPatternBase(short type, String pattern) {
+    public XSPatternBase(final short type, final String pattern) {
         super(type);
         _pattern = pattern;
     } //-- XSPatternBase
 
     /**
-     * Returns the pattern facet for this XSType
-     *
-     * @return the pattern facet for this XSType
+     * Returns the pattern facet for this XSType.
+     * @return the pattern facet for this XSType.
      */
     public String getPattern() {
         return _pattern;
     } //-- setPattern
 
     /**
-     * Sets the pattern facet for this XSType
-     * @param pattern the regular expression for this XSType
+     * Sets the pattern facet for this XSType.
+     * @param pattern the regular expression for this XSType.
      */
-    public void setPattern(String pattern) {
+    public void setPattern(final String pattern) {
         _pattern = pattern;
     } //-- setPattern
 

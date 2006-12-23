@@ -1,4 +1,4 @@
-/**
+/*
  * Copyright 2000 (C) Intalio Inc. All Rights Reserved.
  *
  * Redistribution and use of this software and associated documentation
@@ -38,62 +38,52 @@ import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JType;
 
 /**
- * A list type for Java 2 collection that adapts the Castor preset list type.
+ * A list type for Java 2 collections that adapts the Castor preset list type.
+ * We hide the <code>_jType</code> field of our base class.
  * @author <a href="mailto:arkin@intalio.com">Assaf Arkin</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XSListJ2 extends XSList {
 
-    int maxSize = -1; //-- undefined
-    int minSize = 0;
-
-    XSType contentType = null;
+    /** The JType represented by this XSType. */
+    private final JType _jType;
 
     /**
-     * The JType represented by this XSType
+     * Creates a Java 1 style collection.
+     *
+     * @param contentType
+     *            type of the collection members
+     * @param collectionType type of collection to use
+     * @param useJava50
+     *            if true, the collection will be generated using Java 5
+     *            features such as generics.
      */
-    private JType jType = null;
-
-    public XSListJ2(XSType contentType, String collectionType, final boolean useJava50) {
+    public XSListJ2(final XSType contentType, final String collectionType,
+                    final boolean useJava50) {
         super(contentType, useJava50);
-        this.contentType = contentType;
         if (collectionType.equalsIgnoreCase("arraylist")) {
-            this.jType = new JCollectionType("java.util.List", "java.util.ArrayList", contentType.getJType(), useJava50);
+            this._jType = new JCollectionType("java.util.List", "java.util.ArrayList",
+                                              contentType.getJType(), useJava50);
         } else if (collectionType.equalsIgnoreCase("collection")) {
-            this.jType = new JCollectionType("java.util.Collection", "java.util.LinkedList", contentType.getJType(), useJava50);
+            this._jType = new JCollectionType("java.util.Collection", "java.util.LinkedList",
+                                              contentType.getJType(), useJava50);
         } else if (collectionType.equalsIgnoreCase("set")) {
-            this.jType = new JCollectionType("java.util.Set", "java.util.HashSet", contentType.getJType(), useJava50);
+            this._jType = new JCollectionType("java.util.Set", "java.util.HashSet",
+                                              contentType.getJType(), useJava50);
         } else if (collectionType.equalsIgnoreCase("sortedset")) {
-            this.jType = new JCollectionType("java.util.SortedSet", "java.util.TreeSet", contentType.getJType(), useJava50);
+            this._jType = new JCollectionType("java.util.SortedSet", "java.util.TreeSet",
+                                              contentType.getJType(), useJava50);
+        } else {
+            this._jType = null;
         }
     } //-- XSListJ2
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return this.jType;
+        return this._jType;
     }
-
-    public int getMinimumSize() {
-        return minSize;
-    } //-- getMinimumSize
-
-    public int getMaximumSize() {
-        return maxSize;
-    } //-- getMaximumSize
-
-    public XSType getContentType() {
-        return contentType;
-    }
-
-    public void setMaximumSize(int size) {
-        maxSize = size;
-    } //-- setMaximumSize
-
-    public void setMinimumSize(int size) {
-        minSize = size;
-    } //-- setMinimumSize
 
 } //-- XSListJ2

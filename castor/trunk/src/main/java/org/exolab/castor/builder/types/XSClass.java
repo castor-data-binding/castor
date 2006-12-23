@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -50,62 +50,83 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema user-defined archetype
+ * The XML Schema user-defined archetype.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public class XSClass extends XSType {
 
-    private JClass  jClass     = null;
-    private String  name       = null;
+    /** The JClass represented by this type. */
+    private final JClass  _jClass;
+    /** Name of this type. */
+    private final String  _name;
 
     /**
-     * Creates a new XSClass with the given JClass reference
+     * Creates a new XSClass with the given JClass reference.
      * @param jClass the JClass type of this XSClass
      */
-    public XSClass(JClass jClass) {
+    public XSClass(final JClass jClass) {
         this(jClass, null);
     } //-- XSClass
 
     /**
-     * Creates a new XSClass with the given JClass reference
+     * Creates a new XSClass with the given JClass reference.
      * @param jClass the JClass associated with this XSType
      * @param schemaTypeName The XML Schema type name
      */
-    public XSClass(JClass jClass, String schemaTypeName) {
+    public XSClass(final JClass jClass, final String schemaTypeName) {
         super(XSType.CLASS);
-        this.jClass = jClass;
+        this._jClass = jClass;
         if (schemaTypeName != null) {
-            this.name = schemaTypeName;
+            this._name = schemaTypeName;
+        } else {
+            this._name = jClass.getName();
         }
-        else this.name = jClass.getName();
     } //-- XSClass
 
-    public void setFacets(SimpleType simpleType) {}
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // Not implemented?
+    }
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return this.jClass;
+        return this._jClass;
     } //-- getJType
 
+    /**
+     * Returns the name of this class.
+     * @return the name of this class.
+     */
     public String getName() {
-        return this.name;
+        return this._name;
     } //-- getName
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
         //--TBD
     }
 

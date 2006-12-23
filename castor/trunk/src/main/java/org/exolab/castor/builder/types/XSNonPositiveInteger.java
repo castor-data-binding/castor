@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,16 +44,27 @@
  */
 package org.exolab.castor.builder.types;
 
+/**
+ * The XML Schema "non-positive-integer" type.
+ * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @version $Revision$ $Date:  $
+ */
 public class XSNonPositiveInteger extends XSInteger {
 
+    /**
+     * No-arg constructor.
+     */
     public XSNonPositiveInteger() {
-        super();
-        setMaxExclusive(0L);
+        this(false);
     }
 
-    public XSNonPositiveInteger(boolean asWrapper) {
-        super(asWrapper);
-        setMaxExclusive(0L);
+    /**
+     * Constructs a new XSNonPositiveInteger.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSNonPositiveInteger(final boolean asWrapper) {
+        super(asWrapper, XSType.NON_POSITIVE_INTEGER_TYPE);
+        setMaxExclusive(MAX_NON_POSITIVE_INTEGER);
     }
 
 }

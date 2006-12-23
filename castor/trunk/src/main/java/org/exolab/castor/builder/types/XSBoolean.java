@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -57,43 +57,61 @@ import org.exolab.javasource.JType;
  */
 public final class XSBoolean extends XSType {
 
-    /**
-     * The JType represented by this XSType
-     */
-    private static JType jType = JType.BOOLEAN;
-    private boolean _asWrapper = false;
+    /** The JType represented by this XSType. */
+    private final JType _jType;
+    /** True if this type is implemented using the wrapper class. */
+    private final boolean _asWrapper;
 
+    /**
+     * No-arg constructor.
+     */
     public XSBoolean() {
         this(false);
     }
 
-    public XSBoolean(boolean asWrapper) {
+    /**
+     * Constructs a new XSBoolean.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSBoolean(final boolean asWrapper) {
         super(XSType.BOOLEAN_TYPE);
         _asWrapper = asWrapper;
-        if (_asWrapper)
-            jType = new JClass("java.lang.Boolean");
-        else jType = JType.BOOLEAN;
+        _jType = (_asWrapper) ? new JClass("java.lang.Boolean") : JType.BOOLEAN;
     } //-- XSBoolean
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return jType;
+        return _jType;
     } //-- getJType
 
-    public void setFacets(SimpleType simpleType) {}
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // Not implemented
+    }
 
     /**
-     * Returns the String necessary to convert an instance of this XSType
-     * to an Object. This method is really only useful for primitive types
-     * @param variableName the name of the instance variable
-     * @return the String necessary to convert an instance of this XSType
-     * to an Object
+     * Returns the String necessary to convert an instance of this XSType to an
+     * Object. This method is really only useful for primitive types
+     *
+     * @param variableName
+     *            the name of the instance variable
+     * @return the String necessary to convert an instance of this XSType to an
+     *         Object
      */
-    public String createToJavaObjectCode(String variableName) {
-        if (_asWrapper) return super.createToJavaObjectCode(variableName);
+    public String createToJavaObjectCode(final String variableName) {
+        if (_asWrapper) {
+            return super.createToJavaObjectCode(variableName);
+        }
+
         StringBuffer sb = new StringBuffer("(");
         sb.append(variableName);
         sb.append(" ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE)");
@@ -101,15 +119,16 @@ public final class XSBoolean extends XSType {
     } //-- toJavaObject
 
     /**
-     * Returns the String necessary to convert an Object to
-     * an instance of this XSType. This method is really only useful
-     * for primitive types
-     * @param variableName the name of the Object
-     * @return the String necessary to convert an Object to an
-     * instance of this XSType
+     * Returns the String necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
      */
-    public String createFromJavaObjectCode(String variableName) {
-        StringBuffer sb = new StringBuffer("((java.lang.Boolean)");
+    public String createFromJavaObjectCode(final String variableName) {
+        StringBuffer sb = new StringBuffer("((java.lang.Boolean) ");
         sb.append(variableName);
         sb.append(")");
         if (!_asWrapper) {
@@ -119,13 +138,24 @@ public final class XSBoolean extends XSType {
     } //-- fromJavaObject
 
     /**
-     * Returns a JSourceCode that contains the validation method for this XSBoolean.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-        jsc.add("org.exolab.castor.xml.validators.BooleanValidator typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();");
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.BooleanValidator typeValidator"
+                + " = new org.exolab.castor.xml.validators.BooleanValidator();");
+
         if (fixedValue != null) {
             Boolean.valueOf(fixedValue);
             jsc.add("typeValidator.setFixed(");
@@ -133,7 +163,7 @@ public final class XSBoolean extends XSType {
             jsc.append(");");
         }
 
-        jsc.add("fieldValidator.setValidator(typeValidator);");
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
 } //-- XSBoolean

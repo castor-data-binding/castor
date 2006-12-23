@@ -276,6 +276,26 @@
 
             </summary>
             <bugs>
+                <bug id="1756" tool="jira">
+                    <description>
+                        Checkstyle-based cleanup in builder/types
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061222</date>
+                </bug>
                 <bug id="1755" tool="jira">
                     <description>
                         Complete (to first pass) the test for all date/time types

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,52 +47,34 @@ import org.exolab.javasource.JType;
 
 /**
  * A list type for ODMG 3.0 that adapts the Castor preset list type.
+ * We do not use the <code>_jType</code> field of our base class.
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XSListODMG30 extends XSList {
 
-    int maxSize = -1; //-- undefined
-    int minSize = 0;
-
-    XSType contentType = null;
+    /** The JType represented by this XSType. */
+    private static final JType JTYPE = new JClass("org.odmg.DArray");
 
     /**
-     * The JType represented by this XSType
+     * Creates a collection type for ODMG 3.0.
+     *
+     * @param contentType
+     *            type of the collection members
+     * @param useJava50
+     *            if true, the collection will be generated using Java 5
+     *            features such as generics.
      */
-    private static final JType jType = new JClass("org.odmg.DArray");
-
-    public XSListODMG30(XSType contentType, final boolean useJava50) {
+    public XSListODMG30(final XSType contentType, final boolean useJava50) {
         super(contentType, useJava50);
-        this.contentType = contentType;
     } //-- XSListODMG30
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSListODMG30.jType;
+        return XSListODMG30.JTYPE;
     }
-
-    public int getMinimumSize() {
-        return minSize;
-    } //-- getMinimumSize
-
-    public int getMaximumSize() {
-        return maxSize;
-    } //-- getMaximumSize
-
-    public XSType getContentType() {
-        return contentType;
-    }
-
-    public void setMaximumSize(int size) {
-        maxSize = size;
-    } //-- setMaximumSize
-
-    public void setMinimumSize(int size) {
-        minSize = size;
-    } //-- setMinimumSize
 
 } //-- XSListODMG30

@@ -92,7 +92,7 @@ public final class XSDateTime extends XSPatternBase {
      *         XSType
      */
     public String createFromJavaObjectCode(final String variableName) {
-        return "(java.util.Date)" + variableName;
+        return "(java.util.Date) " + variableName;
     } //-- fromJavaObject
 
     /**

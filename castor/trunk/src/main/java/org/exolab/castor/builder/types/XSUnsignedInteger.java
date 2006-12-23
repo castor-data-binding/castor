@@ -16,23 +16,28 @@
 package org.exolab.castor.builder.types;
 
 /**
- * The XML Schema "unsigned-integer" type
- * 
+ * The XML Schema "unsigned-integer" type.
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec
- *          2005) $
+ * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class XSUnsignedInteger extends XSLong {
+
+    /**
+     * No-arg constructor.
+     */
     public XSUnsignedInteger() {
-        super();
-        setMinInclusive(0);
-        setMaxInclusive(4294967295l);
+        this(false);
     }
 
-    public XSUnsignedInteger(boolean asWrapper) {
+    /**
+     * Constructs a new XSUnsignedInteger.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSUnsignedInteger(final boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive(0);
-        setMaxInclusive(4294967295l);
+        setMinInclusive(MIN_UNSIGNED_INTEGER);
+        setMaxInclusive(MAX_UNSIGNED_INTEGER);
     }
 
 }

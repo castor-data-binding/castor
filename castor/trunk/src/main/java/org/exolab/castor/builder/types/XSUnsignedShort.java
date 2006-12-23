@@ -16,24 +16,28 @@
 package org.exolab.castor.builder.types;
 
 /**
- * The XML Schema "unsigned-short" type
- * 
+ * The XML Schema "unsigned-short" type.
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec
- *          2005) $
+ * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class XSUnsignedShort extends XSInteger {
 
+    /**
+     * No-arg constructor.
+     */
     public XSUnsignedShort() {
-        super();
-        setMinInclusive(0L);
-        setMaxInclusive(65535L);
+        this(false);
     }
 
-    public XSUnsignedShort(boolean asWrapper) {
-        super(asWrapper);
-        setMinInclusive(0L);
-        setMaxInclusive(65535L);
+    /**
+     * Constructs a new XSUnsignedShort.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSUnsignedShort(final boolean asWrapper) {
+        super(asWrapper, XSType.UNSIGNED_SHORT_TYPE);
+        setMinInclusive(MIN_UNSIGNED_SHORT);
+        setMaxInclusive(MAX_UNSIGNED_SHORT);
     }
 
 }

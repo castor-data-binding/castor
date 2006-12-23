@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,20 +45,26 @@
 package org.exolab.castor.builder.types;
 
 /**
- * The XML Schema "positive-integer" type
+ * The XML Schema "positive-integer" type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSPositiveInteger extends XSInteger {
 
+    /**
+     * No-arg constructor.
+     */
     public XSPositiveInteger() {
-        super();
-        setMinInclusive(1L);
+        this(false);
     } //-- XSInteger
 
-    public XSPositiveInteger(boolean asWrapper) {
-        super(asWrapper);
-        setMinInclusive(1L);
+    /**
+     * Constructs a new XSPositiveInteger.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSPositiveInteger(final boolean asWrapper) {
+        super(asWrapper, XSType.POSITIVE_INTEGER_TYPE);
+        setMinInclusive(MIN_POSITIVE_INTEGER);
     } //-- XSInteger
 
 } //-- XSPositiveInteger

@@ -80,14 +80,6 @@ public final class XSTime extends XSPatternBase {
     public XSTime() {
         super(XSType.TIME_TYPE);
     } //-- XSTime
-    /**     * Returns the Java code necessary to create a new instance of the
-     * JType associated with this XSType.
-     * @return the Java code necessary to create a new instance of the
-     * JType associated with this XSType.
-     */
-    public String newInstanceCode() {
-        return "new " + getJType().getName() + "();";
-    } //-- newInstanceCode
 
     /**
      * Returns the JType that this XSType represents.
@@ -99,8 +91,9 @@ public final class XSTime extends XSPatternBase {
 
     /**
      * Returns the maximum exclusive value that this XSTime can hold.
-     * @return the maximum exclusive value that this XSTime can hold. If
-     * no maximum exclusive value has been set, Null will be returned
+     *
+     * @return the maximum exclusive value that this XSTime can hold. If no
+     *         maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
      */
     public String getMaxExclusive() {
@@ -109,8 +102,9 @@ public final class XSTime extends XSPatternBase {
 
     /**
      * Returns the maximum inclusive value that this XSTime can hold.
-     * @return the maximum inclusive value that this XSTime can hold. If
-     * no maximum inclusive value has been set, Null will be returned
+     *
+     * @return the maximum inclusive value that this XSTime can hold. If no
+     *         maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
      */
     public String getMaxInclusive() {
@@ -119,8 +113,9 @@ public final class XSTime extends XSPatternBase {
 
     /**
      * Returns the minimum exclusive value that this XSTime can hold.
-     * @return the minimum exclusive value that this XSTime can hold. If
-     * no minimum exclusive value has been set, Null will be returned
+     *
+     * @return the minimum exclusive value that this XSTime can hold. If no
+     *         minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive
      * @see #setMaxInclusive
      */
@@ -130,8 +125,9 @@ public final class XSTime extends XSPatternBase {
 
     /**
      * Returns the minimum inclusive value that this XSTime can hold.
-     * @return the minimum inclusive value that this can XSTime hold. If
-     * no minimum inclusive value has been set, Null will be returned
+     *
+     * @return the minimum inclusive value that this can XSTime hold. If no
+     *         minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
      */
     public String getMinInclusive() {
@@ -140,7 +136,9 @@ public final class XSTime extends XSPatternBase {
 
     /**
      * Sets the maximum exclusive value that this XSTime can hold.
-     * @param max the maximum exclusive value this XSTime can be
+     *
+     * @param max
+     *            the maximum exclusive value this XSTime can be
      * @see #setMaxInclusive
      */
     public void setMaxExclusive(final String max) {
@@ -238,14 +236,18 @@ public final class XSTime extends XSPatternBase {
     } //setFacets
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
     public void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
