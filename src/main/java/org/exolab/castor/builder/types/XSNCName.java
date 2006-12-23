@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -50,14 +50,14 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema NCName type.
+ * The XML Schema xsd:NCName type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSNCName extends XSType {
 
     /** The JType represented by this XSType. */
-    private static final JType jType = new JClass("java.lang.String");
+    private static final JType JTYPE = new JClass("java.lang.String");
 
     /**
      * No-arg constructor.
@@ -76,7 +76,7 @@ public final class XSNCName extends XSType {
      *         XSType
      */
     public String createFromJavaObjectCode(final String variableName) {
-        return "(java.lang.String)"+variableName;
+        return "(java.lang.String) " + variableName;
     } //-- fromJavaObject
 
     /**
@@ -95,7 +95,7 @@ public final class XSNCName extends XSType {
      * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSNCName.jType;
+        return XSNCName.JTYPE;
     }
 
     /**

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -50,69 +50,112 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * A list type....this will change soon
+ * A list type....this will change soon.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XSList extends XSType {
 
-    int maxSize = -1; //-- undefined
-    int minSize = 0;
+    /** Maximum size of this list. */
+    private int _maxSize = -1; //-- undefined
+    /** Minimum size of this list. */
+    private int _minSize = 0;
 
-    XSType contentType = null;
+    /** Content type of the collection. */
+    private final XSType _contentType;
+    /** The JType represented by this XSType. */
+    private final JType _jType;
 
     /**
-     * The JType represented by this XSType
+     * Creates a Java 1 style collection.
+     *
+     * @param contentType
+     *            type of the collection members
+     * @param useJava50
+     *            if true, the collection will be generated using Java 5
+     *            features such as generics.
      */
-    private JType jType = null;
-
-    public XSList(XSType contentType, final boolean useJava50) {
+    public XSList(final XSType contentType, final boolean useJava50) {
         super(XSType.COLLECTION);
-        this.contentType = contentType;
-        this.jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
+        this._contentType = contentType;
+        this._jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
     } //-- XSList
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return this.jType;
+        return this._jType;
     }
-
-    public int getMinimumSize() {
-        return minSize;
-    } //-- getMinimumSize
-
-    public int getMaximumSize() {
-        return maxSize;
-    } //-- getMaximumSize
-
-    public XSType getContentType() {
-        return contentType;
-    }
-
-    public void setMaximumSize(int size) {
-        maxSize = size;
-    } //-- setMaximumSize
-
-    public void setMinimumSize(int size) {
-        minSize = size;
-    } //-- setMinimumSize
-
-    public void setFacets(SimpleType simpleType) {}
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
-     *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * Returns the minimum allowed size for this list.
+     * @return the minimum allowed size for this list.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    public int getMinimumSize() {
+        return _minSize;
+    } //-- getMinimumSize
+
+    /**
+     * Returns the maximum allowed size for this list.
+     * @return the maximum allowed size for this list.
+     */
+    public int getMaximumSize() {
+        return _maxSize;
+    } //-- getMaximumSize
+
+    /**
+     * Returns the type contained in the list.
+     * @return the type contained in the list.
+     */
+    public XSType getContentType() {
+        return _contentType;
+    }
+
+    /**
+     * Sets the maximum allowed size for this list.
+     * @param size new maximum size for this list
+     */
+    public void setMaximumSize(final int size) {
+        _maxSize = size;
+    } //-- setMaximumSize
+
+    /**
+     * Sets the minimum allowed size for this list.
+     * @param size new minimum size for this list
+     */
+    public void setMinimumSize(final int size) {
+        _minSize = size;
+    } //-- setMinimumSize
+
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // Not implemented
+    }
+
+    /**
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
+     *
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
+     */
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
         //--TBD
     }
 

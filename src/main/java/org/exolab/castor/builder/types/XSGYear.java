@@ -82,16 +82,6 @@ public class XSGYear extends XSPatternBase {
     }
 
     /**
-     * Returns the Java code necessary to create a new instance of the
-     * JType associated with this XSType.
-     * @return the Java code necessary to create a new instance of the
-     * JType associated with this XSType.
-     */
-    public String newInstanceCode() {
-         return "new " + getJType().getName() + "();";
-    } //-- newInstanceCode
-
-    /**
      * Returns the JType that this XSType represents.
      * @return the JType that this XSType represents.
      */
@@ -240,14 +230,18 @@ public class XSGYear extends XSPatternBase {
     } //setFacets
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
     public void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -51,46 +51,71 @@ import org.exolab.javasource.JType;
 
 /**
  * The binary XML Schema datatype.
- * This class represents both hexBinary and base64Binary, no distinction
- * is made between both types.
+ * <p>
+ * This class represents both xsd:hexBinary and xsd:base64Binary.  No
+ * distinction is made between the two types.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSBinary extends XSType {
 
-    /**
-     * The JType represented by this XSType
-     */
-    private static JType jType = null;
+    /** The JType represented by this XSType. */
+    private final JType _jType;
 
-    public XSBinary(short type, boolean useJava50) {
+    /**
+     * Create a new XSBinary object to represent either base64binary or
+     * hexbinary.
+     *
+     * @param type
+     *            The type to use, must be one of XSType.BASE64BINARY_TYPE or
+     *            XSType.HEXBINARY_TYPE.
+     * @param useJava50
+     *            if true, Java 5 code artifacts will be generated.
+     */
+    public XSBinary(final short type, final boolean useJava50) {
         super(type);
-        if ( (type != XSType.BASE64BINARY_TYPE) && (type != XSType.HEXBINARY_TYPE))
-            throw new IllegalArgumentException("Value not allowed for an XML Schema binary.");
-        jType = new JArrayType(JType.BYTE, useJava50);
+        if (type != XSType.BASE64BINARY_TYPE && type != XSType.HEXBINARY_TYPE) {
+            throw new IllegalArgumentException("Value " + type
+                      + " not allowed for an XML Schema binary.");
+        }
+        _jType = new JArrayType(JType.BYTE, useJava50);
     } //-- XSBinary
 
-    public void setFacets(SimpleType simpleType) {}
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // Not implemented.
+    }
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSBinary.jType;
+        return this._jType;
     } //-- getJType
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
         //--TBD
     }
 

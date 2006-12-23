@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -62,21 +62,21 @@ import org.exolab.javasource.JType;
 public final class XSString extends XSPatternBase {
 
     /** The JType represented by this XSType. */
-    private static final JType jType = new JClass("java.lang.String");
+    private static final JType JTYPE = new JClass("java.lang.String");
     /** Jakarta's common-logging logger. */
     private static final Log LOG = LogFactory.getLog(XSString.class);
 
     /** The length facet. */
     private int _length        = 0;
     /** The max length facet. */
-    private int maxLength      = -1;
+    private int _maxLength     = -1;
     /** The min length facet. */
-    private int minLength      = 0;
+    private int _minLength     = 0;
     /** the whiteSpace facet. */
     private String _whiteSpace = "preserve";
 
     /**
-     * Creates a new XSString
+     * Creates a new XSString.
      */
     public XSString() {
         super(XSType.STRING_TYPE);
@@ -92,7 +92,7 @@ public final class XSString extends XSPatternBase {
      *         XSType
      */
     public String createFromJavaObjectCode(final String variableName) {
-        return "(java.lang.String)" + variableName;
+        return "(java.lang.String) " + variableName;
     } //-- fromJavaObject
 
     /**
@@ -100,7 +100,7 @@ public final class XSString extends XSPatternBase {
      * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSString.jType;
+        return XSString.JTYPE;
     } //-- getJType
 
     /**
@@ -109,7 +109,7 @@ public final class XSString extends XSPatternBase {
      * @return the maximum length facet
      */
     public int getMaxLength() {
-        return maxLength;
+        return _maxLength;
     } //-- getMaxLength
 
     /**
@@ -117,7 +117,7 @@ public final class XSString extends XSPatternBase {
      * @return the minimum length facet
      */
     public int getMinLength() {
-        return minLength;
+        return _minLength;
     } //-- getMinLength
 
     /**
@@ -141,7 +141,7 @@ public final class XSString extends XSPatternBase {
      * @return true if a maximum length has been set.
      */
     public boolean hasMaxLength() {
-        return (maxLength >= 0);
+        return (_maxLength >= 0);
     } //-- hasMaxLength
 
     /**
@@ -149,7 +149,7 @@ public final class XSString extends XSPatternBase {
      * @return true if a minimum length has been set.
      */
     public boolean hasMinLength() {
-        return (minLength > 0);
+        return (_minLength > 0);
     } //-- hasMinLength
 
     /**
@@ -191,7 +191,7 @@ public final class XSString extends XSPatternBase {
      *            the maximum length for occurances of this type
      */
     public void setMaxLength(final int maxLength) {
-        this.maxLength = maxLength;
+        this._maxLength = maxLength;
     } //-- setMaxLength
 
     /**
@@ -199,7 +199,7 @@ public final class XSString extends XSPatternBase {
      * @param minLength the minimum length for occurances of this type
      */
     public void setMinLength(final int minLength) {
-        this.minLength = minLength;
+        this._minLength = minLength;
     } //-- setMinLength
 
     /**

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -50,44 +50,60 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema ID type
+ * The XML Schema ID type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSId extends XSType {
 
-    /**
-     * The JType represented by this XSType
-     */
-    private static final JType jType = new JClass("java.lang.String");
+    /** The JType represented by this XSType. */
+    private static final JType JTYPE = new JClass("java.lang.String");
 
+    /**
+     * No-arg constructor.
+     */
     public XSId() {
         super(XSType.ID_TYPE);
     } //-- XSId
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSId.jType;
+        return XSId.JTYPE;
     }
 
-    public void setFacets(SimpleType simpletype) {}
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // not implemented
+    }
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-        jsc.add("org.exolab.castor.xml.validators.IdValidator typeValidator = new org.exolab.castor.xml.validators.IdValidator();");
-        jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.IdValidator typeValidator"
+                + " = new org.exolab.castor.xml.validators.IdValidator();");
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
 } //-- XSId

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -51,62 +51,80 @@ import org.exolab.javasource.JClass;
 import org.exolab.javasource.JSourceCode;
 
 /**
- * The XML Schema URIReference type
+ * The XML Schema xsd:anyURI type.
+ * FIXME:  This type does not appear to be implemented.
+ *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSAnyURI extends XSType {
 
     /**
-     * The JType represented by this XSType
+     * The JType represented by this XSType.
      * It could be better to use the org.apache.xerces.utils.URI
      * pro : represent a real URI
      * con : the source code generated must rely on Xerces
      */
-    private static final JType jType = new JClass("java.lang.String");
+    private static final JType JTYPE = new JClass("java.lang.String");
 
-    private String value = null;
-
-    //TODO VALIDATE THE URI
-
+    /**
+     * No-arg constructor.
+     */
     public XSAnyURI() {
         super(XSType.ANYURI_TYPE);
     }
 
     /**
-     * Returns the String necessary to convert an Object to
-     * an instance of this XSType. This method is really only useful
-     * for primitive types
-     * @param variableName the name of the Object
-     * @return the String necessary to convert an Object to an
-     * instance of this XSType
+     * Returns the String necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types.
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
      */
-    public String createFromJavaObjectCode(String variableName) {
-        return "(String)"+variableName;
+    public String createFromJavaObjectCode(final String variableName) {
+        return "(java.lang.String) " + variableName;
     } //-- fromJavaObject
 
-    public void setFacets(SimpleType simpleType) {}
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // Not implemented.
+    }
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSAnyURI.jType;
-    }
-
-    public String toString() {
-        return value;
+        return XSAnyURI.JTYPE;
     }
 
     /**
-     * Returns a JSourceCode that contains the validation method for this XSAnyURI.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should, if necessary, create a newly configured
+     * TypeValidator that should then be added to the FieldValidator instance
+     * whose name is provided.
+     * <p>
+     * TODO: VALIDATE THE URI
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
-     public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
         //--TBD
-     }
+    }
 
 } //-- XSAnyURI

@@ -50,29 +50,39 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema IDREF type
+ * The XML Schema IDREF type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSIdRef extends XSType {
 
-    /**
-     * The JType represented by this XSType
-     */
-    private static final JType jType = new JClass("java.lang.Object");
+    /** The JType represented by this XSType. */
+    private static final JType JTYPE = new JClass("java.lang.Object");
 
+    /**
+     * No-arg constructor.
+     */
     public XSIdRef() {
         super(XSType.IDREF_TYPE);
     } //-- XSId
 
-    public void setFacets(SimpleType simpleType) {}
+    /**
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
+     */
+    public void setFacets(final SimpleType simpleType) {
+        // Not implemented
+    }
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSIdRef.jType;
+        return XSIdRef.JTYPE;
     }
 
     /**
@@ -85,7 +95,8 @@ public final class XSIdRef extends XSType {
      * @param fieldValidatorInstanceName the name of the FieldValidator
      * that the configured TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
         //--TBD
     }
 

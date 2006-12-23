@@ -16,23 +16,28 @@
 package org.exolab.castor.builder.types;
 
 /**
- * The XML Schema "unsigned-byte" type
- * 
+ * The XML Schema "unsigned-byte" type.
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec
- *          2005) $
+ * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class XSUnsignedByte extends XSShort {
+
+    /**
+     * No-arg constructor.
+     */
     public XSUnsignedByte() {
-        super();
-        setMinInclusive((short) 0);
-        setMaxInclusive((short) 255);
+        this(false);
     }
 
-    public XSUnsignedByte(boolean asWrapper) {
+    /**
+     * Constructs a new XSUnsignedByte.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSUnsignedByte(final boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive((short) 0);
-        setMaxInclusive((short) 255);
+        setMinInclusive((short) MIN_UNSIGNED_BYTE);
+        setMaxInclusive((short) MAX_UNSIGNED_BYTE);
     }
 
 }

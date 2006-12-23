@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -62,14 +62,14 @@ import org.exolab.javasource.JType;
 public final class XSQName extends XSPatternBase {
 
     /** The JType represented by this XSType. */
-    private static final JType jType = new JClass("java.lang.String");
+    private static final JType JTYPE = new JClass("java.lang.String");
 
     /** The length facet. */
     private int _length   = 0;
     /** The max length facet. */
-    private int maxLength = -1;
+    private int _maxLength = -1;
     /** The min length facet. */
-    private int minLength =  0;
+    private int _minLength =  0;
 
     /**
      * No-arg constructor.
@@ -88,7 +88,7 @@ public final class XSQName extends XSPatternBase {
      *         XSType
      */
     public String createFromJavaObjectCode(final String variableName) {
-        return "(java.lang.String)" + variableName;
+        return "(java.lang.String) " + variableName;
     } //-- fromJavaObject
 
     /**
@@ -98,7 +98,7 @@ public final class XSQName extends XSPatternBase {
      * @return the maximum length facet
      */
     public int getMaxLength() {
-        return maxLength;
+        return _maxLength;
     } //-- getMaxLength
 
     /**
@@ -106,7 +106,7 @@ public final class XSQName extends XSPatternBase {
      * @return the minimum length facet.
      */
     public int getMinLength() {
-        return minLength;
+        return _minLength;
     } //-- getMinLength
 
     /**
@@ -122,7 +122,7 @@ public final class XSQName extends XSPatternBase {
      * @return true if a maximum length has been set.
      */
     public boolean hasMaxLength() {
-        return (maxLength >= 0);
+        return (_maxLength >= 0);
     } //-- hasMaxLength
 
     /**
@@ -130,7 +130,7 @@ public final class XSQName extends XSPatternBase {
      * @return true if a minimum length has been set.
      */
     public boolean hasMinLength() {
-        return (minLength > 0);
+        return (_minLength > 0);
     } //-- hasMinLength
 
     /**
@@ -164,7 +164,7 @@ public final class XSQName extends XSPatternBase {
      *            the maximum length for occurances of this type
      */
     public void setMaxLength(final int maxLength) {
-        this.maxLength = maxLength;
+        this._maxLength = maxLength;
     } //-- setMaxLength
 
     /**
@@ -172,7 +172,7 @@ public final class XSQName extends XSPatternBase {
      * @param minLength the minimum length for occurances of this type
      */
     public void setMinLength(final int minLength) {
-        this.minLength = minLength;
+        this._minLength = minLength;
     } //-- setMinLength
 
     /**
@@ -185,7 +185,7 @@ public final class XSQName extends XSPatternBase {
     public void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-            Facet facet = (Facet)enumeration.nextElement();
+            Facet facet = (Facet) enumeration.nextElement();
             String name = facet.getName();
 
             if (Facet.MAX_LENGTH.equals(name)) {
@@ -205,7 +205,7 @@ public final class XSQName extends XSPatternBase {
      * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return XSQName.jType;
+        return XSQName.JTYPE;
     }
 
     /**

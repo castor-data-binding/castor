@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -55,287 +55,343 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema Float type
+ * The XML Schema xsd:float type.
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class XSFloat extends XSPatternBase {
 
-    //- Constraints for integer type
-    Float maxInclusive = null;
-    Float maxExclusive = null;
-    Float minInclusive = null;
-    Float minExclusive = null;
+    /** Maximum float (inclusive). */
+    private Float           _maxInclusive = null;
+    /** Maximum float (inclusive). */
+    private Float           _maxExclusive = null;
+    /** Maximum float (inclusive). */
+    private Float           _minInclusive = null;
+    /** Maximum float (inclusive). */
+    private Float           _minExclusive = null;
+
+    /** The JType represented by this XSType. */
+    private final JType   _jType;
+    /** True if this type is implemented using the wrapper class. */
+    private final boolean _asWrapper;
 
     /**
-     * The JType represented by this XSType
+     * No-arg constructor.
      */
-    private static JType jType = JType.FLOAT;
-    private boolean _asWrapper = false;
-
     public XSFloat() {
         this(false);
     }
 
-    public XSFloat(boolean asWrapper) {
+    /**
+     * Constructs a new XSFloat.
+     *
+     * @param asWrapper
+     *            if true, use the java.lang wrapper class.
+     */
+    public XSFloat(final boolean asWrapper) {
         super(XSType.FLOAT_TYPE);
         _asWrapper = asWrapper;
-        if (_asWrapper)
-            jType = new JClass("java.lang.Float");
-        else jType = JType.FLOAT;
-    } //-- XSFloat
+        _jType = (_asWrapper) ? new JClass("java.lang.Float") : JType.FLOAT;
+    } // -- XSFloat
 
     /**
-     * Returns the JType that this XSType represents
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     *
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return jType;
+        return _jType;
     }
 
     /**
      * Returns the maximum exclusive value that this XSFloat can hold.
-     * @return the maximum exclusive value that this XSFloat can hold. If
-     * no maximum exclusive value has been set, Null will be returned
+     *
+     * @return the maximum exclusive value that this XSFloat can hold. If no
+     *         maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
      */
     public Float getMaxExclusive() {
-        return maxExclusive;
-    } //-- getMaxExclusive
+        return _maxExclusive;
+    } // -- getMaxExclusive
 
     /**
      * Returns the maximum inclusive value that this XSFloat can hold.
-     * @return the maximum inclusive value that this XSFloat can hold. If
-     * no maximum inclusive value has been set, Null will be returned
+     *
+     * @return the maximum inclusive value that this XSFloat can hold. If no
+     *         maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
      */
     public Float getMaxInclusive() {
-        return maxInclusive;
-    } //-- getMaxInclusive
+        return _maxInclusive;
+    } // -- getMaxInclusive
 
     /**
      * Returns the minimum exclusive value that this XSFloat can hold.
-     * @return the minimum exclusive value that this XSFloat can hold. If
-     * no minimum exclusive value has been set, Null will be returned
+     *
+     * @return the minimum exclusive value that this XSFloat can hold. If no
+     *         minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive()
      * @see #setMaxInclusive(float)
      */
     public Float getMinExclusive() {
-        return minExclusive;
-    } //-- getMinExclusive
+        return _minExclusive;
+    } // -- getMinExclusive
 
     /**
      * Returns the minimum inclusive value that this XSFloat can hold.
-     * @return the minimum inclusive value that this XSFloat can hold. If
-     * no minimum inclusive value has been set, Null will be returned
+     *
+     * @return the minimum inclusive value that this XSFloat can hold. If no
+     *         minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
      */
     public Float getMinInclusive() {
-        return minInclusive;
-    } //-- getMinInclusive
+        return _minInclusive;
+    } // -- getMinInclusive
 
+    /**
+     * Returns true if a maximum (inclusive or exclusive) has been set.
+     * @return true if a maximum (inclusive or exclusive) has been set.
+     */
     public boolean hasMaximum() {
-        return ((maxInclusive != null) || (maxExclusive != null));
-    } //-- hasMaximum
+        return _maxInclusive != null || _maxExclusive != null;
+    } // -- hasMaximum
 
+    /**
+     * Returns true if a minimum (inclusive or exclusive) has been set.
+     * @return true if a minimum (inclusive or exclusive) has been set.
+     */
     public boolean hasMinimum() {
-        return ((minInclusive != null) || (minExclusive != null));
-    } //-- hasMinimum
+        return _minInclusive != null || _minExclusive != null;
+    } // -- hasMinimum
 
     /**
      * Sets the maximum exclusive value that this XSFloat can hold.
-     * @param max the maximum exclusive value this XSFloat can be
+     *
+     * @param max
+     *            the maximum exclusive value this XSFloat can be
      * @see #setMaxInclusive(Float)
      */
-    public void setMaxExclusive(float max) {
-        maxExclusive = new Float(max);
-    } //-- setMaxExclusive
+    public void setMaxExclusive(final float max) {
+        _maxExclusive = new Float(max);
+    } // -- setMaxExclusive
 
     /**
      * Sets the maximum exclusive value that this XSFloat can hold.
-     * @param max the maximum exclusive value this XSFloat can be
+     *
+     * @param max
+     *            the maximum exclusive value this XSFloat can be
      * @see #setMaxInclusive(float)
      */
-    public void setMaxExclusive(Float max) {
-        maxExclusive = max;
-    } //-- setMaxExclusive
+    public void setMaxExclusive(final Float max) {
+        _maxExclusive = max;
+    } // -- setMaxExclusive
 
     /**
      * Sets the maximum inclusive value that this XSFloat can hold.
-     * @param max the maximum inclusive value this XSFloat can be
+     *
+     * @param max
+     *            the maximum inclusive value this XSFloat can be
      * @see #setMaxExclusive(Float)
      */
-    public void setMaxInclusive(float max) {
-        maxInclusive = new Float(max);
-    } //-- setMaxInclusive
+    public void setMaxInclusive(final float max) {
+        _maxInclusive = new Float(max);
+    } // -- setMaxInclusive
 
     /**
      * Sets the maximum inclusive value that this XSFloat can hold.
-     * @param max the maximum inclusive value this XSFloat can be
+     *
+     * @param max
+     *            the maximum inclusive value this XSFloat can be
      * @see #setMaxExclusive(float)
      */
-    public void setMaxInclusive(Float max) {
-        maxInclusive = max;
-    } //-- setMaxInclusive
+    public void setMaxInclusive(final Float max) {
+        _maxInclusive = max;
+    } // -- setMaxInclusive
 
     /**
      * Sets the minimum exclusive value that this XSFloat can hold.
-     * @param min the minimum exclusive value this XSFloat can be
+     *
+     * @param min
+     *            the minimum exclusive value this XSFloat can be
      * @see #setMinInclusive(Float)
      */
-    public void setMinExclusive(float min) {
-        minExclusive = new Float(min);
-    } //-- setMinExclusive
+    public void setMinExclusive(final float min) {
+        _minExclusive = new Float(min);
+    } // -- setMinExclusive
 
     /**
      * Sets the minimum exclusive value that this XSFloat can hold.
-     * @param min the minimum exclusive value this XSFloat can be
+     *
+     * @param min
+     *            the minimum exclusive value this XSFloat can be
      * @see #setMinInclusive(float)
      */
-    public void setMinExclusive(Float min) {
-        minExclusive = min;
-    } //-- setMinExclusive
+    public void setMinExclusive(final Float min) {
+        _minExclusive = min;
+    } // -- setMinExclusive
 
     /**
      * Sets the minimum inclusive value that this XSFloat can hold.
-     * @param min the minimum inclusive value this XSFloat can be
+     *
+     * @param min
+     *            the minimum inclusive value this XSFloat can be
      * @see #setMinExclusive(Float)
      */
-    public void setMinInclusive(float min) {
-        minInclusive = new Float(min);
-    } //-- setMinInclusive
+    public void setMinInclusive(final float min) {
+        _minInclusive = new Float(min);
+    } // -- setMinInclusive
 
     /**
      * Sets the minimum inclusive value that this XSFloat can hold.
-     * @param min the minimum inclusive value this XSFloat can be
+     *
+     * @param min
+     *            the minimum inclusive value this XSFloat can be
      * @see #setMinExclusive(float)
      */
-    public void setMinInclusive(Float min) {
-        minInclusive = min;
-    } //-- setMinInclusive
+    public void setMinInclusive(final Float min) {
+        _minInclusive = min;
+    } // -- setMinInclusive
 
     /**
-     * Reads and sets the facets for XSFloat
-     * @param simpleType the SimpleType containing the facets
+     * Transfer facets from the provided simpleType to <code>this</code>.
+     *
+     * @param simpleType
+     *            The SimpleType containing our facets.
+     * @see org.exolab.castor.builder.types.XSType#getFacets
      */
-    public void setFacets(SimpleType simpleType) {
-        //-- copy valid facets
+    public void setFacets(final SimpleType simpleType) {
+        // -- copy valid facets
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-            Facet facet = (Facet)enumeration.nextElement();
+            Facet facet = (Facet) enumeration.nextElement();
             String name = facet.getName();
 
-            //-- maxExclusive
-            if (Facet.MAX_EXCLUSIVE.equals(name))
+            if (Facet.MAX_EXCLUSIVE.equals(name)) {
                 setMaxExclusive(facet.toFloat());
-            //-- maxInclusive
-            else if (Facet.MAX_INCLUSIVE.equals(name))
+            } else if (Facet.MAX_INCLUSIVE.equals(name)) {
                 setMaxInclusive(facet.toFloat());
-            //-- minExclusive
-            else if (Facet.MIN_EXCLUSIVE.equals(name))
+            } else if (Facet.MIN_EXCLUSIVE.equals(name)) {
                 setMinExclusive(facet.toFloat());
-            //-- minInclusive
-            else if (Facet.MIN_INCLUSIVE.equals(name))
+            } else if (Facet.MIN_INCLUSIVE.equals(name)) {
                 setMinInclusive(facet.toFloat());
-            //-- pattern
-            else if (Facet.PATTERN.equals(name))
+            } else if (Facet.PATTERN.equals(name)) {
                 setPattern(facet.getValue());
+            }
         }
     }
 
     /**
-     * Returns the String necessary to convert an instance of this XSType
-     * to an Object. This method is really only useful for primitive types
-     * @param variableName the name of the instance variable
-     * @return the String necessary to convert an instance of this XSType
-     * to an Object
+     * Returns the String necessary to convert an instance of this XSType to an
+     * Object. This method is really only useful for primitive types
+     *
+     * @param variableName
+     *            the name of the instance variable
+     * @return the String necessary to convert an instance of this XSType to an
+     *         Object
      */
-    public String createToJavaObjectCode(String variableName) {
-        if (_asWrapper) return super.createToJavaObjectCode(variableName);
+    public String createToJavaObjectCode(final String variableName) {
+        if (_asWrapper) {
+            return super.createToJavaObjectCode(variableName);
+        }
         StringBuffer sb = new StringBuffer("new java.lang.Float(");
-         sb.append(variableName);
-         sb.append(")");
-         return sb.toString();
-    } //-- toJavaObject
+        sb.append(variableName);
+        sb.append(")");
+        return sb.toString();
+    } // -- toJavaObject
 
     /**
-     * Returns the String necessary to convert an Object to
-     * an instance of this XSType. This method is really only useful
-     * for primitive types
-     * @param variableName the name of the Object
-     * @return the String necessary to convert an Object to an
-     * instance of this XSType
+     * Returns the String necessary to convert an Object to an instance of this
+     * XSType. This method is really only useful for primitive types
+     *
+     * @param variableName
+     *            the name of the Object
+     * @return the String necessary to convert an Object to an instance of this
+     *         XSType
      */
-    public String createFromJavaObjectCode(String variableName) {
-        StringBuffer sb = new StringBuffer("((java.lang.Float)");
+    public String createFromJavaObjectCode(final String variableName) {
+        StringBuffer sb = new StringBuffer("((java.lang.Float) ");
         sb.append(variableName);
         sb.append(")");
         if (!_asWrapper) {
-           sb.append(".floatValue()");
+            sb.append(".floatValue()");
         }
         return sb.toString();
-    } //-- fromJavaObject
+    } // -- fromJavaObject
 
     /**
-     * Creates the validation code for an instance of this XSType. The validation
-     * code should if necessary create a newly configured TypeValidator, that
-     * should then be added to a FieldValidator instance whose name is provided.
+     * Creates the validation code for an instance of this XSType. The
+     * validation code should if necessary create a newly configured
+     * TypeValidator, that should then be added to a FieldValidator instance
+     * whose name is provided.
      *
-     * @param fixedValue a fixed value to use if any
-     * @param jsc the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName the name of the FieldValidator
-     * that the configured TypeValidator should be added to.
+     * @param fixedValue
+     *            a fixed value to use if any
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param fieldValidatorInstanceName
+     *            the name of the FieldValidator that the configured
+     *            TypeValidator should be added to.
      */
-    public void validationCode (JSourceCode jsc, String fixedValue, String fieldValidatorInstanceName) {
-        jsc.add("org.exolab.castor.xml.validators.FloatValidator typeValidator = new org.exolab.castor.xml.validators.FloatValidator();");
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.FloatValidator typeValidator"
+                + " = new org.exolab.castor.xml.validators.FloatValidator();");
+
         if (hasMinimum()) {
             Float min = getMinExclusive();
-            if (min != null)
-                 jsc.add("typeValidator.setMinExclusive(");
-            else {
-                 min = getMinInclusive();
-                 jsc.add("typeValidator.setMinInclusive(");
+            if (min != null) {
+                jsc.add("typeValidator.setMinExclusive(");
+            } else {
+                min = getMinInclusive();
+                jsc.add("typeValidator.setMinInclusive(");
             }
-            if ( (min.equals(new Float(Float.NEGATIVE_INFINITY))) )
+            if ((min.equals(new Float(Float.NEGATIVE_INFINITY)))) {
                 jsc.append("Float.NEGATIVE_INFINITY");
-            else if ( (min.equals(new Float(Float.POSITIVE_INFINITY))) )
+            } else if ((min.equals(new Float(Float.POSITIVE_INFINITY)))) {
                 jsc.append("Float.POSITIVE_INFINITY");
-            else jsc.append(min.toString()+"f");
-                jsc.append(");");
+            } else {
+                jsc.append(min.toString() + "f");
+            }
+            jsc.append(");");
         }
         if (hasMaximum()) {
             Float max = getMaxExclusive();
-            if (max != null)
+            if (max != null) {
                 jsc.add("typeValidator.setMaxExclusive(");
-            else {
+            } else {
                 max = getMaxInclusive();
                 jsc.add("typeValidator.setMaxInclusive(");
             }
-            if ( (max.equals(new Float(Float.NEGATIVE_INFINITY))) )
+            if ((max.equals(new Float(Float.NEGATIVE_INFINITY)))) {
                 jsc.append("Float.NEGATIVE_INFINITY");
-            else if ( (max.equals(new Float(Float.POSITIVE_INFINITY))) )
+            } else if ((max.equals(new Float(Float.POSITIVE_INFINITY)))) {
                 jsc.append("Float.POSITIVE_INFINITY");
-            else jsc.append(max.toString()+"f");
-                jsc.append(");");
+            } else {
+                jsc.append(max.toString() + "f");
+            }
+            jsc.append(");");
         }
 
-        //-- fixed values
+        // -- fixed values
         if (fixedValue != null) {
 
-            //-- make sure we've got a good value
+            // -- make sure we've got a good value
             new Float(fixedValue);
             jsc.add("typeValidator.setFixed(");
             jsc.append(fixedValue);
             jsc.append("f);");
         }
-        //-- pattern facet
+
+        // -- pattern facet
         String pattern = getPattern();
         if (pattern != null) {
             jsc.add("typeValidator.setPattern(\"");
             jsc.append(escapePattern(pattern));
             jsc.append("\");");
         }
-        jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
+
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
-} //-- XStype
+} // -- XStype

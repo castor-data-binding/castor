@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,19 +45,26 @@
 package org.exolab.castor.builder.types;
 
 /**
- * The XML Schema "negative-integer" type
+ * The XML Schema "negative-integer" type.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class XSNegativeInteger extends XSInteger {
+
+    /**
+     * No-arg constructor.
+     */
     public XSNegativeInteger() {
-        super();
-        super.setMaxInclusive(-1L);
+        this(false);
     } //-- XSInteger
 
-    public XSNegativeInteger(boolean asWrapper) {
-        super(asWrapper);
-        super.setMaxInclusive(-1L);
+    /**
+     * Constructs a new XSNegativeInteger.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSNegativeInteger(final boolean asWrapper) {
+        super(asWrapper, XSType.NEGATIVE_INTEGER_TYPE);
+        super.setMaxInclusive(MAX_NEGATIVE_INTEGER);
     } //-- XSInteger
 
 } //-- XSNegativeInteger
