@@ -17,7 +17,10 @@
                         <name></name>
                         <email></email>
                     </submitter>
-                    <reporter></reporter>
+                    <reporter>
+                        <name></name>
+                        <email></email>
+                    </reporter>
                     <type></type>
                     <module></module>
                     <date></date>
@@ -30,6 +33,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1761" tool="jira">
+                    <description>
+                        Java 5 breaks BigDecimal validation
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061223</date>
+                </bug>
                 <bug id="1758" tool="jira">
                     <description>
                         Complete facet handling for numerical types
@@ -278,7 +301,7 @@
   </enum-def>
 </enumBinding>]]></code-panel>
 
-<!-- 
+<!--
                 <h3>Added support for anonymous type definition in XML code generation bindings</h3>
 
                 <p>For &lt;complexType&gt; and &lt;simpleType&gt; enumerations, it is

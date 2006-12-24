@@ -46,6 +46,8 @@
  */
 package org.exolab.castor.xml.validators;
 
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
 import java.math.BigDecimal;
 
 import org.exolab.castor.xml.TypeValidator;
@@ -55,14 +57,24 @@ import org.exolab.castor.xml.ValidationException;
 /**
  * The Decimal Validation class. This class handles validation for the Decimal
  * type.
- *
- * TODO : pattern, enumeration
+ * <p>
+ * TODO: enumeration
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
- *          2006) $
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class DecimalValidator extends PatternValidator implements TypeValidator {
+
+    private static Method bdMethodToPlainString = null;
+
+    static {
+        try {
+            bdMethodToPlainString = BigDecimal.class.getMethod("toPlainString", (Class[]) null);
+        } catch (NoSuchMethodException e) {
+            // If it does not exist, we're in Java 1.4.2 or earlier
+        }
+    }
 
     private BigDecimal _fixed           = null;
 
@@ -278,7 +290,7 @@ public class DecimalValidator extends PatternValidator implements TypeValidator 
         BigDecimal clean = bd.stripTrailingZeros();
 
         if (_totalDigits != -1) {
-            String temp = clean.toPlainString();
+            String temp = toStringForBigDecimal(clean);
             int length = temp.length();
             if (temp.indexOf('-') == 0) {
                 --length;
@@ -302,9 +314,34 @@ public class DecimalValidator extends PatternValidator implements TypeValidator 
         }
 
         if (hasPattern()) {
-            super.validate(bd.toString(), context);
+            super.validate(toStringForBigDecimal(bd), context);
         }
     } // -- validate
+
+    /**
+     * Because Sun broke API compatibility between Java 1.4 and Java 5, we have
+     * to do this the hard way.
+     *
+     * @param bd  the BigDecimal to toString() on.
+     * @return what <i>should be</i> toString() for BigDecimal
+     * @see <a href="http://bugs.sun.com/bugdatabase/view_bug.do?bug_id=6364896">
+     *      This Sun bug report calling for better documentation of this change</a>
+     */
+    private String toStringForBigDecimal(BigDecimal bd) {
+        if (bdMethodToPlainString != null) {
+            try {
+                // For Java 1.5 or later, use toPlainString() to get what we want
+                return (String) bdMethodToPlainString.invoke(bd, (Object[]) null);
+            } catch (IllegalAccessException e) {
+                // Cannot occur, so just fall through to toString()
+            } catch (InvocationTargetException e) {
+                // Cannot occur, so just fall through to toString()
+            }
+        }
+
+        // For Java 1.4.2 or earlier, use toString() to get what we want
+        return bd.toString();
+    }
 
     /**
      * Validates the given Object
@@ -333,12 +370,15 @@ public class DecimalValidator extends PatternValidator implements TypeValidator 
         }
 
         BigDecimal value = null;
-        try {
-            value = new java.math.BigDecimal(object.toString());
-        } catch (Exception ex) {
-            String err = "Expecting a decimal, received instead: ";
-            err += object.getClass().getName();
-            throw new ValidationException(err);
+        if (object instanceof BigDecimal) {
+            value = (BigDecimal) object;
+        } else {
+            try {
+                value = new java.math.BigDecimal(object.toString());
+            } catch (Exception ex) {
+                String err = "Expecting a decimal, received instead: " + object.getClass().getName();
+                throw new ValidationException(err);
+            }
         }
         validate(value, context);
     } //-- validate
