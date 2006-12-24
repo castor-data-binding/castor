@@ -287,7 +287,7 @@ public class DecimalValidator extends PatternValidator implements TypeValidator 
         }
 
         // For digit counting, we are not supposed to count leading or trailing zeros
-        BigDecimal clean = bd.stripTrailingZeros();
+        BigDecimal clean = stripTrailingZeros(bd);
 
         if (_totalDigits != -1) {
             String temp = toStringForBigDecimal(clean);
@@ -341,6 +341,31 @@ public class DecimalValidator extends PatternValidator implements TypeValidator 
 
         // For Java 1.4.2 or earlier, use toString() to get what we want
         return bd.toString();
+    }
+
+    /**
+     * Trims trailing zeros from the provided BigDecimal. Since BigDecimals are
+     * immutable, the value passed in is not changed.
+     * <p>
+     * The JDK 5 API provides a method to do this, but earlier releases of Java
+     * do not. Rather than reflectively use this method for early releases and
+     * the API-provided one for releases after Java 5, we'll just use this
+     * method for all Java releases.
+     *
+     * @param bd
+     *            the BigDecimal to trim
+     * @return a new BigDecimal with trailing zeros removed
+     */
+    private BigDecimal stripTrailingZeros(final BigDecimal bd) {
+        BigDecimal ret = null;
+        try {
+            for (int i = bd.scale(); i >= 0; i--) {
+                ret = bd.setScale(i);
+            }
+        } catch (ArithmeticException e) {
+            // We've removed all trailing zeros
+        }
+        return (ret == null) ? bd : ret;
     }
 
     /**
