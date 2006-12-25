@@ -126,15 +126,21 @@ public class DescriptorJClass extends JClass {
             || _type.getSuperClassQualifiedName().equals(superClass)) {
             setSuperClass(XMLCLASS_DESCRIPTOR_IMPL);
         } else {
-            extended = true;
-            setSuperClass(_type.getSuperClassQualifiedName() + "Descriptor");
+            if (_type.getSuperClass() == null) {
+                setSuperClass(null);
+            } else {
+                extended = true;
+                setSuperClass(getSuperClassName());
+            }
         }
         superClass = null;
 
         if (_type.getPackageName() != null && _type.getPackageName().length() > 0) {
             addImport(_type.getName());
             if (extended) {
-                addImport(_type.getSuperClassQualifiedName() + "Descriptor");
+                if (_type.getSuperClass() != null) {
+                    addImport(getSuperClassName());
+                }
             }
         }
 
@@ -171,6 +177,28 @@ public class DescriptorJClass extends JClass {
 
         addClassDescriptorOverrides(extended);
     } //-- createSource
+
+    /**
+     * Returns the qualified class name of the super class, adjusted to add the
+     * 'descriptors' sub-package.
+     * @return Returns the qualified class name of the super class
+     */
+    private String getSuperClassName() {
+        String superClassName = null;
+        if (_type.getSuperClass().getPackageName() == null ||
+                _type.getSuperClass().getPackageName().equals("")) {
+            if (getPackageName() == null) {
+                // no target package specified --> do not append package (=null)
+                superClassName = _type.getSuperClass().getLocalName() + "Descriptor";
+            } else {
+                // target package specified --> simply use it
+                superClassName = getPackageName() + "." + _type.getSuperClass().getLocalName() + "Descriptor";
+            }
+        } else {
+            superClassName = _type.getSuperClass().getPackageName() + ".descriptors." + _type.getSuperClass().getLocalName() + "Descriptor";
+        }
+        return superClassName;
+    }
 
     /**
      * Adds our default constructor.
