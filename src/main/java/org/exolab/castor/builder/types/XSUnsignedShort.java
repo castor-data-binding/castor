@@ -15,9 +15,6 @@
  */
 package org.exolab.castor.builder.types;
 
-import org.exolab.javasource.JClass;
-import org.exolab.javasource.JType;
-
 /**
  * The XML Schema "unsigned-short" type.
  *
