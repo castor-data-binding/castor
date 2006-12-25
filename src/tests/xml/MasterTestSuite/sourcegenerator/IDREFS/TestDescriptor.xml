@@ -12,13 +12,58 @@
     <Schema>IDREFS.xsd</Schema>
         <Root_Object random="false" dump="true">Root</Root_Object>
         <UnitTestCase>
-            <Name>Test Generation</Name>
-            <Input>input1.xml</Input>
+            <Configuration>
+                <Unmarshal>
+                    <Call-method name="setValidation">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Unmarshal>
+            </Configuration>
+           <Name>Test Generation</Name>
+            <Input>input-ok.xml</Input>
         </UnitTestCase>
         <UnitTestCase>
+            <Configuration>
+                <Unmarshal>
+                    <Call-method name="setValidation">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Unmarshal>
+            </Configuration>
             <Name>Test Marshalling with the generated Descriptors</Name>
-            <Input>input1.xml</Input>
+            <Input>input-ok.xml</Input>
             <ObjectBuilder>IDREFSBuilder</ObjectBuilder>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Configuration>
+                <Unmarshal>
+                    <Call-method name="setValidation">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Unmarshal>
+            </Configuration>
+            <Name>TestGenerationAndUnmarshalInvalid</Name>
+            <Input>input-invalid.xml</Input>
+            <Failure FailureStep="unmarshal-reference">true</Failure>
+        </UnitTestCase>
+        <UnitTestCase>
+            <Configuration>
+                <Marshal>
+                    <Call-method name="setValidation">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Marshal>
+            </Configuration>
+            <Name>Test marshalling various valid and invalid objects</Name>
+            <CustomTest>
+                <TestClass>TestMarshalIDREFS</TestClass>
+                <Methods>
+                    <Call-method name="testMarshallIdrefs"/>
+                    <Call-method name="testMarshallIdrefsNullId"/><!-- 
+                    <Call-method name="testMarshallWrongHref"/>
+                    <Call-method name="testMarshallNullHref"/>
+                --></Methods>
+            </CustomTest>
         </UnitTestCase>
      </SourceGeneratorTest>
 </TestDescriptor>

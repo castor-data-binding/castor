@@ -97,6 +97,11 @@ public class ValidationContext {
     private Set _ids = new HashSet(); 
     
     /**
+     * Set of temporary unreseolved IDREFS;
+     */
+    private Set _unresolvedIdrefs = new HashSet(); 
+    
+    /**
      * Creates a new ValidationContext
      */
     public ValidationContext() {
@@ -219,12 +224,23 @@ public class ValidationContext {
     public void addID(String id) throws ValidationException {
         if (!_ids.contains(id)) {
             _ids.add(id);
+            _unresolvedIdrefs.remove(id);
         } else {
             throw new ValidationException ("ID " + id + " already used within current document.");
         }
     }
 
+    public boolean checkIdRef(String id) {
+        if (!_ids.contains(id)) {
+            _unresolvedIdrefs.add(id);
+        }
+        return _ids.contains(id);
+    }
 
+    public Set getUnresolvedIdRefs() {
+        return _unresolvedIdrefs;
+    }
+    
     /**
      * Life-cycle method for proper 'shutdown operations'.
      */

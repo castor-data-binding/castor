@@ -79,6 +79,7 @@ import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
 import org.exolab.castor.xml.util.XMLClassDescriptorAdapter;
 import org.exolab.castor.xml.util.XMLContainerElementFieldDescriptor;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
+import org.exolab.castor.xml.validators.IdRefValidator;
 import org.exolab.castor.xml.validators.NameValidator;
 
 import java.lang.reflect.Constructor;
@@ -473,6 +474,15 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
         //-- reference
         xmlDesc.setReference(isReference);
+        if (isReference) {
+        	if (colType == null) {
+        		FieldValidator fieldValidator = new FieldValidator();
+        		fieldValidator.setValidator(new IdRefValidator());
+        		xmlDesc.setValidator(fieldValidator);
+        	} else {
+        		// TODO handle other cases
+        	}
+        }
 
         xmlDesc.setContainer(fieldMap.getContainer());
 

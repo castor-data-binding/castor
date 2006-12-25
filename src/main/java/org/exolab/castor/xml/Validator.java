@@ -159,6 +159,12 @@ public class Validator implements ClassValidator {
                  loc.addParent(classDesc.getXMLName());
             throw vx;
         }
+
+        if (context.getUnresolvedIdRefs().size() > 0) {
+            String err = "Unresolved IDREfs: " + context.getUnresolvedIdRefs().toString();
+            throw new ValidationException(err);
+        }
+        
     } //-- validate
     
     // TODO: add cleanup life-cycle method to be called from outside

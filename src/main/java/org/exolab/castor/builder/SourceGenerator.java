@@ -96,8 +96,6 @@ import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;
 import org.exolab.castor.xml.schema.reader.SchemaUnmarshaller;
 import org.exolab.javasource.JClass;
-import org.exolab.javasource.JNaming;
-
 import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXParseException;
