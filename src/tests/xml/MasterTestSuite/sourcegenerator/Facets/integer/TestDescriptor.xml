@@ -10,21 +10,21 @@
         <Root_Object random="false" dump="true">IntegerTest</Root_Object>
         <Property_File>builder.properties</Property_File>
         <UnitTestCase>
-            <Name>Test Generation</Name>
+            <Name>TestGenerationOK</Name>
             <Input>input.xml</Input>
         </UnitTestCase>
         <UnitTestCase>
-            <Name>Test Generation</Name>
+            <Name>TestGenerationFailMax</Name>
             <Failure>true</Failure>
             <Input>fail-max.xml</Input>
         </UnitTestCase>
         <UnitTestCase>
-            <Name>Test Generation</Name>
+            <Name>TestGenerationFailIntMax</Name>
             <Failure>true</Failure>
             <Input>fail-int-max.xml</Input>
         </UnitTestCase>
         <UnitTestCase>
-            <Name>Test Generation</Name>
+            <Name>TestGenerationFailIntMin</Name>
             <Failure>true</Failure>
             <Input>fail-int-min.xml</Input>
         </UnitTestCase>

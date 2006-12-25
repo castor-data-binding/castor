@@ -2,6 +2,6 @@
 <TestPrimitiveToWrapper
 	xmlns="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/PrimitiveToWrapper"
 	intTestAtt="23" integerTestAtt="12">
-	<intTest>-2147483648</intTest>
+	<intTest>-2147483649</intTest>
 	<integerTest>40</integerTest>
 </TestPrimitiveToWrapper>

@@ -1,6 +1,11 @@
 Version (SVN)
 -------------------------------
 
+XML:   Resolved issue CASTOR-1760 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       <xsd:int> mappes onto Java type 'int/java.lang.Integer' again.
+       Details: http://jira.codehaus.org/browse/CASTOR-1760
+       (Werner - 20061226)
+
 XML:   Resolved issue CASTOR-1761 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Java 5 breaks BigDecimal validation
        Details: http://jira.codehaus.org/browse/CASTOR-1761

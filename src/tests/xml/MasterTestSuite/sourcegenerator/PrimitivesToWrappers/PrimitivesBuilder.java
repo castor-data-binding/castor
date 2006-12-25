@@ -19,7 +19,7 @@ public class PrimitivesBuilder implements ObjectModelBuilder
 
         test.setDoubleTestAtt(new Double(1.171077));
 
-        test.setIntTestAtt(new Long(23));
+        test.setIntTestAtt(new Integer(23));
 	  
         test.setIntegerTestAtt(new Long(12));
         
@@ -33,7 +33,7 @@ public class PrimitivesBuilder implements ObjectModelBuilder
 
         test.setDoubleTest(new Double(0.6385682166079459));
         
-        test.setIntTest(new Long(12));
+        test.setIntTest(new Integer(12));
 	  
         test.addIntegerTest(new Long(325325));
         
