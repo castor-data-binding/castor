@@ -65,6 +65,27 @@
 
             </summary>
             <bugs>
+                <bug id="1764" tool="jira">
+                    <description>
+                        Fixed problem with incorrectly generated qualified class 
+                        name for classes in type hierarchies.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061225</date>
+                </bug>
                 <bug id="1760" tool="jira">
                     <description>
                         &lt;xsd:int&gt; mappes onto Java type 'int/java.lang.Integer' again.
@@ -83,7 +104,7 @@
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
-                    <date>20061226</date>
+                    <date>20061225</date>
                 </bug>
                 <bug id="1761" tool="jira">
                     <description>
