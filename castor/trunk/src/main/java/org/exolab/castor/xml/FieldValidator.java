@@ -46,10 +46,10 @@
 
 package org.exolab.castor.xml;
 
+import java.lang.reflect.Array;
+import java.util.Enumeration;
 import java.util.List;
 import java.util.Vector;
-import java.util.Enumeration;
-import java.lang.reflect.Array;
 
 import org.exolab.castor.mapping.FieldHandler;
 
@@ -176,23 +176,20 @@ public class FieldValidator extends Validator {
     public void validate(Object object, ValidationContext context)
         throws ValidationException
     {
-        
         if (_descriptor == null) return;
         if (object == null) return; 
         
-        //-- Do not validate references as these should
-        //-- be validated elsewhere, validating them
-        //-- here could cause endless loops
-        if (_descriptor.isReference()) return;
+        if (context.isValidated(object)) {
+        	return;
+        }
         
         //-- don't validate "transient" fields...
         if (_descriptor.isTransient()) return;
-               
-            
+           
         FieldHandler handler = _descriptor.getHandler();
         
         if (handler == null) return;
-        
+
         //-- get the value of the field
         Object value = handler.getValue(object);
         
@@ -204,6 +201,13 @@ public class FieldValidator extends Validator {
             }
             err += "is a required field of class '" + object.getClass().getName();
             throw new ValidationException(err);
+        }
+        
+        if (_descriptor.isReference()) {
+        	if (_validator != null) {
+        		_validator.validate(value, context);
+        	}
+        	return;
         }
         
         //-- prevent endless loop!
@@ -323,6 +327,7 @@ public class FieldValidator extends Validator {
         }
         
     } //-- validate
+
     
     
 } //-- FieldValidator

@@ -65,6 +65,27 @@
 
             </summary>
             <bugs>
+                <bug id="1722" tool="jira">
+                    <description>
+                        Added support for validating &lt;xsd:IDREF&gt;> and &lt;xsd:IDREFS&gt;
+                        during (un)marshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061225</date>
+                </bug>
                 <bug id="1764" tool="jira">
                     <description>
                         Fixed problem with incorrectly generated qualified class 

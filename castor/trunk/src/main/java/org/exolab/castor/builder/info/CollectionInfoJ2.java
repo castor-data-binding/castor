@@ -49,7 +49,6 @@
  */
 package org.exolab.castor.builder.info;
 
-import org.exolab.castor.builder.FieldInfoFactory;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.types.XSListJ2;
 import org.exolab.castor.builder.types.XSType;

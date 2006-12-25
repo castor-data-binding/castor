@@ -573,6 +573,12 @@ public class DescriptorSourceFactory {
                 if (xsType.getType() == XSType.NMTOKEN_TYPE) {
                     return;
                 }
+                if (xsType.getType() == XSType.IDREF_TYPE) {
+                    jsc.add("org.exolab.castor.xml.validators.IdRefsValidator typeValidator = new org.exolab.castor.xml.validators.IdRefsValidator();");
+                    jsc.add("fieldValidator.setValidator(typeValidator);");
+                    jsc.add("desc.setValidator(fieldValidator);");
+                    return;
+                }            
             } else if (member.isRequired()) {
                 jsc.add("fieldValidator.setMinOccurs(1);");
             }
