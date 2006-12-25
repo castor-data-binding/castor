@@ -258,9 +258,9 @@ public abstract class XSType {
     /** Maximum unsigned short. */
     public static final long MAX_UNSIGNED_INTEGER           = 4294967295L;
     /** Minimum unsigned short. */
-    public static final long MIN_UNSIGNED_SHORT             = 0L;
+    public static final int MIN_UNSIGNED_SHORT             = 0;
     /** Maximum unsigned short. */
-    public static final long MAX_UNSIGNED_SHORT             = 65535L;
+    public static final int MAX_UNSIGNED_SHORT             = 65535;
     /** Maximum negative integer. */
     public static final long MIN_INTEGER                    = -2147483647L;
     /** Maximum negative integer. */

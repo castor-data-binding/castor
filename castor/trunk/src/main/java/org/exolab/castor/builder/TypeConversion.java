@@ -337,7 +337,7 @@ public class TypeConversion {
                 xsUnsignedInteger.setFacets(simpleType);
                 return xsUnsignedInteger;
             case SimpleTypesFactory.UNSIGNED_SHORT_TYPE:     //-- unsigned-short
-                XSInteger xsUnsignedShort = new XSUnsignedShort(useWrapper);
+                XSInt xsUnsignedShort = new XSUnsignedShort(useWrapper);
                 xsUnsignedShort.setFacets(simpleType);
                 return xsUnsignedShort;
             case SimpleTypesFactory.UNSIGNED_BYTE_TYPE:     //-- unsigned-byte
