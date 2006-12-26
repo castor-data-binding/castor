@@ -15,52 +15,49 @@
  */
 package org.exolab.castor.xml.validators;
 
-import org.castor.mapping.BindingType;
-import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.FieldHandler;
-import org.exolab.castor.xml.ClassDescriptorResolver;
-import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
+/**
+ * The IDREFS Validation class.
+ *
+ * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttman</a>
+ * @version $Revision: 0000 $ $Date: $
+ */
+public class IdRefsValidator implements TypeValidator {
 
-public class IdRefsValidator implements TypeValidator
-{
+    /** Our IdRefValidator. */
+    private IdRefValidator _idRefValidator;
 
-	private IdRefValidator _idRefValidator;
-	
     /**
-     * Creates a new IdRefsValidator with no restrictions
-    **/
+     * Creates a new IdRefsValidator with no restrictions.
+     */
     public IdRefsValidator() {
         super();
         _idRefValidator = new IdRefValidator();
-    } 
-   
-    
+    }
+
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @param context the ValidationContext
+     * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
-    	if (object == null) {
-		     String err = "The object of type IDREFS is null!";
-		     throw new ValidationException(err);
-		}
-    	
-    	Object[] objects = (Object[]) object;
-    	for (int i = 0; i < objects.length; i++) {
-			_idRefValidator.validate(objects[i], context);
-			
-		}
-        
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
+        if (object == null) {
+             String err = "The object of type IDREFS is null!";
+             throw new ValidationException(err);
+        }
+
+        Object[] objects = (Object[]) object;
+        for (int i = 0; i < objects.length; i++) {
+            _idRefValidator.validate(objects[i], context);
+        }
+
         // validate(value, context);
     } //-- validate
 
-} 
+}

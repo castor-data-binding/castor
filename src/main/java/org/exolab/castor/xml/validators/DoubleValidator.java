@@ -51,106 +51,205 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Double Validation class. This class handles validation for the double
- * type.
+ * The Double Validation class. This class handles validation for the primitive
+ * <code>double</code> and <code>java.lang.Double</code> types.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
  */
 public class DoubleValidator extends PatternValidator implements TypeValidator {
 
-    private boolean _isFixed             = false;
-
+    /** If true, we perform "minimum inclusive value" validation. */
+    private boolean _useMinInclusive  = false;
+    /** If true, we perform "minimum exclusive value" validation. */
+    private boolean _useMinExclusive  = false;
+    /** If true, we perform "maximum inclusive value" validation. */
+    private boolean _useMaxInclusive  = false;
+    /** If true, we perform "maximum exclusive value" validation. */
+    private boolean _useMaxExclusive  = false;
+    /** If true, we perform "fixed" validation. */
+    private boolean _useFixed            = false;
+    /** Minimum value (inclusive) for this double.  (Not used unless _useMinInclusive == true.) */
+    private double  _minInclusive        = 0;
+    /** Minimum value (exclusive) for this double.  (Not used unless _useMinExclusive == true.) */
+    private double  _minExclusive        = 0;
+    /** Maximum value (inclusive) for this double.  (Not used unless _useMaxInclusive == true.) */
+    private double  _maxInclusive        = 0;
+    /** Maximum value (exclusive) for this double.  (Not used unless _useMaxExclusive == true.) */
+    private double  _maxExclusive        = 0;
+    /** Fixed value of this double. (Not used unless _isFixed == true.) */
     private double  _fixed               = 0;
 
-    private boolean _isThereMinInclusive = false;
-
-    private double  _minInclusive        = 0;
-
-    private boolean _isThereMaxInclusive = false;
-
-    private double  _maxInclusive        = 0;
-
-    private boolean _isThereMinExclusive = false;
-
-    private double  _minExclusive        = 0;
-
-    private boolean _isThereMaxExclusive = false;
-
-    private double  _maxExclusive        = 0;
-
     /**
-     * Creates a new DoubleValidator with no restrictions
+     * Creates a new DoubleValidator with no restrictions.
      */
     public DoubleValidator() {
         super();
     } // -- doubleValidator
 
     /**
-     * Sets the fixed value the double to validate must be equal to.
-     *
-     * @param fixed
-     *            the fixed value
+     * Clears the fixed value for this DoubleValidator.
      */
-    public void setFixed(double fixed) {
-        _fixed = fixed;
-        _isFixed = true;
+    public void clearFixed() {
+        _useFixed = false;
+    } // -- clearFixed
+
+    /**
+     * Clears the maximum value for this DoubleValidator.
+     */
+    public void clearMax() {
+        _useMaxExclusive = false;
+        _useMaxInclusive = false;
+    } // -- clearMax
+
+    /**
+     * Clears the minimum value for this DoubleValidator.
+     */
+    public void clearMin() {
+        _useMinExclusive = false;
+        _useMinInclusive = false;
+    } // -- clearMin
+
+    /**
+     * Returns the configured fixed value for double validation. Returns null if
+     * no fixed value has been configured.
+     *
+     * @return the fixed value to validate against.
+     */
+    public Double getFixed() {
+        if (_useFixed) {
+            return new Double(_fixed);
+        }
+        return null;
+    } // -- getFixed
+
+    /**
+     * Returns the configured inclusive maximum value for double validation.
+     * Returns null if no inclusive maximum has been configured.
+     *
+     * @return the inclusive maximum value to validate against.
+     */
+    public Double getMaxInclusive() {
+        if (_useMaxInclusive) {
+            return new Double(_maxInclusive);
+        }
+        return null;
+    } // -- getMaxInclusive
+
+    /**
+     * Returns the configured exclusive maximum value for double validation.
+     * Returns null if no exclusive maximum has been configured.
+     *
+     * @return the exclusive maximum value to validate against.
+     */
+    public Double getMaxExclusive() {
+        if (_useMaxExclusive) {
+            return new Double(_maxExclusive);
+        }
+        return null;
+    } // -- getMaxInclusive
+
+    /**
+     * Returns the configured inclusive minimum value for double validation.
+     * Returns null if no inclusive minimum has been configured.
+     *
+     * @return the inclusive minimum value to validate against.
+     */
+    public Double getMinInclusive() {
+        if (_useMinInclusive) {
+            return new Double(_minInclusive);
+        }
+        return null;
+    } // -- getMinInclusive
+
+    /**
+     * Returns the configured exclusive minimum value for double validation.
+     * Returns null if no exclusive minimum has been configured.
+     *
+     * @return the exclusive minimum value to validate against.
+     */
+    public Double getMinExclusive() {
+        if (_useMinExclusive) {
+            return new Double(_minExclusive);
+        }
+        return null;
+    } // -- getMinInclusive
+
+    /**
+     * Returns true if a fixed value to validate against has been set.
+     *
+     * @return true if a fixed value has been set.
+     */
+    public boolean hasFixed() {
+        return _useFixed;
+    } // -- hasFixed
+
+    /**
+     * Sets the fixed value for double validation.
+     * <p>
+     * NOTE: If maximum and/or minimum values have been set and the fixed value
+     * is not within that max/min range, then no double will pass validation.
+     * This is as according to the XML Schema spec.
+     *
+     * @param fixedValue
+     *            the fixed value that a double validated with this validator
+     *            must be equal to.
+     */
+    public void setFixed(final double fixedValue) {
+        _fixed = fixedValue;
+        _useFixed = true;
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that decimals validated with this validator must
-     * be greater than
+     * Sets the minimum (exclusive) value for double validation. To pass
+     * validation, a double must be greater than this value.
      *
      * @param minValue
-     *            the minimum value an doublevalidated with this validator must
-     *            be greater than
+     *            the minimum (exclusive) value for double validation.
      */
-    public void setMinExclusive(double minValue) {
+    public void setMinExclusive(final double minValue) {
         _minExclusive = minValue;
-        _isThereMinExclusive = true;
+        _useMinExclusive = true;
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that decimals validated with this validator are
-     * allowed to be
+     * Sets the minimum (inclusive) value for double validation. To pass
+     * validation, a double must be greater than or equal to this value.
      *
      * @param minValue
-     *            the minimum value an doublevalidated with this validator may
-     *            be
+     *            the minimum (inclusive) value for double validation.
      */
-    public void setMinInclusive(double minValue) {
+    public void setMinInclusive(final double minValue) {
         _minInclusive = minValue;
-        _isThereMinInclusive = true;
+        _useMinInclusive = true;
     } // -- setMinInclusive
 
     /**
-     * Sets the maximum value that decimals validated with this validator must
-     * be less than
+     * Sets the maximum (exclusive) value for double validation.  To pass
+     * validation, a double must be less than this value.
      *
      * @param maxValue
-     *            the maximum value an doublevalidated with this validator must
-     *            be less than
+     *            the maximum (exclusive) value for double validation.
      */
-    public void setMaxExclusive(double maxValue) {
+    public void setMaxExclusive(final double maxValue) {
         _maxExclusive = maxValue;
-        _isThereMaxExclusive = true;
+        _useMaxExclusive = true;
     } // -- setMaxExclusive
 
     /**
-     * Sets the maximum value that decimals validated with this validator are
-     * allowed to be
+     * Sets the maximum (inclusive) value for double validation.  To pass
+     * validation, a double must be less than or equal to this value.
      *
      * @param maxValue
-     *            the maximum value an doublevalidated with this validator may
-     *            be
+     *            the maximum (inclusive) value for double validation.
      */
-    public void setMaxInclusive(double maxValue) {
+    public void setMaxInclusive(final double maxValue) {
         _maxInclusive = maxValue;
-        _isThereMaxInclusive = true;
+        _useMaxInclusive = true;
     } // --setMaxInclusive
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param d
      *            the double to validate
@@ -158,29 +257,34 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(double d, ValidationContext context) throws ValidationException {
-        if (_isFixed && d != _fixed) {
-            String err = d + " is not equal to the fixed value of " + _fixed;
+    public void validate(final double d, final ValidationContext context)
+                                                    throws ValidationException {
+        if (_useFixed && d != _fixed) {
+            String err = "double " + d + " is not equal to the fixed value: " + _fixed;
             throw new ValidationException(err);
         }
 
-        if (_isThereMinInclusive && d < _minInclusive) {
-            String err = d + " is less than the minimum allowable value of " + _minInclusive;
+        if (_useMinInclusive && d < _minInclusive) {
+            String err = "double " + d + " is less than the minimum allowed value: "
+                    + _minInclusive;
             throw new ValidationException(err);
         }
 
-        if (_isThereMinExclusive && d <= _minExclusive) {
-            String err = d + " is less than the minimum allowable value of " + _minExclusive;
+        if (_useMinExclusive && d <= _minExclusive) {
+            String err = "double " + d
+                    + " is less than or equal to the maximum exclusive value: " + _minExclusive;
             throw new ValidationException(err);
         }
 
-        if (_isThereMaxInclusive && d > _maxInclusive) {
-            String err = d + " is greater than the maximum allowable value of " + _maxInclusive;
+        if (_useMaxInclusive && d > _maxInclusive) {
+            String err = "double " + d + " is greater than the maximum allowed value: "
+                    + _maxInclusive;
             throw new ValidationException(err);
         }
 
-        if (_isThereMaxExclusive && d >= _maxExclusive) {
-            String err = d + " is greater than the maximum allowable value of " + _maxExclusive;
+        if (_useMaxExclusive && d >= _maxExclusive) {
+            String err = "double " + d
+                    + " is greater than or equal to the maximum exclusive value: " + _maxExclusive;
             throw new ValidationException(err);
         }
 
@@ -190,18 +294,18 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -209,7 +313,8 @@ public class DoubleValidator extends PatternValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "doubleValidator cannot validate a null object.";
             throw new ValidationException(err);

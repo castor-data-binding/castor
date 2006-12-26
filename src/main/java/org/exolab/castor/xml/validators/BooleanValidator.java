@@ -49,36 +49,37 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Boolean Validation class. This class handles validation
- * for the boolean type. This will only check that a boolean has the proper fixed value.
+ * The Boolean Validation class. Handles validation for the primitive boolean
+ * and java.lang.Boolean types.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
+ * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar
+ *          2003) $
  */
-public class BooleanValidator implements TypeValidator {
+public class BooleanValidator extends PatternValidator implements TypeValidator {
 
+    /** If true, we perform "fixed" validation. */
     private boolean _useFixed = false;
-
+    /** Fixed value of this boolean. (Not used unless _useFixed == true.) */
     private boolean _fixed    = false;
 
     /**
-     * Creates a new BooleanValidator with no restrictions
+     * Creates a new BooleanValidator with no restrictions.
      */
     public BooleanValidator() {
         super();
     } //-- ByteValidator
 
     /**
-     * Clears the fixed value for this BooleanValidator
+     * Clears the fixed value for this BooleanValidator.
      */
     public void clearFixed() {
         _useFixed = false;
     } //-- clearFixed
 
     /**
-     * Returns the fixed value that boolean validated with this
-     * validator must be equal to. A null value is returned
-     * if no fixed value has been specified.
+     * Returns the fixed value that booleans validated with this validator
+     * must be equal to. If no fixed value has been specified, returns null.
      *
      * @return the fixed value to validate against.
      */
@@ -90,8 +91,7 @@ public class BooleanValidator implements TypeValidator {
     } //-- getFixed
 
     /**
-     * Returns true if a fixed value, to validate against, has been
-     * set.
+     * Returns true if a fixed value to validate against has been set.
      *
      * @return true if a fixed value has been set.
      */
@@ -100,31 +100,47 @@ public class BooleanValidator implements TypeValidator {
     } //-- hasFixed
 
     /**
-     * Sets the fixed value that boolean validated with this
-     * validator must be equal to.
-     * @param fixedValue the fixed value a boolean validated with
-     * this validator must be equal to.
+     * Sets the fixed value for boolean validation.
+     *
+     * @param fixedValue
+     *            the fixed value that a boolean validated with this validator
+     *            must be equal to.
      */
-    public void setFixed(boolean fixedValue) {
+    public void setFixed(final boolean fixedValue) {
         _useFixed = true;
         _fixed = fixedValue;
     } //-- setFixed
 
     /**
-     * Sets the fixed value that boolean validated with this
-     * validator must be equal to.
-     * @param fixedValue the fixed value a boolean validated with
-     * this validator must be equal to.
+     * Sets the fixed value for boolean validation.
+     *
+     * @param fixedValue
+     *            the fixed value that a boolean validated with this validator
+     *            must be equal to.
      */
-    public void setFixed(Boolean fixedValue) {
+    public void setFixed(final Boolean fixedValue) {
         _useFixed = true;
         _fixed = fixedValue.booleanValue();
     }
 
-    public void validate(boolean b) throws ValidationException {
+    /**
+     * Validates the given Object.
+     *
+     * @param b
+     *            the boolean to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
+     */
+    public void validate(final boolean b, final ValidationContext context)
+                                                    throws ValidationException {
         if (_useFixed && b != _fixed) {
-            String err = b + " is not equal to the fixed value of " + _fixed;
+            String err = "boolean " + b + " is not equal to the fixed value: " + _fixed;
             throw new ValidationException(err);
+        }
+
+        if (hasPattern()) {
+            super.validate(Boolean.toString(b), context);
         }
     } //-- validate
 
@@ -134,18 +150,19 @@ public class BooleanValidator implements TypeValidator {
      * @param object the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } //-- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @param context the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "BooleanValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -159,7 +176,7 @@ public class BooleanValidator implements TypeValidator {
             err += object.getClass().getName();
             throw new ValidationException(err);
         }
-        validate(value);
+        validate(value, context);
     } //-- validate
 
 } //-- BooleanValidator

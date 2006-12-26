@@ -311,18 +311,22 @@ public class XSUnsignedLong extends XSPatternBase {
                 + " = new org.exolab.castor.xml.validators.BigIntegerValidator();");
 
         if (_minExclusive != null) {
-            jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"" + _minExclusive + "\");");
+            jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"");
+            jsc.append(_minExclusive + "\");");
             jsc.add("typeValidator.setMinExclusive(min);");
         } else if (_minInclusive != null) {
-            jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"" + _minInclusive + "\");");
+            jsc.add("java.math.BigInteger min = new java.math.BigInteger(\"");
+            jsc.append(_minInclusive + "\");");
             jsc.add("typeValidator.setMinInclusive(min);");
         }
 
         if (_maxExclusive != null) {
-            jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"" + _maxExclusive + "\");");
+            jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"");
+            jsc.append(_maxExclusive + "\");");
             jsc.add("typeValidator.setMaxExclusive(max);");
         } else if (_maxInclusive != null) {
-            jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"" + _maxInclusive + "\");");
+            jsc.add("java.math.BigInteger max = new java.math.BigInteger(\"");
+            jsc.append(_maxInclusive + "\");");
             jsc.add("typeValidator.setMaxInclusive(max);");
         }
 

@@ -37,7 +37,7 @@ public class XSLong extends XSInteger {
      * @param asWrapper
      *            if true, this class will be implemented using a wrapper.
      */
-    public XSLong(boolean asWrapper) {
+    public XSLong(final boolean asWrapper) {
         super(asWrapper, XSType.LONG_TYPE);
     }
 

@@ -49,105 +49,104 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Integer Validation class. This class handles validation for the integer
- * type as well as all integer derived types such as positive-integer and
- * negative-integer
+ * The Integer Validation class. This class handles validation for the primitive
+ * <code>long</code> and <code>java.lang.Long</code> types as well as all
+ * xsd:integer-derived types such as positive-integer and negative-integer
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
+ *          2006) $
  */
 public class IntegerValidator extends PatternValidator implements TypeValidator {
 
-    private boolean useMin       = false;
-
-    private boolean useMax       = false;
-
-    private boolean useFixed     = false;
-
-    private long    min          = 0;
-
-    private long    max          = 0;
-
+    /** If true, we perform "minimum value" validation. */
+    private boolean _useMin       = false;
+    /** If true, we perform "maximum value" validation. */
+    private boolean _useMax       = false;
+    /** If true, we perform "fixed" validation. */
+    private boolean _useFixed     = false;
+    /** Minimum value (inclusive) for this long.  (Not used unless _useMin == true.) */
+    private long    _min          = 0;
+    /** Maximum value (inclusive) for this long.  (Not used unless _useMax == true.) */
+    private long    _max          = 0;
+    /** Maximum number of digits in this long. (Not applied if < 0.) */
     private int     _totalDigits = -1;
-
-    private long    fixed        = 0;
+    /** Fixed value of this long. (Not used unless _useFixed == true.) */
+    private long    _fixed        = 0;
 
     /**
-     * Creates a new IntegerValidator with no restrictions
+     * Creates a new IntegerValidator with no restrictions.
      */
     public IntegerValidator() {
         super();
     } // -- IntegerValidator
 
     /**
-     * Clears the fixed value for this IntegerValidator
+     * Clears the fixed value for this IntegerValidator.
      */
     public void clearFixed() {
-        useFixed = false;
+        _useFixed = false;
     } // -- clearFixed
 
     /**
-     * Clears the maximum value for this IntegerValidator
+     * Clears the maximum value for this IntegerValidator.
      */
     public void clearMax() {
-        useMax = false;
+        _useMax = false;
     } // -- clearMax
 
     /**
-     * Clears the minimum value for this IntegerValidator
+     * Clears the minimum value for this IntegerValidator.
      */
     public void clearMin() {
-        useMin = false;
+        _useMin = false;
     } // -- clearMin
 
     /**
-     * Returns the fixed value that integers validated with this validator must
-     * be equal to. A null value is returned if no fixed value has been
-     * specified.
+     * Returns the configured fixed value for Integer validation.  Returns
+     * null if no fixed value has been configured.
      *
      * @return the fixed value to validate against.
      */
     public Long getFixed() {
-        if (useFixed) {
-            return new Long(fixed);
+        if (_useFixed) {
+            return new Long(_fixed);
         }
         return null;
     } // -- getFixed
 
     /**
-     * Returns the maximum value that integers validated with this validator
-     * must be equal to or less than. A null value is returned if no maximum
-     * value has been specified.
+     * Returns the configured maximum value for xsd:integer validation. Returns
+     * null if no maximum has been configured.
      *
-     * @return the maximum inclusive value to validate against.
+     * @return the maximum (inclusive) value to validate against.
      */
     public Long getMaxInclusive() {
-        if (useMax) {
-            return new Long(max);
+        if (_useMax) {
+            return new Long(_max);
         }
         return null;
     } // -- getMaxInclusive
 
     /**
-     * Returns the minimum value that integers validated with this validator
-     * must be equal to or greater than. A null value is returned if no minimum
-     * value has been specified.
+     * Returns the configured minimum value for xsd:integer validation. Returns
+     * null if no minimum has been configured.
      *
-     * @return the minimum inclusive value to validate against.
+     * @return the minimum (inclusive) value to validate against.
      */
     public Long getMinInclusive() {
-        if (useMin) {
-            return new Long(min);
+        if (_useMin) {
+            return new Long(_min);
         }
         return null;
     } // -- getMinInclusive
 
     /**
-     * Returns the total number of digits that integers validated with this
-     * validator must have. A null value is returned if no total number of
-     * digits has been specified.
+     * Returns the configured maximum number of digits (inclusive) for
+     * xsd:integer validation. Returns null if no maximum number of digits has
+     * been configured.
      *
-     * @return the total number of digits
+     * @return the maximum number of digits to validate against.
      */
     public Integer getTotalDigits() {
         if (_totalDigits >= 0) {
@@ -157,94 +156,105 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     } // -- getTotalDigits
 
     /**
-     * Returns true if a fixed value, to validate against, has been set.
+     * Returns true if a fixed value to validate against has been set.
      *
      * @return true if a fixed value has been set.
      */
     public boolean hasFixed() {
-        return useFixed;
+        return _useFixed;
     } // -- hasFixed
 
     /**
      * Sets the fixed value that integers validated with this validated must be
-     * equal to
+     * equal to.
+     * <p>
+     * NOTE: Using Fixed values takes preceedence over using max and mins, and
+     * is really the same as setting both max-inclusive and min-inclusive to the
+     * same value
      *
      * @param fixedValue
      *            the fixed value an integer validated with this validator must
-     *            be equal to. <BR>
-     *            NOTE: Using Fixed values takes preceedence over using max and
-     *            mins, and is really the same as setting both max-inclusive and
-     *            min-inclusive to the same value
+     *            be equal to.
      */
-    public void setFixed(long fixedValue) {
-        useFixed = true;
-        this.fixed = fixedValue;
+    public void setFixed(final long fixedValue) {
+        _useFixed = true;
+        this._fixed = fixedValue;
     } // -- setFixed
 
-    public void setFixed(Long fixedValue) {
-        useFixed = true;
-        this.fixed = fixedValue.intValue();
+    /**
+     * Sets the fixed value for xsd:Integer validation.
+     * <p>
+     * NOTE: If maximum and/or minimum values have been set and the fixed value
+     * is not within that max/min range, then no xsd:Integer will pass
+     * validation. This is as according to the XML Schema spec.
+     *
+     * @param fixedValue
+     *            the fixed value that a xsd:Integer validated with this
+     *            validator must be equal to.
+     */
+    public void setFixed(final Long fixedValue) {
+        _useFixed = true;
+        this._fixed = fixedValue.intValue();
     }
 
     /**
-     * Sets the minimum value that integers validated with this validator must
-     * be greater than
+     * Sets the minimum (exclusive) value for xsd:integer validation.  To pass
+     * validation, an xsd:Integer must be greater than this value.
      *
      * @param minValue
-     *            the minimum value an integer validated with this validator
-     *            must be greater than
+     *            the minimum (exclusive) value for xsd:Integer validation.
      */
-    public void setMinExclusive(long minValue) {
-        useMin = true;
-        min = minValue + 1;
+    public void setMinExclusive(final long minValue) {
+        _useMin = true;
+        _min = minValue + 1;
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that integers validated with this validator are
-     * allowed to be
+     * Sets the minimum (inclusive) value for xsd:integer validation.  To pass
+     * validation, an xsd:integer must be greater than or equal to this value.
      *
      * @param minValue
-     *            the minimum value an integer validated with this validator may
-     *            be
+     *            the minimum (inclusive) value for xsd:integer validation.
      */
-    public void setMinInclusive(long minValue) {
-        useMin = true;
-        min = minValue;
+    public void setMinInclusive(final long minValue) {
+        _useMin = true;
+        _min = minValue;
     } // -- setMinInclusive
 
     /**
-     * Sets the maximum value that integers validated with this validator must
-     * be less than
+     * Sets the maximum (exclusive) value for xsd:integer validation.  To pass
+     * validation, a xsd:integer must be less than this value.
      *
      * @param maxValue
-     *            the maximum value an integer validated with this validator
-     *            must be less than
+     *            the maximum (exclusive) value for xsd:integer validation.
      */
-    public void setMaxExclusive(int maxValue) {
-        useMax = true;
-        max = maxValue - 1;
+    public void setMaxExclusive(final int maxValue) {
+        _useMax = true;
+        _max = maxValue - 1;
     } // -- setMaxExclusive
 
     /**
-     * Sets the maximum value that integers validated with this validator are
-     * allowed to be
+     * Sets the maximum (inclusive) value for xsd:integer validation.  To pass
+     * validation, a xsd:integer must be less than or equal to this value.
      *
      * @param maxValue
-     *            the maximum value an integer validated with this validator may
-     *            be
+     *            the maximum (inclusive) value for xsd:integer validation.
      */
-    public void setMaxInclusive(long maxValue) {
-        useMax = true;
-        max = maxValue;
+    public void setMaxInclusive(final long maxValue) {
+        _useMax = true;
+        _max = maxValue;
     } // -- setMaxInclusive
 
     /**
-     * Sets the totalDigits facet for this Integer type.
+     * Sets the maximum number of digits for xsd:integer validation. To pass
+     * validation, a xsd:integer must have this many digits or fewer. Leading
+     * zeros are not counted.
      *
      * @param totalDig
-     *            the value of totalDigits (must be >0)
+     *            the maximum (inclusive) number of digits for xsd:integer
+     *            validation. (must be > 0)
      */
-    public void setTotalDigits(int totalDig) {
+    public void setTotalDigits(final int totalDig) {
         if (totalDig <= 0) {
             throw new IllegalArgumentException(
                     "IntegerValidator: the totalDigits facet must be positive");
@@ -253,7 +263,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     }
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param i
      *            the long to validate
@@ -261,19 +271,20 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(long i, ValidationContext context) throws ValidationException {
-        if (useFixed && i != fixed) {
-            String err = i + " is not equal to the fixed value of " + fixed;
+    public void validate(final long i, final ValidationContext context)
+                                                    throws ValidationException {
+        if (_useFixed && i != _fixed) {
+            String err = "long " + i + " is not equal to the fixed value: " + _fixed;
             throw new ValidationException(err);
         }
 
-        if (useMin && i < min) {
-            String err = i + " is less than the minimum allowable value of " + min;
+        if (_useMin && i < _min) {
+            String err = "long " + i + " is less than the minimum allowed value: " + _min;
             throw new ValidationException(err);
         }
 
-        if (useMax && i > max) {
-            String err = i + " is greater than the maximum allowable value of " + max;
+        if (_useMax && i > _max) {
+            String err = "long " + i + " is greater than the maximum allowed value: " + _max;
             throw new ValidationException(err);
         }
 
@@ -283,9 +294,8 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
                 length--;
             }
             if (length > _totalDigits) {
-                String err = i
-                        + " doesn't have the correct number of digits, it must be less than or equal to "
-                        + _totalDigits;
+                String err = "long " + i + " has too many digits -- must have "
+                        + _totalDigits + " digits or fewer.";
                 throw new ValidationException(err);
             }
         }
@@ -296,18 +306,18 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -315,7 +325,8 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "IntegerValidator cannot validate a null object.";
             throw new ValidationException(err);

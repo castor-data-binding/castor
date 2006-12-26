@@ -364,7 +364,7 @@ public class DescriptorSourceFactory {
         } else if (isText) {
             jsc.append("\"PCDATA\"");
         } else {
-            jsc.append("(java.lang.String)null");
+            jsc.append("(java.lang.String) null");
         }
 
         if (isElement) {
@@ -505,7 +505,7 @@ public class DescriptorSourceFactory {
                     //-- use CollectionFieldHandler
                     jsc.add("handler = new org.exolab.castor.xml.handlers.CollectionFieldHandler(");
                     jsc.append("handler, new org.exolab.castor.xml.validators.NameValidator(");
-                    jsc.append("org.exolab.castor.xml.validators.NameValidator.NMTOKEN));");
+                    jsc.append("org.exolab.castor.xml.XMLConstants.NAME_TYPE_NMTOKEN));");
                     break;
                 case XSType.QNAME_TYPE:
                     //-- use CollectionFieldHandler
@@ -578,7 +578,7 @@ public class DescriptorSourceFactory {
                     jsc.add("fieldValidator.setValidator(typeValidator);");
                     jsc.add("desc.setValidator(fieldValidator);");
                     return;
-                }            
+                }
             } else if (member.isRequired()) {
                 jsc.add("fieldValidator.setMinOccurs(1);");
             }

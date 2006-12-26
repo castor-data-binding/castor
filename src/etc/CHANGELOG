@@ -1,13 +1,18 @@
 Version (SVN)
 -------------------------------
 
+XML:   Resolved issue CASTOR-1765 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add xml/validators to checkstyle and do checkstyle cleanup
+       Details: http://jira.codehaus.org/browse/CASTOR-1765
+       (Edward - 20061225)
+
 XML:   Resolved issue CASTOR-1722 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Added support for validating <xsd:IDREF> and <xsd:IDREFS> during (un)marshalling. 
+       Added support for validating <xsd:IDREF> and <xsd:IDREFS> during (un)marshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-1722
        (Werner - 20061225)
 
 XML:   Resolved issue CASTOR-1764 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Fixed problem with incorrectly generated qualified class name for classes in 
+       Fixed problem with incorrectly generated qualified class name for classes in
        type hierarchies.
        Details: http://jira.codehaus.org/browse/CASTOR-1764
        (Werner - 20061225)

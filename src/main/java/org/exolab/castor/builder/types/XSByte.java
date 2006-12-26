@@ -266,8 +266,8 @@ public class XSByte extends XSPatternBase {
     } //-- setMinInclusive
 
     /**
-     * Sets the totalDigits facet for this XSByte
-     * @param totalDig the value of totalDigits (must be > 0)
+     * Sets the totalDigits facet for this XSByte.
+     * @param totalDig the value of totalDigits (must be > 0).
      */
      public void setTotalDigits(final int totalDig) {
           if (totalDig <= 0) {

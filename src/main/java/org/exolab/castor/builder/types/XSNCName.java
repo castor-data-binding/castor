@@ -116,7 +116,7 @@ public final class XSNCName extends XSType {
                                final String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator ="
                 + " new org.exolab.castor.xml.validators.NameValidator("
-                + "org.exolab.castor.xml.validators.NameValidator.NCNAME);");
+                + "org.exolab.castor.xml.XMLConstants.NAME_TYPE_NCNAME);");
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 

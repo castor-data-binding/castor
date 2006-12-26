@@ -36,8 +36,8 @@ public final class XSUnsignedByte extends XSShort {
      */
     public XSUnsignedByte(final boolean asWrapper) {
         super(asWrapper);
-        setMinInclusive((short) MIN_UNSIGNED_BYTE);
-        setMaxInclusive((short) MAX_UNSIGNED_BYTE);
+        setMinInclusive(MIN_UNSIGNED_BYTE);
+        setMaxInclusive(MAX_UNSIGNED_BYTE);
     }
 
 }

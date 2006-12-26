@@ -51,161 +51,205 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Float Validation class. This class handles validation for the float type.
+ * The Float Validation class. This class handles validation for the primitive
+ * <code>float</code> and <code>java.lang.Float</code> types.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
  */
 public class FloatValidator extends PatternValidator implements TypeValidator {
 
-    private boolean _isFixed             = false;
-
+    /** If true, we perform "minimum inclusive value" validation. */
+    private boolean _useMinInclusive  = false;
+    /** If true, we perform "minimum exclusive value" validation. */
+    private boolean _useMinExclusive  = false;
+    /** If true, we perform "maximum inclusive value" validation. */
+    private boolean _useMaxInclusive  = false;
+    /** If true, we perform "maximum exclusive value" validation. */
+    private boolean _useMaxExclusive  = false;
+    /** If true, we perform "fixed" validation. */
+    private boolean _useFixed            = false;
+    /** Minimum value (inclusive) for this float.  (Not used unless _useMinInclusive == true.) */
+    private float   _minInclusive        = 0;
+    /** Minimum value (exclusive) for this float.  (Not used unless _useMinExclusive == true.) */
+    private float   _minExclusive        = 0;
+    /** Maximum value (inclusive) for this float.  (Not used unless _useMaxInclusive == true.) */
+    private float   _maxInclusive        = 0;
+    /** Maximum value (exclusive) for this float.  (Not used unless _useMaxExclusive == true.) */
+    private float   _maxExclusive        = 0;
+    /** Fixed value of this float. (Not used unless _isFixed == true.) */
     private float   _fixed               = 0;
 
-    private boolean _isThereMinInclusive = false;
-
-    private float   _minInclusive        = 0;
-
-    private boolean _isThereMaxInclusive = false;
-
-    private float   _maxInclusive        = 0;
-
-    private boolean _isThereMinExclusive = false;
-
-    private float   _minExclusive        = 0;
-
-    private boolean _isThereMaxExclusive = false;
-
-    private float   _maxExclusive        = 0;
-
     /**
-     * Creates a new FloatValidator with no restrictions
+     * Creates a new FloatValidator with no restrictions.
      */
     public FloatValidator() {
         super();
-    } // -- FloatValidator
+    } // -- floatValidator
 
     /**
-     * Sets the fixed value the float to validate must be equal to.
-     *
-     * @param fixed
-     *            the fixed value
+     * Clears the fixed value for this FloatValidator.
      */
-    public void setFixed(float fixed) {
-        _fixed = fixed;
-        _isFixed = true;
+    public void clearFixed() {
+        _useFixed = false;
+    } // -- clearFixed
+
+    /**
+     * Clears the maximum value for this FloatValidator.
+     */
+    public void clearMax() {
+        _useMaxExclusive = false;
+        _useMaxInclusive = false;
+    } // -- clearMax
+
+    /**
+     * Clears the minimum value for this FloatValidator.
+     */
+    public void clearMin() {
+        _useMinExclusive = false;
+        _useMinInclusive = false;
+    } // -- clearMin
+
+    /**
+     * Returns the configured fixed value for float validation. Returns null if
+     * no fixed value has been configured.
+     *
+     * @return the fixed value to validate against.
+     */
+    public Float getFixed() {
+        if (_useFixed) {
+            return new Float(_fixed);
+        }
+        return null;
+    } // -- getFixed
+
+    /**
+     * Returns the configured inclusive maximum value for float validation.
+     * Returns null if no inclusive maximum has been configured.
+     *
+     * @return the inclusive maximum value to validate against.
+     */
+    public Float getMaxInclusive() {
+        if (_useMaxInclusive) {
+            return new Float(_maxInclusive);
+        }
+        return null;
+    } // -- getMaxInclusive
+
+    /**
+     * Returns the configured exclusive maximum value for float validation.
+     * Returns null if no exclusive maximum has been configured.
+     *
+     * @return the exclusive maximum value to validate against.
+     */
+    public Float getMaxExclusive() {
+        if (_useMaxExclusive) {
+            return new Float(_maxExclusive);
+        }
+        return null;
+    } // -- getMaxInclusive
+
+    /**
+     * Returns the configured inclusive minimum value for float validation.
+     * Returns null if no inclusive minimum has been configured.
+     *
+     * @return the inclusive minimum value to validate against.
+     */
+    public Float getMinInclusive() {
+        if (_useMinInclusive) {
+            return new Float(_minInclusive);
+        }
+        return null;
+    } // -- getMinInclusive
+
+    /**
+     * Returns the configured exclusive minimum value for float validation.
+     * Returns null if no exclusive minimum has been configured.
+     *
+     * @return the exclusive minimum value to validate against.
+     */
+    public Float getMinExclusive() {
+        if (_useMinExclusive) {
+            return new Float(_minExclusive);
+        }
+        return null;
+    } // -- getMinInclusive
+
+    /**
+     * Returns true if a fixed value to validate against has been set.
+     *
+     * @return true if a fixed value has been set.
+     */
+    public boolean hasFixed() {
+        return _useFixed;
+    } // -- hasFixed
+
+    /**
+     * Sets the fixed value for float validation.
+     * <p>
+     * NOTE: If maximum and/or minimum values have been set and the fixed value
+     * is not within that max/min range, then no float will pass validation.
+     * This is as according to the XML Schema spec.
+     *
+     * @param fixedValue
+     *            the fixed value that a float validated with this validator
+     *            must be equal to.
+     */
+    public void setFixed(final float fixedValue) {
+        _fixed = fixedValue;
+        _useFixed = true;
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that floats validated with this validator must be
-     * greater than
+     * Sets the minimum (exclusive) value for float validation. To pass
+     * validation, a float must be greater than this value.
      *
      * @param minValue
-     *            the minimum value an float validated with this validator must
-     *            be greater than
+     *            the minimum (exclusive) value for float validation.
      */
-    public void setMinExclusive(float minValue) {
+    public void setMinExclusive(final float minValue) {
         _minExclusive = minValue;
-        _isThereMinExclusive = true;
+        _useMinExclusive = true;
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that decimals validated with this validator are
-     * allowed to be
+     * Sets the minimum (inclusive) value for float validation. To pass
+     * validation, a float must be greater than or equal to this value.
      *
      * @param minValue
-     *            the minimum value an floatvalidated with this validator may be
+     *            the minimum (inclusive) value for float validation.
      */
-    public void setMinInclusive(float minValue) {
+    public void setMinInclusive(final float minValue) {
         _minInclusive = minValue;
-        _isThereMinInclusive = true;
+        _useMinInclusive = true;
     } // -- setMinInclusive
 
     /**
-     * Sets the maximum value that decimals validated with this validator must
-     * be less than
+     * Sets the maximum (exclusive) value for float validation.  To pass
+     * validation, a float must be less than this value.
      *
      * @param maxValue
-     *            the maximum value an floatvalidated with this validator must
-     *            be less than
+     *            the maximum (exclusive) value for float validation.
      */
-    public void setMaxExclusive(float maxValue) {
+    public void setMaxExclusive(final float maxValue) {
         _maxExclusive = maxValue;
-        _isThereMaxExclusive = true;
+        _useMaxExclusive = true;
     } // -- setMaxExclusive
 
     /**
-     * Sets the maximum value that decimals validated with this validator are
-     * allowed to be
+     * Sets the maximum (inclusive) value for float validation.  To pass
+     * validation, a float must be less than or equal to this value.
      *
      * @param maxValue
-     *            the maximum value an floatvalidated with this validator may be
+     *            the maximum (inclusive) value for float validation.
      */
-    public void setMaxInclusive(float maxValue) {
+    public void setMaxInclusive(final float maxValue) {
         _maxInclusive = maxValue;
-        _isThereMaxInclusive = true;
+        _useMaxInclusive = true;
     } // --setMaxInclusive
 
     /**
-     * Sets the fixed value the float to validate must be equal to.
-     *
-     * @param fixed
-     *            the fixed value
-     */
-    public void setFixed(Float fixed) {
-        setFixed(fixed.floatValue());
-    }
-
-    /**
-     * Sets the minimum value that decimals validated with this validator must
-     * be greater than
-     *
-     * @param minValue
-     *            the minimum value an float validated with this validator must
-     *            be greater than
-     */
-    public void setMinExclusive(Float minValue) {
-        setMinExclusive(minValue.floatValue());
-    } // -- setMinExclusive
-
-    /**
-     * Sets the minimum value that decimals validated with this validator are
-     * allowed to be
-     *
-     * @param minValue
-     *            the minimum value an float validated with this validator may
-     *            be
-     */
-    public void setMinInclusive(Float minValue) {
-        setMinInclusive(minValue.floatValue());
-    } // -- setMinInclusive
-
-    /**
-     * Sets the maximum value that decimals validated with this validator must
-     * be less than
-     *
-     * @param maxValue
-     *            the maximum value an float validated with this validator must
-     *            be less than
-     */
-    public void setMaxExclusive(Float maxValue) {
-        setMaxExclusive(maxValue.floatValue());
-    } // -- setMaxExclusive
-
-    /**
-     * Sets the maximum value that decimals validated with this validator are
-     * allowed to be
-     *
-     * @param maxValue
-     *            the maximum value an float validated with this validator may
-     *            be
-     */
-    public void setMaxInclusive(Float maxValue) {
-        setMaxInclusive(maxValue.floatValue());
-    } // --setMaxInclusive
-
-    /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param d
      *            the float to validate
@@ -213,29 +257,33 @@ public class FloatValidator extends PatternValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(float d, ValidationContext context) throws ValidationException {
-        if (_isFixed && d != _fixed) {
-            String err = d + " is not equal to the fixed value of " + _fixed;
+    public void validate(final float d, final ValidationContext context)
+                                                    throws ValidationException {
+        if (_useFixed && d != _fixed) {
+            String err = "float " + d + " is not equal to the fixed value of " + _fixed;
             throw new ValidationException(err);
         }
 
-        if (_isThereMinInclusive && d < _minInclusive) {
-            String err = d + " is less than the minimum allowable value of " + _minInclusive;
+        if (_useMinInclusive && d < _minInclusive) {
+            String err = "float " + d + " is less than the minimum allowed value: " + _minInclusive;
             throw new ValidationException(err);
         }
 
-        if (_isThereMinExclusive && d <= _minExclusive) {
-            String err = d + " is less than the minimum allowable value of " + _minExclusive;
+        if (_useMinExclusive && d <= _minExclusive) {
+            String err = "float " + d
+                    + " is less than or equal to the minimum exclusive value: " + _minExclusive;
             throw new ValidationException(err);
         }
 
-        if (_isThereMaxInclusive && d > _maxInclusive) {
-            String err = d + " is greater than the maximum allowable value of " + _maxInclusive;
+        if (_useMaxInclusive && d > _maxInclusive) {
+            String err = "float " + d + " is greater than the maximum allowed value: "
+                    + _maxInclusive;
             throw new ValidationException(err);
         }
 
-        if (_isThereMaxExclusive && d >= _maxExclusive) {
-            String err = d + " is greater than the maximum allowable value of " + _maxExclusive;
+        if (_useMaxExclusive && d >= _maxExclusive) {
+            String err = "float " + d
+                    + " is greater than or equal to the maximum exclusive value: " + _maxExclusive;
             throw new ValidationException(err);
         }
 
@@ -245,18 +293,18 @@ public class FloatValidator extends PatternValidator implements TypeValidator {
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -264,9 +312,10 @@ public class FloatValidator extends PatternValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
-            String err = "FloatValidator cannot validate a null object.";
+            String err = "floatValidator cannot validate a null object.";
             throw new ValidationException(err);
         }
 

@@ -224,7 +224,7 @@ public final class XSNMToken extends XSType {
                                final String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator ="
                 + " new org.exolab.castor.xml.validators.NameValidator("
-                + "org.exolab.castor.xml.validators.NameValidator.NMTOKEN);");
+                + "org.exolab.castor.xml.XMLConstants.NAME_TYPE_NMTOKEN);");
 
         if (hasLength()) {
             jsc.add("typeValidator.setLength(");

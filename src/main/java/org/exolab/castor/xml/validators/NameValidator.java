@@ -46,6 +46,7 @@ package org.exolab.castor.xml.validators;
 
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
+import org.exolab.castor.xml.XMLConstants;
 
 /**
  * The Name Validation class. This class handles validation for XML Name
@@ -56,34 +57,41 @@ import org.exolab.castor.xml.ValidationException;
  */
 public class NameValidator extends StringValidator {
 
-    public static final short NCNAME  = 0;
+    /** XML name type NCName. @deprecated - use XMLConstants.NAME_TYPE_NCNAME.
+     * Retained for backwards-compatility. */
+    public static final short NCNAME  = XMLConstants.NAME_TYPE_NCNAME;
 
-    public static final short NMTOKEN = 1;
+    /** XML name type NMTOKEN. @deprecated - use XMLConstants.NAME_TYPE_NCTOKEN.
+    * Retained for backwards-compatility. */
+    public static final short NMTOKEN = XMLConstants.NAME_TYPE_NMTOKEN;
 
-    public static final short CDATA   = 2;
+    /** XML name type CDATA. @deprecated - use XMLConstants.NAME_TYPE_CDATA.
+    * Retained for backwards-compatility. */
+    public static final short CDATA   = XMLConstants.NAME_TYPE_CDATA;
 
-    private short             type    = NCNAME;
+    /** Name type. */
+    private short _type = XMLConstants.NAME_TYPE_NCNAME;
 
     /**
-     * Creates a new NameValidator with the default validation set to NCName
+     * Creates a new NameValidator with the default validation set to NCName.
      */
     public NameValidator() {
         super();
     } // -- NameValidator
 
     /**
-     * Creates a new NameValidator with the given validation type
+     * Creates a new NameValidator with the given validation type.
      *
      * @param type
      *            the validation type for this NameValidator
      */
-    public NameValidator(short type) {
+    public NameValidator(final short type) {
         super();
-        this.type = type;
+        this._type = type;
     } // -- NMTokenValidator
 
     /**
-     * Sets whether or not a String is required (non null)
+     * Sets whether or not a String is required (non null).
      *
      * @param required
      *            the flag indicating whether Strings are required
@@ -93,7 +101,7 @@ public class NameValidator extends StringValidator {
     }
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param value
      *            the string to validate
@@ -101,28 +109,29 @@ public class NameValidator extends StringValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(String value, ValidationContext context) throws ValidationException {
+    public void validate(final String value, final ValidationContext context)
+                                                    throws ValidationException {
         super.validate(value, context);
 
-        switch (type) {
-            case CDATA:
+        switch (_type) {
+            case XMLConstants.NAME_TYPE_CDATA:
                 if (!ValidationUtils.isCDATA(value)) {
-                    String err = "'" + value + "' is not a valid CDATA.";
+                    String err = "Name '" + value + "' is not a valid CDATA.";
                     throw new ValidationException(err);
                 }
                 break;
 
-            case NMTOKEN:
+            case XMLConstants.NAME_TYPE_NMTOKEN:
                 if (!ValidationUtils.isNMToken(value)) {
-                    String err = "'" + value + "' is not a valid NMToken.";
+                    String err = "Name '" + value + "' is not a valid NMToken.";
                     throw new ValidationException(err);
                 }
                 break;
 
-            case NCNAME:
+            case XMLConstants.NAME_TYPE_NCNAME:
             default:
                 if (!ValidationUtils.isNCName(value)) {
-                    String err = "'" + value + "' is not a valid NCName.";
+                    String err = "Name '" + value + "' is not a valid NCName.";
                     throw new ValidationException(err);
                 }
                 break;
@@ -130,18 +139,18 @@ public class NameValidator extends StringValidator {
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -149,7 +158,8 @@ public class NameValidator extends StringValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object != null) {
             validate(object.toString(), context);
         } else {

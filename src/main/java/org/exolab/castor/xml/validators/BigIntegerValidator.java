@@ -51,104 +51,103 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
 /**
- * The BigInteger Validation class. This class handles validation for the
- * BigInteger type.
+ * The BigInteger Validation class. Handles validation for the
+ * <code>java.math.BigInteger</code> type.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @version $Revision: 5951 $ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
+ * @version $Revision: 5951 $ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar
+ *          2003) $
  */
 public class BigIntegerValidator extends PatternValidator implements TypeValidator {
 
-    private boolean    useMin       = false;
-
-    private boolean    useMax       = false;
-
-    private boolean    useFixed     = false;
-
-    private BigInteger min          = BigInteger.valueOf(0);
-
-    private BigInteger max          = BigInteger.valueOf(0);
-
-    private int        _totalDigits = -1;
-
-    private BigInteger fixed        = BigInteger.valueOf(0);
+    /** If true, we perform "minimum value" validation. */
+    private boolean    _useMin       = false;
+    /** If true, we perform "maximum value" validation. */
+    private boolean    _useMax       = false;
+    /** If true, we perform "fixed" validation. */
+    private boolean    _useFixed     = false;
+    /** Minimum value (inclusive) for this BigInteger.  (Not used unless _useMin == true.) */
+    private BigInteger _min          = BigInteger.valueOf(0);
+    /** Maximum value (inclusive) for this BigInteger.  (Not used unless _useMax == true.) */
+    private BigInteger _max          = BigInteger.valueOf(0);
+    /** Maximum number of digits in this BigInteger. (Not applied if < 0.) */
+    private int        _totalDigits  = -1;
+    /** Fixed value of this BigInteger. (Not used unless _useFixed == true.) */
+    private BigInteger _fixed        = BigInteger.valueOf(0);
 
     /**
-     * Creates a new BigIntegerValidator with no restrictions
+     * Creates a new BigIntegerValidator with no restrictions.
      */
     public BigIntegerValidator() {
         super();
     } // -- BigIntegerValidator
 
     /**
-     * Clears the fixed value for this BigIntegerValidator
+     * Clears the fixed value for this BigIntegerValidator.
      */
     public void clearFixed() {
-        useFixed = false;
+        _useFixed = false;
     } // -- clearFixed
 
     /**
-     * Clears the maximum value for this BigIntegerValidator
+     * Clears the maximum value for this BigIntegerValidator.
      */
     public void clearMax() {
-        useMax = false;
+        _useMax = false;
     } // -- clearMax
 
     /**
-     * Clears the minimum value for this BigIntegerValidator
+     * Clears the minimum value for this BigIntegerValidator.
      */
     public void clearMin() {
-        useMin = false;
+        _useMin = false;
     } // -- clearMin
 
     /**
-     * Returns the fixed value that big integers validated with this validator
-     * must be equal to. A null value is returned if no fixed value has been
-     * specified.
+     * Returns the configured fixed value for BigInteger validation.  Returns
+     * null if no fixed value has been configured.
      *
      * @return the fixed value to validate against.
      */
     public BigInteger getFixed() {
-        if (useFixed) {
-            return fixed;
+        if (_useFixed) {
+            return _fixed;
         }
         return null;
     } // -- getFixed
 
     /**
-     * Returns the maximum value that bing integers validated with this
-     * validator must be equal to or less than. A null value is returned if no
-     * maximum value has been specified.
+     * Returns the configured maximum value for BigInteger validation.  Returns
+     * null if no maximum has been configured.
      *
-     * @return the maximum inclusive value to validate against.
+     * @return the maximum (inclusive) value to validate against.
      */
     public BigInteger getMaxInclusive() {
-        if (useMax) {
-            return max;
+        if (_useMax) {
+            return _max;
         }
         return null;
     } // -- getMaxInclusive
 
     /**
-     * Returns the minimum value that big integers validated with this validator
-     * must be equal to or greater than. A null value is returned if no minimum
-     * value has been specified.
+     * Returns the configured minimum value for BigInteger validation.  Returns
+     * null if no minimum has been configured.
      *
-     * @return the minimum inclusive value to validate against.
+     * @return the minimum (inclusive) value to validate against.
      */
     public BigInteger getMinInclusive() {
-        if (useMin) {
-            return min;
+        if (_useMin) {
+            return _min;
         }
         return null;
     } // -- getMinInclusive
 
     /**
-     * Returns the total number of digits that integers validated with this
-     * validator must have. A null value is returned if no total number of
-     * digits has been specified.
+     * Returns the configured maximum number of digits (inclusive) for
+     * BigInteger validation. Returns null if no maximum number of digits has
+     * been configured.
      *
-     * @return the total number of digits
+     * @return the maximum number of digits to validate against.
      */
     public Integer getTotalDigits() {
         if (_totalDigits >= 0) {
@@ -158,89 +157,88 @@ public class BigIntegerValidator extends PatternValidator implements TypeValidat
     } // -- getTotalDigits
 
     /**
-     * Returns true if a fixed value, to validate against, has been set.
+     * Returns true if a fixed value to validate against has been set.
      *
      * @return true if a fixed value has been set.
      */
     public boolean hasFixed() {
-        return useFixed;
+        return _useFixed;
     } // -- hasFixed
 
     /**
-     * Sets the fixed value that big integers validated with this validated must
-     * be equal to
+     * Sets the fixed value for BigInteger validation.
+     * <p>
+     * NOTE: If maximum and/or minimum values have been set and the fixed value
+     * is not within that max/min range, then no BigInteger will pass
+     * validation. This is as according to the XML Schema spec.
      *
      * @param fixedValue
-     *            the fixed value that a long validated with this validator must
-     *            be equal to. <BR>
-     *            NOTE: Using Fixed values takes preceedence over using max and
-     *            mins, and is really the same as setting both max-inclusive and
-     *            min-inclusive to the same value
+     *            the fixed value that a BigInteger validated with this
+     *            validator must be equal to.
      */
-    public void setFixed(BigInteger fixedValue) {
-        useFixed = true;
-        this.fixed = fixedValue;
+    public void setFixed(final BigInteger fixedValue) {
+        _useFixed = true;
+        this._fixed = fixedValue;
     } // -- setFixed
 
     /**
-     * Sets the minimum value that big integers validated with this validator
-     * must be greater than
+     * Sets the minimum (exclusive) value for BigInteger validation.  To pass
+     * validation, a BigInteger must be greater than this value.
      *
      * @param minValue
-     *            the minimum value that a big integer validated with this
-     *            validator must be greater than
+     *            the minimum (exclusive) value for BigInteger validation.
      */
-    public void setMinExclusive(BigInteger minValue) {
-        useMin = true;
-        min = minValue.add(BigInteger.valueOf(1));
+    public void setMinExclusive(final BigInteger minValue) {
+        _useMin = true;
+        _min = minValue.add(BigInteger.valueOf(1));
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that big integers validated with this validator
-     * are allowed to be
+     * Sets the minimum (inclusive) value for BigInteger validation.  To pass
+     * validation, a BigInteger must be greater than or equal to this value.
      *
      * @param minValue
-     *            the minimum value that a big integer validated with this
-     *            validator may be
+     *            the minimum (inclusive) value for BigInteger validation.
      */
-    public void setMinInclusive(BigInteger minValue) {
-        useMin = true;
-        min = minValue;
+    public void setMinInclusive(final BigInteger minValue) {
+        _useMin = true;
+        _min = minValue;
     } // -- setMinInclusive
 
     /**
-     * Sets the maximum value that big integers validated with this validator
-     * must be less than
+     * Sets the maximum (exclusive) value for BigInteger validation.  To pass
+     * validation, a BigInteger must be less than this value.
      *
      * @param maxValue
-     *            the maximum value that a big integer validated with this
-     *            validator must be less than
+     *            the maximum (exclusive) value for BigInteger validation.
      */
-    public void setMaxExclusive(BigInteger maxValue) {
-        useMax = true;
-        max = maxValue.subtract(BigInteger.valueOf(-1));
+    public void setMaxExclusive(final BigInteger maxValue) {
+        _useMax = true;
+        _max = maxValue.subtract(BigInteger.valueOf(-1));
     } // -- setMaxExclusive
 
     /**
-     * Sets the maximum value that big integers validated with this validator
-     * are allowed to be
+     * Sets the maximum (inclusive) value for BigInteger validation.  To pass
+     * validation, a BigInteger must be less than or equal to this value.
      *
      * @param maxValue
-     *            the maximum value that a big integer validated with this
-     *            validator may be
+     *            the maximum (inclusive) value for BigInteger validation.
      */
-    public void setMaxInclusive(BigInteger maxValue) {
-        useMax = true;
-        max = maxValue;
+    public void setMaxInclusive(final BigInteger maxValue) {
+        _useMax = true;
+        _max = maxValue;
     } // -- setMaxInclusive
 
     /**
-     * Sets the totalDigits facet for this Integer type.
+     * Sets the maximum number of digits for BigInteger validation. To pass
+     * validation, a BigInteger must have this many digits or fewer. Leading
+     * zeros are not counted.
      *
      * @param totalDig
-     *            the value of totalDigits (must be >0)
+     *            the maximum (inclusive) number of digits for BigInteger
+     *            validation. (must be > 0)
      */
-    public void setTotalDigits(int totalDig) {
+    public void setTotalDigits(final int totalDig) {
         if (totalDig <= 0) {
             throw new IllegalArgumentException(
                     "IntegerValidator: the totalDigits facet must be positive");
@@ -248,19 +246,30 @@ public class BigIntegerValidator extends PatternValidator implements TypeValidat
         _totalDigits = totalDig;
     }
 
-    public void validate(BigInteger value, ValidationContext context) throws ValidationException {
-        if (useFixed && value != fixed) {
-            String err = value + " is not equal to the fixed value of " + fixed;
+    /**
+     * Validates the given Object.
+     *
+     * @param value
+     *            the BigInteger to validate
+     * @param context
+     *            the ValidationContext
+     * @throws ValidationException if the object fails validation.
+     */
+    public void validate(final BigInteger value, final ValidationContext context)
+                                                    throws ValidationException {
+        if (_useFixed && value != _fixed) {
+            String err = "BigInteger " + value + " is not equal to the fixed value: " + _fixed;
             throw new ValidationException(err);
         }
 
-        if (useMin && value.compareTo(min) == -1) {
-            String err = value + " is less than the minimum allowable value of " + min;
+        if (_useMin && value.compareTo(_min) == -1) {
+            String err = "BigInteger " + value + " is less than the minimum allowed value: " + _min;
             throw new ValidationException(err);
         }
 
-        if (useMax && value.compareTo(max) == 1) {
-            String err = value + " is greater than the maximum allowable value of " + max;
+        if (_useMax && value.compareTo(_max) == 1) {
+            String err = "BigInteger " + value + " is greater than the maximum allowed value: "
+                    + _max;
             throw new ValidationException(err);
         }
 
@@ -270,9 +279,8 @@ public class BigIntegerValidator extends PatternValidator implements TypeValidat
                 length--;
             }
             if (length > _totalDigits) {
-                String err = value
-                        + " doesn't have the correct number of digits, it must be less than or equal to "
-                        + _totalDigits;
+                String err = "BigInteger " + value + " has too many digits -- must have "
+                        + _totalDigits + " digits or fewer.";
                 throw new ValidationException(err);
             }
         }
@@ -283,19 +291,19 @@ public class BigIntegerValidator extends PatternValidator implements TypeValidat
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
      * @throws ValidationException
      *             if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -304,7 +312,8 @@ public class BigIntegerValidator extends PatternValidator implements TypeValidat
      * @throws ValidationException
      *             if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "BigIntegerValidator cannot validate a null object.";
             throw new ValidationException(err);
