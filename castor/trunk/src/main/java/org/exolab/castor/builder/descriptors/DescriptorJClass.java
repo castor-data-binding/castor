@@ -46,6 +46,7 @@ package org.exolab.castor.builder.descriptors;
 
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.xml.XMLConstants;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
 import org.exolab.javasource.JClass;
@@ -184,18 +185,22 @@ public class DescriptorJClass extends JClass {
      * @return Returns the qualified class name of the super class
      */
     private String getSuperClassName() {
-        String superClassName = null;
-        if (_type.getSuperClass().getPackageName() == null ||
-                _type.getSuperClass().getPackageName().equals("")) {
+        final String superClassName;
+        if (_type.getSuperClass().getPackageName() == null
+                || _type.getSuperClass().getPackageName().equals("")) {
             if (getPackageName() == null) {
                 // no target package specified --> do not append package (=null)
-                superClassName = _type.getSuperClass().getLocalName() + "Descriptor";
+                superClassName = _type.getSuperClass().getLocalName()
+                        + XMLConstants.DESCRIPTOR_SUFFIX;
             } else {
                 // target package specified --> simply use it
-                superClassName = getPackageName() + "." + _type.getSuperClass().getLocalName() + "Descriptor";
+                superClassName = getPackageName() + "." + _type.getSuperClass().getLocalName()
+                        + XMLConstants.DESCRIPTOR_SUFFIX;
             }
         } else {
-            superClassName = _type.getSuperClass().getPackageName() + ".descriptors." + _type.getSuperClass().getLocalName() + "Descriptor";
+            superClassName = _type.getSuperClass().getPackageName()
+                    + XMLConstants.DESCRIPTOR_PACKAGE
+                    + _type.getSuperClass().getLocalName() +  XMLConstants.DESCRIPTOR_SUFFIX;
         }
         return superClassName;
     }
@@ -242,7 +247,7 @@ public class DescriptorJClass extends JClass {
         JSourceCode jsc;
         //-- create getNameSpacePrefix method
         method = new JMethod("getNameSpacePrefix", SGTypes.String,
-                             "the namespace prefix to use when marshalling as XML.");
+                             "the namespace prefix to use when marshaling as XML.");
 
         if (_config.useJava50()) {
             method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
@@ -254,7 +259,7 @@ public class DescriptorJClass extends JClass {
 
         //-- create getNameSpaceURI method
         method = new JMethod("getNameSpaceURI", SGTypes.String,
-                             "the namespace URI used when marshalling and unmarshalling as XML.");
+                             "the namespace URI used when marshaling and unmarshaling as XML.");
 
         if (_config.useJava50()) {
             method.addAnnotation(new JAnnotation(new JAnnotationType("Override")));

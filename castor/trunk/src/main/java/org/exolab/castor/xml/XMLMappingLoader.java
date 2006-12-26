@@ -96,11 +96,11 @@ import java.lang.reflect.Modifier;
  */
 public final class XMLMappingLoader extends AbstractMappingLoader {
     /**
-     * The default xml prefix used on certain 
+     * The default xml prefix used on certain
      * attributes such as xml:lang, xml:base, etc.
      */
     private static final String XML_PREFIX = "xml:";
-    
+
 
     /**
      * Empty array of class types used for reflection
@@ -147,25 +147,25 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
      */
     public XMLMappingLoader(ClassLoader loader) {
         super(loader);
-        
+
         LocalConfiguration config = LocalConfiguration.getInstance();
-        
+
         _primitiveNodeType = config.getPrimitiveNodeType();
         _naming            = config.getXMLNaming();
 
     } //-- XMLMappingLoader
-    
-    
+
+
 
     public BindingType getBindingType() { return BindingType.XML; }
 
     private void createResolver() {
-        _cdResolver = (XMLClassDescriptorResolverImpl) 
+        _cdResolver = (XMLClassDescriptorResolverImpl)
             ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
         _cdResolver.setIntrospection(false);
         _cdResolver.setLoadPackageMappings(false);
     }
-    
+
     protected void resolveRelations(ClassDescriptor clsDesc) {
         FieldDescriptor[] fields;
 
@@ -173,7 +173,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         for ( int i = 0 ; i < fields.length ; ++i ) {
             if (fields[i].getClassDescriptor() != null) continue;
             ClassDescriptor   relDesc;
-            
+
             Class fieldType = fields[i].getFieldType();
             if (fieldType != null) {
                 relDesc = getDescriptor(fieldType.getName());
@@ -185,7 +185,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                         fields[ i ] instanceof XMLFieldDescriptorImpl )
                 {
                     ( (XMLFieldDescriptorImpl) fields[ i ] ).setClassDescriptor( (XMLClassDescriptor) relDesc );
-                    
+
                     //-- removed kvisco 20010814
                     // ( (XMLFieldDescriptorImpl) fields[ i ] ).setNodeType( NodeType.Element );
                 }
@@ -215,14 +215,14 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 }
                 try {
                     clsDesc = _cdResolver.resolve(clsMap.getName());
-                    if (clsDesc != null) 
+                    if (clsDesc != null)
                         return clsDesc;
                 }
                 catch(ResolverException rx) {}
-                
+
             }
         }
-        
+
         // Use super class to create class descriptor. Field descriptors will be
         // generated only for supported fields, see createFieldDesc later on.
         clsDesc = super.createDescriptor( clsMap );
@@ -246,10 +246,10 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         if (clsMap.getAutoComplete()) {
 
             XMLClassDescriptor referenceDesc = null;
-            
+
             Class type = xmlClassDesc.getJavaClass();
-            
-            //-- check compiled descriptors 
+
+            //-- check compiled descriptors
             if (_cdResolver == null) {
                 createResolver();
             }
@@ -259,7 +259,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             catch(ResolverException rx) {
                 throw new MappingException(rx);
             }
-            
+
             if (referenceDesc == null) {
                 Introspector introspector = new Introspector();
                 try {
@@ -270,7 +270,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                         ((XMLClassDescriptorImpl)referenceDesc).setExtends(null);
                     }
                 } catch (MarshalException mx) {
-                    String error = "unable to introspect class '" + 
+                    String error = "unable to introspect class '" +
                         type.getName() + "' for auto-complete: ";
                     throw new MappingException(error + mx.getMessage());
                 }
@@ -281,7 +281,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             if (clsMap.getIdentityCount() > 0)
                 identity = clsMap.getIdentity(0);
 
-            
+
             FieldDescriptor[] fields = xmlClassDesc.getFields();
 
             // Attributes
@@ -348,7 +348,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     protected FieldDescriptor createFieldDesc( Class javaClass, FieldMapping fieldMap )
         throws MappingException
     {
-        
+
         FieldDescriptor        fieldDesc;
         FieldMappingCollectionType         colType  = fieldMap.getCollection();
         String                 xmlName  = null;
@@ -362,7 +362,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         if ((fieldMap.getType() == null) && (colType != null)) {
             if ((colType == FieldMappingCollectionType.HASHTABLE) ||
                 (colType == FieldMappingCollectionType.MAP) ||
-                (colType == FieldMappingCollectionType.SORTEDMAP)) 
+                (colType == FieldMappingCollectionType.SORTEDMAP))
             {
                 fieldMap.setType(MapItem.class.getName());
             }
@@ -399,13 +399,13 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             }
 
         }
-        
+
         //-- transient
         //-- XXXX -> if it's transient we probably shouldn't do all
         //-- XXXX -> the unecessary work
         isXMLTransient = isXMLTransient || fieldDesc.isTransient();
-        
-        //-- 
+
+        //--
 
         //-- handle QName for xmlName
         String namespace = null;
@@ -448,7 +448,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
 
         //--set a default fieldValidator
         xmlDesc.setValidator(new FieldValidator());
-        
+
         //-- enable use parent namespace if explicit one doesn't exist
         xmlDesc.setUseParentsNamespace(true);
 
@@ -487,13 +487,13 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         xmlDesc.setContainer(fieldMap.getContainer());
 
         if (xml != null) {
-            
+
             //-- has class descriptor for type specified
             if (xml.getClassMapping() != null) {
                 ClassDescriptor cd = createDescriptor(xml.getClassMapping());
                 xmlDesc.setClassDescriptor((XMLClassDescriptor)cd);
             }
-            
+
             //-- has location path?
             if (xml.getLocation() != null) {
                 xmlDesc.setLocationPath(xml.getLocation());
@@ -505,10 +505,10 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             xmlDesc.setQNamePrefix(xml.getQNamePrefix());
             TypeValidator validator = null;
             if (NCNAME.equals(xmlType)) {
-                validator = new NameValidator(NameValidator.NCNAME);
+                validator = new NameValidator(XMLConstants.NAME_TYPE_NCNAME);
                 xmlDesc.setValidator(new FieldValidator(validator));
             }
-            
+
             //-- special properties?
             Property[] props = xml.getProperty();
             if ((props != null) && (props.length > 0)) {
@@ -529,9 +529,9 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 colType = FieldMappingCollectionType.valueOf(typeName);
             }
         }
-        
+
         //-- isMapped item
-        if (colType != null) {    
+        if (colType != null) {
             if ((colType == FieldMappingCollectionType.HASHTABLE) ||
                 (colType == FieldMappingCollectionType.MAP) ||
                 (colType == FieldMappingCollectionType.SORTEDMAP))
@@ -547,7 +547,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 else xmlDesc.setMapped(true);
             }
 
-            
+
             //-- special NodeType.Namespace handling
             //-- prevent FieldHandlerImpl from using CollectionHandler
             //-- during calls to #getValue
@@ -598,9 +598,9 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                                 //-- method is called during getValue()
                                 //FieldHandler handler = xmlDesc.getHandler();
                                 //handler = new EnumFieldHandler(fieldType, handler);
-                                
+
                                 FieldHandler handler = new ToStringFieldHandler(fieldType, xmlDesc.getHandler());
-                                
+
                                 xmlDesc.setHandler(handler);
                                 xmlDesc.setImmutable(true);
                             }
@@ -612,7 +612,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
                 }
             }
         }
-        
+
         //-- constructor argument?
         String setter = fieldMap.getSetMethod();
         if (setter != null) {
@@ -635,29 +635,29 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     /**
      * Sets whether or not to look for and load package specific
      * mapping files (".castor.xml" files).
-     * 
+     *
      * @param loadPackageMappings a boolean that enables or
      * disables the loading of package specific mapping files
      */
-    public void setLoadPackageMappings(boolean loadPackageMappings) 
+    public void setLoadPackageMappings(boolean loadPackageMappings)
     {
         if (_cdResolver == null) {
             createResolver();
         }
         _cdResolver.setLoadPackageMappings(loadPackageMappings);
     } //-- setLoadPackageMappings
-    
+
 
     protected TypeInfo getTypeInfo( Class fieldType, CollectionHandler colHandler, FieldMapping fieldMap )
         throws MappingException
     {
         return new TypeInfo( fieldType, null, null, null,
-                             fieldMap.getRequired(), null, colHandler, false );                             
+                             fieldMap.getRequired(), null, colHandler, false );
     }
 
     /**
-     * This method allows a collection to be treated as a first class 
-     * object (and not a container) so that it has an element representation 
+     * This method allows a collection to be treated as a first class
+     * object (and not a container) so that it has an element representation
      * in the marshalled XML.
      */
      private XMLFieldDescriptorImpl wrapCollection
@@ -666,47 +666,47 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
     {
         //-- If we have a field 'c' that is a collection and
         //-- we want to wrap that field in an element <e>, we
-        //-- need to create a field descriptor for 
+        //-- need to create a field descriptor for
         //-- an object that represents the element <e> and
-        //-- acts as a go-between from the parent of 'c' 
+        //-- acts as a go-between from the parent of 'c'
         //-- denoted as P(c) and 'c' itself
-        //  
+        //
         //   object model: P(c) -> c
         //   xml : <p><e><c></e><p>
-        
+
         //-- Make new class descriptor for the field that
         //-- will represent the container element <e>
         Class type = ContainerElement.class;
         XMLClassDescriptorImpl classDesc = new XMLClassDescriptorImpl(type);
         //-- make copy of fieldDesc and add it to our new class descriptor
-        XMLFieldDescriptorImpl newFieldDesc 
-            = new XMLFieldDescriptorImpl(fieldDesc, 
-                                         fieldDesc.getXMLName(), 
+        XMLFieldDescriptorImpl newFieldDesc
+            = new XMLFieldDescriptorImpl(fieldDesc,
+                                         fieldDesc.getXMLName(),
                                          fieldDesc.getNodeType(),
                                          _primitiveNodeType);
-        //-- nullify xmlName so that auto-naming will be enabled, 
+        //-- nullify xmlName so that auto-naming will be enabled,
         //-- we can't do this in the constructor because
         //-- XMLFieldDescriptorImpl will create a default one.
         newFieldDesc.setXMLName(null);
         newFieldDesc.setMatches("*");
-        
+
         //-- add the field descriptor to our new class descriptor
-        classDesc.addFieldDescriptor(newFieldDesc);        
-        //-- reassociate the orignal class descriptor (for 'c') 
+        classDesc.addFieldDescriptor(newFieldDesc);
+        //-- reassociate the orignal class descriptor (for 'c')
         // of fieldDesc with our new classDesc
         fieldDesc.setClassDescriptor(classDesc);
-        
+
         //-- wrap the field handler in a special container field
-        //-- handler that will actually do the delgation work 
+        //-- handler that will actually do the delgation work
         FieldHandler handler = new ContainerFieldHandler(fieldDesc.getHandler());
         newFieldDesc.setHandler(handler);
         fieldDesc.setHandler(handler);
-        
+
         //-- Change fieldType of original field descriptor and
         //-- return new descriptor
         return new XMLContainerElementFieldDescriptor(fieldDesc, _primitiveNodeType);
     } //-- createWrapperDescriptor
-     
+
     /**
      * A special TypeConvertor that simply returns the object
      * given. This is used for preventing the FieldHandlerImpl

@@ -48,104 +48,103 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 
 /**
- * The Short Validation class. This class handles validation for the short type.
+ * The Short Validation class. This class handles validation for the primitive
+ * <code>short</code> and the <code>java.lang.Short</code> types.
  *
  * @author <a href="mailto:visco@intalio.com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar
- *          2003) $
+ * @version $Revision$ $Date: 2003-03-03 02:57:21 -0700 (Mon, 03 Mar 2003) $
  */
 public class ShortValidator extends PatternValidator implements TypeValidator {
 
-    private boolean useMin   = false;
-
-    private boolean useMax   = false;
-
-    private boolean useFixed = false;
-
-    private short   min      = 0;
-
-    private short   max      = 0;
-
+    /** If true, we perform "minimum value" validation. */
+    private boolean _useMin   = false;
+    /** If true, we perform "maximum value" validation. */
+    private boolean _useMax   = false;
+    /** If true, we perform "fixed" validation. */
+    private boolean _useFixed = false;
+    /** Minimum value (inclusive) for this short.  (Not used unless _useMin == true.) */
+    private short   _min         = 0;
+    /** Maximum value (inclusive) for this short.  (Not used unless _useMax == true.) */
+    private short   _max         = 0;
+    /** Maximum number of digits in this short. (Not applied if < 0.) */
     private int     _totalDigits = -1;
-
-    private short   fixed    = 0;
+    /** Fixed value of this short. (Not used unless _useFixed == true.) */
+    private short   _fixed       = 0;
 
     /**
-     * Creates a new ShortValidator with no restrictions
+     * Creates a new ShortValidator with no restrictions.
      */
     public ShortValidator() {
         super();
     } // -- ShortValidator
 
     /**
-     * Clears the fixed value for this ShortValidator
+     * Clears the fixed value for this ShortValidator.
      */
     public void clearFixed() {
-        useFixed = false;
+        _useFixed = false;
     } // -- clearFixed
 
     /**
-     * Clears the maximum value for this ShortValidator
+     * Clears the maximum value for this ShortValidator.
      */
     public void clearMax() {
-        useMax = false;
+        _useMax = false;
     } // -- clearMax
 
     /**
-     * Clears the minimum value for this ShortValidator
+     * Clears the minimum value for this ShortValidator.
      */
     public void clearMin() {
-        useMin = false;
+        _useMin = false;
     } // -- clearMin
 
     /**
-     * Returns the fixed value that shorts validated with this validator must be
-     * equal to. A null value is returned if no fixed value has been specified.
+     * Returns the configured fixed value for short validation. Returns null if
+     * no fixed value has been configured.
      *
      * @return the fixed value to validate against.
      */
     public Short getFixed() {
-        if (useFixed) {
-            return new Short(fixed);
+        if (_useFixed) {
+            return new Short(_fixed);
         }
         return null;
     } // -- getFixed
 
     /**
-     * Returns the maximum value that shorts validated with this validator must
-     * be equal to or less than. A null value is returned if no maximum value
-     * has been specified.
+     * Returns the configured maximum value for short validation. Returns null
+     * if no maximum has been configured.
      *
-     * @return the maximum inclusive value to validate against.
+     * @return the maximum (inclusive) value to validate against.
      */
     public Short getMaxInclusive() {
-        if (useMax) {
-            return new Short(max);
+        if (_useMax) {
+            return new Short(_max);
         }
         return null;
     } // -- getMaxInclusive
 
     /**
-     * Returns the minimum value that shorts validated with this validator must
-     * be equal to or greater than. A null value is returned if no minimum value
-     * has been specified.
+     * Returns the configured minimum value for short validation. Returns null
+     * if no minimum has been configured.
      *
-     * @return the minimum inclusive value to validate against.
+     * @return the minimum (inclusive) value to validate against.
      */
     public Short getMinInclusive() {
-        if (useMin) {
-            return new Short(min);
+        if (_useMin) {
+            return new Short(_min);
         }
         return null;
     } // -- getMinInclusive
 
     /**
-     * Returns the total number of digits that integers validated with this
-     * validator must have. A null value is returned if no total number of
-     * digits has been specified.
+     * Returns the configured maximum number of digits (inclusive) for
+     * short validation. Returns null if no maximum number of digits has
+     * been configured.
      *
-     * @return the total number of digits
+     * @return the maximum number of digits to validate against.
      */
     public Integer getTotalDigits() {
         if (_totalDigits >= 0) {
@@ -155,97 +154,97 @@ public class ShortValidator extends PatternValidator implements TypeValidator {
     } // -- getTotalDigits
 
     /**
-     * Returns true if a fixed value, to validate against, has been set.
+     * Returns true if a fixed value to validate against has been set.
      *
      * @return true if a fixed value has been set.
      */
     public boolean hasFixed() {
-        return useFixed;
+        return _useFixed;
     } // -- hasFixed
 
     /**
-     * Sets the fixed value that shorts validated with this validated must be
-     * equal to.
+     * Sets the fixed value for short validation.
      * <p>
-     * NOTE: Using Fixed values takes precedence over using max and mins, and is
-     * really the same as setting both max-inclusive and min-inclusive to the
-     * same value
+     * NOTE: If maximum and/or minimum values have been set and the fixed value
+     * is not within that max/min range, then no short will pass validation.
+     * This is as according to the XML Schema spec.
      *
      * @param fixedValue
-     *            the fixed value a short validated with this validator must be
-     *            equal to.
+     *            the fixed value that a short validated with this validator
+     *            must be equal to.
      */
-    public void setFixed(short fixedValue) {
-        useFixed = true;
-        this.fixed = fixedValue;
+    public void setFixed(final short fixedValue) {
+        _useFixed = true;
+        this._fixed = fixedValue;
     } // -- setFixed
 
     /**
-     * Sets the minimum value that shorts validated with this validator must be
-     * greater than.
+     * Sets the minimum (exclusive) value for short validation. To pass
+     * validation, a short must be greater than this value.
      *
      * @param minValue
-     *            the minimum value a short validated with this validator must
-     *            be greater than
+     *            the minimum (exclusive) value for short validation.
      */
-    public void setMinExclusive(short minValue) {
-        useMin = true;
-        min = (short) (minValue + 1);
+    public void setMinExclusive(final short minValue) {
+        _useMin = true;
+        _min = (short) (minValue + 1);
     } // -- setMinExclusive
 
     /**
-     * Sets the minimum value that shorts validated with this validator are
-     * allowed to be
+     * Sets the minimum (inclusive) value for short validation. To pass
+     * validation, a short must be greater than or equal to this value.
      *
      * @param minValue
-     *            the minimum value a short validated with this validator may be
+     *            the minimum (inclusive) value for short validation.
      */
-    public void setMinInclusive(short minValue) {
-        useMin = true;
-        min = minValue;
+    public void setMinInclusive(final short minValue) {
+        _useMin = true;
+        _min = minValue;
     } // -- setMinInclusive
 
     /**
-     * Sets the maximum value that shorts validated with this validator must be
-     * less than
+     * Sets the maximum (exclusive) value for short validation. To pass
+     * validation, a short must be less than this value.
      *
      * @param maxValue
-     *            the maximum value a short validated with this validator must
-     *            be less than
+     *            the maximum (exclusive) value for short validation.
      */
-    public void setMaxExclusive(short maxValue) {
-        useMax = true;
-        max = (short) (maxValue - 1);
+    public void setMaxExclusive(final short maxValue) {
+        _useMax = true;
+        _max = (short) (maxValue - 1);
     } // -- setMaxExclusive
 
     /**
-     * Sets the maximum value that shorts validated with this validator are
-     * allowed to be
+     * Sets the maximum (inclusive) value for short validation. To pass
+     * validation, a short must be less than or equal to this value.
      *
      * @param maxValue
-     *            the maximum value a short validated with this validator may be
+     *            the maximum (inclusive) value for short validation.
      */
-    public void setMaxInclusive(short maxValue) {
-        useMax = true;
-        max = maxValue;
+    public void setMaxInclusive(final short maxValue) {
+        _useMax = true;
+        _max = maxValue;
     } // -- setMaxInclusive
 
     /**
-     * Sets the totalDigits facet for this Integer type.
+     * Sets the maximum number of digits for short validation. To pass
+     * validation, a short must have this many digits or fewer. Leading zeros
+     * are not counted.
      *
      * @param totalDig
-     *            the value of totalDigits (must be >0)
+     *            the maximum (inclusive) number of digits for short validation.
+     *            (must be > 0)
      */
-    public void setTotalDigits(int totalDig) {
+    public void setTotalDigits(final int totalDig) {
         if (totalDig <= 0) {
             throw new IllegalArgumentException(
-                    "IntegerValidator: the totalDigits facet must be positive");
+                    "ShortValidator: the totalDigits facet must be positive");
         }
         _totalDigits = totalDig;
     }
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param s
      *            the short to validate
@@ -253,19 +252,20 @@ public class ShortValidator extends PatternValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(short s, ValidationContext context) throws ValidationException {
-        if (useFixed && s != fixed) {
-            String err = s + " is not equal to the fixed value of " + fixed;
+    public void validate(final short s, final ValidationContext context)
+                                                    throws ValidationException {
+        if (_useFixed && s != _fixed) {
+            String err = "short " + s + " is not equal to the fixed value: " + _fixed;
             throw new ValidationException(err);
         }
 
-        if (useMin && s < min) {
-            String err = s + " is less than the minimum allowable value of " + min;
+        if (_useMin && s < _min) {
+            String err = "short " + s + " is less than the minimum allowed value: " + _min;
             throw new ValidationException(err);
         }
 
-        if (useMax && s > max) {
-            String err = s + " is greater than the maximum allowable value of " + max;
+        if (_useMax && s > _max) {
+            String err = "short " + s + " is greater than the maximum allowed value: " + _max;
             throw new ValidationException(err);
         }
 
@@ -275,9 +275,8 @@ public class ShortValidator extends PatternValidator implements TypeValidator {
                 length--;
             }
             if (length > _totalDigits) {
-                String err = s
-                        + " doesn't have the correct number of digits, it must be less than or equal to "
-                        + _totalDigits;
+                String err = "short " + s + " has too many digits -- must have "
+                        + _totalDigits + " digits or fewer.";
                 throw new ValidationException(err);
             }
         }
@@ -288,18 +287,18 @@ public class ShortValidator extends PatternValidator implements TypeValidator {
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
+    public void validate(final Object object) throws ValidationException {
         validate(object, (ValidationContext) null);
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -307,7 +306,8 @@ public class ShortValidator extends PatternValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "ShortValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -317,8 +317,7 @@ public class ShortValidator extends PatternValidator implements TypeValidator {
         try {
             value = ((Short) object).shortValue();
         } catch (Exception ex) {
-            String err = "Expecting a Short, received instead: "
-                    + object.getClass().getName();
+            String err = "Expecting a Short, received instead: " + object.getClass().getName();
             throw new ValidationException(err);
         }
         validate(value, context);

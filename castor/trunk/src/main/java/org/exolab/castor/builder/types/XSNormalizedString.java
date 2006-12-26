@@ -78,7 +78,7 @@ public final class XSNormalizedString extends XSPatternBase {
     }
 
     /**
-     * Returns the Cdata necessary to convert an Object to an instance of this
+     * Returns the source necessary to convert an Object to an instance of this
      * XSType. This method is really only useful for primitive types.
      *
      * @param variableName
@@ -224,7 +224,7 @@ public final class XSNormalizedString extends XSPatternBase {
                                final String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = "
                 + "new org.exolab.castor.xml.validators.NameValidator("
-                + "org.exolab.castor.xml.validators.NameValidator.CDATA);");
+                + "org.exolab.castor.xml.XMLConstants.NAME_TYPE_CDATA);");
 
         if (hasLength()) {
             jsc.add("typeValidator.setLength(");

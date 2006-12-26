@@ -53,6 +53,12 @@ import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.TypeValidator;
 
+/**
+ * The Date/Time Validation class. This class handles validation for all
+ * XML Schema date & time types.
+ *
+ * @version $Revision$ $Date:  $
+ */
 public class DateTimeValidator extends PatternValidator implements TypeValidator {
     /** Maximum allowed value (Inclusive) for a valid instance. */
     private DateTimeBase _maxInclusive;
@@ -73,60 +79,157 @@ public class DateTimeValidator extends PatternValidator implements TypeValidator
     } //-- DateTimeValidator
 
     /**
-     * Sets the maximum exclusive value that this Date/Time can hold.
-     * @param max the maximum exclusive value this Date/Time can be
-     * @see #setMaxInclusive
+     * Clears the fixed value for this DateTimeValidator.
      */
-    public void setMaxExclusive(DateTimeBase max) {
-        _maxExclusive = max;
+    public void clearFixed() {
+        _fixed = null;
+    } // -- clearFixed
+
+    /**
+     * Clears the maximum value for this DateTimeValidator.
+     */
+    public void clearMax() {
         _maxInclusive = null;
-    } //-- setMaxExclusive
-
-    /**
-     * Sets the maximum inclusive value that this Date/Time can hold.
-     * @param max the maximum inclusive value this Date/Time can be
-     * @see #setMaxExclusive
-     */
-    public void setMaxInclusive(DateTimeBase max) {
         _maxExclusive = null;
-        _maxInclusive = max;
-    } //-- setMaxInclusive
+    } // -- clearMax
 
     /**
-     * Sets the minimum exclusive value that this Date/Time can hold.
-     * @param min the minimum exclusive value this Date/Time can be
-     * @see #setMinInclusive
+     * Clears the minimum value for this DateTimeValidator.
      */
-    public void setMinExclusive(DateTimeBase min) {
-        _minExclusive = min;
+    public void clearMin() {
+        _minInclusive = null;
+        _minExclusive = null;
+    } // -- clearMin
+
+    /**
+     * Returns the configured fixed value for date/time validation.  Returns
+     * null if no fixed value has been configured.
+     *
+     * @return the fixed value to validate against.
+     */
+    public DateTimeBase getFixed() {
+        return _fixed;
+    } // -- getFixed
+
+    /**
+     * Returns the configured inclusive maximum value for date/time validation.
+     * Returns null if no inclusive maximum has been configured.
+     *
+     * @return the maximum (inclusive) value to validate against.
+     */
+    public DateTimeBase getMaxInclusive() {
+        return _maxInclusive;
+    } // -- getMaxInclusive
+
+    /**
+     * Returns the configured exclusive maximum value for date/time validation.
+     * Returns null if no exclusive maximum has been configured.
+     *
+     * @return the maximum (exclusive) value to validate against.
+     */
+    public DateTimeBase getMaxExclusive() {
+        return _maxExclusive;
+    } // -- getMaxInclusive
+
+    /**
+     * Returns the configured inclusive minimum value for date/time validation.
+     * Returns null if no inclusive minimum has been configured.
+     *
+     * @return the minimum inclusive value to validate against.
+     */
+    public DateTimeBase getMinInclusive() {
+        return _minInclusive;
+    } // -- getMinInclusive
+
+    /**
+     * Returns the configured exclusive minimum value for date/time validation.
+     * Returns null if no exclusive minimum has been configured.
+     *
+     * @return the minimum exclusive value to validate against.
+     */
+    public DateTimeBase getMinExclusive() {
+        return _minExclusive;
+    } // -- getMinInclusive
+
+    /**
+     * Returns true if a fixed value to validate against has been set.
+     *
+     * @return true if a fixed value has been set.
+     */
+    public boolean hasFixed() {
+        return _fixed != null;
+    } // -- hasFixed
+
+    /**
+     * Sets the fixed value for date/time validation.
+     * <p>
+     * NOTE: If maximum and/or minimum values have been set and the fixed value
+     * is not within that max/min range, then no date/time will pass validation.
+     * This is as according to the XML Schema spec.
+     *
+     * @param fixedValue
+     *            the fixed value that a date/time validated with this validator
+     *            must be equal to.
+     */
+    public void setFixed(final DateTimeBase fixedValue) {
+        _fixed = fixedValue;
+    }
+
+    /**
+     * Sets the minimum (exclusive) value for date/time validation.  To pass
+     * validation, a date/time must be greater than this value.
+     *
+     * @param minValue
+     *            the minimum (exclusive) value for date/time validation.
+     */
+    public void setMinExclusive(final DateTimeBase minValue) {
+        _minExclusive = minValue;
         _minInclusive = null;
     } //-- setMinExclusive
 
     /**
-     * Sets the minimum inclusive value that this Date/Time can hold.
-     * @param min the minimum inclusive value this Date/Time can be
-     * @see #setMinExclusive
+     * Sets the minimum (inclusive) value for date/time validation.  To pass
+     * validation, a date/time must be greater than or equal to this value.
+     *
+     * @param minValue
+     *            the minimum (inclusive) value for date/time validation.
      */
-    public void setMinInclusive(DateTimeBase min) {
+    public void setMinInclusive(final DateTimeBase minValue) {
         _minExclusive = null;
-        _minInclusive = min;
+        _minInclusive = minValue;
     } //-- setMinInclusive
 
     /**
-     * Sets the fixed value that this Date/Time must equal.
-     * @param fixed the fixed value that this Date/Time must equal.
+     * Sets the maximum (exclusive) value for date/time validation.  To pass
+     * validation, a date/time must be less than this value.
+     *
+     * @param maxValue
+     *            the maximum (exclusive) value for date/time validation.
      */
-    public void setFixed(DateTimeBase fixed) {
-        _fixed = fixed;
-    }
+    public void setMaxExclusive(final DateTimeBase maxValue) {
+        _maxExclusive = maxValue;
+        _maxInclusive = null;
+    } //-- setMaxExclusive
+
+    /**
+     * Sets the maximum (inclusive) value for date/time validation.  To pass
+     * validation, a date/time must be less than or equal to this value.
+     *
+     * @param maxValue
+     *            the maximum (inclusive) value for date/time validation.
+     */
+    public void setMaxInclusive(final DateTimeBase maxValue) {
+        _maxExclusive = null;
+        _maxInclusive = maxValue;
+    } //-- setMaxInclusive
 
     /**
      * Validates a Date/Time instance.
      * @param dateTime the date/time type to validate
      * @throws ValidationException if the DateTime fails validation
      */
-    public void validate(DateTimeBase dateTime) throws ValidationException {
-        validate(dateTime, (ValidationContext)null);
+    public void validate(final DateTimeBase dateTime) throws ValidationException {
+        validate(dateTime, (ValidationContext) null);
     }
 
     /**
@@ -135,51 +238,60 @@ public class DateTimeValidator extends PatternValidator implements TypeValidator
      * @param context the ValidationContext
      * @throws ValidationException if the DateTime fails validation
      */
-    public void validate(DateTimeBase dateTime, ValidationContext context) throws ValidationException {
+    public void validate(final DateTimeBase dateTime, final ValidationContext context)
+                                                    throws ValidationException {
         boolean isThereMinInclusive = (_minInclusive != null);
         boolean isThereMinExclusive = (_minExclusive != null);
         boolean isThereMaxInclusive = (_maxInclusive != null);
         boolean isThereMaxExclusive = (_maxExclusive != null);
 
         if (isThereMinExclusive && isThereMinInclusive) {
-            throw new ValidationException("both minInclusive and minExclusive are defined");
+            throw new ValidationException("Both minInclusive and minExclusive are defined");
         }
 
         if (isThereMaxExclusive && isThereMaxInclusive) {
-            throw new ValidationException("both maxInclusive and maxExclusive are defined");
-        }
-
-        if (isThereMinInclusive && dateTime.compareTo(_minInclusive) != DateTimeBase.GREATER_THAN &&
-                !dateTime.equals(_minInclusive)) {
-            String err = dateTime + " must be greater than (or equal to) the minimum allowable value of " + _minInclusive;
-            throw new ValidationException(err);
-        }
-
-        if (isThereMinExclusive && dateTime.compareTo(_minExclusive) != DateTimeBase.GREATER_THAN) {
-            String err = dateTime + " must be greater than the minimum allowable value of " + _minExclusive;
-            throw new ValidationException(err);
-        }
-
-        if (isThereMaxInclusive && dateTime.compareTo(_maxInclusive) != DateTimeBase.LESS_THAN &&
-                !dateTime.equals(_maxInclusive) ) {
-            String err = dateTime + " must be less than (or equal to) the maximum allowable value of " + _maxInclusive;
-            throw new ValidationException(err);
-        }
-
-        if (isThereMaxExclusive && dateTime.compareTo(_maxExclusive) != DateTimeBase.LESS_THAN) {
-            String err = dateTime + " must be less than the maximum allowable value of " + _maxExclusive;
-            throw new ValidationException(err);
+            throw new ValidationException("Both maxInclusive and maxExclusive are defined");
         }
 
         if (_fixed != null) {
             int comparison = dateTime.compareTo(_fixed);
             if (comparison == DateTimeBase.INDETERMINATE) {
-                String err = dateTime + " must be equal to the fixed value: " + _fixed + " but comparison is indeterminate";
+                String err = dateTime.getClass().getName() + " " + dateTime
+                        + " comparison to the fixed value " + _fixed
+                        + " is indeterminate";
                 throw new ValidationException(err);
             } else if (comparison != DateTimeBase.EQUALS) {
-                String err = dateTime + " must be equal to the fixed value: " + _fixed;
+                String err = dateTime.getClass().getName() + " " + dateTime
+                        + " is not equal to the fixed value: " + _fixed;
                 throw new ValidationException(err);
             }
+        }
+
+        if (isThereMinInclusive && dateTime.compareTo(_minInclusive) != DateTimeBase.GREATER_THAN
+                && !dateTime.equals(_minInclusive)) {
+            String err = dateTime.getClass().getName() + " " + dateTime
+                    + " is less than the minimum allowed value: " + _minInclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMinExclusive && dateTime.compareTo(_minExclusive) != DateTimeBase.GREATER_THAN) {
+            String err =  dateTime.getClass().getName() + " " + dateTime
+                    + " is less than or equal to the minimum (exclusive) value: " + _minExclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMaxInclusive && dateTime.compareTo(_maxInclusive) != DateTimeBase.LESS_THAN
+                && !dateTime.equals(_maxInclusive)) {
+            String err = dateTime.getClass().getName() + " " + dateTime
+                    + " is greater than the maximum allowed value: " + _maxInclusive;
+            throw new ValidationException(err);
+        }
+
+        if (isThereMaxExclusive && dateTime.compareTo(_maxExclusive) != DateTimeBase.LESS_THAN) {
+            String err =  dateTime.getClass().getName() + " " + dateTime
+                    + " is greater than or equal to the maximum (exclusive) value: "
+                    + _maxExclusive;
+            throw new ValidationException(err);
         }
 
         if (hasPattern()) {
@@ -188,23 +300,24 @@ public class DateTimeValidator extends PatternValidator implements TypeValidator
     } //-- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @throws ValidationException if the object fails validation
      */
-    public void validate(Object object) throws ValidationException {
-        validate(object, (ValidationContext)null);
+    public void validate(final Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
     } //-- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @param context the ValidationContext
      * @throws ValidationException if the object fails validation
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "DateTimeValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -212,7 +325,7 @@ public class DateTimeValidator extends PatternValidator implements TypeValidator
 
         if (object instanceof String) {
             try {
-                DateTime dateTime = new DateTime((String)object);
+                DateTime dateTime = new DateTime((String) object);
                 validate(dateTime, context);
                 return;
             } catch (java.text.ParseException pe) {

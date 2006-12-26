@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,57 +45,51 @@
 
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.Facet;
-import org.exolab.castor.xml.schema.SimpleType;
-
-import org.exolab.javasource.*;
-
 import java.util.Enumeration;
 
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
+
 /**
- * The XML Schema 'Int' type
- * 
+ * The XML Schema 'Int' type.
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr
- *          2006) $
+ * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class XSInt extends XSPatternBase {
 
-    // - Constraints for Int type
-    Integer maxInclusive = null;
-
-    Integer maxExclusive = null;
-
-    Integer minInclusive = null;
-
-    Integer minExclusive = null;
-    
-    /** Total number of digits. */
+    /** Maximum integer (inclusive). */
+    private Integer _maxInclusive = null;
+    /** Maximum integer (exclusive). */
+    private Integer _maxExclusive = null;
+    /** Minimum integer (inclusive). */
+    private Integer _minInclusive = null;
+    /** Minimum integer (exclusive). */
+    private Integer _minExclusive = null;
+    /** Maximum (inclusive) number of digits. */
     private int  _totalDigits = -1;
 
-    private boolean _asWrapper = false;
+    /** The JType represented by this XSType. */
+    private final JType _jType;
+    /** True if this type is implemented using the wrapper class. */
+    private final boolean _asWrapper;
 
     /**
-     * The JType represented by this XSType
+     * No-arg constructor.
      */
-    private static JType jType = JType.INT;
-
     public XSInt() {
         this(false);
-        setMinInclusive(Integer.MIN_VALUE);
-        setMaxInclusive(Integer.MAX_VALUE);
     }
 
-    public XSInt(boolean asWrapper) {
-        super(XSType.INT_TYPE);
-        _asWrapper = asWrapper;
-        if (_asWrapper) {
-            jType = new JClass("java.lang.Integer");
-        } else {
-            jType = JType.INT;
-        }
-        setMinInclusive(Integer.MIN_VALUE);
-        setMaxInclusive(Integer.MAX_VALUE);
+    /**
+     * Constructs a new XSInt.
+     * @param asWrapper if true, use the java.lang wrapper class.
+     */
+    public XSInt(final boolean asWrapper) {
+        this(asWrapper, XSType.INT_TYPE);
     } // -- XSInt
 
     /**
@@ -108,70 +102,64 @@ public class XSInt extends XSPatternBase {
     protected XSInt(final boolean asWrapper, final short type) {
         super(type);
          _asWrapper = asWrapper;
-         if (_asWrapper) {
-             jType = new JClass("java.lang.Integer");
-         } else {
-             jType = JType.INT;
-         }
+         _jType = (_asWrapper) ? new JClass("java.lang.Integer") : JType.INT;
          setMinInclusive(Integer.MIN_VALUE);
          setMaxInclusive(Integer.MAX_VALUE);
     } //-- XSInteger
 
-
     /**
-     * Returns the JType that this XSType represents
-     * 
-     * @return the JType that this XSType represents
+     * Returns the JType that this XSType represents.
+     * @return the JType that this XSType represents.
      */
     public JType getJType() {
-        return jType;
+        return _jType;
     }
 
     /**
      * Returns the maximum exclusive value that this XSInt can hold.
-     * 
+     *
      * @return the maximum exclusive value that this XSInt can hold. If no
      *         maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
      */
     public Integer getMaxExclusive() {
-        return maxExclusive;
+        return _maxExclusive;
     } // -- getMaxExclusive
 
     /**
      * Returns the maximum inclusive value that this XSInt can hold.
-     * 
+     *
      * @return the maximum inclusive value that this XSInt can hold. If no
      *         maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
      */
     public Integer getMaxInclusive() {
-        return maxInclusive;
+        return _maxInclusive;
     } // -- getMaxInclusive
 
     /**
      * Returns the minimum exclusive value that this XSInt can hold.
-     * 
+     *
      * @return the minimum exclusive value that this XSInt can hold. If no
      *         minimum exclusive value has been set, Null will be returned
      * @see #getMinInclusive()
      * @see #setMaxInclusive(int)
      */
     public Integer getMinExclusive() {
-        return minExclusive;
+        return _minExclusive;
     } // -- getMinExclusive
 
     /**
      * Returns the minimum inclusive value that this XSInt can hold.
-     * 
+     *
      * @return the minimum inclusive value that this XSInt can hold. If no
      *         minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
      */
     public Integer getMinInclusive() {
-        return minInclusive;
+        return _minInclusive;
     } // -- getMinInclusive
-    
+
     /**
      * Returns the totalDigits facet value of this XSInteger.
      * @return the totalDigits facet value of this XSInteger.
@@ -180,108 +168,116 @@ public class XSInt extends XSPatternBase {
         return _totalDigits;
     }
 
+    /**
+     * Returns true if a maximum (inclusive or exclusive) has been set.
+     * @return true if a maximum (inclusive or exclusive) has been set.
+     */
     public boolean hasMaximum() {
-        return ((maxInclusive != null) || (maxExclusive != null));
-    } // -- hasMaximum
+        return _maxInclusive != null || _maxExclusive != null;
+    } //-- hasMaximum
 
+    /**
+     * Returns true if a minimum (inclusive or exclusive) has been set.
+     * @return true if a minimum (inclusive or exclusive) has been set.
+     */
     public boolean hasMinimum() {
-        return ((minInclusive != null) || (minExclusive != null));
-    } // -- hasMinimum
+        return _minInclusive != null || _minExclusive != null;
+    } //-- hasMinimum
 
     /**
      * Sets the maximum exclusive value that this XSInt can hold.
-     * 
+     *
      * @param max
      *            the maximum exclusive value this XSInt can be
      * @see #setMaxInclusive(Integer)
      */
-    public void setMaxExclusive(int max) {
-        maxExclusive = new Integer(max);
-        maxInclusive = null;
+    public void setMaxExclusive(final int max) {
+        _maxExclusive = new Integer(max);
+        _maxInclusive = null;
     } // -- setMaxExclusive
 
     /**
      * Sets the maximum exclusive value that this XSInt can hold.
-     * 
+     *
      * @param max
      *            the maximum exclusive value this XSInt can be
      * @see #setMaxInclusive(int)
      */
-    public void setMaxExclusive(Integer max) {
-        maxExclusive = max;
-        maxInclusive = null;
+    public void setMaxExclusive(final Integer max) {
+        _maxExclusive = max;
+        _maxInclusive = null;
     } // -- setMaxExclusive
 
     /**
      * Sets the maximum inclusive value that this XSInt can hold.
-     * 
+     *
      * @param max
      *            the maximum inclusive value this XSInt can be
      * @see #setMaxExclusive(Integer)
      */
-    public void setMaxInclusive(int max) {
-        maxInclusive = new Integer(max);
-        maxExclusive = null;
+    public void setMaxInclusive(final int max) {
+        _maxInclusive = new Integer(max);
+        _maxExclusive = null;
     } // -- setMaxInclusive
 
     /**
      * Sets the maximum inclusive value that this XSInt can hold.
-     * 
+     *
      * @param max
      *            the maximum inclusive value this XSInt can be
      * @see #setMaxExclusive(int)
      */
-    public void setMaxInclusive(Integer max) {
-        maxInclusive = max;
-        maxExclusive = null;
+    public void setMaxInclusive(final Integer max) {
+        _maxInclusive = max;
+        _maxExclusive = null;
     } // -- setMaxInclusive
 
     /**
      * Sets the minimum exclusive value that this XSInt can hold.
-     * 
+     *
      * @param min
      *            the minimum exclusive value this XSInt can be
      * @see #setMinInclusive(Integer)
      */
-    public void setMinExclusive(int min) {
-        minExclusive = new Integer(min);
-        minInclusive = null;
+    public void setMinExclusive(final int min) {
+        _minExclusive = new Integer(min);
+        _minInclusive = null;
     } // -- setMinExclusive
 
     /**
      * Sets the minimum exclusive value that this XSInt can hold.
-     * 
+     *
      * @param min
      *            the minimum exclusive value this XSInt can be
      * @see #setMinInclusive(int)
      */
-    public void setMinExclusive(Integer min) {
-        minExclusive = min;
-        minInclusive = null;
+    public void setMinExclusive(final Integer min) {
+        _minExclusive = min;
+        _minInclusive = null;
     } // -- setMinExclusive
 
     /**
      * Sets the minimum inclusive value that this XSInt can hold.
-     * 
+     *
      * @param min
      *            the minimum inclusive value this XSInt can be
      * @see #setMinExclusive(Integer)
      */
-    public void setMinInclusive(int min) {
-        minInclusive = new Integer(min);
-        minExclusive = null;
+    public void setMinInclusive(final int min) {
+        _minInclusive = new Integer(min);
+        _minExclusive = null;
     } // -- setMinInclusive
 
     /**
      * Sets the minimum inclusive value that this XSInt can hold.
-     * 
+     *
      * @param min
      *            the minimum inclusive value this XSInt can be
      * @see #setMinExclusive(int)
      */
-    public void setMinInclusive(Integer min) {
-        minInclusive = min;
-        minExclusive = null;
+    public void setMinInclusive(final Integer min) {
+        _minInclusive = min;
+        _minExclusive = null;
     } // -- setMinInclusive
 
     /**
@@ -296,20 +292,17 @@ public class XSInt extends XSPatternBase {
           _totalDigits = totalDig;
      }
 
-    /**
-     * Reads and sets the facets for XSTimeDuration override the readFacet
-     * method of XSType
-     * 
-     * @param simpleType
-     *            the Simpletype containing the facets
-     * @see org.exolab.castor.builder.types.XSType#getFacets
-     */
-    public void setFacets(SimpleType simpleType) {
-
+     /**
+      * Transfer facets from the provided simpleType to <code>this</code>.
+      *
+      * @param simpleType
+      *            The SimpleType containing our facets.
+      * @see org.exolab.castor.builder.types.XSType#getFacets
+      */
+    public void setFacets(final SimpleType simpleType) {
         // -- copy valid facets
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
-
             Facet facet = (Facet) enumeration.nextElement();
             String name = facet.getName();
 
@@ -330,45 +323,51 @@ public class XSInt extends XSPatternBase {
                     throw new IllegalArgumentException("fractionDigits must be 0 for "
                             + this.getName());
                 }
+            } else if (Facet.WHITESPACE.equals(name)) {
+                // If this facet is set correctly, we don't need to do anything
+                if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
+                    throw new IllegalArgumentException("Warning: The facet 'whitespace'"
+                            + " can only be set to '"
+                            + Facet.WHITESPACE_COLLAPSE + "' for '"
+                            + this.getName() + "'.");
+                }
             }
         }
-
     } // -- toXSInt
 
     /**
      * Returns the String necessary to convert an instance of this XSType to an
-     * Object. This method is really only useful for primitive types
-     * 
+     * Object. This method is really only useful for primitive types.
+     *
      * @param variableName
      *            the name of the instance variable
      * @return the String necessary to convert an instance of this XSType to an
      *         Object
      */
-    public String createToJavaObjectCode(String variableName) {
-        if (_asWrapper)
+    public String createToJavaObjectCode(final String variableName) {
+        if (_asWrapper) {
             return super.createToJavaObjectCode(variableName);
+        }
 
-        StringBuffer sb = new StringBuffer("new java.lang.Integer(");
-        sb.append(variableName);
-        sb.append(")");
-        return sb.toString();
+        return "new java.lang.Integer(" + variableName + ")";
     } // -- toJavaObject
 
     /**
      * Returns the String necessary to convert an Object to an instance of this
      * XSType. This method is really only useful for primitive types
-     * 
+     *
      * @param variableName
      *            the name of the Object
      * @return the String necessary to convert an Object to an instance of this
      *         XSType
      */
-    public String createFromJavaObjectCode(String variableName) {
-        StringBuffer sb = new StringBuffer("((java.lang.Integer)");
+    public String createFromJavaObjectCode(final String variableName) {
+        StringBuffer sb = new StringBuffer("((java.lang.Integer) ");
         sb.append(variableName);
         sb.append(")");
-        if (!_asWrapper)
+        if (!_asWrapper) {
             sb.append(".intValue()");
+        }
         return sb.toString();
     } // -- fromJavaObject
 
@@ -377,7 +376,7 @@ public class XSInt extends XSPatternBase {
      * validation code should if necessary create a newly configured
      * TypeValidator, that should then be added to a FieldValidator instance
      * whose name is provided.
-     * 
+     *
      * @param fixedValue
      *            a fixed value to use if any
      * @param jsc
@@ -386,47 +385,36 @@ public class XSInt extends XSPatternBase {
      *            the name of the FieldValidator that the configured
      *            TypeValidator should be added to.
      */
-    public void validationCode(JSourceCode jsc, String fixedValue,
-            String fieldValidatorInstanceName) {
+    public void validationCode(final JSourceCode jsc, final String fixedValue,
+                               final String fieldValidatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.IntValidator typeValidator"
+                + " = new org.exolab.castor.xml.validators.IntValidator();");
 
-        if (jsc == null)
-            jsc = new JSourceCode();
-
-        jsc.add("org.exolab.castor.xml.validators.IntValidator typeValidator= new org.exolab.castor.xml.validators.IntValidator();");
-        if (hasMinimum()) {
-            Integer min = getMinExclusive();
-            if (min != null)
-                jsc.add("typeValidator.setMinExclusive(");
-            else {
-                min = getMinInclusive();
-                jsc.add("typeValidator.setMinInclusive(");
-            }
-            jsc.append(min.toString());
-            jsc.append(");");
+        if (_minExclusive != null) {
+            jsc.add("typeValidator.setMinExclusive(" + _minExclusive + ");");
+        } else if (_minInclusive != null) {
+            jsc.add("typeValidator.setMinInclusive(" + _minInclusive + ");");
         }
-        if (hasMaximum()) {
-            Integer max = getMaxExclusive();
-            if (max != null)
-                jsc.add("typeValidator.setMaxExclusive(");
-            else {
-                max = getMaxInclusive();
-                jsc.add("typeValidator.setMaxInclusive(");
-            }
-            jsc.append(max.toString());
-            jsc.append(");");
+
+        if (_maxExclusive != null) {
+            jsc.add("typeValidator.setMaxExclusive(" + _maxExclusive + ");");
+        } else if (_maxInclusive != null) {
+            jsc.add("typeValidator.setMaxInclusive(" + _maxInclusive + ");");
         }
 
         // -- fixed values
         if (fixedValue != null) {
             // -- make sure we have a valid value...
             // -- Only if we are not using Object
-            if (jType == JType.INT)
+            if (_jType == JType.INT) {
                 Integer.parseInt(fixedValue);
+            }
 
             jsc.add("typeValidator.setFixed(");
             jsc.append(fixedValue);
             jsc.append(");");
         }
+
         // -- pattern facet
         String pattern = getPattern();
         if (pattern != null) {
@@ -434,7 +422,7 @@ public class XSInt extends XSPatternBase {
             jsc.append(escapePattern(pattern));
             jsc.append("\");");
         }
-        
+
         // -- totalDigits
         int totalDigits = getTotalDigits();
         if (totalDigits != -1) {
@@ -442,9 +430,8 @@ public class XSInt extends XSPatternBase {
             jsc.append(Integer.toString(totalDigits));
             jsc.append(");");
         }
-        
-        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
 
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
 } // -- XSInt

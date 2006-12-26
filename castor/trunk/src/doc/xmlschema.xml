@@ -105,7 +105,9 @@
 
           <tr>
             <td valign="top">boolean</td>
-            <td>&#160;</td>
+            <td>
+              pattern<br/>
+            </td>
             <td valign="top">
               primitive <tt>boolean</tt> or <tt>java.lang.Boolean</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
@@ -391,7 +393,7 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
-              primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
+              primitive <tt>int</tt> or <tt>java.lang.Integer</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
           </tr>
 
@@ -664,7 +666,7 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top">
-              primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
+              primitive <tt>int</tt> or <tt>java.lang.Integer</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
           </tr>
         </table>

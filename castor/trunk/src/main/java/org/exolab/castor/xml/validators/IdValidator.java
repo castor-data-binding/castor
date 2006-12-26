@@ -35,7 +35,7 @@ public class IdValidator extends StringValidator implements TypeValidator {
     } //-- IdValidator
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param value
      *            the string to validate
@@ -43,28 +43,30 @@ public class IdValidator extends StringValidator implements TypeValidator {
      *            the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(String value, ValidationContext context) throws ValidationException {
+    public void validate(final String value, final ValidationContext context)
+                                                    throws ValidationException {
         super.validate(value, context);
     } //-- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object) throws ValidationException {
-        validate(object, (ValidationContext)null);
+    public void validate(final Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
     } //-- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @param context the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             String err = "IdValidator cannot validate a null object.";
             throw new ValidationException(err);
@@ -78,7 +80,7 @@ public class IdValidator extends StringValidator implements TypeValidator {
         value = (String) object;
 
         if (value.equals("")) {
-            String err = "Invalud ID value: '' is not a valid value.";
+            String err = "Invalid ID value: '' is not a valid value.";
             throw new ValidationException(err);
         }
 

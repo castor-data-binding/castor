@@ -45,17 +45,20 @@
 package org.exolab.castor.xml.validators;
 
 /**
- * A class for performing simple validation
+ * A static class for performing simple validation.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class ValidationUtils {
+public final class ValidationUtils {
 
     // ----------------/
     // - Constructors -/
     // ----------------/
 
+    /**
+     * No-arg constructor.
+     */
     private ValidationUtils() {
         super();
     }
@@ -73,39 +76,41 @@ public class ValidationUtils {
      *
      * @return true if the given character is a CombiningChar
      */
-    public static boolean isCombiningChar(char ch) {
+    public static boolean isCombiningChar(final char ch) {
         // -- NOTE: THIS METHOD IS NOT COMPLETE
         return false;
     } // -- isCombiningChar
 
     /**
+     * Checks a character to see if it is a digit or not.
      * @param ch
      *            the character to check
      * @return true if the given character is a digit
      */
-    public static boolean isDigit(char ch) {
+    public static boolean isDigit(final char ch) {
         return Character.isDigit(ch);
     } // -- isDigit
 
     /**
+     * Checks a character to see if it is a letter or not.
      * @param ch
      *            the character to check
      * @return true if the given character is a letter
      */
-    public static boolean isLetter(char ch) {
+    public static boolean isLetter(final char ch) {
         return Character.isLetter(ch);
     } // -- isLetter
 
     /**
-     * Checks the characters of the given String to determine if they
+     * Checks all characters of the given String to determine if they
      * syntactically match the production of an NCName as defined by the W3C XML
-     * Namespaces recommendation
+     * Namespaces recommendation.
      *
      * @param str
      *            the String to check
      * @return true if the given String follows the Syntax of an NCName
      */
-    public static boolean isNCName(String str) {
+    public static boolean isNCName(final String str) {
         if (str == null || str.length() == 0) {
             return false;
         }
@@ -128,13 +133,13 @@ public class ValidationUtils {
 
     /**
      * Checks the the given character to determine if it is a valid NCNameChar
-     * as defined by the W3C XML Namespaces recommendation
+     * as defined by the W3C XML Namespaces recommendation.
      *
      * @param ch
      *            the char to check
      * @return true if the given char is an NCNameChar
      */
-    public static boolean isNCNameChar(char ch) {
+    public static boolean isNCNameChar(final char ch) {
         if (isLetter(ch) || isDigit(ch)) {
             return true;
         }
@@ -154,14 +159,14 @@ public class ValidationUtils {
     } // -- isNCNameChar
 
     /**
-     * Checks the characters of the given String to determine if they
-     * syntactically match the production of an NMToken
+     * Checks all characters of the given String to determine if they
+     * syntactically match the production of an NMToken.
      *
      * @param str
      *            the String to check
      * @return true if the given String follows the Syntax of an NMToken
      */
-    public static boolean isNMToken(String str) {
+    public static boolean isNMToken(final String str) {
         if (str == null) {
             return false;
         }
@@ -188,14 +193,14 @@ public class ValidationUtils {
     } // -- isNMToken
 
     /**
-     * Checks the characters of the given String to determine if they
-     * syntactically match the production of a CDATA
+     * Checks all characters of the given String to determine if they
+     * syntactically match the production of a CDATA.
      *
      * @param str
      *            the String to check
      * @return true if the given String follows the Syntax of an NMToken
      */
-    public static boolean isCDATA(String str) {
+    public static boolean isCDATA(final String str) {
         if (str == null) {
             return false;
         }
@@ -218,13 +223,13 @@ public class ValidationUtils {
 
     /**
      * Returns true if the given character is a valid XML Extender character,
-     * according to the XML 1.0 specification
+     * according to the XML 1.0 specification.
      *
      * @param ch
      *            the character to check
      * @return true if the character is a valid XML Extender character
      */
-    public static boolean isExtender(char ch) {
+    public static boolean isExtender(final char ch) {
         if ((ch >= 0x3031) && (ch <= 0x3035)) {
             return true;
         }
@@ -252,15 +257,15 @@ public class ValidationUtils {
     } // -- isExtender
 
     /**
-     * Checks the characters of the given String to determine if they
+     * Checks all characters of the given String to determine if they
      * syntactically match the production of an QName as defined by the W3C XML
-     * Namespaces recommendation
+     * Namespaces recommendation.
      *
      * @param str
      *            the String to check
      * @return true if the given String follows the Syntax of an QName
      */
-    public static boolean isQName(String str) {
+    public static boolean isQName(final String str) {
         if (str == null || str.length() == 0) {
             return false;
         }
@@ -284,13 +289,5 @@ public class ValidationUtils {
         }
         return true;
     } //-- isQName
-
-    /**
-     * Test
-     **
-     public static void main(String[] args) {
-     System.out.println("0x00B7: " + (char)0x00B7);
-     }
-     /* */
 
 } //-- Validator

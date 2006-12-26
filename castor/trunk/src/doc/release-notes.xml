@@ -41,7 +41,7 @@
                    <a href="http://jira.codehaus.org/browse/CASTOR-1741">1741</a>
                    was slightly too ambitious.</p>
 
-                <p>As such, the XML code generator has been changed (again) to generate 
+                <p>As such, the XML code generator has been changed (again) to generate
                    the following Java types for elements/attributes typed with
                    &lt;xs:int&gt; and &lt;xs:integer&gt;:</p>
 
@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1765" tool="jira">
+                    <description>
+                        Add xml/validators to checkstyle and do checkstyle cleanup
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061225</date>
+                </bug>
                 <bug id="1722" tool="jira">
                     <description>
                         Added support for validating &lt;xsd:IDREF&gt;> and &lt;xsd:IDREFS&gt;
@@ -88,7 +108,7 @@
                 </bug>
                 <bug id="1764" tool="jira">
                     <description>
-                        Fixed problem with incorrectly generated qualified class 
+                        Fixed problem with incorrectly generated qualified class
                         name for classes in type hierarchies.
                     </description>
                     <contributor>

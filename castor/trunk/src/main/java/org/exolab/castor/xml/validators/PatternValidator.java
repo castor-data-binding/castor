@@ -50,39 +50,34 @@ import org.exolab.castor.xml.ValidationException;
 
 /**
  * A simple abstract class used for validating types which allow the pattern
- * facet
+ * facet.
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
 public abstract class PatternValidator {
 
-    /**
-     * The regular expression
-     */
+    /** The regular expression to match against. */
     private String          _pattern  = null;
-
+    /** If true, object is nillable, otherwise it is not. */
     private boolean         _nillable = false;
-
-    /**
-     * An instance of the regular expression evaluator if necessary
-     */
+    /** An instance of the regular expression evaluator if necessary. */
     private RegExpEvaluator _regex    = null;
 
     /**
-     * Creates a new PatternValidator with no default regular expression
+     * Creates a new PatternValidator with no default regular expression.
      */
     public PatternValidator() {
         super();
     } // -- PatternValidator
 
     /**
-     * Creates a new PatternValidator with the given regular expresion
+     * Creates a new PatternValidator with the given regular expression.
      *
      * @param pattern
      *            the regular expression to validate against
      */
-    public PatternValidator(String pattern) {
+    public PatternValidator(final String pattern) {
         _pattern = pattern;
     } // -- PatternValidator
 
@@ -109,7 +104,7 @@ public abstract class PatternValidator {
 
     /**
      * Returns true if a regular expression has been set for this
-     * PatternValidator
+     * PatternValidator.
      *
      * @return true if a regular expression has been set for this
      *         PatternValidator
@@ -125,17 +120,17 @@ public abstract class PatternValidator {
      * @param nillable
      *            a boolean that when true indicates null values pass validation
      */
-    public void setNillable(boolean nillable) {
+    public void setNillable(final boolean nillable) {
         _nillable = nillable;
     } // -- setNillable
 
     /**
-     * Sets the regular expression to validate against
+     * Sets the regular expression to validate against.
      *
      * @param pattern
      *            the regular expression to use when validating
      */
-    public void setPattern(String pattern) {
+    public void setPattern(final String pattern) {
         _pattern = pattern;
         if (_regex != null) {
             _regex.setExpression(_pattern);
@@ -156,9 +151,14 @@ public abstract class PatternValidator {
      *             if the given String is not matched by the regular expression
      *             pattern
      */
-    public void validate(String str, ValidationContext context) throws ValidationException {
+    public void validate(final String str, final ValidationContext context)
+                                                    throws ValidationException {
         if (_pattern == null) {
             return;
+        }
+
+        if (context == null) {
+            throw new IllegalArgumentException("PatternValidator given a null context");
         }
 
         if (_regex == null) {
@@ -172,7 +172,7 @@ public abstract class PatternValidator {
     } // -- validate
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object
      *            the Object to validate
@@ -182,7 +182,8 @@ public abstract class PatternValidator {
      *             if the given String is not matched by the regular expression
      *             pattern
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException {
+    public void validate(final Object object, final ValidationContext context)
+                                                    throws ValidationException {
         if (object == null) {
             if (!_nillable) {
                 String err = "PatternValidator cannot validate a null object.";
@@ -194,9 +195,11 @@ public abstract class PatternValidator {
     } // -- validate
 
     /**
-     * Initializes the regular expression validator
+     * Initializes the regular expression validator.
+     * @param context
+     *            the ValidationContext
      */
-    private void initEvaluator(ValidationContext context) {
+    private void initEvaluator(final ValidationContext context) {
         _regex = context.getConfiguration().getRegExpEvaluator();
         if (_regex == null) {
             _regex = new DefaultRegExpEvaluator();
@@ -214,7 +217,7 @@ public abstract class PatternValidator {
     class DefaultRegExpEvaluator implements RegExpEvaluator {
 
         /**
-         * Creates a new DefaultRegExpValidator
+         * Creates a new DefaultRegExpValidator.
          */
         DefaultRegExpEvaluator() {
             super();
@@ -222,19 +225,18 @@ public abstract class PatternValidator {
 
         /**
          * Sets the regular expression to match against during a call to
-         * #matches
+         * {@link #matches}.
          *
          * @param rexpr
          *            the regular expression
          */
-        public void setExpression(String rexpr) {
-            // -- nothing to do...we don't care since
-            // -- match will always evaluate to false
+        public void setExpression(final String rexpr) {
+            // -- nothing to do...we don't care since match will always evaluate to false
         } // -- setExpression
 
         /**
          * Returns true if the given String is matched by the regular expression
-         * of this RegExpEvaluator
+         * of this RegExpEvaluator.
          *
          * @param value
          *            the String to check the production of
@@ -242,7 +244,7 @@ public abstract class PatternValidator {
          *         this RegExpEvaluator
          * @see #setExpression
          */
-        public boolean matches(String value) {
+        public boolean matches(final String value) {
             return false;
         } // -- matches
 

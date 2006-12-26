@@ -249,22 +249,22 @@ public abstract class XSType {
     public static final long MAX_NEGATIVE_INTEGER           = -1L;
     /** Minimum positive integer. */
     public static final long MIN_POSITIVE_INTEGER           = 1L;
-    /** Minimum unsigned byte. */
-    public static final long MIN_UNSIGNED_BYTE              = 0L;
-    /** Maximum unsigned byte. */
-    public static final long MAX_UNSIGNED_BYTE              = 255L;
     /** Minimum unsigned short. */
     public static final long MIN_UNSIGNED_INTEGER           = 0L;
     /** Maximum unsigned short. */
     public static final long MAX_UNSIGNED_INTEGER           = 4294967295L;
     /** Minimum unsigned short. */
-    public static final int MIN_UNSIGNED_SHORT             = 0;
+    public static final int MIN_UNSIGNED_SHORT              = 0;
     /** Maximum unsigned short. */
-    public static final int MAX_UNSIGNED_SHORT             = 65535;
+    public static final int MAX_UNSIGNED_SHORT              = 65535;
     /** Maximum negative integer. */
-    public static final long MIN_INTEGER                    = -2147483647L;
+    public static final int MIN_INTEGER                     = -2147483647;
     /** Maximum negative integer. */
-    public static final long MAX_INTEGER                    = 2147483647L;
+    public static final int MAX_INTEGER                     = 2147483647;
+    /** Minimum unsigned byte. */
+    public static final short MIN_UNSIGNED_BYTE             = 0;
+    /** Maximum unsigned byte. */
+    public static final short MAX_UNSIGNED_BYTE             = 255;
 
 
     /** The type of the element. */
