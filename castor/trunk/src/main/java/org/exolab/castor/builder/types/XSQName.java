@@ -195,7 +195,7 @@ public final class XSQName extends XSPatternBase {
             } else if (Facet.LENGTH.equals(name)) {
                 setLength(facet.toInt());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             }
         }
     }
@@ -224,7 +224,39 @@ public final class XSQName extends XSPatternBase {
      */
     public void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
-        //--TBD
+        jsc.add("org.exolab.castor.xml.validators.NameValidator typeValidator = "
+                + "new org.exolab.castor.xml.validators.NameValidator("
+                + "org.exolab.castor.xml.XMLConstants.NAME_TYPE_QNAME);");
+
+        if (hasLength()) {
+            jsc.add("typeValidator.setLength(");
+            jsc.append(Integer.toString(getLength()));
+            jsc.append(");");
+        } else {
+            if (hasMinLength()) {
+                jsc.add("typeValidator.setMinLength(");
+                jsc.append(Integer.toString(getMinLength()));
+                jsc.append(");");
+            }
+            if (hasMaxLength()) {
+                jsc.add("typeValidator.setMaxLength(");
+                jsc.append(Integer.toString(getMaxLength()));
+                jsc.append(");");
+            }
+        }
+
+        //-- fixed values
+        if (fixedValue != null) {
+            jsc.add("typeValidator.setFixed(");
+            //fixed should be "the value"
+            jsc.append(fixedValue);
+            jsc.append(");");
+        }
+
+        // pattern facet
+        codePatternFacet(jsc, "typeValidator");
+
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
 } //-- XSQName

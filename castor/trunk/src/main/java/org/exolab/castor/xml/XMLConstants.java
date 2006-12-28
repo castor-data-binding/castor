@@ -38,12 +38,16 @@ public interface XMLConstants {
      * and trailing whitespace, collapse consecutive blanks into exactly one blank). */
     String WHITESPACE_COLLAPSE = "collapse";
 
-    /** XML name type NCName. */
+    /** XML name type NCName. (non-colonized name.) */
     short NAME_TYPE_NCNAME  = 0;
 
-    /** XML name type NMTOKEN. */
+    /** XML name type NMTOKEN. (name token.) */
     short NAME_TYPE_NMTOKEN = 1;
 
-    /** XML name type CDATA. */
+    /** XML name type CDATA. (character data.)*/
     short NAME_TYPE_CDATA   = 2;
+
+    /** XML name type QNAME. (qualified name.) */
+    short NAME_TYPE_QNAME   = 3;
+
 }

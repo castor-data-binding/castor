@@ -302,22 +302,15 @@ public abstract class XSType {
     } //-- getType
 
     /**
-     * Returns a list of Facets from the simpleType. Duplicate facets due to
-     * extension are filtered out.
+     * Returns a list of Facets from the simpleType, not including facets
+     * from base types.
      *
      * @param simpleType
      *            the Simpletype we want the facets for
      * @return Unique list of facets from the simple type
      */
     protected static Enumeration getFacets(final SimpleType simpleType) {
-        Hashtable hashTable = new Hashtable();
-        Enumeration enumeration = simpleType.getFacets();
-        while (enumeration.hasMoreElements()) {
-            Facet facet = (Facet) enumeration.nextElement();
-            String name = facet.getName();
-            hashTable.put(name, facet);
-        }
-        return hashTable.elements();
+        return simpleType.getLocalFacets();
     }
 
     /**

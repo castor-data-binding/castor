@@ -300,7 +300,7 @@ public class XSByte extends XSPatternBase {
             } else if (Facet.MIN_INCLUSIVE.equals(name)) {
                 setMinInclusive(facet.toByte());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             } else if (Facet.TOTALDIGITS.equals(name)) {
                 setTotalDigits(facet.toInt());
             } else if (Facet.FRACTIONDIGITS.equals(name)) {
@@ -384,7 +384,7 @@ public class XSByte extends XSPatternBase {
             jsc.add("typeValidator.setMaxInclusive((byte) " + _maxInclusive + ");");
         }
 
-        //-- fixed values
+        // fixed values
         if (fixedValue != null) {
             //-- make sure we have a valid value...
             Byte.parseByte(fixedValue);
@@ -394,15 +394,10 @@ public class XSByte extends XSPatternBase {
             jsc.append(");");
         }
 
-        //-- pattern facet
-        String pattern = getPattern();
-        if (pattern != null) {
-            jsc.add("typeValidator.setPattern(\"");
-            jsc.append(escapePattern(pattern));
-            jsc.append("\");");
-        }
+        // pattern facet
+        codePatternFacet(jsc, "typeValidator");
 
-        // -- totalDigits
+        // totalDigits
         int totalDigits = getTotalDigits();
         if (totalDigits != -1) {
             jsc.add("typeValidator.setTotalDigits(");

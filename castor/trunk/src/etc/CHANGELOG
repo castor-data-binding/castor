@@ -1,6 +1,11 @@
 Version (SVN)
 -------------------------------
 
+XML:   Resolved issue CASTOR-279 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Source Generator: Multiple pattern strings ignored
+       Details: http://jira.codehaus.org/browse/CASTOR-279
+       (Edward - 20061228)
+
 XML:   Resolved issue CASTOR-188 using contribution from Edward Kuns [edward.kuns@aspect.com]
        SourceGen: ClassDescriptor.getExtends() returns always null
        Details: http://jira.codehaus.org/browse/CASTOR-188
