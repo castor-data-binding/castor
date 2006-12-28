@@ -3,3 +3,5 @@ Specification-Title: Castor DDL generator
 Specification-Version: 1.1
 Implementation-Title: Castor
 Implementation-Version: $VERSION$$RELEASE$
+
+Sealed: true
