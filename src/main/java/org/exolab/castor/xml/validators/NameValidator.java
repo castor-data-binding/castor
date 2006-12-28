@@ -128,6 +128,13 @@ public class NameValidator extends StringValidator {
                 }
                 break;
 
+            case XMLConstants.NAME_TYPE_QNAME:
+                if (!ValidationUtils.isQName(value)) {
+                    String err = "Name '" + value + "' is not a valid QName.";
+                    throw new ValidationException(err);
+                }
+                break;
+
             case XMLConstants.NAME_TYPE_NCNAME:
             default:
                 if (!ValidationUtils.isNCName(value)) {

@@ -216,7 +216,7 @@ public final class XSDate extends XSPatternBase {
             } else if (Facet.MIN_INCLUSIVE.equals(name)) {
                 this.setMinInclusive(facet.getValue());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             } else if (Facet.WHITESPACE.equals(name)) {
                 // If this facet is set correctly, we don't need to do anything
                 if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
@@ -291,12 +291,7 @@ public final class XSDate extends XSPatternBase {
         }
 
         // pattern facet
-        String pattern = getPattern();
-        if (pattern != null) {
-            jsc.add("typeValidator.setPattern(\"");
-            jsc.append(escapePattern(pattern));
-            jsc.append("\");");
-        }
+        codePatternFacet(jsc, "typeValidator");
 
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }

@@ -201,7 +201,7 @@ public final class XSNormalizedString extends XSPatternBase {
             } else if (Facet.LENGTH.equals(name)) {
                 setLength(facet.toInt());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             }
         }
     }
@@ -251,13 +251,8 @@ public final class XSNormalizedString extends XSPatternBase {
             jsc.append(");");
         }
 
-        //-- pattern facet
-        String pattern = getPattern();
-        if (pattern != null) {
-            jsc.add("typeValidator.setPattern(\"");
-            jsc.append(escapePattern(pattern));
-            jsc.append("\");");
-        }
+        // pattern facet
+        codePatternFacet(jsc, "typeValidator");
 
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }

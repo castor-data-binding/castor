@@ -44,18 +44,24 @@
  */
 package org.exolab.castor.builder.types;
 
+import java.util.Iterator;
+import java.util.LinkedList;
+
+import org.exolab.javasource.JSourceCode;
+
 /**
  * A base class for types which support the pattern facet.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public abstract class XSPatternBase extends XSType {
 
     /** The value of the pattern facet. */
-    private String _pattern = null;
+    private LinkedList _patterns = new LinkedList();
 
     /**
-     * Creates a new XSPatternBase.
+     * Creates a new XSPatternBase with the given type.
      * @param type that this XSType represents
      */
     protected XSPatternBase(final short type) {
@@ -63,30 +69,27 @@ public abstract class XSPatternBase extends XSType {
     } //-- XSPatternBase
 
     /**
-     * Creates a new XSPatternBase with the given regular expression and type.
-     *
-     * @param type that this XSType represents
-     * @param pattern the regular expression
-     */
-    public XSPatternBase(final short type, final String pattern) {
-        super(type);
-        _pattern = pattern;
-    } //-- XSPatternBase
-
-    /**
-     * Returns the pattern facet for this XSType.
-     * @return the pattern facet for this XSType.
-     */
-    public String getPattern() {
-        return _pattern;
-    } //-- setPattern
-
-    /**
-     * Sets the pattern facet for this XSType.
+     * Adds a pattern branch for this XSType.  To successfully pass the pattern
+     * facets, only one branch needs to pass.
      * @param pattern the regular expression for this XSType.
      */
-    public void setPattern(final String pattern) {
-        _pattern = pattern;
+    public void addPattern(final String pattern) {
+        _patterns.add(pattern);
     } //-- setPattern
+
+    /**
+     * Generate the source code for pattern facet validation.
+     *
+     * @param jsc
+     *            the JSourceCode to fill in.
+     * @param validatorName
+     *            the name of the TypeValidator that the patterns should be
+     *            added to.
+     */
+    public void codePatternFacet(final JSourceCode jsc, final String validatorName) {
+        for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
+            jsc.add(validatorName + ".addPattern(\"" + escapePattern((String) i.next()) + "\");");
+        }
+    }
 
 } //-- XSPatternBase

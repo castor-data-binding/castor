@@ -283,7 +283,7 @@ public  class XSDecimal extends XSPatternBase {
             } else if (Facet.FRACTIONDIGITS.equals(name)) {
                 setFractionDigits(facet.toInt());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             } else if (Facet.WHITESPACE.equals(name)) {
                 // If this facet is set correctly, we don't need to do anything
                 if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
@@ -362,13 +362,8 @@ public  class XSDecimal extends XSPatternBase {
             jsc.append(");");
         }
 
-        //-- pattern facet
-        String pattern = getPattern();
-        if (pattern != null) {
-            jsc.add("typeValidator.setPattern(\"");
-            jsc.append(escapePattern(pattern));
-            jsc.append("\");");
-        }
+        // pattern facet
+        codePatternFacet(jsc, "typeValidator");
 
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }

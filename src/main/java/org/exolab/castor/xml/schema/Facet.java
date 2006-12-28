@@ -73,19 +73,7 @@ public class Facet extends Annotated {
     public static final String WHITESPACE_REPLACE   = "replace";
     public static final String WHITESPACE_COLLAPSE  = "collapse";
 
-    /**
-     * The name of this Facet
-    **/
-    private String _name    = null;
-
-    /**
-     * The character value of this Facet
-    **/
-    private String  _value  = null;
-
-
-    private static final String CLASSNAME =
-        Facet.class.getName();
+    private static final String CLASSNAME = Facet.class.getName();
 
     private static final String NULL_ARGUMENT =
         "A null argument was passed to " + CLASSNAME + "#";
@@ -93,6 +81,10 @@ public class Facet extends Annotated {
     private static final String ZERO_LENGTH_STRING =
         "A zero-length String was passed to " + CLASSNAME + "#";
 
+    /** The name of this Facet. */
+    private final String _name;
+    /** The character value of this Facet. */
+    private final String  _value;
 
     /**
      * Creates a new Facet with the given name
@@ -110,8 +102,8 @@ public class Facet extends Annotated {
             err += "Facet: 'name' and 'value' must not be zero-length.";
             throw new IllegalArgumentException(err);
         }
-        this._name = name;
-        this._value= value;
+        this._name  = name;
+        this._value = value;
     } //-- Facet
 
     /**
@@ -122,7 +114,6 @@ public class Facet extends Annotated {
         return _name;
     } //-- getName
 
-
     /**
      * Returns the character (String) representation of this facet
      * @return the value of this facet
@@ -131,46 +122,46 @@ public class Facet extends Annotated {
         return this._value;
     } //-- getValue
 
-
     /**
      * Returns true if this Facet can occur more than once, such
      * as the "enumeration" facet.
      * @return true if this Facet can occur more than once.
     **/
     public boolean isMultivalued() {
-        return _name.equals(Facet.ENUMERATION);
+        return _name.equals(Facet.ENUMERATION) || _name.equals(Facet.PATTERN);
     }
 
     /**
      * Returns an int representation of the value of this facet
      * @return an int representation of the value of this facet
+     * @throws NumberFormatException if the value fails to parse as a int.
     **/
     public int toInt() throws NumberFormatException {
         return Integer.parseInt(_value);
     } //-- toInt
 
-
     /**
      * Returns a long representation of the value of this facet
      * @return a long representation of the value of this facet
+     * @throws NumberFormatException if the value fails to parse as a long.
     **/
     public long toLong() throws NumberFormatException {
         return Long.parseLong(_value);
     } //-- toInt
 
-
     /**
      * Returns an short representation of the value of this facet
      * @return an short representation of the value of this facet
+     * @throws NumberFormatException if the value fails to parse as a short.
     **/
     public short toShort() throws NumberFormatException {
         return Short.parseShort(_value);
     } //-- toShort
 
-
     /**
      * Returns a double representation of the value of this facet
      * @return a double representation of the value of this facet
+     * @throws NumberFormatException if the value fails to parse as a float.
      */
     public float toFloat() throws NumberFormatException {
         if (_value.equals("INF")) return Float.POSITIVE_INFINITY;
@@ -181,21 +172,20 @@ public class Facet extends Annotated {
     /**
      * Returns a double representation of the value of this facet
      * @return a double representation of the value of this facet
+     * @throws NumberFormatException if the value fails to parse as a double.
     **/
     public double toDouble() throws NumberFormatException {
         return Double.valueOf(_value).doubleValue();
     } //-- toInt
 
-
     /**
      * Returns a byte representation of the value of this facet
      * @return a byte representation of the value of this facet
+     * @throws NumberFormatException if the value fails to parse as a byte.
     **/
     public byte toByte() throws NumberFormatException {
         return Byte.parseByte(_value);
     } //-- toInt
-
-
 
     /**
      * Returns the type of this Schema Structure
@@ -210,11 +200,8 @@ public class Facet extends Annotated {
      * @exception ValidationException when this Schema definition
      * is invalid.
     **/
-    public void validate()
-        throws ValidationException
-    {
+    public void validate() throws ValidationException {
          //-- do nothing for now
     } //-- validate
 
 } //-- Facet
-

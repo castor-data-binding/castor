@@ -283,7 +283,7 @@ public class XSShort extends XSPatternBase {
             } else if (Facet.MIN_INCLUSIVE.equals(name)) {
                 setMinInclusive(facet.toShort());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             } else if (Facet.TOTALDIGITS.equals(name)) {
                 setTotalDigits(facet.toInt());
             } else if (Facet.FRACTIONDIGITS.equals(name)) {
@@ -384,13 +384,8 @@ public class XSShort extends XSPatternBase {
             jsc.append(");");
         }
 
-        //-- pattern facet
-        String pattern = getPattern();
-        if (pattern != null) {
-            jsc.add("typeValidator.setPattern(\"");
-            jsc.append(escapePattern(pattern));
-            jsc.append("\");");
-        }
+        // pattern facet
+        codePatternFacet(jsc, "typeValidator");
 
         // -- totalDigits
         int totalDigits = getTotalDigits();

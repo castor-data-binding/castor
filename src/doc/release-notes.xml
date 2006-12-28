@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="279" tool="jira">
+                    <description>
+                        Source Generator: Multiple pattern strings ignored
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>jcarter</name>
+                        <email>jcarter@sct.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061228</date>
+                </bug>
                 <bug id="188" tool="jira">
                     <description>
                         SourceGen: ClassDescriptor.getExtends() returns always null

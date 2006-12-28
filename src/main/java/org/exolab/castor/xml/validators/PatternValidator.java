@@ -44,6 +44,11 @@
  */
 package org.exolab.castor.xml.validators;
 
+import java.util.Collections;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.exolab.castor.util.RegExpEvaluator;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
@@ -53,43 +58,55 @@ import org.exolab.castor.xml.ValidationException;
  * facet.
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
+ * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision$ $Date: 2004-12-11 02:13:52 -0700 (Sat, 11 Dec 2004) $
  */
 public abstract class PatternValidator {
 
-    /** The regular expression to match against. */
-    private String          _pattern  = null;
+    /** The regular expressions to match against. */
+    private LinkedList      _patterns = new LinkedList();
     /** If true, object is nillable, otherwise it is not. */
     private boolean         _nillable = false;
     /** An instance of the regular expression evaluator if necessary. */
     private RegExpEvaluator _regex    = null;
 
     /**
-     * Creates a new PatternValidator with no default regular expression.
+     * Creates a new PatternValidator with no initial regular expression.
      */
     public PatternValidator() {
         super();
     } // -- PatternValidator
 
     /**
-     * Creates a new PatternValidator with the given regular expression.
+     * Creates a new PatternValidator with the given initial regular expression.
      *
      * @param pattern
      *            the regular expression to validate against
      */
     public PatternValidator(final String pattern) {
-        _pattern = pattern;
+        _patterns.add(pattern);
     } // -- PatternValidator
 
     /**
-     * Returns the regular expression pattern for this PatternValidator, or null
-     * if no pattern has been set.
+     * Returns the first regular expression pattern for this PatternValidator,
+     * or null if no pattern has been set.
      *
      * @return the regular expression pattern
      * @see #setPattern
+     * @deprecated since Castor 1.1, use {@link #getPatterns()}
      */
     public String getPattern() {
-        return _pattern;
+        return (_patterns.isEmpty()) ? null : (String) _patterns.getFirst();
+    } // -- getPattern
+
+    /**
+     * Returns the collection of regular expression patterns.
+     *
+     * @return the collection of regular expression patterns.
+     * @see #setPattern
+     */
+    public List getPatterns() {
+        return Collections.unmodifiableList(_patterns);
     } // -- getPattern
 
     /**
@@ -110,7 +127,7 @@ public abstract class PatternValidator {
      *         PatternValidator
      */
     public boolean hasPattern() {
-        return (_pattern != null);
+        return !_patterns.isEmpty();
     } // -- hasPattern
 
     /**
@@ -125,17 +142,35 @@ public abstract class PatternValidator {
     } // -- setNillable
 
     /**
+     * Sets the regular expression to validate against.  Deprecated since
+     * Castor 1.1, supports only one pattern to preserve old behavior.  Use
+     * {@link #addPattern(String)}.
+     *
+     * @param pattern
+     *            the regular expression to use when validating
+     * @deprecated since Castor 1.1, use {@link #addPattern(String)}
+     */
+    public void setPattern(final String pattern) {
+        clearPatterns();
+        addPattern(pattern);
+    } // -- setPattern
+
+    /**
      * Sets the regular expression to validate against.
      *
      * @param pattern
      *            the regular expression to use when validating
      */
-    public void setPattern(final String pattern) {
-        _pattern = pattern;
-        if (_regex != null) {
-            _regex.setExpression(_pattern);
-        }
+    public void addPattern(final String pattern) {
+        _patterns.add(pattern);
     } // -- setPattern
+
+    /**
+     * Clear all configured patterns.
+     */
+    public void clearPatterns() {
+        _patterns.clear();
+    }
 
     /**
      * Validates the given String against the regular expression pattern of this
@@ -153,7 +188,7 @@ public abstract class PatternValidator {
      */
     public void validate(final String str, final ValidationContext context)
                                                     throws ValidationException {
-        if (_pattern == null) {
+        if (_patterns.isEmpty()) {
             return;
         }
 
@@ -164,11 +199,35 @@ public abstract class PatternValidator {
         if (_regex == null) {
             initEvaluator(context);
         }
-        if (!_regex.matches(str)) {
-            String err = "objects of this type must match the "
-                + " following regular expression: " + _pattern;
-            throw new ValidationException(err);
+
+        // Loop over all patterns and return (success) if any one of them matches
+        for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
+            String pattern = (String) i.next();
+            _regex.setExpression(pattern);
+            if (_regex.matches(str)) {
+                return;
+            }
         }
+
+        // If we get here, all patterns failed.
+        StringBuffer buff = new StringBuffer(str);
+        if (_patterns.size() == 1) {
+            buff.append("does not match the required regular expression: ");
+            buff.append("\"");
+            buff.append(_patterns.getFirst());
+            buff.append("\"");
+        } else {
+            buff.append("does not match any of the following regular expressions: ");
+            for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
+                buff.append("\"");
+                buff.append((String) i.next());
+                buff.append("\"");
+                if (i.hasNext()) {
+                    buff.append(", ");
+                }
+            }
+        }
+        throw new ValidationException(buff.toString());
     } // -- validate
 
     /**
@@ -204,7 +263,6 @@ public abstract class PatternValidator {
         if (_regex == null) {
             _regex = new DefaultRegExpEvaluator();
         }
-        _regex.setExpression(_pattern);
     } // -- initRegExpValidator
 
     /**

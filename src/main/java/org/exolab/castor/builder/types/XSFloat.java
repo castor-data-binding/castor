@@ -276,7 +276,7 @@ public final class XSFloat extends XSPatternBase {
             } else if (Facet.MIN_INCLUSIVE.equals(name)) {
                 setMinInclusive(facet.toFloat());
             } else if (Facet.PATTERN.equals(name)) {
-                setPattern(facet.getValue());
+                addPattern(facet.getValue());
             } else if (Facet.WHITESPACE.equals(name)) {
                 // If this facet is set correctly, we don't need to do anything
                 if (!facet.getValue().equals(Facet.WHITESPACE_COLLAPSE)) {
@@ -390,13 +390,8 @@ public final class XSFloat extends XSPatternBase {
             jsc.append("f);");
         }
 
-        // -- pattern facet
-        String pattern = getPattern();
-        if (pattern != null) {
-            jsc.add("typeValidator.setPattern(\"");
-            jsc.append(escapePattern(pattern));
-            jsc.append("\");");
-        }
+        // pattern facet
+        codePatternFacet(jsc, "typeValidator");
 
         jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
