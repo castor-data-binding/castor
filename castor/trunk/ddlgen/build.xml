@@ -1,0 +1,50 @@
+<project name="Castor DDL generator" default="compile.ddlgen" basedir=".">
+    <property environment="env"/>
+    
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-ddlgen"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/../build/classes"/>
+        <fileset dir="${basedir}/../lib">
+            <include name="*.jar"/>
+        </fileset>
+        <fileset dir="${basedir}/../lib/tests">
+            <include name="*.jar"/>
+        </fileset>
+    </path>
+
+    <target name="prepare.ddlgen" unless="prepare.ddlgen.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.ddlgen.executed" value="true"/>
+    </target>
+
+    <target name="clean.ddlgen" description="Remove DDLGen build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile.ddlgen" depends="prepare.ddlgen" description="Compile DDLGen">
+        <javac srcdir="${main.java}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+	            <filter token="VERSION" value="${version}"/>
+	            <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
+    </target>
+
+    <target name="jar.ddlgen" depends="compile.ddlgen" description="Build DDLGen JAR file">
+        <jar jarfile="${build}/${archive.name}.jar" basedir="${classes}" includes="**" />
+    </target>
+</project>
