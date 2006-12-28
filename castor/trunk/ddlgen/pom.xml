@@ -6,41 +6,16 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor-ddlgen</artifactId>
-	<version>1.1-SNAPSHOT</version>
 	
 	<parent>
 		<groupId>org.codehaus.castor</groupId>
 		<artifactId>castor</artifactId>
-		<version>1.1-SNAPSHOT</version>
+		<version>1.1-M2-SNAPSHOT</version>
 	</parent>
 	<packaging>jar</packaging>
 
 	<name>Castor DDL generator</name>
 	<url>http://castor.org</url>
-
-<!--  
-	<build>
-		<plugins>
-			<plugin>
-                <groupId>org.apache.maven.plugins</groupId>
-                <artifactId>maven-compiler-plugin</artifactId>
-				<configuration>
-					<source>1.4</source>
-					<target>1.4</target>
-				</configuration>
-			</plugin>
-		</plugins>
-		
-        <extensions>
-            <extension>
-                <groupId>org.apache.maven.wagon</groupId>
-                <artifactId>wagon-webdav</artifactId>
-                <version>1.0-beta-1</version>
-            </extension>
-        </extensions>
-	
-	</build>
--->
 
 	<developers>
 		<developer>
@@ -60,7 +35,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
 			<artifactId>castor</artifactId>
-			<version>1.0.6-SNAPSHOT</version>
+			<version>1.1-M2-SNAPSHOT</version>
 		</dependency>
 
 	</dependencies>
