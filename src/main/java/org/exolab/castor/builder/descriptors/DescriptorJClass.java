@@ -316,24 +316,6 @@ public class DescriptorJClass extends JClass {
         jsc.add("return null;");
         addMethod(getAccessMode);
 
-        //-- create getExtends method
-        JMethod getExtends = new JMethod("getExtends", CLASS_DESCRIPTOR_CLASS,
-                                  "the class descriptor of the class extended by this class.");
-
-        if (_config.useJava50()) {
-            getExtends.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
-        }
-
-        jsc = getExtends.getSourceCode();
-        if (extended) {
-            jsc.add("return super.getExtends();");
-        } else {
-            jsc.add("return null;");
-        }
-
-        //--don't add the type to the import list
-        addMethod(getExtends, false);
-
         //-- create getIdentity method
         JMethod getIdentity = new JMethod("getIdentity", FIELD_DESCRIPTOR_CLASS,
                                    "the identity field, null if this class has no identity.");
