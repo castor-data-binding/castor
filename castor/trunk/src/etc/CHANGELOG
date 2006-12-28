@@ -1,6 +1,11 @@
 Version (SVN)
 -------------------------------
 
+XML:   Resolved issue CASTOR-188 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       SourceGen: ClassDescriptor.getExtends() returns always null
+       Details: http://jira.codehaus.org/browse/CASTOR-188
+       (Edward - 20061227)
+
 XML:   Resolved issue CASTOR-1765 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add xml/validators to checkstyle and do checkstyle cleanup
        Details: http://jira.codehaus.org/browse/CASTOR-1765

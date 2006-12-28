@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="188" tool="jira">
+                    <description>
+                        SourceGen: ClassDescriptor.getExtends() returns always null
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>rhierlmeier</name>
+                        <email>hierlmeier@de-gmbh.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061227</date>
+                </bug>
                 <bug id="1765" tool="jira">
                     <description>
                         Add xml/validators to checkstyle and do checkstyle cleanup
