@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,37 +42,35 @@
  *
  * $Id$
  */
- 
 package org.exolab.castor.util;
- 
+
 /**
- * A simple interface for evaluating Regular expressions
+ * A simple interface for evaluating Regular expressions.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public interface RegExpEvaluator {
-              
+
     /**
-     * Returns true if the given String is matched by the 
-     * regular expression of this RegExpEvaluator
+     * Returns true if the given String is matched by the regular expression of
+     * this RegExpEvaluator.
      *
-     * @param value the String to check the production of
-     * @return true if the given string matches the regular
-     * expression of this RegExpEvaluator
+     * @param value
+     *            the String to check the production of
+     * @return true if the given string matches the regular expression of this
+     *         RegExpEvaluator
      * @see #setExpression
-    **/
+     */
     public boolean matches(String value);
-    
+
     /**
-     * Sets the regular expression to match against during
-     * a call to #matches
+     * Sets the regular expression to match against during a call to
+     * {@link #matches}.
      *
-     * @param rexpr the regular expression
-    **/
+     * @param rexpr
+     *            the regular expression
+     */
     public void setExpression(String rexpr);
-    
-    
+
 } //-- RegExpEvaluator
- 
- 
