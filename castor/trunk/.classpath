@@ -8,12 +8,12 @@
 	<classpathentry excluding="xml/MasterTestSuite/|xml/RegressionTestSuite/|main/" kind="src" path="src/tests"/>
 	<classpathentry kind="src" path="src/tests/main"/>
 	<classpathentry excluding="SourceGenerator/" kind="src" path="src/examples"/>
-	<classpathentry kind="src" path="ddlgen/src/main/java"/>
-	<classpathentry kind="src" path="ddlgen/src/main/resources"/>
-	<classpathentry kind="src" path="ddlgen/src/test/java"/>
-	<classpathentry kind="src" path="ddlgen/src/test/resources"/>
-	<classpathentry kind="src" path="anttask/src/main/java"/>
-	<classpathentry kind="src" path="anttask/src/main/resources"/>
+	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/main/java"/>
+	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/main/resources"/>
+	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/test/java"/>
+	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/test/resources"/>
+	<classpathentry output="anttask/eclipse" kind="src" path="anttask/src/main/java"/>
+	<classpathentry output="anttask/eclipse" kind="src" path="anttask/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/adaptx-0.9.13.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
