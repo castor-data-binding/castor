@@ -222,15 +222,8 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 			<groupId>ant</groupId>
 			<artifactId>ant</artifactId>
 			<version>1.6</version>
+			<scope>test</scope>
 		</dependency>
-
-		<!-- 	
-			<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant-optional</artifactId>
-			<version>1.6</version>
-			</dependency>
-		-->
 
 		<dependency>
 			<groupId>cglib</groupId>
