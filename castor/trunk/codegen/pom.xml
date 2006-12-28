@@ -5,7 +5,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.codehaus.castor</groupId>
-	<artifactId>castor-code-generator-ant-task</artifactId>
+	<artifactId>castor-codegen</artifactId>
 	<version>1.1-M2-SNAPSHOT</version>
 	
 	<!-- 
@@ -15,23 +15,32 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		<version>1.1-M2-SNAPSHOT</version>
 	</parent>
 	 -->	
-		
 	<packaging>jar</packaging>
 
-	<name>Castor</name>
+	<name>Castor XML - Code generator</name>
+	<description></description>
 
 	<build>
 		<plugins>
+		
+			<plugin>
+                <groupId>org.apache.maven.plugins</groupId>
+                <artifactId>maven-compiler-plugin</artifactId>
+				<configuration>
+					<source>1.4</source>
+					<target>1.4</target>
+					<includes>
+						<include implementation="java.lang.String">org/exolab/castor/builder/**</include>
+						<include implementation="java.lang.String">org/exolab/javasource/**</include>
+					</includes>
+				</configuration>
+			</plugin>
+			
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
 				<configuration>
 					<archive>
-						<!-- 
-						<manifestEntries>
-							<url>${pom.url}</url>
-						</manifestEntries>
-						-->
 						<manifestFile>src/main/resources/META-INF/MANIFEST.MF</manifestFile>
 					</archive>
 				</configuration>
@@ -44,6 +53,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<attach>true</attach>
 				</configuration>
 			</plugin>
+
 		</plugins>
 		
 		<!--  redundant; will be removed once we switch to parent structure -->
@@ -54,21 +64,15 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 				<version>1.0-beta-1</version>
 			</extension>
 		</extensions>
-		
+
 	</build>
 
 	<dependencies>
 
 		<dependency>
 			<groupId>org.codehaus.castor</groupId>
-			<artifactId>castor-codegen</artifactId>
-			<version>1.1-M2-SNAPSHOT</version>
-		</dependency>
-
-		<dependency>
-			<groupId>ant</groupId>
-			<artifactId>ant</artifactId>
-			<version>1.6</version>
+			<artifactId>castor</artifactId>
+			<version>1.1-M1</version>
 		</dependency>
 
 		<dependency>

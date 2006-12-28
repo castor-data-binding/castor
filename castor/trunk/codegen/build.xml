@@ -1,4 +1,4 @@
-<project name="Ant task definition for Castor XML code generator" default="compile.ant" basedir=".">
+<project name="Castor XML - code generator" default="compile.codegen" basedir=".">
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
@@ -9,42 +9,48 @@
     <property name="verbose"              value="off" />
     <property name="deprecation"          value="false"/>
     <property name="main.opt.debug"       value="true"/>
-    <property name="archive.name"         value="${project}-${version}${release}-srcgen-ant-task"/>
+    <property name="archive.name"         value="${project}-${version}${release}-codegen"/>
 
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
-        <pathelement location="${basedir}/../codegen/build/classes"/>
+    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar" />
     </path>
 
-    <target name="prepare.ant" unless="prepare.ant.executed">
+    <target name="prepare.codegen" unless="prepare.ant.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
         <property name="prepare.ant.executed" value="true" />
     </target>
 
-    <target name="clean.ant" description="Removes the build directories">
+    <target name="clean.codegen" description="Removes the build directories">
     	<echo message="Removing directorie(s) ${build}" />
         <delete dir="${build}"/>
     </target>
 
-    <target name="compile.ant" 
-    		depends="prepare.ant"
-            description="Compile the An task definition for the Castor XML code generator">
+    <target name="compile.codegen" 
+    		depends="prepare.codegen"
+            description="Compiles the Castor XML code generator">
 	   	<echo message="Compiling ${java}" />
         <javac srcdir="${java}" destdir="${classes}" 
                debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
             <classpath refid="build.classpath"/>
         </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}"/>
+        </copy>
+    	<copy file="${main.resources}/META-INF/MANIFEST.MF" tofile="${classes}/META-INF/MANIFEST.MF">
+    		<filterset>
+    			<filter token="VERSION" value="${version}"/>
+    			<filter token="RELEASE" value="${release}"/>
+    		</filterset>
+        </copy>
     </target>
 
-    <target name="jar.ant" 
-    		depends="compile.ant" 
-    		description="Build the JAR file for the Ant task">
+    <target name="jar.codegen" 
+    		depends="compile.codegen" 
+    		description="Build the JAR file for Castor XML code generator">
 	   	<echo message="Building ${basedir}/../dist/${archive.name}.jar" />
-        <jar jarfile="${basedir}/../dist/${archive.name}.jar" basedir="${classes}"
-             includes="org/exolab/castor/tools/ant/taskdefs/*,
-        			   org/exolab/castor/tools/XSDCompiler.class,
-                       org/exolab/castor/util/Version.class" />
+        <jar jarfile="${basedir}/../dist/${archive.name}.jar" basedir="${classes}"/>
     </target>
 
 </project>
