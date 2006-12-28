@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+<mapping>
+	<description>Description of the mapping</description>
+	<class name="org.castor.ddlgen.test.framework.Expected" identity="id">
+ 		<field name="patterns" type="org.castor.ddlgen.test.framework.Match" collection="arraylist">
+			<bind-xml name="match"/>
+		</field>
+	</class>
+	<class name="org.castor.ddlgen.test.framework.Match" depends="org.castor.ddlgen.test.framework.Expected">
+		<field name="method" type="string" >
+			<bind-xml name="method" node="attribute" />
+		</field>
+		<field name="index" type="int" >
+			<bind-xml name="index" node="attribute"/>
+		</field>
+		<field name="engine" type="string" >
+			<bind-xml name="engine" node="attribute" />
+		</field>
+		<field name="ddl" type="string" >
+			<bind-xml name="ddl" node="text"/>
+		</field>
+	</class>
+</mapping>
