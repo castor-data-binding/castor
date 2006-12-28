@@ -41,7 +41,6 @@
     <property name="deprecation"          value="false"/>
     <property name="main.opt.debug"       value="true"/>
     <property name="archive.name"         value="${project}-${version}${release}"/>
-    <property name="srcgen.ant.task.name" value="${project}-${version}${release}-srcgen-ant-task"/>
     <property name="exampleexcludes"      value="SourceGenerator/*,**/dax/**"/>
     <property name="excludes"             value="**/package.html,**/dax/**,**/dax/engine/**"/>
     <property name="testexcludes"         value="**/package.html, **/MasterTestSuite/**, **/RegressionTestSuite/**" />
@@ -58,12 +57,16 @@
         <fileset dir="${lib}/tests">
             <include name="*.jar"/>
         </fileset>
+    	<pathelement location="${basedir}/anttask/build/classes" />
     </path>
 
     <path id="javadoc.classpath">
         <fileset dir="${lib}">
             <include name="*.jar"/>
         </fileset>
+    	<fileset dir="${basedir}/bin/lib">
+    		<include name="ant-1.6.jar" />
+    	</fileset>
     </path>
 
     <!-- ================================================================== -->
@@ -192,6 +195,8 @@
         <delete dir="${dist}"/>
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
+    	
+    	<ant antfile="${basedir}/anttask/build.xml" target="clean.ant" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artefacts related to test">
@@ -227,6 +232,8 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
+    	
+    	<ant antfile="${basedir}/anttask/build.xml" target="compile.ant" inheritAll="false"/>
     </target>
 
     <target name="compile.jdo" depends="prepare,compile.commons,compile.xml"
@@ -404,7 +411,7 @@
         </java>
     </target>
 
-    <target name="jar.all" depends="release,srcgen.anttask.jar,jar.jdotests"
+    <target name="jar.all" depends="release,jar.jdotests"
             description="An alias to call the release and jar.jdotests targets"/>
 
     <target name="jar.jdotests" depends="compile.tests" description="Creates a JAR file of the JDO tests">
@@ -475,12 +482,6 @@
              includes="**"/>
     </target>
     -->
-
-    <target name="srcgen.anttask.jar" depends="compile" description="Build the castor-srcgen-ant-task.jar files">
-        <jar jarfile="${dist}/${srcgen.ant.task.name}.jar" basedir="${classes}"
-             includes="org/exolab/castor/tools/ant/taskdefs/*,
-                       org/exolab/castor/util/Version.class" />
-    </target>
 
     <target name="jar" depends="compile"
         description="Build the castor.jar and castor-xml.jar files">
@@ -555,6 +556,13 @@
              manifest="${classes}/MANIFEST.MF"
              includes="LICENSE,README"/>
 -->
+    	
+    	<!-- create JAR for source generator Ant task, calling module build file recursively -->
+    	<ant antfile="${basedir}/anttask/build.xml" target="jar.ant" inheritAll="false">
+    		<property name="project" value="${project}"/>
+    		<property name="version" value="${version}"/>
+			<property name="release" value="${release}"/>
+    	</ant>
     </target>
 
     <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file">
@@ -668,10 +676,15 @@
     <target name="javadoc" depends="prepare" description="Build the full javadocs">
         <mkdir dir="${build}/doc"/>
         <mkdir dir="${build}/doc/javadoc"/>
-        <javadoc sourcepath="${java}" destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc"
+        <javadoc destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc"
                  windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true"
                  version="true" noindex="true" packagenames="${allpackagenames}"
-                 classpathref="javadoc.classpath"/>
+                 classpathref="javadoc.classpath">
+        	<sourcepath>
+        		<pathelement location="${java}"/>
+        		<pathelement location="${basedir}/anttask/src/main/java" />
+        	</sourcepath>
+        </javadoc>
     </target>
 
     <target name="docs" depends="doc,javadoc,rss" description="Build the HTML docs and full javadocs">
@@ -708,10 +721,10 @@
         <zip zipfile="${dist}/${archive.name}-src.zip" basedir="${build}" includes="${archive.name}/**"/>
     </target>
 
-    <target name="release" depends="clean,jar,jar.examples,srcgen.anttask.jar,source,docs,tarball,zip.examples"
+    <target name="release" depends="clean,jar,jar.examples,source,docs,tarball,zip.examples"
             description="An alias to call the clean, jar, source, docs and tarball targets"/>
 
-    <target name="tarball" depends="prepare,doc,jar,srcgen.anttask.jar"
+    <target name="tarball" depends="prepare,doc,jar"
             description="Build the binary distrutions (tarball and zip archive.names)">
         <delete file="${dist}/${archive.name}.tgz"/>
         <delete file="${dist}/${archive.name}.zip"/>
@@ -721,7 +734,7 @@
             <fileset dir="${etc}" includes="README,LICENSE,CHANGELOG,sourceGen*"/>
         </copy>
         <copy todir="${build}/${archive.name}">
-            <fileset dir="${dist}" includes="${archive.name}.jar,${archive.name}-xml.jar,${srcgen.ant.task.name}.jar"/>
+            <fileset dir="${dist}" includes="${archive.name}.jar,${archive.name}-xml.jar"/>
         </copy>
         <copy todir="${build}/${archive.name}">
             <fileset dir="${lib}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
@@ -773,14 +786,14 @@
         </java>
     </target>
 
-    <target name="gen.jdo.conf" depends="jar,srcgen.anttask.jar"
+    <target name="gen.jdo.conf" depends="jar"
         description="Use the Source Generator to create the Java classes for jdo-conf.xsd">
         <delete dir="${gen.src}/jdo-conf"/>
         <mkdir dir="${gen.src}/jdo-conf"/>
         <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
-                       todir="../${gen.src}/jdo-conf"
+                       todir="${gen.src}/jdo-conf"
                        package="org.castor.jdo.conf"
                        lineseparator="unix"
                        types="j2"
@@ -814,7 +827,7 @@
         </javac>
     </target>
 
-    <target name="gen.mapping" depends="jar,srcgen.anttask.jar"
+    <target name="gen.mapping" depends="jar"
             description="Use the Source Generator to create the Java classes for mapping.xsd">
         <delete dir="${gen.src}/mapping"/>
         <mkdir dir="${gen.src}/mapping"/>
@@ -835,7 +848,7 @@
         </javac>
     </target>
 
-    <target name="gen.testdescriptor" depends="jar,srcgen.anttask.jar"
+    <target name="gen.testdescriptor" depends="jar"
             description="Use the Source Generator to create the Java classes for TestDescriptor.xsd">
         <delete dir="${gen.src}/testdescriptor"/>
         <mkdir dir="${gen.src}/testdescriptor"/>
