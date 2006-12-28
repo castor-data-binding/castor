@@ -1,7 +1,9 @@
 Manifest-Version: 1.0
 Specification-Title: Castor XML code generator - Ant task 
+Specification-Vendor: Intalio Inc.
 Specification-Version: 1.1
 Implementation-Title: Castor
+Implementation-Vendor: Intalio Inc.
 Implementation-Version: 1.1
 
 Name: org/exolab/castor
