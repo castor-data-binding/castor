@@ -7,7 +7,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<groupId>org.codehaus.castor</groupId>
 	<artifactId>castor</artifactId>
 	<version>1.1-M2-SNAPSHOT</version>
-	<packaging>jar</packaging>
+	<packaging>pom</packaging>
 
 	<name>Castor</name>
 	<url>http://castor.org</url>
@@ -27,6 +27,8 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<target>1.4</target>
 					<excludes>
 						<exclude implementation="java.lang.String">SourceGenerator/**</exclude>
+						<exclude implementation="java.lang.String">org/exolab/castor/builder/**</exclude>
+						<exclude implementation="java.lang.String">org/exolab/javasource/**</exclude>
 					</excludes>
                     <testExcludes>
                         <exclude implementation="java.lang.String">xml/MasterTestSuite/**</exclude>
@@ -383,6 +385,8 @@ http://maven.apache.org/maven-v4_0_0.xsd">
                     <includes>
                         <include>org/exolab/castor/**/Test*.java</include>
                         <include>org/castor/**/Test*.java</include>
+                        <include>org/exolab/castor/**/*Test.java</include>
+                        <include>org/castor/**/*Test.java</include>
                         
                         <!-- JDO test suite -->
                         <include>Main.java</include>

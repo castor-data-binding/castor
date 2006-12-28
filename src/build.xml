@@ -57,6 +57,7 @@
         <fileset dir="${lib}/tests">
             <include name="*.jar"/>
         </fileset>
+    	<pathelement location="${basedir}/codegen/build/classes" />
     	<pathelement location="${basedir}/anttask/build/classes" />
     </path>
 
@@ -92,14 +93,12 @@
 
     <property name="castor.xml.files"
           value="**/org/exolab/castor/*,
-                 org/exolab/castor/builder/**/*.java,
                  org/exolab/castor/mapping/**/*.java,
                  org/exolab/castor/net/**/*.java,
                  org/exolab/castor/tools/**/*.java,
                  org/exolab/castor/types/**/*.java,
                  org/exolab/castor/util/**/*.java,
-                 org/exolab/castor/xml/**/*.java,
-                 org/exolab/javasource/**/*.java"/>
+                 org/exolab/castor/xml/**/*.java"/>
 
     <property name="castor.jdo.files"
           value="**/org/exolab/castor/dsml/**/*.java,
@@ -196,6 +195,7 @@
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
     	
+    	<ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
     	<ant antfile="${basedir}/anttask/build.xml" target="clean.ant" inheritAll="false" />
     </target>
 
@@ -233,6 +233,7 @@
             </fileset>
         </copy>
     	
+    	<ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false"/>
     	<ant antfile="${basedir}/anttask/build.xml" target="compile.ant" inheritAll="false"/>
     </target>
 
@@ -550,19 +551,19 @@
         <replace  file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}" />
         <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
 -->
-        <!-- create JAR for source generator -->
-<!--
-        <jar jarfile="${dist}/${archive-name}-sourceGen.jar" basedir="${classes}"
-             manifest="${classes}/MANIFEST.MF"
-             includes="LICENSE,README"/>
--->
-    	
+    	<!-- create JAR for XML code generator, calling module build file recursively -->
+    	<ant antfile="${basedir}/codegen/build.xml" target="jar.codegen" inheritAll="false">
+    		<property name="project" value="${project}"/>
+    		<property name="version" value="${version}"/>
+			<property name="release" value="${release}"/>
+    	</ant>
     	<!-- create JAR for source generator Ant task, calling module build file recursively -->
     	<ant antfile="${basedir}/anttask/build.xml" target="jar.ant" inheritAll="false">
     		<property name="project" value="${project}"/>
     		<property name="version" value="${version}"/>
 			<property name="release" value="${release}"/>
     	</ant>
+
     </target>
 
     <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file">
@@ -683,6 +684,7 @@
         	<sourcepath>
         		<pathelement location="${java}"/>
         		<pathelement location="${basedir}/anttask/src/main/java" />
+        		<pathelement location="${basedir}/codegen/src/main/java" />
         	</sourcepath>
         </javadoc>
     </target>
