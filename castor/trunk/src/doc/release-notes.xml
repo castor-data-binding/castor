@@ -65,6 +65,26 @@
 
             </summary>
             <bugs>
+                <bug id="1763" tool="jira">
+                    <description>
+                        Moved Ant task definition for XML code generator to separate deployment unit.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20061228</date>
+                </bug>
                 <bug id="279" tool="jira">
                     <description>
                         Source Generator: Multiple pattern strings ignored
