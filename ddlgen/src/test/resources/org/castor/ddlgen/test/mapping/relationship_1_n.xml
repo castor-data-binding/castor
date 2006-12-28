@@ -1,0 +1,39 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+  <description>1-n relationship</description>
+  <!--  Mapping for Product  -->
+  <class name="myapp.Product" identity="id">
+    <description>Product definition</description>
+    <map-to table="prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+    </field>
+    <!-- Product has reference to ProductDetail
+         many details per product  -->
+    <!-- does not need generate DDL for this field -->     
+	<field name="details" type="myapp.ProductDetail" required="true" collection="vector">
+      <sql many-key="prod_id"/>
+    </field>    
+  </class>
+
+  <!--  Mapping for Product Detail -->
+  <class name="myapp.ProductDetail" identity="id" depends="myapp.Product" >
+    <description>Product detail</description>
+    <map-to table="prod_detail" xml="detail" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="product" type="myapp.Product">
+      <sql name="prod_id" />
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char"/>
+    </field>
+  </class>  
+  
+</mapping>
