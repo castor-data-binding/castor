@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<illegalJava5Generic xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:noNamespaceSchemaLocation="test.xsd">
+  <firstInteger>18446744073709551616</firstInteger>
+  <firstString>firstString</firstString>
+</illegalJava5Generic>

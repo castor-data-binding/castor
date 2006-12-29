@@ -1,0 +1,6 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<object-with-container>
+	<strings>a</strings>
+	<strings>b</strings>
+	<strings>c</strings>
+</object-with-container>

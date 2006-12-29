@@ -1,0 +1,13 @@
+name=Castor
+project=castor
+version=1.1
+release=M2
+stable_version=1.0.5
+stable_release=
+release_date=22 Dez 2006
+stable_release_date=11 Nov 2006
+copyright=Intalio Inc. (C) 1999-2006. All rights reserved  http://www.intalio.com
+spring-xml-stable=1.0
+spring-xml-snapshot=1.0
+spring-jdo-stable=1.0
+spring-jdo-snapshot=1.0

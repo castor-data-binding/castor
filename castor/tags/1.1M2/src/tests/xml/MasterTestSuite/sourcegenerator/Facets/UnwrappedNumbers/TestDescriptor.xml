@@ -1,0 +1,102 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test xsd:dateTime schema facets</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>CASTOR-1227</Comment>
+    <Category>basic capability</Category>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">NumberTests</Root_Object>
+
+        <UnitTestCase>
+            <Name>Test (Un)Marshaling</Name>
+            <Input>input.xml</Input>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test Byte handling</Name>
+            <Comment>Test facets on xsd:byte</Comment>
+            <CustomTest>
+                <TestClass>TestClassByte</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodValues"/>
+                    <Call-method name="testUnmarshalGoodValues"/>
+                    <Call-method name="testAddBadValues"/>
+                    <Call-method name="testUnmarshalBadValues"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test int handling</Name>
+            <Comment>Test facets on xsd:int</Comment>
+            <CustomTest>
+                <TestClass>TestClassInt</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodValues"/>
+                    <Call-method name="testUnmarshalGoodValues"/>
+                    <Call-method name="testAddBadValues"/>
+                    <Call-method name="testUnmarshalBadValues"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test integer handling</Name>
+            <Comment>Test facets on xsd:integer</Comment>
+            <CustomTest>
+                <TestClass>TestClassInteger</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodValues"/>
+                    <Call-method name="testUnmarshalGoodValues"/>
+                    <Call-method name="testAddBadValues"/>
+                    <Call-method name="testUnmarshalBadValues"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test short handling</Name>
+            <Comment>Test facets on xsd:short</Comment>
+            <CustomTest>
+                <TestClass>TestClassShort</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodValues"/>
+                    <Call-method name="testUnmarshalGoodValues"/>
+                    <Call-method name="testAddBadValues"/>
+                    <Call-method name="testUnmarshalBadValues"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test unsigned long handling</Name>
+            <Comment>Test facets on xsd:unsignedLong</Comment>
+            <CustomTest>
+                <TestClass>TestClassUnsignedLong</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodValues"/>
+                    <Call-method name="testUnmarshalGoodValues"/>
+                    <Call-method name="testAddBadValues"/>
+                    <Call-method name="testUnmarshalBadValues"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
+
+        <UnitTestCase>
+            <Name>Test decimal handling</Name>
+            <Comment>Test facets on xsd:decimal</Comment>
+            <CustomTest>
+                <TestClass>TestClassDecimal</TestClass>
+                <Methods>
+                    <Call-method name="testAddGoodValues"/>
+                    <Call-method name="testUnmarshalGoodValues"/>
+                    <Call-method name="testAddBadValues"/>
+                    <Call-method name="testUnmarshalBadValues"/>
+                </Methods>
+            </CustomTest>
+        </UnitTestCase>
+
+    </SourceGeneratorTest>
+</TestDescriptor>

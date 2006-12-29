@@ -1,0 +1,28 @@
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.mac.com/neiltaylor/xsdList">
+
+   <xsd:element name="test">
+      <xsd:complexType>
+         <xsd:sequence>
+            <xsd:element name="MyElement" type="myType" minOccurs="0" />
+         </xsd:sequence>
+      </xsd:complexType>
+   </xsd:element>
+
+   <xsd:complexType name="myType">
+      <xsd:simpleContent>
+         <xsd:extension base="TheTypeExtension">
+<xsd:attribute name="use" type="xsd:string"/>
+         </xsd:extension>
+      </xsd:simpleContent>
+   </xsd:complexType>
+
+   <xsd:simpleType name="TheTypeExtension">
+      <xsd:restriction base="xsd:string">
+         <xsd:enumeration value="Value One" />
+         <xsd:enumeration value="Value Two" />
+    </xsd:restriction>
+  </xsd:simpleType>
+
+</xsd:schema>

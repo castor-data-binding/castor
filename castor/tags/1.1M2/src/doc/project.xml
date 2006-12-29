@@ -1,0 +1,372 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<project>
+
+  <title>The Castor Project</title>
+  <logo>images/castor.gif</logo>
+  <repository>castor</repository>
+  <href>http://castor.codehaus.org</href>
+
+  <topNav>
+    <navLink>
+      <url>license.html</url>
+      <display>License</display>
+    </navLink>
+    <navLink>
+      <url>http://www.codehaus.org</url>
+      <display>Codehaus</display>
+    </navLink>
+    <navLink>
+      <url>http://openejb.org</url>
+      <display>OpenEJB</display>
+    </navLink>
+
+    <navLink>
+      <url>http://openjms.sf.net</url>
+      <display>OpenJMS</display>
+    </navLink>
+
+    <navLink>
+      <url>http://openorb.sf.net</url>
+      <display>OpenORB</display>
+    </navLink>
+
+    <navLink>
+      <url>http://tyrex.sf.net</url>
+      <display>Tyrex</display>
+    </navLink>
+  </topNav>
+
+  <navSections>
+
+    <section name="Main">
+      <navLink>
+        <url>index.xml</url>
+        <display>Home</display>
+      </navLink>
+      <navLink>
+        <url>about.xml</url>
+        <display>About</display>
+      </navLink>
+      <navLink>
+        <url>features.xml</url>
+        <display>Features</display>
+      </navLink>
+      <navLink>
+        <url>download.xml</url>
+        <display>Download</display>
+      </navLink>
+      <navLink>
+        <url>javadoc/overview-summary.html</url>
+        <display>JavaDoc</display>
+      </navLink>
+      <navLink>
+        <url>maven-integration.xml</url>
+        <display>Maven 2 support</display>
+      </navLink>
+      <navLink>
+        <url>schema.xml</url>
+        <display>DTD &amp; Schemas</display>
+      </navLink>
+      <navLink>
+        <url>changes.xml</url>
+        <display>Recent changes</display>
+      </navLink>
+      <navLink>
+        <url>http://castor.codehaus.org/rss/castor-announce.xml</url>
+        <display>RSS news feed</display>
+      </navLink>
+<!--
+      <navLink>
+         <url>http://castor.org/phpBB2</url>
+         <display>Castor Forums</display>
+      </navLink>
+      <navLink>
+         <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
+         <display>CastorWiki</display>
+      </navLink>
+-->      
+	</section>
+	
+    <section name="Development/Support">
+	         
+      <navLink>
+        <url>lists.xml</url>
+        <display>Mailing Lists</display>
+      </navLink>
+      <navLink>
+        <url>scm.xml</url>
+        <display>SVN/JIRA</display>
+      </navLink>
+      <navLink>
+        <url>contributing.xml</url>
+        <display>Contributing</display>
+      </navLink>
+      <navLink>
+        <url>support.xml</url>
+        <display>Support</display>
+      </navLink>
+      <navLink highlighted="true">
+        <url>professional-services.xml</url>
+        <display><b>Prof. services</b></display>
+      </navLink>
+    </section>
+    
+    <section name="Related projects">
+        <navLink>
+            <url>spring-orm-integration.html</url>
+            <display>Spring ORM support</display>
+        </navLink>
+        <navLink>
+            <url>spring-xml-intro.html</url>
+            <display>Spring XML factories</display>
+        </navLink>
+    </section>
+
+    <section name="XML">
+      <navLink>
+        <url>xml-framework.xml</url>
+        <display>Using XML</display>
+      </navLink>
+      <navLink>
+        <url>xml-mapping.xml</url>
+        <display>XML Mapping</display>
+      </navLink>
+      <navLink>
+        <url>xml-faq.xml</url>
+        <display>XML FAQ</display>
+      </navLink>
+      <navLink>
+        <url>xml-howto.xml</url>
+        <display>XML HOW-TOs</display>
+      </navLink>
+      <navLink>
+        <url>xml-fieldhandlers.xml</url>
+        <display>Custom Handlers</display>
+      </navLink>
+      <navLink>
+        <url>xml-best-practice.xml</url>
+        <display>Best practice</display>
+      </navLink>
+    </section>
+    
+    <section name="XML Code Generator">
+      <navLink>
+        <url>sourcegen.xml</url>
+        <display>Code Generator</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-properties.xml</url>
+        <display>Properties</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-binding.xml</url>
+        <display>Custom bindings</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-anttask.xml</url>
+        <display>Ant task</display>
+      </navLink>
+      <navLink>
+        <url>xmlschema.xml</url>
+        <display>Schema Support</display>
+      </navLink>
+      <navLink>
+        <url>srcgen-example.xml</url>
+        <display>Example</display>
+      </navLink>
+    </section>
+
+    <section name="JDO">
+      <navLink>
+        <url>jdo-introduction.xml</url>
+        <display>Introduction</display>
+      </navLink>
+      <navLink>
+        <url>jdo.xml</url>
+        <display>Using JDO</display>
+      </navLink>
+      <navLink>
+        <url>jdo-database-conf.xml</url>
+        <display>JDO Config</display>
+      </navLink>
+      <navLink>
+        <url>types.xml</url>
+        <display>Types</display>
+      </navLink>
+      <navLink>
+        <url>jdo-mapping.xml</url>
+        <display>JDO Mapping</display>
+      </navLink>
+      <navLink>
+        <url>jdo-faq.xml</url>
+        <display>JDO FAQ</display>
+      </navLink>
+      <navLink>
+        <url>jdo-examples.xml</url>
+        <display>JDO Examples</display>
+      </navLink>
+      <navLink>
+        <url>jdo-howto.xml</url>
+        <display>JDO HOW-TOs</display>
+      </navLink>
+      <navLink>
+        <url>jdo-other-features.xml</url>
+        <display>Other Features</display>
+      </navLink>
+      <navLink>
+        <url>jdo-self-executable-examples.xml</url>
+        <display>JDO sample JAR</display>
+      </navLink>
+    </section>
+
+    <section name="Advanced JDO">
+      <navLink>
+        <url>jdo-caching-detail.xml</url>
+        <display>Caching</display>
+      </navLink>
+      <navLink>
+        <url>oql.xml</url>
+        <display>OQL</display>
+      </navLink>
+      <navLink>
+        <url>locking.xml</url>
+        <display>Trans. &amp; Locks</display>
+      </navLink>
+      <navLink>
+        <url>design-persist.xml</url>
+        <display>Design</display>
+      </navLink>
+      <navLink>
+        <url>key-generator.xml</url>
+        <display>KeyGen</display>
+      </navLink>
+      <navLink>
+        <url>long-transact.xml</url>
+        <display>Long Trans.</display>
+      </navLink>
+      <navLink>
+        <url>nested-attr.xml</url>
+        <display>Nested Attrs.</display>
+      </navLink>
+      <navLink>
+        <url>jdo-pooling.xml</url>
+        <display>Pooling Examples</display>
+      </navLink>
+      <navLink>
+        <url>postgresql-blobs.xml</url>
+        <display>LOBs</display>
+      </navLink>
+      <navLink>
+        <url>jdo-best-practice.xml</url>
+        <display>Best practice</display>
+      </navLink>
+    </section>
+
+    <section name="DDL Generator">
+      <navLink highlighted="true">
+        <url>ddlgen.xml</url>
+        <display>Using DDL Generator</display>
+      </navLink>
+      <navLink highlighted="true">
+        <url>ddlgen-properties.xml</url>
+        <display>Properties</display>
+      </navLink>
+      <navLink highlighted="true">
+        <url>ddlgen-mapping.xml</url>
+        <display>Type Mapping</display>
+      </navLink>
+    </section>
+
+    <section name="More">
+      <navLink>
+        <url>presentations.xml</url>
+        <display>Presentations</display>
+      </navLink>
+      <navLink>
+        <url>examples.xml</url>
+        <display>The Examples</display>
+      </navLink>
+      <navLink>
+        <url>extras.xml</url>
+        <display>3rd Party Tools</display>
+      </navLink>
+
+      <navLink>
+        <url>test-framework.xml</url>
+        <display>JDO Tests</display>
+      </navLink>
+      <navLink>
+        <url>ctf.xml</url>
+        <display>XML Tests</display>
+      </navLink>
+      <navLink>
+        <url>conf-lib.xml</url>
+        <display>Configuration</display>
+      </navLink>
+      <navLink>
+        <url>tips-tricks.xml</url>
+        <display>Tips &amp; Tricks</display>
+      </navLink>
+      <navLink>
+         <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
+         <display>CastorWiki</display>
+      </navLink>
+      <navLink>
+      </navLink>
+      <navLink>
+        <image>images/javanet_button_90.gif</image>
+        <url>http://www.java.net/</url>
+      </navLink>
+    </section>
+
+    <section name="About">
+      <navLink>
+        <url>license.xml</url>
+        <display>License</display>
+      </navLink>
+      <navLink>
+        <url>contributors.xml</url>
+        <display>Contributors</display>
+      </navLink>
+      <navLink>
+        <url>marketplace.xml</url>
+        <display>Marketplace</display>
+      </navLink>
+      <navLink>
+        <url>status.xml</url>
+        <display>Status, Todo</display>
+      </navLink>
+      <navLink>
+        <url>release-notes.xml</url>
+        <display>Changelog</display>
+      </navLink>
+      <navLink>
+        <url>library.xml</url>
+        <display>Library</display>
+      </navLink>
+      <navLink>
+        <url>contacts.xml</url>
+        <display>Contact</display>
+      </navLink>
+      <navLink>
+        <url>origins.xml</url>
+        <display>Project Name</display>
+      </navLink>
+    </section>
+
+  </navSections>
+
+  <notice>
+    Copyright © 1999-2005 <a href="http://www.exolab.org">ExoLab Group</a>, Intalio Inc.,
+    and Contributors.  All rights reserved.
+  </notice>
+  <notice>
+    Java, EJB, JDBC, JNDI, JTA, Sun, Sun Microsystems are trademarks or registered
+    trademarks of Sun Microsystems, Inc. in the United States and in other
+    countries. XML, XML Schema, XSLT and related standards are trademarks or registered
+    trademarks of MIT, INRIA, Keio or others, and a product of the World Wide Web
+    Consortium. All other product names mentioned herein are trademarks of their respective
+    owners.
+  </notice>
+
+</project>

@@ -1,0 +1,571 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/srcgen-anttask.xml">
+
+	<properties>
+		<title>The Castor XML Code Generator- Example</title>
+		<author email="werner DOT guttmann AT gmx DOT net">
+			Werner Guttmann
+		</author>
+		<abstract>
+			Describes a fully blown example that shows how to use the
+			XML code generator to create Java source code from an XML
+			schema.
+		</abstract>
+		<status>Final</status>
+	</properties>
+
+	<body>
+
+		<title>Example using the Castor XML code generator</title>
+		<header>
+			<p>
+				API Reference:
+				<api package="org.exolab.castor.builder">
+					The XML code generator API
+				</api>
+			</p>
+		</header>
+
+		<section title="Introduction">
+
+			<p>
+				In this section we illustrate the use of the Source
+				Generator by explaining the generated classes from a
+				given XML schema. The XML code generator is going to be used
+				with the “java class mapping” property set to <i>element</i> 
+				(default value).
+			</p>
+			
+			</section>
+			
+		<section title="The schema file">
+		
+			<p>The input file is the schema file given with the XML code generator 
+			   example in the distribution of Castor 
+			   (under /src/examples/SourceGenerator/invoice.xsd).</p>
+
+			<code-panel><![CDATA[
+<?xml version="1.0"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+	targetNamespace="http://castor.exolab.org/Test/Invoice">
+
+	<xsd:annotation>
+		<xsd:documentation>
+			This is a test XML Schema for Castor XML.
+		</xsd:documentation>
+	</xsd:annotation>
+
+	<!--
+		A simple representation of an invoice. This is simply an example
+		and not meant to be an exact or even complete representation of an invoice.
+	-->
+	<xsd:element name="invoice">
+		<xsd:annotation>
+			<xsd:documentation>
+				A simple representation of an invoice
+			</xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ship-to">
+					<xsd:complexType>
+						<xsd:group ref="customer" />
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element ref="item"
+					maxOccurs="unbounded" minOccurs="1" />
+				<xsd:element ref="shipping-method" />
+				<xsd:element ref="shipping-date" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Description of a customer -->
+	<xsd:group name="customer">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element ref="address" />
+			<xsd:element name="phone"
+				type="TelephoneNumberType" />
+		</xsd:sequence>
+	</xsd:group>
+
+	<!-- Description of an item -->
+	<xsd:element name="item">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="Quantity"
+					type="xsd:integer" minOccurs="1" maxOccurs="1" />
+				<xsd:element name="Price" type="PriceType"
+					minOccurs="1" maxOccurs="1" />
+			</xsd:sequence>
+			<xsd:attributeGroup ref="ItemAttributes" />
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Shipping Method -->
+	<xsd:element name="shipping-method">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="carrier"
+					type="xsd:string" />
+				<xsd:element name="option"
+					type="xsd:string" />
+				<xsd:element name="estimated-delivery"
+					type="xsd:duration" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- Shipping date -->
+	<xsd:element name="shipping-date">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="date" type="xsd:date" />
+				<xsd:element name="time" type="xsd:time" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- A simple U.S. based Address structure -->
+	<xsd:element name="address">
+		<xsd:annotation>
+			<xsd:documentation>
+				Represents a U.S. Address
+			</xsd:documentation>
+		</xsd:annotation>
+
+		<xsd:complexType>
+			<xsd:sequence>
+				<!-- street address 1 -->
+				<xsd:element name="street1"
+					type="xsd:string" />
+				<!-- optional street address 2 -->
+				<xsd:element name="street2"
+					type="xsd:string" minOccurs="0" />
+				<!-- city-->
+				<xsd:element name="city" type="xsd:string" />
+				<!-- state code -->
+				<xsd:element name="state"
+					type="stateCodeType" />
+				<!-- zip-code -->
+				<xsd:element ref="zip-code" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- A U.S. Zip Code -->
+	<xsd:element name="zip-code">
+		<xsd:simpleType>
+			<xsd:restriction base="xsd:string">
+				<xsd:pattern value="[0-9]{5}(-[0-9]{4})?" />
+			</xsd:restriction>
+		</xsd:simpleType>
+	</xsd:element>
+
+	<!-- State Code
+		obviously not a valid state code....but this is just
+		an example and I don't feel like creating all the valid
+		ones.
+	-->
+	<xsd:simpleType name="stateCodeType">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[A-Z]{2}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Telephone Number -->
+	<xsd:simpleType name="TelephoneNumberType">
+		<xsd:restriction base="xsd:string">
+			<xsd:length value="12" />
+			<xsd:pattern value="[0-9]{3}-[0-9]{3}-[0-9]{4}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- Cool price type -->
+	<xsd:simpleType name="PriceType">
+		<xsd:restriction base="xsd:decimal">
+			<xsd:fractionDigits value="2" />
+			<xsd:totalDigits value="5" />
+			<xsd:minInclusive value="1" />
+			<xsd:maxInclusive value="100" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- The attributes for an Item -->
+	<xsd:attributeGroup name="ItemAttributes">
+		<xsd:attribute name="Id" type="xsd:ID" minOccurs="1"
+			maxOccurs="1" />
+		<xsd:attribute name="InStock" type="xsd:boolean"
+			default="false" />
+		<xsd:attribute name="Category" type="xsd:string"
+			use="required" />
+	</xsd:attributeGroup>
+</xsd:schema>]]></code-panel>
+
+			<p>The structure of this schema is simple: it is composed of a
+			top-level element which is a complexType with references to
+			other elements inside. This schema represents a simple
+			invoice: an invoice is a customer (<tt>customer</tt> top-level
+			group), an article (<tt>item</tt> element), a shipping method
+			(<tt>shipping-method</tt> element) and a shipping date
+			(<tt>shipping-date</tt> element). Notice that the <tt>ship-to</tt> element
+			uses a reference to an <tt>address</tt> element. This <tt>address</tt>
+			element is a top-level element that contains a reference to
+			a non-top-level element (the <tt>zip-cod</tt> element). At the end
+			of the schema we have two simpleTypes for representing a
+			telephone number and a price. The Source Generator is used
+			with the <tt>element</tt> property set for class creation
+			so a class is going to be generated for all top-level elements. No classes 
+			are going to be generated for complexTypes and simpleTypes since the
+			simpleType is not an enumeration.</p>
+			
+			<p>To summarize, we can expect 7 classes : <tt>Invoice</tt>, <tt>Customer</tt>, 
+			<tt>Address</tt>, <tt>Item</tt>, <tt>ShipTo</tt>, <tt>ShippingMethod</tt> 
+			and <tt>ShippingDate</tt> and the 7 corresponding class descriptors. Note 
+			that a class is generated for the top-level group <tt>customer</tt></p> 
+			
+		</section>
+		
+		<section title="Running the XMl code generator">
+			
+			<p>To run the source generator and create the source from the 
+			<tt>invoice.xsd</tt> file in a package <tt>test</tt>, we just call 
+			in the command line:</p>
+			
+			<code-panel>
+java -cp %CP% org.exolab.castor.builder.SourceGenerator -i invoice.xsd -package test 
+</code-panel>
+		</section>
+			
+		<section title="The generated code">
+		
+		<section title="The Item.java class"> 
+			
+			<p>To simplify this example	we now focus on the <tt>item</tt> element.</p>
+			
+			<code-panel><![CDATA[
+<!-- Description of an item -->
+<xsd:element name="item">
+  <xsd:complexType>
+    <xsd:sequence>
+      <xsd:element name="Quantity" type="xsd:integer"
+                   minOccurs="1" maxOccurs="1" />
+      <xsd:element name="Price" type="PriceType"
+                   minOccurs="1" maxOccurs="1" />
+    </xsd:sequence>
+    <xsd:attributeGroup ref="ItemAttributes" />
+  </xsd:complexType>
+</xsd:element>
+
+<!-- Cool price type -->
+<xsd:simpleType name="PriceType">
+  <xsd:restriction base="xsd:decimal">
+    <xsd:fractionDigits value="2" />
+    <xsd:totalDigits value="5" />
+    <xsd:minInclusive value="1" />
+    <xsd:maxInclusive value="100" />
+  </xsd:restriction>
+</xsd:simpleType>
+
+<!-- The attributes for an Item -->
+<xsd:attributeGroup name="ItemAttributes">
+  <xsd:attribute name="Id" type="xsd:ID" minOccurs="1" maxOccurs="1" />
+  <xsd:attribute name="InStock" type="xsd:boolean" default="false" />
+  <xsd:attribute name="Category" type="xsd:string" use="required" />
+</xsd:attributeGroup>]]></code-panel>
+						
+			<p>To represent an <tt>Item</tt> object, we need to know its <tt>Id</tt>, the
+			<tt>Quantity</tt> ordered and the <tt>Price</tt> for one item. So we can
+			expect to find a least three private variables: a string for
+			the <tt>Id</tt> element, an <tt>int</tt> for the <tt>quantity</tt> element (see the
+			section on XML Schema support if you want to see the mapping
+			between a W3C XML Schema type and a java type), but what type
+			for the <tt>Price</tt> element?</p>
+			
+			<p>While processing the <tt>Price</tt>
+			element, Castor is going to process the type of <tt>Price</tt> i.e.
+			the simpleType <tt>PriceType</tt> which base is <tt>decimal</tt>. Since
+			derived types are automatically mapped to parent types and
+			W3C XML Schema <tt>decimal</tt> type is mapped to a
+			<tt>java.math.BigDecimal</tt>, the price element will be a
+			<tt>java.math.BigDecimal</tt>. Another private variable is created
+			for <tt>quantity</tt>: quantity is mapped to a primitive java type,
+			so a boolean <tt>has_quantity</tt> is created for monitoring the
+			state of the quantity variable. The rest of the code is the
+			<i>getter/setter</i> methods and the Marshalling framework
+			specific methods. Please find below the complete <tt>Item</tt> class
+			(with Javadoc comments stripped off): </p>
+			
+			<code-panel>
+/** 
+ * This class was automatically generated with 
+ * <a href="http://castor.exolab.org">Castor 1.0.4</a>,
+ * using an XML Schema.
+ */
+
+package test;
+
+public class Item implements java.io.Serializable {
+
+   //--------------------------/ 
+   //- Class/Member Variables -/
+   //--------------------------/
+
+   private java.lang.String _id; 
+
+   private int _quantity;
+
+   /** 
+    * keeps track of state for field: _quantity 
+    */ 
+   private boolean _has_quantity;
+
+   private java.math.BigDecimal _price;
+
+   //----------------/ 
+   //- Constructors -/ 
+   //----------------/
+
+   public Item() { 
+      super(); 
+   } //-- test.Item()
+
+
+   //-----------/ 
+   //- Methods -/ 
+   //-----------/
+
+   public java.lang.String getId() { 
+      return this._id; $
+   } //-- java.lang.String getId()
+
+   public java.math.BigDecimal getPrice() { 
+      return this._price;
+   } //-- java.math.BigDecimal getPrice()
+
+   public int getQuantity() {
+      return this._quantity;
+   } //-- int getQuantity()
+
+   public boolean hasQuantity() { 
+	  return this._has_quantity;
+   } //-- boolean hasQuantity()
+
+   public boolean isValid() {
+      try { 
+         validate();
+      } catch (org.exolab.castor.xml.ValidationException vex) { 
+         return false;
+      }
+      return true;
+   } //-- boolean isValid()
+
+   public void marshal(java.io.Writer out) 
+   throws org.exolab.castor.xml.MarshalException,org.exolab.castor.xml.ValidationException {
+      Marshaller.marshal(this, out);
+   } //-- void marshal(java.io.Writer)
+
+   public void marshal(org.xml.sax.DocumentHandler handler) 
+   throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
+      Marshaller.marshal(this, handler);
+   } //-- void marshal(org.xml.sax.DocumentHandler)
+
+   public void setId(java.lang.String _id) {
+      this._id = _id;
+   } //-- void setId(java.lang.String)
+
+   public void setPrice(java.math.BigDecimal _price) {
+      this._price = _price;
+   } //-- void setPrice(java.math.BigDecimal)
+
+   public void setQuantity(int _quantity) {
+      this._quantity = _quantity;
+      this._has_quantity = true;
+   } //-- void setQuantity(int)
+
+   public static test.Item unmarshal(java.io.Reader reader) 
+   throws org.exolab.castor.xml.MarshalException,org.exolab.castor.xml.ValidationException {
+      return (test.Item) Unmarshaller.unmarshal(test.Item.class, reader);
+   } //-- test.Item unmarshal(java.io.Reader)
+
+   public void validate() 
+   throws org.exolab.castor.xml.ValidationException {
+      org.exolab.castor.xml.Validator.validate(this, null);
+   } //-- void validate()
+
+}
+</code-panel>
+
+			<p>The ItemDescriptor class is a bit more complex. This class
+			is containing inner classes which are the XML field
+			descriptors for the different components of an ‘Item’
+			element i.e. id, quantity and price.</p>
+			
+			</section>
+			
+			<section title="The PriceType.java class">
+			
+				<p>TODO ...</p>
+				
+			</section>
+			
+			<section title="The Invoice.java class">
+			
+				<p>In this section, we focus on the 'invoice' element as
+				   shown again below:</p>
+				   
+				<code-panel><![CDATA[
+<xsd:element name="invoice">
+   <xsd:complexType>
+      <xsd:sequence>
+         <xsd:element name="ship-to">
+            <xsd:complexType>
+               <xsd:group ref="customer" />
+            </xsd:complexType>
+         </xsd:element>
+         <xsd:element ref="item"	minOccurs="1" maxOccurs="unbounded" />
+         <xsd:element ref="shipping-method" />
+         <xsd:element ref="shipping-date" />
+      </xsd:sequence>
+   </xsd:complexType>
+</xsd:element>]]></code-panel>
+	
+				<p>Amongst other things, an <tt>&lt;invoice&gt;</tt> is made up of at least
+				   one, but potentially many <tt>&lt;item&gt;</tt> elements. The Castor XML code
+				   generator creates a Java collection named 'itemList' for this
+				   unbounded element declaration, of type <tt>java.util.List</tt>
+				   if the scode generator is used with the '<tt>arraylist</tt>'
+				   field factory.</p>
+				   
+				<code-panel>
+    private <b>java.util.List</b> _itemList;</code-panel>
+				
+				<p>If the '<tt>j1</tt>' field factory is used, this will be replaced 
+				   with ...</p>
+				   
+				<code-panel>
+    private <b>java.util.Vector</b> _itemList;</code-panel>
+				   
+				<p>The complete class as generated (with irrelevant code
+				   parts removed) in '<tt>j2</tt>' (aka '<tt>arraylist</tt>') 
+				   mode is shown below:</p>
+			
+				<code-panel><![CDATA[
+public class Invoice implements java.io.Serializable {
+
+
+    ...
+    
+    private java.util.List _itemList;
+    
+    ...
+
+    public Invoice() 
+     {
+        super();
+        this._itemList = new java.util.ArrayList();
+    } //-- xml.c1677.invoice.generated.Invoice()
+
+	...
+
+    public void addItem(xml.c1677.invoice.generated.Item vItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._itemList.add(vItem);
+    } //-- void addItem(xml.c1677.invoice.generated.Item) 
+
+    public void addItem(int index, xml.c1677.invoice.generated.Item vItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        this._itemList.add(index, vItem);
+    } //-- void addItem(int, xml.c1677.invoice.generated.Item) 
+
+    public java.util.Enumeration enumerateItem()
+    {
+        return java.util.Collections.enumeration(this._itemList);
+    } //-- java.util.Enumeration enumerateItem() 
+
+    public xml.c1677.invoice.generated.Item getItem(int index)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._itemList.size()) {
+            throw new IndexOutOfBoundsException("getItem: Index value '" + index 
+               + "' not in range [0.." + (this._itemList.size() - 1) + "]");
+        }
+        
+        return (xml.c1677.invoice.generated.Item) _itemList.get(index);
+    } //-- xml.c1677.invoice.generated.Item getItem(int) 
+
+    public xml.c1677.invoice.generated.Item[] getItem()
+    {
+        int size = this._itemList.size();
+        xml.c1677.invoice.generated.Item[] array = new xml.c1677.invoice.generated.Item[size];
+        for (int index = 0; index < size; index++){
+            array[index] = (xml.c1677.invoice.generated.Item) _itemList.get(index);
+        }
+        
+        return array;
+    } //-- xml.c1677.invoice.generated.Item[] getItem() 
+
+    public int getItemCount()
+    {
+        return this._itemList.size();
+    } //-- int getItemCount() 
+
+    public java.util.Iterator iterateItem()
+    {
+        return this._itemList.iterator();
+    } //-- java.util.Iterator iterateItem() 
+
+    public void removeAllItem()
+    {
+        this._itemList.clear();
+    } //-- void removeAllItem() 
+
+    public boolean removeItem(xml.c1677.invoice.generated.Item vItem)
+    {
+        boolean removed = _itemList.remove(vItem);
+        return removed;
+    } //-- boolean removeItem(xml.c1677.invoice.generated.Item) 
+
+    public xml.c1677.invoice.generated.Item removeItemAt(int index)
+    {
+        Object obj = this._itemList.remove(index);
+        return (xml.c1677.invoice.generated.Item) obj;
+    } //-- xml.c1677.invoice.generated.Item removeItemAt(int) 
+
+    public void setItem(int index, xml.c1677.invoice.generated.Item vItem)
+        throws java.lang.IndexOutOfBoundsException
+    {
+        // check bounds for index
+        if (index < 0 || index >= this._itemList.size()) {
+            throw new IndexOutOfBoundsException("setItem: Index value '" 
+               + index + "' not in range [0.." + (this._itemList.size() - 1) + "]");
+        }
+        
+        this._itemList.set(index, vItem);
+    } //-- void setItem(int, xml.c1677.invoice.generated.Item) 
+
+    public void setItem(xml.c1677.invoice.generated.Item[] vItemArray)
+    {
+        //-- copy array
+        _itemList.clear();
+        
+        for (int i = 0; i < vItemArray.length; i++) {
+                this._itemList.add(vItemArray[i]);
+        }
+    } //-- void setItem(xml.c1677.invoice.generated.Item) 
+
+}]]></code-panel>
+
+			</section>
+		</section>
+
+	</body>
+
+</document>
+

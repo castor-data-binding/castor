@@ -1,0 +1,864 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+<document url="http://castor.codehau.org/srcgen-binding.xml">
+
+  <properties>
+    <title>Castor XML -- Code generator bindings</title>
+    <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
+    <abstract>
+       Describes the binding file available with the Castor XML code generator.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+
+    <title>Castor XML -- Code generator bindings</title>
+
+    <section title="Introduction">
+
+      <p>
+        This section defines the Castor XML binding file and describes, with
+        examples, how to use it.
+      </p>
+
+    </section>
+
+    <section title="Binding File">
+
+      <p>
+        The default binding used to generate the Java Object Model from an XML
+        schema may not meet your expectations. For instance, the default
+        binding doesn't deal with naming collisions that can appear because
+        XML Schema allows an element declaration and a complexType definition
+        to use the same name.  The source generator will attempt to create two
+        Java classes with the same qualified name.  However, the second class
+        generated will simply overwrite the first one.
+      </p>
+
+      <p>
+        Another example of where the default source generator binding may not
+        meet your expectations is when you want to change the default datatype
+        binding provided by Castor or when you want to add validation rules by
+        implementing your own validator and passing it to the Source Generator.
+      </p>
+
+      <p>
+        The Binding declaration is an XML-based language that allows the user
+        to control and tweak details about source generation for the generated
+        classes.  The aim of this section is to provide an overview of the
+        binding file and a definition of the several XML components used to
+        define this binding file.
+      </p>
+
+      <p>
+        A more in-depth presentation  will be available soon in the
+        <a href="./SourceGeneratorUser.pdf">Source Generator User Document
+        (PDF).</a>
+      </p>
+
+      <section title="&lt;binding> element">
+        <code-panel><![CDATA[
+<binding
+    defaultBindingType = (element|type)>
+    (include*,
+     package*,
+     namingXML?,
+     elementBinding*,
+     attributeBinding,
+     complexTypeBinding,
+     groupBinding)
+</binding>]]></code-panel>
+
+        <p>
+          The binding element is the root element and contains the binding
+          information. The attribute <tt>defaultBindingType</tt> controls
+          the Class creation type.
+        </p>
+
+        <!-- FIXME:  We need documentation on the defaultBindingType ...
+             the paragraph above had a link within this document to a
+             section that did not exist.  -->
+
+        <tip>
+          Be careful when using <b>defaultBindingType</b> attribute as it
+          will override the binding type specified in the
+          <tt>castorbuilder.properties</tt> file.
+        </tip>
+
+      </section>
+
+      <section title="&lt;include> element">
+        <code-panel>
+&lt;include
+    URI = xsd:anyURI/></code-panel>
+
+        <ul>
+          <li><b>URI:</b>The URI of the binding file to include.</li>
+        </ul>
+
+        <p>
+          This element allows you to include a binding declaration defined in
+          another file. This allows reuse of Binding files defined for various
+          XML Schemas.
+        </p>
+      </section>
+
+      <section title="&lt;package> element">
+        <code-panel><![CDATA[
+<package>
+    name = xsd:string
+    (namespace|schemaLocation) = xsd:string>
+</package>]]></code-panel>
+
+        <ul>
+          <li>
+            <b>name:</b>A fully qualified java package name.
+          </li>
+          <li>
+            <b>namespace:</b>An XML namespace that will be mapped to the
+            package name defined by the <i>name</i> element.
+          </li>
+          <li>
+            <b>schemaLocation:</b>A URL that locates the schema to be
+            mapped to the package name defined by the <i>name</i> element.
+          </li>
+        </ul>
+
+        <p>
+          The <i>targetNamespace</i> attribute of an XML Schema identifies
+          the namespace in which the XML schema elements are defined. This
+          language namespace is defined in the generated Java source as a
+          package declaration. The <tt>&lt;package/></tt> element allows you to define
+          the mapping between an XML namespace and a Java package.
+        </p>
+
+        <p>
+          Moreover, XML Schema allows you to factor the definition of an XML
+          Schema identified by a unique namespace by including several XML
+          Schemas instances to build one XML Schema using the
+          <tt>&lt;xsd:include/></tt> element.  Please make sure you understand
+          the difference between <tt>&lt;xsd:include/></tt> and
+          <tt>&lt;xsd:import/></tt>.  <tt>&lt;xsd:include/></tt> relies on the
+          URI of the included XML schema.  This element allows you to keep the
+          structure hierarchy defined in XML Schema in a single generated Java
+          package.  Thus the binding file allows you to define the mapping
+          between a schemaLocation attribute and a Java package.
+        </p>
+      </section>
+
+      <section title="&lt;namingXML> element">
+        <code-panel><![CDATA[
+<namingXML>
+   (elementName,complexTypeName,modelGroupName)
+</namingXML>
+
+<elementName|complexTypeName|modelGroupName>
+    (prefix?, suffix?) = xsd:string
+</elementName|complexTypeName|modelGroupName>]]></code-panel>
+
+        <ul>
+          <li>
+            <b>prefix:</b>The prefix to add to the names of the generated classes.
+          </li>
+          <li>
+            <b>suffix:</b>The suffix to append to the the names of the generated classes.
+          </li>
+        </ul>
+
+        <p>
+          One of the aim of the binding file is to avoid naming collisions.
+          Indeed, XML Schema allows elements and complexTypes to share the
+          same name, resulting in name collisions when generating sources.
+          Defining a binding for each element and complexType that share the
+          same name is not always a convenient solution (for instance the BPML
+          XML Schema and the UDDI v2.0 XML Schema use the same names for
+          top-level complexTypes and top-level elements). The aim of the
+          <tt>&lt;naming/></tt> XML element is to define a prefix and a suffix for the
+          names of the classes generated for an element, a complexType or a
+          model group definition.
+        </p>
+
+        <p>
+          <b>Note:</b>It is not possible to control the names of the classes
+          generated to represent nested model groups (all, choice,
+          and sequence).
+        </p>
+      </section>
+
+      <section title="&lt;componentBinding> element">
+        <code-panel><![CDATA[
+<elementBinding|attributeBinding|complexTypeBinding|groupBinding
+    name = xsd:string>
+   ((java-class|interface|member),
+     elementBinding*,
+     attributeBinding*,
+     complexTypeBinding*,
+     groupBinding*)
+</elementBinding|attributeBinding|complexTypeBinding|groupBinding>]]></code-panel>
+
+        <ul>
+          <li>
+            <b>name:</b>The name of the XML schema component for which we
+            are defining a binding.
+          </li>
+        </ul>
+
+        <p>
+          These elements are the tenets of the binding file since they contain
+          the binding definition for an XML Schema element, attribute,
+          complexType and modelGroup definition. The first child element
+          (<tt>&lt;java-class/></tt>, <tt>&lt;interface></tt> or
+          <tt>&lt;member></tt>) will determine the type of binding one is
+          defining. Please note that defining a <tt>&lt;java-class></tt>
+          binding on an XML Schema attribute will have absolutely no effect.
+        </p>
+
+        <p>
+          The binding file is written from an XML Schema point of view; there
+          are two distinct ways to define the XML Schema component for which
+          we are defining a binding. First we can define it through the
+          <tt>name</tt> attribute.
+        </p>
+
+        <p>
+          The value of the name attribute uniquely identifies the XML Schema
+          Component. It can refer to the top-level component using the NCName
+          of that component or it can use a location language based on
+          <a href="http://www.w3.org/TR/xpath">XPath</a><sup>3</sup>.  The
+          grammar of that language can be defined by the following
+          <a href="http://en.wikipedia.org/wiki/Backus-Naur_form">BNF</a>:
+        </p>
+
+        <pre>
+            [1]Path         ::= LocationPath('/'LocationPath)*
+            [2]LocationPath ::= (Complex|ModelGroup|Attribute|Element|Enumeration)
+            [3]Complex      ::= 'complexType:'(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
+            [4]ModelGroup   ::= 'group:'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
+            [5]Attribute    ::= '@'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
+            [6]Element      ::= <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
+            [7]Enumeration  ::= 'enumType':(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
+        </pre>
+
+        <p>
+          The second option to identify an XML Schema Component is to embed
+          its binding definition inside its parent binding definition.
+        </p>
+
+        <p>
+          For instance, the following binding definitions are equivalent and
+          identify the element '<tt>foo</tt>' defined in the top-level
+          complexType '<tt>fooType</tt>'.
+        </p>
+
+        <code-panel><![CDATA[
+<elementBinding name="complexType:fooType/foo>
+   <member name="MyFoo" handler="mypackage.myHandler"/>
+</elementBinding>
+
+<complexTypeBinding name="fooType">
+   <elementBinding name="foo>
+      <member name="MyFoo" handler="mypackage.myHandler"/>
+   </elementBinding>
+<complexTypeBinding>]]></code-panel>
+
+<!-- 
+        <section title="Bindings for anonymous components">
+
+          <p>
+            As shown above in the grammar for the component types 'Complex' and
+            'Enumeration', it is possible to specify that a component binding
+            should affect an anonymous type definition. To qualify such an
+            anonymous type definition as part of the '<tt>name</tt>' attribute
+            of a component binding, please use the type name qualifier
+            '<tt>anonymous</tt>' as shown below.
+          </p>
+
+          <code-panel>
+&lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
+   &lt;member name="MyFoo" handler="mypackage.myHandler"/>
+&lt;/elementBinding></code-panel>
+
+        </section>
+ -->
+       </section>
+
+      <section title="&lt;java-class> element">
+        <code-panel><![CDATA[
+<java-class
+    name? = xsd:string
+    package? = xsd:string
+    final? = xsd:boolean
+    abstract? = xsd:boolean
+    equals? = xsd:boolean
+    bound? = xsd:boolean
+    (implements*,extends?)
+</java-class>]]></code-panel>
+
+        <p>
+          This element defines all the options for the class to be generated,
+          including common properties such as class name, package name, and
+          so on.
+        </p>
+
+        <ul>
+          <li><b>name:</b>The name of the class that will be generated.</li>
+          <li><b>package:</b>The package of the class to be generated. if set,
+              this option overrides the mapping defined in the
+              <tt>&lt;package/></tt> element.</li>
+          <li><b>final:</b>If true, the generated class will be final.</li>
+          <li><b>abstract:</b>If true, the generated class will be
+              abstract.</li>
+          <li><b>equals:</b>If true, the generated class will implement the
+              <tt>equals()</tt> and <tt>hashCode()</tt> method.</li>
+          <li><b>bound:</b>If true, the generated class will implement bound
+              properties, allowing property change notification.</li>
+        </ul>
+
+        <p>
+          For instance, the following binding definition instructs the source
+          generator to generate a class <tt>CustomTest</tt> for a global
+          element named 'test', replacing the default class name <tt>Test</tt>
+          with <tt>CustomTest</tt>.
+        </p>
+
+        <code-panel><![CDATA[
+   <elementBinding name="/test">
+      <java-class name="CustomTest" final="true"/>
+   </elementBinding>]]></code-panel>
+
+        <p>
+          In addition to the properties listed above, it is possible to define
+          that the class generated will extend a class given and/or implement
+          one or more interfaces.
+        </p>
+
+        <p>
+          For instance, the following binding definition instructs the source
+          generator to generate a class <tt>TestWithInterface</tt> that
+          implements the interface <tt>org.castor.sample.SomeInterface</tt> in
+          addition to <tt>java.io.Serializable</tt>.
+        </p>
+
+        <code-panel><![CDATA[
+   <elementBinding name="/test">
+      <java-class name="TestWithInterface">
+         <implements>org.castor.sample.SomeInterface</implements>
+      </java-class>
+   </elementBinding>]]></code-panel>
+
+        <p>
+          The subsequent binding definition instructs the source generator to
+          generate a class <tt>TestWithExtendsAndInterface</tt> that
+          implements the interface <tt>org.castor.sample.SomeInterface</tt> in
+          addition to <tt>java.io.Serializable</tt>, and extends from a
+          (probably abstract) base class <tt>SomeAbstractBaseClass</tt>.
+        </p>
+
+        <code-panel><![CDATA[
+   <elementBinding name="/test">
+      <java-class name="TestWithExtendsAndInterface">
+         <extends>org.castor.sample.SomeAbstractBaseClass</extends>
+         <implements>org.castor.sample.SomeInterface</implements>
+      </java-class>
+   </elementBinding>]]></code-panel>
+
+        <p>
+          The generated class <tt>SomeAbstractBaseClass</tt> will have a class
+          signature as shown below:
+        </p>
+
+        <code-panel>
+   ...
+
+   public class TestWithExtendsAndInterface
+      extends SomeAbstractBaseClass
+      implements SomeInterface, java.io.Serializable {
+      ...
+        </code-panel>
+
+      </section>
+
+      <section title="&lt;member> element">
+
+        <code-panel>
+ &lt;member
+  name? = xsd:string
+  java-type? = xsd:string
+  wrapper? = xsd:boolean
+  handler? = xsd:string
+  collection? = (array|vector|arraylist|hashtable|collection|odmg|set|map|sortedset)
+  validator? = xsd:string/></code-panel>
+
+        <p>
+          This element represents the binding for class member. It allows the
+          definition of its name and java type as well as an implementation of
+          FieldHandler to help the Marshaling framework in handling that
+          member. Defining a validator is also possible. The names given for
+          the validator and the fieldHandler must be fully qualified.
+        </p>
+
+        <ul>
+          <li><b>name:</b>The name of the class member that will be
+              generated.</li>
+          <li><b>java-type:</b>the fully qualified name of the java type.</li>
+          <li><b>wrapper:</b>If true, a wrapper object will be generated in
+              case the Java type is a java primitive.</li>
+          <li><b>handler:</b>The fully qualified name of the FieldHandler to
+              use.</li>
+          <li><b>collection:</b>If the schema component can occur more than
+              once then this attribute allows specifying the collection to use
+              to represent the component in Java.</li>
+          <li><b>validator:</b>The fully qualified name of the FieldValidator
+              to use.</li>
+        </ul>
+
+        <p>For instance, the following binding definition:</p>
+
+        <code-panel><![CDATA[
+   <elementBinding name="/root/members">
+      <member collection="set"/>
+   </elementBinding>]]></code-panel>
+
+        <p>
+          instructs the source generator to generate -- within a class
+          <tt>Root</tt> -- a Java member named <tt>members</tt> using the
+          collection type <tt>java.util.Set</tt> instead of the default
+          <tt>java.util.List</tt>:
+        </p>
+
+        <code-panel>
+public class Root {
+
+   private <b>java.util.Set</b> members;
+
+   ...
+
+}</code-panel>
+
+        <p>The following (slightly amended) binding element:</p>
+
+        <code-panel><![CDATA[
+   <elementBinding name="/root/members">
+      <member name="memberSet" collection="set"/>
+   </elementBinding>]]></code-panel>
+
+        <p>
+          instructs the source generator to generate -- again within a class
+          <tt>Root</tt> -- a Java member named <tt>memberSet</tt> (of the same
+          collection type as in the previous example), overriding the name of
+          the member as specified in the XML schema:
+        </p>
+
+        <code-panel>
+public class Root {
+
+   private java.util.Set <b>memberSet</b>;
+
+   ...
+
+}</code-panel>
+
+      </section>
+
+      <section title="&lt;enumBinding&gt;">
+
+        <code-panel><![CDATA[
+<enumBinding>
+   (enumDef)
+</enumBinding>
+
+<enumDef>
+   (enumClassName = xsd:string, enumMember*)
+</enumDef>
+
+<enumMember>
+   (name = xsd:string, value = xsd:string)
+</enumMember>
+]]></code-panel>
+
+        <p>
+          The <tt>&lt;enumBinding&gt;</tt> element allows more control on the
+          code generated for type-safe enumerations, which are used to
+          represent an XML Schema <tt>&lt;simpleType&gt;</tt> enumeration.
+        </p>
+
+        <section title="Sample -- Global &lt;simpleType&gt; enumeration">
+
+          <p>
+            For instance, given the following XML schema enumeration definition:
+          </p>
+
+          <code-panel><![CDATA[
+<xs:simpleType name="durationUnitType">
+  <xs:restriction base='xs:string'>
+    <xs:enumeration value='Y' />
+    <xs:enumeration value='M' />
+    <xs:enumeration value='D' />
+    <xs:enumeration value='h' />
+    <xs:enumeration value='m' />
+    <xs:enumeration value='s' />
+  </xs:restriction>
+</simpleType>]]></code-panel>
+
+          <p>
+            the Castor code generator would generate code where the default
+            naming convention used during the generation would overwrite the
+            first constant definition for value '<tt>M</tt>' with the one
+            generated for value '<tt>m</tt>'.
+          </p>
+
+          <p>
+            The following binding definition defines -- through the means of
+            an <tt>&lt;enumMember&gt;</tt> definition for the enumeration
+            value '<tt>M</tt>' -- a special binding for this value:
+          </p>
+
+          <code-panel><![CDATA[
+<enumBinding name="/enumType:durationUnitType">
+  <enum-def>
+    <enumMember>
+      <value>M</value>
+      <javaName>CUSTOM_M</javaName>
+    </enumMember>
+  </enum-def>
+</enumBinding>]]></code-panel>
+
+          <p>
+            and instructs the source generator to generate -- within a class
+            <tt>DurationUnitType</tt> -- a constant definition named
+            <tt>CUSTOM_M</tt> for the enumeration value <tt>M</tt>.
+          </p>
+
+        </section>
+
+        <section title="Sample -- Nested (anonymous) &lt;simpleType&gt; enumeration">
+
+          <p>
+            For instance, given the following <b>nested</b> (anonymous) XML schema
+            enumeration definition:
+          </p>
+
+          <code-panel><![CDATA[
+<xs:element name="processDefinition">
+  <xs:complexType>
+    <xs:attribute name="duration">
+      <xs:simpleType name="durationUnitType">
+        <xs:restriction base='xs:string'>
+          <xs:enumeration value='Y' />
+          <xs:enumeration value='M' />
+          <xs:enumeration value='D' />
+          <xs:enumeration value='h' />
+          <xs:enumeration value='m' />
+          <xs:enumeration value='s' />
+        </xs:restriction>
+      </xs:simpleType>
+    </attribute>
+  </xs:complexType>
+</xs:element>]]></code-panel>
+
+          <p>
+            one could use a slightly modified <tt>&lt;enumBinding&gt;</tt>
+            definition based upon the previous example by altering the value
+            of the '<tt>name</tt>' attribute to specify the correct XPATH to
+            the anonymous enumeration <tt>&lt;simplyType&gt;</tt>
+            definition.
+          </p>
+
+          <!-- We cannot use CDATA for this code panel; we want the <b> to work -->
+          <code-panel>
+&lt;enumBinding name="<b>/processDefinition/complexType:anonymous/@duration/enumType:anonymous</b>">
+  &lt;enum-def>
+    &lt;enumMember>
+      &lt;value>M&lt;/value>
+      &lt;javaName>CUSTOM_M&lt;/javaName>
+    &lt;/enumMember>
+  &lt;/enum-def>
+&lt;/enumBinding></code-panel>
+
+        </section>
+
+      </section>
+
+      <section title="Not implemented yet">
+
+        <section title="&lt;javadoc&gt;">
+
+          <p>
+            The <tt>&lt;javadoc&gt;</tt> element allows one to enter the
+            necessary JavaDoc representing the generated classes or members.
+          </p>
+
+        </section>
+
+        <section title="&lt;interface> element">
+
+          <code-panel><![CDATA[
+    <interface>
+        name = xsd:string
+    </interface>]]></code-panel>
+
+          <ul>
+            <li><b>name:</b>The name of the interface to generate.</li>
+          </ul>
+
+          <p>
+            This element specifies the name of the interface to be generated
+            for an XML schema component.
+          </p>
+
+        </section>
+
+      </section>
+
+    </section>
+
+    <section title="Non-trivial real world example">
+
+      <section title="Background">
+        <p>
+          Two companies wish to trade with each other using a Supply Chain
+          messaging system. This system sends and receives Purchase Orders and
+          Order Receipt messages. After many months of discussion they have
+          finally decided upon the structure of the Version 1.0 of their
+          message XSD and both are presently developing solutions for it. One
+          of the companies decides to use Java and Castor XML support for
+          (un)marshaling and Castor's code generator to accelerate their
+          development process.
+        </p>
+      </section>
+
+      <section title="The Supply Chain XSD">
+
+        <code-panel top-caption="supplyChainV1.0.xsd"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:element name="Data">
+      <xs:annotation>
+        <xs:documentation>
+          This section contains the supply chain message data
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:choice>
+          <xs:element name="PurchaseOrder">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="LineItem" type="LineItemType" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:attribute name="OrderNumber" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="OrderReceipt">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="LineItem" type="ReceiptLineItemType" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:attribute name="OrderNumber" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="SkuType">
+      <xs:annotation>
+        <xs:documentation>Contains Product Identifier</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="Number" type="xs:integer"/>
+        <xs:element name="ID" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReceiptSkuType">
+      <xs:annotation>
+        <xs:documentation>Contains Product Identifier</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="SkuType">
+          <xs:sequence>
+            <xs:element name="InternalID" type="xs:string"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="LineItemType">
+      <xs:sequence>
+        <xs:element name="Sku" type="SkuType"/>
+        <xs:element name="Value" type="xs:double"/>
+        <xs:element name="BillingInstructions" type="xs:string"/>
+        <xs:element name="DeliveryDate" type="xs:date"/>
+        <xs:element name="Number" type="xs:integer"/>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReceiptLineItemType">
+      <xs:sequence>
+        <xs:element name="Sku" type="ReceiptSkuType"/>
+        <xs:element name="Value" type="xs:double"/>
+        <xs:element name="PackingDescription" type="xs:string"/>
+        <xs:element name="ShipDate" type="xs:dateTime"/>
+        <xs:element name="Number" type="xs:integer"/>
+      </xs:sequence>
+    </xs:complexType>
+</xs:schema>]]></code-panel>
+      </section>
+
+      <section title="Binding file? -- IT IS REQUIRED!">
+
+        <p>
+          If you run the Castor CodeGenerator on the above XSD you end up
+          with the following set of classes. (You also get lots of warning
+          messages with the present version.)
+        </p>
+
+        <code-panel>
+Data.java
+DataDescriptor.java
+LineItem.java
+LineItemDescriptor.java
+LineItemType.java
+LineItemTypeDescriptor.java
+OrderReceipt.java
+OrderReceiptDescriptor.java
+PurchaseOrder.java
+PurchaseOrderDescriptor.java
+ReceiptLineItemType.java
+ReceiptLineItemTypeDescriptor.java
+ReceiptSkuType.java
+ReceiptSkuTypeDescriptor.java
+Sku.java
+SkuDescriptor.java
+SkuType.java
+SkuTypeDescriptor.java</code-panel>
+
+        <p>
+          The problem here is that there are two different elements with the
+          same name in different locations in the XSD. This causes a Java code
+          generation conflict. Castor uses the element name as the name of the
+          class. So the second class generated for the LineItem definition,
+          which is different than the first, overwrites the first class
+          generated.
+        </p>
+
+        <p>
+          A binding file is therefore necessary to help the Castor code
+          generator differentiate between these generated classes. That is, you
+          can 'bind' an element in the XSD to a differently named class file
+          that you want to generate. This keeps different elements separate
+          and ensures that source is properly generated for each XML Schema
+          object.
+        </p>
+
+        <tip>
+          <p>
+            The warning messages for Castor 0.99+ are very useful in assisting
+            you in your creation of the binding file. For the example the
+            warning messages for the example are:
+          </p>
+
+          <code-panel>
+    Warning: A class name generation conflict has occurred between element
+            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+          </code-panel>
+        </tip>
+
+        <p>
+          The following binding file definition will overcome the naming
+          issues for the generated classes:
+        </p>
+
+        <code-panel top-caption="binding.xml"><![CDATA[
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding C:\\Castor\\xsd\\binding.xsd"
+         defaultBinding="element">
+
+   <elementBinding name="/Data/PurchaseOrder/LineItem">
+      <java-class name="PurchaseOrderLineItem"/>
+   </elementBinding>
+
+   <elementBinding name="/Data/OrderReceipt/LineItem">
+      <java-class name="OrderReceiptLineItem"/>
+   </elementBinding>
+
+   <elementBinding name="complexType:ReceiptLineItemType/Sku">
+      <java-class name="OrderReceiptSku"/>
+   </elementBinding>
+
+   <elementBinding name="complexType:LineItemType/Sku">
+      <java-class name="PurchaseOrderSku"/>
+   </elementBinding>
+
+</binding>]]></code-panel>
+
+        <p>
+          One thing to notice in the above <tt>binding.xml</tt> file is that
+          the name path used is relative to the root of the XSD <b>and not</b>
+          the root of the target XML. Also notice that the two complex types
+          have the "complexType:" prefix to identify them followed by the name
+          path relative to the root of the XSD.
+        </p>
+
+        <p>The new list of generated classes is:</p>
+
+        <code-panel>
+Data.java
+DataDescriptor.java
+LineItem.java
+LineItemDescriptor.java
+LineItemType.java
+LineItemTypeDescriptor.java
+OrderReceipt.java
+OrderReceiptDescriptor.java
+<b><font color="red">OrderReceiptLineItem.java</font></b>
+OrderReceiptLineItemDescriptor.java
+<b><font color="red">OrderReceiptSku.java</font></b>
+OrderReceiptSkuDescriptor.java
+PurchaseOrder.java
+PurchaseOrderDescriptor.java
+<b><font color="red">PurchaseOrderLineItem.java</font></b>
+PurchaseOrderLineItemDescriptor.java
+<b><font color="red">PurchaseOrderSku.java</font></b>
+PurchaseOrderSkuDescriptor.java
+ReceiptLineItemType.java
+ReceiptLineItemTypeDescriptor.java
+ReceiptSkuType.java
+ReceiptSkuTypeDescriptor.java
+Sku.java
+SkuDescriptor.java
+SkuType.java
+SkuTypeDescriptor.java</code-panel>
+
+        <p>
+          The developers can now use these generated classes with Castor to
+          (un)marshal the supply chain messages sent by their business
+          partner.
+        </p>
+      </section>
+
+    </section>
+
+  </body>
+
+</document>
