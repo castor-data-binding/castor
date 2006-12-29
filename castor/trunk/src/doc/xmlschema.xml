@@ -82,28 +82,28 @@
 
       <section title="Primitive Datatypes">
 
-        <table border="1">
-          <tr>
+        <ctable>
+          <crow>
             <th align="left">XML Schema Type</th>
             <th align="left">Supported Facets</th>
             <th align="left">Java mapping type</th>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">anyURI</td>
             <td>
               enumeration<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">base64Binary</td>
             <td>&#160;</td>
             <td valign="top">primitive <tt>byte[]</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">boolean</td>
             <td>
               pattern<br/>
@@ -111,9 +111,9 @@
             <td valign="top">
               primitive <tt>boolean</tt> or <tt>java.lang.Boolean</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">date</td>
             <td>
               enumeration<br/>
@@ -125,9 +125,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.Date</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">dateTime</td>
             <td>
               enumeration<br/>
@@ -139,9 +139,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>java.util.Date</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">decimal</td>
             <td>
               totalDigits<br/>
@@ -156,9 +156,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>java.math.BigDecimal</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">double</td>
             <td>
               pattern<br/>
@@ -172,9 +172,9 @@
             <td valign="top">
               primitive <tt>double</tt> or <tt>java.lang.Double</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">duration</td>
             <td>
               pattern<br/>
@@ -186,9 +186,9 @@
               whitespace<sup>1</sup><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.Duration</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">float</td>
             <td>
               pattern<br/>
@@ -202,9 +202,9 @@
             <td valign="top">
               primitive <tt>float</tt> or <tt>java.lang.Float</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">gDay</td>
             <td>
               pattern<br/>
@@ -216,9 +216,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.GDay</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">gMonth</td>
             <td>
               pattern<br/>
@@ -230,9 +230,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.GMonth</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">gMonthDay</td>
             <td>
               pattern<br/>
@@ -244,9 +244,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.GMonthDay</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">gYear</td>
             <td>
               pattern<br/>
@@ -258,9 +258,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.GYear</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">gYearMonth</td>
             <td>
               pattern<br/>
@@ -272,15 +272,15 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.GYearMonth</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">hexBinary</td>
             <td>&#160;</td>
             <td valign="top">primitive <tt>byte[]</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">QName</td>
             <td>
                length<br/>
@@ -290,9 +290,9 @@
                enumeration<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">string</td>
             <td>
               length<br/>
@@ -303,9 +303,9 @@
               whiteSpace<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">time</td>
             <td>
               pattern<br/>
@@ -317,19 +317,20 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>org.exolab.castor.types.Time</tt></td>
-          </tr>
-        </table>
+          </crow>
+        </ctable>
       </section>
 
       <section title="Derived Datatypes">
-        <table border="1">
-          <tr>
+      
+        <ctable border="1">
+          <crow>
             <th align="left">Type</th>
             <th align="left">Supported Facets</th>
             <th align="left">Java mapping type</th>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">byte</td>
             <td>
               totalDigits<br/>
@@ -345,41 +346,41 @@
             <td valign="top">
               primitive <tt>byte</tt> or <tt>java.lang.Byte</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">ENTITY</td>
             <td>&#160;</td>
             <td valign="top"><i>Not implemented</i></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">ENTITIES</td>
             <td>&#160;</td>
             <td valign="top"><i>Not implemented</i></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">ID</td>
             <td>
               enumeration<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">IDREF</td>
             <td>&#160;</td>
             <td valign="top"><tt>java.lang.Object</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">IDREFS</td>
             <td>&#160;</td>
             <td valign="top"><tt>java.util.Vector</tt> of <tt>java.lang.Object</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">int</td>
             <td>
               totalDigits<br/>
@@ -395,9 +396,9 @@
             <td valign="top">
               primitive <tt>int</tt> or <tt>java.lang.Integer</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">integer</td>
             <td>
               totalDigits<br/>
@@ -413,9 +414,9 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">language</td>
             <td>
               length<br/>
@@ -428,9 +429,9 @@
             <td valign="top">
               treated as a <tt>xsd:string</tt><a href="#sup-3"><sup>3</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">long</td>
             <td>
               totalDigits<br/>
@@ -446,23 +447,23 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">Name</td>
             <td>&#160;</td>
             <td valign="top"><i>Not implemented</i></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">NCName</td>
             <td>
                enumeration<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">negativeInteger</td>
             <td>
               totalDigits<br/>
@@ -478,9 +479,9 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">NMTOKEN</td>
             <td>
                enumeration<br/>
@@ -489,21 +490,21 @@
                minlength<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">NMTOKENS</td>
             <td>&#160;</td>
             <td valign="top"><tt>java.util.Vector</tt> of <tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">NOTATION</td>
             <td>&#160;</td>
             <td valign="top"><i>Not implemented</i></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">nonNegativeInteger</td>
             <td>
               totalDigits<br/>
@@ -519,9 +520,9 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">nonPositiveInteger</td>
             <td>
               totalDigits<br/>
@@ -537,9 +538,9 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">normalizedString</td>
             <td>
                enumeration<br/>
@@ -549,9 +550,9 @@
                pattern<br/>
             </td>
             <td valign="top"><tt>java.lang.String</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">positiveInteger</td>
             <td>
               totalDigits<br/>
@@ -567,9 +568,9 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">short</td>
             <td>
               totalDigits<br/>
@@ -585,9 +586,9 @@
             <td valign="top">
               primitive <tt>short</tt> or <tt>java.lang.Short</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">token</td>
             <td>
               length<br/>
@@ -600,9 +601,9 @@
             <td valign="top">
               treated as a <tt>xsd:string</tt><a href="#sup-3"><sup>3</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">unsignedByte</td>
             <td>
               totalDigits<br/>
@@ -617,9 +618,9 @@
             <td valign="top">
               primitive <tt>short</tt> or <tt>java.lang.Short</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">unsignedInt</td>
             <td>
               totalDigits<br/>
@@ -634,9 +635,9 @@
             <td valign="top">
               primitive <tt>long</tt> or <tt>java.lang.Long</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">unsignedLong</td>
             <td>
               totalDigits<br/>
@@ -650,9 +651,9 @@
               whitespace<a href="#sup-1"><sup>1</sup></a><!-- Only legal value is "collapse" -->
             </td>
             <td valign="top"><tt>java.math.BigInteger</tt></td>
-          </tr>
+          </crow>
 
-          <tr>
+          <crow>
             <td valign="top">unsignedShort</td>
             <td>
               totalDigits<br/>
@@ -668,8 +669,8 @@
             <td valign="top">
               primitive <tt>int</tt> or <tt>java.lang.Integer</tt><a href="#sup-2"><sup>2</sup></a>
             </td>
-          </tr>
-        </table>
+          </crow>
+        </ctable>
 
         <p>
           Notes:
