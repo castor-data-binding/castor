@@ -20,7 +20,26 @@
               <span class="newsTitle">Latest Release</span><br/><br/>
               <span class="newsSummary"-->
 
-        <news id="53">
+        <news id="55">
+            <title>2nd milestone build for Castor 1.1 released</title>
+            <author>Werner Guttmann</author>
+            <date>Dec 29 2006</date>
+            <time>22:23:24</time>
+            <summary>
+                I've placed a copy of Castor 1.1 M2 at the
+                <a href="http://dist.codehaus.org/castor/1.1/">Codehaus</a>.<br/><br/>
+
+                This is a second milestone build for the upcoming 1.1 release. As part 
+                of this release, there's a few noteworthy changes:<br/><br/>
+                
+               	- A Castor DDL generator has been added to Castor JDO, allowing generation of DDL scripts from a Castor JDO mapping file.<br/>
+                - New binaries packaging; both the DDL generator as well as the XML code generator have been moved to separate (and new JARs).<br/><br/>
+                
+                For details about the features added and the bugs fixed, please have 
+                a look at the <a href="release-notes.html">release notes</a>.
+            </summary>
+        </news>
+        <news id="54">
             <title>Milestone build for Castor 1.1 released</title>
             <author>Werner Guttmann</author>
             <date>Dec 23 2006</date>

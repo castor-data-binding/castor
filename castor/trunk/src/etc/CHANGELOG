@@ -1,4 +1,4 @@
-Version (SVN)
+Version 1.1-M2, Dec 29, 2006
 -------------------------------
 
 All:   Resolved issue CASTOR-112 using contribution from Le Duc Bao [leducbao@gmail.com]
@@ -22,7 +22,7 @@ XML:   Resolved issue CASTOR-188 using contribution from Edward Kuns [edward.kun
        (Edward - 20061227)
 
 XML:   Resolved issue CASTOR-1765 using contribution from Edward Kuns [edward.kuns@aspect.com]
-       Add xml/validators to checkstyle and do checkstyle cleanup
+       Add xml/validators to checkstyle and do checkstyle cleanup.
        Details: http://jira.codehaus.org/browse/CASTOR-1765
        (Edward - 20061225)
 
