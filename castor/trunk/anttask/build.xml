@@ -1,50 +1,48 @@
-<project name="Ant task definition for Castor XML code generator" default="compile.ant" basedir=".">
-
+<project name="Ant task definition for Castor XML code generator" default="compile.anttask" basedir=".">
+    
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
-    <property name="java"                 value="${source}/main/java"/>
+    <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources" />
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
-    <property name="verbose"              value="off" />
-    <property name="deprecation"          value="false"/>
-    <property name="main.opt.debug"       value="true"/>
-    <property name="archive.name"         value="${project}-${version}${release}-srcgen-ant-task"/>
+    <property name="archive"         value="${project}-${version}${release}-codegen-anttask"/>
 
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
     </path>
 
-    <target name="prepare.ant" unless="prepare.ant.executed">
+    <target name="prepare.anttask" unless="prepare.anttask.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
-        <property name="prepare.ant.executed" value="true" />
+        <property name="prepare.anttask.executed" value="true"/>
     </target>
 
-    <target name="clean.ant" description="Removes the build directories">
-    	<echo message="Removing directorie(s) ${build}" />
+    <target name="clean.anttask" description="Removes AntTask build directory">
         <delete dir="${build}"/>
     </target>
 
-    <target name="compile.ant" 
-    		depends="prepare.ant"
-            description="Compile the An task definition for the Castor XML code generator">
-	   	<echo message="Compiling ${java}" />
-        <javac srcdir="${java}" destdir="${classes}" 
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+    <target name="compile.anttask" depends="prepare.anttask" description="Compile AntTask">
+        <javac srcdir="${main.java}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
         </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+	            <filter token="VERSION" value="${version}"/>
+	            <filter token="RELEASE" value="${release}"/>
+            </filterset>
+        </copy>
     </target>
 
-    <target name="jar.ant" 
-    		depends="compile.ant" 
-    		description="Build the JAR file for the Ant task">
-	   	<echo message="Building ${basedir}/../dist/${archive.name}.jar" />
-        <jar jarfile="${basedir}/../dist/${archive.name}.jar" basedir="${classes}"
-             includes="org/exolab/castor/tools/ant/taskdefs/*,
-        			   org/exolab/castor/tools/XSDCompiler.class,
-                       org/exolab/castor/util/Version.class" />
+    <target name="jar.anttask" depends="compile.anttask" description="Build AntTask JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
 </project>

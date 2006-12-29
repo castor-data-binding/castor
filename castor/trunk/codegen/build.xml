@@ -2,55 +2,47 @@
 
     <property environment="env" />
     <property name="source"               value="${basedir}/src"/>
-    <property name="java"                 value="${source}/main/java"/>
-    <property name="main.resources"       value="${source}/main/resources" />
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
-    <property name="verbose"              value="off" />
-    <property name="deprecation"          value="false"/>
-    <property name="main.opt.debug"       value="true"/>
-    <property name="archive.name"         value="${project}-${version}${release}-codegen"/>
+    <property name="archive"              value="${project}-${version}${release}-codegen"/>
 
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
-    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar" />
+    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
     </path>
 
-    <target name="prepare.codegen" unless="prepare.ant.executed">
+    <target name="prepare.codegen" unless="prepare.codegen.executed">
         <mkdir dir="${build}"/>
         <mkdir dir="${classes}"/>
-        <property name="prepare.ant.executed" value="true" />
+        <property name="prepare.codegen.executed" value="true"/>
     </target>
 
-    <target name="clean.codegen" description="Removes the build directories">
-    	<echo message="Removing directorie(s) ${build}" />
+    <target name="clean.codegen" description="Removes CodeGen build directory">
         <delete dir="${build}"/>
     </target>
 
-    <target name="compile.codegen" 
-    		depends="prepare.codegen"
-            description="Compiles the Castor XML code generator">
-	   	<echo message="Compiling ${java}" />
-        <javac srcdir="${java}" destdir="${classes}" 
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+    <target name="compile.codegen" depends="prepare.codegen" description="Compile CodeGen">
+        <javac srcdir="${main.java}" destdir="${classes}" 
+               debug="on" encoding="ISO-8859-1" deprecation="false">
             <classpath refid="build.classpath"/>
         </javac>
         <copy todir="${classes}">
-            <fileset dir="${main.resources}"/>
-        </copy>
-    	<copy file="${main.resources}/META-INF/MANIFEST.MF" tofile="${classes}/META-INF/MANIFEST.MF">
-    		<filterset>
-    			<filter token="VERSION" value="${version}"/>
-    			<filter token="RELEASE" value="${release}"/>
-    		</filterset>
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+            <filterset begintoken="$$" endtoken="$$">
+	            <filter token="VERSION" value="${version}"/>
+	            <filter token="RELEASE" value="${release}"/>
+            </filterset>
         </copy>
     </target>
 
-    <target name="jar.codegen" 
-    		depends="compile.codegen" 
-    		description="Build the JAR file for Castor XML code generator">
-	   	<echo message="Building ${basedir}/../dist/${archive.name}.jar" />
-        <jar jarfile="${basedir}/../dist/${archive.name}.jar" basedir="${classes}"/>
+    <target name="jar.codegen" depends="compile.codegen" description="Build AntTask JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
 
 </project>

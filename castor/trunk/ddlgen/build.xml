@@ -1,6 +1,6 @@
 <project name="Castor DDL generator" default="compile.ddlgen" basedir=".">
-    <property environment="env"/>
     
+    <property environment="env"/>
     <property name="source"               value="${basedir}/src"/>
     <property name="main.java"            value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources"/>
@@ -10,12 +10,7 @@
 
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
-        <fileset dir="${basedir}/../lib">
-            <include name="*.jar"/>
-        </fileset>
-        <fileset dir="${basedir}/../lib/tests">
-            <include name="*.jar"/>
-        </fileset>
+    	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar" />
     </path>
 
     <target name="prepare.ddlgen" unless="prepare.ddlgen.executed">
@@ -45,6 +40,9 @@
     </target>
 
     <target name="jar.ddlgen" depends="compile.ddlgen" description="Build DDLGen JAR file">
-        <jar jarfile="${build}/${archive.name}.jar" basedir="${classes}" includes="**" />
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
+             manifest="${classes}/META-INF/MANIFEST.MF"/>
+        <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
+    
 </project>
