@@ -57,9 +57,9 @@ import java.util.Properties;
 import java.util.Vector;
 
 import org.exolab.castor.builder.util.ClassInfoResolverImpl;
-import org.exolab.castor.builder.util.ConsoleDialog;
-import org.exolab.castor.builder.util.Dialog;
 import org.exolab.castor.mapping.xml.MappingRoot;
+import org.exolab.castor.util.dialog.ConsoleDialog;
+import org.exolab.castor.util.dialog.Dialog;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.javasource.JClass;

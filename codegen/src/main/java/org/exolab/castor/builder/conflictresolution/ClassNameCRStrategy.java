@@ -18,7 +18,7 @@ package org.exolab.castor.builder.conflictresolution;
 import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.SingleClassGenerator;
 import org.exolab.castor.builder.info.ClassInfo;
-import org.exolab.castor.builder.util.ConsoleDialog;
+import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.javasource.JClass;
 
 /**
