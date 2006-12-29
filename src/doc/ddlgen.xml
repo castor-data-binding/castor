@@ -29,8 +29,7 @@
       </p>
 
       <code-panel top-caption="Example:">
-java org.castor.ddlgen.Main -m mapping.xml
-      </code-panel>
+java org.castor.ddlgen.Main -m mapping.xml</code-panel>
 
       <p>
         This will generate the SQL script <tt>mapping.sql</tt> in the same directory
