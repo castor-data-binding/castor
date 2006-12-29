@@ -63,6 +63,9 @@
                     </crow>
                 </ctable>
 
+                <h2>Additions</h2>
+
+                <h3>The code generator now supports multiple pattern facets properly.</h3>
             </summary>
             <bugs>
                 <bug id="1763" tool="jira">
