@@ -262,6 +262,21 @@
       </navLink>
     </section>
 
+    <section name="DDL Generator">
+      <navLink highlighted="true">
+        <url>ddlgen.xml</url>
+        <display>Using DDL Generator</display>
+      </navLink>
+      <navLink highlighted="true">
+        <url>ddlgen-properties.xml</url>
+        <display>Properties</display>
+      </navLink>
+      <navLink highlighted="true">
+        <url>ddlgen-mapping.xml</url>
+        <display>Type Mapping</display>
+      </navLink>
+    </section>
+
     <section name="More">
       <navLink>
         <url>presentations.xml</url>

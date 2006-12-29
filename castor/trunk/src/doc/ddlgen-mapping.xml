@@ -1,0 +1,38 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/srcgen-properties.xml">
+
+  <properties>
+    <title>Castor DDL Generator - Type Mapping</title>
+    <author email="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</author>
+    <abstract>
+       Describes mapping between Castor SQL type, java data type and SQL type of
+       supported database.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+
+    <title>Castor DDL Generator - Type Mapping</title>
+
+    <section title="Type Mapping">
+        
+      <p>
+        To come soon. 
+      </p>
+
+    </section>
+        
+    <section title="JDBC Types not supported by Castor">
+        
+      <p>
+        To come soon. 
+      </p>
+
+    </section>
+        
+  </body>
+
+</document>
+
