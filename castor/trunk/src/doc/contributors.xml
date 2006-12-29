@@ -604,6 +604,12 @@
   </contributor>
 
   <contributor type="Contributor">
+    <name surname="Le" given="Duc Bao"/>
+    <email>leducbao@gmail.com</email>
+    <description>Initial implementation of DDL Generator</description>
+  </contributor>
+
+  <contributor type="Contributor">
     <name surname="Liebner" given="Stefan"/>
     <email>MailLiebner@gmx.ne</email>
     <description>
