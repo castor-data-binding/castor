@@ -22,7 +22,7 @@ import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.SGStateInfo;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.info.ClassInfo;
-import org.exolab.castor.builder.util.ConsoleDialog;
+import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.javasource.JClass;
@@ -121,7 +121,7 @@ public class InformViaLogClassNameCRStrategy
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#setConsoleDialog(org.exolab.castor.builder.util.ConsoleDialog)
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#setConsoleDialog(org.exolab.castor.util.dialog.ConsoleDialog)
      */
     public void setConsoleDialog(ConsoleDialog dialog) {
         // this._dialog = dialog;

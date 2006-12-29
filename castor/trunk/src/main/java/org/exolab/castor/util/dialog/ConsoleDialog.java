@@ -42,7 +42,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder.util;
+package org.exolab.castor.util.dialog;
 
 /**
  * A simple utility class to handle command line dialogs

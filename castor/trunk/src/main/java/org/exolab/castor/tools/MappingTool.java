@@ -53,7 +53,6 @@ import java.util.Hashtable;
 import java.util.Properties;
 
 import org.castor.mapping.BindingType;
-import org.exolab.castor.builder.util.ConsoleDialog;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
@@ -67,6 +66,7 @@ import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 import org.exolab.castor.mapping.xml.types.FieldMappingCollectionType;
 import org.exolab.castor.util.CommandLineOptions;
+import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.ClassDescriptorResolverFactory;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.Marshaller;
