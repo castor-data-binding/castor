@@ -725,6 +725,11 @@
         <mkdir dir="${build}/${archive.name}/lib"/>
         <mkdir dir="${build}/${archive.name}/bin"/>
 
+    	<!-- directories for modules -->
+        <mkdir dir="${build}/${archive.name}/anttask"/>
+        <mkdir dir="${build}/${archive.name}/ddlgen"/>
+        <mkdir dir="${build}/${archive.name}/codegen"/>
+
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
           <fileset dir="${source}" />
@@ -734,6 +739,29 @@
         </copy>
         <copy todir="${build}/${archive.name}/bin">
           <fileset dir="./bin" includes="*.sh,*.bat"/>
+        </copy>
+
+    	<!-- copy individual modules across -->
+        <copy todir="${build}/${archive.name}/anttask">
+          <fileset dir="${basedir}/anttask">
+          	<exclude name="build/" />
+          	<exclude name="target/" />
+          	<exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/ddlgen">
+          <fileset dir="${basedir}/ddlgen">
+          	<exclude name="build/" />
+          	<exclude name="target/" />
+          	<exclude name="eclipse/" />
+          </fileset>
+        </copy>
+        <copy todir="${build}/${archive.name}/codegen">
+          <fileset dir="${basedir}/codegen">
+          	<exclude name="build/" />
+          	<exclude name="target/" />
+          	<exclude name="eclipse/" />
+          </fileset>
         </copy>
 
         <tar includes="${archive.name}/**" basedir="${build}" tarfile="${dist}/${archive.name}-src.tar"/>
