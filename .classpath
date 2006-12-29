@@ -1,6 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <classpath>
 	<classpathentry kind="src" path="src/main/java"/>
+	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/main/resources"/>
+	<classpathentry kind="src" output="codegen/eclipse" path="codegen/src/main/java"/>
 	<classpathentry kind="src" path="src/main/resources"/>
 	<classpathentry kind="src" path="src/test/java"/>
 	<classpathentry kind="src" path="src/test/resources"/>
@@ -8,12 +10,12 @@
 	<classpathentry excluding="xml/MasterTestSuite/|xml/RegressionTestSuite/|main/" kind="src" path="src/tests"/>
 	<classpathentry kind="src" path="src/tests/main"/>
 	<classpathentry excluding="SourceGenerator/" kind="src" path="src/examples"/>
-	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/main/java"/>
-	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/main/resources"/>
-	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/test/java"/>
-	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/test/resources"/>
-	<classpathentry output="anttask/eclipse" kind="src" path="anttask/src/main/java"/>
-	<classpathentry output="anttask/eclipse" kind="src" path="anttask/src/main/resources"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/java"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/main/resources"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/java"/>
+	<classpathentry kind="src" output="ddlgen/eclipse" path="ddlgen/src/test/resources"/>
+	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/java"/>
+	<classpathentry kind="src" output="anttask/eclipse" path="anttask/src/main/resources"/>
 	<classpathentry kind="con" path="org.eclipse.jdt.launching.JRE_CONTAINER"/>
 	<classpathentry kind="lib" path="lib/adaptx-0.9.13.jar"/>
 	<classpathentry kind="lib" path="lib/jakarta-oro-2.0.5.jar"/>
