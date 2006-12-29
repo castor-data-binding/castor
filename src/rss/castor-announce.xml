@@ -17,12 +17,44 @@
             </description>
         </item>
 --> 
+                I've placed a copy of Castor 1.1 M2 at the
+                <a href="http://dist.codehaus.org/castor/1.1/">Codehaus</a>.<br/><br/>
 
+                This is a second milestone build for the upcoming 1.1 release. As part 
+                of this release, there's a few noteworthy changes:<br/><br/>
+                
+               	- A Castor DDL generator has been added to Castor JDO, allowing generation of DDL scripts from a Castor JDO mapping file.<br/>
+                - New binaries packaging; both the DDL generator as well as the XML code generator have been moved to separate (and new JARs).<br/><br/>
+                
+                For details about the features added and the bugs fixed, please have 
+                a look at the <a href="release-notes.html">release notes</a>.
+
+		<item>
+			<title>1.1 M2 release available</title>
+			<pubDate>Fri, 29 Dec 2006 22:23:24 CET</pubDate>
+			<author>Werner Guttmann</author>
+			<link>http://castor.codehaus.org/news.html#item55</link>
+			<description>
+				The Castor 1.1 M2 release has been made available at
+				http://dist.codehaus.org/castor/1.1/
+
+                This is a second milestone build for the upcoming 1.1 release. As part 
+                of this release, there's a few noteworthy changes:
+                
+               	- A Castor DDL generator has been added to Castor JDO, allowing generation 
+               	  of DDL scripts from a Castor JDO mapping file.
+                - New binaries packaging; both the DDL generator as well as the 
+                  XML code generator have been moved to separate (and new JARs).
+                
+                For details about the features added and the bugs fixed, please have 
+                a look at the release notes at http://castor.codehaus.org/release-notes.html
+			</description>
+		</item>
 		<item>
 			<title>1.1 M1 release available</title>
 			<pubDate>Sat, 23 Dec 2006 22:23:24 CET</pubDate>
 			<author>Werner Guttmann</author>
-			<link>http://castor.codehaus.org/news.html#item53</link>
+			<link>http://castor.codehaus.org/news.html#item54</link>
 			<description>
 				The Castor 1.1 M1 release has been made available at
 				http://dist.codehaus.org/castor/1.1/

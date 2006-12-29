@@ -165,24 +165,57 @@
 
       <section title="Latest Milestone Release">
 
-        <section title="Castor">
-
           <ul>
             <b>Lastest Milestone Version: Castor $VERSION$ $RELEASE$</b><br/>
             <b>Release date: $RELEASE_DATE$</b>
 
             <li><a href="release-notes.xml">What changed?</a></li>
+          </ul>  
 
+        <section title="Binaries">
+
+          <ul>
             <li>
-              The Castor JAR (XML, JDO, DAX)<br/>
+              The Castor JAR (XML, JDO, DAX; <b>without</b> code generator)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.jar</url>
               <br/>&#xA0;
             </li>
             <li>
-              The Castor JAR (XML only)<br/>
+              The Castor JAR (XML only, <b>without</b> code generator)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-xml.jar</url>
               <br/>&#xA0;
             </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Castor XML code generator<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen-anttask.jar</url>
+              <br/>&#xA0;
+            </li>
+            <li>
+              <font color="red"><b>*** NEW ***</b></font> DDL generator<br/>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-ddlgen.jar</url>
+              <br/>&#xA0;
+            </li>
+          </ul>
+            
+          <p><font color="red"><b>*** Note ***</b></font>: Please note that the Castor 
+             XML (and JDO) JARs do not include the code for the DDL generator, XML code 
+             generator and Ant task for the latter anymore. In other words, if you want to be 
+             using both Castor XML (for XML data binding operations, i.e. marshalling and 
+             unmarshalling) and the XML code generator for Java code generation from an 
+             XML schema, you will have to download both JARs in this case. If you want 
+             use the Ant task for the XML code generator, please download the JARs for 
+             Castor XML, the XMl code generator and the Ant task definition.</p>
+
+        </section>
+        
+        <section title="Download sets">
+        
+          <ul>
             <li>
               The Castor JARs, docs, DTDs, command line tools and examples<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.tgz</url><br/>
@@ -202,17 +235,7 @@
               <br/>&#xA0;
             </li>
           </ul>
-
-        </section>
-
-        <section title="XML code generation -- Ant task">
-          <ul>
-            <li>
-              Ant task definition for the source generator<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-srcgen-ant-task.jar</url>
-              <br/>&#xA0;
-            </li>
-          </ul>
+          
         </section>
 
         <section title="Samples">

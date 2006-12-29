@@ -15,15 +15,16 @@
 
     <title>How to integrate Castor with Maven</title>
 
-	<p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b> 
-	   build artefacts of Castor available at the 
-	   <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
-
     <section title="Releases">
 
-		<p>To include a specific Castor release in your Maven 2 project(s),
-		   please add the following Maven 2 dependency to your project POM
-		   (replacing <i>1.0.4</i> with the desired release number).</p>
+		<p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b> 
+	       build artefacts of Castor available at the 
+	       <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
+
+		<p>To include a specific Castor release artefact in your Maven 2 project(s),
+		   please add one of the following Maven 2 dependencies as outlined further 
+		   below to your project POM (replacing <i>1.0.4</i> with the desired 
+		   release number).</p>
 
 		<code-panel><![CDATA[
 <dependency>
@@ -70,15 +71,47 @@
             <cheader>
                 <th>Description</th>
                 <th>Dependency</th>
+                <th>As of release</th>
             </cheader>
             <crow>
-               <td>Castor</td>
+               <td>Castor (core, incl. XML &amp; JDO)</td>
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor</artifactId>
    <version>1.0.4</version>
 </dependency>]]></pre></td>
+				<td>1.0.4</td>
+            </crow>
+            <crow>
+               <td>Castor DDL generator</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-ddlgen</artifactId>
+   <version>1.1-M2</version>
+</dependency>]]></pre></td>
+				<td>1.1-M2</td>
+            </crow>
+            <crow>
+               <td>Castor XML code generator</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-codegen</artifactId>
+   <version>1.1-M2</version>
+</dependency>]]></pre></td>
+				<td>1.1-M2</td>
+            </crow>
+            <crow>
+               <td>Ant task definition for Castor XML code generator</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-codegen-anttask</artifactId>
+   <version>1.1-M2</version>
+</dependency>]]></pre></td>
+				<td>1.1-M2</td>
             </crow>
         </ctable>
         
@@ -105,6 +138,7 @@
             <cheader>
                 <th>Description</th>
                 <th>Dependency</th>
+                <th>As of release</th>
             </cheader>
             <crow>
                <td>Castor</td>
@@ -114,15 +148,37 @@
    <artifactId>castor</artifactId>
    <version>1.0.5-SNAPSHOT</version>
 </dependency>]]></pre></td>
+				<td>1.0.5-SNAPSHOT</td>
             </crow>
             <crow>
-               <td>Castor XML code generation - Ant task</td>
+               <td>Castor DDL generator</td>
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
-   <artifactId>code-generator-ant-task</artifactId>
-   <version>1.0.5-SNAPSHOT</version>
+   <artifactId>castor-ddlgen</artifactId>
+   <version>1.1-M2-SNAPSHOT</version>
 </dependency>]]></pre></td>
+				<td>1.1-M2-SNAPSHOT</td>
+            </crow>
+            <crow>
+               <td>Castor XML code generator</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-codegen</artifactId>
+   <version>1.1-M2-SNAPSHOT</version>
+</dependency>]]></pre></td>
+				<td>1.1-M2_SNAPSHOT</td>
+            </crow>
+            <crow>
+               <td>Ant task definition for Castor XML code generator</td>
+               <td><pre><![CDATA[
+<dependency>
+   <groupId>org.codehaus.castor</groupId>
+   <artifactId>castor-codegen-anttask</artifactId>
+   <version>1.1-M2-SNAPSHOT</version>
+</dependency>]]></pre></td>
+				<td>1.1-M2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor XML Spring factory beans</td>
@@ -132,6 +188,7 @@
    <artifactId>spring-xml</artifactId>
    <version>1.0-SNAPSHOT</version>
 </dependency>]]></pre></td>
+				<td>-</td>
             </crow>
             <crow>
                <td>Spring ORM for Castor JDO</td>
@@ -141,6 +198,7 @@
    <artifactId>castor-spring</artifactId>
    <version>1.0-SNAPSHOT</version>
 </dependency>]]></pre></td>
+				<td>-</td>
             </crow>
         </ctable>
         
