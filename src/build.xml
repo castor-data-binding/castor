@@ -196,7 +196,8 @@
         <delete dir="${gen.src}"/>
     	
     	<ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
-    	<ant antfile="${basedir}/anttask/build.xml" target="clean.ant" inheritAll="false" />
+    	<ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
+    	<ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artefacts related to test">
@@ -233,8 +234,14 @@
             </fileset>
         </copy>
     	
-    	<ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false"/>
-    	<ant antfile="${basedir}/anttask/build.xml" target="compile.ant" inheritAll="false"/>
+    	<ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false">
+    		<property name="version" value="${version}"/>
+			<property name="release" value="${release}"/>
+        </ant>
+    	<ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
+    		<property name="version" value="${version}"/>
+			<property name="release" value="${release}"/>
+        </ant>
     </target>
 
     <target name="compile.jdo" depends="prepare,compile.commons,compile.xml"
@@ -264,6 +271,11 @@
             <include name="**/*.properties" />
             <include name="**/*.dtd" />
         </replace>
+        
+    	<ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
+    		<property name="version" value="${version}"/>
+			<property name="release" value="${release}"/>
+        </ant>
     </target>
 
     <target name="all" depends="clean,compile,compile.examples,compile.tests"
@@ -558,7 +570,13 @@
 			<property name="release" value="${release}"/>
     	</ant>
     	<!-- create JAR for source generator Ant task, calling module build file recursively -->
-    	<ant antfile="${basedir}/anttask/build.xml" target="jar.ant" inheritAll="false">
+    	<ant antfile="${basedir}/anttask/build.xml" target="jar.anttask" inheritAll="false">
+    		<property name="project" value="${project}"/>
+    		<property name="version" value="${version}"/>
+			<property name="release" value="${release}"/>
+    	</ant>
+    	<!-- create JAR for DDL generator, calling module build file recursively -->
+    	<ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
     		<property name="project" value="${project}"/>
     		<property name="version" value="${version}"/>
 			<property name="release" value="${release}"/>
@@ -683,8 +701,9 @@
                  classpathref="javadoc.classpath">
         	<sourcepath>
         		<pathelement location="${java}"/>
-        		<pathelement location="${basedir}/anttask/src/main/java" />
         		<pathelement location="${basedir}/codegen/src/main/java" />
+        		<pathelement location="${basedir}/anttask/src/main/java" />
+        		<pathelement location="${basedir}/ddlgen/src/main/java" />
         	</sourcepath>
         </javadoc>
     </target>
