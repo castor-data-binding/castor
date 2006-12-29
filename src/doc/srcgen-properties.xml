@@ -3,7 +3,7 @@
 <document url="http://castor.org/srcgen-properties.xml">
 
   <properties>
-    <title>Castor YML - Code generator properties</title>
+    <title>Castor XML - Code generator properties</title>
     <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
     <abstract>
        Describes the Castor XML code generator properties.

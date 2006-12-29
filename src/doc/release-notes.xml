@@ -31,6 +31,27 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+                <h2>Additions</h2>
+
+                <h3>DDL Generator</h3>
+
+                <p>At <i>Google Summer of Code</i> program for 2006 the student
+                   <b>Le Duc Bao</b> worked for Castor. With support of his mentor
+                   <b>Ralf Joachim</b> he implemented a generator for DDL scripts
+                   from scratch.</p>
+
+                <p>Castor DDL Generator creates a SQL script to drop/create tables,
+                   unique keys, sequences and so on from a Castor JDO mapping file.</p>
+
+                <code-panel top-caption="Example:">
+java org.castor.ddlgen.Main -m mapping.xml
+                </code-panel>
+
+                <p>This will generate the SQL script <tt>mapping.sql</tt> in the same
+                   directory <tt>mapping.xml</tt> is located.</p>
+
+                <h3>The code generator now supports multiple pattern facets properly.</h3>
+
                 <h2>Changes</h2>
 
                 <h3>Code generation for &lt;xs:int&gt; and &lt;xs:integer&gt;</h3>
@@ -63,11 +84,28 @@
                     </crow>
                 </ctable>
 
-                <h2>Additions</h2>
-
-                <h3>The code generator now supports multiple pattern facets properly.</h3>
             </summary>
             <bugs>
+                <bug id="112" tool="jira">
+                    <description>
+                        Added generation of SQL scripts from mapping file.
+                    </description>
+                    <contributor>
+                        <name>Le Duc Bao</name>
+                        <email>leducbao@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Erwin Bolwidt</name>
+                        <email>erwin@klomp.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20061229</date>
+                </bug>
                 <bug id="1763" tool="jira">
                     <description>
                         Moved Ant task definition for XML code generator to separate deployment unit.

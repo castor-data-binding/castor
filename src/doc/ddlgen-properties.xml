@@ -1,0 +1,83 @@
+<?xml version="1.0"?>
+
+<document url="http://castor.org/srcgen-properties.xml">
+
+  <properties>
+    <title>Castor DDL Generator - Properties</title>
+    <author email="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</author>
+    <abstract>
+       Describes properties of Castor DDL Generator.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+
+    <title>Castor DDL Generator - Properties</title>
+
+    <section title="Overview">
+        
+      <p>
+        To come soon. 
+      </p>
+
+    </section>
+        
+    <section title="Global properties">
+        
+      <p>
+        To come soon. 
+      </p>
+
+    </section>
+        
+    <section title="Specific properties">
+        
+      <p>
+        To come soon. 
+      </p>
+
+    </section>
+        
+<!--        
+            <p>Please find below a list of properties that can be set in the
+               <tt>castor-builder.properties</tt> file to control various advanced
+               options of the source generator. By default, the Castor XML code 
+               will look for such a property file in the following places:</p>
+               
+            <p><ol>
+            	<li>If no custom property file is specified, the Castor XML code
+            	    generator will use the default builder configuration
+            	    properties at 
+            	    <tt>org/exolab/castor/builder/castorbuilder.properties</tt>.</li>
+            	<li>If a file named <tt>castorbuilder.properties</tt> is available
+            	    on the CLASSPATH, the Castor XML code generator will use each of the
+            	    defined property values to override the default value as explained 
+            	    above. This fiel is commonly referred to as a <b>custom</b>
+            	    builder configuration file.</li> 
+            </ol></p>
+            
+            <ctable>
+            	<cheader>
+	               <th align="center">Option</th>
+	               <th>Description</th>
+	               <th>Values</th>
+	               <th>Default</th>
+	               <th>Since<br/>Version</th>
+            	</cheader>
+            	<crow>
+            		<td>org.exolab.castor.builder.javaVersion</td>
+            		<td>Compliance with Java version</td>
+            		<td><tt>1.4</tt> or <tt>5.0</tt></td>
+            		<td>1.4</td>
+            		<td>1.0.2</td>
+            	</crow>
+            </ctable>
+            
+		</section>
+-->
+
+  </body>
+
+</document>
+
