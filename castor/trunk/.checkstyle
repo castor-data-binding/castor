@@ -15,20 +15,20 @@
     <fileset name="src/test/java" enabled="true" check-config-name="castor-test-checks" local="true">
         <file-match-pattern match-pattern="src\\test\\java\\.*\.java" include-pattern="true"/>
     </fileset>
+    <fileset name="test" enabled="true" check-config-name="castor-test-checks" local="true">
+        <file-match-pattern match-pattern="ddlgen\\src\\test\\java\\.*\.java" include-pattern="true"/>
+    </fileset>
     <fileset name="src/main/java" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="src\\main\\java\\org\\exolab\\castor\\jdo\\JDOManager\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\exolab\\castor\\jdo\\JDO\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\.*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\util\\concurrent\\.*\.java" include-pattern="false"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\castor\\jdo\\conf\\.*\.java" include-pattern="false"/>
-        <file-match-pattern match-pattern="src\\main\\java\\org\\exolab\\javasource\\.*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="src\\main\\java\\org\\exolab\\castor\\xml\\validators\\.*\.java" include-pattern="true"/>
-    </fileset>
-    <fileset name="test" enabled="true" check-config-name="castor-test-checks" local="true">
-        <file-match-pattern match-pattern="ddlgen\\src\\test\\java\\.*\.java" include-pattern="true"/>
     </fileset>
     <fileset name="main" enabled="true" check-config-name="castor-main-checks" local="true">
         <file-match-pattern match-pattern="ddlgen\\src\\main\\java\\.*\.java" include-pattern="true"/>
         <file-match-pattern match-pattern="anttask\\src\\main\\java\\.*\.java" include-pattern="true"/>
+        <file-match-pattern match-pattern="codegen\\src\\main\\java\\.*\.java" include-pattern="true"/>
     </fileset>
 </fileset-config>
