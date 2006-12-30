@@ -28,50 +28,55 @@ import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.javasource.JClass;
 
 /**
- * An implementation of {@link ClassNameCRStrategy} that 
+ * An implementation of {@link ClassNameCRStrategy} that
  * reports any conflict notifications to a log file, basically
- * stating what classes have been overwriten as a result of such 
+ * stating what classes have been overwriten as a result of such
  * a name conflict.
- * 
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 1.1
  */
-public class InformViaLogClassNameCRStrategy 
+public class InformViaLogClassNameCRStrategy
     extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
-    
-    /**
-     * Logger instance used for logging naming conflicts
-     */
+
+    /** Logger instance used for logging naming conflicts. */
     private static final Log LOG = LogFactory.getLog(InformViaLogClassNameCRStrategy.class);
-    
-    /**
-     * Name of this strategy.
-     */
+    /** Name of this strategy. */
     public static final String NAME = "informViaLog";
 
     /**
-     * Creates an instance of this name conflict resolution strategy, that 
-     * will emit warnings to the user as part of a standard logging aproach.
+     * Creates an instance of this name conflict resolution strategy, that will
+     * emit warnings to the user as part of a standard logging aproach.
      */
     public InformViaLogClassNameCRStrategy() {
+        // Nothing to do.
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo, org.exolab.castor.builder.info.ClassInfo, org.exolab.javasource.JClass)
+     * Handle a class name conflict between newClassInfo and conflict.
+     *
+     * @param state SourceGeneration state
+     * @param newClassInfo ClassInfo for the new class
+     * @param conflict JClass for the existing class
+     * @return the provided source generator state, as modified by the strategy
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy
+     *      #dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo,
+     *      org.exolab.castor.builder.info.ClassInfo,
+     *      org.exolab.javasource.JClass)
      */
     public SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
             final ClassInfo newClassInfo, final JClass conflict) {
-//      -- if the ClassInfo are equal, we can just return
+        // If the ClassInfo are equal, we can just return
         ClassInfo oldClassInfo = state.resolve(conflict);
         if (oldClassInfo == newClassInfo) {
             return state;
         }
 
-//      -- Find the Schema structures that are conflicting
+        // Find the Schema structures that are conflicting
         Annotated a1 = null;
         Annotated a2 = null;
 
-//      Loop until we exhaust the Enumeration or until we have found both
+        // Loop until we exhaust the Enumeration or until we have found both
         Enumeration enumeration = state.keys();
         while (enumeration.hasMoreElements() && (a1 == null || a2 == null)) {
             Object key = enumeration.nextElement();
@@ -114,6 +119,8 @@ public class InformViaLogClassNameCRStrategy
     }
 
     /**
+     * Returns the name of the strategy.
+     * @return the name of the strategy.
      * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#getName()
      */
     public String getName() {
@@ -121,18 +128,29 @@ public class InformViaLogClassNameCRStrategy
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#setConsoleDialog(org.exolab.castor.util.dialog.ConsoleDialog)
+     * Sets the console dialog to use with this strategy.
+     *
+     * @param dialog the console dialog to use with this strategy.
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#
+     *      setConsoleDialog(org.exolab.castor.util.dialog.ConsoleDialog)
      */
-    public void setConsoleDialog(ConsoleDialog dialog) {
-        // this._dialog = dialog;
+    public void setConsoleDialog(final ConsoleDialog dialog) {
+        // No console dialog needed.
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithFileOverwrite(java.lang.String, boolean)
+     * Presents the user with a console dialog, asking for confirmation whether
+     * an existing file should be overwritten (or not).
+     *
+     * @param filename the filename to potentially overwrite.
+     * @return whether or not the file should be overwritten.
+     *
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy
+     *      #dealWithFileOverwrite(java.lang.String, boolean)
      */
-    public boolean dealWithFileOverwrite(String filename) {
+    public boolean dealWithFileOverwrite(final String filename) {
         LOG.warn(filename + " already exists, but will be overwritten.");
         return true;
     }
-    
+
 }

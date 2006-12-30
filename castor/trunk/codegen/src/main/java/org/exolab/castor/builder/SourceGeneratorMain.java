@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -65,9 +65,9 @@ import org.exolab.castor.util.CommandLineOptions;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a> - Contributions.
  * @author <a href="mailto:nsgreen@thazar.com">Nathan Green</a> - Contributions.
  * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a> - Cut out of SourceGenerator.java
- * @version $Revision: $ $Date: $
+ * @version $Revision: 0000 $ $Date: $
  */
-public class SourceGeneratorMain {
+public final class SourceGeneratorMain {
     //--------------------------/
     //- Command line arguments -/
     //--------------------------/
@@ -100,13 +100,13 @@ public class SourceGeneratorMain {
     //- Command line messages -/
     //-------------------------/
 
-    /** Message used when descriptor creation is disabled */
+    /** Message used when descriptor creation is disabled. */
     private static final String DISABLE_DESCRIPTORS_MSG     = "Disabling generation of Class descriptors.";
-    /** Message used when marshalling methods creation is disabled */
+    /** Message used when marshalling methods creation is disabled. */
     private static final String DISABLE_MARSHALL_MSG        = "Disabling generation of Marshalling framework methods (marshall, unmarshall, validate).";
-    /** Message used when implementing CastorTestable */
+    /** Message used when implementing CastorTestable. */
     private static final String CASTOR_TESTABLE_MSG         = "The generated classes will implement org.exolab.castor.tests.CastorTestable.";
-    /** Message used when using SAX1 */
+    /** Message used when using SAX1. */
     private static final String SAX1_MSG                    = "The generated classes will use SAX 1.";
     private static final String GENERATE_IMPORT_MSG         = "Imported XML Schemas will be processed automatically.";
     private static final String CASE_INSENSITIVE_MSG        = "The generated classes will use a case insensitive method for looking up enumerated type values.";
@@ -124,6 +124,7 @@ public class SourceGeneratorMain {
     private static final String DEFAULT_LINE_SEPARATOR_MSG  = "Using default line separator for this platform";
     private static final String INVALID_LINE_SEPARATOR_MSG  = "Invalid option for line-separator: ";
 
+    /** The full set of command-line options. */
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();
 
     /**
@@ -400,7 +401,8 @@ public class SourceGeneratorMain {
         allOptions.addFlag(ARGUMENT_NOMARSHALL, "", desc, true);
 
         //-- implements org.exolab.castor.tests.CastorTestable?
-        desc = "Implements some specific methods to allow the generated classes to be used with Castor Testing Framework.";
+        desc = "Implements some specific methods to allow the generated classes"
+                + " to be used with Castor Testing Framework.";
         allOptions.addFlag(ARGUMENT_TESTABLE, "", desc, true);
 
         //-- use SAX1?

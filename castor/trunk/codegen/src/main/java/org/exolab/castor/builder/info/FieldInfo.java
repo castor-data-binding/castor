@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,7 +47,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.types.XSType;
@@ -167,7 +166,7 @@ public class FieldInfo extends XMLInfo {
             modifiers.setFinal(_final);
             modifiers.setStatic(_static);
         }
-        
+
         if (!(_visibility.equals("private"))) {
             JModifiers modifiers = field.getModifiers();
             if (_visibility.equals("protected")) {
@@ -301,7 +300,7 @@ public class FieldInfo extends XMLInfo {
         jsc.add("return this.");
         jsc.append(this._name);
         jsc.append(";");
-        
+
         if (xsType.getType() == XSType.BOOLEAN_TYPE) {
 
             // -- create is<Property>t method
@@ -318,7 +317,7 @@ public class FieldInfo extends XMLInfo {
             jsc.append(";");
 
         }
-        
+
     } //-- createGetterMethod
 
     /**
@@ -620,7 +619,7 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Returns the comment associated with this Member.
-     * 
+     *
      * @return the comment associated with this Member, or null.
      * if one has not been set.
      */
@@ -630,7 +629,7 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Returns the methods flag that indicates which.
-     * 
+     *
      * methods will be created.
      *
      * @return the methods flag
@@ -641,7 +640,7 @@ public class FieldInfo extends XMLInfo {
 
     /**
      * Returns the name of this FieldInfo.
-     * 
+     *
      * @return the name of this FieldInfo.
      */
     public String getName() {
@@ -866,4 +865,5 @@ public class FieldInfo extends XMLInfo {
     public void setVisibility(final String visibility) {
         _visibility = visibility;
     }
+
 }

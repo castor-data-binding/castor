@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -61,6 +61,10 @@ import org.exolab.castor.xml.schema.Structure;
  */
 public class GroupNaming {
 
+    /**
+     * A HashTable of HashTables that keeps track of group names for each
+     * package.
+     */
     private Hashtable _packageGroupNames = null;
 
     /**
@@ -71,20 +75,31 @@ public class GroupNaming {
     } //-- GroupNaming
 
     /**
-     * Returns the qualified group name for a given Group instance and a package name; null if there 
-     * isn't one already.
+     * Returns the qualified group name for a given Group instance and a package
+     * name; null if there isn't one already.
+     *
      * @param group A Group instance
      * @param packageName A package name
-     * @return The fully qualified group name for the Group instance/package name combination
+     * @return The fully qualified group name for the Group instance/package
+     *         name combination
      */
     private String getGroupName(final Group group, final String packageName) {
-        Hashtable groupNames = (Hashtable)_packageGroupNames.get(packageName);
+        Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
         if (groupNames == null) {
             return null;
         }
         return (String) groupNames.get(group);
     }
 
+    /**
+     * Sets the qualified group name for a given Group instance and package
+     * name.
+     *
+     * @param group A Group instance
+     * @param packageName A package name
+     * @param name The fully qualified group name for the Group instance/package
+     *        name combination
+     */
     private void putGroupName(final Group group, final String packageName, final String name) {
         Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
         if (groupNames == null) {
@@ -95,10 +110,12 @@ public class GroupNaming {
     }
 
     /**
-     * Checks whether for a given group and package name combination an entry already exists
+     * Checks whether for a given group and package name combination an entry
+     * already exists.
+     *
      * @param packageName A package name
      * @param name A group name.
-     * @return True if a mapping already exists 
+     * @return True if a mapping already exists
      */
     private boolean containsGroupName(final String packageName, final String name) {
         Hashtable groupNames = (Hashtable) _packageGroupNames.get(packageName);
@@ -167,11 +184,13 @@ public class GroupNaming {
     } //-- createClassName
 
     /**
-     * Returns the class name for the given ComplexType. 
-     * 
-     * a) If the ComplexType instance is named, simply return the name of the ComplexType. 
-     * b) If it is not named (in other words, if it is an anonymous ComplexType definition), 
-     *    check for the name of the containing element (definition).
+     * Returns the class name for the given ComplexType.
+     * <p>
+     * If the ComplexType instance is named, simply return the name of the
+     * ComplexType.
+     * <p>
+     * If it is not named (in other words, if it is an anonymous ComplexType
+     * definition), check for the name of the containing element (definition).
      *
      * @param complexType the ComplexType for which to return a class name
      * @return the class name for the given ComplexType

@@ -25,7 +25,7 @@ import org.apache.commons.logging.LogFactory;
 /**
  * Registry for {@link ClassNameCRStrategy} implementations obtained from the
  * Castor builder properties file.
- * 
+ *
  * @author <a href="mailto:werner DOT guttmann @gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 5951 $ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
  * @since 1.1
@@ -39,18 +39,18 @@ public final class ClassNameCRStrategyRegistry {
             ClassNameCRStrategyRegistry.class);
 
     /**
-     * Association between name of {@link ClassNameCRStrategy} 
-     * implementation and {@link ClassNameCRStrategy} instance. 
+     * Association between name of {@link ClassNameCRStrategy} implementation
+     * and {@link ClassNameCRStrategy} instance.
      */
     private Map _strategies = new HashMap();
 
     //--------------------------------------------------------------------------
 
     /**
-     * Construct an instance of {@link ClassNameCRStrategyRegistry} 
-     * that loads the {@link ClassNameCRStrategy} implementations 
-     * specified in the given BuilderConfiguration.
-     * 
+     * Construct an instance of {@link ClassNameCRStrategyRegistry} that loads
+     * the {@link ClassNameCRStrategy} implementations specified in the given
+     * BuilderConfiguration.
+     *
      * @param enlistedNameConflictStrategies The BuilderConfiguration.
      */
     public ClassNameCRStrategyRegistry(final String enlistedNameConflictStrategies) {
@@ -103,4 +103,5 @@ public final class ClassNameCRStrategyRegistry {
         }
         return (ClassNameCRStrategy) factory;
     }
+
 }

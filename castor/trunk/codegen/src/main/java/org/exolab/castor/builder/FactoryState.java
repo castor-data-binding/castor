@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,7 +47,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import java.util.Vector;
@@ -58,7 +57,7 @@ import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
 
 /**
- * A class used to save State information for the SourceFactory
+ * A class used to save State information for the SourceFactory.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  */
@@ -68,24 +67,32 @@ class FactoryState implements ClassInfoResolver {
     //- Member Variables -/
     //--------------------/
 
-    JClass       jClass              = null;
-    ClassInfo    classInfo           = null;
-    FieldInfo    fieldInfoForChoice  = null;
-    String       packageName         = null;
+    /** The JClass for which we are currently generating code. */
+    JClass       _jClass              = null;
+    /** A ClassInfo for <code>_jClass</code>. */
+    ClassInfo    _classInfo           = null;
+    /** A FieldInfo used to handle <code>xsd:choice</code>. */
+    FieldInfo    _fieldInfoForChoice  = null;
+    /** Package for the class currently being generated. */
+    String       _packageName         = null;
 
+    /** Our ClassInfoResolver to keep track of ClassInfos for easy lookup. */
     private ClassInfoResolver _resolver  = null;
+    /** Keeps track of which classes have been processed. */
     private Vector            _processed = null;
+    /** SourceGenerator state. */
     private SGStateInfo       _sgState   = null;
+    /** If true, we are currently generating code for a group. */
     private boolean           _createGroupItem = false;
 
     /**
      * Keeps track of whether or not the BoundProperties methods have been
-     * created
+     * created.
      */
     private boolean           _bound = false;
 
     /**
-     * Keeps track of the different FactoryState
+     * Keeps track of the different FactoryState.
      */
     private FactoryState _parent = null;
 
@@ -93,6 +100,12 @@ class FactoryState implements ClassInfoResolver {
     //- Constructors -/
     //----------------/
 
+    /**
+     * Constructs a new FactoryState.
+     * @param className Class name of the class currently being generated.
+     * @param sgState Source Generator State object
+     * @param packageName package name for generated code.
+     */
     protected FactoryState(final String className, final SGStateInfo sgState,
                            final String packageName) {
         if (sgState == null) {
@@ -103,15 +116,16 @@ class FactoryState implements ClassInfoResolver {
         _processed   = new Vector();
 
         //keep the elements and complexType already processed
-        //if (resolver instanceof FactoryState)
-           //_processed = ((FactoryState)resolver)._processed;
+        //if (resolver instanceof FactoryState) {
+        //   _processed = ((FactoryState)resolver)._processed;
+        //}
 
-        jClass       = new JClass(className);
-        classInfo    = new ClassInfo(jClass);
+        _jClass       = new JClass(className);
+        _classInfo    = new ClassInfo(_jClass);
 
         _resolver = sgState;
 
-        this.packageName = packageName;
+        this._packageName = packageName;
 
         //-- boundProperties
         _bound = sgState.getSourceGenerator().boundPropertiesEnabled();
@@ -165,10 +179,8 @@ class FactoryState implements ClassInfoResolver {
      */
     boolean processed(final Annotated annotated) {
         boolean result = _processed.contains(annotated);
-        if (!result) {
-            if (_parent != null) {
-                return _parent.processed(annotated);
-            }
+        if (!result && _parent != null) {
+            return _parent.processed(annotated);
         }
         return result;
     } //-- processed
@@ -194,7 +206,7 @@ class FactoryState implements ClassInfoResolver {
     } //-- setBoundProperties
 
     /**
-     * Returns the ClassInfo which has been bound to the given key
+     * Returns the ClassInfo which has been bound to the given key.
      *
      * @param key
      *            the object to which the ClassInfo has been bound
@@ -239,7 +251,7 @@ class FactoryState implements ClassInfoResolver {
      }
 
      /**
-      * Sets the parent of this FactoryState
+      * Sets the parent of this FactoryState.
       *
       * @param parent
       *            the parent FactoryState

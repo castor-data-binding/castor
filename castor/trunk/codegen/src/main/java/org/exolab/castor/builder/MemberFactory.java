@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,7 +47,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import java.util.Enumeration;
@@ -80,7 +79,7 @@ import org.exolab.javasource.JClass;
 import org.exolab.javasource.JType;
 
 /**
- * The "Factory" responsible for creating fields for the given schema components
+ * The "Factory" responsible for creating fields for the given schema components.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
@@ -95,8 +94,7 @@ public class MemberFactory extends BaseFactory {
      * @param groupNaming Grou pnaming scheme to be used.
      */
     public MemberFactory(final BuilderConfiguration config,
-            final FieldInfoFactory infoFactory,
-            final GroupNaming groupNaming) {
+            final FieldInfoFactory infoFactory, final GroupNaming groupNaming) {
         super(config, infoFactory, groupNaming);
 
         if (_config.generateExtraCollectionMethods()) {
@@ -114,8 +112,7 @@ public class MemberFactory extends BaseFactory {
      * Creates a FieldInfo for content models that support "any" element.
      *
      * @param any the wildcard we will operate on
-     * @param useJava50
-     *            if true then we will generate code for Java 5
+     * @param useJava50 if true then we will generate code for Java 5
      *
      * @return the new FieldInfo
      */
@@ -192,10 +189,8 @@ public class MemberFactory extends BaseFactory {
     /**
      * Creates a FieldInfo for content.
      *
-     * @param xsType
-     *            the type of content
-     * @param useJava50
-     *            if true, code will be generated for Java 5
+     * @param xsType the type of content
+     * @param useJava50 if true, code will be generated for Java 5
      * @return the new FieldInfo
      */
     public FieldInfo createFieldInfoForContent(final XSType xsType, final boolean useJava50) {
@@ -221,12 +216,9 @@ public class MemberFactory extends BaseFactory {
     /**
      * Creates a FieldInfo object for the given XMLBindingComponent.
      *
-     * @param component
-     *            the XMLBindingComponent to create the FieldInfo for
-     * @param resolver
-     *            resolver to use to find ClassInfo
-     * @param useJava50
-     *            if true, code will be generated for Java 5
+     * @param component the XMLBindingComponent to create the FieldInfo for
+     * @param resolver resolver to use to find ClassInfo
+     * @param useJava50 if true, code will be generated for Java 5
      * @return the FieldInfo for the given attribute declaration
      */
     public FieldInfo createFieldInfo(final XMLBindingComponent component,
@@ -300,9 +292,9 @@ public class MemberFactory extends BaseFactory {
                     temp.setView(xmlType);
                     ClassInfo typeInfo = resolver.resolve(xmlType);
                     if (typeInfo != null) {
-                        // if we have not processed the <complexType> referenced by the ClassInfo yet,
-                        // this will return null
-                        // TODO: find a way to resolve an unprocessed <complexType> !
+                        // if we have not processed the <complexType> referenced
+                        // by the ClassInfo yet, this will return null
+                        // TODO: find a way to resolve an unprocessed <complexType>
                         xsType = typeInfo.getSchemaType();
                     } else {
                         String className = temp.getQualifiedName();
@@ -355,7 +347,8 @@ public class MemberFactory extends BaseFactory {
         //-- check whether this should be a collection or not
         int maxOccurs = component.getUpperBound();
         int minOccurs = component.getLowerBound();
-        if (simpleTypeCollection || (((maxOccurs < 0) || (maxOccurs > 1)) && !(memberName.endsWith("Choice")))) {
+        if (simpleTypeCollection
+                || ((maxOccurs < 0 || maxOccurs > 1) && !(memberName.endsWith("Choice")))) {
             String vName = memberName + "List";
 
             //--if xmlName is null it means that
@@ -378,10 +371,10 @@ public class MemberFactory extends BaseFactory {
                      break;
                 case XSType.COLLECTION:
                     String collectionName = component.getCollectionType();
-                    fieldInfo = this._infoFactory.createCollection(((XSList) xsType).getContentType(),
-                                                               memberName,
-                                                               memberName, collectionName,
-                                                               useJava50);
+                    XSType contentType = ((XSList) xsType).getContentType();
+                    fieldInfo = this._infoFactory.createCollection(contentType,
+                                                                   memberName, memberName,
+                                                                   collectionName, useJava50);
                     break;
                 default:
                     fieldInfo = this._infoFactory.createFieldInfo(xsType, memberName);
@@ -412,7 +405,7 @@ public class MemberFactory extends BaseFactory {
         String nsURI = component.getTargetNamespace();
         if ((nsURI != null) && (nsURI.length() > 0)) {
             fieldInfo.setNamespaceURI(nsURI);
-            // TODO: set the prefix used in the XML Schema in order to use it inside the Marshalling Framework
+            // TODO: set the prefix used in the XML Schema in order to use it inside the Marshaling Framework
         }
 
         // handle default value (if any is set)
@@ -437,7 +430,7 @@ public class MemberFactory extends BaseFactory {
         if (component.getValidator() != null) {
             fieldInfo.setValidator(component.getValidator());
         }
-        
+
         if (component.getVisiblity() != null) {
             String visibility = component.getVisiblity();
             fieldInfo.setVisibility(visibility);
@@ -512,10 +505,8 @@ public class MemberFactory extends BaseFactory {
      * Adjusts the default value string represenation to reflect the semantics
      * of various 'special' data types.
      *
-     * @param xsType
-     *            The XMl schems type of the value to adjust
-     * @param value
-     *            The actual value to adjust
+     * @param xsType The XMl schems type of the value to adjust
+     * @param value The actual value to adjust
      * @return an adjusted default value.
      */
     private String adjustDefaultValue(final XSType xsType, final String value) {
@@ -535,8 +526,7 @@ public class MemberFactory extends BaseFactory {
      * Creates a comment to be used in Javadoc from the given Annotated
      * Structure.
      *
-     * @param annotated
-     *            the Annotated structure to process
+     * @param annotated the Annotated structure to process
      * @return the generated comment
      */
     private String createComment(final Annotated annotated) {
@@ -567,10 +557,9 @@ public class MemberFactory extends BaseFactory {
     } //-- createComment
 
     /**
-     * Creates a comment to be used in Javadoc from the given Annotation
+     * Creates a comment to be used in Javadoc from the given Annotation.
      *
-     * @param annotation
-     *            the Annotation to create the comment from
+     * @param annotation the Annotation to create the comment from
      * @return the generated comment
      */
     private String createComment(final Annotation annotation) {

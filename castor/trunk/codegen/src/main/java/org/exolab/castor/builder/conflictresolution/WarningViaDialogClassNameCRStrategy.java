@@ -26,11 +26,11 @@ import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.javasource.JClass;
 
 /**
- * An implementation of {@link ClassNameCRStrategy} that reports
- * any conflict notifications to a console dialog, asking the user whether to
- * stop code generation (as the conflict is not acceptable), or whether to
- * proceed by overwriting an already existing class.
- * 
+ * An implementation of {@link ClassNameCRStrategy} that reports any conflict
+ * notifications to a console dialog, asking the user whether to stop code
+ * generation (as the conflict is not acceptable), or whether to proceed by
+ * overwriting an already existing class.
+ *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 1.1
  */
@@ -43,24 +43,33 @@ public class WarningViaDialogClassNameCRStrategy
     public static final String NAME = "warnViaConsoleDialog";
 
     /**
-     * The {@link ConsoleDialog} instance to use for output
+     * The {@link ConsoleDialog} instance to use for output.
      */
     private ConsoleDialog _dialog;
 
     /**
      * Creates an instance of this name conflict resolution strategy, that will
-     * use the specified {@link ConsoleDialog} instance to emit warnings to zhe
+     * use the specified {@link ConsoleDialog} instance to emit warnings to the
      * user and ask about an approach to deal with them.
      */
     public WarningViaDialogClassNameCRStrategy() {
+        // Nothing to do.
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo,
-     *      org.exolab.castor.builder.info.ClassInfo, org.exolab.javasource.JClass)
+     * Handle a class name conflict between newClassInfo and conflict.
+     *
+     * @param state SourceGeneration state
+     * @param newClassInfo ClassInfo for the new class
+     * @param conflict JClass for the existing class
+     * @return the provided source generator state, as modified by the strategy
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy
+     *      #dealWithClassNameConflict(org.exolab.castor.builder.SGStateInfo,
+     *      org.exolab.castor.builder.info.ClassInfo,
+     *      org.exolab.javasource.JClass)
      */
-    public SGStateInfo dealWithClassNameConflict(SGStateInfo state,
-            ClassInfo newClassInfo, JClass conflict) {
+    public SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
+            final ClassInfo newClassInfo, final JClass conflict) {
         if (!state.getSuppressNonFatalWarnings()) {
             // -- if the ClassInfo are equal, we can just return
             ClassInfo oldClassInfo = state.resolve(conflict);
@@ -89,8 +98,7 @@ public class WarningViaDialogClassNameCRStrategy
             }
 
             StringBuffer error = new StringBuffer();
-            error
-                    .append("Warning: A class name generation conflict has occured between ");
+            error.append("Warning: A class name generation conflict has occured between ");
             if (a1 != null) {
                 error.append(SchemaNames.getStructureName(a1));
                 error.append(" '");
@@ -120,10 +128,11 @@ public class WarningViaDialogClassNameCRStrategy
             }
         }
         return state;
-
     }
 
     /**
+     * Returns the name of the strategy.
+     * @return the name of the strategy.
      * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#getName()
      */
     public String getName() {
@@ -131,16 +140,25 @@ public class WarningViaDialogClassNameCRStrategy
     }
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#setConsoleDialog(org.exolab.castor.util.dialog.ConsoleDialog)
+     * Sets the console dialog to use with this strategy.
+     *
+     * @param dialog the console dialog to use with this strategy.
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#
+     *      setConsoleDialog(org.exolab.castor.util.dialog.ConsoleDialog)
      */
-    public void setConsoleDialog(ConsoleDialog dialog) {
+    public void setConsoleDialog(final ConsoleDialog dialog) {
         this._dialog = dialog;
     }
 
-    /**     
-     * Present the user with a console dialog, asking for confirmation 
-     * whether an existing file should be overwritten (or not).
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#dealWithFileOverwrite(java.lang.String, boolean)
+    /**
+     * Presents the user with a console dialog, asking for confirmation whether
+     * an existing file should be overwritten (or not).
+     *
+     * @param filename the filename to potentially overwrite.
+     * @return whether or not the file should be overwritten.
+     *
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy
+     *      #dealWithFileOverwrite(java.lang.String, boolean)
      */
     public boolean dealWithFileOverwrite(final String filename) {
         boolean allowPrinting = true;
@@ -161,7 +179,7 @@ public class WarningViaDialogClassNameCRStrategy
         }
         return allowPrinting;
     }
-    
+
     /**
      * Returns the {@link ConsoleDialog} instance in use.
      * @return the {@link ConsoleDialog} used for output/feedback gathering.

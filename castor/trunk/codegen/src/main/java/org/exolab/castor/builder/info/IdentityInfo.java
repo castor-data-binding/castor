@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -56,6 +56,7 @@ import org.exolab.javasource.JType;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class IdentityInfo extends FieldInfo {
+
     public IdentityInfo(final String name) {
         super(new XSId(), name);
         setNodeType(XMLInfo.ATTRIBUTE_TYPE);
@@ -124,4 +125,5 @@ public final class IdentityInfo extends FieldInfo {
         jsc.append(";");
         return method;
     }
+
 }

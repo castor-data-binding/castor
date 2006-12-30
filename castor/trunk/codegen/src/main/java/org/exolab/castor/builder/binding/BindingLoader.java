@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -81,7 +81,11 @@ public class BindingLoader {
      */
     private BindingResolver _resolver = new BindingResolver();
 
+    /**
+     * No-arg constructor.
+     */
     public BindingLoader() {
+        // Nothing to do
     }
 
     public void loadBinding(String url) throws BindingException {
@@ -163,9 +167,9 @@ public class BindingLoader {
             }
 
             //--SimpleTypeBindings
-            Enumeration STs = loaded.enumerateSimpleTypeBinding();
-            while (STs.hasMoreElements()) {
-                ComponentBindingType tempComp = (ComponentBindingType)STs.nextElement();
+            Enumeration sts = loaded.enumerateSimpleTypeBinding();
+            while (sts.hasMoreElements()) {
+                ComponentBindingType tempComp = (ComponentBindingType) sts.nextElement();
                 _binding.addSimpleTypeBinding(tempComp);
             }
 
@@ -179,7 +183,7 @@ public class BindingLoader {
             //--enumBinding
             Enumeration enums = loaded.enumerateEnumBinding();
             while (enums.hasMoreElements()) {
-                ComponentBindingType tempEnum = (ComponentBindingType)enums.nextElement();
+                ComponentBindingType tempEnum = (ComponentBindingType) enums.nextElement();
 //              EnumBinding tempEnum = (EnumBinding)enums.nextElement();
                 _binding.addEnumBinding(tempEnum);
             }
@@ -202,7 +206,7 @@ public class BindingLoader {
     }
 
     /**
-     * Returns the binding loaded by the BindingLoader
+     * Returns the binding loaded by the BindingLoader.
      *
      * @return the binding loaded by this BindingLoader. This will return null
      *         if no call to loadBinding has been previously made.
@@ -231,13 +235,12 @@ public class BindingLoader {
      * Factory method that returns a binding given an InputSource. The
      * InputSource identifies a Binding Document meant to be loaded.
      *
-     * @param source
-     *            the InputSource identifying the binding document to be loaded.
+     * @param source the InputSource identifying the binding document to be
+     *        loaded.
      * @return a binding that contains the different component bindings to be
      *         used in the source generator.
-     * @throws BindingException
-     *             thrown when the given InputSource doesn't refer to a valid
-     *             Binding document.
+     * @throws BindingException thrown when the given InputSource doesn't refer
+     *         to a valid Binding document.
      */
     public static ExtendedBinding createBinding(final InputSource source) throws BindingException {
        BindingLoader loader = new BindingLoader();
@@ -273,24 +276,22 @@ public class BindingLoader {
         /**
          * Code adapted from DTDResolver written by Assaf Arkin.
          *
-         * @param publicId
-         *            The public identifier of the external entity being
-         *            referenced, or null if none was supplied.
-         * @param systemId
-         *            The system identifier of the external entity being
-         *            referenced.
+         * @param publicId The public identifier of the external entity being
+         *        referenced, or null if none was supplied.
+         * @param systemId The system identifier of the external entity being
+         *        referenced.
          * @return An InputSource object describing the new input source, or
          *         null to request that the parser open a regular URI connection
          *         to the system identifier.
-         * @throws org.xml.sax.SAXException
-         *             Any SAX exception, possibly wrapping another exception.
-         * @throws java.io.IOException
-         *             A Java-specific IO exception, possibly the result of
-         *             creating a new InputStream or Reader for the InputSource.
+         * @throws org.xml.sax.SAXException Any SAX exception, possibly wrapping
+         *         another exception.
+         * @throws java.io.IOException A Java-specific IO exception, possibly
+         *         the result of creating a new InputStream or Reader for the
+         *         InputSource.
          * @see org.exolab.castor.util.DTDResolver#resolveEntity(java.lang.String,
-         *                                                       java.lang.String)
+         *      java.lang.String)
          * @see org.xml.sax.EntityResolver#resolveEntity(java.lang.String,
-         *                                               java.lang.String)
+         *      java.lang.String)
          */
         public InputSource resolveEntity(final String publicId, final String systemId)
                                                                throws IOException, SAXException {

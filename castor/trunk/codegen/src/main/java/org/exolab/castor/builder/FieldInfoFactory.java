@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,6 +44,8 @@
  */
 package org.exolab.castor.builder;
 
+import java.security.InvalidParameterException;
+
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.CollectionInfoJ2;
 import org.exolab.castor.builder.info.CollectionInfoJ2Collection;
@@ -65,51 +67,35 @@ import org.exolab.castor.builder.types.XSType;
  */
 public class FieldInfoFactory {
 
-    // FIXME: These strings should probably be public so they can be used in
-    // place of hardcoded strings, eg, in org.exolab.castor.builder.types.XSListJ2
-    // Alternately and probably better, the usage of these strings could be refactored.
-    public static final String VECTOR     = "vector";
-    public static final String ARRAY_LIST = "arraylist";
-    public static final String ODMG       = "odmg";
-    public static final String COLLECTION = "collection";
-    public static final String SET = "set";
-    public static final String SORTED_SET = "sortedset";
-
-    /**
-     * The default collection name
-     */
+    /** The default collection name. */
     private String _default = null;
-
-    /**
-     * A flag indicating that "extra" accessor methods should be created for
-     * returning and setting a reference to the underlying collection
-     */
+    /** A flag indicating that "extra" accessor methods should be created for
+     * returning and setting a reference to the underlying collection. */
     private boolean _extraMethods = false;
-
-    /**
-     * The reference suffix to use.
-     */
+    /** The reference suffix to use. */
     private String _referenceSuffix = null;
-
-    /**
-     * Bound properties
-     */
+    /** If true, code for bound properties will be generated. */
     private boolean _bound = false;
 
     /**
      * Creates a new FieldInfoFactory. The default collection used will be
      * Java 1 type.
-    **/
+     */
     public FieldInfoFactory () {
         this("vector");
     } //-- FieldInfoFactory
 
+    /**
+     * Creates a new FieldInfoFactory of the given type.
+     * @param collectionName The type for the FieldInfoFactory.
+     */
     public FieldInfoFactory(final String collectionName) {
         super();
-        if (!(collectionName.equals(VECTOR) 
-                || collectionName.equals(ARRAY_LIST) 
-                || collectionName.equals(ODMG))) {
-            throw new IllegalArgumentException(collectionName+" is currently not a supported Java collection.");
+        if (!(collectionName.equals(SourceGeneratorConstants.FIELD_INFO_VECTOR)
+                || collectionName.equals(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)
+                || collectionName.equals(SourceGeneratorConstants.FIELD_INFO_ODMG))) {
+            throw new IllegalArgumentException(collectionName
+                    + " is currently not a supported Java collection.");
         }
         _default = collectionName;
     }
@@ -136,22 +122,23 @@ public class FieldInfoFactory {
             temp = _default;
         }
 
-        CollectionInfo cInfo = null;
-        if (temp.equals(VECTOR)) {
+        final CollectionInfo cInfo;
+        if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
              cInfo = new CollectionInfo(contentType, name, elementName, useJava50);
-        } else if (temp.equals(ARRAY_LIST)) {
+        } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)) {
              cInfo = new CollectionInfoJ2(contentType, name, elementName, "arraylist", useJava50);
-        } else if (temp.equals(ODMG)) {
+        } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ODMG)) {
              cInfo = new CollectionInfoODMG30(contentType, name, elementName, useJava50);
-        } else if (temp.equals(COLLECTION)) {
+        } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_COLLECTION)) {
             cInfo = new CollectionInfoJ2Collection(contentType, name, elementName, useJava50);
-        } else if (temp.equalsIgnoreCase(SET)) {
+        } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SET)) {
             cInfo = new CollectionInfoJ2Set(contentType, name, elementName, useJava50);
-        } else if (temp.equalsIgnoreCase(SORTED_SET)) {
+        } else if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SORTED_SET)) {
             cInfo = new CollectionInfoJ2SortedSet(contentType, name, elementName, useJava50);
+        } else {
+            throw new InvalidParameterException("Unrecognized collection type: " + temp);
         }
 
-        //--other to come here
         //--not sure it is pluggable enough, it is not really beautiful to specify
         //--the collection to use here
         cInfo.setCreateExtraMethods(_extraMethods);
@@ -175,9 +162,8 @@ public class FieldInfoFactory {
     /**
      * Sets whether or not the fields should be bound properties.
      *
-     * @param bound
-     *            a boolean that when true indicates the FieldInfo should have
-     *            the bound property enabled.
+     * @param bound a boolean that when true indicates the FieldInfo should have
+     *        the bound property enabled.
      */
     public void setBoundProperties(final boolean bound) {
         _bound = bound;
@@ -187,9 +173,8 @@ public class FieldInfoFactory {
      * Sets whether or not to create extra collection methods for accessing the
      * actual collection.
      *
-     * @param extraMethods
-     *            a boolean that when true indicates that extra collection
-     *            accessor methods should be created. False by default.
+     * @param extraMethods a boolean that when true indicates that extra
+     *        collection accessor methods should be created. False by default.
      * @see org.exolab.castor.builder.FieldInfoFactory#setReferenceMethodSuffix
      */
     public void setCreateExtraMethods(final boolean extraMethods) {
@@ -200,10 +185,9 @@ public class FieldInfoFactory {
      * Sets the method suffix (ending) to use when creating the extra collection
      * methods.
      *
-     * @param suffix
-     *            the method suffix to use when creating the extra collection
-     *            methods. If null or emtpty the default value, as specified in
-     *            CollectionInfo will be used.
+     * @param suffix the method suffix to use when creating the extra collection
+     *        methods. If null or emtpty the default value, as specified in
+     *        CollectionInfo will be used.
      * @see org.exolab.castor.builder.FieldInfoFactory#setCreateExtraMethods
      */
     public void setReferenceMethodSuffix(final String suffix) {

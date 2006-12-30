@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import org.exolab.castor.builder.binding.EnumBindingType;
@@ -72,14 +71,19 @@ import org.exolab.castor.builder.types.XSType;
  * </ul>
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar
+ *          2005) $
  */
 public interface BindingComponent {
 
-    //--Constants to represent the different types.
+    /** An interface binding component. */
     short INTERFACE = 0;
+    /** A class binding component. */
     short CLASS     = 1;
+    /** A member binding component. */
     short MEMBER    = 2;
+    /** An enum binding component. */
+    short ENUM_TYPE = 3;
 
     /**
      * Returns true if the given Object is equal to this instance of
@@ -135,7 +139,6 @@ public interface BindingComponent {
      * @see #getQualifiedName
      */
     String getJavaClassName();
-    public final static short ENUM_TYPE = 3;
 
     /**
      * Returns a valid Java Member Name corresponding to this BindingComponent.
@@ -225,13 +228,12 @@ public interface BindingComponent {
      */
     String getValidator();
 
-    
     /**
      * Returns the EnumBindingType instance for the active binding component.
      * @return The EnumBindingType instance
      */
-    public EnumBindingType getEnumBinding();
-	
+    EnumBindingType getEnumBinding();
+
     /**
      * Returns the fully qualified name of the XMLFieldHandler to use. This
      * handler will be used when generating ClassDescriptors meant to be used in

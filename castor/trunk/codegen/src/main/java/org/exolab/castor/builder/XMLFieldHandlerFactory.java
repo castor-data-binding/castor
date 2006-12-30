@@ -51,16 +51,12 @@ public class XMLFieldHandlerFactory {
     /**
      * Creates the XMLFieldHandler for the given FieldInfo.
      *
-     * @param member
-     *            the member for which to create an XMLFieldHandler
-     * @param xsType
-     *            the XSType (XML Schema Type) of this field
-     * @param localClassName
-     *            unqualified (no package) name of this class
-     * @param jsc
-     *            the source code to which we'll add this XMLFieldHandler
-     * @param forGeneralizedHandler
-     *            Whether to generate a generalized field handler
+     * @param member the member for which to create an XMLFieldHandler
+     * @param xsType the XSType (XML Schema Type) of this field
+     * @param localClassName unqualified (no package) name of this class
+     * @param jsc the source code to which we'll add this XMLFieldHandler
+     * @param forGeneralizedHandler Whether to generate a generalized field
+     *        handler
      */
     public void createXMLFieldHandler(final FieldInfo member,
             final XSType xsType, final String localClassName,
@@ -87,11 +83,8 @@ public class XMLFieldHandlerFactory {
         boolean isContent = (member.getNodeType() == XMLInfo.TEXT_TYPE);
 
         createSetValueMethod(member, xsType, localClassName, jsc, any, isAttribute, isContent);
-
         createResetMethod(member, localClassName, jsc);
-
-        createNewInstanceMethod(member, xsType, jsc,
-                forGeneralizedHandler, any, isEnumerated);
+        createNewInstanceMethod(member, xsType, jsc, forGeneralizedHandler, any, isEnumerated);
 
         jsc.unindent();
         jsc.add("};");
@@ -100,16 +93,13 @@ public class XMLFieldHandlerFactory {
     /**
      * Creates the getValue() method of the corresponsing XMLFieldHandler.
      *
-     * @param member
-     *            The member element.
-     * @param xsType
-     *            The XSType instance
-     * @param jsc
-     *            The source code to which to append the 'getValue' method.
-     * @param localClassName
-     *            Name of the object instance as used locally
+     * @param member The member element.
+     * @param xsType The XSType instance
+     * @param jsc The source code to which to append the 'getValue' method.
+     * @param localClassName Name of the object instance as used locally
      */
-    private void createGetValueMethod(final FieldInfo member, final XSType xsType, final String localClassName, final JSourceCode jsc) {
+    private void createGetValueMethod(final FieldInfo member, final XSType xsType,
+            final String localClassName, final JSourceCode jsc) {
         // -- getValue(Object) method
         if (_config.useJava50()) {
             jsc.add("@Override");
@@ -149,32 +139,19 @@ public class XMLFieldHandlerFactory {
     /**
      * Creates the setValue() method of the corresponsing XMLFieldHandler.
      *
-     * @param member
-     *            The member element.
-     * @param xsType
-     *            The XSType instance
-     * @param localClassName
-     *            Name of the object instance as used locally
-     * @param jsc
-     *            The source code to which to append the 'setValue' method.
-     * @param forGeneralizedHandler
-     *            Whether to generate a generalized field handler
-     * @param any
-     *            Whether to create a setValue() method for <xs:any>
-     * @param isEnumerated
-     *            Whether to create a setValue() method for an enumeration.
-     * @param isAttribute
-     *            Whether to create a setValue() method for an attribute.
-     * @param isContent
-     *            Whether to create a setValue() method for XML content.
+     * @param member The member element.
+     * @param xsType The XSType instance
+     * @param localClassName Name of the object instance as used locally
+     * @param jsc The source code to which to append the 'setValue' method.
+     * @param any Whether to create a setValue() method for &lt;xs:any>
+     * @param isAttribute Whether to create a setValue() method for an
+     *        attribute.
+     * @param isContent Whether to create a setValue() method for XML content.
      */
     private void createSetValueMethod(final FieldInfo member,
-            final XSType xsType,
-            final String localClassName,
-            final JSourceCode jsc,
-            boolean any,
-            boolean isAttribute,
-            boolean isContent) {
+            final XSType xsType, final String localClassName,
+            final JSourceCode jsc, final boolean any, final boolean isAttribute,
+            final boolean isContent) {
         if (_config.useJava50()) {
             jsc.add("@Override");
         }
@@ -254,12 +231,9 @@ public class XMLFieldHandlerFactory {
     /**
      * Creates the resetValue() method of the corresponsing XMLFieldHandler.
      *
-     * @param member
-     *            The member element.
-     * @param jsc
-     *            The source code to which to append the 'resetValue' method.
-     * @param localClassName
-     *            Name of the object instance as used locally
+     * @param member The member element.
+     * @param jsc The source code to which to append the 'resetValue' method.
+     * @param localClassName Name of the object instance as used locally
      */
     private void createResetMethod(final FieldInfo member,
             final String localClassName,
@@ -268,8 +242,8 @@ public class XMLFieldHandlerFactory {
         if (member.isMultivalued()) {
             CollectionInfo cInfo = (CollectionInfo) member;
             // FieldInfo content = cInfo.getContent();
-            jsc
-                    .add("public void resetValue(Object object) throws IllegalStateException, IllegalArgumentException {");
+            jsc.add("public void resetValue(Object object)"
+                    + " throws IllegalStateException, IllegalArgumentException {");
             jsc.indent();
             jsc.add("try {");
             jsc.indent();
@@ -298,21 +272,17 @@ public class XMLFieldHandlerFactory {
     /**
      * Creates the newInstance() method of the corresponsing XMLFieldHandler.
      *
-     * @param member
-     *            The member element.
-     * @param xsType
-     *            The XSType instance
-     * @param jsc
-     *            The source code to which to append the 'newInstance' method.
-     * @param forGeneralizedHandler
-     *            Whether to generate a generalized field handler
-     * @param any
-     *            Whether to create a newInstance() method for <xs:any>
-     * @param isEnumerated
-     *            Whether to create a newInstance() method for an enumeration.
+     * @param member The member element.
+     * @param xsType The XSType instance
+     * @param jsc The source code to which to append the 'newInstance' method.
+     * @param forGeneralizedHandler Whether to generate a generalized field
+     *        handler
+     * @param any Whether to create a newInstance() method for &lt;xs:any>
+     * @param isEnumerated Whether to create a newInstance() method for an
+     *        enumeration.
      */
-    private void createNewInstanceMethod(
-            final FieldInfo member, final XSType xsType, final JSourceCode jsc,
+    private void createNewInstanceMethod(final FieldInfo member,
+            final XSType xsType, final JSourceCode jsc,
             final boolean forGeneralizedHandler, final boolean any,
             final boolean isEnumerated) {
         boolean isAbstract = false;
@@ -337,8 +307,7 @@ public class XMLFieldHandlerFactory {
         if (!isAbstract && member.getSchemaType() instanceof XSList) {
             XSList xsList = (XSList) member.getSchemaType();
             if (xsList.getContentType().getJType() instanceof JClass) {
-                JClass componentType = (JClass) xsList.getContentType()
-                        .getJType();
+                JClass componentType = (JClass) xsList.getContentType().getJType();
                 if (componentType.getModifiers().isAbstract()) {
                     isAbstract = componentType.getModifiers().isAbstract();
                 }
@@ -350,8 +319,7 @@ public class XMLFieldHandlerFactory {
             jsc.add("@SuppressWarnings(\"unused\")");
         }
 
-        jsc
-                .add("public java.lang.Object newInstance( java.lang.Object parent ) {");
+        jsc.add("public java.lang.Object newInstance(java.lang.Object parent) {");
         jsc.indent();
         jsc.add("return ");
 

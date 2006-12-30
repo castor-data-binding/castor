@@ -22,10 +22,9 @@ import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.javasource.JClass;
 
 /**
- * Strategy pattern for dealing with class name conflicts
- * during source code generation. The various implementations of this stragtegy
- * will implement individual approaches for dealing with such a naming 
- * collision.
+ * Strategy pattern for dealing with class name conflicts during source code
+ * generation. The various implementations of this stragtegy will implement
+ * individual approaches for dealing with such a naming collision.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 1.1
@@ -33,29 +32,30 @@ import org.exolab.javasource.JClass;
 public interface ClassNameCRStrategy {
 
     /**
-     * Implements a specific strategy for dealing with class name conflicts 
+     * Implements a specific strategy for dealing with class name conflicts.
      * @param state The current source generator state.
      * @param newClassInfo The {@link CLassInfo} for the new class to be generated.
      * @param conflict The {@link JClass} instance representing the potential conflict.
-     * @return
+     * @return the source generator state, as modified by the decision.
      */
     SGStateInfo dealWithClassNameConflict(final SGStateInfo state,
             final ClassInfo newClassInfo, final JClass conflict);
-    
+
     /**
-     * Implements a specific strategy for dealing with the fact that - for a given file
-     * name - an artefact with the same name already exists 
+     * Implements a specific strategy for dealing with the fact that -- for a
+     * given file name -- an artifact with the same name already exists.
+     *
      * @param filename The name of the file to be overwritten.
      * @return True of the file should be overwritten.
      */
-    boolean dealWithFileOverwrite(String filename);    
+    boolean dealWithFileOverwrite(String filename);
 
     /**
      * Returns the name of this strategy.
      * @return The name of this strategy.
      */
     String getName();
-    
+
     /**
      * Sets the {@link ConsoleDialog} instance to use (if required).
      * @param dialog the {@link ConsoleDialog} instance to use (if required).
@@ -63,8 +63,9 @@ public interface ClassNameCRStrategy {
     void setConsoleDialog(ConsoleDialog dialog);
 
     /**
-     * Injects the {@link SingleClassGenerator} instance that actually is calling
-     * a method of this strategy.
+     * Injects the {@link SingleClassGenerator} instance that actually is
+     * calling a method of this strategy.
+     *
      * @param generator The calling {@link SingleClassGenerator}
      * @see SingleClassGenerator
      */

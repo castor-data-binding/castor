@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -48,7 +48,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SGTypes;
@@ -69,9 +68,10 @@ import org.exolab.javasource.JType;
  * A helper used for generating source that deals with Collections.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
-**/
+ */
 public class CollectionInfo extends FieldInfo {
 
+    /** Default suffix for the setter/getter by reference method names. */
     public static final String DEFAULT_REFERENCE_SUFFIX  = "AsReference";
 
     /**
@@ -79,30 +79,24 @@ public class CollectionInfo extends FieldInfo {
      * methods.
      */
     public static final String REFERENCE_SUFFIX_PROPERTY =
-        "org.exolab.castor.builder.collections.reference.suffix";
+                       "org.exolab.castor.builder.collections.reference.suffix";
 
     /**
      * A flag indicating that "extra" accessor methods should be created for
      * returning and setting a reference to the underlying collection.
      */
-    private boolean _extraMethods;
-    private String _methodSuffix;
-    private String _parameterPrefix;
-
-    /**
-     * The reference suffix to use.
-     */
+    private boolean            _extraMethods;
+    /** The reference suffix to use. */
     private String             _referenceSuffix          = DEFAULT_REFERENCE_SUFFIX;
 
-    /**
-     * FieldInfo describing the _content (i.e. the elements) of this collection.
-     */
-    private FieldInfo          _content;
-
-    /**
-     * The name to be used when referring to the elements of this collection.
-     */
-    private String             _elementName;
+    /** Element type name converted to a method suffix. */
+    private final String       _methodSuffix;
+    /** Element type name converted to a parameter prefix. */
+    private final String       _parameterPrefix;
+    /** FieldInfo describing the _content (i.e. the elements) of this collection. */
+    private final FieldInfo    _content;
+    /** The name to be used when referring to the elements of this collection. */
+    private final String       _elementName;
 
     /**
      * Creates a new CollectionInfo.
@@ -129,7 +123,7 @@ public class CollectionInfo extends FieldInfo {
 
         this._methodSuffix = JavaNaming.toJavaClassName(this.getElementName());
         this._parameterPrefix = JavaNaming.toJavaMemberName(this.getElementName());
-        this._content = new FieldInfo(contentType, ("v" + this.getMethodSuffix()));
+        this._content = new FieldInfo(contentType, "v" + this.getMethodSuffix());
     } // -- CollectionInfo
 
     /**
@@ -161,22 +155,46 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.append("();");
     } // -- generateConstructorCode
 
+    /**
+     * Return the contents of the collection.
+     * @return the contents of the collection.
+     */
     public FieldInfo getContent() {
         return this._content;
     }
 
+    /**
+     * Returns the variable name for the content of the collection.
+     * @return the variable name for the content of the collection.
+     */
     public String getContentName() {
         return this.getContent().getName();
     }
 
+    /**
+     * Returns the type of content in this collection.
+     * @return the type of content in this collection.
+     */
     public XSType getContentType() {
         return this.getContent().getSchemaType();
+
     }
 
+    /**
+     * Returns the name to be used when referring to the elements of this
+     * collection.
+     *
+     * @return the name to be used when referring to the elements of this
+     *          collection.
+     */
     public String getElementName() {
         return this._elementName;
     }
 
+    /**
+     * Returns the schema type represented by this collection.
+     * @return the schema type represented by this collection.
+     */
     public XSList getXSList() {
         return (XSList) this.getSchemaType();
     }

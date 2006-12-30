@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -54,7 +54,7 @@ package org.exolab.castor.builder.binding;
  */
 public class BindingException extends Exception {
 
-    /** We add this field because an Exception is serializable */
+    /** We add this field because an Exception is serializable. */
     private static final long serialVersionUID = 1726983206974247107L;
     /** The embedded exception if tunnelling, or null. */
     private Exception _exception;
@@ -75,8 +75,7 @@ public class BindingException extends Exception {
      * The existing Exception will be embedded in the new one, and its message
      * will become the default message for the BindingException.
      *
-     * @param exception
-     *            The Exception to be wrapped in a BindingException.
+     * @param exception The Exception to be wrapped in a BindingException.
      */
     public BindingException(final Exception exception) {
         super();
@@ -89,10 +88,8 @@ public class BindingException extends Exception {
      * The existing Exception will be embedded in the new one, but the new
      * Exception will have its own message.
      *
-     * @param message
-     *            The detail message.
-     * @param exception
-     *            The Exception to be wrapped in a BindingException.
+     * @param message The detail message.
+     * @param exception The Exception to be wrapped in a BindingException.
      */
     public BindingException(final String message, final Exception exception) {
         super(message);
@@ -128,7 +125,7 @@ public class BindingException extends Exception {
 
     /**
      * Overrides printStackTrace to keep the stack trace of the embedded
-     * Exception
+     * Exception.
      */
     public void printStackTrace() {
         if (_exception != null) {

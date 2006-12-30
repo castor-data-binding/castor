@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -107,7 +107,7 @@ import java.util.Enumeration;
 public class XMLBindingComponent implements BindingComponent {
 
    /**
-    * The Extended Binding used to retrieve the ComponentBindingType
+    * The Extended Binding used to retrieve the ComponentBindingType.
     */
    private ExtendedBinding _binding;
 
@@ -118,22 +118,22 @@ public class XMLBindingComponent implements BindingComponent {
     private ComponentBindingType _compBinding;
 
     /**
-     * The BuilderConfiguration instance for obtaining default properties
+     * The BuilderConfiguration instance for obtaining default properties.
      */
     private BuilderConfiguration _config = null;
 
     /**
-     * The XML Schema Annotated structure encapsulated in that XMLBinding object
+     * The XML Schema Annotated structure encapsulated in that XMLBinding object.
      */
     private Annotated _annotated;
 
     /**
-     * The prefix used to generate the java names
+     * The prefix used to generate the java names.
      */
     private String _prefix;
 
     /**
-     * The suffix used to generate the java names
+     * The suffix used to generate the java names.
      */
     private String _suffix;
 
@@ -143,7 +143,7 @@ public class XMLBindingComponent implements BindingComponent {
     private short _type = -1;
 
     /**
-     * caches of several computations
+     * Caches of several computations.
      */
     private int _hashCode = -1;
     private String _javaClassName = null;
@@ -165,7 +165,7 @@ public class XMLBindingComponent implements BindingComponent {
     private GroupNaming _groupNaming = null;
 
     /**
-     * Returns the current group naming scheme in use
+     * Returns the current group naming scheme in use.
      * @return The current group naming scheme
      */
     private synchronized GroupNaming getGroupNaming() {
@@ -181,7 +181,7 @@ public class XMLBindingComponent implements BindingComponent {
     }
 
     /**
-     * The TypeConversion to use when creating XSTypes from SimpleType
+     * The TypeConversion to use when creating XSTypes from SimpleType.
      */
     private TypeConversion _typeConversion = null;
 
@@ -216,9 +216,8 @@ public class XMLBindingComponent implements BindingComponent {
      * Sets the Binding Object Model on which this XMLBindingComponent will
      * query information.
      *
-     * @param binding
-     *            the Extended Binding Object Model that wraps the information
-     *            located in a binding file
+     * @param binding the Extended Binding Object Model that wraps the
+     *        information located in a binding file
      */
     public void setBinding(final ExtendedBinding binding) {
         _binding = binding;
@@ -230,8 +229,7 @@ public class XMLBindingComponent implements BindingComponent {
      * information returned by this class are relative to that XML Schema
      * structure.
      *
-     * @param annotated
-     *            an Annotated XML Schema structure.
+     * @param annotated an Annotated XML Schema structure.
      * @see org.exolab.castor.xml.schema.Annotated
      */
     public void setView(final Annotated annotated) {
@@ -297,7 +295,7 @@ public class XMLBindingComponent implements BindingComponent {
             } else if (choice.getMember() != null) {
                 _type = MEMBER;
                 _member = choice.getMember();
-            } 
+            }
             else if (choice.getEnumDef() != null) {
                 _type = ENUM_TYPE;
                 _enum = choice.getEnumDef();
@@ -317,8 +315,7 @@ public class XMLBindingComponent implements BindingComponent {
      *
      * @return true if the given Object is equal to this instance of
      *         XMLBindingComponent.
-     * @param object
-     *            {@inheritDoc}
+     * @param object {@inheritDoc}
      * @see java.lang.Object#equals(java.lang.Object)
      */
     public boolean equals(final Object object) {
@@ -482,7 +479,7 @@ public class XMLBindingComponent implements BindingComponent {
                 break;
             case Structure.ELEMENT:
                 //--resolve reference?
-                ElementDecl element = (ElementDecl)_annotated;
+                ElementDecl element = (ElementDecl) _annotated;
                 if (element.isReference()) {
                     element = element.getReference();
                 }
@@ -515,8 +512,9 @@ public class XMLBindingComponent implements BindingComponent {
             case Structure.SIMPLE_TYPE:
                 SimpleType simpleType = (SimpleType) _annotated;
                 schema = simpleType.getSchema();
-                if (simpleType.getParent() == schema)
+                if (simpleType.getParent() == schema) {
                     break;
+                }
                 return null;
             default:
                 break;
@@ -614,7 +612,7 @@ public class XMLBindingComponent implements BindingComponent {
                 result = ((ComplexType) _annotated);
                 break;
             case Structure.SIMPLE_TYPE:
-                result = ((SimpleType)_annotated);
+                result = ((SimpleType) _annotated);
                 break;
             case Structure.ATTRIBUTE:
                 result = ((AttributeDecl) _annotated).getSimpleType();
@@ -643,7 +641,7 @@ public class XMLBindingComponent implements BindingComponent {
                 result = ((ComplexType) _annotated).getName();
                 break;
             case Structure.SIMPLE_TYPE:
-                result = ((SimpleType)_annotated).getName();
+                result = ((SimpleType) _annotated).getName();
                 break;
             case Structure.ATTRIBUTE:
                 result = ((AttributeDecl) _annotated).getName();
@@ -659,7 +657,6 @@ public class XMLBindingComponent implements BindingComponent {
         }
         return result;
     }
-
 
     //--Implementation of BindingComponent
 
@@ -724,7 +721,7 @@ public class XMLBindingComponent implements BindingComponent {
             if (result == null || result.length() <= 0) {
                 //--is there a reference?
                 if (_annotated != null && _annotated.getStructureType() == Structure.ELEMENT) {
-                    ElementDecl element = (ElementDecl)_annotated;
+                    ElementDecl element = (ElementDecl) _annotated;
                     if (element.isReference()) {
                         Annotated temp = _annotated;
                         setView(element.getReference());
@@ -734,7 +731,7 @@ public class XMLBindingComponent implements BindingComponent {
                     } else if (_config.mappingSchemaType2Java()) {
                         // deal with (global) element declarations in type mode,
                         // where no Java class will be generated per definition;
-                        // in this case, the class name to be used should be taken from the 
+                        // in this case, the class name to be used should be taken from the
                         // underlying (complex) type
                         XMLType xmlType = element.getType();
                         if (xmlType != null && xmlType.isComplexType()) {
@@ -753,17 +750,18 @@ public class XMLBindingComponent implements BindingComponent {
                     //--create the name
                     result = getXMLName();
                     //--create a java name for an anonymous group
-                    if (result == null && _annotated != null &&
-                        (_annotated.getStructureType() == Structure.GROUP
-                         || _annotated.getStructureType() == Structure.MODELGROUP)) {
-                        GroupNaming groupNaming = getGroupNaming(); 
+                    if (result == null
+                            && _annotated != null
+                            && (_annotated.getStructureType() == Structure.GROUP
+                                    || _annotated.getStructureType() == Structure.MODELGROUP)) {
+                        GroupNaming groupNaming = getGroupNaming();
                         result = groupNaming.createClassName((Group) _annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);
                         }
                     }
-                    
+
                     if (_prefix != null) {
                         result = _prefix + result;
                     }
@@ -809,6 +807,7 @@ public class XMLBindingComponent implements BindingComponent {
                         break;
                 }
             }
+
             if (result == null || result.length() <= 0) {
                 Annotated temp = null;
                 if (_annotated.getStructureType() == Structure.ATTRIBUTE) {
@@ -843,12 +842,11 @@ public class XMLBindingComponent implements BindingComponent {
                                     Structure tmpStruct = (Structure) enumeration.nextElement();
                                     if (tmpStruct.getStructureType() == Structure.ELEMENT) {
                                         ElementDecl tmpDecl = (ElementDecl) tmpStruct;
-                                        if (tmpDecl.isReference()) {
-                                            if (tmpDecl.getReferenceName().equals(refName)) {
-                                                ++count;
-                                                if (tmpDecl == element) {
-                                                    index = count;
-                                                }
+                                        if (tmpDecl.isReference()
+                                                && tmpDecl.getReferenceName().equals(refName)) {
+                                            ++count;
+                                            if (tmpDecl == element) {
+                                                index = count;
                                             }
                                         }
                                     }
@@ -858,7 +856,6 @@ public class XMLBindingComponent implements BindingComponent {
                                 result = result + index;
                             }
                          }
-
                      }
                      element = null;
                 }
@@ -907,7 +904,7 @@ public class XMLBindingComponent implements BindingComponent {
      * order:
      * <ul>
      *   <li>If the XMLBinding wraps a class binding then the package name is the
-     *       name defined locally in the {@literal <java-class>} element. More
+     *       name defined locally in the {@literal &lt;java-class>} element. More
      *       precisely the package name will be the value of the attribute package.</li>
      *   <li>Else the package name will be computed from the schemaLocation of
      *       the parent schema.</li>
@@ -973,7 +970,7 @@ public class XMLBindingComponent implements BindingComponent {
                     packageName = _config.lookupPackageByNamespace(targetNamespace);
                 }
 
-                if (schemaLocation != null && (packageName == null || packageName.length() == 0)){
+                if (schemaLocation != null && (packageName == null || packageName.length() == 0)) {
                     packageName = _config.lookupPackageByLocation(schemaLocation);
                 }
             }
@@ -1315,7 +1312,7 @@ public class XMLBindingComponent implements BindingComponent {
          }
          return null;
      }
-    
+
     /**
      * Returns the type of this component binding. A component binding can be of
      * three different types:
@@ -1333,14 +1330,13 @@ public class XMLBindingComponent implements BindingComponent {
         return _type;
     }
 
-   /**
+    /**
      * Returns the lower bound of the collection that is generated from this
      * BindingComponent. The lower bound is a positive integer. In the case of
      * an XML Schema component, it corresponds to the XML Schema minOccurs
      * attribute, if any.
      *
-     * @param annotated
-     *            an Annotated XML Schema structure.
+     * @param annotated an Annotated XML Schema structure.
      * @return an int representing the lower bound of the collection generated
      *         from this BindingComponent. 0 is returned by default.
      */
@@ -1384,7 +1380,7 @@ public class XMLBindingComponent implements BindingComponent {
         }
         return 0;
     } //-- getLowerBound
-	
+
     /**
      * Returns the EnumBindingType instance for the active binding component.
      * @return The EnumBindingType instance
@@ -1392,6 +1388,5 @@ public class XMLBindingComponent implements BindingComponent {
     public EnumBindingType getEnumBinding() {
         return _enum;
     }
-    
-} //-- class: XMLBindingComponent
 
+} //-- class: XMLBindingComponent

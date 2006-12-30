@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,66 +47,63 @@ package org.exolab.castor.builder.info;
 import org.exolab.castor.builder.types.XSType;
 
 /**
- * A class for storing XML related information
+ * A class for storing XML related information.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-02-23 01:37:50 -0700 (Thu, 23 Feb 2006) $
  */
 public class XMLInfo {
 
-    /** Represents the attribute node type */
+    /** Represents the attribute node type. */
     public static final short ATTRIBUTE_TYPE = 0;
-    /** Represents the element node type */
+    /** Represents the element node type. */
     public static final short ELEMENT_TYPE   = 1;
-    /** Represents the text node type */
+    /** Represents the text node type. */
     public static final short TEXT_TYPE      = 2;
-    
+
     /**
-     * Identifies the node name for a choice group 
+     * Identifies the node name for a choice group.
      */
     public static final String CHOICE_NODE_NAME_ERROR_INDICATION = "-error-if-this-is-used-";
 
-    /** A flag indicating if the object described by this XML info can appear more than once */
+    /** A flag indicating if the object described by this XML info can appear more than once. */
     private boolean _multivalued = false;
-    /** the xml node name */
+    /** the xml node name. */
     private String _name         = null;
-    /** The xml node type */
+    /** The xml node type. */
     private short _nodeType      = ELEMENT_TYPE;
-    /** The namespace prefix */
+    /** The namespace prefix. */
     private String _nsPrefix     = null;
-    /** The namespace URI */
+    /** The namespace URI. */
     private String _nsURI        = null;
     /** indicates XML schema definition is global element or element with anonymous type. */
     private boolean _elementDef  = false;
-    /** indicates the XML object must appear at least once */
+    /** indicates the XML object must appear at least once. */
     private boolean _required    = false;
-    /** The XML Schema type */
+    /** The XML Schema type. */
     private XSType _xsType       = null;
 
     /**
-     * Creates a new XML Info
+     * Creates a new XML Info.
      */
     public XMLInfo() {
         super();
     } //-- XMLInfo
 
     /**
-     * Creates a new XMLInfo with the given node type
+     * Creates a new XMLInfo with the given node type.
      *
-     * @param nodeType
-     *            the nodeType which this XMLInfo represents
+     * @param nodeType the nodeType which this XMLInfo represents
      */
     public XMLInfo(final short nodeType) {
         this._nodeType = nodeType;
     }  //-- XMLInfo
 
     /**
-     * Creates a new XMLInfo with the given xml name and node type
+     * Creates a new XMLInfo with the given XML name and node type.
      *
-     * @param name
-     *            the xml node name
-     * @param nodeType
-     *            the nodeType which this XMLInfo represents
+     * @param name the xml node name
+     * @param nodeType the nodeType which this XMLInfo represents
      */
     public XMLInfo(final String name, final short nodeType) {
         this._nodeType = nodeType;
@@ -114,7 +111,7 @@ public class XMLInfo {
     }  //-- XMLInfo
 
     /**
-     * Returns the XML name for the object described by this XMLInfo
+     * Returns the XML name for the object described by this XMLInfo.
      *
      * @return the XML name for the object described by this XMLInfo, or null if
      *         no name has been set
@@ -124,7 +121,7 @@ public class XMLInfo {
     } //-- getNodeName
 
     /**
-     * Returns the namespace prefix of the object described by this XMLInfo
+     * Returns the namespace prefix of the object described by this XMLInfo.
      *
      * @return the namespace prefix of the object described by this XMLInfo
      */
@@ -133,7 +130,7 @@ public class XMLInfo {
     } //-- getNamespacePrefix
 
     /**
-     * Returns the namespace URI of the object described by this XMLInfo
+     * Returns the namespace URI of the object described by this XMLInfo.
      *
      * @return the namespace URI of the object described by this XMLInfo
      */
@@ -151,7 +148,7 @@ public class XMLInfo {
     } //-- isElementDefinition
 
     /**
-     * Returns the node type for the object described by this XMLInfo
+     * Returns the node type for the object described by this XMLInfo.
      *
      * @return the node type for the object described by this XMLInfo
      */
@@ -221,8 +218,7 @@ public class XMLInfo {
     /**
      * Sets the XML name of the object described by this XMLInfo.
      *
-     * @param name
-     *            the XML node name of the described object.
+     * @param name the XML node name of the described object.
      */
     public void setNodeName(final String name) {
         this._name = name;
@@ -232,18 +228,16 @@ public class XMLInfo {
      * Sets the desired namespace prefix for this XMLInfo There is no guarantee
      * that this prefix will be used.
      *
-     * @param nsPrefix
-     *            the desired namespace prefix
+     * @param nsPrefix the desired namespace prefix
      */
     public void setNamespacePrefix(final String nsPrefix) {
         this._nsPrefix = nsPrefix;
     } //-- setNamespacePrefix
 
     /**
-     * Sets the Namespace URI for this XMLInfo
+     * Sets the Namespace URI for this XMLInfo.
      *
-     * @param nsURI
-     *            the Namespace URI for this XMLInfo
+     * @param nsURI the Namespace URI for this XMLInfo
      */
     public void setNamespaceURI(final String nsURI) {
         this._nsURI = nsURI;
@@ -252,39 +246,36 @@ public class XMLInfo {
     /**
      * Sets whether or not XSD is element or not.
      *
-     * @param elementDef
-     *            The flag indicating whether or not XSD is global element,
-     *            element with anonymous type or not.
+     * @param elementDef The flag indicating whether or not XSD is global
+     *        element, element with anonymous type or not.
      */
     public void setElementDefinition(final boolean elementDef) {
         this._elementDef = elementDef;
     } //-- setElementDefinition
 
     /**
-     * Sets the nodeType for this XMLInfo
+     * Sets the nodeType for this XMLInfo.
      *
-     * @param nodeType
-     *            the node type of the described object
+     * @param nodeType the node type of the described object
      */
     public void setNodeType(final short nodeType) {
         this._nodeType = nodeType;
     } //-- setNodeType
 
     /**
-     * Sets the XML Schema type for this XMLInfo
+     * Sets the XML Schema type for this XMLInfo.
      *
-     * @param xsType
-     *            the XML Schema type
+     * @param xsType the XML Schema type
      */
     public void setSchemaType(final XSType xsType) {
         this._xsType = xsType;
     } //-- setSchemaType
 
     /**
-     * Sets whether or not the XML object must appear at least once
+     * Sets whether or not the XML object must appear at least once.
      *
-     * @param required
-     *            the flag indicating whether or not this XML object is required
+     * @param required the flag indicating whether or not this XML object is
+     *        required
      */
     public void setRequired(final boolean required) {
         this._required = required;

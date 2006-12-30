@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -64,21 +64,17 @@ import org.exolab.javasource.JSourceCode;
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
  */
 public class CollectionInfoJ2 extends CollectionInfo {
+
     /**
-     * @param contentType
-     *            The content type of the collection, ie. the type of objects
-     *            that the collection will contain.
-     * @param name
-     *            The name of the Collection.
-     * @param elementName
-     *            The element name for each element in collection.
-     * @param collectionType
-     *            Java type (e.g., 'arraylist') to use to store the collection.
-     *            The name is NOT fully specified and is all lowercase.
-     *            Currently, any value but "arraylist" does not work. See
-     *            {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
-     * @param useJava50
-     *            true if source code is supposed to be generated for Java 5
+     * @param contentType The content type of the collection, ie. the type of
+     *        objects that the collection will contain.
+     * @param name The name of the Collection.
+     * @param elementName The element name for each element in collection.
+     * @param collectionType Java type (e.g., 'arraylist') to use to store the
+     *        collection. The name is NOT fully specified and is all lowercase.
+     *        Currently, any value but "arraylist" does not work. See
+     *        {@link org.exolab.castor.builder.FieldInfoFactory#ARRAY_LIST}
+     * @param useJava50 true if code is supposed to be generated for Java 5
      */
     public CollectionInfoJ2(final XSType contentType, final String name,
                             final String elementName, final String collectionType,

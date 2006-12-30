@@ -47,7 +47,7 @@ import org.exolab.javasource.JType;
 public class EnumerationFactory extends BaseFactory {
 
     /**
-     * The TypeConversion instance to use for mapping SimpleTypes into XSTypes
+     * The TypeConversion instance to use for mapping SimpleTypes into XSTypes.
      */
     private TypeConversion _typeConversion;
 
@@ -59,7 +59,7 @@ public class EnumerationFactory extends BaseFactory {
 
     /**
      * Current (hence maximum) suffix for init methods, used to avoid
-     * the static initializer limits of a JVM
+     * the static initializer limits of a JVM.
      */
     private int _maxSuffix = 0;
 
@@ -84,26 +84,26 @@ public class EnumerationFactory extends BaseFactory {
     /**
      * Creates all the necessary enumeration code for a given SimpleType.
      *
+     * @param binding
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      * @see #processEnumerationAsBaseType
      */
     void processEnumerationAsNewObject(final ExtendedBinding binding,
-            final SimpleType simpleType, 
-            final FactoryState state) {
+            final SimpleType simpleType, final FactoryState state) {
         // reset _maxSuffix value to 0
         _maxSuffix = 0;
         boolean generateConstantDefinitions = true;
         int numberOfEnumerationFacets = simpleType.getNumberOfFacets("enumeration");
         if (numberOfEnumerationFacets > _maxEnumerationsPerClass) {
             generateConstantDefinitions = false;
-        }        
-        
+        }
+
         Enumeration enumeration = simpleType.getFacets("enumeration");
-        
+
         XMLBindingComponent component = new XMLBindingComponent(_config, getGroupNaming());
         if (binding != null) {
-            component.setBinding(binding);        
+            component.setBinding(binding);
             component.setView(simpleType);
         }
 
@@ -114,9 +114,9 @@ public class EnumerationFactory extends BaseFactory {
 
         enumeration = simpleType.getFacets("enumeration");
 
-        JClass jClass = state.jClass;
+        JClass jClass = state._jClass;
         String className = jClass.getLocalName();
-                
+
         if (component.getJavaClassName() != null) {
             className = component.getJavaClassName();
         }
@@ -148,7 +148,7 @@ public class EnumerationFactory extends BaseFactory {
         createToStringMethod(jClass, className);
 
         //-- #init method
-        JMethod mInit = createInitMethod(jClass);
+        createInitMethod(jClass);
 
         //-- #readResolve method
         createReadResolveMethod(jClass);
@@ -269,38 +269,42 @@ public class EnumerationFactory extends BaseFactory {
 
         createGetTypeMethod(jClass, className);
     } //-- processEnumerationAsNewObject
-    
+
     /**
-     * Returns the JSourceCode instance for the current init() method, dealing with 
+     * Returns the JSourceCode instance for the current init() method, dealing with
      * static initializer limits of the JVM by creating new init() methods
      * as needed.
      * @param jClass The JClass instance for which an init method needs to be added
      * @return the JSourceCode instance for the current init() method
      */
-    private JSourceCode getSourceCodeForInitMethod(JClass jClass) {
+    private JSourceCode getSourceCodeForInitMethod(final JClass jClass) {
         final JMethod currentInitMethod = jClass.getMethod(getInitMethodName(_maxSuffix), 0);
         if (currentInitMethod.getSourceCode().size() > _maxEnumerationsPerClass) {
             ++_maxSuffix;
             JMethod mInit = createInitMethod(jClass);
             currentInitMethod.getSourceCode().add("members.putAll(" + mInit.getName() + "());");
             currentInitMethod.getSourceCode().add("return members;");
-            
+
             return mInit.getSourceCode();
         }
         return currentInitMethod.getSourceCode();
     }
-    
-    private String getInitMethodName(int index) {
+
+    /**
+     * Returns the method name for an init method.
+     * @param index index of the init method.
+     * @return the method name for an init method.
+     */
+    private String getInitMethodName(final int index) {
         if (index == 0) {
             return "init";
         }
-        
+
         return "init" + index;
     }
 
-    private boolean selectNamingScheme(final XMLBindingComponent component, 
-            final Enumeration enumeration, 
-            final boolean useValuesAsName) {
+    private boolean selectNamingScheme(final XMLBindingComponent component,
+            final Enumeration enumeration, final boolean useValuesAsName) {
         boolean duplicateTranslation = false;
         short numberOfTranslationToSpecialCharacter = 0;
 
@@ -370,7 +374,8 @@ public class EnumerationFactory extends BaseFactory {
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
         if (_config.useJava50()) {
-            mInit.getSourceCode().add("Hashtable<Object, Object> members = new Hashtable<Object, Object>();");
+            mInit.getSourceCode().add("Hashtable<Object, Object> members"
+                    + " = new Hashtable<Object, Object>();");
         } else {
             mInit.getSourceCode().add("Hashtable members = new Hashtable();");
         }
@@ -399,8 +404,9 @@ public class EnumerationFactory extends BaseFactory {
      */
     private void createEnumerateMethod(final JClass jClass, final String className) {
         // TODO: for the time being return Enumeration<Object> for Java 5.0; change
-        JMethod mEnumerate = new JMethod("enumerate", SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()),
-                                         "an Enumeration over all possible instances of " + className);
+        JMethod mEnumerate = new JMethod("enumerate",
+                SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()),
+                "an Enumeration over all possible instances of " + className);
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);
         JDocComment jdc = mEnumerate.getJDocComment();
@@ -468,13 +474,12 @@ public class EnumerationFactory extends BaseFactory {
      *         public {type} valueOf(String strValue);
      *     }
      * </pre>
-     *
+     * @param binding
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */
-    void processEnumerationAsBaseType(final ExtendedBinding binding, 
-            final SimpleType simpleType, 
-            final FactoryState state) {
+    void processEnumerationAsBaseType(final ExtendedBinding binding,
+            final SimpleType simpleType, final FactoryState state) {
         SimpleType base = (SimpleType) simpleType.getBaseType();
         XSType baseType = null;
 
@@ -486,7 +491,7 @@ public class EnumerationFactory extends BaseFactory {
 
         Enumeration enumeration = simpleType.getFacets("enumeration");
 
-        JClass jClass    = state.jClass;
+        JClass jClass    = state._jClass;
         String className = jClass.getLocalName();
 
         JField      fValues = null;
@@ -561,104 +566,67 @@ public class EnumerationFactory extends BaseFactory {
      * Attempts to translate a simpleType enumeration value into a legal java
      * identifier. Translation is through a couple of simple rules:
      * <ul>
-     *   <li>if the value parses as a non-negative int, the string 'VALUE_' is
-     *       prepended to it</li>
-     *   <li>if the value parses as a negative int, the string 'VALUE_NEG_' is
-     *       prepended to it</li>
-     *   <li>the value is uppercased</li>
-     *   <li>the characters <code>[](){}<>'`"</code> are removed</li>
-     *   <li>the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any
-     *       whitespace are replaced with <code>_</code></li>
+     * <li>if the value parses as a non-negative int, the string 'VALUE_' is
+     * prepended to it</li>
+     * <li>if the value parses as a negative int, the string 'VALUE_NEG_' is
+     * prepended to it</li>
+     * <li>the value is uppercased</li>
+     * <li>the characters <code>[](){}<>'`"</code> are removed</li>
+     * <li>the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any
+     * whitespace are replaced with <code>_</code></li>
      * </ul>
-     * @param enumValue the enum value to turn into a legal Java identifier
-     * @return an identifier name for this enum value.
+     * @param enumBinding if not null, a possible custom binding for this enum
+     * @param facet the facet whose enum value is being translated.
+     * @return the identifier for the enum value
+     *
      * @author rhett-sutphin@uiowa.edu
+     * @param type
      */
-//    private String translateEnumValueToIdentifier(final String enumValue) {
-//        try {
-//            int intVal = Integer.parseInt(enumValue);
-//            if (intVal >= 0) {
-//                return "VALUE_" + intVal;
-//            }
-//
-//            return "VALUE_NEG_" + Math.abs(intVal);
-//        } catch (NumberFormatException e) {
-//            // just keep going
-//        }
-//
-//        StringBuffer sb = new StringBuffer(enumValue.toUpperCase());
-//        char c;
-//        for (int i = 0; i < sb.length(); i++) {
-//            c = sb.charAt(i);
-//            if ("[](){}<>'`\"".indexOf(c) >= 0) {
-//                sb.deleteCharAt(i);
-//                i--;
-//            } else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
-//                sb.setCharAt(i, '_');
-//            }
-//        }
-//        return sb.toString();
-//    } //-- translateEnumValueToIdentifier
-    
-    /**
-         * Attempts to translate a simpleType enumeration value into a legal
-         * java identifier.  Translation is through a couple of simple rules:
-         *   - if the value parses as a non-negative int, the string 'VALUE_' is
-         *     prepended to it
-         *   - if the value parses as a negative int, the string 'VALUE_NEG_' is
-         *     prepended to it
-         *   - the value is uppercased
-         *   - the characters <code>[](){}<>'`"</code> are removed
-         *   - the characters <code>|\/?~!@#$%^&*-+=:;.,</code> and any whitespace are replaced with <code>_</code>
-         * @author rhett-sutphin@uiowa.edu 
-         * @param type 
-         */
-        private String translateEnumValueToIdentifier(EnumBindingType enumBinding, Facet facet) 
-        {
-            String enumValue = facet.getValue();
-            
-            try {
-                int intVal = Integer.parseInt(facet.getValue());
-                if (intVal >= 0) return "VALUE_" + intVal;
-                
-                return "VALUE_NEG_" + Math.abs(intVal);
-            } catch (NumberFormatException e) {
-                // just keep going
+    private String translateEnumValueToIdentifier(final EnumBindingType enumBinding,
+                                                  final Facet facet) {
+        String enumValue = facet.getValue();
+
+        try {
+            int intVal = Integer.parseInt(facet.getValue());
+            if (intVal >= 0) {
+                return "VALUE_" + intVal;
             }
-            
-            StringBuffer sb = new StringBuffer();
-            String customMemberName = null;
-                
-            // check whether there's a custom binding for the member name
-            if (enumBinding != null) {
-                EnumMember[] enumMembers = enumBinding.getEnumMember();
-                for (int i = 0; i < enumMembers.length; i++) {
-                    if (enumMembers[i].getValue().equals(enumValue)) {
-                        customMemberName = enumMembers[i].getJavaName();
-                    }
+
+            return "VALUE_NEG_" + Math.abs(intVal);
+        } catch (NumberFormatException e) {
+            // just keep going
+        }
+
+        StringBuffer sb = new StringBuffer();
+        String customMemberName = null;
+
+        // check whether there's a custom binding for the member name
+        if (enumBinding != null) {
+            EnumMember[] enumMembers = enumBinding.getEnumMember();
+            for (int i = 0; i < enumMembers.length; i++) {
+                if (enumMembers[i].getValue().equals(enumValue)) {
+                    customMemberName = enumMembers[i].getJavaName();
                 }
             }
-            
-            if (customMemberName != null) {
-                sb.append(customMemberName);
-            } else {
-                
-                sb.append(enumValue.toUpperCase());
-                char c;
-                for (int i = 0 ; i < sb.length() ; i++) {
-                    c = sb.charAt(i);
-                    if ("[](){}<>'`\"".indexOf(c) >= 0) {
-                        sb.deleteCharAt(i);
-                        i--;
-                    }
-                    else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
-                        sb.setCharAt(i, '_');
-                    }
+        }
+
+        if (customMemberName != null) {
+            sb.append(customMemberName);
+        } else {
+            sb.append(enumValue.toUpperCase());
+            char c;
+            for (int i = 0; i < sb.length(); i++) {
+                c = sb.charAt(i);
+                if ("[](){}<>'`\"".indexOf(c) >= 0) {
+                    sb.deleteCharAt(i);
+                    i--;
+                } else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
+                    sb.setCharAt(i, '_');
                 }
             }
-            return sb.toString();   
-        } //-- translateEnumValueToIdentifier    
-    
+        }
+        return sb.toString();
+    } //-- translateEnumValueToIdentifier
 
     /**
      * Set to true if enumerated type lookups should be performed in a case
@@ -701,5 +669,4 @@ public class EnumerationFactory extends BaseFactory {
         return sb.toString();
     } //-- escapeValue
 
-    
 }
