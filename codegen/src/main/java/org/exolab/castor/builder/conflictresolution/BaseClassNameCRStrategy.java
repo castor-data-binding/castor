@@ -28,16 +28,23 @@ public abstract class BaseClassNameCRStrategy implements ClassNameCRStrategy {
     private SingleClassGenerator _generator;
 
     /**
-     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy#setSingleClassGenerator(org.exolab.castor.builder.SingleClassGenerator)
+     * Sets the current caller of this strategy implementation. This can be used
+     * to change the state of the calling object as a result of a strategy
+     * implementation.
+     *
+     * @param generator the current caller of this strategy implementation.
+     * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy
+     *      #setSingleClassGenerator(org.exolab.castor.builder.SingleClassGenerator)
      */
-    public void setSingleClassGenerator(SingleClassGenerator generator) {
+    public void setSingleClassGenerator(final SingleClassGenerator generator) {
         this._generator = generator;
     }
-    
+
     /**
-     * Returns the current caller of this strategy implementation. This can be used 
-     * to change the state of the calling object as a result of a strategy 
+     * Returns the current caller of this strategy implementation. This can be
+     * used to change the state of the calling object as a result of a strategy
      * implementation.
+     *
      * @return the current caller of this strategy implementation.
      */
     protected SingleClassGenerator getSingleClassGenerator() {

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,7 +47,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.info;
 
 import java.util.Vector;
@@ -62,6 +61,10 @@ import org.exolab.javasource.JClass;
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public final class ClassInfo extends XMLInfo {
+    /** Default initial number of attributes to make room for. */
+    private static final int ATTR_VECTOR_LENGTH = 3;
+    /** Default initial number of elements to make room for. */
+    private static final int ELEMENT_VECTOR_LENGTH = 5;
 
     /** Vector of FieldInfo's for all attributes that are members of this Class. */
     private Vector    _atts      = null;
@@ -104,7 +107,7 @@ public final class ClassInfo extends XMLInfo {
 
     /**
      * Adds the given FieldInfo to this ClassInfo.
-     * 
+     *
      * @param fieldInfo the FieldInfo to add
      */
     public void addFieldInfo(final FieldInfo fieldInfo) {
@@ -117,7 +120,7 @@ public final class ClassInfo extends XMLInfo {
         switch(fieldInfo.getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
                 if (_atts == null) {
-                    _atts = new Vector(3);
+                    _atts = new Vector(ATTR_VECTOR_LENGTH);
                 }
                 if (!_atts.contains(fieldInfo)) {
                     _atts.addElement(fieldInfo);
@@ -128,7 +131,7 @@ public final class ClassInfo extends XMLInfo {
                 break;
             default:
                 if (_elements == null) {
-                    _elements = new Vector(5);
+                    _elements = new Vector(ELEMENT_VECTOR_LENGTH);
                 }
                 if (!_elements.contains(fieldInfo)) {
                     _elements.addElement(fieldInfo);
@@ -139,7 +142,7 @@ public final class ClassInfo extends XMLInfo {
 
     /**
      * Adds the given set of FieldInfos to this ClassInfo.
-     * 
+     *
      * @param fields an Array of FieldInfo objects
      */
     public void addFieldInfo(final FieldInfo[] fields) {
@@ -321,7 +324,7 @@ public final class ClassInfo extends XMLInfo {
 
     /**
      * Returns true if the JClass represented by this ClassInfo is abstract.
-     * 
+     *
      * @return true if the JClass represented by this ClassInfo is abstract
      */
     public boolean isAbstract() {
@@ -359,10 +362,11 @@ public final class ClassInfo extends XMLInfo {
 
     /**
      * Sets the class of this ClassInfo to be abstract of
+     *
      * <code>abstractClass</code> is true, false otherwise.
      *
-     * @param abstractClass
-     *            true if the class represented by this ClassInfo is abstract
+     * @param abstractClass true if the class represented by this ClassInfo is
+     *        abstract
      */
     public void setAbstract(final boolean abstractClass) {
         _abstract = abstractClass;
@@ -373,8 +377,7 @@ public final class ClassInfo extends XMLInfo {
      * another classInfo to reflect the extension mechanism used in the XML
      * Schema
      *
-     * @param base
-     *            the base class of this classInfo.
+     * @param base the base class of this classInfo.
      */
     public void setBaseClass(final ClassInfo base) {
         _baseClass = base;
@@ -385,9 +388,8 @@ public final class ClassInfo extends XMLInfo {
      * container class is a class which should not be marshalled as XML, but
      * whose members should be. By default this is false.
      *
-     * @param isContainer
-     *            the boolean value when true indicates this class should be a
-     *            container class.
+     * @param isContainer the boolean value when true indicates this class
+     *        should be a container class.
      */
     public void setContainer(final boolean isContainer) {
         _isContainer = isContainer;

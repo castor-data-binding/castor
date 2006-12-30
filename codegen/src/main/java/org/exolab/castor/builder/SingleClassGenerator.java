@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -133,8 +133,10 @@ public class SingleClassGenerator {
         this._descSourceFactory = new DescriptorSourceFactory(_sourceGenerator);
         this._mappingSourceFactory = new MappingFileSourceFactory(_sourceGenerator);
 
-        this._classNameConflictResolutionStrategyRegistry =
-            new ClassNameCRStrategyRegistry(sourceGenerator.getProperty(BuilderConfiguration.Property.NAME_CONFLICT_STRATEGIES, ""));
+        final String strategy = sourceGenerator.getProperty(
+                BuilderConfiguration.Property.NAME_CONFLICT_STRATEGIES, "");
+        this._classNameConflictResolutionStrategyRegistry
+                = new ClassNameCRStrategyRegistry(strategy);
         createNameConflictStrategy(conflictStrategyType);
     }
 
@@ -193,14 +195,13 @@ public class SingleClassGenerator {
      * Processes the JClass mapped by the provided key unless the JClass has
      * already been processed.
      *
-     * @param state
-     *            SourceGenerator state
+     * @param state SourceGenerator state
      * @param classKeys Enumeration over a collection of keys to ClassInfos
      *
      * @return true if processing is allowed to continue, false if the
      *         SourceGenerator state is STOP_STATUS,
-     * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded or found
+     * @throws IOException If an already existing '.castor.cdr' file can not be
+     *         loaded or found
      */
     boolean processIfNotAlreadyProcessed(final Enumeration classKeys,
                                          final SGStateInfo state) throws IOException {
@@ -221,14 +222,12 @@ public class SingleClassGenerator {
      * Processes the given JClasses, one by one, stopping if the SourceGenerator
      * state indicates STOP after processing one class.
      *
-     * @param classes
-     *            Array of classes to process
-     * @param state
-     *            SourceGenerator state
+     * @param classes Array of classes to process
+     * @param state SourceGenerator state
      * @return true if processing is allowed to continue, false if the
      *         SourceGenerator state is STOP_STATUS,
-     * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded or found
+     * @throws IOException If an already existing '.castor.cdr' file can not be
+     *         loaded or found
      */
     boolean process(final JClass[] classes, final SGStateInfo state) throws IOException {
         for (int i = 0; i < classes.length; i++) {
@@ -248,14 +247,12 @@ public class SingleClassGenerator {
      * If there is a class name conflict, at best the user stops the source
      * generation and at worst the user continues, skipping this class.
      *
-     * @param jClass
-     *            the class to process
-     * @param state
-     *            SourceGenerator state
+     * @param jClass the class to process
+     * @param state SourceGenerator state
      * @return true if processing is allowed to continue, false if the
      *         SourceGenerator state is STOP_STATUS,
-     * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded or found
+     * @throws IOException If an already existing '.castor.cdr' file can not be
+     *         loaded or found
      */
     boolean process(final JClass jClass, final SGStateInfo state) throws IOException {
         if (state.getStatusCode() == SGStateInfo.STOP_STATUS) {
@@ -302,14 +299,12 @@ public class SingleClassGenerator {
 
     /**
      * Processes the Class Descriptor for the provided JClass.
-     * @param jClass
-     *            the classInfo to process
-     * @param state
-     *            SourceGenerator state
-     * @param classInfo
-     *            the XML Schema element declaration
-     * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be loaded or found
+     *
+     * @param jClass the classInfo to process
+     * @param state SourceGenerator state
+     * @param classInfo the XML Schema element declaration
+     * @throws IOException If an already existing '.castor.cdr' file can not be
+     *         loaded or found
      */
     private void processClassDescriptor(final JClass jClass, final SGStateInfo state,
                                         final ClassInfo classInfo) throws IOException {
@@ -344,8 +339,7 @@ public class SingleClassGenerator {
      * overwrite and the file already exists do we need to issue a dialog and
      * get the user's permission.
      *
-     * @param jClass
-     *            a JClass to check to see if we can write
+     * @param jClass a JClass to check to see if we can write
      * @return true if we can write out the provided jClass
      */
     private boolean checkAllowPrinting(final JClass jClass) {
@@ -410,14 +404,11 @@ public class SingleClassGenerator {
      * Updates the CDR (ClassDescriptorResolver) file with the
      * classname->descriptor mapping.
      *
-     * @param jClass
-     *            JClass instance describing the entity class
-     * @param jDesc
-     *            JClass instance describing is *Descriptor class
-     * @param sInfo
-     *            state info
-     * @throws IOException
-     *             If an already existing '.castor.cdr' file can not be found or loaded
+     * @param jClass JClass instance describing the entity class
+     * @param jDesc JClass instance describing is *Descriptor class
+     * @param sInfo state info
+     * @throws IOException If an already existing '.castor.cdr' file can not be
+     *         found or loaded
      */
     private void updateCDRFile(final JClass jClass, final JClass jDesc, final SGStateInfo sInfo)
                                                       throws IOException {
@@ -445,7 +436,7 @@ public class SingleClassGenerator {
      * for name conflict resolution.
      * @param nameConflictStrategy the desired {@link ClassNameCRStrategy} instance type
      */
-    public void setNameConflictStrategy(String nameConflictStrategy) {
+    public void setNameConflictStrategy(final String nameConflictStrategy) {
         createNameConflictStrategy(nameConflictStrategy);
     }
 
@@ -454,9 +445,9 @@ public class SingleClassGenerator {
      * {@link ClassNameConflictResolutionStrategyFactory}.
      * @param nameConflictStrategy The desired {@link ClassNameCRStrategy} type.
      */
-    private void createNameConflictStrategy(String nameConflictStrategy) {
-        this._conflictStrategy =
-            _classNameConflictResolutionStrategyRegistry.getClassNameConflictResolutionStrategy(nameConflictStrategy);
+    private void createNameConflictStrategy(final String nameConflictStrategy) {
+        this._conflictStrategy = _classNameConflictResolutionStrategyRegistry
+                .getClassNameConflictResolutionStrategy(nameConflictStrategy);
         this._conflictStrategy.setConsoleDialog(_dialog);
         this._conflictStrategy.setSingleClassGenerator(this);
     }

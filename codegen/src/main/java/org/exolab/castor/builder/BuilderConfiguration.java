@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -43,7 +43,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 //--Castor imports
@@ -60,7 +59,7 @@ import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.JavaNaming;
 
 /**
- * The configuration for the SourceGenerator
+ * The configuration for the SourceGenerator.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
@@ -86,7 +85,7 @@ public class BuilderConfiguration {
 
         /**
          * Property specifying whether to implement EnumeratedTypeAccess
-         * interface for all generated enumerated type classes
+         * interface for all generated enumerated type classes.
          *
          * <pre>
          * org.exolab.castor.builder.enumTypeAccessInterface
@@ -105,7 +104,7 @@ public class BuilderConfiguration {
         public static final String EXTRA_COLLECTION_METHODS = "org.exolab.castor.builder.extraCollectionMethods";
 
         /**
-         * Property specifying the super class for all generated classes
+         * Property specifying the super class for all generated classes.
          *
          * <pre>
          * org.exolab.castor.builder.superclass
@@ -125,42 +124,42 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.javaclassmapping
          * </pre>
          */
-        public static final String JavaClassMapping = "org.exolab.castor.builder.javaclassmapping";
+        public static final String JAVA_CLASS_MAPPING = "org.exolab.castor.builder.javaclassmapping";
 
         /**
          * Property listing mapping between XML namespaces and Java packages.
          */
-        public static final String NamespacePackagesOld = "org.exolab.castor.builder.nspackages";
+        public static final String NAMESPACE_PACKAGES_OLD = "org.exolab.castor.builder.nspackages";
 
         /**
          * Property listing mapping between XML namespaces and Java packages.
          */
-        public static final String NamespacePackages = "org.exolab.castor.xml.nspackages";
+        public static final String NAMESPACE_PACKAGES = "org.exolab.castor.xml.nspackages";
 
         /**
          * Property specifying if we want to have the equals method generated
-         * for each generated class
+         * for each generated class.
          */
-        public static final String EqualsMethod = "org.exolab.castor.builder.equalsmethod";
+        public static final String EQUALS_METHOD = "org.exolab.castor.builder.equalsmethod";
 
         /**
          * Property specifying if we want to use Wrapper Objects instead of
-         * primitives (eg java.lang.Float instead of float)
+         * primitives (eg java.lang.Float instead of float).
          */
-        public static final String Wrapper = "org.exolab.castor.builder.primitivetowrapper";
+        public static final String WRAPPER = "org.exolab.castor.builder.primitivetowrapper";
 
         /**
          * Property specifying if we want to have a 'public static final String'
          * generated for each attribute and element name used within a class
-         * descriptor
+         * descriptor.
          */
-        public static final String ClassDescFieldNames = "org.exolab.castor.builder.classdescfieldnames";
+        public static final String CLASS_DESC_FIELD_NAMES = "org.exolab.castor.builder.classdescfieldnames";
 
         /**
          * Property specifying whether the Java sources generated should be 1.4
          * or 5.0 compliant.
          */
-        public static final String JavaVersion = "org.exolab.castor.builder.javaVersion";
+        public static final String JAVA_VERSION = "org.exolab.castor.builder.javaVersion";
 
         /**
          * The name of the configuration file.
@@ -175,16 +174,19 @@ public class BuilderConfiguration {
          * Maximum number of constant definitions within one file. This property
          * is used to allow the user to configure the maximum number of
          * constant definitions (within a Java class as generated as a result of
-         * an enumeration); default is 1000. Is this number if exceeded, no constants 
-         * will be generated anymore. 
+         * an enumeration); default is 1000. Is this number if exceeded, no constants
+         * will be generated anymore.
          *
          * <pre>
          * org.exolab.castor.builder.maxNumberOfConstants
          * </pre>
          */
         public static final String MAX_CONSTANTS_PROPERTY = "org.exolab.castor.builder.maxNumberOfConstants";
-        
-        static final String ResourceName = "/org/exolab/castor/builder/castorbuilder.properties";
+
+        /**
+         * Resource to load from the JAR file to load our defaults.
+         */
+        static final String RESOURCE_NAME = "/org/exolab/castor/builder/castorbuilder.properties";
 
         /**
          * Registered class name conflict resolution strategies.
@@ -197,22 +199,22 @@ public class BuilderConfiguration {
     } //--Property
 
     /**
-     * String value of false
+     * String value of false.
      */
     private static final String FALSE = "false";
 
     /**
-     * String value of true
+     * String value of true.
      */
     private static final String TRUE = "true";
 
     /**
-     * String value of element binding property
+     * String value of element binding property.
      */
     private static final String ELEMENT_VALUE = "element";
 
     /**
-     * String value of type binding property
+     * String value of type binding property.
      */
     private static final String TYPE_VALUE = "type";
 
@@ -221,15 +223,18 @@ public class BuilderConfiguration {
      */
     private Properties _defaultProps = null;
 
+    /**
+     * Our properties after all configuration has been loaded.
+     */
     private Properties _localProps = null;
 
     /**
-     * Namespace URL to Java package mapping
+     * Namespace URL to Java package mapping.
      */
     private Hashtable _nspackages = new Hashtable();
 
     /**
-     * schemaLocation to Java package mapping
+     * schemaLocation to Java package mapping.
      */
     private Hashtable _locpackages = new Hashtable();
 
@@ -295,7 +300,7 @@ public class BuilderConfiguration {
      * @return true if bound properties are enabled.
      */
     public boolean equalsMethod() {
-        return TRUE.equalsIgnoreCase(_localProps.getProperty(Property.EqualsMethod));
+        return TRUE.equalsIgnoreCase(_localProps.getProperty(Property.EQUALS_METHOD));
     } //-- equalsMethod
 
     /**
@@ -305,7 +310,7 @@ public class BuilderConfiguration {
      */
      public void setEqualsMethod(final boolean equals) {
         String value = (equals) ? TRUE : FALSE;
-        _localProps.setProperty(Property.EqualsMethod, value);
+        _localProps.setProperty(Property.EQUALS_METHOD, value);
      } //-- setEqualsMethod
 
     /**
@@ -319,7 +324,7 @@ public class BuilderConfiguration {
      * @return true if bound properties are enabled.
      */
     public boolean classDescFieldNames() {
-        return _localProps.getProperty(Property.ClassDescFieldNames, "").equalsIgnoreCase(TRUE);
+        return _localProps.getProperty(Property.CLASS_DESC_FIELD_NAMES, "").equalsIgnoreCase(TRUE);
     } //-- classDescFieldNames
 
     /**
@@ -334,37 +339,38 @@ public class BuilderConfiguration {
      * @return true if extra collection methods are enabled.
      */
     public boolean generateExtraCollectionMethods() {
-        return _localProps.getProperty(Property.EXTRA_COLLECTION_METHODS, "").equalsIgnoreCase(TRUE);
+        return _localProps.getProperty(Property.EXTRA_COLLECTION_METHODS, "")
+                .equalsIgnoreCase(TRUE);
     } //-- generateExtraCollectionMethods
 
     /**
-     * Sets the 'classDescFieldNames' property
+     * Sets the 'classDescFieldNames' property.
      *
      * @param classDescFieldNames
      *            the value we want to ues
      */
      public void setClassDescFieldNames(final boolean classDescFieldNames) {
         String value = (classDescFieldNames) ? TRUE : FALSE;
-        _localProps.getProperty(Property.ClassDescFieldNames, value);
+        _localProps.setProperty(Property.CLASS_DESC_FIELD_NAMES, value);
      } //-- setClassDescFieldNames
 
      /**
       * Returns true if primitive types have to be used as Objects (eg.
-      * replacing float by java.lang.Float).
+      * replacing <code>float</code> by <code>java.lang.Float</code>).
       * @return true if primitive types have to be used as Objects.
       */
     public boolean usePrimitiveWrapper() {
-        return _localProps.getProperty(Property.Wrapper, "").equalsIgnoreCase(TRUE);
+        return _localProps.getProperty(Property.WRAPPER, "").equalsIgnoreCase(TRUE);
     } //-- usePrimitiveWrapper
 
     /**
-     * Sets the 'primitivetowrapper' property
+     * Sets the 'primitivetowrapper' property.
      *
      * @param wrapper the value we want to use.
      */
     public void setPrimitiveWrapper(final boolean wrapper) {
         String value = (wrapper) ? TRUE : FALSE;
-        _localProps.setProperty(Property.Wrapper, value);
+        _localProps.setProperty(Property.WRAPPER, value);
     } //-- setPrimitiveWrapper
 
     /**
@@ -384,23 +390,23 @@ public class BuilderConfiguration {
      * @return true if use enumerated type interface is enabled
      */
     public boolean useJava50() {
-        return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JavaVersion, "1.4"));
+        return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JAVA_VERSION, "1.4"));
     } //-- useEnumeratedTypeInterface
 
     /**
-     * Returns the maximum number of static constant definitions that are 
+     * Returns the maximum number of static constant definitions that are
      * acceptable within one class file; default is 1000.
      *
-     * @return the maximum number of static constant definitions acceptable within 
+     * @return the maximum number of static constant definitions acceptable within
      *    one class file
      */
     public int getMaximumNumberOfConstants() {
         String property = _localProps.getProperty(Property.MAX_CONSTANTS_PROPERTY, "1000");
         return Integer.valueOf(property).intValue();
     }
-    
+
     /**
-     * Sets the 'enumTypeAccessInterface' property
+     * Sets the 'enumTypeAccessInterface' property.
      *
      * @param flag the value we want to use
      */
@@ -417,7 +423,7 @@ public class BuilderConfiguration {
      *         classes.
      */
     public boolean mappingSchemaElement2Java() {
-        String value = _localProps.getProperty(Property.JavaClassMapping, "");
+        String value = _localProps.getProperty(Property.JAVA_CLASS_MAPPING, "");
         return ELEMENT_VALUE.equalsIgnoreCase(value);
     } //-- mappingSchemaElement2Java
 
@@ -427,7 +433,7 @@ public class BuilderConfiguration {
      * @return True if the Source Generator is mapping schema types to Java classes.
      */
     public boolean mappingSchemaType2Java() {
-        String value = _localProps.getProperty(Property.JavaClassMapping, "");
+        String value = _localProps.getProperty(Property.JAVA_CLASS_MAPPING, "");
         return TYPE_VALUE.equalsIgnoreCase(value);
     } //-- mappingSchemaType2Java
 
@@ -452,8 +458,8 @@ public class BuilderConfiguration {
             }
         }
         _localProps = new Properties(defaults);
-        processNamespacePackageMappings(_localProps.getProperty(Property.NamespacePackagesOld, ""));
-        processNamespacePackageMappings(_localProps.getProperty(Property.NamespacePackages, ""));
+        processNamespacePackageMappings(_localProps.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
+        processNamespacePackageMappings(_localProps.getProperty(Property.NAMESPACE_PACKAGES, ""));
     } //-- setDefaultProperties
 
     /**
@@ -485,7 +491,7 @@ public class BuilderConfiguration {
     protected synchronized void load() {
         if (_defaultProps == null) {
             //-- load defaults from JAR
-            _defaultProps = Configuration.loadProperties(Property.ResourceName, Property.CONFIG_FILENAME_PROPERTY);
+            _defaultProps = Configuration.loadProperties(Property.RESOURCE_NAME, Property.CONFIG_FILENAME_PROPERTY);
 
             //-- load local defaults
 
@@ -524,10 +530,10 @@ public class BuilderConfiguration {
 
         // Parse XML namespace and package list from both castor.properties and
         // castorbuilder.properties
-        processNamespacePackageMappings(rtconf.getProperty(Property.NamespacePackagesOld, ""));
-        processNamespacePackageMappings(rtconf.getProperty(Property.NamespacePackages, ""));
-        processNamespacePackageMappings(_defaultProps.getProperty(Property.NamespacePackagesOld, ""));
-        processNamespacePackageMappings(_defaultProps.getProperty(Property.NamespacePackages, ""));
+        processNamespacePackageMappings(rtconf.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
+        processNamespacePackageMappings(rtconf.getProperty(Property.NAMESPACE_PACKAGES, ""));
+        processNamespacePackageMappings(_defaultProps.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
+        processNamespacePackageMappings(_defaultProps.getProperty(Property.NAMESPACE_PACKAGES, ""));
 
         //-- backward compatibility with 0.9.3.9
         String prop = _defaultProps.getProperty(JavaNaming.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
@@ -537,17 +543,15 @@ public class BuilderConfiguration {
     } //-- load
 
     /**
-     * Gets a Java package to an XML namespace URL
+     * Gets a Java package to an XML namespace URL.
      * @param nsURL the XML namespace URL to convert into a Java package name
      * @return a Java package name
      */
-    public String lookupPackageByNamespace(String nsURL) {
-        if (nsURL == null) {
-            nsURL = "";
-        }
+    public String lookupPackageByNamespace(final String nsURL) {
+        String namespaceURL = (nsURL == null) ? "" : nsURL;
 
         // Lookup Java package via NS
-        String javaPackage = (String) _nspackages.get(nsURL);
+        String javaPackage = (String) _nspackages.get(namespaceURL);
         if (javaPackage == null) {
             return "";
         }
@@ -561,7 +565,7 @@ public class BuilderConfiguration {
      *            the Schema location to use to look up the Java package
      * @return a Java package name
      */
-    public String lookupPackageByLocation(String schemaLocation) {
+    public String lookupPackageByLocation(final String schemaLocation) {
         if (schemaLocation == null) {
             return "";
         }
@@ -570,19 +574,20 @@ public class BuilderConfiguration {
         //--Full path
         String javaPackage = (String) _locpackages.get(schemaLocation);
         if (javaPackage == null) {
+            String cleanedSchemaLocation = schemaLocation;
             //--maybe a relative schemaLocation was given
             while (schemaLocation.startsWith(".")) {
                  if (schemaLocation.startsWith("./")) {
-                     schemaLocation = schemaLocation.substring(2);
+                     cleanedSchemaLocation = schemaLocation.substring(2);
                  } else if (schemaLocation.startsWith("../")) {
-                     schemaLocation = schemaLocation.substring(3);
+                     cleanedSchemaLocation = schemaLocation.substring(3);
                  }
             }
             Enumeration keys = _locpackages.keys();
             boolean found = false;
             while (keys.hasMoreElements() && !found) {
                 String key = (String) keys.nextElement();
-                if (schemaLocation.endsWith(key)) {
+                if (cleanedSchemaLocation.endsWith(key)) {
                     javaPackage = (String) _locpackages.get(key);
                     found = true;
                 }
@@ -596,7 +601,7 @@ public class BuilderConfiguration {
     } //-- lookupPackageLocation
 
     /**
-     * processes the given String which contains namespace-to-package mappings
+     * processes the given String which contains namespace-to-package mappings.
      *
      * @param mappings the namespace-to-package mappings
      */

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -58,18 +58,15 @@ import org.exolab.javasource.JSourceCode;
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
  */
 public final class CollectionInfoODMG30 extends CollectionInfo {
+
     /**
      * Creates a new CollectionInfoODMG30.
      *
-     * @param contentType
-     *            the content type of the collection, ie. the type of objects
-     *            that the collection will contain
-     * @param name
-     *            the name of the Collection
-     * @param elementName
-     *            the element name for each element in collection
-     * @param useJava50
-     *            true if source code is supposed to be generated for Java 5
+     * @param contentType the content type of the collection, ie. the type of
+     *        objects that the collection will contain
+     * @param name the name of the Collection
+     * @param elementName the element name for each element in collection
+     * @param useJava50 true if code is supposed to be generated for Java 5
      */
     public CollectionInfoODMG30(final XSType contentType, final String name,
                                 final String elementName, final boolean useJava50) {
@@ -117,4 +114,5 @@ public final class CollectionInfoODMG30 extends CollectionInfo {
 
         jClass.addMethod(method);
     }
+
 }

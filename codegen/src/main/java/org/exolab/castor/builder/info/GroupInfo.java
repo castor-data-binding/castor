@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -46,7 +46,7 @@ package org.exolab.castor.builder.info;
 
 /**
  * A class to hold group information.
- * 
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
@@ -163,29 +163,27 @@ public final class GroupInfo {
     /**
      * Sets the maximum occurance for this group.
      *
-     * @param maxOccurs
-     *            the maximum occurance this group must appear
+     * @param maxOccurs the maximum occurance this group must appear
      */
     public void setMaxOccurs(final int maxOccurs) {
         _maxOccurs = (maxOccurs < 0) ? -1 : maxOccurs;
     } //-- setMaxOccurs
 
     /**
-     * Sets the minimum occurance for this group.
+     * Sets the minimum occurrence for this group.
      *
-     * @param minOccurs
-     *            the minimum occurance this group must appear
+     * @param minOccurs the minimum occurance this group must appear
      */
     public void setMinOccurs(final int minOccurs) {
         _minOccurs = (minOccurs < 0) ? 1 : minOccurs;
     } //-- setMinOccurs
 
     /**
-     * Sets whether the XML object can appear more than once in the XML document.
+     * Sets whether the XML object can appear more than once in the XML
+     * document.
      *
-     * @param multivalued
-     *            the boolean indicating whether or not the object can appear
-     *            more than once
+     * @param multivalued the boolean indicating whether or not the object can
+     *        appear more than once
      */
     public void setMultivalued(final boolean multivalued) {
         this._multivalued = multivalued;
@@ -194,8 +192,8 @@ public final class GroupInfo {
     /**
      * Sets whether or not the XML object must appear at least once.
      *
-     * @param required
-     *            the flag indicating whether or not this XML object is required
+     * @param required the flag indicating whether or not this XML object is
+     *        required
      */
     public void setRequired(final boolean required) {
         this._required = required;

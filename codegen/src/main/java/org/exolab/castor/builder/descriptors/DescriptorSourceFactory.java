@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -104,8 +104,7 @@ public final class DescriptorSourceFactory {
      * Creates the Source code of a MarshalInfo for a given XML Schema element
      * declaration.
      *
-     * @param classInfo
-     *            the XML Schema element declaration
+     * @param classInfo the XML Schema element declaration
      * @return the JClass representing the MarshalInfo source code
      */
     public JClass createSource(final ClassInfo classInfo) {
@@ -381,7 +380,7 @@ public final class DescriptorSourceFactory {
                 break;
             case XSType.QNAME_TYPE :
                 jsc.add("desc.setSchemaType(\"QName\");");
-                /***********************/
+                break;
             default :
                 break;
         } //switch
@@ -519,10 +518,8 @@ public final class DescriptorSourceFactory {
      * Creates the validation code for a given member. This code will be
      * appended to the given JSourceCode.
      *
-     * @param member
-     *            the member for which to create the validation code.
-     * @param jsc
-     *            the JSourceCode to fill in.
+     * @param member the member for which to create the validation code.
+     * @param jsc the JSourceCode to fill in.
      */
     private static void validationCode(final FieldInfo member, final JSourceCode jsc) {
         if (member == null || jsc == null) {

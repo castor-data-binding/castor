@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1786" tool="jira">
+                    <description>
+                        Checkstyle-based corrections in codegen
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>XML</module>
+                    <date>20061229</date>
+                </bug>
                 <bug id="1785" tool="jira">
                     <description>
                         Update checkstyle to work under UNIX + Windows both

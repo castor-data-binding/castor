@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -65,45 +65,45 @@ import org.exolab.castor.xml.schema.Schema;
 import org.exolab.javasource.JClass;
 
 /**
- * A class for maintaining state for the SourceGenerator
+ * A class for maintaining state for the SourceGenerator.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-06-22 22:13:21 -0600 (Wed, 22 Jun 2005) $
  */
 public class SGStateInfo extends ClassInfoResolverImpl {
 
-    /** An empty Enumeration to be returned whenever we need an empty Enumeration */
+    /** An empty Enumeration to be returned whenever we need an empty Enumeration. */
     private static final Enumeration EMPTY_ENUMERATION = new Vector(0).elements();
-    /** The SourceGenerator is still generating source */
+    /** The SourceGenerator is still generating source. */
     public static final int NORMAL_STATUS = 0;
-    /** The SourceGenerator has been stopped by an error or by the user */
+    /** The SourceGenerator has been stopped by an error or by the user. */
     public static final int STOP_STATUS   = 1;
 
-    /** The in memory mapping files for each package */
+    /** The in memory mapping files for each package. */
     private Hashtable _mappings = null;
-    /** The in memory package listings for each package */
+    /** The in memory package listings for each package. */
     private Hashtable _packageListings = null;
     /** The package used when creating new classes. */
     protected String    _packageName = null;
-    /** Keeps track of which JClass files have been processed */
+    /** Keeps track of which JClass files have been processed. */
     private Vector      _processed   = null;
-    /** true if existing source files should not be silently overwritten */
+    /** true if existing source files should not be silently overwritten. */
     private boolean     _promptForOverwrite = true;
-    /** The schema we are generating source code for */
+    /** The schema we are generating source code for. */
     private Schema      _schema = null;
-    /** true if non-fatal warnings should be suppressed */
+    /** true if non-fatal warnings should be suppressed. */
     private boolean     _suppressNonFatalWarnings = false;
-    /** true if source generation should provide verbose output on its progress */
+    /** true if source generation should provide verbose output on its progress. */
     private boolean     _verbose     = false;
-    /** The SourceFactory state */
+    /** The SourceFactory state. */
     private FactoryState _currentFactoryState = null;
-    /** This class allows user interaction when Castor wants to ask a question */
+    /** This class allows user interaction when Castor wants to ask a question. */
     private Dialog _dialog = null;
-    /** The source generator whose state we track */
+    /** The source generator whose state we track. */
     private SourceGenerator _sgen = null;
-    /** Current status of the source generator */
+    /** Current status of the source generator. */
     private int _status = NORMAL_STATUS;
-    /** Maps annotations to generated source code */
+    /** Maps annotations to generated source code. */
     private Map _sourcesByComponent = new HashMap();
 
     /**
@@ -120,7 +120,7 @@ public class SGStateInfo extends ClassInfoResolverImpl {
 //  private XMLBindingComponent _bindingComponent = null;
 
     /**
-     * Creates a new SGStateInfo
+     * Creates a new SGStateInfo.
      *
      * @param schema the Schema to generate source for
      * @param sgen the SourceGenerator instance
@@ -277,8 +277,7 @@ public class SGStateInfo extends ClassInfoResolverImpl {
     /**
      * Marks the given JClass as having been processed.
      *
-     * @param jClass
-     *            the JClass to mark as having been processed.
+     * @param jClass the JClass to mark as having been processed.
      */
     void markAsProcessed(final JClass jClass) {
         //String className = jClass.getName();
@@ -290,8 +289,7 @@ public class SGStateInfo extends ClassInfoResolverImpl {
     /**
      * Returns true if the given JClass has been marked as processed.
      *
-     * @param jClass
-     *            the JClass to check for being marked as processed
+     * @param jClass the JClass to check for being marked as processed
      * @return true if the given JClass has been marked as processed.
      */
     boolean processed(final JClass jClass) {
@@ -299,10 +297,10 @@ public class SGStateInfo extends ClassInfoResolverImpl {
     } //-- processed
 
     /**
-     * Returns true if a JClass with the given name has been marked as processed
+     * Returns true if a JClass with the given name has been marked as
+     * processed.
      *
-     * @param className
-     *            the JClass name to check against
+     * @param className the JClass name to check against
      * @return true if a JClass with the given name has been marked as processed
      */
     boolean processed(final String className) {
@@ -317,7 +315,7 @@ public class SGStateInfo extends ClassInfoResolverImpl {
 
     /**
      * Returns true if existing source files should be prompted before being
-     * overwritten
+     * overwritten.
      *
      * @return true if existing source files should be prompted before being
      *         overwritten
@@ -330,8 +328,8 @@ public class SGStateInfo extends ClassInfoResolverImpl {
      * Sets whether or not existing source files should be silently overwritten
      * or whether the user should be prompted first.
      *
-     * @param promptForOverwrite
-     *            true if existing files should not be silently overwritten.
+     * @param promptForOverwrite true if existing files should not be silently
+     *        overwritten.
      */
     void setPromptForOverwrite(final boolean promptForOverwrite) {
         this._promptForOverwrite = promptForOverwrite;
@@ -362,7 +360,7 @@ public class SGStateInfo extends ClassInfoResolverImpl {
     }
 
     /**
-     * Sets whether non-fatal warnings should be supporessed
+     * Sets whether non-fatal warnings should be supporessed.
      * @param suppressNonFatalWarnings true if non-fatal warnings should be supporessed
      */
     void setSuppressNonFatalWarnings(final boolean suppressNonFatalWarnings) {
@@ -373,10 +371,8 @@ public class SGStateInfo extends ClassInfoResolverImpl {
      * Sets the CDR (ClassDescriptorResolver) file associated with the given
      * filename.
      *
-     * @param filename
-     *            the filename associated with the CDR file
-     * @param props
-     *            the Properties file
+     * @param filename the filename associated with the CDR file
+     * @param props the Properties file
      */
     public void setCDRFile(final String filename, final Properties props) {
         if (filename == null) {
@@ -398,10 +394,8 @@ public class SGStateInfo extends ClassInfoResolverImpl {
     /**
      * Sets the Mapping file associated with the given filename.
      *
-     * @param filename
-     *            the filename associated with the Mapping
-     * @param mapping
-     *            the MappingRoot
+     * @param filename the filename associated with the Mapping
+     * @param mapping the MappingRoot
      */
     public void setMapping(final String filename, final MappingRoot mapping) {
         if (filename == null) {
@@ -467,8 +461,8 @@ public class SGStateInfo extends ClassInfoResolverImpl {
      * Sets whether or not the source code generator prints additional messages
      * during generating source code.
      *
-     * @param verbose
-     *            a boolean, when true indicates to print additional messages
+     * @param verbose a boolean, when true indicates to print additional
+     *        messages
      */
     void setVerbose(final boolean verbose) {
         this._verbose = verbose;

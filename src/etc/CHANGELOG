@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1786 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Checkstyle-based corrections in codegen
+       Details: http://jira.codehaus.org/browse/CASTOR-1786
+       (Edward - 20061229)
+
 All:   Resolved issue CASTOR-1785 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Update checkstyle to work under UNIX + Windows both
        Details: http://jira.codehaus.org/browse/CASTOR-1785

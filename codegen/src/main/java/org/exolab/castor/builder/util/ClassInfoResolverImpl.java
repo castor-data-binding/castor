@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -100,4 +100,5 @@ public class ClassInfoResolverImpl implements ClassInfoResolver {
     public final ClassInfo resolve(final Object key) {
         return (ClassInfo) _cache.get(key);
     }
+
 }

@@ -110,22 +110,20 @@ import org.xml.sax.SAXParseException;
  * @version $Revision$ $Date: 2006-03-30 14:58:45 -0700 (Thu, 30 Mar 2006) $
  */
 public class SourceGenerator extends BuilderConfiguration {
-    
-    /**
-     * Jakarta's common-logging logger
-     */
+
+    /** Jakarta's common-logging logger. */
     private static final Log LOG = LogFactory.getLog(SourceGenerator.class);
-    
+
     //-------------/
     //- Constants -/
     //-------------/
-    /** The application name */
+    /** The application name. */
     static final String APP_NAME = "Castor";
-    /** The application description */
+    /** The application description. */
     static final String APP_DESC = "XML data binder for Java";
-    /** The application version */
+    /** The application version. */
     static final String VERSION = Version.VERSION;
-    /** The application URI */
+    /** The application URI. */
     static final String APP_URI = "http://www.castor.org";
     /** Warning message to remind users to create source code for imported schema. */
     private static final String IMPORT_WARNING
@@ -135,20 +133,20 @@ public class SourceGenerator extends BuilderConfiguration {
     //- Instance Variables -/
     //----------------------/
 
-    /** Castor configuration */
+    /** Castor configuration. */
     private final Configuration _config;
-    /** The XMLBindingComponent used to create Java classes from an XML Schema */
+    /** The XMLBindingComponent used to create Java classes from an XML Schema. */
     private final XMLBindingComponent _bindingComponent;
-    /** Our object used to generate source for a single source file */
+    /** Our object used to generate source for a single source file. */
     private final SingleClassGenerator _singleClassGenerator;
     /** The field info factory. */
     private final FieldInfoFactory _infoFactory;
-    /** Allows us to ask the user questions */
+    /** Allows us to ask the user questions. */
     private final ConsoleDialog _dialog;
     /** A vector that keeps track of all the schemas processed. */
     private final Vector _schemasProcessed = new Vector(7);
 
-    /** True if we should suppress non-fatal warnings */
+    /** True if we should suppress non-fatal warnings. */
     private boolean _suppressNonFatalWarnings = false;
     /** Determines whether or not to print extra messages. */
     private boolean _verbose = false;
@@ -176,21 +174,15 @@ public class SourceGenerator extends BuilderConfiguration {
      *  case insensitive lookups based on the values. */
     private boolean _caseInsensitive = false;
     /** A flag indicating, if true, that source generation should fail on the
-     * first error*/
+     * first error. */
     private boolean _failOnFirstError = false;
-
-    /**
-     * A GroupNaming helper class used to named anonymous groups.
-     */
+    /** A GroupNaming helper class used to named anonymous groups. */
     private GroupNaming _groupNaming = null;
-
-    /**
-     * Strategy for name conflict resolution. 
-     */
+    /** Strategy for name conflict resolution. */
     private String _nameConflictStrategy = WarningViaDialogClassNameCRStrategy.NAME;
 
     /**
-     * Creates a SourceGenerator using the default FieldInfo factory
+     * Creates a SourceGenerator using the default FieldInfo factory.
      */
     public SourceGenerator() {
         this(null);
@@ -222,7 +214,7 @@ public class SourceGenerator extends BuilderConfiguration {
         _infoFactory = (infoFactory == null) ? new FieldInfoFactory() : infoFactory;
 
         super.load();
-        
+
         _groupNaming = new GroupNaming();
 
         _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy);
@@ -238,12 +230,18 @@ public class SourceGenerator extends BuilderConfiguration {
         _mappingFilename = filename;
     }
 
+    /**
+     * Sets the strategy for handling name conflicts.
+     *
+     * @param nameConflictStrategy the name of the stretegy to use for handling
+     *        name conflicts.
+     */
     public void setNameConflictStrategy(final String nameConflictStrategy) {
         _nameConflictStrategy = nameConflictStrategy;
         _singleClassGenerator.setNameConflictStrategy(nameConflictStrategy);
     }
     /**
-     * Returns the version number of this SourceGenerator
+     * Returns the version number of this SourceGenerator.
      *
      * @return the version number of this SourceGenerator
      */
@@ -252,7 +250,7 @@ public class SourceGenerator extends BuilderConfiguration {
     } //-- getVersion
 
     /**
-     * Set to true if SAX1 should be used in the marshal method
+     * Set to true if SAX1 should be used in the marshal method.
      * @param sax1 true if SAX1 should be used in the marshal method
      */
     public void setSAX1(final boolean sax1) {
@@ -274,9 +272,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * If true, the source generator will fail on the first error encountered.
      * Otherwise, the source generator will continue on certain errors.
      *
-     * @param failOnFirstError
-     *            if true, the source generator will fail on the first error
-     *            encountered.
+     * @param failOnFirstError if true, the source generator will fail on the
+     *        first error encountered.
      */
     public void setFailOnFirstError(final boolean failOnFirstError) {
         _failOnFirstError = failOnFirstError;
@@ -294,10 +291,10 @@ public class SourceGenerator extends BuilderConfiguration {
 
     /**
      * Sets whether or not the source code generator prints additional messages
-     * during generating source code
+     * during generating source code.
      *
-     * @param verbose
-     *            a boolean, when true indicates to print additional messages
+     * @param verbose a boolean, when true indicates to print additional
+     *        messages
      */
     public void setVerbose(final boolean verbose) {
         _verbose = verbose;
@@ -307,8 +304,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * Sets whether or not to create ClassDescriptors for the generated classes.
      * By default, descriptors are generated.
      *
-     * @param createDescriptors
-     *            a boolean, when true indicates to generated ClassDescriptors
+     * @param createDescriptors a boolean, when true indicates to generated
+     *        ClassDescriptors
      *
      */
     public void setDescriptorCreation(final boolean createDescriptors) {
@@ -326,13 +323,12 @@ public class SourceGenerator extends BuilderConfiguration {
     }
 
     /**
-     * Sets whether or not to create the XML marshalling framework specific
-     * methods (marshall, unmarshall, validate) in the generated classes.
-     * By default, these methods are generated.
+     * Sets whether or not to create the XML marshaling framework specific
+     * methods (marshal, unmarshal, validate) in the generated classes. By
+     * default, these methods are generated.
      *
-     * @param createMarshalMethods a boolean, when true indicates
-     * to generated the marshalling framework methods
-     *
+     * @param createMarshalMethods a boolean, when true indicates to generated
+     *        the marshaling framework methods
      */
     public void setCreateMarshalMethods(final boolean createMarshalMethods) {
         _createMarshalMethods = createMarshalMethods;
@@ -353,16 +349,15 @@ public class SourceGenerator extends BuilderConfiguration {
      * default. Note that this will only be used when generation of descriptors
      * has been disabled.
      *
-     * @param generateMapping
-     *            a flag that indicates whether or not a mapping file should be
-     *            generated.
+     * @param generateMapping a flag that indicates whether or not a mapping
+     *        file should be generated.
      */
     public void setGenerateMappingFile(final boolean generateMapping) {
         _generateMapping = generateMapping;
     } //-- setGenerateMappingFile
 
     /**
-     * Sets whether or not to implement CastorTestable
+     * Sets whether or not to implement CastorTestable.
      *
      * @param testable
      *            a boolean, when true indicates to implement CastorTestable
@@ -426,26 +421,28 @@ public class SourceGenerator extends BuilderConfiguration {
      * <p>
      * <B>Note:</B>This can be any string, so be careful. I recommend either
      * using the default or using one of the following:
+     *
      * <PRE>
      * windows systems use: "\r\n"
      * unix systems use: "\n"
      * mac systems use: "\r"
      * </PRE>
      *
-     * @param lineSeparator
-     *            the line separator to use when printing the source code. This
-     *            method is useful if you are generating source on one platform,
-     *            but will be compiling the source on a different platform.
-     *
+     * @param lineSeparator the line separator to use when printing the source
+     *        code. This method is useful if you are generating source on one
+     *        platform, but will be compiling the source on a different
+     *        platform.
      */
     public void setLineSeparator(final String lineSeparator) {
         _singleClassGenerator.setLineSeparator(lineSeparator);
     } //-- setLineSeparator
 
     /**
-     * Tests the org.exolab.castor.builder.javaclassmapping property for the 'element' value.
+     * Tests the org.exolab.castor.builder.javaclassmapping property for the
+     * 'element' value.
      *
-     * @return True if the Source Generator is mapping schema elements to Java classes.
+     * @return True if the Source Generator is mapping schema elements to Java
+     *         classes.
      */
     public boolean mappingSchemaElement2Java() {
         if (_bindingComponent != null) {
@@ -461,9 +458,11 @@ public class SourceGenerator extends BuilderConfiguration {
     } //-- mappingSchemaElement2Java
 
     /**
-     * Tests the org.exolab.castor.builder.javaclassmapping property for the 'type' value.
+     * Tests the org.exolab.castor.builder.javaclassmapping property for the
+     * 'type' value.
      *
-     * @return True if the Source Generator is mapping schema types to Java classes.
+     * @return True if the Source Generator is mapping schema types to Java
+     *         classes.
      */
     public boolean mappingSchemaType2Java() {
         if (_bindingComponent != null) {
@@ -483,12 +482,9 @@ public class SourceGenerator extends BuilderConfiguration {
      * file exists, opens a FileReader and passes control to
      * {@link #generateSource(InputSource, String)}.
      *
-     * @param filename
-     *            the full path to the XML Schema definition
-     * @param packageName
-     *            the package for the generated source files
-     * @throws IOException
-     *             if an IOException occurs writing the new source files
+     * @param filename the full path to the XML Schema definition
+     * @param packageName the package for the generated source files
+     * @throws IOException if an IOException occurs writing the new source files
      */
     public void generateSource(final String filename, final String packageName) throws IOException {
         final File schemaFile;
@@ -505,7 +501,9 @@ public class SourceGenerator extends BuilderConfiguration {
             source.setSystemId(toURIRepresentation(schemaFile.getAbsolutePath()));
             generateSource(source, packageName);
         } finally {
-            try { reader.close(); } catch (java.io.IOException iox) { }
+            try { reader.close(); } catch (java.io.IOException iox) {
+                // ignore
+            }
         }
     } //-- generateSource
 
@@ -514,14 +512,11 @@ public class SourceGenerator extends BuilderConfiguration {
      * method just passes control to
      * {@link #generateSource(InputSource, String)}.
      *
-     * @param reader
-     *            the Reader with which to read the XML Schema definition. The
-     *            caller should close the reader, since thie method will not do
-     *            so.
-     * @param packageName
-     *            the package for the generated source files
-     * @throws IOException
-     *             if an IOException occurs writing the new source files
+     * @param reader the Reader with which to read the XML Schema definition.
+     *        The caller should close the reader, since thie method will not do
+     *        so.
+     * @param packageName the package for the generated source files
+     * @throws IOException if an IOException occurs writing the new source files
      */
     public void generateSource(final Reader reader, final String packageName) throws IOException {
         InputSource source = new InputSource(reader);
@@ -533,12 +528,9 @@ public class SourceGenerator extends BuilderConfiguration {
      * the schema provided by the InputSource and then calls
      * {@link #generateSource(Schema, String)} to actually generate the source.
      *
-     * @param source -
-     *            the InputSource representing the XML schema.
-     * @param packageName
-     *            the package for the generated source files
-     * @throws IOException
-     *             if an IOException occurs writing the new source files
+     * @param source - the InputSource representing the XML schema.
+     * @param packageName the package for the generated source files
+     * @throws IOException if an IOException occurs writing the new source files
      */
     public void generateSource(final InputSource source, final String packageName)
                                                                    throws IOException {
@@ -609,12 +601,9 @@ public class SourceGenerator extends BuilderConfiguration {
      * Convenience methods exist if you don't have a
      * {@link org.exolab.castor.xml.schema.Schema} already parsed.
      *
-     * @param schema
-     *            the XML schema to generate the Java sources for.
-     * @param packageName
-     *            the package for the generated source files.
-     * @throws IOException
-     *             if this Exception occurs while generating source
+     * @param schema the XML schema to generate the Java sources for.
+     * @param packageName the package for the generated source files.
+     * @throws IOException if this Exception occurs while generating source
      * @see #generateSource(String, String) to provide the schema filename
      * @see #generateSource(Reader, String) to provide a Reader for the schema
      * @see #generateSource(InputSource, String) to provide an InputSource for
@@ -676,7 +665,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * Generate all class files for the provided schema.  Before processing
      * the current schema, process the schemas imported by this one (unless our
      * configuration says not to).
-     * 
+     *
      * @param schema the schema whose imported schemas to process
      * @param sInfo source generator state information
      * @throws IOException if this Exception occurs while processing an import schema
@@ -738,19 +727,20 @@ public class SourceGenerator extends BuilderConfiguration {
             Schema importedSchema = (Schema) enumeration.nextElement();
             if (!_generateImported) {
                 LOG.warn(IMPORT_WARNING + importedSchema.getSchemaLocation());
-            } else {
-                _schemasProcessed.add(schema);
-                if (!_schemasProcessed.contains(importedSchema)) {
-                    SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
-                    importedSInfo._packageName = sInfo._packageName;
-                    generateAllClassFiles(importedSchema, importedSInfo);
+                continue;
+            }
 
-                    //--'store' the imported JClass instances
-                    sInfo.storeImportedSourcesByName(importedSInfo.getSourcesByName());
-                    sInfo.storeImportedSourcesByName(importedSInfo.getImportedSourcesByName());
-                    //--discard the SGStateInfo
-                    importedSInfo = null;
-                }
+            _schemasProcessed.add(schema);
+            if (!_schemasProcessed.contains(importedSchema)) {
+                SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
+                importedSInfo._packageName = sInfo._packageName;
+                generateAllClassFiles(importedSchema, importedSInfo);
+
+                //--'store' the imported JClass instances
+                sInfo.storeImportedSourcesByName(importedSInfo.getSourcesByName());
+                sInfo.storeImportedSourcesByName(importedSInfo.getImportedSourcesByName());
+                //--discard the SGStateInfo
+                importedSInfo = null;
             }
         }
     }
@@ -785,13 +775,10 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Processes the given Element declaration and creates all necessary classes
      * to support it.
-     * 
-     * @param elementDecl
-     *            the Element declaration to process
-     * @param sInfo
-     *            our state information
-     * @throws IOException
-     *             if this exception occurs while writing source files
+     *
+     * @param elementDecl the Element declaration to process
+     * @param sInfo our state information
+     * @throws IOException if this exception occurs while writing source files
      */
     private void createClasses(final ElementDecl elementDecl, final SGStateInfo sInfo)
                                                                      throws IOException {
@@ -851,13 +838,10 @@ public class SourceGenerator extends BuilderConfiguration {
     /**
      * Processes the given Group and creates all necessary classes to support
      * it.
-     * 
-     * @param group
-     *            the Group to process
-     * @param sInfo
-     *            our state information
-     * @throws IOException
-     *             if this exception occurs while writing source files
+     *
+     * @param group the Group to process
+     * @param sInfo our state information
+     * @throws IOException if this exception occurs while writing source files
      */
     private void createClasses(final Group group, final SGStateInfo sInfo)
                                                          throws IOException {
@@ -889,12 +873,10 @@ public class SourceGenerator extends BuilderConfiguration {
 
     /**
      * Processes the given ComplexType and creates all necessary classes to
-     * support it
+     * support it.
      *
-     * @param complexType
-     *            the ComplexType to process
-     * @param sInfo
-     *            our state information
+     * @param complexType the ComplexType to process
+     * @param sInfo our state information
      * @throws IOException if this exception occurs while writing source files
      */
     private void processComplexType(final ComplexType complexType, final SGStateInfo sInfo)
@@ -939,14 +921,13 @@ public class SourceGenerator extends BuilderConfiguration {
     } //-- processComplexType
 
     /**
-     * Processes the attribute declarations for the given complex type
+     * Processes the attribute declarations for the given complex type.
      *
-     * @param complexType
-     *            the ComplexType containing the attribute declarations to
-     *            process.
-     * @param sInfo
-     *            the current source generator state information
-     * @throws IOException if this Exception occurs while generating source files
+     * @param complexType the ComplexType containing the attribute declarations
+     *        to process.
+     * @param sInfo the current source generator state information
+     * @throws IOException if this Exception occurs while generating source
+     *         files
      */
     private void processAttributes(final ComplexType complexType, final SGStateInfo sInfo)
                                                                          throws IOException {
@@ -962,7 +943,7 @@ public class SourceGenerator extends BuilderConfiguration {
     } //-- processAttributes
 
     /**
-     * Processes the given ContentModelGroup
+     * Processes the given ContentModelGroup.
      *
      * @param cmGroup the ContentModelGroup to process
      * @param sInfo the current source generator state information
@@ -1003,7 +984,7 @@ public class SourceGenerator extends BuilderConfiguration {
     } //-- processContentModel
 
     /**
-     * Handle simpleTypes
+     * Handle simpleTypes.
      *
      * @param simpleType the SimpleType to be processed
      * @param sInfo the current source generator state information
@@ -1021,7 +1002,8 @@ public class SourceGenerator extends BuilderConfiguration {
         if (simpleType.hasFacet(Facet.ENUMERATION)) {
             ClassInfo classInfo = sInfo.resolve(simpleType);
             if (classInfo == null) {
-                JClass jClass = _sourceFactory.createSourceCode(_bindingComponent.getBinding(), simpleType, sInfo);
+                JClass jClass = _sourceFactory.createSourceCode(
+                        _bindingComponent.getBinding(), simpleType, sInfo);
                 _singleClassGenerator.process(jClass, sInfo);
             } else {
                 JClass jClass = classInfo.getJClass();

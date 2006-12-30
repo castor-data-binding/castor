@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -53,30 +53,27 @@ import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 
 /**
- * A helper used for generating source that deals with Java 2 Collections of 
+ * A helper used for generating source that deals with Java 2 Collections of
  * type 'java.util.SortedSet'.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net"">Werner Guttmann</a>
  * @version $Revision: 6302 $ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
  */
 public final class CollectionInfoJ2SortedSet extends CollectionInfoJ2 {
+
     /**
-     * Creates an instance of this class that represents information about a 
+     * Creates an instance of this class that represents information about a
      * Java collection type of type 'java.util.SortedSet'.
-     *  
-     * @param contentType
-     *            The content type of the collection, ie. the type of objects
-     *            that the collection will contain.
-     * @param name
-     *            The name of the Collection.
-     * @param elementName
-     *            The element name for each element in collection.
-     * @param useJava50
-     *            true if source code is supposed to be generated for Java 5
+     *
+     * @param contentType The content type of the collection, ie. the type of
+     *        objects that the collection will contain.
+     * @param name The name of the Collection.
+     * @param elementName The element name for each element in collection.
+     * @param useJava50 true if code is supposed to be generated for Java 5
      */
-    public CollectionInfoJ2SortedSet(final XSType contentType, 
-            final String name, 
-            final String elementName, 
+    public CollectionInfoJ2SortedSet(final XSType contentType,
+            final String name,
+            final String elementName,
             final boolean useJava50) {
         super(contentType, name, elementName, "sortedset", useJava50);
     }
@@ -108,4 +105,5 @@ public final class CollectionInfoJ2SortedSet extends CollectionInfoJ2 {
     protected void createRemoveByIndexMethod(final JClass jClass) {
         // do not create such method
     }
+
 }

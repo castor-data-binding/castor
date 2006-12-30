@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -128,10 +128,8 @@ public class TypeConversion {
     /**
      * Converts the given Simpletype to the appropriate XSType.
      *
-     * @param simpleType
-     *            the SimpleType to convert to an XSType instance
-     * @param useJava50
-     *            true if source code is to be generated for Java 5
+     * @param simpleType the SimpleType to convert to an XSType instance
+     * @param useJava50 true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
     public XSType convertType(final SimpleType simpleType, final boolean useJava50) {
@@ -141,12 +139,9 @@ public class TypeConversion {
     /**
      * Converts the given Simpletype to the appropriate XSType.
      *
-     * @param simpleType
-     *            the SimpleType to convert to an XSType instance
-     * @param packageName
-     *            the packageName for any new class types
-     * @param useJava50
-     *            true if source code is to be generated for Java 5
+     * @param simpleType the SimpleType to convert to an XSType instance
+     * @param packageName the packageName for any new class types
+     * @param useJava50 true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
     public XSType convertType(final SimpleType simpleType, final String packageName,
@@ -157,16 +152,12 @@ public class TypeConversion {
     /**
      * Converts the given Simpletype to the appropriate XSType.
      *
-     * @param simpleType
-     *            the SimpleType to convert to an XSType instance
-     * @param useWrapper
-     *            a boolean that when true indicates that primitive wrappers be
-     *            used instead of the actual primitives (e.g. java.lang.Integer
-     *            instead of int)
-     * @param packageName
-     *            the packageName for any new class types
-     * @param useJava50
-     *            true if source code is to be generated for Java 5
+     * @param simpleType the SimpleType to convert to an XSType instance
+     * @param useWrapper a boolean that when true indicates that primitive
+     *        wrappers be used instead of the actual primitives (e.g.
+     *        java.lang.Integer instead of int)
+     * @param packageName the packageName for any new class types
+     * @param useJava50 true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
     public XSType convertType(final SimpleType simpleType, final boolean useWrapper,

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder;
 
 import org.exolab.castor.builder.info.ClassInfo;
@@ -60,14 +59,15 @@ import org.exolab.javasource.JClass;
 import org.exolab.javasource.JType;
 
 /**
- * A factory for creating mapping files
+ * A factory for creating mapping files.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public class MappingFileSourceFactory {
+
     /**
-     * Creates a new MappingFileSourceFactory with the given configuration
+     * Creates a new MappingFileSourceFactory with the given configuration.
      *
      * @param config the BuilderConfiguration instance
      */
@@ -79,7 +79,7 @@ public class MappingFileSourceFactory {
     } //-- MappingFileSourceFactory
 
     /**
-     * Creates the class mapping for the given ClassInfo
+     * Creates the class mapping for the given ClassInfo.
      *
      * @param classInfo the XML Schema element declaration
      * @return the ClassMapping representing the ClassInfo
@@ -304,8 +304,7 @@ public class MappingFileSourceFactory {
      * @return the classname for the given XSType
      */
     private static String getClassName(final JType jType) {
-        //-- XXX: Look up short names from:
-        //--  org.exolab.castor.mapping.loader.Types
+        // TODO: Look up short names from: org.exolab.castor.mapping.loader.Types
 
         if (jType.isPrimitive()) {
             return jType.getName();

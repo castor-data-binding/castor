@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -48,7 +48,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 
 /**
  * A class for "caching" ClassInfo's which later need to be resolved (retrieved)
- * by another ClassInfo
+ * by another ClassInfo.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */

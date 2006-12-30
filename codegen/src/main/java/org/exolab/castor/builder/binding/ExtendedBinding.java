@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -89,7 +89,7 @@ import java.util.Hashtable;
 public class ExtendedBinding extends Binding {
 
     /**
-     * Constants needed to create the XPath
+     * Constants needed to create the XPath.
      */
     protected static final String PATH_SEPARATOR   = "/";
     protected static final String ATTRIBUTE_PREFIX = "@";
@@ -104,17 +104,17 @@ public class ExtendedBinding extends Binding {
     private static final short GROUP       = 13;
     private static final short ENUM_TYPE   = 14;
     private static final short SIMPLETYPE = 15;
-    
-	/**
-	 * The hashtables that contain the different componentBindings
-	 */
-	private Hashtable _componentBindings;
 
-	/**
-	 * A flag that indicates if the component bindings of that 
-     * Binding have been processed.
-	 */
-	private boolean _bindingProcessed = false;
+    /**
+     * The hashtables that contain the different componentBindings.
+     */
+    private Hashtable _componentBindings;
+
+    /**
+     * A flag that indicates if the component bindings of that Binding have been
+     * processed.
+     */
+    private boolean _bindingProcessed = false;
 
     /**
      * Default constructor.
@@ -130,9 +130,8 @@ public class ExtendedBinding extends Binding {
      * Schema structure An Schema location will be built for the given Annotated
      * XML schema structure.
      *
-     * @param annotated
-     *            the XML Schema annotated structure for which to query the
-     *            Binding object for a ComponentBinding.
+     * @param annotated the XML Schema annotated structure for which to query
+     *        the Binding object for a ComponentBinding.
      *
      * @return the ComponentBinding that corresponds to the given Annotated XML
      *         Schema structure.
@@ -198,8 +197,7 @@ public class ExtendedBinding extends Binding {
      * returned if no ComponentBindingType corresponds to the given Schema
      * Location XPath.
      *
-     * @param xPath
-     *            the schema location xpath
+     * @param xPath the schema location xpath
      * @return The ComponentBindingType that correspond to the given Schema
      *         Location XPath, Null is returned when no ComponentBindingType is
      *         found.
@@ -254,14 +252,14 @@ public class ExtendedBinding extends Binding {
 
         //5--enums
         tempBindings = getEnumBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, null, ENUM_TYPE);
         }
 
         //6--simpleTypes
         tempBindings = getSimpleTypeBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, null, SIMPLETYPE);
         }
@@ -275,15 +273,12 @@ public class ExtendedBinding extends Binding {
     /**
      * Processes the given ComponentBindingType given its type.
      *
-     * @param binding
-     *            the ComponentBindingType for which we want to process the
-     *            children.
-     * @param xPath
-     *            the current XPath location that points to the parent of the
-     *            given ComponentBindingType.
-     * @param type
-     *            an integer that indicates the type of the given
-     *            ComponentBindingType
+     * @param binding the ComponentBindingType for which we want to process the
+     *        children.
+     * @param xPath the current XPath location that points to the parent of the
+     *        given ComponentBindingType.
+     * @param type an integer that indicates the type of the given
+     *        ComponentBindingType
      */
     private void handleComponent(final ComponentBindingType binding, String xPath, final int type) {
         if (binding == null) {
@@ -316,14 +311,14 @@ public class ExtendedBinding extends Binding {
                 _componentBindings.put(xPath, binding);
                 break;
 
-		    case ELEMENT :
-			    //--handle element
-			    if (!xpathUsed) {
-				    xPath += PATH_SEPARATOR;
-			    }
-			    xPath += name;
-			    _componentBindings.put(xPath, binding);
-			    break;
+            case ELEMENT :
+                //--handle element
+                if (!xpathUsed) {
+                    xPath += PATH_SEPARATOR;
+                }
+                xPath += name;
+                _componentBindings.put(xPath, binding);
+                break;
 
             case COMPLEXTYPE :
                 //--handle complexType
@@ -353,10 +348,11 @@ public class ExtendedBinding extends Binding {
                 break;
 
             default :
-			    //--there's a problem somewhere
-			    throw new IllegalStateException("Invalid ComponentBindingType: the type (attribute, element, complextype or group) is unknown");
-	    }
-	    
+                //--there's a problem somewhere
+                throw new IllegalStateException("Invalid ComponentBindingType: the"
+                        + " type (attribute, element, complextype or group) is unknown");
+        }
+
         //--process children
         ComponentBindingType temp;
         ComponentBindingType[] tempBindings = binding.getAttributeBinding();
@@ -377,7 +373,7 @@ public class ExtendedBinding extends Binding {
 
         //X--simpleTypes
         tempBindings = binding.getSimpleTypeBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, xPath, SIMPLETYPE);
         }
@@ -398,7 +394,7 @@ public class ExtendedBinding extends Binding {
 
         //5--enums
         tempBindings = binding.getEnumBinding();
-        for (int i=0; i<tempBindings.length; i++) {
+        for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             handleComponent(temp, xPath, ENUM_TYPE);
         }
@@ -435,8 +431,7 @@ public class ExtendedBinding extends Binding {
      * </ul>
      * Note that only top-level groups and complexTypes are named and thus will
      *
-     * @param structure
-     *            the structure for which to return a representation.
+     * @param structure the structure for which to return a representation.
      * @return a string representation of an XML Schema Component.
      */
     public static String getSchemaLocation(final Structure structure) {
@@ -487,14 +482,16 @@ public class ExtendedBinding extends Binding {
                 break;
 
             case Structure.SIMPLE_TYPE:
-                SimpleType simpleType = (SimpleType)structure;
+                SimpleType simpleType = (SimpleType) structure;
                 parent = simpleType.getParent();
-                if (parent != null && parent.getStructureType() != Structure.SCHEMA)
+                if (parent != null && parent.getStructureType() != Structure.SCHEMA) {
                    getSchemaLocation(parent, location);
+                }
+
                 if (parent != null && simpleType.getName() != null) {
                     location.append(PATH_SEPARATOR);
                     location.append(ENUMTYPE_ID);
-                    location.append(((SimpleType)structure).getName());
+                    location.append(((SimpleType) structure).getName());
                 }
 //                else {
 //                    location.append(PATH_SEPARATOR);
