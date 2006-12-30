@@ -64,7 +64,6 @@ import org.exolab.javasource.JSourceCode;
  * @version $Revision$ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
  */
 public class CollectionInfoJ2 extends CollectionInfo {
-
     /**
      * @param contentType
      *            The content type of the collection, ie. the type of objects
@@ -91,11 +90,10 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
      * {@inheritDoc}
+     * <br/>
      * To the Java-1 collection iterators, we add the Java-2 Iterator.
-     *
-     * @see org.exolab.castor.builder.info.CollectionInfo#createCollectionIterationMethods(org.exolab.javasource.JClass, boolean)
      */
-    protected void createCollectionIterationMethods(final JClass jClass,
+    protected final void createCollectionIterationMethods(final JClass jClass,
                                                     final boolean useJava50) {
         super.createCollectionIterationMethods(jClass, useJava50);
         this.createIteratorMethod(jClass, useJava50);
@@ -103,10 +101,8 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
     /**
      * {@inheritDoc}
-     *
-     * @see org.exolab.castor.builder.info.CollectionInfo#createEnumerateMethod(org.exolab.javasource.JClass, boolean)
      */
-    protected void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
+    protected final void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
                 SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
                 "an Enumeration over all possible elements of this collection");
@@ -119,7 +115,10 @@ public class CollectionInfoJ2 extends CollectionInfo {
         jClass.addMethod(method);
     }
 
-    protected void createAddMethod(final JClass jClass) {
+    /**
+     * {@inheritDoc}
+     */
+    protected final void createAddMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
         method.addException(SGTypes.IndexOutOfBoundsException,
                             "if the index given is outside the bounds of the collection");
@@ -142,5 +141,4 @@ public class CollectionInfoJ2 extends CollectionInfo {
 
         jClass.addMethod(method);
     }
-
-} // -- CollectionInfoJ2
+}

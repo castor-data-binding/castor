@@ -222,7 +222,7 @@ public final class XSString extends XSPatternBase {
         } else if (value.equals("collapse")) {
             this._whiteSpace = value;
         } else {
-            // TODO: consider throwing an exception/implement exception handling strategy
+            // TODO consider throwing an exception/implement exception handling strategy
             LOG.warn("Warning : " + value + " is a bad entry for the whiteSpace value");
             this._whiteSpace = value;
         }

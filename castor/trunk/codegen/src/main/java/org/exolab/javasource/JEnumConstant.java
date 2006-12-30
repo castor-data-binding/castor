@@ -289,7 +289,7 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     /**
      * prints this enum constant.
      *
-     * @param jsw
+     * @param jsw the JSourceWriter to print to. Must not be null.
      */
     public void print(final JSourceWriter jsw) {
         //-- print comments

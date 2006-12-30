@@ -47,20 +47,17 @@
 package org.exolab.castor.builder;
 
 //--Castor imports
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.LocalConfiguration;
-import org.exolab.castor.xml.JavaNaming;
-
-//--Java IO imports
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.InputStream;
-
-//--Java util imports
 import java.util.Enumeration;
-import java.util.Properties;
 import java.util.Hashtable;
+import java.util.Properties;
 import java.util.StringTokenizer;
+
+import org.exolab.castor.util.Configuration;
+import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.xml.JavaNaming;
 
 /**
  * The configuration for the SourceGenerator

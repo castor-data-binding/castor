@@ -290,7 +290,7 @@ public final class XSDateTime extends XSPatternBase {
             jsc.add("typeValidator.setMaxExclusive(max);");
         }
 
-// TODO: We can't validate on the fixed value as long as Castor treats DateTime as java.util.Date
+// TODO We can't validate on the fixed value as long as Castor treats DateTime as java.util.Date
 // because in the process any time zone information is discarded and comparisons will fail.
 //        // fixed values
 //        if (fixedValue != null) {

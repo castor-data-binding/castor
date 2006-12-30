@@ -47,7 +47,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.descriptors;
 
 import org.exolab.castor.builder.BuilderConfiguration;
@@ -74,8 +73,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
-public class DescriptorSourceFactory {
-
+public final class DescriptorSourceFactory {
     /** GeneralizedFieldHandler. */
     private static final JClass GENERALIZED_FIELD_HANDLER_CLASS =
         new JClass("org.exolab.castor.mapping.GeneralizedFieldHandler");
@@ -298,19 +296,14 @@ public class DescriptorSourceFactory {
      * Creates a specific descriptor for a given member (whether an attribute or
      * an element) represented by a given Class name.
      *
-     * @param classDesc
-     *            JClass-equivalent descriptor for this Descriptor class
-     * @param member
-     *            the member for which to create a descriptor
-     * @param localClassName
-     *            unqualified (no package) name of this class
-     * @param nsURI
-     *            namespace URI
-     * @param jsc
-     *            the source code to which we'll add this descriptor
+     * @param classDesc JClass-equivalent descriptor for this Descriptor class
+     * @param member the member for which to create a descriptor
+     * @param localClassName unqualified (no package) name of this class
+     * @param nsURI namespace URI
+     * @param jsc the source code to which we'll add this descriptor
      */
     private void createDescriptor(final DescriptorJClass classDesc, final FieldInfo member,
-                                  final String localClassName, String nsURI,
+                                  final String localClassName, final String nsURI,
                                   final JSourceCode jsc) {
 
         XSType xsType       = member.getSchemaType();
@@ -332,7 +325,7 @@ public class DescriptorSourceFactory {
             xsType = ((CollectionInfo) member).getContent().getSchemaType();
         }
 
-        //-- Resolve how the node name parameter to the XMLFieldDescriptorImpl constructor is supplied
+        // Resolve how the node name parameter to the XMLFieldDescriptorImpl constructor is supplied
         String nodeName = member.getNodeName();
         String nodeNameParam = null;
         if ((nodeName != null) && (!isText)) {
@@ -408,13 +401,15 @@ public class DescriptorSourceFactory {
             jsc.append(" gfh = (");
             jsc.append(GENERALIZED_FIELD_HANDLER_CLASS.getName());
             jsc.append(")handler;");
-            _xmlFieldHandlerFactory.createXMLFieldHandler(member, xsType, localClassName, jsc, true);
+            _xmlFieldHandlerFactory.createXMLFieldHandler(
+                    member, xsType, localClassName, jsc, true);
             jsc.add("gfh.setFieldHandler(handler);");
             jsc.add("handler = gfh;");
             jsc.unindent();
             jsc.add("}");
         } else {
-            _xmlFieldHandlerFactory.createXMLFieldHandler(member, xsType, localClassName, jsc, false);
+            _xmlFieldHandlerFactory.createXMLFieldHandler(
+                    member, xsType, localClassName, jsc, false);
             addSpecialHandlerLogic(member, xsType, jsc);
         }
 
@@ -436,16 +431,10 @@ public class DescriptorSourceFactory {
 
         //-- Handle namespaces
         //-- FieldInfo namespace has higher priority than ClassInfo namespace.
-        nsURI = member.getNamespaceURI();
-        if (nsURI != null) {
+        if (member.getNamespaceURI() != null) {
             jsc.add("desc.setNameSpaceURI(\"");
-            jsc.append(nsURI);
+            jsc.append(member.getNamespaceURI());
             jsc.append("\");");
-        }
-
-        // FIXME:  This next statement does nothing ... why is it here?
-        if (any && member.getNamespaceURI() == null) {
-            nsURI = null;
         }
 
         //-- required
@@ -474,7 +463,7 @@ public class DescriptorSourceFactory {
 
         //-- Add Validation Code
         validationCode(member, jsc);
-    } //--CreateDescriptor
+    }
 
     /**
      * Adds additional logic or wrappers around the core handler for special
@@ -574,7 +563,8 @@ public class DescriptorSourceFactory {
                     return;
                 }
                 if (xsType.getType() == XSType.IDREF_TYPE) {
-                    jsc.add("org.exolab.castor.xml.validators.IdRefsValidator typeValidator = new org.exolab.castor.xml.validators.IdRefsValidator();");
+                    jsc.add("org.exolab.castor.xml.validators.IdRefsValidator typeValidator = "
+                          + "new org.exolab.castor.xml.validators.IdRefsValidator();");
                     jsc.add("fieldValidator.setValidator(typeValidator);");
                     jsc.add("desc.setValidator(fieldValidator);");
                     return;

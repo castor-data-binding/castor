@@ -49,6 +49,11 @@
  */
 package org.exolab.castor.builder;
 
+import java.util.Enumeration;
+import java.util.Iterator;
+import java.util.LinkedList;
+import java.util.List;
+
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
@@ -91,11 +96,6 @@ import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
-
-import java.util.Enumeration;
-import java.util.Iterator;
-import java.util.LinkedList;
-import java.util.List;
 
 /**
  * Creates the Java Source classes for Schema components.

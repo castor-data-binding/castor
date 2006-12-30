@@ -44,13 +44,13 @@
  */
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
-import org.exolab.castor.xml.schema.Facet;
-import org.exolab.javasource.JType;
-import org.exolab.javasource.JSourceCode;
-import org.exolab.javasource.JClass;
-
 import java.util.Enumeration;
+
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XSType representing a normalizedString type.

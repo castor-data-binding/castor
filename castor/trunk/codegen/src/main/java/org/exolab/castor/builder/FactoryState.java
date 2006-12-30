@@ -50,11 +50,12 @@
 
 package org.exolab.castor.builder;
 
+import java.util.Vector;
+
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
-import java.util.Vector;
 
 /**
  * A class used to save State information for the SourceFactory

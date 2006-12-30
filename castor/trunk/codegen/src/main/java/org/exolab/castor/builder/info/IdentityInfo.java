@@ -55,8 +55,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class IdentityInfo extends FieldInfo {
-
+public final class IdentityInfo extends FieldInfo {
     public IdentityInfo(final String name) {
         super(new XSId(), name);
         setNodeType(XMLInfo.ATTRIBUTE_TYPE);
@@ -125,5 +124,4 @@ public class IdentityInfo extends FieldInfo {
         jsc.append(";");
         return method;
     }
-
-} // -- IdentityInfo
+}

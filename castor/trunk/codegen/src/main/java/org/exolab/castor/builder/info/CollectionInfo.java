@@ -76,13 +76,14 @@ public class CollectionInfo extends FieldInfo {
 
     /**
      * The property used to overwrite the reference suffix for extra collection
-     * methods
+     * methods.
      */
-    public static final String REFERENCE_SUFFIX_PROPERTY = "org.exolab.castor.builder.collections.reference.suffix";
+    public static final String REFERENCE_SUFFIX_PROPERTY =
+        "org.exolab.castor.builder.collections.reference.suffix";
 
     /**
      * A flag indicating that "extra" accessor methods should be created for
-     * returning and setting a reference to the underlying collection
+     * returning and setting a reference to the underlying collection.
      */
     private boolean _extraMethods;
     private String _methodSuffix;
@@ -104,7 +105,7 @@ public class CollectionInfo extends FieldInfo {
     private String             _elementName;
 
     /**
-     * Creates a new CollectionInfo
+     * Creates a new CollectionInfo.
      *
      * @param contentType
      *            the _content type of the collection, ie. the type of objects
@@ -116,7 +117,8 @@ public class CollectionInfo extends FieldInfo {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    public CollectionInfo(XSType contentType, String name, String elementName, final boolean useJava50) {
+    public CollectionInfo(final XSType contentType, final String name,
+            final String elementName, final boolean useJava50) {
         super(new XSList(contentType, useJava50), name);
 
         if (elementName.charAt(0) == '_') {
@@ -134,7 +136,8 @@ public class CollectionInfo extends FieldInfo {
      * Generate the various accessor methods.
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.info.FieldInfo#createAccessMethods(org.exolab.javasource.JClass, boolean)
+     * @see org.exolab.castor.builder.info.FieldInfo
+     *      #createAccessMethods(org.exolab.javasource.JClass, boolean)
      */
     public void createAccessMethods(final JClass jClass, final boolean useJava50) {
         this.createAddAndRemoveMethods(jClass);
@@ -146,7 +149,8 @@ public class CollectionInfo extends FieldInfo {
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.builder.info.FieldInfo#generateInitializerCode(org.exolab.javasource.JSourceCode)
+     * @see org.exolab.castor.builder.info.FieldInfo
+     *      #generateInitializerCode(org.exolab.javasource.JSourceCode)
      */
     public void generateInitializerCode(final JSourceCode sourceCode) {
         sourceCode.add("this.");
@@ -258,8 +262,10 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createAddMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
-        final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
+        method.addException(SGTypes.IndexOutOfBoundsException,
+                "if the index given is outside the bounds of the collection");
+        final JParameter parameter = new JParameter(
+                this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -295,8 +301,8 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createEnumerateMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("enumerate" + this.getMethodSuffix(),
-                                     SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
-                                     "an Enumeration over all " + this.getContentType().getJType() + " elements");
+                SGTypes.createEnumeration(this.getContentType().getJType(), useJava50),
+                "an Enumeration over all " + this.getContentType().getJType() + " elements");
 
         JSourceCode sourceCode = method.getSourceCode();
         sourceCode.add("return this.");
@@ -403,9 +409,10 @@ public class CollectionInfo extends FieldInfo {
     protected void createGetByIndexMethod(final JClass jClass) {
         XSType contentType = this.getContentType();
         JMethod method = new JMethod(this.getReadMethodName(), contentType.getJType(),
-                                     "the value of the " + contentType.getJType().toString() + " at the given index");
+                "the value of the " + contentType.getJType().toString() + " at the given index");
 
-        method.addException(SGTypes.IndexOutOfBoundsException, "if the index given is outside the bounds of the collection");
+        method.addException(SGTypes.IndexOutOfBoundsException,
+                "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -426,9 +433,6 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    /**
-     * @param jClass
-     */
     protected void createAddAndRemoveMethods(final JClass jClass) {
         // create add methods
         this.createAddMethod(jClass);
@@ -493,7 +497,8 @@ public class CollectionInfo extends FieldInfo {
         method.addException(SGTypes.IndexOutOfBoundsException,
                             "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
-        final JParameter parameter = new JParameter(this.getContentType().getJType(), this.getContentName());
+        final JParameter parameter = new JParameter(
+                this.getContentType().getJType(), this.getContentName());
         method.addParameter(parameter);
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -610,7 +615,8 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createSetAsArrayMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix());
-        final JParameter parameter = new JParameter(new JArrayType(this.getContentType().getJType(), useJava50), this.getContentName() + "Array");
+        final JParameter parameter = new JParameter(new JArrayType(
+                this.getContentType().getJType(), useJava50), this.getContentName() + "Array");
         method.addParameter(parameter);
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -636,7 +642,8 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.addIndented("this.");
         sourceCode.append(this.getName());
         sourceCode.append(".add(");
-        sourceCode.append(this.getContentType().createToJavaObjectCode(parameter.getName() + "[" + index + "]"));
+        sourceCode.append(this.getContentType().createToJavaObjectCode(
+                parameter.getName() + "[" + index + "]"));
         sourceCode.append(");");
         sourceCode.unindent();
         sourceCode.add("}");
@@ -665,7 +672,8 @@ public class CollectionInfo extends FieldInfo {
         JDocComment comment = method.getJDocComment();
         comment.appendComment("Sets the value of '");
         comment.appendComment(this.getName());
-        comment.appendComment("' by copying the given Vector. All elements will be checked for type safety.");
+        comment.appendComment(
+                "' by copying the given Vector. All elements will be checked for type safety.");
         JDocDescriptor jDesc = comment.getParamDescriptor(parameter.getName());
         jDesc.setDescription("the Vector to copy.");
 
@@ -697,13 +705,13 @@ public class CollectionInfo extends FieldInfo {
      * field.
      *
      * @param jClass
-     * @param useJava50
-     *            true if source code is supposed to be generated for Java 5
+     * @param useJava50 true if source code is supposed to be generated for Java 5
      */
     protected void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix() + _referenceSuffix);
         final JType collectionJType = getSchemaType().getJType();
-        JParameter parameter = new JParameter(collectionJType, this.getParameterPrefix() + collectionJType.getLocalName());
+        JParameter parameter = new JParameter(
+                collectionJType, this.getParameterPrefix() + collectionJType.getLocalName());
         method.addParameter(parameter);
 
         // create Javadoc
