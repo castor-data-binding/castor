@@ -32,11 +32,31 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-			</summary>
-			<bugs>
-			</bugs>
-		</release>
-		
+            </summary>
+            <bugs>
+                <bug id="1784" tool="jira">
+                    <description>
+                        Checkstyle-based corrections in anttask
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>Ant</module>
+                    <date>20061229</date>
+                </bug>
+            </bugs>
+        </release>
+
         <release version="1.1-M2">
             <description>2nd milestone release for Castor 1.1</description>
             <date>December 29, 2006</date>
@@ -46,13 +66,13 @@
 
                 <h3>DDL Generator</h3>
 
-                <p>At <i>Google Summer of Code</i> program for 2006 the student
+                <p>At the <i>Google Summer of Code</i> program for 2006, the student
                    <b>Le Duc Bao</b> worked for Castor. With support of his mentor
-                   <b>Ralf Joachim</b> he implemented a generator for DDL scripts
+                   <b>Ralf Joachim</b>, he implemented a generator for DDL scripts
                    from scratch.</p>
 
                 <p>Castor DDL Generator creates a SQL script to drop/create tables,
-                   unique keys, sequences and so on from a Castor JDO mapping file.</p>
+                   unique keys, sequences and so on, from a Castor JDO mapping file.</p>
 
                 <code-panel top-caption="Example:">
 java org.castor.ddlgen.Main -m mapping.xml</code-panel>
@@ -63,31 +83,31 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                 <h3>The code generator now supports multiple pattern facets properly.</h3>
 
                 <h2>Changes</h2>
-                
+
                 <h3>Binary JARs restructured</h3>
-                
-                <p>As part of this release, we have started to move several 
-                   areas of functionality to separate deployment units, resulting 
+
+                <p>As part of this release, we have started to move several
+                   areas of functionality to separate deployment units, resulting
                    into additional JARs available for download:</p>
-                   
+
                 <ul>
-                	<li><a href="http://dist.codehaus.org/castor/1.1/castor-1.1-M2-codegen.jar">XML code generator</a></li>
-                	<li><a href="http://dist.codegaus.org/castor/1.1/castor-1.1-M2-codegen-anttask.jar">Ant task for XML code generator</a></li>
+                    <li><a href="http://dist.codehaus.org/castor/1.1/castor-1.1-M2-codegen.jar">XML code generator</a></li>
+                    <li><a href="http://dist.codegaus.org/castor/1.1/castor-1.1-M2-codegen-anttask.jar">Ant task for XML code generator</a></li>
                 </ul>
-                
-                <p>In addition, as outlined above, the <b>new</b> DDL generator has been 
-                   made available as a separate deployment unit as well, resulting 
+
+                <p>In addition, as outlined above, the <b>new</b> DDL generator has been
+                   made available as a separate deployment unit as well, resulting
                    into ...</p>
-                   
+
                 <ul>
-                	<li><a href="http://dist.codegaus.org/castor/1.1/castor-1.1-M2-ddlgen.jar">DDL generator</a></li>
+                    <li><a href="http://dist.codegaus.org/castor/1.1/castor-1.1-M2-ddlgen.jar">DDL generator</a></li>
                 </ul>
-                   
+
                 <p>Please note that the Castor XML (and JDO) JARs do <b>not</b>
-                   include these components anymore. In other words, if you 
-                   want to be using both Castor XML (for (un-)marshalling) and the 
-                   XML code generator for code generation from an XML schema, 
-                   you will have to download both JARs. For details, please have a look 
+                   include these components anymore. In other words, if you
+                   want to use both Castor XML (for (un-)marshaling) and the
+                   XML code generator for code generation from an XML schema,
+                   you will have to download both JARs. For details, please have a look
                    at the <a href="download.html">download instructions</a>.</p>
 
                 <h3>Code generation for &lt;xs:int&gt; and &lt;xs:integer&gt;</h3>

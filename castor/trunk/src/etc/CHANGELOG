@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Ant:   Resolved issue CASTOR-1784 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Checkstyle-based corrections in anttask
+       Details: http://jira.codehaus.org/browse/CASTOR-1784
+       (Edward - 20061229)
+
 Version 1.1-M2, Dec 29, 2006
 -------------------------------
 
