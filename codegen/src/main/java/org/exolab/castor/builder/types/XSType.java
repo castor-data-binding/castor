@@ -45,9 +45,7 @@
 package org.exolab.castor.builder.types;
 
 import java.util.Enumeration;
-import java.util.Hashtable;
 
-import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
@@ -297,7 +295,7 @@ public abstract class XSType {
      * Returns the type of this XSType.
      * @return the type of this XSType.
      */
-    public short getType() {
+    public final short getType() {
         return this._type;
     } //-- getType
 
@@ -362,7 +360,7 @@ public abstract class XSType {
      * Returns true if this XSType represents an enumerated type.
      * @return true if this XSType represents an enumerated type.
      */
-    public boolean isEnumerated() {
+    public final boolean isEnumerated() {
         return _enumerated;
     } //-- isEnumerated
 
@@ -370,7 +368,7 @@ public abstract class XSType {
      * Returns true if this XSType represents a primitive type.
      * @return true if this XSType represents a primitive type.
      */
-    public boolean isPrimitive() {
+    public final boolean isPrimitive() {
         switch (_type) {
             case BOOLEAN_TYPE:
             case BYTE_TYPE:
@@ -394,7 +392,7 @@ public abstract class XSType {
      * Returns true if the XSType represents an XML Schema date/time type.
      * @return true if the XSType represents an XML Schema date/time type.
      */
-    public boolean isDateTime() {
+    public final boolean isDateTime() {
         switch (_type) {
             case DATETIME_TYPE:
             case DURATION_TYPE:
@@ -477,7 +475,7 @@ public abstract class XSType {
      *            a boolean indicating whether or not this XSClass represents an
      *            enumerated type
      */
-    public void setAsEnumerated(final boolean enumerated) {
+    public final void setAsEnumerated(final boolean enumerated) {
         this._enumerated = enumerated;
     } //-- setAsEnumerated
 

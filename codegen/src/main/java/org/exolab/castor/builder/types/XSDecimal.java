@@ -59,7 +59,7 @@ import org.exolab.javasource.JType;
  * The xsd:decimal XML Schema datatype.
  * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
  */
-public  class XSDecimal extends XSPatternBase {
+public final class XSDecimal extends XSPatternBase {
 
     /** The JType represented by this XSType. */
     private static final JType JTYPE = new JClass("java.math.BigDecimal");
@@ -323,18 +323,22 @@ public  class XSDecimal extends XSPatternBase {
                 + " = new org.exolab.castor.xml.validators.DecimalValidator();");
 
         if (_minExclusive != null) {
-            jsc.add("java.math.BigDecimal min = new java.math.BigDecimal(\"" + _minExclusive + "\");");
+            jsc.add("java.math.BigDecimal min = new java.math.BigDecimal(\""
+                    + _minExclusive + "\");");
             jsc.add("typeValidator.setMinExclusive(min);");
         } else if (_minInclusive != null) {
-            jsc.add("java.math.BigDecimal min = new java.math.BigDecimal(\"" + _minInclusive + "\");");
+            jsc.add("java.math.BigDecimal min = new java.math.BigDecimal(\""
+                    + _minInclusive + "\");");
             jsc.add("typeValidator.setMinInclusive(min);");
         }
 
         if (_maxExclusive != null) {
-            jsc.add("java.math.BigDecimal max = new java.math.BigDecimal(\"" + _maxExclusive + "\");");
+            jsc.add("java.math.BigDecimal max = new java.math.BigDecimal(\""
+                    + _maxExclusive + "\");");
             jsc.add("typeValidator.setMaxExclusive(max);");
         } else if (_maxInclusive != null) {
-            jsc.add("java.math.BigDecimal max = new java.math.BigDecimal(\"" + _maxInclusive + "\");");
+            jsc.add("java.math.BigDecimal max = new java.math.BigDecimal(\""
+                    + _maxInclusive + "\");");
             jsc.add("typeValidator.setMaxInclusive(max);");
         }
 

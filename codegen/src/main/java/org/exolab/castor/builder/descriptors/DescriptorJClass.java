@@ -63,15 +63,14 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-03-10 15:42:54 -0700 (Fri, 10 Mar 2006) $
  */
-public class DescriptorJClass extends JClass {
+public final class DescriptorJClass extends JClass {
 
     /** Class Descriptors extend this base class. */
-    private static final String XMLCLASS_DESCRIPTOR_IMPL = "org.exolab.castor.xml.util.XMLClassDescriptorImpl";
-    /** FIXME:  Document this field. */
-    private static final String MAPPING_ACCESS_MODE      = "org.exolab.castor.mapping.AccessMode";
+    private static final String XMLCLASS_DESCRIPTOR_IMPL =
+        "org.exolab.castor.xml.util.XMLClassDescriptorImpl";
 
-    /** Class descriptors implement this interface from org.exolab.castor.mapping. */
-    private static final JClass CLASS_DESCRIPTOR_CLASS;
+    private static final String MAPPING_ACCESS_MODE = "org.exolab.castor.mapping.AccessMode";
+
     /** Field descriptors implement this interface from org.exolab.castor.mapping. */
     private static final JClass FIELD_DESCRIPTOR_CLASS;
 
@@ -81,7 +80,6 @@ public class DescriptorJClass extends JClass {
     private static final JType  TYPE_VALIDATOR_CLASS;
 
     static {
-        CLASS_DESCRIPTOR_CLASS     = new JClass("org.exolab.castor.mapping.ClassDescriptor");
         FIELD_DESCRIPTOR_CLASS     = new JClass("org.exolab.castor.mapping.FieldDescriptor");
         XML_FIELD_DESCRIPTOR_CLASS = new JClass("org.exolab.castor.xml.XMLFieldDescriptor");
         TYPE_VALIDATOR_CLASS       = new JClass("org.exolab.castor.xml.TypeValidator");

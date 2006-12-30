@@ -262,7 +262,8 @@ public final class JAnnotationType extends JStructure {
         JAnnotationType annotationType = new JAnnotationType("RequestForEnhancement");
         annotationType.addElement(new JAnnotationTypeElement("id", JType.INT));
         annotationType.addElement(new JAnnotationTypeElement("synopsis", new JType("String")));
-        JAnnotationTypeElement engineer = new JAnnotationTypeElement("engineer", new JType("String"));
+        JAnnotationTypeElement engineer;
+        engineer = new JAnnotationTypeElement("engineer", new JType("String"));
         engineer.setDefaultString("\"[unassigned]\"");
         annotationType.addElement(engineer);
         JAnnotationTypeElement date = new JAnnotationTypeElement("date", new JType("String"));

@@ -61,26 +61,26 @@ import org.exolab.javasource.JClass;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
-public class ClassInfo extends XMLInfo {
+public final class ClassInfo extends XMLInfo {
 
-    /** Vector of FieldInfo's for all attributes that are members of this Class */
+    /** Vector of FieldInfo's for all attributes that are members of this Class. */
     private Vector    _atts      = null;
-    /** Vector of FieldInfo's for all elements that are members of this Class */
+    /** Vector of FieldInfo's for all elements that are members of this Class. */
     private Vector    _elements  = null;
-    /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo */
+    /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo. */
     private FieldInfo _textField = null;
-    /** The base class */
+    /** The base class. */
     private ClassInfo _baseClass = null;
-    /**  A reference to the JClass that this ClassInfo describes */
+    /**  A reference to the JClass that this ClassInfo describes. */
     private JClass _class = null;
-    /** The group information for this ClassInfo */
+    /** The group information for this ClassInfo. */
     private GroupInfo _groupInfo = null;
     /**
      * true if this ClassInfo describes a container class. That is, a class
      * which should not be marshalled as XML, but whose members should be.
      */
     private boolean _isContainer = false;
-    /** true if this ClassInfo represents an abstract class */
+    /** true if this ClassInfo represents an abstract class. */
     private boolean _abstract    = false;
 
     /**
@@ -103,7 +103,8 @@ public class ClassInfo extends XMLInfo {
     //------------------/
 
     /**
-     * Adds the given FieldInfo to this ClassInfo
+     * Adds the given FieldInfo to this ClassInfo.
+     * 
      * @param fieldInfo the FieldInfo to add
      */
     public void addFieldInfo(final FieldInfo fieldInfo) {
@@ -137,7 +138,8 @@ public class ClassInfo extends XMLInfo {
     } //-- addFieldInfo
 
     /**
-     * Adds the given set of FieldInfos to this ClassInfo
+     * Adds the given set of FieldInfos to this ClassInfo.
+     * 
      * @param fields an Array of FieldInfo objects
      */
     public void addFieldInfo(final FieldInfo[] fields) {
@@ -154,7 +156,7 @@ public class ClassInfo extends XMLInfo {
     } //-- allowsTextContent
 
     /**
-     * Returns true if the given FieldInfo is contained within this ClassInfo
+     * Returns true if the given FieldInfo is contained within this ClassInfo.
      *
      * @param fieldInfo
      *            the FieldInfo to check
@@ -290,7 +292,7 @@ public class ClassInfo extends XMLInfo {
     } //-- getFieldCount
 
     /**
-     * Returns the GroupInfo for this ClassInfo
+     * Returns the GroupInfo for this ClassInfo.
      *
      * @return the GroupInfo for this ClassInfo
      */
@@ -299,7 +301,7 @@ public class ClassInfo extends XMLInfo {
     } //-- getGroupInfo
 
     /**
-     * Returns the JClass described by this ClassInfo
+     * Returns the JClass described by this ClassInfo.
      *
      * @return the JClass which is described by this ClassInfo
      */
@@ -318,7 +320,8 @@ public class ClassInfo extends XMLInfo {
     } //-- getTextField
 
     /**
-     * Returns true if the JClass represented by this ClassInfo is abstract
+     * Returns true if the JClass represented by this ClassInfo is abstract.
+     * 
      * @return true if the JClass represented by this ClassInfo is abstract
      */
     public boolean isAbstract() {
@@ -326,7 +329,7 @@ public class ClassInfo extends XMLInfo {
     }
 
     /**
-     * Returns true if the compositor of this GroupInfo is a choice
+     * Returns true if the compositor of this GroupInfo is a choice.
      *
      * @return true if the compositor of this GroupInfo is a choice
      */
@@ -346,7 +349,7 @@ public class ClassInfo extends XMLInfo {
     } //-- isContainer
 
     /**
-     * Returns true if the compositor of this GroupInfo is a sequence
+     * Returns true if the compositor of this GroupInfo is a sequence.
      *
      * @return true if the compositor of this GroupInfo is a sequence
      */

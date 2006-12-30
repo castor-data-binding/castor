@@ -21,7 +21,6 @@ import java.util.StringTokenizer;
 
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
-import org.exolab.castor.builder.BuilderConfiguration;
 
 /**
  * Registry for {@link ClassNameCRStrategy} implementations obtained from the
@@ -50,9 +49,9 @@ public final class ClassNameCRStrategyRegistry {
     /**
      * Construct an instance of {@link ClassNameCRStrategyRegistry} 
      * that loads the {@link ClassNameCRStrategy} implementations 
-     * specified in the given {@link BuilderConfiguration}.
+     * specified in the given BuilderConfiguration.
      * 
-     * @param  The {@link BuilderConfiguration}.
+     * @param enlistedNameConflictStrategies The BuilderConfiguration.
      */
     public ClassNameCRStrategyRegistry(final String enlistedNameConflictStrategies) {
         StringTokenizer tokenizer = new StringTokenizer(enlistedNameConflictStrategies, ", ");
@@ -91,12 +90,9 @@ public final class ClassNameCRStrategyRegistry {
      * null if the named strategy is not supported.
      *
      * @param name The name of the ClassNameConflictResolutionStrategy.
-     * @return The {@link TransactionManagerFactory} or null if none exists.
-     * @throws IllegalArgumentException If TransactoinManagerFactory
-     *         with given name could not be found.
+     * @return The TransactionManagerFactory or null if none exists.
      */
-    public ClassNameCRStrategy getClassNameConflictResolutionStrategy(final String name)
-        throws IllegalArgumentException {
+    public ClassNameCRStrategy getClassNameConflictResolutionStrategy(final String name) {
         Object factory = _strategies.get(name);
         if (factory == null) {
             String msg = "The ClassNameConflictResolutionStrategy '" + name + "' "
@@ -107,5 +103,4 @@ public final class ClassNameCRStrategyRegistry {
         }
         return (ClassNameCRStrategy) factory;
     }
-
 }

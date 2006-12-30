@@ -97,8 +97,9 @@ public final class XSIdRef extends XSType {
      */
     public void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
-    	 jsc.add("org.exolab.castor.xml.validators.IdRefValidator typeValidator = new org.exolab.castor.xml.validators.IdRefValidator();");
-         jsc.add(fieldValidatorInstanceName+".setValidator(typeValidator);");
+        jsc.add("org.exolab.castor.xml.validators.IdRefValidator typeValidator = "
+              + "new org.exolab.castor.xml.validators.IdRefValidator();");
+        jsc.add(fieldValidatorInstanceName + ".setValidator(typeValidator);");
     }
 
 } //-- XSIdRef

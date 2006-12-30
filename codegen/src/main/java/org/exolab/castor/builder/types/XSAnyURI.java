@@ -45,19 +45,18 @@
 package org.exolab.castor.builder.types;
 
 import org.exolab.castor.xml.schema.SimpleType;
-
-import org.exolab.javasource.JType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
 
 /**
  * The XML Schema xsd:anyURI type.
- * FIXME:  This type does not appear to be implemented.
  *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSAnyURI extends XSType {
+    // FIXME  This type does not appear to be implemented.
 
     /**
      * The JType represented by this XSType.
@@ -111,8 +110,6 @@ public final class XSAnyURI extends XSType {
      * validation code should, if necessary, create a newly configured
      * TypeValidator that should then be added to the FieldValidator instance
      * whose name is provided.
-     * <p>
-     * TODO: VALIDATE THE URI
      *
      * @param fixedValue
      *            a fixed value to use if any
@@ -124,7 +121,7 @@ public final class XSAnyURI extends XSType {
      */
     public void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
-        //--TBD
+        // TODO VALIDATE THE URI
     }
 
 } //-- XSAnyURI

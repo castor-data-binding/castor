@@ -42,14 +42,13 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.builder.util;
-
-import org.exolab.castor.builder.ClassInfoResolver;
-import org.exolab.castor.builder.info.ClassInfo;
 
 import java.util.Enumeration;
 import java.util.Hashtable;
+
+import org.exolab.castor.builder.ClassInfoResolver;
+import org.exolab.castor.builder.info.ClassInfo;
 
 /**
  * A class for "caching" ClassInfo's which later need to be resolved
@@ -59,47 +58,46 @@ import java.util.Hashtable;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public class ClassInfoResolverImpl implements ClassInfoResolver {
-
+    /** ClassInfo cache. */
     private Hashtable _cache = null;
 
+    /**
+     * Default constructor.
+     */
     public ClassInfoResolverImpl() {
         _cache = new Hashtable();
-    } //-- ClassInfoResolverImpl
+    }
 
     /**
-     * Adds the given Reference to this ClassInfo resolver
+     * Adds the given Reference to this ClassInfo resolver.
      *
-     * @param key
-     *            the key to bind a reference to
-     * @param classInfo
-     *            the ClassInfo which is being referenced
+     * @param key the key to bind a reference to.
+     * @param classInfo the ClassInfo which is being referenced.
      */
-    public void bindReference(final Object key, final ClassInfo classInfo) {
+    public final void bindReference(final Object key, final ClassInfo classInfo) {
         if (key == null) {
             String err = "null passed as argument to ClassInfoResolver#bindReference";
             throw new NullPointerException(err);
         }
         _cache.put(key, classInfo);
-    } //-- bindReference
+    }
 
     /**
-     * Returns all the keys used for binding ClassInfo objects
+     * Returns all the keys used for binding ClassInfo objects.
      *
-     * @return an Enumeration over the keys using for binding ClassInfo objects
+     * @return an Enumeration over the keys using for binding ClassInfo objects.
      */
-    public Enumeration keys() {
+    public final Enumeration keys() {
         return _cache.keys();
-    } //-- keys
+    }
 
     /**
-     * Returns the ClassInfo which has been bound to the given key
+     * Returns the ClassInfo which has been bound to the given key.
      *
-     * @param key
-     *            the object to which the ClassInfo has been bound
-     * @return the ClassInfo which has been bound to the given key
+     * @param key the object to which the ClassInfo has been bound.
+     * @return the ClassInfo which has been bound to the given key.
      */
-    public ClassInfo resolve(final Object key) {
+    public final ClassInfo resolve(final Object key) {
         return (ClassInfo) _cache.get(key);
-    } //-- resolve
-
-} //-- ClassInfoResolverImpl
+    }
+}

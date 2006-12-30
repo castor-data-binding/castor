@@ -45,11 +45,12 @@
 package org.exolab.castor.builder.info;
 
 /**
- * A class to hold group information
+ * A class to hold group information.
+ * 
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class GroupInfo {
+public final class GroupInfo {
     /**
      * The compositor value that indicates that all fields are required, but
      * order is not important. <I>default</I>

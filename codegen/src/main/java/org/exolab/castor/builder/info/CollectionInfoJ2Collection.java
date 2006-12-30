@@ -60,7 +60,6 @@ import org.exolab.javasource.JClass;
  * @version $Revision: 6302 $ $Date: 2006-02-23 01:08:24 -0700 (Thu, 23 Feb 2006) $
  */
 public class CollectionInfoJ2Collection extends CollectionInfoJ2 {
-
     /**
      * Creates an instance of this class that represents information about a 
      * Java collection type of type 'java.util.Collection'.
@@ -83,33 +82,30 @@ public class CollectionInfoJ2Collection extends CollectionInfoJ2 {
     }
 
     /**
-     * @see org.exolab.castor.builder.info.CollectionInfo#createAddByIndexMethod(org.exolab.javasource.JClass)
+     * {@inheritDoc}
      */
     protected void createAddByIndexMethod(final JClass jClass) {
         // do not create such method,
     }
 
     /**
-     * @see org.exolab.castor.builder.info.CollectionInfo#createGetByIndexMethod(org.exolab.javasource.JClass)
+     * {@inheritDoc}
      */
     protected void createGetByIndexMethod(final JClass jClass) {
         // do not create such method
     }
 
     /**
-     * @see org.exolab.castor.builder.info.CollectionInfo#createSetByIndexMethod(org.exolab.javasource.JClass)
+     * {@inheritDoc}
      */
     protected void createSetByIndexMethod(final JClass jClass) {
         // do not create such method
     }
 
     /**
-     * @see org.exolab.castor.builder.info.CollectionInfo#createRemoveByIndexMethod(org.exolab.javasource.JClass)
+     * {@inheritDoc}
      */
     protected void createRemoveByIndexMethod(final JClass jClass) {
         // do not create such method
     }
-    
-    
-
 }
