@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1785 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Update checkstyle to work under UNIX + Windows both
+       Details: http://jira.codehaus.org/browse/CASTOR-1785
+       (Edward - 20061229)
+
 Ant:   Resolved issue CASTOR-1784 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Checkstyle-based corrections in anttask
        Details: http://jira.codehaus.org/browse/CASTOR-1784
