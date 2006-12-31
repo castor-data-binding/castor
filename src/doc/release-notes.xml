@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1776" tool="jira">
+                    <description>
+                        Cleaned up checkstyle warnings at anttask module and introduce new
+                        CastorCodeGenTask.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20061231</date>
+                </bug>
                 <bug id="1786" tool="jira">
                     <description>
                         Checkstyle-based corrections in codegen

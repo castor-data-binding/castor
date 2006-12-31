@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1776 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Cleaned up checkstyle warnings at anttask module and introduce new CastorCodeGenTask.
+       Details: http://jira.codehaus.org/browse/CASTOR-1776
+       (Ralf - 20061231)
+
 XML:   Resolved issue CASTOR-1786 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Checkstyle-based corrections in codegen
        Details: http://jira.codehaus.org/browse/CASTOR-1786

@@ -839,7 +839,7 @@
         description="Use the Source Generator to create the Java classes for jdo-conf.xsd">
         <delete dir="${gen.src}/jdo-conf"/>
         <mkdir dir="${gen.src}/jdo-conf"/>
-        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${main.resources}/org/castor/jdo/conf/jdo-conf.xsd"
                        todir="${gen.src}/jdo-conf"
@@ -859,7 +859,7 @@
             description="Use the Source Generator to create the Java classes for binding.xsd">
         <delete dir="${gen.src}/binding"/>
         <mkdir dir="${gen.src}/binding"/>
-        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${main.resources}/org/exolab/castor/builder/binding/binding.xsd"
                        bindingfile="${main.resources}/org/exolab/castor/builder/binding/binding-binding.xml"
@@ -880,7 +880,7 @@
             description="Use the Source Generator to create the Java classes for mapping.xsd">
         <delete dir="${gen.src}/mapping"/>
         <mkdir dir="${gen.src}/mapping"/>
-        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${main.resources}/org/exolab/castor/mapping/mapping.xsd"
                        todir="${gen.src}/mapping"
@@ -901,7 +901,7 @@
             description="Use the Source Generator to create the Java classes for TestDescriptor.xsd">
         <delete dir="${gen.src}/testdescriptor"/>
         <mkdir dir="${gen.src}/testdescriptor"/>
-        <taskdef name="castor-srcgen" classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
                  classpathref="build.classpath"/>
         <castor-srcgen file="${source}/tests/main/org/exolab/castor/tests/framework/TestDescriptor.xsd"
                        todir="${gen.src}/testdescriptor"
