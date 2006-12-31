@@ -42,7 +42,7 @@
  *
  * $Id: CastorSourceGenTask.java 6410 2006-11-17 12:06:24Z wguttmn $
  */
-package org.exolab.castor.tools.ant.taskdefs;
+package org.castor.anttask;
 
 import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.DirectoryScanner;
@@ -78,9 +78,8 @@ import java.util.Vector;
  * @author <a href="mailto:joel.farquhar@montage-dmc.com">Joel Farquhar</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @version $Revision: 6543 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
- * @deprecated Please use {@link org.castor.anttask.CastorCodeGenTask} instead.
  */
-public final class CastorSourceGenTask extends MatchingTask {
+public final class CastorCodeGenTask extends MatchingTask {
     //--------------------------------------------------------------------------
 
     /** Msg indicating class descriptor generation has been disabled. */
@@ -166,7 +165,7 @@ public final class CastorSourceGenTask extends MatchingTask {
     /**
      * No-arg constructor.
      */
-    public CastorSourceGenTask() {
+    public CastorCodeGenTask() {
         // Nothing needed
     }
 

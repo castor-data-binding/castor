@@ -58,131 +58,149 @@ import org.exolab.castor.builder.FieldInfoFactory;
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision: 6543 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
- * @deprecated Please use {@link org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask} instead.
+ * @deprecated Please use {@link org.castor.anttask.CastorCodeGenTask} instead.
  */
-public class XSDCompiler extends Task {
+public final class XSDCompiler extends Task {
+    //--------------------------------------------------------------------------
 
-  /** Schema to use to generate code. */
-  private File    _schema;
-  /** Package to generate code into. */
-  private String  _pkgName;
-  /** Line seperator to use. */
-  private String  _lineSep;
-  /** If true, suppress non-fatal warnings. */
-  private boolean _force;
-  /** Custom type factory to supply to the code generator. */
-  private String  _typeFactory;
-  /** Directory into which to generate code. */
-  private File    _destDir;
+    /** Schema to use to generate code. */
+    private File _schema;
+    
+    /** Package to generate code into. */
+    private String _pkgName;
+    
+    /** Line seperator to use. */
+    private String _lineSep;
+    
+    /** If true, suppress non-fatal warnings. */
+    private boolean _force;
+    
+    /** Custom type factory to supply to the code generator. */
+    private String _typeFactory;
+    
+    /** Directory into which to generate code. */
+    private File _destDir;
 
-  /**
-   * Creates a new XSDCompiler Task.
-   */
-  public XSDCompiler() {
-    // No action needed
-  } //-- XSDCompiler
+    //--------------------------------------------------------------------------
 
-  /**
-   * Executes the task.
-   * @throws BuildException if anything goes wrong during execution of the Ant task.
-   */
-  public void execute() throws BuildException {
-    if (_schema == null || !_schema.exists()) {
-      throw new BuildException("Schema file is required");
+    /**
+     * Creates a new XSDCompiler Task.
+     */
+    public XSDCompiler() {
+        // No action needed
     }
 
-    if (_lineSep != null) {
-      if ("win".equals(_lineSep) || "\r\n".equals(_lineSep)) {
-        project.log("Using Windows style line separation.", Project.MSG_VERBOSE);
-        _lineSep = "\r\n";
-      } else if ("unix".equals(_lineSep) || "\n".equals(_lineSep)) {
-        project.log("Using UNIX style line separation.", Project.MSG_VERBOSE);
-        _lineSep = "\n";
-      } else if ("mac".equals(_lineSep) || "\r".equals(_lineSep)) {
-        project.log("Using Macintosh style line separation.", Project.MSG_VERBOSE);
-        _lineSep = "\r";
-      } else {
-        throw new BuildException("Invalid line-separator style.");
-      }
-    } else {
-      _lineSep = "\n"; // default
+    //--------------------------------------------------------------------------
+
+    /**
+     * Executes the task. If anything goes wrong during execution of the Ant task a
+     * BuildException will be thrown.
+     */
+    public void execute() {
+        if (_schema == null || !_schema.exists()) {
+            throw new BuildException("Schema file is required");
+        }
+
+        if (_lineSep != null) {
+            if ("win".equals(_lineSep) || "\r\n".equals(_lineSep)) {
+                project.log("Using Windows style line separation.", Project.MSG_VERBOSE);
+                _lineSep = "\r\n";
+            } else if ("unix".equals(_lineSep) || "\n".equals(_lineSep)) {
+                project.log("Using UNIX style line separation.", Project.MSG_VERBOSE);
+                _lineSep = "\n";
+            } else if ("mac".equals(_lineSep) || "\r".equals(_lineSep)) {
+                project.log("Using Macintosh style line separation.", Project.MSG_VERBOSE);
+                _lineSep = "\r";
+            } else {
+                throw new BuildException("Invalid line-separator style.");
+            }
+        } else {
+            _lineSep = "\n"; // default
+        }
+
+        SourceGenerator sgen = null;
+        if (_typeFactory != null) {
+            try {
+                Object factory = Class.forName(_typeFactory).newInstance();
+                sgen = new SourceGenerator((FieldInfoFactory) factory);
+            } catch (Exception ex) {
+                project.log("Type factory " + _typeFactory + " is invalid.", Project.MSG_INFO);
+                throw new BuildException(ex);
+            }
+        } else {
+            // default
+            sgen = new SourceGenerator();
+        }
+
+        sgen.setLineSeparator(_lineSep);
+        sgen.setSuppressNonFatalWarnings(_force);
+        sgen.setDestDir(_destDir.toString());
+        if (_force) { project.log("Suppressing non fatal warnings.", Project.MSG_VERBOSE); }
+
+        try {
+            sgen.generateSource(_schema.getAbsolutePath(), _pkgName);
+        } catch (IOException ex) {
+            project.log("Failed to compile " + _schema, Project.MSG_INFO);
+            throw new BuildException(ex);
+        }
     }
 
-    SourceGenerator sgen = null;
-    if (_typeFactory != null) {
-      try {
-        sgen = new SourceGenerator((FieldInfoFactory) Class.forName(_typeFactory).newInstance());
-      } catch (Exception ex) {
-        project.log("Type factory " + _typeFactory + " is invalid.", Project.MSG_INFO);
-        throw new BuildException(ex);
-      }
-    } else {
-      sgen = new SourceGenerator(); // default
+    //--------------------------------------------------------------------------
+
+    /**
+     * Set the schema file name.
+     * 
+     * @param schema The schema to be used for code generation.
+     */
+    public void setSchema(final String schema) {
+        _schema = project.resolveFile(schema);
     }
 
-    sgen.setLineSeparator(_lineSep);
-    sgen.setSuppressNonFatalWarnings(_force);
-    sgen.setDestDir(_destDir.toString());
-    if (_force) {
-      project.log("Suppressing non fatal warnings.", Project.MSG_VERBOSE);
+    /**
+     * Set the target package name.
+     * 
+     * @param pkgName The target package name.
+     */
+    public void setPackage(final String pkgName) {
+        _pkgName = pkgName;
     }
 
-    try {
-      sgen.generateSource(_schema.getAbsolutePath(), _pkgName);
-    } catch (IOException ex) {
-      project.log("Failed to compile " + _schema, Project.MSG_INFO);
-      throw new BuildException(ex);
+    /**
+     * Set the line separator.
+     * 
+     * @param lineSep The line seperator to use for this platform.
+     */
+    public void setLineseperator(final String lineSep) {
+        _lineSep = lineSep;
     }
-  } //-- execute
 
-  /**
-   * Set the schema file name.
-   * @param schema The schema to be used for code generation.
-   */
-  public void setSchema(final String schema) {
-    this._schema = project.resolveFile(schema);
-  }
+    /**
+     * Set overwriting existing files.
+     * 
+     * @param force If true, existing files will be silently overwritten and non-fatal
+     *        warnings will be ignored
+     */
+    public void setForce(final boolean force) {
+        _force = force;
+    }
 
-  /**
-   * Set the target package name.
-   * @param pkgName the target package name.
-   */
-  public void setPackage(final String pkgName) {
-    this._pkgName = pkgName;
-  }
+    /**
+     * Set the type factory.
+     * 
+     * @param typeFactory Name of the custom type factory class for collections.
+     */
+    public void setTypefactory(final String typeFactory) {
+        _typeFactory = typeFactory;
+    }
 
-  /**
-   * Set the line separator.
-   * @param lineSep the line seperator to use for this platform.
-   */
-  public void setLineseperator(final String lineSep) {
-    this._lineSep = lineSep;
-  }
+    /**
+     * Set the destination directory into which the Java sources should be copied to.
+     * 
+     * @param dirName The name of the destination directory
+     */
+    public void setDestdir(final String dirName) {
+        _destDir = project.resolveFile(dirName);
+    }
 
-  /**
-   * Set overwriting existing files.
-   * @param force if true, existing files will be silently overwritten and non-fatal
-   * warnings will be ignored
-   */
-  public void setForce(final boolean force) {
-    this._force = force;
-  }
-
-  /**
-   * Set the type factory.
-   * @param typeFactory name of the custom type factory class for collections.
-   */
-  public void setTypefactory(final String typeFactory) {
-    this._typeFactory = typeFactory;
-  }
-
-  /**
-   * Set the destination directory into which the Java sources
-   * should be copied to.
-   * @param dirName the name of the destination directory
-   */
-  public void setDestdir(final String dirName) {
-    _destDir = project.resolveFile(dirName);
-  } //-- setDestDir
-
-} //-- XSDCompiler
+    //--------------------------------------------------------------------------
+}
