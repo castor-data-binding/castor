@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2001 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package org.exolab.javasource;
 
 import java.util.Vector;

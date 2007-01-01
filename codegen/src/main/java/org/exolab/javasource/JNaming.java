@@ -39,16 +39,13 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2000 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package org.exolab.javasource;
 
 /**
  * A utility class used to validate identifiers and class names.
  *
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public final class JNaming {

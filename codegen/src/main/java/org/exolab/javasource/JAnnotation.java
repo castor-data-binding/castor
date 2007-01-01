@@ -39,12 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id: JAnnotation.java
- *
- * Contributors:
- * --------------
- * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
 package org.exolab.javasource;
 
@@ -137,7 +131,8 @@ import org.exolab.castor.util.OrderedHashMap;
  * setValue methods taking String values can be used to output this construct
  * literally if desired.
  *
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
+ * @author <a href="mailto:andrew DOT fawcett AT coda DOTcom">Andrew Fawcett</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JAnnotation {
     /**
@@ -497,7 +492,7 @@ public final class JAnnotation {
         jsw.flush();
     }
 
-    private static void test1(JSourceWriter jsw) {
+    private static void test1(final JSourceWriter jsw) {
         JAnnotationType requestForEnhancementType1 = new JAnnotationType("RequestForEnhancement");
         JAnnotation requestForEnhancement1 = new JAnnotation(requestForEnhancementType1);
         requestForEnhancement1.setElementValue("id", "2868724");
@@ -507,34 +502,34 @@ public final class JAnnotation {
         requestForEnhancement1.print(jsw);
     }
 
-    private static void test2(JSourceWriter jsw) {
+    private static void test2(final JSourceWriter jsw) {
         JAnnotationType webMethodType2 = new JAnnotationType("WebMethod");
         JAnnotation webMethod2 = new JAnnotation(webMethodType2);
         webMethod2.print(jsw);
     }
 
-    private static void test3(JSourceWriter jsw) {
+    private static void test3(final JSourceWriter jsw) {
         JAnnotationType copyrightType3 = new JAnnotationType("Copyright");
         JAnnotation copyright3 = new JAnnotation(copyrightType3);
         copyright3.setValue("\"2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.\"");
         copyright3.print(jsw);
     }
 
-    private static void test4(JSourceWriter jsw) {
+    private static void test4(final JSourceWriter jsw) {
         JAnnotationType endorsersType4 = new JAnnotationType("Endorsers");
         JAnnotation endorsers4 = new JAnnotation(endorsersType4);
         endorsers4.setValue(new String[] {"\"Children\"", "\"Unscrupulous dentists\""});
         endorsers4.print(jsw);
     }
 
-    private static void test5(JSourceWriter jsw) {
+    private static void test5(final JSourceWriter jsw) {
         JAnnotationType endorsersType5 = new JAnnotationType("Endorsers");
         JAnnotation endorsers5 = new JAnnotation(endorsersType5);
         endorsers5.setValue(new String[] {"\"Epicurus\"" });
         endorsers5.print(jsw);
     }
 
-    private static void test6(JSourceWriter jsw) {
+    private static void test6(final JSourceWriter jsw) {
         JAnnotationType nameType6 = new JAnnotationType("Name");
         JAnnotationType authorType6 = new JAnnotationType("Author");
         JAnnotation author6 = new JAnnotation(authorType6);
@@ -545,7 +540,7 @@ public final class JAnnotation {
         author6.print(jsw);
     }
 
-    private static void test7(JSourceWriter jsw) {
+    private static void test7(final JSourceWriter jsw) {
         JAnnotationType nameType7 = new JAnnotationType("Name");
         JAnnotationType authorType7 = new JAnnotationType("Author");
         JAnnotation author7 = new JAnnotation(authorType7);
@@ -557,7 +552,7 @@ public final class JAnnotation {
         author7.print(jsw);
     }
 
-    private static void test8(JSourceWriter jsw) {
+    private static void test8(final JSourceWriter jsw) {
         JAnnotationType nameType8 = new JAnnotationType("Name");
         JAnnotationType authorType8 = new JAnnotationType("Author");
         JAnnotation author8 = new JAnnotation(authorType8);

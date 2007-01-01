@@ -53,7 +53,8 @@ import org.exolab.castor.util.OrderedHashMap;
  * Implements JAnnotatedElement interface on behalf of other classes in this
  * package that implement this interface.
  *
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
+ * @author <a href="mailto:andrew DOT fawcett AT coda DOTcom">Andrew Fawcett</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public class JAnnotatedElementHelper implements JAnnotatedElement {
     // NOTE: Removed references to LinkedHashMap as we are trying to maintain
@@ -348,7 +349,8 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     private static JAnnotation makeTestRFEAnnotation() {
-        JAnnotationType requestForEnhancementType = new JAnnotationType("org.xyz.RequestForEnhancement");
+        JAnnotationType requestForEnhancementType;
+        requestForEnhancementType = new JAnnotationType("org.xyz.RequestForEnhancement");
         JAnnotation requestForEnhancement = new JAnnotation(requestForEnhancementType);
         requestForEnhancement.setElementValue("id", "2868724");
         requestForEnhancement.setElementValue("synopsis", "\"Provide time-travel functionality\"");

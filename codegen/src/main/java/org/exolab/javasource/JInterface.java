@@ -39,8 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2001-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
 package org.exolab.javasource;
 
@@ -58,9 +56,12 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JInterface extends JStructure {
-
+    /** Default size of the map for fields. */
+    private static final int DEFAULT_FIELD_MAP_SIZE = 3;
+    
     /** The fields for this JInterface. */
     private JNamedMap _fields = null;
+    
     /** The list of methods of this JInterface. */
     private Vector _methods   = null;
 
@@ -113,7 +114,7 @@ public final class JInterface extends JStructure {
         //-- only initialize fields if we need it, many interfaces
         //-- don't contain any fields, no need to waste space
         if (_fields == null) {
-            _fields = new JNamedMap(3);
+            _fields = new JNamedMap(DEFAULT_FIELD_MAP_SIZE);
         }
 
         _fields.put(name, jField);

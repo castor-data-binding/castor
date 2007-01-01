@@ -39,8 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2001-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
 package org.exolab.javasource;
 
@@ -53,7 +51,7 @@ import java.util.Vector;
 /**
  * This class represents the basic Java "structure" for a Java source file. This
  * is the base class for JClass and JInterface.
- * <p>
+ * <br/>
  * This is a useful utility when creating in memory source code. The code in
  * this package was modelled after the Java Reflection API as much as possible
  * to reduce the learning curve.

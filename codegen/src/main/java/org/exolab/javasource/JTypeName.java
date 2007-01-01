@@ -39,18 +39,14 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2005 (C) Keith Visco. All Rights Reserved.
- *
- * Created on Feb 26, 2005
- *
- * $Id$
  */
 package org.exolab.javasource;
 
 /**
  * Represents a class name.
  *
- * @author <a href="mailto:keith (at) kvisco (dot) com">Keith Visco</a>
- * @version $Revision$ $Date: $
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JTypeName {
 
