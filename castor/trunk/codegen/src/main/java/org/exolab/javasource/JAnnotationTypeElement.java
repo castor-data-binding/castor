@@ -39,12 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id: JAnnotationTypeElement.java
- *
- * Contributors:
- * --------------
- * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
 package org.exolab.javasource;
 
@@ -53,7 +47,8 @@ import java.io.PrintWriter;
 /**
  * Holds information about a given annotation type element.
  *
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
+ * @author <a href="mailto:andrew DOT fawcett AT coda DOTcom">Andrew Fawcett</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JAnnotationTypeElement implements JMember {
     private String      _name;

@@ -39,12 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id: JEnum.java
- *
- * Contributors:
- * --------------
- * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
 package org.exolab.javasource;
 
@@ -54,7 +48,8 @@ import java.util.Vector;
 /**
  * Describes the definition of a enum constant.
  *
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
+ * @author <a href="mailto:andrew DOT fawcett AT coda DOT com">Andrew Fawcett</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JEnumConstant extends JAnnotatedElementHelper implements JMember {
 

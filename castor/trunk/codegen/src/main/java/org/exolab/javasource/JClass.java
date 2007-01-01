@@ -39,25 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
- *
- * This file was originally developed by Keith Visco during the
- * course of employment at Intalio Inc.
- * All portions of this file developed by Keith Visco after Jan 19 2005 are
- * Copyright (C) 2005 Keith Visco. All Rights Reserverd.
- *
- * Contributors:
- * --------------
- * Keith Visco (keith AT kvisco DOT com)
- *    - Original Author
- *
- * Martin Skopp (skopp AT riege DOT de)
- *    - Moved some core code into JStructure and revised to
- *      extend JStructure
- *
  */
-
 package org.exolab.javasource;
 
 import java.util.Enumeration;
@@ -74,35 +56,23 @@ import java.util.Vector;
  */
 public class JClass extends JStructure {
 
-    /**
-     * The list of constructors for this JClass.
-     */
-    protected Vector _constructors  = null;
+    /** The list of constructors for this JClass. */
+    private Vector _constructors = null;
 
-    /**
-     * The list of member variables (fields) of this JClass.
-     */
-    protected JNamedMap _fields     = null;
+    /** The list of member variables (fields) of this JClass. */
+    private JNamedMap _fields = null;
 
-    /**
-     * A collection of inner classes for this JClass.
-     */
-    protected Vector _innerClasses  = null;
+    /** A collection of inner classes for this JClass. */
+    private Vector _innerClasses = null;
 
-    /**
-     * The list of methods of this JClass.
-     */
-    protected Vector _methods       = null;
+    /** The list of methods of this JClass. */
+    private Vector _methods = null;
 
-    /**
-     * The superclass for this JClass.
-     */
-    private JTypeName _superClass   = null;
+    /** The superclass for this JClass. */
+    private JTypeName _superClass = null;
 
-    /**
-     * The source code for static initialization.
-     */
-    protected JSourceCode _staticInitializer = new JSourceCode();
+    /** The source code for static initialization. */
+    private JSourceCode _staticInitializer = new JSourceCode();
 
     /**
      * Creates a new JClass with the given name.

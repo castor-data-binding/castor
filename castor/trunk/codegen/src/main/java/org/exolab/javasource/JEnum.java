@@ -39,12 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id: JEnum.java
- *
- * Contributors:
- * --------------
- * Andrew Fawcett (andrew.fawcett@coda.com) - Original Author
  */
 package org.exolab.javasource;
 
@@ -55,7 +49,8 @@ import java.util.Vector;
 /**
  * Describes the definition of a enum type class.
  *
- * @author <a href="mailto:andrew.fawcett@coda.com">Andrew Fawcett</a>
+ * @author <a href="mailto:andrew DOT fawcett AT coda DOT com">Andrew Fawcett</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JEnum extends JClass {
     /**
@@ -149,17 +144,17 @@ public final class JEnum extends JClass {
         if (jsw == null) {
             throw new IllegalArgumentException("argument 'jsw' should not be null.");
         }
-        StringBuffer buffer = new StringBuffer();
 
         printHeader(jsw);
         printPackageDeclaration(jsw);
 
         //-- get imports from inner-classes
+        JClass[] innerClasses = getInnerClasses();
         Vector removeImports = null;
-        if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
+        if (innerClasses.length > 0) {
             removeImports = new Vector();
-            for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass iClass = (JClass) _innerClasses.elementAt(i);
+            for (int i = 0; i < innerClasses.length; i++) {
+                JClass iClass = innerClasses[i];
                 Enumeration enumeration = iClass.getImports();
                 while (enumeration.hasMoreElements()) {
                     String classname = (String) enumeration.nextElement();
@@ -188,6 +183,7 @@ public final class JEnum extends JClass {
         //-- print class information
         //-- we need to add some JavaDoc API adding comments
 
+        StringBuffer buffer = new StringBuffer();
         buffer.setLength(0);
 
         //-- print annotations
@@ -264,7 +260,9 @@ public final class JEnum extends JClass {
     }
 
     private void printMemberVariables(final JSourceWriter jsw) {
-        if (_fields.size() > 0) {
+        JField[] fields = getFields();
+        
+        if (fields.length > 0) {
             jsw.writeln();
             jsw.writeln("  //--------------------------/");
             jsw.writeln(" //- Class/Member Variables -/");
@@ -272,8 +270,8 @@ public final class JEnum extends JClass {
             jsw.writeln();
         }
 
-        for (int i = 0; i < _fields.size(); i++) {
-            JField jField = (JField) _fields.get(i);
+        for (int i = 0; i < fields.length; i++) {
+            JField jField = fields[i];
 
             //-- print Java comment
             JDocComment comment = jField.getComment();
@@ -312,17 +310,19 @@ public final class JEnum extends JClass {
         //- Static Initializer -/
         //----------------------/
 
-        if (!_staticInitializer.isEmpty()) {
+        if (!getStaticInitializationCode().isEmpty()) {
             jsw.writeln();
             jsw.writeln("static {");
-            jsw.writeln(_staticInitializer.toString());
+            jsw.writeln(getStaticInitializationCode().toString());
             jsw.writeln("};");
             jsw.writeln();
         }
     }
 
     private void printConstructors(final JSourceWriter jsw) {
-        if (_constructors.size() > 0) {
+        JConstructor[] constructors = getConstructors();
+        
+        if (constructors.length > 0) {
             jsw.writeln();
             jsw.writeln("  //----------------/");
             jsw.writeln(" //- Constructors -/");
@@ -330,15 +330,17 @@ public final class JEnum extends JClass {
             jsw.writeln();
         }
 
-        for (int i = 0; i < _constructors.size(); i++) {
-            JConstructor jConstructor = (JConstructor) _constructors.elementAt(i);
+        for (int i = 0; i < constructors.length; i++) {
+            JConstructor jConstructor = constructors[i];
             jConstructor.print(jsw);
             jsw.writeln();
         }
     }
 
     private void printMethods(final JSourceWriter jsw) {
-        if (_methods.size() > 0) {
+        JMethod[] methods = getMethods();
+        
+        if (methods.length > 0) {
             jsw.writeln();
             jsw.writeln("  //-----------/");
             jsw.writeln(" //- Methods -/");
@@ -346,23 +348,25 @@ public final class JEnum extends JClass {
             jsw.writeln();
         }
 
-        for (int i = 0; i < _methods.size(); i++) {
-            JMethod jMethod = (JMethod) _methods.elementAt(i);
+        for (int i = 0; i < methods.length; i++) {
+            JMethod jMethod = methods[i];
             jMethod.print(jsw);
             jsw.writeln();
         }
     }
 
     private void printInnerClasses(final JSourceWriter jsw) {
-        if ((_innerClasses != null) && (_innerClasses.size() > 0)) {
+        JClass[] innerClasses = getInnerClasses();
+
+        if (innerClasses.length > 0) {
             jsw.writeln();
             jsw.writeln("  //-----------------/");
             jsw.writeln(" //- Inner Classes -/");
             jsw.writeln("//-----------------/");
             jsw.writeln();
 
-            for (int i = 0; i < _innerClasses.size(); i++) {
-                JClass jClass = (JClass) _innerClasses.elementAt(i);
+            for (int i = 0; i < innerClasses.length; i++) {
+                JClass jClass = innerClasses[i];
                 jClass.print(jsw, true);
                 jsw.writeln();
             }

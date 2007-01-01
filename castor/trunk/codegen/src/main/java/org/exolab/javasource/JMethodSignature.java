@@ -39,8 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
 package org.exolab.javasource;
 
@@ -51,11 +49,13 @@ import java.util.Vector;
  * this package was modelled after the Java Reflection API as much as possible
  * to reduce the learning curve.
  *
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @author <a href="mailto:keith At kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
  */
 public final class JMethodSignature extends JAnnotatedElementHelper {
-
+    /** Default size of the map for method parameters. */
+    private static final int DEFAULT_PARAM_MAP_SIZE = 3;
+    
     /** The set of modifiers for this JMethodSignature. */
     private JModifiers _modifiers = null;
     /** The return type of this method. */
@@ -84,7 +84,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         this._returnType   = null;
         this._name         = name;
         this._modifiers    = new JModifiers();
-        this._params       = new JNamedMap(3);
+        this._params       = new JNamedMap(DEFAULT_PARAM_MAP_SIZE);
         this._exceptions   = new Vector(1);
     } //-- JMethodSignature
 

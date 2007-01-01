@@ -39,8 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
 package org.exolab.javasource;
 
@@ -48,10 +46,11 @@ import java.util.Vector;
 
 /**
  * A simple String to Object mapping which preserves order.
- * <p>
+ * <br/>
  * <B>Note:</B> This class is not synchronized. So be careful. :-)
  *
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
+ * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JNamedMap {
 

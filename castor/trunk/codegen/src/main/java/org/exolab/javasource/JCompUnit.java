@@ -39,17 +39,6 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2001-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * Contributors:
- * --------------
- * Gary Shea (shea AT gtsdesign DOT com)
- *    - Original Author
- *
- * Keith Visco
- *   - Changed JCompElement references to JStructure, some additional
- *     tweaking to get it working with the current Javasource package.
- *
- * $Id$
  */
 package org.exolab.javasource;
 
@@ -68,8 +57,7 @@ import java.util.Vector;
  * learning curve.
  *
  * @author <a href="mailto:shea AT gtsdesign DOT com">Gary Shea</a>
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar
- *          2005) $
+ * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class JCompUnit {
 

@@ -39,10 +39,7 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
  */
-
 package org.exolab.javasource;
 
 /**
@@ -100,10 +97,11 @@ public final class JComment {
      */
     private StringBuffer _comment = null;
 
-    /**
-     * The maximum number of characters per line.
-     */
+    /** The maximum number of characters per line. */
     protected static final int MAX_LENGTH = 65;
+
+    /** The maximum number of characters to indent comments. */
+    protected static final int MAX_INDENT = 17;
 
     /**
      * Creates a new Java Comment.
@@ -145,9 +143,8 @@ public final class JComment {
         short currentIndent = jsw.getIndentSize();
         int maxLength = MAX_LENGTH - currentIndent;
 
-        //-- a simple to check to make sure we have some room
-        //-- to print the comment
-        if (maxLength <= 17) { maxLength = MAX_LENGTH / 2; }
+        //-- a simple check to make sure we have some room to print the comment
+        if (maxLength <= MAX_INDENT) { maxLength = MAX_LENGTH / 2; }
 
         short resolvedStyle = _style;
 
@@ -237,7 +234,7 @@ class LineFormatter {
 
     private String _comment = null;
 
-    private int _maxLength = 65;
+    private int _maxLength = JComment.MAX_LENGTH;
     private int _offset = 0;
     private int _length = 0;
 
