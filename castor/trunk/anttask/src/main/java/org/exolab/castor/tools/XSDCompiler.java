@@ -56,7 +56,7 @@ import org.exolab.castor.builder.FieldInfoFactory;
 /**
  * Ant task that enables code generation from an XML _schema from within Ant.
  *
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision: 6543 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  * @deprecated Please use {@link org.castor.anttask.CastorCodeGenTask} instead.
  */
