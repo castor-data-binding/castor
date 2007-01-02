@@ -33,12 +33,12 @@ public class EnumBindingType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _enumClassName
+     * Field _enumClassName.
      */
     private org.exolab.castor.builder.binding.EnumClassName _enumClassName;
 
     /**
-     * Field _enumMemberList
+     * Field _enumMemberList.
      */
     private java.util.List _enumMemberList;
 
@@ -86,9 +86,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- void addEnumMember(int, org.exolab.castor.builder.binding.EnumMember) 
 
     /**
-     * Method enumerateEnumMember
-     * 
-     * 
+     * Method enumerateEnumMember.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -109,9 +107,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.EnumClassName getEnumClassName() 
 
     /**
-     * Method getEnumMember
-     * 
-     * 
+     * Method getEnumMember.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -132,9 +128,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.EnumMember getEnumMember(int) 
 
     /**
-     * Method getEnumMember
-     * 
-     * 
+     * Method getEnumMember.
      * 
      * @return this collection as an Array
      */
@@ -151,9 +145,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.EnumMember[] getEnumMember() 
 
     /**
-     * Method getEnumMemberCount
-     * 
-     * 
+     * Method getEnumMemberCount.
      * 
      * @return the size of this collection
      */
@@ -163,9 +155,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- int getEnumMemberCount() 
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
@@ -181,9 +171,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method iterateEnumMember
-     * 
-     * 
+     * Method iterateEnumMember.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -235,9 +223,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- void removeAllEnumMember() 
 
     /**
-     * Method removeEnumMember
-     * 
-     * 
+     * Method removeEnumMember.
      * 
      * @param vEnumMember
      * @return true if the object was removed from the collection.
@@ -249,9 +235,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- boolean removeEnumMember(org.exolab.castor.builder.binding.EnumMember) 
 
     /**
-     * Method removeEnumMemberAt
-     * 
-     * 
+     * Method removeEnumMemberAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -307,9 +291,7 @@ public class EnumBindingType implements java.io.Serializable {
     } //-- void setEnumMember(org.exolab.castor.builder.binding.EnumMember) 
 
     /**
-     * Method unmarshalEnumBindingType
-     * 
-     * 
+     * Method unmarshalEnumBindingType.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is

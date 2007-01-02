@@ -31,22 +31,22 @@ public class BindingType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * The element type
+     * The element type.
     **/
     public static final int ELEMENT_TYPE = 0;
 
     /**
-     * The instance of the element type
+     * The instance of the element type.
     **/
     public static final BindingType ELEMENT = new BindingType(ELEMENT_TYPE, "element");
 
     /**
-     * The type type
+     * The type type.
     **/
     public static final int TYPE_TYPE = 1;
 
     /**
-     * The instance of the type type
+     * The instance of the type type.
     **/
     public static final BindingType TYPE = new BindingType(TYPE_TYPE, "type");
 
@@ -74,7 +74,7 @@ public class BindingType implements java.io.Serializable {
 
     /**
      * Returns an enumeration of all possible instances of
-     * BindingType
+     * BindingType.
     **/
     public static java.util.Enumeration enumerate()
     {
@@ -82,7 +82,7 @@ public class BindingType implements java.io.Serializable {
     } //-- java.util.Enumeration enumerate() 
 
     /**
-     * Returns the type of this BindingType
+     * Returns the type of this BindingType.
     **/
     public int getType()
     {
@@ -100,7 +100,7 @@ public class BindingType implements java.io.Serializable {
     } //-- java.util.Hashtable init() 
 
     /**
-     * Returns the String representation of this BindingType
+     * Returns the String representation of this BindingType.
     **/
     public java.lang.String toString()
     {

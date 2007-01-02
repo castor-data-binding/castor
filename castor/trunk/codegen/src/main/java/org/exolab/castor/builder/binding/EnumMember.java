@@ -27,12 +27,12 @@ public class EnumMember implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _value
+     * Field _value.
      */
     private java.lang.String _value;
 
     /**
-     * Field _javaName
+     * Field _javaName.
      */
     private java.lang.String _javaName;
 
@@ -72,9 +72,7 @@ public class EnumMember implements java.io.Serializable {
     } //-- java.lang.String getValue() 
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
@@ -144,9 +142,7 @@ public class EnumMember implements java.io.Serializable {
     } //-- void setValue(java.lang.String) 
 
     /**
-     * Method unmarshalEnumMember
-     * 
-     * 
+     * Method unmarshalEnumMember.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is

@@ -44,28 +44,28 @@ public class ClassType implements java.io.Serializable {
     private boolean _final;
 
     /**
-     * keeps track of state for field: _final
+     * keeps track of state for field: _final.
     **/
     private boolean _has_final;
 
     private boolean _abstract;
 
     /**
-     * keeps track of state for field: _abstract
+     * keeps track of state for field: _abstract.
     **/
     private boolean _has_abstract;
 
     private boolean _equals;
 
     /**
-     * keeps track of state for field: _equals
+     * keeps track of state for field: _equals.
     **/
     private boolean _has_equals;
 
     private boolean _bound;
 
     /**
-     * keeps track of state for field: _bound
+     * keeps track of state for field: _bound.
     **/
     private boolean _has_bound;
 

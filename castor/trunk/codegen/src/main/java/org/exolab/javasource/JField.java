@@ -89,7 +89,7 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
         _modifiers = new JModifiers();
         _modifiers.makePrivate();
         _comment = new JDocComment();
-        _comment.appendComment("Field " + name);
+        _comment.appendComment("Field " + name + ".");
     }
 
     //--------------------------------------------------------------------------

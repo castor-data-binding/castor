@@ -27,12 +27,12 @@ public class EnumClassName implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * internal content storage
+     * internal content storage.
      */
     private java.lang.String _content = "";
 
     /**
-     * Field _package
+     * Field _package.
      */
     private java.lang.String _package;
 
@@ -54,7 +54,7 @@ public class EnumClassName implements java.io.Serializable {
 
     /**
      * Returns the value of field 'content'. The field 'content'
-     * has the following description: internal content storage
+     * has the following description: internal content storage.
      * 
      * @return the value of field 'Content'.
      */
@@ -74,9 +74,7 @@ public class EnumClassName implements java.io.Serializable {
     } //-- java.lang.String getPackage() 
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
@@ -127,7 +125,7 @@ public class EnumClassName implements java.io.Serializable {
 
     /**
      * Sets the value of field 'content'. The field 'content' has
-     * the following description: internal content storage
+     * the following description: internal content storage.
      * 
      * @param content the value of field 'content'.
      */
@@ -148,9 +146,7 @@ public class EnumClassName implements java.io.Serializable {
     } //-- void setPackage(java.lang.String) 
 
     /**
-     * Method unmarshalEnumClassName
-     * 
-     * 
+     * Method unmarshalEnumClassName.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is

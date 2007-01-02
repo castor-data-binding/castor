@@ -103,7 +103,7 @@ public final class JMethod implements JMember, JAnnotatedElement {
         
         _signature = new JMethodSignature(name, returnType);
         _jdc = _signature.getJDocComment();
-        _jdc.appendComment("Method " + name + "\n\n");
+        _jdc.appendComment("Method " + name + ".");
         if (returnDoc != null && returnDoc.length() > 0) {
             _jdc.addDescriptor(JDocDescriptor.createReturnDesc(returnDoc));
         } else {

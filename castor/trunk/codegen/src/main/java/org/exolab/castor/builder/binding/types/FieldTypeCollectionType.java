@@ -26,102 +26,102 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * The array type
+     * The array type.
     **/
     public static final int ARRAY_TYPE = 0;
 
     /**
-     * The instance of the array type
+     * The instance of the array type.
     **/
     public static final FieldTypeCollectionType ARRAY = new FieldTypeCollectionType(ARRAY_TYPE, "array");
 
     /**
-     * The vector type
+     * The vector type.
     **/
     public static final int VECTOR_TYPE = 1;
 
     /**
-     * The instance of the vector type
+     * The instance of the vector type.
     **/
     public static final FieldTypeCollectionType VECTOR = new FieldTypeCollectionType(VECTOR_TYPE, "vector");
 
     /**
-     * The arraylist type
+     * The arraylist type.
     **/
     public static final int ARRAYLIST_TYPE = 2;
 
     /**
-     * The instance of the arraylist type
+     * The instance of the arraylist type.
     **/
     public static final FieldTypeCollectionType ARRAYLIST = new FieldTypeCollectionType(ARRAYLIST_TYPE, "arraylist");
 
     /**
-     * The hashtable type
+     * The hashtable type.
     **/
     public static final int HASHTABLE_TYPE = 3;
 
     /**
-     * The instance of the hashtable type
+     * The instance of the hashtable type.
     **/
     public static final FieldTypeCollectionType HASHTABLE = new FieldTypeCollectionType(HASHTABLE_TYPE, "hashtable");
 
     /**
-     * The collection type
+     * The collection type.
     **/
     public static final int COLLECTION_TYPE = 4;
 
     /**
-     * The instance of the collection type
+     * The instance of the collection type.
     **/
     public static final FieldTypeCollectionType COLLECTION = new FieldTypeCollectionType(COLLECTION_TYPE, "collection");
 
     /**
-     * The odmg type
+     * The odmg type.
     **/
     public static final int ODMG_TYPE = 5;
 
     /**
-     * The instance of the odmg type
+     * The instance of the odmg type.
     **/
     public static final FieldTypeCollectionType ODMG = new FieldTypeCollectionType(ODMG_TYPE, "odmg");
 
     /**
-     * The set type
+     * The set type.
     **/
     public static final int SET_TYPE = 6;
 
     /**
-     * The instance of the set type
+     * The instance of the set type.
     **/
     public static final FieldTypeCollectionType SET = new FieldTypeCollectionType(SET_TYPE, "set");
 
     /**
-     * The map type
+     * The map type.
     **/
     public static final int MAP_TYPE = 7;
 
     /**
-     * The instance of the map type
+     * The instance of the map type.
     **/
     public static final FieldTypeCollectionType MAP = new FieldTypeCollectionType(MAP_TYPE, "map");
 
     /**
-     * The set type
+     * The set type.
     **/
     public static final int SORTED_SET_TYPE = 8;
 
     /**
-     * The instance of the sorted set type
+     * The instance of the sorted set type.
     **/
     public static final FieldTypeCollectionType SORTED_SET = new FieldTypeCollectionType(SORTED_SET_TYPE, "sortedset");
 
     /**
-     * The sorted map type
+     * The sorted map type.
     **/
     public static final int SORTED_MAP_TYPE = 9;
 
     /**
-     * The instance of the sorted map type
+     * The instance of the sorted map type.
     **/
     public static final FieldTypeCollectionType SORTED_MAP = new FieldTypeCollectionType(SORTED_MAP_TYPE, "sortedmap");
 
@@ -149,7 +149,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
 
     /**
      * Returns an enumeration of all possible instances of
-     * FieldTypeCollectionType
+     * FieldTypeCollectionType.
     **/
     public static java.util.Enumeration enumerate()
     {
@@ -157,7 +157,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     } //-- java.util.Enumeration enumerate() 
 
     /**
-     * Returns the type of this FieldTypeCollectionType
+     * Returns the type of this FieldTypeCollectionType.
     **/
     public int getType()
     {
@@ -184,7 +184,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
 
     /**
      * Returns the String representation of this
-     * FieldTypeCollectionType
+     * FieldTypeCollectionType.
     **/
     public java.lang.String toString()
     {

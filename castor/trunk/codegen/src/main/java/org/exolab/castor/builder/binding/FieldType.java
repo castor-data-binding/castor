@@ -35,42 +35,42 @@ public class FieldType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _name
+     * Field _name.
      */
     private java.lang.String _name;
 
     /**
-     * Field _javaType
+     * Field _javaType.
      */
     private java.lang.String _javaType;
 
     /**
-     * Field _wrapper
+     * Field _wrapper.
      */
     private boolean _wrapper;
 
     /**
-     * keeps track of state for field: _wrapper
+     * keeps track of state for field: _wrapper.
      */
     private boolean _has_wrapper;
 
     /**
-     * Field _handler
+     * Field _handler.
      */
     private java.lang.String _handler;
 
     /**
-     * Field _collection
+     * Field _collection.
      */
     private org.exolab.castor.builder.binding.types.FieldTypeCollectionType _collection;
 
     /**
-     * Field _visibility
+     * Field _visibility.
      */
     private org.exolab.castor.builder.binding.types.FieldTypeVisibilityType _visibility;
 
     /**
-     * Field _validator
+     * Field _validator.
      */
     private java.lang.String _validator;
 
@@ -167,9 +167,7 @@ public class FieldType implements java.io.Serializable {
     } //-- boolean getWrapper() 
 
     /**
-     * Method hasWrapper
-     * 
-     * 
+     * Method hasWrapper.
      * 
      * @return true if at least one Wrapper has been added
      */
@@ -179,9 +177,7 @@ public class FieldType implements java.io.Serializable {
     } //-- boolean hasWrapper() 
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
@@ -312,9 +308,7 @@ public class FieldType implements java.io.Serializable {
     } //-- void setWrapper(boolean) 
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is
