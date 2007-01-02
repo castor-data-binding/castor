@@ -57,27 +57,27 @@ public class PackageTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLC
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_namespace", "namespace", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 PackageTypeChoice target = (PackageTypeChoice) object;
                 return target.getNamespace();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     PackageTypeChoice target = (PackageTypeChoice) object;
-                    target.setNamespace( (java.lang.String) value);
+                    target.setNamespace((java.lang.String) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setRequired(true);
@@ -98,27 +98,27 @@ public class PackageTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLC
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_schemaLocation", "schemaLocation", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 PackageTypeChoice target = (PackageTypeChoice) object;
                 return target.getSchemaLocation();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     PackageTypeChoice target = (PackageTypeChoice) object;
-                    target.setSchemaLocation( (java.lang.String) value);
+                    target.setSchemaLocation((java.lang.String) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setRequired(true);

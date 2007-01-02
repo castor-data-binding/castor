@@ -1762,7 +1762,7 @@ public class SourceFactory extends BaseFactory {
                     }
 
                     //-- create class member,if necessary
-                    if (!( (contentModel instanceof ComplexType) || (contentModel instanceof ModelGroup))) {
+                    if (!((contentModel instanceof ComplexType) || (contentModel instanceof ModelGroup))) {
                         if (contentModel instanceof ModelGroup) {
                             ModelGroup mg = (ModelGroup) contentModel;
                             if (mg.isReference()) {
