@@ -361,7 +361,7 @@ public final class DescriptorJClass extends JClass {
      * @return the Class name (as a String) for the given XSType
      */
     private static String classType(final JType jType) {
-        if (jType instanceof JPrimitiveType) {
+        if (jType.isPrimitive()) {
             JPrimitiveType primitive = (JPrimitiveType) jType;
             return primitive.getWrapperName() + ".TYPE";
         }

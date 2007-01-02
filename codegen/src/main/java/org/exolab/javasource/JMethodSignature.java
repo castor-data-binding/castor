@@ -284,10 +284,10 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         for (int i = 0; i < _params.size(); i++) {
 
             JType  jType  = ((JParameter) _params.get(i)).getType();
-            while (jType instanceof JArrayType) {
+            while (jType.isArray()) {
                 jType = ((JArrayType) jType).getComponentType();
             }
-            if (!(jType instanceof JPrimitiveType)) {
+            if (!jType.isPrimitive()) {
                 JClass jclass = (JClass) jType;
                 names.addElement(jclass.getName());
             }
