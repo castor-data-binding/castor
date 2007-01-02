@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,158 +42,154 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.descriptors;
-
-import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.NodeType;
-import org.exolab.castor.xml.XMLClassDescriptor;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.XMLFieldHandler;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 import java.util.Locale;
 
+import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLFieldHandler;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
+
 /**
- * A ClassDescriptor for java.util.Locale
+ * A ClassDescriptor for java.util.Locale.
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-16 22:45:54 -0700 (Thu, 16 Dec 2004) $
  */
-public class LocaleDescriptor
-    implements XMLClassDescriptor
-{
+public class LocaleDescriptor implements XMLClassDescriptor {
 
+    /** Used for returning no attribute and no element fields. */
+    private static final XMLFieldDescriptor[]   NO_FIELDS  = new XMLFieldDescriptor[0];
+    /** Our field descriptor for our "content". */
+    private static final XMLFieldDescriptorImpl NO_CONTENT = null;
+    /** The name of the XML element. */
+    private static final String                 XML_NAME   = "locale";
+    /** Our field descriptor array. Lists the fields we describe. */
+    private static final XMLFieldDescriptor[]   FIELDS;
+    /** The TypeValidator to use for validation of the described class. */
+    private static final TypeValidator          VALIDATOR  = null;
 
-    /**
-     * Used for returning no attribute and no element fields
-    **/
-    private static final XMLFieldDescriptor[] _noFields
-        = new XMLFieldDescriptor[0];
+    static {
+        // -- Create FieldDescriptor for language
+        XMLFieldDescriptorImpl fdLanguage = new XMLFieldDescriptorImpl(
+                String.class, "language", "language", NodeType.Attribute);
 
-    /**
-     * The TypeValidator to use for validation of the described class
-    **/
-    private TypeValidator validator = null;
+        fdLanguage.setConstructorArgumentIndex(0);
+        fdLanguage.setHandler(new XMLFieldHandler() {
 
-    /**
-     * The name of the XML element.
-     */
-    private static final String XMLNAME_FOR_CLASS = "locale";
+            /**
+             * {@inheritDoc}
+             */
+            public Object getValue(final Object object) throws IllegalStateException {
+                return ((java.util.Locale) object).getLanguage();
+            }
 
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
+            /**
+             * {@inheritDoc}
+             */
+            public void setValue(final Object object, final Object value)
+                        throws IllegalStateException, IllegalArgumentException {
+                //-- do nothing, can only be set via constructor
+            }
 
-    private static XMLFieldDescriptor[] _fields = null;
+            /**
+             * {@inheritDoc}
+             */
+            public Object newInstance(final Object parent) {
+                //-- not applicable
+                return null;
+            }
+        });
+
+        // -- Create FieldDescriptor for country
+        XMLFieldDescriptorImpl fdCountry = new XMLFieldDescriptorImpl(
+                String.class, "country", "country", NodeType.Attribute);
+
+        fdCountry.setConstructorArgumentIndex(1);
+        fdCountry.setHandler(new XMLFieldHandler() {
+
+            /**
+             * {@inheritDoc}
+             */
+            public Object getValue(final Object object) throws IllegalStateException {
+                return ((java.util.Locale) object).getCountry();
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            public void setValue(final Object object, final Object value)
+                    throws IllegalStateException, IllegalArgumentException {
+                // -- do nothing, can only be set via constructor
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            public Object newInstance(final Object parent) {
+                // -- not applicable
+                return null;
+            }
+        });
+
+//        // -- Create FieldDescriptor for language variant
+//        XMLFieldDescriptorImpl fdVariant = new XMLFieldDescriptorImpl(
+//                String.class, "variant", "variant", NodeType.Attribute);
+//
+//        fdVariant.setConstructorArgumentIndex(2);
+//        fdVariant.setRequired(false);
+//        fdVariant.setHandler(new XMLFieldHandler() {
+//
+//            /**
+//             * {@inheritDoc}
+//             */
+//            public Object getValue(final Object object) throws IllegalStateException {
+//                String variant = ((Locale) object).getVariant();
+//                if (variant == null || variant.length() == 0) {
+//                    return null;
+//                }
+//
+//                return variant;
+//            }
+//
+//            /**
+//             * {@inheritDoc}
+//             */
+//            public void setValue(final Object object, final Object value)
+//                        throws IllegalStateException, IllegalArgumentException {
+//                // -- do nothing, can only be set via constructor
+//            }
+//
+//            /**
+//             * {@inheritDoc}
+//             */
+//            public Object newInstance(final Object parent) {
+//                // -- not applicable
+//                return null;
+//            }
+//        });
+
+        FIELDS = new XMLFieldDescriptor[2];
+        FIELDS[0] = fdCountry;
+        FIELDS[1] = fdLanguage;
+        // _fields[2] = fdVariant;
+    }
 
     //----------------/
     //- Constructors -/
     //----------------/
 
+    /**
+     * No-arg constructor.
+     */
     public LocaleDescriptor() {
         super();
-        
-        
-        if (_fields == null) {
-            
-            
-            //-- Create FieldDescriptor for country
-            XMLFieldDescriptorImpl fdCountry
-                = new XMLFieldDescriptorImpl(String.class, "country", "country",
-                    NodeType.Attribute);
-    
-            fdCountry.setConstructorArgumentIndex(1);
-            fdCountry.setHandler( new XMLFieldHandler() {
-    
-                public Object getValue( Object object )
-                    throws IllegalStateException
-                {
-                    return ((java.util.Locale)object).getCountry();
-                }
-    
-                public void setValue( Object object, Object value)
-                    throws IllegalStateException, IllegalArgumentException
-                {
-                    //-- do nothing, can only be set via constructor
-                }
-                public Object newInstance( Object parent ) {
-                    //-- not applicable
-                    return null;
-                }
-            } );
-                
-            //-- Create FieldDescriptor for language
-            XMLFieldDescriptorImpl fdLanguage
-                = new XMLFieldDescriptorImpl(String.class, "language", "language",
-                    NodeType.Attribute);
-    
-            fdLanguage.setConstructorArgumentIndex(0);
-            fdLanguage.setHandler( new XMLFieldHandler() {
-            
-    
-                public Object getValue( Object object )
-                    throws IllegalStateException
-                {
-                    return ((java.util.Locale)object).getLanguage();
-                }
-    
-                public void setValue( Object object, Object value)
-                    throws IllegalStateException, IllegalArgumentException
-                {
-                    //-- do nothing, can only be set via constructor
-                }
-                public Object newInstance( Object parent ) {
-                    //-- not applicable
-                    return null;
-                }
-            } );
-                
-            /*
-                //-- Create FieldDescriptor for language
-                XMLFieldDescriptorImpl fdVariant
-                    = new XMLFieldDescriptorImpl(String.class, "variant", "variant",
-                        NodeType.Attribute);
-                
-                fdVariant.setConstructorArgumentIndex(2);
-                fdVariant.setRequired(false);
-        
-                fdVariant.setHandler( new XMLFieldHandler() {
-        
-                    public Object getValue( Object object )
-                        throws IllegalStateException
-                    {
-                        String variant = ((Locale)object).getVariant();
-                        if ((variant == null) || (variant.length() == 0))
-                            return null;
-                        
-                        return variant;
-                    }
-        
-                    public void setValue( Object object, Object value)
-                        throws IllegalStateException, IllegalArgumentException
-                    {
-                        //-- do nothing, can only be set via constructor
-                    }
-                    public Object newInstance( Object parent ) {
-                        //-- not applicable
-                        return null;
-                    }
-                } );
-                
-                */
-                
-             
-            _fields = new XMLFieldDescriptor[2];
-            _fields[0] = fdCountry;
-            _fields[1] = fdLanguage;
-            //_fields[2] = fdVariant;
-                
-        }
-        
-
     } //-- LocaleDescriptor
 
     //------------------/
@@ -201,107 +197,99 @@ public class LocaleDescriptor
     //------------------/
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
-    **/
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshaled as XML attributes.
+     *
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshaled as XML attributes.
+     */
     public XMLFieldDescriptor[]  getAttributeDescriptors() {
-        return _fields;
+        return FIELDS;
     } // getAttributeDescriptors
 
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-    **/
+     * Returns the XMLFieldDescriptor for the member that should be marshaled
+     * as text content.
+     *
+     * @return the XMLFieldDescriptor for the member that should be marshaled
+     *         as text content.
+     */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return NO_CONTENT;
     } // getContentDescriptor
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
-    **/
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshaled as XML elements.
+     *
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshaled as XML elements.
+     */
     public XMLFieldDescriptor[]  getElementDescriptors() {
-        return _noFields;
+        return NO_FIELDS;
     } // getElementDescriptors
 
     /**
-     * Returns the XML field descriptor matching the given
-     * xml name and nodeType. If NodeType is null, then
-     * either an AttributeDescriptor, or ElementDescriptor
-     * may be returned. Null is returned if no matching
+     * Returns the XML field descriptor matching the given xml name and
+     * nodeType. If NodeType is null, then either an AttributeDescriptor, or
+     * ElementDescriptor may be returned. Null is returned if no matching
      * descriptor is available.
      *
      * @param name the xml name to match against
      * @param namespace the namespace uri
-     * @param nodeType the NodeType to match against, or null if
-     * the node type is not known.
-     * @return the matching descriptor, or null if no matching
-     * descriptor is available.
-     *
-    **/
-    public XMLFieldDescriptor getFieldDescriptor
-        (String name, String namespace, NodeType nodeType)
-    {
+     * @param nodeType the NodeType to match against, or null if the node type
+     *        is not known.
+     * @return the matching descriptor, or null if no matching descriptor is
+     *         available.
+     */
+    public XMLFieldDescriptor getFieldDescriptor(final String name, final String namespace,
+            final NodeType nodeType) {
         return null;
-
     } //-- getFieldDescriptor
 
     /**
-     * @return the namespace prefix to use when marshalling as XML.
-    **/
+     * @return the namespace prefix to use when marshaling as XML.
+     */
     public String getNameSpacePrefix() {
         return null;
     } //-- getNameSpacePrefix
 
     /**
-     * @return the namespace URI used when marshalling and unmarshalling as XML.
-    **/
+     * @return the namespace URI used when marshaling and unmarshaling as XML.
+     */
     public String getNameSpaceURI() {
         return null;
     } //-- getNameSpaceURI
 
     /**
-     * Returns a specific validator for the class described by
-     * this ClassDescriptor. A null value may be returned
-     * if no specific validator exists.
+     * Returns a specific validator for the class described by this
+     * ClassDescriptor. A null value may be returned if no specific validator
+     * exists.
      *
      * @return the type validator for the class described by this
-     * ClassDescriptor.
-    **/
+     *         ClassDescriptor.
+     */
     public TypeValidator getValidator() {
-        return validator;
+        return VALIDATOR;
     } //-- getValidator
 
     /**
      * Returns the XML Name for the Class being described.
      *
      * @return the XML name.
-    **/
+     */
     public String getXMLName() {
-        return XMLNAME_FOR_CLASS;
+        return XML_NAME;
     } //-- getXMLName
 
     /**
-     * Returns the String representation of this XMLClassDescriptor
-     * @return the String representation of this XMLClassDescriptor
-    **/
+     * Returns the String representation of this XMLClassDescriptor.
+     * @return the String representation of this XMLClassDescriptor.
+     */
     public String toString() {
-
-        String str = super.toString() +
-            "; descriptor for class: " + Locale.class.getName();
-
-        //-- add xml name
-        str += "; xml name: " + XMLNAME_FOR_CLASS;
-
-        return str;
+        return super.toString() + "; descriptor for class: "
+                + Locale.class.getName() + "; xml name: " + XML_NAME;
     } //-- toString
-
 
     //-------------------------------------/
     //- Implementation of ClassDescriptor -/
@@ -316,16 +304,14 @@ public class LocaleDescriptor
         return Locale.class;
     } //-- getJavaClass
 
-
     /**
      * Returns a list of fields represented by this descriptor.
      *
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
-
 
     /**
      * Returns the class descriptor of the class extended by this class.
@@ -336,7 +322,6 @@ public class LocaleDescriptor
         return null;
     } //-- getExtends
 
-
     /**
      * Returns the identity field, null if this class has no identity.
      *
@@ -345,7 +330,6 @@ public class LocaleDescriptor
     public FieldDescriptor getIdentity() {
         return null;
     } //-- getIdentity
-
 
     /**
      * Returns the access mode specified for this class.
@@ -356,25 +340,24 @@ public class LocaleDescriptor
         return null;
     } //-- getAccessMode
 
-
-     /**
-     * <p>Returns true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
-     * An XMLClassDescriptor can accept a field if it contains a descriptor that matches
-     * the given name and if the given object can hold this field (i.e a value is not already set for
+    /**
+     * Returns true if the given object represented by this XMLClassDescriptor
+     * can accept a member whose name is given. An XMLClassDescriptor can accept
+     * a field if it contains a descriptor that matches the given name and if
+     * the given object can hold this field (i.e a value is not already set for
      * this field).
-     * <p>This is mainly used for container object (that can contains other object), in this particular case
-     * the implementation will return null.
+     * <p>
+     * This is mainly used for container objects (that can contain other
+     * objects), in this particular case the implementation returns false.
+     *
      * @param name the xml name of the field to check
      * @param namespace the namespace uri
      * @param object the object represented by this XMLCLassDescriptor
      * @return true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
+     *         can accept a member whose name is given.
      */
-    public boolean canAccept(String name, String namespace, Object object) {
+    public boolean canAccept(final String name, final String namespace, final Object object) {
          return false;
     }
-    
-    
 
 } //-- class: LocaleDescriptor

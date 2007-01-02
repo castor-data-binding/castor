@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,19 +44,16 @@
  * Date         Author              Changes
  * 04/06/2001   Arnaud Blandin      Created
  */
-
 package org.exolab.castor.xml.util;
 
 import java.util.HashSet;
 
-import org.xml.sax.DocumentHandler;
-
-import org.exolab.castor.xml.EventProducer;
 import org.exolab.castor.types.AnyNode;
+import org.exolab.castor.xml.EventProducer;
 import org.exolab.castor.xml.Namespaces;
-
-import org.xml.sax.helpers.AttributeListImpl;
+import org.xml.sax.DocumentHandler;
 import org.xml.sax.SAXException;
+import org.xml.sax.helpers.AttributeListImpl;
 
 /**
  * A class for converting an AnyNode to SAX events
@@ -65,94 +62,83 @@ import org.xml.sax.SAXException;
  */
 public class AnyNode2SAX implements EventProducer {
 
-   /**
-    * The AnyNode we are firing events for
-    */
+    /** The AnyNode we are firing events for. */
     private AnyNode _node;
-
-   /**
-    * The Document Handler
-    */
+    /** The Document Handler. */
     private DocumentHandler _handler;
-
-   /**
-    * The stack to store the elements
-    */
+    /** The stack to store the elements. */
     private HashSet _elements;
-
-    /**
-     * The namespace context
-     */
+    /** The namespace context. */
     private Namespaces _context;
 
+    /**
+     * No-arg constructor.
+     */
     public AnyNode2SAX() {
-		_elements = new HashSet();
-	}
-
+        this(null, null);
+    }
 
     /**
      * Creates a AnyNode2SAX for the given node.
+     * @param node the AnyNode to create AnyNode2SAX for.
      */
-    public AnyNode2SAX(AnyNode node) {
-        this();
-        _node = node;
-        _context = new Namespaces();
+    public AnyNode2SAX(final AnyNode node) {
+        this(node, null);
     }
 
     /**
      * Creates a AnyNode2SAX for the given node and the namespace context.
+     * @param node the AnyNode to create AnyNode2SAX for.
+     * @param context a namespace context
      */
-    public AnyNode2SAX(AnyNode node, Namespaces context) {
-        this();
-        _node = node;
-        if (context == null)
-           _context = new Namespaces();
-        else _context = context;
+    public AnyNode2SAX(final AnyNode node, final Namespaces context) {
+        _elements = new HashSet();
+        _node     = node;
+        _context  = (context == null) ? new Namespaces() : context;
     }
 
     /**
      * Set the Document Handler
      * @param handler the document handler to set
      */
-    public void setDocumentHandler(DocumentHandler handler) {
-        if (handler == null)
+    public void setDocumentHandler(final DocumentHandler handler) {
+        if (handler == null) {
            throw new IllegalArgumentException("AnyNode2SAX#setDocumentHandler 'null' value for handler");
+        }
         _handler = handler;
     }
 
-    public static void fireEvents(AnyNode node, DocumentHandler handler)
-        throws SAXException
-    {
+    public static void fireEvents(final AnyNode node, final DocumentHandler handler) throws SAXException {
         fireEvents(node, handler, null);
     }
 
-    public static void fireEvents(AnyNode node, DocumentHandler handler, Namespaces context)
-        throws SAXException
-    {
+    public static void fireEvents(final AnyNode node,
+            final DocumentHandler handler, final Namespaces context) throws SAXException {
         AnyNode2SAX eventProducer = new AnyNode2SAX(node, context);
         eventProducer.setDocumentHandler(handler);
         eventProducer.start();
     }
+
     public void start() throws org.xml.sax.SAXException {
-        if ( (_node == null) || (_handler == null) )
+        if (_node == null || _handler == null) {
            return;
+        }
         processAnyNode(_node, _handler);
     }
 
-    private void processAnyNode(AnyNode node, DocumentHandler handler)
-         throws SAXException
-    {
+    private void processAnyNode(final AnyNode node, final DocumentHandler handler)
+         throws SAXException {
 
-        if ( (node == null) || (handler == null) ) {
+        if (node == null || handler == null) {
             throw new IllegalArgumentException();
         }
 
-		//-- so we don't potentially get into
-		//-- an endlessloop
-		if (!_elements.add(node)) return;
+        //-- so we don't potentially get into an endlessloop
+        if (!_elements.add(node)) {
+            return;
+        }
 
-        if (node.getNodeType() == AnyNode.ELEMENT) 
-		{
+        if (node.getNodeType() == AnyNode.ELEMENT) {
             String name = node.getLocalName();
 
             //-- retrieve the attributes and handle them
@@ -162,19 +148,21 @@ public class AnyNode2SAX implements EventProducer {
             String value = null;
             String attUri = null;
             String attPrefix = null;
-            
+
             while (tempNode != null) {
                 xmlName = tempNode.getLocalName();
                 //--retrieve a prefix?
                 attUri = tempNode.getNamespaceURI();
-                if (attUri != null)
+                if (attUri != null) {
                     attPrefix = _context.getNamespacePrefix(attUri);
-                if (attPrefix != null && attPrefix.length() > 0)
+                }
+                if (attPrefix != null && attPrefix.length() > 0) {
                     xmlName = attPrefix + ':' + xmlName;
+                }
                 value = tempNode.getStringValue();
                 atts.addAttribute(xmlName, "CDATA", value);
                 tempNode = tempNode.getNextSibling();
-            }//attributes
+            } //attributes
 
             //-- namespace management
             _context = _context.createNamespaces();
@@ -187,24 +175,23 @@ public class AnyNode2SAX implements EventProducer {
             while (tempNode != null) {
                 prefix = tempNode.getNamespacePrefix();
                 value = tempNode.getNamespaceURI();
-                if (value != null && value.length() >0)
+                if (value != null && value.length() > 0) {
                     _context.addNamespace(prefix, value);
+                }
                 tempNode = tempNode.getNextSibling();
-             }//namespaceNode
-
+            } //namespaceNode
 
             String qName = null;
             //maybe the namespace is already bound to a prefix in the
             //namespace context
             if (nsURI != null && nsURI.length() > 0) {
                 String tempPrefix = _context.getNamespacePrefix(nsURI);
-                if (tempPrefix != null)
+                if (tempPrefix != null) {
                     nsPrefix = tempPrefix;
-                else {
+                } else {
                     _context.addNamespace(nsPrefix, nsURI);
                 }
             }
-
 
             if (nsPrefix != null) {
                 int len = nsPrefix.length();
@@ -214,38 +201,39 @@ public class AnyNode2SAX implements EventProducer {
                     sb.append(':');
                     sb.append(name);
                     qName = sb.toString();
-                } else qName = name;
+                } else {
+                    qName = name;
+                }
             } else {
                 qName = name;
             }
 
-             try {
-                 _context.declareAsAttributes(atts,true);
-                 handler.startElement(qName, atts);
-             } catch (SAXException sx) {
-                  throw new SAXException(sx);
-             }
+            try {
+                _context.declareAsAttributes(atts,true);
+                handler.startElement(qName, atts);
+            } catch (SAXException sx) {
+                throw new SAXException(sx);
+            }
 
-             //-- handle child&daughter elements
-             tempNode = node.getFirstChild();
-             while (tempNode != null) {
-                 processAnyNode(tempNode, handler);
-                 tempNode = tempNode.getNextSibling();
-             }
+            //-- handle child&daughter elements
+            tempNode = node.getFirstChild();
+            while (tempNode != null) {
+                processAnyNode(tempNode, handler);
+                tempNode = tempNode.getNextSibling();
+            }
 
-             //-- finish element
-             try {
-               handler.endElement(qName);
-               _context = _context.getParent();
-             } catch(org.xml.sax.SAXException sx) {
-                  throw new SAXException(sx);
-             }
-
-       }//ELEMENTS
-        else {
+            //-- finish element
+            try {
+                handler.endElement(qName);
+                _context = _context.getParent();
+            } catch(org.xml.sax.SAXException sx) {
+                throw new SAXException(sx);
+            }
+        } else {
+            // ELEMENTS
             if (node.getNodeType() == AnyNode.TEXT) {
                 String value = node.getStringValue();
-                if ( (value != null) && (value.length() >0) ) {
+                if (value != null && value.length() > 0) {
                     char[] chars = value.toCharArray();
                     try {
                         handler.characters(chars, 0, chars.length);
@@ -256,4 +244,5 @@ public class AnyNode2SAX implements EventProducer {
             }
         }
     }
+
 }

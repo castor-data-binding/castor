@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,63 +42,67 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.descriptors;
 
-
 import org.exolab.castor.mapping.FieldHandler;
-import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
-
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
- * The default class descriptor for Enumerations that are passed
- * in as the root-level class, this is really only useful for
- * marshalling, as Enumerations are read-only.
+ * The default class descriptor for Enumerations that are passed in as the
+ * root-level class, this is really only useful for marshaling, as Enumerations
+ * are immutable.
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-16 22:49:25 -0700 (Thu, 16 Dec 2004) $
  */
-public class EnumerationDescriptor extends XMLClassDescriptorImpl
-{
-
+public class EnumerationDescriptor extends XMLClassDescriptorImpl {
 
       //----------------/
      //- Constructors -/
     //----------------/
 
     /**
-     * Creates a new RootArrayDescriptor
+     * Creates a new EnumerationDescriptor.
      */
     public EnumerationDescriptor() {
         super(java.util.Enumeration.class);
         //-- create element descriptor
-        XMLFieldDescriptorImpl desc = null;
-        FieldHandler handler = null;
-        
-        desc = new XMLFieldDescriptorImpl(Object.class, "_elements", null, NodeType.Element);
-        handler = (new XMLFieldHandler() {
-            public Object getValue( Object object )
-                throws IllegalStateException
-            {
+
+        XMLFieldDescriptorImpl desc = new XMLFieldDescriptorImpl(Object.class,
+                "_elements", null, NodeType.Element);
+
+        FieldHandler handler = (new XMLFieldHandler() {
+
+            /**
+             * {@inheritDoc}
+             */
+            public Object getValue(final Object object) throws IllegalStateException {
                 return object;
             }
-            public void setValue( Object object, Object value)
-                throws IllegalStateException, IllegalArgumentException
-            {
-                //-- do nothing
+
+            /**
+             * {@inheritDoc}
+             */
+            public void setValue(final Object object, final Object value)
+                throws IllegalStateException, IllegalArgumentException {
+                //-- do nothing since enumerations are immutable.
             }
-            public Object newInstance( Object parent ) {
+
+            /**
+             * {@inheritDoc}
+             */
+            public Object newInstance(final Object parent) {
                 //-- not used
                 return null;
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setMultivalued(true);
-        addFieldDescriptor(desc);
-        
-    } //-- EnumerationDescriptor()
 
+        addFieldDescriptor(desc);
+    } //-- EnumerationDescriptor()
 
 } //-- EnumerationDescriptor

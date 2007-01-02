@@ -23,12 +23,11 @@ import org.exolab.castor.xml.NodeType;
  * @version $Revision: 5951 $ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
 public class XMLContainerElementFieldDescriptor extends XMLFieldDescriptorImpl {
+
     public XMLContainerElementFieldDescriptor(final XMLFieldDescriptorImpl fieldDesc,
-            final NodeType primitiveNodeType)
-    throws MappingException {
-        super(fieldDesc, fieldDesc.getXMLName(), fieldDesc.getNodeType(),
-                primitiveNodeType);
-        
+            final NodeType primitiveNodeType) throws MappingException {
+        super(fieldDesc, fieldDesc.getXMLName(), fieldDesc.getNodeType(), primitiveNodeType);
+
         setFieldType(org.exolab.castor.xml.util.ContainerElement.class);
 
         setNameSpaceURI(fieldDesc.getNameSpaceURI());

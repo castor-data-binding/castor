@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.util;
 
 import java.util.ArrayList;
@@ -51,42 +50,38 @@ import java.util.List;
 import org.exolab.castor.xml.AttributeSet;
 
 /**
- * The default implementation of AttributeSet used by
- * the Marshalling Framework.
+ * The default implementation of AttributeSet used by the Marshalling Framework.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
-**/
-public class AttributeSetImpl
-    implements AttributeSet
-{
+ */
+public class AttributeSetImpl implements AttributeSet {
 
     /**
-     * The XML namespace declaration prefix.
-     * It is an error for an attribute name to be equal to this value.
-    **/
+     * The XML namespace declaration prefix. It is an error for an attribute
+     * name to be equal to this value.
+     */
     public static final String XMLNS = "xmlns";
 
     private static final String EMPTY_STRING = "";
 
     /**
-     * The list of attributes in this AttributeSet
-    **/
+     * The list of attributes in this AttributeSet.
+     */
     private List _attributes = null;
-
 
     /**
      * Creates a new AttributeSetImpl
-    **/
+     */
     public AttributeSetImpl() {
         _attributes = new ArrayList();
     } //-- AttributeSetImpl
 
     /**
-     * Creates a new AttributeSetImpl
+     * Creates a new AttributeSetImpl.
      *
      * @param size the default size for this AttributeSetImpl
-    **/
+     */
     public AttributeSetImpl(int size) {
         if (size < 0) {
             String err = "size cannot be less than zero";
@@ -97,27 +92,30 @@ public class AttributeSetImpl
 
     /**
      * Removes all Attributes in this AttributeSetImpl
-    **/
+     */
     public void clear() {
         _attributes.clear();
     } //-- clear
 
-
     /**
-     * Returns the index of the attribute associated with the given name
-     * and namespace.
-     *
+     * Returns the index of the attribute associated with the given name and
+     * namespace.
      *
      * @param name the name of the attribute whose value should be returned.
      * @param namespace the namespace of the attribute
      * @return the index of the attribute, or -1 if not found.
-    **/
+     */
     public int getIndex(String name, String namespace) {
-        if (namespace == null) namespace = EMPTY_STRING;
+        if (namespace == null) {
+            namespace = EMPTY_STRING;
+        }
+
         for (int i = 0; i < _attributes.size(); i++) {
-            Attribute attr = (Attribute)_attributes.get(i);
+            Attribute attr = (Attribute) _attributes.get(i);
             if (namespace.equals(attr.namespace)) {
-                if (attr.name.equals(name)) return i;
+                if (attr.name.equals(name)) {
+                    return i;
+                }
             }
         }
         return -1;
@@ -128,9 +126,9 @@ public class AttributeSetImpl
      *
      * @param index the index of the attribute whose name should be returned.
      * @return the name of the attribute located at the given index.
-    **/
-    public String getName(int index) {
-        Attribute attr = (Attribute)_attributes.get(index);
+     */
+    public String getName(final int index) {
+        Attribute attr = (Attribute) _attributes.get(index);
         return attr.name;
     } //-- getName
 
@@ -138,9 +136,9 @@ public class AttributeSetImpl
      * Returns the namespace of the attribute located at the given index.
      *
      * @return the namespace of the attribute located at the given index.
-    **/
-    public String getNamespace(int index) {
-        Attribute attr = (Attribute)_attributes.get(index);
+     */
+    public String getNamespace(final int index) {
+        Attribute attr = (Attribute) _attributes.get(index);
         return attr.namespace;
     } //-- getNamespace
 
@@ -148,69 +146,75 @@ public class AttributeSetImpl
      * Returns the number of Attributes within this AttributeSet.
      *
      * @return the number of Attributes within this AttributeSet.
-    **/
+     */
     public int getSize() {
         return _attributes.size();
     } //-- getSize
 
     /**
-     * Returns the value of the attribute located at the given index
-     * within this AttributeSet.
+     * Returns the value of the attribute located at the given index within this
+     * AttributeSet.
      *
      * @param index the index of the attribute whose value should be returned.
-    **/
+     */
     public String getValue(int index) {
         Attribute attr = (Attribute)_attributes.get(index);
         return attr.value;
     } //-- getValue
 
     /**
-     * Returns the value of the attribute associated with the given name.
-     * This method is equivalent to call #getValue(name, null);
+     * Returns the value of the attribute associated with the given name. This
+     * method is equivalent to call #getValue(name, null);
      *
      * @param name the name of the attribute whose value should be returned.
-    **/
+     */
     public String getValue(String name) {
-        if (name == null) return null;
+        if (name == null) {
+            return null;
+        }
         Attribute attr = getAttribute(name, "");
-        if (attr != null)
+        if (attr != null) {
             return attr.value;
+        }
         return null;
     } //-- getValue
 
     /**
-     * Returns the value of the attribute associated with the given name.
-     * This method is equivalent to call #getValue(name, null);
+     * Returns the value of the attribute associated with the given name. This
+     * method is equivalent to call #getValue(name, null);
      *
      * @param name the name of the attribute whose value should be returned.
      * @param namespace the namespace of the attribute
-    **/
+     */
     public String getValue(String name, String namespace) {
-        if (name == null) return null;
+        if (name == null) {
+            return null;
+        }
         Attribute attr = getAttribute(name, namespace);
-        if (attr != null)
+        if (attr != null) {
             return attr.value;
+        }
         return null;
     } //-- getValue
 
     /**
-     * Adds or replaces the attribute with the given name.
-     * No namespace is associated with the attribute.
+     * Adds or replaces the attribute with the given name. No namespace is
+     * associated with the attribute.
      *
      * @param name the name of the attribute
      * @param value the attribute value.
-    **/
+     */
     public void setAttribute(String name, String value) {
         setAttribute(name, value, EMPTY_STRING);
     } //-- setAttribute
 
     /**
-     * Adds or replaces the attribute with the given name.
-     * No namespace is associated with the attribute.
+     * Adds or replaces the attribute with the given name. No namespace is
+     * associated with the attribute.
      *
      * @param name the name of the attribute
      * @param value the attribute value.
-    **/
+     */
     public void setAttribute(String name, String value, String namespace)
     {
         if ((name == null) || (name.length() == 0))
@@ -246,7 +250,7 @@ public class AttributeSetImpl
 
     /**
      * A representation of an Attribute
-    **/
+     */
     class Attribute {
 
         String name      = null;
@@ -266,6 +270,3 @@ public class AttributeSetImpl
     } //-- class Attribute
 
 } //-- class AttributeSetImpl
-
-
-

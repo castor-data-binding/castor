@@ -63,11 +63,11 @@ public interface FieldHandler {
      * @return The value of the field
      * @throws IllegalStateException The Java object has changed and
      *  is no longer supported by this handler, or the handler is not
-     *  compatiable with the Java object
+     *  compatible with the Java object
      */
     public Object getValue( Object object )
         throws IllegalStateException;
-    
+
 
     /**
      * Sets the value of the field on the object.
@@ -75,7 +75,7 @@ public interface FieldHandler {
      * @param object The object.
      * @param value The new value.
      * @throws IllegalStateException The Java object has changed and is no longer
-     *         supported by this handler, or the handler is not compatiable with the
+     *         supported by this handler, or the handler is not compatible with the
      *         Java object.
      * @throws IllegalArgumentException The value passed is not of a supported type.
      */
@@ -91,7 +91,7 @@ public interface FieldHandler {
      *
      * @param object The object.
      * @throws IllegalStateException The Java object has changed and is no longer
-     *         supported by this handler, or the handler is not compatiable with the
+     *         supported by this handler, or the handler is not compatible with the
      *         Java object.
      */
     public void resetValue(Object object)

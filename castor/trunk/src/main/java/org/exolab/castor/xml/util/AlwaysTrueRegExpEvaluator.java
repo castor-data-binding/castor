@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,56 +42,47 @@
  *
  * $Id$
  */
+package org.exolab.castor.xml.util;
 
- package org.exolab.castor.xml.util;
- 
- import org.exolab.castor.util.RegExpEvaluator;
- 
- /**
-  * A simple implementation of a regular expression validator
-  * which always returns true. This class can be used to "supress" 
-  * validation exceptions when no regular expression validator
-  * has been configured.
-  *
-  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
-  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
- **/
- public class AlwaysTrueRegExpEvaluator 
-    implements RegExpEvaluator
-{
-    
+import org.exolab.castor.util.RegExpEvaluator;
+
+/**
+ * A simple implementation of a regular expression validator which always
+ * returns true. This class can be used to "suppress" validation exceptions when
+ * no regular expression validator has been configured.
+ *
+ * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
+ */
+public class AlwaysTrueRegExpEvaluator implements RegExpEvaluator {
+
     /**
-     * Creates a new AlwaysTrueRegExpEvaluator
-    **/
+     * Creates a new AlwaysTrueRegExpEvaluator.
+     */
     public AlwaysTrueRegExpEvaluator() {
         super();
     } //-- AlwaysTrueRegExpEvaluator
-    
+
     /**
-     * Sets the regular expression to match against during
-     * a call to #matches
+     * Sets the regular expression to match against during a call to #matches.
      *
      * @param rexpr the regular expression
-    **/
+     */
     public void setExpression(String rexpr) {
-        //-- nothing to do...we don't care since
-        //-- match will always evaluate to true
+        //-- nothing to do...we don't care since match will always evaluate to true
     } //-- setExpression
-    
+
     /**
-     * Returns true if the given String is matched by the 
-     * regular expression of this RegExpEvaluator
+     * Returns true if the given String is matched by the regular expression of
+     * this RegExpEvaluator.
      *
      * @param value the String to check the production of
-     * @return true if the given string matches the regular
-     * expression of this RegExpEvaluator
+     * @return true if the given string matches the regular expression of this
+     *         RegExpEvaluator
      * @see #setExpression
-    **/
-    public boolean matches(String value)
-    {
+     */
+    public boolean matches(String value) {
         return true;
     } //-- matches
-    
- } //-- AlwaysTrueRegExpEvaluator
- 
- 
+
+} //-- AlwaysTrueRegExpEvaluator

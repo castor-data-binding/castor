@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,201 +42,175 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.descriptors;
 
-
-import org.exolab.castor.xml.XMLClassDescriptor;
-
-import java.util.Date;
 import java.util.Enumeration;
 import java.util.Locale;
 import java.util.Vector;
 
+import org.exolab.castor.xml.XMLClassDescriptor;
+
 /**
- * The default set of built-in ClassDescriptors
- * 
+ * The default set of built-in ClassDescriptors.  A static utility class.
+ *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-11-04 15:55:27 -0700 (Thu, 04 Nov 2004) $
  */
 public final class CoreDescriptors {
 
-    private static final String LIST_CLASS_NAME = "java.util.List";
-    
-    private static final String LIST_DESCRIPTOR_NAME =
+    /** Fully-qualified name of the List class from Java 1.2. */
+    private static final String             LIST_CLASS_NAME        = "java.util.List";
+    /** Fully-qualified name of our List Class Descriptor. */
+    private static final String             LIST_DESCRIPTOR_NAME   =
         "org.exolab.castor.xml.descriptors.ListClassDescriptor";
-        
-    /**
-     * The java.util.Enumeration ClassDescriptor, really only
-     * useful for marshalling as Enumerations are read-only.
-     */
-    private static final XMLClassDescriptor ENUMERATION_DESCRIPTOR =
-        new EnumerationDescriptor();
-     
-    /**
-     * The String ClassDescriptor
-     */
-    private static final XMLClassDescriptor STRING_DESCRIPTOR =
-        new StringClassDescriptor();
+    /** If not null, the Java 1.2 or later list class. */
+    private static final Class              LIST_CLASS             = getListClass();
 
-    /**
-     * The Date ClassDescriptor
-     */
-    private static final XMLClassDescriptor DATE_DESCRIPTOR =
-        new DateClassDescriptor();
-        
-    
-    /**
-     * The java.util.Locale ClassDescriptor
-     */
-    private static final XMLClassDescriptor LOCALE_DESCRIPTOR =
-        new LocaleDescriptor();
-    
-    /**
-     * The java.sql.Date ClassDescriptor
-     */
-    private static final XMLClassDescriptor SQL_DATE_DESCRIPTOR =
-        new SQLDateClassDescriptor();
-        
-    /**
-     * The java.sql.Time ClassDescriptor
-     */
-    private static final XMLClassDescriptor SQL_TIME_DESCRIPTOR =
-        new SQLTimeClassDescriptor();
-        
-    /**
-     * The java.sql.Timestamp ClassDescriptor
-     */
+    /** The Date ClassDescriptor. */
+    private static final XMLClassDescriptor DATE_DESCRIPTOR        = new DateClassDescriptor();
+    /** The java.util.Enumeration ClassDescriptor, really only useful for
+     * marshaling since Enumerations are read-only. */
+    private static final XMLClassDescriptor ENUMERATION_DESCRIPTOR = new EnumerationDescriptor();
+    /** The List ClassDescriptor (only loaded for JDK 1.2+). */
+    private static final XMLClassDescriptor LIST_DESCRIPTOR        = getListClassDescriptor();
+    /** The java.util.Locale ClassDescriptor. */
+    private static final XMLClassDescriptor LOCALE_DESCRIPTOR      = new LocaleDescriptor();
+    /** The java.sql.Date ClassDescriptor. */
+    private static final XMLClassDescriptor SQL_DATE_DESCRIPTOR    = new SQLDateClassDescriptor();
+    /** The java.sql.Time ClassDescriptor. */
+    private static final XMLClassDescriptor SQL_TIME_DESCRIPTOR    = new SQLTimeClassDescriptor();
+    /** The java.sql.Timestamp ClassDescriptor. */
     private static final XMLClassDescriptor SQL_TIMESTAMP_DESCRIPTOR =
         new SQLTimestampClassDescriptor();
-        
-        
-    /**
-     * The Vector ClassDescriptor
-    **/
-    private static final XMLClassDescriptor VECTOR_DESCRIPTOR =
-        new VectorClassDescriptor();
-    
-    /**
-     * The List ClassDescriptor (only loaded for JDK 1.2+)
-    **/
-    private static XMLClassDescriptor LIST_DESCRIPTOR;
-    
-    private static Class LIST_CLASS;
-    
-    //-- static initializer
-    static {
-        loadDescriptors();
-    }
-    
+    /** The String ClassDescriptor. */
+    private static final XMLClassDescriptor STRING_DESCRIPTOR      = new StringClassDescriptor();
+    /** The Vector ClassDescriptor. */
+    private static final XMLClassDescriptor VECTOR_DESCRIPTOR      = new VectorClassDescriptor();
+
     /**
      * Default constructor. Intentionally private.
-    **/
+     */
     private CoreDescriptors() {
         super();
     } //-- CoreDescriptors
-    
+
     /**
-     * Returns the XMLClassDescriptor for the given Class.
-     * This method will return null if there is no built-in 
-     * XMLClassDescriptor.
+     * Returns the XMLClassDescriptor for the given Class. This method will
+     * return null if there is no built-in XMLClassDescriptor.
      *
      * @param clazz the Class to return the XMLClassDescriptor for.
      * @return the XMLClassDescriptor for the given class, or null.
-    **/
-    public static XMLClassDescriptor getDescriptor(Class clazz) {
-        if (clazz == null) return null;
-        
-        if (clazz == String.class) 
-            return STRING_DESCRIPTOR;
-            
-        if (clazz == Date.class)
-            return DATE_DESCRIPTOR;
-            
-        if (Enumeration.class.isAssignableFrom(clazz))
-            return ENUMERATION_DESCRIPTOR;
-            
-        if ((clazz == Vector.class) || Vector.class.isAssignableFrom(clazz))
-            return VECTOR_DESCRIPTOR;
-        
-        //-- JDK 1.2
-        if (LIST_DESCRIPTOR != null) {
-            if ((LIST_CLASS == clazz) || LIST_CLASS.isAssignableFrom(clazz))
-                return LIST_DESCRIPTOR;
+     */
+    public static XMLClassDescriptor getDescriptor(final Class clazz) {
+        if (clazz == null) {
+            return null;
         }
-        
+
+        if (clazz == String.class) {
+            return STRING_DESCRIPTOR;
+        }
+
+        if (clazz == java.util.Date.class) {
+            return DATE_DESCRIPTOR;
+        }
+
+        if (Enumeration.class.isAssignableFrom(clazz)) {
+            return ENUMERATION_DESCRIPTOR;
+        }
+
+        if (clazz == Vector.class || Vector.class.isAssignableFrom(clazz)) {
+            return VECTOR_DESCRIPTOR;
+        }
+
+        //-- JDK 1.2
+        if (LIST_DESCRIPTOR != null
+                && (LIST_CLASS == clazz || LIST_CLASS.isAssignableFrom(clazz))) {
+            return LIST_DESCRIPTOR;
+        }
+
         if (clazz == Locale.class) {
             return LOCALE_DESCRIPTOR;
         }
-        
+
         //-- java.sql Date/Time classes
-        if (clazz == java.sql.Date.class)
+        if (clazz == java.sql.Date.class) {
             return SQL_DATE_DESCRIPTOR;
-            
-        if (clazz == java.sql.Time.class)
+        }
+
+        if (clazz == java.sql.Time.class) {
             return SQL_TIME_DESCRIPTOR;
-            
-        if (clazz == java.sql.Timestamp.class)
+        }
+
+        if (clazz == java.sql.Timestamp.class) {
             return SQL_TIMESTAMP_DESCRIPTOR;
-            
-        
+        }
+
         return null;
-        
     } //-- getDescriptor
-    
-    private static void loadDescriptors() {
-        //-- JDK 1.2 Collections
-        
+
+    /**
+     * Loads and returns the list class class descriptor. Used during static
+     * initialization.
+     *
+     * @return the list class class descriptor.
+     */
+    private static XMLClassDescriptor getListClassDescriptor() {
+        // If null, then not JDK 1.2 or greater
+        if (LIST_CLASS == null) {
+            return null;
+        }
+
+        ClassLoader loader = CoreDescriptors.class.getClassLoader();
+        Class descriptorClass = null;
+        try {
+            if (loader == null) {
+                descriptorClass = Class.forName(LIST_DESCRIPTOR_NAME);
+            } else {
+                descriptorClass = loader.loadClass(LIST_DESCRIPTOR_NAME);
+            }
+        } catch (ClassNotFoundException cnfe) {
+            //-- do nothing...handled below
+        }
+
+        XMLClassDescriptor listDescriptor = null;
+        if (descriptorClass != null) {
+            try {
+                listDescriptor = (XMLClassDescriptor) descriptorClass.newInstance();
+            } catch (InstantiationException ie) {
+                //-- just ignore
+            } catch (IllegalAccessException iae) {
+                //-- just ignore
+            }
+        } else {
+            listDescriptor = null;
+        }
+        return listDescriptor;
+    }
+
+    /**
+     * Looks for the JDK 1.2 List class Class object and return it. Used during
+     * static initialization.
+     *
+     * @return the Class object for the JDK 1.2 List class.
+     */
+    private static Class getListClass() {
+        Class listClass = null;
+
+        // Look for JDK 1.2 Collections
         ClassLoader loader = null;
         try {
             loader = java.util.Vector.class.getClassLoader();
             if (loader == null) {
-                //-- probably JDK 1.1 if loader is null, but
-                //-- we can double check anyway
-                LIST_CLASS = Class.forName(LIST_CLASS_NAME);
+                // probably JDK 1.1 if loader is null, but we can double-check anyway
+                listClass = Class.forName(LIST_CLASS_NAME);
+            } else {
+                listClass = loader.loadClass(LIST_CLASS_NAME);
             }
-            else {
-                LIST_CLASS = loader.loadClass(LIST_CLASS_NAME);
-            }
-        }
-        catch(ClassNotFoundException cnfe) {
+        } catch (ClassNotFoundException cnfe) {
             //-- do nothing...handled below
         }
-        
-        //-- If not null, then JDK 1.2 or greater
-        if (LIST_CLASS != null) {
-            loader = CoreDescriptors.class.getClassLoader();
-            Class descriptorClass = null;
-            try {
-                if (loader == null) {
-                    descriptorClass = Class.forName(LIST_DESCRIPTOR_NAME);
-                }
-                else descriptorClass = loader.loadClass(LIST_DESCRIPTOR_NAME);
-            }
-            catch(ClassNotFoundException cnfe) {
-                //-- do nothing...handled below
-            }
-            
-            if (descriptorClass != null) {
-                try {
-                    LIST_DESCRIPTOR = 
-                        (XMLClassDescriptor) descriptorClass.newInstance();
-                }
-                catch(InstantiationException ie) {
-                    //-- just ignore
-                }
-                catch(IllegalAccessException iae) {
-                    //-- just ignore
-                }
-                
-                
-            }
-            else LIST_DESCRIPTOR = null;
-            
-        }
-        else LIST_DESCRIPTOR = null;
-        
-    } //--
-    
-    
+
+        return listClass;
+    }
+
 } //-- CoreDescriptors

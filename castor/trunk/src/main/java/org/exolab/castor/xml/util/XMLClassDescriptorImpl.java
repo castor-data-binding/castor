@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,8 +47,6 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.util;
 
 import java.lang.reflect.Array;
@@ -69,30 +67,25 @@ import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.XMLNaming;
 
-
 /**
- * The core implementation of XMLClassDescriptor. This
- * class is used by both generated source code as well
- * as the XMLMappingLoader.
+ * The core implementation of XMLClassDescriptor. This class is used by both
+ * generated source code as well as the XMLMappingLoader.
  *
  * @author <a href="keith AT kvisco DOT com">Keith Visco</a>
- * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
+ * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr
+ *          2006) $
  */
-public class XMLClassDescriptorImpl extends Validator
-    implements XMLClassDescriptor
-{
+public class XMLClassDescriptorImpl extends Validator implements XMLClassDescriptor {
 
     /**
-     * The ALL compositor to signal the fields of
-     * the described class must all be present and valid,
-     * if they are required.
+     * The ALL compositor to signal the fields of the described class must all
+     * be present and valid, if they are required.
      */
     private static final short ALL       = 0;
 
     /**
-     * The CHOICE compositor to signal the fields of
-     * the described class must be only a choice. They
-     * are mutually exclusive.
+     * The CHOICE compositor to signal the fields of the described class must be
+     * only a choice. They are mutually exclusive.
      */
     private static final short CHOICE    = 1;
 
@@ -103,67 +96,65 @@ public class XMLClassDescriptorImpl extends Validator
 
 
     private static final String NULL_CLASS_ERR
-        = "The Class passed as an argument to the constructor of " +
-          "XMLClassDescriptorImpl may not be null.";
+    = "The Class passed as an argument to the constructor of " +
+    "XMLClassDescriptorImpl may not be null.";
 
     private static final String WILDCARD = "*";
 
     /**
-     * Naming Conventions
+     * Naming Conventions.
      */
     private static XMLNaming _naming = null;
 
     /**
-     * The set of attribute descriptors
+     * The set of attribute descriptors.
      */
     private XMLFieldDescriptors _attributes = null;
-    
+
     /**
-     * Cached attribute descriptors for improved performance
+     * Cached attribute descriptors for improved performance.
      */
     private XMLFieldDescriptor[] _attArray = null;
-    
+
     /**
-     * The Class that this ClassDescriptor describes
+     * The Class that this ClassDescriptor describes.
      */
     private Class _class = null;
 
     /**
-     * A variable to keep track of the number of container fields
+     * A variable to keep track of the number of container fields.
      */
-     private int _containerCount = 0;
-     
+    private int _containerCount = 0;
 
     /**
-     * The XMLFieldDescriptor for text data
+     * The XMLFieldDescriptor for text data.
      */
     private XMLFieldDescriptor contentDescriptor = null;
 
     /**
-     * The TypeValidator to use for validation of the described class
+     * The TypeValidator to use for validation of the described class.
      */
     private TypeValidator validator = null;
 
     /**
-     * The set of element descriptors
+     * The set of element descriptors.
      */
     private XMLFieldDescriptors _elements = null;
 
     /**
-     * Cached element descriptors for improved performance
+     * Cached element descriptors for improved performance.
      */
     private XMLFieldDescriptor[] _elemArray = null;
 
     /**
-     * The namespace prefix that is to be used when marshalling
+     * The namespace prefix that is to be used when marshalling.
      */
     private String nsPrefix = null;
 
     /**
-     * The namespace URI used for both Marshalling and Unmarshalling
+     * The namespace URI used for both Marshalling and Unmarshalling.
      */
     private String nsURI = null;
-
 
     /**
      * The name of the XML element.
@@ -171,25 +162,23 @@ public class XMLClassDescriptorImpl extends Validator
     private String  _xmlName;
 
     /**
-     * Flag to indicate XML refers to global element or element with 
+     * Flag to indicate XML refers to global element or element with
      * anonymous type in XSD. Useful information for frameworks
-     * that use Castor for XML binding and generate additional schema 
+     * that use Castor for XML binding and generate additional schema
      * definition elements.
      */
     private boolean elementDefinition = false;
-    
+
     /**
      * The descriptor of the class which this class extends,
      * or null if this is a top-level class.
      */
     private XMLClassDescriptor     _extends;
 
-
     /**
      * The field of the identity for this class.
      */
     private FieldDescriptor    _identity;
-
 
     /**
      * The access mode specified for this class.
@@ -202,17 +191,15 @@ public class XMLClassDescriptorImpl extends Validator
      */
     private boolean            _introspected = false;
 
-
     private short              _compositor = ALL;
 
     //----------------/
     //- Constructors -/
     //----------------/
 
-
     /**
-     * Static initializer
-    **/
+     * Static initializer.
+     */
     static {
         _naming = XMLNaming.getInstance();
     }
@@ -224,8 +211,9 @@ public class XMLClassDescriptorImpl extends Validator
      */
     public XMLClassDescriptorImpl(Class type) {
         this();
-        if (type == null)
+        if (type == null) {
             throw new IllegalArgumentException(NULL_CLASS_ERR);
+        }
 
         this._class = type;
         setXMLName(null);
@@ -239,8 +227,9 @@ public class XMLClassDescriptorImpl extends Validator
     public XMLClassDescriptorImpl(Class type, String xmlName) {
         this();
 
-        if (type == null)
+        if (type == null) {
             throw new IllegalArgumentException(NULL_CLASS_ERR);
+        }
 
         this._class = type;
         setXMLName(xmlName);
@@ -266,9 +255,7 @@ public class XMLClassDescriptorImpl extends Validator
      * @param descriptor the XMLFieldDescriptor to add
      */
     public void addFieldDescriptor(XMLFieldDescriptor descriptor) {
-        
         addFieldDescriptor(descriptor, true);
-
     } //-- addFieldDescriptor
 
     /**
@@ -279,35 +266,37 @@ public class XMLClassDescriptorImpl extends Validator
      * XMLClassDescriptor, otherwise false.
      */
     public boolean contains(XMLFieldDescriptor descriptor) {
+        if (descriptor == null) {
+            return false;
+        }
 
-        if (descriptor == null) return false;
-
-        if (_attributes.contains(descriptor))
+        if (_attributes.contains(descriptor)) {
             return true;
-        if (_elements.contains(descriptor))
+        }
+        if (_elements.contains(descriptor)) {
             return true;
+        }
 
-        return (descriptor.equals(contentDescriptor));
-
+        return descriptor.equals(contentDescriptor);
     } //-- contains
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshalled as XML attributes.
      *
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshalled as XML attributes.
      */
     public XMLFieldDescriptor[]  getAttributeDescriptors() {
         return (XMLFieldDescriptor[]) getAttributeArray().clone();
     } // getAttributeDescriptors
 
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
+     * Returns the XMLFieldDescriptor for the member that should be marshalled
+     * as text content.
      *
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
+     * @return the XMLFieldDescriptor for the member that should be marshalled
+     *         as text content.
      */
     public XMLFieldDescriptor getContentDescriptor() {
         return contentDescriptor;
@@ -329,26 +318,24 @@ public class XMLClassDescriptorImpl extends Validator
      * nodeType. If NodeType is null, then either an AttributeDescriptor, or
      * ElementDescriptor may be returned. Null is returned if no matching
      * descriptor is available.
-     *
+     * <p>
      * If an field is matched in one of the container field, it will return the
      * container field that contain the field named 'name'
      *
      * @param name the xml name to match against
-     * @param nodeType the NodeType to match against, or null if
-     * the node type is not known.
-     * @return the matching descriptor, or null if no matching
-     * descriptor is available.
-     *
+     * @param nodeType the NodeType to match against, or null if the node type
+     *        is not known.
+     * @return the matching descriptor, or null if no matching descriptor is
+     *         available.
      */
-    public XMLFieldDescriptor getFieldDescriptor
-        (String name, String namespace, NodeType nodeType)
-    {
+    public XMLFieldDescriptor getFieldDescriptor(String name, String namespace,
+            NodeType nodeType) {
         boolean wild = ((nodeType == null) || _introspected);
         XMLFieldDescriptor result = null;
-        
+
         XMLFieldDescriptor[] attributes = _attArray;
         XMLFieldDescriptor[] elements   = _elemArray;
-        
+
         // TODO: clean up location patch
         String location = null;
         if (name != null) {
@@ -358,17 +345,17 @@ public class XMLClassDescriptorImpl extends Validator
                 name = name.substring(idx+1);
             }
         }
-        
+
         if (wild || (nodeType == NodeType.Element)) {
-            
+
             if (elements == null) elements = getElementArray();
-            
+
             for (int i = 0; i < elements.length; i++) {
                 XMLFieldDescriptor desc = elements[i];
                 if (desc == null) continue;
-                
+
                 if (location != null) {
-                    if (!location.equals(desc.getLocationPath())) 
+                    if (!location.equals(desc.getLocationPath()))
                         continue;
                 }
 
@@ -377,7 +364,7 @@ public class XMLClassDescriptorImpl extends Validator
                       //--  possible wildcard match check for
                       //--  exact match (we need to extend the
                       //--  the descriptor interface to handle this
-                      if (name.equals(desc.getXMLName())) 
+                      if (name.equals(desc.getXMLName()))
                         return desc;
                       //-- assume wild-card match
                       result = desc;
@@ -487,20 +474,20 @@ public class XMLClassDescriptorImpl extends Validator
     public String getXMLName() {
         return _xmlName;
     } //-- getXMLName
-    
+
     /**
      * Returns true if XML schema definition of this Class is that of a global
      * element or element with anonymous type definition.
      */
     public boolean isElementDefinition() {
-    		return elementDefinition;
+            return elementDefinition;
     } //-- isElementDefinition
-    
+
     /**
      * Returns true if this XMLClassDescriptorImpl has any fields which are
      * container objects. A container object is a Java object which holds
      * data the should be marshalled, but the object itself should not be.
-     * So the container object will be "unwrapped" and the fields 
+     * So the container object will be "unwrapped" and the fields
      * associated with the container will appear as if they were part
      * of this class.
      *
@@ -663,16 +650,16 @@ public class XMLClassDescriptorImpl extends Validator
     } //-- setXMLName
 
     /**
-     * Set elementDefinition to true to indicate Class XML schema 
+     * Set elementDefinition to true to indicate Class XML schema
      * definition is a global element or element with anonymous type.
-     * 
-     * @param elementDefinition flag to indicate XML definition is 
+     *
+     * @param elementDefinition flag to indicate XML definition is
      * global element or element with anonymous type
      */
     public void setElementDefinition(boolean elementDefinition){
-    		this.elementDefinition = elementDefinition;
+            this.elementDefinition = elementDefinition;
     } //-- setElementDefinition
-    
+
     /**
      * This method is used to keep the set of descriptors in the proper
      * sorted lists. If you dynamically change the NodeType of
@@ -699,7 +686,7 @@ public class XMLClassDescriptorImpl extends Validator
                     break;
             }
         }
-        
+
         //-- handle elements
         descriptors = getElementArray();
         for (int i = 0; i < descriptors.length; i++) {
@@ -770,16 +757,16 @@ public class XMLClassDescriptorImpl extends Validator
                 " described by this ClassDecriptor.";
             throw new ValidationException(err);
         }
-        
+
         //-- DEBUG
         //System.out.println("Validating class: " + object.getClass().getName());
         //-- /DEBUG
 
         XMLFieldDescriptor[] localElements = getElementArray();
         XMLFieldDescriptor[] localAttributes = getAttributeArray();
-        
+
         if (_extends != null) {
-            
+
             //-- cascade call for validation
             if (_extends instanceof XMLClassDescriptorImpl) {
                 ((XMLClassDescriptorImpl)_extends).validate(object, context);
@@ -829,7 +816,7 @@ public class XMLClassDescriptorImpl extends Validator
                     ++localIdx;
                 }
             }
-        
+
         }
 
         switch (_compositor) {
@@ -842,7 +829,7 @@ public class XMLClassDescriptorImpl extends Validator
                 //-- handle elements, affected by choice
                 for (int i = 0; i < localElements.length; i++) {
                     XMLFieldDescriptor desc = localElements[i];
-                    
+
                     if (desc == null) continue;
 
                     FieldHandler handler = desc.getHandler();
@@ -894,9 +881,9 @@ public class XMLClassDescriptorImpl extends Validator
                     buffer.append('(');
                     String sep = " | ";
                     for (int i = 0; i < localElements.length; i++) {
-                        XMLFieldDescriptor  desc = localElements[i];                        
+                        XMLFieldDescriptor  desc = localElements[i];
                         if (desc == null) continue;
-                        
+
                         FieldValidator fieldValidator = desc.getValidator();
                         if (fieldValidator.getMinOccurs() > 0) {
                             if (error) {
@@ -934,17 +921,17 @@ public class XMLClassDescriptorImpl extends Validator
             case SEQUENCE:
             //-- ALL
             default:
-            
-            
+
+
                 //-- handle elements
-                for (int i = 0; i < localElements.length; i++) {                                        
+                for (int i = 0; i < localElements.length; i++) {
                     if (localElements[i] == null) continue;
                     FieldValidator fieldValidator = localElements[i].getValidator();
                     if (fieldValidator != null)
                         fieldValidator.validate(object, context);
                 }
                 //-- handle attributes
-            	// for (int i = 0; i < _attributes.size(); i++) {
+                // for (int i = 0; i < _attributes.size(); i++) {
                 for (int i = 0; i < localAttributes.length; i++) {
                     FieldValidator fieldValidator = localAttributes[i].getValidator();
                     if (fieldValidator != null)
@@ -984,10 +971,10 @@ public class XMLClassDescriptorImpl extends Validator
         int size = _attributes.size();
         size += _elements.size();
         if (contentDescriptor != null) ++size;
-            
+
 
         XMLFieldDescriptor[] fields = new XMLFieldDescriptor[size];
-        
+
         _attributes.toArray(fields);
         _elements.toArray(fields, _attributes.size());
 
@@ -1081,7 +1068,7 @@ public class XMLClassDescriptorImpl extends Validator
         //4-- Check if the value is set or not
         else {
             FieldHandler handler = fieldDesc.getHandler();
-            
+
             boolean checkPrimitiveValue = true;
             if (handler instanceof AbstractFieldHandler) {
                 hasValue = ((AbstractFieldHandler)handler).hasValue( object );
@@ -1090,21 +1077,21 @@ public class XMLClassDescriptorImpl extends Validator
                 //-- this doesn't guarantee that that handler is indeed
                 //-- a generated handler, it does however mean that
                 //-- the handler definately didn't come from the
-                //-- MappingLoader. 
+                //-- MappingLoader.
                 //checkPrimitiveValue = (!(handler instanceof XMLFieldHandler));
             }
             else {
                 hasValue = (handler.getValue(object) != null);
             }
-            
+
             //-- patch for primitives, we should check
             //-- for the has-method somehow...but this
             //-- is good enough for now. This may break
             //-- some non-Castor-generated code with
             //-- primitive values that have been set
             //-- with the same as the defaults
-            if (hasValue && 
-                checkPrimitiveValue && 
+            if (hasValue &&
+                checkPrimitiveValue &&
                 fieldDesc.getFieldType().isPrimitive())
             {
                 if (isDefaultPrimitiveValue(handler.getValue( object ))) {
@@ -1171,20 +1158,20 @@ public class XMLClassDescriptorImpl extends Validator
 
         return (type.getSuperclass() == Number.class);
     } //-- isPrimitive
-    
+
     /**
      * Checks to see if the given Object is a java primitive
-     * (does not check for primitive wrappers) and has a 
-     * value that is equal to the default value for that 
+     * (does not check for primitive wrappers) and has a
+     * value that is equal to the default value for that
      * primitive. This method will return true if the value
      * is a java primitive with a default value.
-     * 
+     *
      * @return true if the value is a java primitive with
      * a default value
      */
     static boolean isDefaultPrimitiveValue(Object value) {
         if (value == null) return false;
-        
+
         Class type = value.getClass();
         if (type.isPrimitive()) {
             try {
@@ -1208,11 +1195,11 @@ public class XMLClassDescriptorImpl extends Validator
         else if (type == Character.class) {
             return ((Character)value).charValue() == '\0';
         }
-        
-        return false;        
+
+        return false;
     } //-- isDefaultPrimitiveValue
-    
-    
+
+
     /**
      * Sets the Class type being described by this descriptor.
      *
@@ -1244,11 +1231,11 @@ public class XMLClassDescriptorImpl extends Validator
         if (idx >= 0) name = name.substring(idx+1);
         return _naming.toXMLName(name);
     }
-    
+
     //-------------------/
     //- Private Methods -/
     //-------------------/
-    
+
     /**
      * Adds the given XMLFieldDescriptor to the list of descriptors. The
      * descriptor will be added to the appropriate list by calling
@@ -1259,8 +1246,8 @@ public class XMLClassDescriptorImpl extends Validator
     private void addFieldDescriptor(XMLFieldDescriptor descriptor, boolean relink) {
 
         if (descriptor == null) return;
-        
-	    boolean added = false;
+
+        boolean added = false;
 
         NodeType nodeType = descriptor.getNodeType();
         switch(nodeType.getType()) {
@@ -1283,14 +1270,14 @@ public class XMLClassDescriptorImpl extends Validator
                 }
                 break;
         }
-        
+
         if ((added) && (relink)) {
-	        descriptor.setContainingClassDescriptor( this );
-	    }
+            descriptor.setContainingClassDescriptor( this );
+        }
 
     } //-- addFieldDescriptor
-    
-    
+
+
     private XMLFieldDescriptor[] getAttributeArray() {
         //-- create local reference to prevent possible
         //-- null pointer (_attArray could be re-set to null)
@@ -1302,7 +1289,7 @@ public class XMLClassDescriptorImpl extends Validator
         }
         return descriptors;
     }
-    
+
     private XMLFieldDescriptor[] getElementArray() {
         //-- create local reference to prevent possible
         //-- null pointer (_elemArray could be re-set to null)
@@ -1314,6 +1301,5 @@ public class XMLClassDescriptorImpl extends Validator
         }
         return descriptors;
     }
+
 } //-- XMLClassDescriptor
-
-

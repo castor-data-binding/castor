@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,23 +44,20 @@
  * Date         Author              Changes
  * 04/06/2001   Arnaud Blandin      Created
  */
-
 package org.exolab.castor.xml.util;
 
 import java.util.Stack;
 
 import org.exolab.castor.types.AnyNode;
-
+import org.exolab.castor.xml.Namespaces;
+import org.xml.sax.AttributeList;
+import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DocumentHandler;
 import org.xml.sax.ErrorHandler;
 import org.xml.sax.Locator;
-import org.xml.sax.Attributes;
-import org.xml.sax.AttributeList;
 import org.xml.sax.SAXException;
 import org.xml.sax.SAXParseException;
-
-import org.exolab.castor.xml.Namespaces;
 
 /**
  * This class is a SAX Content Handler that
@@ -80,18 +77,15 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     private AnyNode _startingNode;
 
-
     /**
      * The current AnyNode we are building
      */
     private AnyNode _node;
 
-
     /**
      * A stack to store all the nodes we are creating
      */
     private Stack _nodeStack = new Stack();
-
 
     /**
      * A stack to store the namespaces declaration
@@ -142,6 +136,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_context == null)
             _context = new Namespaces();
     }
+
     /**
      * Sets the document locator of the current parsed inputsource
      * @param locator the Locator of the current parsed inputsource
@@ -153,15 +148,18 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     //we are only dealing with xml fragments
     public void startDocument() throws SAXException {
     }
+
     public void endDocument() throws SAXException {
     }
 
     public void ignorableWhitespace(char[] ch, int start, int length) throws SAXException {
         return;
     }
+
     public void processingInstruction(String target, String data) throws SAXException {
         return;
     }
+
     public void skippedEntity(String name) throws SAXException {
         return;
     }
@@ -187,8 +185,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      * Implementation of {@link org.xml.sax.DocumentHandler#startElement}
      */
     public void startElement(String name, AttributeList atts)
-           throws SAXException
-    {
+           throws SAXException {
         _character = false;
         String qName;
         String value;
@@ -249,14 +246,11 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
      * Implementation of {@link org.xml.sax.ContentHandler#startElement}
      */
     public void startElement(String namespaceURI,  String localName,
-                            String qName, Attributes atts)
-          throws SAXException
-    {
+                            String qName, Attributes atts) throws SAXException {
         AnyNode tempNode;
 
         //--SAX2 Parser has not processed the namespaces so we need to do it.
-        if (_processNamespace)
-        {
+        if (_processNamespace) {
             //Namespace handling code to be moved once we integrate
             //the new event API
             /////////////////NAMESPACE HANDLING/////////////////////
@@ -326,11 +320,8 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         tempNode = null;
     }
 
-
     //--endElement methods SAX1 and SAX2
-    public void endElement(String name)
-           throws SAXException
-    {
+    public void endElement(String name) throws SAXException {
         int idx = name.indexOf(':');
         String prefix = (idx >= 0) ? name.substring(0,idx) : "";
         String namespaceURI = _context.getNamespaceURI(prefix);
@@ -339,8 +330,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     public void endElement(String namespaceURI, String localName, String qName)
-           throws SAXException
-    {
+           throws SAXException {
         _character = false;
         String name = null;
         //-- if namespace processing is disabled then the localName might be null, in that case
@@ -363,8 +353,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
         if (_nodeStack.empty()) {
             _startingNode.addChild(_node);
             _node = _startingNode;
-        }
-        else {
+        } else {
             AnyNode previousNode = (AnyNode) _nodeStack.peek();
             previousNode.addChild(_node);
             //--the node processing is finished -> come back to the previous node
@@ -384,30 +373,25 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
     /**************************************************************************/
-    //implementation of ErrorHandler
+    // implementation of ErrorHandler
     public void warning(SAXParseException e) throws SAXException {
-        String err = "SAX2ANY warning\n"+
-                     "Line : "+ e.getLineNumber() +'\n'+
-                     "URI : " + e.getSystemId() +'\n'+ e.getMessage() ;
-        throw new SAXException (err, e);
-
-    } //warning
+        String err = "SAX2ANY warning\n" + "Line : " + e.getLineNumber() + '\n'
+                + "URI : " + e.getSystemId() + '\n' + e.getMessage();
+        throw new SAXException(err, e);
+    } // warning
 
     public void error(SAXParseException e) throws SAXException {
-        String err = "SAX2ANY Error \n"+
-                     "Line : "+ e.getLineNumber() + '\n'+
-                     "URI : " + e.getSystemId() +'\n'+ e.getMessage();
-        throw new SAXException (err,e);
-
-     } //error
+        String err = "SAX2ANY Error \n" + "Line : " + e.getLineNumber() + '\n'
+                + "URI : " + e.getSystemId() + '\n' + e.getMessage();
+        throw new SAXException(err, e);
+    } // error
 
     public void fatalError(SAXParseException e) throws SAXException {
-        String err = "SAX2ANY Fatal Error \n"+
-                     "Line : "+ e.getLineNumber() +'\n'+
-                     "URI : " + e.getSystemId() +'\n'+ e.getMessage();
-        throw new SAXException (err,e);
-     } //fatalError
-     /*************************************************************************/
+        String err = "SAX2ANY Fatal Error \n" + "Line : " + e.getLineNumber()
+                + '\n' + "URI : " + e.getSystemId() + '\n' + e.getMessage();
+        throw new SAXException(err, e);
+    } //fatalError
+    /*************************************************************************/
 
     //Utility methods
     public AnyNode getStartingNode() {
@@ -415,13 +399,13 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     }
 
     /**
-     * Get the namespace context of this SAX2ANY handler.
-     * If the SAX2ANY handler is called during the processing of an XML document, it
-     * may happen that the XML fragment parsed by the SAX2ANY handler contains
-     * references to namespaces declared in the given context.
+     * Get the namespace context of this SAX2ANY handler. If the SAX2ANY handler
+     * is called during the processing of an XML document, it may happen that
+     * the XML fragment parsed by the SAX2ANY handler contains references to
+     * namespaces declared in the given context.
      *
-     * @return the namespace context to interact with while parsing an
-     * XML fragment with the SAX2ANY handler
+     * @return the namespace context to interact with while parsing an XML
+     *         fragment with the SAX2ANY handler
      */
     public Namespaces getNamespaceContext() {
         return _context;
@@ -439,7 +423,6 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     public void setNamespaceContext(Namespaces context) {
         _context = context;
     }
-
 
     /**
      * Checks the given String to determine if it only
@@ -478,8 +461,7 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
     } //-- getLocalPart
 
     private void createNodeElement(String namespaceURI, String localName,
-                                   String qName)
-   {
+                                   String qName) {
 
         String prefix = null;
         //retrieves the prefix if any
@@ -509,5 +491,6 @@ public class SAX2ANY implements ContentHandler, DocumentHandler, ErrorHandler {
           //push the node in the stack
           _nodeStack.push(_node);
         }
-   }
+    }
+
 }
