@@ -56,7 +56,8 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         //-- initialize element descriptors
         
         //-- _prefix
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_prefix", "prefix", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_prefix", "prefix", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -92,7 +93,8 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         desc.setValidator(fieldValidator);
         
         //-- _suffix
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_suffix", "suffix", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_suffix", "suffix", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 

@@ -84,8 +84,7 @@ public class PackageType implements java.io.Serializable {
      * @param out
     **/
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
 
@@ -95,8 +94,8 @@ public class PackageType implements java.io.Serializable {
      * @param handler
     **/
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException,
+           org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
@@ -124,9 +123,11 @@ public class PackageType implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.PackageType unmarshalPackageType(final java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.PackageType unmarshalPackageType(
+            final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.builder.binding.PackageType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.PackageType.class, reader);
+        return (org.exolab.castor.builder.binding.PackageType) Unmarshaller.unmarshal(
+                org.exolab.castor.builder.binding.PackageType.class, reader);
     } //-- org.exolab.castor.builder.binding.PackageType unmarshalPackageType(java.io.Reader) 
 
     /**

@@ -868,7 +868,8 @@ public class XMLBindingComponent implements BindingComponent {
                     if (result == null
                         && (_annotated.getStructureType() == Structure.GROUP
                             || _annotated.getStructureType() == Structure.MODELGROUP)) {
-                        result = getGroupNaming().createClassName((Group) _annotated, getJavaPackage());
+                        result = getGroupNaming().createClassName(
+                                (Group) _annotated, getJavaPackage());
                         if (result == null) {
                             String err = "Unable to create name for group.";
                             throw new IllegalStateException(err);

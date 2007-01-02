@@ -65,7 +65,9 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
         //-- initialize element descriptors
         
         //-- _enumClassName
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumClassName.class, "_enumClassName", "enumClassName", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                org.exolab.castor.builder.binding.EnumClassName.class,
+                "_enumClassName", "enumClassName", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -76,7 +78,8 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
                 throws IllegalStateException, IllegalArgumentException {
                 try {
                     EnumBindingType target = (EnumBindingType) object;
-                    target.setEnumClassName((org.exolab.castor.builder.binding.EnumClassName) value);
+                    target.setEnumClassName(
+                            (org.exolab.castor.builder.binding.EnumClassName) value);
                 } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
@@ -96,7 +99,9 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
         }
         desc.setValidator(fieldValidator);
         //-- _enumMemberList
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumMember.class, "_enumMemberList", "enumMember", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                org.exolab.castor.builder.binding.EnumMember.class,
+                "_enumMemberList", "enumMember", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -112,7 +117,8 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public void resetValue(final Object object) throws IllegalStateException, IllegalArgumentException {
+            public void resetValue(final Object object)
+            throws IllegalStateException, IllegalArgumentException {
                 try {
                     EnumBindingType target = (EnumBindingType) object;
                     target.removeAllEnumMember();

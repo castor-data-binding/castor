@@ -78,8 +78,7 @@ public class PackageTypeChoice implements java.io.Serializable {
      * @param out
     **/
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
 
@@ -89,8 +88,8 @@ public class PackageTypeChoice implements java.io.Serializable {
      * @param handler
     **/
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException,
+           org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
@@ -117,10 +116,12 @@ public class PackageTypeChoice implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.PackageTypeChoice unmarshalPackageTypeChoice(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.builder.binding.PackageTypeChoice) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.PackageTypeChoice.class, reader);
-    } //-- org.exolab.castor.builder.binding.PackageTypeChoice unmarshalPackageTypeChoice(java.io.Reader) 
+    public static org.exolab.castor.builder.binding.PackageTypeChoice unmarshalPackageTypeChoice(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
+        return (org.exolab.castor.builder.binding.PackageTypeChoice) Unmarshaller.unmarshal(
+                org.exolab.castor.builder.binding.PackageTypeChoice.class, reader);
+    } 
 
     /**
     **/

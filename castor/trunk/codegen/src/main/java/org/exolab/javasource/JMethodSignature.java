@@ -346,29 +346,20 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
         }
         jsw.write(' ');
         jsw.write(_name);
-        jsw.write('(');
-
-        //-- any parameter annotations?
-        boolean parameterAnnotations = false;
-        for (int i = 0; i < _params.size(); i++) {
-            JParameter jParameter = (JParameter) _params.get(i);
-            if (jParameter.hasAnnotations()) {
-                parameterAnnotations = true;
-                break;
-            }
-        }
+        jsw.writeln('(');
 
         //-- print parameters
-        if (parameterAnnotations) { jsw.indent(); }
+        jsw.indent();
+        jsw.indent();
         for (int i = 0; i < _params.size(); i++) {
-            if (i > 0) { jsw.write(", "); }
-            if (parameterAnnotations) { jsw.writeln(); }
+            if (i > 0) { jsw.writeln(","); }
             JParameter jParameter = (JParameter) _params.get(i);
             jParameter.printAnnotations(jsw);
             String typeAndName = jParameter.toString();
             jsw.write(typeAndName);
         }
-        if (parameterAnnotations) { jsw.unindent(); }
+        jsw.unindent();
+        jsw.unindent();
 
         jsw.write(")");
 

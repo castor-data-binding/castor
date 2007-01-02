@@ -71,46 +71,45 @@ public class SGTypes {
     //- org.exolab.castor types -/
     //---------------------------/
 
-    public static final JClass UnmarshalException  = new JClass("org.exolab.castor.xml.UnmarshalException");
+    public static final JClass UnmarshalException =
+        new JClass("org.exolab.castor.xml.UnmarshalException");
 
-    public static final JClass MarshalException    = new JClass("org.exolab.castor.xml.MarshalException");
+    public static final JClass MarshalException =
+        new JClass("org.exolab.castor.xml.MarshalException");
 
-    public static final JClass ValidationException = new JClass("org.exolab.castor.xml.ValidationException");
+    public static final JClass ValidationException =
+        new JClass("org.exolab.castor.xml.ValidationException");
 
     //---------------/
     //- JDK Objects -/
     //---------------/
 
     //-- java.lang
-    public static final JClass IllegalStateException     = new JClass("java.lang.IllegalStateException");
+    public static final JClass IllegalStateException  =
+        new JClass("java.lang.IllegalStateException");
 
-    public static final JClass IndexOutOfBoundsException = new JClass("java.lang.IndexOutOfBoundsException");
+    public static final JClass IndexOutOfBoundsException =
+        new JClass("java.lang.IndexOutOfBoundsException");
 
-    public static final JClass InstantiationException    = new JClass("java.lang.InstantiationException");
+    public static final JClass InstantiationException =
+        new JClass("java.lang.InstantiationException");
 
-    public static final JClass Class         = new JClass("java.lang.Class");
-    public static final JClass Object        = new JClass("java.lang.Object");
-    public static final JClass String        = new JClass("java.lang.String");
-    public static final JClass StringBuffer  = new JClass("java.lang.StringBuffer");
+    public static final JClass Class = new JClass("java.lang.Class");
+    public static final JClass Object = new JClass("java.lang.Object");
+    public static final JClass String = new JClass("java.lang.String");
+    public static final JClass StringBuffer = new JClass("java.lang.StringBuffer");
 
     //-- java.io
-    public static final JClass FileReader    = new JClass("java.io.FileReader");
-    public static final JClass FileWriter    = new JClass("java.io.FileWriter");
-    public static final JClass IOException   = new JClass("java.io.IOException");
-    public static final JClass PrintWriter   = new JClass("java.io.PrintWriter");
-    public static final JClass Reader        = new JClass("java.io.Reader");
-    public static final JClass Writer        = new JClass("java.io.Writer");
-
-    //-- java.util
-//     public static final JClass ArrayList     = new JClass("java.util.ArrayList<Object>");
-//    public static final JClass Enumeration   = new JClass("java.util.Enumeration<Object>");
-//    public static final JClass Iterator      = new JClass("java.util.Iterator<Object>");
-//    public static final JClass Hashtable     = new JClass("java.util.Hashtable<Object,Object>");
-//    public static final JClass Stack         = new JClass("java.util.Stack<Object>");
-//    public static final JClass Vector        = new JClass("java.util.Vector<Object>");
+    public static final JClass FileReader = new JClass("java.io.FileReader");
+    public static final JClass FileWriter = new JClass("java.io.FileWriter");
+    public static final JClass IOException = new JClass("java.io.IOException");
+    public static final JClass PrintWriter = new JClass("java.io.PrintWriter");
+    public static final JClass Reader = new JClass("java.io.Reader");
+    public static final JClass Writer = new JClass("java.io.Writer");
 
     //-- java.beans
-    public static final JClass PropertyChangeSupport = new JClass("java.beans.PropertyChangeSupport");
+    public static final JClass PropertyChangeSupport =
+        new JClass("java.beans.PropertyChangeSupport");
 
     public static final JType createEnumeration(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.Enumeration", jType, usejava50);

@@ -256,9 +256,12 @@ public class BindingLoader {
     }
 
     class BindingResolver implements EntityResolver {
-        private static final String BINDING_PUBLICID = "-//EXOLAB/Castor Binding Schema Version 1.0//EN";
-        private static final String BINDING_SYSTEMID = "http://exolab.castor.org/binding.xsd";
-        private static final String BINDING_RESOURCE = "/org/exolab/castor/builder/binding/binding.xsd";
+        private static final String BINDING_PUBLICID =
+            "-//EXOLAB/Castor Binding Schema Version 1.0//EN";
+        private static final String BINDING_SYSTEMID =
+            "http://exolab.castor.org/binding.xsd";
+        private static final String BINDING_RESOURCE =
+            "/org/exolab/castor/builder/binding/binding.xsd";
 
         /**
          * Base URL, if known.

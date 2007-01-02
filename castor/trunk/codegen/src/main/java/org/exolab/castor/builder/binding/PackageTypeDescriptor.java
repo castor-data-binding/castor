@@ -56,7 +56,8 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         //-- initialize element descriptors
         
         //-- _name
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_name", "name", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -94,7 +95,9 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         desc.setValidator(fieldValidator);
         
         //-- _packageTypeChoice
-        desc = new XMLFieldDescriptorImpl(PackageTypeChoice.class, "_packageTypeChoice", "-error-if-this-is-used-", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                PackageTypeChoice.class, "_packageTypeChoice", "-error-if-this-is-used-",
+                NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {

@@ -12,7 +12,8 @@ package org.exolab.castor.builder.binding;
  * 
  * @version $Revision$ $Date$
  */
-public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class ComponentBindingTypeChoiceDescriptor
+extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -64,7 +65,9 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         //-- initialize element descriptors
         
         //-- _javaClass
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ClassType.class, "_javaClass", "java-class", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                org.exolab.castor.builder.binding.ClassType.class,
+                "_javaClass", "java-class", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -97,7 +100,9 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         }
         desc.setValidator(fieldValidator);
         //-- _interface
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.Interface.class, "_interface", "interface", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                org.exolab.castor.builder.binding.Interface.class,
+                "_interface", "interface", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -130,7 +135,9 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         }
         desc.setValidator(fieldValidator);
         //-- _member
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.FieldType.class, "_member", "member", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                org.exolab.castor.builder.binding.FieldType.class,
+                "_member", "member", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -163,7 +170,9 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         }
         desc.setValidator(fieldValidator);
         //-- _enumDef
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumBindingType.class, "_enumDef", "enum-def", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                org.exolab.castor.builder.binding.EnumBindingType.class,
+                "_enumDef", "enum-def", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {

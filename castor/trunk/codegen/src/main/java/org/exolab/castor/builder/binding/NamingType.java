@@ -78,8 +78,7 @@ public class NamingType implements java.io.Serializable {
      * @param out
     **/
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
 
@@ -89,8 +88,8 @@ public class NamingType implements java.io.Serializable {
      * @param handler
     **/
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException,
+           org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
@@ -117,9 +116,11 @@ public class NamingType implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.NamingType unmarshalNamingType(final java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.NamingType unmarshalNamingType(
+            final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.builder.binding.NamingType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.NamingType.class, reader);
+        return (org.exolab.castor.builder.binding.NamingType) Unmarshaller.unmarshal(
+                org.exolab.castor.builder.binding.NamingType.class, reader);
     } //-- org.exolab.castor.builder.binding.NamingType unmarshalNamingType(java.io.Reader) 
 
     /**

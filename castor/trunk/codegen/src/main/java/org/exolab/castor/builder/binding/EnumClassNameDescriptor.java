@@ -58,7 +58,9 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
         //-- _content
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                java.lang.String.class, "_content", "PCDATA",
+                org.exolab.castor.xml.NodeType.Text);
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -85,7 +87,8 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- validation code for: _content
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator =
+                new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }
@@ -93,7 +96,9 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- initialize attribute descriptors
         
         //-- _package
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_package", "package", org.exolab.castor.xml.NodeType.Attribute);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
+                java.lang.String.class, "_package", "package",
+                org.exolab.castor.xml.NodeType.Attribute);
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -121,7 +126,8 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- validation code for: _package
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
+            org.exolab.castor.xml.validators.StringValidator typeValidator =
+                new org.exolab.castor.xml.validators.StringValidator();
             typeValidator.setWhiteSpace("preserve");
             fieldValidator.setValidator(typeValidator);
         }

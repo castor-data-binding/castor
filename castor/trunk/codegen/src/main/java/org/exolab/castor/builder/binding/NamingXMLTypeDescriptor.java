@@ -55,7 +55,8 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- initialize element descriptors
         
         //-- _elementName
-        desc = new XMLFieldDescriptorImpl(NamingType.class, "_elementName", "elementName", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                NamingType.class, "_elementName", "elementName", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -85,7 +86,8 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc.setValidator(fieldValidator);
         
         //-- _complexTypeName
-        desc = new XMLFieldDescriptorImpl(NamingType.class, "_complexTypeName", "complexTypeName", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                NamingType.class, "_complexTypeName", "complexTypeName", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -115,7 +117,8 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc.setValidator(fieldValidator);
         
         //-- _modelGroupName
-        desc = new XMLFieldDescriptorImpl(NamingType.class, "_modelGroupName", "modelGroupName", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                NamingType.class, "_modelGroupName", "modelGroupName", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
