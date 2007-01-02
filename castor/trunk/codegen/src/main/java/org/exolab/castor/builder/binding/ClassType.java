@@ -93,7 +93,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param vImplements
     **/
-    public void addImplements(java.lang.String vImplements)
+    public void addImplements(final java.lang.String vImplements)
         throws java.lang.IndexOutOfBoundsException
     {
         _implementsList.addElement(vImplements);
@@ -105,7 +105,7 @@ public class ClassType implements java.io.Serializable {
      * @param index
      * @param vImplements
     **/
-    public void addImplements(int index, java.lang.String vImplements)
+    public void addImplements(final int index, final java.lang.String vImplements)
         throws java.lang.IndexOutOfBoundsException
     {
         _implementsList.insertElementAt(vImplements, index);
@@ -201,7 +201,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param index
     **/
-    public java.lang.String getImplements(int index)
+    public java.lang.String getImplements(final int index)
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
@@ -297,7 +297,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param out
     **/
-    public void marshal(java.io.Writer out)
+    public void marshal(final java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -309,7 +309,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param handler
     **/
-    public void marshal(org.xml.sax.ContentHandler handler)
+    public void marshal(final org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -328,7 +328,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param index
     **/
-    public java.lang.String removeImplements(int index)
+    public java.lang.String removeImplements(final int index)
     {
         java.lang.Object obj = _implementsList.elementAt(index);
         _implementsList.removeElementAt(index);
@@ -340,7 +340,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _abstract the value of field 'abstract'.
     **/
-    public void setAbstract(boolean _abstract)
+    public void setAbstract(final boolean _abstract)
     {
         this._abstract = _abstract;
         this._has_abstract = true;
@@ -351,7 +351,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param bound the value of field 'bound'.
     **/
-    public void setBound(boolean bound)
+    public void setBound(final boolean bound)
     {
         this._bound = bound;
         this._has_bound = true;
@@ -362,7 +362,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param equals the value of field 'equals'.
     **/
-    public void setEquals(boolean equals)
+    public void setEquals(final boolean equals)
     {
         this._equals = equals;
         this._has_equals = true;
@@ -373,7 +373,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _extends the value of field 'extends'.
     **/
-    public void setExtends(java.lang.String _extends)
+    public void setExtends(final java.lang.String _extends)
     {
         this._extends = _extends;
     } //-- void setExtends(java.lang.String) 
@@ -383,7 +383,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _final the value of field 'final'.
     **/
-    public void setFinal(boolean _final)
+    public void setFinal(final boolean _final)
     {
         this._final = _final;
         this._has_final = true;
@@ -395,7 +395,7 @@ public class ClassType implements java.io.Serializable {
      * @param index
      * @param vImplements
     **/
-    public void setImplements(int index, java.lang.String vImplements)
+    public void setImplements(final int index, final java.lang.String vImplements)
         throws java.lang.IndexOutOfBoundsException
     {
         //-- check bounds for index
@@ -410,7 +410,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _implementsArray
     **/
-    public void setImplements(java.lang.String[] _implementsArray)
+    public void setImplements(final java.lang.String[] _implementsArray)
     {
         //-- copy array
         _implementsList.removeAllElements();
@@ -424,7 +424,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param name the value of field 'name'.
     **/
-    public void setName(java.lang.String name)
+    public void setName(final java.lang.String name)
     {
         this._name = name;
     } //-- void setName(java.lang.String) 
@@ -434,7 +434,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _package the value of field 'package'.
     **/
-    public void setPackage(java.lang.String _package)
+    public void setPackage(final java.lang.String _package)
     {
         this._package = _package;
     } //-- void setPackage(java.lang.String) 
@@ -444,7 +444,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.ClassType unmarshalClassType(java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.ClassType unmarshalClassType(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.builder.binding.ClassType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.ClassType.class, reader);

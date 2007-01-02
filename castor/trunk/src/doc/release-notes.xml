@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1795" tool="jira">
+                    <description>
+                        Cleaned up 466 'Final Parameters' warnings at builder package.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070102</date>
+                </bug>
                 <bug id="1794" tool="jira">
                     <description>
                         Cleaned up 316 'Style Javadoc' warnings at builder package.

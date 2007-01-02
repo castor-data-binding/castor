@@ -61,7 +61,7 @@ public class BindingType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private BindingType(int type, java.lang.String value) {
+    private BindingType(final int type, final java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
@@ -112,7 +112,7 @@ public class BindingType implements java.io.Serializable {
      * 
      * @param string
     **/
-    public static org.exolab.castor.builder.binding.types.BindingType valueOf(java.lang.String string)
+    public static org.exolab.castor.builder.binding.types.BindingType valueOf(final java.lang.String string)
     {
         java.lang.Object obj = null;
         if (string != null) obj = _memberTable.get(string);

@@ -73,7 +73,7 @@ public class IncludeType implements java.io.Serializable {
      * 
      * @param out
     **/
-    public void marshal(java.io.Writer out)
+    public void marshal(final java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -85,7 +85,7 @@ public class IncludeType implements java.io.Serializable {
      * 
      * @param handler
     **/
-    public void marshal(org.xml.sax.ContentHandler handler)
+    public void marshal(final org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -97,7 +97,7 @@ public class IncludeType implements java.io.Serializable {
      * 
      * @param URI the value of field 'URI'.
     **/
-    public void setURI(java.lang.String URI)
+    public void setURI(final java.lang.String URI)
     {
         this._URI = URI;
     } //-- void setURI(java.lang.String) 
@@ -107,7 +107,7 @@ public class IncludeType implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.IncludeType unmarshalIncludeType(java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.IncludeType unmarshalIncludeType(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.builder.binding.IncludeType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.IncludeType.class, reader);

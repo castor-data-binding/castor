@@ -275,18 +275,19 @@ public class ExtendedBinding extends Binding {
      *
      * @param binding the ComponentBindingType for which we want to process the
      *        children.
-     * @param xPath the current XPath location that points to the parent of the
+     * @param currentPath the current XPath location that points to the parent of the
      *        given ComponentBindingType.
      * @param type an integer that indicates the type of the given
      *        ComponentBindingType
      */
-    private void handleComponent(final ComponentBindingType binding, String xPath, final int type) {
+    private void handleComponent(final ComponentBindingType binding, final String xPath, final int type) {
         if (binding == null) {
             return;
         }
 
-        if (xPath == null) {
-            xPath = new String();
+        String currentPath = xPath;
+        if (currentPath == null) {
+            currentPath = new String();
         }
 
         String name = binding.getName();
@@ -296,55 +297,55 @@ public class ExtendedBinding extends Binding {
             case ATTRIBUTE :
                 //--handle attributes
                 if (!xpathUsed) {
-                    xPath = xPath + PATH_SEPARATOR + ATTRIBUTE_PREFIX;
+                    currentPath = currentPath + PATH_SEPARATOR + ATTRIBUTE_PREFIX;
                 }
-                xPath += name;
-                _componentBindings.put(xPath, binding);
+                currentPath += name;
+                _componentBindings.put(currentPath, binding);
                 break;
 
             case SIMPLETYPE :
                 //--handle simpleType
                 if (!xpathUsed) {
-                    xPath += SIMPLETYPE_ID;
+                    currentPath += SIMPLETYPE_ID;
                 }
-                xPath += name;
-                _componentBindings.put(xPath, binding);
+                currentPath += name;
+                _componentBindings.put(currentPath, binding);
                 break;
 
             case ELEMENT :
                 //--handle element
                 if (!xpathUsed) {
-                    xPath += PATH_SEPARATOR;
+                    currentPath += PATH_SEPARATOR;
                 }
-                xPath += name;
-                _componentBindings.put(xPath, binding);
+                currentPath += name;
+                _componentBindings.put(currentPath, binding);
                 break;
 
             case COMPLEXTYPE :
                 //--handle complexType
                 if (!xpathUsed) {
-                    xPath += COMPLEXTYPE_ID;
+                    currentPath += COMPLEXTYPE_ID;
                 }
-                xPath += name;
-                _componentBindings.put(xPath, binding);
+                currentPath += name;
+                _componentBindings.put(currentPath, binding);
                 break;
 
             case ENUM_TYPE :
                 //--handle enum
                 if (!xpathUsed) {
-                    xPath += ENUMTYPE_ID;
+                    currentPath += ENUMTYPE_ID;
                 }
-                xPath += name;
-                _componentBindings.put(xPath, binding);
+                currentPath += name;
+                _componentBindings.put(currentPath, binding);
                 break;
 
             case GROUP :
                 //--handle group
                 if (!xpathUsed) {
-                    xPath += GROUP_ID;
+                    currentPath += GROUP_ID;
                 }
-                xPath += name;
-                _componentBindings.put(xPath, binding);
+                currentPath += name;
+                _componentBindings.put(currentPath, binding);
                 break;
 
             default :
@@ -361,42 +362,42 @@ public class ExtendedBinding extends Binding {
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
             //--top-level attribute --> no location computation
-            handleComponent(temp, xPath, ATTRIBUTE);
+            handleComponent(temp, currentPath, ATTRIBUTE);
         }
 
         //2--complexTypes
         tempBindings = binding.getComplexTypeBinding();
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
-            handleComponent(temp, xPath, COMPLEXTYPE);
+            handleComponent(temp, currentPath, COMPLEXTYPE);
         }
 
         //X--simpleTypes
         tempBindings = binding.getSimpleTypeBinding();
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
-            handleComponent(temp, xPath, SIMPLETYPE);
+            handleComponent(temp, currentPath, SIMPLETYPE);
         }
 
         //3--elements
         tempBindings = binding.getElementBinding();
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
-            handleComponent(temp, xPath, ELEMENT);
+            handleComponent(temp, currentPath, ELEMENT);
         }
 
         //4--groups
         tempBindings = binding.getGroupBinding();
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
-            handleComponent(temp, xPath, GROUP);
+            handleComponent(temp, currentPath, GROUP);
         }
 
         //5--enums
         tempBindings = binding.getEnumBinding();
         for (int i = 0; i < tempBindings.length; i++) {
             temp = tempBindings[i];
-            handleComponent(temp, xPath, ENUM_TYPE);
+            handleComponent(temp, currentPath, ENUM_TYPE);
         }
 
         temp = null;

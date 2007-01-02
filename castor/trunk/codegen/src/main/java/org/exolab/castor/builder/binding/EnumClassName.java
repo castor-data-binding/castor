@@ -98,7 +98,7 @@ public class EnumClassName implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
+    public void marshal(final java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -116,7 +116,7 @@ public class EnumClassName implements java.io.Serializable {
      * @throws org.exolab.castor.xml.MarshalException if object is
      * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
+    public void marshal(final org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -129,7 +129,7 @@ public class EnumClassName implements java.io.Serializable {
      * 
      * @param content the value of field 'content'.
      */
-    public void setContent(java.lang.String content)
+    public void setContent(final java.lang.String content)
     {
         this._content = content;
     } //-- void setContent(java.lang.String) 
@@ -140,7 +140,7 @@ public class EnumClassName implements java.io.Serializable {
      * @param _package
      * @param package the value of field 'package'.
      */
-    public void setPackage(java.lang.String _package)
+    public void setPackage(final java.lang.String _package)
     {
         this._package = _package;
     } //-- void setPackage(java.lang.String) 
@@ -156,7 +156,7 @@ public class EnumClassName implements java.io.Serializable {
      * @return the unmarshaled
      * org.exolab.castor.builder.binding.EnumClassName
      */
-    public static org.exolab.castor.builder.binding.EnumClassName unmarshalEnumClassName(java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.EnumClassName unmarshalEnumClassName(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.builder.binding.EnumClassName) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.EnumClassName.class, reader);

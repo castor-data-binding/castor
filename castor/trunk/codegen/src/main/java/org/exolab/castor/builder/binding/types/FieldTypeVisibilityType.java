@@ -75,7 +75,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private FieldTypeVisibilityType(int type, java.lang.String value) 
+    private FieldTypeVisibilityType(final int type, final java.lang.String value) 
      {
         super();
         this.type = type;
@@ -164,7 +164,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return the FieldTypeVisibilityType value of parameter
      * 'string'
      */
-    public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(java.lang.String string)
+    public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(final java.lang.String string)
     {
         java.lang.Object obj = null;
         if (string != null) obj = _memberTable.get(string);

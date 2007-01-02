@@ -57,13 +57,13 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- _elementName
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_elementName", "elementName", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getElementName();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -74,7 +74,7 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return new NamingType();
             }
         });
@@ -90,13 +90,13 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- _complexTypeName
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_complexTypeName", "complexTypeName", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getComplexTypeName();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -107,7 +107,7 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return new NamingType();
             }
         });
@@ -123,13 +123,13 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- _modelGroupName
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_modelGroupName", "modelGroupName", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getModelGroupName();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -140,7 +140,7 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return new NamingType();
             }
         });

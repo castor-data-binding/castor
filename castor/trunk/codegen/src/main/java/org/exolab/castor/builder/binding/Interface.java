@@ -69,7 +69,7 @@ public class Interface implements java.io.Serializable {
      * 
      * @param out
     **/
-    public void marshal(java.io.Writer out)
+    public void marshal(final java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -81,7 +81,7 @@ public class Interface implements java.io.Serializable {
      * 
      * @param handler
     **/
-    public void marshal(org.xml.sax.ContentHandler handler)
+    public void marshal(final org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -93,7 +93,7 @@ public class Interface implements java.io.Serializable {
      * 
      * @param name the value of field 'name'.
     **/
-    public void setName(java.lang.String name)
+    public void setName(final java.lang.String name)
     {
         this._name = name;
     } //-- void setName(java.lang.String) 
@@ -103,7 +103,7 @@ public class Interface implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.Interface unmarshalInterface(java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.Interface unmarshalInterface(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.builder.binding.Interface) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.Interface.class, reader);
