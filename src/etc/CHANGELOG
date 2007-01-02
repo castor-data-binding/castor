@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1800 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Tune checkstyle rules
+       Details: http://jira.codehaus.org/browse/CASTOR-1800
+       (Edward - 20070101)
+
 XML:   Resolved issue CASTOR-1799 using contribution from Edward Kuns [edward.kuns@aspect.com]
        XML handler & descriptor checkstyle cleanup
        Details: http://jira.codehaus.org/browse/CASTOR-1799

@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1800" tool="jira">
+                    <description>
+                        Tune checkstyle rules
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>All</module>
+                    <date>20070101</date>
+                </bug>
                 <bug id="1799" tool="jira">
                     <description>
                         XML handler & descriptor checkstyle cleanup
