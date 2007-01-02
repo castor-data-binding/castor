@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1790 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Refactored javasource package to resolve 'Design by extension' complaints of checkstyle.
+       Details: http://jira.codehaus.org/browse/CASTOR-1790
+       (Ralf - 20070102)
+
 XML:   Resolved issue CASTOR-1789 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Cleaned up checkstyle warnings/infos at javasource package of codegen module.
        Details: http://jira.codehaus.org/browse/CASTOR-1789

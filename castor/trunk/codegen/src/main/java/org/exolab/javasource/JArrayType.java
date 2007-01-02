@@ -22,10 +22,12 @@ package org.exolab.javasource;
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0.4
  */
-public class JArrayType extends JComponentizedType {
+public final class JArrayType extends JComponentizedType {
+    //--------------------------------------------------------------------------
 
     /**
      * Creates an instance of a array type, of type 'name'.
+     * 
      * @param componentType Component type.
      * @param useJava50 True if Java 5.0 should be generated.
      */
@@ -33,21 +35,17 @@ public class JArrayType extends JComponentizedType {
         super(componentType.getName(), componentType, useJava50);
     }
 
-    /**
-     * {@inheritDoc}
-     */
-    public final boolean isArray() {
-        return true;
-    }
-    
+    //--------------------------------------------------------------------------
+
     /**
      * Returns the String representation of this JType, which is simply the name
      * of this type.
      * 
-     * @return the String representation of this JType
+     * @return The String representation of this JType.
      */
-    public final String toString() {
+    public String toString() {
         return getComponentType().toString() + "[]";
-    } //-- toString
+    }
 
+    //--------------------------------------------------------------------------
 }

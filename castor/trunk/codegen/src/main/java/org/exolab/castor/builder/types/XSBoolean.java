@@ -76,7 +76,12 @@ public final class XSBoolean extends XSType {
     public XSBoolean(final boolean asWrapper) {
         super(XSType.BOOLEAN_TYPE);
         _asWrapper = asWrapper;
-        _jType = (_asWrapper) ? new JClass("java.lang.Boolean") : JType.BOOLEAN;
+        
+        if (_asWrapper) {
+            _jType = new JClass("java.lang.Boolean");
+        } else {
+            _jType = JType.BOOLEAN;
+        }
     } //-- XSBoolean
 
     /**

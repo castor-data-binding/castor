@@ -58,6 +58,7 @@ import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JModifiers;
 import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 import org.exolab.javasource.Java5HacksHelper;
@@ -195,7 +196,7 @@ public class FieldInfo extends XMLInfo {
         //-- special supporting fields
 
         //-- has_field
-        if ((!type.isEnumerated()) && jType.isPrimitive()) {
+        if ((!type.isEnumerated()) && (jType instanceof JPrimitiveType)) {
             field = new JField(JType.BOOLEAN, "_has" + _name);
             field.setComment("keeps track of state for field: " + _name);
             jClass.addField(field);
@@ -466,19 +467,19 @@ public class FieldInfo extends XMLInfo {
             jsc.append(" = ");
 
             JType referencedJType = _fieldInfoReference.getSchemaType().getJType();
-            if (referencedJType.isPrimitive()) {
+            if (referencedJType instanceof JPrimitiveType) {
                 jsc.append(paramName);
+            } else if (jType instanceof JPrimitiveType) {
+                JPrimitiveType primitive = (JPrimitiveType) jType;
+                jsc.append("new ");
+                jsc.append(primitive.getWrapperName());
+                jsc.append("(");
+                jsc.append(paramName);
+                jsc.append(")");
             } else {
-                if (jType.getWrapperName() != null) {
-                    jsc.append("new ");
-                    jsc.append(jType.getWrapperName());
-                    jsc.append("(");
-                }
                 jsc.append(paramName);
-                if (jType.getWrapperName() != null) {
-                    jsc.append(")");
-                }
             }
+            
             jsc.append(";");
         }
 
@@ -676,7 +677,7 @@ public class FieldInfo extends XMLInfo {
     public boolean isHasAndDeleteMethods() {
         XSType xsType = getSchemaType();
         JType jType  = xsType.getJType();
-        return ((!xsType.isEnumerated()) && jType.isPrimitive());
+        return ((!xsType.isEnumerated()) && (jType instanceof JPrimitiveType));
     } //-- isHasMethod
 
     /**

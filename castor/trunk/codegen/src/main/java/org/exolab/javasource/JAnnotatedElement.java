@@ -111,12 +111,14 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public interface JAnnotatedElement {
+    //--------------------------------------------------------------------------
+
     /**
      * Retrieves a JAnnotation for the given JAnnotationType, returns null if no
      * annotation has been set.
      *
-     * @param annotationType Annotation type to retrieve
-     * @return A JAnnotation for the given JAnnotationType
+     * @param annotationType Annotation type to retrieve.
+     * @return A JAnnotation for the given JAnnotationType.
      */
     JAnnotation getAnnotation(JAnnotationType annotationType);
 
@@ -130,9 +132,8 @@ public interface JAnnotatedElement {
     /**
      * Returns true if a JAnnotation exists for the given JAnnotationType.
      *
-     * @param annotationType Annotation type to check for presence or absense
-     * @return True if a JAnnotation has been added for the given
-     *         JAnnotationType.
+     * @param annotationType Annotation type to check for presence or absense.
+     * @return True if a JAnnotation has been added for the given JAnnotationType.
      */
     boolean isAnnotationPresent(JAnnotationType annotationType);
 
@@ -140,7 +141,7 @@ public interface JAnnotatedElement {
      * Adds a JAnnotation to this source element. An IllegalArgumentException is
      * thrown if one already exists for the associated JAnnotationType.
      *
-     * @param annotation a JAnnotation to add to this source element.
+     * @param annotation A JAnnotation to add to this source element.
      */
     void addAnnotation(JAnnotation annotation);
 
@@ -149,8 +150,8 @@ public interface JAnnotatedElement {
      * JAnnotationType. An IllegalArgumentException is thrown if the provided
      * JAnnotation isn't present.
      *
-     * @param annotationType Annotation type to remove
-     * @return The JAnnotation that was associated with this source element
+     * @param annotationType Annotation type to remove.
+     * @return The JAnnotation that was associated with this source element.
      */
     JAnnotation removeAnnotation(JAnnotationType annotationType);
 
@@ -161,4 +162,5 @@ public interface JAnnotatedElement {
      */
     boolean hasAnnotations();
 
+    //--------------------------------------------------------------------------
 }

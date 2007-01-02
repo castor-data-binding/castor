@@ -50,36 +50,38 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class JType {
+    //--------------------------------------------------------------------------
+
     /** JType for a boolean (Boolean). */
-    public static final JType BOOLEAN = new JType("boolean", "java.lang.Boolean");
+    public static final JPrimitiveType BOOLEAN = new JPrimitiveType("boolean", "java.lang.Boolean");
 
     /** JType instance for a byte (Byte). */
-    public static final JType BYTE = new JType("byte", "java.lang.Byte");
+    public static final JPrimitiveType BYTE = new JPrimitiveType("byte", "java.lang.Byte");
 
     /** JType instance for a char (Char). */
-    public static final JType CHAR = new JType("char", "java.lang.Character");
+    public static final JPrimitiveType CHAR = new JPrimitiveType("char", "java.lang.Character");
 
     /** JType instance for a double (Double). */
-    public static final JType DOUBLE = new JType("double", "java.lang.Double");
+    public static final JPrimitiveType DOUBLE = new JPrimitiveType("double", "java.lang.Double");
 
     /** JType instance for a float (Float). */
-    public static final JType FLOAT = new JType("float", "java.lang.Float");
+    public static final JPrimitiveType FLOAT = new JPrimitiveType("float", "java.lang.Float");
 
     /** JType instance for a int (Integer). */
-    public static final JType INT = new JType("int", "java.lang.Integer");
+    public static final JPrimitiveType INT = new JPrimitiveType("int", "java.lang.Integer");
 
     /** JType instance for a long (Long). */
-    public static final JType LONG = new JType("long", "java.lang.Long");
+    public static final JPrimitiveType LONG = new JPrimitiveType("long", "java.lang.Long");
 
     /** JType instance for a short (Short). */
-    public static final JType SHORT = new JType("short", "java.lang.Short");
+    public static final JPrimitiveType SHORT = new JPrimitiveType("short", "java.lang.Short");
+
+    //--------------------------------------------------------------------------
 
     /** Fully qualified of the Java type represented. */
     private String _name = null;
 
-    /** Only populated for primitive types and indicates the wrapper Object class
-     *  name for this primitive type. */
-    private String _wrapperName = null;
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JType with the given name.
@@ -92,19 +94,7 @@ public class JType {
         _name = name;
     }
 
-    /**
-     * Creates a new JType for a primitive with the given name and wrapper name.
-     * This constructor is private so it can only be used by the primitives
-     * defined here.
-     *
-     * @param name The name of the type.
-     * @param wrapperName The name of the wrapper Object type for this primitive type.
-     */
-    private JType(final String name, final String wrapperName) {
-        this(name);
-        
-        _wrapperName = wrapperName;
-    }
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the unqualified Java type name (i.e. without package).
@@ -113,7 +103,7 @@ public class JType {
      */
     public final String getLocalName() {
         // -- use getName method in case it's been overloaded
-        return JNaming.getLocalNameFromClassName(getName());
+        return JNaming.getLocalNameFromClassName(_name);
     }
 
     /**
@@ -125,64 +115,5 @@ public class JType {
         return _name;
     }
 
-    /**
-     * Return the name of the wrapper object for a primitive type, null for
-     * non-primitive types.
-     *
-     * @return The name of the wrapper object for a primitive type, null for
-     *         non-primitive types.
-     */
-    public final String getWrapperName() {
-        return _wrapperName;
-    }
-
-    /**
-     * Checks to see if this JType represents a primitive type.
-     *
-     * @return true if this JType represents a primitive type, otherwise false.
-     */
-    public final boolean isPrimitive() {
-        return (_wrapperName != null);
-    }
-
-    /**
-     * Returns true if this type represents an Array.  Always returns false
-     * unless overridden by an extending class.
-     * 
-     * @return true if this type represents an Array.
-     */
-    public boolean isArray() {
-        return false;
-    }
-
-    /**
-     * Returns the String representation of this JType, which is simply the name
-     * of this type.
-     *
-     * @return The String representation of this JType.
-     */
-    public String toString() {
-        return _name;
-    }
-
-    /**
-     * Changes the package this JType belongs to. This method is protected to
-     * allow subtypes, such as JClass to alter the package to which this JType
-     * belongs.
-     * <br/>
-     * <B>Note:</B> The package name cannot be changed on a primitive type.
-     *
-     * @param newPackage The new package to which this JType belongs.
-     */
-    protected final void changePackage(final String newPackage) {
-        if (_name == null || isPrimitive()) { return; }
-
-        String localName = JNaming.getLocalNameFromClassName(_name);
-
-        if (newPackage == null || newPackage.length() == 0) {
-            _name = localName;
-        } else {
-            _name = newPackage + "." + localName;
-        }
-    }
+    //--------------------------------------------------------------------------
 }

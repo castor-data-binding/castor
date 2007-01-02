@@ -24,6 +24,7 @@ import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 
 /**
@@ -115,7 +116,7 @@ public class XMLFieldHandlerFactory {
         jsc.append(localClassName);
         jsc.append(") object;");
         // -- handle primitives
-        if ((!xsType.isEnumerated()) && xsType.getJType().isPrimitive()
+        if ((!xsType.isEnumerated()) && (xsType.getJType() instanceof JPrimitiveType)
                 && (!member.isMultivalued())) {
             jsc.add("if(!target." + member.getHasMethodName() + "())");
             jsc.indent();

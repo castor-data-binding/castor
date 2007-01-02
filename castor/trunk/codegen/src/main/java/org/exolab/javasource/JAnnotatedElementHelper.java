@@ -44,7 +44,6 @@
  */
 package org.exolab.javasource;
 
-import java.io.PrintWriter;
 import java.util.Iterator;
 
 import org.exolab.castor.util.OrderedHashMap;
@@ -57,14 +56,12 @@ import org.exolab.castor.util.OrderedHashMap;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public class JAnnotatedElementHelper implements JAnnotatedElement {
-    // NOTE: Removed references to LinkedHashMap as we are trying to maintain
-    // backward compatibility with JDK 1.2 and 1.3.
+    //--------------------------------------------------------------------------
 
-    /**
-     * Stores annotations associated with the source element containing this
-     * helper.
-     */
+    /** Stores annotations associated with the source element containing this helper. */
     private OrderedHashMap _annotations;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a JAnnodatedElementHelper.
@@ -73,9 +70,9 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         super();
     }
 
+    //--------------------------------------------------------------------------
+
     /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #getAnnotation(org.exolab.javasource.JAnnotationType)
      * {@inheritDoc}
      */
     public final JAnnotation getAnnotation(final JAnnotationType annotationType) {
@@ -84,7 +81,6 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
      * {@inheritDoc}
      */
     public final JAnnotation[] getAnnotations() {
@@ -94,8 +90,6 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #isAnnotationPresent(org.exolab.javasource.JAnnotationType)
      * {@inheritDoc}
      */
     public final boolean isAnnotationPresent(final JAnnotationType annotationType) {
@@ -106,8 +100,6 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #addAnnotation(org.exolab.javasource.JAnnotation)
      * {@inheritDoc}
      */
     public final void addAnnotation(final JAnnotation annotation) {
@@ -122,8 +114,6 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #removeAnnotation(org.exolab.javasource.JAnnotationType)
      * {@inheritDoc}
      */
     public final JAnnotation removeAnnotation(final JAnnotationType annotationType) {
@@ -135,7 +125,6 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
     }
 
     /**
-     * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
      * {@inheritDoc}
      */
     public final boolean hasAnnotations() {
@@ -165,198 +154,5 @@ public class JAnnotatedElementHelper implements JAnnotatedElement {
         return printed;
     }
 
-    /**
-     * Test.
-     * @param args Command-line arguments
-     */
-    public static void main(final String[] args) {
-        JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-
-        // Class annotation
-        test1(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Class annotation (multiple)
-        test2(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Interface annotation
-        test3(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Field annotation (JClass)
-        test4(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Field annotation (JInterface)
-        test5(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Method annotation (JClass)
-        test6(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Method annotation (JInterface)
-        test7(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Constructor annotation
-        test8(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Method parameter annotation (JInterface)
-        test9(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Constructor parameter annotation
-        test10(jsw);
-
-        jsw.flush();
-    }
-
-    private static void test1(final JSourceWriter jsw) {
-        JAnnotation endorsers = makeTestEndorserAnnotation();
-        JClass lollipop = new JClass("Lollipop");
-        lollipop.addAnnotation(endorsers);
-        lollipop.print(jsw);
-    }
-
-    private static void test2(final JSourceWriter jsw) {
-        JAnnotation copyright = makeTestCopyrightAnnotation();
-        JAnnotation endorsers = makeTestEndorserAnnotation();
-        JClass lollipop = new JClass("Lollipop");
-        lollipop.addAnnotation(endorsers);
-        lollipop.addAnnotation(copyright);
-        lollipop.print(jsw);
-    }
-
-    private static void test3(final JSourceWriter jsw) {
-        JAnnotation endorsers = makeTestEndorserAnnotation();
-        JInterface lollipop = new JInterface("Lollipop");
-        lollipop.addAnnotation(endorsers);
-        lollipop.print(jsw);
-    }
-
-    private static void test4(final JSourceWriter jsw) {
-        JAnnotationType suppressWarningsType = new JAnnotationType("org.xyz.SuppressWarnings");
-        JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
-        JField field = new JField(new JClass("DocumentHandler"), "documentHandler");
-        field.addAnnotation(suppressWarnings);
-        JClass timeMachine = new JClass("EventProducer");
-        timeMachine.addField(field);
-        timeMachine.print(jsw);
-    }
-
-    private static void test5(final JSourceWriter jsw) {
-        JAnnotationType suppressWarningsType = new JAnnotationType("SuppressWarnings");
-        JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
-        JField field = new JField(new JClass("DocumentHandler"), "documentHandler");
-        field.getModifiers().setStatic(true);
-        field.getModifiers().makePublic();
-        field.addAnnotation(suppressWarnings);
-        JInterface timeMachine = new JInterface("TimeMachine");
-        timeMachine.addField(field);
-        timeMachine.print(jsw);
-    }
-
-    private static void test6(final JSourceWriter jsw) {
-        JAnnotation requestForEnhancement = makeTestRFEAnnotation();
-        JMethod travelThroughTime = new JMethod("travelThroughTime");
-        travelThroughTime.addAnnotation(requestForEnhancement);
-        travelThroughTime.addParameter(new JParameter(new JClass("Date"), "date"));
-        JClass timeMachine = new JClass("TimeMachine");
-        timeMachine.addMethod(travelThroughTime);
-        timeMachine.print(jsw);
-    }
-
-    private static void test7(final JSourceWriter jsw) {
-        JAnnotation requestForEnhancement = makeTestRFEAnnotation();
-        JMethodSignature travelThroughTime = new JMethodSignature("travelThroughTime");
-        travelThroughTime.addAnnotation(requestForEnhancement);
-        travelThroughTime.addParameter(new JParameter(new JClass("Date"), "date"));
-        JInterface timeMachine = new JInterface("TimeMachine");
-        timeMachine.addMethod(travelThroughTime);
-        timeMachine.print(jsw);
-    }
-
-    private static void test8(final JSourceWriter jsw) {
-        JAnnotation endorsers = makeTestEndorserAnnotation();
-        JClass lollipop = new JClass("Lollipop");
-        JConstructor constructor = new JConstructor(lollipop);
-        constructor.addAnnotation(endorsers);
-        lollipop.addConstructor(constructor);
-        lollipop.print(jsw);
-    }
-
-    private static void test9(final JSourceWriter jsw) {
-        JAnnotationType suppressWarningsType = new JAnnotationType("org.xyz.SuppressWarnings");
-        JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
-        JMethodSignature travelThroughTime = new JMethodSignature("produceEvents");
-        JParameter parameter1 = new JParameter(new JClass("DocumentHandler"), "documentHandler");
-        parameter1.addAnnotation(suppressWarnings);
-        travelThroughTime.addParameter(parameter1);
-        JParameter parameter2 = new JParameter(JType.BOOLEAN, "asDocument");
-        travelThroughTime.addParameter(parameter2);
-        JInterface timeMachine = new JInterface("EventProducer");
-        timeMachine.addMethod(travelThroughTime);
-        timeMachine.print(jsw);
-    }
-
-    private static void test10(final JSourceWriter jsw) {
-        JAnnotationType suppressWarningsType = new JAnnotationType("SuppressWarnings");
-        JAnnotation suppressWarnings = new JAnnotation(suppressWarningsType);
-        JParameter parameter1 = new JParameter(new JClass("DocumentHandler"), "documentHandler");
-        JParameter parameter2 = new JParameter(JType.BOOLEAN, "asDocument");
-        parameter1.addAnnotation(suppressWarnings);
-        JClass lollipop = new JClass("Lollipop");
-        JConstructor constructor = new JConstructor(lollipop);
-        constructor.addParameter(parameter1);
-        constructor.addParameter(parameter2);
-        lollipop.addConstructor(constructor);
-        lollipop.print(jsw);
-    }
-
-    private static JAnnotation makeTestCopyrightAnnotation() {
-        JAnnotationType copyrightType = new JAnnotationType("org.xyz.Copyright");
-        JAnnotation copyright = new JAnnotation(copyrightType);
-        copyright.setValue("\"2002 Yoyodyne Propulsion Systems, Inc., All rights reserved.\"");
-        return copyright;
-    }
-
-    private static JAnnotation makeTestEndorserAnnotation() {
-        JAnnotationType endorsersType = new JAnnotationType("org.xyz.Endorsers");
-        JAnnotation endorsers = new JAnnotation(endorsersType);
-        endorsers.setValue(new String[] {"\"Children\"", "\"Unscrupulous dentists\""});
-        return endorsers;
-    }
-
-    private static JAnnotation makeTestRFEAnnotation() {
-        JAnnotationType requestForEnhancementType;
-        requestForEnhancementType = new JAnnotationType("org.xyz.RequestForEnhancement");
-        JAnnotation requestForEnhancement = new JAnnotation(requestForEnhancementType);
-        requestForEnhancement.setElementValue("id", "2868724");
-        requestForEnhancement.setElementValue("synopsis", "\"Provide time-travel functionality\"");
-        requestForEnhancement.setElementValue("engineer", "\"Mr. Peabody\"");
-        requestForEnhancement.setElementValue("date", "\"4/1/2004\"");
-        return requestForEnhancement;
-    }
-
+    //--------------------------------------------------------------------------
 }

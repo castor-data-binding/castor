@@ -53,6 +53,7 @@ import org.exolab.javasource.JClass;
 import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
@@ -360,8 +361,9 @@ public final class DescriptorJClass extends JClass {
      * @return the Class name (as a String) for the given XSType
      */
     private static String classType(final JType jType) {
-        if (jType.isPrimitive()) {
-            return jType.getWrapperName() + ".TYPE";
+        if (jType instanceof JPrimitiveType) {
+            JPrimitiveType primitive = (JPrimitiveType) jType;
+            return primitive.getWrapperName() + ".TYPE";
         }
         return jType.toString() + ".class";
     } //-- classType

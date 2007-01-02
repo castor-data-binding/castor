@@ -61,6 +61,7 @@ import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
@@ -353,7 +354,7 @@ public class CollectionInfo extends FieldInfo {
         JDocComment comment = method.getJDocComment();
         comment.appendComment("Returns the contents of the collection in an Array.  ");
 
-        if (!baseType.isPrimitive()) {
+        if (!(baseType instanceof JPrimitiveType)) {
             // For non-primitive types, we use the API method made for this purpose
             comment.appendComment("<p>");
             comment.appendComment("Note:  Just in case the collection contents are changing in ");

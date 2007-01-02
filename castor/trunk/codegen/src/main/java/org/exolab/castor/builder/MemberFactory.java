@@ -76,6 +76,7 @@ import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.castor.xml.schema.simpletypes.ListType;
 import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JType;
 
 /**
@@ -474,12 +475,19 @@ public class MemberFactory extends BaseFactory {
             //-- we'll need to change this when enumerations are no longer treated as strings
             JType jType = (classInfo != null) ? classInfo.getJClass() : xsType.getJType();
             value = jType.getName() + ".valueOf(\"" + value + "\")";
-        } else if (xsType.getJType().isArray()) {
+        } else if (xsType.getJType() instanceof JArrayType) {
             JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
-            value = "new " + componentType.getName() + "[] { "
-                    + componentType.getWrapperName() + ".valueOf(\"" + value
-                    + "\")." + componentType.getName() + "Value() }";
-        } else if (!xsType.getJType().isPrimitive()) {
+            if (componentType instanceof JPrimitiveType) {
+                JPrimitiveType primitive = (JPrimitiveType) componentType;
+                value = "new " + primitive.getName() + "[] { "
+                      + primitive.getWrapperName() + ".valueOf(\"" + value
+                      + "\")." + primitive.getName() + "Value() }";
+            } else {
+                value = "new " + componentType.getName() + "[] { "
+                      + componentType.getName() + ".valueOf(\"" + value + "\") }";
+                
+            }
+        } else if (!(xsType.getJType() instanceof JPrimitiveType)) {
             if (xsType.isDateTime()) {
                 // Castor marshals DATETIME_TYPE into java.util.Date(), so we need to convert it
                 if (xsType.getType() == XSType.DATETIME_TYPE) {
