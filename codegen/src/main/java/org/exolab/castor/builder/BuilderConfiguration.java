@@ -271,7 +271,7 @@ public class BuilderConfiguration {
      *
      * @return The default configuration
      */
-    public synchronized Properties getDefault() {
+    public final synchronized Properties getDefault() {
         if (_defaultProps == null) {
             load();
         }
@@ -288,7 +288,7 @@ public class BuilderConfiguration {
      *            The property's default value
      * @return The property's value
      */
-    public String getProperty(final String name, final String defValue) {
+    public final String getProperty(final String name, final String defValue) {
         return _localProps.getProperty(name, defValue);
     } //-- getProperty
 
@@ -301,7 +301,7 @@ public class BuilderConfiguration {
      *
      * @return true if bound properties are enabled.
      */
-    public boolean boundPropertiesEnabled() {
+    public final boolean boundPropertiesEnabled() {
         return TRUE.equalsIgnoreCase(_localProps.getProperty(Property.BOUND_PROPERTIES));
     } //-- boundPropertiesEnabled
 
@@ -314,7 +314,7 @@ public class BuilderConfiguration {
      *
      * @return true if bound properties are enabled.
      */
-    public boolean equalsMethod() {
+    public final boolean equalsMethod() {
         return TRUE.equalsIgnoreCase(_localProps.getProperty(Property.EQUALS_METHOD));
     } //-- equalsMethod
 
@@ -323,7 +323,7 @@ public class BuilderConfiguration {
      *
      * @param equals The value we want to use.
      */
-     public void setEqualsMethod(final boolean equals) {
+     public final void setEqualsMethod(final boolean equals) {
         String value = (equals) ? TRUE : FALSE;
         _localProps.setProperty(Property.EQUALS_METHOD, value);
      } //-- setEqualsMethod
@@ -338,7 +338,7 @@ public class BuilderConfiguration {
      *
      * @return true if bound properties are enabled.
      */
-    public boolean classDescFieldNames() {
+    public final boolean classDescFieldNames() {
         return _localProps.getProperty(Property.CLASS_DESC_FIELD_NAMES, "").equalsIgnoreCase(TRUE);
     } //-- classDescFieldNames
 
@@ -353,7 +353,7 @@ public class BuilderConfiguration {
      *
      * @return true if extra collection methods are enabled.
      */
-    public boolean generateExtraCollectionMethods() {
+    public final boolean generateExtraCollectionMethods() {
         return _localProps.getProperty(Property.EXTRA_COLLECTION_METHODS, "")
                 .equalsIgnoreCase(TRUE);
     } //-- generateExtraCollectionMethods
@@ -364,7 +364,7 @@ public class BuilderConfiguration {
      * @param classDescFieldNames
      *            the value we want to ues
      */
-     public void setClassDescFieldNames(final boolean classDescFieldNames) {
+     public final void setClassDescFieldNames(final boolean classDescFieldNames) {
         String value = (classDescFieldNames) ? TRUE : FALSE;
         _localProps.setProperty(Property.CLASS_DESC_FIELD_NAMES, value);
      } //-- setClassDescFieldNames
@@ -374,7 +374,7 @@ public class BuilderConfiguration {
       * replacing <code>float</code> by <code>java.lang.Float</code>).
       * @return true if primitive types have to be used as Objects.
       */
-    public boolean usePrimitiveWrapper() {
+    public final boolean usePrimitiveWrapper() {
         return _localProps.getProperty(Property.WRAPPER, "").equalsIgnoreCase(TRUE);
     } //-- usePrimitiveWrapper
 
@@ -383,7 +383,7 @@ public class BuilderConfiguration {
      *
      * @param wrapper the value we want to use.
      */
-    public void setPrimitiveWrapper(final boolean wrapper) {
+    public final void setPrimitiveWrapper(final boolean wrapper) {
         String value = (wrapper) ? TRUE : FALSE;
         _localProps.setProperty(Property.WRAPPER, value);
     } //-- setPrimitiveWrapper
@@ -394,7 +394,7 @@ public class BuilderConfiguration {
      *
      * @return true if use enumerated type interface is enabled
      */
-    public boolean useEnumeratedTypeInterface() {
+    public final boolean useEnumeratedTypeInterface() {
         return TRUE.equalsIgnoreCase(_localProps.getProperty(Property.ENUM_TYPE_ACCESS_INTERFACE));
     } //-- useEnumeratedTypeInterface
 
@@ -404,7 +404,7 @@ public class BuilderConfiguration {
      *
      * @return true if use enumerated type interface is enabled
      */
-    public boolean useJava50() {
+    public final boolean useJava50() {
         return "5.0".equalsIgnoreCase(_localProps.getProperty(Property.JAVA_VERSION, "1.4"));
     } //-- useEnumeratedTypeInterface
 
@@ -415,7 +415,7 @@ public class BuilderConfiguration {
      * @return the maximum number of static constant definitions acceptable within
      *    one class file
      */
-    public int getMaximumNumberOfConstants() {
+    public final int getMaximumNumberOfConstants() {
         String property = _localProps.getProperty(Property.MAX_CONSTANTS_PROPERTY, "1000");
         return Integer.valueOf(property).intValue();
     }
@@ -425,7 +425,7 @@ public class BuilderConfiguration {
      *
      * @param flag the value we want to use
      */
-    public void setUseEnumeratedTypeInterface(final boolean flag) {
+    public final void setUseEnumeratedTypeInterface(final boolean flag) {
         String value = (flag) ? TRUE : FALSE;
         _localProps.setProperty(Property.ENUM_TYPE_ACCESS_INTERFACE, value);
     } //-- setUseEnumeratedTypeInterface
@@ -460,7 +460,7 @@ public class BuilderConfiguration {
      * @param properties
      *            the Properties file
      */
-    public void setDefaultProperties(final Properties properties) {
+    public final void setDefaultProperties(final Properties properties) {
         Properties defaults = null;
         if (properties == null) {
             defaults = _defaultProps;
@@ -485,7 +485,7 @@ public class BuilderConfiguration {
      * @param ns the namespace URI to map
      * @param packageName the package name
      */
-    public void setNamespacePackageMapping(final String ns, final String packageName) {
+    public final void setNamespacePackageMapping(final String ns, final String packageName) {
         _nspackages.put(ns, packageName);
     } //-- setNamespcaePackageMapping
 
@@ -495,7 +495,7 @@ public class BuilderConfiguration {
      * @param schemaLocation the schemaLocation to map
      * @param packageName the package name to map to
      */
-    public void setLocationPackageMapping(final String schemaLocation, final String packageName) {
+    public final void setLocationPackageMapping(final String schemaLocation, final String packageName) {
         _locpackages.put(schemaLocation, packageName);
     }
 
@@ -505,7 +505,7 @@ public class BuilderConfiguration {
      * the default directories, but if it cannot find the JAR's configuration
      * file, will throw a run time exception.
      */
-    protected synchronized void load() {
+    protected final synchronized void load() {
         if (_defaultProps == null) {
             //-- load defaults from JAR
             _defaultProps = Configuration.loadProperties(
@@ -569,7 +569,7 @@ public class BuilderConfiguration {
      * @param nsURL the XML namespace URL to convert into a Java package name
      * @return a Java package name
      */
-    public String lookupPackageByNamespace(final String nsURL) {
+    public final String lookupPackageByNamespace(final String nsURL) {
         String namespaceURL = (nsURL == null) ? "" : nsURL;
 
         // Lookup Java package via NS
@@ -587,7 +587,7 @@ public class BuilderConfiguration {
      *            the Schema location to use to look up the Java package
      * @return a Java package name
      */
-    public String lookupPackageByLocation(final String schemaLocation) {
+    public final String lookupPackageByLocation(final String schemaLocation) {
         if (schemaLocation == null) {
             return "";
         }
@@ -627,7 +627,7 @@ public class BuilderConfiguration {
      *
      * @param mappings the namespace-to-package mappings
      */
-    protected void processNamespacePackageMappings(final String mappings) {
+    protected final void processNamespacePackageMappings(final String mappings) {
         if (mappings == null) {
             return;
         }

@@ -19,7 +19,7 @@ import org.exolab.castor.xml.Unmarshaller;
  * 
  * @version $Revision$ $Date$
  */
-public class EnumClassName implements java.io.Serializable {
+public final class EnumClassName implements java.io.Serializable {
 
 
       //--------------------------/

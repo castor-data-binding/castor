@@ -134,7 +134,7 @@ public class CollectionInfo extends FieldInfo {
      * @see org.exolab.castor.builder.info.FieldInfo
      *      #createAccessMethods(org.exolab.javasource.JClass, boolean)
      */
-    public void createAccessMethods(final JClass jClass, final boolean useJava50) {
+    public final void createAccessMethods(final JClass jClass, final boolean useJava50) {
         this.createAddAndRemoveMethods(jClass);
         this.createGetAndSetMethods(jClass, useJava50);
         this.createGetCountMethod(jClass);
@@ -160,7 +160,7 @@ public class CollectionInfo extends FieldInfo {
      * Return the contents of the collection.
      * @return the contents of the collection.
      */
-    public FieldInfo getContent() {
+    public final FieldInfo getContent() {
         return this._content;
     }
 
@@ -168,7 +168,7 @@ public class CollectionInfo extends FieldInfo {
      * Returns the variable name for the content of the collection.
      * @return the variable name for the content of the collection.
      */
-    public String getContentName() {
+    public final String getContentName() {
         return this.getContent().getName();
     }
 
@@ -176,9 +176,8 @@ public class CollectionInfo extends FieldInfo {
      * Returns the type of content in this collection.
      * @return the type of content in this collection.
      */
-    public XSType getContentType() {
+    public final XSType getContentType() {
         return this.getContent().getSchemaType();
-
     }
 
     /**
@@ -188,7 +187,7 @@ public class CollectionInfo extends FieldInfo {
      * @return the name to be used when referring to the elements of this
      *          collection.
      */
-    public String getElementName() {
+    public final String getElementName() {
         return this._elementName;
     }
 
@@ -196,7 +195,7 @@ public class CollectionInfo extends FieldInfo {
      * Returns the schema type represented by this collection.
      * @return the schema type represented by this collection.
      */
-    public XSList getXSList() {
+    public final XSList getXSList() {
         return (XSList) this.getSchemaType();
     }
 
@@ -205,7 +204,7 @@ public class CollectionInfo extends FieldInfo {
      *
      * @see org.exolab.castor.builder.info.XMLInfo#isMultivalued()
      */
-    public boolean isMultivalued() {
+    public final boolean isMultivalued() {
         return true;
     }
 
@@ -218,7 +217,7 @@ public class CollectionInfo extends FieldInfo {
      *            accessor methods should be created. False by default.
      * @see #setReferenceMethodSuffix
      */
-    public void setCreateExtraMethods(final boolean extraMethods) {
+    public final void setCreateExtraMethods(final boolean extraMethods) {
         this._extraMethods = extraMethods;
     } // -- setCreateExtraMethods
 
@@ -232,7 +231,7 @@ public class CollectionInfo extends FieldInfo {
      *            DEFAULT_REFERENCE_SUFFIX will used.
      * @see #setCreateExtraMethods
      */
-    public void setReferenceMethodSuffix(final String suffix) {
+    public final void setReferenceMethodSuffix(final String suffix) {
         if (suffix == null || suffix.length() == 0) {
             this._referenceSuffix = DEFAULT_REFERENCE_SUFFIX;
         } else {
@@ -240,7 +239,7 @@ public class CollectionInfo extends FieldInfo {
         }
     } // -- setReferenceMethodSuffix
 
-    private void addIndexCheck(final JSourceCode sourceCode, final String methodName) {
+    private final void addIndexCheck(final JSourceCode sourceCode, final String methodName) {
         sourceCode.add("// check bounds for index");
         sourceCode.add("if (index < 0 || index >= this.");
         sourceCode.append(this.getName());
@@ -257,7 +256,7 @@ public class CollectionInfo extends FieldInfo {
         sourceCode.add("");
     }
 
-    protected void addMaxSizeCheck(final String methodName, final JSourceCode sourceCode) {
+    protected final void addMaxSizeCheck(final String methodName, final JSourceCode sourceCode) {
         if (this.getXSList().getMaximumSize() > 0) {
             final String size = Integer.toString(getXSList().getMaximumSize());
 
@@ -310,7 +309,7 @@ public class CollectionInfo extends FieldInfo {
      * @param sourceCode
      *            the JSourceCode to add the new source code to.
      */
-    protected void createBoundPropertyCode(final JSourceCode sourceCode) {
+    protected final void createBoundPropertyCode(final JSourceCode sourceCode) {
         sourceCode.add("notifyPropertyChangeListeners(\"");
         sourceCode.append(getName());
         sourceCode.append("\", null, ");
@@ -342,7 +341,7 @@ public class CollectionInfo extends FieldInfo {
         return this._extraMethods;
     } // -- extraMethods
 
-    protected void createGetAsArrayMethod(final JClass jClass, final boolean useJava50) {
+    protected final void createGetAsArrayMethod(final JClass jClass, final boolean useJava50) {
         JType baseType = this.getContentType().getJType();
         JType arrayType = new JArrayType(baseType, useJava50);
         JMethod method = new JMethod(this.getReadMethodName(), arrayType,
@@ -402,7 +401,7 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    protected void createGetAsReferenceMethod(final JClass jClass) {
+    protected final void createGetAsReferenceMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getReadMethodName() + this.getReferenceMethodSuffix(),
                                      this.getXSList().getJType(),
                                      "a reference to the Vector backing this class");
@@ -450,7 +449,7 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    protected void createAddAndRemoveMethods(final JClass jClass) {
+    protected final void createAddAndRemoveMethods(final JClass jClass) {
         // create add methods
         this.createAddMethod(jClass);
         this.createAddByIndexMethod(jClass);
@@ -466,7 +465,7 @@ public class CollectionInfo extends FieldInfo {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    protected void createGetAndSetMethods(final JClass jClass, final boolean useJava50) {
+    protected final void createGetAndSetMethods(final JClass jClass, final boolean useJava50) {
         // create get methods
         this.createGetByIndexMethod(jClass);
         this.createGetAsArrayMethod(jClass, useJava50);
@@ -483,7 +482,7 @@ public class CollectionInfo extends FieldInfo {
         }
     }
 
-    protected void createGetCountMethod(final JClass jClass) {
+    protected final void createGetCountMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getReadMethodName() + "Count", JType.INT,
                                      "the size of this collection");
 
@@ -534,7 +533,7 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    protected void createIteratorMethod(final JClass jClass, final boolean useJava50) {
+    protected final void createIteratorMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("iterate" + this.getMethodSuffix(),
                 SGTypes.createIterator(this.getContentType().getJType(), useJava50),
                 "an Iterator over all possible elements in this collection");
@@ -552,7 +551,7 @@ public class CollectionInfo extends FieldInfo {
      *
      * @param jClass the JClass to which we add this method
      */
-    protected void createRemoveAllMethod(final JClass jClass) {
+    protected final void createRemoveAllMethod(final JClass jClass) {
         JMethod method = new JMethod("removeAll" + this.getMethodSuffix());
 
         JSourceCode sourceCode = method.getSourceCode();
@@ -606,7 +605,7 @@ public class CollectionInfo extends FieldInfo {
      *
      * @param jClass the JClass to which we add this method
      */
-    protected void createRemoveObjectMethod(final JClass jClass) {
+    protected final void createRemoveObjectMethod(final JClass jClass) {
         JMethod method = new JMethod("remove" + this.getMethodSuffix(), JType.BOOLEAN,
                                      "true if the object was removed from the collection.");
 
@@ -630,7 +629,7 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    protected void createSetAsArrayMethod(final JClass jClass, final boolean useJava50) {
+    protected final void createSetAsArrayMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix());
         final JParameter parameter = new JParameter(new JArrayType(
                 this.getContentType().getJType(), useJava50), this.getContentName() + "Array");
@@ -679,7 +678,7 @@ public class CollectionInfo extends FieldInfo {
      *
      * @param jClass
      */
-    protected void createSetAsCopyMethod(final JClass jClass) {
+    protected final void createSetAsCopyMethod(final JClass jClass) {
         JMethod method = new JMethod("set" + this.getMethodSuffix());
         JParameter parameter = new JParameter(this.getXSList().getJType(),
                                               this.getContentName() + "List");
@@ -724,7 +723,7 @@ public class CollectionInfo extends FieldInfo {
      * @param jClass
      * @param useJava50 true if source code is supposed to be generated for Java 5
      */
-    protected void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
+    protected final void createSetAsReferenceMethod(final JClass jClass, final boolean useJava50) {
         JMethod method = new JMethod("set" + this.getMethodSuffix() + _referenceSuffix);
         final JType collectionJType = getSchemaType().getJType();
         JParameter parameter = new JParameter(
@@ -756,7 +755,7 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    private String getParameterPrefix() {
+    private final String getParameterPrefix() {
         return _parameterPrefix;
     }
 
@@ -790,7 +789,7 @@ public class CollectionInfo extends FieldInfo {
      *
      * @see org.exolab.castor.builder.info.FieldInfo#getMethodSuffix()
      */
-    public String getMethodSuffix() {
+    public final String getMethodSuffix() {
         return this._methodSuffix;
     }
 

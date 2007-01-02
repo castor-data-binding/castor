@@ -65,7 +65,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
-public class MappingFileSourceFactory {
+public final class MappingFileSourceFactory {
 
     /**
      * Creates a new MappingFileSourceFactory with the given configuration.

@@ -116,7 +116,7 @@ public class XMLInfo {
      * @return the XML name for the object described by this XMLInfo, or null if
      *         no name has been set
      */
-    public String getNodeName() {
+    public final String getNodeName() {
         return _name;
     } //-- getNodeName
 
@@ -125,7 +125,7 @@ public class XMLInfo {
      *
      * @return the namespace prefix of the object described by this XMLInfo
      */
-    public String getNamespacePrefix() {
+    public final String getNamespacePrefix() {
         return _nsPrefix;
     } //-- getNamespacePrefix
 
@@ -134,7 +134,7 @@ public class XMLInfo {
      *
      * @return the namespace URI of the object described by this XMLInfo
      */
-    public String getNamespaceURI() {
+    public final String getNamespaceURI() {
         return _nsURI;
     } //-- getNamespaceURI
 
@@ -143,7 +143,7 @@ public class XMLInfo {
      *
      * @return true if xsd is element
      */
-    public boolean isElementDefinition() {
+    public final boolean isElementDefinition() {
             return _elementDef;
     } //-- isElementDefinition
 
@@ -152,7 +152,7 @@ public class XMLInfo {
      *
      * @return the node type for the object described by this XMLInfo
      */
-    public short getNodeType() {
+    public final short getNodeType() {
         return _nodeType;
     } //-- getNodeType
 
@@ -163,7 +163,7 @@ public class XMLInfo {
      * @return the name of the node-type of the object described by this
      *         XMLInfo.
      */
-    public String getNodeTypeName() {
+    public final String getNodeTypeName() {
         switch (_nodeType) {
             case ATTRIBUTE_TYPE:
                 return "attribute";
@@ -181,7 +181,7 @@ public class XMLInfo {
      *
      * @return the XML Schema type.
      */
-    public XSType getSchemaType() {
+    public final XSType getSchemaType() {
         return _xsType;
     } //-- getXSType
 
@@ -201,7 +201,7 @@ public class XMLInfo {
      *
      * @return true if the XML object must appear at least once.
      */
-    public boolean isRequired() {
+    public final boolean isRequired() {
         return _required;
     } //-- isRequired
 
@@ -211,7 +211,7 @@ public class XMLInfo {
      * @param multivalued The boolean indicating whether or not the object can appear
      *        more than once.
      */
-    public void setMultivalued(final boolean multivalued) {
+    public final void setMultivalued(final boolean multivalued) {
         this._multivalued = multivalued;
     } //-- setMultivalued
 
@@ -220,7 +220,7 @@ public class XMLInfo {
      *
      * @param name the XML node name of the described object.
      */
-    public void setNodeName(final String name) {
+    public final void setNodeName(final String name) {
         this._name = name;
     } //-- setName
 
@@ -230,7 +230,7 @@ public class XMLInfo {
      *
      * @param nsPrefix the desired namespace prefix
      */
-    public void setNamespacePrefix(final String nsPrefix) {
+    public final void setNamespacePrefix(final String nsPrefix) {
         this._nsPrefix = nsPrefix;
     } //-- setNamespacePrefix
 
@@ -239,7 +239,7 @@ public class XMLInfo {
      *
      * @param nsURI the Namespace URI for this XMLInfo
      */
-    public void setNamespaceURI(final String nsURI) {
+    public final void setNamespaceURI(final String nsURI) {
         this._nsURI = nsURI;
     } //-- setNamespaceURI
 
@@ -249,7 +249,7 @@ public class XMLInfo {
      * @param elementDef The flag indicating whether or not XSD is global
      *        element, element with anonymous type or not.
      */
-    public void setElementDefinition(final boolean elementDef) {
+    public final void setElementDefinition(final boolean elementDef) {
         this._elementDef = elementDef;
     } //-- setElementDefinition
 
@@ -258,7 +258,7 @@ public class XMLInfo {
      *
      * @param nodeType the node type of the described object
      */
-    public void setNodeType(final short nodeType) {
+    public final void setNodeType(final short nodeType) {
         this._nodeType = nodeType;
     } //-- setNodeType
 
@@ -267,7 +267,7 @@ public class XMLInfo {
      *
      * @param xsType the XML Schema type
      */
-    public void setSchemaType(final XSType xsType) {
+    public final void setSchemaType(final XSType xsType) {
         this._xsType = xsType;
     } //-- setSchemaType
 
@@ -277,7 +277,7 @@ public class XMLInfo {
      * @param required the flag indicating whether or not this XML object is
      *        required
      */
-    public void setRequired(final boolean required) {
+    public final void setRequired(final boolean required) {
         this._required = required;
     } //-- setRequired
 

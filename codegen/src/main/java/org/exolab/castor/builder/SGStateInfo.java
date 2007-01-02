@@ -70,7 +70,7 @@ import org.exolab.javasource.JClass;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-06-22 22:13:21 -0600 (Wed, 22 Jun 2005) $
  */
-public class SGStateInfo extends ClassInfoResolverImpl {
+public final class SGStateInfo extends ClassInfoResolverImpl {
 
     /** An empty Enumeration to be returned whenever we need an empty Enumeration. */
     private static final Enumeration EMPTY_ENUMERATION = new Vector(0).elements();

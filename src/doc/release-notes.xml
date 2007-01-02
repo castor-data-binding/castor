@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1797" tool="jira">
+                    <description>
+                        Cleaned up 929 'Design For Extension' warnings at builder package.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070102</date>
+                </bug>
                 <bug id="1796" tool="jira">
                     <description>
                         Cleaned up 351 'Maximum Line Length' warnings at builder package.

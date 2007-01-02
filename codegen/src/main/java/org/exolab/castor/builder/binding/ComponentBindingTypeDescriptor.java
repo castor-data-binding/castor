@@ -12,7 +12,7 @@ package org.exolab.castor.builder.binding;
  * 
  * @version $Revision$ $Date$
  */
-public class ComponentBindingTypeDescriptor
+public final class ComponentBindingTypeDescriptor
 extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 

@@ -36,8 +36,8 @@ import org.exolab.javasource.JClass;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 1.1
  */
-public class InformViaLogClassNameCRStrategy
-    extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
+public final class InformViaLogClassNameCRStrategy
+extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
 
     /** Logger instance used for logging naming conflicts. */
     private static final Log LOG = LogFactory.getLog(InformViaLogClassNameCRStrategy.class);

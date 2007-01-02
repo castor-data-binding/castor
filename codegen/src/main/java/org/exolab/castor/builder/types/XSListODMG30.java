@@ -51,7 +51,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:frank.thelen@poet.de">Frank Thelen</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
-public class XSListODMG30 extends XSList {
+public final class XSListODMG30 extends XSList {
 
     /** The JType represented by this XSType. */
     private static final JType JTYPE = new JClass("org.odmg.DArray");

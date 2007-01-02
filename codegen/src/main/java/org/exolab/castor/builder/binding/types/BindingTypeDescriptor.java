@@ -17,7 +17,8 @@ package org.exolab.castor.builder.binding.types;
  * 
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
 **/
-public class BindingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public final class BindingTypeDescriptor
+extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/

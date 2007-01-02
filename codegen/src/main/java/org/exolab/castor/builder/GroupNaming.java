@@ -59,7 +59,7 @@ import org.exolab.castor.xml.schema.Structure;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class GroupNaming {
+public final class GroupNaming {
 
     /**
      * A HashTable of HashTables that keeps track of group names for each

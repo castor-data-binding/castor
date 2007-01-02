@@ -60,7 +60,7 @@ public class BaseFactory {
      *            the String to normalize
      * @return the given string, normalized, for use in comments.
      */
-    protected String normalize(final String value) {
+    protected final String normalize(final String value) {
         if (value == null) {
             return null;
         }
@@ -102,7 +102,7 @@ public class BaseFactory {
      * Returns the group naming helper class for naming nested anonymous groups.
      * @return the group naming helper class for naming nested anonymous groups.
      */
-    public GroupNaming getGroupNaming() {
+    public final GroupNaming getGroupNaming() {
         return _groupNaming;
     }
 
@@ -110,7 +110,7 @@ public class BaseFactory {
      * Sets the group naming helper class for naming nested anonymous groups.
      * @param groupNaming the group naming helper class for naming nested anonymous groups.
      */
-    public void setGroupNaming(final GroupNaming groupNaming) {
+    public final void setGroupNaming(final GroupNaming groupNaming) {
         _groupNaming = groupNaming;
     }
 

@@ -12,7 +12,7 @@ package org.exolab.castor.builder.binding.types;
  * 
  * @version $Revision$ $Date$
  */
-public class FieldTypeVisibilityTypeDescriptor
+public final class FieldTypeVisibilityTypeDescriptor
 extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 

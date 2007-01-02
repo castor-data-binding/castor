@@ -58,7 +58,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class XSGMonth extends XSPatternBase {
+public final class XSGMonth extends XSPatternBase {
     /** Jakarta's common-logging logger. */
     private static final Log LOG = LogFactory.getLog(XSGMonth.class);
 
