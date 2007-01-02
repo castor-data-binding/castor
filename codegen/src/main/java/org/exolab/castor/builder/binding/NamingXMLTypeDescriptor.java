@@ -58,19 +58,16 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_elementName", "elementName", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getElementName();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     NamingXMLType target = (NamingXMLType) object;
                     target.setElementName((NamingType) value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -91,19 +88,16 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_complexTypeName", "complexTypeName", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getComplexTypeName();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     NamingXMLType target = (NamingXMLType) object;
                     target.setComplexTypeName((NamingType) value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -124,19 +118,16 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_modelGroupName", "modelGroupName", NodeType.Element);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getModelGroupName();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     NamingXMLType target = (NamingXMLType) object;
                     target.setModelGroupName((NamingType) value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -162,57 +153,49 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
 
     /**
     **/
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
     /**
     **/
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
     /**
     **/
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
     **/
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.NamingXMLType.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**
     **/
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
     **/
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
     **/
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
     /**
     **/
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 

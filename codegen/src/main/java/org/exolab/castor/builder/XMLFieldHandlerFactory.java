@@ -118,10 +118,7 @@ public class XMLFieldHandlerFactory {
         // -- handle primitives
         if ((!xsType.isEnumerated()) && (xsType.getJType().isPrimitive())
                 && (!member.isMultivalued())) {
-            jsc.add("if(!target." + member.getHasMethodName() + "())");
-            jsc.indent();
-            jsc.add("return null;");
-            jsc.unindent();
+            jsc.add("if (!target." + member.getHasMethodName() + "()) { return null; }");
         }
         // -- Return field value
         jsc.add("return ");
@@ -184,7 +181,7 @@ public class XMLFieldHandlerFactory {
                 jsc.add("}");
             } else {
                 jsc.add("// ignore null values for non optional primitives");
-                jsc.add("if (value == null) return;");
+                jsc.add("if (value == null) { return; }");
                 jsc.add("");
             }
         } // if primitive
@@ -218,8 +215,7 @@ public class XMLFieldHandlerFactory {
         jsc.append(");");
 
         jsc.unindent();
-        jsc.add("}");
-        jsc.add("catch (java.lang.Exception ex) {");
+        jsc.add("} catch (java.lang.Exception ex) {");
         jsc.indent();
         jsc.add("throw new IllegalStateException(ex.toString());");
         jsc.unindent();

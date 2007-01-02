@@ -79,8 +79,7 @@ public class FieldType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public FieldType() 
-     {
+    public FieldType() {
         super();
     } //-- org.exolab.castor.builder.binding.FieldType()
 
@@ -91,9 +90,8 @@ public class FieldType implements java.io.Serializable {
 
     /**
      */
-    public void deleteWrapper()
-    {
-        this._has_wrapper= false;
+    public void deleteWrapper() {
+        this._has_wrapper = false;
     } //-- void deleteWrapper() 
 
     /**
@@ -101,8 +99,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Collection'.
      */
-    public org.exolab.castor.builder.binding.types.FieldTypeCollectionType getCollection()
-    {
+    public org.exolab.castor.builder.binding.types.FieldTypeCollectionType getCollection() {
         return this._collection;
     } //-- org.exolab.castor.builder.binding.types.FieldTypeCollectionType getCollection() 
 
@@ -111,8 +108,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Handler'.
      */
-    public java.lang.String getHandler()
-    {
+    public java.lang.String getHandler() {
         return this._handler;
     } //-- java.lang.String getHandler() 
 
@@ -121,8 +117,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'JavaType'.
      */
-    public java.lang.String getJavaType()
-    {
+    public java.lang.String getJavaType() {
         return this._javaType;
     } //-- java.lang.String getJavaType() 
 
@@ -131,8 +126,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Name'.
      */
-    public java.lang.String getName()
-    {
+    public java.lang.String getName() {
         return this._name;
     } //-- java.lang.String getName() 
 
@@ -141,8 +135,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Validator'.
      */
-    public java.lang.String getValidator()
-    {
+    public java.lang.String getValidator() {
         return this._validator;
     } //-- java.lang.String getValidator() 
 
@@ -151,8 +144,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Visibility'.
      */
-    public org.exolab.castor.builder.binding.types.FieldTypeVisibilityType getVisibility()
-    {
+    public org.exolab.castor.builder.binding.types.FieldTypeVisibilityType getVisibility() {
         return this._visibility;
     } //-- org.exolab.castor.builder.binding.types.FieldTypeVisibilityType getVisibility() 
 
@@ -161,8 +153,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Wrapper'.
      */
-    public boolean getWrapper()
-    {
+    public boolean getWrapper() {
         return this._wrapper;
     } //-- boolean getWrapper() 
 
@@ -171,8 +162,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return true if at least one Wrapper has been added
      */
-    public boolean hasWrapper()
-    {
+    public boolean hasWrapper() {
         return this._has_wrapper;
     } //-- boolean hasWrapper() 
 
@@ -181,12 +171,10 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
@@ -197,8 +185,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @return the value of field 'Wrapper'.
      */
-    public boolean isWrapper()
-    {
+    public boolean isWrapper() {
         return this._wrapper;
     } //-- boolean isWrapper() 
 
@@ -212,8 +199,7 @@ public class FieldType implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
@@ -230,8 +216,7 @@ public class FieldType implements java.io.Serializable {
      * null or if any SAXException is thrown during marshaling
      */
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
@@ -241,8 +226,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param collection the value of field 'collection'.
      */
-    public void setCollection(final org.exolab.castor.builder.binding.types.FieldTypeCollectionType collection)
-    {
+    public void setCollection(final org.exolab.castor.builder.binding.types.FieldTypeCollectionType collection) {
         this._collection = collection;
     } //-- void setCollection(org.exolab.castor.builder.binding.types.FieldTypeCollectionType) 
 
@@ -251,8 +235,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param handler the value of field 'handler'.
      */
-    public void setHandler(final java.lang.String handler)
-    {
+    public void setHandler(final java.lang.String handler) {
         this._handler = handler;
     } //-- void setHandler(java.lang.String) 
 
@@ -261,8 +244,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param javaType the value of field 'javaType'.
      */
-    public void setJavaType(final java.lang.String javaType)
-    {
+    public void setJavaType(final java.lang.String javaType) {
         this._javaType = javaType;
     } //-- void setJavaType(java.lang.String) 
 
@@ -271,8 +253,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param name the value of field 'name'.
      */
-    public void setName(final java.lang.String name)
-    {
+    public void setName(final java.lang.String name) {
         this._name = name;
     } //-- void setName(java.lang.String) 
 
@@ -281,8 +262,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param validator the value of field 'validator'.
      */
-    public void setValidator(final java.lang.String validator)
-    {
+    public void setValidator(final java.lang.String validator) {
         this._validator = validator;
     } //-- void setValidator(java.lang.String) 
 
@@ -291,8 +271,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param visibility the value of field 'visibility'.
      */
-    public void setVisibility(final org.exolab.castor.builder.binding.types.FieldTypeVisibilityType visibility)
-    {
+    public void setVisibility(final org.exolab.castor.builder.binding.types.FieldTypeVisibilityType visibility) {
         this._visibility = visibility;
     } //-- void setVisibility(org.exolab.castor.builder.binding.types.FieldTypeVisibilityType) 
 
@@ -301,8 +280,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param wrapper the value of field 'wrapper'.
      */
-    public void setWrapper(final boolean wrapper)
-    {
+    public void setWrapper(final boolean wrapper) {
         this._wrapper = wrapper;
         this._has_wrapper = true;
     } //-- void setWrapper(boolean) 
@@ -319,8 +297,7 @@ public class FieldType implements java.io.Serializable {
      * org.exolab.castor.builder.binding.FieldType
      */
     public static org.exolab.castor.builder.binding.FieldType unmarshal(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.builder.binding.FieldType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.FieldType.class, reader);
     } //-- org.exolab.castor.builder.binding.FieldType unmarshal(java.io.Reader) 
 
@@ -331,8 +308,7 @@ public class FieldType implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
     } //-- void validate() 

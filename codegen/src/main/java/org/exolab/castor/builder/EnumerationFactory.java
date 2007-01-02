@@ -433,13 +433,13 @@ public class EnumerationFactory extends BaseFactory {
 
         JSourceCode jsc = mValueOf.getSourceCode();
         jsc.add("java.lang.Object obj = null;");
-        jsc.add("if (string != null) ");
-
+        jsc.add("if (string != null) {");
         if (_caseInsensitive) {
             jsc.append("obj = _memberTable.get(string.toLowerCase());");
         } else {
             jsc.append("obj = _memberTable.get(string);");
         }
+        jsc.append(" }");
 
         jsc.add("if (obj == null) {");
         jsc.indent();

@@ -55,19 +55,16 @@ public class InterfaceDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 Interface target = (Interface) object;
                 return target.getName();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     Interface target = (Interface) object;
                     target.setName((java.lang.String) value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -100,57 +97,49 @@ public class InterfaceDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
 
     /**
     **/
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
     /**
     **/
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
     /**
     **/
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
     **/
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.Interface.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**
     **/
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
     **/
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
     **/
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
     /**
     **/
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 

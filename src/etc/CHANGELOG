@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1793 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Cleaned up 635 warnings with braces and whitespaces at builder package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1793
+       (Ralf - 20070102)
+
 XML:   Resolved issue CASTOR-1795 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Cleaned up 466 'Final Parameters' warnings at builder package.
        Details: http://jira.codehaus.org/browse/CASTOR-1795

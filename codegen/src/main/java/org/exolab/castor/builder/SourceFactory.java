@@ -945,7 +945,6 @@ public class SourceFactory extends BaseFactory {
             jMethod.getModifiers().setAbstract(true);
         } else {
             JSourceCode jsc = jMethod.getSourceCode();
-            jsc.add("");
             jsc.add("Marshaller.marshal(this, out);");
         }
 
@@ -972,7 +971,6 @@ public class SourceFactory extends BaseFactory {
         } else {
             JSourceCode jsc = jMethod.getSourceCode();
             jsc = jMethod.getSourceCode();
-            jsc.add("");
             jsc.add("Marshaller.marshal(this, handler);");
         }
 
@@ -1304,7 +1302,7 @@ public class SourceFactory extends BaseFactory {
                     }
                     String methodName = JavaNaming.toJavaClassName(tempName);
                     methodName = "get" + methodName;
-                    JMethod method = jclass.getMethod(methodName,0);
+                    JMethod method = jclass.getMethod(methodName, 0);
                     // TODO: handle the Item introduced in with the group handling
                     if (method == null) {
                         continue;
@@ -1386,12 +1384,13 @@ public class SourceFactory extends BaseFactory {
                 jsc.add("result.append(\"[\");");
                 jsc.add("for (int i = 0; i < ");
                 jsc.append(name);
-                jsc.append(".length; i++)");
+                jsc.append(".length; i++) {");
                 jsc.indent();
                 jsc.add("result.append(");
                 jsc.append(name);
                 jsc.append("[i] + \" \");");
                 jsc.unindent();
+                jsc.add("}");
                 jsc.add("result.append(\"]\");");
                 jsc.unindent();
                 jsc.add("}");
@@ -1445,8 +1444,7 @@ public class SourceFactory extends BaseFactory {
         jsc.indent();
         jsc.add("validate();");
         jsc.unindent();
-        jsc.add("}");
-        jsc.add("catch (org.exolab.castor.xml.ValidationException vex) {");
+        jsc.add("} catch (org.exolab.castor.xml.ValidationException vex) {");
         jsc.indent();
         jsc.add("return false;");
         jsc.unindent();

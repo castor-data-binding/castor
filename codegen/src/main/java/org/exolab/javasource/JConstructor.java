@@ -259,25 +259,22 @@ public final class JConstructor extends JAnnotatedElementHelper {
         }
         if (parameterAnnotations) { jsw.unindent(); }
 
-        jsw.writeln(") ");
+        jsw.write(")");
         if (_exceptions.size() > 0) {
-            jsw.write("    throws ");
+            jsw.writeln();
+            jsw.write("throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
                 if (i > 0) { jsw.write(", "); }
                 JClass jClass = (JClass) _exceptions.elementAt(i);
                 jsw.write(jClass.getName());
             }
-            jsw.writeln();
         }
         jsw.writeln(" {");
 
-        //jsw.indent();
         _sourceCode.print(jsw);
-        //jsw.unindent();
 
         if (!jsw.isNewline()) { jsw.writeln(); }
-        jsw.write("} //-- ");
-        jsw.writeln(toString());
+        jsw.writeln("}");
     }
 
     /**

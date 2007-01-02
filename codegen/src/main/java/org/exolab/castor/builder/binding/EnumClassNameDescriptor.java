@@ -49,8 +49,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      //- Constructors -/
     //----------------/
 
-    public EnumClassNameDescriptor() 
-     {
+    public EnumClassNameDescriptor() {
         super();
         nsURI = "http://www.castor.org/SourceGenerator/Binding";
         xmlName = "enumClassName";
@@ -63,19 +62,16 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 EnumClassName target = (EnumClassName) object;
                 return target.getContent();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     EnumClassName target = (EnumClassName) object;
                     target.setContent((java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -101,19 +97,16 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 EnumClassName target = (EnumClassName) object;
                 return target.getPackage();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     EnumClassName target = (EnumClassName) object;
                     target.setPackage((java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -147,8 +140,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * 
      * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
@@ -158,8 +150,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * @return the class descriptor of the class extended by this
      * class.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
@@ -169,8 +160,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * @return the identity field, null if this class has no
      * identity.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
@@ -179,8 +169,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * 
      * @return the Java class represented by this descriptor.
      */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.EnumClassName.class;
     } //-- java.lang.Class getJavaClass() 
 
@@ -189,8 +178,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * 
      * @return the namespace prefix to use when marshalling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
@@ -200,8 +188,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * @return the namespace URI used when marshalling and
      * unmarshalling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
@@ -211,8 +198,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * @return a specific validator for the class described by this
      * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
@@ -221,8 +207,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * 
      * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 
@@ -233,8 +218,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
      * of a global
      * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
+    public boolean isElementDefinition() {
         return elementDefinition;
     } //-- boolean isElementDefinition() 
 

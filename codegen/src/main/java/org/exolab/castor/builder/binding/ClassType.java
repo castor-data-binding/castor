@@ -94,8 +94,7 @@ public class ClassType implements java.io.Serializable {
      * @param vImplements
     **/
     public void addImplements(final java.lang.String vImplements)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         _implementsList.addElement(vImplements);
     } //-- void addImplements(java.lang.String) 
 
@@ -106,43 +105,37 @@ public class ClassType implements java.io.Serializable {
      * @param vImplements
     **/
     public void addImplements(final int index, final java.lang.String vImplements)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         _implementsList.insertElementAt(vImplements, index);
     } //-- void addImplements(int, java.lang.String) 
 
     /**
     **/
-    public void deleteAbstract()
-    {
-        this._has_abstract= false;
+    public void deleteAbstract() {
+        this._has_abstract = false;
     } //-- void deleteAbstract() 
 
     /**
     **/
-    public void deleteBound()
-    {
-        this._has_bound= false;
+    public void deleteBound() {
+        this._has_bound = false;
     } //-- void deleteBound() 
 
     /**
     **/
-    public void deleteEquals()
-    {
-        this._has_equals= false;
+    public void deleteEquals() {
+        this._has_equals = false;
     } //-- void deleteEquals() 
 
     /**
     **/
-    public void deleteFinal()
-    {
-        this._has_final= false;
+    public void deleteFinal() {
+        this._has_final = false;
     } //-- void deleteFinal() 
 
     /**
     **/
-    public java.util.Enumeration enumerateImplements()
-    {
+    public java.util.Enumeration enumerateImplements() {
         return _implementsList.elements();
     } //-- java.util.Enumeration enumerateImplements() 
 
@@ -151,8 +144,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'abstract'.
     **/
-    public boolean getAbstract()
-    {
+    public boolean getAbstract() {
         return this._abstract;
     } //-- boolean getAbstract() 
 
@@ -161,8 +153,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'bound'.
     **/
-    public boolean getBound()
-    {
+    public boolean getBound() {
         return this._bound;
     } //-- boolean getBound() 
 
@@ -171,8 +162,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'equals'.
     **/
-    public boolean getEquals()
-    {
+    public boolean getEquals() {
         return this._equals;
     } //-- boolean getEquals() 
 
@@ -181,8 +171,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'extends'.
     **/
-    public java.lang.String getExtends()
-    {
+    public java.lang.String getExtends() {
         return this._extends;
     } //-- java.lang.String getExtends() 
 
@@ -191,8 +180,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'final'.
     **/
-    public boolean getFinal()
-    {
+    public boolean getFinal() {
         return this._final;
     } //-- boolean getFinal() 
 
@@ -202,32 +190,29 @@ public class ClassType implements java.io.Serializable {
      * @param index
     **/
     public java.lang.String getImplements(final int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         //-- check bounds for index
         if ((index < 0) || (index > _implementsList.size())) {
             throw new IndexOutOfBoundsException();
         }
         
-        return (String)_implementsList.elementAt(index);
+        return (String) _implementsList.elementAt(index);
     } //-- java.lang.String getImplements(int) 
 
     /**
     **/
-    public java.lang.String[] getImplements()
-    {
+    public java.lang.String[] getImplements() {
         int size = _implementsList.size();
         java.lang.String[] mArray = new java.lang.String[size];
         for (int index = 0; index < size; index++) {
-            mArray[index] = (String)_implementsList.elementAt(index);
+            mArray[index] = (String) _implementsList.elementAt(index);
         }
         return mArray;
     } //-- java.lang.String[] getImplements() 
 
     /**
     **/
-    public int getImplementsCount()
-    {
+    public int getImplementsCount() {
         return _implementsList.size();
     } //-- int getImplementsCount() 
 
@@ -236,8 +221,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'name'.
     **/
-    public java.lang.String getName()
-    {
+    public java.lang.String getName() {
         return this._name;
     } //-- java.lang.String getName() 
 
@@ -246,47 +230,40 @@ public class ClassType implements java.io.Serializable {
      * 
      * @return the value of field 'package'.
     **/
-    public java.lang.String getPackage()
-    {
+    public java.lang.String getPackage() {
         return this._package;
     } //-- java.lang.String getPackage() 
 
     /**
     **/
-    public boolean hasAbstract()
-    {
+    public boolean hasAbstract() {
         return this._has_abstract;
     } //-- boolean hasAbstract() 
 
     /**
     **/
-    public boolean hasBound()
-    {
+    public boolean hasBound() {
         return this._has_bound;
     } //-- boolean hasBound() 
 
     /**
     **/
-    public boolean hasEquals()
-    {
+    public boolean hasEquals() {
         return this._has_equals;
     } //-- boolean hasEquals() 
 
     /**
     **/
-    public boolean hasFinal()
-    {
+    public boolean hasFinal() {
         return this._has_final;
     } //-- boolean hasFinal() 
 
     /**
     **/
-    public boolean isValid()
-    {
+    public boolean isValid() {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
@@ -298,8 +275,7 @@ public class ClassType implements java.io.Serializable {
      * @param out
     **/
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
@@ -310,16 +286,14 @@ public class ClassType implements java.io.Serializable {
      * @param handler
     **/
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
     **/
-    public void removeAllImplements()
-    {
+    public void removeAllImplements() {
         _implementsList.removeAllElements();
     } //-- void removeAllImplements() 
 
@@ -328,11 +302,10 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param index
     **/
-    public java.lang.String removeImplements(final int index)
-    {
+    public java.lang.String removeImplements(final int index) {
         java.lang.Object obj = _implementsList.elementAt(index);
         _implementsList.removeElementAt(index);
-        return (String)obj;
+        return (String) obj;
     } //-- java.lang.String removeImplements(int) 
 
     /**
@@ -340,8 +313,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _abstract the value of field 'abstract'.
     **/
-    public void setAbstract(final boolean _abstract)
-    {
+    public void setAbstract(final boolean _abstract) {
         this._abstract = _abstract;
         this._has_abstract = true;
     } //-- void setAbstract(boolean) 
@@ -351,8 +323,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param bound the value of field 'bound'.
     **/
-    public void setBound(final boolean bound)
-    {
+    public void setBound(final boolean bound) {
         this._bound = bound;
         this._has_bound = true;
     } //-- void setBound(boolean) 
@@ -362,8 +333,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param equals the value of field 'equals'.
     **/
-    public void setEquals(final boolean equals)
-    {
+    public void setEquals(final boolean equals) {
         this._equals = equals;
         this._has_equals = true;
     } //-- void setEquals(boolean) 
@@ -373,8 +343,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _extends the value of field 'extends'.
     **/
-    public void setExtends(final java.lang.String _extends)
-    {
+    public void setExtends(final java.lang.String _extends) {
         this._extends = _extends;
     } //-- void setExtends(java.lang.String) 
 
@@ -383,8 +352,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _final the value of field 'final'.
     **/
-    public void setFinal(final boolean _final)
-    {
+    public void setFinal(final boolean _final) {
         this._final = _final;
         this._has_final = true;
     } //-- void setFinal(boolean) 
@@ -396,8 +364,7 @@ public class ClassType implements java.io.Serializable {
      * @param vImplements
     **/
     public void setImplements(final int index, final java.lang.String vImplements)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         //-- check bounds for index
         if ((index < 0) || (index > _implementsList.size())) {
             throw new IndexOutOfBoundsException();
@@ -410,8 +377,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _implementsArray
     **/
-    public void setImplements(final java.lang.String[] _implementsArray)
-    {
+    public void setImplements(final java.lang.String[] _implementsArray) {
         //-- copy array
         _implementsList.removeAllElements();
         for (int i = 0; i < _implementsArray.length; i++) {
@@ -424,8 +390,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param name the value of field 'name'.
     **/
-    public void setName(final java.lang.String name)
-    {
+    public void setName(final java.lang.String name) {
         this._name = name;
     } //-- void setName(java.lang.String) 
 
@@ -434,8 +399,7 @@ public class ClassType implements java.io.Serializable {
      * 
      * @param _package the value of field 'package'.
     **/
-    public void setPackage(final java.lang.String _package)
-    {
+    public void setPackage(final java.lang.String _package) {
         this._package = _package;
     } //-- void setPackage(java.lang.String) 
 
@@ -445,16 +409,14 @@ public class ClassType implements java.io.Serializable {
      * @param reader
     **/
     public static org.exolab.castor.builder.binding.ClassType unmarshalClassType(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.builder.binding.ClassType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.ClassType.class, reader);
     } //-- org.exolab.castor.builder.binding.ClassType unmarshalClassType(java.io.Reader) 
 
     /**
     **/
     public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
     } //-- void validate() 

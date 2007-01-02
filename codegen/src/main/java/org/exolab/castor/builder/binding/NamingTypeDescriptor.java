@@ -60,19 +60,16 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 NamingType target = (NamingType) object;
                 return target.getPrefix();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     NamingType target = (NamingType) object;
                     target.setPrefix((java.lang.String) value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -99,19 +96,16 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 NamingType target = (NamingType) object;
                 return target.getSuffix();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     NamingType target = (NamingType) object;
                     target.setSuffix((java.lang.String) value);
-                }
-                catch (Exception ex) {
+                } catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -142,57 +136,49 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
 
     /**
     **/
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
     /**
     **/
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
     /**
     **/
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
     **/
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.NamingType.class;
     } //-- java.lang.Class getJavaClass() 
 
     /**
     **/
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
     **/
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
     **/
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
     /**
     **/
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 
