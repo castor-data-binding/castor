@@ -115,5 +115,23 @@ public class JType {
         return _name;
     }
 
+    /**
+     * Returns true if this type represents an Array.
+     * 
+     * @return True if this type represents an Array.
+     */
+    public final boolean isArray() {
+        return (this instanceof JArrayType);
+    }
+
+    /**
+     * Returns true if this type represents a Java primitive type.
+     * 
+     * @return True if this type represents a Java primitive type.
+     */
+    public final boolean isPrimitive() {
+        return (this instanceof JPrimitiveType);
+    }
+
     //--------------------------------------------------------------------------
 }

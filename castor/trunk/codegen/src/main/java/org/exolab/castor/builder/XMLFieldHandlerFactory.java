@@ -116,7 +116,7 @@ public class XMLFieldHandlerFactory {
         jsc.append(localClassName);
         jsc.append(") object;");
         // -- handle primitives
-        if ((!xsType.isEnumerated()) && (xsType.getJType() instanceof JPrimitiveType)
+        if ((!xsType.isEnumerated()) && (xsType.getJType().isPrimitive())
                 && (!member.isMultivalued())) {
             jsc.add("if(!target." + member.getHasMethodName() + "())");
             jsc.indent();
@@ -326,7 +326,7 @@ public class XMLFieldHandlerFactory {
 
         if (any || forGeneralizedHandler || isEnumerated
                 || xsType.isPrimitive()
-                || xsType.getJType() instanceof JArrayType
+                || xsType.getJType().isArray()
                 || (xsType.getType() == XSType.STRING_TYPE) || isAbstract) {
             jsc.append("null;");
         } else {

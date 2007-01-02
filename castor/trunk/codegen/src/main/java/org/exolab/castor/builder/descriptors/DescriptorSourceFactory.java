@@ -586,7 +586,7 @@ public final class DescriptorSourceFactory {
      * @return the Class type (as a String) for the given XSType.
      */
     private static String classType(final JType jType) {
-        if (jType instanceof JPrimitiveType) {
+        if (jType.isPrimitive()) {
             JPrimitiveType primitive = (JPrimitiveType) jType;
             return primitive.getWrapperName() + ".TYPE";
         }

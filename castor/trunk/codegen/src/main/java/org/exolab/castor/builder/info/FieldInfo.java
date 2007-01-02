@@ -196,7 +196,7 @@ public class FieldInfo extends XMLInfo {
         //-- special supporting fields
 
         //-- has_field
-        if ((!type.isEnumerated()) && (jType instanceof JPrimitiveType)) {
+        if ((!type.isEnumerated()) && (jType.isPrimitive())) {
             field = new JField(JType.BOOLEAN, "_has" + _name);
             field.setComment("keeps track of state for field: " + _name);
             jClass.addField(field);
@@ -467,9 +467,9 @@ public class FieldInfo extends XMLInfo {
             jsc.append(" = ");
 
             JType referencedJType = _fieldInfoReference.getSchemaType().getJType();
-            if (referencedJType instanceof JPrimitiveType) {
+            if (referencedJType.isPrimitive()) {
                 jsc.append(paramName);
-            } else if (jType instanceof JPrimitiveType) {
+            } else if (jType.isPrimitive()) {
                 JPrimitiveType primitive = (JPrimitiveType) jType;
                 jsc.append("new ");
                 jsc.append(primitive.getWrapperName());
@@ -677,7 +677,7 @@ public class FieldInfo extends XMLInfo {
     public boolean isHasAndDeleteMethods() {
         XSType xsType = getSchemaType();
         JType jType  = xsType.getJType();
-        return ((!xsType.isEnumerated()) && (jType instanceof JPrimitiveType));
+        return ((!xsType.isEnumerated()) && jType.isPrimitive());
     } //-- isHasMethod
 
     /**

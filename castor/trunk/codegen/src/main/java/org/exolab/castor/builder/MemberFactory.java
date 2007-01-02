@@ -475,9 +475,9 @@ public class MemberFactory extends BaseFactory {
             //-- we'll need to change this when enumerations are no longer treated as strings
             JType jType = (classInfo != null) ? classInfo.getJClass() : xsType.getJType();
             value = jType.getName() + ".valueOf(\"" + value + "\")";
-        } else if (xsType.getJType() instanceof JArrayType) {
+        } else if (xsType.getJType().isArray()) {
             JType componentType = ((JArrayType) xsType.getJType()).getComponentType();
-            if (componentType instanceof JPrimitiveType) {
+            if (componentType.isPrimitive()) {
                 JPrimitiveType primitive = (JPrimitiveType) componentType;
                 value = "new " + primitive.getName() + "[] { "
                       + primitive.getWrapperName() + ".valueOf(\"" + value
@@ -487,7 +487,7 @@ public class MemberFactory extends BaseFactory {
                       + componentType.getName() + ".valueOf(\"" + value + "\") }";
                 
             }
-        } else if (!(xsType.getJType() instanceof JPrimitiveType)) {
+        } else if (!(xsType.getJType().isPrimitive())) {
             if (xsType.isDateTime()) {
                 // Castor marshals DATETIME_TYPE into java.util.Date(), so we need to convert it
                 if (xsType.getType() == XSType.DATETIME_TYPE) {

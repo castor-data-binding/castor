@@ -69,7 +69,7 @@ public final class JCollectionType extends JComponentizedType {
     public String getInstanceName() {
         if (_instanceName != null) {
             if (isUseJava50()) {
-                if (getComponentType() instanceof JPrimitiveType) {
+                if (getComponentType().isPrimitive()) {
                     JPrimitiveType primitive = (JPrimitiveType) getComponentType();
                     return _instanceName + "<" + primitive.getWrapperName() + ">";
                 }
@@ -89,7 +89,7 @@ public final class JCollectionType extends JComponentizedType {
      */
     public String toString() {
         if (isUseJava50()) {
-            if (getComponentType() instanceof JPrimitiveType) {
+            if (getComponentType().isPrimitive()) {
                 JPrimitiveType primitive = (JPrimitiveType) getComponentType();
                 return getName() + "<" + primitive.getWrapperName() + ">";
             } 

@@ -307,7 +307,7 @@ public class MappingFileSourceFactory {
     private static String getClassName(final JType jType) {
         // TODO: Look up short names from: org.exolab.castor.mapping.loader.Types
 
-        if (jType instanceof JPrimitiveType) {
+        if (jType.isPrimitive()) {
             return jType.getName();
         }
         return jType.toString();

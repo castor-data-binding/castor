@@ -154,7 +154,7 @@ public final class JConstructor extends JAnnotatedElementHelper {
         //-- declaring class's list of imports
         if (_declaringClass != null) {
             JType jType = parameter.getType();
-            if (!(jType instanceof JPrimitiveType)) {
+            if (!jType.isPrimitive()) {
                 _declaringClass.addImport(jType.getName());
             }
         }

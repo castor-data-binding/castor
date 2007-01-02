@@ -354,7 +354,7 @@ public class CollectionInfo extends FieldInfo {
         JDocComment comment = method.getJDocComment();
         comment.appendComment("Returns the contents of the collection in an Array.  ");
 
-        if (!(baseType instanceof JPrimitiveType)) {
+        if (!(baseType.isPrimitive())) {
             // For non-primitive types, we use the API method made for this purpose
             comment.appendComment("<p>");
             comment.appendComment("Note:  Just in case the collection contents are changing in ");
