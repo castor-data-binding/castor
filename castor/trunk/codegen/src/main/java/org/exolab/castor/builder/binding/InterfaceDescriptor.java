@@ -54,27 +54,27 @@ public class InterfaceDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Attribute);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 Interface target = (Interface) object;
                 return target.getName();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     Interface target = (Interface) object;
-                    target.setName( (java.lang.String) value);
+                    target.setName((java.lang.String) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setRequired(true);
         addFieldDescriptor(desc);

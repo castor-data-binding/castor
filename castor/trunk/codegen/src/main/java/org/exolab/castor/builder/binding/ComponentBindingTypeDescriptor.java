@@ -67,24 +67,24 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", org.exolab.castor.xml.NodeType.Attribute);
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getName();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.setName( (java.lang.String) value);
+                    target.setName((java.lang.String) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
         };
@@ -107,24 +107,24 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _componentBindingTypeChoice
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingTypeChoice.class, "_componentBindingTypeChoice", "-error-if-this-is-used-", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getComponentBindingTypeChoice();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.setComponentBindingTypeChoice( (org.exolab.castor.builder.binding.ComponentBindingTypeChoice) value);
+                    target.setComponentBindingTypeChoice((org.exolab.castor.builder.binding.ComponentBindingTypeChoice) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingTypeChoice();
             }
         };
@@ -145,18 +145,18 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _elementBindingList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_elementBindingList", "elementBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getElementBinding();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.addElementBinding( (org.exolab.castor.builder.binding.ComponentBindingType) value);
+                    target.addElementBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -170,7 +170,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingType();
             }
         };
@@ -188,18 +188,18 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _attributeBindingList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_attributeBindingList", "attributeBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getAttributeBinding();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.addAttributeBinding( (org.exolab.castor.builder.binding.ComponentBindingType) value);
+                    target.addAttributeBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -213,7 +213,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingType();
             }
         };
@@ -231,18 +231,18 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _complexTypeBindingList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_complexTypeBindingList", "complexTypeBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getComplexTypeBinding();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.addComplexTypeBinding( (org.exolab.castor.builder.binding.ComponentBindingType) value);
+                    target.addComplexTypeBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -256,7 +256,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingType();
             }
         };
@@ -274,18 +274,18 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _groupBindingList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_groupBindingList", "groupBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getGroupBinding();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.addGroupBinding( (org.exolab.castor.builder.binding.ComponentBindingType) value);
+                    target.addGroupBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -299,7 +299,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingType();
             }
         };
@@ -317,18 +317,18 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _enumBindingList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_enumBindingList", "enumBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getEnumBinding();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.addEnumBinding( (org.exolab.castor.builder.binding.ComponentBindingType) value);
+                    target.addEnumBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -342,7 +342,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingType();
             }
         };
@@ -360,18 +360,18 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         //-- _simpleTypeBindingList
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_simpleTypeBindingList", "simpleTypeBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getSimpleTypeBinding();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
-                    target.addSimpleTypeBinding( (org.exolab.castor.builder.binding.ComponentBindingType) value);
+                    target.addSimpleTypeBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
                 }
                 catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
@@ -385,7 +385,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ComponentBindingType();
             }
         };

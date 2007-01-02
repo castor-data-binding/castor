@@ -59,27 +59,27 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 PackageType target = (PackageType) object;
                 return target.getName();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     PackageType target = (PackageType) object;
-                    target.setName( (java.lang.String) value);
+                    target.setName((java.lang.String) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return null;
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setRequired(true);
@@ -99,27 +99,27 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         //-- _packageTypeChoice
         desc = new XMLFieldDescriptorImpl(PackageTypeChoice.class, "_packageTypeChoice", "-error-if-this-is-used-", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 PackageType target = (PackageType) object;
                 return target.getPackageTypeChoice();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     PackageType target = (PackageType) object;
-                    target.setPackageTypeChoice( (PackageTypeChoice) value);
+                    target.setPackageTypeChoice((PackageTypeChoice) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new PackageTypeChoice();
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setContainer(true);
         desc.setClassDescriptor(new PackageTypeChoiceDescriptor());

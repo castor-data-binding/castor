@@ -57,27 +57,27 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- _elementName
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_elementName", "elementName", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getElementName();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     NamingXMLType target = (NamingXMLType) object;
-                    target.setElementName( (NamingType) value);
+                    target.setElementName((NamingType) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new NamingType();
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(false);
@@ -90,27 +90,27 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- _complexTypeName
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_complexTypeName", "complexTypeName", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getComplexTypeName();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     NamingXMLType target = (NamingXMLType) object;
-                    target.setComplexTypeName( (NamingType) value);
+                    target.setComplexTypeName((NamingType) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new NamingType();
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(false);
@@ -123,27 +123,27 @@ public class NamingXMLTypeDescriptor extends org.exolab.castor.xml.util.XMLClass
         //-- _modelGroupName
         desc = new XMLFieldDescriptorImpl(NamingType.class, "_modelGroupName", "modelGroupName", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue( java.lang.Object object ) 
+            public java.lang.Object getValue(java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingXMLType target = (NamingXMLType) object;
                 return target.getModelGroupName();
             }
-            public void setValue( java.lang.Object object, java.lang.Object value) 
+            public void setValue(java.lang.Object object, java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
                     NamingXMLType target = (NamingXMLType) object;
-                    target.setModelGroupName( (NamingType) value);
+                    target.setModelGroupName((NamingType) value);
                 }
                 catch (Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance( java.lang.Object parent ) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new NamingType();
             }
-        } );
+        });
         desc.setHandler(handler);
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(false);

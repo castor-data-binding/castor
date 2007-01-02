@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1792 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Cleaned up 344 'Paren Pad' warnings at builder package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1792
+       (Ralf - 20070102)
+
 XML:   Resolved issue CASTOR-1790 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Refactored javasource package to resolve 'Design by extension' complaints of checkstyle.
        Details: http://jira.codehaus.org/browse/CASTOR-1790
