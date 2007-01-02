@@ -75,8 +75,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private FieldTypeVisibilityType(final int type, final java.lang.String value) 
-     {
+    private FieldTypeVisibilityType(final int type, final java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
@@ -96,8 +95,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return an Enumeration over all possible instances of
      * FieldTypeVisibilityType
      */
-    public static java.util.Enumeration enumerate()
-    {
+    public static java.util.Enumeration enumerate() {
         return _memberTable.elements();
     } //-- java.util.Enumeration enumerate() 
 
@@ -108,8 +106,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * 
      * @return the type of this FieldTypeVisibilityType
      */
-    public int getType()
-    {
+    public int getType() {
         return this.type;
     } //-- int getType() 
 
@@ -118,8 +115,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * 
      * @return the initialized Hashtable for the member table
      */
-    private static java.util.Hashtable init()
-    {
+    private static java.util.Hashtable init() {
         Hashtable members = new Hashtable();
         members.put("public", PUBLIC);
         members.put("protected", PROTECTED);
@@ -135,8 +131,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * 
      * @return this deserialized object
      */
-    private java.lang.Object readResolve()
-    {
+    private java.lang.Object readResolve() {
         return valueOf(this.stringValue);
     } //-- java.lang.Object readResolve() 
 
@@ -149,8 +144,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return the String representation of this
      * FieldTypeVisibilityType
      */
-    public java.lang.String toString()
-    {
+    public java.lang.String toString() {
         return this.stringValue;
     } //-- java.lang.String toString() 
 
@@ -164,10 +158,9 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return the FieldTypeVisibilityType value of parameter
      * 'string'
      */
-    public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(final java.lang.String string)
-    {
+    public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) obj = _memberTable.get(string);
+        if (string != null) { obj = _memberTable.get(string); }
         if (obj == null) {
             String err = "'" + string + "' is not a valid FieldTypeVisibilityType";
             throw new IllegalArgumentException(err);

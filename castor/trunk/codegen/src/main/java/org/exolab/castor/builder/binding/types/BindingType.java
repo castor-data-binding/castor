@@ -76,23 +76,20 @@ public class BindingType implements java.io.Serializable {
      * Returns an enumeration of all possible instances of
      * BindingType.
     **/
-    public static java.util.Enumeration enumerate()
-    {
+    public static java.util.Enumeration enumerate() {
         return _memberTable.elements();
     } //-- java.util.Enumeration enumerate() 
 
     /**
      * Returns the type of this BindingType.
     **/
-    public int getType()
-    {
+    public int getType() {
         return this.type;
     } //-- int getType() 
 
     /**
     **/
-    private static java.util.Hashtable init()
-    {
+    private static java.util.Hashtable init() {
         Hashtable members = new Hashtable();
         members.put("element", ELEMENT);
         members.put("type", TYPE);
@@ -102,8 +99,7 @@ public class BindingType implements java.io.Serializable {
     /**
      * Returns the String representation of this BindingType.
     **/
-    public java.lang.String toString()
-    {
+    public java.lang.String toString() {
         return this.stringValue;
     } //-- java.lang.String toString() 
 
@@ -112,10 +108,9 @@ public class BindingType implements java.io.Serializable {
      * 
      * @param string
     **/
-    public static org.exolab.castor.builder.binding.types.BindingType valueOf(final java.lang.String string)
-    {
+    public static org.exolab.castor.builder.binding.types.BindingType valueOf(final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) obj = _memberTable.get(string);
+        if (string != null) { obj = _memberTable.get(string); }
         if (obj == null) {
             String err = "'" + string + "' is not a valid BindingType";
             throw new IllegalArgumentException(err);

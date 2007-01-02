@@ -374,7 +374,7 @@ public final class JMethodSignature extends JAnnotatedElementHelper {
 
         if (_exceptions.size() > 0) {
             jsw.writeln();
-            jsw.write("    throws ");
+            jsw.write("throws ");
             for (int i = 0; i < _exceptions.size(); i++) {
                 if (i > 0) { jsw.write(", "); }
                 JClass jClass = (JClass) _exceptions.elementAt(i);

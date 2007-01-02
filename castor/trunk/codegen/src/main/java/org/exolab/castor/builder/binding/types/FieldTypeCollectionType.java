@@ -151,23 +151,20 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      * Returns an enumeration of all possible instances of
      * FieldTypeCollectionType.
     **/
-    public static java.util.Enumeration enumerate()
-    {
+    public static java.util.Enumeration enumerate() {
         return _memberTable.elements();
     } //-- java.util.Enumeration enumerate() 
 
     /**
      * Returns the type of this FieldTypeCollectionType.
     **/
-    public int getType()
-    {
+    public int getType() {
         return this.type;
     } //-- int getType() 
 
     /**
     **/
-    private static java.util.Hashtable init()
-    {
+    private static java.util.Hashtable init() {
         Hashtable members = new Hashtable();
         members.put("array", ARRAY);
         members.put("vector", VECTOR);
@@ -186,8 +183,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      * Returns the String representation of this
      * FieldTypeCollectionType.
     **/
-    public java.lang.String toString()
-    {
+    public java.lang.String toString() {
         return this.stringValue;
     } //-- java.lang.String toString() 
 
@@ -197,10 +193,9 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      * 
      * @param string
     **/
-    public static org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(final java.lang.String string)
-    {
+    public static org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) obj = _memberTable.get(string);
+        if (string != null) { obj = _memberTable.get(string); }
         if (obj == null) {
             String err = "'" + string + "' is not a valid FieldTypeCollectionType";
             throw new IllegalArgumentException(err);

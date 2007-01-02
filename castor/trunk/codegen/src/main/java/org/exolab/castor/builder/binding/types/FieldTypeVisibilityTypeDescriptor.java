@@ -49,8 +49,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      //- Constructors -/
     //----------------/
 
-    public FieldTypeVisibilityTypeDescriptor() 
-     {
+    public FieldTypeVisibilityTypeDescriptor() {
         super();
         nsURI = "http://www.castor.org/SourceGenerator/Binding";
         xmlName = "FieldTypeVisibilityType";
@@ -67,8 +66,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * 
      * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
@@ -78,8 +76,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * @return the class descriptor of the class extended by this
      * class.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
@@ -89,8 +86,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * @return the identity field, null if this class has no
      * identity.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
@@ -99,8 +95,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * 
      * @return the Java class represented by this descriptor.
      */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.types.FieldTypeVisibilityType.class;
     } //-- java.lang.Class getJavaClass() 
 
@@ -109,8 +104,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * 
      * @return the namespace prefix to use when marshalling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
@@ -120,8 +114,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * @return the namespace URI used when marshalling and
      * unmarshalling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
@@ -131,8 +124,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * @return a specific validator for the class described by this
      * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
@@ -141,8 +133,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * 
      * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 
@@ -153,8 +144,7 @@ public class FieldTypeVisibilityTypeDescriptor extends org.exolab.castor.xml.uti
      * of a global
      * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
+    public boolean isElementDefinition() {
         return elementDefinition;
     } //-- boolean isElementDefinition() 
 

@@ -47,8 +47,7 @@ public class EnumBindingType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public EnumBindingType() 
-     {
+    public EnumBindingType() {
         super();
         this._enumMemberList = new java.util.ArrayList();
     } //-- org.exolab.castor.builder.binding.EnumBindingType()
@@ -66,8 +65,7 @@ public class EnumBindingType implements java.io.Serializable {
      * given is outside the bounds of the collection
      */
     public void addEnumMember(final org.exolab.castor.builder.binding.EnumMember vEnumMember)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         this._enumMemberList.add(vEnumMember);
     } //-- void addEnumMember(org.exolab.castor.builder.binding.EnumMember) 
 
@@ -80,8 +78,7 @@ public class EnumBindingType implements java.io.Serializable {
      * given is outside the bounds of the collection
      */
     public void addEnumMember(final int index, final org.exolab.castor.builder.binding.EnumMember vEnumMember)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         this._enumMemberList.add(index, vEnumMember);
     } //-- void addEnumMember(int, org.exolab.castor.builder.binding.EnumMember) 
 
@@ -91,8 +88,7 @@ public class EnumBindingType implements java.io.Serializable {
      * @return an Enumeration over all possible elements of this
      * collection
      */
-    public java.util.Enumeration enumerateEnumMember()
-    {
+    public java.util.Enumeration enumerateEnumMember() {
         return java.util.Collections.enumeration(this._enumMemberList);
     } //-- java.util.Enumeration enumerateEnumMember() 
 
@@ -101,8 +97,7 @@ public class EnumBindingType implements java.io.Serializable {
      * 
      * @return the value of field 'EnumClassName'.
      */
-    public org.exolab.castor.builder.binding.EnumClassName getEnumClassName()
-    {
+    public org.exolab.castor.builder.binding.EnumClassName getEnumClassName() {
         return this._enumClassName;
     } //-- org.exolab.castor.builder.binding.EnumClassName getEnumClassName() 
 
@@ -117,8 +112,7 @@ public class EnumBindingType implements java.io.Serializable {
      * index
      */
     public org.exolab.castor.builder.binding.EnumMember getEnumMember(final int index)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         // check bounds for index
         if (index < 0 || index >= this._enumMemberList.size()) {
             throw new IndexOutOfBoundsException("getEnumMember: Index value '" + index + "' not in range [0.." + (this._enumMemberList.size() - 1) + "]");
@@ -132,12 +126,11 @@ public class EnumBindingType implements java.io.Serializable {
      * 
      * @return this collection as an Array
      */
-    public org.exolab.castor.builder.binding.EnumMember[] getEnumMember()
-    {
+    public org.exolab.castor.builder.binding.EnumMember[] getEnumMember() {
         int size = this._enumMemberList.size();
         org.exolab.castor.builder.binding.EnumMember[] array = new org.exolab.castor.builder.binding.EnumMember[size];
         java.util.Iterator iter = _enumMemberList.iterator();
-        for (int index = 0; index < size; index++){
+        for (int index = 0; index < size; index++) {
             array[index] = (org.exolab.castor.builder.binding.EnumMember) iter.next();
         }
         
@@ -149,8 +142,7 @@ public class EnumBindingType implements java.io.Serializable {
      * 
      * @return the size of this collection
      */
-    public int getEnumMemberCount()
-    {
+    public int getEnumMemberCount() {
         return this._enumMemberList.size();
     } //-- int getEnumMemberCount() 
 
@@ -159,12 +151,10 @@ public class EnumBindingType implements java.io.Serializable {
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
@@ -176,8 +166,7 @@ public class EnumBindingType implements java.io.Serializable {
      * @return an Iterator over all possible elements in this
      * collection
      */
-    public java.util.Iterator iterateEnumMember()
-    {
+    public java.util.Iterator iterateEnumMember() {
         return this._enumMemberList.iterator();
     } //-- java.util.Iterator iterateEnumMember() 
 
@@ -191,8 +180,7 @@ public class EnumBindingType implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
@@ -209,16 +197,14 @@ public class EnumBindingType implements java.io.Serializable {
      * null or if any SAXException is thrown during marshaling
      */
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
     /**
      */
-    public void removeAllEnumMember()
-    {
+    public void removeAllEnumMember() {
         this._enumMemberList.clear();
     } //-- void removeAllEnumMember() 
 
@@ -228,8 +214,7 @@ public class EnumBindingType implements java.io.Serializable {
      * @param vEnumMember
      * @return true if the object was removed from the collection.
      */
-    public boolean removeEnumMember(final org.exolab.castor.builder.binding.EnumMember vEnumMember)
-    {
+    public boolean removeEnumMember(final org.exolab.castor.builder.binding.EnumMember vEnumMember) {
         boolean removed = _enumMemberList.remove(vEnumMember);
         return removed;
     } //-- boolean removeEnumMember(org.exolab.castor.builder.binding.EnumMember) 
@@ -240,8 +225,7 @@ public class EnumBindingType implements java.io.Serializable {
      * @param index
      * @return the element removed from the collection
      */
-    public org.exolab.castor.builder.binding.EnumMember removeEnumMemberAt(final int index)
-    {
+    public org.exolab.castor.builder.binding.EnumMember removeEnumMemberAt(final int index) {
         Object obj = this._enumMemberList.remove(index);
         return (org.exolab.castor.builder.binding.EnumMember) obj;
     } //-- org.exolab.castor.builder.binding.EnumMember removeEnumMemberAt(int) 
@@ -251,8 +235,7 @@ public class EnumBindingType implements java.io.Serializable {
      * 
      * @param enumClassName the value of field 'enumClassName'.
      */
-    public void setEnumClassName(final org.exolab.castor.builder.binding.EnumClassName enumClassName)
-    {
+    public void setEnumClassName(final org.exolab.castor.builder.binding.EnumClassName enumClassName) {
         this._enumClassName = enumClassName;
     } //-- void setEnumClassName(org.exolab.castor.builder.binding.EnumClassName) 
 
@@ -265,8 +248,7 @@ public class EnumBindingType implements java.io.Serializable {
      * given is outside the bounds of the collection
      */
     public void setEnumMember(final int index, final org.exolab.castor.builder.binding.EnumMember vEnumMember)
-        throws java.lang.IndexOutOfBoundsException
-    {
+        throws java.lang.IndexOutOfBoundsException {
         // check bounds for index
         if (index < 0 || index >= this._enumMemberList.size()) {
             throw new IndexOutOfBoundsException("setEnumMember: Index value '" + index + "' not in range [0.." + (this._enumMemberList.size() - 1) + "]");
@@ -280,8 +262,7 @@ public class EnumBindingType implements java.io.Serializable {
      * 
      * @param vEnumMemberArray
      */
-    public void setEnumMember(final org.exolab.castor.builder.binding.EnumMember[] vEnumMemberArray)
-    {
+    public void setEnumMember(final org.exolab.castor.builder.binding.EnumMember[] vEnumMemberArray) {
         //-- copy array
         _enumMemberList.clear();
         
@@ -302,8 +283,7 @@ public class EnumBindingType implements java.io.Serializable {
      * org.exolab.castor.builder.binding.EnumBindingType
      */
     public static org.exolab.castor.builder.binding.EnumBindingType unmarshalEnumBindingType(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.builder.binding.EnumBindingType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.EnumBindingType.class, reader);
     } //-- org.exolab.castor.builder.binding.EnumBindingType unmarshalEnumBindingType(java.io.Reader) 
 
@@ -314,8 +294,7 @@ public class EnumBindingType implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
     } //-- void validate() 

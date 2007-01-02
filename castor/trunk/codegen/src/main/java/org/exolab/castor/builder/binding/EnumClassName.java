@@ -41,8 +41,7 @@ public class EnumClassName implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public EnumClassName() 
-     {
+    public EnumClassName() {
         super();
         setContent("");
     } //-- org.exolab.castor.builder.binding.EnumClassName()
@@ -58,8 +57,7 @@ public class EnumClassName implements java.io.Serializable {
      * 
      * @return the value of field 'Content'.
      */
-    public java.lang.String getContent()
-    {
+    public java.lang.String getContent() {
         return this._content;
     } //-- java.lang.String getContent() 
 
@@ -68,8 +66,7 @@ public class EnumClassName implements java.io.Serializable {
      * 
      * @return the value of field 'Package'.
      */
-    public java.lang.String getPackage()
-    {
+    public java.lang.String getPackage() {
         return this._package;
     } //-- java.lang.String getPackage() 
 
@@ -78,12 +75,10 @@ public class EnumClassName implements java.io.Serializable {
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
@@ -99,8 +94,7 @@ public class EnumClassName implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
@@ -129,8 +123,7 @@ public class EnumClassName implements java.io.Serializable {
      * 
      * @param content the value of field 'content'.
      */
-    public void setContent(final java.lang.String content)
-    {
+    public void setContent(final java.lang.String content) {
         this._content = content;
     } //-- void setContent(java.lang.String) 
 
@@ -140,8 +133,7 @@ public class EnumClassName implements java.io.Serializable {
      * @param _package
      * @param package the value of field 'package'.
      */
-    public void setPackage(final java.lang.String _package)
-    {
+    public void setPackage(final java.lang.String _package) {
         this._package = _package;
     } //-- void setPackage(java.lang.String) 
 
@@ -157,8 +149,7 @@ public class EnumClassName implements java.io.Serializable {
      * org.exolab.castor.builder.binding.EnumClassName
      */
     public static org.exolab.castor.builder.binding.EnumClassName unmarshalEnumClassName(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.builder.binding.EnumClassName) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.EnumClassName.class, reader);
     } //-- org.exolab.castor.builder.binding.EnumClassName unmarshalEnumClassName(java.io.Reader) 
 
@@ -169,8 +160,7 @@ public class EnumClassName implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
     } //-- void validate() 

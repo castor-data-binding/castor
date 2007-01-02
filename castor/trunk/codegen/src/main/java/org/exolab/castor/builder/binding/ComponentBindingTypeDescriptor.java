@@ -49,8 +49,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      //- Constructors -/
     //----------------/
 
-    public ComponentBindingTypeDescriptor() 
-     {
+    public ComponentBindingTypeDescriptor() {
         super();
         nsURI = "http://www.castor.org/SourceGenerator/Binding";
         xmlName = "componentBindingType";
@@ -68,19 +67,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getName();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.setName((java.lang.String) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -108,19 +104,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingTypeChoice.class, "_componentBindingTypeChoice", "-error-if-this-is-used-", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getComponentBindingTypeChoice();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.setComponentBindingTypeChoice((org.exolab.castor.builder.binding.ComponentBindingTypeChoice) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -146,19 +139,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_elementBindingList", "elementBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getElementBinding();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.addElementBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -189,19 +179,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_attributeBindingList", "attributeBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getAttributeBinding();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.addAttributeBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -232,19 +219,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_complexTypeBindingList", "complexTypeBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getComplexTypeBinding();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.addComplexTypeBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -275,19 +259,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_groupBindingList", "groupBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getGroupBinding();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.addGroupBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -318,19 +299,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_enumBindingList", "enumBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getEnumBinding();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.addEnumBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -361,19 +339,16 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ComponentBindingType.class, "_simpleTypeBindingList", "simpleTypeBinding", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 ComponentBindingType target = (ComponentBindingType) object;
                 return target.getSimpleTypeBinding();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     ComponentBindingType target = (ComponentBindingType) object;
                     target.addSimpleTypeBinding((org.exolab.castor.builder.binding.ComponentBindingType) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -412,8 +387,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * 
      * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
@@ -423,8 +397,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * @return the class descriptor of the class extended by this
      * class.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
@@ -434,8 +407,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * @return the identity field, null if this class has no
      * identity.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
@@ -444,8 +416,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * 
      * @return the Java class represented by this descriptor.
      */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.ComponentBindingType.class;
     } //-- java.lang.Class getJavaClass() 
 
@@ -454,8 +425,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * 
      * @return the namespace prefix to use when marshalling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
@@ -465,8 +435,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * @return the namespace URI used when marshalling and
      * unmarshalling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
@@ -476,8 +445,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * @return a specific validator for the class described by this
      * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
@@ -486,8 +454,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * 
      * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 
@@ -498,8 +465,7 @@ public class ComponentBindingTypeDescriptor extends org.exolab.castor.xml.util.X
      * of a global
      * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
+    public boolean isElementDefinition() {
         return elementDefinition;
     } //-- boolean isElementDefinition() 
 

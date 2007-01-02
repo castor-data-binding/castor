@@ -41,8 +41,7 @@ public class EnumMember implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public EnumMember() 
-     {
+    public EnumMember() {
         super();
     } //-- org.exolab.castor.builder.binding.EnumMember()
 
@@ -56,8 +55,7 @@ public class EnumMember implements java.io.Serializable {
      * 
      * @return the value of field 'JavaName'.
      */
-    public java.lang.String getJavaName()
-    {
+    public java.lang.String getJavaName() {
         return this._javaName;
     } //-- java.lang.String getJavaName() 
 
@@ -66,8 +64,7 @@ public class EnumMember implements java.io.Serializable {
      * 
      * @return the value of field 'Value'.
      */
-    public java.lang.String getValue()
-    {
+    public java.lang.String getValue() {
         return this._value;
     } //-- java.lang.String getValue() 
 
@@ -76,12 +73,10 @@ public class EnumMember implements java.io.Serializable {
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid() {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
@@ -97,8 +92,7 @@ public class EnumMember implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
@@ -115,8 +109,7 @@ public class EnumMember implements java.io.Serializable {
      * null or if any SAXException is thrown during marshaling
      */
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
@@ -126,8 +119,7 @@ public class EnumMember implements java.io.Serializable {
      * 
      * @param javaName the value of field 'javaName'.
      */
-    public void setJavaName(final java.lang.String javaName)
-    {
+    public void setJavaName(final java.lang.String javaName) {
         this._javaName = javaName;
     } //-- void setJavaName(java.lang.String) 
 
@@ -136,8 +128,7 @@ public class EnumMember implements java.io.Serializable {
      * 
      * @param value the value of field 'value'.
      */
-    public void setValue(final java.lang.String value)
-    {
+    public void setValue(final java.lang.String value) {
         this._value = value;
     } //-- void setValue(java.lang.String) 
 
@@ -153,8 +144,7 @@ public class EnumMember implements java.io.Serializable {
      * org.exolab.castor.builder.binding.EnumMember
      */
     public static org.exolab.castor.builder.binding.EnumMember unmarshalEnumMember(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.builder.binding.EnumMember) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.EnumMember.class, reader);
     } //-- org.exolab.castor.builder.binding.EnumMember unmarshalEnumMember(java.io.Reader) 
 
@@ -165,8 +155,7 @@ public class EnumMember implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
     } //-- void validate() 

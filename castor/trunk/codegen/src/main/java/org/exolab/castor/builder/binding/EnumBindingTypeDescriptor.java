@@ -49,8 +49,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      //- Constructors -/
     //----------------/
 
-    public EnumBindingTypeDescriptor() 
-     {
+    public EnumBindingTypeDescriptor() {
         super();
         nsURI = "http://www.castor.org/SourceGenerator/Binding";
         xmlName = "enumBindingType";
@@ -69,19 +68,16 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumClassName.class, "_enumClassName", "enumClassName", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 EnumBindingType target = (EnumBindingType) object;
                 return target.getEnumClassName();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     EnumBindingType target = (EnumBindingType) object;
                     target.setEnumClassName((org.exolab.castor.builder.binding.EnumClassName) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -103,19 +99,16 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumMember.class, "_enumMemberList", "enumMember", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException
-            {
+                throws IllegalStateException {
                 EnumBindingType target = (EnumBindingType) object;
                 return target.getEnumMember();
             }
             public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException
-            {
+                throws IllegalStateException, IllegalArgumentException {
                 try {
                     EnumBindingType target = (EnumBindingType) object;
                     target.addEnumMember((org.exolab.castor.builder.binding.EnumMember) value);
-                }
-                catch (java.lang.Exception ex) {
+                } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
@@ -154,8 +147,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * 
      * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode()
-    {
+    public org.exolab.castor.mapping.AccessMode getAccessMode() {
         return null;
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
@@ -165,8 +157,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * @return the class descriptor of the class extended by this
      * class.
      */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends()
-    {
+    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
         return null;
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
@@ -176,8 +167,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * @return the identity field, null if this class has no
      * identity.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity()
-    {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
         return identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
@@ -186,8 +176,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * 
      * @return the Java class represented by this descriptor.
      */
-    public java.lang.Class getJavaClass()
-    {
+    public java.lang.Class getJavaClass() {
         return org.exolab.castor.builder.binding.EnumBindingType.class;
     } //-- java.lang.Class getJavaClass() 
 
@@ -196,8 +185,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * 
      * @return the namespace prefix to use when marshalling as XML.
      */
-    public java.lang.String getNameSpacePrefix()
-    {
+    public java.lang.String getNameSpacePrefix() {
         return nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
@@ -207,8 +195,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * @return the namespace URI used when marshalling and
      * unmarshalling as XML.
      */
-    public java.lang.String getNameSpaceURI()
-    {
+    public java.lang.String getNameSpaceURI() {
         return nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
@@ -218,8 +205,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * @return a specific validator for the class described by this
      * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator()
-    {
+    public org.exolab.castor.xml.TypeValidator getValidator() {
         return this;
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
@@ -228,8 +214,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * 
      * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName()
-    {
+    public java.lang.String getXMLName() {
         return xmlName;
     } //-- java.lang.String getXMLName() 
 
@@ -240,8 +225,7 @@ public class EnumBindingTypeDescriptor extends org.exolab.castor.xml.util.XMLCla
      * of a global
      * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition()
-    {
+    public boolean isElementDefinition() {
         return elementDefinition;
     } //-- boolean isElementDefinition() 
 

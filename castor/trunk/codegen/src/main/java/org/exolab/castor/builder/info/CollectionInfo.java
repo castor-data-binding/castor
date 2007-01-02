@@ -381,8 +381,7 @@ public class CollectionInfo extends FieldInfo {
             sourceCode.add("java.util.Iterator iter = " + this.getName() + ".iterator();");
 
             String value = "iter.next()";
-            sourceCode.add("for (int index = 0; index < size; index++)");
-            sourceCode.append("{");
+            sourceCode.add("for (int index = 0; index < size; index++) {");
             sourceCode.indent();
             sourceCode.add("array[index] = ");
             if (getContentType().getType() == XSType.CLASS) {
@@ -397,7 +396,6 @@ public class CollectionInfo extends FieldInfo {
             sourceCode.unindent();
             sourceCode.add("}");
 
-            sourceCode.add("");
             sourceCode.add("return array;");
         }
 

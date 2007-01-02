@@ -360,11 +360,9 @@ public final class JMethod implements JMember, JAnnotatedElement {
         if (_signature.getModifiers().isAbstract()) {
             jsw.writeln(";");
         } else {
-            jsw.writeln();
-            jsw.writeln("{");
+            jsw.writeln(" {");
             _source.print(jsw);
-            jsw.write("} //-- ");
-            jsw.writeln(toString());
+            jsw.writeln("}");
         }
     }
 

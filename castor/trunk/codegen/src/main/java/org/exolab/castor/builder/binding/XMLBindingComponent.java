@@ -295,8 +295,7 @@ public class XMLBindingComponent implements BindingComponent {
             } else if (choice.getMember() != null) {
                 _type = MEMBER;
                 _member = choice.getMember();
-            }
-            else if (choice.getEnumDef() != null) {
+            } else if (choice.getEnumDef() != null) {
                 _type = ENUM_TYPE;
                 _enum = choice.getEnumDef();
             } else {

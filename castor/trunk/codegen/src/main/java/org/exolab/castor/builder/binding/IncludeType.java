@@ -50,19 +50,16 @@ public class IncludeType implements java.io.Serializable {
      * 
      * @return the value of field 'URI'.
     **/
-    public java.lang.String getURI()
-    {
+    public java.lang.String getURI() {
         return this._URI;
     } //-- java.lang.String getURI() 
 
     /**
     **/
-    public boolean isValid()
-    {
+    public boolean isValid() {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
@@ -74,8 +71,7 @@ public class IncludeType implements java.io.Serializable {
      * @param out
     **/
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
@@ -86,8 +82,7 @@ public class IncludeType implements java.io.Serializable {
      * @param handler
     **/
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
@@ -97,8 +92,7 @@ public class IncludeType implements java.io.Serializable {
      * 
      * @param URI the value of field 'URI'.
     **/
-    public void setURI(final java.lang.String URI)
-    {
+    public void setURI(final java.lang.String URI) {
         this._URI = URI;
     } //-- void setURI(java.lang.String) 
 
@@ -108,16 +102,14 @@ public class IncludeType implements java.io.Serializable {
      * @param reader
     **/
     public static org.exolab.castor.builder.binding.IncludeType unmarshalIncludeType(final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.builder.binding.IncludeType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.IncludeType.class, reader);
     } //-- org.exolab.castor.builder.binding.IncludeType unmarshalIncludeType(java.io.Reader) 
 
     /**
     **/
     public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+        throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
     } //-- void validate() 
