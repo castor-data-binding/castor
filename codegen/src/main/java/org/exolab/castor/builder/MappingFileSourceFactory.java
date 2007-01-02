@@ -263,8 +263,9 @@ public class MappingFileSourceFactory {
             fieldMap.setContainer(true);
         }
 
-        //-- Handle namespaces.  FieldInfo namespace has higher priority than ClassInfo namespace.
-        //-- TODO: Need to add better namespace support to bind-xml element, it's not very good at the moment
+        // Handle namespaces.  FieldInfo namespace has higher priority than ClassInfo namespace.
+        // TODO Need to add better namespace support to bind-xml element,
+        //      it's not very good at the moment
 //      nsURI = member.getNamespaceURI();
 //      if (nsURI != null) {
 //          jsc.add("desc.setNameSpaceURI(\"");

@@ -81,7 +81,8 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.boundproperties
          * </pre>
          */
-        public static final String BOUND_PROPERTIES = "org.exolab.castor.builder.boundproperties";
+        public static final String BOUND_PROPERTIES =
+            "org.exolab.castor.builder.boundproperties";
 
         /**
          * Property specifying whether to implement EnumeratedTypeAccess
@@ -91,7 +92,8 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.enumTypeAccessInterface
          * </pre>
          */
-        public static final String ENUM_TYPE_ACCESS_INTERFACE = "org.exolab.castor.builder.enumTypeAccessInterface";
+        public static final String ENUM_TYPE_ACCESS_INTERFACE =
+            "org.exolab.castor.builder.enumTypeAccessInterface";
 
         /**
          * Property specifying whether or not to generate source code for extra
@@ -101,7 +103,8 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.extraCollectionMethods
          * </pre>
          */
-        public static final String EXTRA_COLLECTION_METHODS = "org.exolab.castor.builder.extraCollectionMethods";
+        public static final String EXTRA_COLLECTION_METHODS =
+            "org.exolab.castor.builder.extraCollectionMethods";
 
         /**
          * Property specifying the super class for all generated classes.
@@ -110,7 +113,8 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.superclass
          * </pre>
          */
-        public static final String SUPER_CLASS = "org.exolab.castor.builder.superclass";
+        public static final String SUPER_CLASS =
+            "org.exolab.castor.builder.superclass";
 
         /**
          * Property specifying how element's and type's are mapped into a Java
@@ -124,42 +128,49 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.javaclassmapping
          * </pre>
          */
-        public static final String JAVA_CLASS_MAPPING = "org.exolab.castor.builder.javaclassmapping";
+        public static final String JAVA_CLASS_MAPPING =
+            "org.exolab.castor.builder.javaclassmapping";
 
         /**
          * Property listing mapping between XML namespaces and Java packages.
          */
-        public static final String NAMESPACE_PACKAGES_OLD = "org.exolab.castor.builder.nspackages";
+        public static final String NAMESPACE_PACKAGES_OLD =
+            "org.exolab.castor.builder.nspackages";
 
         /**
          * Property listing mapping between XML namespaces and Java packages.
          */
-        public static final String NAMESPACE_PACKAGES = "org.exolab.castor.xml.nspackages";
+        public static final String NAMESPACE_PACKAGES =
+            "org.exolab.castor.xml.nspackages";
 
         /**
          * Property specifying if we want to have the equals method generated
          * for each generated class.
          */
-        public static final String EQUALS_METHOD = "org.exolab.castor.builder.equalsmethod";
+        public static final String EQUALS_METHOD =
+            "org.exolab.castor.builder.equalsmethod";
 
         /**
          * Property specifying if we want to use Wrapper Objects instead of
          * primitives (eg java.lang.Float instead of float).
          */
-        public static final String WRAPPER = "org.exolab.castor.builder.primitivetowrapper";
+        public static final String WRAPPER =
+            "org.exolab.castor.builder.primitivetowrapper";
 
         /**
          * Property specifying if we want to have a 'public static final String'
          * generated for each attribute and element name used within a class
          * descriptor.
          */
-        public static final String CLASS_DESC_FIELD_NAMES = "org.exolab.castor.builder.classdescfieldnames";
+        public static final String CLASS_DESC_FIELD_NAMES =
+            "org.exolab.castor.builder.classdescfieldnames";
 
         /**
          * Property specifying whether the Java sources generated should be 1.4
          * or 5.0 compliant.
          */
-        public static final String JAVA_VERSION = "org.exolab.castor.builder.javaVersion";
+        public static final String JAVA_VERSION =
+            "org.exolab.castor.builder.javaVersion";
 
         /**
          * The name of the configuration file.
@@ -168,7 +179,8 @@ public class BuilderConfiguration {
          * castor.properties
          * </pre>
          */
-        public static final String CONFIG_FILENAME_PROPERTY = "castorbuilder.properties";
+        public static final String CONFIG_FILENAME_PROPERTY =
+            "castorbuilder.properties";
 
         /**
          * Maximum number of constant definitions within one file. This property
@@ -181,12 +193,14 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.maxNumberOfConstants
          * </pre>
          */
-        public static final String MAX_CONSTANTS_PROPERTY = "org.exolab.castor.builder.maxNumberOfConstants";
+        public static final String MAX_CONSTANTS_PROPERTY =
+            "org.exolab.castor.builder.maxNumberOfConstants";
 
         /**
          * Resource to load from the JAR file to load our defaults.
          */
-        static final String RESOURCE_NAME = "/org/exolab/castor/builder/castorbuilder.properties";
+        static final String RESOURCE_NAME =
+            "/org/exolab/castor/builder/castorbuilder.properties";
 
         /**
          * Registered class name conflict resolution strategies.
@@ -195,7 +209,8 @@ public class BuilderConfiguration {
          * org.exolab.castor.builder.nameConflictStrategies
          * </pre>
          */
-        public static final String NAME_CONFLICT_STRATEGIES = "org.exolab.castor.builder.nameConflictStrategies";
+        public static final String NAME_CONFLICT_STRATEGIES =
+            "org.exolab.castor.builder.nameConflictStrategies";
     } //--Property
 
     /**
@@ -458,8 +473,10 @@ public class BuilderConfiguration {
             }
         }
         _localProps = new Properties(defaults);
-        processNamespacePackageMappings(_localProps.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
-        processNamespacePackageMappings(_localProps.getProperty(Property.NAMESPACE_PACKAGES, ""));
+        processNamespacePackageMappings(
+                _localProps.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
+        processNamespacePackageMappings(
+                _localProps.getProperty(Property.NAMESPACE_PACKAGES, ""));
     } //-- setDefaultProperties
 
     /**
@@ -491,7 +508,8 @@ public class BuilderConfiguration {
     protected synchronized void load() {
         if (_defaultProps == null) {
             //-- load defaults from JAR
-            _defaultProps = Configuration.loadProperties(Property.RESOURCE_NAME, Property.CONFIG_FILENAME_PROPERTY);
+            _defaultProps = Configuration.loadProperties(
+                    Property.RESOURCE_NAME, Property.CONFIG_FILENAME_PROPERTY);
 
             //-- load local defaults
 
@@ -500,7 +518,8 @@ public class BuilderConfiguration {
             // Get overriding configuration from the classpath, ignore if not found.
             // If found, merge any existing properties.
             try {
-                InputStream is = SourceGenerator.class.getResourceAsStream("/" + Property.CONFIG_FILENAME_PROPERTY);
+                InputStream is = SourceGenerator.class.getResourceAsStream(
+                        "/" + Property.CONFIG_FILENAME_PROPERTY);
                 if (is != null) {
                     found = true;
                     _defaultProps.load(is);
@@ -532,11 +551,14 @@ public class BuilderConfiguration {
         // castorbuilder.properties
         processNamespacePackageMappings(rtconf.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
         processNamespacePackageMappings(rtconf.getProperty(Property.NAMESPACE_PACKAGES, ""));
-        processNamespacePackageMappings(_defaultProps.getProperty(Property.NAMESPACE_PACKAGES_OLD, ""));
-        processNamespacePackageMappings(_defaultProps.getProperty(Property.NAMESPACE_PACKAGES, ""));
+        processNamespacePackageMappings(_defaultProps.getProperty(
+                Property.NAMESPACE_PACKAGES_OLD, ""));
+        processNamespacePackageMappings(_defaultProps.getProperty(
+                Property.NAMESPACE_PACKAGES, ""));
 
         //-- backward compatibility with 0.9.3.9
-        String prop = _defaultProps.getProperty(JavaNaming.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
+        String prop = _defaultProps.getProperty(
+                JavaNaming.UPPER_CASE_AFTER_UNDERSCORE_PROPERTY, null);
         if (prop != null) {
             JavaNaming.upperCaseAfterUnderscore = Boolean.valueOf(prop).booleanValue();
         }

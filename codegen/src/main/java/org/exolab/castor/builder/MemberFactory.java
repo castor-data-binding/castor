@@ -406,7 +406,8 @@ public class MemberFactory extends BaseFactory {
         String nsURI = component.getTargetNamespace();
         if ((nsURI != null) && (nsURI.length() > 0)) {
             fieldInfo.setNamespaceURI(nsURI);
-            // TODO: set the prefix used in the XML Schema in order to use it inside the Marshaling Framework
+            // TODO set the prefix used in the XML Schema
+            //      in order to use it inside the Marshaling Framework
         }
 
         // handle default value (if any is set)
@@ -491,13 +492,14 @@ public class MemberFactory extends BaseFactory {
             if (xsType.isDateTime()) {
                 // Castor marshals DATETIME_TYPE into java.util.Date(), so we need to convert it
                 if (xsType.getType() == XSType.DATETIME_TYPE) {
-                    // FIXME: This fails if the DateTIme has a time zone because we throw away the time zone in toDate()
+                    // FIXME This fails if the DateTIme has a time zone
+                    //       because we throw away the time zone in toDate()
                     value = "new org.exolab.castor.types.DateTime(\"" + value + "\").toDate()";
                 } else {
                     value = "new " + xsType.getJType().getName() + "(\"" + value + "\")";
                 }
             } else {
-                // FIXME: This works only if a constructor with String as parameter exists
+                // FIXME This works only if a constructor with String as parameter exists
                 value = "new " + xsType.getJType().getName() + "(\"" + value + "\")";
             }
         }

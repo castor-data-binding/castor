@@ -54,7 +54,8 @@ public class PackageTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLC
         //-- initialize element descriptors
         
         //-- _namespace
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_namespace", "namespace", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_namespace", "namespace", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -92,7 +93,8 @@ public class PackageTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLC
         desc.setValidator(fieldValidator);
         
         //-- _schemaLocation
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_schemaLocation", "schemaLocation", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_schemaLocation", "schemaLocation", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 

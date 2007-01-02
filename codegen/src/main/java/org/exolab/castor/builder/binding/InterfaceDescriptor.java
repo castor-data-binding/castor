@@ -51,7 +51,8 @@ public class InterfaceDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- initialize attribute descriptors
         
         //-- _name
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_name", "name", NodeType.Attribute);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 

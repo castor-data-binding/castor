@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1796 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Cleaned up 351 'Maximum Line Length' warnings at builder package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1796
+       (Ralf - 20070102)
+
 XML:   Resolved issue CASTOR-1793 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Cleaned up 635 warnings with braces and whitespaces at builder package.
        Details: http://jira.codehaus.org/browse/CASTOR-1793

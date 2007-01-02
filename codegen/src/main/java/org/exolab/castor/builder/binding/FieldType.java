@@ -199,8 +199,7 @@ public class FieldType implements java.io.Serializable {
      * object is an invalid instance according to the schema
      */
     public void marshal(final java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
     } //-- void marshal(java.io.Writer) 
 
@@ -216,8 +215,8 @@ public class FieldType implements java.io.Serializable {
      * null or if any SAXException is thrown during marshaling
      */
     public void marshal(final org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException,
+           org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
     } //-- void marshal(org.xml.sax.ContentHandler) 
 
@@ -226,7 +225,8 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param collection the value of field 'collection'.
      */
-    public void setCollection(final org.exolab.castor.builder.binding.types.FieldTypeCollectionType collection) {
+    public void setCollection(
+            final org.exolab.castor.builder.binding.types.FieldTypeCollectionType collection) {
         this._collection = collection;
     } //-- void setCollection(org.exolab.castor.builder.binding.types.FieldTypeCollectionType) 
 
@@ -271,7 +271,8 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param visibility the value of field 'visibility'.
      */
-    public void setVisibility(final org.exolab.castor.builder.binding.types.FieldTypeVisibilityType visibility) {
+    public void setVisibility(
+            final org.exolab.castor.builder.binding.types.FieldTypeVisibilityType visibility) {
         this._visibility = visibility;
     } //-- void setVisibility(org.exolab.castor.builder.binding.types.FieldTypeVisibilityType) 
 
@@ -298,7 +299,8 @@ public class FieldType implements java.io.Serializable {
      */
     public static org.exolab.castor.builder.binding.FieldType unmarshal(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.builder.binding.FieldType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.FieldType.class, reader);
+        return (org.exolab.castor.builder.binding.FieldType) Unmarshaller.unmarshal(
+                org.exolab.castor.builder.binding.FieldType.class, reader);
     } //-- org.exolab.castor.builder.binding.FieldType unmarshal(java.io.Reader) 
 
     /**

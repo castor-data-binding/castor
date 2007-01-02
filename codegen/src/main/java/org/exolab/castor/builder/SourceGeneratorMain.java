@@ -101,28 +101,66 @@ public final class SourceGeneratorMain {
     //-------------------------/
 
     /** Message used when descriptor creation is disabled. */
-    private static final String DISABLE_DESCRIPTORS_MSG     = "Disabling generation of Class descriptors.";
+    private static final String DISABLE_DESCRIPTORS_MSG =
+        "Disabling generation of Class descriptors.";
+    
     /** Message used when marshalling methods creation is disabled. */
-    private static final String DISABLE_MARSHALL_MSG        = "Disabling generation of Marshalling framework methods (marshall, unmarshall, validate).";
+    private static final String DISABLE_MARSHALL_MSG =
+        "Disabling generation of Marshalling framework methods (marshall, unmarshall, validate).";
+    
     /** Message used when implementing CastorTestable. */
-    private static final String CASTOR_TESTABLE_MSG         = "The generated classes will implement org.exolab.castor.tests.CastorTestable.";
+    private static final String CASTOR_TESTABLE_MSG =
+        "The generated classes will implement org.exolab.castor.tests.CastorTestable.";
+    
     /** Message used when using SAX1. */
-    private static final String SAX1_MSG                    = "The generated classes will use SAX 1.";
-    private static final String GENERATE_IMPORT_MSG         = "Imported XML Schemas will be processed automatically.";
-    private static final String CASE_INSENSITIVE_MSG        = "The generated classes will use a case insensitive method for looking up enumerated type values.";
-    private static final String TYPE_FACTORY_ARG_MSG        = "The argument '-type-factory' is deprecated; please use '-types' in its place.";
-    private static final String SUPPRESS_NON_FATAL_WARN_MSG = "Suppressing non fatal warnings.";
-    private static final String GENERATING_MAPPING_FILE_MSG = "Generating mapping file: ";
-    private static final String BINDING_FILE_ERROR1_MSG     = "Unable to load binding file ";
-    private static final String BINDING_FILE_ERROR2_MSG     = " due to the following Exception:";
-    private static final String BINDING_FILE_ERROR3_MSG     = "No binding file will be used.";
-    private static final String INVALID_TYPES_OPTION_MSG    = "Invalid option for '-types': ";
-    private static final String DEFAULT_FIELD_INFO_MSG      = "Using default source generator types.";
-    private static final String LINE_SEPARATION_WIN_MSG     = "Using Windows style line separation.";
-    private static final String LINE_SEPARATION_UNIX_MSG    = "Using UNIX style line separation.";
-    private static final String LINE_SEPARATION_MAC_MSG     = "Using Macintosh style line separation.";
-    private static final String DEFAULT_LINE_SEPARATOR_MSG  = "Using default line separator for this platform";
-    private static final String INVALID_LINE_SEPARATOR_MSG  = "Invalid option for line-separator: ";
+    private static final String SAX1_MSG =
+        "The generated classes will use SAX 1.";
+    
+    private static final String GENERATE_IMPORT_MSG =
+        "Imported XML Schemas will be processed automatically.";
+    
+    private static final String CASE_INSENSITIVE_MSG =
+        "The generated classes will use a case insensitive method "
+        + "for looking up enumerated type values.";
+    
+    private static final String TYPE_FACTORY_ARG_MSG =
+        "The argument '-type-factory' is deprecated; please use '-types' in its place.";
+    
+    private static final String SUPPRESS_NON_FATAL_WARN_MSG =
+        "Suppressing non fatal warnings.";
+    
+    private static final String GENERATING_MAPPING_FILE_MSG =
+        "Generating mapping file: ";
+    
+    private static final String BINDING_FILE_ERROR1_MSG =
+        "Unable to load binding file ";
+    
+    private static final String BINDING_FILE_ERROR2_MSG =
+        " due to the following Exception:";
+    
+    private static final String BINDING_FILE_ERROR3_MSG =
+        "No binding file will be used.";
+    
+    private static final String INVALID_TYPES_OPTION_MSG =
+        "Invalid option for '-types': ";
+    
+    private static final String DEFAULT_FIELD_INFO_MSG =
+        "Using default source generator types.";
+    
+    private static final String LINE_SEPARATION_WIN_MSG =
+        "Using Windows style line separation.";
+    
+    private static final String LINE_SEPARATION_UNIX_MSG =
+        "Using UNIX style line separation.";
+    
+    private static final String LINE_SEPARATION_MAC_MSG =
+        "Using Macintosh style line separation.";
+    
+    private static final String DEFAULT_LINE_SEPARATOR_MSG =
+        "Using default line separator for this platform";
+    
+    private static final String INVALID_LINE_SEPARATOR_MSG =
+        "Invalid option for line-separator: ";
 
     /** The full set of command-line options. */
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();

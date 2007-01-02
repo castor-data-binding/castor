@@ -54,7 +54,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- initialize attribute descriptors
         
         //-- _package
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_package", "package", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_package", "package", NodeType.Attribute);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -88,7 +89,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setValidator(fieldValidator);
         
         //-- _name
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_name", "name", NodeType.Attribute);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -122,7 +124,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setValidator(fieldValidator);
         
         //-- _final
-        desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_final", "final", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.Boolean.TYPE, "_final", "final", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -160,7 +163,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setValidator(fieldValidator);
         
         //-- _abstract
-        desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_abstract", "abstract", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.Boolean.TYPE, "_abstract", "abstract", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -198,7 +202,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setValidator(fieldValidator);
         
         //-- _equals
-        desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_equals", "equals", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.Boolean.TYPE, "_equals", "equals", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -236,7 +241,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setValidator(fieldValidator);
         
         //-- _bound
-        desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_bound", "bound", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.Boolean.TYPE, "_bound", "bound", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {
@@ -276,7 +282,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- initialize element descriptors
         
         //-- _implementsList
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_implementsList", "implements", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_implementsList", "implements", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
@@ -313,7 +320,8 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc.setValidator(fieldValidator);
         
         //-- _extends
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_extends", "extends", NodeType.Element);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_extends", "extends", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 

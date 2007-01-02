@@ -50,7 +50,8 @@ public class IncludeTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         //-- initialize attribute descriptors
         
         //-- _URI
-        desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_URI", "URI", NodeType.Attribute);
+        desc = new XMLFieldDescriptorImpl(
+                java.lang.String.class, "_URI", "URI", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
             public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException {

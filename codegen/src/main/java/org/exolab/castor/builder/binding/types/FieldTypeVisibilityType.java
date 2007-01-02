@@ -33,7 +33,8 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     /**
      * The instance of the public type.
      */
-    public static final FieldTypeVisibilityType PUBLIC = new FieldTypeVisibilityType(PUBLIC_TYPE, "public");
+    public static final FieldTypeVisibilityType PUBLIC =
+        new FieldTypeVisibilityType(PUBLIC_TYPE, "public");
 
     /**
      * The protected type.
@@ -43,7 +44,8 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     /**
      * The instance of the protected type.
      */
-    public static final FieldTypeVisibilityType PROTECTED = new FieldTypeVisibilityType(PROTECTED_TYPE, "protected");
+    public static final FieldTypeVisibilityType PROTECTED =
+        new FieldTypeVisibilityType(PROTECTED_TYPE, "protected");
 
     /**
      * The private type.
@@ -53,7 +55,8 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     /**
      * The instance of the private type.
      */
-    public static final FieldTypeVisibilityType PRIVATE = new FieldTypeVisibilityType(PRIVATE_TYPE, "private");
+    public static final FieldTypeVisibilityType PRIVATE =
+        new FieldTypeVisibilityType(PRIVATE_TYPE, "private");
 
     /**
      * Field _memberTable.
@@ -158,7 +161,8 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return the FieldTypeVisibilityType value of parameter
      * 'string'
      */
-    public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(final java.lang.String string) {
+    public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(
+            final java.lang.String string) {
         java.lang.Object obj = null;
         if (string != null) { obj = _memberTable.get(string); }
         if (obj == null) {
@@ -166,6 +170,6 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
             throw new IllegalArgumentException(err);
         }
         return (FieldTypeVisibilityType) obj;
-    } //-- org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(java.lang.String) 
+    }
 
 }

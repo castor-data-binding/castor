@@ -33,7 +33,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the array type.
     **/
-    public static final FieldTypeCollectionType ARRAY = new FieldTypeCollectionType(ARRAY_TYPE, "array");
+    public static final FieldTypeCollectionType ARRAY =
+        new FieldTypeCollectionType(ARRAY_TYPE, "array");
 
     /**
      * The vector type.
@@ -43,7 +44,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the vector type.
     **/
-    public static final FieldTypeCollectionType VECTOR = new FieldTypeCollectionType(VECTOR_TYPE, "vector");
+    public static final FieldTypeCollectionType VECTOR =
+        new FieldTypeCollectionType(VECTOR_TYPE, "vector");
 
     /**
      * The arraylist type.
@@ -53,7 +55,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the arraylist type.
     **/
-    public static final FieldTypeCollectionType ARRAYLIST = new FieldTypeCollectionType(ARRAYLIST_TYPE, "arraylist");
+    public static final FieldTypeCollectionType ARRAYLIST =
+        new FieldTypeCollectionType(ARRAYLIST_TYPE, "arraylist");
 
     /**
      * The hashtable type.
@@ -63,7 +66,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the hashtable type.
     **/
-    public static final FieldTypeCollectionType HASHTABLE = new FieldTypeCollectionType(HASHTABLE_TYPE, "hashtable");
+    public static final FieldTypeCollectionType HASHTABLE =
+        new FieldTypeCollectionType(HASHTABLE_TYPE, "hashtable");
 
     /**
      * The collection type.
@@ -73,7 +77,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the collection type.
     **/
-    public static final FieldTypeCollectionType COLLECTION = new FieldTypeCollectionType(COLLECTION_TYPE, "collection");
+    public static final FieldTypeCollectionType COLLECTION =
+        new FieldTypeCollectionType(COLLECTION_TYPE, "collection");
 
     /**
      * The odmg type.
@@ -83,7 +88,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the odmg type.
     **/
-    public static final FieldTypeCollectionType ODMG = new FieldTypeCollectionType(ODMG_TYPE, "odmg");
+    public static final FieldTypeCollectionType ODMG =
+        new FieldTypeCollectionType(ODMG_TYPE, "odmg");
 
     /**
      * The set type.
@@ -93,7 +99,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the set type.
     **/
-    public static final FieldTypeCollectionType SET = new FieldTypeCollectionType(SET_TYPE, "set");
+    public static final FieldTypeCollectionType SET =
+        new FieldTypeCollectionType(SET_TYPE, "set");
 
     /**
      * The map type.
@@ -103,7 +110,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the map type.
     **/
-    public static final FieldTypeCollectionType MAP = new FieldTypeCollectionType(MAP_TYPE, "map");
+    public static final FieldTypeCollectionType MAP =
+        new FieldTypeCollectionType(MAP_TYPE, "map");
 
     /**
      * The set type.
@@ -113,7 +121,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the sorted set type.
     **/
-    public static final FieldTypeCollectionType SORTED_SET = new FieldTypeCollectionType(SORTED_SET_TYPE, "sortedset");
+    public static final FieldTypeCollectionType SORTED_SET =
+        new FieldTypeCollectionType(SORTED_SET_TYPE, "sortedset");
 
     /**
      * The sorted map type.
@@ -123,7 +132,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
     /**
      * The instance of the sorted map type.
     **/
-    public static final FieldTypeCollectionType SORTED_MAP = new FieldTypeCollectionType(SORTED_MAP_TYPE, "sortedmap");
+    public static final FieldTypeCollectionType SORTED_MAP =
+        new FieldTypeCollectionType(SORTED_MAP_TYPE, "sortedmap");
 
     private static java.util.Hashtable _memberTable = init();
 
@@ -193,7 +203,8 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      * 
      * @param string
     **/
-    public static org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(final java.lang.String string) {
+    public static org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(
+            final java.lang.String string) {
         java.lang.Object obj = null;
         if (string != null) { obj = _memberTable.get(string); }
         if (obj == null) {
@@ -201,6 +212,6 @@ public class FieldTypeCollectionType implements java.io.Serializable {
             throw new IllegalArgumentException(err);
         }
         return (FieldTypeCollectionType) obj;
-    } //-- org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(java.lang.String) 
+    }
 
 }

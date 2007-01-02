@@ -280,7 +280,8 @@ public class ExtendedBinding extends Binding {
      * @param type an integer that indicates the type of the given
      *        ComponentBindingType
      */
-    private void handleComponent(final ComponentBindingType binding, final String xPath, final int type) {
+    private void handleComponent(
+            final ComponentBindingType binding, final String xPath, final int type) {
         if (binding == null) {
             return;
         }
