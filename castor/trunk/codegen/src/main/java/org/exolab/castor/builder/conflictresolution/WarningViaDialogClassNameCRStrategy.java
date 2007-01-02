@@ -34,8 +34,8 @@ import org.exolab.javasource.JClass;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @since 1.1
  */
-public class WarningViaDialogClassNameCRStrategy
-    extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
+public final class WarningViaDialogClassNameCRStrategy
+extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
 
     /**
      * Name of this strategy.

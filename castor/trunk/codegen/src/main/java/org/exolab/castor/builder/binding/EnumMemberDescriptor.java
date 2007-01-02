@@ -12,7 +12,8 @@ package org.exolab.castor.builder.binding;
  * 
  * @version $Revision$ $Date$
  */
-public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public final class EnumMemberDescriptor
+extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/

@@ -85,7 +85,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class MemberFactory extends BaseFactory {
+public final class MemberFactory extends BaseFactory {
 
     /**
      * Creates a new MemberFactory using the given FieldInfo factory.

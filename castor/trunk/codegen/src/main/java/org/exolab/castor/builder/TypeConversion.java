@@ -104,7 +104,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-01-21 04:43:28 -0700 (Sat, 21 Jan 2006) $
  */
-public class TypeConversion {
+public final class TypeConversion {
 
     /** Jakarta's common-logging logger. */
     private static final Log LOG = LogFactory.getLog(TypeConversion.class);

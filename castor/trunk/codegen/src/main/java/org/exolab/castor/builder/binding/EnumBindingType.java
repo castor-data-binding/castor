@@ -25,7 +25,7 @@ import org.exolab.castor.xml.Unmarshaller;
  * 
  * @version $Revision$ $Date$
  */
-public class EnumBindingType implements java.io.Serializable {
+public final class EnumBindingType implements java.io.Serializable {
 
 
       //--------------------------/

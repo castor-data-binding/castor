@@ -101,7 +101,7 @@ public class XSShort extends XSPatternBase {
      * Returns the JType that this XSType represents.
      * @return the JType that this XSType represents.
      */
-    public JType getJType() {
+    public final JType getJType() {
         return _jType;
     }
 
@@ -112,7 +112,7 @@ public class XSShort extends XSPatternBase {
      *         maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
      */
-    public Short getMaxExclusive() {
+    public final Short getMaxExclusive() {
         return _maxExclusive;
     } //-- getMaxExclusive
 
@@ -123,7 +123,7 @@ public class XSShort extends XSPatternBase {
      *         maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
      */
-    public Short getMaxInclusive() {
+    public final Short getMaxInclusive() {
         return _maxInclusive;
     } //-- getMaxInclusive
 
@@ -135,7 +135,7 @@ public class XSShort extends XSPatternBase {
      * @see #getMinInclusive()
      * @see #setMaxInclusive(short)
      */
-    public Short getMinExclusive() {
+    public final Short getMinExclusive() {
         return _minExclusive;
     } //-- getMinExclusive
 
@@ -146,7 +146,7 @@ public class XSShort extends XSPatternBase {
      *         minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
      */
-    public Short getMinInclusive() {
+    public final Short getMinInclusive() {
         return _minInclusive;
     } //-- getMinInclusive
 
@@ -154,7 +154,7 @@ public class XSShort extends XSPatternBase {
      * Returns the totalDigits facet value of this XSInteger.
      * @return the totalDigits facet value of this XSInteger.
      */
-    public int getTotalDigits() {
+    public final int getTotalDigits() {
         return _totalDigits;
     }
 
@@ -162,7 +162,7 @@ public class XSShort extends XSPatternBase {
      * Returns true if a maximum (inclusive or exclusive) has been set.
      * @return true if a maximum (inclusive or exclusive) has been set.
      */
-    public boolean hasMaximum() {
+    public final boolean hasMaximum() {
         return _maxInclusive != null || _maxExclusive != null;
     } //-- hasMaximum
 
@@ -170,7 +170,7 @@ public class XSShort extends XSPatternBase {
      * Returns true if a minimum (inclusive or exclusive) has been set.
      * @return true if a minimum (inclusive or exclusive) has been set.
      */
-    public boolean hasMinimum() {
+    public final boolean hasMinimum() {
         return _minInclusive != null || _minExclusive != null;
     } //-- hasMinimum
 
@@ -179,7 +179,7 @@ public class XSShort extends XSPatternBase {
      * @param max the maximum exclusive value this XSShort can be
      * @see #setMaxInclusive(Short)
      */
-    public void setMaxExclusive(final short max) {
+    public final void setMaxExclusive(final short max) {
         _maxExclusive = new Short(max);
         _maxInclusive = null;
     } //-- setMaxExclusive
@@ -189,7 +189,7 @@ public class XSShort extends XSPatternBase {
      * @param max the maximum exclusive value this XSShort can be
      * @see #setMaxInclusive(short)
      */
-    public void setMaxExclusive(final Short max) {
+    public final void setMaxExclusive(final Short max) {
         _maxExclusive = max;
         _maxInclusive = null;
     } //-- setMaxExclusive
@@ -199,7 +199,7 @@ public class XSShort extends XSPatternBase {
      * @param max the maximum inclusive value this XSShort can be
      * @see #setMaxExclusive(Short)
      */
-    public void setMaxInclusive(final short max) {
+    public final void setMaxInclusive(final short max) {
         _maxInclusive = new Short(max);
         _maxExclusive = null;
     } //-- setMaxInclusive
@@ -209,7 +209,7 @@ public class XSShort extends XSPatternBase {
      * @param max the maximum inclusive value this XSShort can be
      * @see #setMaxExclusive(short)
      */
-    public void setMaxInclusive(final Short max) {
+    public final void setMaxInclusive(final Short max) {
         _maxInclusive = max;
         _maxExclusive = null;
     } //-- setMaxInclusive
@@ -219,7 +219,7 @@ public class XSShort extends XSPatternBase {
      * @param min the minimum exclusive value this XSShort can be
      * @see #setMinInclusive(Short)
      */
-    public void setMinExclusive(final short min) {
+    public final void setMinExclusive(final short min) {
         _minExclusive = new Short(min);
         _minInclusive = null;
     } //-- setMinExclusive
@@ -229,7 +229,7 @@ public class XSShort extends XSPatternBase {
      * @param min the minimum exclusive value this XSShort can be
      * @see #setMinInclusive(short)
      */
-    public void setMinExclusive(final Short min) {
+    public final void setMinExclusive(final Short min) {
         _minExclusive = min;
         _minInclusive = null;
     } //-- setMinExclusive
@@ -239,7 +239,7 @@ public class XSShort extends XSPatternBase {
      * @param min the minimum inclusive value this XSShort can be
      * @see #setMinExclusive(Short)
      */
-    public void setMinInclusive(final short min) {
+    public final void setMinInclusive(final short min) {
         _minInclusive = new Short(min);
         _minExclusive = null;
     } //-- setMinInclusive
@@ -249,7 +249,7 @@ public class XSShort extends XSPatternBase {
      * @param min the minimum inclusive value this XSShort can be
      * @see #setMinExclusive(short)
      */
-    public void setMinInclusive(final Short min) {
+    public final void setMinInclusive(final Short min) {
         _minInclusive = min;
         _minExclusive = null;
     } //-- setMinInclusive
@@ -258,7 +258,7 @@ public class XSShort extends XSPatternBase {
      * Sets the totalDigits facet for this XSShort.
      * @param totalDig the value of totalDigits (must be > 0)
      */
-     public void setTotalDigits(final int totalDig) {
+     public final void setTotalDigits(final int totalDig) {
           if (totalDig <= 0) {
               throw new IllegalArgumentException(this.getName()
                       + ": the totalDigits facet must be positive");
@@ -273,7 +273,7 @@ public class XSShort extends XSPatternBase {
      *            The SimpleType containing our facets.
      * @see org.exolab.castor.builder.types.XSType#getFacets
      */
-    public void setFacets(final SimpleType simpleType) {
+    public final void setFacets(final SimpleType simpleType) {
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
             Facet facet = (Facet) enumeration.nextElement();
@@ -317,7 +317,7 @@ public class XSShort extends XSPatternBase {
      * @return the String necessary to convert an instance of this XSType to an
      *         Object
      */
-    public String createToJavaObjectCode(final String variableName) {
+    public final String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) {
             return super.createToJavaObjectCode(variableName);
         }
@@ -337,7 +337,7 @@ public class XSShort extends XSPatternBase {
      * @return the String necessary to convert an Object to an instance of this
      *         XSType
      */
-    public String createFromJavaObjectCode(final String variableName) {
+    public final String createFromJavaObjectCode(final String variableName) {
         StringBuffer sb = new StringBuffer("((java.lang.Short) ");
         sb.append(variableName);
         sb.append(")");
@@ -361,7 +361,7 @@ public class XSShort extends XSPatternBase {
      *            the name of the FieldValidator that the configured
      *            TypeValidator should be added to.
      */
-    public void validationCode(final JSourceCode jsc, final String fixedValue,
+    public final void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.ShortValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.ShortValidator();");

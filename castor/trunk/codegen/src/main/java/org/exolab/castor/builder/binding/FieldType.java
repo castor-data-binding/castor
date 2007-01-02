@@ -27,7 +27,7 @@ import org.exolab.castor.xml.Unmarshaller;
  * 
  * @version $Revision$ $Date$
  */
-public class FieldType implements java.io.Serializable {
+public final class FieldType implements java.io.Serializable {
 
 
       //--------------------------/

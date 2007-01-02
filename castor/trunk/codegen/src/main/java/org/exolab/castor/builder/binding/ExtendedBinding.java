@@ -86,7 +86,7 @@ import java.util.Hashtable;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class ExtendedBinding extends Binding {
+public final class ExtendedBinding extends Binding {
 
     /**
      * Constants needed to create the XPath.

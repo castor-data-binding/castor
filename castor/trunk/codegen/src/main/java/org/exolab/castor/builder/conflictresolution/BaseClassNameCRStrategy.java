@@ -36,7 +36,7 @@ public abstract class BaseClassNameCRStrategy implements ClassNameCRStrategy {
      * @see org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy
      *      #setSingleClassGenerator(org.exolab.castor.builder.SingleClassGenerator)
      */
-    public void setSingleClassGenerator(final SingleClassGenerator generator) {
+    public final void setSingleClassGenerator(final SingleClassGenerator generator) {
         this._generator = generator;
     }
 
@@ -47,7 +47,7 @@ public abstract class BaseClassNameCRStrategy implements ClassNameCRStrategy {
      *
      * @return the current caller of this strategy implementation.
      */
-    protected SingleClassGenerator getSingleClassGenerator() {
+    protected final SingleClassGenerator getSingleClassGenerator() {
         return this._generator;
     }
 

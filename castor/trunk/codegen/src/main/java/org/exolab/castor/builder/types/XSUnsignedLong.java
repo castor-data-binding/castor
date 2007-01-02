@@ -58,7 +58,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision: 6317 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class XSUnsignedLong extends XSPatternBase {
+public final class XSUnsignedLong extends XSPatternBase {
 
     /** Maximum Unsigned Long (inclusive). */
     private BigInteger _maxInclusive = null;

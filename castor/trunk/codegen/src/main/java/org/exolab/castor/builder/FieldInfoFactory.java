@@ -65,7 +65,7 @@ import org.exolab.castor.builder.types.XSType;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class FieldInfoFactory {
+public final class FieldInfoFactory {
 
     /** The default collection name. */
     private String _default = null;

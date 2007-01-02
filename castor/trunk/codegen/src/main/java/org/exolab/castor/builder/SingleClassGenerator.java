@@ -73,7 +73,7 @@ import org.exolab.javasource.JNaming;
  * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a> - Separated from SourceGenerator
  * @version $Revision: 0000 $ $Date:  $
  */
-public class SingleClassGenerator {
+public final class SingleClassGenerator {
     /**
      * The default code header. Please leave "$" and "Id" separated with "+" so
      * that the CVS server does not expand it here. */

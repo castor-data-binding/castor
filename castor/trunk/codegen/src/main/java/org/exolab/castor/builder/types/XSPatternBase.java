@@ -73,7 +73,7 @@ public abstract class XSPatternBase extends XSType {
      * facets, only one branch needs to pass.
      * @param pattern the regular expression for this XSType.
      */
-    public void addPattern(final String pattern) {
+    public final void addPattern(final String pattern) {
         _patterns.add(pattern);
     } //-- setPattern
 
@@ -86,7 +86,7 @@ public abstract class XSPatternBase extends XSType {
      *            the name of the TypeValidator that the patterns should be
      *            added to.
      */
-    public void codePatternFacet(final JSourceCode jsc, final String validatorName) {
+    public final void codePatternFacet(final JSourceCode jsc, final String validatorName) {
         for (Iterator i = _patterns.iterator(); i.hasNext(); ) {
             jsc.add(validatorName + ".addPattern(\"" + escapePattern((String) i.next()) + "\");");
         }

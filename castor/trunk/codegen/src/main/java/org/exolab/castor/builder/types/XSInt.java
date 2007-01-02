@@ -117,7 +117,7 @@ public class XSInt extends XSPatternBase {
      * Returns the JType that this XSType represents.
      * @return the JType that this XSType represents.
      */
-    public JType getJType() {
+    public final JType getJType() {
         return _jType;
     }
 
@@ -128,7 +128,7 @@ public class XSInt extends XSPatternBase {
      *         maximum exclusive value has been set, Null will be returned
      * @see #getMaxInclusive
      */
-    public Integer getMaxExclusive() {
+    public final Integer getMaxExclusive() {
         return _maxExclusive;
     } // -- getMaxExclusive
 
@@ -139,7 +139,7 @@ public class XSInt extends XSPatternBase {
      *         maximum inclusive value has been set, Null will be returned
      * @see #getMaxExclusive
      */
-    public Integer getMaxInclusive() {
+    public final Integer getMaxInclusive() {
         return _maxInclusive;
     } // -- getMaxInclusive
 
@@ -151,7 +151,7 @@ public class XSInt extends XSPatternBase {
      * @see #getMinInclusive()
      * @see #setMaxInclusive(int)
      */
-    public Integer getMinExclusive() {
+    public final Integer getMinExclusive() {
         return _minExclusive;
     } // -- getMinExclusive
 
@@ -162,7 +162,7 @@ public class XSInt extends XSPatternBase {
      *         minimum inclusive value has been set, Null will be returned
      * @see #getMinExclusive
      */
-    public Integer getMinInclusive() {
+    public final Integer getMinInclusive() {
         return _minInclusive;
     } // -- getMinInclusive
 
@@ -170,7 +170,7 @@ public class XSInt extends XSPatternBase {
      * Returns the totalDigits facet value of this XSInteger.
      * @return the totalDigits facet value of this XSInteger.
      */
-    public int getTotalDigits() {
+    public final int getTotalDigits() {
         return _totalDigits;
     }
 
@@ -178,7 +178,7 @@ public class XSInt extends XSPatternBase {
      * Returns true if a maximum (inclusive or exclusive) has been set.
      * @return true if a maximum (inclusive or exclusive) has been set.
      */
-    public boolean hasMaximum() {
+    public final boolean hasMaximum() {
         return _maxInclusive != null || _maxExclusive != null;
     } //-- hasMaximum
 
@@ -186,7 +186,7 @@ public class XSInt extends XSPatternBase {
      * Returns true if a minimum (inclusive or exclusive) has been set.
      * @return true if a minimum (inclusive or exclusive) has been set.
      */
-    public boolean hasMinimum() {
+    public final boolean hasMinimum() {
         return _minInclusive != null || _minExclusive != null;
     } //-- hasMinimum
 
@@ -197,7 +197,7 @@ public class XSInt extends XSPatternBase {
      *            the maximum exclusive value this XSInt can be
      * @see #setMaxInclusive(Integer)
      */
-    public void setMaxExclusive(final int max) {
+    public final void setMaxExclusive(final int max) {
         _maxExclusive = new Integer(max);
         _maxInclusive = null;
     } // -- setMaxExclusive
@@ -209,7 +209,7 @@ public class XSInt extends XSPatternBase {
      *            the maximum exclusive value this XSInt can be
      * @see #setMaxInclusive(int)
      */
-    public void setMaxExclusive(final Integer max) {
+    public final void setMaxExclusive(final Integer max) {
         _maxExclusive = max;
         _maxInclusive = null;
     } // -- setMaxExclusive
@@ -221,7 +221,7 @@ public class XSInt extends XSPatternBase {
      *            the maximum inclusive value this XSInt can be
      * @see #setMaxExclusive(Integer)
      */
-    public void setMaxInclusive(final int max) {
+    public final void setMaxInclusive(final int max) {
         _maxInclusive = new Integer(max);
         _maxExclusive = null;
     } // -- setMaxInclusive
@@ -233,7 +233,7 @@ public class XSInt extends XSPatternBase {
      *            the maximum inclusive value this XSInt can be
      * @see #setMaxExclusive(int)
      */
-    public void setMaxInclusive(final Integer max) {
+    public final void setMaxInclusive(final Integer max) {
         _maxInclusive = max;
         _maxExclusive = null;
     } // -- setMaxInclusive
@@ -245,7 +245,7 @@ public class XSInt extends XSPatternBase {
      *            the minimum exclusive value this XSInt can be
      * @see #setMinInclusive(Integer)
      */
-    public void setMinExclusive(final int min) {
+    public final void setMinExclusive(final int min) {
         _minExclusive = new Integer(min);
         _minInclusive = null;
     } // -- setMinExclusive
@@ -257,7 +257,7 @@ public class XSInt extends XSPatternBase {
      *            the minimum exclusive value this XSInt can be
      * @see #setMinInclusive(int)
      */
-    public void setMinExclusive(final Integer min) {
+    public final void setMinExclusive(final Integer min) {
         _minExclusive = min;
         _minInclusive = null;
     } // -- setMinExclusive
@@ -269,7 +269,7 @@ public class XSInt extends XSPatternBase {
      *            the minimum inclusive value this XSInt can be
      * @see #setMinExclusive(Integer)
      */
-    public void setMinInclusive(final int min) {
+    public final void setMinInclusive(final int min) {
         _minInclusive = new Integer(min);
         _minExclusive = null;
     } // -- setMinInclusive
@@ -281,7 +281,7 @@ public class XSInt extends XSPatternBase {
      *            the minimum inclusive value this XSInt can be
      * @see #setMinExclusive(int)
      */
-    public void setMinInclusive(final Integer min) {
+    public final void setMinInclusive(final Integer min) {
         _minInclusive = min;
         _minExclusive = null;
     } // -- setMinInclusive
@@ -290,7 +290,7 @@ public class XSInt extends XSPatternBase {
      * Sets the totalDigits facet for this XSInteger.
      * @param totalDig the value of totalDigits (must be > 0)
      */
-     public void setTotalDigits(final int totalDig) {
+     public final void setTotalDigits(final int totalDig) {
           if (totalDig <= 0) {
               throw new IllegalArgumentException(this.getName()
                       + ": the totalDigits facet must be positive");
@@ -305,7 +305,7 @@ public class XSInt extends XSPatternBase {
       *            The SimpleType containing our facets.
       * @see org.exolab.castor.builder.types.XSType#getFacets
       */
-    public void setFacets(final SimpleType simpleType) {
+    public final void setFacets(final SimpleType simpleType) {
         // -- copy valid facets
         Enumeration enumeration = getFacets(simpleType);
         while (enumeration.hasMoreElements()) {
@@ -350,7 +350,7 @@ public class XSInt extends XSPatternBase {
      * @return the String necessary to convert an instance of this XSType to an
      *         Object
      */
-    public String createToJavaObjectCode(final String variableName) {
+    public final String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) {
             return super.createToJavaObjectCode(variableName);
         }
@@ -367,7 +367,7 @@ public class XSInt extends XSPatternBase {
      * @return the String necessary to convert an Object to an instance of this
      *         XSType
      */
-    public String createFromJavaObjectCode(final String variableName) {
+    public final String createFromJavaObjectCode(final String variableName) {
         StringBuffer sb = new StringBuffer("((java.lang.Integer) ");
         sb.append(variableName);
         sb.append(")");
@@ -391,7 +391,7 @@ public class XSInt extends XSPatternBase {
      *            the name of the FieldValidator that the configured
      *            TypeValidator should be added to.
      */
-    public void validationCode(final JSourceCode jsc, final String fixedValue,
+    public final void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
         jsc.add("org.exolab.castor.xml.validators.IntValidator typeValidator"
                 + " = new org.exolab.castor.xml.validators.IntValidator();");

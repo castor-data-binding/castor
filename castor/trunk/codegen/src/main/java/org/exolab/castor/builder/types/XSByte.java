@@ -57,7 +57,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class XSByte extends XSPatternBase {
+public final class XSByte extends XSPatternBase {
 
     /** Maximum byte (inclusive). */
     private Byte _maxInclusive = null;

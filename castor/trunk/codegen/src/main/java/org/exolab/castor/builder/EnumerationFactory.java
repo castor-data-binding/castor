@@ -44,7 +44,7 @@ import org.exolab.javasource.JType;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 6287 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class EnumerationFactory extends BaseFactory {
+public final class EnumerationFactory extends BaseFactory {
 
     /**
      * The TypeConversion instance to use for mapping SimpleTypes into XSTypes.

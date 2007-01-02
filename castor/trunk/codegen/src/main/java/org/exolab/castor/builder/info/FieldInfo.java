@@ -153,7 +153,7 @@ public class FieldInfo extends XMLInfo {
      * more than one java field for this FieldInfo.
      * @param jClass JClass object the Java Fields will be added to
      */
-    public void createJavaField(final JClass jClass) {
+    public final void createJavaField(final JClass jClass) {
         XSType type = getSchemaType();
         JType jType = type.getJType();
         JField field = new JField(type.getJType(), _name);
@@ -252,7 +252,7 @@ public class FieldInfo extends XMLInfo {
      * @param jDocComment
      *            the JDocComment to add the Javadoc comments to.
      */
-    public void createGetterComment(final JDocComment jDocComment) {
+    public final void createGetterComment(final JDocComment jDocComment) {
         String fieldName = this._name;
         //-- remove '_' if necessary
         if (fieldName.indexOf('_') == 0) {
@@ -280,7 +280,7 @@ public class FieldInfo extends XMLInfo {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    public void createGetterMethod(final JClass jClass, final boolean useJava50) {
+    public final void createGetterMethod(final JClass jClass, final boolean useJava50) {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
@@ -329,7 +329,7 @@ public class FieldInfo extends XMLInfo {
      * @param jClass
      *            the JClass to add the methods to
      */
-    public void createHasAndDeleteMethods(final JClass jClass) {
+    public final void createHasAndDeleteMethods(final JClass jClass) {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
@@ -374,7 +374,7 @@ public class FieldInfo extends XMLInfo {
      * @param jDocComment
      *            the JDocComment to add the Javadoc comments to.
      */
-    public void createSetterComment(final JDocComment jDocComment) {
+    public final void createSetterComment(final JDocComment jDocComment) {
         String fieldName = this._name;
         //-- remove '_' if necessary
         if (fieldName.indexOf('_') == 0) {
@@ -413,7 +413,7 @@ public class FieldInfo extends XMLInfo {
      * @param useJava50
      *            true if source code is supposed to be generated for Java 5
      */
-    public void createSetterMethod(final JClass jClass, final boolean useJava50) {
+    public final void createSetterMethod(final JClass jClass, final boolean useJava50) {
         JMethod method    = null;
         JSourceCode jsc   = null;
 
@@ -510,7 +510,7 @@ public class FieldInfo extends XMLInfo {
      * @return the default value for this FieldInfo, or null if no default value
      *         was set;
      */
-    public String getDefaultValue() {
+    public final String getDefaultValue() {
         return _default;
     } //-- getDefaultValue
 
@@ -522,7 +522,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return the fixed value for this FieldInfo
      */
-    public String getFixedValue() {
+    public final String getFixedValue() {
         return _fixed;
     } //-- getFixedValue
 
@@ -530,7 +530,7 @@ public class FieldInfo extends XMLInfo {
      * Returns the name of the delete method for this FieldInfo.
      * @return the name of the delete method for this FieldInfo.
      */
-    public String getDeleteMethodName() {
+    public final String getDeleteMethodName() {
         return METHOD_PREFIX_DELETE + getMethodSuffix();
     } //-- getDeleteMethodName
 
@@ -538,7 +538,7 @@ public class FieldInfo extends XMLInfo {
      * Returns the name of the has method for this FieldInfo.
      * @return the name of the has method for this FieldInfo.
      */
-    public String getHasMethodName() {
+    public final String getHasMethodName() {
         return METHOD_PREFIX_HAS + getMethodSuffix();
     } //-- getHasMethodName
 
@@ -546,7 +546,7 @@ public class FieldInfo extends XMLInfo {
      * Returns the name of the read method for this FieldInfo.
      * @return the name of the read method for this FieldInfo.
      */
-    public String getReadMethodName() {
+    public final String getReadMethodName() {
         return METHOD_PREFIX_GET + getMethodSuffix();
     } //-- getReadMethodName
 
@@ -555,7 +555,7 @@ public class FieldInfo extends XMLInfo {
     *
     * @return the fully qualified name of the Validator to use.
     */
-    public String getValidator() {
+    public final String getValidator() {
         return _validator;
     }
 
@@ -563,7 +563,7 @@ public class FieldInfo extends XMLInfo {
      * Returns the name of the write method for this FieldInfo.
      * @return the name of the write method for this FieldInfo.
      */
-    public String getWriteMethodName() {
+    public final String getWriteMethodName() {
         if (isMultivalued()) {
             return METHOD_PREFIX_ADD + getMethodSuffix();
         }
@@ -575,7 +575,7 @@ public class FieldInfo extends XMLInfo {
     *
     * @return the fully qualified name of the XMLFieldHandler to use.
     */
-    public String getXMLFieldHandler() {
+    public final String getXMLFieldHandler() {
         return _fieldHandler;
     }
 
@@ -624,7 +624,7 @@ public class FieldInfo extends XMLInfo {
      * @return the comment associated with this Member, or null.
      * if one has not been set.
      */
-    public String getComment() {
+    public final String getComment() {
         return _comment;
     } //-- getComment
 
@@ -635,7 +635,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return the methods flag
      */
-    public int getMethods() {
+    public final int getMethods() {
         return _methods;
     } //-- getMethods
 
@@ -644,7 +644,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return the name of this FieldInfo.
      */
-    public String getName() {
+    public final String getName() {
         return this._name;
     } //-- getName
 
@@ -653,7 +653,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return true if this FieldInfo represents a bound property.
      */
-    public boolean isBound() {
+    public final boolean isBound() {
         return _bound;
     } //-- isBound
 
@@ -664,7 +664,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return true if this ClassInfo describes a container class.
      */
-    public boolean isContainer() {
+    public final boolean isContainer() {
         return _isContainer;
     } //-- isContainer
 
@@ -674,7 +674,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return true if the has and delete methods are needed.
      */
-    public boolean isHasAndDeleteMethods() {
+    public final boolean isHasAndDeleteMethods() {
         XSType xsType = getSchemaType();
         JType jType  = xsType.getJType();
         return ((!xsType.isEnumerated()) && jType.isPrimitive());
@@ -688,7 +688,7 @@ public class FieldInfo extends XMLInfo {
      * @return true if nillable, otherwise false.
      * @see #setNillable(boolean)
      */
-     public boolean isNillable() {
+     public final boolean isNillable() {
          return _nillable;
      } //-- isNillable
 
@@ -698,7 +698,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @return true if this FieldInfo is transient.
      */
-    public boolean isTransient() {
+    public final boolean isTransient() {
         return (_transient || _final || _static);
     } //-- isTransient
 
@@ -706,7 +706,7 @@ public class FieldInfo extends XMLInfo {
      * Sets the comment for this Member.
      * @param comment the comment or description for this Member
      */
-    public void setComment(final String comment) {
+    public final void setComment(final String comment) {
         _comment = comment;
     } //-- setComment
 
@@ -714,7 +714,7 @@ public class FieldInfo extends XMLInfo {
      * Returns the ClassInfo to which this Member was declared, for inheritance reasons.
      * @return the ClassInfo to which this Member was declared.
      */
-    public ClassInfo getDeclaringClassInfo() {
+    public final ClassInfo getDeclaringClassInfo() {
         return this._declaringClassInfo;
     } //-- getDeclaringClassInfo
 
@@ -724,7 +724,7 @@ public class FieldInfo extends XMLInfo {
      * @param bound the flag when true indicates that this FieldInfo represents a
      *        bound property.
      */
-    public void setBound(final boolean bound) {
+    public final void setBound(final boolean bound) {
         _bound = bound;
     } //-- setBound
 
@@ -737,11 +737,11 @@ public class FieldInfo extends XMLInfo {
      *            the boolean value when true indicates this class should be a
      *            container class.
      */
-    public void setContainer(final boolean isContainer) {
+    public final void setContainer(final boolean isContainer) {
         _isContainer = isContainer;
     } //-- setContainer
 
-    public void setDeclaringClassInfo(final ClassInfo declaringClassInfo) {
+    public final void setDeclaringClassInfo(final ClassInfo declaringClassInfo) {
         this._declaringClassInfo = declaringClassInfo;
     } //-- setDeclaringClassInfo
 
@@ -749,7 +749,7 @@ public class FieldInfo extends XMLInfo {
      * Sets the default value for this FieldInfo.
      * @param defaultValue the default value
      */
-    public void setDefaultValue(final String defaultValue) {
+    public final void setDefaultValue(final String defaultValue) {
         this._default = defaultValue;
     } //-- setDefaultValue;
 
@@ -761,7 +761,7 @@ public class FieldInfo extends XMLInfo {
      *            the boolean indicating the final status, if true this
      *            FieldInfo will be treated as final.
      */
-    public void setFinal(final boolean isFinal) {
+    public final void setFinal(final boolean isFinal) {
         this._final = isFinal;
     } //-- isFinal
 
@@ -772,7 +772,7 @@ public class FieldInfo extends XMLInfo {
      * @param fixedValue
      *            the fixed production for this FieldInfo
      */
-    public void setFixedValue(final String fixedValue) {
+    public final void setFixedValue(final String fixedValue) {
         this._fixed = fixedValue;
     } //-- setFixedValue
 
@@ -782,7 +782,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @param methods a flag describing which methods to create.
      */
-    public void setMethods(final int methods) {
+    public final void setMethods(final int methods) {
         _methods = methods;
     } //-- setMethods
 
@@ -793,7 +793,7 @@ public class FieldInfo extends XMLInfo {
      *            a boolean that when true means the field may be nil.
      * @see #isNillable()
      */
-    public void setNillable(final boolean nillable) {
+    public final void setNillable(final boolean nillable) {
         _nillable = nillable;
     } //-- setNillable
 
@@ -803,7 +803,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @param fieldInfo
      */
-    public void setFieldInfoReference(final FieldInfo fieldInfo) {
+    public final void setFieldInfoReference(final FieldInfo fieldInfo) {
         _fieldInfoReference = fieldInfo;
     } //-- setReference
 
@@ -814,7 +814,7 @@ public class FieldInfo extends XMLInfo {
      * @param isStatic the boolean indicating the static status, if true this
      *        FieldInfo will be treated as static
      */
-    public void setStatic(final boolean isStatic) {
+    public final void setStatic(final boolean isStatic) {
         this._static = isStatic;
     } //-- setStatic
 
@@ -824,7 +824,7 @@ public class FieldInfo extends XMLInfo {
      * @param isTransient the boolean indicating the transient status, if true this
      *        FieldInfo will be treated as transient
      */
-    public void setTransient(final boolean isTransient) {
+    public final void setTransient(final boolean isTransient) {
         this._transient = isTransient;
     } //-- setTransient
 
@@ -833,7 +833,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @param validator the fully qualified name of the validator to use.
      */
-    public void setValidator(final String validator) {
+    public final void setValidator(final String validator) {
         _validator = validator;
     }
 
@@ -842,7 +842,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @param handler the fully qualified name of the handler to use.
      */
-    public void setXMLFieldHandler(final String handler) {
+    public final void setXMLFieldHandler(final String handler) {
         _fieldHandler = handler;
     }
 
@@ -863,7 +863,7 @@ public class FieldInfo extends XMLInfo {
      *
      * @param visibility the visibility of this FieldInfo.
      */
-    public void setVisibility(final String visibility) {
+    public final void setVisibility(final String visibility) {
         _visibility = visibility;
     }
 

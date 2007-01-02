@@ -52,7 +52,7 @@ package org.exolab.castor.builder.binding;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Version:$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class BindingException extends Exception {
+public final class BindingException extends Exception {
 
     /** We add this field because an Exception is serializable. */
     private static final long serialVersionUID = 1726983206974247107L;

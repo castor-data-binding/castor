@@ -34,7 +34,7 @@ import org.exolab.javasource.JSourceCode;
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @version $Revision: 6469 $ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
-public class XMLFieldHandlerFactory {
+public final class XMLFieldHandlerFactory {
 
     /**
      * The XML code generator configuration.

@@ -28,7 +28,7 @@ import org.exolab.castor.xml.Unmarshaller;
  * 
  * @version $Revision$ $Date$
  */
-public class ComponentBindingType implements java.io.Serializable {
+public final class ComponentBindingType implements java.io.Serializable {
 
 
       //--------------------------/

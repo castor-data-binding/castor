@@ -93,7 +93,7 @@ public class XSList extends XSType {
      * Returns the minimum allowed size for this list.
      * @return the minimum allowed size for this list.
      */
-    public int getMinimumSize() {
+    public final int getMinimumSize() {
         return _minSize;
     } //-- getMinimumSize
 
@@ -101,7 +101,7 @@ public class XSList extends XSType {
      * Returns the maximum allowed size for this list.
      * @return the maximum allowed size for this list.
      */
-    public int getMaximumSize() {
+    public final int getMaximumSize() {
         return _maxSize;
     } //-- getMaximumSize
 
@@ -109,7 +109,7 @@ public class XSList extends XSType {
      * Returns the type contained in the list.
      * @return the type contained in the list.
      */
-    public XSType getContentType() {
+    public final XSType getContentType() {
         return _contentType;
     }
 
@@ -117,7 +117,7 @@ public class XSList extends XSType {
      * Sets the maximum allowed size for this list.
      * @param size new maximum size for this list
      */
-    public void setMaximumSize(final int size) {
+    public final void setMaximumSize(final int size) {
         _maxSize = size;
     } //-- setMaximumSize
 
@@ -125,7 +125,7 @@ public class XSList extends XSType {
      * Sets the minimum allowed size for this list.
      * @param size new minimum size for this list
      */
-    public void setMinimumSize(final int size) {
+    public final void setMinimumSize(final int size) {
         _minSize = size;
     } //-- setMinimumSize
 
@@ -136,7 +136,7 @@ public class XSList extends XSType {
      *            The SimpleType containing our facets.
      * @see org.exolab.castor.builder.types.XSType#getFacets
      */
-    public void setFacets(final SimpleType simpleType) {
+    public final void setFacets(final SimpleType simpleType) {
         // Not implemented
     }
 
@@ -154,7 +154,7 @@ public class XSList extends XSType {
      *            the name of the FieldValidator that the configured
      *            TypeValidator should be added to.
      */
-    public void validationCode(final JSourceCode jsc, final String fixedValue,
+    public final void validationCode(final JSourceCode jsc, final String fixedValue,
                                final String fieldValidatorInstanceName) {
         //--TBD
     }

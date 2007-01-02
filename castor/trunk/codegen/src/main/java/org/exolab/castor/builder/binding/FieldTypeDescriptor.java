@@ -12,7 +12,8 @@ package org.exolab.castor.builder.binding;
  * 
  * @version $Revision$ $Date$
  */
-public class FieldTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public final class FieldTypeDescriptor
+extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
