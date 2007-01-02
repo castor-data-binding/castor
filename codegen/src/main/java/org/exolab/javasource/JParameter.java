@@ -124,9 +124,11 @@ public final class JParameter extends JAnnotatedElementHelper {
      * by the name of the parameter.
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer(this._type.toString());
+        StringBuffer sb = new StringBuffer();
+        sb.append("final ");
+        sb.append(_type.toString());
         sb.append(' ');
-        sb.append(this._name);
+        sb.append(_name);
         return sb.toString();
     }
 

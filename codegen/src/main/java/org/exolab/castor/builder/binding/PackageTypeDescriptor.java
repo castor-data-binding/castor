@@ -59,13 +59,13 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 PackageType target = (PackageType) object;
                 return target.getName();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -76,7 +76,7 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -99,13 +99,13 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
         //-- _packageTypeChoice
         desc = new XMLFieldDescriptorImpl(PackageTypeChoice.class, "_packageTypeChoice", "-error-if-this-is-used-", NodeType.Element);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 PackageType target = (PackageType) object;
                 return target.getPackageTypeChoice();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -116,7 +116,7 @@ public class PackageTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDe
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return new PackageTypeChoice();
             }
         });

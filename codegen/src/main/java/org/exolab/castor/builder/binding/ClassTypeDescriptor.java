@@ -57,13 +57,13 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_package", "package", NodeType.Attribute);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
                 return target.getPackage();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -74,7 +74,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -94,13 +94,13 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_name", "name", NodeType.Attribute);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
                 return target.getName();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -111,7 +111,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -130,7 +130,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- _final
         desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_final", "final", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
@@ -138,7 +138,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     return null;
                 return new Boolean(target.getFinal());
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -154,7 +154,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -172,7 +172,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- _abstract
         desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_abstract", "abstract", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
@@ -180,7 +180,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     return null;
                 return new Boolean(target.getAbstract());
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -196,7 +196,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -214,7 +214,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- _equals
         desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_equals", "equals", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
@@ -222,7 +222,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     return null;
                 return new Boolean(target.getEquals());
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -238,7 +238,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -256,7 +256,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         //-- _bound
         desc = new XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_bound", "bound", NodeType.Attribute);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
@@ -264,7 +264,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     return null;
                 return new Boolean(target.getBound());
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -280,7 +280,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -301,13 +301,13 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_implementsList", "implements", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
                 return target.getImplements();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -318,7 +318,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -341,13 +341,13 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_extends", "extends", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 ClassType target = (ClassType) object;
                 return target.getExtends();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -358,7 +358,7 @@ public class ClassTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDesc
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });

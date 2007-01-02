@@ -211,7 +211,7 @@ public class FieldType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
+    public void marshal(final java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -229,7 +229,7 @@ public class FieldType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.MarshalException if object is
      * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
+    public void marshal(final org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -241,7 +241,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param collection the value of field 'collection'.
      */
-    public void setCollection(org.exolab.castor.builder.binding.types.FieldTypeCollectionType collection)
+    public void setCollection(final org.exolab.castor.builder.binding.types.FieldTypeCollectionType collection)
     {
         this._collection = collection;
     } //-- void setCollection(org.exolab.castor.builder.binding.types.FieldTypeCollectionType) 
@@ -251,7 +251,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param handler the value of field 'handler'.
      */
-    public void setHandler(java.lang.String handler)
+    public void setHandler(final java.lang.String handler)
     {
         this._handler = handler;
     } //-- void setHandler(java.lang.String) 
@@ -261,7 +261,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param javaType the value of field 'javaType'.
      */
-    public void setJavaType(java.lang.String javaType)
+    public void setJavaType(final java.lang.String javaType)
     {
         this._javaType = javaType;
     } //-- void setJavaType(java.lang.String) 
@@ -271,7 +271,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param name the value of field 'name'.
      */
-    public void setName(java.lang.String name)
+    public void setName(final java.lang.String name)
     {
         this._name = name;
     } //-- void setName(java.lang.String) 
@@ -281,7 +281,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param validator the value of field 'validator'.
      */
-    public void setValidator(java.lang.String validator)
+    public void setValidator(final java.lang.String validator)
     {
         this._validator = validator;
     } //-- void setValidator(java.lang.String) 
@@ -291,7 +291,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param visibility the value of field 'visibility'.
      */
-    public void setVisibility(org.exolab.castor.builder.binding.types.FieldTypeVisibilityType visibility)
+    public void setVisibility(final org.exolab.castor.builder.binding.types.FieldTypeVisibilityType visibility)
     {
         this._visibility = visibility;
     } //-- void setVisibility(org.exolab.castor.builder.binding.types.FieldTypeVisibilityType) 
@@ -301,7 +301,7 @@ public class FieldType implements java.io.Serializable {
      * 
      * @param wrapper the value of field 'wrapper'.
      */
-    public void setWrapper(boolean wrapper)
+    public void setWrapper(final boolean wrapper)
     {
         this._wrapper = wrapper;
         this._has_wrapper = true;
@@ -318,7 +318,7 @@ public class FieldType implements java.io.Serializable {
      * @return the unmarshaled
      * org.exolab.castor.builder.binding.FieldType
      */
-    public static org.exolab.castor.builder.binding.FieldType unmarshal(java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.FieldType unmarshal(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.builder.binding.FieldType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.FieldType.class, reader);

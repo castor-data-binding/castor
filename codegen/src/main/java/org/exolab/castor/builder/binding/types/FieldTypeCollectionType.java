@@ -136,7 +136,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private FieldTypeCollectionType(int type, java.lang.String value) {
+    private FieldTypeCollectionType(final int type, final java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
@@ -197,7 +197,7 @@ public class FieldTypeCollectionType implements java.io.Serializable {
      * 
      * @param string
     **/
-    public static org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(java.lang.String string)
+    public static org.exolab.castor.builder.binding.types.FieldTypeCollectionType valueOf(final java.lang.String string)
     {
         java.lang.Object obj = null;
         if (string != null) obj = _memberTable.get(string);

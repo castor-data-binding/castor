@@ -88,7 +88,7 @@ public class BindingLoader {
         // Nothing to do
     }
 
-    public void loadBinding(String url) throws BindingException {
+    public void loadBinding(final String url) throws BindingException {
         InputSource source;
         try {
             source = _resolver.resolveEntity(null, url);

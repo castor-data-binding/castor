@@ -81,7 +81,7 @@ public class PackageTypeChoice implements java.io.Serializable {
      * 
      * @param out
     **/
-    public void marshal(java.io.Writer out)
+    public void marshal(final java.io.Writer out)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -93,7 +93,7 @@ public class PackageTypeChoice implements java.io.Serializable {
      * 
      * @param handler
     **/
-    public void marshal(org.xml.sax.ContentHandler handler)
+    public void marshal(final org.xml.sax.ContentHandler handler)
         throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         
@@ -105,7 +105,7 @@ public class PackageTypeChoice implements java.io.Serializable {
      * 
      * @param namespace the value of field 'namespace'.
     **/
-    public void setNamespace(java.lang.String namespace)
+    public void setNamespace(final java.lang.String namespace)
     {
         this._namespace = namespace;
     } //-- void setNamespace(java.lang.String) 
@@ -115,7 +115,7 @@ public class PackageTypeChoice implements java.io.Serializable {
      * 
      * @param schemaLocation the value of field 'schemaLocation'.
     **/
-    public void setSchemaLocation(java.lang.String schemaLocation)
+    public void setSchemaLocation(final java.lang.String schemaLocation)
     {
         this._schemaLocation = schemaLocation;
     } //-- void setSchemaLocation(java.lang.String) 
@@ -125,7 +125,7 @@ public class PackageTypeChoice implements java.io.Serializable {
      * 
      * @param reader
     **/
-    public static org.exolab.castor.builder.binding.PackageTypeChoice unmarshalPackageTypeChoice(java.io.Reader reader)
+    public static org.exolab.castor.builder.binding.PackageTypeChoice unmarshalPackageTypeChoice(final java.io.Reader reader)
         throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
     {
         return (org.exolab.castor.builder.binding.PackageTypeChoice) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.PackageTypeChoice.class, reader);

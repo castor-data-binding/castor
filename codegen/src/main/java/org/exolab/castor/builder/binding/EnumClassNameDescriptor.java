@@ -62,13 +62,13 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_content", "PCDATA", org.exolab.castor.xml.NodeType.Text);
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 EnumClassName target = (EnumClassName) object;
                 return target.getContent();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -79,7 +79,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         };
@@ -100,13 +100,13 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
         desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.String.class, "_package", "package", org.exolab.castor.xml.NodeType.Attribute);
         desc.setImmutable(true);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 EnumClassName target = (EnumClassName) object;
                 return target.getPackage();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -117,7 +117,7 @@ public class EnumClassNameDescriptor extends org.exolab.castor.xml.util.XMLClass
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         };

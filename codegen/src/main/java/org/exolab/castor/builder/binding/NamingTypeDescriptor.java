@@ -59,13 +59,13 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_prefix", "prefix", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingType target = (NamingType) object;
                 return target.getPrefix();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -76,7 +76,7 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });
@@ -98,13 +98,13 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
         desc = new XMLFieldDescriptorImpl(java.lang.String.class, "_suffix", "suffix", NodeType.Element);
         desc.setImmutable(true);
         handler = (new XMLFieldHandler() {
-            public java.lang.Object getValue(java.lang.Object object) 
+            public java.lang.Object getValue(final java.lang.Object object) 
                 throws IllegalStateException
             {
                 NamingType target = (NamingType) object;
                 return target.getSuffix();
             }
-            public void setValue(java.lang.Object object, java.lang.Object value) 
+            public void setValue(final java.lang.Object object, final java.lang.Object value) 
                 throws IllegalStateException, IllegalArgumentException
             {
                 try {
@@ -115,7 +115,7 @@ public class NamingTypeDescriptor extends org.exolab.castor.xml.util.XMLClassDes
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(java.lang.Object parent) {
+            public java.lang.Object newInstance(final java.lang.Object parent) {
                 return null;
             }
         });

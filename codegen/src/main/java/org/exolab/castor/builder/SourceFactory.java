@@ -1714,11 +1714,12 @@ public class SourceFactory extends BaseFactory {
      * @param contentModel the ContentModelGroup to process
      * @param state the current FactoryState.
      */
-    private void processContentModel(ContentModelGroup contentModel, final FactoryState state) {
+    private void processContentModel(final ContentModelGroup model, final FactoryState state) {
         //------------------------------/
         //- handle elements and groups -/
         //------------------------------/
 
+        ContentModelGroup contentModel = model;
         Enumeration enumeration = contentModel.enumerate();
 
         //-- handle choice item
