@@ -27,22 +27,22 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _javaClass
+     * Field _javaClass.
      */
     private org.exolab.castor.builder.binding.ClassType _javaClass;
 
     /**
-     * Field _interface
+     * Field _interface.
      */
     private org.exolab.castor.builder.binding.Interface _interface;
 
     /**
-     * Field _member
+     * Field _member.
      */
     private org.exolab.castor.builder.binding.FieldType _member;
 
     /**
-     * Field _enumDef
+     * Field _enumDef.
      */
     private org.exolab.castor.builder.binding.EnumBindingType _enumDef;
 
@@ -102,9 +102,7 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.FieldType getMember() 
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
@@ -195,9 +193,7 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     } //-- void setMember(org.exolab.castor.builder.binding.FieldType) 
 
     /**
-     * Method unmarshalComponentBindingTypeChoice
-     * 
-     * 
+     * Method unmarshalComponentBindingTypeChoice.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is

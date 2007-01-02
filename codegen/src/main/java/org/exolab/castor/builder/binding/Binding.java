@@ -33,52 +33,52 @@ public class Binding implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _defaultBindingType
+     * Field _defaultBindingType.
      */
     private org.exolab.castor.builder.binding.types.BindingType _defaultBindingType;
 
     /**
-     * Field _includeList
+     * Field _includeList.
      */
     private java.util.List _includeList;
 
     /**
-     * Field _packageList
+     * Field _packageList.
      */
     private java.util.List _packageList;
 
     /**
-     * Field _namingXML
+     * Field _namingXML.
      */
     private org.exolab.castor.builder.binding.NamingXMLType _namingXML;
 
     /**
-     * Field _elementBindingList
+     * Field _elementBindingList.
      */
     private java.util.List _elementBindingList;
 
     /**
-     * Field _attributeBindingList
+     * Field _attributeBindingList.
      */
     private java.util.List _attributeBindingList;
 
     /**
-     * Field _complexTypeBindingList
+     * Field _complexTypeBindingList.
      */
     private java.util.List _complexTypeBindingList;
 
     /**
-     * Field _groupBindingList
+     * Field _groupBindingList.
      */
     private java.util.List _groupBindingList;
 
     /**
-     * Field _enumBindingList
+     * Field _enumBindingList.
      */
     private java.util.List _enumBindingList;
 
     /**
-     * Field _simpleTypeBindingList
+     * Field _simpleTypeBindingList.
      */
     private java.util.List _simpleTypeBindingList;
 
@@ -322,9 +322,7 @@ public class Binding implements java.io.Serializable {
     } //-- void addSimpleTypeBinding(int, org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method enumerateAttributeBinding
-     * 
-     * 
+     * Method enumerateAttributeBinding.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -335,9 +333,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateAttributeBinding() 
 
     /**
-     * Method enumerateComplexTypeBinding
-     * 
-     * 
+     * Method enumerateComplexTypeBinding.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -348,9 +344,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateComplexTypeBinding() 
 
     /**
-     * Method enumerateElementBinding
-     * 
-     * 
+     * Method enumerateElementBinding.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -361,9 +355,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateElementBinding() 
 
     /**
-     * Method enumerateEnumBinding
-     * 
-     * 
+     * Method enumerateEnumBinding.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -374,9 +366,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateEnumBinding() 
 
     /**
-     * Method enumerateGroupBinding
-     * 
-     * 
+     * Method enumerateGroupBinding.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -387,9 +377,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateGroupBinding() 
 
     /**
-     * Method enumerateInclude
-     * 
-     * 
+     * Method enumerateInclude.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -400,9 +388,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateInclude() 
 
     /**
-     * Method enumeratePackage
-     * 
-     * 
+     * Method enumeratePackage.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -413,9 +399,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumeratePackage() 
 
     /**
-     * Method enumerateSimpleTypeBinding
-     * 
-     * 
+     * Method enumerateSimpleTypeBinding.
      * 
      * @return an Enumeration over all possible elements of this
      * collection
@@ -426,9 +410,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Enumeration enumerateSimpleTypeBinding() 
 
     /**
-     * Method getAttributeBinding
-     * 
-     * 
+     * Method getAttributeBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -449,9 +431,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType getAttributeBinding(int) 
 
     /**
-     * Method getAttributeBinding
-     * 
-     * 
+     * Method getAttributeBinding.
      * 
      * @return this collection as an Array
      */
@@ -468,9 +448,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getAttributeBinding() 
 
     /**
-     * Method getAttributeBindingCount
-     * 
-     * 
+     * Method getAttributeBindingCount.
      * 
      * @return the size of this collection
      */
@@ -480,9 +458,7 @@ public class Binding implements java.io.Serializable {
     } //-- int getAttributeBindingCount() 
 
     /**
-     * Method getComplexTypeBinding
-     * 
-     * 
+     * Method getComplexTypeBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -503,9 +479,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType getComplexTypeBinding(int) 
 
     /**
-     * Method getComplexTypeBinding
-     * 
-     * 
+     * Method getComplexTypeBinding.
      * 
      * @return this collection as an Array
      */
@@ -522,9 +496,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getComplexTypeBinding() 
 
     /**
-     * Method getComplexTypeBindingCount
-     * 
-     * 
+     * Method getComplexTypeBindingCount.
      * 
      * @return the size of this collection
      */
@@ -544,9 +516,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.types.BindingType getDefaultBindingType() 
 
     /**
-     * Method getElementBinding
-     * 
-     * 
+     * Method getElementBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -567,9 +537,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType getElementBinding(int) 
 
     /**
-     * Method getElementBinding
-     * 
-     * 
+     * Method getElementBinding.
      * 
      * @return this collection as an Array
      */
@@ -586,9 +554,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getElementBinding() 
 
     /**
-     * Method getElementBindingCount
-     * 
-     * 
+     * Method getElementBindingCount.
      * 
      * @return the size of this collection
      */
@@ -598,9 +564,7 @@ public class Binding implements java.io.Serializable {
     } //-- int getElementBindingCount() 
 
     /**
-     * Method getEnumBinding
-     * 
-     * 
+     * Method getEnumBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -621,9 +585,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType getEnumBinding(int) 
 
     /**
-     * Method getEnumBinding
-     * 
-     * 
+     * Method getEnumBinding.
      * 
      * @return this collection as an Array
      */
@@ -640,9 +602,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getEnumBinding() 
 
     /**
-     * Method getEnumBindingCount
-     * 
-     * 
+     * Method getEnumBindingCount.
      * 
      * @return the size of this collection
      */
@@ -652,9 +612,7 @@ public class Binding implements java.io.Serializable {
     } //-- int getEnumBindingCount() 
 
     /**
-     * Method getGroupBinding
-     * 
-     * 
+     * Method getGroupBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -675,9 +633,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType getGroupBinding(int) 
 
     /**
-     * Method getGroupBinding
-     * 
-     * 
+     * Method getGroupBinding.
      * 
      * @return this collection as an Array
      */
@@ -694,9 +650,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getGroupBinding() 
 
     /**
-     * Method getGroupBindingCount
-     * 
-     * 
+     * Method getGroupBindingCount.
      * 
      * @return the size of this collection
      */
@@ -706,9 +660,7 @@ public class Binding implements java.io.Serializable {
     } //-- int getGroupBindingCount() 
 
     /**
-     * Method getInclude
-     * 
-     * 
+     * Method getInclude.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -729,9 +681,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.IncludeType getInclude(int) 
 
     /**
-     * Method getInclude
-     * 
-     * 
+     * Method getInclude.
      * 
      * @return this collection as an Array
      */
@@ -748,9 +698,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.IncludeType[] getInclude() 
 
     /**
-     * Method getIncludeCount
-     * 
-     * 
+     * Method getIncludeCount.
      * 
      * @return the size of this collection
      */
@@ -770,9 +718,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.NamingXMLType getNamingXML() 
 
     /**
-     * Method getPackage
-     * 
-     * 
+     * Method getPackage.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -793,9 +739,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.PackageType getPackage(int) 
 
     /**
-     * Method getPackage
-     * 
-     * 
+     * Method getPackage.
      * 
      * @return this collection as an Array
      */
@@ -812,9 +756,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.PackageType[] getPackage() 
 
     /**
-     * Method getPackageCount
-     * 
-     * 
+     * Method getPackageCount.
      * 
      * @return the size of this collection
      */
@@ -824,9 +766,7 @@ public class Binding implements java.io.Serializable {
     } //-- int getPackageCount() 
 
     /**
-     * Method getSimpleTypeBinding
-     * 
-     * 
+     * Method getSimpleTypeBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
@@ -847,9 +787,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType getSimpleTypeBinding(int) 
 
     /**
-     * Method getSimpleTypeBinding
-     * 
-     * 
+     * Method getSimpleTypeBinding.
      * 
      * @return this collection as an Array
      */
@@ -866,9 +804,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType[] getSimpleTypeBinding() 
 
     /**
-     * Method getSimpleTypeBindingCount
-     * 
-     * 
+     * Method getSimpleTypeBindingCount.
      * 
      * @return the size of this collection
      */
@@ -878,9 +814,7 @@ public class Binding implements java.io.Serializable {
     } //-- int getSimpleTypeBindingCount() 
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
@@ -896,9 +830,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean isValid() 
 
     /**
-     * Method iterateAttributeBinding
-     * 
-     * 
+     * Method iterateAttributeBinding.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -909,9 +841,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iterateAttributeBinding() 
 
     /**
-     * Method iterateComplexTypeBinding
-     * 
-     * 
+     * Method iterateComplexTypeBinding.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -922,9 +852,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iterateComplexTypeBinding() 
 
     /**
-     * Method iterateElementBinding
-     * 
-     * 
+     * Method iterateElementBinding.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -935,9 +863,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iterateElementBinding() 
 
     /**
-     * Method iterateEnumBinding
-     * 
-     * 
+     * Method iterateEnumBinding.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -948,9 +874,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iterateEnumBinding() 
 
     /**
-     * Method iterateGroupBinding
-     * 
-     * 
+     * Method iterateGroupBinding.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -961,9 +885,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iterateGroupBinding() 
 
     /**
-     * Method iterateInclude
-     * 
-     * 
+     * Method iterateInclude.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -974,9 +896,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iterateInclude() 
 
     /**
-     * Method iteratePackage
-     * 
-     * 
+     * Method iteratePackage.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -987,9 +907,7 @@ public class Binding implements java.io.Serializable {
     } //-- java.util.Iterator iteratePackage() 
 
     /**
-     * Method iterateSimpleTypeBinding
-     * 
-     * 
+     * Method iterateSimpleTypeBinding.
      * 
      * @return an Iterator over all possible elements in this
      * collection
@@ -1090,9 +1008,7 @@ public class Binding implements java.io.Serializable {
     } //-- void removeAllSimpleTypeBinding() 
 
     /**
-     * Method removeAttributeBinding
-     * 
-     * 
+     * Method removeAttributeBinding.
      * 
      * @param vAttributeBinding
      * @return true if the object was removed from the collection.
@@ -1104,9 +1020,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeAttributeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method removeAttributeBindingAt
-     * 
-     * 
+     * Method removeAttributeBindingAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1118,9 +1032,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType removeAttributeBindingAt(int) 
 
     /**
-     * Method removeComplexTypeBinding
-     * 
-     * 
+     * Method removeComplexTypeBinding.
      * 
      * @param vComplexTypeBinding
      * @return true if the object was removed from the collection.
@@ -1132,9 +1044,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeComplexTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method removeComplexTypeBindingAt
-     * 
-     * 
+     * Method removeComplexTypeBindingAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1146,9 +1056,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType removeComplexTypeBindingAt(int) 
 
     /**
-     * Method removeElementBinding
-     * 
-     * 
+     * Method removeElementBinding.
      * 
      * @param vElementBinding
      * @return true if the object was removed from the collection.
@@ -1160,9 +1068,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeElementBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method removeElementBindingAt
-     * 
-     * 
+     * Method removeElementBindingAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1174,9 +1080,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType removeElementBindingAt(int) 
 
     /**
-     * Method removeEnumBinding
-     * 
-     * 
+     * Method removeEnumBinding.
      * 
      * @param vEnumBinding
      * @return true if the object was removed from the collection.
@@ -1188,9 +1092,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeEnumBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method removeEnumBindingAt
-     * 
-     * 
+     * Method removeEnumBindingAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1202,9 +1104,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType removeEnumBindingAt(int) 
 
     /**
-     * Method removeGroupBinding
-     * 
-     * 
+     * Method removeGroupBinding.
      * 
      * @param vGroupBinding
      * @return true if the object was removed from the collection.
@@ -1216,9 +1116,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeGroupBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method removeGroupBindingAt
-     * 
-     * 
+     * Method removeGroupBindingAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1230,9 +1128,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.ComponentBindingType removeGroupBindingAt(int) 
 
     /**
-     * Method removeInclude
-     * 
-     * 
+     * Method removeInclude.
      * 
      * @param vInclude
      * @return true if the object was removed from the collection.
@@ -1244,9 +1140,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeInclude(org.exolab.castor.builder.binding.IncludeType) 
 
     /**
-     * Method removeIncludeAt
-     * 
-     * 
+     * Method removeIncludeAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1258,9 +1152,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.IncludeType removeIncludeAt(int) 
 
     /**
-     * Method removePackage
-     * 
-     * 
+     * Method removePackage.
      * 
      * @param vPackage
      * @return true if the object was removed from the collection.
@@ -1272,9 +1164,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removePackage(org.exolab.castor.builder.binding.PackageType) 
 
     /**
-     * Method removePackageAt
-     * 
-     * 
+     * Method removePackageAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1286,9 +1176,7 @@ public class Binding implements java.io.Serializable {
     } //-- org.exolab.castor.builder.binding.PackageType removePackageAt(int) 
 
     /**
-     * Method removeSimpleTypeBinding
-     * 
-     * 
+     * Method removeSimpleTypeBinding.
      * 
      * @param vSimpleTypeBinding
      * @return true if the object was removed from the collection.
@@ -1300,9 +1188,7 @@ public class Binding implements java.io.Serializable {
     } //-- boolean removeSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method removeSimpleTypeBindingAt
-     * 
-     * 
+     * Method removeSimpleTypeBindingAt.
      * 
      * @param index
      * @return the element removed from the collection
@@ -1607,9 +1493,7 @@ public class Binding implements java.io.Serializable {
     } //-- void setSimpleTypeBinding(org.exolab.castor.builder.binding.ComponentBindingType) 
 
     /**
-     * Method unmarshalBinding
-     * 
-     * 
+     * Method unmarshalBinding.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is

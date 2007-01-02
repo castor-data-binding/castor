@@ -487,7 +487,8 @@ public class SourceFactory extends BaseFactory {
     }
 
     /**
-     * Generate methods for our class
+     * Generate methods for our class.
+     * 
      * @param component
      * @param sgState
      * @param state

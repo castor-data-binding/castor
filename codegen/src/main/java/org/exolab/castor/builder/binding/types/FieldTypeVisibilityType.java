@@ -26,47 +26,47 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * The public type
+     * The public type.
      */
     public static final int PUBLIC_TYPE = 0;
 
     /**
-     * The instance of the public type
+     * The instance of the public type.
      */
     public static final FieldTypeVisibilityType PUBLIC = new FieldTypeVisibilityType(PUBLIC_TYPE, "public");
 
     /**
-     * The protected type
+     * The protected type.
      */
     public static final int PROTECTED_TYPE = 1;
 
     /**
-     * The instance of the protected type
+     * The instance of the protected type.
      */
     public static final FieldTypeVisibilityType PROTECTED = new FieldTypeVisibilityType(PROTECTED_TYPE, "protected");
 
     /**
-     * The private type
+     * The private type.
      */
     public static final int PRIVATE_TYPE = 2;
 
     /**
-     * The instance of the private type
+     * The instance of the private type.
      */
     public static final FieldTypeVisibilityType PRIVATE = new FieldTypeVisibilityType(PRIVATE_TYPE, "private");
 
     /**
-     * Field _memberTable
+     * Field _memberTable.
      */
     private static java.util.Hashtable _memberTable = init();
 
     /**
-     * Field type
+     * Field type.
      */
     private int type = -1;
 
     /**
-     * Field stringValue
+     * Field stringValue.
      */
     private java.lang.String stringValue = null;
 
@@ -88,7 +88,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerate
+     * Method enumerate.
      * 
      * Returns an enumeration of all possible instances of
      * FieldTypeVisibilityType
@@ -102,7 +102,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     } //-- java.util.Enumeration enumerate() 
 
     /**
-     * Method getType
+     * Method getType.
      * 
      * Returns the type of this FieldTypeVisibilityType
      * 
@@ -114,9 +114,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     } //-- int getType() 
 
     /**
-     * Method init
-     * 
-     * 
+     * Method init.
      * 
      * @return the initialized Hashtable for the member table
      */
@@ -130,7 +128,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     } //-- java.util.Hashtable init() 
 
     /**
-     * Method readResolve
+     * Method readResolve.
      * 
      *  will be called during deserialization to replace the
      * deserialized object with the correct constant instance.
@@ -143,7 +141,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     } //-- java.lang.Object readResolve() 
 
     /**
-     * Method toString
+     * Method toString.
      * 
      * Returns the String representation of this
      * FieldTypeVisibilityType

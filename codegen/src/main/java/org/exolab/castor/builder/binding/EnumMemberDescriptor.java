@@ -20,27 +20,27 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     //--------------------------/
 
     /**
-     * Field elementDefinition
+     * Field elementDefinition.
      */
     private boolean elementDefinition;
 
     /**
-     * Field nsPrefix
+     * Field nsPrefix.
      */
     private java.lang.String nsPrefix;
 
     /**
-     * Field nsURI
+     * Field nsURI.
      */
     private java.lang.String nsURI;
 
     /**
-     * Field xmlName
+     * Field xmlName.
      */
     private java.lang.String xmlName;
 
     /**
-     * Field identity
+     * Field identity.
      */
     private org.exolab.castor.xml.XMLFieldDescriptor identity;
 
@@ -153,9 +153,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     //-----------/
 
     /**
-     * Method getAccessMode
-     * 
-     * 
+     * Method getAccessMode.
      * 
      * @return the access mode specified for this class.
      */
@@ -165,9 +163,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
 
     /**
-     * Method getExtends
-     * 
-     * 
+     * Method getExtends.
      * 
      * @return the class descriptor of the class extended by this
      * class.
@@ -178,9 +174,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
 
     /**
-     * Method getIdentity
-     * 
-     * 
+     * Method getIdentity.
      * 
      * @return the identity field, null if this class has no
      * identity.
@@ -191,9 +185,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
-     * Method getJavaClass
-     * 
-     * 
+     * Method getJavaClass.
      * 
      * @return the Java class represented by this descriptor.
      */
@@ -203,9 +195,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- java.lang.Class getJavaClass() 
 
     /**
-     * Method getNameSpacePrefix
-     * 
-     * 
+     * Method getNameSpacePrefix.
      * 
      * @return the namespace prefix to use when marshalling as XML.
      */
@@ -215,9 +205,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
-     * Method getNameSpaceURI
-     * 
-     * 
+     * Method getNameSpaceURI.
      * 
      * @return the namespace URI used when marshalling and
      * unmarshalling as XML.
@@ -228,9 +216,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
-     * Method getValidator
-     * 
-     * 
+     * Method getValidator.
      * 
      * @return a specific validator for the class described by this
      * ClassDescriptor.
@@ -241,9 +227,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- org.exolab.castor.xml.TypeValidator getValidator() 
 
     /**
-     * Method getXMLName
-     * 
-     * 
+     * Method getXMLName.
      * 
      * @return the XML Name for the Class being described.
      */
@@ -253,9 +237,7 @@ public class EnumMemberDescriptor extends org.exolab.castor.xml.util.XMLClassDes
     } //-- java.lang.String getXMLName() 
 
     /**
-     * Method isElementDefinition
-     * 
-     * 
+     * Method isElementDefinition.
      * 
      * @return true if XML schema definition of this Class is that
      * of a global

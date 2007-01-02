@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1794 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Cleaned up 316 'Style Javadoc' warnings at builder package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1794
+       (Ralf - 20070102)
+
 All:   Resolved issue CASTOR-1800 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Tune checkstyle rules
        Details: http://jira.codehaus.org/browse/CASTOR-1800
