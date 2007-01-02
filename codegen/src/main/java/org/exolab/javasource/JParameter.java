@@ -49,75 +49,86 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class JParameter extends JAnnotatedElementHelper {
+    //--------------------------------------------------------------------------
+
     /** The type associated with this JParameter. */
-    private JType _type = null;
+    private JType _type;
+    
     /** The name of this JParameter. */
-    private String _name = null;
+    private String _name;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JParameter with the given type, and name.
      *
-     * @param type the JType to associate with this JParameter
-     * @param name name of the JParameter
+     * @param type The JType to associate with this JParameter.
+     * @param name Name of the JParameter.
      */
     public JParameter(final JType type, final String name) {
         super();
+        
         setType(type);
         setName(name);
-    } //-- JParameter
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the name of the parameter.
      *
-     * @return the name of the parameter.
+     * @return The name of the parameter.
      */
     public String getName() {
-        return this._name;
-    } //-- getName
+        return _name;
+    }
 
     /**
      * Returns the parameter type.
      *
-     * @return the parameter type.
+     * @return The parameter type.
      */
     public JType getType() {
-        return this._type;
-    } //-- getType
+        return _type;
+    }
 
     /**
      * Sets the name of this parameter.
      *
-     * @param name the new name of the parameter
+     * @param name The new name of the parameter.
      */
     public void setName(final String name) {
-        this._name = name;
-    } //-- setName
+        _name = name;
+    }
 
     /**
      * Sets the type of this parameter.
      *
-     * @param type the new JType of this parameter
+     * @param type The new JType of this parameter.
      */
     public void setType(final JType type) {
         if (type == null) {
             String err = "A Parameter cannot have a null type.";
             throw new IllegalArgumentException(err);
         }
-        this._type = type;
-    } //-- setType
+        _type = type;
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
+     * {@inheritDoc}
+     * <br/>
      * Returns the String representation of this JParameter. The String returned
      * will consist of the String representation of the parameter type followed
      * by the name of the parameter.
-     *
-     * @return the String representation of this JParameter
      */
     public String toString() {
         StringBuffer sb = new StringBuffer(this._type.toString());
         sb.append(' ');
         sb.append(this._name);
         return sb.toString();
-    } //-- toString
+    }
 
-} //-- JParamater
+    //--------------------------------------------------------------------------
+}

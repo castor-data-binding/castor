@@ -51,127 +51,140 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JField extends JAnnotatedElementHelper implements JMember {
+    //--------------------------------------------------------------------------
 
     /** The set of modifiers for this JField. */
     private JModifiers _modifiers = null;
+    
     /** Type of this field. */
     private final JType _type;
+    
     /** Name of the field. */
     private String _name = null;
+    
     /** JavaDoc for this field. */
     private JDocComment _comment = null;
+    
     /** Initialization string for this field. */
     private String _initString = null;
+    
     /** Indicates whether this field is of type date/time. */
     private boolean _isDateTime = false;
+    
     /** The Class in this JField has been declared. */
     private JClass _declaringClass = null;
+    
 
+    //--------------------------------------------------------------------------
     /**
      * Creates a new JField.
-     * @param type JType of this new field
-     * @param name name of this new field
+     * 
+     * @param type JType of this new field.
+     * @param name Name of this new field.
      */
     public JField(final JType type, final String name) {
         setName(name);
-        this._type = type;
-        this._modifiers = new JModifiers();
-        this._modifiers.makePrivate();
+        
+        _type = type;
+        _modifiers = new JModifiers();
+        _modifiers.makePrivate();
         _comment = new JDocComment();
         _comment.appendComment("Field " + name);
-    } //-- JField
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the JavaDoc comment describing this member.
      *
-     * @return the JavaDoc comment describing this member, or null if no comment
+     * @return The JavaDoc comment describing this member, or null if no comment
      *         has been set.
      */
     public JDocComment getComment() {
-        return this._comment;
-    } //-- getComment
+        return _comment;
+    }
 
     /**
      * Returns the class in which this JField has been declared.
      *
-     * @return the class in which this JField has been declared.
+     * @return The class in which this JField has been declared.
      */
     public JClass getDeclaringClass() {
-        return this._declaringClass;
-    } //-- getDeclaringClass
+        return _declaringClass;
+    }
 
     /**
      * Returns the initialization String for this JField.
      *
-     * @return the initialization String for this JField, or null if no
+     * @return The initialization String for this JField, or null if no
      *         initialization String was specified.
      */
     public String getInitString() {
         return _initString;
-    } //-- getInitString
+    }
 
     /**
      * Returns the modifiers for this JField.
      *
-     * @return the modifiers for this JField.
+     * @return The modifiers for this JField.
      */
     public JModifiers getModifiers() {
-        return this._modifiers;
-    } //-- getModifiers
+        return _modifiers;
+    }
 
     /**
      * Returns the name of this JField.
      *
-     * @return the name of this JField.
+     * @return The name of this JField.
      */
     public String getName() {
-        return this._name;
-    } //-- getName
+        return _name;
+    }
 
     /**
      * Returns the JType representing the type of this JField.
      *
-     * @return the JType representing the type of this JField.
+     * @return The JType representing the type of this JField.
      */
     public JType getType() {
-        return this._type;
-    } //-- getType
+        return _type;
+    }
 
     /**
      * Sets the JavaDoc comment describing this JField.
      *
-     * @param comment the JavaDoc comment for this JField
+     * @param comment The JavaDoc comment for this JField.
      */
     public void setComment(final JDocComment comment) {
-        this._comment = comment;
-    } //-- setComment
+        _comment = comment;
+    }
 
     /**
      * Sets the JavaDoc comment describing this JField.
      *
-     * @param comment the JavaDoc comment for this JField
+     * @param comment The JavaDoc comment for this JField.
      */
     public void setComment(final String comment) {
-        if (this._comment == null) {
-            this._comment = new JDocComment();
+        if (_comment == null) {
+            _comment = new JDocComment();
         }
-        this._comment.setComment(comment);
-    } //-- setComment
+        _comment.setComment(comment);
+    }
 
     /**
      * Sets the initialization string for this JField. This allows some
      * flexibility in declaring default values.
      *
-     * @param init the initialization string for this member
+     * @param init The initialization string for this member.
      */
     public void setInitString(final String init) {
-        this._initString = init;
-    } //-- setInitString
+        _initString = init;
+    }
 
     /**
      * Sets the name of this JField.
      *
-     * @param name the name of this JField
+     * @param name The name of this JField.
      */
     public void setName(final String name) {
         if (!JNaming.isValidJavaIdentifier(name)) {
@@ -184,29 +197,48 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
             }
             throw new IllegalArgumentException(err);
         }
-        this._name = name;
-    } //-- setName
+        _name = name;
+    }
 
     /**
      * Sets the access modifiers on this JField.
      *
-     * @param modifiers the access modifiers to be used for this JField
+     * @param modifiers The access modifiers to be used for this JField.
      */
     public void setModifiers(final JModifiers modifiers) {
-        this._modifiers = modifiers;
-    } //-- setModifiers
+        _modifiers = modifiers;
+    }
 
     /**
      * Sets the class that declares this JField.
      *
-     * @param declaringClass the class in which this Jfield is declared
+     * @param declaringClass The class in which this Jfield is declared.
      */
     protected void setDeclaringClass(final JClass declaringClass) {
-        this._declaringClass = declaringClass;
-    } //-- setDeclaringClass
+        _declaringClass = declaringClass;
+    }
 
     /**
-     * @see java.lang.Object#toString()
+     * Indicates whether this JField instance represents a field of type date/time.
+     * 
+     * @return True if this field is of type date/time.
+     */
+    public boolean isDateTime() {
+        return _isDateTime;
+    }
+
+    /**
+     * To indicate whether this JField instance represents a field of type date/time.
+     * 
+     * @param isDateTime True if this field is of type date/time.
+     */
+    public void setDateTime(final boolean isDateTime) {
+        _isDateTime = isDateTime;
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
      * {@inheritDoc}
      */
     public String toString() {
@@ -217,22 +249,7 @@ public final class JField extends JAnnotatedElementHelper implements JMember {
         sb.append(' ');
         sb.append(_name);
         return sb.toString();
-    } //-- toString
-
-    /**
-     * Indicates whether this JField instance represents a field of type date/time.
-     * @return True if this field is of type date/time.
-     */
-    public boolean isDateTime() {
-        return _isDateTime;
     }
 
-    /**
-     * To indicate whether this JField instance represents a field of type date/time.
-     * @param isDateTime True if this field is of type date/time.
-     */
-    public void setDateTime(final boolean isDateTime) {
-        _isDateTime = isDateTime;
-    }
-
-} //-- JField
+    //--------------------------------------------------------------------------
+}

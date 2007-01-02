@@ -33,13 +33,14 @@ import java.util.HashMap;
  * @since 1.0.4
  */
 public final class Java5HacksHelper {
+    //--------------------------------------------------------------------------
 
     /**
      * As a static utility class, we want a private constructor.
      */
-    private Java5HacksHelper() {
-        // Nothing to do
-    }
+    private Java5HacksHelper() { }
+
+    //--------------------------------------------------------------------------
 
     private static class MethodSpec {
         private String _methodName;
@@ -100,8 +101,7 @@ public final class Java5HacksHelper {
      * Given the method signature, add the Override annotation if this class is
      * one that we know requires this annotation.
      *
-     * @param jms
-     *            the method signature to inspect
+     * @param jms The method signature to inspect.
      */
     public static void addOverrideAnnotations(final JMethodSignature jms) {
         String name = jms.getName();
@@ -155,4 +155,5 @@ public final class Java5HacksHelper {
         }
     }
 
+    //--------------------------------------------------------------------------
 }

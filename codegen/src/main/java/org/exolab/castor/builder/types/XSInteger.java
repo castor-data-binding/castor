@@ -89,7 +89,12 @@ public class XSInteger extends XSPatternBase {
     public XSInteger(final boolean asWrapper) {
         super(XSType.INTEGER_TYPE);
          _asWrapper = asWrapper;
-         _jType = (_asWrapper) ? new JClass("java.lang.Long") : JType.LONG;
+         
+         if (_asWrapper) {
+             _jType = new JClass("java.lang.Long");
+         } else {
+             _jType = JType.LONG;
+         }
     } //-- XSInteger
 
     /**
@@ -102,7 +107,12 @@ public class XSInteger extends XSPatternBase {
     protected XSInteger(final boolean asWrapper, final short type) {
         super(type);
          _asWrapper = asWrapper;
-         _jType = (_asWrapper) ? new JClass("java.lang.Long") : JType.LONG;
+
+         if (_asWrapper) {
+             _jType = new JClass("java.lang.Long");
+         } else {
+             _jType = JType.LONG;
+         }
     } //-- XSInteger
 
     /**

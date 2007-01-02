@@ -42,8 +42,6 @@
  */
 package org.exolab.javasource;
 
-import java.io.PrintWriter;
-
 /**
  * Holds information about a given annotation type element.
  *
@@ -51,39 +49,46 @@ import java.io.PrintWriter;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JAnnotationTypeElement implements JMember {
+    //--------------------------------------------------------------------------
+
     private String      _name;
     private JDocComment _comment;
     private JType       _type;
     private JModifiers  _modifiers;
     private String      _default;
 
+    //--------------------------------------------------------------------------
+
     /**
      * Constructs a JAnnotationTypeElement with a given name and type.
      *
-     * @param name name of this new JAnnotatedTypeElement
-     * @param type type of this new JAnnotatedTypeElement
+     * @param name Name of this new JAnnotatedTypeElement.
+     * @param type Type of this new JAnnotatedTypeElement.
      */
     public JAnnotationTypeElement(final String name, final JType type) {
         setName(name);
+        
         _type = type;
         _modifiers = new JModifiers();
         _comment = new JDocComment();
         _comment.appendComment("Element " + name);
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * Returns the modifiers for this JAnnotationTypeElement.
      *
-     * @return the modifiers for this JAnnotationTypeElement.
+     * @return The modifiers for this JAnnotationTypeElement.
      */
     public JModifiers getModifiers() {
         return _modifiers;
-    } //-- getModifiers
+    }
 
     /**
      * Sets the name of this JAnnotationTypeElement.
      *
-     * @param name the name of this JAnnotationTypeElement.
+     * @param name The name of this JAnnotationTypeElement.
      */
     public void setName(final String name) {
         if (!JNaming.isValidJavaIdentifier(name)) {
@@ -97,75 +102,77 @@ public final class JAnnotationTypeElement implements JMember {
             throw new IllegalArgumentException(err);
         }
         _name = name;
-    } //-- setName
+    }
 
     /**
      * Returns the name of this JAnnotationTypeElement.
      *
-     * @return the name of this JAnnotationTypeElement.
+     * @return The name of this JAnnotationTypeElement.
      */
     public String getName() {
         return _name;
-    } //-- getName
+    }
 
     /**
      * Returns the JType representing the type of this JAnnotationTypeElement.
      *
-     * @return the JType representing the type of this JAnnotationTypeElement.
+     * @return The JType representing the type of this JAnnotationTypeElement.
      */
     public JType getType() {
         return _type;
-    } //-- getType
+    }
 
     /**
      * Returns the initialization string for this JAnnotationTypeElement.
      *
-     * @return the initialization string for this JAnnotationTypeElement.
+     * @return The initialization string for this JAnnotationTypeElement.
      */
     public String getDefaultString() {
         return _default;
-    } //-- getDefaultString
+    }
 
     /**
      * Sets the initialization string for this JAnnotationTypeElement. This
      * method allows some flexibility in declaring default values.
      *
-     * @param defaultString the default string for this member
+     * @param defaultString The default string for this member.
      */
     public void setDefaultString(final String defaultString) {
         _default = defaultString;
-    } //-- setDefaultString
+    }
 
     /**
      * Sets the JavaDoc comment describing this member.
      *
-     * @param comment the JDocComment for this member.
+     * @param comment The JDocComment for this member.
      */
     public void setComment(final JDocComment comment) {
-        this._comment = comment;
-    } //-- setComment
+        _comment = comment;
+    }
 
     /**
      * Sets the JavaDoc comment describing this member.
      *
-     * @param comment the JDocComment for this member.
+     * @param comment The JDocComment for this member.
      */
     public void setComment(final String comment) {
-        if (this._comment == null) {
-            this._comment = new JDocComment();
+        if (_comment == null) {
+            _comment = new JDocComment();
         }
-        this._comment.setComment(comment);
-    } //-- setComment
+        _comment.setComment(comment);
+    }
 
     /**
      * Returns the JavaDoc comment describing this member.
      *
-     * @return the comment describing this member, or null if no comment has
+     * @return The comment describing this member, or null if no comment has
      *         been set.
      */
     public JDocComment getComment() {
-        return this._comment;
-    } //-- getComment
+        return _comment;
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Outputs the annotation type element to the provided JSourceWriter.
@@ -185,28 +192,5 @@ public final class JAnnotationTypeElement implements JMember {
         jsw.write(";");
     }
 
-    /**
-     * Test.
-     * @param args command-line arguments
-     */
-    public static void main(final String[] args) {
-        JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-
-        // Simple
-        JAnnotationTypeElement annotationTypeElement1 = new JAnnotationTypeElement(
-                "synopsis", new JType("String"));
-        annotationTypeElement1.print(jsw);
-
-        jsw.writeln();
-        jsw.writeln();
-
-        // Simple with default
-        JAnnotationTypeElement annotationTypeElement2 = new JAnnotationTypeElement(
-                "synopsis", new JType("String"));
-        annotationTypeElement2.setDefaultString("\"Good book\"");
-        annotationTypeElement2.print(jsw);
-
-        jsw.flush();
-    }
-
+    //--------------------------------------------------------------------------
 }

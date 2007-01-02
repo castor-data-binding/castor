@@ -56,27 +56,96 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public final class JInterface extends JStructure {
+    //--------------------------------------------------------------------------
+
     /** Default size of the map for fields. */
     private static final int DEFAULT_FIELD_MAP_SIZE = 3;
     
+    //--------------------------------------------------------------------------
+
     /** The fields for this JInterface. */
-    private JNamedMap _fields = null;
+    private JNamedMap _fields;
     
     /** The list of methods of this JInterface. */
-    private Vector _methods   = null;
+    private Vector _methods;
+
+    //--------------------------------------------------------------------------
 
     /**
-     * Creates a new JInterface with the given name..
+     * Creates a new JInterface with the given name.
      *
-     * @param name the name of the JInterface.
+     * @param name The name of the JInterface.
      */
     public JInterface(final String name) {
         super(name);
-        _methods          = new Vector();
+        
+        _fields = null;
+        _methods = new Vector();
 
         //-- initialize default Java doc
         getJDocComment().appendComment("Interface " + getLocalName() + ".");
-    } //-- JInterface
+    }
+
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addImport(final String className) {
+        if (className == null || className.length() == 0) { return; }
+        addImportInternal(className);
+    }
+
+    /**
+     * Adds the given JMember to this Jinterface.
+     * <p>
+     * This method is implemented by subclasses and should only accept the
+     * proper types for the subclass otherwise an IllegalArgumentException will
+     * be thrown.
+     *
+     * @param jMember The JMember to add to this JStructure.
+     */
+    public void addMember(final JMember jMember) {
+        if (jMember == null) {
+            throw new IllegalArgumentException("argument 'jMember' may not be null.");
+        }
+        if (jMember instanceof JField) {
+            addField((JField) jMember);
+        } else {
+            throw new IllegalArgumentException("invalid member for JInterface: "
+                    + jMember.toString());
+        }
+    }
+
+    /**
+     * Returns an array of all the JFields of this Jinterface.
+     *
+     * @return An array of all the JFields of this Jinterface.
+     */
+    public JField[] getFields() {
+        if (_fields == null) {
+            return new JField[0];
+        }
+        int size = _fields.size();
+        JField[] farray = new JField[size];
+        for (int i = 0; i < size; i++) {
+            farray[i] = (JField) _fields.get(i);
+        }
+        return farray;
+    }
+
+    /**
+     * Returns the field with the given name, or null if no field was found with
+     * the given name.
+     *
+     * @param name The name of the field to return.
+     * @return The field with the given name, or null if no field was found with
+     *         the given name.
+     */
+    public JField getField(final String name) {
+        if (_fields == null) { return null; }
+        return (JField) _fields.get(name);
+    }
 
     /**
      * Adds the given JField to this Jinterface.
@@ -85,7 +154,7 @@ public final class JInterface extends JStructure {
      * proper fields for the subclass otherwise an IllegalArgumentException will
      * be thrown. For example a JInterface will only accept static fields.
      *
-     * @param jField the JField to add
+     * @param jField The JField to add.
      */
     public void addField(final JField jField) {
         if (jField == null) {
@@ -125,38 +194,55 @@ public final class JInterface extends JStructure {
         while (type instanceof JArrayType) {
             type = ((JArrayType) type).getComponentType();
         }
-        if (!type.isPrimitive()) { addImport(((JClass) type).getName()); }
+        if (!(type instanceof JPrimitiveType)) {
+            addImport(((JClass) type).getName());
+        }
 
         // ensure annotation classes are imported
         addImport(jField.getAnnotations());
     }
 
     /**
-     * Adds the given JMember to this Jinterface.
-     * <p>
-     * This method is implemented by subclasses and should only accept the
-     * proper types for the subclass otherwise an IllegalArgumentException will
-     * be thrown.
+     * Returns an array of all the JMethodSignatures of this JInterface.
      *
-     * @param jMember the JMember to add to this JStructure.
+     * @return An array of all the JMethodSignatures of this JInterface.
      */
-    public void addMember(final JMember jMember) {
-        if (jMember == null) {
-            throw new IllegalArgumentException("argument 'jMember' may not be null.");
-        }
-        if (jMember instanceof JField) {
-            addField((JField) jMember);
-        } else {
-            throw new IllegalArgumentException("invalid member for JInterface: "
-                    + jMember.toString());
-        }
+    public JMethodSignature[] getMethods() {
+        JMethodSignature[] marray = new JMethodSignature[_methods.size()];
+        _methods.copyInto(marray);
+        return marray;
+    }
 
-    } //-- addMember
+    /**
+     * Returns the JMethodSignature with the given name and occuring at or
+     * after the given starting index.
+     *
+     * @param name The name of the JMethodSignature to return.
+     * @param startIndex The starting index to begin searching from.
+     * @return The JMethodSignature, or null if not found.
+     */
+    public JMethodSignature getMethod(final String name, final int startIndex) {
+        for (int i = startIndex; i < _methods.size(); i++) {
+            JMethodSignature jMethod = (JMethodSignature) _methods.elementAt(i);
+            if (jMethod.getName().equals(name)) { return jMethod; }
+        }
+        return null;
+    }
+
+    /**
+     * Returns the JMethodSignature at the given index.
+     *
+     * @param index The index of the JMethodSignature to return.
+     * @return The JMethodSignature at the given index.
+     */
+    public JMethodSignature getMethod(final int index) {
+        return (JMethodSignature) _methods.elementAt(index);
+    }
 
     /**
      * Adds the given JMethodSignature to this Jinterface.
      *
-     * @param jMethodSig the JMethodSignature to add.
+     * @param jMethodSig The JMethodSignature to add.
      */
     public void addMethod(final JMethodSignature jMethodSig) {
         if (jMethodSig == null) {
@@ -202,7 +288,7 @@ public final class JInterface extends JStructure {
             while (jType instanceof JArrayType) {
                 jType = ((JArrayType) jType).getComponentType();
             }
-            if (!jType.isPrimitive()) {
+            if (!(jType instanceof JPrimitiveType)) {
                 addImport(jType.getName());
             }
         }
@@ -217,79 +303,12 @@ public final class JInterface extends JStructure {
         for (int i = 0; i < params.length; i++) {
             addImport(params[i].getAnnotations());
         }
-    } //-- addMethod
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
-     * Returns the field with the given name, or null if no field was found with
-     * the given name.
-     *
-     * @param name the name of the field to return.
-     * @return the field with the given name, or null if no field was found with
-     *         the given name.
-     */
-    public JField getField(final String name) {
-        if (_fields == null) { return null; }
-        return (JField) _fields.get(name);
-    } //-- getField
-
-    /**
-     * Returns an array of all the JFields of this Jinterface.
-     *
-     * @return an array of all the JFields of this Jinterface.
-     */
-    public JField[] getFields() {
-        if (_fields == null) {
-            return new JField[0];
-        }
-        int size = _fields.size();
-        JField[] farray = new JField[size];
-        for (int i = 0; i < size; i++) {
-            farray[i] = (JField) _fields.get(i);
-        }
-        return farray;
-    } //-- getFields
-
-    /**
-     * Returns an array of all the JMethodSignatures of this JInterface.
-     *
-     * @return an array of all the JMethodSignatures of this JInterface.
-     */
-    public JMethodSignature[] getMethods() {
-        JMethodSignature[] marray = new JMethodSignature[_methods.size()];
-        _methods.copyInto(marray);
-        return marray;
-    } //-- getMethods
-
-    /**
-     * Returns the JMethodSignature with the given name and occuring at or
-     * after the given starting index.
-     *
-     * @param name the name of the JMethodSignature to return
-     * @param startIndex the starting index to begin searching from
-     * @return the JMethodSignature, or null if not found.
-     */
-    public JMethodSignature getMethod(final String name, final int startIndex) {
-        for (int i = startIndex; i < _methods.size(); i++) {
-            JMethodSignature jMethod = (JMethodSignature) _methods.elementAt(i);
-            if (jMethod.getName().equals(name)) { return jMethod; }
-        }
-        return null;
-    } //-- getMethod
-
-    /**
-     * Returns the JMethodSignature at the given index.
-     *
-     * @param index the index of the JMethodSignature to return
-     * @return the JMethodSignature at the given index.
-     */
-    public JMethodSignature getMethod(final int index) {
-        return (JMethodSignature) _methods.elementAt(index);
-    } //-- getMethod
-
-    /**
-     * Prints the source code for this JInterface to the given JSourceWriter.
-     *
-     * @param jsw the JSourceWriter to print to. Must not be null.
+     * {@inheritDoc}
      */
     public void print(final JSourceWriter jsw) {
         print(jsw, false);
@@ -298,8 +317,8 @@ public final class JInterface extends JStructure {
     /**
      * Prints the source code for this JInterface to the given JSourceWriter.
      *
-     * @param jsw the JSourceWriter to print to. Must not be null.
-     * @param classOnly if true, generates the class body without the class
+     * @param jsw The JSourceWriter to print to. Must not be null.
+     * @param classOnly If true, generates the class body without the class
      *            header, package declaration, or imports.
      */
     public void print(final JSourceWriter jsw, final boolean classOnly) {
@@ -315,20 +334,9 @@ public final class JInterface extends JStructure {
             printImportDeclarations(jsw);
         }
 
-        //------------/
-        //- Java Doc -/
-        //------------/
-
         getJDocComment().print(jsw);
 
-        //---------------/
-        //- Annotations -/
-        //---------------/
-
         getAnnotatedElementHelper().printAnnotations(jsw);
-
-        //-- print class information
-        //-- we need to add some JavaDoc API adding comments
 
         buffer.setLength(0);
 
@@ -441,33 +449,7 @@ public final class JInterface extends JStructure {
         jsw.writeln('}');
         jsw.flush();
         jsw.close();
-    } //-- printSource
+    }
 
-    /* *
-     * Test drive method...to be removed or commented out
-    **
-    public static void main(String[] args) {
-        JInterface jInterface = new JInterface("Test");
-
-        //-- add an import
-        jInterface.addImport("java.util.Vector");
-        JClass jString = new JClass("String");
-
-        //-- add an interface
-        jInterface.addInterface("java.io.Serializable");
-
-        //-- add a static field
-        JField jField = new JField(new JClass("java.lang.String"), "TEST");
-        jField.setInitString("\"Test\"");
-        jField.getModifiers().setStatic(true);
-        jField.getModifiers().makePublic();
-        jInterface.addField(jField);
-
-        //-- add a method signature
-        JMethodSignature jMethodSig = new JMethodSignature("getName", jString);
-        jInterface.addMethod(jMethodSig);
-        jInterface.print();
-    } //-- main
-    /* */
-
-} //-- JInterface
+    //--------------------------------------------------------------------------
+}

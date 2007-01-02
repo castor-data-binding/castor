@@ -51,16 +51,21 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2005-02-26 17:30:28 -0700 (Sat, 26 Feb 2005) $
  */
 public interface JMember {
+    //--------------------------------------------------------------------------
+
     /**
      * Returns the modifiers for this JMember.
-     * @return the modifiers for this JMember.
+     * 
+     * @return The modifiers for this JMember.
      */
     JModifiers getModifiers();
 
     /**
      * Returns the name of this JMember.
-     * @return the name of this JMember.
+     * 
+     * @return The name of this JMember.
      */
     String getName();
 
-} //-- JMember
+    //--------------------------------------------------------------------------
+}

@@ -89,7 +89,12 @@ public class XSShort extends XSPatternBase {
     public XSShort(final boolean asWrapper) {
         super(XSType.SHORT_TYPE);
         _asWrapper = asWrapper;
-        _jType = (asWrapper) ? new JClass("java.lang.Short") : JType.SHORT;
+        
+        if (asWrapper) {
+            _jType = new JClass("java.lang.Short");
+        } else {
+            _jType = JType.SHORT;
+        }
     } //-- XSShort
 
     /**

@@ -42,7 +42,6 @@
  */
 package org.exolab.javasource;
 
-import java.io.PrintWriter;
 import java.util.Vector;
 
 /**
@@ -52,24 +51,27 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JEnumConstant extends JAnnotatedElementHelper implements JMember {
+    //--------------------------------------------------------------------------
 
     /**  Name of this JEnumConstant. */
     private String _name;
-    /**
-     * Array of arguments provided to this JEnumConstant at initialization. May
-     * be null.
-     */
+    
+    /** Array of arguments provided to this JEnumConstant at initialization. May be null. */
     private String[] _arguments;
+    
     /** JavaDoc comment for this JEnumConstant. */
     private JDocComment _comment;
+    
     /** A list of methods attached to this JEnumConstant. */
     private Vector _methods = null;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Constructs a JEnumConstant with a given name and no initialization
      * arguements.
      *
-     * @param name name of the constant
+     * @param name Name of the constant.
      */
     public JEnumConstant(final String name) {
         this(name, null);
@@ -78,48 +80,51 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     /**
      * Constructs a JEnumConstant with a given name and initialization arguments.
      *
-     * @param name name of the constant
-     * @param arguments the initialization arguments provided
+     * @param name Name of the constant.
+     * @param arguments The initialization arguments provided.
      */
     public JEnumConstant(final String name, final String[] arguments) {
         setName(name);
+        
         _methods = new Vector();
         _comment = new JDocComment();
         _comment.appendComment("Constant " + name);
         _arguments = arguments;
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * Returns the modifiers for this JEnumConstant.
      *
-     * @return the modifiers for this JEnumConstant.
+     * @return The modifiers for this JEnumConstant.
      */
     public JModifiers getModifiers() {
         throw new RuntimeException("Not implemented.");
-    } //-- getModifiers
+    }
 
     /**
      * Sets the arguments specified by this constant.
      *
-     * @param args initialization arguments for this constant
+     * @param args Initialization arguments for this constant.
      */
     public void setArguments(final String[] args) {
         _arguments = args;
-    } //-- setArguments
+    }
 
     /**
      * Returns the arguments used by this constant.
      *
-     * @return the arguments used by this constant.
+     * @return The arguments used by this constant.
      */
     public String[] getArguments() {
         return _arguments;
-    } // -- getArguments
+    }
 
     /**
      * Adds the given JMethod to this JEnumConstant.
      *
-     * @param jMethod the JMethod to add
+     * @param jMethod The JMethod to add.
      */
     public void addMethod(final JMethod jMethod) {
          addMethod(jMethod, true);
@@ -128,10 +133,10 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
     /**
      * Adds the given JMethod to this JEnumConstant.
      *
-     * @param jMethod the JMethod to add
-     * @param importReturnType true if we add the importReturnType to the class
-     *            import lists. It could be useful to set it to false when all
-     *            types are fully qualified.
+     * @param jMethod The JMethod to add.
+     * @param importReturnType True if we add the importReturnType to the class
+     *        import lists. It could be useful to set it to false when all
+     *        types are fully qualified.
      */
     public void addMethod(final JMethod jMethod, final boolean importReturnType) {
         if (jMethod == null) {
@@ -168,23 +173,23 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
         }
         //-- END SORT
         if (!added) { _methods.addElement(jMethod); }
-    } //-- addMethod
+    }
 
     /**
      * Adds the given array of JMethods to this JEnumConstant.
      *
-     * @param jMethods the array of JMethod to add
+     * @param jMethods The array of JMethod to add.
      */
     public void addMethods(final JMethod[] jMethods) {
         for (int i = 0; i < jMethods.length; i++) {
             addMethod(jMethods[i]);
         }
-    } //-- addMethods
+    }
 
     /**
      * Returns an array of all the JMethods of this JEnumConstant.
      *
-     * @return an array of all the JMethods of this JEnumConstant.
+     * @return An array of all the JMethods of this JEnumConstant.
      */
     public JMethod[] getMethods() {
         int size = _methods.size();
@@ -194,15 +199,15 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             marray[i] = (JMethod) _methods.elementAt(i);
         }
         return marray;
-    } //-- getMethods
+    }
 
     /**
      * Returns the first occurance of the method with the given name, starting
      * from the specified index.
      *
-     * @param name the name of the method to look for
-     * @param startIndex the starting index to begin the search
-     * @return the method if found, otherwise null.
+     * @param name The name of the method to look for.
+     * @param startIndex The starting index to begin the search.
+     * @return The method if found, otherwise null.
      */
     public JMethod getMethod(final String name, final int startIndex) {
         for (int i = startIndex; i < _methods.size(); i++) {
@@ -210,22 +215,22 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             if (jMethod.getName().equals(name)) { return jMethod; }
         }
         return null;
-    } //-- getMethod
+    }
 
     /**
      * Returns the JMethod located at the specified index.
      *
-     * @param index the index of the JMethod to return.
-     * @return the JMethod.
+     * @param index The index of the JMethod to return.
+     * @return The JMethod.
      */
     public JMethod getMethod(final int index) {
         return (JMethod) _methods.elementAt(index);
-    } //-- getMethod
+    }
 
     /**
      * Sets the name of this JEnumConstant.
      *
-     * @param name the name of this JEnumConstant
+     * @param name The name of this JEnumConstant.
      */
     public void setName(final String name) {
         if (!JNaming.isValidJavaIdentifier(name)) {
@@ -239,52 +244,54 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
             throw new IllegalArgumentException(err);
         }
         _name = name;
-    } //-- setName
+    }
 
     /**
      * Returns the name of this JEnumConstant.
      *
-     * @return the name of this JEnumConstant.
+     * @return The name of this JEnumConstant.
      */
     public String getName() {
         return _name;
-    } //-- getName
+    }
 
     /**
      * Sets the JavaDoc comment describing this JEnumConstant.
      *
-     * @param comment the JavaDoc comment for this JEnumConstant.
+     * @param comment The JavaDoc comment for this JEnumConstant.
      */
     public void setComment(final JDocComment comment) {
-        this._comment = comment;
-    } //-- setComment
+        _comment = comment;
+    }
 
     /**
      * Sets the JavaDoc comment describing this JEnumConstant.
      *
-     * @param comment the JavaDoc comment for this JEnumConstant
+     * @param comment The JavaDoc comment for this JEnumConstant.
      */
     public void setComment(final String comment) {
-        if (this._comment == null) {
-            this._comment = new JDocComment();
+        if (_comment == null) {
+            _comment = new JDocComment();
         }
-        this._comment.setComment(comment);
-    } //-- setComment
+        _comment.setComment(comment);
+    }
 
     /**
      * Returns the JavaDoc comment describing this JEnumConstant.
      *
-     * @return the JavaDoc comment describing this JEnumConstant, or null if
+     * @return The JavaDoc comment describing this JEnumConstant, or null if
      *         none has been set.
      */
     public JDocComment getComment() {
-        return this._comment;
-    } //-- getComment
+        return _comment;
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * prints this enum constant.
      *
-     * @param jsw the JSourceWriter to print to. Must not be null.
+     * @param jsw The JSourceWriter to print to. Must not be null.
      */
     public void print(final JSourceWriter jsw) {
         //-- print comments
@@ -317,46 +324,5 @@ public final class JEnumConstant extends JAnnotatedElementHelper implements JMem
         }
     }
 
-    /**
-     * Test drive.
-     * @param args command-line arguments
-     */
-    public static void main(final String[] args) {
-        JSourceWriter jsw = new JSourceWriter(new PrintWriter(System.out));
-
-        JEnumConstant constant1 = new JEnumConstant("PENNY");
-        constant1.print(jsw);
-        jsw.writeln();
-
-        JEnumConstant constant2 = new JEnumConstant("PENNY");
-        constant2.setArguments(new String[] {"1" });
-        constant2.print(jsw);
-        jsw.writeln();
-
-        JEnumConstant constant3 = new JEnumConstant("PENNY");
-        constant3.setArguments(new String[] {"1", "\"Penny\"" });
-        constant3.print(jsw);
-        jsw.writeln();
-
-        JEnumConstant constant4 = new JEnumConstant("PENNY");
-        constant4.setArguments(new String[] {"1", "\"Penny\"" });
-        JMethod jMethod4 = new JMethod("color", new JType("String"), "the color of a penny.");
-        jMethod4.setSourceCode("return \"Copper\";");
-        constant4.addMethod(jMethod4);
-        constant4.print(jsw);
-        jsw.writeln();
-
-        JEnumConstant constant5 = new JEnumConstant("PENNY");
-        constant5.setArguments(new String[] {"1", "\"Penny\"" });
-        JMethod jMethod5 = new JMethod("color", new JType("String"), "the color of a penny.");
-        jMethod5.setSourceCode("return \"Copper\";");
-        constant5.addMethod(jMethod5);
-        jMethod5 = new JMethod("weight", JType.INT, "the weight of a penny.");
-        jMethod5.setSourceCode("return 1;");
-        constant5.addMethod(jMethod5);
-        constant5.print(jsw);
-        jsw.writeln();
-
-        jsw.flush();
-    }
+    //--------------------------------------------------------------------------
 }

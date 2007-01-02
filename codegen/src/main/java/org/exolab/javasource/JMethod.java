@@ -53,33 +53,38 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2004-12-03 11:57:33 -0700 (Fri, 03 Dec 2004) $
  */
 public final class JMethod implements JMember, JAnnotatedElement {
+    //--------------------------------------------------------------------------
 
     /** The set of classes that contain this JMethod. */
     private final Vector _classes;
-    /**
-     * The JavaDoc comment for this JMethod. This will overwrite the JavaDoc for
-     * the JMethodSignature. */
+    
+    /** The JavaDoc comment for this JMethod. This will overwrite the JavaDoc for
+     *  the JMethodSignature. */
     private JDocComment _jdc = null;
+    
     /** The source code for this method. */
     private JSourceCode _source = null;
+    
     /** The signature for this method. */
     private JMethodSignature _signature = null;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JMethod with the given name and "void" return type.
      *
-     * @param name the method name. Must not be null.
+     * @param name The method name. Must not be null.
      */
     public JMethod(final String name) {
         if (name == null || name.length() == 0) {
             String err = "The method name must not be null or zero-length";
             throw new IllegalArgumentException(err);
         }
-        this._classes    = new Vector(1);
-        this._source     = new JSourceCode();
-        this._signature  = new JMethodSignature(name);
-        this._jdc        = _signature.getJDocComment();
-    } //-- JMethod
+        _classes = new Vector(1);
+        _source = new JSourceCode();
+        _signature = new JMethodSignature(name);
+        _jdc = _signature.getJDocComment();
+    }
 
     /**
      * Creates a new JMethod with the given name and returnType. The return type
@@ -87,40 +92,43 @@ public final class JMethod implements JMember, JAnnotatedElement {
      * {@link #JMethod(String)} instead of this constructor.
      *
      *
-     * @param name the method name. Must not be null.
-     * @param returnType the return type of the method. Must not be null.
-     * @param returnDoc javadoc comment for the &#064;return annotation. If
+     * @param name The method name. Must not be null.
+     * @param returnType The return type of the method. Must not be null.
+     * @param returnDoc Javadoc comment for the &#064;return annotation. If
      *            null, a default (and mostly useless) javadoc comment will be
      *            generated.
      */
     public JMethod(final String name, final JType returnType, final String returnDoc) {
         this(name);
-        this._signature = new JMethodSignature(name, returnType);
-        this._jdc       = _signature.getJDocComment();
-        this._jdc.appendComment("Method " + name + "\n\n");
+        
+        _signature = new JMethodSignature(name, returnType);
+        _jdc = _signature.getJDocComment();
+        _jdc.appendComment("Method " + name + "\n\n");
         if (returnDoc != null && returnDoc.length() > 0) {
-            this._jdc.addDescriptor(JDocDescriptor.createReturnDesc(returnDoc));
+            _jdc.addDescriptor(JDocDescriptor.createReturnDesc(returnDoc));
         } else {
-            this._jdc.addDescriptor(JDocDescriptor.createReturnDesc(returnType.getLocalName()));
+            _jdc.addDescriptor(JDocDescriptor.createReturnDesc(returnType.getLocalName()));
         }
-    } //-- JMethod
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Adds the given Exception to this JMethod's throws clause.
      *
-     * @param exp the JClass representing the Exception
-     * @param description JavaDoc comment explaining when this exception is thrown
+     * @param exp The JClass representing the Exception.
+     * @param description JavaDoc comment explaining when this exception is thrown.
      */
     public void addException(final JClass exp, final String description) {
-        this._signature.addException(exp);
-        this._jdc.addDescriptor(JDocDescriptor.createExceptionDesc(exp.getName(), description));
-    } //-- addException
+        _signature.addException(exp);
+        _jdc.addDescriptor(JDocDescriptor.createExceptionDesc(exp.getName(), description));
+    }
 
     /**
      * Adds the given parameter to this JMethod's list of parameters.
      *
-     * @param parameter the parameter to add to the this JMethod's list of
-     *            parameters.
+     * @param parameter The parameter to add to the this JMethod's list of
+     *        parameters.
      */
     public void addParameter(final JParameter parameter) {
         _signature.addParameter(parameter);
@@ -135,166 +143,206 @@ public final class JMethod implements JMember, JAnnotatedElement {
                 jType = ((JCollectionType) jType).getComponentType();
             }
         }
-        if (!jType.isPrimitive()) {
+        if (!(jType instanceof JPrimitiveType)) {
             JClass jClass = (JClass) jType;
             for (int i = 0; i < _classes.size(); i++) {
                 ((JClass) _classes.elementAt(i)).addImport(jClass.getName());
             }
         }
-    } //-- addParameter
+    }
 
     /**
      * Returns the JavaDoc comment describing this JMethod.
      *
-     * @return the JavaDoc comment describing this JMethod.
+     * @return The JavaDoc comment describing this JMethod.
      */
     public JDocComment getJDocComment() {
-        return this._jdc;
-    } //-- getJDocComment
-
-    /* *
-     * Returns the class in which this JMethod has been declared
-     * @return the class in which this JMethod has been declared
-     */
-    /*
-    public JClass getDeclaringClass() {
-        return _declaringClass;
-    } //-- getDeclaringClass
-    */
+        return _jdc;
+    }
 
     /**
      * Returns the exceptions that this JMethod throws.
      *
-     * @return the exceptions that this JMethod throws.
+     * @return The exceptions that this JMethod throws.
      */
     public JClass[] getExceptions() {
         return _signature.getExceptions();
-    } //-- getExceptions
+    }
 
     /**
      * Returns the modifiers for this JMethod.
      *
-     * @return the modifiers for this JMethod.
+     * @return The modifiers for this JMethod.
      */
     public JModifiers getModifiers() {
         return _signature.getModifiers();
-    } //-- getModifiers
+    }
 
     /**
      * Returns the name of this JMethod.
      *
-     * @return the name of this JMethod.
+     * @return The name of this JMethod.
      */
     public String getName() {
         return _signature.getName();
-    } //-- getName
+    }
 
     /**
      * Returns the JParameter at the given index.
      *
-     * @param index the index of the JParameter to return
-     * @return the JParameter at the given index.
+     * @param index The index of the JParameter to return.
+     * @return The JParameter at the given index.
      */
     public JParameter getParameter(final int index) {
         return _signature.getParameter(index);
-    } //-- getParameter
+    }
 
     /**
      * Returns the set of JParameters for this JMethod.
-     * <p>
+     * <br/>
      * <B>Note:</B> the array is a copy, the parameters in the array are the
-     * actual references
+     * actual references.
      *
-     * @return the set of JParameters for this JMethod.
+     * @return The set of JParameters for this JMethod.
      */
     public JParameter[] getParameters() {
         return _signature.getParameters();
-    } //-- getParameters
+    }
 
     /**
      * Returns the JType that represents the return type of the JMethod.
      *
-     * @return the JType that represents the return type of the JMethod.
+     * @return The JType that represents the return type of the JMethod.
      */
     public JType getReturnType() {
         return _signature.getReturnType();
-    } //-- getReturnType
+    }
 
     /**
      * Returns the JMethodSignature for this JMethod.
      *
-     * @return the JMethodSignature for this JMethod.
+     * @return The JMethodSignature for this JMethod.
      */
     public JMethodSignature getSignature() {
         return _signature;
-    } //-- getSignature
+    }
 
     /**
      * Returns the JSourceCode for the method body.
      *
-     * @return the JSourceCode for the method body.
+     * @return The JSourceCode for the method body.
      */
     public JSourceCode getSourceCode() {
         return this._source;
-    } //-- getSourceCode
+    }
 
     /**
      * Sets the name of this JMethod.
      *
-     * @param name the name of this method
+     * @param name The name of this method.
      */
     public void setName(final String name) {
         _signature.setName(name);
-    } //-- setName
+    }
 
     /**
      * Sets the comment describing this JMethod. The comment will be printed
      * when this JMethod is printed.
      *
-     * @param comment the comment for this member
-     * @see #getJDocComment
+     * @param comment The comment for this member.
      */
     public void setComment(final String comment) {
         _jdc.setComment(comment);
-    } //-- setComment
+    }
 
     /**
      * Sets the JModifiers for this JMethod. This JMethod will use only a copy
      * of the JModifiers.
-     * <p>
+     * <br/>
      * <B>Note:</B> The JModifiers will be set in the containing
      * JMethodSignature. If the JMethodSignature is used by other methods, keep
      * in mind that it will be changed.
      *
-     * @param modifiers the JModifiers to set.
+     * @param modifiers The JModifiers to set.
      */
     public void setModifiers(final JModifiers modifiers) {
         _signature.setModifiers(modifiers);
-    } //-- setModifiers
+    }
 
     /**
      * Sets the given string as the source code (method body) for this JMethod.
      *
-     * @param source the String that represents the method body
+     * @param source The String that represents the method body.
      */
     public void setSourceCode(final String source) {
-        this._source = new JSourceCode(source);
-    } //-- setSource
+        _source = new JSourceCode(source);
+    }
 
     /**
      * Sets the given JSourceCode as the source code (method body) for this
      * JMethod.
      *
-     * @param source the JSourceCode that represents the method body
+     * @param source The JSourceCode that represents the method body.
      */
     public void setSourceCode(final JSourceCode source) {
-        this._source = source;
-    } //-- setSource;
+        _source = source;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return _signature.toString();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public JAnnotation getAnnotation(final JAnnotationType annotationType) {
+        return _signature.getAnnotation(annotationType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public JAnnotation[] getAnnotations() {
+        return _signature.getAnnotations();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isAnnotationPresent(final JAnnotationType annotationType) {
+        return _signature.isAnnotationPresent(annotationType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addAnnotation(final JAnnotation annotation) {
+        _signature.addAnnotation(annotation);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public JAnnotation removeAnnotation(final JAnnotationType annotationType) {
+        return _signature.removeAnnotation(annotationType);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean hasAnnotations() {
+        return _signature.hasAnnotations();
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Prints this JMethod to the given JSourceWriter.
      *
-     * @param jsw the JSourceWriter to print to
+     * @param jsw The JSourceWriter to print to.
      */
     public void print(final JSourceWriter jsw) {
         //------------/
@@ -318,103 +366,7 @@ public final class JMethod implements JMember, JAnnotatedElement {
             jsw.write("} //-- ");
             jsw.writeln(toString());
         }
-    } //-- print
-
-    /**
-     * Returns the String representation of this JMethod, which is the method
-     * prototype.
-     *
-     * @return the String representation of this JMethod, which is simply the
-     *         method prototype
-     */
-    public String toString() {
-        return _signature.toString();
-    } //-- toString
-
-    /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #getAnnotation(org.exolab.javasource.JAnnotationType)
-     * {@inheritDoc}
-     */
-    public JAnnotation getAnnotation(final JAnnotationType annotationType) {
-        return _signature.getAnnotation(annotationType);
     }
 
-    /**
-     * @see org.exolab.javasource.JAnnotatedElement#getAnnotations()
-     * {@inheritDoc}
-     */
-    public JAnnotation[] getAnnotations() {
-        return _signature.getAnnotations();
-    }
-
-    /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #isAnnotationPresent(org.exolab.javasource.JAnnotationType)
-     * {@inheritDoc}
-     */
-    public boolean isAnnotationPresent(final JAnnotationType annotationType) {
-        return _signature.isAnnotationPresent(annotationType);
-    }
-
-    /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #addAnnotation(org.exolab.javasource.JAnnotation)
-     * {@inheritDoc}
-     */
-    public void addAnnotation(final JAnnotation annotation) {
-        _signature.addAnnotation(annotation);
-    }
-
-    /**
-     * @see org.exolab.javasource.JAnnotatedElement
-     *      #removeAnnotation(org.exolab.javasource.JAnnotationType)
-     * {@inheritDoc}
-     */
-    public JAnnotation removeAnnotation(final JAnnotationType annotationType) {
-        return _signature.removeAnnotation(annotationType);
-    }
-
-    /**
-     * @see org.exolab.javasource.JAnnotatedElement#hasAnnotations()
-     * {@inheritDoc}
-     */
-    public boolean hasAnnotations() {
-        return _signature.hasAnnotations();
-    }
-
-    //---------------------/
-    //- PROTECTED METHODS -/
-    //---------------------/
-
-    /**
-     * Adds the given JClass to the set of classes that contain this method.
-     *
-     * @param jClass the JClass to add as one of the JClasses that contain this
-     *            method
-     */
-    protected void addDeclaringClass(final JClass jClass) {
-        _classes.addElement(jClass);
-    } //-- addDeclaringClass
-
-    /**
-     * Removes the given JClass from the set of classes that contain this method.
-     *
-     * @param jClass the JClass to remove as one of the JClasses that contain
-     *            this method
-     */
-    protected void removeDeclaringClass(final JClass jClass) {
-        _classes.removeElement(jClass);
-    } //-- removeDeclaringClass
-
-    /**
-     * Return the list of class names representing the parameters.
-     *
-     * @return the list of class names representing the parameters
-     * @see org.exolab.javasource.JMethodSignature#getParameterClassNames
-     */
-    protected String[] getParameterClassNames() {
-        return _signature.getParameterClassNames();
-    } //-- getParameterClassNames
-
-} //-- JMember
+    //--------------------------------------------------------------------------
+}

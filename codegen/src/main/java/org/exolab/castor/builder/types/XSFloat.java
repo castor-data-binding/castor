@@ -92,7 +92,12 @@ public final class XSFloat extends XSPatternBase {
     public XSFloat(final boolean asWrapper) {
         super(XSType.FLOAT_TYPE);
         _asWrapper = asWrapper;
-        _jType = (_asWrapper) ? new JClass("java.lang.Float") : JType.FLOAT;
+        
+        if (_asWrapper) {
+            _jType = new JClass("java.lang.Float");
+        } else {
+            _jType = JType.FLOAT;
+        }
     } // -- XSFloat
 
     /**

@@ -64,6 +64,7 @@ import org.exolab.javasource.JConstructor;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JModifiers;
 import org.exolab.javasource.JNaming;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
@@ -111,7 +112,7 @@ public final class DescriptorSourceFactory {
         JClass jClass              = classInfo.getJClass();
         String localClassName      = jClass.getLocalName();
 
-        String descriptorClassName = getQualifiedDescriptorClassName(jClass.getName(false));
+        String descriptorClassName = getQualifiedDescriptorClassName(jClass.getName());
         DescriptorJClass classDesc = new DescriptorJClass(_config, descriptorClassName, jClass);
 
         //-- get handle to default constuctor
@@ -585,8 +586,9 @@ public final class DescriptorSourceFactory {
      * @return the Class type (as a String) for the given XSType.
      */
     private static String classType(final JType jType) {
-        if (jType.isPrimitive()) {
-            return jType.getWrapperName() + ".TYPE";
+        if (jType instanceof JPrimitiveType) {
+            JPrimitiveType primitive = (JPrimitiveType) jType;
+            return primitive.getWrapperName() + ".TYPE";
         }
         return jType.toString() + ".class";
     } //-- classType

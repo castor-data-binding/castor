@@ -86,6 +86,7 @@ import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
+import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JConstructor;
@@ -94,6 +95,7 @@ import org.exolab.javasource.JDocDescriptor;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
@@ -981,7 +983,7 @@ public class SourceFactory extends BaseFactory {
         //-- mangle method name to avoid compiler errors when this class is extended
         String methodName = "unmarshal";
         if (sgState.getSourceGenerator().mappingSchemaType2Java()) {
-            methodName += parent.getName(true);
+            methodName += parent.getLocalName();
         }
 
         //-- create main unmarshal method
@@ -1103,7 +1105,7 @@ public class SourceFactory extends BaseFactory {
 
             JType type = temp.getType();
             String name = temp.getName();
-            if (type.isPrimitive()) {
+            if (type instanceof JPrimitiveType) {
                 if (type == JType.BOOLEAN) {
                     // Skip the _has_* variables only if they represent a primitive that may or may not be present
                     if (!name.startsWith("_has_") || jclass.getField(name.substring(5)) != null) {
@@ -1164,14 +1166,14 @@ public class SourceFactory extends BaseFactory {
         }
         jsc.add("");
         jsc.add("if (obj instanceof ");
-        jsc.append(jclass.getName(true));
+        jsc.append(jclass.getLocalName());
         jsc.append(") {");
         jsc.add("");
         if (fields.length > 0) {
             jsc.indent();
-            jsc.add(jclass.getName(true));
+            jsc.add(jclass.getLocalName());
             jsc.append(" temp = (");
-            jsc.append(jclass.getName(true));
+            jsc.append(jclass.getLocalName());
             jsc.append(")obj;");
         }
         for (int i = 0; i < fields.length; i++) {
@@ -1179,7 +1181,7 @@ public class SourceFactory extends BaseFactory {
             //Be careful to arrayList....
 
             String name = temp.getName();
-            if (temp.getType().isPrimitive()) {
+            if (temp.getType() instanceof JPrimitiveType) {
                 jsc.add("if (this.");
                 jsc.append(name);
                 jsc.append(" != temp.");
@@ -1203,7 +1205,7 @@ public class SourceFactory extends BaseFactory {
                 jsc.add("else if (!(");
 
                 // Special handling for comparing arrays
-                if (temp.getType().isArray()) {
+                if (temp.getType() instanceof JArrayType) {
                     jsc.append("java.util.Arrays.equals(this.");
                     jsc.append(name);
                     jsc.append(", temp.");
@@ -1315,13 +1317,13 @@ public class SourceFactory extends BaseFactory {
                     jsc.append(", ");
                     jsc.append(componentName);
                     jsc.append(".class);");
-               } else if (type.isPrimitive()) {
+               } else if (type instanceof JPrimitiveType) {
                    // Primitive
                    jsc.add(setName);
                    jsc.append("(RandomHelper.getRandom(");
                    jsc.append(temp.getName());
                    jsc.append("));");
-               } else if (type.isArray()) {
+               } else if (type instanceof JArrayType) {
                    // Array
                    jsc.add(setName);
                    jsc.append("((");
@@ -1366,7 +1368,8 @@ public class SourceFactory extends BaseFactory {
         for (int i = 0; i < fields.length; i++) {
             JField temp = fields[i];
             String name = temp.getName();
-            if (temp.getType().isPrimitive() || temp.getType().getName().startsWith("java.lang.")) {
+            if ((temp.getType() instanceof JPrimitiveType)
+                    || temp.getType().getName().startsWith("java.lang.")) {
                 //hack when using the option 'primitivetowrapper'
                 //this should not interfere with other cases
                 jsc.add("result.append(\"Field ");
@@ -1374,7 +1377,7 @@ public class SourceFactory extends BaseFactory {
                 jsc.append(":\" +");
                 jsc.append(name);
                 jsc.append("+\"\\n\");");
-            } else if (temp.getType().isArray()) {
+            } else if (temp.getType() instanceof JArrayType) {
                 jsc.add("if (");
                 jsc.append(name);
                 jsc.append(" != null) {");

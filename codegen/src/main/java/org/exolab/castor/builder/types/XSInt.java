@@ -102,7 +102,13 @@ public class XSInt extends XSPatternBase {
     protected XSInt(final boolean asWrapper, final short type) {
         super(type);
          _asWrapper = asWrapper;
-         _jType = (_asWrapper) ? new JClass("java.lang.Integer") : JType.INT;
+         
+         if (_asWrapper) {
+             _jType = new JClass("java.lang.Integer");
+         } else {
+             _jType = JType.INT;
+         }
+         
          setMinInclusive(Integer.MIN_VALUE);
          setMaxInclusive(Integer.MAX_VALUE);
     } //-- XSInteger

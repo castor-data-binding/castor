@@ -53,88 +53,94 @@ import java.util.Vector;
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  */
 public final class JNamedMap {
+    //--------------------------------------------------------------------------
 
     /** Names as mapped to objects. */
-    private Vector _names = null;
+    private Vector _names;
+    
     /** Objects that the names are mapped to. */
-    private Vector _objects = null;
+    private Vector _objects;
+
+    //--------------------------------------------------------------------------
 
     /**
      * Creates a new JNamedMap.
      */
     public JNamedMap() {
-        _names   = new Vector();
+        _names = new Vector();
         _objects = new Vector();
-    } //-- JNamedMap
+    }
 
     /**
      * Creates a new JNamedMap with the given size.
      *
-     * @param size the initial size for this NamedMap
+     * @param size The initial size for this NamedMap.
      */
     public JNamedMap(final int size) {
-        _names   = new Vector(size);
+        _names = new Vector(size);
         _objects = new Vector(size);
-    } //-- JNamedMap
+    }
+
+    //--------------------------------------------------------------------------
 
     /**
      * Returns the Object associated with the given name.
      *
-     * @param name the name to search for
-     * @return the Object associated with the given name
+     * @param name The name to search for.
+     * @return The Object associated with the given name.
      */
     public Object get(final String name) {
         int i = indexOf(name);
         if (i >= 0) { return _objects.elementAt(i); }
         return null;
-    } //-- get
+    }
 
     /**
      * Returns the Object at the given index.
      *
-     * @param index the index of the Object to return
-     * @return the Object at the given index
+     * @param index The index of the Object to return.
+     * @return The Object at the given index.
      */
     public Object get(final int index) {
         return _objects.elementAt(index);
-    } //-- get
+    }
 
     /**
      * Returns the name associated with the given Object.
      *
-     * @param obj the Object to search for
-     * @return the name of the given Object.
+     * @param obj The Object to search for.
+     * @return The name of the given Object.
      */
     public String getNameByObject(final Object obj) {
         int i = _objects.indexOf(obj);
         if (i >= 0) { return (String) _names.elementAt(i); }
         return null;
-    } //-- getNameByObject
+    }
 
     /**
      * Returns a Vector of names.
      *
-     * @return a Vector of names.
+     * @return A Vector of names.
      */
     public Vector getNames() {
         return (Vector) _names.clone();
-    } //-- getNames
+    }
 
     /**
      * Returns a Vector of Objects.
      *
-     * @return a Vector of Objects.
+     * @return A Vector of Objects.
      */
     public Vector getObjects() {
         return (Vector) _objects.clone();
-    } //-- getObjects
+    }
 
     /**
      * Returns the index of the Object which has been mapped (associated) with
      * the given name.
      *
-     * @param name The name to get the index of
-     * @return the index of the Object which has been mapped (associated) to the
+     * @param name The name to get the index of.
+     * @return The index of the Object which has been mapped (associated) to the
      *         given name.
      */
     public int indexOf(final String name) {
@@ -143,13 +149,13 @@ public final class JNamedMap {
             if (iName.equals(name)) { return i; }
         }
         return -1;
-    } //-- indexOf
+    }
 
     /**
      * Maps (associates) an Object with a name.
      *
-     * @param name the name to associate with the given Object
-     * @param obj the Object to be mapped
+     * @param name The name to associate with the given Object.
+     * @param obj The Object to be mapped.
      */
     public void put(final String name, final Object obj) {
         int idx = indexOf(name);
@@ -161,26 +167,26 @@ public final class JNamedMap {
             _names.addElement(name);
             _objects.addElement(obj);
         }
-    } //-- put
+    }
 
     /**
      * Removes and returns the Object located at the given index.
      *
-     * @param index the index of the Object to remove
-     * @return the object removed from the map.
+     * @param index The index of the Object to remove.
+     * @return The object removed from the map.
      */
     public Object remove(final int index) {
         Object obj = _objects.elementAt(index);
         _objects.removeElementAt(index);
         _names.removeElementAt(index);
         return obj;
-    } //-- remove
+    }
 
     /**
      * Removes and returns the Object associated with the given name.
      *
-     * @param name the name of the Object to remove
-     * @return the object removed from the map.
+     * @param name The name of the Object to remove.
+     * @return The object removed from the map.
      */
     public Object remove(final String name) {
         Object obj = null;
@@ -192,15 +198,16 @@ public final class JNamedMap {
             _names.removeElementAt(idx);
         }
         return obj;
-    } //-- remove
+    }
 
     /**
      * Returns the number of Object associations currently in this named map.
      *
-     * @return the number of Object associations currently in this named map.
+     * @return The number of Object associations currently in this named map.
      */
     public int size() {
         return _names.size();
-    } //-- size
+    }
 
-} //-- JNamedMap
+    //--------------------------------------------------------------------------
+}

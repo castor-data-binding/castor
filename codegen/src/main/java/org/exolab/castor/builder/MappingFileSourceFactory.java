@@ -56,6 +56,7 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 import org.exolab.javasource.JClass;
+import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JType;
 
 /**
@@ -306,7 +307,7 @@ public class MappingFileSourceFactory {
     private static String getClassName(final JType jType) {
         // TODO: Look up short names from: org.exolab.castor.mapping.loader.Types
 
-        if (jType.isPrimitive()) {
+        if (jType instanceof JPrimitiveType) {
             return jType.getName();
         }
         return jType.toString();

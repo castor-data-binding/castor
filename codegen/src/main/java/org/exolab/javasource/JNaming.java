@@ -49,6 +49,7 @@ package org.exolab.javasource;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public final class JNaming {
+    //--------------------------------------------------------------------------
 
     /**
      * Reserved keywords in Java as of Java 5.
@@ -105,7 +106,7 @@ public final class JNaming {
         "void",
         "volatile",
         "while"
-    }; //-- keywords
+    };
 
     /**
      * Collection classes in Java as of Java 5.
@@ -136,7 +137,7 @@ public final class JNaming {
         "Stack",
         "TreeMap",
         "WeakHashMap"
-    }; //-- Collections
+    };
 
     /**
      * Classes in java.lang.* as of Java 5.
@@ -244,7 +245,7 @@ public final class JNaming {
      * Field names used within Castor that prevent a user from using the same
      * name as an element without using a mapping file. Some fields that Castor
      * uses depend on the contents of the schema, so we only warn.
-     * <p>
+     * <br/>
      * Reserved:
      * <pre>
      * _items -- might be fetched using getXXXXItems where XXX == class name
@@ -264,7 +265,7 @@ public final class JNaming {
      * allow the use of any of these names with any case with any extension.
      * At least, not without contortions.
      * @see <a href="http://msdn.microsoft.com/library/default.asp?url=/library/en-us/fileio/fs/naming_a_file.asp">
-     * the MSDN web page on file naming</a>
+     * The MSDN web page on file naming</a>
      */
     private static final String[] WINDOWS_RESERVED = {
         "CON",
@@ -291,6 +292,8 @@ public final class JNaming {
         "LPT9",
     };
 
+    //--------------------------------------------------------------------------
+
     /**
      * As we're a static utility class, our constructor is private.
      */
@@ -298,12 +301,14 @@ public final class JNaming {
         super();
     }
 
+    //--------------------------------------------------------------------------
+
     /**
      * Returns true if the given String is a Java keyword which will cause a
      * problem when used as a variable name.
      *
-     * @param name the String to check against the list of keywords
-     * @return true if the given String is a Java keyword which will cause a
+     * @param name The String to check against the list of keywords.
+     * @return True if the given String is a Java keyword which will cause a
      *         problem when used as a variable name.
      */
     public static boolean isKeyword(final String name) {
@@ -312,14 +317,14 @@ public final class JNaming {
             if (KEYWORDS[i].equals(name)) { return true; }
         }
         return false;
-    } //-- isKeyword
+    }
 
     /**
      * Returns true if the given String is a parameterized Java collection.
      * object keyword which will cause a problem when used as a variable name
      *
-     * @param name the String to check as a parameterized Java collection
-     * @return true if the given String is a parameterized Java collection
+     * @param name The String to check as a parameterized Java collection.
+     * @return True if the given String is a parameterized Java collection
      *         object keyword which will cause a problem when used as a variable
      *         name.
      */
@@ -329,14 +334,14 @@ public final class JNaming {
             if (name.indexOf(COLLECTIONS[i]) != -1) { return true; }
         }
         return false;
-    } //-- isParameterizedCollectionsObject
+    }
 
     /**
      * Returns true if the given String is a Java class in java.lang.* which
      * will cause a problem when used as a variable name.
      *
-     * @param name the String to check against the list of keywords
-     * @return true if the given String is a Java class in java.lang.* which
+     * @param name The String to check against the list of keywords.
+     * @return True if the given String is a Java class in java.lang.* which
      *         will cause a problem when used as a variable name.
      */
     public static boolean isInJavaLang(final String name) {
@@ -347,16 +352,15 @@ public final class JNaming {
             }
         }
         return false;
-    } //-- isKeyword
+    }
 
     /**
      * Returns true if the given String is a reserved name by Castor which may
      * cause a problem when used as a variable name. Some fields that Castor
      * uses depend on the contents of the schema, so we only warn.
      *
-     * @param name
-     *            the String to check against the list of keywords
-     * @return true if the given String is a reserved name by Castor which may
+     * @param name The String to check against the list of keywords.
+     * @return True if the given String is a reserved name by Castor which may
      *         cause a problem when used as a variable name.
      */
     public static boolean isReservedByCastor(final String name) {
@@ -367,16 +371,15 @@ public final class JNaming {
             }
         }
         return false;
-    } //-- isKeyword
+    }
 
     /**
      * Returns true if the given String is a reserved name by the Windows
      * filesystem which will cause a problem when used as a class name under
      * Windows.
      *
-     * @param name
-     *            the String to check against the list of keywords
-     * @return true if the given String is a reserved name by Castor which may
+     * @param name The String to check against the list of keywords.
+     * @return True if the given String is a reserved name by Castor which may
      *         cause a problem when used as a variable name.
      */
     public static boolean isReservedByWindows(final String name) {
@@ -387,14 +390,14 @@ public final class JNaming {
             }
         }
         return false;
-    } //-- isKeyword
+    }
 
     /**
      * Returns true if the given String matches the production of a valid Java
      * identifier.
      *
-     * @param string the String to check the production of
-     * @return true if the given String matches the production of a valid Java
+     * @param string The String to check the production of.
+     * @return True if the given String matches the production of a valid Java
      *         name, otherwise false.
      */
     public static boolean isValidJavaIdentifier(final String string) {
@@ -414,13 +417,13 @@ public final class JNaming {
         }
         if (isKeyword(string)) { return false; }
         return true;
-    } //-- isValidJavaIdentifier
+    }
 
     /**
      * Returns the package name from the given class name.
      *
-     * @param className an arbitrary class name, optionally including a package
-     * @return the package name from the given class name.
+     * @param className An arbitrary class name, optionally including a package.
+     * @return The package name from the given class name.
      */
     public static String getPackageFromClassName(final String className) {
         if (className == null) {
@@ -431,13 +434,13 @@ public final class JNaming {
             return className.substring(0, idx);
         }
         return null;
-    } //-- getPackageFromClassName
+    }
 
     /**
      * Returns the local class name from the given fully qualified class name.
      *
-     * @param className an arbitrary class name, optionally including a package
-     * @return the local name from the given class name.
+     * @param className An arbitrary class name, optionally including a package.
+     * @return The local name from the given class name.
      */
     public static String getLocalNameFromClassName(final String className) {
         if (className == null) {
@@ -448,6 +451,7 @@ public final class JNaming {
             return className.substring(idx + 1);
         }
         return className;
-    } //-- getLocalNameFromClassName
+    }
 
-} //-- JNaming
+    //--------------------------------------------------------------------------
+}
