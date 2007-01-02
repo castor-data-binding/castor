@@ -8,38 +8,35 @@ import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.xml.ClassDescriptorResolver;
 import org.exolab.castor.xml.ResolverException;
 
-public class JDOClassDescriptorResolverImpl 
-    implements ClassDescriptorResolver {
+public class JDOClassDescriptorResolverImpl implements ClassDescriptorResolver {
 
     private Map _classToClassDescriptors = new HashMap();
     private MappingLoader _mappingLoader;
-    
+
     public JDOClassDescriptorResolverImpl() {
         super();
     }
+
     /**
      * Returns the ClassDescriptor for the given class
-     * 
+     *
      * @param type the Class to find the ClassDescriptor for
      * @return the ClassDescriptor for the given class
      */
-    public ClassDescriptor resolve(Class type) 
-    throws ResolverException
-    {
-        
+    public ClassDescriptor resolve(Class type) throws ResolverException {
         if (type == null) {
             return null;
         }
-        
+
         // TODO: use ClassDescriptor instead
         ClassDescriptor classDesc = (ClassDescriptor) _classToClassDescriptors.get(type);
-        
+
         if (classDesc != null) {
             return classDesc;
         }
-        
+
         // -- check mapping loader first
-        if (_mappingLoader != null) {            
+        if (_mappingLoader != null) {
             classDesc = _mappingLoader.getDescriptor(type.getName());
             if (classDesc != null) {
                 _classToClassDescriptors.put(type, classDesc);
@@ -50,7 +47,7 @@ public class JDOClassDescriptorResolverImpl
         // TODO: consider for future extensions
 
 // String pkgName = getPackageName(type.getName());
-//        
+//
 // //-- check package mapping
 // Mapping mapping = loadPackageMapping(pkgName, type.getClassLoader());
 // if (mapping != null) {
@@ -64,19 +61,16 @@ public class JDOClassDescriptorResolverImpl
 // return classDesc;
 // }
 // }
-        
+
         return classDesc;
     } // -- resolve
-    
-    public MappingLoader getMappingLoader()
-    {
+
+    public MappingLoader getMappingLoader() {
         return _mappingLoader;
     }
 
-    public void setMappingLoader(MappingLoader mappingLoader)
-    {
+    public void setMappingLoader(MappingLoader mappingLoader) {
         this._mappingLoader = mappingLoader;
     }
 
-    
 }

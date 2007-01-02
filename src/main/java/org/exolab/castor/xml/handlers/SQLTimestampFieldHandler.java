@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,117 +42,101 @@
  *
  * $Id$
  */
- 
 package org.exolab.castor.xml.handlers;
-
 
 import java.sql.Timestamp;
 import java.util.Date;
 
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
- * An implementation of GeneralizedFieldHandler for
- * java.sql.Timestamp
+ * An implementation of GeneralizedFieldHandler for java.sql.Timestamp.
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public class SQLTimestampFieldHandler extends GeneralizedFieldHandler
-{
-    
+public class SQLTimestampFieldHandler extends GeneralizedFieldHandler {
+    /** Position of the literal 'T' character in an xsd:dateTime. */
+    private static final int OFFSET_OF_LITERAL_T = 10;
+
     /**
-     * Creates a new SQLTimestampFieldHandler
+     * Creates a new SQLTimestampFieldHandler.
      */
     public SQLTimestampFieldHandler() {
         super();
     }
-    
-    
+
     /**
-     * This method is used to convert the value when the getValue method
-     * is called. The getValue method will obtain the actual field value 
-     * from given 'parent' object. This convert method is then invoked
-     * with the field's value. The value returned from this
-     * method will be the actual value returned by getValue method.
+     * This method is used to convert the value when the getValue method is
+     * called. The getValue method will obtain the actual field value from given
+     * 'parent' object. This convert method is then invoked with the field's
+     * value. The value returned from this method will be the actual value
+     * returned by getValue method.
      *
-     * @param value the object value to convert after performing a get
-     * operation
+     * @param value the object value to convert after performing a get operation
      * @return the converted value.
      */
-    public Object convertUponGet(Object value) {
-        //-- no conversion necessary for marshalling
+    public Object convertUponGet(final Object value) {
+        //-- no conversion necessary for marshaling
         return value;
     } //-- convertUponGet
 
     /**
-     * This method is used to convert the value when the setValue method
-     * is called. The setValue method will call this method to obtain
-     * the converted value. The converted value will then be used as
-     * the value to set for the field.
+     * This method is used to convert the value when the setValue method is
+     * called. The setValue method will call this method to obtain the converted
+     * value. The converted value will then be used as the value to set for the
+     * field.
      *
      * @param value the object value to convert before performing a set
-     * operation
+     *        operation
      * @return the converted value.
      */
-    public Object convertUponSet(Object value) {
-        
+    public Object convertUponSet(final Object value) {
+        if (value == null) {
+            return null;
+        }
+
         Timestamp timestamp = null;
-        
-        if (value != null) {
-                        
-            String str = value.toString();
-            
-            //-- XML Schema compatibility
-            //-- if 'T' exists then we most likely have
-            //-- an XML Schema dateTime format.
-            if (str.indexOf('T') == 10) {
-                try {
-                    Date date = DateFieldHandler.parse(str);
-                    timestamp = new Timestamp(date.getTime());
-                }
-                catch(java.text.ParseException px) {
-                    throw new IllegalStateException(px.getMessage());
-                }
+
+        // XML Schema compatibility: If 'T' exists at the correct spot,
+        // then we most likely have an XML Schema dateTime format.
+        String str = value.toString();
+        if (str.indexOf('T') == OFFSET_OF_LITERAL_T) {
+            try {
+                Date date = DateFieldHandler.parse(str);
+                timestamp = new Timestamp(date.getTime());
+            } catch (java.text.ParseException px) {
+                throw new IllegalStateException(px.getMessage());
             }
-            else {
-                timestamp = Timestamp.valueOf(str);
-            }
+        } else {
+            timestamp = Timestamp.valueOf(str);
         }
         return timestamp;
-        
     } //-- convertUponSet;
-    
+
     /**
      * Returns the class type for the field that this GeneralizedFieldHandler
-     * converts to and from. This should be the type that is used in the
-     * object model.
+     * converts to and from. This should be the type that is used in the object
+     * model.
      *
      * @return the class type of of the field
      */
     public Class getFieldType() {
         return java.sql.Timestamp.class;
     } //-- getFieldType
-    
+
     /**
      * Creates a new instance of the object described by this field.
      *
      * @param parent The object for which the field is created
      * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
+     * @throws IllegalStateException This field is a simple type and cannot be
+     *         instantiated
      */
-    public Object newInstance( Object parent )
-        throws IllegalStateException
-    {
+    public Object newInstance(final Object parent) throws IllegalStateException {
         return new java.sql.Timestamp(0);
     }
-    
-    
-    
-} //-- SQLTimestampFieldHandler
 
+} //-- SQLTimestampFieldHandler

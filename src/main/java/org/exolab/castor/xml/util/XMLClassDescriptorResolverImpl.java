@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -84,8 +84,7 @@ import org.exolab.castor.xml.XMLMappingLoader;
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
-public class XMLClassDescriptorResolverImpl
-    implements XMLClassDescriptorResolver {
+public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolver {
 
     /**
      * internal cache for class loading (this is used to avoid trying to load
@@ -121,7 +120,6 @@ public class XMLClassDescriptorResolverImpl
      */
     private boolean _useIntrospection = true;
 
-
     /**
      * Creates a new ClassDescriptorResolverImpl.
      */
@@ -132,7 +130,6 @@ public class XMLClassDescriptorResolverImpl
         boolean loadPackageMappings = Boolean.valueOf(LocalConfiguration.getInstance().getProperties().getProperty(Property.LOAD_PACKAGE_MAPPING, Property.DEFAULT_LOAD_PACKAGE_MAPPING)).booleanValue();
         _descriptorCache.setLoadPackageMappings(loadPackageMappings);
     } //-- ClassDescriptorResolverImpl
-
 
     /**
      * Returns the Introspector being used by this ClassDescriptorResolver.
@@ -156,7 +153,6 @@ public class XMLClassDescriptorResolverImpl
     public MappingLoader getMappingLoader() {
         return _mappingLoader;
     } //-- getXMLMappingLoader
-
 
     /**
      * {@inheritDoc}
@@ -1052,4 +1048,5 @@ public class XMLClassDescriptorResolverImpl
             return _descriptors.hasNext();
         }
     } //-- ClassDescriptorEnumeration
+
 } // -- ClassDescriptorResolverImpl

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,20 +42,19 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.util;
 
 import org.exolab.castor.xml.XMLFieldDescriptor;
 
 /**
- * A class which represents a collection of XMLFieldDescriptor 
- * instances.
+ * A class which represents a collection of XMLFieldDescriptor instances.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
- * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
+ * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec
+ *          2005) $
  * @see java.util.List
  * @see java.util.Collection
-**/
+ */
 public class XMLFieldDescriptors {
 
     private int DEFAULT_SIZE = 11;
@@ -63,12 +62,12 @@ public class XMLFieldDescriptors {
     private XMLFieldDescriptor[] elements;
 
     /**
-     * The next available location in the elements array
-    **/
+     * The next available location in the elements array.
+     */
     private int elementCount = 0;
 
     /**
-     * Creates a new XMLFieldDescriptors with the default Size
+     * Creates a new XMLFieldDescriptors with the default Size.
      */
     public XMLFieldDescriptors() {
         elements = new XMLFieldDescriptor[DEFAULT_SIZE];
@@ -93,7 +92,7 @@ public class XMLFieldDescriptors {
      * @return true if the descriptor is added, false otherwise.
      */
     public boolean add(XMLFieldDescriptor descriptor) {
-        
+
         for (int i = 0; i < elementCount; i++) {
             if (elements[i] == descriptor) return false;
         }
@@ -196,8 +195,8 @@ public class XMLFieldDescriptors {
     } //-- hashCode
 
     /**
-     * Returns the index of the first occurrence of the specified 
-     * XMLFieldDescriptor, or -1 if the descriptor is not contained in 
+     * Returns the index of the first occurrence of the specified
+     * XMLFieldDescriptor, or -1 if the descriptor is not contained in
      * the collection.
      *
      * @param descriptor the XMLFieldDescriptor to get the index of
@@ -219,12 +218,11 @@ public class XMLFieldDescriptors {
     /**
      * Returns true if there are no descriptors in the collection.
      *
-     * @return true if the collection is empty. 
+     * @return true if the collection is empty.
      */
     public boolean isEmpty() {
         return (elementCount == 0);
     } //-- isEmpty
-
 
     /**
      * Removes the descriptor at the specified index from the list.
@@ -268,7 +266,6 @@ public class XMLFieldDescriptors {
         pointer = null;
     } //-- trimToSize
 
-
     /**
      * Returns the number of descriptors in the list.
      *
@@ -277,7 +274,6 @@ public class XMLFieldDescriptors {
     public int size() {
         return elementCount;
     } //-- size
-
 
     /**
      * Returns an array containing all of the descriptors in this list
@@ -345,4 +341,5 @@ public class XMLFieldDescriptors {
         // clean up for gc
         elements[elementCount-1] = null;
     } //-- shiftDown
+
 } //-- XMLFieldDescriptors

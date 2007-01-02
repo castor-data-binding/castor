@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,99 +42,88 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.descriptors;
-
-import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.handlers.DateFieldHandler;
-import org.exolab.castor.xml.NodeType;
-import org.exolab.castor.xml.XMLClassDescriptor;
-import org.exolab.castor.xml.XMLFieldDescriptor;
-import org.exolab.castor.xml.XMLFieldHandler;
-import org.exolab.castor.xml.TypeValidator;
-import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 import java.util.Date;
 
+import org.exolab.castor.mapping.AccessMode;
+import org.exolab.castor.mapping.ClassDescriptor;
+import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLFieldHandler;
+import org.exolab.castor.xml.handlers.DateFieldHandler;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
+
 /**
- * A ClassDescriptor for java.util.Date
+ * A ClassDescriptor for java.util.Date.
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-16 22:49:25 -0700 (Thu, 16 Dec 2004) $
  */
-public class DateClassDescriptor
-    implements XMLClassDescriptor
-{
+public class DateClassDescriptor implements XMLClassDescriptor {
 
+    /** Used for returning no attribute and no element fields. */
+    private static final XMLFieldDescriptor[]   NO_FIELDS = new XMLFieldDescriptor[0];
+    /** The name of the XML element. */
+    private static final String                 XML_NAME  = "date";
+    /** Our field descriptor. */
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
+    /** Our field descriptor array.  Lists the fields we describe. */
+    private static final FieldDescriptor[]      FIELDS;
+    /** The TypeValidator to use for validation of the described class. */
+    private static final TypeValidator          VALIDATOR = null;
 
-    /**
-     * Used for returning no attribute and no element fields
-    **/
-    private static final XMLFieldDescriptor[] _noFields
-        = new XMLFieldDescriptor[0];
+    static {
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class,
+                "content", "content", NodeType.Text);
 
-    /**
-     * The TypeValidator to use for validation of the described class
-    **/
-    private TypeValidator validator = null;
+        CONTENT_DESCRIPTOR.setImmutable(true);
+        CONTENT_DESCRIPTOR.setHandler(new DateFieldHandler(new XMLFieldHandler() {
 
-    /**
-     * The name of the XML element.
-     */
-    private static final String _xmlName = "date";
+            /**
+             * {@inheritDoc}
+             */
+            public Object getValue(final Object object) throws IllegalStateException {
+                return object;
+            }
 
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
+            /**
+             * {@inheritDoc}
+             */
+            public void setValue(final Object object, final Object value)
+                        throws IllegalStateException, IllegalArgumentException {
+                if (object.getClass() == java.util.Date.class) {
+                    Date target = (Date) object;
+                    if (value.getClass() == java.util.Date.class) {
+                        target.setTime(((Date) value).getTime());
+                    }
+                }
+            }
 
-    private static FieldDescriptor[] _fields = null;
+            /**
+             * {@inheritDoc}
+             */
+            public Object newInstance(final Object parent) {
+                return null;
+            }
+        }));
+
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
+    }
 
     //----------------/
     //- Constructors -/
     //----------------/
 
+    /**
+     * No-arg constructor.
+     */
     public DateClassDescriptor() {
         super();
-        if (_contentDescriptor == null) {
-            _contentDescriptor = new XMLFieldDescriptorImpl(String.class,
-                "content", "content", NodeType.Text);
-
-            _contentDescriptor.setImmutable(true);
-            //-- setHandler
-            _contentDescriptor.setHandler(new DateFieldHandler(
-                new XMLFieldHandler() {
-
-                    public Object getValue( Object object )
-                        throws IllegalStateException
-                    {
-                        return object;
-                    }
-
-                    public void setValue( Object object, Object value)
-                        throws IllegalStateException, IllegalArgumentException
-                    {
-                        if (object.getClass() == java.util.Date.class) {
-
-                            Date target = (Date)object;
-                            if (value.getClass() == java.util.Date.class) {
-                                target.setTime(((Date)value).getTime());
-                            }
-                        }
-                    }
-                    public Object newInstance( Object parent ) {
-                        return null;
-                    }
-                }
-            ));
-
-        }
-
-        if (_fields == null) {
-            _fields = new FieldDescriptor[1];
-            _fields[0] = _contentDescriptor;
-        }
-
     } //-- DateDescriptor
 
     //------------------/
@@ -142,106 +131,100 @@ public class DateClassDescriptor
     //------------------/
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
-    **/
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshaled as XML attributes.
+     *
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshaled as XML attributes.
+     */
     public XMLFieldDescriptor[]  getAttributeDescriptors() {
-        return _noFields;
+        return NO_FIELDS;
     } // getAttributeDescriptors
 
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-    **/
+     * Returns the XMLFieldDescriptor for the member that should be marshaled
+     * as text content.
+     *
+     * @return the XMLFieldDescriptor for the member that should be marshaled
+     *         as text content.
+     */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
-    **/
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshaled as XML elements.
+     *
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshaled as XML elements.
+     */
     public XMLFieldDescriptor[]  getElementDescriptors() {
-        return _noFields;
+        return NO_FIELDS;
     } // getElementDescriptors
 
     /**
-     * Returns the XML field descriptor matching the given
-     * xml name and nodeType. If NodeType is null, then
-     * either an AttributeDescriptor, or ElementDescriptor
-     * may be returned. Null is returned if no matching
+     * Returns the XML field descriptor matching the given xml name and
+     * nodeType. If NodeType is null, then either an AttributeDescriptor, or
+     * ElementDescriptor may be returned. Null is returned if no matching
      * descriptor is available.
      *
      * @param name the xml name to match against
-     * @param nodeType the NodeType to match against, or null if
-     * the node type is not known.
-     * @return the matching descriptor, or null if no matching
-     * descriptor is available.
-     *
-    **/
-    public XMLFieldDescriptor getFieldDescriptor
-        (String name, String namespace, NodeType nodeType)
-    {
+     * @param namespace the namespace of the element. This may be null. Note: A
+     *        null namespace is not the same as the default namespace unless the
+     *        default namespace is also null.
+     * @param nodeType the NodeType to match against, or null if the node type
+     *        is not known.
+     * @return the matching descriptor, or null if no matching descriptor is
+     *         available.
+     */
+    public XMLFieldDescriptor getFieldDescriptor(final String name,
+            final String namespace, final NodeType nodeType) {
         return null;
-
     } //-- getFieldDescriptor
 
     /**
-     * @return the namespace prefix to use when marshalling as XML.
-    **/
+     * @return the namespace prefix to use when marshaling as XML.
+     */
     public String getNameSpacePrefix() {
         return null;
     } //-- getNameSpacePrefix
 
     /**
-     * @return the namespace URI used when marshalling and unmarshalling as XML.
-    **/
+     * @return the namespace URI used when marshaling and unmarshaling as XML.
+     */
     public String getNameSpaceURI() {
         return null;
     } //-- getNameSpaceURI
 
     /**
-     * Returns a specific validator for the class described by
-     * this ClassDescriptor. A null value may be returned
-     * if no specific validator exists.
+     * Returns a specific validator for the class described by this
+     * ClassDescriptor. A null value may be returned if no specific validator
+     * exists.
      *
      * @return the type validator for the class described by this
-     * ClassDescriptor.
-    **/
+     *         ClassDescriptor.
+     */
     public TypeValidator getValidator() {
-        return validator;
+        return VALIDATOR;
     } //-- getValidator
 
     /**
      * Returns the XML Name for the Class being described.
      *
      * @return the XML name.
-    **/
+     */
     public String getXMLName() {
-        return _xmlName;
+        return XML_NAME;
     } //-- getXMLName
 
     /**
-     * Returns the String representation of this XMLClassDescriptor
-     * @return the String representation of this XMLClassDescriptor
-    **/
+     * Returns the String representation of this XMLClassDescriptor.
+     * @return the String representation of this XMLClassDescriptor.
+     */
     public String toString() {
-
-        String str = super.toString() +
-            "; descriptor for class: Date";
-
-        //-- add xml name
-        str += "; xml name: " + _xmlName;
-
-        return str;
+        return super.toString() + "; descriptor for class: Date" + "; xml name: " + XML_NAME;
     } //-- toString
-
 
     //-------------------------------------/
     //- Implementation of ClassDescriptor -/
@@ -256,16 +239,14 @@ public class DateClassDescriptor
         return java.util.Date.class;
     } //-- getJavaClass
 
-
     /**
      * Returns a list of fields represented by this descriptor.
      *
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
+        return FIELDS;
     } //-- getFields
-
 
     /**
      * Returns the class descriptor of the class extended by this class.
@@ -276,7 +257,6 @@ public class DateClassDescriptor
         return null;
     } //-- getExtends
 
-
     /**
      * Returns the identity field, null if this class has no identity.
      *
@@ -285,7 +265,6 @@ public class DateClassDescriptor
     public FieldDescriptor getIdentity() {
         return null;
     } //-- getIdentity
-
 
     /**
      * Returns the access mode specified for this class.
@@ -296,22 +275,26 @@ public class DateClassDescriptor
         return null;
     } //-- getAccessMode
 
-
-     /**
-     * <p>Returns true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
-     * An XMLClassDescriptor can accept a field if it contains a descriptor that matches
-     * the given name and if the given object can hold this field (i.e a value is not already set for
+    /**
+     * Returns true if the given object represented by this XMLClassDescriptor
+     * can accept a member whose name is given. An XMLClassDescriptor can accept
+     * a field if it contains a descriptor that matches the given name and if
+     * the given object can hold this field (i.e a value is not already set for
      * this field).
-     * <p>This is mainly used for container object (that can contains other object), in this particular case
-     * the implementation will return null.
+     * <p>
+     * This is mainly used for container object (that can contain other
+     * objects), in this particular case the implementation returns false.
+     *
      * @param name the name of the field to check
+     * @param namespace the namespace of the element. This may be null. Note: A
+     *        null namespace is not the same as the default namespace unless the
+     *        default namespace is also null.
      * @param object the object represented by this XMLCLassDescriptor
      * @return true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
+     *         can accept a member whose name is given.
      */
-    public boolean canAccept(String name, String namespace, Object object) {
-         return false;
+    public boolean canAccept(final String name, final String namespace, final Object object) {
+        return false;
     }
 
 } //-- class: DateClassDescriptor

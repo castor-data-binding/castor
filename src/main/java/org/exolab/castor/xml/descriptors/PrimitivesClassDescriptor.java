@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,22 +42,30 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.descriptors;
 
 /**
- * The default primitives class descriptor, this is only
- * used when unmarshalling a primitive as the "root" object
+ * The default primitives class descriptor, this is only used when unmarshaling
+ * a primitive as the "root" object.
  *
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class PrimitivesClassDescriptor extends StringClassDescriptor {
+
+    /**
+     * No-arg constructor.
+     */
     public PrimitivesClassDescriptor() {
         this(null);
     } //-- PrimitivesClassDescriptor()
 
+    /**
+     * Constructs a PrimitivesClassDescriptor for the given type.
+     * @param type a Class representing the primitive
+     */
     public PrimitivesClassDescriptor(final Class type) {
         super();
     } //-- PrimitivesClassDescriptor()
+
 } //-- class: PrimitivesClassDescriptor

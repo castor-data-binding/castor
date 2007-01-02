@@ -51,35 +51,33 @@ import org.exolab.castor.xml.XMLNaming;
  * The default implementation of org.exolab.castor.xml.Naming
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public final class DefaultNaming extends XMLNaming {
-    
+
     /**
-     * The lower case style with hyphens to separate
-     * words. <I>Default</I>
-     * <BR /><B>examples:</B><BR />
+     * The lower case style with hyphens to separate words. <I>Default</I>
+     * <BR />
+     * <B>examples:</B><BR />
      * "Blob" becomes "blob" and "DataSource" becomes "data-source".
-    **/
+     */
     public static final short LOWER_CASE_STYLE = 0;
 
     /**
-     * The mixed case style with uppercase characters to
-     * separate words.
-     * <BR><B>examples:</B><BR>
+     * The mixed case style with uppercase characters to separate words. <BR>
+     * <B>examples:</B><BR>
      * "Blob" becomes "blob" and "DataSource" becomes "dataSource".
-    **/
+     */
     public static final short MIXED_CASE_STYLE = 1;
-    
-    
+
     private static short _style = LOWER_CASE_STYLE;
-    
+
     /**
      * Creates a new DefaultNaming
-    **/
+     */
     public DefaultNaming() {
         super();
     } //-- DefaultNaming
-    
+
     /**
      * Sets the style for this DefaultNaming.
      * Valid options are as follows
@@ -88,90 +86,99 @@ public final class DefaultNaming extends XMLNaming {
      *   DefaultNaming.MIXED_CASE_STYLE
      * </pre>
      * @param style the style to use
-     *
-    **/
-    public void setStyle(short style) {
-        
+     */
+    public void setStyle(final short style) {
         switch (style) {
             case MIXED_CASE_STYLE:
             case LOWER_CASE_STYLE:
                 _style = style;
                 break;
             default:
-                throw new IllegalArgumentException("Invalid option for "
-                    + "DefaultNaming#setStyle.");
+                throw new IllegalArgumentException("Invalid option for DefaultNaming#setStyle.");
         }
     } //-- setStyle
-    
+
     /**
-     * Creates the XML Name for the given class. It would be nearly
-     * impossible for this method to please every one, so I picked
-     * common "de-facto" XML naming conventions. This can be overridden
-     * by either extending org.exolab.castor.xml.Naming and implementing
-     * the proper methods, or by ClassDescriptors for your classes.
-     * 
+     * Creates the XML Name for the given class. It would be nearly impossible
+     * for this method to please every one, so I picked common "de-facto" XML
+     * naming conventions. This can be overridden by either extending
+     * org.exolab.castor.xml.Naming and implementing the proper methods, or by
+     * ClassDescriptors for your classes.
+     *
      * @param c the Class to create the XML Name for
-     * @return the xml name representation of the given String
-     * <BR><B>examples:</B><BR>
-     * "Blob" becomes "blob" and "DataSource" becomes "data-source".
+     * @return the xml name representation of the given String <BR>
+     *         <B>examples:</B><BR>
+     *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
      * @see org.exolab.castor.xml.XMLNaming
-    **/
-    public String createXMLName(Class c) {
+     */
+    public String createXMLName(final Class c) {
         //-- create default XML name
         String name = c.getName();
         int idx = name.lastIndexOf('.');
-        if (idx >= 0) name = name.substring(idx+1);
+        if (idx >= 0) {
+            name = name.substring(idx+1);
+        }
         return toXMLName(name);
     } //-- createXMLName
-    
+
     /**
-     * Converts the given name to an XML name. It would be nearly
-     * impossible for this method to please every one, so I picked
-     * common "de-facto" XML naming conventions. This can be overridden
-     * by either extending org.exolab.castor.xml.Naming and implementing
-     * the proper methods, or by ClassDescriptors for your classes.
+     * Converts the given name to an XML name. It would be nearly impossible for
+     * this method to please every one, so I picked common "de-facto" XML naming
+     * conventions. This can be overridden by either extending
+     * org.exolab.castor.xml.Naming and implementing the proper methods, or by
+     * ClassDescriptors for your classes.
+     *
      * @param name the String to convert to an XML name
-     * @return the xml name representation of the given String
-     * <BR><B>examples:</B><BR>
-     * "Blob" becomes "blob" and "DataSource" becomes "data-source".
+     * @return the xml name representation of the given String <BR>
+     *         <B>examples:</B><BR>
+     *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
      * @see org.exolab.castor.xml.Naming
-     **/
-    public String toXMLName(String name) {
-        
-        if (name == null) return null;
-        if (name.length() == 0) return name;
-        if (name.length() == 1) return name.toLowerCase();
-        
+     */
+    public String toXMLName(final String name) {
+        if (name == null) {
+            return null;
+        }
+        if (name.length() == 0) {
+            return name;
+        }
+        if (name.length() == 1) {
+            return name.toLowerCase();
+        }
+
         //-- Follow the Java beans Introspector::decapitalize
         //-- convention by leaving alone String that start with
         //-- 2 uppercase characters.
-        if (Character.isUpperCase(name.charAt(0)) &&
-            Character.isUpperCase(name.charAt(1))) return name;
-        
+        if (Character.isUpperCase(name.charAt(0)) && Character.isUpperCase(name.charAt(1))) {
+            return name;
+        }
+
         //-- process each character
         StringBuffer cbuff = new StringBuffer(name);
         cbuff.setCharAt(0, Character.toLowerCase(cbuff.charAt(0)));
-        
+
         boolean ucPrev = false;
         for (int i = 1; i < cbuff.length(); i++) {
             char ch = cbuff.charAt(i);
             if (Character.isUpperCase(ch)) {
-                if (ucPrev) continue;
+                if (ucPrev) {
+                    continue;
+                }
                 ucPrev = true;
                 if (_style == LOWER_CASE_STYLE) {
                     cbuff.insert(i,'-');
                     ++i;
                     cbuff.setCharAt(i, Character.toLowerCase(ch));
+                } else {
+                    ++i;
                 }
-                else ++i;
-            }
-            //-- do not add '-' if preceeded by '.'
-            else if (ch == '.') 
+            } else if (ch == '.') {
+                //-- do not add '-' if preceeded by '.'
                 ucPrev = true;
-            else 
+            } else {
                 ucPrev = false;
+            }
         }
         return cbuff.toString();
     } //-- toXMLName
-    
+
 } //-- Naming

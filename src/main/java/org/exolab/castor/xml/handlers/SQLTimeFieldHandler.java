@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,114 +42,99 @@
  *
  * $Id$
  */
- 
 package org.exolab.castor.xml.handlers;
-
 
 import java.sql.Time;
 import java.util.Date;
 
-import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
 
 /**
- * An implementation of GeneralizedFieldHandler for
- * java.sql.Time
+ * An implementation of GeneralizedFieldHandler for java.sql.Time.
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
  * @see FieldDescriptor
  * @see FieldHandler
  */
-public class SQLTimeFieldHandler extends GeneralizedFieldHandler
-{
-    
+public class SQLTimeFieldHandler extends GeneralizedFieldHandler {
+
     /**
-     * Creates a new SQLTimeFieldHandler
+     * Creates a new SQLTimeFieldHandler.
      */
     public SQLTimeFieldHandler() {
         super();
     }
-    
-    
+
     /**
-     * This method is used to convert the value when the getValue method
-     * is called. The getValue method will obtain the actual field value 
-     * from given 'parent' object. This convert method is then invoked
-     * with the field's value. The value returned from this
-     * method will be the actual value returned by getValue method.
+     * This method is used to convert the value when the getValue method is
+     * called. The getValue method will obtain the actual field value from given
+     * 'parent' object. This convert method is then invoked with the field's
+     * value. The value returned from this method will be the actual value
+     * returned by getValue method.
      *
-     * @param value the object value to convert after performing a get
-     * operation
+     * @param value the object value to convert after performing a get operation
      * @return the converted value.
      */
-    public Object convertUponGet(Object value) {
-        //-- no conversion necessary for marshalling
+    public Object convertUponGet(final Object value) {
+        //-- no conversion necessary for marshaling
         return value;
     } //-- convertUponGet
 
     /**
-     * This method is used to convert the value when the setValue method
-     * is called. The setValue method will call this method to obtain
-     * the converted value. The converted value will then be used as
-     * the value to set for the field.
+     * This method is used to convert the value when the setValue method is
+     * called. The setValue method will call this method to obtain the converted
+     * value. The converted value will then be used as the value to set for the
+     * field.
      *
      * @param value the object value to convert before performing a set
-     * operation
+     *        operation
      * @return the converted value.
      */
-    public Object convertUponSet(Object value) {
-        if (value == null) return null;
-                        
+    public Object convertUponSet(final Object value) {
+        if (value == null) {
+            return null;
+        }
+
         String str = value.toString();
-                                
+
         Time time = null;
-        //-- if ':' exists at index 2, then we
-        //-- probably have a valid time format
-        //-- HH:MM:SS
+        // if ':' exists at index 2, then we probably have a valid time format: HH:MM:SS
         if (str.indexOf(':') == 2) {
             time = Time.valueOf(str);
-        }
-        else {
+        } else {
             //-- Try a full date YYYY-MM-DDTHH:MM:SS
             try {
                 Date date = DateFieldHandler.parse(str);
                 time = new Time(date.getTime());
-            }
-            catch(java.text.ParseException px) {
+            } catch (java.text.ParseException px) {
                 throw new IllegalStateException(px.getMessage());
             }
         }
         return time;
     } //-- convertUponSet;
-    
+
     /**
      * Returns the class type for the field that this GeneralizedFieldHandler
-     * converts to and from. This should be the type that is used in the
-     * object model.
+     * converts to and from. This should be the type that is used in the object
+     * model.
      *
      * @return the class type of of the field
      */
     public Class getFieldType() {
         return java.sql.Time.class;
     } //-- getFieldType
-    
+
     /**
      * Creates a new instance of the object described by this field.
      *
      * @param parent The object for which the field is created
      * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
+     * @throws IllegalStateException This field is a simple type and cannot be
+     *         instantiated
      */
-    public Object newInstance( Object parent )
-        throws IllegalStateException
-    {
+    public Object newInstance(final Object parent) throws IllegalStateException {
         return new java.sql.Time(0);
     }
-    
-    
-    
-} //-- SQLTimeFieldHandler
 
+} //-- SQLTimeFieldHandler

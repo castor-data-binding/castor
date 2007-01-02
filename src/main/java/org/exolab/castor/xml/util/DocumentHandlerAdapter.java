@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,7 +45,6 @@
 package org.exolab.castor.xml.util;
 
 import org.exolab.castor.xml.Namespaces;
-
 import org.xml.sax.Attributes;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.DocumentHandler;
@@ -58,126 +57,126 @@ import org.xml.sax.helpers.AttributeListImpl;
  * ContentHandler was written for the Marshaller and expects that QNames
  * are non-null in calls to startElement and endElement methods as well
  * as inside the Attributes list.
- * 
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-09-10 12:15:10 -0600 (Fri, 10 Sep 2004) $
  */
 public class DocumentHandlerAdapter implements ContentHandler {
-    
+
     private static final String CDATA = "CDATA";
-    
+
     private DocumentHandler _handler = null;
     private Namespaces _namespaces = null;
-    
+
     private boolean _createNamespaceScope = true;
-    
+
     /**
      * Creates a new DocumentHandlerAdapter
-     * 
+     *
      * @param handler the DocumentHandler to wrap (non-null).
      */
     public DocumentHandlerAdapter(DocumentHandler handler) {
-    	if (handler == null) {
-    		throw new IllegalArgumentException("The argument 'handler' must not be null.");
+        if (handler == null) {
+            throw new IllegalArgumentException("The argument 'handler' must not be null.");
         }
         _handler = handler;
         _namespaces = new Namespaces();
     }
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#characters(char[], int, int)
-	 */
-	public void characters(char[] chars, int start, int length) 
-        throws SAXException 
-    {
-		_handler.characters(chars, start, length);
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#endDocument()
-	 */
-	public void endDocument() 
-        throws SAXException 
-    {
-		_handler.endDocument();
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
-     *      java.lang.String)
-	 */
-	public void endElement(String uri, String localName, String qName)
-		throws SAXException 
-    {
-		_handler.endElement(qName);
-        if (_namespaces.getParent() != null) {
-        	_namespaces = _namespaces.getParent();
-        }
-	}
 
     /**
-	 * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
-	 */
-	public void endPrefixMapping(String prefix) 
-        throws SAXException 
+     * @see org.xml.sax.ContentHandler#characters(char[], int, int)
+     */
+    public void characters(char[] chars, int start, int length)
+        throws SAXException
+    {
+        _handler.characters(chars, start, length);
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#endDocument()
+     */
+    public void endDocument()
+        throws SAXException
+    {
+        _handler.endDocument();
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#endElement(java.lang.String, java.lang.String,
+     *      java.lang.String)
+     */
+    public void endElement(String uri, String localName, String qName)
+        throws SAXException
+    {
+        _handler.endElement(qName);
+        if (_namespaces.getParent() != null) {
+            _namespaces = _namespaces.getParent();
+        }
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#endPrefixMapping(java.lang.String)
+     */
+    public void endPrefixMapping(String prefix)
+        throws SAXException
     {
         //-- do nothing here, this is handled in endElement
         //-- by simply removing the current namespace scope
 
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
-	 */
-	public void ignorableWhitespace(char[] chars, int start, int length)
-		throws SAXException 
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#ignorableWhitespace(char[], int, int)
+     */
+    public void ignorableWhitespace(char[] chars, int start, int length)
+        throws SAXException
     {
-		_handler.ignorableWhitespace(chars, start, length);
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
-	 */
-	public void processingInstruction(String target, String data)
-			throws SAXException 
+        _handler.ignorableWhitespace(chars, start, length);
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#processingInstruction(java.lang.String, java.lang.String)
+     */
+    public void processingInstruction(String target, String data)
+            throws SAXException
     {
-		_handler.processingInstruction(target, data);
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
-	 */
-	public void setDocumentLocator(Locator locator) 
+        _handler.processingInstruction(target, data);
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#setDocumentLocator(org.xml.sax.Locator)
+     */
+    public void setDocumentLocator(Locator locator)
     {
-		_handler.setDocumentLocator(locator);
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
-	 */
-	public void skippedEntity(String arg0) 
-        throws SAXException 
+        _handler.setDocumentLocator(locator);
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#skippedEntity(java.lang.String)
+     */
+    public void skippedEntity(String arg0)
+        throws SAXException
     {
-		//-- do nothing
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#startDocument()
-	 */
-	public void startDocument() 
-        throws SAXException 
+        //-- do nothing
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#startDocument()
+     */
+    public void startDocument()
+        throws SAXException
     {
-		_handler.startDocument();
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
-	 */
-	public void startElement(String uri, String localName, String qName, Attributes atts)
-        throws SAXException 
+        _handler.startDocument();
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#startElement(java.lang.String, java.lang.String, java.lang.String, org.xml.sax.Attributes)
+     */
+    public void startElement(String uri, String localName, String qName, Attributes atts)
+        throws SAXException
     {
         AttributeListImpl attList = new AttributeListImpl();
-        
+
         //-- Create a new namespace scope if necessary and
         //-- make sure the flag is reset to true
         if (_createNamespaceScope) {
@@ -189,27 +188,27 @@ public class DocumentHandlerAdapter implements ContentHandler {
             _createNamespaceScope = true;
             _namespaces.declareAsAttributes(attList, true);
         }
-        
+
         //-- copy Attributes to AttributeList
         for (int i = 0; i < atts.getLength(); i++) {
-        	attList.addAttribute(atts.getQName(i), CDATA, atts.getValue(i));
+            attList.addAttribute(atts.getQName(i), CDATA, atts.getValue(i));
         }
-        
+
         _handler.startElement(qName, attList);
-        
-	}
-    
-	/**
-	 * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
-	 */
-	public void startPrefixMapping(String prefix, String uri)
-		throws SAXException 
+
+    }
+
+    /**
+     * @see org.xml.sax.ContentHandler#startPrefixMapping(java.lang.String, java.lang.String)
+     */
+    public void startPrefixMapping(String prefix, String uri)
+        throws SAXException
     {
         if (_createNamespaceScope) {
             _namespaces = _namespaces.createNamespaces();
             _createNamespaceScope = false;
         }
-        
+
         _namespaces.addNamespace(prefix, uri);
-	}
-} 
+    }
+}

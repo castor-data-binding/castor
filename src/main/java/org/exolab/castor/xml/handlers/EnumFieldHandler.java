@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,98 +45,102 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.handlers;
+
+import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
 
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.ValidityException;
 
-import java.lang.reflect.Method;
-import java.lang.reflect.Modifier;
-import java.lang.reflect.Array;
-
 /**
- * A specialized FieldHandler for the XML Schema
- * enumeration types
- * 
+ * A specialized FieldHandler for the XML Schema enumeration types.
+ *
  * @author <a href="keith AT kvisco  DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
 public class EnumFieldHandler implements FieldHandler {
 
-    private static final Class[] STRING_ARGS = new Class[] { String.class };
+    /** Used to find the method "valueOf" taking an argument of type String. */
+    private static final Class[] STRING_ARGS = new Class[] {String.class};
+    /** The Factory Method name. */
+    private static final String  METHOD_NAME = "valueOf";
 
-    private Method valueOf  = null;
-
-    private FieldHandler handler = null;
+    /** The <code>valueOf(String)</code> method for the provided enumtype. */
+    private final Method _valueOf;
+    /** The field handler to which we delegate. */
+    private final FieldHandler _handler;
 
     //----------------/
     //- Constructors -/
     //----------------/
 
     /**
-     * Creates a new EnumFieldHandler with the given type and
-     * FieldHandler
+     * Creates a new EnumFieldHandler with the given type and FieldHandler.
+     *
      * @param enumType the Class type of the described field
      * @param handler the FieldHandler to delegate to
-    **/
-    public EnumFieldHandler(Class enumType, FieldHandler handler) {
-        this.handler = handler;
-        init(enumType);
+     */
+    public EnumFieldHandler(final Class enumType, final FieldHandler handler) {
+        this._handler = handler;
+        this._valueOf = getStaticValueOfMethod(enumType);
     } //-- EnumFieldHandler
 
-
-    private void init(Class type) {
-
+    /**
+     * Reflectively finds the <code>valueOf(String)</code> method for the
+     * provided class type.
+     *
+     * @param type the Class for which to locate the valueOf method.
+     * @return the Method <code>valueOf(String)</code>
+     */
+    private Method getStaticValueOfMethod(final Class type) {
         if (type == null) {
-            String err = "The Class argument passed to the " +
-                "constructor of EnumMarshalDescriptor cannot be null.";
+            String err = "The Class argument passed to the "
+                    + "constructor of EnumMarshalDescriptor cannot be null.";
             throw new IllegalArgumentException(err);
         }
 
         Method method = null;
         try {
-            method = type.getMethod("valueOf", STRING_ARGS);
-        }
-        catch(NoSuchMethodException nsme) {
-            String err = type.getName() +
-                " does not contain the required method: public static " +
-                 type.getName() + " valueOf(String);";
+            method = type.getMethod(METHOD_NAME, STRING_ARGS);
+        } catch (NoSuchMethodException nsme) {
+            String err = type.getName()
+                    + " does not contain the required method: public static "
+                    + type.getName() + " valueOf(String);";
             throw new IllegalArgumentException(err);
         }
 
-        int mods = method.getModifiers();
-
-        if (!Modifier.isStatic(mods)) {
-            String err = type.getName() +
-                " does not contain the required method: public static " +
-                type.getName() + " valueOf(String);";
+        if (!Modifier.isStatic(method.getModifiers())) {
+            String err = type.getName() + " public " + type.getName()
+                    + " valueOf(String); exists but is not static";
             throw new IllegalArgumentException(err);
         }
-
-        valueOf = method;
-        method = null;
+        return method;
     } //-- init
 
     //------------------/
     //- Public Methods -/
     //------------------/
 
-
     /**
-     * Returns the value of the field associated with this
-     * descriptor from the given target object.
+     * Returns the value of the field associated with this descriptor from the
+     * given target object.
+     *
      * @param target the object to get the value from
-     * @return the value of the field associated with this
-     * descriptor from the given target object.
-    **/
-    public Object getValue(Object target)
-        throws java.lang.IllegalStateException
-    {
-        Object val = handler.getValue(target);
-        Object result = null;
-        if (val == null) return val;
+     * @return the value of the field associated with this descriptor from the
+     *         given target object.
+     * @throws IllegalStateException The Java object has changed and is no
+     *         longer supported by this handler, or the handler is not
+     *         compatible with the Java object
+     */
+    public Object getValue(final Object target) throws java.lang.IllegalStateException {
+        Object val = _handler.getValue(target);
+        if (val == null) {
+            return val;
+        }
 
+        Object result = null;
         if (val.getClass().isArray()) {
            int size = Array.getLength(val);
             String[] values = new String[size];
@@ -146,90 +150,95 @@ public class EnumFieldHandler implements FieldHandler {
                 values[i] = obj.toString();
             }
             result = values;
-        } else result = val.toString();
+        } else {
+            result = val.toString();
+        }
         return result;
     } //-- getValue
 
     /**
      * Sets the value of the field associated with this descriptor.
+     *
      * @param target the object in which to set the value
      * @param value the value of the field
-    **/
-    public void setValue(Object target, Object value)
-        throws java.lang.IllegalStateException
-    {
+     * @throws IllegalStateException The Java object has changed and is no
+     *         longer supported by this handler, or the handler is not
+     *         compatible with the Java object.
+     */
+    public void setValue(final Object target, final Object value)
+                                        throws java.lang.IllegalStateException {
         Object[] args = new String[1];
         Object obj = null;
         if (value != null) {
             args[0] = value.toString();
             try {
-                obj = valueOf.invoke(null, args);
-            }
-            catch(java.lang.reflect.InvocationTargetException ite) {
+                obj = _valueOf.invoke(null, args);
+            } catch (java.lang.reflect.InvocationTargetException ite) {
                 Throwable toss = ite.getTargetException();
                 throw new IllegalStateException(toss.toString());
-            }
-            catch(java.lang.IllegalAccessException iae) {
+            } catch (java.lang.IllegalAccessException iae) {
                 throw new IllegalStateException(iae.toString());
             }
         }
-        handler.setValue(target, obj);
-
+        _handler.setValue(target, obj);
     } //-- setValue
 
-    public void resetValue(Object targer)
-    {
+    /**
+     * Sets the value of the field to a default value -- for enum, no action
+     * needed.
+     *
+     * @param target The object.
+     */
+    public void resetValue(final Object target) {
+        // No action needed
     }
 
     /**
-     * Checks the field validity. Returns successfully if the field
-     * can be stored, is valid, etc, throws an exception otherwise.
+     * Checks the field validity. Returns successfully if the field can be
+     * stored, is valid, etc, throws an exception otherwise.
      *
      * @param object The object
-     * @throws ValidityException The field is invalid, is required and
-     *  null, or any other validity violation
-     * @throws IllegalStateException The Java object has changed and
-     *  is no longer supported by this handler, or the handler
-     *  is not compatiable with the Java object
+     * @throws ValidityException The field is invalid, is required and null, or
+     *         any other validity violation
+     * @throws IllegalStateException The Java object has changed and is no
+     *         longer supported by this handler, or the handler is not
+     *         compatiable with the Java object
      */
-    public void checkValidity( Object object )
-        throws ValidityException, IllegalStateException
-    {
+    public void checkValidity(final Object object) throws ValidityException, IllegalStateException {
         //-- do nothing for now
     } //-- checkValidity
-
 
     /**
      * Creates a new instance of the object described by this field.
      *
      * @param parent The object for which the field is created
      * @return A new instance of the field's value
-     * @throws IllegalStateException This field is a simple type and
-     *  cannot be instantiated
+     * @throws IllegalStateException This field is a simple type and cannot be
+     *         instantiated
      */
-    public Object newInstance( Object parent )
-        throws IllegalStateException
-    {
+    public Object newInstance(final Object parent) throws IllegalStateException {
         return "";
     } //-- newInstance
 
     /**
-     * Returns true if the given object is an XMLFieldHandler that
-     * is equivalent to the delegated handler. An equivalent XMLFieldHandler
-     * is an XMLFieldHandler that is an instances of the same class.
+     * Returns true if the given object is an XMLFieldHandler that is equivalent
+     * to the delegated handler. An equivalent XMLFieldHandler is an
+     * XMLFieldHandler that is an instances of the same class.
      *
-     * @return true if the given object is an XMLFieldHandler that
-     * is equivalent to this one.
-    **/
-    public boolean equals(Object obj) {
-        if (obj == null) return false;
-        if (obj == this) return true;
-        if (!(obj instanceof FieldHandler)) return false;
-        return (handler.getClass().isInstance(obj) ||
-                getClass().isInstance(obj));
+     * @return true if the given object is an XMLFieldHandler that is equivalent
+     *         to this one.
+     */
+    public boolean equals(final Object obj) {
+        if (obj == null) {
+            return false;
+        }
+        if (obj == this) {
+            return true;
+        }
+        if (!(obj instanceof FieldHandler)) {
+            return false;
+        }
+        return (_handler.getClass().isInstance(obj) || getClass().isInstance(obj));
     } //-- equals
 
 } //-- EnumFieldHandler
-
-
-

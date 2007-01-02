@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,85 +42,72 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.util;
 
-
 /**
- * A light-weight object used to wrap any object. This allows
- * Castor to effectively "wrap" and "unwrap" elements during
- * marshalling and unmarshalling.
+ * A light-weight object used to wrap any object. This allows Castor to
+ * effectively "wrap" and "unwrap" elements during marshaling and unmarshaling.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  */
 public class ContainerElement {
-    
-    /**
-     * The "parent" object, ie the objec that the contained
-     * object actually belongs to
-     */
-    private Object _parent = null; 
-     
-    /**
-     * The object "contained" within this ContainerElement
-     */
+
+    /** The "parent" object, i.e., the object that the contained object actually belongs to. */
+    private Object _parent = null;
+    /** The object "contained" within this ContainerElement. */
     private Object _object = null;
-    
+
     /**
-     * Creates a new empty ContainerElement
+     * Creates a new empty ContainerElement.
      */
     public ContainerElement() {
         super();
     } //-- ContainerElement
 
     /**
-     * Creates a ContainerElement with the specified object
+     * Creates a ContainerElement with the specified object.
      *
-     * @param object the Object to set 
+     * @param object the Object to set
      */
     public ContainerElement(Object object) {
         super();
         _object = object;
     } //-- ContainerElement
-    
+
     /**
-     * Returns the object contained within this ContainerElement
+     * Returns the object contained within this ContainerElement.
      *
-     * @return the object contained within this ContainerElement
+     * @return the object contained within this ContainerElement.
      */
     public Object getObject() {
         return _object;
     } //-- getObject
-    
+
     /**
-     * Returns the parent of the contained object
+     * Returns the parent of the contained object.
      *
-     * @return the parent of the contained object
+     * @return the parent of the contained object.
      */
     public Object getParent() {
         return _parent;
     } //-- getParent
-    
+
     /**
-     * Sets the object that is contained within this ContainerElement
+     * Sets the object that is contained within this ContainerElement.
      *
-     * @param object the Object to set 
+     * @param object the Object to set
      */
     public void setObject(Object object) {
         _object = object;
     } //-- setObject
 
     /**
-     * Sets the parent of the contained object
+     * Sets the parent of the contained object.
      *
      * @param parent the parent of the contained object
      */
     public void setParent(Object parent) {
         _parent = parent;
     } //-- setParent
-    
+
 } //-- class: ContainerElement
-
-
-

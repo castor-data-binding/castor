@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,73 +42,70 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.util;
-
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
-
 import org.exolab.castor.util.LocalConfiguration;
-
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLClassDescriptor;
+import org.exolab.castor.xml.XMLFieldDescriptor;
+import org.exolab.castor.xml.XMLNaming;
 
 /**
- * An adapter class which can turn an ordinary ClassDescriptor
- * into an XMLClassDescriptor
+ * An adapter class which can turn an ordinary ClassDescriptor into an
+ * XMLClassDescriptor.
+ *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
+
     /**
-     * Creates a new XMLClassDescriptorAdapter using the
-     * given ClassDescriptor
+     * Creates a new XMLClassDescriptorAdapter using the given ClassDescriptor.
      *
      * @param classDesc the ClassDescriptor to "adapt"
      * @param xmlName the XML name for the class
      */
-    public XMLClassDescriptorAdapter(ClassDescriptor classDesc, String xmlName) 
-        throws org.exolab.castor.mapping.MappingException 
-    {
+    public XMLClassDescriptorAdapter(final ClassDescriptor classDesc, final String xmlName)
+                                throws org.exolab.castor.mapping.MappingException {
         this(classDesc, xmlName, null);
     } //-- XMLClassDescriptor
-    
+
     /**
-     * Creates a new XMLClassDescriptorAdapter using the
-     * given ClassDescriptor
+     * Creates a new XMLClassDescriptorAdapter using the given ClassDescriptor.
      *
      * @param classDesc the ClassDescriptor to "adapt"
      * @param xmlName the XML name for the class
      * @param primitiveNodeType the NodeType to use for primitives
      */
-    public XMLClassDescriptorAdapter(ClassDescriptor classDesc, String xmlName, NodeType primitiveNodeType) 
-        throws org.exolab.castor.mapping.MappingException 
-    {
-        
+    public XMLClassDescriptorAdapter(final ClassDescriptor classDesc,
+            String xmlName, NodeType primitiveNodeType)
+            throws org.exolab.castor.mapping.MappingException {
         super();
-        
+
         if (classDesc == null) {
-            String err = "The ClassDescriptor argument to " +
-                 "XMLClassDescriptorAdapter must not be null.";
+            String err = "The ClassDescriptor argument to "
+                + "XMLClassDescriptorAdapter must not be null.";
             throw new IllegalArgumentException(err);
         }
-        
-        if (primitiveNodeType == null) 
+
+        if (primitiveNodeType == null) {
             primitiveNodeType = LocalConfiguration.getInstance().getPrimitiveNodeType();
-            
-        if (primitiveNodeType == null)
+        }
+
+        if (primitiveNodeType == null) {
             primitiveNodeType = NodeType.Attribute;
-        
+        }
+
         process(classDesc, primitiveNodeType);
         setJavaClass(classDesc.getJavaClass());
-        
+
         if (xmlName == null) {
             if (classDesc instanceof XMLClassDescriptor) {
                 xmlName = ((XMLClassDescriptor)classDesc).getXMLName();
-            }
-            else {
+            } else {
                 XMLNaming naming = XMLNaming.getInstance();
                 String name = classDesc.getJavaClass().getName();
                 //-- strip package
@@ -120,47 +117,44 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             }
         }
         setXMLName(xmlName);
-
     } //-- XMLClassDescriptorAdapter
 
     /**
-     * Copies the fieldDescriptors of the given XMLClassDesctiptor
-     * into this XMLClassDescriptor.
+     * Copies the fieldDescriptors of the given XMLClassDesctiptor into this
+     * XMLClassDescriptor.
      *
      * @param classDesc the XMLClassDescriptor to process
-    **/
-    private void process(ClassDescriptor classDesc, NodeType primitiveNodeType) 
-        throws org.exolab.castor.mapping.MappingException
-    {
-            
+     */
+    private void process(final ClassDescriptor classDesc, final NodeType primitiveNodeType)
+        throws org.exolab.castor.mapping.MappingException {
+
         if (classDesc instanceof XMLClassDescriptor) {
             //-- hopefully this won't happen, but we can't prevent it.
             process((XMLClassDescriptor)classDesc);
             return;
         }
-        
-        
+
         //-- handle inheritence
         XMLClassDescriptor xmlClassDesc = null;
         ClassDescriptor extendsDesc = classDesc.getExtends();
         if (extendsDesc != null) {
-            if (extendsDesc instanceof XMLClassDescriptor)
+            if (extendsDesc instanceof XMLClassDescriptor) {
                 xmlClassDesc = (XMLClassDescriptor) extendsDesc;
-            else {
+            } else {
                 xmlClassDesc = new XMLClassDescriptorAdapter(extendsDesc, null, primitiveNodeType);
             }
         }
         setExtends(xmlClassDesc);
-        
+
         FieldDescriptor   identity = classDesc.getIdentity();
         FieldDescriptor[] fields   = classDesc.getFields();
-        
+
         //-- Note from Keith for anyone interested...
         //-- hack for multiple identities if ClassDescriptor is
         //-- an implementation of ClassDescriptorImpl...
-        //-- This is really a bug in ClassDescriptorImpl, but 
+        //-- This is really a bug in ClassDescriptorImpl, but
         //-- since it's shared code between JDO + XML I don't
-        //-- want to change it there until both the XML and JDO 
+        //-- want to change it there until both the XML and JDO
         //-- folks can both approve the change.
         if (classDesc instanceof ClassDescriptorImpl) {
             ClassDescriptorImpl cdImpl = (ClassDescriptorImpl)classDesc;
@@ -174,44 +168,44 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             }
         }
         //-- End ClassDescriptorImpl fix
-        
+
         for (int i = 0; i < fields.length; i++) {
             FieldDescriptor fieldDesc = fields[i];
-            if (fieldDesc == null) continue;
-            if ( fieldDesc instanceof XMLFieldDescriptorImpl ) {
+            if (fieldDesc == null) {
+                continue;
+            }
+            if (fieldDesc instanceof XMLFieldDescriptorImpl) {
                 if (identity == fieldDesc) {
                     setIdentity((XMLFieldDescriptorImpl)fieldDesc);
                     identity = null; //-- clear identity
-                }
-                else {
+                } else {
                     addFieldDescriptor((XMLFieldDescriptorImpl)fieldDesc);
                 }
-            }
-            else {
+            } else {
                 String name = fieldDesc.getFieldName();
                 XMLNaming naming = XMLNaming.getInstance();
                 String xmlFieldName = naming.toXMLName(name);
-                    
+
                 if (identity == fieldDesc) {
                     setIdentity(new XMLFieldDescriptorImpl(fieldDesc,
                                                           xmlFieldName,
                                                          NodeType.Attribute,
                                                          primitiveNodeType));
                     identity = null; //-- clear identity
-                }
-                else {
+                } else {
                     NodeType nodeType = NodeType.Element;
-                    if (isPrimitive(fieldDesc.getFieldType()))
+                    if (isPrimitive(fieldDesc.getFieldType())) {
                         nodeType = primitiveNodeType;
-                        
+                    }
+
                     addFieldDescriptor(new XMLFieldDescriptorImpl(fieldDesc,
-                                                                xmlFieldName, 
+                                                                xmlFieldName,
                                                                 nodeType,
                                                                 primitiveNodeType));
                 }
             }
         }
-        
+
         //-- Handle Identity if it wasn't already handled. This occurs
         //-- if the ClassDescriptor implementation doesn't return
         //-- the identity field as part of the collection of fields
@@ -220,8 +214,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             String  xmlFieldName;
             if ( identity instanceof XMLFieldDescriptor ) {
                 setIdentity((XMLFieldDescriptor)identity);
-            }
-            else {
+            } else {
                 XMLNaming naming = XMLNaming.getInstance();
                 xmlFieldName = naming.toXMLName(identity.getFieldName());
                 setIdentity(new XMLFieldDescriptorImpl(identity,
@@ -230,39 +223,33 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
                                                        primitiveNodeType));
             }
         }
-        
-        
     } //-- process
-    
+
     /**
-     * Copies the fieldDescriptors of the given XMLClassDesctiptor
-     * into this XMLClassDescriptor.
+     * Copies the fieldDescriptors of the given XMLClassDesctiptor into this
+     * XMLClassDescriptor.
      *
      * @param classDesc the XMLClassDescriptor to process
-    **/
-    private void process(XMLClassDescriptor classDesc) 
-        throws org.exolab.castor.mapping.MappingException
-    {
+     */
+    private void process(final XMLClassDescriptor classDesc)
+                              throws org.exolab.castor.mapping.MappingException {
         FieldDescriptor identity = classDesc.getIdentity();
         FieldDescriptor[] fields = classDesc.getFields();
         for (int i = 0; i < fields.length; i++) {
             if (identity == fields[i]) {
                 setIdentity((XMLFieldDescriptor)fields[i]);
                 identity = null; //-- clear identity
-            }
-            else {
+            } else {
                 addFieldDescriptor((XMLFieldDescriptor)fields[i]);
             }
         }
-        
+
         //-- handle identity if not already processed
         if (identity != null) {
             setIdentity((XMLFieldDescriptor)identity);
         }
         setXMLName(classDesc.getXMLName());
         setExtendsWithoutFlatten((XMLClassDescriptor)classDesc.getExtends());
-        
     } //-- process
-    
-    
+
 } //-- XMLClassDescriptorAdapter

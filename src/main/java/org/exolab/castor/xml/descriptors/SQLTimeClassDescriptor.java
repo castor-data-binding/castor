@@ -1,255 +1,235 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+ * ("Software"), with or without modification, are permitted provided that the
+ * following conditions are met:
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * 1. Redistributions of source code must retain copyright statements and
+ * notices. Redistributions must also contain a copy of this document.
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * 2. Redistributions in binary form must reproduce the above copyright notice,
+ * this list of conditions and the following disclaimer in the documentation
+ * and/or other materials provided with the distribution.
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
+ * 3. The name "Exolab" must not be used to endorse or promote products derived
+ * from this Software without prior written permission of Intalio, Inc. For
+ * written permission, please contact info@exolab.org.
  *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
+ * 4. Products derived from this Software may not be called "Exolab" nor may
+ * "Exolab" appear in their names without prior written permission of Intalio,
+ * Inc. Exolab is a registered trademark of Intalio, Inc.
  *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
+ * 5. Due credit should be given to the Exolab Project (http://www.exolab.org/).
  *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
+ * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS ``AS IS'' AND ANY
+ * EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT NOT LIMITED TO, THE IMPLIED
+ * WARRANTIES OF MERCHANTABILITY AND FITNESS FOR A PARTICULAR PURPOSE ARE
+ * DISCLAIMED. IN NO EVENT SHALL INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR
+ * ANY DIRECT, INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL
+ * DAMAGES (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
+ * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION) HOWEVER
+ * CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT, STRICT LIABILITY,
+ * OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE) ARISING IN ANY WAY OUT OF THE USE
+ * OF THIS SOFTWARE, EVEN IF ADVISED OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2000-2004 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml.descriptors;
 
+import java.sql.Time;
+import java.util.Date;
+
+import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
-import org.exolab.castor.mapping.AccessMode;
-import org.exolab.castor.xml.handlers.SQLTimeFieldHandler;
 import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.TypeValidator;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.XMLFieldHandler;
-import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.handlers.SQLTimeFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
-import java.util.Date;
-import java.sql.Time;
-
 /**
- * A ClassDescriptor for java.sql.Time
+ * A ClassDescriptor for java.sql.Time.
  *
  * @author <a href="kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public class SQLTimeClassDescriptor
-    implements XMLClassDescriptor
-{
+public class SQLTimeClassDescriptor implements XMLClassDescriptor {
 
+    /** Used for returning no attribute and no element fields. */
+    private static final XMLFieldDescriptor[]   NO_FIELDS  = new XMLFieldDescriptor[0];
+    /** The name of the XML element. */
+    private static final String                 XML_NAME   = "sql-time";
+    /** Our field descriptor for our "content". */
+    private static final XMLFieldDescriptorImpl CONTENT_DESCRIPTOR;
+    /** Our field descriptor array. Lists the fields we describe. */
+    private static final FieldDescriptor[]      FIELDS;
+    /** Type validator to use to validate an instance of this type. */
+    private static final TypeValidator          VALIDATOR  = null;
 
-    /**
-     * Used for returning no attribute and no element fields
-    **/
-    private static final XMLFieldDescriptor[] _noFields
-        = new XMLFieldDescriptor[0];
-
-    /**
-     * The TypeValidator to use for validation of the described class
-    **/
-    private TypeValidator validator = null;
-
-    /**
-     * The name of the XML element.
-     */
-    private static final String _xmlName = "sql-time";
-
-    private static XMLFieldDescriptorImpl _contentDescriptor = null;
-
-    private static FieldDescriptor[] _fields = null;
-
-    //----------------/
-    //- Constructors -/
-    //----------------/
-
-    public SQLTimeClassDescriptor() {
-        super();
-        if (_contentDescriptor == null) {
-            _contentDescriptor = new XMLFieldDescriptorImpl(String.class,
+    static {
+        CONTENT_DESCRIPTOR = new XMLFieldDescriptorImpl(String.class,
                 "content", "content", NodeType.Text);
 
-            _contentDescriptor.setImmutable(true);
-            //-- setHandler
-            SQLTimeFieldHandler sqlTimeHandler = new SQLTimeFieldHandler();
-            
-            XMLFieldHandler handler = new XMLFieldHandler() {
-                
-                
-                public Object getValue(Object object) {
-                    return object;
+        CONTENT_DESCRIPTOR.setImmutable(true);
+        // -- setHandler
+        SQLTimeFieldHandler sqlTimeHandler = new SQLTimeFieldHandler();
+
+        XMLFieldHandler handler = new XMLFieldHandler() {
+
+            /**
+             * {@inheritDoc}
+             */
+            public Object getValue(final Object object) {
+                return object;
+            }
+
+            /**
+             * {@inheritDoc}
+             */
+            public void setValue(final Object object, final Object value) {
+                if (value == null) {
+                    return;
                 }
-                
-                public void setValue( Object object, Object value)
-                {
-                    if (value == null) return;
-                        
-                    if (java.sql.Time.class == object.getClass()) {
-                        Time target = (Time)object;
-                        if (java.util.Date.class.isAssignableFrom(value.getClass())) {
-                            target.setTime(((Date)value).getTime());
-                        }
+
+                if (java.sql.Time.class == object.getClass()) {
+                    Time target = (Time) object;
+                    if (java.util.Date.class.isAssignableFrom(value.getClass())) {
+                        target.setTime(((Date) value).getTime());
                     }
                 }
-                
-                public Object newInstance( Object parent ) {
-                    return new java.sql.Time(0);
-                }
-            };
-            sqlTimeHandler.setFieldHandler(handler);
-            _contentDescriptor.setHandler(sqlTimeHandler);
+            }
 
-        }
+            /**
+             * {@inheritDoc}
+             */
+            public Object newInstance(final Object parent) {
+                return new java.sql.Time(0);
+            }
+        };
+        sqlTimeHandler.setFieldHandler(handler);
+        CONTENT_DESCRIPTOR.setHandler(sqlTimeHandler);
 
-        if (_fields == null) {
-            _fields = new FieldDescriptor[1];
-            _fields[0] = _contentDescriptor;
-        }
+        FIELDS = new FieldDescriptor[1];
+        FIELDS[0] = CONTENT_DESCRIPTOR;
+    }
 
-    } //-- DateDescriptor
-
-    //------------------/
-    //- Public Methods -/
-    //------------------/
+    // ----------------/
+    // - Constructors -/
+    // ----------------/
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML attributes.
-    **/
-    public XMLFieldDescriptor[]  getAttributeDescriptors() {
-        return _noFields;
+     * No-arg constructor.
+     */
+    public SQLTimeClassDescriptor() {
+        super();
+    } // -- DateDescriptor
+
+    // ------------------/
+    // - Public Methods -/
+    // ------------------/
+
+    /**
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshaled as XML attributes.
+     *
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshaled as XML attributes.
+     */
+    public XMLFieldDescriptor[] getAttributeDescriptors() {
+        return NO_FIELDS;
     } // getAttributeDescriptors
 
     /**
-     * Returns the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-     * @return the XMLFieldDescriptor for the member
-     * that should be marshalled as text content.
-    **/
+     * Returns the XMLFieldDescriptor for the member that should be marshaled
+     * as text content.
+     *
+     * @return the XMLFieldDescriptor for the member that should be marshaled
+     *         as text content.
+     */
     public XMLFieldDescriptor getContentDescriptor() {
-        return _contentDescriptor;
+        return CONTENT_DESCRIPTOR;
     } // getContentDescriptor
 
     /**
-     * Returns the set of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
-     * @return an array of XMLFieldDescriptors for all members
-     * that should be marshalled as XML elements.
-    **/
-    public XMLFieldDescriptor[]  getElementDescriptors() {
-        return _noFields;
+     * Returns the set of XMLFieldDescriptors for all members that should be
+     * marshaled as XML elements.
+     *
+     * @return an array of XMLFieldDescriptors for all members that should be
+     *         marshaled as XML elements.
+     */
+    public XMLFieldDescriptor[] getElementDescriptors() {
+        return NO_FIELDS;
     } // getElementDescriptors
 
     /**
-     * Returns the XML field descriptor matching the given
-     * xml name and nodeType. If NodeType is null, then
-     * either an AttributeDescriptor, or ElementDescriptor
-     * may be returned. Null is returned if no matching
+     * Returns the XML field descriptor matching the given xml name and
+     * nodeType. If NodeType is null, then either an AttributeDescriptor, or
+     * ElementDescriptor may be returned. Null is returned if no matching
      * descriptor is available.
      *
      * @param name the xml name to match against
      * @param namespace the namespace uri
-     * @param nodeType the NodeType to match against, or null if
-     * the node type is not known.
-     * @return the matching descriptor, or null if no matching
-     * descriptor is available.
-     *
-    **/
-    public XMLFieldDescriptor getFieldDescriptor
-        (String name, String namespace, NodeType nodeType)
-    {
+     * @param nodeType the NodeType to match against, or null if the node type
+     *        is not known.
+     * @return the matching descriptor, or null if no matching descriptor is
+     *         available.
+     */
+    public XMLFieldDescriptor getFieldDescriptor(final String name, final String namespace,
+            final NodeType nodeType) {
         return null;
-
-    } //-- getFieldDescriptor
+    } // -- getFieldDescriptor
 
     /**
-     * @return the namespace prefix to use when marshalling as XML.
-    **/
+     * @return the namespace prefix to use when marshaling as XML.
+     */
     public String getNameSpacePrefix() {
         return null;
-    } //-- getNameSpacePrefix
+    } // -- getNameSpacePrefix
 
     /**
-     * @return the namespace URI used when marshalling and unmarshalling as XML.
-    **/
+     * @return the namespace URI used when marshaling and unmarshaling as XML.
+     */
     public String getNameSpaceURI() {
         return null;
-    } //-- getNameSpaceURI
+    } // -- getNameSpaceURI
 
     /**
-     * Returns a specific validator for the class described by
-     * this ClassDescriptor. A null value may be returned
-     * if no specific validator exists.
+     * Returns a specific validator for the class described by this
+     * ClassDescriptor. A null value may be returned if no specific validator
+     * exists.
      *
      * @return the type validator for the class described by this
-     * ClassDescriptor.
-    **/
+     *         ClassDescriptor.
+     */
     public TypeValidator getValidator() {
-        return validator;
-    } //-- getValidator
+        return VALIDATOR;
+    } // -- getValidator
 
     /**
      * Returns the XML Name for the Class being described.
      *
      * @return the XML name.
-    **/
+     */
     public String getXMLName() {
-        return _xmlName;
-    } //-- getXMLName
+        return XML_NAME;
+    } // -- getXMLName
 
     /**
-     * Returns the String representation of this XMLClassDescriptor
-     * @return the String representation of this XMLClassDescriptor
-    **/
+     * Returns the String representation of this XMLClassDescriptor.
+     *
+     * @return the String representation of this XMLClassDescriptor.
+     */
     public String toString() {
+        return super.toString() + "; descriptor for class: java.sql.Time; xml name: " + XML_NAME;
+    } // -- toString
 
-        String str = super.toString() +
-            "; descriptor for class: java.sql.Time";
-
-        //-- add xml name
-        str += "; xml name: " + _xmlName;
-
-        return str;
-    } //-- toString
-
-
-    //-------------------------------------/
-    //- Implementation of ClassDescriptor -/
-    //-------------------------------------/
+    // -------------------------------------/
+    // - Implementation of ClassDescriptor -/
+    // -------------------------------------/
 
     /**
      * Returns the Java class represented by this descriptor.
@@ -258,8 +238,7 @@ public class SQLTimeClassDescriptor
      */
     public Class getJavaClass() {
         return java.sql.Time.class;
-    } //-- getJavaClass
-
+    } // -- getJavaClass
 
     /**
      * Returns a list of fields represented by this descriptor.
@@ -267,9 +246,8 @@ public class SQLTimeClassDescriptor
      * @return A list of fields
      */
     public FieldDescriptor[] getFields() {
-        return _fields;
-    } //-- getFields
-
+        return FIELDS;
+    } // -- getFields
 
     /**
      * Returns the class descriptor of the class extended by this class.
@@ -278,8 +256,7 @@ public class SQLTimeClassDescriptor
      */
     public ClassDescriptor getExtends() {
         return null;
-    } //-- getExtends
-
+    } // -- getExtends
 
     /**
      * Returns the identity field, null if this class has no identity.
@@ -288,8 +265,7 @@ public class SQLTimeClassDescriptor
      */
     public FieldDescriptor getIdentity() {
         return null;
-    } //-- getIdentity
-
+    } // -- getIdentity
 
     /**
      * Returns the access mode specified for this class.
@@ -298,27 +274,26 @@ public class SQLTimeClassDescriptor
      */
     public AccessMode getAccessMode() {
         return null;
-    } //-- getAccessMode
+    } // -- getAccessMode
 
-
-     /**
-     * <p>Returns true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
-     * An XMLClassDescriptor can accept a field if it contains a descriptor that matches
-     * the given name and if the given object can hold this field (i.e a value is not already set for
+    /**
+     * Returns true if the given object represented by this XMLClassDescriptor
+     * can accept a member whose name is given. An XMLClassDescriptor can accept
+     * a field if it contains a descriptor that matches the given name and if
+     * the given object can hold this field (i.e a value is not already set for
      * this field).
-     * <p>This is mainly used for container object (that can contains other object), in this particular case
-     * the implementation will return null.
+     * <p>
+     * This is mainly used for container objects (that can contain other
+     * objects), in this particular case the implementation returns false.
+     *
      * @param name the xml name of the field to check
      * @param namespace the namespace uri
      * @param object the object represented by this XMLCLassDescriptor
      * @return true if the given object represented by this XMLClassDescriptor
-     * can accept a member whose name is given.
+     *         can accept a member whose name is given.
      */
-    public boolean canAccept(String name, String namespace, Object object) {
-         return false;
+    public boolean canAccept(final String name, final String namespace, final Object object) {
+        return false;
     }
-    
-    
 
 } //-- class: SQLTimeClassDescriptor

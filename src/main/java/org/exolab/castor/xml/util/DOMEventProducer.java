@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -40,19 +40,20 @@
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
- * This file was adapted From XSL:P 
- * 
+ * This file was adapted From XSL:P
+ *
  * $Id$
  */
-
 package org.exolab.castor.xml.util;
 
-
 import org.exolab.castor.xml.EventProducer;
-
-import org.w3c.dom.*;
-import org.xml.sax.*;
-
+import org.w3c.dom.Document;
+import org.w3c.dom.Element;
+import org.w3c.dom.Node;
+import org.w3c.dom.ProcessingInstruction;
+import org.w3c.dom.Text;
+import org.xml.sax.AttributeList;
+import org.xml.sax.DocumentHandler;
 
 /**
  * A class for converting a DOM document to SAX events
@@ -61,18 +62,18 @@ import org.xml.sax.*;
 **/
 public class DOMEventProducer implements EventProducer {
 
-    
+
     private DocumentHandler _handler = null;
-    
+
     private Node _node = null;
 
     /**
-     * Creates a new DOMEventProducer 
+     * Creates a new DOMEventProducer
     **/
     public DOMEventProducer() {
         super();
     } //-- DOMEventProducer
-    
+
     /**
      * Creates a new DOMEventProducer for the given Node
      * @param node the node to create the DOMEventProducer for.
@@ -81,43 +82,43 @@ public class DOMEventProducer implements EventProducer {
         super();
         this._node = node;
     } //-- DOMEventProducer
-    
-    
+
+
     /**
      * Sets the DocumentHandler to use when firing events
     **/
     public void setDocumentHandler(DocumentHandler handler) {
         this._handler = handler;
     } //-- setDocumentHandler
-    
-    /** 
+
+    /**
      * Sets the node which is to be converted into SAX events
      * @param node the node which is to be converted into SAX events
     **/
     public void setNode(Node node) {
         this._node = node;
     } //-- setNode
-    
+
     /**
      * Starts producing the events for the Node which is to be
      * converted into SAX events
     **/
-    public void start() 
-        throws org.xml.sax.SAXException 
+    public void start()
+        throws org.xml.sax.SAXException
     {
         if ((_node == null) || (_handler == null)) return;
 
         process(_node, _handler);
-        
+
     } //-- start
-    
+
     /**
      * Walks the given DOM Document and converts it into it's corresponding
      * SAX events
      * @param document the Node to process into SAX events
      * @param handler the DocumentHandler to send events to
     **/
-    public static void process(Document document, DocumentHandler handler) 
+    public static void process(Document document, DocumentHandler handler)
 
         throws org.xml.sax.SAXException
 
@@ -127,7 +128,7 @@ public class DOMEventProducer implements EventProducer {
 
         if (handler == null) return;
 
-        
+
 
         handler.startDocument();
 
@@ -135,11 +136,11 @@ public class DOMEventProducer implements EventProducer {
 
         handler.endDocument();
 
-        
+
 
     } //-- process(Document, DocumentHandler)
 
-    
+
 
     /**
 
@@ -151,17 +152,17 @@ public class DOMEventProducer implements EventProducer {
 
     **/
 
-    public static void process(Node node, DocumentHandler handler) 
+    public static void process(Node node, DocumentHandler handler)
 
         throws org.xml.sax.SAXException
 
     {
 
-        
+
 
         if ((node == null) || (handler == null)) return;
 
-        
+
 
         switch(node.getNodeType()) {
 
@@ -199,7 +200,7 @@ public class DOMEventProducer implements EventProducer {
 
             case Node.COMMENT_NODE:
 
-            
+
 
             default:
 
@@ -207,11 +208,11 @@ public class DOMEventProducer implements EventProducer {
 
         }
 
-        
+
 
     } //-- process(Node, DocumentHandler)
 
-    
+
 
     //-------------------/
 
@@ -219,7 +220,7 @@ public class DOMEventProducer implements EventProducer {
 
     //-------------------/
 
-    
+
 
     /**
 
@@ -229,17 +230,17 @@ public class DOMEventProducer implements EventProducer {
 
     **/
 
-    private static void process(Element element, DocumentHandler handler) 
+    private static void process(Element element, DocumentHandler handler)
 
         throws org.xml.sax.SAXException
 
     {
 
-        
+
 
         String name = element.getNodeName();
-        
-        AttributeList atts 
+
+        AttributeList atts
             = new AttributeListWrapper(element.getAttributes());
 
         handler.startElement(name, atts);
@@ -250,7 +251,7 @@ public class DOMEventProducer implements EventProducer {
 
     } //-- process(Element, DocumentHandler);
 
-    
+
 
     /**
 
@@ -260,7 +261,7 @@ public class DOMEventProducer implements EventProducer {
 
     **/
 
-    private static void process(Text text, DocumentHandler handler) 
+    private static void process(Text text, DocumentHandler handler)
 
         throws org.xml.sax.SAXException
 
@@ -278,11 +279,11 @@ public class DOMEventProducer implements EventProducer {
 
     } //-- process(Text, DocumentHandler)
 
-    
+
 
     /**
 
-     * Breaks down the given ProcessingInstruction into it's corresponding 
+     * Breaks down the given ProcessingInstruction into it's corresponding
 
      * SAX event
 
@@ -294,7 +295,7 @@ public class DOMEventProducer implements EventProducer {
 
     private static void process
 
-        (ProcessingInstruction pi, DocumentHandler handler) 
+        (ProcessingInstruction pi, DocumentHandler handler)
 
         throws org.xml.sax.SAXException
 
@@ -302,7 +303,7 @@ public class DOMEventProducer implements EventProducer {
 
         handler.processingInstruction(pi.getTarget(),pi.getData());
 
-        
+
 
     } //-- process(ProcessingInstruction, DocumentHandler);
 
@@ -336,13 +337,13 @@ public class DOMEventProducer implements EventProducer {
 
         }
 
-        
+
 
     } //-- processChildren
 
-    
 
-    
+
+
 
 } //-- DOMEventProducer
 

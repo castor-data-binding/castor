@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,92 +42,77 @@
  *
  * $Id$
  */
- 
 package org.exolab.castor.xml.handlers;
-
 
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.GeneralizedFieldHandler;
-import org.exolab.castor.mapping.MappingException;
-
 
 /**
- * An implementation of GeneralizedFieldHandler that simply
- * calls Object#toString() in the conversion methods
+ * An implementation of GeneralizedFieldHandler that simply calls
+ * Object#toString() in the conversion methods.
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-28 17:53:23 -0700 (Mon, 28 Feb 2005) $
  */
-public class ToStringFieldHandler extends GeneralizedFieldHandler
-{
-    
+public class ToStringFieldHandler extends GeneralizedFieldHandler {
+
+    /** The class type for this FieldHandler. */
+    private final Class _type;
+
     /**
-     * The class type for this FieldHandler
-     */
-    private Class _type = null;
-    
-    
-    /**
-     * Creates a new ToStringFieldHandler
+     * Creates a new ToStringFieldHandler.
      *
      * @param type the class type to create the FieldHandler for
      */
-    public ToStringFieldHandler(Class type) 
-        throws MappingException
-    {
-        super();
-        if (type == null) {
-            throw new IllegalArgumentException("The argument 'type' must not be null.");
-        }
-        
-        _type = type;
+    public ToStringFieldHandler(final Class type) {
+        this(type, null);
     } //-- ToStringFieldHandler
-    
+
     /**
-     * Creates a new ToStringFieldHandler
+     * Creates a new ToStringFieldHandler.
      *
      * @param type the class type to create the FieldHandler for
      * @param handler the FieldHandler to wrap
      */
-    public ToStringFieldHandler(Class type, FieldHandler handler) 
-        throws MappingException
-    {
+    public ToStringFieldHandler(final Class type, final FieldHandler handler) {
         super();
         if (type == null) {
             throw new IllegalArgumentException("The argument 'type' must not be null.");
         }
         _type = type;
         if (handler != null) {
-        	setFieldHandler(handler);
+            setFieldHandler(handler);
         }
     } //-- ToStringFieldHandler
-    
-    
+
     /**
+     * {@inheritDoc}
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#convertUponGet(java.lang.Object)
      */
-    public Object convertUponGet(Object value) {
-        if (value == null) return null;
+    public Object convertUponGet(final Object value) {
+        if (value == null) {
+            return null;
+        }
         return value.toString();
     } //-- convertUponGet
 
     /**
+     * {@inheritDoc}
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#convertUponSet(java.lang.Object)
      */
-    public Object convertUponSet(Object value) 
-    {
-        if (value == null) return null;
+    public Object convertUponSet(final Object value) {
+        if (value == null) {
+            return null;
+        }
         return value.toString();
-        
     } //-- convertUponSet;
-    
+
     /**
+     * {@inheritDoc}
      * @see org.exolab.castor.mapping.GeneralizedFieldHandler#getFieldType()
      */
     public Class getFieldType() {
         return _type;
     } //-- getFieldType
-    
-    
-} //-- ValueOfFieldHandler
 
+} //-- ValueOfFieldHandler

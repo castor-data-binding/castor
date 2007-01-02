@@ -34,19 +34,17 @@ import java.util.StringTokenizer;
 import java.util.Properties;
 
 /**
- * XML field descriptor. Wraps {@link FieldDescriptor} and adds
- * XML-related information, type conversion, etc.
- * <p/>
- * Note: When using a GeneralizedFieldHandler the getFieldType() methods of handler and
- *       descriptor need to return the same result.
- * 
+ * XML field descriptor. Wraps {@link FieldDescriptor} and adds XML-related
+ * information, type conversion, etc.
+ * <p>
+ * Note: When using a GeneralizedFieldHandler the getFieldType() methods of
+ * handler and descriptor need to return the same result.
+ *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
-public class XMLFieldDescriptorImpl
-extends AbstractFieldDescriptor
-implements XMLFieldDescriptor {
+public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements XMLFieldDescriptor {
     private static final String WILD_CARD = "*";
 
     private static final String NULL_CLASS_ERR
@@ -57,62 +55,65 @@ implements XMLFieldDescriptor {
         = "The 'fieldName' argument passed to the constructor of "
          + "XMLFieldDescriptorImpl may not be null.";
 
-    /** The index of this field within the constructor arguments.
-     *  Note: This field is only applicable if the field is an attribute field and it's
-     *  supposed to be set via the constructor. A value less than zero indicates that
-     *  this field is not part of the constructor arguments. */
-     private int _argIndex = -1;
+    /** The index of this field within the constructor arguments. Note: This
+     * field is only applicable if the field is an attribute field and it's
+     * supposed to be set via the constructor. A value less than zero indicates
+     * that this field is not part of the constructor arguments.
+     */
+    private int _argIndex = -1;
 
     /** True if the field is a container field. */
     private boolean _container = false;
-    
-    /** Flag to indicate that objects should be added to their as soon as they are
-     *  created, but before they are finished being populated. */
+
+    /** Flag to indicate that objects should be added to their as soon as they
+     * are created, but before they are finished being populated.
+     */
     private boolean _incremental = false;
 
     /** True if the field is a reference to another Object in the hierarchy. */
     public boolean _isReference = false;
-    
+
     private boolean _isWild = false;
-    
+
     /** True if the field type is mapped in a Hashtable or Map. */
     private boolean _mapped = false;
-    
+
     private String[] _matches = null;
-    
+
     /** True if the field is allowed to have nil content. */
     private boolean _nillable = false;
-    
+
     /** The node type (attribute, element, text). */
     private NodeType _nodeType = null;
-    
-    /** The namespace prefix that is to be used when marshalling */
+
+    /** The namespace prefix that is to be used when marshaling */
     private String _nsPrefix = null;
 
-    /** The namespace URI used for both marshalling and unmarshalling. */
+    /** The namespace URI used for both marshaling and unmarshaling. */
     private String _nsURI = null;
 
     /** The "user-set" properties of this XMLFieldDescriptor. */
     private Properties _properties = null;
-    
+
     /** The XML Schema type of this field value. */
     private String _schemaType = null;
-    
+
     /** The prefix used in case the value of the field described is of type QName. */
     private String _qNamePrefix = null;
 
     /** A flag which indicates the parent class' namespace should be used by default. */
     private boolean _useParentClassNamespace = false;
-    
+
     private FieldValidator _validator = null;
-    
+
     /** The XML name of the field, this is only the local name. */
     private String _xmlName    = null;
-    
-    /** The relative XML path used when wrapping in nested elements, does not include
-     *  the name of the field itself. */
+
+    /** The relative XML path used when wrapping in nested elements, does not
+     * include the name of the field itself.
+     */
     private String _xmlPath    = null;
-    
+
     //----------------/
     //- Constructors -/
     //----------------/
@@ -128,34 +129,34 @@ implements XMLFieldDescriptor {
 
         if (fieldType == org.exolab.castor.types.AnyNode.class) {
             // if the field type is an AnyNode Castor must treat it as
-            // an object to avoid changes in the Marshalling framework
+            // an object to avoid changes in the marshaling framework
             setFieldType(java.lang.Object.class);
         } else {
             setFieldType(fieldType);
         }
-        
+
         _nodeType = ((nodeType == null) ? NodeType.Attribute : nodeType );
-        
+
         //-- call the setXMLName method to handle checking for full path
         setXMLName(xmlName);
     }
 
     /**
-     * Construct a new field descriptor for the specified field. This is
-     * an XML field descriptor wrapping a field descriptor and adding XML
-     * related properties and methods.
+     * Construct a new field descriptor for the specified field. This is an XML
+     * field descriptor wrapping a field descriptor and adding XML related
+     * properties and methods.
      *
      * @param fieldDesc The field descriptor
      * @param xmlName The XML name of the field
      * @param nodeType The node type of this field
+     * @param primitiveNodeType
      * @throws MappingException Invalid mapping information
      */
     public XMLFieldDescriptorImpl(final FieldDescriptor fieldDesc, final String xmlName,
-            final NodeType nodeType, final NodeType primitiveNodeType )
-    throws MappingException {
+            final NodeType nodeType, final NodeType primitiveNodeType) throws MappingException {
         _matches = new String[0];
 
-	    if (fieldDesc instanceof XMLFieldDescriptor) {
+        if (fieldDesc instanceof XMLFieldDescriptor) {
             setContainingClassDescriptor(fieldDesc.getContainingClassDescriptor());
         }
 
@@ -163,7 +164,7 @@ implements XMLFieldDescriptor {
 
         if (fieldDesc.getFieldType() == org.exolab.castor.types.AnyNode.class) {
             // if the field type is an AnyNode Castor must treat it as
-            // an object to avoid changes in the Marshalling framework
+            // an object to avoid changes in the marshaling framework
             setFieldType(java.lang.Object.class);
         } else {
             setFieldType(fieldDesc.getFieldType());
@@ -189,12 +190,11 @@ implements XMLFieldDescriptor {
                 }
             }
         }
-        
+
         setTransient(fieldDesc.isTransient());
         setImmutable(fieldDesc.isImmutable());
         setRequired(fieldDesc.isRequired());
         setMultivalued(fieldDesc.isMultivalued());
-
 
         //-- handle xml name
         if (xmlName == null) {
@@ -225,15 +225,16 @@ implements XMLFieldDescriptor {
     //------------------/
 
     /**
-     * Sets whether or not the value of the field represented by this FieldDescriptor
-     * should be set via the constructor of the containing ClassDescriptor. The index
-     * value greater than 0 specifies the index within the argument array that the value
-     * of this field should be.
-     *
+     * Sets whether or not the value of the field represented by this
+     * FieldDescriptor should be set via the constructor of the containing
+     * ClassDescriptor. The index value greater than 0 specifies the index
+     * within the argument array that the value of this field should be.
+     * <p>
      * Note: This only applies to attribute mapped fields at this time.
      *
      * @param index the index within the argument array. A value less than zero
-     *        indicates that this field should not be part of the constructor arguments.
+     *        indicates that this field should not be part of the constructor
+     *        arguments.
      */
     public void setConstructorArgumentIndex(final int index) {
         if (_nodeType != NodeType.Attribute) {
@@ -258,22 +259,22 @@ implements XMLFieldDescriptor {
     public boolean isConstructorArgument() {
         return (_argIndex >= 0);
     }
-    
+
     /**
      * Sets the location path for the field being described.
-     *
-     * In most cases, this isn't needed. However sometimes a field may be mapped to a
-     * nested element. In which case the value of the location path should be the nested
-     * element name. If more than one level of nesting is needed each nested element
-     * name should be separated by a path separator (forward slash '/').
-     *
-     * The location path name is "relative" to the parent Class. The name of the parent
-     * should not be included in the path.
-     * 
-     * For example, give the following two classes:
-     * <code>
-     *    class Root {    
-     *        Bar bar;    
+     * <p>
+     * In most cases, this isn't needed. However sometimes a field may be mapped
+     * to a nested element. In which case the value of the location path should
+     * be the nested element name. If more than one level of nesting is needed
+     * each nested element name should be separated by a path separator (forward
+     * slash '/').
+     * <p>
+     * The location path name is "relative" to the parent Class. The name of the
+     * parent should not be included in the path.
+     * <p>
+     * For example, give the following two classes: <code>
+     *    class Root {
+     *        Bar bar;
      *    }
      *
      *    class Bar {
@@ -300,7 +301,7 @@ implements XMLFieldDescriptor {
         //-- need to add some validation to the path at some point.
         _xmlPath = path;
     }
-    
+
     /**
      * @see org.exolab.castor.xml.XMLFieldDescriptor#getLocationPath()
      * {@inheritDoc}
@@ -308,11 +309,12 @@ implements XMLFieldDescriptor {
     public String getLocationPath() {
         return _xmlPath;
     }
-    
+
     /**
-     * Sets the namespace prefix used when marshalling as XML.
-     * 
-     * @param nsPrefix The namespace prefix used when marshalling the "described" object.
+     * Sets the namespace prefix used when marshaling as XML.
+     *
+     * @param nsPrefix The namespace prefix used when marshaling the
+     *        "described" object.
      */
     public void setNameSpacePrefix(final String nsPrefix) {
         _nsPrefix = nsPrefix;
@@ -327,18 +329,18 @@ implements XMLFieldDescriptor {
     }
 
     /**
-     * Sets whether or not the namespace for the parent "containing" 
-     * class should be used during marshalling/unmarshalling when
-     * no specific namespace URI has been set for this field.
+     * Sets whether or not the namespace for the parent "containing" class
+     * should be used during marshaling/unmarshaling when no specific
+     * namespace URI has been set for this field.
      */
     public void setUseParentsNamespace(final boolean useParentsNamespace) {
         _useParentClassNamespace = useParentsNamespace;
     }
-    
+
     /**
-     * Sets the namespace URI used when marshalling and unmarshalling as XML.
-     * 
-     * @param nsURI The namespace URI used when marshalling and unmarshalling the
+     * Sets the namespace URI used when marshaling and unmarshaling as XML.
+     *
+     * @param nsURI The namespace URI used when marshaling and unmarshaling the
      *        "described" Object.
      */
     public void setNameSpaceURI(final String nsURI) {
@@ -392,9 +394,11 @@ implements XMLFieldDescriptor {
             String err = "The argument 'propertyName' must not be null.";
             throw new IllegalArgumentException(err);
         }
-        
-        if (_properties == null) { _properties = new Properties(); }
-         
+
+        if (_properties == null) {
+            _properties = new Properties();
+        }
+
         if (value == null) {
             _properties.remove(propertyName);
         } else {
@@ -410,10 +414,11 @@ implements XMLFieldDescriptor {
         if ((_properties == null) || (propertyName == null)) { return null; }
         return _properties.getProperty(propertyName);
     }
-    
+
     /**
-     * Sets the type of the XML Schema type of the value for the field being described.
-     * 
+     * Sets the type of the XML Schema type of the value for the field being
+     * described.
+     *
      * @param schemaType The value type.
      */
     public void setSchemaType(final String schemaType) {
@@ -429,9 +434,13 @@ implements XMLFieldDescriptor {
      }
 
     public void setValidator(final FieldValidator validator) {
-        if (_validator != null) { _validator.setDescriptor(null); }
+        if (_validator != null) {
+            _validator.setDescriptor(null);
+        }
         _validator = validator;
-        if (_validator != null) { _validator.setDescriptor(this); }
+        if (_validator != null) {
+            _validator.setDescriptor(this);
+        }
     }
 
     /**
@@ -462,8 +471,8 @@ implements XMLFieldDescriptor {
     /**
      * Set if the field is a container field or not.
      *
-     * @param isContainer a boolean indicating whether or not the field is a container
-     *        field.
+     * @param isContainer a boolean indicating whether or not the field is a
+     *        container field.
      */
     public void setContainer(final boolean isContainer) {
         _container = isContainer;
@@ -476,19 +485,19 @@ implements XMLFieldDescriptor {
     public boolean isContainer() {
         return _container;
     }
-    
+
     /**
-     * Sets the incremental flag which indicates whether this member
-     * can be added before the unmarshaller is finished unmarshalling it.
-     * 
-     * @param incremental the boolean which if true indicated that this
-     * member can safely be added before the unmarshaller is finished
-     * unmarshalling it.
+     * Sets the incremental flag which indicates whether this member can be
+     * added before the unmarshaler is finished unmarshaling it.
+     *
+     * @param incremental the boolean which if true indicated that this member
+     *        can safely be added before the unmarshaler is finished
+     *        unmarshaling it.
      */
     public void setIncremental(final boolean incremental) {
         _incremental = incremental;
     }
-    
+
     /**
      * @see org.exolab.castor.xml.XMLFieldDescriptor#isIncremental()
      * {@inheritDoc}
@@ -500,12 +509,13 @@ implements XMLFieldDescriptor {
     /**
      * Sets whether or not this field has been mapped in a Map or Hashtable.
      *
-     * @param mapped a boolean that when true indicates this field is a Hashtable or Map.
+     * @param mapped a boolean that when true indicates this field is a
+     *        Hashtable or Map.
      */
     public void setMapped(final boolean mapped) {
         _mapped = mapped;
     }
-    
+
     /**
      * @see org.exolab.castor.xml.XMLFieldDescriptor#isMapped()
      * {@inheritDoc}
@@ -515,17 +525,18 @@ implements XMLFieldDescriptor {
     }
 
     /**
-     * Sets whether or not the described field is allowed to be nil. A nillable field
-     * can have empty content (text or element content), but may have attribute values,
-     * and still be considered value, even if the child elements are required.
-     * 
-     * @param nillable a boolean indicating whether or not the described field may be
-     *        nillable.
+     * Sets whether or not the described field is allowed to be nil. A nillable
+     * field can have empty content (text or element content), but may have
+     * attribute values, and still be considered value, even if the child
+     * elements are required.
+     *
+     * @param nillable a boolean indicating whether or not the described field
+     *        may be nillable.
      */
     public void setNillable(final boolean nillable) {
         _nillable = nillable;
     }
-    
+
     /**
      * @see org.exolab.castor.xml.XMLFieldDescriptor#isNillable()
      * {@inheritDoc}
@@ -533,7 +544,7 @@ implements XMLFieldDescriptor {
     public boolean isNillable() {
         return _nillable;
     }
-    
+
     /**
      * Sets the flag indicating that the field described by this descriptor is a
      * reference to another field in the object model.
@@ -553,9 +564,9 @@ implements XMLFieldDescriptor {
     }
 
     /**
-     * Sets the prefix used in case the value of the field described by this descriptor
-     * is of type QName.
-     * 
+     * Sets the prefix used in case the value of the field described by this
+     * descriptor is of type QName.
+     *
      * @param qNamePrefix
      */
     public void setQNamePrefix(final String qNamePrefix) {
@@ -564,7 +575,8 @@ implements XMLFieldDescriptor {
 
     /**
      * Returns the prefix used in case the value of the field described by this
-     * descriptor is of type QName. This is helpful for the Marshaller but not mandatory.
+     * descriptor is of type QName. This is helpful for the marshaler but not
+     * mandatory.
      *
      * @return the prefix used in the QName value.
      */
@@ -573,16 +585,18 @@ implements XMLFieldDescriptor {
     }
 
     /**
-     * This is a space separated list of xml names that this Field descriptor matches.
-     * A '*' is wild.
-     * 
+     * This is a space separated list of xml names that this Field descriptor
+     * matches. A '*' is wild.
+     *
      * @param matchExpr the space separated list of xml names, matched by this
      *        descriptor.
      */
     public void setMatches(String matchExpr) {
         _isWild = false;
-        
-        if ((matchExpr == null) || (matchExpr.length() == 0)) { return; }
+
+        if ((matchExpr == null) || (matchExpr.length() == 0)) {
+            return;
+        }
 
         StringTokenizer st = new StringTokenizer(matchExpr);
         ArrayList names = new ArrayList();
@@ -608,7 +622,9 @@ implements XMLFieldDescriptor {
                 return true;
             } else if (_matches.length > 0) {
                 for (int i = 0; i < _matches.length; i++) {
-                    if (xmlName.equals(_matches[i])) { return true; }
+                    if (xmlName.equals(_matches[i])) {
+                        return true;
+                    }
                 }
             } else {
                 return xmlName.equals(_xmlName);
@@ -616,7 +632,7 @@ implements XMLFieldDescriptor {
         }
         return false;
     }
-    
+
     /**
      * @see org.exolab.castor.xml.XMLFieldDescriptor#matches(java.lang.String, java.lang.String)
      * {@inheritDoc}
@@ -624,36 +640,49 @@ implements XMLFieldDescriptor {
     public boolean matches(final String xmlName, final String namespace) {
         // compare namespaces
         if (namespace == null) {
-            if ((_nsURI != null) && (_nsURI.length() > 0)) { return false; }
+            if ((_nsURI != null) && (_nsURI.length() > 0)) {
+                return false;
+            }
         } else if (_nsURI == null) {
-            if ((namespace.length() > 0) && (!_isWild)) { return false; }
+            if ((namespace.length() > 0) && (!_isWild)) {
+                return false;
+            }
         } else if (!_nsURI.equals(namespace)) {
             return false;
         }
-        
+
         // if we make this far the namespaces match, now compare names
         return matches(xmlName);
     }
-    
+
     /**
-     * Returns true if two XMLFieldDescriptors should be treated as
-     * equal. Any XMLFieldDescriptor that handles the same field
-     * is considered equal.
+     * Returns true if two XMLFieldDescriptors should be treated as equal. Any
+     * XMLFieldDescriptor that handles the same field is considered equal.
+     * @param obj The object to compare to <code>this</code>
+     *
      * @return true if two XMLFieldDescriptors should be treated as equal.
      */
     public boolean equals(final Object obj) {
-        if (obj == this) return true;
-        
-        if ((obj == null) || (!(obj instanceof XMLFieldDescriptor))) { return false; }
+        if (obj == this) {
+            return true;
+        }
+
+        if ((obj == null) || (!(obj instanceof XMLFieldDescriptor))) {
+            return false;
+        }
 
         XMLFieldDescriptor descriptor = (XMLFieldDescriptor) obj;
-        
+
         // check field names
-        if (!getFieldName().equals(descriptor.getFieldName())) { return false; }
-        
+        if (!getFieldName().equals(descriptor.getFieldName())) {
+            return false;
+        }
+
         // check field types
-        if (!getFieldType().equals(descriptor.getFieldType())) { return false; }
-        
+        if (!getFieldType().equals(descriptor.getFieldType())) {
+            return false;
+        }
+
         // check field handler
         FieldHandler tmpHandler = descriptor.getHandler();
         if (getHandler() == null) {
@@ -661,9 +690,9 @@ implements XMLFieldDescriptor {
         } else if (tmpHandler == null) {
             return false;
         }
-               
+
         // The following line causes some issues when used against a FieldHandlerImpl
-        // because the equals method for FieldHandlerImpl is the default. Temporary
+        // because the equals method for FieldHandlerImpl is the default. Temporarily
         // replace it with a slightly more generic comparison but this should probably
         // change in the future. (kv)
         // return (_handler.equals(tmpHandler));
@@ -681,7 +710,7 @@ implements XMLFieldDescriptor {
         if (getHandler() != null) { hash = hash * 17 * getHandler().hashCode(); }
         return hash;
     }
-    
+
     public String toString() {
         return "XMLFieldDesciptor: " + getFieldName() + " AS " + _xmlName;
     }
@@ -691,31 +720,41 @@ implements XMLFieldDescriptor {
     //-------------------/
 
     /**
-     * Returns true if the given class should be treated as a primitive type. This
-     * method will return true for all Java primitive types, the set of primitive object
-     * wrappers, as well as Strings.
+     * Returns true if the given class should be treated as a primitive type.
+     * This method will return true for all Java primitive types, the set of
+     * primitive object wrappers, as well as Strings.
      *
      * @return true If the given class should be treated as a primitive type.
      */
     private static boolean isPrimitive(final Class type) {
-        if (type == null) { return false; }
-        if (type.isPrimitive()) { return true; }
-        if (type == String.class) { return true; }
-        if ((type == Boolean.class) || (type == Character.class)) { return true; }
+        if (type == null) {
+            return false;
+        }
+        if (type.isPrimitive()) {
+            return true;
+        }
+        if (type == String.class) {
+            return true;
+        }
+        if ((type == Boolean.class) || (type == Character.class)) {
+            return true;
+        }
 
         // Any class which extends Number should be treated as a primitive.
         return (type.getSuperclass() == Number.class);
     }
-    
+
     /**
-     * Return true if the given class is a "built-in" type. A built-in type is one in
-     * which Castor provides the default descriptor for.
-     * 
+     * Return true if the given class is a "built-in" type. A built-in type is
+     * one in which Castor provides the default descriptor for.
+     *
      * @param type The class to check.
      * @return true If the given class is a built-in type.
      */
     private static boolean isBuiltInType(final Class type) {
-        if (type == null) { return false; }
+        if (type == null) {
+            return false;
+        }
         //-- All built-in Java types, such as java.util.Date,
         //-- java.sql.Date, various Collection classes, etc.
         return (CoreDescriptors.getDescriptor(type) != null);
@@ -724,5 +763,5 @@ implements XMLFieldDescriptor {
     private static boolean isMappedItem(final Class fieldType) {
         return (fieldType == MapItem.class);
     }
-}
 
+}
