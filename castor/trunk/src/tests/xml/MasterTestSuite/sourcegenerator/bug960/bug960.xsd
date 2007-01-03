@@ -1,27 +1,26 @@
-<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by j lenzkes (Lenzkes 
-Engineering) -->
-<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" 
-elementFormDefault="qualified" attributeFormDefault="unqualified">
+<!-- edited with XML Spy v4.4 U (http://www.xmlspy.com) by j lenzkes (Lenzkes Engineering) -->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
 
-	<!--Root-->
-	<xsd:element name="StockCheckView" type="DataSourceConnection"/>
+    <!--Root-->
+    <xsd:element name="StockCheckView" type="DataSourceConnection"/>
 
-	<!--Complex types with simple content.-->
-	<xsd:complexType name="Indicator">
-		<xsd:simpleContent>
-			<xsd:extension base="xsd:string">
-				<xsd:attribute name="indicatorFormatText" 
-type="xsd:string" use="optional"/>
-			</xsd:extension>
-		</xsd:simpleContent>
-	</xsd:complexType>
+    <!--Complex types with simple content.-->
+    <xsd:complexType name="Indicator">
+        <xsd:simpleContent>
+            <xsd:extension base="xsd:string">
+                <xsd:attribute name="indicatorFormatText" type="xsd:string" use="optional"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
 
-	<xsd:complexType name="DataSourceConnection">
-		<xsd:simpleContent>
-			<xsd:restriction base="Indicator">
-				<xsd:enumeration value="yes"/>
-				<xsd:enumeration value="no"/>
-			</xsd:restriction>
-		</xsd:simpleContent>
-	</xsd:complexType>
+    <xsd:complexType name="DataSourceConnection">
+        <xsd:simpleContent>
+            <xsd:restriction base="Indicator">
+                <xsd:enumeration value="yes"/>
+                <xsd:enumeration value="no"/>
+            </xsd:restriction>
+        </xsd:simpleContent>
+    </xsd:complexType>
 </xsd:schema>
