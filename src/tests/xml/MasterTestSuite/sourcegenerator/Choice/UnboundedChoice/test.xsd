@@ -1,39 +1,39 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <xsd:schema xmlns="http://www.fpml.org/2003/FpML-4-0"
-	xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-	targetNamespace="http://www.fpml.org/2003/FpML-4-0"
-	elementFormDefault="qualified">
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            targetNamespace="http://www.fpml.org/2003/FpML-4-0"
+            elementFormDefault="qualified">
 
-	<xsd:complexType name="Prospero" abstract="true">
-		<xsd:sequence>
-			<xsd:element name="productId" type="xsd:string"
-				minOccurs="0" maxOccurs="unbounded" />
-		</xsd:sequence>
-	</xsd:complexType>
-	<xsd:complexType name="Plantagenet">
-		<xsd:attribute name="id" type="xsd:ID" />
-	</xsd:complexType>
-	<xsd:complexType name="Cressida">
-		<xsd:complexContent>
-			<xsd:extension base="Prospero">
-				<xsd:sequence>
-					<xsd:element name="plantagenet"
-						maxOccurs="unbounded">
-						<xsd:complexType>
-							<xsd:complexContent>
-								<xsd:extension base="Plantagenet" />
-							</xsd:complexContent>
-						</xsd:complexType>
-					</xsd:element>
-					<xsd:choice minOccurs="0" maxOccurs="unbounded">
-						<xsd:element name="benedick" type="xsd:string" />
-						<xsd:element name="beatrice" type="xsd:string" />
-					</xsd:choice>
-				</xsd:sequence>
-			</xsd:extension>
-		</xsd:complexContent>
-	</xsd:complexType>
+    <xsd:complexType name="Prospero" abstract="true">
+        <xsd:sequence>
+            <xsd:element name="productId" type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+        </xsd:sequence>
+    </xsd:complexType>
 
-	<xsd:element name="cressida" type="Cressida" />
-	
+    <xsd:complexType name="Plantagenet">
+        <xsd:attribute name="id" type="xsd:ID" />
+    </xsd:complexType>
+
+    <xsd:complexType name="Cressida">
+        <xsd:complexContent>
+            <xsd:extension base="Prospero">
+                <xsd:sequence>
+                    <xsd:element name="plantagenet" maxOccurs="unbounded">
+                        <xsd:complexType>
+                            <xsd:complexContent>
+                                <xsd:extension base="Plantagenet" />
+                            </xsd:complexContent>
+                        </xsd:complexType>
+                    </xsd:element>
+                    <xsd:choice minOccurs="0" maxOccurs="unbounded">
+                        <xsd:element name="benedick" type="xsd:string" />
+                        <xsd:element name="beatrice" type="xsd:string" />
+                    </xsd:choice>
+                </xsd:sequence>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
+
+    <xsd:element name="cressida" type="Cressida" />
+
 </xsd:schema>
