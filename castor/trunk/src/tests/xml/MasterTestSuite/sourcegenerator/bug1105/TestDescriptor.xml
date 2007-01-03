@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-    <Name>Test the generation of default value for Float</Name>
+    <Name>Test the generation of min/max value for Float</Name>
     <Author>Arnaud Blandin</Author>
     <Comment>Regression test case for bug 1105</Comment>
     <Comment>The test case doesn't test for validation of the schema</Comment>
