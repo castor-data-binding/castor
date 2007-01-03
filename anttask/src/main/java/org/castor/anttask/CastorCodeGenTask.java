@@ -44,31 +44,28 @@
  */
 package org.castor.anttask;
 
-import org.apache.tools.ant.BuildException;
-import org.apache.tools.ant.DirectoryScanner;
-import org.apache.tools.ant.taskdefs.MatchingTask;
-import org.apache.tools.ant.types.FileSet;
-
-import org.exolab.castor.builder.FieldInfoFactory;
-import org.exolab.castor.builder.SourceGenerator;
-import org.exolab.castor.builder.binding.ExtendedBinding;
-import org.exolab.castor.xml.schema.reader.SchemaUnmarshaller;
-import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.XMLException;
-
-import org.exolab.castor.util.LocalConfiguration;
-
-import org.xml.sax.InputSource;
-import org.xml.sax.Parser;
-import org.xml.sax.SAXException;
-
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.Properties;
 import java.util.Vector;
+
+import org.apache.tools.ant.BuildException;
+import org.apache.tools.ant.DirectoryScanner;
+import org.apache.tools.ant.taskdefs.MatchingTask;
+import org.apache.tools.ant.types.FileSet;
+import org.exolab.castor.builder.FieldInfoFactory;
+import org.exolab.castor.builder.SourceGenerator;
+import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.util.LocalConfiguration;
+import org.exolab.castor.xml.XMLException;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.reader.Sax2ComponentReader;
+import org.exolab.castor.xml.schema.reader.SchemaUnmarshaller;
+import org.xml.sax.InputSource;
+import org.xml.sax.Parser;
+import org.xml.sax.SAXException;
 
 /**
  * An <a href="http://ant.apache.org/">Ant</a> task to call the Castor
@@ -270,16 +267,6 @@ public final class CastorCodeGenTask extends MatchingTask {
      */
     public void setNodesc(final boolean b) {
         _nodesc = b;
-    }
-
-    /**
-     * Sets whether or not marshaling methods are generated.
-     * 
-     * @param b If true, marshaling methods are generated.
-     * @deprecated For the correct spelling, see {@link #setNomarshal(boolean)}.
-     */
-    public void setNomarshall(final boolean b) {
-        _nomarshal = b;
     }
 
     /**

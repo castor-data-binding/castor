@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1805" tool="jira">
+                    <description>
+                        Made org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask delegate to
+                        CastorCodeGenTask.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070103</date>
+                </bug>
                 <bug id="1797" tool="jira">
                     <description>
                         Cleaned up 929 'Design For Extension' warnings at builder package.

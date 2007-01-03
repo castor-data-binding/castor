@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1805 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Made org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask delegate to CastorCodeGenTask.
+       Details: http://jira.codehaus.org/browse/CASTOR-1805
+       (Ralf - 20070103)
+
 XML:   Resolved issue CASTOR-1797 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Cleaned up 929 'Design For Extension' warnings at builder package.
        Details: http://jira.codehaus.org/browse/CASTOR-1797
