@@ -9,7 +9,7 @@
         <Reporter>patmoore@brocade.com</Reporter>
         <Date_Report>2002-07-12</Date_Report>
         <Date_Fix>2002-11-26</Date_Fix>
-        <Comment>The fix consisted in removing typos from the class XSFloat</Comment>
+        <Comment></Comment>
     </BugFix>
 
     <SourceGeneratorTest>
