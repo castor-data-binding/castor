@@ -1,6 +1,6 @@
 <?xml version='1.0'?>
 <TestDescriptor>
-    <Name>Make sure that unbounded xs:choice works at code gernation</Name>
+    <Name>Make sure that unbounded xs:choice works at code generation</Name>
     <Author>Werner Guttmann</Author>
     <Comment>Regression test case for bug CASTOR-936</Comment>
     <Category>basic capability</Category>
