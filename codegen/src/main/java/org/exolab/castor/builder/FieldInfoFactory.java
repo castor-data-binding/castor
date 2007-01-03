@@ -65,8 +65,7 @@ import org.exolab.castor.builder.types.XSType;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public final class FieldInfoFactory {
-
+public class FieldInfoFactory {
     /** The default collection name. */
     private String _default = null;
     /** A flag indicating that "extra" accessor methods should be created for
@@ -83,7 +82,7 @@ public final class FieldInfoFactory {
      */
     public FieldInfoFactory () {
         this("vector");
-    } //-- FieldInfoFactory
+    }
 
     /**
      * Creates a new FieldInfoFactory of the given type.
@@ -102,11 +101,9 @@ public final class FieldInfoFactory {
 
     public IdentityInfo createIdentity (final String name) {
         IdentityInfo idInfo = new IdentityInfo(name);
-        if (_bound) {
-            idInfo.setBound(_bound);
-        }
+        if (_bound) { idInfo.setBound(_bound); }
         return idInfo;
-    } //-- createIdentity
+    }
 
 
     public CollectionInfo createCollection(final XSType contentType, final String name,
@@ -118,9 +115,7 @@ public final class FieldInfoFactory {
                                            final String elementName, final String collectionName,
                                            final boolean useJava50) {
         String temp = collectionName;
-        if (temp == null || temp.length() == 0) {
-            temp = _default;
-        }
+        if (temp == null || temp.length() == 0) { temp = _default; }
 
         final CollectionInfo cInfo;
         if (temp.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
@@ -145,19 +140,15 @@ public final class FieldInfoFactory {
         if (_referenceSuffix != null) {
             cInfo.setReferenceMethodSuffix(_referenceSuffix);
         }
-        if (_bound) {
-            cInfo.setBound(true);
-        }
+        if (_bound) { cInfo.setBound(true); }
         return cInfo;
     }
 
     public FieldInfo createFieldInfo(final XSType type, final String name) {
         FieldInfo fieldInfo = new FieldInfo(type, name);
-        if (_bound) {
-            fieldInfo.setBound(true);
-        }
+        if (_bound) { fieldInfo.setBound(true); }
         return fieldInfo;
-    } //-- createFieldInfo
+    }
 
     /**
      * Sets whether or not the fields should be bound properties.
@@ -165,9 +156,9 @@ public final class FieldInfoFactory {
      * @param bound a boolean that when true indicates the FieldInfo should have
      *        the bound property enabled.
      */
-    public void setBoundProperties(final boolean bound) {
+    public final void setBoundProperties(final boolean bound) {
         _bound = bound;
-    } //-- setBoundProperties
+    }
 
     /**
      * Sets whether or not to create extra collection methods for accessing the
@@ -177,9 +168,9 @@ public final class FieldInfoFactory {
      *        collection accessor methods should be created. False by default.
      * @see org.exolab.castor.builder.FieldInfoFactory#setReferenceMethodSuffix
      */
-    public void setCreateExtraMethods(final boolean extraMethods) {
+    public final void setCreateExtraMethods(final boolean extraMethods) {
         _extraMethods = extraMethods;
-    } //-- setCreateExtraMethods
+    }
 
     /**
      * Sets the method suffix (ending) to use when creating the extra collection
@@ -190,8 +181,7 @@ public final class FieldInfoFactory {
      *        CollectionInfo will be used.
      * @see org.exolab.castor.builder.FieldInfoFactory#setCreateExtraMethods
      */
-    public void setReferenceMethodSuffix(final String suffix) {
+    public final void setReferenceMethodSuffix(final String suffix) {
         _referenceSuffix = suffix;
-    } //-- setReferenceMethodSuffix
-
-} //-- FieldInfoFactory
+    }
+}
