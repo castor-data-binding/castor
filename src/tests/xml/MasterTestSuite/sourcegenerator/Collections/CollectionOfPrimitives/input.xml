@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<MainType>
+    <longArray>2</longArray>
+    <longArray>200000</longArray>
+    <longArray>20000000000</longArray>
+    <longArray>20000000000000</longArray>
+    <intArray>77</intArray>
+    <intArray>33</intArray>
+    <intArray>2</intArray>
+    <booleanArray>true</booleanArray>
+    <booleanArray>true</booleanArray>
+    <booleanArray>false</booleanArray>
+    <booleanArray>false</booleanArray>
+    <floatArray>3.1415926535</floatArray>
+    <doubleArray>3.14159265358979323</doubleArray>
+</MainType>
