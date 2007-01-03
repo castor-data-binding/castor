@@ -44,14 +44,14 @@
  */
 package org.exolab.castor.tools;
 
-import java.io.IOException;
 import java.io.File;
+import java.io.IOException;
 
+import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.Task;
-import org.apache.tools.ant.BuildException;
-import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.FieldInfoFactory;
+import org.exolab.castor.builder.SourceGenerator;
 
 /**
  * Ant task that enables code generation from an XML _schema from within Ant.
