@@ -6,12 +6,12 @@
       <xsl:attribute name="content">
         <xsl:for-each select="keyword">
           <xsl:value-of select="."/>
-            <xsl:choose>
-              <xsl:when test="position() = last()"></xsl:when>
-              <xsl:otherwise>, </xsl:otherwise>
-            </xsl:choose>
-          </xsl:for-each>
-        </xsl:attribute>
+          <xsl:choose>
+            <xsl:when test="position() = last()"></xsl:when>
+            <xsl:otherwise>, </xsl:otherwise>
+          </xsl:choose>
+        </xsl:for-each>
+      </xsl:attribute>
     </xsl:element>
   </xsl:template>
 </xsl:stylesheet>

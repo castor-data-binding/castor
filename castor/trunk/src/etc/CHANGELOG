@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Doc:   Resolved issue CASTOR-1807 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add RSS feed link to index + news page
+       Details: http://jira.codehaus.org/browse/CASTOR-1807
+       (Edward - 20070103)
+
 XML:   Resolved issue CASTOR-1798 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Cleaned up 246 warnings of differnet kind in builder package.
        Details: http://jira.codehaus.org/browse/CASTOR-1798

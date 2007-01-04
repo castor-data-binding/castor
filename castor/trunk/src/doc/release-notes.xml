@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1807" tool="jira">
+                    <description>
+                        Add RSS feed link to index + news page
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>Doc</module>
+                    <date>20070103</date>
+                </bug>
                 <bug id="1798" tool="jira">
                     <description>
                         Cleaned up 246 warnings of differnet kind in builder package.
