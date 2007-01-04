@@ -83,8 +83,10 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
     private Hashtable _mappings = null;
     /** The in memory package listings for each package. */
     private Hashtable _packageListings = null;
+    
     /** The package used when creating new classes. */
-    protected String    _packageName = null;
+    private String _packageName;
+    
     /** Keeps track of which JClass files have been processed. */
     private Vector      _processed   = null;
     /** true if existing source files should not be silently overwritten. */
@@ -117,8 +119,6 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
      */
     private Map _importedSourcesByName = new HashMap();
 
-//  private XMLBindingComponent _bindingComponent = null;
-
     /**
      * Creates a new SGStateInfo.
      *
@@ -132,7 +132,25 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         _processed   = new Vector();
         _dialog      = new ConsoleDialog();
         _sgen        = sgen;
-    } //-- SGStateInfo
+    }
+    
+    /**
+     * Get package used when creating new classes.
+     * 
+     * @return Package used when creating new classes.
+     */
+    protected String getPackageName() {
+        return _packageName;
+    }
+    
+    /**
+     * Set package used when creating new classes.
+     * 
+     * @param packageName Package used when creating new classes.
+     */
+    protected void setPackageName(final String packageName) {
+        _packageName = packageName;
+    }
 
     /**
      * Binds the given Annotated structure with its generated source classes.

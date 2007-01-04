@@ -22,9 +22,7 @@ import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
-import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
-import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 
 /**

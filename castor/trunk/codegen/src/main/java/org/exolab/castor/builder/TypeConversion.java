@@ -177,7 +177,7 @@ public final class TypeConversion {
         if (simpleType.getStructureType() == Structure.UNION) {
             SimpleType common = findCommonType((Union) simpleType);
             if (common == null) {
-                return new XSClass(SGTypes.Object);
+                return new XSClass(SGTypes.OBJECT);
             }
             return convertType(common, useWrapper, packageName, useJava50);
         } else if (base == null) {
@@ -563,9 +563,9 @@ public final class TypeConversion {
         }
 
         if (isNumeric(aType) && isNumeric(bType)) {
-            //-- TODO: Finish this so we can implement Unions
+            // TODO Finish this so we can implement Unions
         } else if (isString(aType) && isString(bType)) {
-            //-- TODO: Finish this so we can implement Unions
+            // TODO Finish this so we can implement Unions
         }
 
         //-- Just return string for now, as all simpleTypes can fit into a string

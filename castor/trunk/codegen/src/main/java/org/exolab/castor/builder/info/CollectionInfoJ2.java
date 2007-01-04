@@ -116,7 +116,7 @@ public class CollectionInfoJ2 extends CollectionInfo {
      */
     protected final void createAddMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException,
+        method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,
                             "if the index given is outside the bounds of the collection");
         final JParameter parameter = new JParameter(this.getContentType().getJType(),
                                                     this.getContentName());

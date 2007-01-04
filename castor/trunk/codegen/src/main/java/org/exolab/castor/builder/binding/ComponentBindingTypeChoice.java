@@ -155,11 +155,10 @@ public final class ComponentBindingTypeChoice implements java.io.Serializable {
     /**
      * Sets the value of field 'interface'.
      * 
-     * @param _interface
-     * @param interface the value of field 'interface'.
+     * @param inter the value of field 'interface'.
      */
-    public void setInterface(final org.exolab.castor.builder.binding.Interface _interface) {
-        this._interface = _interface;
+    public void setInterface(final org.exolab.castor.builder.binding.Interface inter) {
+        this._interface = inter;
     } //-- void setInterface(org.exolab.castor.builder.binding.Interface) 
 
     /**

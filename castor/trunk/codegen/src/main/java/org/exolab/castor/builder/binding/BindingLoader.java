@@ -45,31 +45,27 @@
 package org.exolab.castor.builder.binding;
 
 //-Castor imports
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.ValidationException;
-
-//--SAX
-import org.xml.sax.InputSource;
-import org.xml.sax.EntityResolver;
-import org.xml.sax.SAXException;
-
-//--java imports
 import java.io.IOException;
-import java.util.Enumeration;
-import java.net.URL;
 import java.net.MalformedURLException;
+import java.net.URL;
+import java.util.Enumeration;
+
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.ValidationException;
+import org.xml.sax.EntityResolver;
+import org.xml.sax.InputSource;
+import org.xml.sax.SAXException;
 
 /**
  * This class is responsible for loading a binding document into an in-memory
  * representation that is meant to be used by the SourceGenerator.
  *
- * TODO:  Implement the enumeration handling
- *
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class BindingLoader {
+    // TODO Implement the enumeration handling
 
     /**
      * The Source Generator Binding File loaded by this BindingLoader.

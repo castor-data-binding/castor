@@ -25,13 +25,13 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      //- Class/Member Variables -/
     //--------------------------/
 
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
@@ -40,8 +40,8 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
     public PathTypeDescriptor() {
         super();
-        nsURI = "http://www.castor.org/SourceGenerator/Binding";
-        xmlName = "pathType";
+        _nsURI = "http://www.castor.org/SourceGenerator/Binding";
+        _xmlName = "pathType";
     } //-- org.exolab.castor.builder.binding.PathTypeDescriptor()
 
 
@@ -64,7 +64,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
-        return identity;
+        return _identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
@@ -76,13 +76,13 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public java.lang.String getNameSpacePrefix() {
-        return nsPrefix;
+        return _nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
     **/
     public java.lang.String getNameSpaceURI() {
-        return nsURI;
+        return _nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
@@ -94,7 +94,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public java.lang.String getXMLName() {
-        return xmlName;
+        return _xmlName;
     } //-- java.lang.String getXMLName() 
 
 }

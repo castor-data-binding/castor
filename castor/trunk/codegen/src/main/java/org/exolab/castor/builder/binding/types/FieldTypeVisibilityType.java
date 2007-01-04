@@ -66,12 +66,12 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     /**
      * Field type.
      */
-    private int type = -1;
+    private int _type = -1;
 
     /**
      * Field stringValue.
      */
-    private java.lang.String stringValue = null;
+    private java.lang.String _stringValue = null;
 
 
       //----------------/
@@ -80,8 +80,8 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
 
     private FieldTypeVisibilityType(final int type, final java.lang.String value) {
         super();
-        this.type = type;
-        this.stringValue = value;
+        this._type = type;
+        this._stringValue = value;
     } //-- org.exolab.castor.builder.binding.types.FieldTypeVisibilityType(int, java.lang.String)
 
 
@@ -110,7 +110,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return the type of this FieldTypeVisibilityType
      */
     public int getType() {
-        return this.type;
+        return this._type;
     } //-- int getType() 
 
     /**
@@ -135,7 +135,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * @return this deserialized object
      */
     private java.lang.Object readResolve() {
-        return valueOf(this.stringValue);
+        return valueOf(this._stringValue);
     } //-- java.lang.Object readResolve() 
 
     /**
@@ -148,7 +148,7 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
      * FieldTypeVisibilityType
      */
     public java.lang.String toString() {
-        return this.stringValue;
+        return this._stringValue;
     } //-- java.lang.String toString() 
 
     /**

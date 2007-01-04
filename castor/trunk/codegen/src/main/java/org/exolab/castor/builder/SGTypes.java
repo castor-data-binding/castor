@@ -53,62 +53,33 @@ import org.exolab.javasource.JType;
  * @version $Revision$ $Date: 2005-10-10 06:35:52 -0600 (Mon, 10 Oct 2005) $
  */
 public class SGTypes {
-
     /**
      * As a static utility class, we want a private constructor.
      */
-    private SGTypes() {
-        // As a static utility class, we want a private constructor
-    }
+    private SGTypes() { }
 
-    //-----------------------/
-    //- org.xml.sax Objects -/
-    //-----------------------/
-
-    public static final JClass SAXException = new JClass("org.xml.sax.SAXException");
-
-    //---------------------------/
-    //- org.exolab.castor types -/
-    //---------------------------/
-
-    public static final JClass UnmarshalException =
-        new JClass("org.exolab.castor.xml.UnmarshalException");
-
-    public static final JClass MarshalException =
+    public static final JClass MARSHAL_EXCEPTION =
         new JClass("org.exolab.castor.xml.MarshalException");
 
-    public static final JClass ValidationException =
+    public static final JClass VALIDATION_EXCEPTION =
         new JClass("org.exolab.castor.xml.ValidationException");
 
-    //---------------/
-    //- JDK Objects -/
-    //---------------/
-
-    //-- java.lang
-    public static final JClass IllegalStateException  =
-        new JClass("java.lang.IllegalStateException");
-
-    public static final JClass IndexOutOfBoundsException =
+    public static final JClass INDEX_OUT_OF_BOUNDS_EXCEPTION =
         new JClass("java.lang.IndexOutOfBoundsException");
 
-    public static final JClass InstantiationException =
-        new JClass("java.lang.InstantiationException");
+    public static final JClass CLASS = new JClass("java.lang.Class");
 
-    public static final JClass Class = new JClass("java.lang.Class");
-    public static final JClass Object = new JClass("java.lang.Object");
-    public static final JClass String = new JClass("java.lang.String");
-    public static final JClass StringBuffer = new JClass("java.lang.StringBuffer");
+    public static final JClass OBJECT = new JClass("java.lang.Object");
+    
+    public static final JClass STRING = new JClass("java.lang.String");
 
-    //-- java.io
-    public static final JClass FileReader = new JClass("java.io.FileReader");
-    public static final JClass FileWriter = new JClass("java.io.FileWriter");
-    public static final JClass IOException = new JClass("java.io.IOException");
-    public static final JClass PrintWriter = new JClass("java.io.PrintWriter");
-    public static final JClass Reader = new JClass("java.io.Reader");
-    public static final JClass Writer = new JClass("java.io.Writer");
+    public static final JClass IO_EXCEPTION = new JClass("java.io.IOException");
 
-    //-- java.beans
-    public static final JClass PropertyChangeSupport =
+    public static final JClass READER = new JClass("java.io.Reader");
+    
+    public static final JClass WRITER = new JClass("java.io.Writer");
+
+    public static final JClass PROPERTY_CHANGE_SUPPORT =
         new JClass("java.beans.PropertyChangeSupport");
 
     public static final JType createEnumeration(final JType jType, final boolean usejava50) {
@@ -119,19 +90,10 @@ public class SGTypes {
         return new JCollectionType("java.util.Iterator", jType, usejava50);
     }
 
-    public static final JType createVector(final JType jType, final boolean usejava50) {
-        return new JCollectionType("java.util.Vector", jType, usejava50);
-    }
-
-    public static final JType createArrayList(final JType jType, final boolean usejava50) {
-        return new JCollectionType("java.util.List", "java.util.ArrayList", jType, usejava50);
-    }
-
     public static final JType createHashtable(final boolean useJava50) {
         if (useJava50) {
             return new JClass("java.util.Hashtable<Object,Object>");
         }
         return new JClass("java.util.Hashtable");
     }
-
-} //-- SGTypes
+}

@@ -12,7 +12,9 @@ package org.exolab.castor.builder.binding;
 //---------------------------------/
 
 import java.util.Vector;
-import org.exolab.castor.xml.*;
+
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * 
@@ -46,28 +48,28 @@ public final class ClassType implements java.io.Serializable {
     /**
      * keeps track of state for field: _final.
     **/
-    private boolean _has_final;
+    private boolean _hasFinal;
 
     private boolean _abstract;
 
     /**
      * keeps track of state for field: _abstract.
     **/
-    private boolean _has_abstract;
+    private boolean _hasAbstract;
 
     private boolean _equals;
 
     /**
      * keeps track of state for field: _equals.
     **/
-    private boolean _has_equals;
+    private boolean _hasEquals;
 
     private boolean _bound;
 
     /**
      * keeps track of state for field: _bound.
     **/
-    private boolean _has_bound;
+    private boolean _hasBound;
 
     private java.util.Vector _implementsList;
 
@@ -112,25 +114,25 @@ public final class ClassType implements java.io.Serializable {
     /**
     **/
     public void deleteAbstract() {
-        this._has_abstract = false;
+        this._hasAbstract = false;
     } //-- void deleteAbstract() 
 
     /**
     **/
     public void deleteBound() {
-        this._has_bound = false;
+        this._hasBound = false;
     } //-- void deleteBound() 
 
     /**
     **/
     public void deleteEquals() {
-        this._has_equals = false;
+        this._hasEquals = false;
     } //-- void deleteEquals() 
 
     /**
     **/
     public void deleteFinal() {
-        this._has_final = false;
+        this._hasFinal = false;
     } //-- void deleteFinal() 
 
     /**
@@ -237,25 +239,25 @@ public final class ClassType implements java.io.Serializable {
     /**
     **/
     public boolean hasAbstract() {
-        return this._has_abstract;
+        return this._hasAbstract;
     } //-- boolean hasAbstract() 
 
     /**
     **/
     public boolean hasBound() {
-        return this._has_bound;
+        return this._hasBound;
     } //-- boolean hasBound() 
 
     /**
     **/
     public boolean hasEquals() {
-        return this._has_equals;
+        return this._hasEquals;
     } //-- boolean hasEquals() 
 
     /**
     **/
     public boolean hasFinal() {
-        return this._has_final;
+        return this._hasFinal;
     } //-- boolean hasFinal() 
 
     /**
@@ -312,11 +314,11 @@ public final class ClassType implements java.io.Serializable {
     /**
      * Sets the value of field 'abstract'.
      * 
-     * @param _abstract the value of field 'abstract'.
+     * @param abst the value of field 'abstract'.
     **/
-    public void setAbstract(final boolean _abstract) {
-        this._abstract = _abstract;
-        this._has_abstract = true;
+    public void setAbstract(final boolean abst) {
+        this._abstract = abst;
+        this._hasAbstract = true;
     } //-- void setAbstract(boolean) 
 
     /**
@@ -326,7 +328,7 @@ public final class ClassType implements java.io.Serializable {
     **/
     public void setBound(final boolean bound) {
         this._bound = bound;
-        this._has_bound = true;
+        this._hasBound = true;
     } //-- void setBound(boolean) 
 
     /**
@@ -336,26 +338,26 @@ public final class ClassType implements java.io.Serializable {
     **/
     public void setEquals(final boolean equals) {
         this._equals = equals;
-        this._has_equals = true;
+        this._hasEquals = true;
     } //-- void setEquals(boolean) 
 
     /**
      * Sets the value of field 'extends'.
      * 
-     * @param _extends the value of field 'extends'.
+     * @param ext the value of field 'extends'.
     **/
-    public void setExtends(final java.lang.String _extends) {
-        this._extends = _extends;
+    public void setExtends(final java.lang.String ext) {
+        this._extends = ext;
     } //-- void setExtends(java.lang.String) 
 
     /**
      * Sets the value of field 'final'.
      * 
-     * @param _final the value of field 'final'.
+     * @param fin the value of field 'final'.
     **/
-    public void setFinal(final boolean _final) {
-        this._final = _final;
-        this._has_final = true;
+    public void setFinal(final boolean fin) {
+        this._final = fin;
+        this._hasFinal = true;
     } //-- void setFinal(boolean) 
 
     /**
@@ -376,13 +378,13 @@ public final class ClassType implements java.io.Serializable {
     /**
      * 
      * 
-     * @param _implementsArray
+     * @param implementsArray
     **/
-    public void setImplements(final java.lang.String[] _implementsArray) {
+    public void setImplements(final java.lang.String[] implementsArray) {
         //-- copy array
         _implementsList.removeAllElements();
-        for (int i = 0; i < _implementsArray.length; i++) {
-            _implementsList.addElement(_implementsArray[i]);
+        for (int i = 0; i < implementsArray.length; i++) {
+            _implementsList.addElement(implementsArray[i]);
         }
     } //-- void setImplements(java.lang.String) 
 
@@ -398,10 +400,10 @@ public final class ClassType implements java.io.Serializable {
     /**
      * Sets the value of field 'package'.
      * 
-     * @param _package the value of field 'package'.
+     * @param pack the value of field 'package'.
     **/
-    public void setPackage(final java.lang.String _package) {
-        this._package = _package;
+    public void setPackage(final java.lang.String pack) {
+        this._package = pack;
     } //-- void setPackage(java.lang.String) 
 
     /**

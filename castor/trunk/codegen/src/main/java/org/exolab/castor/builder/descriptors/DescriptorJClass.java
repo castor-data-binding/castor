@@ -144,14 +144,14 @@ public final class DescriptorJClass extends JClass {
             }
         }
 
-        addField(new JField(JType.BOOLEAN, "elementDefinition"));
+        addField(new JField(JType.BOOLEAN, "_elementDefinition"));
 
-        addField(new JField(SGTypes.String, "nsPrefix"));
-        addField(new JField(SGTypes.String, "nsURI"));
-        addField(new JField(SGTypes.String, "xmlName"));
+        addField(new JField(SGTypes.STRING, "_nsPrefix"));
+        addField(new JField(SGTypes.STRING, "_nsURI"));
+        addField(new JField(SGTypes.STRING, "_xmlName"));
         //-- if there is a super class, the identity field must remain
         //-- the same than the one in the super class
-        addField(new JField(XML_FIELD_DESCRIPTOR_CLASS, "identity"));
+        addField(new JField(XML_FIELD_DESCRIPTOR_CLASS, "_identity"));
 
         //-- create default constructor
         addDefaultConstructor(extended);
@@ -233,7 +233,7 @@ public final class DescriptorJClass extends JClass {
                                "true if XML schema definition of this Class is that of a global\n"
                                + "element or element with anonymous type definition.");
         JSourceCode jsc = getElementDefinition.getSourceCode();
-        jsc.add("return elementDefinition;");
+        jsc.add("return _elementDefinition;");
         addMethod(getElementDefinition);
     }
 
@@ -245,7 +245,7 @@ public final class DescriptorJClass extends JClass {
         JMethod method;
         JSourceCode jsc;
         //-- create getNameSpacePrefix method
-        method = new JMethod("getNameSpacePrefix", SGTypes.String,
+        method = new JMethod("getNameSpacePrefix", SGTypes.STRING,
                              "the namespace prefix to use when marshaling as XML.");
 
         if (_config.useJava50()) {
@@ -253,11 +253,11 @@ public final class DescriptorJClass extends JClass {
         }
 
         jsc = method.getSourceCode();
-        jsc.add("return nsPrefix;");
+        jsc.add("return _nsPrefix;");
         addMethod(method);
 
         //-- create getNameSpaceURI method
-        method = new JMethod("getNameSpaceURI", SGTypes.String,
+        method = new JMethod("getNameSpaceURI", SGTypes.STRING,
                              "the namespace URI used when marshaling and unmarshaling as XML.");
 
         if (_config.useJava50()) {
@@ -265,7 +265,7 @@ public final class DescriptorJClass extends JClass {
         }
 
         jsc = method.getSourceCode();
-        jsc.add("return nsURI;");
+        jsc.add("return _nsURI;");
         addMethod(method);
 
         //-- create getValidator method
@@ -282,7 +282,7 @@ public final class DescriptorJClass extends JClass {
         addMethod(method);
 
         //-- create getXMLName method
-        method = new JMethod("getXMLName", SGTypes.String,
+        method = new JMethod("getXMLName", SGTypes.STRING,
                              "the XML Name for the Class being described.");
 
         if (_config.useJava50()) {
@@ -290,7 +290,7 @@ public final class DescriptorJClass extends JClass {
         }
 
         jsc = method.getSourceCode();
-        jsc.add("return xmlName;");
+        jsc.add("return _xmlName;");
         addMethod(method);
     }
 
@@ -325,19 +325,19 @@ public final class DescriptorJClass extends JClass {
 
         jsc = getIdentity.getSourceCode();
         if (extended) {
-            jsc.add("if (identity == null) {");
+            jsc.add("if (_identity == null) {");
             jsc.indent();
             jsc.add("return super.getIdentity();");
             jsc.unindent();
             jsc.add("}");
         }
-        jsc.add("return identity;");
+        jsc.add("return _identity;");
 
         //--don't add the type to the import list
         addMethod(getIdentity, false);
 
         //-- create getJavaClass method
-        JMethod getJavaClass = new JMethod("getJavaClass", SGTypes.Class,
+        JMethod getJavaClass = new JMethod("getJavaClass", SGTypes.CLASS,
                                     "the Java class represented by this descriptor.");
 
         if (_config.useJava50()) {

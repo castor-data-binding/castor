@@ -23,27 +23,27 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
      * Field elementDefinition.
      */
-    private boolean elementDefinition;
+    private boolean _elementDefinition;
 
     /**
      * Field nsPrefix.
      */
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
     /**
      * Field nsURI.
      */
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
     /**
      * Field xmlName.
      */
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
     /**
      * Field identity.
      */
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
@@ -52,9 +52,9 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
     public EnumClassNameDescriptor() {
         super();
-        nsURI = "http://www.castor.org/SourceGenerator/Binding";
-        xmlName = "enumClassName";
-        elementDefinition = true;
+        _nsURI = "http://www.castor.org/SourceGenerator/Binding";
+        _xmlName = "enumClassName";
+        _elementDefinition = true;
         org.exolab.castor.xml.util.XMLFieldDescriptorImpl  desc           = null;
         org.exolab.castor.mapping.FieldHandler             handler        = null;
         org.exolab.castor.xml.FieldValidator               fieldValidator = null;
@@ -87,12 +87,10 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         
         //-- validation code for: _content
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator =
-                new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
-            fieldValidator.setValidator(typeValidator);
-        }
+        org.exolab.castor.xml.validators.StringValidator typeValidator1 =
+            new org.exolab.castor.xml.validators.StringValidator();
+        typeValidator1.setWhiteSpace("preserve");
+        fieldValidator.setValidator(typeValidator1);
         desc.setValidator(fieldValidator);
         //-- initialize attribute descriptors
         
@@ -126,12 +124,10 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         
         //-- validation code for: _package
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
-        { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator =
-                new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
-            fieldValidator.setValidator(typeValidator);
-        }
+        org.exolab.castor.xml.validators.StringValidator typeValidator2 =
+            new org.exolab.castor.xml.validators.StringValidator();
+        typeValidator2.setWhiteSpace("preserve");
+        fieldValidator.setValidator(typeValidator2);
         desc.setValidator(fieldValidator);
         //-- initialize element descriptors
         
@@ -168,7 +164,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * identity.
      */
     public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
-        return identity;
+        return _identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
@@ -186,7 +182,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * @return the namespace prefix to use when marshalling as XML.
      */
     public java.lang.String getNameSpacePrefix() {
-        return nsPrefix;
+        return _nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
@@ -196,7 +192,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * unmarshalling as XML.
      */
     public java.lang.String getNameSpaceURI() {
-        return nsURI;
+        return _nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
@@ -215,7 +211,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * @return the XML Name for the Class being described.
      */
     public java.lang.String getXMLName() {
-        return xmlName;
+        return _xmlName;
     } //-- java.lang.String getXMLName() 
 
     /**
@@ -226,7 +222,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * element or element with anonymous type definition.
      */
     public boolean isElementDefinition() {
-        return elementDefinition;
+        return _elementDefinition;
     } //-- boolean isElementDefinition() 
 
 }

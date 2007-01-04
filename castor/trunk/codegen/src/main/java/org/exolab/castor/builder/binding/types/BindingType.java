@@ -52,9 +52,9 @@ public class BindingType implements java.io.Serializable {
 
     private static java.util.Hashtable _memberTable = init();
 
-    private int type = -1;
+    private int _type = -1;
 
-    private java.lang.String stringValue = null;
+    private java.lang.String _stringValue = null;
 
 
       //----------------/
@@ -63,8 +63,8 @@ public class BindingType implements java.io.Serializable {
 
     private BindingType(final int type, final java.lang.String value) {
         super();
-        this.type = type;
-        this.stringValue = value;
+        this._type = type;
+        this._stringValue = value;
     } //-- org.exolab.castor.builder.binding.types.BindingType(int, java.lang.String)
 
 
@@ -84,7 +84,7 @@ public class BindingType implements java.io.Serializable {
      * Returns the type of this BindingType.
     **/
     public int getType() {
-        return this.type;
+        return this._type;
     } //-- int getType() 
 
     /**
@@ -100,7 +100,7 @@ public class BindingType implements java.io.Serializable {
      * Returns the String representation of this BindingType.
     **/
     public java.lang.String toString() {
-        return this.stringValue;
+        return this._stringValue;
     } //-- java.lang.String toString() 
 
     /**

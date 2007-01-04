@@ -122,7 +122,7 @@ public final class DescriptorSourceFactory {
         //-- Set namespace prefix
         String nsPrefix = classInfo.getNamespacePrefix();
         if ((nsPrefix != null) && (nsPrefix.length() > 0)) {
-            jsc.add("nsPrefix = \"");
+            jsc.add("_nsPrefix = \"");
             jsc.append(nsPrefix);
             jsc.append("\";");
         }
@@ -130,7 +130,7 @@ public final class DescriptorSourceFactory {
         //-- Set namespace URI
         String nsURI = classInfo.getNamespaceURI();
         if ((nsURI != null) && (nsURI.length() > 0)) {
-            jsc.add("nsURI = \"");
+            jsc.add("_nsURI = \"");
             jsc.append(nsURI);
             jsc.append("\";");
         }
@@ -138,14 +138,14 @@ public final class DescriptorSourceFactory {
         //-- set XML Name
         String xmlName = classInfo.getNodeName();
         if (xmlName != null) {
-            jsc.add("xmlName = \"");
+            jsc.add("_xmlName = \"");
             jsc.append(xmlName);
             jsc.append("\";");
         }
 
         //-- set Element Definition flag
         boolean elementDefinition = classInfo.isElementDefinition();
-        jsc.add("elementDefinition = ");
+        jsc.add("_elementDefinition = ");
         jsc.append(new Boolean(elementDefinition).toString());
         jsc.append(";");
 
@@ -280,7 +280,7 @@ public final class DescriptorSourceFactory {
         jsc.add("desc = (org.exolab.castor.xml.util.XMLFieldDescriptorImpl) getFieldDescriptor(\"");
         jsc.append(member.getNodeName());
         jsc.append("\"");
-        jsc.append(", nsURI");
+        jsc.append(", _nsURI");
         if (member.getNodeType() == XMLInfo.ELEMENT_TYPE) {
             jsc.append(", org.exolab.castor.xml.NodeType.Element);");
         } else if (member.getNodeType() == XMLInfo.ATTRIBUTE_TYPE) {
@@ -339,7 +339,7 @@ public final class DescriptorSourceFactory {
                 publicStaticFinal.makePublic();
                 publicStaticFinal.setStatic(true);
                 publicStaticFinal.setFinal(true);
-                JField jField = new JField(SGTypes.String, nodeNameParam);
+                JField jField = new JField(SGTypes.STRING, nodeNameParam);
                 jField.setModifiers(publicStaticFinal);
                 jField.setInitString("\"" + nodeName + "\"");
                 classDesc.addMember(jField);
@@ -377,7 +377,7 @@ public final class DescriptorSourceFactory {
                 jsc.add("desc.setReference(true);");
                 break;
             case XSType.ID_TYPE :
-                jsc.add("this.identity = desc;");
+                jsc.add("this._identity = desc;");
                 break;
             case XSType.QNAME_TYPE :
                 jsc.add("desc.setSchemaType(\"QName\");");
@@ -400,7 +400,7 @@ public final class DescriptorSourceFactory {
             jsc.add(GENERALIZED_FIELD_HANDLER_CLASS.getName());
             jsc.append(" gfh = (");
             jsc.append(GENERALIZED_FIELD_HANDLER_CLASS.getName());
-            jsc.append(")handler;");
+            jsc.append(") handler;");
             _xmlFieldHandlerFactory.createXMLFieldHandler(
                     member, xsType, localClassName, jsc, true);
             jsc.add("gfh.setFieldHandler(handler);");

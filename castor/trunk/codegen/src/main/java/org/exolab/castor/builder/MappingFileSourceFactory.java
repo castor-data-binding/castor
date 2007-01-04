@@ -56,7 +56,6 @@ import org.exolab.castor.mapping.xml.FieldMapping;
 import org.exolab.castor.mapping.xml.MapTo;
 import org.exolab.castor.mapping.xml.types.BindXmlNodeType;
 import org.exolab.javasource.JClass;
-import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JType;
 
 /**
@@ -115,7 +114,7 @@ public final class MappingFileSourceFactory {
 
         //-- set grouping compositor
         if (classInfo.isChoice()) {
-            //-- TODO: need a way to specify choice in Mapping file
+            // TODO need a way to specify choice in Mapping file
         }
 
         boolean isAbstract = classInfo.isAbstract();
@@ -277,25 +276,25 @@ public final class MappingFileSourceFactory {
 //          nsURI = null;
 //      }
 
-        //-- required
+        // required
         if (member.isRequired()) {
             fieldMap.setRequired(true);
         }
 
-        //-- nillable
+        // nillable
         if (member.isNillable()) {
-            // TODO: Mapping file needs nillable support!
+            // TODO Mapping file needs nillable support!
         }
 
-        //-- if any it can match all the names
+        // if any it can match all the names
         if (any) {
             bindXml.setMatches("*");
         }
 
-        //-- Add Validation Code
-        // TODO: mapping file has no validation support so users need to use xsi:schemaLocation
+        // Add Validation Code
+        // TODO mapping file has no validation support so users need to use xsi:schemaLocation
         // in their XML instances and enable schema validation on the parser
-    } //-- createFieldMapping
+    }
 
     /**
      * Returns the classname for the given JType. The class name may be the
@@ -306,12 +305,11 @@ public final class MappingFileSourceFactory {
      * @return the classname for the given XSType
      */
     private static String getClassName(final JType jType) {
-        // TODO: Look up short names from: org.exolab.castor.mapping.loader.Types
+        // TODO Look up short names from: org.exolab.castor.mapping.loader.Types
 
         if (jType.isPrimitive()) {
             return jType.getName();
         }
         return jType.toString();
-    } //-- classType
-
-} //-- DescriptorSourceFactory
+    }
+}

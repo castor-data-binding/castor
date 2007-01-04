@@ -316,9 +316,9 @@ public final class SingleClassGenerator {
                 desc.print(_destDir, _lineSeparator);
             }
         } else {
-            //-- TODO: cleanup mapping file integration (what does this TODO mean?)
-            //-- create a class mapping
-            String pkg = state._packageName;
+            // TODO cleanup mapping file integration (what does this TODO mean?)
+            // create a class mapping
+            String pkg = state.getPackageName();
             if (pkg == null) {
                 pkg = "";
             }
@@ -389,7 +389,7 @@ public final class SingleClassGenerator {
         }
 
         if (JNaming.isReservedByWindows(nameToCompare)) {
-            // FIXME:  We should fail under Windows and warn under other OSes
+            // FIXME  We should fail under Windows and warn under other OSes
             String warn = "'" + nameToCompare + "' is reserved by the Windows filesystem and"
                     + " cannot be\nused as a class name.  Windows will not allow you to create"
                     + " a file with this\nname.  You will have to use a mapping file or change"

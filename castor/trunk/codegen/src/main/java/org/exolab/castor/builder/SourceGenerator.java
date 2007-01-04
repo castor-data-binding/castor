@@ -486,7 +486,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param packageName the package for the generated source files
      * @throws IOException if an IOException occurs writing the new source files
      */
-    public final void generateSource(final String filename, final String packageName) throws IOException {
+    public final void generateSource(
+            final String filename, final String packageName) throws IOException {
         final File schemaFile;
         if (filename.startsWith("./")) {
             schemaFile = new File(filename.substring(2));
@@ -518,7 +519,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param packageName the package for the generated source files
      * @throws IOException if an IOException occurs writing the new source files
      */
-    public final void generateSource(final Reader reader, final String packageName) throws IOException {
+    public final void generateSource(
+            final Reader reader, final String packageName) throws IOException {
         InputSource source = new InputSource(reader);
         generateSource(source, packageName);
     } //-- generateSource
@@ -609,7 +611,8 @@ public class SourceGenerator extends BuilderConfiguration {
      * @see #generateSource(InputSource, String) to provide an InputSource for
      *      the schema
      */
-    public final void generateSource(final Schema schema, final String packageName) throws IOException {
+    public final void generateSource(
+            final Schema schema, final String packageName) throws IOException {
         if (schema == null) {
             throw new IllegalArgumentException("The argument 'schema' must not be null.");
         }
@@ -636,7 +639,7 @@ public class SourceGenerator extends BuilderConfiguration {
 
         //-- create a new Source Generation State object for this invocation
         SGStateInfo sInfo = new SGStateInfo(schema, this);
-        sInfo._packageName = packageName;
+        sInfo.setPackageName(packageName);
         sInfo.setDialog(_dialog);
         sInfo.setVerbose(_verbose);
         sInfo.setSuppressNonFatalWarnings(_suppressNonFatalWarnings);
@@ -670,7 +673,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo source generator state information
      * @throws IOException if this Exception occurs while processing an import schema
      */
-    private final void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo)
+    private void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo)
                                                                  throws IOException {
         // Before processing the current schema, process its imported schemas
         if (!_suppressNonFatalWarnings || _generateImported) {
@@ -720,7 +723,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo source generator state information
      * @throws IOException if this Exception occurs while processing an import schema
      */
-    private final void processImportedSchemas(final Schema schema, final SGStateInfo sInfo)
+    private void processImportedSchemas(final Schema schema, final SGStateInfo sInfo)
                                                                     throws IOException {
         Enumeration enumeration = schema.getImportedSchema();
         while (enumeration.hasMoreElements()) {
@@ -733,7 +736,7 @@ public class SourceGenerator extends BuilderConfiguration {
             _schemasProcessed.add(schema);
             if (!_schemasProcessed.contains(importedSchema)) {
                 SGStateInfo importedSInfo  = new SGStateInfo(importedSchema, this);
-                importedSInfo._packageName = sInfo._packageName;
+                importedSInfo.setPackageName(sInfo.getPackageName());
                 generateAllClassFiles(importedSchema, importedSInfo);
 
                 //--'store' the imported JClass instances
@@ -751,7 +754,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo Source Generator current state
      * @throws IOException if this Exception occurs while generating the mapping file
      */
-    private final void generateMappingFile(final String packageName, final SGStateInfo sInfo)
+    private void generateMappingFile(final String packageName, final SGStateInfo sInfo)
                                                                       throws IOException {
         String pkg = (packageName != null) ? packageName : "";
         MappingRoot mapping = sInfo.getMapping(pkg);
@@ -780,7 +783,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo our state information
      * @throws IOException if this exception occurs while writing source files
      */
-    private final void createClasses(final ElementDecl elementDecl, final SGStateInfo sInfo)
+    private void createClasses(final ElementDecl elementDecl, final SGStateInfo sInfo)
                                                                      throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || elementDecl == null) {
             return;
@@ -843,7 +846,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo our state information
      * @throws IOException if this exception occurs while writing source files
      */
-    private final void createClasses(final Group group, final SGStateInfo sInfo)
+    private void createClasses(final Group group, final SGStateInfo sInfo)
                                                          throws IOException {
         if (group == null) {
             return;
@@ -879,7 +882,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo our state information
      * @throws IOException if this exception occurs while writing source files
      */
-    private final void processComplexType(final ComplexType complexType, final SGStateInfo sInfo)
+    private void processComplexType(final ComplexType complexType, final SGStateInfo sInfo)
                                                                            throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || complexType == null) {
             return;
@@ -929,7 +932,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException if this Exception occurs while generating source
      *         files
      */
-    private final void processAttributes(final ComplexType complexType, final SGStateInfo sInfo)
+    private void processAttributes(final ComplexType complexType, final SGStateInfo sInfo)
                                                                          throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || complexType == null) {
             return;
@@ -949,7 +952,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo the current source generator state information
      * @throws IOException if this Exception occurs while generating source files
      */
-    private final void processContentModel(final ContentModelGroup cmGroup, final SGStateInfo sInfo)
+    private void processContentModel(final ContentModelGroup cmGroup, final SGStateInfo sInfo)
                                                                              throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || cmGroup == null) {
             return;
@@ -990,7 +993,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param sInfo the current source generator state information
      * @throws IOException if this Exception occurs while generating source files
      */
-    private final void processSimpleType(final SimpleType simpleType, final SGStateInfo sInfo)
+    private void processSimpleType(final SimpleType simpleType, final SGStateInfo sInfo)
                                                                        throws IOException {
         if (sInfo.getStatusCode() == SGStateInfo.STOP_STATUS || simpleType == null
                 || simpleType.getSchema() != sInfo.getSchema()) {
@@ -1019,7 +1022,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param packages
      *            the array of package element
      */
-    private final void processNamespaces(final PackageType[] packages) {
+    private void processNamespaces(final PackageType[] packages) {
         if (packages.length == 0) {
             return;
         }
