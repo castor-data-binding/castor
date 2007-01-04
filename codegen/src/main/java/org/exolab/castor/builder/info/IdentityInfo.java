@@ -117,7 +117,7 @@ public final class IdentityInfo extends FieldInfo {
     }
 
     private JMethod makeGetReferenceIdMethod() {
-        JMethod method = new JMethod("getReferenceId", SGTypes.String,
+        JMethod method = new JMethod("getReferenceId", SGTypes.STRING,
                 "the reference ID");
         JSourceCode jsc = method.getSourceCode();
         jsc.add("return this.");

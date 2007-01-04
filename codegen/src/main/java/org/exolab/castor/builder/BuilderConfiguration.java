@@ -66,6 +66,17 @@ import org.exolab.castor.xml.JavaNaming;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public class BuilderConfiguration {
+    /** String representation of directory self pointer. */
+    private static final String SELF_DIRECTORY = "./";
+    
+    /** Length of string representation of directory self pointer. */
+    private static final int SELF_DIRECTORY_LENGTH = SELF_DIRECTORY.length();
+
+    /** String representation of directory parent pointer. */
+    private static final String PARENT_DIRECTORY = "../";
+
+    /** Length of string representation of directory parent pointer. */
+    private static final int PARENT_DIRECTORY_LENGTH = PARENT_DIRECTORY.length();
 
     /**
      * Names of properties used in the configuration file.
@@ -495,7 +506,8 @@ public class BuilderConfiguration {
      * @param schemaLocation the schemaLocation to map
      * @param packageName the package name to map to
      */
-    public final void setLocationPackageMapping(final String schemaLocation, final String packageName) {
+    public final void setLocationPackageMapping(
+            final String schemaLocation, final String packageName) {
         _locpackages.put(schemaLocation, packageName);
     }
 
@@ -599,10 +611,10 @@ public class BuilderConfiguration {
             String cleanedSchemaLocation = schemaLocation;
             //--maybe a relative schemaLocation was given
             while (schemaLocation.startsWith(".")) {
-                 if (schemaLocation.startsWith("./")) {
-                     cleanedSchemaLocation = schemaLocation.substring(2);
-                 } else if (schemaLocation.startsWith("../")) {
-                     cleanedSchemaLocation = schemaLocation.substring(3);
+                 if (schemaLocation.startsWith(SELF_DIRECTORY)) {
+                     cleanedSchemaLocation = schemaLocation.substring(SELF_DIRECTORY_LENGTH);
+                 } else if (schemaLocation.startsWith(PARENT_DIRECTORY)) {
+                     cleanedSchemaLocation = schemaLocation.substring(PARENT_DIRECTORY_LENGTH);
                  }
             }
             Enumeration keys = _locpackages.keys();

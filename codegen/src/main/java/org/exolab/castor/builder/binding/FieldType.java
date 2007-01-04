@@ -52,7 +52,7 @@ public final class FieldType implements java.io.Serializable {
     /**
      * keeps track of state for field: _wrapper.
      */
-    private boolean _has_wrapper;
+    private boolean _hasWrapper;
 
     /**
      * Field _handler.
@@ -91,7 +91,7 @@ public final class FieldType implements java.io.Serializable {
     /**
      */
     public void deleteWrapper() {
-        this._has_wrapper = false;
+        this._hasWrapper = false;
     } //-- void deleteWrapper() 
 
     /**
@@ -163,7 +163,7 @@ public final class FieldType implements java.io.Serializable {
      * @return true if at least one Wrapper has been added
      */
     public boolean hasWrapper() {
-        return this._has_wrapper;
+        return this._hasWrapper;
     } //-- boolean hasWrapper() 
 
     /**
@@ -283,7 +283,7 @@ public final class FieldType implements java.io.Serializable {
      */
     public void setWrapper(final boolean wrapper) {
         this._wrapper = wrapper;
-        this._has_wrapper = true;
+        this._hasWrapper = true;
     } //-- void setWrapper(boolean) 
 
     /**

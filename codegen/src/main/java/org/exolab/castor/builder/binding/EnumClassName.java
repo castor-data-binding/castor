@@ -128,12 +128,11 @@ public final class EnumClassName implements java.io.Serializable {
     /**
      * Sets the value of field 'package'.
      * 
-     * @param _package
-     * @param package the value of field 'package'.
+     * @param pack the value of field 'package'.
      */
-    public void setPackage(final java.lang.String _package) {
-        this._package = _package;
-    } //-- void setPackage(java.lang.String) 
+    public void setPackage(final java.lang.String pack) {
+        this._package = pack;
+    } 
 
     /**
      * Method unmarshalEnumClassName.

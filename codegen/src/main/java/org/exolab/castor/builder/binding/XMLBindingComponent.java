@@ -48,6 +48,8 @@
  */
 package org.exolab.castor.builder.binding;
 
+import java.util.Enumeration;
+
 import org.exolab.castor.builder.BindingComponent;
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.GroupNaming;
@@ -69,8 +71,6 @@ import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
 import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.javasource.JClass;
-
-import java.util.Enumeration;
 
 /**
  * This class is the implementation of BindingComponent from an XML Schema point
@@ -96,7 +96,6 @@ import java.util.Enumeration;
  * that the user controls by changing the view on the Annotated Structure he is
  * interested in.
  * <p>
- * TODO: add the link to the documentation.
  *
  * @see org.exolab.castor.builder.BindingComponent
  *
@@ -105,7 +104,6 @@ import java.util.Enumeration;
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class XMLBindingComponent implements BindingComponent {
-
    /**
     * The Extended Binding used to retrieve the ComponentBindingType.
     */
@@ -158,9 +156,6 @@ public final class XMLBindingComponent implements BindingComponent {
 
     /**
      * A GroupNaming helper class used to named anonymous groups.
-     * <p>
-     * TODO: this property used to be static; currently, I don't see a reason as
-     * to why this was/is required. Anybody ?
      */
     private GroupNaming _groupNaming = null;
 
@@ -773,10 +768,8 @@ public final class XMLBindingComponent implements BindingComponent {
             _javaClassName = JavaNaming.toJavaClassName(result);
         }
 
-        /*
-         * TODO: ADD A SWITCH TO DETERMINE WETHER OR NOT TO USE JAVA CONVENTIONS
-         * FOR THE JAVA CLASS NAME (SEE JAXB)
-         */
+        // TODO ADD A SWITCH TO DETERMINE WETHER OR NOT TO USE JAVA CONVENTIONS
+        //      FOR THE JAVA CLASS NAME (SEE JAXB)
         return _javaClassName;
     }
 
@@ -889,10 +882,8 @@ public final class XMLBindingComponent implements BindingComponent {
             _javaMemberName = JavaNaming.toJavaMemberName(result);
         }
 
-        /*
-         * TODO: ADD A SWITCH TO DETERMINE WETHER OR NOT TO USE JAVA CONVENTIONS
-         * FOR THE JAVA CLASS NAME (SEE JAXB)
-         */
+        // TODO ADD A SWITCH TO DETERMINE WETHER OR NOT TO USE JAVA CONVENTIONS
+        //      FOR THE JAVA CLASS NAME (SEE JAXB)
         return _javaMemberName;
     }
 

@@ -98,14 +98,14 @@ public final class MemberFactory extends BaseFactory {
             final FieldInfoFactory infoFactory, final GroupNaming groupNaming) {
         super(config, infoFactory, groupNaming);
 
-        if (_config.generateExtraCollectionMethods()) {
-            this._infoFactory.setCreateExtraMethods(true);
+        if (getConfig().generateExtraCollectionMethods()) {
+            this.getInfoFactory().setCreateExtraMethods(true);
         }
-        String suffix = _config.getProperty(CollectionInfo.REFERENCE_SUFFIX_PROPERTY, null);
-        this._infoFactory.setReferenceMethodSuffix(suffix);
+        String suffix = getConfig().getProperty(CollectionInfo.REFERENCE_SUFFIX_PROPERTY, null);
+        this.getInfoFactory().setReferenceMethodSuffix(suffix);
 
-        if (_config.boundPropertiesEnabled()) {
-            this._infoFactory.setBoundProperties(true);
+        if (getConfig().boundPropertiesEnabled()) {
+            this.getInfoFactory().setBoundProperties(true);
         }
     } //-- MemberFactory
 
@@ -127,18 +127,18 @@ public final class MemberFactory extends BaseFactory {
             return null;
         }
 
-        XSType xsType    = new XSClass(SGTypes.Object, "any");
+        XSType xsType    = new XSClass(SGTypes.OBJECT, "any");
         String vName     = "_anyObject";
         String xmlName   = null;
         FieldInfo result = null;
 
         if (any.getMaxOccurs() > 1 || any.getMaxOccurs() < 0) {
-            result = this._infoFactory.createCollection(xsType, vName, "anyObject", useJava50);
+            result = this.getInfoFactory().createCollection(xsType, vName, "anyObject", useJava50);
             XSList xsList = ((CollectionInfo) result).getXSList();
             xsList.setMinimumSize(any.getMinOccurs());
             xsList.setMaximumSize(any.getMaxOccurs());
         } else {
-            result = this._infoFactory.createFieldInfo(xsType, vName);
+            result = this.getInfoFactory().createFieldInfo(xsType, vName);
         }
 
         if (any.getMinOccurs() > 0) {
@@ -175,9 +175,9 @@ public final class MemberFactory extends BaseFactory {
      */
     public FieldInfo createFieldInfoForChoiceValue() {
         String fieldName = "_choiceValue";
-        XSType xsType = new XSClass(SGTypes.Object, "any");
+        XSType xsType = new XSClass(SGTypes.OBJECT, "any");
         FieldInfo fInfo = null;
-        fInfo = this._infoFactory.createFieldInfo(xsType, fieldName);
+        fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
         fInfo.setNodeType(XMLInfo.ELEMENT_TYPE);
         fInfo.setComment("Internal choice value storage");
         fInfo.setRequired(false);
@@ -198,11 +198,11 @@ public final class MemberFactory extends BaseFactory {
         String fieldName = "_content";               //new xsType()???
         FieldInfo fInfo = null;
         if (xsType.getType() == XSType.COLLECTION) {
-            fInfo = this._infoFactory.createCollection(((XSList) xsType).getContentType(),
+            fInfo = this.getInfoFactory().createCollection(((XSList) xsType).getContentType(),
                                                        fieldName,
                                                        null, useJava50);
         } else {
-            fInfo = this._infoFactory.createFieldInfo(xsType, fieldName);
+            fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
         }
         fInfo.setNodeType(XMLInfo.TEXT_TYPE);
         fInfo.setComment("internal content storage");
@@ -282,20 +282,21 @@ public final class MemberFactory extends BaseFactory {
                     xsType = classInfo.getSchemaType();
                 }
                 if (xsType == null) {
-                    xsType = new XSClass(SGTypes.Object);
+                    xsType = new XSClass(SGTypes.OBJECT);
                 }
             } else if (xmlType.isComplexType() && (xmlType.getName() != null)) {
                 //--if we use the type method then no class is output for
                 //--the element we are processing
-                if (_config.mappingSchemaType2Java()) {
-                    XMLBindingComponent temp = new XMLBindingComponent(_config, _groupNaming);
+                if (getConfig().mappingSchemaType2Java()) {
+                    XMLBindingComponent temp = new XMLBindingComponent(
+                            getConfig(), getGroupNaming());
                     temp.setBinding(component.getBinding());
                     temp.setView(xmlType);
                     ClassInfo typeInfo = resolver.resolve(xmlType);
                     if (typeInfo != null) {
                         // if we have not processed the <complexType> referenced
                         // by the ClassInfo yet, this will return null
-                        // TODO: find a way to resolve an unprocessed <complexType>
+                        // TODO find a way to resolve an unprocessed <complexType>
                         xsType = typeInfo.getSchemaType();
                     } else {
                         String className = temp.getQualifiedName();
@@ -309,7 +310,7 @@ public final class MemberFactory extends BaseFactory {
                         }
                     }
                 }
-            } //--complexType
+            } // complexType
         } else {
             if (xsType == null) {
                 xsType = component.getJavaType();
@@ -321,7 +322,7 @@ public final class MemberFactory extends BaseFactory {
                 switch (component.getAnnotated().getStructureType()) {
                 case Structure.ATTRIBUTE:
                 case Structure.ELEMENT:
-                    xsType = new XSClass(SGTypes.Object);
+                    xsType = new XSClass(SGTypes.OBJECT);
                     break;
                 default:
                     // probably a model-group
@@ -330,7 +331,7 @@ public final class MemberFactory extends BaseFactory {
             }
         }
 
-        //--is the XSType found?
+        // is the XSType found?
         if (xsType == null) {
             String className = component.getQualifiedName();
             JClass jClass = new JClass(className);
@@ -344,19 +345,19 @@ public final class MemberFactory extends BaseFactory {
             className = null;
         }
 
-        //--create the fieldInfo
-        //-- check whether this should be a collection or not
+        // create the fieldInfo
+        // check whether this should be a collection or not
         int maxOccurs = component.getUpperBound();
         int minOccurs = component.getLowerBound();
         if (simpleTypeCollection
                 || ((maxOccurs < 0 || maxOccurs > 1) && !(memberName.endsWith("Choice")))) {
             String vName = memberName + "List";
 
-            //--if xmlName is null it means that
-            //--we are processing a container object (group)
-            //--so we need to adjust the name of the members of the collection
+            // if xmlName is null it means that
+            // we are processing a container object (group)
+            // so we need to adjust the name of the members of the collection
             CollectionInfo cInfo;
-            cInfo = this._infoFactory.createCollection(xsType, vName, memberName,
+            cInfo = this.getInfoFactory().createCollection(xsType, vName, memberName,
                                                        component.getCollectionType(), useJava50);
 
             XSList xsList = cInfo.getXSList();
@@ -368,22 +369,22 @@ public final class MemberFactory extends BaseFactory {
         } else  {
             switch (xsType.getType()) {
                 case XSType.ID_TYPE:
-                     fieldInfo = this._infoFactory.createIdentity(memberName);
+                     fieldInfo = this.getInfoFactory().createIdentity(memberName);
                      break;
                 case XSType.COLLECTION:
                     String collectionName = component.getCollectionType();
                     XSType contentType = ((XSList) xsType).getContentType();
-                    fieldInfo = this._infoFactory.createCollection(contentType,
+                    fieldInfo = this.getInfoFactory().createCollection(contentType,
                                                                    memberName, memberName,
                                                                    collectionName, useJava50);
                     break;
                 default:
-                    fieldInfo = this._infoFactory.createFieldInfo(xsType, memberName);
+                    fieldInfo = this.getInfoFactory().createFieldInfo(xsType, memberName);
                     break;
             }
         }
 
-        //--initialize the field
+        // initialize the field
         fieldInfo.setNodeName(xmlName);
         fieldInfo.setRequired(minOccurs > 0);
         switch (component.getAnnotated().getStructureType()) {
@@ -463,7 +464,7 @@ public final class MemberFactory extends BaseFactory {
             value = "\"\"";
         }
 
-        //-- TODO: Need to change this...and to validate the value...to be done at reading time.
+        // TODO Need to change this...and to validate the value...to be done at reading time.
 
         //-- clean up value
         //-- if the xsd field is mapped into a java.lang.String

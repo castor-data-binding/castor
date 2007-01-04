@@ -75,7 +75,7 @@ public final class EnumerationFactory extends BaseFactory {
      */
     public EnumerationFactory(final BuilderConfiguration config, final GroupNaming groupNaming) {
         super(config, null, groupNaming);
-        _typeConversion = new TypeConversion(_config);
+        _typeConversion = new TypeConversion(getConfig());
 
         // TODO[WG]: add code to read in max. value from builder property file
         _maxEnumerationsPerClass = config.getMaximumNumberOfConstants();
@@ -101,7 +101,7 @@ public final class EnumerationFactory extends BaseFactory {
 
         Enumeration enumeration = simpleType.getFacets("enumeration");
 
-        XMLBindingComponent component = new XMLBindingComponent(_config, getGroupNaming());
+        XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
             component.setBinding(binding);
             component.setView(simpleType);
@@ -114,7 +114,7 @@ public final class EnumerationFactory extends BaseFactory {
 
         enumeration = simpleType.getFacets("enumeration");
 
-        JClass jClass = state._jClass;
+        JClass jClass = state.getJClass();
         String className = jClass.getLocalName();
 
         if (component.getJavaClassName() != null) {
@@ -123,7 +123,8 @@ public final class EnumerationFactory extends BaseFactory {
 
         jClass.addImport("java.util.Hashtable");
         JField  field  = null;
-        JField  fHash  = new JField(SGTypes.createHashtable(_config.useJava50()), "_memberTable");
+        JField  fHash  = new JField(
+                SGTypes.createHashtable(getConfig().useJava50()), "_memberTable");
         fHash.setInitString("init()");
         fHash.getModifiers().setStatic(true);
 
@@ -133,24 +134,15 @@ public final class EnumerationFactory extends BaseFactory {
         JConstructor constructor = jClass.getConstructor(0);
         constructor.getModifiers().makePrivate();
         constructor.addParameter(new JParameter(JType.INT, "type"));
-        constructor.addParameter(new JParameter(SGTypes.String, "value"));
+        constructor.addParameter(new JParameter(SGTypes.STRING, "value"));
         jsc = constructor.getSourceCode();
         jsc.add("this.type = type;");
         jsc.add("this.stringValue = value;");
 
-        //-- #valueOf method
         createValueOfMethod(jClass, className);
-
-        //-- #enumerate method
         createEnumerateMethod(jClass, className);
-
-        //-- #toString method
         createToStringMethod(jClass, className);
-
-        //-- #init method
         createInitMethod(jClass);
-
-        //-- #readResolve method
         createReadResolveMethod(jClass);
 
         //-- Loop through "enumeration" facets
@@ -230,7 +222,7 @@ public final class EnumerationFactory extends BaseFactory {
                     jsc.append("\", ");
                 }
                 if (generateConstantDefinitions) {
-                jsc.append(objName);
+                    jsc.append(objName);
                 } else {
                     StringBuffer init = new StringBuffer();
                     init.append("new ");
@@ -263,7 +255,7 @@ public final class EnumerationFactory extends BaseFactory {
         jClass.addField(field);
 
         //-- add internal stringValue
-        field = new JField(SGTypes.String, "stringValue");
+        field = new JField(SGTypes.STRING, "stringValue");
         field.setInitString("null");
         jClass.addField(field);
 
@@ -349,7 +341,7 @@ public final class EnumerationFactory extends BaseFactory {
     private void createReadResolveMethod(final JClass jClass) {
         JDocComment jdc;
         JSourceCode jsc;
-        JMethod mReadResolve = new JMethod("readResolve", SGTypes.Object,
+        JMethod mReadResolve = new JMethod("readResolve", SGTypes.OBJECT,
                                            "this deserialized object");
         mReadResolve.getModifiers().makePrivate();
         jClass.addMethod(mReadResolve);
@@ -368,12 +360,13 @@ public final class EnumerationFactory extends BaseFactory {
      */
     private JMethod createInitMethod(final JClass jClass) {
         final String initMethodName = getInitMethodName(_maxSuffix);
-        JMethod mInit = new JMethod(initMethodName, SGTypes.createHashtable(_config.useJava50()),
-                                    "the initialized Hashtable for the member table");
+        JMethod mInit = new JMethod(initMethodName,
+                SGTypes.createHashtable(getConfig().useJava50()),
+                "the initialized Hashtable for the member table");
         jClass.addMethod(mInit);
         mInit.getModifiers().makePrivate();
         mInit.getModifiers().setStatic(true);
-        if (_config.useJava50()) {
+        if (getConfig().useJava50()) {
             mInit.getSourceCode().add("Hashtable<Object, Object> members"
                     + " = new Hashtable<Object, Object>();");
         } else {
@@ -388,7 +381,7 @@ public final class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createToStringMethod(final JClass jClass, final String className) {
-        JMethod mToString = new JMethod("toString", SGTypes.String,
+        JMethod mToString = new JMethod("toString", SGTypes.STRING,
                                         "the String representation of this " + className);
         jClass.addMethod(mToString);
         JDocComment jdc = mToString.getJDocComment();
@@ -403,9 +396,9 @@ public final class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createEnumerateMethod(final JClass jClass, final String className) {
-        // TODO: for the time being return Enumeration<Object> for Java 5.0; change
+        // TODO for the time being return Enumeration<Object> for Java 5.0; change
         JMethod mEnumerate = new JMethod("enumerate",
-                SGTypes.createEnumeration(SGTypes.Object, _config.useJava50()),
+                SGTypes.createEnumeration(SGTypes.OBJECT, getConfig().useJava50()),
                 "an Enumeration over all possible instances of " + className);
         mEnumerate.getModifiers().setStatic(true);
         jClass.addMethod(mEnumerate);
@@ -421,9 +414,9 @@ public final class EnumerationFactory extends BaseFactory {
      * @param className The name of the class.
      */
     private void createValueOfMethod(final JClass jClass, final String className) {
-        JMethod mValueOf = new JMethod("valueOf", jClass,
-                                       "the " + className + " value of parameter 'string'");
-        mValueOf.addParameter(new JParameter(SGTypes.String, "string"));
+        JMethod mValueOf = new JMethod(
+                "valueOf", jClass, "the " + className + " value of parameter 'string'");
+        mValueOf.addParameter(new JParameter(SGTypes.STRING, "string"));
         mValueOf.getModifiers().setStatic(true);
         jClass.addMethod(mValueOf);
 
@@ -432,26 +425,16 @@ public final class EnumerationFactory extends BaseFactory {
         jdc.appendComment(" based on the given String value.");
 
         JSourceCode jsc = mValueOf.getSourceCode();
-        jsc.add("java.lang.Object obj = null;");
-        jsc.add("if (string != null) {");
-        if (_caseInsensitive) {
-            jsc.append("obj = _memberTable.get(string.toLowerCase());");
-        } else {
-            jsc.append("obj = _memberTable.get(string);");
-        }
-        jsc.append(" }");
-
-        jsc.add("if (obj == null) {");
-        jsc.indent();
-        jsc.add("String err = \"'\" + string + \"' is not a valid ");
-        jsc.append(className);
-        jsc.append("\";");
-        jsc.add("throw new IllegalArgumentException(err);");
-        jsc.unindent();
-        jsc.add("}");
-        jsc.add("return (");
-        jsc.append(className);
-        jsc.append(") obj;");
+        jsc.add("java.lang.Object obj = null;\n"
+              + "if (string != null) {\n"
+              + " obj = _memberTable.get(string{1});\n"
+              + "}\n"
+              + "if (obj == null) {\n"
+              + " String err = \"'\" + string + \"' is not a valid {0}\";\n"
+              + " throw new IllegalArgumentException(err);\n"
+              + "}\n"
+              + "return ({0}) obj;", className, (_caseInsensitive ? ".toLowerCase()" : ""));
+        
     }
 
     /**
@@ -486,12 +469,12 @@ public final class EnumerationFactory extends BaseFactory {
         if (base == null) {
             baseType = new XSString();
         } else {
-            baseType = _typeConversion.convertType(base, _config.useJava50());
+            baseType = _typeConversion.convertType(base, getConfig().useJava50());
         }
 
         Enumeration enumeration = simpleType.getFacets("enumeration");
 
-        JClass jClass    = state._jClass;
+        JClass jClass    = state.getJClass();
         String className = jClass.getLocalName();
 
         JField      fValues = null;
@@ -502,7 +485,8 @@ public final class EnumerationFactory extends BaseFactory {
         JConstructor constructor = jClass.getConstructor(0);
         constructor.getModifiers().makePrivate();
 
-        fValues = new JField(new JArrayType(baseType.getJType(), _config.useJava50()), "values");
+        fValues = new JField(new JArrayType(
+                baseType.getJType(), getConfig().useJava50()), "values");
 
         //-- Loop through "enumeration" facets
         //-- and create the default values for the type.
@@ -546,7 +530,7 @@ public final class EnumerationFactory extends BaseFactory {
         //-- #valueOf method
         JMethod method = new JMethod("valueOf", jClass,
                                      "the String value of the provided " + baseType.getJType());
-        method.addParameter(new JParameter(SGTypes.String, "string"));
+        method.addParameter(new JParameter(SGTypes.STRING, "string"));
         method.getModifiers().setStatic(true);
         jClass.addMethod(method);
         jdc = method.getJDocComment();
@@ -614,19 +598,20 @@ public final class EnumerationFactory extends BaseFactory {
             sb.append(customMemberName);
         } else {
             sb.append(enumValue.toUpperCase());
-            char c;
-            for (int i = 0; i < sb.length(); i++) {
-                c = sb.charAt(i);
+            int i = 0;
+            while (i < sb.length()) {
+                char c = sb.charAt(i);
                 if ("[](){}<>'`\"".indexOf(c) >= 0) {
                     sb.deleteCharAt(i);
                     i--;
                 } else if (Character.isWhitespace(c) || "\\/?~!@#$%^&*-+=:;.,".indexOf(c) >= 0) {
                     sb.setCharAt(i, '_');
                 }
+                i++;
             }
         }
         return sb.toString();
-    } //-- translateEnumValueToIdentifier
+    }
 
     /**
      * Set to true if enumerated type lookups should be performed in a case

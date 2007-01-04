@@ -11,10 +11,11 @@ package org.exolab.castor.builder.binding;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.xml.*;
 import org.exolab.castor.xml.FieldValidator;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
-import org.exolab.castor.xml.validators.*;
+import org.exolab.castor.xml.validators.StringValidator;
 
 /**
  * 
@@ -29,13 +30,13 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      //- Class/Member Variables -/
     //--------------------------/
 
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
@@ -44,8 +45,8 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
     public NamingTypeDescriptor() {
         super();
-        nsURI = "http://www.castor.org/SourceGenerator/Binding";
-        xmlName = "namingType";
+        _nsURI = "http://www.castor.org/SourceGenerator/Binding";
+        _xmlName = "namingType";
         
         //-- set grouping compositor
         setCompositorAsSequence();
@@ -86,11 +87,9 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         
         //-- validation code for: _prefix
         fieldValidator = new FieldValidator();
-        { //-- local scope
-            StringValidator sv = new StringValidator();
-            sv.setWhiteSpace("preserve");
-            fieldValidator.setValidator(sv);
-        }
+        StringValidator sv1 = new StringValidator();
+        sv1.setWhiteSpace("preserve");
+        fieldValidator.setValidator(sv1);
         desc.setValidator(fieldValidator);
         
         //-- _suffix
@@ -123,11 +122,9 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         
         //-- validation code for: _suffix
         fieldValidator = new FieldValidator();
-        { //-- local scope
-            StringValidator sv = new StringValidator();
-            sv.setWhiteSpace("preserve");
-            fieldValidator.setValidator(sv);
-        }
+        StringValidator sv2 = new StringValidator();
+        sv2.setWhiteSpace("preserve");
+        fieldValidator.setValidator(sv2);
         desc.setValidator(fieldValidator);
         
     } //-- org.exolab.castor.builder.binding.NamingTypeDescriptor()
@@ -152,7 +149,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
-        return identity;
+        return _identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
@@ -164,13 +161,13 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public java.lang.String getNameSpacePrefix() {
-        return nsPrefix;
+        return _nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
     **/
     public java.lang.String getNameSpaceURI() {
-        return nsURI;
+        return _nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
@@ -182,7 +179,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public java.lang.String getXMLName() {
-        return xmlName;
+        return _xmlName;
     } //-- java.lang.String getXMLName() 
 
 }

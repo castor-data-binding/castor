@@ -45,6 +45,8 @@
 package org.exolab.castor.builder.binding;
 
 //--Castor imports
+import java.util.Hashtable;
+
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ComplexType;
@@ -53,8 +55,6 @@ import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
 import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
-
-import java.util.Hashtable;
 
 /**
  * This class adds the necessary logic to a Binding Object to bring the gap

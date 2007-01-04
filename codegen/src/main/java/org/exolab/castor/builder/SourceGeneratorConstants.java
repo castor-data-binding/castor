@@ -23,16 +23,14 @@ package org.exolab.castor.builder;
  * @version $Revision: 0000 $ $Date: $
  */
 public interface SourceGeneratorConstants {
-
     /** Enumerations are placed into this special package relative to the generated source. */
     String TYPES_PACKAGE = "types";
 
-    // FIXME: Use these strings in places like org.exolab.castor.builder.types.XSListJ2
+    // FIXME Use these strings in places like org.exolab.castor.builder.types.XSListJ2
     String FIELD_INFO_VECTOR     = "vector";
     String FIELD_INFO_ARRAY_LIST = "arraylist";
     String FIELD_INFO_ODMG       = "odmg";
     String FIELD_INFO_COLLECTION = "collection";
     String FIELD_INFO_SET        = "set";
     String FIELD_INFO_SORTED_SET = "sortedset";
-
 }

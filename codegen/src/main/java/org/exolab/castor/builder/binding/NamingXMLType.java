@@ -11,7 +11,8 @@ package org.exolab.castor.builder.binding;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * 

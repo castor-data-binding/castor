@@ -68,32 +68,33 @@ class FactoryState implements ClassInfoResolver {
     //--------------------/
 
     /** The JClass for which we are currently generating code. */
-    JClass       _jClass              = null;
+    private final JClass _jClass;
+    
     /** A ClassInfo for <code>_jClass</code>. */
-    ClassInfo    _classInfo           = null;
+    private final ClassInfo _classInfo;
+    
     /** A FieldInfo used to handle <code>xsd:choice</code>. */
-    FieldInfo    _fieldInfoForChoice  = null;
+    private FieldInfo _fieldInfoForChoice = null;
+    
     /** Package for the class currently being generated. */
-    String       _packageName         = null;
+    private final String _packageName;
 
     /** Our ClassInfoResolver to keep track of ClassInfos for easy lookup. */
     private ClassInfoResolver _resolver  = null;
+    
     /** Keeps track of which classes have been processed. */
     private Vector            _processed = null;
+    
     /** SourceGenerator state. */
     private SGStateInfo       _sgState   = null;
+    
     /** If true, we are currently generating code for a group. */
     private boolean           _createGroupItem = false;
 
-    /**
-     * Keeps track of whether or not the BoundProperties methods have been
-     * created.
-     */
+    /** Keeps track of whether or not the BoundProperties methods have been created. */
     private boolean           _bound = false;
 
-    /**
-     * Keeps track of the different FactoryState.
-     */
+    /** Keeps track of the different FactoryState. */
     private FactoryState _parent = null;
 
     //----------------/
@@ -125,7 +126,7 @@ class FactoryState implements ClassInfoResolver {
 
         _resolver = sgState;
 
-        this._packageName = packageName;
+        _packageName = packageName;
 
         //-- boundProperties
         _bound = sgState.getSourceGenerator().boundPropertiesEnabled();
@@ -134,6 +135,51 @@ class FactoryState implements ClassInfoResolver {
     //-----------/
     //- Methods -/
     //-----------/
+    
+    /**
+     * Get JClass for which we are currently generating code.
+     * 
+     * @return JClass for which we are currently generating code.
+     */
+    protected final JClass getJClass() {
+        return _jClass;
+    }
+    
+    /**
+     * Get ClassInfo for <code>_jClass</code>.
+     * 
+     * @return ClassInfo for <code>_jClass</code>.
+     */
+    protected final ClassInfo getClassInfo() {
+        return _classInfo;
+    }
+    
+    /**
+     * Get FieldInfo used to handle <code>xsd:choice</code>.
+     * 
+     * @return FieldInfo used to handle <code>xsd:choice</code>.
+     */
+    protected final FieldInfo getFieldInfoForChoice() {
+        return _fieldInfoForChoice;
+    }
+    
+    /**
+     * Set FieldInfo used to handle <code>xsd:choice</code>.
+     * 
+     * @param fieldInfoForChoice FieldInfo used to handle <code>xsd:choice</code>.
+     */
+    protected final void setFieldInfoForChoice(final FieldInfo fieldInfoForChoice) {
+        _fieldInfoForChoice = fieldInfoForChoice;
+    }
+    
+    /**
+     * Get package for the class currently being generated.
+     * 
+     * @return Package for the class currently being generated.
+     */
+    protected final String getPackageName() {
+        return _packageName;
+    }
 
     /**
      * Adds the given Reference to this ClassInfo resolver.

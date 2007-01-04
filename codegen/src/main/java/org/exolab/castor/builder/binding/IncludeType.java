@@ -11,7 +11,8 @@ package org.exolab.castor.builder.binding;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.xml.*;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.Unmarshaller;
 
 /**
  * 
@@ -29,7 +30,7 @@ public final class IncludeType implements java.io.Serializable {
      //- Class/Member Variables -/
     //--------------------------/
 
-    private java.lang.String _URI;
+    private java.lang.String _uri;
 
 
       //----------------/
@@ -51,7 +52,7 @@ public final class IncludeType implements java.io.Serializable {
      * @return the value of field 'URI'.
     **/
     public java.lang.String getURI() {
-        return this._URI;
+        return this._uri;
     } //-- java.lang.String getURI() 
 
     /**
@@ -89,10 +90,10 @@ public final class IncludeType implements java.io.Serializable {
     /**
      * Sets the value of field 'URI'.
      * 
-     * @param URI the value of field 'URI'.
+     * @param uri the value of field 'URI'.
     **/
-    public void setURI(final java.lang.String URI) {
-        this._URI = URI;
+    public void setURI(final java.lang.String uri) {
+        this._uri = uri;
     } //-- void setURI(java.lang.String) 
 
     /**

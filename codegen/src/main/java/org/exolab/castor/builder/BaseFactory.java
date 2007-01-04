@@ -24,12 +24,14 @@ package org.exolab.castor.builder;
 public class BaseFactory {
 
     /** The BuilderConfiguration instance, for callbacks to obtain certain
-     * configured properties. */
-    protected final BuilderConfiguration _config;
+     *  configured properties. */
+    private final BuilderConfiguration _config;
+    
     /** The type factory. */
-    protected final FieldInfoFactory _infoFactory;
+    private final FieldInfoFactory _infoFactory;
+    
     /** A GroupNaming helper class used to named anonymous groups. */
-    protected GroupNaming _groupNaming = null;
+    private GroupNaming _groupNaming = null;
 
     /**
      * Creates an instance of this class.
@@ -52,7 +54,25 @@ public class BaseFactory {
         }
         _groupNaming = groupNaming;
     }
-
+    
+    /**
+     * Get BuilderConfiguration instance, for callbacks to obtain certain configured properties.
+     * 
+     * @return BuilderConfiguration instance.
+     */
+    protected final BuilderConfiguration getConfig() {
+        return _config;
+    }
+    
+    /**
+     * Get type factory.
+     * 
+     * @return Type factory.
+     */
+    protected final FieldInfoFactory getInfoFactory() {
+        return _infoFactory;
+    }
+    
     /**
      * Normalizes the given string for use in comments.
      *
@@ -100,6 +120,7 @@ public class BaseFactory {
 
     /**
      * Returns the group naming helper class for naming nested anonymous groups.
+     * 
      * @return the group naming helper class for naming nested anonymous groups.
      */
     public final GroupNaming getGroupNaming() {

@@ -86,7 +86,6 @@ import org.exolab.castor.xml.schema.Wildcard;
 import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.javasource.JAnnotation;
 import org.exolab.javasource.JAnnotationType;
-import org.exolab.javasource.JArrayType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JConstructor;
@@ -95,7 +94,6 @@ import org.exolab.javasource.JDocDescriptor;
 import org.exolab.javasource.JField;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
-import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
@@ -120,9 +118,9 @@ public final class SourceFactory extends BaseFactory {
     /**  The current Binding for which we are creating classes. */
     private ExtendedBinding _binding = null;
     /** The member factory. */
-    private MemberFactory memberFactory = null;
+    private MemberFactory _memberFactory = null;
 
-    private short enumerationType = OBJECT_TYPE_ENUMERATION;
+    private short _enumerationType = OBJECT_TYPE_ENUMERATION;
 
     /**
      * A flag indicating whether or not to generate XML marshalling framework
@@ -140,7 +138,7 @@ public final class SourceFactory extends BaseFactory {
     /** The TypeConversion instance to use for mapping SimpleTypes into XSTypes. */
     private TypeConversion _typeConversion = null;
     /** Enumeration factory used to create code for enumerations. */
-    private EnumerationFactory _enumerationFactory;
+    private final EnumerationFactory _enumerationFactory;
 
     /**
      * Creates a new SourceFactory with the given FieldInfoFactory.
@@ -157,9 +155,9 @@ public final class SourceFactory extends BaseFactory {
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
-        this.memberFactory       = new MemberFactory(config, infoFactory, _groupNaming);
-        this._typeConversion     = new TypeConversion(_config);
-        this._enumerationFactory = new EnumerationFactory(_config, _groupNaming);
+        this._memberFactory       = new MemberFactory(config, infoFactory, getGroupNaming());
+        this._typeConversion     = new TypeConversion(getConfig());
+        this._enumerationFactory = new EnumerationFactory(getConfig(), getGroupNaming());
     } //-- SourceFactory
 
    /**
@@ -186,7 +184,7 @@ public final class SourceFactory extends BaseFactory {
      * @see org.exolab.castor.builder.SourceFactory#setReferenceMethodSuffix
      */
     public void setCreateExtraMethods(final boolean extraMethods) {
-        _infoFactory.setCreateExtraMethods(extraMethods);
+        getInfoFactory().setCreateExtraMethods(extraMethods);
     } //-- setCreateExtraMethods
 
     /**
@@ -200,7 +198,7 @@ public final class SourceFactory extends BaseFactory {
      * @see org.exolab.castor.builder.SourceFactory#setCreateExtraMethods
      */
     public void setReferenceMethodSuffix(final String suffix) {
-        _infoFactory.setReferenceMethodSuffix(suffix);
+        getInfoFactory().setReferenceMethodSuffix(suffix);
     } //-- setReferenceMethodSuffix
 
     /**
@@ -275,7 +273,7 @@ public final class SourceFactory extends BaseFactory {
         //0-- set the packageName
         String packageName = component.getJavaPackage();
         if (packageName == null || packageName.length() == 0) {
-            packageName = sgState._packageName;
+            packageName = sgState.getPackageName();
         }
 
         //1-- get the name
@@ -320,8 +318,8 @@ public final class SourceFactory extends BaseFactory {
         //////////////////////////////////////////////////////
 
         //4-- intialization of the JClass
-        ClassInfo classInfo = state._classInfo;
-        JClass    jClass    = state._jClass;
+        ClassInfo classInfo = state.getClassInfo();
+        JClass    jClass    = state.getJClass();
         initialize(jClass);
 
         //-- name information
@@ -356,7 +354,7 @@ public final class SourceFactory extends BaseFactory {
                 }
             } else if (type.isAnyType()) {
                 //-- Do not create classes for AnyType
-                classInfo.setSchemaType(new XSClass(SGTypes.Object));
+                classInfo.setSchemaType(new XSClass(SGTypes.OBJECT));
                 return new JClass[0];
             }
         } else {
@@ -383,16 +381,16 @@ public final class SourceFactory extends BaseFactory {
             FieldInfo fInfo = null;
             if (createForSingleGroup) {
                 //By default a nested group Item can occur only once
-                fInfo = _infoFactory.createFieldInfo(new XSClass(jClass), fname);
+                fInfo = getInfoFactory().createFieldInfo(new XSClass(jClass), fname);
             } else {
-                fInfo = _infoFactory.createCollection(
-                        new XSClass(jClass), "_items", fname, _config.useJava50());
+                fInfo = getInfoFactory().createCollection(
+                        new XSClass(jClass), "_items", fname, getConfig().useJava50());
             }
             fInfo.setContainer(true);
             String newClassName = className.substring(0, className.length() - 4);
             state     = new FactoryState(newClassName, sgState, packageName);
-            classInfo = state._classInfo;
-            jClass    = state._jClass;
+            classInfo = state.getClassInfo();
+            jClass    = state.getJClass();
             initialize(jClass);
             if (type != null && type.isComplexType()) {
                 ComplexType complexType = (ComplexType) type;
@@ -402,16 +400,16 @@ public final class SourceFactory extends BaseFactory {
                     processAttributes(component.getBinding(), complexType, state);
                     component.setView(saved);
                     if (complexType.getContentType() == ContentType.mixed) {
-                        FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(
-                                new XSString(), _config.useJava50());
+                        FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
+                                new XSString(), getConfig().useJava50());
                         handleField(fieldInfo, state);
                     } else if (complexType.getContentType().getType() == ContentType.SIMPLE) {
                         SimpleContent simpleContent = (SimpleContent) complexType.getContentType();
                         SimpleType temp = simpleContent.getSimpleType();
                         XSType xsType = _typeConversion.convertType(
-                                temp, packageName, _config.useJava50());
-                        FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(
-                                xsType, _config.useJava50());
+                                temp, packageName, getConfig().useJava50());
+                        FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
+                                xsType, getConfig().useJava50());
                         handleField(fieldInfo, state);
                         temp = null;
                     } else {
@@ -423,7 +421,7 @@ public final class SourceFactory extends BaseFactory {
 
             classInfo.addFieldInfo(fInfo);
             fInfo.createJavaField(jClass);
-            fInfo.createAccessMethods(jClass, _config.useJava50());
+            fInfo.createAccessMethods(jClass, getConfig().useJava50());
             fInfo.generateInitializerCode(jClass.getConstructor(0).getSourceCode());
 
             //-- name information
@@ -594,8 +592,8 @@ public final class SourceFactory extends BaseFactory {
     private void processComplexType(final XMLBindingComponent component, final SGStateInfo sgState,
                                     final FactoryState state) {
         XMLType   type      = component.getXMLType();
-        ClassInfo classInfo = state._classInfo;
-        JClass    jClass    = state._jClass;
+        ClassInfo classInfo = state.getClassInfo();
+        JClass    jClass    = state.getJClass();
         boolean creatingForAnElement =
             (component.getAnnotated().getStructureType() == Structure.ELEMENT);
 
@@ -604,7 +602,8 @@ public final class SourceFactory extends BaseFactory {
              //--move the view and keep the structure
              Annotated saved = component.getAnnotated();
              String previousPackage = component.getJavaPackage();
-             XMLBindingComponent baseComponent = new XMLBindingComponent(_config, _groupNaming);
+             XMLBindingComponent baseComponent = new XMLBindingComponent(
+                     getConfig(), getGroupNaming());
              baseComponent.setBinding(component.getBinding());
              baseComponent.setView(complexType);
              //-- call createSourceCode to pre-process the complexType
@@ -714,7 +713,7 @@ public final class SourceFactory extends BaseFactory {
                     typeName = JavaNaming.toJavaClassName(
                             ((AttributeGroupDecl) attrDeclParent).getName() + typeName);
                 } else {
-                    typeName = fstate._jClass.getLocalName() + typeName;
+                    typeName = fstate.getJClass().getLocalName() + typeName;
                 }
             }
             //-- otherwise (???) just append "Type"
@@ -725,7 +724,7 @@ public final class SourceFactory extends BaseFactory {
 
         //--XMLBindingComponent is only used to retrieve the java package
         //-- we need to optimize it by enabling the binding of simpleTypes.
-        XMLBindingComponent comp = new XMLBindingComponent(_config, _groupNaming);
+        XMLBindingComponent comp = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (binding != null) {
             comp.setBinding(binding);
         }
@@ -733,12 +732,13 @@ public final class SourceFactory extends BaseFactory {
 
         String packageName = comp.getJavaPackage();
         if ((packageName == null) || (packageName.length() == 0)) {
-            packageName = sgState._packageName;
+            packageName = sgState.getPackageName();
         }
 
         if (simpleType.hasFacet(Facet.ENUMERATION)) {
             enumeration = true;
-            //-- Fix packageName TODO: this is a hack I know, we should change this
+            // Fix packageName
+            // TODO  this is a hack I know, we should change this
             if ((packageName != null) && (packageName.length() > 0)) {
                 packageName = packageName + "." + SourceGeneratorConstants.TYPES_PACKAGE;
             } else {
@@ -757,8 +757,8 @@ public final class SourceFactory extends BaseFactory {
         FactoryState state = new FactoryState(className, sgState, packageName);
         state.setParent(sgState.getCurrentFactoryState());
 
-        ClassInfo classInfo = state._classInfo;
-        JClass    jClass    = state._jClass;
+        ClassInfo classInfo = state.getClassInfo();
+        JClass    jClass    = state.getJClass();
 
         initialize(jClass);
 
@@ -805,7 +805,7 @@ public final class SourceFactory extends BaseFactory {
     private void initialize(final JClass jClass) {
         jClass.addInterface("java.io.Serializable");
 
-        if (_config.useJava50()) {
+        if (getConfig().useJava50()) {
             JAnnotation serial = new JAnnotation(new JAnnotationType("SuppressWarnings"));
             serial.setValue(new String[] {"\"serial\""});
             jClass.addAnnotation(serial);
@@ -827,7 +827,7 @@ public final class SourceFactory extends BaseFactory {
 
         //-- add vector to hold listeners
         String vName = "propertyChangeSupport";
-        JField field = new JField(SGTypes.PropertyChangeSupport, vName);
+        JField field = new JField(SGTypes.PROPERTY_CHANGE_SUPPORT, vName);
         field.getModifiers().makePrivate();
         parent.addField(field);
 
@@ -846,15 +846,15 @@ public final class SourceFactory extends BaseFactory {
              + "when a bound property's value changes.";
         jdc.appendComment(desc);
 
-        jMethod.addParameter(new JParameter(SGTypes.String, "fieldName"));
+        jMethod.addParameter(new JParameter(SGTypes.STRING, "fieldName"));
         jdDesc = jdc.getParamDescriptor("fieldName");
         jdDesc.setDescription("the name of the property that has changed.");
 
-        jMethod.addParameter(new JParameter(SGTypes.Object, "oldValue"));
+        jMethod.addParameter(new JParameter(SGTypes.OBJECT, "oldValue"));
         jdDesc = jdc.getParamDescriptor("oldValue");
         jdDesc.setDescription("the old value of the property.");
 
-        jMethod.addParameter(new JParameter(SGTypes.Object, "newValue"));
+        jMethod.addParameter(new JParameter(SGTypes.OBJECT, "newValue"));
         jdDesc = jdc.getParamDescriptor("newValue");
         jdDesc.setDescription("the new value of the property.");
 
@@ -941,11 +941,11 @@ public final class SourceFactory extends BaseFactory {
     private void createMarshalMethods(final JClass parent, final boolean isAbstract) {
         //-- create main marshal method
         JMethod jMethod = new JMethod("marshal");
-        jMethod.addException(SGTypes.MarshalException,
+        jMethod.addException(SGTypes.MARSHAL_EXCEPTION,
                 "if object is null or if any SAXException is thrown during marshaling");
-        jMethod.addException(SGTypes.ValidationException,
+        jMethod.addException(SGTypes.VALIDATION_EXCEPTION,
                 "if this object is an invalid instance according to the schema");
-        jMethod.addParameter(new JParameter(SGTypes.Writer, "out"));
+        jMethod.addParameter(new JParameter(SGTypes.WRITER, "out"));
 
         //if (_config.useJava50()) {
         // jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
@@ -969,11 +969,12 @@ public final class SourceFactory extends BaseFactory {
             jc = new JClass("org.xml.sax.DocumentHandler");
         } else {
             jc = new JClass("org.xml.sax.ContentHandler");
-            jMethod.addException(SGTypes.IOException, "if an IOException occurs during marshaling");
+            jMethod.addException(SGTypes.IO_EXCEPTION,
+                    "if an IOException occurs during marshaling");
         }
-        jMethod.addException(SGTypes.MarshalException,
+        jMethod.addException(SGTypes.MARSHAL_EXCEPTION,
                 "if object is null or if any SAXException is thrown during marshaling");
-        jMethod.addException(SGTypes.ValidationException,
+        jMethod.addException(SGTypes.VALIDATION_EXCEPTION,
                 "if this object is an invalid instance according to the schema");
         jMethod.addParameter(new JParameter(jc, "handler"));
         parent.addMethod(jMethod);
@@ -1004,11 +1005,11 @@ public final class SourceFactory extends BaseFactory {
         JMethod jMethod = new JMethod(methodName, returnType,
                                       "the unmarshaled " + returnType.getName());
         jMethod.getModifiers().setStatic(true);
-        jMethod.addException(SGTypes.MarshalException,
+        jMethod.addException(SGTypes.MARSHAL_EXCEPTION,
                 "if object is null or if any SAXException is thrown during marshaling");
-        jMethod.addException(SGTypes.ValidationException,
+        jMethod.addException(SGTypes.VALIDATION_EXCEPTION,
                 "if this object is an invalid instance according to the schema");
-        jMethod.addParameter(new JParameter(SGTypes.Reader, "reader"));
+        jMethod.addParameter(new JParameter(SGTypes.READER, "reader"));
         parent.addMethod(jMethod);
 
         JSourceCode jsc = jMethod.getSourceCode();
@@ -1069,7 +1070,7 @@ public final class SourceFactory extends BaseFactory {
                 }
                 buffer.append(superClass.getName());
                 sgState.getDialog().notify(buffer.toString());
-                // FIXME:  We should probably throw an exception here
+                // FIXME We should probably throw an exception here
                 break;
             }
 
@@ -1158,9 +1159,9 @@ public final class SourceFactory extends BaseFactory {
         JField[] fields = jclass.getFields();
         JMethod jMethod = new JMethod("equals", JType.BOOLEAN, "true if the objects are equal.");
         jMethod.setComment("Overrides the java.lang.Object.equals method.");
-        jMethod.addParameter(new JParameter(SGTypes.Object, "obj"));
+        jMethod.addParameter(new JParameter(SGTypes.OBJECT, "obj"));
 
-        if (_config.useJava50()) {
+        if (getConfig().useJava50()) {
             jMethod.addAnnotation(new JAnnotation(new JAnnotationType("Override")));
         }
 
@@ -1294,8 +1295,8 @@ public final class SourceFactory extends BaseFactory {
             JType type = temp.getType();
             String name = temp.getName();
 
-            if (state._fieldInfoForChoice != null
-                    && name.equals(state._fieldInfoForChoice.getName())) {
+            if (state.getFieldInfoForChoice() != null
+                    && name.equals(state.getFieldInfoForChoice().getName())) {
                 continue;
             }
 
@@ -1317,7 +1318,7 @@ public final class SourceFactory extends BaseFactory {
                     String methodName = JavaNaming.toJavaClassName(tempName);
                     methodName = "get" + methodName;
                     JMethod method = jclass.getMethod(methodName, 0);
-                    // TODO: handle the Item introduced in with the group handling
+                    // TODO handle the Item introduced in with the group handling
                     if (method == null) {
                         continue;
                     }
@@ -1368,7 +1369,7 @@ public final class SourceFactory extends BaseFactory {
      * @param jclass The JClass which will implement the CastorTestable Interface.
      */
     private void createDumpFields(final JClass jclass) {
-        JMethod jMethod = new JMethod("dumpFields", SGTypes.String,
+        JMethod jMethod = new JMethod("dumpFields", SGTypes.STRING,
                 "a String representation of all of the fields for " + jclass.getName());
         jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
         jclass.addMethod(jMethod);
@@ -1441,7 +1442,7 @@ public final class SourceFactory extends BaseFactory {
 
         //-- #validate
         jMethod = new JMethod("validate");
-        jMethod.addException(SGTypes.ValidationException,
+        jMethod.addException(SGTypes.VALIDATION_EXCEPTION,
                              "if this object is an invalid instance according to the schema");
 
         jClass.addMethod(jMethod);
@@ -1531,7 +1532,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         Enumeration enumeration = complexType.getAttributeDecls();
-        XMLBindingComponent component = new XMLBindingComponent(_config, _groupNaming);
+        XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (_binding != null) {
             component.setBinding(_binding);
         }
@@ -1585,8 +1586,8 @@ public final class SourceFactory extends BaseFactory {
                 }
             }
 
-            FieldInfo fieldInfo = memberFactory.createFieldInfo(
-                    component, state, _config.useJava50());
+            FieldInfo fieldInfo = _memberFactory.createFieldInfo(
+                    component, state, getConfig().useJava50());
             handleField(fieldInfo, state);
         }
     }
@@ -1596,7 +1597,7 @@ public final class SourceFactory extends BaseFactory {
      * @param state the FactoryState.
      */
     private void processComplexType(final ComplexType complexType, final FactoryState state) {
-        XMLBindingComponent component = new XMLBindingComponent(_config, _groupNaming);
+        XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (_binding != null) {
             component.setBinding(_binding);
         }
@@ -1604,8 +1605,8 @@ public final class SourceFactory extends BaseFactory {
 
         String typeName = component.getXMLName();
 
-        ClassInfo classInfo = state._classInfo;
-        classInfo.setSchemaType(new XSClass(state._jClass, typeName));
+        ClassInfo classInfo = state.getClassInfo();
+        classInfo.setSchemaType(new XSClass(state.getJClass(), typeName));
 
         /// I don't believe this should be here: kv 20030423
         ///classInfo.setNamespaceURI(component.getTargetNamespace());
@@ -1655,7 +1656,7 @@ public final class SourceFactory extends BaseFactory {
                  find a more appropriate solution.
                  if (! ( complexType.isRestricted() && ((ComplexType)base).isSimpleContent() ) )
                 */
-                state._jClass.setSuperClass(baseClassName);
+                state.getJClass().setSuperClass(baseClassName);
             } //--complexType
 
             //--if the content type is a simpleType create a field info for it.
@@ -1664,19 +1665,19 @@ public final class SourceFactory extends BaseFactory {
                 SimpleType temp = simpleContent.getSimpleType();
                 SimpleType baseType = (SimpleType) temp.getBaseType();
                 XSType xsType = _typeConversion.convertType(
-                        temp, state._packageName, _config.useJava50());
+                        temp, state.getPackageName(), getConfig().useJava50());
 
                 FieldInfo fieldInfo = null;
-                if ((baseType != null) && extendsSimpleType(state._jClass, baseType, state)) {
+                if ((baseType != null) && extendsSimpleType(state.getJClass(), baseType, state)) {
                     if (xsType.isEnumerated()) {
-                        fieldInfo = memberFactory.createFieldInfoForContent(
-                                xsType, _config.useJava50());
+                        fieldInfo = _memberFactory.createFieldInfoForContent(
+                                xsType, getConfig().useJava50());
                         fieldInfo.setBound(false);
                         handleField(fieldInfo, state);
 
                         //-- remove getter since we don't need to override the original getter
                         String mname = fieldInfo.getReadMethodName();
-                        JClass jClass = state._jClass;
+                        JClass jClass = state.getJClass();
                         JMethod method = jClass.getMethod(mname, 0);
                         jClass.removeMethod(method);
 
@@ -1697,9 +1698,9 @@ public final class SourceFactory extends BaseFactory {
                         temp = (SimpleType) temp.getBaseType();
                     }
                     xsType = _typeConversion.convertType(
-                            temp, state._packageName, _config.useJava50());
-                    fieldInfo = memberFactory.createFieldInfoForContent(
-                            xsType, _config.useJava50());
+                            temp, state.getPackageName(), getConfig().useJava50());
+                    fieldInfo = _memberFactory.createFieldInfoForContent(
+                            xsType, getConfig().useJava50());
                     handleField(fieldInfo, state);
                 }
             }
@@ -1715,8 +1716,8 @@ public final class SourceFactory extends BaseFactory {
             //--reset the view on the current ComplexType
             component.setView(complexType);
             if (complexType.getContentType() == ContentType.mixed) {
-                FieldInfo fieldInfo = memberFactory.createFieldInfoForContent(
-                        new XSString(), _config.useJava50());
+                FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
+                        new XSString(), getConfig().useJava50());
                 handleField(fieldInfo, state);
             }
         }
@@ -1741,14 +1742,15 @@ public final class SourceFactory extends BaseFactory {
         Enumeration enumeration = contentModel.enumerate();
 
         //-- handle choice item
-        if (state._classInfo.isChoice() && state._fieldInfoForChoice == null) {
-            state._fieldInfoForChoice = memberFactory.createFieldInfoForChoiceValue();
-            state._fieldInfoForChoice.createJavaField(state._jClass);
-            state._fieldInfoForChoice.createAccessMethods(state._jClass, _config.useJava50());
+        if (state.getClassInfo().isChoice() && state.getFieldInfoForChoice() == null) {
+            state.setFieldInfoForChoice(_memberFactory.createFieldInfoForChoiceValue());
+            state.getFieldInfoForChoice().createJavaField(state.getJClass());
+            state.getFieldInfoForChoice().createAccessMethods(
+                    state.getJClass(), getConfig().useJava50());
         }
 
         FieldInfo fieldInfo = null;
-        XMLBindingComponent component = new XMLBindingComponent(_config, _groupNaming);
+        XMLBindingComponent component = new XMLBindingComponent(getConfig(), getGroupNaming());
         if (_binding != null) {
             component.setBinding(_binding);
         }
@@ -1759,8 +1761,8 @@ public final class SourceFactory extends BaseFactory {
 
             switch(annotated.getStructureType()) {
                 case Structure.ELEMENT: //-- handle element declarations
-                    fieldInfo = memberFactory.createFieldInfo(
-                            component, state, _config.useJava50());
+                    fieldInfo = _memberFactory.createFieldInfo(
+                            component, state, getConfig().useJava50());
                     //-- Fix for element declarations being used in
                     //-- a group with minOccurs = 0;
                     //-- (kvisco - 20021007)
@@ -1775,11 +1777,11 @@ public final class SourceFactory extends BaseFactory {
                     if ((contentModel instanceof ComplexType)
                             || (contentModel instanceof ModelGroup)) {
                         if (group.getOrder() == Order.choice) {
-                            state._classInfo.getGroupInfo().setAsChoice();
+                            state.getClassInfo().getGroupInfo().setAsChoice();
                         } else if (group.getOrder() == Order.all) {
-                            state._classInfo.getGroupInfo().setAsAll();
+                            state.getClassInfo().getGroupInfo().setAsAll();
                         } else if (group.getOrder() == Order.seq) {
-                            state._classInfo.getGroupInfo().setAsSequence();
+                            state.getClassInfo().getGroupInfo().setAsSequence();
                         }
                     }
 
@@ -1794,9 +1796,8 @@ public final class SourceFactory extends BaseFactory {
                         }
 
                         if (contentModel.getParticleCount() > 0) {
-                            fieldInfo = memberFactory.createFieldInfo(component,
-                                                                       state.getSGStateInfo(),
-                                                                       _config.useJava50());
+                            fieldInfo = _memberFactory.createFieldInfo(
+                                    component, state.getSGStateInfo(), getConfig().useJava50());
                             handleField(fieldInfo, state);
                         }
                     } else {
@@ -1819,8 +1820,8 @@ public final class SourceFactory extends BaseFactory {
                         }
 
                         if (modelgroup.getParticleCount() > 0) {
-                            fieldInfo = memberFactory.createFieldInfo(
-                                    component, state.getSGStateInfo(), _config.useJava50());
+                            fieldInfo = _memberFactory.createFieldInfo(
+                                    component, state.getSGStateInfo(), getConfig().useJava50());
                             handleField(fieldInfo, state);
                         }
                         break;
@@ -1831,8 +1832,8 @@ public final class SourceFactory extends BaseFactory {
 
                 case Structure.WILDCARD:
                     Wildcard wildcard = (Wildcard) annotated;
-                    FieldInfo fieldForAny = memberFactory.createFieldInfoForAny(
-                            wildcard, _config.useJava50());
+                    FieldInfo fieldForAny = _memberFactory.createFieldInfoForAny(
+                            wildcard, getConfig().useJava50());
                     handleField(fieldForAny, state);
                     break;
 
@@ -1856,12 +1857,12 @@ public final class SourceFactory extends BaseFactory {
     private void processEnumeration(final ExtendedBinding binding,
             final SimpleType simpleType, final FactoryState state) {
         // Added by robertlaferla at comcast dot net 01/21/2004
-        if (_config.useEnumeratedTypeInterface()) {
-            state._jClass.addImport(ENUM_ACCESS_INTERFACE);
-            state._jClass.addInterface(ENUM_ACCESS_INTERFACE);
+        if (getConfig().useEnumeratedTypeInterface()) {
+            state.getJClass().addImport(ENUM_ACCESS_INTERFACE);
+            state.getJClass().addInterface(ENUM_ACCESS_INTERFACE);
         } // end enumTypeInterface
 
-        switch (enumerationType) {
+        switch (_enumerationType) {
             case BASE_TYPE_ENUMERATION:
                 processEnumerationAsBaseType(binding, simpleType, state);
                 break;
@@ -1930,9 +1931,9 @@ public final class SourceFactory extends BaseFactory {
             }
         }
 
-        JSourceCode scInitializer = state._jClass.getConstructor(0).getSourceCode();
+        JSourceCode scInitializer = state.getJClass().getConstructor(0).getSourceCode();
 
-        ClassInfo base = state._classInfo.getBaseClass();
+        ClassInfo base = state.getClassInfo().getBaseClass();
         boolean present = false;
         if (base != null) {
             switch (fieldInfo.getNodeType()) {
@@ -1951,21 +1952,21 @@ public final class SourceFactory extends BaseFactory {
             }
         }
 
-        state._classInfo.addFieldInfo(fieldInfo);
+        state.getClassInfo().addFieldInfo(fieldInfo);
         present = present && !fieldInfo.isMultivalued();
         //create the relevant Java fields only if the field
         //info is not yet in the base classInfo or if it is not a collection
         if (!present) {
-            if (state._fieldInfoForChoice != null) {
-                if (fieldInfo != state._fieldInfoForChoice) {
-                    fieldInfo.setFieldInfoReference(state._fieldInfoForChoice);
+            if (state.getFieldInfoForChoice() != null) {
+                if (fieldInfo != state.getFieldInfoForChoice()) {
+                    fieldInfo.setFieldInfoReference(state.getFieldInfoForChoice());
                 }
             }
 
-            fieldInfo.createJavaField(state._jClass);
+            fieldInfo.createJavaField(state.getJClass());
             //-- do not create access methods for transient fields
             if (!fieldInfo.isTransient()) {
-                fieldInfo.createAccessMethods(state._jClass, _config.useJava50());
+                fieldInfo.createAccessMethods(state.getJClass(), getConfig().useJava50());
                 if (fieldInfo.isBound()) {
                     state.setBoundProperties(true);
                 }

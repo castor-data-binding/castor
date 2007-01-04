@@ -11,10 +11,11 @@ package org.exolab.castor.builder.binding;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.xml.*;
 import org.exolab.castor.xml.FieldValidator;
+import org.exolab.castor.xml.NodeType;
+import org.exolab.castor.xml.XMLFieldHandler;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
-import org.exolab.castor.xml.validators.*;
+import org.exolab.castor.xml.validators.StringValidator;
 
 /**
  * 
@@ -29,13 +30,13 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      //- Class/Member Variables -/
     //--------------------------/
 
-    private java.lang.String nsPrefix;
+    private java.lang.String _nsPrefix;
 
-    private java.lang.String nsURI;
+    private java.lang.String _nsURI;
 
-    private java.lang.String xmlName;
+    private java.lang.String _xmlName;
 
-    private org.exolab.castor.xml.XMLFieldDescriptor identity;
+    private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
 
       //----------------/
@@ -86,11 +87,9 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- validation code for: _namespace
         fieldValidator = new FieldValidator();
         fieldValidator.setMinOccurs(1);
-        { //-- local scope
-            StringValidator sv = new StringValidator();
-            sv.setWhiteSpace("preserve");
-            fieldValidator.setValidator(sv);
-        }
+        StringValidator sv1 = new StringValidator();
+        sv1.setWhiteSpace("preserve");
+        fieldValidator.setValidator(sv1);
         desc.setValidator(fieldValidator);
         
         //-- _schemaLocation
@@ -125,11 +124,9 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- validation code for: _schemaLocation
         fieldValidator = new FieldValidator();
         fieldValidator.setMinOccurs(1);
-        { //-- local scope
-            StringValidator sv = new StringValidator();
-            sv.setWhiteSpace("preserve");
-            fieldValidator.setValidator(sv);
-        }
+        StringValidator sv2 = new StringValidator();
+        sv2.setWhiteSpace("preserve");
+        fieldValidator.setValidator(sv2);
         desc.setValidator(fieldValidator);
         
     } //-- org.exolab.castor.builder.binding.PackageTypeChoiceDescriptor()
@@ -154,7 +151,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
-        return identity;
+        return _identity;
     } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
 
     /**
@@ -166,13 +163,13 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public java.lang.String getNameSpacePrefix() {
-        return nsPrefix;
+        return _nsPrefix;
     } //-- java.lang.String getNameSpacePrefix() 
 
     /**
     **/
     public java.lang.String getNameSpaceURI() {
-        return nsURI;
+        return _nsURI;
     } //-- java.lang.String getNameSpaceURI() 
 
     /**
@@ -184,7 +181,7 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     /**
     **/
     public java.lang.String getXMLName() {
-        return xmlName;
+        return _xmlName;
     } //-- java.lang.String getXMLName() 
 
 }

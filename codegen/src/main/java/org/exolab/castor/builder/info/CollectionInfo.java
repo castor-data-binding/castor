@@ -61,7 +61,6 @@ import org.exolab.javasource.JDocComment;
 import org.exolab.javasource.JDocDescriptor;
 import org.exolab.javasource.JMethod;
 import org.exolab.javasource.JParameter;
-import org.exolab.javasource.JPrimitiveType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
@@ -239,7 +238,7 @@ public class CollectionInfo extends FieldInfo {
         }
     } // -- setReferenceMethodSuffix
 
-    private final void addIndexCheck(final JSourceCode sourceCode, final String methodName) {
+    private void addIndexCheck(final JSourceCode sourceCode, final String methodName) {
         sourceCode.add("// check bounds for index");
         sourceCode.add("if (index < 0 || index >= this.");
         sourceCode.append(this.getName());
@@ -280,7 +279,7 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createAddMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException,
+        method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,
                 "if the index given is outside the bounds of the collection");
         final JParameter parameter = new JParameter(
                 this.getContentType().getJType(), this.getContentName());
@@ -427,7 +426,7 @@ public class CollectionInfo extends FieldInfo {
         JMethod method = new JMethod(this.getReadMethodName(), contentType.getJType(),
                 "the value of the " + contentType.getJType().toString() + " at the given index");
 
-        method.addException(SGTypes.IndexOutOfBoundsException,
+        method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,
                 "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
 
@@ -510,7 +509,7 @@ public class CollectionInfo extends FieldInfo {
 
     protected void createAddByIndexMethod(final JClass jClass) {
         JMethod method = new JMethod(this.getWriteMethodName());
-        method.addException(SGTypes.IndexOutOfBoundsException,
+        method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,
                             "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
         final JParameter parameter = new JParameter(
@@ -755,14 +754,14 @@ public class CollectionInfo extends FieldInfo {
         jClass.addMethod(method);
     }
 
-    private final String getParameterPrefix() {
+    private String getParameterPrefix() {
         return _parameterPrefix;
     }
 
     protected void createSetByIndexMethod(final JClass jClass) {
         JMethod method = new JMethod("set" + this.getMethodSuffix());
 
-        method.addException(SGTypes.IndexOutOfBoundsException,
+        method.addException(SGTypes.INDEX_OUT_OF_BOUNDS_EXCEPTION,
                             "if the index given is outside the bounds of the collection");
         method.addParameter(new JParameter(JType.INT, "index"));
         method.addParameter(new JParameter(this.getContentType().getJType(),
