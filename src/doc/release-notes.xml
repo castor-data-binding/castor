@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1809" tool="jira">
+                    <description>
+                        Finish cleanup of RSS file
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh</type>
+                    <module>RSS</module>
+                    <date>20070103</date>
+                </bug>
                 <bug id="1808" tool="jira">
                     <description>
                         Cleanup of misc documentation
