@@ -9,7 +9,7 @@
   <xsl:include href="leftNav.xsl"/>
   <xsl:include href="keywords.xsl"/>
   <xsl:include href="searchForm.xsl"/>
-
+  <xsl:include href="rss.xsl"/>
 
   <!-- Template for document -->
 
@@ -18,12 +18,13 @@
   <html>
 
   <head>
-    <xsl:apply-templates select="keywords"/>
     <xsl:choose>
       <xsl:when test="/document/properties/title"><title><xsl:value-of select="/document/body/title"/></title></xsl:when>
       <xsl:when test="/document/body/title"><title><xsl:value-of select="/document/body/title"/></title></xsl:when>
       <xsl:otherwise><title><xsl:value-of select="$project/title"/></title></xsl:otherwise>
     </xsl:choose>
+    <xsl:apply-templates select="keywords"/>
+    <xsl:apply-templates select="/document/properties/rss"/>
     <link rel="stylesheet" href="default.css"/>
   </head>
 
@@ -106,7 +107,7 @@
               </td>
             </tr>
           </table>
-          
+
           <p/><p/><br/>
 
           <xsl:choose>

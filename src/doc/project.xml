@@ -72,6 +72,10 @@
         <display>Recent changes</display>
       </navLink>
       <navLink>
+        <url>./news.xml</url>
+        <display>News Archive</display>
+      </navLink>
+      <navLink>
         <url>http://castor.codehaus.org/rss/castor-announce.xml</url>
         <display>RSS news feed</display>
       </navLink>
@@ -84,11 +88,11 @@
          <url>http://www.brainopolis.com/castorwiki/Wiki.jsp?page=Main</url>
          <display>CastorWiki</display>
       </navLink>
--->      
-	</section>
-	
+-->
+  </section>
+
     <section name="Development/Support">
-	         
+
       <navLink>
         <url>lists.xml</url>
         <display>Mailing Lists</display>
@@ -110,7 +114,7 @@
         <display><b>Prof. services</b></display>
       </navLink>
     </section>
-    
+
     <section name="Related projects">
         <navLink>
             <url>spring-orm-integration.html</url>
@@ -148,7 +152,7 @@
         <display>Best practice</display>
       </navLink>
     </section>
-    
+
     <section name="XML Code Generator">
       <navLink>
         <url>sourcegen.xml</url>
