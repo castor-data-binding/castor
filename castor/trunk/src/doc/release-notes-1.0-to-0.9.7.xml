@@ -640,7 +640,7 @@ org.castor.cache.Factories=\
                    context of source generation) a result of a &lt;complexType&gt; definition or an
                    &lt;element&gt; declaration. This is particularly relevant for tool providers who need to
                    integrate with Castor XML, and as a result of this addition can now use the new
-                   <tt>isElementDefinition()</tt> method to query an artefact's state.</p>
+                   <tt>isElementDefinition()</tt> method to query an artifact's state.</p>
 
                 <h3>New XML HOW-TOs added</h3>
 

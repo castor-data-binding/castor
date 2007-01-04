@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Doc:   Resolved issue CASTOR-1808 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Cleanup of misc documentation
+       Details: http://jira.codehaus.org/browse/CASTOR-1808
+       (Edward - 20070103)
+
 Doc:   Resolved issue CASTOR-1807 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add RSS feed link to index + news page
        Details: http://jira.codehaus.org/browse/CASTOR-1807

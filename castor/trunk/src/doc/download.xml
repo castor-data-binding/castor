@@ -5,7 +5,7 @@
     <title>Download instructions &amp; dependencies</title>
     <author email="werner DOT guttmann AT gmx DOT net">Werner Guttmann</author>
     <abstract>
-      Outlines how to downlaod Castor JArs and explains dependencies to third-party
+      Outlines how to download Castor JARs, explains dependencies on third-party
       products.
     </abstract>
     <status>Final</status>
@@ -60,7 +60,7 @@
 
         <section title="XML code generation -- Ant task">
           <ul>
-            <li>Ant task definition for the source generator<br/>
+            <li>Ant task definition for the code generator<br/>
               <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-srcgen-ant-task.jar</url>
               <br/>&#xA0;
             </li>
@@ -70,7 +70,7 @@
         <section title="Samples">
           <ul>
             <li>
-              Self-executable JDO examples using Apache Derby (big)<br/>
+              Self-executing JDO examples using Apache Derby (big)<br/>
               <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-examples.zip</url>
               <br/>&#xA0;
             </li>
@@ -115,50 +115,51 @@
 -->
 
          <p>
-           <small>The tarball and zips includes all the JARs required by Castor, the
-           docs and API JavaDocs. To fully install Castor, simply extract all the JARs
-           into your classpath.</small>
+           <small>The tarball and zips include all the JARs required by Castor,
+           the docs, and the API JavaDocs. To fully install Castor, simply
+           extract all the JARs into your classpath.</small>
          </p>
 
          <p>
-           <small>The SVN snapshot includes additional JARs required to build Castor.
-           It is self sufficient and does not require any external components except
-           for javac.</small>
+           <small>The SVN snapshot includes additional JARs required to build
+           Castor. It is self-sufficient and does not require any external
+           components other than javac.</small>
          </p>
 
          <p>
-           <small>The documentation set includes JavaDocs for the full source code,
-           including class usage. A small documentation set without the full source
-           JavaDocs is available in the tarball and zips.</small>
+           <small>The documentation set includes JavaDocs for the full source
+           code, documenting class usage. A small documentation set without the
+           full source JavaDocs is available in the tarball and zips.</small>
          </p>
 
          <p>
-           <small>All the JARs included with Castor and used for building Castor
-           are available for distribution free of charge, subject to the respective
-           license agreements.</small>
+           <small>All of the JARs included with Castor (used for building
+           Castor) are available for distribution free of charge, subject to
+           the respective license agreements.</small>
          </p>
 
          <p>
-           <small>All implementation JARs (i.e. non APIs) are available under an
-           open source license and available from our FTP server.
-           Open source licenses in use include Apache (ASF), Exolab, Mozilla (MPL),
-           and public domain. All licenses are fully compatible with each other.</small>
+           <small>All implementation JARs (i.e. not APIs) are available under
+           an open source license and available from our FTP server.  Open
+           source licenses in use include Apache (ASF), Exolab, Mozilla (MPL),
+           and public domain. All licenses are fully compatible with each
+           other.</small>
          </p>
 
          <p>
-           <small>The example JAR includes fully functional samples that demonstrate the use
-           of various features of Castor, including marshaling and unmarshaling to/from XML,
-           data persistence using JDO, and source code generation from an XML Schema instance.
-           </small>
+           <small>The example JAR includes fully functional samples that
+           demonstrate the use of various features of Castor -- including
+           marshaling and unmarshaling to and from XML, data persistence using
+           JDO, and source code generation from an XML Schema instance.</small>
          </p>
 
          <p>
-           <small>The example wep application (in form of a WAR archive) includes fully
-           functional samples that demonstrate the use of Castor from within a standard
-           J2EE web application. The WAR file can be deployed to any J2EE compliant web
-           application container (including amongst others Tomcat, WebSphere, JBoss, Weblogic,
-           etc.) using the standard way of deployment of your web application server.
-           </small>
+           <small>The example web application (in form of a WAR archive)
+           includes fully functional samples that demonstrate the use of Castor
+           from within a standard J2EE web application. The WAR file can be
+           deployed to any J2EE compliant web application container (including,
+           amongst others, Tomcat, WebSphere, JBoss, and Weblogic) using the
+           standard deployment method of your web application server.</small>
          </p>
 
       </section>
@@ -170,7 +171,7 @@
             <b>Release date: $RELEASE_DATE$</b>
 
             <li><a href="release-notes.xml">What changed?</a></li>
-          </ul>  
+          </ul>
 
         <section title="Binaries">
 
@@ -201,23 +202,24 @@
               <br/>&#xA0;
             </li>
           </ul>
-            
-          <p><font color="red"><b>*** Note ***</b></font>: Please note that the Castor 
-             XML (and JDO) JARs do not include the code for the DDL generator, XML code 
-             generator and Ant task for the latter anymore. In other words, if you want to be 
-             using both Castor XML (for XML data binding operations, i.e. marshalling and 
-             unmarshalling) and the XML code generator for Java code generation from an 
-             XML schema, you will have to download both JARs in this case. If you want 
-             use the Ant task for the XML code generator, please download the JARs for 
-             Castor XML, the XMl code generator and the Ant task definition.</p>
+
+          <p>
+            <font color="red"><b>*** Note ***</b></font>: Please note that the
+            Castor XML and JDO JARs no longer include the code for the DDL
+            generator or XML code generator (and of course still do not include
+            the code for the Ant task for the XML code generator.) In other
+            words, if you want to use the Castor XML Schema code generator or
+            the DDL generator, you will need to download JARs in addition to
+            the JARs you downloaded previously.
+          </p>
 
         </section>
-        
+
         <section title="Download sets">
-        
+
           <ul>
             <li>
-              The Castor JARs, docs, DTDs, command line tools and examples<br/>
+              The Castor JARs, docs, DTDs, command line tools, and examples<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.tgz</url><br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$.zip</url>
               <br/>&#xA0;
@@ -229,24 +231,24 @@
               <br/>&#xA0;
             </li>
             <li>
-              Full SVN snapshot: all sources, docs, libraries (big)<br/>
+              Full SVN snapshot: All sources, docs, and 3rd party libraries (big)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.tgz</url><br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-src.zip</url>
               <br/>&#xA0;
             </li>
           </ul>
-          
+
         </section>
 
         <section title="Samples">
           <ul>
             <li>
-              Self-executable JDO examples using Apache Derby (big)<br/>
+              Self-executing JDO examples using Apache Derby (big)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples.zip</url>
               <br/>&#xA0;
             </li>
             <li>
-              Castor examples -- sources (incl. xml, JDO, source generator)<br/>
+              Castor examples -- sources (incl. XML, JDO, source generator)<br/>
               <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-examples-sources.jar</url>
               <br/>&#xA0;
             </li>
@@ -283,7 +285,7 @@
 </dependency>]]></source>
 
           <p>
-            As we are currently providing snapshot releases only for the factory beans, you will
+            As we currently provide snapshot releases only for the factory beans, you will
             have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
             so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying
             to resolve and download dependencies.
@@ -335,7 +337,7 @@
 </dependency>]]></source>
 
           <p>
-            As we are currently providing snapshot releases only for the factory beans, you will
+            As we currently provide snapshot releases only for the factory beans, you will
             have to add the following <tt>&lt;repository&gt;</tt> element to your POM as well,
             so that Maven 2 knows about the <i>Codehaus Snapshot repository</i> when trying
             to resolve and download dependencies.
@@ -435,7 +437,9 @@
       <p>
         JARs required to build Castor and dependencies for various packages are
         contained in the <tt>lib</tt> directory. JARs required for distribution
-        are marked with <b>bold text</b>:
+        are marked with <b>bold text</b>, although many of these JARs are
+        required only if the feature obviously associated with that JAR is
+        used.
       </p>
 
       <ctable cellpadding="4" border="1">
@@ -492,9 +496,9 @@
         </p>
 
         <p>
-          The JDO examples uses <a href="http://db.apache.org/derby">Apache Derby</a> and
-          depends on the JDBC driver provided with the examples archive. This driver is only
-          required for running the samples, and is not required otherwise, especially if you
+          The JDO examples use <a href="http://db.apache.org/derby">Apache Derby</a> and
+          depend on the JDBC driver provided with the examples archive. This driver is only
+          required for running the samples and is not required otherwise, especially if you
           use a different database server.
         </p>
 

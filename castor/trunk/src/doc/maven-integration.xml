@@ -17,56 +17,57 @@
 
     <section title="Releases">
 
-		<p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b> 
-	       build artefacts of Castor available at the 
-	       <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
+    <p>Starting with Castor 1.0.4, the Castor team has started to make <b>selected</b>
+       build artifacts of Castor available at the
+       <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
 
-		<p>To include a specific Castor release artefact in your Maven 2 project(s),
-		   please add one of the following Maven 2 dependencies as outlined further 
-		   below to your project POM (replacing <i>1.0.4</i> with the desired 
-		   release number).</p>
+    <p>To include a specific Castor release artifact in your Maven 2 project(s),
+       please add one of the following Maven 2 dependencies as outlined further
+       below to your project POM (replacing <i>1.0.4</i> with the desired
+       release number).</p>
 
-		<code-panel><![CDATA[
+    <code-panel><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
    <artifactId>castor</artifactId>
    <version>1.0.4</version>
 </dependency>]]></code-panel>
 
-		<p>and make sure you include the Codehaus Maven 2 repository in your
-		   POM similar to ...</p>
+    <p>and make sure you include the Codehaus Maven 2 repository in your
+       POM similar to ...</p>
 
-		<code-panel><![CDATA[
+    <code-panel><![CDATA[
 <repository>
     <id>codehaus-snapshots</id>
     <name>Maven Codehaus Snapshots</name>
     <url>http://maven.codehaus.org/maven2/</url>
 </repository>]]></code-panel>
 
-		<p>Once a specific Castor release has been propagated to the main Maven 2
-		   repository at <a href="http://www.ibiblio.org/maven2">ibiblio</a> (usually 
-		   within 48 hours), adding just the dependency will be sufficient.</p>
+    <p>Once a specific Castor release has been propagated to the main Maven 2
+       repository at <a href="http://www.ibiblio.org/maven2">ibiblio</a> (usually
+       within 48 hours), adding just the dependency will be sufficient.</p>
 
-	</section>
-	
-	<section title="Snapshot releases">
-	
-		<p>As we are working towards new releases, we will try to make snapshot releases 
-		   available as we make progress with existing/newly created Jira 
-		   issues. Please consult with the relevant release section at
-		   the <a href="http://jira.codehaus.org/browse/CASTOR">raodmap</a>
-		   to get an idea what's been fixed as part of a (planned) release.</p>
+  </section>
 
-		<p>As usual, please report any issues with these Maven 2 (snapshot)
-		   releases through <a href="http://jira.codehaus.org/browse/CASTOR">Jira</a>.</p>
+  <section title="Snapshot releases">
+
+    <p>As we are working towards new releases, we will try to make snapshot releases
+       available as we make progress with existing/newly created Jira
+       issues. Please consult with the relevant release section at
+       the <a href="http://jira.codehaus.org/browse/CASTOR">roadmap</a>
+       to get an idea what's been fixed as part of a (planned) release.</p>
+
+    <p>As usual, please report any issues with these Maven 2 (snapshot)
+       releases through <a href="http://jira.codehaus.org/browse/CASTOR">Jira</a>.</p>
 
     </section>
 
-    <section title="Available release artefacts">
-        
-        <p>The following table summarizes the build artefacts currently available
-           through the <a href="http://repository.codehaus.org/">Codehaus Maven 2 repository</a>.</p>
-           
+    <section title="Available release artifacts">
+
+        <p>The following table summarizes the build artifacts currently available
+           through the <a href="http://repository.codehaus.org/">Codehaus
+           Maven 2 repository</a>.</p>
+
         <ctable>
             <cheader>
                 <th>Description</th>
@@ -81,7 +82,7 @@
    <artifactId>castor</artifactId>
    <version>1.0.4</version>
 </dependency>]]></pre></td>
-				<td>1.0.4</td>
+        <td>1.0.4</td>
             </crow>
             <crow>
                <td>Castor DDL generator</td>
@@ -91,7 +92,7 @@
    <artifactId>castor-ddlgen</artifactId>
    <version>1.1-M2</version>
 </dependency>]]></pre></td>
-				<td>1.1-M2</td>
+        <td>1.1-M2</td>
             </crow>
             <crow>
                <td>Castor XML code generator</td>
@@ -101,7 +102,7 @@
    <artifactId>castor-codegen</artifactId>
    <version>1.1-M2</version>
 </dependency>]]></pre></td>
-				<td>1.1-M2</td>
+        <td>1.1-M2</td>
             </crow>
             <crow>
                <td>Ant task definition for Castor XML code generator</td>
@@ -111,29 +112,30 @@
    <artifactId>castor-codegen-anttask</artifactId>
    <version>1.1-M2</version>
 </dependency>]]></pre></td>
-				<td>1.1-M2</td>
+        <td>1.1-M2</td>
             </crow>
         </ctable>
-        
-        <p>Until these build artefacts have been propagated to the 
+
+        <p>Until these build artifacts have been propagated to the
            <a href="http://www.ibiblio.org/maven2">main Maven 2 repository</a>,
-           please make sure that your project POMS include the following 
+           please make sure that your project POMS include the following
            <tt>&lt;repository&gt;</tt> definition:</p>
 
             <source><![CDATA[
 <repository>
     <id>codehaus-repository</id>
-    <name>Codehaus Maven 2 repository</name> 
-    <url>http://maven.codehaus.org/maven2/</url> 
+    <name>Codehaus Maven 2 repository</name>
+    <url>http://maven.codehaus.org/maven2/</url>
 </repository>]]></source>
 
     </section>
 
-    <section title="Available snapshot release artefacts">
-        
-        <p>The following table summarizes the build artefacts currently available
-           through the <a href="http://snapshots.repository.codehaus.org/">Codehaus Maven 2 snapshot repository</a>.</p>
-           
+    <section title="Available snapshot release artifacts">
+
+        <p>The following table summarizes the build artifacts currently available
+           through the <a href="http://snapshots.repository.codehaus.org/">Codehaus
+           Maven 2 snapshot repository</a>.</p>
+
         <ctable>
             <cheader>
                 <th>Description</th>
@@ -148,7 +150,7 @@
    <artifactId>castor</artifactId>
    <version>1.0.5-SNAPSHOT</version>
 </dependency>]]></pre></td>
-				<td>1.0.5-SNAPSHOT</td>
+        <td>1.0.5-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor DDL generator</td>
@@ -158,7 +160,7 @@
    <artifactId>castor-ddlgen</artifactId>
    <version>1.1-M2-SNAPSHOT</version>
 </dependency>]]></pre></td>
-				<td>1.1-M2-SNAPSHOT</td>
+        <td>1.1-M2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor XML code generator</td>
@@ -168,7 +170,7 @@
    <artifactId>castor-codegen</artifactId>
    <version>1.1-M2-SNAPSHOT</version>
 </dependency>]]></pre></td>
-				<td>1.1-M2_SNAPSHOT</td>
+        <td>1.1-M2_SNAPSHOT</td>
             </crow>
             <crow>
                <td>Ant task definition for Castor XML code generator</td>
@@ -178,7 +180,7 @@
    <artifactId>castor-codegen-anttask</artifactId>
    <version>1.1-M2-SNAPSHOT</version>
 </dependency>]]></pre></td>
-				<td>1.1-M2-SNAPSHOT</td>
+        <td>1.1-M2-SNAPSHOT</td>
             </crow>
             <crow>
                <td>Castor XML Spring factory beans</td>
@@ -188,7 +190,7 @@
    <artifactId>spring-xml</artifactId>
    <version>1.0-SNAPSHOT</version>
 </dependency>]]></pre></td>
-				<td>-</td>
+        <td>-</td>
             </crow>
             <crow>
                <td>Spring ORM for Castor JDO</td>
@@ -198,19 +200,19 @@
    <artifactId>castor-spring</artifactId>
    <version>1.0-SNAPSHOT</version>
 </dependency>]]></pre></td>
-				<td>-</td>
+        <td>-</td>
             </crow>
         </ctable>
-        
-        <p>For those artefacts available as <b>snapshot</b> releases only, please make sure
+
+        <p>For those artifacts available as <b>snapshot</b> releases only, please make sure
            that your project POMS include the following <tt>&lt;repository&gt;</tt>
            definition:</p>
 
             <source><![CDATA[
 <repository>
     <id>codehaus-snapshots</id>
-    <name>Maven Codehaus Snapshots</name> 
-    <url>http://snapshots.maven.codehaus.org/maven2/</url> 
+    <name>Maven Codehaus Snapshots</name>
+    <url>http://snapshots.maven.codehaus.org/maven2/</url>
 </repository>]]></source>
 
     </section>
@@ -218,4 +220,3 @@
   </body>
 
 </document>
-

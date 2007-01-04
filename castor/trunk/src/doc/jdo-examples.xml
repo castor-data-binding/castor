@@ -14,24 +14,29 @@
     </header>
 
     <section title="Introduction">
-        
-       <p>Here are examples of object mappings and the corresponding Java objects and
-          DDL for the database table.</p>
+
+       <p>
+         This document provides object mapping examples and the corresponding
+         Java objects and DDL for the database table.
+       </p>
 
        <section title="Java class files">
-       
-          <p>The following fragment shows the Java class declaration for the Product class:</p>
-       
+
+          <p>
+            The following fragment shows the Java class declaration for the
+            <tt>Product</tt> class:
+          </p>
+
           <code-panel>
 package myapp;
 
-public class Product 
-{
+public class Product {
+
     private int       _id;
 
-    private String    _name; 
+    private String    _name;
 
-    private float     _price; 
+    private float     _price;
 
     private ProductGroup _group;
 
@@ -53,11 +58,13 @@ public class Product
     public void setProductGroup( ProductGroup aProductGroup ) { ... }
 }</code-panel>
 
-      <p>The following fragment shows the Java class declaration for the ProductGroup class:</p>
-      
+      <p>
+        The following fragment shows the Java class declaration for the
+        <tt>ProductGroup</tt> class:
+      </p>
+
       <code-panel>
-public class ProductGroup
-{
+public class ProductGroup {
 
     private int       _id;
 
@@ -74,46 +81,50 @@ public class ProductGroup
 }</code-panel>
 
       </section>
-        
+
        <section title="DDL">
-       
-          <p>The following sections show the DDL for the relational database tables 
-             PROD, PROD_GROUP and PROD_DETAIL:</p>
-        
-          <p><b>PROD</b>:</p>
-          
+
+          <p>
+            The following sections show the DDL for the relational database
+            tables <tt>PROD</tt>, <tt>PROD_GROUP</tt>, and <tt>PROD_DETAIL</tt>:
+          </p>
+
+          <p><b><tt>PROD</tt></b>:</p>
+
           <code-panel>
-create table prod 
-(
+create table prod (
   id        int           not null,
   name      varchar(200)  not null,
   price     numeric(18,2) not null,
   group_id  int           not null
 );</code-panel>
 
-          <p><b>PROD_GROUP</b>:</p>
-          
+          <p><b><tt>PROD_GROUP</tt></b>:</p>
+
           <code-panel>
 create table prod_group (
   id        int           not null,
   name      varchar(200)  not null
 );</code-panel>
-          
-          <p><b>PROD_DETAIL</b>:</p>
-          
+
+          <p><b><tt>PROD_DETAIL</tt></b>:</p>
+
           <code-panel>
 create table prod_detail (
   id        int           not null,
   prod_id   int           not null,
   name      varchar(200)  not null
 );</code-panel>
-          
+
        </section>
-       
+
        <section title="Object Mappings">
 
-        <p>The following code fragment shows the object mapping for the ProductGroup class:</p>
-           
+        <p>
+          The following code fragment shows the object mapping for the
+          <tt>ProductGroup</tt> class:
+        </p>
+
         <code-panel>
 &lt;?xml version="1.0"?>
 &lt;!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Object Mapping DTD Version 1.0//EN"
@@ -121,86 +132,100 @@ create table prod_detail (
 &lt;mapping>
 
   &lt;class name="myapp.ProductGroup" identity="id"&gt;
-  
+
     &lt;description&gt;Product group&lt;/description&gt;
-    
+
     &lt;map-to table="prod_group" xml="group" /&gt;
-    
+
     &lt;field name="id" type="integer" &gt;
       &lt;sql name="id" type="integer"/&gt;
     &lt;/field&gt;
-    
+
     &lt;field name="name" type="string"&gt;
       &lt;sql name="name" type="char" /&gt;
     &lt;/field&gt;
-    
+
   &lt;/class>
 
 &lt;/mapping></code-panel>
 
-       <p>As a result of that declaration, Castor JDO would create the following SQL statements
-          for creating, deleting, loading and updating instances of ProductGroup:</p>
-          
+       <p>
+         As a result of that declaration, Castor JDO will create the following
+         SQL statements for creating, deleting, loading and updating instances
+         of <tt>ProductGroup</tt>:
+       </p>
+
        <code-panel>
 create: INSERT INTO prod_group (id, name) VALUES (?,?)
 delete: DELETE FROM prod_group WHERE id=?
 load:   SELECT prod_group.id, prod_group.name FROM prod_group WHERE prod_group.id=?;
 update: UPDATE prod_group SET name=? WHERE id=?
        </code-panel>
-          
+
        <section title="Read-only fields">
 
-          <p>To declare the <i>name</i> field <b>read-only</b>, above field definition for the 
-             field <i>name</i> needs to be changed to:</p>
+          <p>
+            To declare the <i>name</i> field <b>read-only</b>, the field
+            definition above for the field <i>name</i> needs to be changed to:
+          </p>
 
           <code-panel>
   &lt;class name="myapp.ProductGroup" identity="id"&gt;
-  
-    ...    
+
+    ...
     &lt;field name="name" type="string"&gt;
       &lt;sql name="name" type="char" <font color="red">read-only="true"</font> /&gt;
     &lt;/field&gt;
-    
+
   &lt;/class></code-panel>
-         
-          <p>As a result of that declaration, Castor JDO creates the following SQL statements
-            for creating, deleting, loading and updating instances of ProductGroup:</p>
-          
+
+          <p>
+            As a result of that declaration, Castor JDO creates the following
+            SQL statements for creating, deleting, loading and updating
+            instances of <tt>ProductGroup</tt>:
+          </p>
+
           <code-panel>
 create: INSERT INTO prod_group (id) VALUES (?)
 delete: DELETE FROM prod_group WHERE id=?
 load:   SELECT prod_group.id, prod_group.name FROM prod_group WHERE prod_group.id=?;
-update: <i>no statement will be generated</i></code-panel> 
-         
+update: <i>no statement will be generated</i></code-panel>
+
        </section>
 
        <section title="Transient fields">
 
-          <p>To declare the <i>name</i> field <b>transient</b> with regards to persistence, above field 
-             definition for the field <i>name</i> needs to be changed to:</p>
+          <p>
+            To declare the <i>name</i> field <b>transient</b> with regards to
+            persistence, above field definition for the field <i>name</i> needs
+            to be changed to:
+          </p>
 
           <code-panel>
   &lt;class name="myapp.ProductGroup" identity="id"&gt;
-  
-    ...    
+
+    ...
     &lt;field name="name" type="string" &gt;
       &lt;sql name="name" type="char" <font color="red">transient="true"</font> /&gt;
     &lt;/field&gt;
-    
+
   &lt;/class></code-panel>
 
        </section>
-          
+
     </section>
-    
+
     <section title="Relations">
-        
+
        <section title="1:1 relation">
 
-          <p>The following code fragment shows the mapping file for the Product class. 
-             Apart from the simple field declarations, this includes a simple 1:1 relation between 
-             Product and ProductGroup, where every product instance is associated with a 
-             ProductGroup:</p>
+          <p>
+            The following code fragment shows the mapping file for the Product
+            class.  Apart from the simple field declarations, this includes a
+            simple 1:1 relation between <tt>Product</tt> and
+            <tt>ProductGroup</tt>, where every product instance is associated
+            with a <tt>ProductGroup</tt>:
+          </p>
 
           <code-panel>
     &lt;class name="myapp.Product" identity="id"&gt;
@@ -222,12 +247,12 @@ update: <i>no statement will be generated</i></code-panel>
         <font color="red">&lt;field name="group" type="myapp.ProductGroup" &gt;
             &lt;sql name="group_id" /&gt;
         &lt;/field&gt;</font>
-        
+
         &lt;field name="details" type="myapp.ProductDetail"
                collection="vector"&gt;
            &lt;sql many-key="prod_id"/&gt;
         &lt;/field&gt;
-        
+
         &lt;field name="categories" type="myapp.Category" collection="vector"&gt;
            &lt;sql name="category_id"
                 many-table="category_prod" many-key="prod_id" /&gt;
@@ -235,13 +260,16 @@ update: <i>no statement will be generated</i></code-panel>
 
     &lt;/class&gt;</code-panel>
        </section>
-       
+
           <section title="1:M relation">
-             <p>The following code fragment shows (again) the mapping file for the Product class. 
-                The field definition highlighted shows how to declare a 1:M relation between 
-                Product and ProductDetail, where every product instance is made up of many 
-                ProductDetails:</p>
-                
+             <p>
+               The following code fragment shows (again) the mapping file for
+               the <tt>Product</tt> class.  The field definition highlighted
+               shows how to declare a 1:M relation between <tt>Product</tt> and
+               <tt>ProductDetail</tt>, where every product instance is made up
+               of many <tt>ProductDetails</tt>:
+             </p>
+
              <code-panel>
     &lt;class name="myapp.Product" identity="id"&gt;
 
@@ -262,7 +290,7 @@ update: <i>no statement will be generated</i></code-panel>
         &lt;field name="group" type="myapp.ProductGroup" &gt;
             &lt;sql name="group_id" /&gt;
         &lt;/field&gt;
-        
+
         <font color="red">&lt;field name="details" type="myapp.ProductDetail" <font color="red">collection="vector"</font>&gt;
            &lt;sql many-key="prod_id"/&gt;
         &lt;/field&gt;</font>
@@ -272,11 +300,14 @@ update: <i>no statement will be generated</i></code-panel>
                 many-table="category_prod" many-key="prod_id" /&gt;
         &lt;/field&gt;
     &lt;/class&gt;</code-panel>
-             
-             <p>The following code fragment shows the corresponding mapping entry for the 
-                ProductDetail class that defines the second leg of the 1:M relation
-                between Product and ProductDetail.</p>
-                
+
+             <p>
+               The following code fragment shows the corresponding mapping
+               entry for the <tt>ProductDetail</tt> class that defines the
+               second leg of the 1:M relation between <tt>Product</tt> and
+               <tt>ProductDetail</tt>.
+             </p>
+
              <code-panel>
   &lt;class name="myapp.ProductDetail" identity="id" depends="myapp.Product" &gt;
 
@@ -297,15 +328,18 @@ update: <i>no statement will be generated</i></code-panel>
     &lt;/field&gt;</font>
 
   %lt;/class&gt;</code-panel>
- 
+
           </section>
-       
+
           <section title="M:N relation">
-             <p>The following code fragment shows (again) the mapping file for the Product class. 
-                The field definition highlighted shows how to declare a M:N relation between 
-                Product and ProductCategory, where many products can be mapped to many 
-                product categories:</p>
-                
+             <p>
+               The following code fragment shows (again) the mapping file for
+               the <tt>Product</tt> class.  The field definition highlighted
+               shows how to declare a M:N relation between <tt>Product</tt> and
+               <tt>ProductCategory</tt>, where many products can be mapped to
+               many product categories:
+             </p>
+
              <code-panel>
     &lt;class name="myapp.Product" identity="id"&gt;
 
@@ -326,7 +360,7 @@ update: <i>no statement will be generated</i></code-panel>
         &lt;field name="group" type="myapp.ProductGroup" &gt;
             &lt;sql name="group_id" /&gt;
         &lt;/field&gt;
-        
+
         &lt;field name="details" type="myapp.ProductDetail" collection="vector"&gt;
            &lt;sql many-key="prod_id">/&gt;
         &lt;/field&gt;
@@ -335,55 +369,62 @@ update: <i>no statement will be generated</i></code-panel>
            &lt;sql name="category_id"
                 many-table="category_prod" many-key="prod_id" /&gt;
         &lt;/field&gt;</font>
-        
+
     &lt;/class&gt;</code-panel>
-             
-             <p>The following code fragment shows the corresponding mapping entry for the 
-                ProductCategory class that defines the second leg of the M:N relation
-                between Product and Category.</p>
+
+             <p>
+               The following code fragment shows the corresponding mapping
+               entry for the <tt>ProductCategory</tt> class that defines the
+               second leg of the M:N relation between <tt>Product</tt> and
+               <tt>Category</tt>.
+             </p>
 
              <code-panel>
   &lt;class name="myapp.Category" identity="id"&gt;
-  
+
     &lt;description&gt;
         A product category, any number of products can belong to
         the same category, a product can belong to any number of
-        categories
+        categories.
     &lt;/description&gt;
-    
+
     &lt;map-to table="category" xml="category" /&gt;
-    
+
     &lt;field name="id" type="integer"&gt;
       &lt;sql name="id" type="integer"/&gt;
     &lt;/field&gt;
-    
+
     &lt;field name="name" type="string"&gt;
       &lt;sql name="name" type="char"/&gt;
     &lt;/field&gt;
-    
+
     <font color="red">&lt;field name="products" type="myapp.Product" collection="vector"&gt;
       &lt;sql name="prod_id"
            many-table="category_prod" many-key="category_id" /&gt;
     &lt;/field&gt;</font>
-    
+
   &lt;/class&gt;</code-panel>
           </section>
 
        </section>
 
-	    <section title="Extend relation &amp; polymorphism">
-	    
-	    	 <p>As of release 0.9.9, Castor supports polymorphic queries on extend hierarchies. To highlights
-	    	    this new feature, let's add two new classes to what we have currently.</p>
-	    	   
-	    	 <code-panel>
+      <section title="Extend relation &amp; polymorphism">
+
+         <p>
+           As of release 0.9.9, Castor supports polymorphic queries on extend
+           hierarchies.  (That is, hierarchies where some entities "extend"
+           other entities.)  To highlight this new feature, let's add two new
+           classes to what we have currently.
+         </p>
+
+         <code-panel>
 package myapp;
 
-public class <font color="red">Computer extends Product</font>
-{
+public class <font color="red">Computer extends Product</font> {
+
     private int       _id;
 
-    private String    _make; 
+    private String    _make;
 
     public int getId() { ... }
 
@@ -395,11 +436,11 @@ public class <font color="red">Computer extends Product</font>
 
 }
 
-public class <font color="red">Car extends Product</font>
-{
+public class <font color="red">Car extends Product</font> {
+
     private int       _id;
 
-    private Date    _registeredIn; 
+    private Date    _registeredIn;
 
     public int getId() { ... }
 
@@ -410,28 +451,32 @@ public class <font color="red">Car extends Product</font>
     public void setRegisteredIn( Date aRegisteredIn ) { ... }
 }</code-panel>
 
-          <p>The corresponding DDL statements for the relational database tables 
-             COMP and CAR would look as follows:</p>
-        
-          <p><b>COMP</b>:</p>
-          
+          <p>
+            The corresponding DDL statements for the relational database tables
+            <tt>COMP</tt> and <tt>CAR</tt> would look as follows:
+          </p>
+
+          <p><b><tt>COMP</tt></b>:</p>
+
           <code-panel>
-create table prod 
-(
+create table prod (
   id        int           not null,
   make      varchar(200)  not null
 );</code-panel>
 
-          <p><b>CAR</b>:</p>
-          
+          <p><b><tt>CAR</tt></b>:</p>
+
           <code-panel>
 create table prod_group (
   id        int           not null,
   regIn     int           not null
 );</code-panel>
 
-             <p>Based upon the mapping defined for the <tt>Product</tt> class as shown above, the 
-          %      following code fragment shows the mapping for Computer and Car classes.</p>
+             <p>
+               Based upon the mapping defined for the <tt>Product</tt> class as
+               shown above, the following code fragment shows the mapping for
+               the <tt>Computer</tt> and <tt>Car</tt> classes.
+             </p>
 
              <code-panel>
     &lt;class name="myapp.Computer" <font color="red">extends="myapp.Product"</font> identity="id"&gt;
@@ -445,9 +490,9 @@ create table prod_group (
         &lt;field name="make" type="string">
             &lt;sql name="make" type="char" />
         &lt;/field>
-        
+
     &lt;/class&gt;
-    
+
     &lt;class name="myapp.Car" <font color="red">extends="myapp.Product"</font> identity="id"&gt;
 
         &lt;map-to table="CAR" /&gt;
@@ -459,52 +504,62 @@ create table prod_group (
         &lt;field name="registeredIn" type="date">
             &lt;sql name="regIn" type="long" />
         &lt;/field>
-        
+
     &lt;/class&gt;</code-panel>
-	    
-	    	<p>Based upon this mapping, it is possible to execute the following OQL queries against 
-	    	   this class model.</p>
-	    	   
-	    	<code-panel>
+
+        <p>
+          Based upon this mapping, it is possible to execute the following OQL
+          queries against this class model:
+        </p>
+
+        <code-panel>
 OQLQuery query = d.getOQLQuery("SELECT c FROM <b>myapp.Computer</b> c");
-	    	</code-panel>
-	    	
-	    	<p>to return all computers.</p>
+        </code-panel>
 
-	    	<code-panel>
+        <p>To return all computers:</p>
+
+        <code-panel>
 OQLQuery query = d.getOQLQuery("SELECT c FROM myapp.Computer c WHERE c.make = $");
-	    	</code-panel>
-	    	
-	    	<p>to return all computers of a particular make.</p>
+        </code-panel>
 
-	    	<code-panel>
+        <p>To return all computers of a particular make:</p>
+
+        <code-panel>
 OQLQuery query = d.getOQLQuery("SELECT p FROM <b>myapp.Product</b> p");
-	    	</code-panel>
-	    	
-	    	<p>to return all products (where Castor will return the actual object instances, i.e. a Computer
-	    	   instance if the object returned by the query is of type <tt>Computer</tt>, or a <tt>Car</tt>
-	    	   instance if the object returned by the query is of type <tt>Car</tt>).</p>
+        </code-panel>
 
-	    	<code-panel>
+        <p>
+          To return all products (where Castor will return the actual object
+          instances, i.e. a <tt>Computer</tt> instance if the object returned
+          by the query is of type <tt>Computer</tt> or a <tt>Car</tt> instance
+          if the object returned by the query is of type <tt>Car</tt>):
+        </p>
+
+        <code-panel>
 OQLQuery query = d.getOQLQuery("SELECT p FROM myapp.Product p WHERE p.group.name = $");
-	    	</code-panel>
-	    	
-	    	<p>to return all products that belong to the specified product group (where Castor will 
-	    	   return the actual object instances, i.e. a Computer instance if the object returned by 
-	    	   the query is of type <tt>Computer</tt>, or a <tt>Car</tt>
-	    	   instance if the object returned by the query is of type <tt>Car</tt>).</p>
-	    	
-	    </section>
-	    
-	    <section title="OQL samples">
-	    
-	    	<p>Based upon above definitions, here's a few OQL sample queries highlightig various 
-	    	   artefacts of the OQL support of Castor JDO.</p>
-	    	   
-	    	<p><b>TBD</b></p>
-	    </section>
+        </code-panel>
+
+        <p>
+          To return all products that belong to the specified product group
+          (where Castor will return the actual object instances, i.e. a
+          <tt>Computer</tt> instance if the object returned by the query is of
+          type <tt>Computer</tt> or a <tt>Car</tt> instance if the object
+          returned by the query is of type <tt>Car</tt>):
+        </p>
+
+      </section>
+
+      <section title="OQL samples">
+
+        <p>
+          Based upon above definitions, here are a few OQL sample queries that
+          highlight various artifacts of the OQL support of Castor JDO.
+        </p>
+
+        <p><b><i>To Be Written</i></b></p>
+      </section>
 
     </section>
 
-    </body>
+  </body>
 </document>
