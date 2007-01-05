@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1804" tool="jira">
+                    <description>
+                        RandomHelper needs updates
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Test</module>
+                    <date>20070104</date>
+                </bug>
                 <bug id="1810" tool="jira">
                     <description>
                         Incorrect import lines in generated classes: dots are missing

@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+CTF:   Resolved issue CASTOR-1804 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       RandomHelper needs updates
+       Details: http://jira.codehaus.org/browse/CASTOR-1804
+       (Edward - 20070104)
+
 Gen:   Resolved issue CASTOR-1810 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Incorrect import lines in generated classes: dots are missing
        Details: http://jira.codehaus.org/browse/CASTOR-1810
