@@ -1,4 +1,4 @@
-#!/bin/sh 
+#!/bin/sh
 
 if [ -z "$JAVA_HOME" ] ; then
   JAVA=`which java`
@@ -12,7 +12,7 @@ fi
 
 JAVA=$JAVA_HOME/bin/java
 
-CLASSPATH=$CLASSPATH:../../build/classes:../../build/tests
+CLASSPATH=$CLASSPATH:../../build/classes:../../build/tests:../../codegen/build/classes
 CLASSPATH=`echo ../../lib/*.jar | tr ' ' ':'`:$CLASSPATH
 
 rm -rf `find ./main/org/exolab/castor/tests/framework/testDescriptor/ -name "*.java"`
