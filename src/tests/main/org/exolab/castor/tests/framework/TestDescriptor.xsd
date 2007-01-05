@@ -98,6 +98,8 @@
                 <xsd:element ref="test:Collection" minOccurs="0" maxOccurs="1"/>
                 <!-- the binding file name -->
                 <xsd:element name="BindingFile" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                <!-- the package for generated source -->
+                <xsd:element name="Package" type="xsd:string" minOccurs="0" maxOccurs="1"/>
                 <!-- the qualified name of the root Object -->
                 <!-- later: define a pattern to describe a Java quailified name-->
                 <xsd:element ref="test:Root_Object" minOccurs="1" maxOccurs="1"/>
@@ -160,6 +162,8 @@
                 <xsd:element ref="test:Collection" minOccurs="0" maxOccurs="1"/>
                 <!-- the binding file name -->
                 <xsd:element name="BindingFile" type="xsd:string" minOccurs="0" maxOccurs="1"/>
+                <!-- the package for generated source -->
+                <xsd:element name="Package" type="xsd:string" minOccurs="0" maxOccurs="1"/>
                 <!-- individual test cases -->
                 <xsd:element ref="test:UnitTestCase" minOccurs="1" maxOccurs="unbounded"/>
             </xsd:sequence>
