@@ -198,7 +198,7 @@ public final class DescriptorJClass extends JClass {
             }
         } else {
             superClassName = _type.getSuperClass().getPackageName()
-                    + XMLConstants.DESCRIPTOR_PACKAGE
+                    + "." + XMLConstants.DESCRIPTOR_PACKAGE + "."
                     + _type.getSuperClass().getLocalName() +  XMLConstants.DESCRIPTOR_SUFFIX;
         }
         return superClassName;

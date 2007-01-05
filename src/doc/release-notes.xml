@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1810" tool="jira">
+                    <description>
+                        Incorrect import lines in generated classes: dots are missing
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Carlo Romero</name>
+                        <email>carlo.romero@gs.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070104</date>
+                </bug>
                 <bug id="1809" tool="jira">
                     <description>
                         Finish cleanup of RSS file

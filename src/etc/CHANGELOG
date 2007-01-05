@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1810 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Incorrect import lines in generated classes: dots are missing
+       Details: http://jira.codehaus.org/browse/CASTOR-1810
+       (Edward - 20070104)
+
 RSS:   Resolved issue CASTOR-1809 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Finish cleanup of RSS file
        Details: http://jira.codehaus.org/browse/CASTOR-1809
