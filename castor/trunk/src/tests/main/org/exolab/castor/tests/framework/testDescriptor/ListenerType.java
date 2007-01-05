@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -27,17 +27,17 @@ public class ListenerType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _goldFile
+     * Field _goldFile.
      */
     private java.lang.String _goldFile;
 
     /**
-     * Field _className
+     * Field _className.
      */
     private java.lang.String _className;
 
     /**
-     * Field _type
+     * Field _type.
      */
     private org.exolab.castor.tests.framework.testDescriptor.types.TypeType _type = org.exolab.castor.tests.framework.testDescriptor.types.TypeType.valueOf("Both");
 
@@ -46,11 +46,10 @@ public class ListenerType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public ListenerType() 
-     {
+    public ListenerType() {
         super();
         setType(org.exolab.castor.tests.framework.testDescriptor.types.TypeType.valueOf("Both"));
-    } //-- org.exolab.castor.tests.framework.testDescriptor.ListenerType()
+    }
 
 
       //-----------/
@@ -62,48 +61,45 @@ public class ListenerType implements java.io.Serializable {
      * 
      * @return the value of field 'ClassName'.
      */
-    public java.lang.String getClassName()
-    {
+    public java.lang.String getClassName(
+    ) {
         return this._className;
-    } //-- java.lang.String getClassName() 
+    }
 
     /**
      * Returns the value of field 'goldFile'.
      * 
      * @return the value of field 'GoldFile'.
      */
-    public java.lang.String getGoldFile()
-    {
+    public java.lang.String getGoldFile(
+    ) {
         return this._goldFile;
-    } //-- java.lang.String getGoldFile() 
+    }
 
     /**
      * Returns the value of field 'type'.
      * 
      * @return the value of field 'Type'.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.types.TypeType getType()
-    {
+    public org.exolab.castor.tests.framework.testDescriptor.types.TypeType getType(
+    ) {
         return this._type;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.types.TypeType getType() 
+    }
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
      * 
@@ -114,12 +110,11 @@ public class ListenerType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
      * 
@@ -132,47 +127,44 @@ public class ListenerType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.MarshalException if object is
      * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
      * Sets the value of field 'className'.
      * 
      * @param className the value of field 'className'.
      */
-    public void setClassName(java.lang.String className)
-    {
+    public void setClassName(
+            final java.lang.String className) {
         this._className = className;
-    } //-- void setClassName(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'goldFile'.
      * 
      * @param goldFile the value of field 'goldFile'.
      */
-    public void setGoldFile(java.lang.String goldFile)
-    {
+    public void setGoldFile(
+            final java.lang.String goldFile) {
         this._goldFile = goldFile;
-    } //-- void setGoldFile(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'type'.
      * 
      * @param type the value of field 'type'.
      */
-    public void setType(org.exolab.castor.tests.framework.testDescriptor.types.TypeType type)
-    {
+    public void setType(
+            final org.exolab.castor.tests.framework.testDescriptor.types.TypeType type) {
         this._type = type;
-    } //-- void setType(org.exolab.castor.tests.framework.testDescriptor.types.TypeType) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is
@@ -182,11 +174,11 @@ public class ListenerType implements java.io.Serializable {
      * @return the unmarshaled
      * org.exolab.castor.tests.framework.testDescriptor.ListenerType
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.ListenerType unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.tests.framework.testDescriptor.ListenerType unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.tests.framework.testDescriptor.ListenerType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.ListenerType.class, reader);
-    } //-- org.exolab.castor.tests.framework.testDescriptor.ListenerType unmarshal(java.io.Reader) 
+    }
 
     /**
      * 
@@ -194,11 +186,11 @@ public class ListenerType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

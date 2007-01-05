@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -156,17 +156,17 @@ public class FailureStepType implements java.io.Serializable {
     public static final FailureStepType CUSTOM_TEST = new FailureStepType(CUSTOM_TEST_TYPE, "custom-test");
 
     /**
-     * Field _memberTable
+     * Field _memberTable.
      */
     private static java.util.Hashtable _memberTable = init();
 
     /**
-     * Field type
+     * Field type.
      */
     private int type = -1;
 
     /**
-     * Field stringValue
+     * Field stringValue.
      */
     private java.lang.String stringValue = null;
 
@@ -175,12 +175,11 @@ public class FailureStepType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private FailureStepType(int type, java.lang.String value) 
-     {
+    private FailureStepType(final int type, final java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType(int, java.lang.String)
+    }
 
 
       //-----------/
@@ -188,40 +187,34 @@ public class FailureStepType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerate
-     * 
-     * Returns an enumeration of all possible instances of
-     * FailureStepType
+     * Method enumerate.Returns an enumeration of all possible
+     * instances of FailureStepType
      * 
      * @return an Enumeration over all possible instances of
      * FailureStepType
      */
-    public static java.util.Enumeration enumerate()
-    {
+    public static java.util.Enumeration enumerate(
+    ) {
         return _memberTable.elements();
-    } //-- java.util.Enumeration enumerate() 
+    }
 
     /**
-     * Method getType
-     * 
-     * Returns the type of this FailureStepType
+     * Method getType.Returns the type of this FailureStepType
      * 
      * @return the type of this FailureStepType
      */
-    public int getType()
-    {
+    public int getType(
+    ) {
         return this.type;
-    } //-- int getType() 
+    }
 
     /**
-     * Method init
-     * 
-     * 
+     * Method init.
      * 
      * @return the initialized Hashtable for the member table
      */
-    private static java.util.Hashtable init()
-    {
+    private static java.util.Hashtable init(
+    ) {
         Hashtable members = new Hashtable();
         members.put("parse-schema", PARSE_SCHEMA);
         members.put("write-schema", WRITE_SCHEMA);
@@ -237,51 +230,49 @@ public class FailureStepType implements java.io.Serializable {
         members.put("second-unmarshal", SECOND_UNMARSHAL);
         members.put("custom-test", CUSTOM_TEST);
         return members;
-    } //-- java.util.Hashtable init() 
+    }
 
     /**
-     * Method readResolve
-     * 
-     *  will be called during deserialization to replace the
-     * deserialized object with the correct constant instance.
+     * Method readResolve. will be called during deserialization to
+     * replace the deserialized object with the correct constant
+     * instance.
      * 
      * @return this deserialized object
      */
-    private java.lang.Object readResolve()
-    {
+    private java.lang.Object readResolve(
+    ) {
         return valueOf(this.stringValue);
-    } //-- java.lang.Object readResolve() 
+    }
 
     /**
-     * Method toString
-     * 
-     * Returns the String representation of this FailureStepType
+     * Method toString.Returns the String representation of this
+     * FailureStepType
      * 
      * @return the String representation of this FailureStepType
      */
-    public java.lang.String toString()
-    {
+    public java.lang.String toString(
+    ) {
         return this.stringValue;
-    } //-- java.lang.String toString() 
+    }
 
     /**
-     * Method valueOf
-     * 
-     * Returns a new FailureStepType based on the given String
-     * value.
+     * Method valueOf.Returns a new FailureStepType based on the
+     * given String value.
      * 
      * @param string
      * @return the FailureStepType value of parameter 'string'
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType valueOf(java.lang.String string)
-    {
+    public static org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType valueOf(
+            final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) obj = _memberTable.get(string);
+        if (string != null) {
+            obj = _memberTable.get(string);
+        }
         if (obj == null) {
-            String err = "'" + string + "' is not a valid FailureStepType";
+            String err = "" + string + " is not a valid FailureStepType";
             throw new IllegalArgumentException(err);
         }
         return (FailureStepType) obj;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType valueOf(java.lang.String) 
+    }
 
 }
