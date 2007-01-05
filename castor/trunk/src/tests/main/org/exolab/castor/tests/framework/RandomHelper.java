@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -49,6 +49,7 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashSet;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Random;
 import java.util.Set;
 import java.util.SortedSet;
@@ -72,7 +73,7 @@ public class RandomHelper {
     private static long _seed;
 
     /**
-     * The pseudo random number generator.
+     * The pseudo-random number generator.
      */
     private static Random _rand;
 
@@ -153,7 +154,7 @@ public class RandomHelper {
 
     /**
      * Creates a populated array of type c of random length. If the class to put
-     * into the vector implement CastorTestable, randomizeFields() will be
+     * into the vector implements CastorTestable, randomizeFields() will be
      * called on the objects.
      *
      * @param array An unused parameter, used only for polymorphism.
@@ -181,7 +182,7 @@ public class RandomHelper {
 
     /**
      * Returns a populated vector of random length. If the class to put into the
-     * vector implement CastorTestable, randomizeFields() will be called on the
+     * vector implements CastorTestable, randomizeFields() will be called on the
      * objects.
      *
      * @param vect the vector to populate, if null a new Vector will be created.
@@ -209,7 +210,7 @@ public class RandomHelper {
 
     /**
      * Returns a populated ArrayList of random length. If the class of the
-     * object contained into the vector implement CastorTestable,
+     * object contained into the vector implements CastorTestable,
      * randomizeFields() will be called on the objects.
      *
      * @param al the ArrayList to populate
@@ -224,8 +225,8 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a populated ArrayList of random length. If the class of the
-     * object contained into the vector implement CastorTestable,
+     * Returns a populated Collection of random length. If the class of the
+     * object contained into the vector implements CastorTestable,
      * randomizeFields() will be called on the objects.
      *
      * @param al the ArrayList to populate
@@ -240,9 +241,25 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a populated Set of random length. If the class of the
-     * object contained into the vector implement CastorTestable,
-     * randomizeFields() will be called on the objects.
+     * Returns a populated List of random length. If the class of the object
+     * contained into the vector implements CastorTestable, randomizeFields()
+     * will be called on the objects.
+     *
+     * @param al the ArrayList to populate
+     * @param c the type of object to put in the vector
+     * @return a populated ArrayList of random length.
+     * @throws InstantiationException if the class cannot be instantiated
+     * @throws IllegalAccessException if the class cannot be accessed
+     */
+    public static List getRandom(List al, Class c)
+        throws InstantiationException, IllegalAccessException {
+        return new LinkedList(RandomHelper.getRandom(new Vector(al), c));
+    }
+
+    /**
+     * Returns a populated Set of random length. If the class of the object
+     * contained into the vector implements CastorTestable, randomizeFields()
+     * will be called on the objects.
      *
      * @param al the Set to populate
      * @param c the type of object to put in the vector
@@ -257,7 +274,7 @@ public class RandomHelper {
 
     /**
      * Returns a populated SortedSet of random length. If the class of the
-     * object contained into the vector implement CastorTestable,
+     * object contained into the vector implements CastorTestable,
      * randomizeFields() will be called on the objects.
      *
      * @param al the SortedSet to populate
@@ -270,9 +287,9 @@ public class RandomHelper {
         throws InstantiationException, IllegalAccessException {
         return new TreeSet(RandomHelper.getRandom(new Vector(al), c));
     }
-    
+
     /**
-     * Returns a random string that will not have leading or trailing whitespace
+     * Returns a random String that will not have leading or trailing whitespace
      * and that will not have consecutive internal whitespace. To get a random
      * string without these restrictions, use
      * {@link #getRandom(String, Class, boolean)} with the boolean argument
@@ -288,7 +305,7 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a random string, optionally with leading and trailing whitespace
+     * Returns a random String, optionally with leading and trailing whitespace
      * removed and internal consecutive whitespace collapsed.
      *
      * @param s An unused parameter, used only for polymorphism.
@@ -332,7 +349,7 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a random java.util.date.
+     * Returns a random java.util.Date.
      * @param date An unused parameter, used only for polymorphism.
      * @param c An unused parameter that indicates we are making a random
      *            Object, not a random primitive
@@ -344,7 +361,7 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a random Castor timeDuration.
+     * Returns a random Castor TimeDuration.
      * @param date An unused parameter, used only for polymorphism.
      * @param c An unused parameter that indicates we are making a random
      *            Object, not a random primitive
@@ -357,7 +374,7 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a random Castor recurringDuration.
+     * Returns a random Castor RecurringDuration.
      *
      * @param recurring An unused parameter, used only for polymorphism.
      * @param c An unused parameter that indicates we are making a random
@@ -410,7 +427,7 @@ public class RandomHelper {
     }
 
     /**
-     * Returns a random Object of the type provided by class c
+     * Returns a random Object of the type provided by class c.
      *
      * @param object An unused parameter, used only for polymorphism.
      * @param c the type of object we will create a randomized instance of. This
@@ -511,8 +528,8 @@ public class RandomHelper {
 
 
     /**
-     * Returns true or false randomly with equal propability.
-     * @return true or false randomly with equal propability.
+     * Returns true or false randomly with equal probability.
+     * @return true or false randomly with equal probability.
      */
     public static boolean flip() {
         return _rand.nextBoolean();
@@ -540,7 +557,7 @@ public class RandomHelper {
 
     /**
      * Returns the seed which was used to initialize the pseudo-random number
-     * generator
+     * generator.
      *
      * @return the seed which was used to initialize the pseudo-random number
      *         generator
@@ -550,7 +567,7 @@ public class RandomHelper {
     }
 
     /**
-     * Reinitializes the random number generator with the given seed.
+     * Re-initializes the random number generator with the given seed.
      *
      * @param seed the new seed for the random number generator.
      */
