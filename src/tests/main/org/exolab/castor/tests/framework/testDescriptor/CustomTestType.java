@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -30,12 +30,12 @@ public class CustomTestType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * Field _testClass
+     * Field _testClass.
      */
     private java.lang.String _testClass;
 
     /**
-     * Field _methods
+     * Field _methods.
      */
     private org.exolab.castor.tests.framework.testDescriptor.Methods _methods;
 
@@ -44,10 +44,9 @@ public class CustomTestType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    public CustomTestType() 
-     {
+    public CustomTestType() {
         super();
-    } //-- org.exolab.castor.tests.framework.testDescriptor.CustomTestType()
+    }
 
 
       //-----------/
@@ -59,38 +58,35 @@ public class CustomTestType implements java.io.Serializable {
      * 
      * @return the value of field 'Methods'.
      */
-    public org.exolab.castor.tests.framework.testDescriptor.Methods getMethods()
-    {
+    public org.exolab.castor.tests.framework.testDescriptor.Methods getMethods(
+    ) {
         return this._methods;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.Methods getMethods() 
+    }
 
     /**
      * Returns the value of field 'testClass'.
      * 
      * @return the value of field 'TestClass'.
      */
-    public java.lang.String getTestClass()
-    {
+    public java.lang.String getTestClass(
+    ) {
         return this._testClass;
-    } //-- java.lang.String getTestClass() 
+    }
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
      * 
@@ -101,12 +97,11 @@ public class CustomTestType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
      * 
@@ -119,37 +114,34 @@ public class CustomTestType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.MarshalException if object is
      * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
      * Sets the value of field 'methods'.
      * 
      * @param methods the value of field 'methods'.
      */
-    public void setMethods(org.exolab.castor.tests.framework.testDescriptor.Methods methods)
-    {
+    public void setMethods(
+            final org.exolab.castor.tests.framework.testDescriptor.Methods methods) {
         this._methods = methods;
-    } //-- void setMethods(org.exolab.castor.tests.framework.testDescriptor.Methods) 
+    }
 
     /**
      * Sets the value of field 'testClass'.
      * 
      * @param testClass the value of field 'testClass'.
      */
-    public void setTestClass(java.lang.String testClass)
-    {
+    public void setTestClass(
+            final java.lang.String testClass) {
         this._testClass = testClass;
-    } //-- void setTestClass(java.lang.String) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is
@@ -159,11 +151,11 @@ public class CustomTestType implements java.io.Serializable {
      * @return the unmarshaled
      * org.exolab.castor.tests.framework.testDescriptor.CustomTestType
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.CustomTestType unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.tests.framework.testDescriptor.CustomTestType unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.tests.framework.testDescriptor.CustomTestType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.CustomTestType.class, reader);
-    } //-- org.exolab.castor.tests.framework.testDescriptor.CustomTestType unmarshal(java.io.Reader) 
+    }
 
     /**
      * 
@@ -171,11 +163,11 @@ public class CustomTestType implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

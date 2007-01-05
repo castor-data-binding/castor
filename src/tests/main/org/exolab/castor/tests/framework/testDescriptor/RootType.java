@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -40,7 +40,7 @@ implements java.io.Serializable
     private java.lang.String _content = "";
 
     /**
-     * Field _random
+     * Field _random.
      */
     private boolean _random = false;
 
@@ -50,7 +50,7 @@ implements java.io.Serializable
     private boolean _has_random;
 
     /**
-     * Field _dump
+     * Field _dump.
      */
     private boolean _dump = false;
 
@@ -64,11 +64,10 @@ implements java.io.Serializable
      //- Constructors -/
     //----------------/
 
-    public RootType() 
-     {
+    public RootType() {
         super();
         setContent("");
-    } //-- org.exolab.castor.tests.framework.testDescriptor.RootType()
+    }
 
 
       //-----------/
@@ -77,17 +76,17 @@ implements java.io.Serializable
 
     /**
      */
-    public void deleteDump()
-    {
+    public void deleteDump(
+    ) {
         this._has_dump= false;
-    } //-- void deleteDump() 
+    }
 
     /**
      */
-    public void deleteRandom()
-    {
+    public void deleteRandom(
+    ) {
         this._has_random= false;
-    } //-- void deleteRandom() 
+    }
 
     /**
      * Returns the value of field 'content'. The field 'content'
@@ -95,92 +94,85 @@ implements java.io.Serializable
      * 
      * @return the value of field 'Content'.
      */
-    public java.lang.String getContent()
-    {
+    public java.lang.String getContent(
+    ) {
         return this._content;
-    } //-- java.lang.String getContent() 
+    }
 
     /**
      * Returns the value of field 'dump'.
      * 
      * @return the value of field 'Dump'.
      */
-    public boolean getDump()
-    {
+    public boolean getDump(
+    ) {
         return this._dump;
-    } //-- boolean getDump() 
+    }
 
     /**
      * Returns the value of field 'random'.
      * 
      * @return the value of field 'Random'.
      */
-    public boolean getRandom()
-    {
+    public boolean getRandom(
+    ) {
         return this._random;
-    } //-- boolean getRandom() 
+    }
 
     /**
-     * Method hasDump
-     * 
-     * 
+     * Method hasDump.
      * 
      * @return true if at least one Dump has been added
      */
-    public boolean hasDump()
-    {
+    public boolean hasDump(
+    ) {
         return this._has_dump;
-    } //-- boolean hasDump() 
+    }
 
     /**
-     * Method hasRandom
-     * 
-     * 
+     * Method hasRandom.
      * 
      * @return true if at least one Random has been added
      */
-    public boolean hasRandom()
-    {
+    public boolean hasRandom(
+    ) {
         return this._has_random;
-    } //-- boolean hasRandom() 
+    }
 
     /**
      * Returns the value of field 'dump'.
      * 
      * @return the value of field 'Dump'.
      */
-    public boolean isDump()
-    {
+    public boolean isDump(
+    ) {
         return this._dump;
-    } //-- boolean isDump() 
+    }
 
     /**
      * Returns the value of field 'random'.
      * 
      * @return the value of field 'Random'.
      */
-    public boolean isRandom()
-    {
+    public boolean isRandom(
+    ) {
         return this._random;
-    } //-- boolean isRandom() 
+    }
 
     /**
-     * Method isValid
-     * 
-     * 
+     * Method isValid.
      * 
      * @return true if this object is valid according to the schema
      */
-    public boolean isValid()
-    {
+    public boolean isValid(
+    ) {
         try {
             validate();
-        }
-        catch (org.exolab.castor.xml.ValidationException vex) {
+        } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
      * 
@@ -191,12 +183,11 @@ implements java.io.Serializable
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void marshal(java.io.Writer out)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final java.io.Writer out)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
      * 
@@ -209,12 +200,11 @@ implements java.io.Serializable
      * @throws org.exolab.castor.xml.MarshalException if object is
      * null or if any SAXException is thrown during marshaling
      */
-    public void marshal(org.xml.sax.ContentHandler handler)
-        throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
-        
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
      * Sets the value of field 'content'. The field 'content' has
@@ -222,37 +212,35 @@ implements java.io.Serializable
      * 
      * @param content the value of field 'content'.
      */
-    public void setContent(java.lang.String content)
-    {
+    public void setContent(
+            final java.lang.String content) {
         this._content = content;
-    } //-- void setContent(java.lang.String) 
+    }
 
     /**
      * Sets the value of field 'dump'.
      * 
      * @param dump the value of field 'dump'.
      */
-    public void setDump(boolean dump)
-    {
+    public void setDump(
+            final boolean dump) {
         this._dump = dump;
         this._has_dump = true;
-    } //-- void setDump(boolean) 
+    }
 
     /**
      * Sets the value of field 'random'.
      * 
      * @param random the value of field 'random'.
      */
-    public void setRandom(boolean random)
-    {
+    public void setRandom(
+            final boolean random) {
         this._random = random;
         this._has_random = true;
-    } //-- void setRandom(boolean) 
+    }
 
     /**
-     * Method unmarshal
-     * 
-     * 
+     * Method unmarshal.
      * 
      * @param reader
      * @throws org.exolab.castor.xml.MarshalException if object is
@@ -262,11 +250,11 @@ implements java.io.Serializable
      * @return the unmarshaled
      * org.exolab.castor.tests.framework.testDescriptor.StringType
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException
-    {
+    public static org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(
+            final java.io.Reader reader)
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         return (org.exolab.castor.tests.framework.testDescriptor.StringType) Unmarshaller.unmarshal(org.exolab.castor.tests.framework.testDescriptor.RootType.class, reader);
-    } //-- org.exolab.castor.tests.framework.testDescriptor.StringType unmarshal(java.io.Reader) 
+    }
 
     /**
      * 
@@ -274,11 +262,11 @@ implements java.io.Serializable
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      */
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException
-    {
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

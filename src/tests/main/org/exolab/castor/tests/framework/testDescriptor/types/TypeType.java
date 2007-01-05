@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -56,17 +56,17 @@ public class TypeType implements java.io.Serializable {
     public static final TypeType BOTH = new TypeType(BOTH_TYPE, "Both");
 
     /**
-     * Field _memberTable
+     * Field _memberTable.
      */
     private static java.util.Hashtable _memberTable = init();
 
     /**
-     * Field type
+     * Field type.
      */
     private int type = -1;
 
     /**
-     * Field stringValue
+     * Field stringValue.
      */
     private java.lang.String stringValue = null;
 
@@ -75,12 +75,11 @@ public class TypeType implements java.io.Serializable {
      //- Constructors -/
     //----------------/
 
-    private TypeType(int type, java.lang.String value) 
-     {
+    private TypeType(final int type, final java.lang.String value) {
         super();
         this.type = type;
         this.stringValue = value;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.types.TypeType(int, java.lang.String)
+    }
 
 
       //-----------/
@@ -88,87 +87,81 @@ public class TypeType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerate
-     * 
-     * Returns an enumeration of all possible instances of TypeType
+     * Method enumerate.Returns an enumeration of all possible
+     * instances of TypeType
      * 
      * @return an Enumeration over all possible instances of TypeTyp
      */
-    public static java.util.Enumeration enumerate()
-    {
+    public static java.util.Enumeration enumerate(
+    ) {
         return _memberTable.elements();
-    } //-- java.util.Enumeration enumerate() 
+    }
 
     /**
-     * Method getType
-     * 
-     * Returns the type of this TypeType
+     * Method getType.Returns the type of this TypeType
      * 
      * @return the type of this TypeType
      */
-    public int getType()
-    {
+    public int getType(
+    ) {
         return this.type;
-    } //-- int getType() 
+    }
 
     /**
-     * Method init
-     * 
-     * 
+     * Method init.
      * 
      * @return the initialized Hashtable for the member table
      */
-    private static java.util.Hashtable init()
-    {
+    private static java.util.Hashtable init(
+    ) {
         Hashtable members = new Hashtable();
         members.put("Marshal", MARSHAL);
         members.put("Unmarshal", UNMARSHAL);
         members.put("Both", BOTH);
         return members;
-    } //-- java.util.Hashtable init() 
+    }
 
     /**
-     * Method readResolve
-     * 
-     *  will be called during deserialization to replace the
-     * deserialized object with the correct constant instance.
+     * Method readResolve. will be called during deserialization to
+     * replace the deserialized object with the correct constant
+     * instance.
      * 
      * @return this deserialized object
      */
-    private java.lang.Object readResolve()
-    {
+    private java.lang.Object readResolve(
+    ) {
         return valueOf(this.stringValue);
-    } //-- java.lang.Object readResolve() 
+    }
 
     /**
-     * Method toString
-     * 
-     * Returns the String representation of this TypeType
+     * Method toString.Returns the String representation of this
+     * TypeType
      * 
      * @return the String representation of this TypeType
      */
-    public java.lang.String toString()
-    {
+    public java.lang.String toString(
+    ) {
         return this.stringValue;
-    } //-- java.lang.String toString() 
+    }
 
     /**
-     * Method valueOf
-     * 
-     * Returns a new TypeType based on the given String value.
+     * Method valueOf.Returns a new TypeType based on the given
+     * String value.
      * 
      * @param string
      * @return the TypeType value of parameter 'string'
      */
-    public static org.exolab.castor.tests.framework.testDescriptor.types.TypeType valueOf(java.lang.String string)
-    {
+    public static org.exolab.castor.tests.framework.testDescriptor.types.TypeType valueOf(
+            final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) obj = _memberTable.get(string);
+        if (string != null) {
+            obj = _memberTable.get(string);
+        }
         if (obj == null) {
-            String err = "'" + string + "' is not a valid TypeType";
+            String err = "" + string + " is not a valid TypeType";
             throw new IllegalArgumentException(err);
         }
         return (TypeType) obj;
-    } //-- org.exolab.castor.tests.framework.testDescriptor.types.TypeType valueOf(java.lang.String) 
+    }
 
 }

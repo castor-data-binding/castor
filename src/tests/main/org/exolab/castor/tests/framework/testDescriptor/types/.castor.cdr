@@ -1,7 +1,7 @@
-#Mon Dec 11 21:09:39 CST 2006
+#Thu Jan 04 22:21:22 CST 2007
 org.exolab.castor.tests.framework.testDescriptor.types.FailureType=org.exolab.castor.tests.framework.testDescriptor.types.FailureTypeDescriptor
-org.exolab.castor.tests.framework.testDescriptor.types.CategoryType=org.exolab.castor.tests.framework.testDescriptor.types.CategoryTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.types.FailureStep=org.exolab.castor.tests.framework.testDescriptor.types.FailureStepDescriptor
-org.exolab.castor.tests.framework.testDescriptor.types.CollectionType=org.exolab.castor.tests.framework.testDescriptor.types.CollectionTypeDescriptor
-org.exolab.castor.tests.framework.testDescriptor.types.TypeType=org.exolab.castor.tests.framework.testDescriptor.types.TypeTypeDescriptor
-org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType=org.exolab.castor.tests.framework.testDescriptor.types.FailureStepTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.types.CategoryType=org.exolab.castor.tests.framework.testDescriptor.types.descriptors.CategoryTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.types.CollectionType=org.exolab.castor.tests.framework.testDescriptor.types.descriptors.CollectionTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType=org.exolab.castor.tests.framework.testDescriptor.types.descriptors.FailureStepTypeDescriptor
+org.exolab.castor.tests.framework.testDescriptor.types.TypeType=org.exolab.castor.tests.framework.testDescriptor.types.descriptors.TypeTypeDescriptor
