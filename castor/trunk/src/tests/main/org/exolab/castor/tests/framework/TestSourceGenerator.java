@@ -44,13 +44,15 @@ import org.xml.sax.InputSource;
 public class TestSourceGenerator extends XMLTestCase {
 
     /** Name of the property file to use, null if none. */
-    private String   _propertyFileName;
+    private final String   _propertyFileName;
     /** Name of the collection to use by default, null if we rely on the default behavior. */
-    private String   _fieldInfoFactoryName;
+    private final String   _fieldInfoFactoryName;
     /** Name of the binding file. */
-    private String   _bindingFileName;
+    private final String   _bindingFileName;
     /** Array of schemas we'll process. */
-    private String[] _schemas;
+    private final String[] _schemas;
+    /** Package name for generated source. */
+    private final String   _package;
 
     public TestSourceGenerator(final CastorTestCase test, final UnitTestCase unit, final OnlySourceGenerationTest sourceGen) {
         super(test, unit);
@@ -58,6 +60,7 @@ public class TestSourceGenerator extends XMLTestCase {
         _fieldInfoFactoryName = sourceGen.getCollection().toString();
         _bindingFileName      = sourceGen.getBindingFile();
         _schemas              = sourceGen.getSchema();
+        _package              = sourceGen.getPackage();
     }
 
     public TestSourceGenerator(final CastorTestCase test, final UnitTestCase unit, final SourceGeneratorTest sourceGen) {
@@ -66,6 +69,7 @@ public class TestSourceGenerator extends XMLTestCase {
         _fieldInfoFactoryName = sourceGen.getCollection().toString();
         _bindingFileName      = sourceGen.getBindingFile();
         _schemas              = sourceGen.getSchema();
+        _package              = sourceGen.getPackage();
     }
 
     /**
@@ -115,7 +119,7 @@ public class TestSourceGenerator extends XMLTestCase {
 
                 InputSource source = new InputSource(new FileReader(schemaFile));
                 source.setSystemId(schemaFile.getAbsolutePath());
-                sourceGen.generateSource(source, null);
+                sourceGen.generateSource(source, _package);
             }
         } catch (Exception e) {
             if (!checkExceptionWasExpected(e, FailureStepType.SOURCE_GENERATION)) {
