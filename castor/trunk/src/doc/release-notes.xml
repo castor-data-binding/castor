@@ -297,7 +297,7 @@
                 </bug>
                 <bug id="1799" tool="jira">
                     <description>
-                        XML handler & descriptor checkstyle cleanup
+                        XML handler &amp; descriptor checkstyle cleanup
                     </description>
                     <contributor>
                         <name>Edward Kuns</name>
