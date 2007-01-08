@@ -299,7 +299,7 @@
     </target>
 
     <target name="compile.examples" depends="prepare, compile"
-            description="Builds the example packages (including debugging info) and creates the webapp war file for the servlet example">
+            description="Builds the example packages (including debugging info)">
         <mkdir dir="${build}/examples"/>
         <mkdir dir="${build}/examples/META-INF"/>
         <javac srcdir="${source}/examples" destdir="${build}/examples"
@@ -319,34 +319,6 @@
             </fileset>
         </copy>
 
-        <!-- Make a webapp out of the servlet example -->
-        <available property="project_jar.present" file="${dist}/${archive.name}.jar" />
-        <mkdir dir="${build}/examples/webapp"/>
-        <copy todir="${build}/examples/webapp/WEB-INF/classes">
-            <fileset dir="${build}/examples">
-                <include name="servlet/*.*"/>
-                <include name="myapp/*.*"/>
-            </fileset>
-            <fileset dir="${classes}">
-                <exclude name="**" if="project_jar.present"/>
-            </fileset>
-        </copy>
-
-        <copy todir="${build}/examples/webapp/WEB-INF/lib">
-            <fileset dir="${lib}">
-                <include name="*.jar"/>
-                <exclude name="ant*.jar"/>
-                <exclude name="optional*.jar"/>
-                <exclude name="junit*.jar"/>
-                <exclude name="servlet*.jar"/>
-            </fileset>
-            <fileset dir="${dist}">
-                <include name="${archive.name}.jar" if="project_jar.present"/>
-            </fileset>
-        </copy>
-
-        <jar jarfile="${build}/examples/webapp-example-${project}.war"
-             basedir="${build}/examples/webapp" includes="**"/>
     </target>
 
     <target name="compile.tests" depends="prepare,compile"
@@ -445,13 +417,9 @@
         <delete file="${dist}/${archive.name}-examples.jar" />
         <delete file="${dist}/${archive.name}-examples-sources.jar" />
 
-        <!-- Create JAR for Castor examples (excl. web application) -->
+        <!-- Create JAR for Castor examples -->
         <jar jarfile="${dist}/${archive.name}-examples.jar" manifest="${build}/examples/META-INF/MANIFEST.MF">
-             <fileset dir="${build}/examples">
-                <exclude name="webapp/**" />
-                <exclude name="**/*.war"/>
-                <exclude name="servlet/**" />
-             </fileset>
+             <fileset dir="${build}/examples"/>
         </jar>
         <!-- Create JAR for the sources of the Castor examples -->
         <jar jarfile="${dist}/${archive.name}-examples-sources.jar">
@@ -484,17 +452,6 @@
       </copy>
       <zip zipfile="${dist}/${archive.name}-examples.zip" basedir="target" includes="**"/>
     </target>
-
-  <!--
-    <target name="jar.example.webapp" depends="compile.examples"
-            description="Creates a WAR file for JDO example webapp.">
-        <delete file="${dist}/${archive.name}-example-webapp.war" />
-        <war warfile="${dist}/${archive.name}-example-webapp.war"
-             basedir="${build}/examples/webapp"
-             webxml="${build}/examples/webapp/WEB-INF/web.xml"
-             includes="**"/>
-    </target>
-    -->
 
     <target name="jar" depends="compile"
         description="Build the castor.jar and castor-xml.jar files">
