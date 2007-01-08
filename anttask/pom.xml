@@ -44,6 +44,20 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					<attach>true</attach>
 				</configuration>
 			</plugin>
+			
+			<!--  redundant; will be removed once we switch to parent structure -->
+			<plugin>
+				<groupId>org.apache.maven.plugins</groupId>
+				<artifactId>maven-source-plugin</artifactId>
+				<executions>
+					<execution>
+						<goals>
+							<goal>jar</goal>
+						</goals>
+					</execution>
+				</executions>
+			</plugin>
+			
 		</plugins>
 		
 		<!--  redundant; will be removed once we switch to parent structure -->
