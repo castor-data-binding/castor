@@ -456,6 +456,41 @@ m.setResolver(cdr);
         </section>
       </section>
     </section>
+    
+    <section title="Serialization">
+    
+    	<section title="Is it true that the use of Castor XML mandates Xerces as XML parser?">
+    	
+    		<p>Yes and no. It actually depends. When requiring <i>pretty printing</i>
+    		   during marshalling, Castor will internally use Apache's Xerces
+    		   to implement this feature. As such, when not using this feature,
+    		   Xerces is not a requirement, and any JAXP-compliant XML parser can
+    		   be used (for unmarshalling).</p>
+    		<p>In other words, with the latter use case, you do <b>not</b> have 
+    		   to download (and use) Xerces separetely.</p>
+    		   
+    	</section>
+
+    	<section title="Do I still have to download Xerces when using Castor XML with Java 5.0?">
+    	
+           	<p>No. Starting with release 1.1, we have added support for using the Xerces 
+           	   instance as shipped with the JRE/JDK for serialization. As such, for 
+           	   Java 5.0 users, this removes the requirement to download Xerces 
+           	   separately when wanting to use 'pretty printing' with Castor XML
+           	   during marshalling.</p>
+           	   
+           	<p>To enable this feature, please change the following 
+           	   property in your <b>local</b> <tt>castor.properties</tt> file 
+           	   (thus redefining the default value) as shown below:</p>
+            	   
+            	<code-panel><![CDATA[
+# Defines the (default) XML serializer factory to use by Castor, which must
+# implement org.exolab.castor.xml.SerializerFactory; default is 
+# org.exolab.castor.xml.XercesXMLSerializerFactory
+org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory]]></code-panel>    		   
+    	</section>
+    	
+    </section>
 
   </body>
 </document>
