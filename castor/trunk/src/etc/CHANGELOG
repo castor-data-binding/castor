@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1814 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for XML serialization using Xerces as bundled with JDK 5.0.
+       Details: http://jira.codehaus.org/browse/CASTOR-1814
+       (Edward - 20070108)
+
 CTF:   Resolved issue CASTOR-1804 using contribution from Edward Kuns [edward.kuns@aspect.com]
        RandomHelper needs updates
        Details: http://jira.codehaus.org/browse/CASTOR-1804
