@@ -45,7 +45,8 @@
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SGTypes;
-import org.exolab.castor.builder.types.XSListODMG30;
+import org.exolab.castor.builder.SourceGeneratorConstants;
+import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JMethod;
@@ -71,7 +72,8 @@ public final class CollectionInfoODMG30 extends CollectionInfo {
     public CollectionInfoODMG30(final XSType contentType, final String name,
                                 final String elementName, final boolean useJava50) {
         super(contentType, name, elementName, useJava50);
-        this.setSchemaType(new XSListODMG30(contentType, useJava50));
+        this.setSchemaType(new XSList(SourceGeneratorConstants.FIELD_INFO_ODMG,
+                contentType, useJava50));
     }
 
     /**

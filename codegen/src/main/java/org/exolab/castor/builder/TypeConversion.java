@@ -49,7 +49,7 @@ import java.util.Enumeration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.types.XSAnyURI;
-import org.exolab.castor.builder.types.XSBinary;
+import org.exolab.castor.builder.types.XSBase64Binary;
 import org.exolab.castor.builder.types.XSBoolean;
 import org.exolab.castor.builder.types.XSByte;
 import org.exolab.castor.builder.types.XSClass;
@@ -64,6 +64,7 @@ import org.exolab.castor.builder.types.XSGMonth;
 import org.exolab.castor.builder.types.XSGMonthDay;
 import org.exolab.castor.builder.types.XSGYear;
 import org.exolab.castor.builder.types.XSGYearMonth;
+import org.exolab.castor.builder.types.XSHexBinary;
 import org.exolab.castor.builder.types.XSId;
 import org.exolab.castor.builder.types.XSIdRef;
 import org.exolab.castor.builder.types.XSInt;
@@ -83,7 +84,7 @@ import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSTime;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.builder.types.XSUnsignedByte;
-import org.exolab.castor.builder.types.XSUnsignedInteger;
+import org.exolab.castor.builder.types.XSUnsignedInt;
 import org.exolab.castor.builder.types.XSUnsignedLong;
 import org.exolab.castor.builder.types.XSUnsignedShort;
 import org.exolab.castor.xml.JavaNaming;
@@ -133,7 +134,7 @@ public final class TypeConversion {
      * @return the XSType which represets the given Simpletype
      */
     public XSType convertType(final SimpleType simpleType, final boolean useJava50) {
-        return convertType(simpleType, _config.usePrimitiveWrapper(), null, useJava50);
+        return convertType(simpleType, null, useJava50);
     }
 
     /**
@@ -146,22 +147,22 @@ public final class TypeConversion {
      */
     public XSType convertType(final SimpleType simpleType, final String packageName,
                               final boolean useJava50) {
-         return convertType(simpleType, _config.usePrimitiveWrapper(), packageName, useJava50);
+         return convertType(simpleType, packageName, _config.usePrimitiveWrapper(), useJava50);
     }
 
     /**
      * Converts the given Simpletype to the appropriate XSType.
      *
      * @param simpleType the SimpleType to convert to an XSType instance
+     * @param packageName the packageName for any new class types
      * @param useWrapper a boolean that when true indicates that primitive
      *        wrappers be used instead of the actual primitives (e.g.
      *        java.lang.Integer instead of int)
-     * @param packageName the packageName for any new class types
      * @param useJava50 true if source code is to be generated for Java 5
      * @return the XSType which represets the given Simpletype
      */
-    public XSType convertType(final SimpleType simpleType, final boolean useWrapper,
-                              final String packageName, final boolean useJava50) {
+    public XSType convertType(final SimpleType simpleType, final String packageName,
+            final boolean useWrapper, final boolean useJava50) {
         if (simpleType == null) {
             return null;
         }
@@ -179,7 +180,7 @@ public final class TypeConversion {
             if (common == null) {
                 return new XSClass(SGTypes.OBJECT);
             }
-            return convertType(common, useWrapper, packageName, useJava50);
+            return convertType(common, packageName, useWrapper, useJava50);
         } else if (base == null) {
             String className = JavaNaming.toJavaClassName(simpleType.getName());
             return new XSClass(new JClass(className));
@@ -198,19 +199,21 @@ public final class TypeConversion {
             case SimpleTypesFactory.IDREF_TYPE:          //-- IDREF
                 return new XSIdRef();
             case SimpleTypesFactory.IDREFS_TYPE:         //-- IDREFS
-                return new XSList(new XSIdRef(), useJava50);
+                return new XSList(SourceGeneratorConstants.FIELD_INFO_VECTOR,
+                        new XSIdRef(), useJava50);
             case SimpleTypesFactory.NMTOKEN_TYPE:        //-- NMTOKEN
                 XSNMToken xsNMToken = new XSNMToken();
                 xsNMToken.setFacets(simpleType);
                 return xsNMToken;
             case SimpleTypesFactory.NMTOKENS_TYPE:       //-- NMTOKENS
-                return new XSList(new XSNMToken(), useJava50);
+                return new XSList(SourceGeneratorConstants.FIELD_INFO_VECTOR,
+                        new XSNMToken(), useJava50);
             case SimpleTypesFactory.ANYURI_TYPE:         //--AnyURI
                 return new XSAnyURI();
             case SimpleTypesFactory.BASE64BINARY_TYPE:   //-- base64Bbinary
-                return new XSBinary(XSType.BASE64BINARY_TYPE, useJava50);
+                return new XSBase64Binary(useJava50);
             case SimpleTypesFactory.HEXBINARY_TYPE:      //-- hexBinary
-                return new XSBinary(XSType.HEXBINARY_TYPE, useJava50);
+                return new XSHexBinary(useJava50);
             case SimpleTypesFactory.BOOLEAN_TYPE:        //-- boolean
                 return new XSBoolean(useWrapper);
             case SimpleTypesFactory.BYTE_TYPE:           //--byte
@@ -312,27 +315,27 @@ public final class TypeConversion {
             case SimpleTypesFactory.NCNAME_TYPE:         //--NCName
                 return new XSNCName();
             case SimpleTypesFactory.NON_POSITIVE_INTEGER_TYPE: //-- nonPositiveInteger
-                XSInteger xsNPInteger = new XSNonPositiveInteger(useWrapper);
+                XSNonPositiveInteger xsNPInteger = new XSNonPositiveInteger(useWrapper);
                 xsNPInteger.setFacets(simpleType);
                 return xsNPInteger;
             case SimpleTypesFactory.NON_NEGATIVE_INTEGER_TYPE: //-- nonNegativeInteger
-                XSInteger xsNNInteger = new XSNonNegativeInteger(useWrapper);
+                XSNonNegativeInteger xsNNInteger = new XSNonNegativeInteger(useWrapper);
                 xsNNInteger.setFacets(simpleType);
                 return xsNNInteger;
             case SimpleTypesFactory.NEGATIVE_INTEGER_TYPE:     //-- negative-integer
-                XSInteger xsNInteger = new XSNegativeInteger(useWrapper);
+                XSNegativeInteger xsNInteger = new XSNegativeInteger(useWrapper);
                 xsNInteger.setFacets(simpleType);
                 return xsNInteger;
             case SimpleTypesFactory.UNSIGNED_INT_TYPE:     //-- unsigned-integer
-                XSLong xsUnsignedInteger = new XSUnsignedInteger(useWrapper);
-                xsUnsignedInteger.setFacets(simpleType);
-                return xsUnsignedInteger;
+                XSUnsignedInt xsUnsignedInt = new XSUnsignedInt(useWrapper);
+                xsUnsignedInt.setFacets(simpleType);
+                return xsUnsignedInt;
             case SimpleTypesFactory.UNSIGNED_SHORT_TYPE:     //-- unsigned-short
-                XSInt xsUnsignedShort = new XSUnsignedShort(useWrapper);
+                XSUnsignedShort xsUnsignedShort = new XSUnsignedShort(useWrapper);
                 xsUnsignedShort.setFacets(simpleType);
                 return xsUnsignedShort;
             case SimpleTypesFactory.UNSIGNED_BYTE_TYPE:     //-- unsigned-byte
-                XSShort xsUnsignedByte = new XSUnsignedByte(useWrapper);
+                XSUnsignedByte xsUnsignedByte = new XSUnsignedByte(useWrapper);
                 xsUnsignedByte.setFacets(simpleType);
                 return xsUnsignedByte;
             case SimpleTypesFactory.UNSIGNED_LONG_TYPE:     //-- unsigned-long
@@ -346,7 +349,7 @@ public final class TypeConversion {
                 }
                 return xsNormalString;
             case SimpleTypesFactory.POSITIVE_INTEGER_TYPE:     //-- positive-integer
-                XSInteger xsPInteger = new XSPositiveInteger(useWrapper);
+                XSPositiveInteger xsPInteger = new XSPositiveInteger(useWrapper);
                 xsPInteger.setFacets(simpleType);
                 return xsPInteger;
             case SimpleTypesFactory.QNAME_TYPE:                //-- QName

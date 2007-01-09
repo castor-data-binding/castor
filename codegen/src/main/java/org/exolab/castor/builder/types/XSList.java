@@ -1,162 +1,159 @@
 /*
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
- *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
- *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
+ * Copyright 2007 Assaf Arkin, Keith Visco, Ralf Joachim
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
+import org.exolab.castor.builder.SourceGeneratorConstants;
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.javasource.JClass;
 import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * A list type....this will change soon.
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * A list type.
+ * 
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
-public class XSList extends XSType {
+public final class XSList extends XSListType {
+    //--------------------------------------------------------------------------
 
-    /** Maximum size of this list. */
-    private int _maxSize = -1; //-- undefined
-    /** Minimum size of this list. */
-    private int _minSize = 0;
+    /** Name of the IDREFS type. */
+    public static final String IDREFS_NAME = "IDREFS";
+    
+    /** name of the NMTOKENS type. */
+    public static final String NMTOKENS_NAME  = "NMTOKENS";
 
-    /** Content type of the collection. */
-    private final XSType _contentType;
+    /** Type number of this XSType. */
+    public static final short TYPE = XSType.COLLECTION;
+
+    //--------------------------------------------------------------------------
+
     /** The JType represented by this XSType. */
     private final JType _jType;
 
-    /**
-     * Creates a Java 1 style collection.
-     *
-     * @param contentType
-     *            type of the collection members
-     * @param useJava50
-     *            if true, the collection will be generated using Java 5
-     *            features such as generics.
-     */
-    public XSList(final XSType contentType, final boolean useJava50) {
-        super(XSType.COLLECTION);
-        this._contentType = contentType;
-        this._jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
-    } //-- XSList
+    //--------------------------------------------------------------------------
 
     /**
-     * Returns the JType that this XSType represents.
-     * @return the JType that this XSType represents.
+     * Create a XSList.
+     *
+     * @param colType Type of collection to use.
+     * @param contentType Type of the collection members.
+     * @param useJava50 If true, the collection will be generated using Java 5
+     *        features such as generics.
      */
-    public JType getJType() {
-        return this._jType;
+    public XSList(final String colType, final XSType contentType, final boolean useJava50) {
+        super(contentType);
+        
+        if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)) {
+            _jType = new JCollectionType("java.util.List", "java.util.ArrayList",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_COLLECTION)) {
+            _jType = new JCollectionType("java.util.Collection", "java.util.LinkedList",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SET)) {
+            _jType = new JCollectionType("java.util.Set", "java.util.HashSet",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SORTED_SET)) {
+            _jType = new JCollectionType("java.util.SortedSet", "java.util.TreeSet",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
+            _jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ODMG)) {
+            _jType = new JClass("org.odmg.DArray");
+        } else {
+            _jType = null;
+        }
     }
 
-    /**
-     * Returns the minimum allowed size for this list.
-     * @return the minimum allowed size for this list.
-     */
-    public final int getMinimumSize() {
-        return _minSize;
-    } //-- getMinimumSize
+    //--------------------------------------------------------------------------
 
     /**
-     * Returns the maximum allowed size for this list.
-     * @return the maximum allowed size for this list.
+     * {@inheritDoc}
      */
-    public final int getMaximumSize() {
-        return _maxSize;
-    } //-- getMaximumSize
+    public String getName() {
+        short type = ((XSListType) this).getContentType().getType();
+        if (type == NMTOKEN_TYPE) {
+            return NMTOKENS_NAME;
+        } else if (type == IDREF_TYPE) {
+            return IDREFS_NAME;
+        } else {
+            return _jType.getName();
+        }
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public short getType() { return TYPE; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isPrimitive() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isDateTime() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public JType getJType() { return _jType; }
 
     /**
-     * Returns the type contained in the list.
-     * @return the type contained in the list.
+     * {@inheritDoc}
      */
-    public final XSType getContentType() {
-        return _contentType;
+    public String newInstanceCode() {
+        return "null;";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String createToJavaObjectCode(final String variableName) {
+        return variableName;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String createFromJavaObjectCode(final String variableName) {
+        return "(" + getJType().toString() + ") " + variableName;
     }
 
-    /**
-     * Sets the maximum allowed size for this list.
-     * @param size new maximum size for this list
-     */
-    public final void setMaximumSize(final int size) {
-        _maxSize = size;
-    } //-- setMaximumSize
+    //--------------------------------------------------------------------------
 
     /**
-     * Sets the minimum allowed size for this list.
-     * @param size new minimum size for this list
+     * {@inheritDoc}
      */
-    public final void setMinimumSize(final int size) {
-        _minSize = size;
-    } //-- setMinimumSize
-
-    /**
-     * Transfer facets from the provided simpleType to <code>this</code>.
-     *
-     * @param simpleType
-     *            The SimpleType containing our facets.
-     * @see org.exolab.castor.builder.types.XSType#getFacets
-     */
-    public final void setFacets(final SimpleType simpleType) {
+    protected void setFacet(final Facet facet) {
         // Not implemented
     }
 
     /**
-     * Creates the validation code for an instance of this XSType. The
-     * validation code should if necessary create a newly configured
-     * TypeValidator, that should then be added to a FieldValidator instance
-     * whose name is provided.
-     *
-     * @param fixedValue
-     *            a fixed value to use if any
-     * @param jsc
-     *            the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName
-     *            the name of the FieldValidator that the configured
-     *            TypeValidator should be added to.
+     * {@inheritDoc}
      */
-    public final void validationCode(final JSourceCode jsc, final String fixedValue,
-                               final String fieldValidatorInstanceName) {
-        //--TBD
+    public void validationCode(final JSourceCode jsc,
+            final String fixedValue, final String validatorInstanceName) {
+        // Not implemented
     }
-
-} //-- XSList
+    
+    //--------------------------------------------------------------------------
+}

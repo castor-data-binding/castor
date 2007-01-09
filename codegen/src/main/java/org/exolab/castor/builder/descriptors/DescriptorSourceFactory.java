@@ -56,7 +56,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
-import org.exolab.castor.builder.types.XSList;
+import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.XMLConstants;
 import org.exolab.javasource.JClass;
@@ -544,7 +544,7 @@ public final class DescriptorSourceFactory {
             XSType xsType = member.getSchemaType();
             //--handle collections
             if ((xsType.getType() == XSType.COLLECTION)) {
-                XSList xsList = (XSList) xsType;
+                XSListType xsList = (XSListType) xsType;
 
                 jsc.add("fieldValidator.setMinOccurs(");
                 jsc.append(Integer.toString(xsList.getMinimumSize()));

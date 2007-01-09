@@ -18,8 +18,8 @@ package org.exolab.castor.builder;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
-import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JClass;
@@ -299,8 +299,8 @@ public final class XMLFieldHandlerFactory {
             isAbstract = jClass.getModifiers().isAbstract();
         }
 
-        if (!isAbstract && member.getSchemaType() instanceof XSList) {
-            XSList xsList = (XSList) member.getSchemaType();
+        if (!isAbstract && member.getSchemaType() instanceof XSListType) {
+            XSListType xsList = (XSListType) member.getSchemaType();
             if (xsList.getContentType().getJType() instanceof JClass) {
                 JClass componentType = (JClass) xsList.getContentType().getJType();
                 if (componentType.getModifiers().isAbstract()) {
