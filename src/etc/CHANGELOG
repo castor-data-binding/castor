@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Doc:   Resolved issue CASTOR-1816 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Cleanup on ddlgen properties doc
+       Details: http://jira.codehaus.org/browse/CASTOR-1816
+       (Edward - 20070108)
+
 XML:   Resolved issue CASTOR-1813 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Refactored org.exolab.castor.builder.types package.
        Details: http://jira.codehaus.org/browse/CASTOR-1813

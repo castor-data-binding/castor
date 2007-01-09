@@ -32,27 +32,47 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-            	<h2>Changes</h2>
-            	
-            	<h3>XML serialization with JDK 5.0</h3>
-            	
-            	<p>As Sun has included Apache's Xerces with Java 5.0 by default,
-            	   we have added support for using the Xerces instance as shipped 
-            	   with the JRE/JDK for serialization. As such, for Java 5.0 users,
-            	   this removes the requirement to download Xerces separately.</p>
-            	   
-            	<p>To enable this new feature, please change the following 
-            	   property in your <b>local</b> <tt>castor.properties</tt> file 
-            	   (thus redefining the default value) as shown below:</p>
-            	   
-            	<code-panel><![CDATA[
+              <h2>Changes</h2>
+
+              <h3>XML serialization with JDK 5.0</h3>
+
+              <p>As Sun has included Apache's Xerces with Java 5.0 by default,
+                 we have added support for using the Xerces instance as shipped
+                 with the JRE/JDK for serialization. As such, for Java 5.0 users,
+                 this removes the requirement to download Xerces separately.</p>
+
+              <p>To enable this new feature, please change the following
+                 property in your <b>local</b> <tt>castor.properties</tt> file
+                 (thus redefining the default value) as shown below:</p>
+
+              <code-panel><![CDATA[
 # Defines the (default) XML serializer factory to use by Castor, which must
-# implement org.exolab.castor.xml.SerializerFactory; default is 
+# implement org.exolab.castor.xml.SerializerFactory; default is
 # org.exolab.castor.xml.XercesXMLSerializerFactory
 org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory
-            	]]></code-panel>
+              ]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1816" tool="jira">
+                    <description>
+                        Cleanup on ddlgen properties doc
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Doc</module>
+                    <date>20070108</date>
+                </bug>
                 <bug id="1813" tool="jira">
                     <description>
                         Refactored org.exolab.castor.builder.types package.

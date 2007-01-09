@@ -1,12 +1,11 @@
 <?xml version="1.0"?>
-
 <document url="http://castor.org/srcgen-properties.xml">
 
   <properties>
-    <title>Castor DDL Generator - Properties</title>
+    <title>Castor DDL Generator -- Properties</title>
     <author email="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</author>
     <abstract>
-       Describes properties of Castor DDL Generator.
+       Describes properties of the Castor DDL Generator.
     </abstract>
     <status>Draft</status>
   </properties>
@@ -16,26 +15,35 @@
     <title>Castor DDL Generator - Properties</title>
 
     <section title="Overview">
-        
+
       <p>
-        At startup DDL Generator first evaluates the commandline options. Next it loads
-        the global properties specified at commandline or the default one included
-        with DDL Generator if none have been specified. From this global configuration it
-        takes 2 important startup properties. <tt>org.castor.ddlgen.Generators</tt>
-        tells DDL Genepropertiy about the supported database engines. If the database
-        engine to generate SQL script for is not specified at commandline it is taken
-        from <tt>org.castor.ddlgen.DefaultEngine</tt>. The last step at startup is,
-        to read the specific configuration of this database engine. If specified at
-        commandline a custom one will also be used here.
+        At startup, the DDL Generator first evaluates the command line options.
+        Next it loads the global properties on the command line if specified,
+        otherwise the default properties included with the DDL Generator.
+        There are two important properties loaded at startup:
+      </p>
+      <dl>
+        <dt><tt>org.castor.ddlgen.Generators</tt></dt>
+        <dd>tells the DDL Generator about the supported database engines.</dd>
+        <dt><tt>org.castor.ddlgen.DefaultEngine</tt></dt>
+        <dd>
+          The database engine for which to generate a SQL script.  Can be
+          overridden on the command line.
+        </dd>
+      </dl>
+      <p>
+        The last step at startup is to read the specific configuration of the
+        database engine being used.  A custom configuration can be provided on
+        the command line to override the default.
       </p>
 
     </section>
-        
+
     <section title="Global properties">
-        
+
       <p>
         Below you can find a list of global properties to control various advanced
-        options of DDL Generator.
+        options of the DDL Generator.
       </p>
 
       <ctable>
@@ -353,15 +361,15 @@
       </ctable>
 
       <section title="Supported database engines">
-        
+
         <p>
           The supported database engines are defined as follows:
         </p>
 
         <code-panel><![CDATA[
-# 
+#
 # generator classes of supported database engines
-# 
+#
 org.castor.ddlgen.Generators=\
   org.castor.ddlgen.engine.db2.Db2Generator,\
   org.castor.ddlgen.engine.derby.DerbyGenerator,\
@@ -373,13 +381,13 @@ org.castor.ddlgen.Generators=\
   org.castor.ddlgen.engine.postgresql.PostgresqlGenerator,\
   org.castor.ddlgen.engine.sapdb.SapdbGenerator,\
   org.castor.ddlgen.engine.sybase.SybaseGenerator]]></code-panel>
-  
+
       </section>
-        
+
       <section title="Grouping of DDL statements">
-        
+
         <p>
-          There are 2 supported modes to group DDL statements. For a simple example the
+          There are 2 supported modes to group DDL statements. For a simple example, the
           output of both modes is:
         </p>
 
@@ -387,34 +395,34 @@ org.castor.ddlgen.Generators=\
 drop A if exist
 create A(IDA int);
 alter table A add primary key (IDA)
- 
+
 drop B if exist
 create B(IDB int);
 alter table B add primary key (IDB)]]></code-panel>
-  
+
         <code-panel top-caption="org.castor.ddlgen.GroupStatements=DDLTYPE"><![CDATA[
 drop A if exist
 drop B if exist
- 
+
 create A(IDA int);
 create B(IDB int);
- 
+
 alter table A add primary key (IDA)
 alter table B add primary key (IDB)]]></code-panel>
-  
+
       </section>
-        
+
     </section>
-        
+
     <section title="Specific properties">
-        
+
       <p>
         Below you can find a list of specific properties to control various advanced
-        options of DDL Generator.
+        options of the DDL Generator.
       </p>
 
       <section title="Properties common for all database engines">
-        
+
         <ctable>
           <cheader>
             <th align="center">Option</th>
@@ -440,28 +448,28 @@ alter table B add primary key (IDB)]]></code-panel>
         </ctable>
 
         <section title="Key generators">
-        
+
           <p>
             The key generators supported by a database engine are defined as follows
-            (example taken from oracle):
+            (example taken from Oracle):
           </p>
 
           <code-panel><![CDATA[
-# 
+#
 # key generator factory classes of supported database engines
-# 
+#
 org.castor.ddlgen.KeyGeneratorFactories=\
   org.castor.ddlgen.keygenerator.HighLowKeyGeneratorFactory,\
   org.castor.ddlgen.keygenerator.MaxKeyGeneratorFactory,\
   org.castor.ddlgen.keygenerator.UUIDKeyGeneratorFactory,\
   org.castor.ddlgen.engine.oracle.OracleSequenceKeyGeneratorFactory]]></code-panel>
-  
+
         </section>
-        
+
       </section>
-        
-      <section title="Properties for db2, hsql, oracle, postgresql and sapdb">
-        
+
+      <section title="Properties for db2, hsql, Oracle, Postgresql and sapdb">
+
         <ctable>
           <cheader>
             <th align="center">Option</th>
@@ -480,10 +488,10 @@ org.castor.ddlgen.KeyGeneratorFactories=\
         </ctable>
 
         <section title="Trigger template">
-        
+
           <p>
-            Blow you can take a look at the default trigger template defined for oracle.
-            DDL Generator will replace the parameters in brackets with appropriate
+            Below you can take a look at the default trigger template defined for Oracle.
+            The DDL Generator will replace the parameters in brackets with appropriate
             values (e.g. &lt;table_name&gt;).
           </p>
 
@@ -493,34 +501,34 @@ org.castor.ddlgen.KeyGeneratorFactories=\
 #
 org.castor.ddlgen.TriggerTemplate=\
 CREATE TRIGGER <trigger_name>\n\t\
-	BEFORE INSERT OR UPDATE ON <table_name>\n\t\
-	FOR EACH ROW\n\t\
-	DECLARE\n\t\t\
-		iCounter <table_name>.<pk_name>%TYPE;\n\t\t\
-		cannot_change_counter EXCEPTION;\n\t\
-	BEGIN\n\t\t\
-		IF INSERTING THEN\n\t\t\t\
-			Select <sequence_name>.NEXTVAL INTO iCounter FROM Dual;\n\t\t\t\
-			:new.<pk_name> := iCounter;\n\t\t\
-		END IF;\n\t\
+  BEFORE INSERT OR UPDATE ON <table_name>\n\t\
+  FOR EACH ROW\n\t\
+  DECLARE\n\t\t\
+    iCounter <table_name>.<pk_name>%TYPE;\n\t\t\
+    cannot_change_counter EXCEPTION;\n\t\
+  BEGIN\n\t\t\
+    IF INSERTING THEN\n\t\t\t\
+      Select <sequence_name>.NEXTVAL INTO iCounter FROM Dual;\n\t\t\t\
+      :new.<pk_name> := iCounter;\n\t\t\
+    END IF;\n\t\
 \n\t\t\
-		IF UPDATING THEN\n\t\t\t\
-			IF NOT (:new.<pk_name> = :old.<pk_name>) THEN\n\t\t\t\t\
-				RAISE cannot_change_counter;\n\t\t\t\
-			END IF;\n\t\t\
-		END IF;\n\t\
+    IF UPDATING THEN\n\t\t\t\
+      IF NOT (:new.<pk_name> = :old.<pk_name>) THEN\n\t\t\t\t\
+        RAISE cannot_change_counter;\n\t\t\t\
+      END IF;\n\t\t\
+    END IF;\n\t\
 \n\t\
 EXCEPTION\n\t\t\
-	WHEN cannot_change_counter THEN\n\t\t\t\
-		raise_application_error(-20000, 'Cannot Change Counter Value');\n\t\
+  WHEN cannot_change_counter THEN\n\t\t\t\
+    raise_application_error(-20000, 'Cannot Change Counter Value');\n\t\
 END;]]></code-panel>
-  
+
         </section>
-        
+
       </section>
-        
-      <section title="Properties for mysql only">
-        
+
+      <section title="Properties for MySQL only">
+
         <ctable>
           <cheader>
             <th align="center">Option</th>
@@ -557,10 +565,9 @@ END;]]></code-panel>
         </ctable>
 
       </section>
-        
+
     </section>
 
   </body>
 
 </document>
-
