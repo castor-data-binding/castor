@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1817 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Clean up Java 5 build complaints in ddlgen
+       Details: http://jira.codehaus.org/browse/CASTOR-1817
+       (Edward - 20070108)
+
 Doc:   Resolved issue CASTOR-1816 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Cleanup on ddlgen properties doc
        Details: http://jira.codehaus.org/browse/CASTOR-1816
