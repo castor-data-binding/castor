@@ -53,6 +53,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
               ]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1817" tool="jira">
+                    <description>
+                        Clean up Java 5 build complaints in ddlgen
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070108</date>
+                </bug>
                 <bug id="1816" tool="jira">
                     <description>
                         Cleanup on ddlgen properties doc
