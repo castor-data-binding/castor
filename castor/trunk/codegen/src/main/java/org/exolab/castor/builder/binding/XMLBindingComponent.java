@@ -1239,8 +1239,8 @@ public final class XMLBindingComponent implements BindingComponent {
                     packageName = _config.lookupPackageByNamespace(ns);
                 }
 
-                result = _typeConversion.convertType((SimpleType) type, useWrapper,
-                                                     packageName, _config.useJava50());
+                result = _typeConversion.convertType((SimpleType) type, 
+                        packageName, useWrapper,_config.useJava50());
             }
         }
 

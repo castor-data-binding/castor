@@ -1,127 +1,98 @@
 /*
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
- *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
- *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
- *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2002 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
+ * Copyright 2007 Arnaud Blandin, Ralf Joachim
+ * 
+ * Licensed under the Apache License, Version 2.0 (the "License"); you may not
+ * use this file except in compliance with the License. You may obtain a copy of
+ * the License at
+ * 
+ * http://www.apache.org/licenses/LICENSE-2.0
+ * 
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS, WITHOUT
+ * WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied. See the
+ * License for the specific language governing permissions and limitations under
+ * the License.
  */
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The XML Schema xsd:anyURI type.
+ * The xsd:anyURI XML Schema type.
  *
- * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
+ * @author <a href="mailto:blandin AT intalio DOT com">Arnaud Blandin</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public final class XSAnyURI extends XSType {
-    // FIXME  This type does not appear to be implemented.
+public final class XSAnyURI extends AbstractLengthFacet {
+    //--------------------------------------------------------------------------
 
-    /**
-     * The JType represented by this XSType.
-     * It could be better to use the org.apache.xerces.utils.URI
-     * pro : represent a real URI
-     * con : the source code generated must rely on Xerces
-     */
+    /** Name of this XSType. */
+    public static final String NAME = "anyURI";
+    
+    /** Type number of this XSType. */
+    public static final short TYPE = XSType.ANYURI_TYPE;
+
+    /** The JType represented by this XSType. */
     private static final JType JTYPE = new JClass("java.lang.String");
 
-    /**
-     * No-arg constructor.
-     */
-    public XSAnyURI() {
-        super(XSType.ANYURI_TYPE);
-    }
+    //--------------------------------------------------------------------------
 
     /**
-     * Returns the String necessary to convert an Object to an instance of this
-     * XSType. This method is really only useful for primitive types.
-     *
-     * @param variableName
-     *            the name of the Object
-     * @return the String necessary to convert an Object to an instance of this
-     *         XSType
+     * {@inheritDoc}
+     */
+    public String getName() { return NAME; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public short getType() { return TYPE; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isPrimitive() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isDateTime() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public JType getJType() { return JTYPE; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String newInstanceCode() {
+        return "new java.lang.String();";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String createToJavaObjectCode(final String variableName) {
+        return variableName;
+    }
+    
+    /**
+     * {@inheritDoc}
      */
     public String createFromJavaObjectCode(final String variableName) {
         return "(java.lang.String) " + variableName;
-    } //-- fromJavaObject
-
-    /**
-     * Transfer facets from the provided simpleType to <code>this</code>.
-     *
-     * @param simpleType
-     *            The SimpleType containing our facets.
-     * @see org.exolab.castor.builder.types.XSType#getFacets
-     */
-    public void setFacets(final SimpleType simpleType) {
-        // Not implemented.
     }
 
-    /**
-     * Returns the JType that this XSType represents.
-     * @return the JType that this XSType represents.
-     */
-    public JType getJType() {
-        return XSAnyURI.JTYPE;
-    }
+    //--------------------------------------------------------------------------
 
     /**
-     * Creates the validation code for an instance of this XSType. The
-     * validation code should, if necessary, create a newly configured
-     * TypeValidator that should then be added to the FieldValidator instance
-     * whose name is provided.
-     *
-     * @param fixedValue
-     *            a fixed value to use if any
-     * @param jsc
-     *            the JSourceCode to fill in.
-     * @param fieldValidatorInstanceName
-     *            the name of the FieldValidator that the configured
-     *            TypeValidator should be added to.
+     * {@inheritDoc}
      */
-    public void validationCode(final JSourceCode jsc, final String fixedValue,
-                               final String fieldValidatorInstanceName) {
-        // TODO VALIDATE THE URI
+    public void validationCode(final JSourceCode jsc,
+            final String fixedValue, final String validatorInstanceName) {
+        // Not implemented
     }
-
-} //-- XSAnyURI
+}

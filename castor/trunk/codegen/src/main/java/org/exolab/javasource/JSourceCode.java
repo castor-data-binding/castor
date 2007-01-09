@@ -143,7 +143,7 @@ public final class JSourceCode {
             indent();
             addWithIndent(pattern.substring(1), arguments);
             unindent();
-        } else if ((pattern.indexOf('{') >= 0) && (pattern.indexOf('}') >= 0)) {
+        } else if ((pattern.indexOf('{') + 2) == pattern.indexOf('}')) {
             add(MessageFormat.format(pattern, arguments));
         } else {
             add(pattern);

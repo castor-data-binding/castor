@@ -51,6 +51,8 @@
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.builder.SourceGeneratorConstants;
+import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
@@ -113,7 +115,7 @@ public class CollectionInfo extends FieldInfo {
      */
     public CollectionInfo(final XSType contentType, final String name,
             final String elementName, final boolean useJava50) {
-        super(new XSList(contentType, useJava50), name);
+        super(new XSList(SourceGeneratorConstants.FIELD_INFO_VECTOR, contentType, useJava50), name);
 
         if (elementName.charAt(0) == '_') {
             this._elementName = elementName.substring(1);
@@ -194,8 +196,8 @@ public class CollectionInfo extends FieldInfo {
      * Returns the schema type represented by this collection.
      * @return the schema type represented by this collection.
      */
-    public final XSList getXSList() {
-        return (XSList) this.getSchemaType();
+    public final XSListType getXSList() {
+        return (XSListType) this.getSchemaType();
     }
 
     /**

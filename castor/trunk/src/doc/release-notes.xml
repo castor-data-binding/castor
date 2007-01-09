@@ -53,6 +53,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
             	]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1813" tool="jira">
+                    <description>
+                        Refactored org.exolab.castor.builder.types package.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070109</date>
+                </bug>
                 <bug id="1814" tool="jira">
                     <description>
                         Added support for XML serialization using Xerces as bundled with JDK 5.0

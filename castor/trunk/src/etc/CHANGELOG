@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1813 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Refactored org.exolab.castor.builder.types package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1813
+       (Ralf - 20070109)
+
 XML:   Resolved issue CASTOR-1814 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for XML serialization using Xerces as bundled with JDK 5.0.
        Details: http://jira.codehaus.org/browse/CASTOR-1814

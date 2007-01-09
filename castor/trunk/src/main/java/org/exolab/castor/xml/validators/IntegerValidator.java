@@ -228,7 +228,7 @@ public class IntegerValidator extends PatternValidator implements TypeValidator 
      * @param maxValue
      *            the maximum (exclusive) value for xsd:integer validation.
      */
-    public void setMaxExclusive(final int maxValue) {
+    public void setMaxExclusive(final long maxValue) {
         _useMax = true;
         _max = maxValue - 1;
     } // -- setMaxExclusive

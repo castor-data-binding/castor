@@ -20,26 +20,26 @@ import org.exolab.javasource.JSourceCode;
 import org.exolab.javasource.JType;
 
 /**
- * The xsd:unsignedShort XML Schema type.
+ * The xsd:unsignedInt XML Schema type.
  *
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
-public final class XSUnsignedShort extends AbstractDigitsFacet {
+public final class XSUnsignedInt extends AbstractDigitsFacet {
     //--------------------------------------------------------------------------
-    
+
     /** Name of this XSType. */
-    public static final String NAME = "unsignedShort";
+    public static final String NAME = "unsignedInt";
     
     /** Type number of this XSType. */
-    public static final short TYPE = XSType.UNSIGNED_SHORT_TYPE;
-    
-    /** A constant holding the minimum value an xsd:unsignedShort can have, 0. */
+    public static final short TYPE = XSType.UNSIGNED_INT_TYPE;
+
+    /** A constant holding the minimum value an xsd:unsignedInt can have, 0. */
     public static final String MIN_VALUE = "0";
     
-    /** A constant holding the maximum value an xsd:unsignedShort can have, 65535. */
-    public static final String MAX_VALUE = "65535";
+    /** A constant holding the maximum value an xsd:unsignedInt can have, 4294967295. */
+    public static final String MAX_VALUE = "4294967295";
 
     //--------------------------------------------------------------------------
 
@@ -48,29 +48,29 @@ public final class XSUnsignedShort extends AbstractDigitsFacet {
     
     /** The JType represented by this XSType. */
     private final JType _jType;
-    
-    //--------------------------------------------------------------------------
 
+    //--------------------------------------------------------------------------
+    
     /**
      * No-arg constructor.
      */
-    public XSUnsignedShort() {
+    public XSUnsignedInt() {
         this(false);
     }
 
     /**
-     * Constructs a new XSUnsignedShort.
+     * Constructs a new XSUnsignedInteger.
      * 
      * @param asWrapper If true, use the java.lang wrapper class.
      */
-    public XSUnsignedShort(final boolean asWrapper) {
+    public XSUnsignedInt(final boolean asWrapper) {
         super();
         
         _asWrapper = asWrapper;
         if (_asWrapper) {
-            _jType = new JClass("java.lang.Integer");
+            _jType = new JClass("java.lang.Long");
         } else {
-            _jType = JType.INT;
+            _jType = JType.LONG;
         }
         
         setMinInclusive(MIN_VALUE);
@@ -78,7 +78,7 @@ public final class XSUnsignedShort extends AbstractDigitsFacet {
     }
 
     //--------------------------------------------------------------------------
-
+    
     /**
      * {@inheritDoc}
      */
@@ -103,12 +103,12 @@ public final class XSUnsignedShort extends AbstractDigitsFacet {
      * {@inheritDoc}
      */
     public JType getJType() { return _jType; }
-
+    
     /**
      * {@inheritDoc}
      */
     public String newInstanceCode() {
-        return "new java.lang.Integer(0);";
+        return "new java.lang.Long(0);";
     }
     
     /**
@@ -116,49 +116,49 @@ public final class XSUnsignedShort extends AbstractDigitsFacet {
      */
     public String createToJavaObjectCode(final String variableName) {
         if (_asWrapper) { return variableName; }
-        return "new java.lang.Integer(" + variableName + ")";
+        return "new java.lang.Long(" + variableName + ")";
     }
 
     /**
      * {@inheritDoc}
      */
     public String createFromJavaObjectCode(final String variableName) {
-        if (_asWrapper) { return "((java.lang.Integer) " + variableName + ")"; }
-        return "((java.lang.Integer) " + variableName + ").intValue()";
+        if (_asWrapper) { return "((java.lang.Long) " + variableName + ")"; }
+        return "((java.lang.Long) " + variableName + ").longValue()";
     }
     
     //--------------------------------------------------------------------------
 
-   /**
-    * {@inheritDoc}
-    */
-   public void validationCode(final JSourceCode jsc,
-           final String fixedValue, final String validatorInstanceName) {
-       jsc.add("org.exolab.castor.xml.validators.IntValidator typeValidator;\n"
-             + "typeValidator = new org.exolab.castor.xml.validators.IntValidator();\n"
-             + "{0}.setValidator(typeValidator);", validatorInstanceName);
+    /**
+     * {@inheritDoc}
+     */
+    public void validationCode(final JSourceCode jsc,
+         final String fixedValue, final String validatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.LongValidator typeValidator;\n"
+              + "typeValidator = new org.exolab.castor.xml.validators.LongValidator();\n"
+              + "{0}.setValidator(typeValidator);", validatorInstanceName);
 
-       if (fixedValue != null) {
-           jsc.add("typeValidator.setFixed(" + fixedValue + ");");
-       }
+        if (fixedValue != null) {
+            jsc.add("typeValidator.setFixed(" + fixedValue + ");");
+        }
 
-       codePatternFacet(jsc, "typeValidator");
-       codeWhiteSpaceFacet(jsc, "typeValidator");
+        codePatternFacet(jsc, "typeValidator");
+        codeWhiteSpaceFacet(jsc, "typeValidator");
 
-       if (getMinExclusive() != null) {
-           jsc.add("typeValidator.setMinExclusive(" + getMinExclusive() + ");");
-       } else if (getMinInclusive() != null) {
-           jsc.add("typeValidator.setMinInclusive(" + getMinInclusive() + ");");
-       }
+        if (getMinExclusive() != null) {
+            jsc.add("typeValidator.setMinExclusive(" + getMinExclusive() + "L);");
+        } else if (getMinInclusive() != null) {
+            jsc.add("typeValidator.setMinInclusive(" + getMinInclusive() + "L);");
+        }
 
-       if (getMaxExclusive() != null) {
-           jsc.add("typeValidator.setMaxExclusive(" + getMaxExclusive() + ");");
-       } else if (getMaxInclusive() != null) {
-           jsc.add("typeValidator.setMaxInclusive(" + getMaxInclusive() + ");");
-       }
+        if (getMaxExclusive() != null) {
+            jsc.add("typeValidator.setMaxExclusive(" + getMaxExclusive() + "L);");
+        } else if (getMaxInclusive() != null) {
+            jsc.add("typeValidator.setMaxInclusive(" + getMaxInclusive() + "L);");
+        }
 
-       codeDigitsFacet(jsc, "typeValidator");
-   }
-
-   //--------------------------------------------------------------------------
+        codeDigitsFacet(jsc, "typeValidator");
+    }
+   
+    //--------------------------------------------------------------------------
 }

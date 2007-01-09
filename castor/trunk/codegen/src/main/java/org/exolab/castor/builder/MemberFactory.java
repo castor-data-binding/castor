@@ -56,8 +56,8 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
-import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.schema.Annotated;
@@ -134,7 +134,7 @@ public final class MemberFactory extends BaseFactory {
 
         if (any.getMaxOccurs() > 1 || any.getMaxOccurs() < 0) {
             result = this.getInfoFactory().createCollection(xsType, vName, "anyObject", useJava50);
-            XSList xsList = ((CollectionInfo) result).getXSList();
+            XSListType xsList = ((CollectionInfo) result).getXSList();
             xsList.setMinimumSize(any.getMinOccurs());
             xsList.setMaximumSize(any.getMaxOccurs());
         } else {
@@ -198,9 +198,8 @@ public final class MemberFactory extends BaseFactory {
         String fieldName = "_content";               //new xsType()???
         FieldInfo fInfo = null;
         if (xsType.getType() == XSType.COLLECTION) {
-            fInfo = this.getInfoFactory().createCollection(((XSList) xsType).getContentType(),
-                                                       fieldName,
-                                                       null, useJava50);
+            fInfo = this.getInfoFactory().createCollection(
+                    ((XSListType) xsType).getContentType(), fieldName, null, useJava50);
         } else {
             fInfo = this.getInfoFactory().createFieldInfo(xsType, fieldName);
         }
@@ -360,7 +359,7 @@ public final class MemberFactory extends BaseFactory {
             cInfo = this.getInfoFactory().createCollection(xsType, vName, memberName,
                                                        component.getCollectionType(), useJava50);
 
-            XSList xsList = cInfo.getXSList();
+            XSListType xsList = cInfo.getXSList();
             if (!simpleTypeCollection) {
                 xsList.setMaximumSize(maxOccurs);
                 xsList.setMinimumSize(minOccurs);
@@ -373,7 +372,7 @@ public final class MemberFactory extends BaseFactory {
                      break;
                 case XSType.COLLECTION:
                     String collectionName = component.getCollectionType();
-                    XSType contentType = ((XSList) xsType).getContentType();
+                    XSType contentType = ((XSListType) xsType).getContentType();
                     fieldInfo = this.getInfoFactory().createCollection(contentType,
                                                                    memberName, memberName,
                                                                    collectionName, useJava50);

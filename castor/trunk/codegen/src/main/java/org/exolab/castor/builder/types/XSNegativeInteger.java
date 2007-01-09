@@ -1,70 +1,160 @@
 /*
- * Redistribution and use of this software and associated documentation
- * ("Software"), with or without modification, are permitted provided
- * that the following conditions are met:
+ * Copyright 2007 Keith Visco, Ralf Joachim
  *
- * 1. Redistributions of source code must retain copyright
- *    statements and notices.  Redistributions must also contain a
- *    copy of this document.
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
  *
- * 2. Redistributions in binary form must reproduce the
- *    above copyright notice, this list of conditions and the
- *    following disclaimer in the documentation and/or other
- *    materials provided with the distribution.
+ * http://www.apache.org/licenses/LICENSE-2.0
  *
- * 3. The name "Exolab" must not be used to endorse or promote
- *    products derived from this Software without prior written
- *    permission of Intalio, Inc.  For written permission,
- *    please contact info@exolab.org.
- *
- * 4. Products derived from this Software may not be called "Exolab"
- *    nor may "Exolab" appear in their names without prior written
- *    permission of Intalio, Inc. Exolab is a registered
- *    trademark of Intalio, Inc.
- *
- * 5. Due credit should be given to the Exolab Project
- *    (http://www.exolab.org/).
- *
- * THIS SOFTWARE IS PROVIDED BY INTALIO, INC. AND CONTRIBUTORS
- * ``AS IS'' AND ANY EXPRESSED OR IMPLIED WARRANTIES, INCLUDING, BUT
- * NOT LIMITED TO, THE IMPLIED WARRANTIES OF MERCHANTABILITY AND
- * FITNESS FOR A PARTICULAR PURPOSE ARE DISCLAIMED.  IN NO EVENT SHALL
- * INTALIO, INC. OR ITS CONTRIBUTORS BE LIABLE FOR ANY DIRECT,
- * INDIRECT, INCIDENTAL, SPECIAL, EXEMPLARY, OR CONSEQUENTIAL DAMAGES
- * (INCLUDING, BUT NOT LIMITED TO, PROCUREMENT OF SUBSTITUTE GOODS OR
- * SERVICES; LOSS OF USE, DATA, OR PROFITS; OR BUSINESS INTERRUPTION)
- * HOWEVER CAUSED AND ON ANY THEORY OF LIABILITY, WHETHER IN CONTRACT,
- * STRICT LIABILITY, OR TORT (INCLUDING NEGLIGENCE OR OTHERWISE)
- * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
- * OF THE POSSIBILITY OF SUCH DAMAGE.
- *
- * Copyright 1999-2003 (C) Intalio, Inc. All Rights Reserved.
- *
- * $Id$
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
  */
 package org.exolab.castor.builder.types;
 
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JSourceCode;
+import org.exolab.javasource.JType;
+
 /**
- * The XML Schema "negative-integer" type.
- * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
+ * The xsd:negativeInteger XML Schema type.
+ * 
+ * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
-public final class XSNegativeInteger extends XSInteger {
+public final class XSNegativeInteger extends AbstractDigitsFacet {
+    //--------------------------------------------------------------------------
+
+    /** Name of this XSType. */
+    public static final String NAME = "negativeInteger";
+    
+    /** Type number of this XSType. */
+    public static final short TYPE = XSType.NEGATIVE_INTEGER_TYPE;
+
+    /** A constant holding the maximum value an xsd:negativeInteger can have, -1. */
+    public static final String MAX_VALUE = "-1";
+    
+    //--------------------------------------------------------------------------
+
+    /** True if this type is implemented using the wrapper class. */
+    private final boolean _asWrapper;
+    
+    /** The JType represented by this XSType. */
+    private final JType _jType;
+
+    //--------------------------------------------------------------------------
 
     /**
      * No-arg constructor.
      */
     public XSNegativeInteger() {
         this(false);
-    } //-- XSInteger
+    }
 
     /**
      * Constructs a new XSNegativeInteger.
-     * @param asWrapper if true, use the java.lang wrapper class.
+     * 
+     * @param asWrapper If true, use the java.lang wrapper class.
      */
     public XSNegativeInteger(final boolean asWrapper) {
-        super(asWrapper, XSType.NEGATIVE_INTEGER_TYPE);
-        super.setMaxInclusive(MAX_NEGATIVE_INTEGER);
-    } //-- XSInteger
+        super();
+        
+        _asWrapper = asWrapper;
+        if (_asWrapper) {
+            _jType = new JClass("java.lang.Long");
+        } else {
+            _jType = JType.LONG;
+        }
+        
+        setMaxInclusive(MAX_VALUE);
+    }
 
-} //-- XSNegativeInteger
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getName() { return NAME; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public short getType() { return TYPE; }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isPrimitive() { return true; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isDateTime() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public JType getJType() { return _jType; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String newInstanceCode() {
+        return "new java.lang.Long(-1);";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String createToJavaObjectCode(final String variableName) {
+        if (_asWrapper) { return variableName; }
+        return "new java.lang.Long(" + variableName + ")";
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String createFromJavaObjectCode(final String variableName) {
+        if (_asWrapper) { return "((java.lang.Long) " + variableName + ")"; }
+        return "((java.lang.Long) " + variableName + ").longValue()";
+    }
+    
+    //--------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public void validationCode(final JSourceCode jsc,
+         final String fixedValue, final String validatorInstanceName) {
+        jsc.add("org.exolab.castor.xml.validators.LongValidator typeValidator;\n"
+              + "typeValidator = new org.exolab.castor.xml.validators.LongValidator();\n"
+              + "{0}.setValidator(typeValidator);", validatorInstanceName);
+
+        if (fixedValue != null) {
+            jsc.add("typeValidator.setFixed(" + fixedValue + ");");
+        }
+
+        codePatternFacet(jsc, "typeValidator");
+        codeWhiteSpaceFacet(jsc, "typeValidator");
+
+        if (getMinExclusive() != null) {
+            jsc.add("typeValidator.setMinExclusive(" + getMinExclusive() + "L);");
+        } else if (getMinInclusive() != null) {
+            jsc.add("typeValidator.setMinInclusive(" + getMinInclusive() + "L);");
+        }
+
+        if (getMaxExclusive() != null) {
+            jsc.add("typeValidator.setMaxExclusive(" + getMaxExclusive() + "L);");
+        } else if (getMaxInclusive() != null) {
+            jsc.add("typeValidator.setMaxInclusive(" + getMaxInclusive() + "L);");
+        }
+
+        codeDigitsFacet(jsc, "typeValidator");
+    }
+   
+    //--------------------------------------------------------------------------
+}
