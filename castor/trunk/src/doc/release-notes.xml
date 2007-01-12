@@ -53,6 +53,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
               ]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1829" tool="jira">
+                    <description>
+                        Fully qualified references to java.lang.Object in CollectionInfo.createRemobeByIndexMethod().
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070112</date>
+                </bug>
                 <bug id="1817" tool="jira">
                     <description>
                         Clean up Java 5 build complaints in ddlgen

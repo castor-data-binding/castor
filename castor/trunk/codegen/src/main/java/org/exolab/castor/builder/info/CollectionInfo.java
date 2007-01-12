@@ -580,7 +580,7 @@ public class CollectionInfo extends FieldInfo {
         method.addParameter(new JParameter(JType.INT, "index"));
 
         JSourceCode sourceCode = method.getSourceCode();
-        sourceCode.add("Object obj = this.");
+        sourceCode.add("java.lang.Object obj = this.");
         sourceCode.append(this.getName());
         sourceCode.append(".remove(index);");
 

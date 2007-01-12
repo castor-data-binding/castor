@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1829 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fully qualified references to java.lang.Object in CollectionInfo.createRemobeByIndexMethod().
+       Details: http://jira.codehaus.org/browse/CASTOR-1829
+       (Edward - 20070112)
+
 JDO:   Resolved issue CASTOR-1817 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Clean up Java 5 build complaints in ddlgen
        Details: http://jira.codehaus.org/browse/CASTOR-1817
