@@ -46,19 +46,9 @@ public class FailureStepType implements java.io.Serializable {
     public static final FailureStepType WRITE_SCHEMA = new FailureStepType(WRITE_SCHEMA_TYPE, "write-schema");
 
     /**
-     * The compare-schema type
-     */
-    public static final int COMPARE_SCHEMA_TYPE = 2;
-
-    /**
-     * The instance of the compare-schema type
-     */
-    public static final FailureStepType COMPARE_SCHEMA = new FailureStepType(COMPARE_SCHEMA_TYPE, "compare-schema");
-
-    /**
      * The source-generation type
      */
-    public static final int SOURCE_GENERATION_TYPE = 3;
+    public static final int SOURCE_GENERATION_TYPE = 2;
 
     /**
      * The instance of the source-generation type
@@ -68,7 +58,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The source-compilation type
      */
-    public static final int SOURCE_COMPILATION_TYPE = 4;
+    public static final int SOURCE_COMPILATION_TYPE = 3;
 
     /**
      * The instance of the source-compilation type
@@ -78,7 +68,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The load-generated-classes type
      */
-    public static final int LOAD_GENERATED_CLASSES_TYPE = 5;
+    public static final int LOAD_GENERATED_CLASSES_TYPE = 4;
 
     /**
      * The instance of the load-generated-classes type
@@ -88,7 +78,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The unmarshal-reference type
      */
-    public static final int UNMARSHAL_REFERENCE_TYPE = 6;
+    public static final int UNMARSHAL_REFERENCE_TYPE = 5;
 
     /**
      * The instance of the unmarshal-reference type
@@ -98,7 +88,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The marshal-to-disk type
      */
-    public static final int MARSHAL_TO_DISK_TYPE = 7;
+    public static final int MARSHAL_TO_DISK_TYPE = 6;
 
     /**
      * The instance of the marshal-to-disk type
@@ -108,7 +98,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The compare-to-reference type
      */
-    public static final int COMPARE_TO_REFERENCE_TYPE = 8;
+    public static final int COMPARE_TO_REFERENCE_TYPE = 7;
 
     /**
      * The instance of the compare-to-reference type
@@ -118,7 +108,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The second-compare type
      */
-    public static final int SECOND_COMPARE_TYPE = 9;
+    public static final int SECOND_COMPARE_TYPE = 8;
 
     /**
      * The instance of the second-compare type
@@ -128,7 +118,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The listener-comparison type
      */
-    public static final int LISTENER_COMPARISON_TYPE = 10;
+    public static final int LISTENER_COMPARISON_TYPE = 9;
 
     /**
      * The instance of the listener-comparison type
@@ -138,7 +128,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The second-unmarshal type
      */
-    public static final int SECOND_UNMARSHAL_TYPE = 11;
+    public static final int SECOND_UNMARSHAL_TYPE = 10;
 
     /**
      * The instance of the second-unmarshal type
@@ -148,7 +138,7 @@ public class FailureStepType implements java.io.Serializable {
     /**
      * The custom-test type
      */
-    public static final int CUSTOM_TEST_TYPE = 12;
+    public static final int CUSTOM_TEST_TYPE = 11;
 
     /**
      * The instance of the custom-test type
@@ -218,7 +208,6 @@ public class FailureStepType implements java.io.Serializable {
         Hashtable members = new Hashtable();
         members.put("parse-schema", PARSE_SCHEMA);
         members.put("write-schema", WRITE_SCHEMA);
-        members.put("compare-schema", COMPARE_SCHEMA);
         members.put("source-generation", SOURCE_GENERATION);
         members.put("source-compilation", SOURCE_COMPILATION);
         members.put("load-generated-classes", LOAD_GENERATED_CLASSES);

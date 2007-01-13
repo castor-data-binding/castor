@@ -93,7 +93,8 @@ public class SchemaDifferencesTypeDescriptor extends org.exolab.castor.xml.util.
         //-- validation code for: _content
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.DecimalValidator typeValidator = new org.exolab.castor.xml.validators.DecimalValidator();
+            org.exolab.castor.xml.validators.DecimalValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.DecimalValidator();
             fieldValidator.setValidator(typeValidator);
         }
         desc.setValidator(fieldValidator);
