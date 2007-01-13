@@ -15,7 +15,6 @@
                 to the totally unrelated schema contained in xsd003.xsdmod.
             </Comment>
             <Comment>We expect one difference -- the file URL</Comment>
-            <Failure FailureStep="compare-schema">true</Failure>
             <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
             <GoldFile>GoldFile-1.xsd</GoldFile>
         </UnitTestCase>
@@ -28,7 +27,6 @@
                 to the different schema contained in xsd003.xsdmod.
             </Comment>
             <Comment>We expect one difference -- the file URL</Comment>
-            <Failure FailureStep="compare-schema">true</Failure>
             <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
             <GoldFile>GoldFile-2.xsd</GoldFile>
         </UnitTestCase>
