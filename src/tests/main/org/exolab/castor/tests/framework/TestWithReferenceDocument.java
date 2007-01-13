@@ -22,10 +22,10 @@ import java.io.FileWriter;
 import java.io.IOException;
 import java.io.InputStream;
 
+import junit.framework.TestCase;
+
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
-
-import junit.framework.TestCase;
 
 /**
  * Implements a test case that tests code written by the XML source generator.
@@ -62,7 +62,9 @@ class TestWithReferenceDocument extends TestCase {
     protected final String         _builderClassName;
     /** Header of the name of all our output files ... marshaled and dumped. */
     protected final String         _outputName;
+    /** Input file for test XML. (May be null if the builder class is provided.) */
     protected final String         _inputName;
+    /** Gold file filename, really only useful if a class builder and no input file is given. */
     protected final String         _goldFileName;
 
     /**
@@ -90,12 +92,14 @@ class TestWithReferenceDocument extends TestCase {
         _builderClassName = tc._unitTest.getObjectBuilder();
         _inputName        = tc._unitTest.getInput();
 
-        // FIXME: TEMPORARILY suppress GOLDFILE for sourcegen tests as a few tests are broken
-        if (_delegate instanceof MarshallingFrameworkTestCase) {
-            _goldFileName     = tc._unitTest.getGoldFile();
-        } else {
-            _goldFileName = null;
-        }
+        // Gold File should be set to input file if no gold file is specified
+        // but some tests fail (genuine failures) so for now this is disabled.
+
+//      if (tc._unitTest.getGoldFile() != null) {
+            _goldFileName = tc._unitTest.getGoldFile();
+//      } else {
+//          _goldFileName = _inputName;
+//      }
     }
 
     /**
@@ -201,7 +205,7 @@ class TestWithReferenceDocument extends TestCase {
                     && _failure.getFailureStep().equals(FailureStepType.COMPARE_TO_REFERENCE);
 
             if (_failure == null ||!_failure.getContent()) {
-                assertEquals("The Marshaled object differs from the gold file", result, 0);
+                assertEquals("The Marshaled object differs from the gold file", 0, result);
             } else if (expectedToFail) {
                 assertTrue("The Marshaled object was expected to differ from the" +
                            " gold file, but did not", result != 0);

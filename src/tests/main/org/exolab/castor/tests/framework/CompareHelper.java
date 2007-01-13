@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,7 +47,8 @@ package org.exolab.castor.tests.framework;
 import java.lang.reflect.Array;
 
 /**
- * Assists in the comparison of objects.
+ * Assists in the comparison of objects.  This method is used by generated
+ * code but is not used within the CTF directly.
  *
  * @author <a href="mailto:gignoux@intalio.com">Sebastien Gignoux</a>
  * @version $Revision$ $Date: 2003-10-15 09:17:49 -0600 (Wed, 15 Oct 2003) $

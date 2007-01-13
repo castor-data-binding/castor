@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,30 +44,28 @@
  */
 package org.exolab.castor.tests.framework;
 
-import junit.framework.Test;
-import junit.framework.TestCase;
-import junit.framework.TestSuite;
-
 import java.io.File;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
+import java.net.MalformedURLException;
+import java.net.URL;
+import java.net.URLClassLoader;
 import java.util.jar.JarFile;
 
-import java.net.URLClassLoader;
-import java.net.URL;
-import java.net.MalformedURLException;
+import junit.framework.Test;
+import junit.framework.TestCase;
+import junit.framework.TestSuite;
 
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.ValidationException;
-
-import org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest;
-import org.exolab.castor.tests.framework.testDescriptor.TestDescriptor;
 import org.exolab.castor.tests.framework.testDescriptor.MarshallingTest;
-import org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest;
+import org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest;
 import org.exolab.castor.tests.framework.testDescriptor.SchemaTest;
+import org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest;
+import org.exolab.castor.tests.framework.testDescriptor.TestDescriptor;
 import org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.ValidationException;
 
 /**
  * Abstracts a test case in the CTF (Castor Test Framework). A CTF test case can

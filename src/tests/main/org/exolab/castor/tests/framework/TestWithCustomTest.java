@@ -20,12 +20,12 @@ package org.exolab.castor.tests.framework;
 import java.util.Iterator;
 import java.util.List;
 
+import junit.framework.TestCase;
+
 import org.exolab.castor.tests.framework.testDescriptor.ConfigurationType;
 import org.exolab.castor.tests.framework.testDescriptor.CustomTest;
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
-
-import junit.framework.TestCase;
 
 /**
  * Implements a test case that tests code written by the XML source generator.

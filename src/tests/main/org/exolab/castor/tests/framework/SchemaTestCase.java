@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -53,28 +53,20 @@
  */
 package org.exolab.castor.tests.framework;
 
-import org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences;
-import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
-import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
-//-- JUnit imports
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-//-- Castor imports (to test SOM)
-import org.exolab.castor.xml.schema.Schema;
-import org.exolab.castor.xml.schema.reader.SchemaReader;
-import org.exolab.castor.xml.schema.writer.SchemaWriter;
-
-//-- Adaptx imports (for using XMLDiff)
-import org.exolab.adaptx.xslt.dom.XPNBuilder;
-import org.exolab.adaptx.xpath.XPathNode;
-import org.exolab.adaptx.xml.XMLDiff;
-
-//-- Java imports
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.io.PrintWriter;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences;
+import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
+import org.exolab.castor.xml.schema.Schema;
+import org.exolab.castor.xml.schema.reader.SchemaReader;
+import org.exolab.castor.xml.schema.writer.SchemaWriter;
 
 /**
  * A JUnit test case for testing the Castor Schema Object Model.
@@ -87,8 +79,6 @@ public class SchemaTestCase extends XMLTestCase {
 
     /** The name of the schema to test. */
     private String         _schemaName;
-    /** The count of differences expected for the in-memory comparison. */
-    private final int      _differenceCountSchema;
     /** The count of differences expected for the file-reference comparison. */
     private final int      _differenceCountReference;
     /** Gold file to compare a schema against.  Optional.  Only needed if
@@ -112,7 +102,6 @@ public class SchemaTestCase extends XMLTestCase {
      */
     public SchemaTestCase(final CastorTestCase castorTc, final UnitTestCase tc) {
         super(castorTc, tc);
-        _differenceCountSchema    = getSchemaDifferenceCount(tc, FailureStepType.COMPARE_SCHEMA);
         _differenceCountReference = getSchemaDifferenceCount(tc, FailureStepType.COMPARE_TO_REFERENCE);
         _goldFileName             = tc.getGoldFile();
     } //-- SchemaTest
@@ -181,43 +170,15 @@ public class SchemaTestCase extends XMLTestCase {
 
         File schemaFile = new File(_test.getTestFile() + "/" + _schemaName);
         String schemaURL = schemaFile.toURL().toString();
-        XPathNode node1 = null;
-        try {
-            node1 = CTFUtils.loadXPN(schemaURL);
-        } catch (java.io.IOException iox) {
-            if (_printStack) {
-                iox.printStackTrace(System.out);
-            }
-            fail("Exception reading the schema '" + schemaURL + "': " + iox.toString());
-            return;
-        }
 
-        // node2 == null if read/write fails (which may be expected and is not an error)
-        XPathNode node2 = readAndWriteSchema(schemaURL);
-        if (node2 == null) {
+        Schema schema = testReadingSchema(schemaURL);
+        if (schema == null) {
             return;
         }
+        testWritingSchema(schemaURL, schema);
 
         // Compare marshaled schema to gold file if provided, otherwise to input file
         compareSchemaFiles(schemaFile);
-
-        final FailureStepType step = _failure != null ? _failure.getFailureStep() : null;
-
-        XMLDiff diff = new XMLDiff();
-        final int result = diff.compare(node1, schemaURL, node2, "In-Memory-Result");
-
-        final boolean expectedToFail = _failure != null && _failure.getContent()
-                                       && (step == null || step.equals(FailureStepType.COMPARE_SCHEMA));
-
-        if (_failure == null || !_failure.getContent()) {
-            assertEquals("The schema comparison failed because the two are not equal", _differenceCountSchema, result);
-        } else if (expectedToFail) {
-            assertTrue("The schema comparison was expected to fail, but succeeded", result != _differenceCountSchema);
-        }
-
-        if (expectedToFail ^ (result == 0)) {
-            return;
-        }
 
         if (_failure != null && _failure.getContent()) {
             fail("The schema test was expected to fail, but passed");
@@ -247,22 +208,6 @@ public class SchemaTestCase extends XMLTestCase {
     }
 
     /**
-     * Reads the XML Schema located at the given URL into the Castor SOM. The
-     * Schema is then written from the SOM into an XPathNode.
-     *
-     * @param url the URL of the Schema to read.
-     * @return the XPathNode representation of the XML Schema
-     */
-    private XPathNode readAndWriteSchema(final String url) {
-        Schema schema = testReadingSchema(url);
-        if (schema == null) {
-            return null;
-        }
-        XPNBuilder builder = testWritingSchema(url, schema);
-        return (builder != null) ? builder.getRoot() : null;
-    } //-- readAndWriteSchema
-
-    /**
      * Reads and returns the provided XML schema.
      *
      * @param url the schema URL
@@ -288,19 +233,13 @@ public class SchemaTestCase extends XMLTestCase {
     }
 
     /**
-     * Creates a new XPNBuilder, uses it to make a new SchemaWriter, and writes
-     * the provided schema to that SchemaWriter.
+     * Writes the provided schema to disk.
      *
      * @param url schema url, used only in diagnostic output
      * @param schema the schema to write
-     * @return a new XPNBuilder
      */
-    private XPNBuilder testWritingSchema(final String url, final Schema schema) {
-        //-- create XPNBuilder
-        XPNBuilder builder = new XPNBuilder();
-        builder.setSaveLocation(true);
-
-        //-- write schema to XPNBuilder
+    private void testWritingSchema(final String url, final Schema schema) {
+        // First write the schema to disk
         try {
             String fileName = _schemaName.substring(0,_schemaName.lastIndexOf('.'))
                               + "-output" + FileServices.XSD;
@@ -308,34 +247,20 @@ public class SchemaTestCase extends XMLTestCase {
 
             File         output = new File(_outputRootFile, fileName);
             FileWriter   writer = new FileWriter(output);
-            PrintWriter  pw     = new PrintWriter(writer, true);
-            SchemaWriter sw     = new SchemaWriter(pw);
+            SchemaWriter sw     = new SchemaWriter(new PrintWriter(writer, true));
             sw.write(schema);
             writer.close();
         } catch (Exception e) {
             if (!checkExceptionWasExpected(e, FailureStepType.WRITE_SCHEMA)) {
                 fail("Failed to write Schema '" + url + "' to disk: " + e.toString());
             }
-            return null;
-        }
-
-        try {
-            // Now write the schema to an internal SchemaWriter
-            SchemaWriter sw = new SchemaWriter(builder);
-            sw.write(schema);
-        } catch (Exception e) {
-            if (!checkExceptionWasExpected(e, FailureStepType.WRITE_SCHEMA)) {
-                fail("Unable to write Schema '" + url + "' to XPNBuilder: " + e.toString());
-            }
-            return null;
+            return;
         }
 
         if (_failure != null && _failure.getContent() && _failure.getFailureStep() != null &&
             _failure.getFailureStep().equals(FailureStepType.WRITE_SCHEMA)) {
             fail("Writing the schema was expected to fail, but succeeded");
         }
-
-        return builder;
     }
 
 } //-- SchemaTest

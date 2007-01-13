@@ -391,7 +391,7 @@
         </xsd:simpleContent>
     </xsd:complexType>
 
-    <!-- The failure type -->
+    <!-- The expected count of schema differences (if not zero) -->
     <xsd:complexType name="SchemaDifferencesType">
         <xsd:annotation>
             <xsd:documentation>
@@ -411,7 +411,6 @@
        <xsd:restriction base="xsd:string">
            <xsd:enumeration value="parse-schema"/>
            <xsd:enumeration value="write-schema"/>
-           <xsd:enumeration value="compare-schema"/>
            <xsd:enumeration value="source-generation"/>
            <xsd:enumeration value="source-compilation"/>
            <xsd:enumeration value="load-generated-classes"/>

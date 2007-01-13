@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,11 +44,11 @@
  */
 package org.exolab.castor.tests.framework;
 
+import java.io.File;
+
 import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
-
-import java.io.File;
 
 /**
  * This class is used to inspect recursively a hierarchy of directories that
