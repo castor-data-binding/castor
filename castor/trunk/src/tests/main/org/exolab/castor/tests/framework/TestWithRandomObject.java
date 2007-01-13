@@ -20,10 +20,10 @@ package org.exolab.castor.tests.framework;
 import java.io.File;
 import java.io.FileWriter;
 
+import junit.framework.TestCase;
+
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
-
-import junit.framework.TestCase;
 
 /**
  * Implements a test case that tests code written by the XML source generator.

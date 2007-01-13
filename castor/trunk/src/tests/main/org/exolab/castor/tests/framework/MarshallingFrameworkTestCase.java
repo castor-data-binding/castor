@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,21 +44,20 @@
  */
 package org.exolab.castor.tests.framework;
 
-import junit.framework.Test;
-import junit.framework.TestSuite;
-
-import org.exolab.castor.tests.framework.testDescriptor.ListenerType;
-import org.exolab.castor.tests.framework.testDescriptor.MarshallingTest;
-import org.exolab.castor.tests.framework.testDescriptor.RootType;
-import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
-import org.exolab.castor.mapping.Mapping;
-
-import org.xml.sax.InputSource;
-
 import java.io.FileNotFoundException;
 import java.io.InputStream;
 import java.net.URL;
 import java.net.URLClassLoader;
+
+import junit.framework.Test;
+import junit.framework.TestSuite;
+
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.tests.framework.testDescriptor.ListenerType;
+import org.exolab.castor.tests.framework.testDescriptor.MarshallingTest;
+import org.exolab.castor.tests.framework.testDescriptor.RootType;
+import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.xml.sax.InputSource;
 
 /**
  * This class encapsulates all the logic to run the test patterns for the Castor

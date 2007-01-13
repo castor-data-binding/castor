@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,18 +45,14 @@
  */
 package org.exolab.castor.tests.framework;
 
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.ValidationException;
-
-import org.exolab.adaptx.xslt.dom.XPNReader;
-import org.exolab.adaptx.xpath.XPathNode;
-import org.exolab.adaptx.xml.XMLDiff;
-
-//-- Java imports
 import java.io.StringReader;
 import java.util.HashMap;
 import java.util.Map;
+
+import org.exolab.castor.tests.framework.xmldiff.XMLDiff;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.ValidationException;
 
 /**
  * This class contains utility methods needed by the CTF.
@@ -91,19 +87,6 @@ public class CTFUtils {
         nameMap.put(SHORT,     Short.TYPE);
     }
 
-   /**
-    * Loads the given XML file as an XPathNode.
-    *
-    * @param url the filename or URL of the XML file to load
-    * @return the XML file as an XPathNode
-    * @throws java.io.IOException if an error occurs reading the XML
-    */
-    public static XPathNode loadXPN(String url) throws java.io.IOException {
-        XPNReader reader = new XPNReader(url);
-        reader.setSaveLocation(true);
-        return reader.read();
-    } //-- loadXPN
-
     /**
      * Compares two XML documents located at 2 given URLs, returning the number
      * of differences or 0 if both documents are 'XML equivalent'.
@@ -116,11 +99,8 @@ public class CTFUtils {
      *             document
      */
     public static int compare(String document1, String document2) throws java.io.IOException {
-        XPathNode node1 = loadXPN(document1);
-        XPNReader reader = new XPNReader(document2);
-        XPathNode node2 = reader.read();
-        XMLDiff diff = new XMLDiff();
-        return diff.compare(node1, document1, node2, "In-Memory-Result");
+        XMLDiff diff = new XMLDiff(document1, document2);
+        return diff.compare();
     }
 
     /**

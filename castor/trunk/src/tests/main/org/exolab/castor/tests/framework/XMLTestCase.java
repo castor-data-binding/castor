@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,40 +44,36 @@
  */
 package org.exolab.castor.tests.framework;
 
-import junit.framework.TestCase;
-
-import org.exolab.castor.tests.framework.testDescriptor.CallMethod;
-import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
-import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
-import org.exolab.castor.tests.framework.testDescriptor.types.TypeType;
-import org.exolab.castor.tests.framework.testDescriptor.Configuration;
-import org.exolab.castor.tests.framework.testDescriptor.ConfigurationType;
-import org.exolab.castor.tests.framework.testDescriptor.FailureType;
-import org.exolab.castor.tests.framework.testDescriptor.ListenerType;
-
-import org.exolab.castor.tests.framework.testDescriptor.Value;
-import org.exolab.castor.util.NestedIOException;
-
-import org.exolab.castor.mapping.Mapping;
-import org.exolab.castor.xml.Unmarshaller;
-import org.exolab.castor.xml.Marshaller;
-import org.exolab.castor.xml.MarshalException;
-import org.exolab.castor.xml.MarshalListener;
-import org.exolab.castor.xml.UnmarshalListener;
-
-import org.xml.sax.InputSource;
-
-import java.io.InputStream;
 import java.io.File;
 import java.io.FileInputStream;
 import java.io.FileWriter;
+import java.io.InputStream;
 import java.io.PrintWriter;
 import java.io.StringWriter;
+import java.lang.reflect.Method;
 import java.util.Enumeration;
 import java.util.LinkedList;
 import java.util.List;
 
-import java.lang.reflect.Method;
+import junit.framework.TestCase;
+
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.tests.framework.testDescriptor.CallMethod;
+import org.exolab.castor.tests.framework.testDescriptor.Configuration;
+import org.exolab.castor.tests.framework.testDescriptor.ConfigurationType;
+import org.exolab.castor.tests.framework.testDescriptor.FailureType;
+import org.exolab.castor.tests.framework.testDescriptor.ListenerType;
+import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
+import org.exolab.castor.tests.framework.testDescriptor.Value;
+import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
+import org.exolab.castor.tests.framework.testDescriptor.types.TypeType;
+import org.exolab.castor.util.NestedIOException;
+import org.exolab.castor.xml.MarshalException;
+import org.exolab.castor.xml.MarshalListener;
+import org.exolab.castor.xml.Marshaller;
+import org.exolab.castor.xml.UnmarshalListener;
+import org.exolab.castor.xml.Unmarshaller;
+import org.xml.sax.InputSource;
 
 /**
  * This class encapsulates all the common logic to run the test patterns for
