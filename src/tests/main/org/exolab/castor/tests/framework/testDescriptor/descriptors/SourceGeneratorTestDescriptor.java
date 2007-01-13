@@ -112,9 +112,10 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _property_File
@@ -149,9 +150,10 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
         //-- validation code for: _property_File
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _collection
@@ -221,9 +223,10 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
         //-- validation code for: _bindingFile
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _package
@@ -258,9 +261,10 @@ public class SourceGeneratorTestDescriptor extends org.exolab.castor.xml.util.XM
         //-- validation code for: _package
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _root_Object

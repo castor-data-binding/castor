@@ -104,9 +104,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _author
@@ -143,9 +144,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _commentList
@@ -190,9 +192,10 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope
-            org.exolab.castor.xml.validators.StringValidator typeValidator = new org.exolab.castor.xml.validators.StringValidator();
-            typeValidator.setWhiteSpace("preserve");
+            org.exolab.castor.xml.validators.StringValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.StringValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setWhiteSpace("preserve");
         }
         desc.setValidator(fieldValidator);
         //-- _category
@@ -302,8 +305,11 @@ public class TestDescriptorDescriptor extends org.exolab.castor.xml.util.XMLClas
         //-- validation code for: _minimumJavaVersion
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
-            org.exolab.castor.xml.validators.FloatValidator typeValidator = new org.exolab.castor.xml.validators.FloatValidator();
+            org.exolab.castor.xml.validators.FloatValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.FloatValidator();
             fieldValidator.setValidator(typeValidator);
+            typeValidator.setMinInclusive((float) -3.4028235E38);
+            typeValidator.setMaxInclusive((float) 3.4028235E38);
         }
         desc.setValidator(fieldValidator);
         //-- _testDescriptorChoice
