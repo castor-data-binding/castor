@@ -95,11 +95,11 @@ class TestWithReferenceDocument extends TestCase {
         // Gold File should be set to input file if no gold file is specified
         // but some tests fail (genuine failures) so for now this is disabled.
 
-//      if (tc._unitTest.getGoldFile() != null) {
+        if (tc._unitTest.getGoldFile() != null) {
             _goldFileName = tc._unitTest.getGoldFile();
-//      } else {
-//          _goldFileName = _inputName;
-//      }
+        } else {
+            _goldFileName = _inputName;
+        }
     }
 
     /**
@@ -138,6 +138,9 @@ class TestWithReferenceDocument extends TestCase {
 
     /**
      * Runs our test case using our delegate object where necessary.
+     * <p>
+     * FIXME: Fix this so it throws only specific and necessary exceptions
+     * @throws Exception if anything goes wrong
      */
     public void runTest() throws Exception { // FIXME - temporarily throws Exception
         if (_delegate == null) {
@@ -195,10 +198,9 @@ class TestWithReferenceDocument extends TestCase {
         }
 
         // 6. Compare marshaled document with gold file (if one was provided)
-        if (_goldFileName != null) {
+        if (_goldFileName != null && _goldFileName.length() > 0) {
             int result = CTFUtils.compare(_delegate._outputRootFile + "/" +  _goldFileName, marshal_output.getAbsolutePath());
             verbose("----> Compare marshaled document to gold file '" + _goldFileName + "': " + ((result == 0)?"OK":"### Failed ### "));
-
 
             final boolean expectedToFail = _failure != null && _failure.getContent()
                     && _failure.getFailureStep() != null
