@@ -40,6 +40,9 @@ import org.exolab.castor.tests.framework.xmldiff.xml.nodes.XMLNode;
  */
 public class XMLDiff {
 
+    /** The namespace of XML Schema. */
+    private static final String XMLSCHEMA_INSTANCE = "http://www.w3.org/2001/XMLSchema-instance";
+
     /** Filename of the 1st XML item being compared. */
     private final String      _file1;
     /** Filename of the 2nd XML item being compared. */
@@ -117,7 +120,7 @@ public class XMLDiff {
         if (!hasSameType(node1, node2)) {
             if (_print) {
                 _pw.println("Types differ: <" + node1.getLocalName() + "> and <"
-                            + node2.getLocalName() + ">");
+                            + node2.getLocalName() + "> for" + node1.getNodeLocation());
             }
             return 1;
         }
@@ -128,7 +131,8 @@ public class XMLDiff {
         String ns2 = node2.getNamespaceURI();
         if (!compareTextNullEqualsEmpty(ns1, ns2)) {
             if (_print) {
-                _pw.println("Namespaces differ: ('" + ns1 + "' != '" + ns2 + "').");
+                _pw.println("Namespaces differ: ('" + ns1 + "' != '" + ns2 + "') for "
+                            + node1.getNodeLocation());
             }
 
             ++diffCount;
@@ -140,19 +144,22 @@ public class XMLDiff {
 
         if (name1 == null && name2 != null) {
             if (_print) {
-                _pw.println("Names differ: null vs. <" + name2 + ">");
+                _pw.println("Names differ: null vs. <" + name2 + "> for "
+                            + node1.getNodeLocation());
             }
             ++diffCount;
             return diffCount;
         } else if (name2 == null && name1 != null) {
             if (_print) {
-                _pw.println("Names differ: <" + name1 + "> vs null");
+                _pw.println("Names differ: <" + name1 + "> vs null for "
+                            + node1.getNodeLocation());
             }
             ++diffCount;
             return diffCount;
         } else if (name1 != null && !name1.equals(name2)) {
             if (_print) {
-                _pw.println("Names differ: <" + name1 + "> != <" + name2 + ">");
+                _pw.println("Names differ: <" + name1 + "> != <" + name2 + "> for "
+                            + node1.getNodeLocation());
             }
             ++diffCount;
             return diffCount;
@@ -222,9 +229,15 @@ public class XMLDiff {
             // Does node2 have this attribute at all?
             String attValue2 = node2.getAttribute(attr1.getNamespaceURI(), attr1.getLocalName());
             if (attValue2 == null) {
+                // Is this an attribute that is allowed to be missing sometimes?
+                if (missingattributeIsIgnorable(attr1)) {
+                    continue;
+                }
+
+                // If not, complain
                 printElementChangeBlock(node1, node2, "Attribute '"
-                                        + attr1.getLocalName()
-                                        + "' does not exist in the second node.");
+                                        + attr1.getNodeLocation()
+                                        + "' does not exist in the second document.");
                 diffCount++;
                 continue;
             }
@@ -233,7 +246,7 @@ public class XMLDiff {
             String attValue1 = attr1.getStringValue();
             if (!compareTextLikeQName(node1, node2, attValue1, attValue2)) {
                 printElementChangeBlock(node1, node2, "Attribute '"
-                                        + attr1.getLocalName()
+                                        + attr1.getNodeLocation()
                                         + "' values are different.");
                 diffCount++;
             }
@@ -243,14 +256,36 @@ public class XMLDiff {
         for (Iterator i = node2.getAttributeIterator(); i.hasNext(); ) {
             Attribute attr2 = (Attribute) i.next();
             if (node1.getAttribute(attr2.getNamespaceURI(), attr2.getLocalName()) == null) {
+                // Is this an attribute that is allowed to be missing sometimes?
+                if (missingattributeIsIgnorable(attr2)) {
+                    continue;
+                }
+
+                // If not, complain
                 printElementChangeBlock(node1, node2, "Attribute '"
-                                        + attr2.getLocalName()
-                                        + "' does not exist in the first node.");
+                                        + attr2.getNodeLocation()
+                                        + "' does not exist in the first document.");
                 diffCount++;
             }
         }
 
         return diffCount;
+    }
+
+    private boolean missingattributeIsIgnorable(Attribute attr) {
+        String name = attr.getLocalName();
+        String ns = attr.getNamespaceURI();
+        if (ns == null) {
+            ns = "";
+        }
+
+        if (name.equals("noNamespaceSchemaLocation") && ns.equals(XMLSCHEMA_INSTANCE)) {
+            return true;
+        }
+        if (name.equals("schemaLocation") && ns.equals(XMLSCHEMA_INSTANCE)) {
+            return true;
+        }
+        return false;
     }
 
     /**
@@ -495,7 +530,8 @@ public class XMLDiff {
             }
         }
 
-        _pw.println("Missing child node: " + target.getNodeLocation());
+        _pw.println("Missing child node: " + target.getNodeLocation() + " for "
+                    + target.getNodeLocation());
         return 1;
     }
 
