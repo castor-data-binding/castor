@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -43,10 +43,10 @@
  * $Id: C.java 5951 2006-05-30 22:18:48Z bsnyder $
  */
 
-
 public class C extends B {
 
     private String _name;
+
     public C() {
     }
 
@@ -57,6 +57,5 @@ public class C extends B {
     public String getName() {
        return _name;
     }
-
 
 }
