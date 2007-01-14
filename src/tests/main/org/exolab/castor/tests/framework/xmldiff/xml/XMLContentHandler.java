@@ -17,6 +17,9 @@
  */
 package org.exolab.castor.tests.framework.xmldiff.xml;
 
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.Map;
 import java.util.Stack;
 
 import org.exolab.castor.tests.framework.xmldiff.xml.nodes.Attribute;
@@ -49,6 +52,8 @@ public class XMLContentHandler implements ContentHandler {
     private Locator             _locator              = null;
     /** The current node to which we are adding content. */
     private ParentNode          _currentNode          = null;
+    /** Keeps track of all URL mapping prefixes currently defined.  */
+    private Map                 _prefixes             = new HashMap();
 
     /**
      * Creates a new XMLBuilder.
@@ -85,18 +90,19 @@ public class XMLContentHandler implements ContentHandler {
      * @param qName the qualified naem of the element
      * @throws org.xml.sax.SAXException if we have a mismatched end element tag
      */
-    public void endElement(String uri, String name, String qName) throws org.xml.sax.SAXException {
+    public void endElement(final String uri, final String name, final String qName)
+                                                   throws org.xml.sax.SAXException {
         final String localName = name;
 
-        final int idx = name.indexOf(':');
-        final String prefix = (idx >= 0) ? name.substring(0, idx) : "";
+        final int idx = qName.indexOf(':');
+        final String prefix = (idx >= 0) ? qName.substring(0, idx) : "";
 
         // Check the prefix to make sure it is appropriate
         String uriOfPrefix = _currentNode.getNamespaceURI(prefix);
         String uriOfElement = _currentNode.getNamespaceURI();
         if ((uriOfPrefix == null ^ uriOfElement == null)
                 || (uriOfPrefix != null && !uriOfPrefix.equals(uriOfElement))) {
-            throw new org.xml.sax.SAXException("In Element " + name + ", URI of prefix " + uriOfPrefix +
+            throw new org.xml.sax.SAXException("In Element " + qName + ", URI of prefix " + uriOfPrefix +
                                                " does not match URI of Element " + uriOfElement);
         }
 
@@ -117,7 +123,7 @@ public class XMLContentHandler implements ContentHandler {
      * @throws org.xml.sax.SAXException never
      */
     public void endPrefixMapping(final String prefix) throws SAXException {
-        // Nothing to do
+        _prefixes.remove(prefix);
     }
 
     /**
@@ -137,7 +143,7 @@ public class XMLContentHandler implements ContentHandler {
      * @throws org.xml.sax.SAXException never
      */
     public void ignorableWhitespace(final char[] chars, final int start, final int length)
-            throws org.xml.sax.SAXException {
+                                                  throws org.xml.sax.SAXException {
         // Deliberately ignore -- we don't care
     }
 
@@ -149,7 +155,7 @@ public class XMLContentHandler implements ContentHandler {
      * @throws org.xml.sax.SAXException never
      */
     public void processingInstruction(final String target, final String data)
-            throws org.xml.sax.SAXException {
+                                                  throws org.xml.sax.SAXException {
         ProcessingInstruction pi = new ProcessingInstruction(target, data);
         _currentNode.addChild(pi);
     }
@@ -159,7 +165,7 @@ public class XMLContentHandler implements ContentHandler {
      *
      * @param locator the Locator used by this DocumentHandler.
      */
-    public void setDocumentLocator(Locator locator) {
+    public void setDocumentLocator(final Locator locator) {
         _locator = locator;
     }
 
@@ -167,7 +173,7 @@ public class XMLContentHandler implements ContentHandler {
      * Gives notification about a skipped Entity during XML parsing.
      * @param name the name of the skipped entity.
      */
-    public void skippedEntity(String name) {
+    public void skippedEntity(final String name) {
         // Nothing to do
     }
 
@@ -189,20 +195,20 @@ public class XMLContentHandler implements ContentHandler {
      * @throws org.xml.sax.SAXException If we are not given an element name.
      */
     public void startElement(final String uri, final String name, final String qName, final Attributes atts) throws org.xml.sax.SAXException {
-        if (name == null) {
+        if (qName == null) {
             throw new SAXException("No Element name given");
         }
 
         final String prefix;
         final String localName;
 
-        int idx = name.indexOf(':');
+        int idx = qName.indexOf(':');
         if (idx >= 0) {
-            prefix = name.substring(0, idx);
-            localName = name.substring(idx + 1);
+            prefix = qName.substring(0, idx);
+            localName = qName.substring(idx + 1);
         } else {
             prefix = "";
-            localName = name;
+            localName = qName;
         }
 
         Element element = new Element(null, localName);
@@ -213,23 +219,23 @@ public class XMLContentHandler implements ContentHandler {
 
         _currentNode.addChild(element);
 
+        // Add all current namespaces to this element
+        for (Iterator i = _prefixes.entrySet().iterator(); i.hasNext(); ) {
+            Map.Entry me = (Map.Entry) i.next();
+            element.addNamespace(new Namespace((String)me.getKey(), (String) me.getValue()));
+        }
+
+        // Then add all attributes
         if (atts != null && atts.getLength() > 0) {
             for (int i = 0; i < atts.getLength(); i++) {
                 String attName = atts.getQName(i);
-                if (attName.equals("xmlns")) {
-                    element.addNamespace(new Namespace("", atts.getValue(i)));
-                } else if (attName.startsWith("xmlns:")) {
-                    String namespacePrefix = attName.substring(6);
-                    element.addNamespace(new Namespace(namespacePrefix, atts.getValue(i)));
-                } else {
-                    String ns = null;
-                    idx = attName.indexOf(':');
-                    if (idx > 0) {
-                        ns = element.getNamespaceURI(attName.substring(0, idx));
-                        attName = attName.substring(idx + 1);
-                    }
-                    element.addAttribute(new Attribute(ns, attName, atts.getValue(i)));
+                String ns = null;
+                idx = attName.indexOf(':');
+                if (idx > 0) {
+                    ns = element.getNamespaceURI(attName.substring(0, idx));
+                    attName = attName.substring(idx + 1);
                 }
+                element.addAttribute(new Attribute(ns, attName, atts.getValue(i)));
             }
         }
 
@@ -254,8 +260,8 @@ public class XMLContentHandler implements ContentHandler {
      * @param uri The namespace URI
      * @throws org.xml.sax.SAXException never
      */
-    public void startPrefixMapping(String prefix, String uri) {
-        // Nothing to do
+    public void startPrefixMapping(final String prefix, final String uri) {
+        _prefixes.put(prefix, uri);
     }
 
 }
