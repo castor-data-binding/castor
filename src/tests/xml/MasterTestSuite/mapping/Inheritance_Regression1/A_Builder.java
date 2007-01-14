@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -49,16 +49,14 @@ public class A_Builder implements ObjectModelBuilder {
     public A_Builder() {}
 
     /**
-     * Build the object we expect when we unmarshal 'input.xml'
+     * Build the object we expect when we unmarshal 'input.xml'.
      */
     public Object buildInstance() {
-        
         A a = new A();
         C c = new C();
         c.setName("toto");
         a.setB(c);
         return a;
-
     }
 
 }
