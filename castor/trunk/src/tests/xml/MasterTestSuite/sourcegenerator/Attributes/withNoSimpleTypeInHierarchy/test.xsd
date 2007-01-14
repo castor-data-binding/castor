@@ -1,13 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
-
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
-    targetNamespace="http://schema.talk.com/enterprise/0.1"
-    xmlns="http://schema.talk.com/enterprise/0.1"
-    elementFormDefault="qualified" 
-    attributeFormDefault="unqualified">
-    
+            targetNamespace="http://schema.talk.com/enterprise/0.1"
+            xmlns="http://schema.talk.com/enterprise/0.1"
+            elementFormDefault="qualified"
+            attributeFormDefault="unqualified">
+
     <xsd:element name="parameter" type="ParameterType"/>
-    
+
     <xsd:complexType name="ParameterType">
         <xsd:annotation><xsd:documentation>
             A request parameter name-value pair.  The body of this element is
@@ -33,7 +32,7 @@
             </xsd:extension>
         </xsd:complexContent>
     </xsd:complexType>
-    
+
     <xsd:complexType name="EntityType">
         <xsd:annotation><xsd:documentation>
                 Base class for all persistable entities.  This base class
@@ -58,4 +57,4 @@
         </xsd:attribute>
     </xsd:complexType>
 
-</xsd:schema>    
+</xsd:schema>

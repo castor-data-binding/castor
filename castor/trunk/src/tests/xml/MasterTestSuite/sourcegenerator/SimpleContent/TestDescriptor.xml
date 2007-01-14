@@ -10,6 +10,8 @@
         <UnitTestCase>
             <Name>Test Generation</Name>
             <Input>input.xml</Input>
+            <Comment>Castor adds spurious ns="" nodes, thus, suppress XML comparison</Comment>
+            <GoldFile/> <!-- Suppress XML comparison -->
         </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

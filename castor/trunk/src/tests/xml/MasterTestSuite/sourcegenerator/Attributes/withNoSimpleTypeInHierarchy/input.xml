@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <p:parameter id="param1" name="paramName" val="paramVal"
-	xmlns:p="http://schema.talk.com/enterprise/0.1"
-	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
-	xsi:schemaLocation="http://schema.talk.com/enterprise/0.1 test.xsd ">
+             xmlns:p="http://schema.talk.com/enterprise/0.1"
+             xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+             xsi:schemaLocation="http://schema.talk.com/enterprise/0.1 test.xsd ">
 </p:parameter>

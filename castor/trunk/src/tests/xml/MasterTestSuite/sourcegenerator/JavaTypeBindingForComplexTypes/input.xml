@@ -1,7 +1,7 @@
-<path>
-	<item name="name1"/>
-	<item name="name2"/>
-	<item name="name3"/>
-	<!--simpleItem>BLACK</simpleItem>
-	<simpleItem>WHITE</simpleItem-->
-</path>
+<pathType xmlns="http://test">
+    <item name="name1"/>
+    <item name="name2"/>
+    <item name="name3"/>
+    <!--simpleItem>BLACK</simpleItem>
+    <simpleItem>WHITE</simpleItem-->
+</pathType>

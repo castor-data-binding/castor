@@ -1,36 +1,34 @@
 <?xml version="1.0" encoding="UTF-8" ?>
-
 <xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
             xmlns:base="http://xml.kenamea.com/ns/castortest"
-
-	    targetNamespace="http://xml.kenamea.com/ns/castortest"
-
+            targetNamespace="http://xml.kenamea.com/ns/castortest"
             elementFormDefault="qualified">
 
+    <xsd:element name="castor-echo-test" type="base:CEchoRequestType"/>
 
-  <xsd:element name="castor-echo-test" type="base:CEchoRequestType"/>
-<!-- either of the following two base types exhibits the problem. -->
-  <xsd:complexType name="ServiceMethodType" abstract="true">
-    <xsd:choice >
-    <xsd:element name="placeholder" type="xsd:string" minOccurs="0"/>
-    </xsd:choice >
-    <xsd:attribute name="id" type="xsd:string" use="required" />
-  </xsd:complexType>
+    <!-- either of the following two base types exhibits the problem. -->
+    <xsd:complexType name="ServiceMethodType" abstract="true">
+        <xsd:choice>
+            <xsd:element name="placeholder" type="xsd:string" minOccurs="0"/>
+        </xsd:choice>
+        <xsd:attribute name="id" type="xsd:string" use="required" />
+    </xsd:complexType>
+
 <!--
-  <xsd:complexType name="ServiceMethodType" abstract="true">
-    <xsd:attribute name="id" type="xsd:string" use="required" />
-  </xsd:complexType>
+    <xsd:complexType name="ServiceMethodType" abstract="true">
+        <xsd:attribute name="id" type="xsd:string" use="required" />
+    </xsd:complexType>
 -->
-   <xsd:complexType name="CEchoRequestType">
-    <xsd:complexContent>
-      <xsd:extension base="base:ServiceMethodType">
-        <xsd:choice minOccurs="1" maxOccurs="unbounded">
-	  <xsd:element name="foo" type="xsd:string">
-          </xsd:element>
-	</xsd:choice>
-      </xsd:extension>
-    </xsd:complexContent>
-   </xsd:complexType>
 
+    <xsd:complexType name="CEchoRequestType">
+        <xsd:complexContent>
+            <xsd:extension base="base:ServiceMethodType">
+                <xsd:choice minOccurs="1" maxOccurs="unbounded">
+                    <xsd:element name="foo" type="xsd:string">
+                    </xsd:element>
+                </xsd:choice>
+            </xsd:extension>
+        </xsd:complexContent>
+    </xsd:complexType>
 
 </xsd:schema>

@@ -11,6 +11,6 @@
     <booleanArray>true</booleanArray>
     <booleanArray>false</booleanArray>
     <booleanArray>false</booleanArray>
-    <floatArray>3.1415926535</floatArray>
-    <doubleArray>3.14159265358979323</doubleArray>
+    <floatArray>3.141592</floatArray>
+    <doubleArray>3.141592653589793</doubleArray>
 </MainType>

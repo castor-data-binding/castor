@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<invoice>
+<invoice xmlns="http://castor.exolab.org/Test/Invoice">
 
    <ship-to>
       <name>Mad Dog</name>
@@ -13,20 +13,19 @@
    </ship-to>
 
    <item Id="0.9.5" InStock="true" Category="Open Source Project">
-   		<Quantity>1</Quantity>
-   		<Price>100.00</Price>
-   	</item>
-   	
+      <Quantity>1</Quantity>
+      <Price>100.00</Price>
+   </item>
+
    <shipping-method>
       <carrier>UPS</carrier>
       <option>Ground Trak</option>
       <estimated-delivery>P1D</estimated-delivery>
    </shipping-method>
-   
-   <shipping-date>
-   		<date>2002-10-24</date>
-   		<time>12:30:00</time>
-   </shipping-date>
 
+   <shipping-date>
+      <date>2002-10-24</date>
+      <time>12:30:00</time>
+   </shipping-date>
 
 </invoice>

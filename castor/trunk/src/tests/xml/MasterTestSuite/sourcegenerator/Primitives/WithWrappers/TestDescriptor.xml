@@ -24,7 +24,7 @@
             <Input>input1.xml</Input>
         </UnitTestCase>
         <UnitTestCase>
-            <Name>Test Marshalling with the generated Descriptors</Name>
+            <Name>Test Marshaling with the generated Descriptors</Name>
             <Input>input1.xml</Input>
             <ObjectBuilder>PrimitivesBuilder</ObjectBuilder>
         </UnitTestCase>
