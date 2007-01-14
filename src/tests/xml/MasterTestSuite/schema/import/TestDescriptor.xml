@@ -19,7 +19,6 @@
     <SchemaTest>
         <UnitTestCase>
             <Schema>A.xsd</Schema>
-            <SchemaDifferences FailureStep="compare-schema">1</SchemaDifferences>
             <SchemaDifferences FailureStep="compare-to-reference">1</SchemaDifferences>
             <Comment>
                 We expect one failure as the schemaLocation attribute gets fully
