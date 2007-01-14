@@ -189,7 +189,7 @@ public abstract class XMLNode {
      * @return the XPath from the root node to this node.
      */
     protected String getXPath() {
-        StringBuilder xpath = new StringBuilder();
+        StringBuffer xpath = new StringBuffer();
 
         switch (getNodeType()) {
             case XMLNode.ATTRIBUTE:
