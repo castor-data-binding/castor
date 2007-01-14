@@ -1,7 +1,7 @@
-<tst:root    xmlns:tst="http://testspace"
-              xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+<tst:Root xmlns:tst="http://testspace"
+          xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
 
-     <tst:node id="1" typeAAttrib="an attribute" xsi:type="tst:NodeA"/>
+     <tst:node id="1" typeAAttrib="an attribute"      xsi:type="tst:NodeA"/>
      <tst:node id="2" typeBAttrib="another attribute" xsi:type="tst:NodeB" />
 
-</tst:root>
+</tst:Root>

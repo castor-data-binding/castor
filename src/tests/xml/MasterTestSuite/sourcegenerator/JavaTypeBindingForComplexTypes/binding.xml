@@ -1,15 +1,11 @@
 <binding defaultBindingType="type">
 
-	
-	<elementBinding name="complexType:pathType/item">
-		<member name="myItem" java-type="base.MyItem" handler="base.MyHandler"/>
-	</elementBinding>
-	
-	<elementBinding name="complexType:pathType/simpleItem">
-		<member name="mySimpleItem" java-type="java.awt.Color" handler="base.MySimpleHandler"/>
-	</elementBinding>
-	
-	
+    <elementBinding name="complexType:pathType/item">
+        <member name="myItem" java-type="base.MyItem" handler="base.MyHandler"/>
+    </elementBinding>
 
-	
+    <elementBinding name="complexType:pathType/simpleItem">
+        <member name="mySimpleItem" java-type="java.awt.Color" handler="base.MySimpleHandler"/>
+    </elementBinding>
+
 </binding>

@@ -1,6 +1,5 @@
 <?xml version="1.0"?>
-<xsd:schema targetNamespace="http://www.castor.org/bug913i"
-            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
 
 <xsd:simpleType name="amount">
   <xsd:restriction base="xsd:decimal">

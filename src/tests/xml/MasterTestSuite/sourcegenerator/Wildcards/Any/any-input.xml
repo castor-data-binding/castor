@@ -1,34 +1,52 @@
-<test:purchaseReport
-  xmlns:test="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/Any" period="P3M" >
+<test:purchaseReport xmlns:test="http://www.castor.org/MasterTestSuite/xml/SourceGenerator/Any"
+                     period="P3M" >
 
- <test:regions>
-   Regions here
- </test:regions>
-
- <test:parts>
-   parts here
- </test:parts>
-
- <test:htmlExample>
-  <xhtml:table xmlns:xhtml="http://www.w3.org/1999/xhtml"
-               xhtml:border="0" test:width="100%">
-   <xhtml:tr>
-     <xhtml:th align="left">Zip Code</xhtml:th>
-     <xhtml:th align="left">Part Number</xhtml:th>
-     <xhtml:th align="left">Quantity</xhtml:th>
-   </xhtml:tr>
-   <xhtml:tr>
-       <xhtml:td>95819</xhtml:td>
-   
-   <!--td> </td><td> </td></tr>
-   <tr><td> </td><td>872-AA</td><td>1</td></tr>
-   <tr><td> </td><td>926-AA</td><td>1</td></tr>
-   <tr><td> </td><td>833-AA</td><td>1</td></tr>
-   <tr><td> </td><td>455-BX</td><td>1</td></tr>
-   <tr><td>63143</td><td> </td><td> </td></tr>
-   <tr><td> </td><td>455-BX</td><td>4</td-->
-   </xhtml:tr>
-  </xhtml:table>
- </test:htmlExample>
+    <test:regions>Regions here</test:regions>
+    <test:parts>parts here</test:parts>
+    <test:htmlExample>
+        <xhtml:table xmlns:xhtml="http://www.w3.org/1999/xhtml"
+                     xhtml:border="0" xhtml:width="100%">
+            <xhtml:tr>
+                <xhtml:th align="left">Zip Code</xhtml:th>
+                <xhtml:th align="left">Part Number</xhtml:th>
+                <xhtml:th align="left">Quantity</xhtml:th>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td>95819</xhtml:td>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td> </xhtml:td>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td>872-AA</xhtml:td>
+                <xhtml:td>1</xhtml:td>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td>926-AA</xhtml:td>
+                <xhtml:td>1</xhtml:td>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td>833-AA</xhtml:td>
+                <xhtml:td>1</xhtml:td>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td>455-BX</xhtml:td>
+                <xhtml:td>1</xhtml:td>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td>63143</xhtml:td>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td> </xhtml:td>
+            </xhtml:tr>
+            <xhtml:tr>
+                <xhtml:td> </xhtml:td>
+                <xhtml:td>455-BX</xhtml:td>
+                <xhtml:td>4</xhtml:td>
+            </xhtml:tr>
+        </xhtml:table>
+    </test:htmlExample>
 
 </test:purchaseReport>

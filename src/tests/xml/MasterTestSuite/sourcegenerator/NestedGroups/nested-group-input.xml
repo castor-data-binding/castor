@@ -1,43 +1,43 @@
 <?xml version="1.0"?>
 <Report>
-   <Invoice Id="1">
+    <Invoice Id="1">
         <Toy>Bakasse</Toy>
         <Other>Roses</Other>
         <shipTo>
-           <Name>Job Mulet</Name>
-           <Street>Sophia</Street>
-           <ZipCode>10230</ZipCode>
-         </shipTo>  
-         <CreditCard>true</CreditCard>
-   </Invoice>
-   
-   <Invoice Id="2">
+            <Name>Job Mulet</Name>
+            <Street>Sophia</Street>
+            <ZipCode>10230</ZipCode>
+        </shipTo>
+        <CreditCard>true</CreditCard>
+    </Invoice>
+
+    <Invoice Id="2">
         <Toy>Handle</Toy>
         <DVD>DVD001</DVD>
         <Title>The Free-style song</Title>
         <shipTo>
-           <Name>DJ Le Flanc</Name>
-           <Street>somewhere</Street>
-           <ZipCode>34951</ZipCode>
-         </shipTo>
-         <Check>true</Check>
-   </Invoice>
-   
-   <Invoice Id="3">
+            <Name>DJ Le Flanc</Name>
+            <Street>somewhere</Street>
+            <ZipCode>34951</ZipCode>
+        </shipTo>
+        <Check>true</Check>
+    </Invoice>
+
+    <Invoice Id="3">
         <DVD>DVD002</DVD>
         <Title>Auto-Reject</Title>
         <Other>Soccer ball</Other>
         <Other>Zidane shirt</Other>
         <shipTo>
-           <Name>Cartonnasse</Name>
-           <Street>calle de Madrid</Street>
-           <ZipCode>49382</ZipCode>
-         </shipTo>  
+            <Name>Cartonnasse</Name>
+            <Street>calle de Madrid</Street>
+            <ZipCode>49382</ZipCode>
+        </shipTo>
          <CreditCard>true</CreditCard>
-         <billTo>
-           <Name>Russian Mafia</Name>
-           <Street>les petits humains</Street>
-           <ZipCode>49232</ZipCode>
-         </billTo>
-   </Invoice>
+        <billTo>
+            <Name>Russian Mafia</Name>
+            <Street>les petits humains</Street>
+            <ZipCode>49232</ZipCode>
+        </billTo>
+    </Invoice>
 </Report>
