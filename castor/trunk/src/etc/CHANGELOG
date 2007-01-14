@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+CTF:   Resolved issue CASTOR-1832 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Fix minor inaccuracies in CTF
+       Details: http://jira.codehaus.org/browse/CASTOR-1832
+       (Edward - 20070113)
+
 CTF:   Resolved issue CASTOR-1831 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Remove Adaptx from Castor; add new implementation of xmldiff for CTF
        Details: http://jira.codehaus.org/browse/CASTOR-1831
