@@ -7,10 +7,12 @@
         various error conditions.
     </Comment>
     <Category>basic capability</Category>
+
     <SourceGeneratorTest>
         <Schema>test.xsd</Schema>
         <BindingFile>binding.xml</BindingFile>
         <Root_Object random="false" dump="true">PartialTerminationElement</Root_Object>
+
         <UnitTestCase>
             <Configuration>
                 <Unmarshal>
@@ -22,6 +24,7 @@
             <Name>Test valid XML document instance with IDs</Name>
             <Input>input-ok.xml</Input>
         </UnitTestCase>
+
         <UnitTestCase>
             <Configuration>
                 <Unmarshal>
@@ -34,6 +37,7 @@
             <Input>input-with-empty-id.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>
         </UnitTestCase>
+
         <UnitTestCase>
             <Configuration>
                 <Unmarshal>
@@ -46,6 +50,7 @@
             <Input>input-with-duplicate-ids.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>
         </UnitTestCase>
+
         <UnitTestCase>
             <Name>Test marshalling XML document instance after manually nulling ID</Name>
             <CustomTest>
@@ -56,5 +61,6 @@
                 </Methods>
             </CustomTest>
         </UnitTestCase>
+
     </SourceGeneratorTest>
 </TestDescriptor>

@@ -1,17 +1,22 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<xsd:schema targetNamespace="urn:oasis:names:tc:ubl:codelist:AllowanceChargeReasonCode:1:0" xmlns="urn:oasis:names:tc:ubl:codelist:AllowanceChargeReasonCode:1:0" xmlns:xsd="http://www.w3.org/2001/XMLSchema">
-	<xsd:simpleType name="AllowanceChargeReasonCodeContentType">
-		<xsd:restriction base="xsd:normalizedString">
-			<xsd:enumeration value="1"/>
-			<xsd:enumeration value="2"/>
-		</xsd:restriction>
-	</xsd:simpleType>
-	<xsd:complexType name="AllowanceChargeReasonCodeType">
-		<xsd:simpleContent>
-			<xsd:extension base="AllowanceChargeReasonCodeContentType">
-				<xsd:attribute name="codeListID" type="xsd:normalizedString" use="optional" fixed="UN/ECE 4465"/>
-			</xsd:extension>
-		</xsd:simpleContent>
-	</xsd:complexType>
-	<xsd:element name="AllowanceChargeReasonCode" type="AllowanceChargeReasonCodeType" />
+<xsd:schema targetNamespace="urn:oasis:names:tc:ubl:codelist:AllowanceChargeReasonCode:1:0"
+            xmlns="urn:oasis:names:tc:ubl:codelist:AllowanceChargeReasonCode:1:0"
+            xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+    <xsd:simpleType name="AllowanceChargeReasonCodeContentType">
+        <xsd:restriction base="xsd:normalizedString">
+            <xsd:enumeration value="1"/>
+            <xsd:enumeration value="2"/>
+        </xsd:restriction>
+    </xsd:simpleType>
+
+    <xsd:complexType name="AllowanceChargeReasonCodeType">
+        <xsd:simpleContent>
+            <xsd:extension base="AllowanceChargeReasonCodeContentType">
+                <xsd:attribute name="codeListID" type="xsd:normalizedString" use="optional" fixed="UN/ECE 4465"/>
+            </xsd:extension>
+        </xsd:simpleContent>
+    </xsd:complexType>
+
+    <xsd:element name="AllowanceChargeReasonCode" type="AllowanceChargeReasonCodeType" />
 </xsd:schema>
