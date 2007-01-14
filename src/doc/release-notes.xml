@@ -53,6 +53,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
               ]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1832" tool="jira">
+                    <description>
+                        Fix minor inaccuracies in CTF
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>CTF</module>
+                    <date>20070113</date>
+                </bug>
                 <bug id="1831" tool="jira">
                     <description>
                         Remove Adaptx from Castor; add new implementation of xmldiff for CTF
