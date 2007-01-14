@@ -10,7 +10,7 @@
                 <xsd:element name="Body" type="xsd:string"/>
             </xsd:sequence>
             <xsd:anyAttribute namespace="##other" processContents="lax">
-                <!-- This annotation is lost in our processing and is counted as two differences -->
+                <!-- This annotation is lost in our processing ... this is probably a bug -->
                 <xsd:annotation>
                     <xsd:documentation>
                         Some docs

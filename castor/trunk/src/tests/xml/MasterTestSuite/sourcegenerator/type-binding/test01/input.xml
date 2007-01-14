@@ -1,5 +1,5 @@
 <?xml version="1.0"?>
-<Test1Type>
+<Test1Type xmlns="urn:test:namespace">
   <Test2>
      <Test3>Foo</Test3>
   </Test2>

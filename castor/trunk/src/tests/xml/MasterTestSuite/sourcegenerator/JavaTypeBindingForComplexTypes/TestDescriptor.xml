@@ -2,7 +2,10 @@
 <TestDescriptor>
     <Name>Test java-type binding for complex types</Name>
     <Author>Werner Guttmann</Author>
-    <Comment>Test that ensures that the java-type of a binding for a complex type definition is actually used during source code generation</Comment>
+    <Comment>
+        Test that ensures that the java-type of a binding for a complex type
+        definition is actually used during source code generation.
+    </Comment>
     <Category>basic capability</Category>
     <SourceGeneratorTest>
         <Schema>test.xsd</Schema>
