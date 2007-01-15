@@ -44,6 +44,12 @@ public abstract class XSListType extends XSType {
 
     //--------------------------------------------------------------------------
 
+    /**
+     * Creates an instance of this (abstract base) collection type.
+     * @param colType Type of collection to use.
+     * @param contentType Type of the collection members.
+     * @param useJava50 If true, the collection will be generated using Java 5
+       */
     public XSListType(final String colType, final XSType contentType, final boolean useJava50) {
         super();
         
