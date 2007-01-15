@@ -833,7 +833,7 @@ public abstract class DateTimeBase implements java.io.Serializable, Cloneable {
 //            throw new RuntimeException(e);
         } catch (CloneNotSupportedException e) {
             // This is a Castor coding error if this occurs -- it should never occur
-            throw new RuntimeException(e);
+            throw new RuntimeException("Unexpected 'clone not supported' Exception");
         }
 
         // If both date/time types are in Z-form (or both not), we just compare the fields.

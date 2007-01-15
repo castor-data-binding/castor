@@ -53,6 +53,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
               ]]></code-panel>
             </summary>
             <bugs>
+                <bug id="1837" tool="jira">
+                    <description>
+                        Fix small Java 1.3 regressions in XML code
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070114</date>
+                </bug>
                 <bug id="1832" tool="jira">
                     <description>
                         Fix minor inaccuracies in CTF

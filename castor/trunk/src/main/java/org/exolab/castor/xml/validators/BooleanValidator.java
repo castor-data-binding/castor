@@ -140,7 +140,7 @@ public class BooleanValidator extends PatternValidator implements TypeValidator 
         }
 
         if (hasPattern()) {
-            super.validate(Boolean.toString(b), context);
+            super.validate(new Boolean(b).toString(), context);
         }
     } //-- validate
 
