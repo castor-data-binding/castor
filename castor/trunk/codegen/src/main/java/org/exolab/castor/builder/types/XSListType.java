@@ -15,6 +15,12 @@
  */
 package org.exolab.castor.builder.types;
 
+import org.exolab.castor.builder.SourceGeneratorConstants;
+import org.exolab.castor.xml.schema.Facet;
+import org.exolab.javasource.JClass;
+import org.exolab.javasource.JCollectionType;
+import org.exolab.javasource.JType;
+
 /**
  * A base class for all list types.
  * 
@@ -27,6 +33,9 @@ public abstract class XSListType extends XSType {
     /** Content type of the collection. */
     private final XSType _contentType;
     
+    /** The JType represented by this XSType. */
+    private final JType _jType;
+    
     /** Maximum size of this list. If set to -1 the maximum size is undefined. */
     private int _maxSize = -1;
     
@@ -35,16 +44,32 @@ public abstract class XSListType extends XSType {
 
     //--------------------------------------------------------------------------
 
-    /**
-     * Create a AbstractXSList.
-     *
-     * @param contentType Type of the collection members.
-     */
-    public XSListType(final XSType contentType) {
+    public XSListType(final String colType, final XSType contentType, final boolean useJava50) {
         super();
         
         _contentType = contentType;
+        
+        if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)) {
+            _jType = new JCollectionType("java.util.List", "java.util.ArrayList",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_COLLECTION)) {
+            _jType = new JCollectionType("java.util.Collection", "java.util.LinkedList",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SET)) {
+            _jType = new JCollectionType("java.util.Set", "java.util.HashSet",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SORTED_SET)) {
+            _jType = new JCollectionType("java.util.SortedSet", "java.util.TreeSet",
+                    contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
+            _jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
+        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ODMG)) {
+            _jType = new JClass("org.odmg.DArray");
+        } else {
+            _jType = null;
+        }
     }
+    
 
     //--------------------------------------------------------------------------
 
@@ -56,6 +81,11 @@ public abstract class XSListType extends XSType {
     public final XSType getContentType() {
         return _contentType;
     }
+
+    /**
+     * {@inheritDoc}
+     */
+    public JType getJType() { return _jType; }
 
     /**
      * Returns the maximum allowed size for this list.
@@ -93,5 +123,59 @@ public abstract class XSListType extends XSType {
         _minSize = size;
     }
 
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isCollection() {
+        return true;
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public String getName() {
+        return _jType.getName();
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isPrimitive() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public boolean isDateTime() { return false; }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String newInstanceCode() {
+        return "null;";
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String createToJavaObjectCode(final String variableName) {
+        return variableName;
+    }
+    
+    /**
+     * {@inheritDoc}
+     */
+    public String createFromJavaObjectCode(final String variableName) {
+        return "(" + getJType().toString() + ") " + variableName;
+    }
+    
     //--------------------------------------------------------------------------
+    
+    /**
+     * {@inheritDoc}
+     */
+    protected void setFacet(final Facet facet) {
+        // Not implemented
+    }
+
+    
 }

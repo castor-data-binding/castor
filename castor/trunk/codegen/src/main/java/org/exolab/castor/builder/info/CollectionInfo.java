@@ -52,8 +52,8 @@ package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.SourceGeneratorConstants;
+import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSListType;
-import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JArrayType;
@@ -115,7 +115,8 @@ public class CollectionInfo extends FieldInfo {
      */
     public CollectionInfo(final XSType contentType, final String name,
             final String elementName, final boolean useJava50) {
-        super(new XSList(SourceGeneratorConstants.FIELD_INFO_VECTOR, contentType, useJava50), name);
+        super(XSCollectionFactory.createCollection(SourceGeneratorConstants.FIELD_INFO_VECTOR, 
+                contentType, useJava50), name);
 
         if (elementName.charAt(0) == '_') {
             this._elementName = elementName.substring(1);

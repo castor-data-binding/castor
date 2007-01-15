@@ -197,7 +197,7 @@ public final class MemberFactory extends BaseFactory {
     public FieldInfo createFieldInfoForContent(final XSType xsType, final boolean useJava50) {
         String fieldName = "_content";               //new xsType()???
         FieldInfo fInfo = null;
-        if (xsType.getType() == XSType.COLLECTION) {
+        if (xsType.isCollection()) {
             fInfo = this.getInfoFactory().createCollection(
                     ((XSListType) xsType).getContentType(), fieldName, null, useJava50);
         } else {
@@ -371,6 +371,8 @@ public final class MemberFactory extends BaseFactory {
                      fieldInfo = this.getInfoFactory().createIdentity(memberName);
                      break;
                 case XSType.COLLECTION:
+                case XSType.IDREFS_TYPE:
+                case XSType.NMTOKENS_TYPE:
                     String collectionName = component.getCollectionType();
                     XSType contentType = ((XSListType) xsType).getContentType();
                     fieldInfo = this.getInfoFactory().createCollection(contentType,

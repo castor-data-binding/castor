@@ -56,7 +56,9 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
+import org.exolab.castor.builder.types.XSIdRefs;
 import org.exolab.castor.builder.types.XSListType;
+import org.exolab.castor.builder.types.XSNMTokens;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.XMLConstants;
 import org.exolab.javasource.JClass;
@@ -320,7 +322,7 @@ public final class DescriptorSourceFactory {
             any = true;
         }
 
-        if (xsType.getType() == XSType.COLLECTION) {
+        if (xsType.isCollection()) {
             //Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
             xsType = ((CollectionInfo) member).getContent().getSchemaType();
         }
@@ -486,7 +488,7 @@ public final class DescriptorSourceFactory {
             jsc.add("desc.setImmutable(true);");
         } else if (xsType.getType() == XSType.DECIMAL_TYPE) {
             jsc.add("desc.setImmutable(true);");
-        } else if (member.getSchemaType().getType() == XSType.COLLECTION) {
+        } else if (member.getSchemaType().isCollection()) {
             //-- Handle special Collection Types such as NMTOKENS and IDREFS
             switch (xsType.getType()) {
                 case XSType.NMTOKEN_TYPE:
@@ -543,7 +545,7 @@ public final class DescriptorSourceFactory {
 
             XSType xsType = member.getSchemaType();
             //--handle collections
-            if ((xsType.getType() == XSType.COLLECTION)) {
+            if (xsType.isCollection()) {
                 XSListType xsList = (XSListType) xsType;
 
                 jsc.add("fieldValidator.setMinOccurs(");
@@ -553,19 +555,6 @@ public final class DescriptorSourceFactory {
                     jsc.add("fieldValidator.setMaxOccurs(");
                     jsc.append(Integer.toString(xsList.getMaximumSize()));
                     jsc.append(");");
-                }
-
-                xsType = ((CollectionInfo) member).getContent().getSchemaType();
-                //special handling for NMTOKEN
-                if (xsType.getType() == XSType.NMTOKEN_TYPE) {
-                    return;
-                }
-                if (xsType.getType() == XSType.IDREF_TYPE) {
-                    jsc.add("org.exolab.castor.xml.validators.IdRefsValidator typeValidator = "
-                          + "new org.exolab.castor.xml.validators.IdRefsValidator();");
-                    jsc.add("fieldValidator.setValidator(typeValidator);");
-                    jsc.add("desc.setValidator(fieldValidator);");
-                    return;
                 }
             } else if (member.isRequired()) {
                 jsc.add("fieldValidator.setMinOccurs(1);");

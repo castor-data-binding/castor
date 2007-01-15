@@ -67,12 +67,14 @@ import org.exolab.castor.builder.types.XSGYearMonth;
 import org.exolab.castor.builder.types.XSHexBinary;
 import org.exolab.castor.builder.types.XSId;
 import org.exolab.castor.builder.types.XSIdRef;
+import org.exolab.castor.builder.types.XSIdRefs;
 import org.exolab.castor.builder.types.XSInt;
 import org.exolab.castor.builder.types.XSInteger;
 import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSLong;
 import org.exolab.castor.builder.types.XSNCName;
 import org.exolab.castor.builder.types.XSNMToken;
+import org.exolab.castor.builder.types.XSNMTokens;
 import org.exolab.castor.builder.types.XSNegativeInteger;
 import org.exolab.castor.builder.types.XSNonNegativeInteger;
 import org.exolab.castor.builder.types.XSNonPositiveInteger;
@@ -199,15 +201,13 @@ public final class TypeConversion {
             case SimpleTypesFactory.IDREF_TYPE:          //-- IDREF
                 return new XSIdRef();
             case SimpleTypesFactory.IDREFS_TYPE:         //-- IDREFS
-                return new XSList(SourceGeneratorConstants.FIELD_INFO_VECTOR,
-                        new XSIdRef(), useJava50);
+                return new XSIdRefs(SourceGeneratorConstants.FIELD_INFO_VECTOR, useJava50);
             case SimpleTypesFactory.NMTOKEN_TYPE:        //-- NMTOKEN
                 XSNMToken xsNMToken = new XSNMToken();
                 xsNMToken.setFacets(simpleType);
                 return xsNMToken;
             case SimpleTypesFactory.NMTOKENS_TYPE:       //-- NMTOKENS
-                return new XSList(SourceGeneratorConstants.FIELD_INFO_VECTOR,
-                        new XSNMToken(), useJava50);
+                return new XSNMTokens(SourceGeneratorConstants.FIELD_INFO_VECTOR, useJava50);
             case SimpleTypesFactory.ANYURI_TYPE:         //--AnyURI
                 return new XSAnyURI();
             case SimpleTypesFactory.BASE64BINARY_TYPE:   //-- base64Bbinary
