@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1837 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Fix small Java 1.3 regressions in XML code
+       Details: http://jira.codehaus.org/browse/CASTOR-1837
+       (Edward - 20070114)
+
 CTF:   Resolved issue CASTOR-1832 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fix minor inaccuracies in CTF
        Details: http://jira.codehaus.org/browse/CASTOR-1832
