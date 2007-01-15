@@ -4,7 +4,7 @@ SVN
 Gen:   Resolved issue CASTOR-1827 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved part sof XSList code into new XSNMTokens and XSIdrefs classes.
        Details: http://jira.codehaus.org/browse/CASTOR-1827
-       (Werner - 20070112)
+       (Werner - 20070115)
 
 XML:   Resolved issue CASTOR-1837 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Fix small Java 1.3 regressions in XML code
