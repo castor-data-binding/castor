@@ -236,6 +236,15 @@ public abstract class XSType {
     public abstract boolean isDateTime();
 
     /**
+     * Returns true if this XSType represents a collection.
+     * 
+     * @return True if this XSType represents a collection.
+     */
+    public boolean isCollection() {
+        return false;
+    }
+    
+    /**
      * Returns the JType that this XSType represents.
      * 
      * @return The JType that this XSType represents.

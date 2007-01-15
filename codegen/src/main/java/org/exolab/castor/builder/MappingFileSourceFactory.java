@@ -207,7 +207,7 @@ public final class MappingFileSourceFactory {
         }
 
         //Attributes can handle COLLECTION type for NMTOKENS or IDREFS for instance
-        if (xsType.getType() == XSType.COLLECTION) {
+        if (xsType.isCollection()) {
             xsType = ((CollectionInfo) member).getContent().getSchemaType();
         }
 

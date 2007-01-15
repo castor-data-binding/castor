@@ -15,12 +15,7 @@
  */
 package org.exolab.castor.builder.types;
 
-import org.exolab.castor.builder.SourceGeneratorConstants;
-import org.exolab.castor.xml.schema.Facet;
-import org.exolab.javasource.JClass;
-import org.exolab.javasource.JCollectionType;
 import org.exolab.javasource.JSourceCode;
-import org.exolab.javasource.JType;
 
 /**
  * A list type.
@@ -31,21 +26,9 @@ import org.exolab.javasource.JType;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class XSList extends XSListType {
-    //--------------------------------------------------------------------------
-
-    /** Name of the IDREFS type. */
-    public static final String IDREFS_NAME = "IDREFS";
-    
-    /** name of the NMTOKENS type. */
-    public static final String NMTOKENS_NAME  = "NMTOKENS";
 
     /** Type number of this XSType. */
     public static final short TYPE = XSType.COLLECTION;
-
-    //--------------------------------------------------------------------------
-
-    /** The JType represented by this XSType. */
-    private final JType _jType;
 
     //--------------------------------------------------------------------------
 
@@ -58,101 +41,25 @@ public final class XSList extends XSListType {
      *        features such as generics.
      */
     public XSList(final String colType, final XSType contentType, final boolean useJava50) {
-        super(contentType);
-        
-        if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ARRAY_LIST)) {
-            _jType = new JCollectionType("java.util.List", "java.util.ArrayList",
-                    contentType.getJType(), useJava50);
-        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_COLLECTION)) {
-            _jType = new JCollectionType("java.util.Collection", "java.util.LinkedList",
-                    contentType.getJType(), useJava50);
-        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SET)) {
-            _jType = new JCollectionType("java.util.Set", "java.util.HashSet",
-                    contentType.getJType(), useJava50);
-        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_SORTED_SET)) {
-            _jType = new JCollectionType("java.util.SortedSet", "java.util.TreeSet",
-                    contentType.getJType(), useJava50);
-        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_VECTOR)) {
-            _jType = new JCollectionType("java.util.Vector", contentType.getJType(), useJava50);
-        } else if (colType.equalsIgnoreCase(SourceGeneratorConstants.FIELD_INFO_ODMG)) {
-            _jType = new JClass("org.odmg.DArray");
-        } else {
-            _jType = null;
-        }
+        super(colType, contentType, useJava50);
     }
 
     //--------------------------------------------------------------------------
 
-    /**
-     * {@inheritDoc}
-     */
-    public String getName() {
-        short type = ((XSListType) this).getContentType().getType();
-        if (type == NMTOKEN_TYPE) {
-            return NMTOKENS_NAME;
-        } else if (type == IDREF_TYPE) {
-            return IDREFS_NAME;
-        } else {
-            return _jType.getName();
-        }
-    }
-    
     /**
      * {@inheritDoc}
      */
     public short getType() { return TYPE; }
     
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isPrimitive() { return false; }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public boolean isDateTime() { return false; }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public JType getJType() { return _jType; }
-
-    /**
-     * {@inheritDoc}
-     */
-    public String newInstanceCode() {
-        return "null;";
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String createToJavaObjectCode(final String variableName) {
-        return variableName;
-    }
-    
-    /**
-     * {@inheritDoc}
-     */
-    public String createFromJavaObjectCode(final String variableName) {
-        return "(" + getJType().toString() + ") " + variableName;
-    }
 
     //--------------------------------------------------------------------------
-
-    /**
-     * {@inheritDoc}
-     */
-    protected void setFacet(final Facet facet) {
-        // Not implemented
-    }
 
     /**
      * {@inheritDoc}
      */
     public void validationCode(final JSourceCode jsc,
             final String fixedValue, final String validatorInstanceName) {
-        // Not implemented
+        getContentType().validationCode(jsc, fixedValue, validatorInstanceName);
     }
     
     //--------------------------------------------------------------------------

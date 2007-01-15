@@ -50,7 +50,7 @@
 package org.exolab.castor.builder.info;
 
 import org.exolab.castor.builder.SGTypes;
-import org.exolab.castor.builder.types.XSList;
+import org.exolab.castor.builder.types.XSCollectionFactory;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.javasource.JClass;
 import org.exolab.javasource.JMethod;
@@ -81,7 +81,8 @@ public class CollectionInfoJ2 extends CollectionInfo {
                             final boolean useJava50) {
         super(contentType, name, elementName, useJava50);
         // --override the schemaType
-        this.setSchemaType(new XSList(collectionType, contentType, useJava50));
+        this.setSchemaType(XSCollectionFactory.createCollection(collectionType, 
+                contentType, useJava50));
     } // -- CollectionInfoJ2
 
     /**
