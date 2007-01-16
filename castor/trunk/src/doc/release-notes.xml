@@ -51,8 +51,39 @@
 # org.exolab.castor.xml.XercesXMLSerializerFactory
 org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSerializerFactory
               ]]></code-panel>
+
+              <h3>Castor under JDK 6</h3>
+
+              <p>
+                As of this release, Castor now builds under JDK 6.0.  Castor XML
+                has been tested under JDK 6.0.  However, Castor JDO has not
+                really been tested under JDK 6.0.  Note that you may need to use
+                a JDBC 4.0 compatible connector with this new JDK.
+              </p>
+
             </summary>
             <bugs>
+                <bug id="1762" tool="jira">
+                    <description>
+                        Castor does not build under JDK 6; jdo/engine/ClobImpl does
+                        not override abstract getCharacterStream(long,long)
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070116</date>
+                </bug>
                 <bug id="1827" tool="jira">
                     <description>
                         Moved part sof XSList code into new XSNMTokens and XSIdRefs classes.
