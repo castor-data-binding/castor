@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1762 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Castor does not build under JDK 6; jdo/engine/ClobImpl does not override abstract
+       getCharacterStream(long,long)
+       Details: http://jira.codehaus.org/browse/CASTOR-1762
+       (Edward - 20070116)
+
 Gen:   Resolved issue CASTOR-1827 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Moved part sof XSList code into new XSNMTokens and XSIdrefs classes.
        Details: http://jira.codehaus.org/browse/CASTOR-1827

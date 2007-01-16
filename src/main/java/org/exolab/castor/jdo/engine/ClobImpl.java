@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -44,7 +44,11 @@
  */
 package org.exolab.castor.jdo.engine;
 
-import java.io.*;
+import java.io.IOException;
+import java.io.InputStream;
+import java.io.OutputStream;
+import java.io.Reader;
+import java.io.Writer;
 import java.sql.Clob;
 import java.sql.SQLException;
 
@@ -52,8 +56,12 @@ import java.sql.SQLException;
  * This is an implementation of java.sql.Clob interface that is constructed
  * from java.io.Reader, in needs information about the length of the stream
  * (which is not provided by java.io.Reader interface).
- *
+ * <p>
  * It is useful for setting CLOB values in the database.
+ * <p>
+ * Note: This implementation does not attempt to implement features of JDBC3
+ * or JDBC4.
+ *
  * @author <a href="mailto:on@ibis.odessa.ua">Oleg Nitz</a>
  * @author <a href="mailto:adam_e@swbell.net">Adam Esterline</a>
  * @version $Revision$
@@ -132,64 +140,73 @@ public class ClobImpl implements Clob {
     }
 
     /**
-     * Not implemented, I guess it is not needed for writing CLOB
+     * Not implemented, I guess it is not needed for writing CLOB.
      */
     public long position(Clob searchstr, long start) {
         return 0;
     }
 
     /**
-     * Not implemented, I guess it is not needed for writing CLOB
+     * Not implemented, I guess it is not needed for writing CLOB.
      */
     public long position(String searchstr, long start) {
         return 0;
     }
 
     /**
-     * Not implemented.   Added to make ClobImpl complient with
-     * JDBC 3.0, which is apart of JDK1.4 <p>
+     * Not implemented.   Added to make ClobImpl compliant with
+     * JDBC 3.0, which is a part of JDK1.4.
      */
-    public OutputStream setAsciiStream(long pos)
-                                throws SQLException
-    {
+    public OutputStream setAsciiStream(long pos) throws SQLException {
         return null;
     }
 
     /**
-     * Not implemented.   Added to make ClobImpl complient with
-     * JDBC 3.0, which is apart of JDK1.4 <p>
+     * Not implemented. Added to make ClobImpl compliant with JDBC 3.0, which is
+     * a part of JDK1.4.
      */
-    public Writer setCharacterStream(long pos)
-                              throws SQLException
-    {
+    public Writer setCharacterStream(long pos) throws SQLException {
         return null;
     }
 
     /**
-     * Not implemented.   Added to make ClobImpl complient with
-     * JDBC 3.0, which is apart of JDK1.4 <p>
+     * Not implemented. Added to make ClobImpl compliant with JDBC 3.0, which is
+     * a part of JDK1.4.
      */
-    public int setString(long pos, String str) throws SQLException
-    {
+    public int setString(long pos, String str) throws SQLException {
         return -1;
     }
 
     /**
-     * Not implemented.   Added to make ClobImpl complient with
-     * JDBC 3.0, which is apart of JDK1.4 <p>
+     * Not implemented.   Added to make ClobImpl compliant with
+     * JDBC 3.0, which is a part of JDK1.4.
      */
-    public int setString(long pos, String str, int offset,
-             int len) throws SQLException
-    {
+    public int setString(long pos, String str, int offset, int len) throws SQLException {
         return -1;
     }
 
     /**
-     * Not implemented.   Added to make ClobImpl complient with
-     * JDBC 3.0, which is apart of JDK1.4 <p>
+     * Not implemented.   Added to make ClobImpl compliant with
+     * JDBC 3.0, which is a part of JDK1.4.
      */
-    public void truncate(long len) throws SQLException
-    {
+    public void truncate(long len) throws SQLException {
+        // Nothing here
+    }
+
+    /**
+     * Not implemented.   Added to make ClobImpl compliant with
+     * JDBC 4.0, which is a part of JDK6.
+     */
+    public Reader getCharacterStream(long pos, long length) throws SQLException {
+        return null;
+    }
+
+    /**
+     * Not implemented.   Added to make ClobImpl compliant with
+     * JDBC 4.0, which is a part of JDK6.
+     */
+    public void free() {
+        // Nothing here
     }
 
 }
