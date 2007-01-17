@@ -970,7 +970,7 @@
             <caption style="font-weight:bold">
               <xsl:value-of select="@caption" />
             </caption>
-            <tr bgcolor="#7270c2">
+            <tr class="cheader">
               <xsl:apply-templates select="cheader" />
             </tr>
             <xsl:apply-templates select="crow" />
@@ -981,7 +981,9 @@
   </xsl:template>
 
   <xsl:template match="cheader">
-    <xsl:copy-of select="." />
+  	<xsl:for-each select="td">
+  		<td class="cheader"><xsl:value-of select="."/></td>
+  	</xsl:for-each>
   </xsl:template>
 
   <xsl:template match="crow">
@@ -993,9 +995,6 @@
         <xsl:attribute name="bgcolor">#DDDDDD</xsl:attribute>
       </xsl:if>
       <xsl:apply-templates/>
-<!--
-      <xsl:copy-of select="." />
--->
     </tr>
   </xsl:template>
 

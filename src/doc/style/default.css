@@ -139,14 +139,24 @@ A:active {
 .newsTitle {
     font-size: 12px;
     font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
-    line-height: 16px; color: #222222;
+    line-height: 16px; 
+    color: #222222;
     font-weight: bold;
 }
 
 .newsSummary {
     font-size: 11px;
     font-family: "Tahoma", "Helvetica", "Arial", "sans-serif"; 
-    line-height: 14px; color: #222222;
+    line-height: 14px; 
+    color: #222222;
+}
+
+.cheader {
+    font-family: "Tahoma", "Helvetica", "Arial", "sans-serif";
+    font-size: 12px;
+	background: #7270c2;
+	color: black
+    font-weight: bold 
 }
 
 
