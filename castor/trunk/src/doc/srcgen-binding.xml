@@ -71,20 +71,26 @@
 
         <p>
           The binding element is the root element and contains the binding
-          information. The attribute <tt>defaultBindingType</tt> controls
-          the Class creation type.
-        </p>
-
-        <!-- FIXME:  We need documentation on the defaultBindingType ...
-             the paragraph above had a link within this document to a
-             section that did not exist.  -->
-
-        <tip>
-          Be careful when using <b>defaultBindingType</b> attribute as it
-          will override the binding type specified in the
-          <tt>castorbuilder.properties</tt> file.
-        </tip>
-
+          information.</p>
+          
+        <ctable>
+        	<cheader>
+        		<td>Name</td>
+        		<td>Description</td>
+        		<td>Default</td>
+        		<td>Required?</td>
+        	</cheader>
+        	<crow>
+        		<td>defaultBindingType</td>
+        		<td>Controls the <a href="srcgen-properties.html#Class-Creation/Mapping">class creation mode</a> 
+        		    for details on the available modes. Please note that the mode 
+        		    specified in this attribute will override the binding type specified 
+        		    in the <tt>castorbuilder.properties</tt> file.</td>
+        		<td><tt>element</tt></td>
+        		<td>No</td>
+        	</crow>
+        </ctable>
+        
       </section>
 
       <section title="&lt;include> element">

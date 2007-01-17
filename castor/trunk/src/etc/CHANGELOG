@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Doc:   Resolved issue CASTOR-1841 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed documentation for 'defaultBindingType' attribute in XMl code generation documentation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1841
+       (Werner - 20070117)
+
 XML:   Resolved issue CASTOR-1762 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Castor does not build under JDK 6; jdo/engine/ClobImpl does not override abstract
        getCharacterStream(long,long)
