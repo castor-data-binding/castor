@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1839 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with derivation of Java types for UNIONs that are part of restriction
+       hierarchies.
+       Details: http://jira.codehaus.org/browse/CASTOR-1839
+       (Werner - 20070117)
+
 Doc:   Resolved issue CASTOR-1841 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed documentation for 'defaultBindingType' attribute in XMl code generation documentation.
        Details: http://jira.codehaus.org/browse/CASTOR-1841

@@ -70,7 +70,6 @@ import org.exolab.castor.builder.types.XSIdRef;
 import org.exolab.castor.builder.types.XSIdRefs;
 import org.exolab.castor.builder.types.XSInt;
 import org.exolab.castor.builder.types.XSInteger;
-import org.exolab.castor.builder.types.XSList;
 import org.exolab.castor.builder.types.XSLong;
 import org.exolab.castor.builder.types.XSNCName;
 import org.exolab.castor.builder.types.XSNMToken;
@@ -177,8 +176,19 @@ public final class TypeConversion {
             base = (SimpleType) base.getBaseType();
         }
 
+        // try to find a common type for UNIONs, and use it; if not,
+        // use 'java.lang.Object' instead.
         if (simpleType.getStructureType() == Structure.UNION) {
-            SimpleType common = findCommonType((Union) simpleType);
+            SimpleType currentUnion = simpleType;
+            SimpleType common = findCommonType((Union) currentUnion);
+            // look at type hierarchy (if any), and try to 
+            // find a common type recursively 
+            while (common == null 
+                    && currentUnion.getBaseType().getStructureType() == Structure.UNION)
+            {
+                currentUnion = (SimpleType) currentUnion.getBaseType();
+                common = findCommonType((Union) currentUnion);
+            }
             if (common == null) {
                 return new XSClass(SGTypes.OBJECT);
             }
