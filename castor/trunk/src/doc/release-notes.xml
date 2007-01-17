@@ -63,6 +63,27 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
 
             </summary>
             <bugs>
+                <bug id="1839" tool="jira">
+                    <description>
+                        Fixed problem with derivation of Java types for UNIONs that are 
+                        part of restriction hierarchies.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Daniel Nilsson</name>
+                        <email>daniel.nilsson@mandator.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070117</date>
+                </bug>
                 <bug id="1841" tool="jira">
                     <description>
                         Fixed documentation for 'defaultBindingType' attribute in XMl code generation
@@ -80,9 +101,9 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                         <name>David M. Karr</name>
                         <email>david.karr@wamu.net</email>
                     </reporter>
-                    <type>Enh.</type>
-                    <module>Gen</module>
-                    <date>20070115</date>
+                    <type>Bug</type>
+                    <module>Doc</module>
+                    <date>20070117</date>
                 </bug>
                 <bug id="1762" tool="jira">
                     <description>
