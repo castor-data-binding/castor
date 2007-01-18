@@ -170,6 +170,10 @@
         <url>srcgen-anttask.xml</url>
         <display>Ant task</display>
       </navLink>
+      <navLink highlighted="true">
+        <url>srcgen-maven-plugin.xml</url>
+        <display>Maven 2 plugin</display>
+      </navLink>
       <navLink>
         <url>xmlschema.xml</url>
         <display>Schema Support</display>
