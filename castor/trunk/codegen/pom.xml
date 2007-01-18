@@ -23,6 +23,33 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<build>
 		<plugins>
 		
+	     <plugin>
+	        <groupId>org.codehaus.mojo</groupId>
+	        <artifactId>castor-maven-plugin</artifactId>
+	        <version>1.0</version>
+            <configuration>
+                  <schema>src/main/resources/org/exolab/castor/builder/binding/binding.xsd</schema>
+                  <packaging>org.exolab.castor.builder.binding</packaging>
+                  <properties>src/main/resources/org/exolab/castor/builder/binding.generation.properties</properties>
+            </configuration>
+	        <dependencies>
+	          <dependency> 
+	            <groupId>org.codehaus.castor</groupId>
+	            <artifactId>castor</artifactId>
+	            <version>1.1-M3-SNAPSHOT</version>
+	          </dependency>
+	        </dependencies>
+<!-- enable when old sources have been dropped from the repo; until then, manually execute castor:generate
+            <executions>
+                <execution>
+                	<goals>
+                		<goal>generate</goal>
+                	</goals>
+                 </execution>
+            </executions>	        
+ -->	        
+ 	      </plugin>		
+	      
 			<plugin>
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
