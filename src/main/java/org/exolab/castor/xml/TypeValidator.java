@@ -45,7 +45,7 @@
 package org.exolab.castor.xml;
 
 /**
- * The basic type validation interface class
+ * The basic type validation interface class.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
@@ -59,6 +59,7 @@ public interface TypeValidator {
      * @param context the ValidationContext
      * @throws ValidationException if the object fails validation.
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException;
+    public void validate(final Object object, final ValidationContext context)
+                                                         throws ValidationException;
 
-} //-- TypeValidator
+}

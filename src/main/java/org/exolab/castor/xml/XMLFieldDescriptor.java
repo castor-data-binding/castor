@@ -19,7 +19,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
 
 /**
  * XML field descriptor. Wraps {@link FieldDescriptor} and adds
- * XML-related information, type conversion, etc.
+ * XML-related information, type conversion, and so on.
  *
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
@@ -27,18 +27,18 @@ import org.exolab.castor.mapping.FieldDescriptor;
  * @version $Revision$ $Date: 2004-09-17 00:47:41 -0600 (Fri, 17 Sep 2004) $
  */
 public interface XMLFieldDescriptor extends FieldDescriptor {
-    /** The xml:space property */
+    /** The xml:space property. */
     String PROPERTY_XML_SPACE = "xml:space";
-    
-    /** The xml:lang property */
+
+    /** The xml:lang property. */
     String PROPERTY_XML_LANG = "xml:lang";
-    
+
     /**
-     * Returns the index within the constructor argument array where the 
-     * value of this field should be. A value less than zero indicates
-     * that the value of this field is set via a normal setter method
-     * and not via the constructor.
-     *
+     * Returns the index within the constructor argument array where the value
+     * of this field should be. A value less than zero indicates that the value
+     * of this field is set via a normal setter method and not via the
+     * constructor.
+     * <p>
      * Note: This only applies to attribute mapped fields at this time.
      *
      * @return the index within the constructor argument array for this field.
@@ -47,98 +47,90 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
     int getConstructorArgumentIndex();
 
     /**
-     * Returns true if the value of the field represented by this 
-     * descriptor should be set via the constructor of the containing
-     * class. This is only valid for attribute mapped fields.
+     * Returns true if the value of the field represented by this descriptor
+     * should be set via the constructor of the containing class. This is only
+     * valid for attribute mapped fields.
      *
-     * @return true if the value of the field represented by this 
-     * descriptor should be set via the constructor of the containing
-     * class.
+     * @return true if the value of the field represented by this descriptor
+     *         should be set via the constructor of the containing class.
      */
     boolean isConstructorArgument();
 
     /**
      * Returns the "relative" XML path for the field being described.
-     *
-     * In most cases, this will be null. However sometimes a
-     * field may be mapped to a nested element. In which case 
-     * the value returned by this method should be the nested
-     * element name. If more than one level of nesting is
-     * needed each nested element name should be separated by
-     * by a path separator (forward slash '/').
-     *
-     * The location path name is "relative" to the parent Class. The
-     * name of the parent should not be included in the path.
-     *
-     * 
+     * <p>
+     * In most cases, this will be null. However sometimes a field may be mapped
+     * to a nested element. In which case the value returned by this method
+     * should be the nested element name. If more than one level of nesting is
+     * needed each nested element name should be separated by by a path
+     * separator (forward slash '/').
+     * <p>
+     * The location path name is "relative" to the parent Class. The name of the
+     * parent should not be included in the path.
+     * <p>
      * For example, give the following two classes:
-     * <code>
-     *
-     *    class Root {    
-     *        Bar bar;    
+     * <pre>
+     *    class Root {
+     *        Bar bar;
      *    }
      *
      *    class Bar {
      *       String value;
      *    }
-     * </code>
+     * </pre>
      *
      * And the following XML:
      *
-     * <code>
+     * <pre>
      *    &lt;root&gt;
      *       &lt;foo&gt;
      *          &lt;bar&gt; value of bar &lt;/bar&gt;
      *       &lt;/foo&gt;
      *    &lt;/root&gt;
-     * </code>
+     * </pre>
      *
-     * Since foo has no associated class, the path for 'bar'
-     * would be: "foo"
-     * 
+     * Since foo has no associated class, the path for 'bar' would be: "foo"
+     *
      * @return The "relative" XML path for the field being described.
      */
     String getLocationPath();
-    
+
     /**
-     * Return the "suggested" namespace prefix to use when marshalling
-     * as XML.
+     * Return the "suggested" namespace prefix to use when marshaling as XML.
      *
      * @return the "suggested" namespace prefix.
      */
     String getNameSpacePrefix();
 
     /**
-     * Returns the namespace URI to be used when marshalling and
-     * unmarshalling as XML.
+     * Returns the namespace URI to be used when marshaling and unmarshaling as
+     * XML.
      *
      * @return the namespace URI.
      */
     String getNameSpaceURI();
 
     /**
-     * Returns the NodeType of the Field being described. The
-     * NodeType represents the Type of Node that the Field will
-     * be marshalled into XML as.
+     * Returns the NodeType of the Field being described. The NodeType
+     * represents the Type of Node that the Field will be marshaled into XML as.
      *
      * @return the NodeType of the Field being described.
      */
     NodeType getNodeType();
-    
-    /**     
-     * Returns the value property with the given name or null
-     * if no such property exists. This method is useful for
-     * future evolutions of this interface as well as for
-     * user-defined extensions. See class declared properties
-     * for built-in properties.
+
+    /**
+     * Returns the value property with the given name or null if no such
+     * property exists. This method is useful for future evolutions of this
+     * interface as well as for user-defined extensions. See class declared
+     * properties for built-in properties.
      *
-     * @param propertyName the name of the property whose value
-     * should be returned.
+     * @param propertyName the name of the property whose value should be
+     *        returned.
      *
      * @return the value of the property, or null.
      */
     String getProperty(String propertyName);
-    
+
     /**
      * Returns the XML Schema type of the XML field being described.
      *
@@ -147,9 +139,8 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
     String getSchemaType();
 
     /**
-     * Returns a specific validator for the field described by
-     * this descriptor. A null value may be returned
-     * if no specific validator exists.
+     * Returns a specific validator for the field described by this descriptor.
+     * A null value may be returned if no specific validator exists.
      *
      * @return the field validator for the described field
      */
@@ -165,78 +156,83 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
     /**
      * Returns true if the field described by this descriptor is a container
      * field. A container is a field that is not a first-class object,
-     * and should therefore have no XML representation. 
+     * and should therefore have no XML representation.
      *
      * @return true if the field is a container
      */
     boolean isContainer();
 
     /**
-     * Returns the incremental flag which when true indicates that this
-     * member may be safely added before the unmarshaller is finished
-     * unmarshalling it.
-     * @return true if the Object can safely be added before the unmarshaller
-     * is finished unmarshalling the Object.
+     * Returns the incremental flag which when true indicates that this member
+     * may be safely added before the unmarshaler is finished unmarshaling it.
+     *
+     * @return true if the Object can safely be added before the unmarshaler is
+     *         finished unmarshaling the Object.
      */
     boolean isIncremental();
 
     /**
-     * Returns true if the field described by this descriptor
-     * is Map or Hashtable. If this method returns true, it
-     * must also return true for any call to #isMultivalued.
-     * 
-     * @return true if the field described by this desciptor is
-     * a Map or Hashtable, otherwise false.
+     * Returns true if the field described by this descriptor is Map or
+     * Hashtable. If this method returns true, it must also return true for any
+     * call to {@link #isMultivalued}.
+     *
+     * @return true if the field described by this desciptor is a Map or
+     *         Hashtable, otherwise false.
      */
     boolean isMapped();
-    
+
     /**
-     * Returns true if the field described by this descriptor can
-     * contain more than one value
-     * @return true if the field described by this descriptor can
-     * contain more than one value
+     * Returns true if the field described by this descriptor can contain more
+     * than one value.
+     *
+     * @return true if the field described by this descriptor can contain more
+     *         than one value
      */
     boolean isMultivalued();
 
     /**
-     * Returns true if the field described by this descriptor
-     * may be nillable. A nillable field is one that may
-     * have empty content and still be valid. Please see
-     * the XML Schema 1.0 Recommendation for more information
-     * on nillable.
-     * 
+     * Returns true if the field described by this descriptor may be nillable. A
+     * nillable field is one that may have empty content and still be valid.
+     * Please see the XML Schema 1.0 Recommendation for more information on
+     * nillable.
+     *
      * @return true if the field may be nillable.
      */
     boolean isNillable();
-    
+
     /**
-     * Returns true if the field described by this descriptor is
-     * a reference (ie. IDREF) to another object in the
-     * "Object Model" (XML tree)
+     * Returns true if the field described by this descriptor is a reference
+     * (ie. IDREF) to another object in the "Object Model" (e.g., XML tree).
+     *
+     * @return true if the field described by this descriptor is a reference to
+     *         another object in the "Object Model"
      */
     boolean isReference();
 
     /**
-     * Returns true if this descriptor can be used to handle elements
-     * or attributes with the given XML name. By default this method
-     * simply compares the given XML name with the internal XML name.
-     * This method can be overridden to provide more complex matching.
+     * Returns true if this descriptor can be used to handle elements or
+     * attributes with the given XML name. By default this method simply
+     * compares the given XML name with the internal XML name. This method can
+     * be overridden to provide more complex matching.
+     *
      * @param xmlName the XML name to compare
-     * @return true if this descriptor can be used to handle elements
-     * or attributes with the given XML name.
+     * @return true if this descriptor can be used to handle elements or
+     *         attributes with the given XML name.
      */
     boolean matches(String xmlName);
 
     /**
-     * Returns true if this descriptor can be used to handle elements
-     * or attributes with the given XML name. By default this method
-     * simply compares the given XML name with the internal XML name.
-     * This method can be overridden to provide more complex matching.
-     * @param xmlName the XML name to compare
-     * @param namespace the namespace URI 
+     * Returns true if this descriptor can be used to handle elements or
+     * attributes with the given XML name. By default this method simply
+     * compares the given XML name with the internal XML name. This method can
+     * be overridden to provide more complex matching.
      *
-     * @return true if this descriptor can be used to handle elements
-     * or attributes with the given XML name.
+     * @param xmlName the XML name to compare
+     * @param namespace the namespace URI
+     *
+     * @return true if this descriptor can be used to handle elements or
+     *         attributes with the given XML name.
      */
     boolean matches(String xmlName, String namespace);
+
 }

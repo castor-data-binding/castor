@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,128 +42,97 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml;
 
-
 /**
- * The possible node types for an XML field. A field can be represented
- * as an attribute, an element or text content. The default is
- * attribute.
+ * The possible node types for an XML field. A field can be represented as an
+ * attribute, an element or text content. The default is attribute.  This class
+ * is essentially a typesafe enumeration and the instances are immutable.
  *
  * @author <a href="arkin@intalio.com">Assaf Arkin</a>
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class NodeType
-{
+public final class NodeType {
 
+    /** The attribute type. */
+    public static final short    ATTRIBUTE = 0;
+    /** The element type. */
+    public static final short    ELEMENT   = 1;
+    /** The namespace node type. */
+    public static final short    NAMESPACE = 2;
+    /** The text type. */
+    public static final short    TEXT      = 3;
+    /** Attribute node type (<tt>attribute</tt>). This field will appear in
+     * the XML document as an element's attribute. */
+    public static final NodeType Attribute = new NodeType(NodeType.ATTRIBUTE, "attribute");
+    /** Element node type (<tt>element</tt>). This field will appear in the
+     * XML document as a contained element. */
+    public static final NodeType Element   = new NodeType(NodeType.ELEMENT, "element");
+    /** Namespace node type (<tt>namespace</tt>). This field will appear in
+     * the XML document as a namespace declaration. */
+    public static final NodeType Namespace = new NodeType(NodeType.NAMESPACE, "namespace");
+    /** Content node type (<tt>text</tt>). This field will appear in the XML
+     * document as the element text content. */
+    public static final NodeType Text      = new NodeType(NodeType.TEXT, "text");
+
+    /** The name of this node type as it would appear in a mapping file. */
+    private final String         _name;
+    /** The type of this NodeType. */
+    private final short          _type;
 
     /**
-     * The attribute type
-    **/
-    public static final short ATTRIBUTE  = 0;
-    
-    /**
-     * The element type
-    **/
-    public static final short ELEMENT    = 1;
-    
-    /**
-     * The namespace node type
-    **/
-    public static final short NAMESPACE  = 2;
-    
-    /**
-     * The text type
-    **/
-    public static final short TEXT       = 3;
-    
-    /**
-     * Attribute node type (<tt>attribute</tt>). This field will appear
-     * in the XML document as an element's attribute.
+     * Private constructor ... creates a new NodeType.
+     * @param type Type of node
+     * @param name Name for the node
      */
-    public static final NodeType Attribute 
-        = new NodeType( NodeType.ATTRIBUTE, "attribute" );
-
-
-    /**
-     * Element node type (<tt>element</tt>). This field will appear
-     * in the XML document as a contained element.
-     */
-    public static final NodeType Element 
-        = new NodeType( NodeType.ELEMENT, "element" );
+    private NodeType(final short type, final String name) {
+        _type = type;
+        _name = name;
+    }
 
     /**
-     * Namespace node type (<tt>namespace</tt>). This field will appear
-     * in the XML document as a namespace declaration.
-     */
-    public static final NodeType Namespace
-        = new NodeType( NodeType.NAMESPACE, "namespace" );
-
-
-    /**
-     * Content node type (<tt>text</tt>). This field will appear in
-     * the XML document as the element text content.
-     */
-    public static final NodeType Text 
-        = new NodeType( NodeType.TEXT, "text" );
-
-
-    /**
-     * Returns the node type from the name. If <tt>nodeType</tt>
-     * is null, return the default node type ({@link #Attribute}).
-     * Otherwise returns the named node type mode.
+     * Returns the node type from the name. If <tt>nodeType</tt> is null,
+     * return the default node type ({@link #Attribute}). Otherwise returns
+     * the named node type mode.
      *
      * @param nodeType The node type name
      * @return The node type
      */
-    public static NodeType getNodeType( String nodeType )
-    {
-        if ( nodeType == null )
+    public static NodeType getNodeType(final String nodeType) {
+        if (nodeType == null) {
             return Attribute;
-        if ( nodeType.equals( Attribute._name ) )
-            return Attribute;        
-        if ( nodeType.equals( Namespace._name ) )
+        }
+        if (nodeType.equals(Attribute._name)) {
+            return Attribute;
+        }
+        if (nodeType.equals(Namespace._name)) {
             return Namespace;
-        if ( nodeType.equals( Element._name ) )
+        }
+        if (nodeType.equals(Element._name)) {
             return Element;
-        if ( nodeType.equals( Text._name ) )
+        }
+        if (nodeType.equals(Text._name)) {
             return Text;
-        throw new IllegalArgumentException( "Unrecognized node type" );
+        }
+        // We don't expect that this can happen without subclassing.
+        throw new IllegalArgumentException("Unrecognized node type");
     }
 
-
     /**
-     * The name of this node type as it would appear in a
-     * mapping file.
+     * Returns the type of this NodeType.
+     * @return the type of this NodeType.
      */
-    private String _name;
-
-    /**
-     * The type of this NodeType
-    **/
-    private short  _type = ELEMENT;
-    
-    private NodeType( short type, String name )
-    {
-        _name = name;
-        _type = type;
-    }
-
-    /**
-     * Returns the type of this NodeType
-     * @return the type of this NodeType
-    **/
     public short getType() {
         return _type;
     }
 
-    public String toString()
-    {
+    /**
+     * Returns the name of this NodeType.
+     * @return the name of this NodeType.
+     */
+    public String toString() {
         return _name;
     }
 
-
-} //-- NodeType
+}

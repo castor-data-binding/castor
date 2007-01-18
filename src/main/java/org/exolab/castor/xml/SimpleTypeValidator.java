@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,179 +42,163 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Vector;
 
-
 /**
- * A class for defining simple rules used for validating a content model
+ * A class for defining simple rules used for validating a content model.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-10-01 07:25:46 -0600 (Fri, 01 Oct 2004) $
-**/
+ */
 public class SimpleTypeValidator implements TypeValidator {
-    
-    /**
-     * The minimum occurance that the node must appear
-    **/
+
+    /** The minimum number of occurences allowed. */
     private int minOccurs = 0;
-    
-    /**
-     * The maximum occurance that the node must appear
-    **/
+    /** The maximum number of occurences allowed. */
     private int maxOccurs = -1;
-    
-    /**
-     * The type validate to delegate validation to
-    **/
+    /** The type validate to delegate validation to. */
     private TypeValidator validator = null;
-    
+
     /**
-     * Creates a default SimpleTypeValidator
-    **/
+     * Creates a default SimpleTypeValidator.
+     */
     public SimpleTypeValidator() {
         super();
-    } //-- SimpleTypeValidator
-    
+    }
+
     /**
      * Creates a SimpleTypeValidator using the given TypeValidator for
-     * delegating validation
-    **/
-    public SimpleTypeValidator(TypeValidator validator) {
+     * delegating validation.
+     * @param validator The TypeValidator to use
+     */
+    public SimpleTypeValidator(final TypeValidator validator) {
         super();
         this.validator = validator;
-    } //-- SimpleTypeValidator
+    }
 
     /**
-     * Sets the maximum occurance that the described field may occur
-     * @param maxOccurs the maximum occurance that the descibed field 
-     * may occur.
-    **/
-    public void setMaxOccurs(int maxOccurs) {
-        this.maxOccurs = maxOccurs;
-    } //-- setMaxOccurs
-
-    /**
-     * Sets the minimum occurance that the described field may occur
-     * @param minOccurs the minimum occurance that the descibed field 
-     * may occur.
-    **/
-    public void setMinOccurs(int minOccurs) {
-        this.minOccurs = minOccurs;
-    } //-- setMinOccurs
-    
-    /**
-     * Sets the TypeValidator to delegate validation to
-     * @param validator the TypeValidator to delegate validation to
-    **/
-    public void setValidator(TypeValidator validator) {
-        this.validator = validator;
-    } //-- setValidator
-    
-    /**
-     * Validates the given Object
+     * Sets the maximum number of times that the described field may occur.
      *
-     * @param object the Object to validate
-     * @param context the ValidationContext
+     * @param maxOccurs the maximum number of times that the described field may
+     *        occur.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException 
-    {
-        
+    public void setMaxOccurs(final int maxOccurs) {
+        this.maxOccurs = maxOccurs;
+    }
+
+    /**
+     * Sets the minimum number of times that the described field may occur.
+     *
+     * @param minOccurs the minimum number of times that the described field may
+     *        occur.
+     */
+    public void setMinOccurs(final int minOccurs) {
+        this.minOccurs = minOccurs;
+    }
+
+    /**
+     * Sets the TypeValidator to delegate validation to.
+     *
+     * @param validator the TypeValidator to delegate validation to.
+     */
+    public void setValidator(final TypeValidator validator) {
+        this.validator = validator;
+    }
+
+    /**
+     * Validates the given Object.
+     *
+     * @param object the Object to validate.
+     * @param context the ValidationContext.
+     * @throws ValidationException if validation fails.
+     */
+    public void validate(final Object object, final ValidationContext context) throws ValidationException {
         boolean required = (minOccurs > 0);
-        
-        if ((object == null) && (required)) {
+
+        if (object == null && required) {
             String err = "This field is required and cannot be null.";
             throw new ValidationException(err);
         }
-        
+
         if (object != null) {
             Class type = object.getClass();
-            
+
             int size = 1;
             boolean byteArray = false;
             if (type.isArray()) {
                 byteArray = (type.getComponentType() == Byte.TYPE);
-                if (!byteArray) size = Array.getLength(object);
+                if (!byteArray) {
+                    size = Array.getLength(object);
+                }
             }
-            
+
             //-- check minimum
             if (size < minOccurs) {
                 String err = "A minimum of " + minOccurs
-                    + " instance(s) of this field are required.";
+                             + " instance(s) of this field is required.";
                 throw new ValidationException(err);
             }
-            
+
             //-- check maximum
-            if ((maxOccurs >= 0) && (size > maxOccurs)) {
-                String err = "A maximum of " + maxOccurs + 
-                    " instance(s) of this field are required.";
+            if (maxOccurs >= 0 && size > maxOccurs) {
+                String err = "A maximum of " + maxOccurs
+                             + " instance(s) of this field are allowed.";
                 throw new ValidationException(err);
             }
-            
-            if (validator == null) return;
-            
+
+            if (validator == null) {
+                return;
+            }
+
             //-- check type
             if (isPrimitive(type) || (type == String.class)) {
                 validator.validate(object, context);
-            }
-            else if (byteArray) { 
+            } else if (byteArray) {
                 //-- do nothing for now
-            }
-            else if (type.isArray()) {
+            } else if (type.isArray()) {
                 size = Array.getLength(object);
                 for (int i = 0; i < size; i++) {
                     validator.validate(Array.get(object, i), context);
                 }
-            }
-            else if (object instanceof java.util.Enumeration) {
+            } else if (object instanceof java.util.Enumeration) {
                 Enumeration enumeration = (Enumeration)object;
-                while (enumeration.hasMoreElements())
+                while (enumeration.hasMoreElements()) {
                     validator.validate(enumeration.nextElement(), context);
-            }
-            else if (object instanceof java.util.Vector) {
+                }
+            } else if (object instanceof java.util.Vector) {
                 Vector vector = (Vector)object;
                 for (int i = 0; i < vector.size(); i++) {
                     validator.validate(vector.elementAt(i), context);
                 }
+            } else {
+                validator.validate(object, context);
             }
-            else validator.validate(object, context);
         }
-            
-    } //-- validate
-    
+    }
+
     //-------------------/
     //- Private Methods -/
     //-------------------/
-    
+
     /**
-     * Returns true if the given class type should be
-     * treated as a primitive. Wrapper objects such
-     * as java.lang.Integer, and java.lang.Float, will
-     * be treated as primitives.
+     * Returns true if the given class type should be treated as a primitive.
+     * Wrapper objects such as java.lang.Integer, and java.lang.Float, will be
+     * treated as primitives.
+     *
      * @param type the Class to check
-     * @return true if the given class should be treated
-     * as a primitive type.
-    **/
-    private boolean isPrimitive(Class type) {
-        
-        if (type.isPrimitive()) return true;
-        
-        if ((type == Boolean.class)   ||
-            (type == Byte.class)      ||
-            (type == Character.class) ||
-            (type == Double.class)    ||
-            (type == Float.class)     ||
-            (type == Integer.class)   ||
-            (type == Long.class)      ||
-            (type == Short.class)) 
+     * @return true if the given class should be treated as a primitive type.
+     */
+    private boolean isPrimitive(final Class type) {
+        if (type.isPrimitive()) {
             return true;
-            
-       return false;
-       
-    } //-- isPrimitive
-    
-} //-- SimpleTypeValidator
+        }
+
+        return (type == Boolean.class || type == Byte.class || type == Character.class
+                || type == Double.class || type == Float.class || type == Integer.class
+                || type == Long.class || type == Short.class);
+    }
+
+}

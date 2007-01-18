@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -47,17 +47,14 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml;
 
 import org.castor.mapping.BindingType;
 import org.exolab.castor.mapping.FieldDescriptor;
 
 /**
- * A class which can perform Validation on an Object model.
- * This class uses the ClassDescriptors and FieldDescriptors
- * to perform the validation.
+ * A class which can perform Validation on an Object model. This class uses the
+ * ClassDescriptors and FieldDescriptors to perform the validation.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-02-28 17:43:25 -0700 (Mon, 28 Feb 2005) $
@@ -65,43 +62,43 @@ import org.exolab.castor.mapping.FieldDescriptor;
 public class Validator implements ClassValidator {
 
     /**
-     * Creates a new Validator
-    **/
+     * Creates a new Validator.
+     */
     public Validator() {
         super();
     } //-- Validator
 
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
+     * @throws ValidationException if validation fails.
      */
-    public void validate(Object object) 
-        throws ValidationException
-    {
-        validate(object, (ValidationContext)null);
-    } //-- validate
-    
+    public void validate(final Object object) throws ValidationException {
+        validate(object, (ValidationContext) null);
+    }
+
     /**
-     * Validates the given Object
+     * Validates the given Object.
      *
      * @param object the Object to validate
      * @param context the ValidationContext to use during validation.
+     * @throws ValidationException if validation fails.
      */
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException
-    {
-
+    public void validate(final Object object, final ValidationContext context)
+                                                     throws ValidationException {
         if (object == null) {
             throw new ValidationException("Cannot validate a null Object.");
         }
-        
+
         if (context == null) {
-            context = new ValidationContext();
+            validate(object, new ValidationContext());
+            return;
         }
 
         if (context.getResolver() == null) {
-            context.setResolver((XMLClassDescriptorResolver) ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML));
+            context.setResolver((XMLClassDescriptorResolver)
+                                 ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML));
         }
 
         XMLClassDescriptor classDesc = null;
@@ -109,54 +106,55 @@ public class Validator implements ClassValidator {
         if (! MarshalFramework.isPrimitive(object.getClass())) {
             try {
                 classDesc = context.getResolver().resolveXML(object.getClass());
-            }
-            catch(ResolverException rx) {
+            } catch (ResolverException rx) {
                 throw new ValidationException(rx);
             }
         }
 
         //-- we cannot validate an object if ClassDescriptor is null
-        if (classDesc == null) return;
-
-        TypeValidator validator = classDesc.getValidator();
+        if (classDesc == null) {
+            return;
+        }
 
         XMLFieldDescriptor fieldDesc = null;
-        
+
         try {
+            TypeValidator validator = classDesc.getValidator();
             if (validator != null) {
                 validator.validate(object, context);
-            }
-            //-- default validation
-            else {
-                //-- just validate each field
+            } else {
+                // Default validation -- just validate each field
                 FieldDescriptor[] fields = classDesc.getFields();
                 if (fields != null) {
                     for (int i = 0; i < fields.length; i++) {
                         fieldDesc = (XMLFieldDescriptor)fields[i];
-                        if (fieldDesc == null) continue;
-                        FieldValidator fieldValidator
-                            = fieldDesc.getValidator();
-                        if (fieldValidator != null)
+                        if (fieldDesc == null) {
+                            continue;
+                        }
+                        FieldValidator fieldValidator = fieldDesc.getValidator();
+                        if (fieldValidator != null) {
                             fieldValidator.validate(object, context);
+                        }
                     }
                 }
             }
-        }
-        catch (ValidationException vx) {
+        } catch (ValidationException vx) {
             //-- add location information
             XPathLocation loc = (XPathLocation)vx.getLocation();
             if (loc == null) {
                 loc = new XPathLocation();
                 vx.setLocation(loc);
                 if (fieldDesc != null) {
-                    if (fieldDesc.getNodeType() == NodeType.Attribute)
+                    if (fieldDesc.getNodeType() == NodeType.Attribute) {
                         loc.addAttribute(fieldDesc.getXMLName());
-                    else
+                    } else {
                         loc.addChild(fieldDesc.getXMLName());
+                    }
                 }
             }
-            if (classDesc.getXMLName() != null)
+            if (classDesc.getXMLName() != null) {
                  loc.addParent(classDesc.getXMLName());
+            }
             throw vx;
         }
 
@@ -164,28 +162,8 @@ public class Validator implements ClassValidator {
             String err = "Unresolved IDREfs: " + context.getUnresolvedIdRefs().toString();
             throw new ValidationException(err);
         }
-        
-    } //-- validate
-    
+    }
+
     // TODO: add cleanup life-cycle method to be called from outside
 
-    /**
-     * Validates an Object model, ClassDescriptor classes will be used
-     * to perform Validation. If no ClassDescriptor class exists, one
-     * will be dynamically created
-     * @param the given Object in which to validate
-     * @param cdResolver the ClassDescriptorResolver used for finding
-     * XMLClassDescriptors, this may be null
-    **
-    public static void validate
-        (Object object, ClassDescriptorResolver cdResolver)
-        throws ValidationException
-    {
-        Validator validator = new Validator();
-        validator.setResolver(cdResolver);
-        validator.validate(object);
-    } //-- validate
-
-    */
-
-} //-- Validator
+}

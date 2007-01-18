@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -48,57 +48,62 @@ package org.exolab.castor.xml;
 
 /**
  * The exception class thrown by the ClassDescriptorResolver
- * 
+ *
  * @author <a href="mailto:keith (at) kvisco (dot) com">Keith Visco</a>
- * @version $REVISION$ $DATE$
+ * @version $Revision: $ $Date: $
  */
 public class ResolverException extends XMLException {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -8800218775708296399L;
 
     /**
-     * 
+     * {@inheritdoc}
      */
     public ResolverException() {
         super();
     }
 
     /**
-     * @param message
+     * {@inheritdoc}
+     * @param message the message for this Exception.
      */
-    public ResolverException(String message) {
+    public ResolverException(final String message) {
         super(message);
     }
 
     /**
-     * @param exception
+     * {@inheritdoc}
+     * @param exception the nested exception
      */
-    public ResolverException(Throwable exception) {
+    public ResolverException(final Throwable exception) {
         super(exception);
     }
 
     /**
-     * @param message
-     * @param errorCode
+     * {@inheritdoc}
+     * @param message the message for this Exception.
+     * @param errorCode the error code for this Exception.
      */
-    public ResolverException(String message, int errorCode) {
+    public ResolverException(final String message, final int errorCode) {
         super(message, errorCode);
     }
 
     /**
-     * @param message
-     * @param exception
+     * {@inheritdoc}
+     * @param message the message for this Exception.
+     * @param exception the nested Exception.
      */
-    public ResolverException(String message, Throwable exception) {
+    public ResolverException(final String message, final Throwable exception) {
         super(message, exception);
     }
 
     /**
-     * @param message
-     * @param exception
-     * @param errorCode
+     * {@inheritdoc}
+     * @param message the message for this Exception.
+     * @param exception the nested Exception.
+     * @param errorCode the error code for this Exception.
      */
-    public ResolverException(String message, Throwable exception, int errorCode) {
+    public ResolverException(final String message, final Throwable exception, final int errorCode) {
         super(message, exception, errorCode);
     }
 

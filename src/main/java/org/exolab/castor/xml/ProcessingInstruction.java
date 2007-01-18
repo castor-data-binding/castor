@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,55 +42,48 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 /**
- * A class that represents an XML processing instruction.
+ * An immutable class that represents an XML processing instruction.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public class ProcessingInstruction {
-    
+
+    /** PI target. */
+    private final String _target;
+    /** PI data. */
+    private final String _data;
+
     /**
-     * PI target
-    **/
-    private String _target = null;
-    
-    /**
-     * PI data
-    **/
-    private String _data = null;
-    
-    
-    /** 
      * Creates a new processing instruction.
      *
      * @param target the target for the processing instruction.
      * @param data the data for the processing instruction.
-    **/
-    public ProcessingInstruction(String target, String data) {
+     */
+    public ProcessingInstruction(final String target, final String data) {
         _target = target;
-        _data = data;
-    } //-- constructor: ProcessingInstruction
+        _data   = data;
+    }
 
-    /** 
+    /**
      * Returns the target for the processing instruction.
      *
      * @return the target for the processing instruction.
-    **/
+     */
     public String getTarget() {
         return _target;
-    } //-- getTarget
-    
-    /** 
+    }
+
+    /**
      * Returns the data for the processing instruction.
      *
      * @return the data for the processing instruction.
-    **/
+     */
     public String getData() {
         return _data;
-    } //-- getData
-    
-} //-- class: ProcessingInstruction
+    }
+
+}

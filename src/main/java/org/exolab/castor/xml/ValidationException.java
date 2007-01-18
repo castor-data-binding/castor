@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,214 +42,208 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 /**
- * An exception that can be used to signal XML validation errors
+ * An Exception that can be used to signal XML validation errors.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
-**/
+ */
 public class ValidationException extends XMLException {
     /** SerialVersionUID */
     private static final long serialVersionUID = 2220902174700444631L;
 
+    /** The location for this Exception. */
+    private Location            _location   = null;
+    /** The next Exception in the list, allowing the reporting of several
+     * validation Exceptions. */
+    private ValidationException _next       = null;
+
     /**
-     * The location for this Exception
+     * Creates a new ValidationException with no message or nested Exception.
      */
-    private Location  _location   = null;
-    
-    /**
-     * The next exception in the list, allows for reporting
-     * of several validation exceptions
-     */
-    private ValidationException _next = null;
-    
-    /**
-     * Creates a new ValidationException with no message,
-     * or nested Exception
-    **/
     public ValidationException() {
         super();
-    } //-- ValidationException
-    
+    }
+
     /**
      * Creates a new ValidationException with the given message.
      * @param message the message for this Exception
-    **/
-    public ValidationException(String message) {
+     */
+    public ValidationException(final String message) {
         super(message);
-    } //-- ValidationException(String)
+    }
 
     /**
      * Creates a new ValidationException with the given message.
      * @param message the message for this Exception
      * @param errorCode the errorCode for this Exception
-    **/
-    public ValidationException(String message, int errorCode) {
+     */
+    public ValidationException(final String message, final int errorCode) {
         super(message, errorCode);
-    } //-- ValidationException(String)
-    
+    }
+
     /**
-     * Creates a new ValidationException with the given nested
-     * exception.
-     * @param exception the nested exception
-    **/
-    public ValidationException(Throwable exception) {
+     * Creates a new ValidationException with the given nested Exception.
+     * @param exception the nested Exception
+     */
+    public ValidationException(final Throwable exception) {
         super(exception);
-    } //-- ValidationException(Exception)
+    }
 
     /**
-     * Creates a new ValidationException with the given message
-     * and nested exception.
-     * @param message the detail message for this exception
-     * @param exception the nested exception
-    **/
-    public ValidationException(String message, Throwable exception) {
-        super(message, exception);
-    } //-- ValidationException(String, Exception)
-
-    /**
-     * Creates a new ValidationException with the given message,
-     * nested exception, and errorCode.
-     * @param message the detail message for this exception
-     * @param exception the nested exception
-     * @param errorCode the errorCode for this Exception
-    **/
-    public ValidationException
-        (String message, Exception exception, int errorCode) 
-    {
-        super(message, exception, errorCode);
-    } //-- ValidationException(String, Exception, int)
-        
-    /**
-     * Returns the location of the exception
+     * Creates a new ValidationException with the given message and nested
+     * Exception.
      *
-     * @return the location of the exception
+     * @param message the detail message for this Exception
+     * @param exception the nested Exception
+     */
+    public ValidationException(final String message, final Throwable exception) {
+        super(message, exception);
+    }
+
+    /**
+     * Creates a new ValidationException with the given message, nested
+     * Exception, and errorCode.
+     *
+     * @param message the detail message for this Exception
+     * @param exception the nested Exception
+     * @param errorCode the errorCode for this Exception
+     */
+    public ValidationException(final String message, final Exception exception,
+                               final int errorCode) {
+        super(message, exception, errorCode);
+    }
+
+    /**
+     * Returns the location of the Exception.
+     *
+     * @return the location of the Exception.
      */
     public Location getLocation() {
         return _location;
-    } //-- getLocation
-    
+    }
+
     /**
-     * Returns the next ValidationException in the list, or null
-     * if no additional validation exceptions exist.
+     * Returns the next ValidationException in the list, or null if no
+     * additional validation exceptions exist.
      *
-     * @return the next ValidationException in the list, or null if
-     * there are no additional exceptions.
+     * @return the next ValidationException in the list, or null if there are no
+     *         additional Exceptions.
      */
     public ValidationException getNext() {
         return _next;
-    } //-- getNext
-    
+    }
+
     /**
      * Sets the location information for this ValidationException.
-     * 
-     * @param location The location information for this validation exception.
+     *
+     * @param location The location information for this validation Exception.
      */
-    public void setLocation(Location location) {
+    public void setLocation(final Location location) {
         _location = location;
-    } //-- setLocation
-    
+    }
+
     /**
-     * Removes the given ValidationException from the current
-     * list of ValidationException.
+     * Removes the given ValidationException from the current list of
+     * ValidationException.
      *
      * @param exception the ValidationException to remove
-     * @return true if the given ValidationException was
-     * successfully removed.
+     * @return true if the given ValidationException was successfully removed.
      */
-    protected boolean remove(ValidationException exception) {
-        
-        if (exception == null) return false;
-        
-        ValidationException current = _next;
+    protected boolean remove(final ValidationException exception) {
+        if (exception == null) {
+            return false;
+        }
+
         ValidationException previous = this;
-        while (current != null) {
+        for (ValidationException current = _next; current != null;
+                                                  previous = current, current = current._next) {
             if (current == exception) {
-                previous._next = current._next; 
+                previous._next = current._next;
                 current._next = null;
                 return true;
             }
-            current = current._next;
         }
         return false;
-    } //-- remove
-    
+    }
+
     /**
-     * Adds the given ValidationException as the last exception
-     * in the list. This is equivalent to calling #setNext if no
-     * additional ValidationException(s) exist.
+     * Adds the given ValidationException as the last exception in the list.
+     * This is equivalent to calling {@link #setNext} if no additional
+     * ValidationException(s) exist.
      *
-     * @param exception the ValidationException to set as the last
-     * exception in the list.
+     * @param exception the ValidationException to set as the last exception in
+     *        the list.
      */
-    protected void setLast(ValidationException exception) {
-        if (exception == null) return;
-        
+    protected void setLast(final ValidationException exception) {
+        if (exception == null) {
+            return;
+        }
+
         ValidationException current = this;
         while (current._next != null) {
             current = current._next;
         }
         current._next = exception;
-    } //-- setLast
-    
-    /**
-     * Sets the given ValidationException as the next exception
-     * in the list. This method will overwrite any existing
-     * ValidationException that may already exist as the next
-     * exception.
-     *
-     * @param exception the ValidationException to set as the next
-     * exception in the list.
-     */
-    protected void setNext(ValidationException exception) {
-        _next = exception;
-    } //-- setNext
-    
+    }
 
     /**
-     * Returns the String representation of this Exception
-     * @return the String representation of this Exception
-    **/
+     * Sets the given ValidationException as the next Exception in the list.
+     * This method will overwrite any existing ValidationException that may
+     * already exist as the next Exception.
+     *
+     * @param exception the ValidationException to set as the next Exception in
+     *        the list.
+     */
+    protected void setNext(final ValidationException exception) {
+        _next = exception;
+    }
+
+    /**
+     * Returns the String representation of this ValidationException.
+     * @return the String representation of this ValidationException.
+     */
     public String toString() {
-        StringBuffer sb = new StringBuffer();
+        final StringBuffer sb = new StringBuffer();
         if (getNext() != null) {
             int count = 1;
-            ValidationException vx = this;
-            while (vx != null) {
+            for (ValidationException vx = this; vx != null; vx = vx.getNext()) {
                 if (count > 1) {
-                    sb.append('\n');
-                    sb.append('\n');
+                    sb.append("\n\n");
                 }
                 sb.append(count);
-                sb.append(". ValidationException: ");
-                String message = vx.getMessage();
-                if (message != null) sb.append(message);
-                Location location = getLocation();
-                if (location != null) {
-                    sb.append(";\n   - location of error: ");
-                    sb.append(location.toString());
-                }
-                vx = vx.getNext();
+                sb.append(". ");
+                dumpOneException(sb, vx);
                 ++count;
             }
-        }
-        else {
-            sb.append("ValidationException: ");
-            String message = getMessage();
-            if (message != null) sb.append(message);
-            if (_location != null) {
-                sb.append(";\n   - location of error: ");
-                sb.append(_location.toString());
-            }
-            Throwable t = getCause();
-            if (t!=null) {
-                sb.append("\n");
-                sb.append(t.getMessage());
-            }
+        } else {
+            dumpOneException(sb, this);
         }
         return sb.toString();
-    } //-- toString
+    }
 
-} //-- ValidationException
+    /**
+     * Dump information for a single ValidationException.
+     * @param sb The StringBuffer to which we print information
+     * @param vx The ValidationException for which we print information.
+     */
+    private void dumpOneException(final StringBuffer sb, final ValidationException vx) {
+        sb.append("ValidationException: ");
+        String message = vx.getMessage();
+        if (message != null) {
+            sb.append(message);
+        }
+        Location location = vx.getLocation();
+        if (location != null) {
+            sb.append(";\n   - location of error: ");
+            sb.append(location.toString());
+        }
+        Throwable t = vx.getCause();
+        if (t != null) {
+            sb.append("\n");
+            sb.append(t.getMessage());
+        }
+    }
+
+}
