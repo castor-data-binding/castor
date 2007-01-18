@@ -50,6 +50,11 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 
+import org.exolab.castor.builder.binding.xml.Binding;
+import org.exolab.castor.builder.binding.xml.ComponentBindingType;
+import org.exolab.castor.builder.binding.xml.IncludeType;
+import org.exolab.castor.builder.binding.xml.NamingXMLType;
+import org.exolab.castor.builder.binding.xml.PackageType;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.Unmarshaller;
 import org.exolab.castor.xml.ValidationException;

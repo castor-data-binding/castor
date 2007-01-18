@@ -44,7 +44,7 @@
  */
 package org.exolab.castor.builder;
 
-import org.exolab.castor.builder.binding.EnumBindingType;
+import org.exolab.castor.builder.binding.xml.EnumBindingType;
 import org.exolab.castor.builder.types.XSType;
 
 /**

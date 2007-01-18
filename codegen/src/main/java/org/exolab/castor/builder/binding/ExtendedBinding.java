@@ -47,6 +47,8 @@ package org.exolab.castor.builder.binding;
 //--Castor imports
 import java.util.Hashtable;
 
+import org.exolab.castor.builder.binding.xml.Binding;
+import org.exolab.castor.builder.binding.xml.ComponentBindingType;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ComplexType;
