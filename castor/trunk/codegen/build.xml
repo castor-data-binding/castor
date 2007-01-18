@@ -7,10 +7,13 @@
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="archive"              value="${project}-${version}${release}-codegen"/>
+    <property name="gen.src"              value="${build}/generated-sources"/>
 
     <path id="build.classpath">
+        <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+        <pathelement location="${basedir}/../anttask/build/classes"/>
     </path>
 
     <target name="prepare.codegen" unless="prepare.codegen.executed">
@@ -44,5 +47,30 @@
              manifest="${classes}/META-INF/MANIFEST.MF"/>
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
     </target>
+	
+    <target name="gen.binding" depends="compile.codegen"
+            description="Use the Source Generator to create the Java classes for binding.xsd">
+        <delete dir="${gen.src}/binding"/>
+        <mkdir dir="${gen.src}/binding"/>
+        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
+                 classpathref="build.classpath"/>
+        <castor-srcgen file="${main.resources}/org/exolab/castor/builder/binding/binding.xsd"
+                       todir="${gen.src}/binding"
+                       package="org.exolab.castor.builder.binding.xml"
+                       lineseparator="unix"
+        			   properties="${classes}/org/exolab/castor/builder/binding.generation.properties"
+                       types="j2"
+                       warnings="true"/>
+        <javac destdir="${classes}" excludes="${excludes}"
+               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
+               optimize="on">
+            <src path="${gen.src}/binding" />
+            <classpath refid="build.classpath"/>
+        </javac>
+    </target>
+
+<!--
+                       bindingfile="${main.resources}/org/exolab/castor/builder/binding/binding-binding.xml"
+-->	
 
 </project>

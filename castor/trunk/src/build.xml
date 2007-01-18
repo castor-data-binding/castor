@@ -811,28 +811,11 @@
             <classpath refid="build.classpath"/>
         </javac>
     </target>
-
-    <target name="gen.binding" depends="compile"
-            description="Use the Source Generator to create the Java classes for binding.xsd">
-        <delete dir="${gen.src}/binding"/>
-        <mkdir dir="${gen.src}/binding"/>
-        <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
-                 classpathref="build.classpath"/>
-        <castor-srcgen file="${main.resources}/org/exolab/castor/builder/binding/binding.xsd"
-                       bindingfile="${main.resources}/org/exolab/castor/builder/binding/binding-binding.xml"
-                       todir="${gen.src}/binding"
-                       package="org.exolab.castor.builder.binding"
-                       lineseparator="unix"
-                       types="j2"
-                       warnings="true"/>
-        <javac destdir="${classes}" excludes="${excludes}"
-               debug="${main.opt.debug}" encoding="ISO-8859-1" deprecation="off"
-               optimize="on">
-            <src path="${gen.src}/binding" />
-            <classpath refid="build.classpath"/>
-        </javac>
-    </target>
-
+	
+	<target name="gen.binding" depends="jar" description="Generates the class for binding.xsd">
+		<ant antfile="${basedir}/codegen/build.xml" target="gen.binding" inheritAll="false" />
+	</target>
+	
     <target name="gen.mapping" depends="jar"
             description="Use the Source Generator to create the Java classes for mapping.xsd">
         <delete dir="${gen.src}/mapping"/>

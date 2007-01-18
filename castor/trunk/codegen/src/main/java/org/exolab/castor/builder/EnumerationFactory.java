@@ -17,10 +17,10 @@ package org.exolab.castor.builder;
 
 import java.util.Enumeration;
 
-import org.exolab.castor.builder.binding.EnumBindingType;
-import org.exolab.castor.builder.binding.EnumMember;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
+import org.exolab.castor.builder.binding.xml.EnumBindingType;
+import org.exolab.castor.builder.binding.xml.EnumMember;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
