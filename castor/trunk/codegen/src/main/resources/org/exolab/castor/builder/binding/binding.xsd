@@ -33,6 +33,7 @@
                 <xsd:element name="include" type="includeType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="package" type="packageType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="namingXML" type="namingXMLType" minOccurs="0" maxOccurs="1"/> 
+                <xsd:element ref="componentBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="elementBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="attributeBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="complexTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
@@ -46,6 +47,7 @@
     </xsd:element>
     
     <!--global definition to allow reference-->
+    <xsd:element name="componentBinding" type="componentBindingType"/>
     <xsd:element name="elementBinding" type="componentBindingType"/>
     <xsd:element name="attributeBinding" type="componentBindingType"/>
     <xsd:element name="complexTypeBinding" type="componentBindingType"/>
@@ -126,6 +128,7 @@
                  <xsd:element name="member" type="fieldType"/>
                  <xsd:element name="enum-def" type="enumBindingType"/>
              </xsd:choice>
+             <xsd:element ref="componentBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="elementBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="attributeBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="complexTypeBinding" minOccurs="0" maxOccurs="unbounded"/>

@@ -63,6 +63,27 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
 
             </summary>
             <bugs>
+                <bug id="1839" tool="jira">
+                    <description>
+					       Re-generated classes for binding files, in preparation for adding support for
+					       new &lt;componentBinding&gt;
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen</module>
+                    <date>20070118</date>
+                </bug>
                 <bug id="1847" tool="jira">
                     <description>
                         Minor improvement in validation classes

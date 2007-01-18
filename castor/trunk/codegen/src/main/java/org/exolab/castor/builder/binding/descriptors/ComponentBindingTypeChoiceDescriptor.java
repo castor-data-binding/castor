@@ -1,19 +1,24 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
 
-package org.exolab.castor.builder.binding;
+package org.exolab.castor.builder.binding.descriptors;
+
+  //---------------------------------/
+ //- Imported classes and packages -/
+//---------------------------------/
+
+import org.exolab.castor.builder.binding.ComponentBindingTypeChoice;
 
 /**
  * Class ComponentBindingTypeChoiceDescriptor.
  * 
  * @version $Revision$ $Date$
  */
-public final class ComponentBindingTypeChoiceDescriptor
-extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
+public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
 
 
       //--------------------------/
@@ -21,27 +26,27 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
     //--------------------------/
 
     /**
-     * Field elementDefinition.
+     * Field _elementDefinition.
      */
     private boolean _elementDefinition;
 
     /**
-     * Field nsPrefix.
+     * Field _nsPrefix.
      */
     private java.lang.String _nsPrefix;
 
     /**
-     * Field nsURI.
+     * Field _nsURI.
      */
     private java.lang.String _nsURI;
 
     /**
-     * Field xmlName.
+     * Field _xmlName.
      */
     private java.lang.String _xmlName;
 
     /**
-     * Field identity.
+     * Field _identity.
      */
     private org.exolab.castor.xml.XMLFieldDescriptor _identity;
 
@@ -65,25 +70,25 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- initialize element descriptors
         
         //-- _javaClass
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
-                org.exolab.castor.builder.binding.ClassType.class,
-                "_javaClass", "java-class", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.ClassType.class, "_javaClass", "java-class", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
                 ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
                 return target.getJavaClass();
             }
-            public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException {
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
                 try {
                     ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setJavaClass((org.exolab.castor.builder.binding.ClassType) value);
+                    target.setJavaClass( (org.exolab.castor.builder.binding.ClassType) value);
                 } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(final java.lang.Object parent) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.ClassType();
             }
         };
@@ -96,27 +101,29 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- validation code for: _javaClass
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
+        { //-- local scope
+        }
         desc.setValidator(fieldValidator);
         //-- _interface
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
-                org.exolab.castor.builder.binding.Interface.class,
-                "_interface", "interface", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.Interface.class, "_interface", "interface", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
                 ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
                 return target.getInterface();
             }
-            public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException {
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
                 try {
                     ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setInterface((org.exolab.castor.builder.binding.Interface) value);
+                    target.setInterface( (org.exolab.castor.builder.binding.Interface) value);
                 } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(final java.lang.Object parent) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.Interface();
             }
         };
@@ -129,27 +136,29 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- validation code for: _interface
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
+        { //-- local scope
+        }
         desc.setValidator(fieldValidator);
         //-- _member
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
-                org.exolab.castor.builder.binding.FieldType.class,
-                "_member", "member", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.FieldType.class, "_member", "member", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
                 ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
                 return target.getMember();
             }
-            public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException {
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
                 try {
                     ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setMember((org.exolab.castor.builder.binding.FieldType) value);
+                    target.setMember( (org.exolab.castor.builder.binding.FieldType) value);
                 } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(final java.lang.Object parent) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.FieldType();
             }
         };
@@ -162,27 +171,29 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- validation code for: _member
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
+        { //-- local scope
+        }
         desc.setValidator(fieldValidator);
         //-- _enumDef
-        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(
-                org.exolab.castor.builder.binding.EnumBindingType.class,
-                "_enumDef", "enum-def", org.exolab.castor.xml.NodeType.Element);
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.EnumBindingType.class, "_enumDef", "enum-def", org.exolab.castor.xml.NodeType.Element);
         handler = new org.exolab.castor.xml.XMLFieldHandler() {
-            public java.lang.Object getValue(final java.lang.Object object) 
-                throws IllegalStateException {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
                 ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
                 return target.getEnumDef();
             }
-            public void setValue(final java.lang.Object object, final java.lang.Object value) 
-                throws IllegalStateException, IllegalArgumentException {
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
                 try {
                     ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
-                    target.setEnumDef((org.exolab.castor.builder.binding.EnumBindingType) value);
+                    target.setEnumDef( (org.exolab.castor.builder.binding.EnumBindingType) value);
                 } catch (java.lang.Exception ex) {
                     throw new IllegalStateException(ex.toString());
                 }
             }
-            public java.lang.Object newInstance(final java.lang.Object parent) {
+            public java.lang.Object newInstance(java.lang.Object parent) {
                 return new org.exolab.castor.builder.binding.EnumBindingType();
             }
         };
@@ -195,8 +206,10 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
         //-- validation code for: _enumDef
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
+        { //-- local scope
+        }
         desc.setValidator(fieldValidator);
-    } //-- org.exolab.castor.builder.binding.ComponentBindingTypeChoiceDescriptor()
+    }
 
 
       //-----------/
@@ -208,19 +221,10 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * 
      * @return the access mode specified for this class.
      */
-    public org.exolab.castor.mapping.AccessMode getAccessMode() {
+    public org.exolab.castor.mapping.AccessMode getAccessMode(
+    ) {
         return null;
-    } //-- org.exolab.castor.mapping.AccessMode getAccessMode() 
-
-    /**
-     * Method getExtends.
-     * 
-     * @return the class descriptor of the class extended by this
-     * class.
-     */
-    public org.exolab.castor.mapping.ClassDescriptor getExtends() {
-        return null;
-    } //-- org.exolab.castor.mapping.ClassDescriptor getExtends() 
+    }
 
     /**
      * Method getIdentity.
@@ -228,37 +232,41 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * @return the identity field, null if this class has no
      * identity.
      */
-    public org.exolab.castor.mapping.FieldDescriptor getIdentity() {
+    public org.exolab.castor.mapping.FieldDescriptor getIdentity(
+    ) {
         return _identity;
-    } //-- org.exolab.castor.mapping.FieldDescriptor getIdentity() 
+    }
 
     /**
      * Method getJavaClass.
      * 
      * @return the Java class represented by this descriptor.
      */
-    public java.lang.Class getJavaClass() {
+    public java.lang.Class getJavaClass(
+    ) {
         return org.exolab.castor.builder.binding.ComponentBindingTypeChoice.class;
-    } //-- java.lang.Class getJavaClass() 
+    }
 
     /**
      * Method getNameSpacePrefix.
      * 
-     * @return the namespace prefix to use when marshalling as XML.
+     * @return the namespace prefix to use when marshaling as XML.
      */
-    public java.lang.String getNameSpacePrefix() {
+    public java.lang.String getNameSpacePrefix(
+    ) {
         return _nsPrefix;
-    } //-- java.lang.String getNameSpacePrefix() 
+    }
 
     /**
      * Method getNameSpaceURI.
      * 
-     * @return the namespace URI used when marshalling and
-     * unmarshalling as XML.
+     * @return the namespace URI used when marshaling and
+     * unmarshaling as XML.
      */
-    public java.lang.String getNameSpaceURI() {
+    public java.lang.String getNameSpaceURI(
+    ) {
         return _nsURI;
-    } //-- java.lang.String getNameSpaceURI() 
+    }
 
     /**
      * Method getValidator.
@@ -266,18 +274,20 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * @return a specific validator for the class described by this
      * ClassDescriptor.
      */
-    public org.exolab.castor.xml.TypeValidator getValidator() {
+    public org.exolab.castor.xml.TypeValidator getValidator(
+    ) {
         return this;
-    } //-- org.exolab.castor.xml.TypeValidator getValidator() 
+    }
 
     /**
      * Method getXMLName.
      * 
      * @return the XML Name for the Class being described.
      */
-    public java.lang.String getXMLName() {
+    public java.lang.String getXMLName(
+    ) {
         return _xmlName;
-    } //-- java.lang.String getXMLName() 
+    }
 
     /**
      * Method isElementDefinition.
@@ -286,8 +296,9 @@ extends org.exolab.castor.xml.util.XMLClassDescriptorImpl {
      * of a global
      * element or element with anonymous type definition.
      */
-    public boolean isElementDefinition() {
+    public boolean isElementDefinition(
+    ) {
         return _elementDefinition;
-    } //-- boolean isElementDefinition() 
+    }
 
 }

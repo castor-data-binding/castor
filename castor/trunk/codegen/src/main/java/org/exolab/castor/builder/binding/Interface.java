@@ -1,7 +1,7 @@
 /*
  * This class was automatically generated with 
- * <a href="http://castor.exolab.org">Castor 0.9.4</a>, using an
- * XML Schema.
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * Schema.
  * $Id$
  */
 
@@ -15,17 +15,20 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
+ * Class Interface.
  * 
- * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
-public final class Interface implements java.io.Serializable {
+ * @version $Revision$ $Date$
+ */
+public class Interface implements java.io.Serializable {
 
 
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
 
+    /**
+     * Field _name.
+     */
     private java.lang.String _name;
 
 
@@ -35,7 +38,7 @@ public final class Interface implements java.io.Serializable {
 
     public Interface() {
         super();
-    } //-- org.exolab.castor.builder.binding.Interface()
+    }
 
 
       //-----------/
@@ -45,71 +48,98 @@ public final class Interface implements java.io.Serializable {
     /**
      * Returns the value of field 'name'.
      * 
-     * @return the value of field 'name'.
-    **/
-    public java.lang.String getName() {
+     * @return the value of field 'Name'.
+     */
+    public java.lang.String getName(
+    ) {
         return this._name;
-    } //-- java.lang.String getName() 
+    }
 
     /**
-    **/
-    public boolean isValid() {
+     * Method isValid.
+     * 
+     * @return true if this object is valid according to the schema
+     */
+    public boolean isValid(
+    ) {
         try {
             validate();
         } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
      * 
      * 
      * @param out
-    **/
-    public void marshal(final java.io.Writer out)
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
+    public void marshal(
+            final java.io.Writer out)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
      * 
      * 
      * @param handler
-    **/
-    public void marshal(final org.xml.sax.ContentHandler handler)
-    throws java.io.IOException, org.exolab.castor.xml.MarshalException,
-           org.exolab.castor.xml.ValidationException {
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     */
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
      * Sets the value of field 'name'.
      * 
      * @param name the value of field 'name'.
-    **/
-    public void setName(final java.lang.String name) {
+     */
+    public void setName(
+            final java.lang.String name) {
         this._name = name;
-    } //-- void setName(java.lang.String) 
+    }
 
     /**
-     * 
+     * Method unmarshalInterface.
      * 
      * @param reader
-    **/
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.builder.binding.Interface
+     */
     public static org.exolab.castor.builder.binding.Interface unmarshalInterface(
             final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.builder.binding.Interface) Unmarshaller.unmarshal(
-                org.exolab.castor.builder.binding.Interface.class, reader);
-    } //-- org.exolab.castor.builder.binding.Interface unmarshalInterface(java.io.Reader) 
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
+        return (org.exolab.castor.builder.binding.Interface) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.Interface.class, reader);
+    }
 
     /**
-    **/
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException {
+     * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }

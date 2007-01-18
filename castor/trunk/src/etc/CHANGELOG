@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1843 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Re-generated classes for binding files, in preparation for adding support for
+       new <componentBinding>
+       Details: http://jira.codehaus.org/browse/CASTOR-1843
+       (Werner - 20070118)
+
 XML:   Resolved issue CASTOR-1847 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Minor improvement in validation classes
        Details: http://jira.codehaus.org/browse/CASTOR-1847
