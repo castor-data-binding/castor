@@ -24,9 +24,8 @@
 
 		<section title="Configuration">
 
-        	<p>To integrate source code generation from XML schema into your standard
-               build life-cycle, you will have to configure the Maven 2 Castor plugin
-               as follows:</p>
+        	<p>To be able to start source code generation from XML schema from within Maven, 
+        	   you will have to configure the Maven 2 Castor plugin as follows:</p>
 
 	        <code-panel><![CDATA[
 <plugin>
@@ -37,9 +36,10 @@
 ]]></code-panel>
 
 			<p>Above configuration will trigger source generation using the default
-			   values as explained at the plugin page, assuming that the XML schema(s)
-			   are located at <tt>src/main/castor</tt>, and code will be saved at
-			   <tt>target/generated-sources/castor</tt>. When generating sources
+			   values as explained at the 
+			   <a href="http://mojo.codehaus.org/castor-maven-plugin/howto.html">Castor plugin page</a>, 
+			   assuming that the XML schema(s) are located at <tt>src/main/castor</tt>, and code will 
+			   be saved at <tt>target/generated-sources/castor</tt>. When generating sources
 			   for multiple schemas at the same time, you can put namespace to 
 			   package mappings into <tt>src/main/castor/castorbuilder.properties</tt>.</p>
 			   
@@ -60,7 +60,8 @@
  </plugin>		
 ]]></code-panel>
 
-			<p>Details on the available configuration properties can be found here.</p>
+			<p>Details on the available configuration properties can be found 
+			<a href="http://mojo.codehaus.org/castor-maven-plugin/generate-mojo.html">here</a>.</p>
 
 			<p>By default, the Maven Castor plugin has been built and tested against 
 			   a particular version of Castor. To switch to a newer version of Castor (not the
@@ -84,6 +85,29 @@
 
 		</section>
 
+		<section title="Integration into build life-cycle">%
+		
+			<p>To integrate source code generation from XML schema into your standard
+               build life-cycle, you will have to add an &lt;executions&gt; section 
+               to your standard plugin configuration as follows:</p>
+
+	        <code-panel><![CDATA[
+<plugin>
+   <groupId>org.codehaus.mojo</groupId>
+   <artifactId>castor-maven-plugin</artifactId>
+   <version>1.0</version>
+   <executions>
+      <execution>
+    	 <goals>
+     		<goal>generate</goal>
+    	 </goals>
+      </execution>
+   </executions>	        
+</plugin>		
+]]></code-panel>
+               
+        </section>
+
 		<section title="Example">
 
         	<p>Below command shows how to instruct Maven (manually) to generate Java sources
@@ -93,6 +117,7 @@
 > mvn castor:generate]]></code-panel>
 
 		</section>
+		
 
     </section>
 
