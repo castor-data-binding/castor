@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,20 +42,19 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 /**
- * A simple Location class used for fine grained detail of exceptions
+ * A simple Location class used for fine grained detail of exceptions.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public interface Location {
-    
+
     /**
-     * Returns the String representation of this Location
-     * @return the String representation of this Location
-    **/
-    public String toString();   
-    
-} //-- Location
+     * Returns the String representation of this Location.
+     * @return the String representation of this Location.
+     */
+    public String toString();
+
+}

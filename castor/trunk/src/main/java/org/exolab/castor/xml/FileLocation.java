@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,12 +42,10 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 /**
- * A simple FileLocation class used for finer grained detail of 
- * exceptions
+ * A simple FileLocation class used for finer grained detail of exceptions.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
@@ -55,136 +53,135 @@ package org.exolab.castor.xml;
 public class FileLocation implements Location, java.io.Serializable {
     /** SerialVersionUID */
     private static final long serialVersionUID = 7112551880124131785L;
-
+    /** When a field is not available, this String is used to say so. */
     private final static String NOT_AVAILABLE = "[not available]";
-    
+
+    /** Filename for the file represented by this FileLocation. */
     private String _filename = null;
-    
+    /** Line number in the file for this FileLocation. */
     private int _line = -1;
+    /** Column number in the file for this FileLocation. */
     private int _col  = -1;
-    
+
     /**
      * Creates a new FileLocation
      */
     public FileLocation() {
         super();
-    } //-- FileLocation()
-    
-    /**
-     * Creates a new FileLocation
-     *
-     * @param filename the name of the file
-     */
-    public FileLocation(String filename) {
-        super();
-        this._filename = filename;
-    } //-- FileLocation(String)
+    }
 
     /**
      * Creates a new FileLocation
      *
-     * @param line the line number 
-     * @param column the column number within the specified line
-     */
-    public FileLocation(int line, int column) {
-        super();
-        this._line = line;
-        this._col  = column;
-    } //-- FileLocation(int, int)
-    
-    /**
-     * Creates a new FileLocation
-     *
      * @param filename the name of the file
-     * @param line the line number 
-     * @param column the column number within the specified line
      */
-    public FileLocation(String filename, int line, int column) {
+    public FileLocation(final String filename) {
         super();
         this._filename = filename;
+    }
+
+    /**
+     * Creates a new FileLocation.
+     *
+     * @param line the line number
+     * @param column the column number within the specified line
+     */
+    public FileLocation(final int line, final int column) {
+        super();
         this._line = line;
         this._col  = column;
-    } //-- FileLocation(String, int, int)
-    
+    }
+
     /**
-     * Returns the column number for this Location
+     * Creates a new FileLocation.
      *
-     * @return the column number for this Location
+     * @param filename the name of the file
+     * @param line the line number
+     * @param column the column number within the specified line
+     */
+    public FileLocation(final String filename, final int line, final int column) {
+        super();
+        this._filename = filename;
+        this._line     = line;
+        this._col      = column;
+    }
+
+    /**
+     * Returns the column number for this FileLocation.
+     * @return the column number for this FileLocation.
      */
     public int getColumnNumber() {
         return _col;
-    } //-- getColumnNumber
-    
+    }
+
     /**
-     * Returns the name of the file to which this FileLocation refers
-     *
-     * @return the name of the file to which this FileLocation refers
+     * Returns the name of the file to which this FileLocation refers.
+     * @return the name of the file to which this FileLocation refers.
      */
     public String getFilename() {
         return _filename;
-    } //-- getFilename
-    
+    }
+
     /**
-     * Returns the line number for this location
-     *
-     * @return the line number for the FileLocation
+     * Returns the line number for this FileLocation.
+     * @return the line number for this FileLocation.
      */
     public int getLineNumber() {
         return _line;
-    } //-- getLineNumber
-    
+    }
+
     /**
-     * Sets the column number for this Location
-     *
-     * @param column the column number for this Location
+     * Sets the column number for this FileLocation.
+     * @param column the column number for this FileLocation
      */
-    public void setColumnNumber(int column) {
+    public void setColumnNumber(final int column) {
         this._col = column;
-    } //-- setColumnNumber
-    
+    }
+
     /**
-     * Sets the name of the file to which this FileLocation refers
-     *
-     * @param filename the name of the file to which this FileLocation 
-     * refers
+     * Sets the name of the file to which this FileLocation refers.
+     * @param filename the name of the file to which this FileLocation refers
      */
-    public void setFilename(String filename) {
+    public void setFilename(final String filename) {
         this._filename = filename;
-    } //-- setFilename
-    
+    }
+
     /**
-     * Sets the line number for this Location
-     *
-     * @param line the line number for this Location
+     * Sets the line number for this FileLocation.
+     * @param line the line number for this FileLocation
      */
-    public void setLineNumber(int line) {
+    public void setLineNumber(final int line) {
         this._line = line;
     } //-- setLineNumber
-    
+
     /**
-     * Returns the String representation of this Location
-     *
-     * @return the String representation of this Location
+     * Returns the String representation of this FileLocation.
+     * @return the String representation of this FileLocation.
      */
     public String toString() {
-        StringBuffer sb = new StringBuffer("file: ");
-        
-        if (_filename != null)
+        final StringBuffer sb = new StringBuffer("File: ");
+
+        if (_filename != null) {
             sb.append(_filename);
-        else
+        } else {
             sb.append(NOT_AVAILABLE);
-            
-        //-- line number
+        }
+
         sb.append("; line: ");
-        if (_line >= 0) sb.append(_line);
-        else sb.append(NOT_AVAILABLE);
-        
-        //-- column
+        if (_line >= 0) {
+            sb.append(_line);
+        } else {
+            sb.append(NOT_AVAILABLE);
+        }
+
         sb.append("; column: ");
-        if (_col >= 0) sb.append(_col);
-        else sb.append(NOT_AVAILABLE);
-        
+        if (_col >= 0) {
+            sb.append(_col);
+        } else {
+            sb.append(NOT_AVAILABLE);
+        }
+
         return sb.toString();
-    } //-- toString
-    
-} //-- Location
+    }
+
+}

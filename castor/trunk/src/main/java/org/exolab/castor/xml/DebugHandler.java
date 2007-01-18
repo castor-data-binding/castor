@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,115 +42,135 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
-//-- xml related imports
-import org.xml.sax.*;
-
-import java.io.Writer;
 import java.io.PrintWriter;
+import java.io.Writer;
+
+import org.xml.sax.AttributeList;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.Locator;
 
 /**
- * A Simple DocumentHandler that intercepts SAX events and
- * prints them to the console
+ * A Simple SAX1 DocumentHandler that intercepts SAX events and prints them to
+ * the console. This class is not used during normal Castor operation, but
+ * exists so that during debugging one can replace a normal DocumentHandler with
+ * this one (which will proxy to the correct DocumentHandler).
+ * <p>
+ * FIXME:  As Castor moves internally to the SAX2 interface, this class should
+ * also be updated for SAX2.
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public class DebugHandler implements DocumentHandler {
-    
-    
+
+    /** The writer to report events to. */
+    private Writer          _out     = null;
+    /** The DocumentHandler to forward events to. */
+    private DocumentHandler _handler = null;
+
     /**
-     * The writer to report events to
-    **/
-    Writer _out = null;
-    
-    /**
-     * The DocumentHandler to forward events to
-    **/
-    DocumentHandler _handler = null;
-    
-    boolean newLine = false;
-    
-    /**
-     * Creates a new DebugHandler which forwards events to the
-     * given document handler
+     * Creates a new DebugHandler which forwards events to the given document
+     * handler.
+     *
      * @param handler the DocumentHandler to forward events to
-    **/
-    public DebugHandler(DocumentHandler handler) {
+     */
+    public DebugHandler(final DocumentHandler handler) {
         this(handler, null);
-    } //-- DebugHandler
-    
+    }
+
     /**
-     * Creates a new DebugHandler which forwards events to the
-     * given document handler
+     * Creates a new DebugHandler which forwards events to the given document
+     * handler.
+     *
      * @param handler the DocumentHandler to forward events to
      * @param out the Writer to print debug information to
-    **/
-    public DebugHandler(DocumentHandler handler, Writer out) {
-        if (out == null) this._out = new PrintWriter(System.out);
+     */
+    public DebugHandler(final DocumentHandler handler, final Writer out) {
+        if (out == null) {
+            this._out = new PrintWriter(System.out);
+        }
         this._handler = handler;
-    } //-- DebugHandler
-    
-    
-    //- DocumentHandler methods -/
-    
-    public void characters(char[] ch, int start, int length) 
-        throws org.xml.sax.SAXException
-    {
+    }
+
+    /**
+     * {@inheritDoc}
+     * Proxies the {@link org.sax.xml.DocumentHandler#characters(char[], int, int)}
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
+     */
+    public void characters(final char[] ch, final int start, final int length) throws org.xml.sax.SAXException {
         try {
             _out.write(ch, start, length);
             _out.flush();
-        }
-        catch(java.io.IOException ioe) {
+        } catch (java.io.IOException ioe) {
             ioe.printStackTrace();
         }
-        
-        if (_handler != null) _handler.characters(ch, start, length);
-        
-    } //-- characters
-    
-    public void endDocument()
-        throws org.xml.sax.SAXException
-    {
+
+        if (_handler != null) {
+            _handler.characters(ch, start, length);
+        }
+    }
+
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#endDocument()} request to the proxy
+     * that is provided, printing debugging information before doing the proxy.
+     */
+    public void endDocument() throws org.xml.sax.SAXException {
         try {
             _out.write("#endDocument\n");
             _out.flush();
-        }
-        catch(java.io.IOException ioe) {
+        } catch (java.io.IOException ioe) {
             ioe.printStackTrace();
         }
-        
-        if (_handler != null) _handler.endDocument();
-    } //-- endDocument
-    
-    public void endElement(String name) 
-        throws org.xml.sax.SAXException
-    {
+
+        if (_handler != null) {
+            _handler.endDocument();
+        }
+    }
+
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#endElement(String)} request to the
+     * proxy that is provided, printing debugging information before doing the
+     * proxy.
+     */
+    public void endElement(final String name) throws org.xml.sax.SAXException {
         try {
             _out.write("</");
             _out.write(name);
             _out.write(">\n");
             _out.flush();
-        }
-        catch(java.io.IOException ioe) {
+        } catch (java.io.IOException ioe) {
             ioe.printStackTrace();
         }
-        
-        if (_handler != null) _handler.endElement(name);
-    } //-- endElement
 
+        if (_handler != null) {
+            _handler.endElement(name);
+        }
+    }
 
-    public void ignorableWhitespace(char[] ch, int start, int length) 
-        throws org.xml.sax.SAXException
-    {
-        if (_handler != null) _handler.ignorableWhitespace(ch, start, length);
-        
-    } //-- ignorableWhitespace
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#ignorableWhitespace(char[], int, int)}
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
+     */
+    public void ignorableWhitespace(final char[] ch, final int start, final int length) throws org.xml.sax.SAXException {
+        if (_handler != null) {
+            _handler.ignorableWhitespace(ch, start, length);
+        }
+    }
 
-    public void processingInstruction(String target, String data) 
-        throws org.xml.sax.SAXException
-    {
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#processingInstruction(String, String)}
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
+     */
+    public void processingInstruction(final String target, final String data) throws org.xml.sax.SAXException {
         try {
             _out.write("--#processingInstruction\n");
             _out.write("target: ");
@@ -159,41 +179,56 @@ public class DebugHandler implements DocumentHandler {
             _out.write(data);
             _out.write('\n');
             _out.flush();
-        }
-        catch(java.io.IOException ioe) {
+        } catch (java.io.IOException ioe) {
             ioe.printStackTrace();
         }
-        
-        if (_handler != null) _handler.processingInstruction(target, data);
 
-    } //-- processingInstruction
-    
-    public void setDocumentLocator(Locator locator) {
-        if (_handler != null) _handler.setDocumentLocator(locator);
-    } //-- setDocumentLocator
-    
-    public void startDocument()
-        throws org.xml.sax.SAXException
-    {
+        if (_handler != null) {
+            _handler.processingInstruction(target, data);
+        }
+    }
+
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#setDocumentLocator(Locator)} request
+     * to the proxy that is provided, printing debugging information before
+     * doing the proxy.
+     */
+    public void setDocumentLocator(final Locator locator) {
+        if (_handler != null) {
+            _handler.setDocumentLocator(locator);
+        }
+    }
+
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#startDocument()} request to the proxy
+     * that is provided, printing debugging information before doing the proxy.
+     */
+    public void startDocument() throws org.xml.sax.SAXException {
         try {
             _out.write("#startDocument\n");
             _out.flush();
-        }
-        catch(java.io.IOException ioe) {
+        } catch (java.io.IOException ioe) {
             ioe.printStackTrace();
         }
-        
-        if (_handler != null) _handler.startDocument();
-    } //-- startDocument
 
-    
-    public void startElement(String name, AttributeList atts) 
-        throws org.xml.sax.SAXException
-    {
+        if (_handler != null) {
+            _handler.startDocument();
+        }
+    }
+
+    /**
+     * {@inheritDoc} Proxies the
+     * {@link org.sax.xml.DocumentHandler#startElement(String, AttributeList)}
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
+     */
+    public void startElement(final String name, final AttributeList atts) throws org.xml.sax.SAXException {
         try {
             _out.write('<');
             _out.write(name);
-            if ((atts != null) && (atts.getLength() > 0)) {
+            if (atts != null && atts.getLength() > 0) {
                 for (int i = 0; i < atts.getLength(); i++) {
                     _out.write(' ');
                     _out.write(atts.getName(i));
@@ -204,13 +239,13 @@ public class DebugHandler implements DocumentHandler {
             }
             _out.write(">\n");
             _out.flush();
-        }
-        catch(java.io.IOException ioe) {
+        } catch (java.io.IOException ioe) {
             ioe.printStackTrace();
         }
-        
-        if (_handler != null) _handler.startElement(name, atts);
-    } //-- startElement
-    
-} //-- Marshaller
 
+        if (_handler != null) {
+            _handler.startElement(name, atts);
+        }
+    }
+
+}

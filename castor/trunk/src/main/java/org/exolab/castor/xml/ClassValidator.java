@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,45 +42,24 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.xml;
 
 /**
- * The validation interface used for validating class instances
+ * The validation interface used for validating class instances.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
-**/
+ */
 public interface ClassValidator extends TypeValidator {
-    
-        
+
     /**
-     * Validates the given Object. If the failFast argument is true
-     * an exception should be thrown when the first invalid field
-     * is encountered, otherwise the the validator should attempt
-     * to discover as many errors as possible before throwing
-     * a ValidationException.
-     *
-     * @param object the Object to validate
-     * @param failFast a boolean indicating whether or not the validator 
-     * class should throw an exception on the first error encountered.
-     * @throws ValidationException when the class is not valid.
-    **/
-    //public void validate(Object object, boolean failFast)
-    //    throws ValidationException;
-        
-    /**
-     * Validates the given Object. An exception should be thrown 
-     * when the first invalid field is discovered.
+     * Validates the given Object. An exception should be thrown when the first
+     * invalid field is discovered.
      *
      * @param object the Object to validate
      * @param context the ValidationContext
      * @throws ValidationException when the class is not valid.
-    **/
-    public void validate(Object object, ValidationContext context)
-        throws ValidationException;
+     */
+    public void validate(Object object, ValidationContext context) throws ValidationException;
 
-    
-    
-} //-- ClassValidator
+}

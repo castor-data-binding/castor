@@ -559,7 +559,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      *
      * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
      */
-    private class ClassCache {
+    static private class ClassCache {
 
         /**
          * A list of classes that could not be loaded.
@@ -622,7 +622,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      *
      * @author <a href="mailto:stevendolg AT gxm DOT at">Steven Dolg</a>
      */
-    private class DescriptorCache {
+    static private class DescriptorCache {
 
         private static final String PKG_CDR_LIST_FILE       = ".castor.cdr";
         private static final String PKG_MAPPING_FILE        = ".castor.xml";
@@ -1017,7 +1017,7 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * A locally used implementation of ClassDescriptorEnumeration
      */
-    class XCDEnumerator implements ClassDescriptorEnumeration {
+    static class XCDEnumerator implements ClassDescriptorEnumeration {
 
         private final Iterator _descriptors;
 

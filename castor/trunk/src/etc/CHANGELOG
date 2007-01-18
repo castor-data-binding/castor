@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1847 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Minor improvement in validation classes
+       Details: http://jira.codehaus.org/browse/CASTOR-1847
+       (Edward - 20070117)
+
 Gen:   Resolved issue CASTOR-1839 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with derivation of Java types for UNIONs that are part of restriction
        hierarchies.
