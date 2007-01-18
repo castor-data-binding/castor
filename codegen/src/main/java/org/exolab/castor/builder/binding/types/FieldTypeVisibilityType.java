@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.0.5</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -26,37 +26,34 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     //--------------------------/
 
     /**
-     * The public type.
+     * The public type
      */
     public static final int PUBLIC_TYPE = 0;
 
     /**
-     * The instance of the public type.
+     * The instance of the public type
      */
-    public static final FieldTypeVisibilityType PUBLIC =
-        new FieldTypeVisibilityType(PUBLIC_TYPE, "public");
+    public static final FieldTypeVisibilityType PUBLIC = new FieldTypeVisibilityType(PUBLIC_TYPE, "public");
 
     /**
-     * The protected type.
+     * The protected type
      */
     public static final int PROTECTED_TYPE = 1;
 
     /**
-     * The instance of the protected type.
+     * The instance of the protected type
      */
-    public static final FieldTypeVisibilityType PROTECTED =
-        new FieldTypeVisibilityType(PROTECTED_TYPE, "protected");
+    public static final FieldTypeVisibilityType PROTECTED = new FieldTypeVisibilityType(PROTECTED_TYPE, "protected");
 
     /**
-     * The private type.
+     * The private type
      */
     public static final int PRIVATE_TYPE = 2;
 
     /**
-     * The instance of the private type.
+     * The instance of the private type
      */
-    public static final FieldTypeVisibilityType PRIVATE =
-        new FieldTypeVisibilityType(PRIVATE_TYPE, "private");
+    public static final FieldTypeVisibilityType PRIVATE = new FieldTypeVisibilityType(PRIVATE_TYPE, "private");
 
     /**
      * Field _memberTable.
@@ -66,12 +63,12 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     /**
      * Field type.
      */
-    private int _type = -1;
+    private int type = -1;
 
     /**
      * Field stringValue.
      */
-    private java.lang.String _stringValue = null;
+    private java.lang.String stringValue = null;
 
 
       //----------------/
@@ -80,9 +77,9 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
 
     private FieldTypeVisibilityType(final int type, final java.lang.String value) {
         super();
-        this._type = type;
-        this._stringValue = value;
-    } //-- org.exolab.castor.builder.binding.types.FieldTypeVisibilityType(int, java.lang.String)
+        this.type = type;
+        this.stringValue = value;
+    }
 
 
       //-----------/
@@ -90,72 +87,69 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     //-----------/
 
     /**
-     * Method enumerate.
-     * 
-     * Returns an enumeration of all possible instances of
-     * FieldTypeVisibilityType
+     * Method enumerate.Returns an enumeration of all possible
+     * instances of FieldTypeVisibilityType
      * 
      * @return an Enumeration over all possible instances of
      * FieldTypeVisibilityType
      */
-    public static java.util.Enumeration enumerate() {
+    public static java.util.Enumeration enumerate(
+    ) {
         return _memberTable.elements();
-    } //-- java.util.Enumeration enumerate() 
+    }
 
     /**
-     * Method getType.
-     * 
-     * Returns the type of this FieldTypeVisibilityType
+     * Method getType.Returns the type of this
+     * FieldTypeVisibilityType
      * 
      * @return the type of this FieldTypeVisibilityType
      */
-    public int getType() {
-        return this._type;
-    } //-- int getType() 
+    public int getType(
+    ) {
+        return this.type;
+    }
 
     /**
      * Method init.
      * 
      * @return the initialized Hashtable for the member table
      */
-    private static java.util.Hashtable init() {
+    private static java.util.Hashtable init(
+    ) {
         Hashtable members = new Hashtable();
         members.put("public", PUBLIC);
         members.put("protected", PROTECTED);
         members.put("private", PRIVATE);
         return members;
-    } //-- java.util.Hashtable init() 
+    }
 
     /**
-     * Method readResolve.
-     * 
-     *  will be called during deserialization to replace the
-     * deserialized object with the correct constant instance.
+     * Method readResolve. will be called during deserialization to
+     * replace the deserialized object with the correct constant
+     * instance.
      * 
      * @return this deserialized object
      */
-    private java.lang.Object readResolve() {
-        return valueOf(this._stringValue);
-    } //-- java.lang.Object readResolve() 
+    private java.lang.Object readResolve(
+    ) {
+        return valueOf(this.stringValue);
+    }
 
     /**
-     * Method toString.
-     * 
-     * Returns the String representation of this
+     * Method toString.Returns the String representation of this
      * FieldTypeVisibilityType
      * 
      * @return the String representation of this
      * FieldTypeVisibilityType
      */
-    public java.lang.String toString() {
-        return this._stringValue;
-    } //-- java.lang.String toString() 
+    public java.lang.String toString(
+    ) {
+        return this.stringValue;
+    }
 
     /**
-     * Method valueOf
-     * 
-     * Returns a new FieldTypeVisibilityType based on the given
-     * String value.
+     * Method valueOf.Returns a new FieldTypeVisibilityType based
+     * on the given String value.
      * 
      * @param string
      * @return the FieldTypeVisibilityType value of parameter
@@ -164,9 +158,11 @@ public class FieldTypeVisibilityType implements java.io.Serializable {
     public static org.exolab.castor.builder.binding.types.FieldTypeVisibilityType valueOf(
             final java.lang.String string) {
         java.lang.Object obj = null;
-        if (string != null) { obj = _memberTable.get(string); }
+        if (string != null) {
+            obj = _memberTable.get(string);
+        }
         if (obj == null) {
-            String err = "'" + string + "' is not a valid FieldTypeVisibilityType";
+            String err = "" + string + " is not a valid FieldTypeVisibilityType";
             throw new IllegalArgumentException(err);
         }
         return (FieldTypeVisibilityType) obj;

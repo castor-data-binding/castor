@@ -1,7 +1,7 @@
 /*
  * This class was automatically generated with 
- * <a href="http://castor.exolab.org">Castor 0.9.4</a>, using an
- * XML Schema.
+ * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * Schema.
  * $Id$
  */
 
@@ -15,30 +15,38 @@ import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
 /**
+ * This element allows to define naming convention when naming a
+ * complexType, element or
+ *  modelGroup. Indeed the user can decide of a prefix to add to
+ * each class name as well
+ *  as a suffix. This naming style won't affect the names entered
+ * in the binding file but only 
+ *  the XML Names.
+ *  
  * 
- *                  This element allows to define naming convention
- * when naming a complexType, element or
- *                  modelGroup. Indeed the user can decide of a
- * prefix to add to each class name as well
- *                  as a suffix. This naming style won't affect the
- * names entered in the binding file but only 
- *                  the XML Names.
- *             
- * 
- * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
-**/
-public final class NamingXMLType implements java.io.Serializable {
+ * @version $Revision$ $Date$
+ */
+public class NamingXMLType implements java.io.Serializable {
 
 
       //--------------------------/
      //- Class/Member Variables -/
     //--------------------------/
 
-    private NamingType _elementName;
+    /**
+     * Field _elementName.
+     */
+    private org.exolab.castor.builder.binding.NamingType _elementName;
 
-    private NamingType _complexTypeName;
+    /**
+     * Field _complexTypeName.
+     */
+    private org.exolab.castor.builder.binding.NamingType _complexTypeName;
 
-    private NamingType _modelGroupName;
+    /**
+     * Field _modelGroupName.
+     */
+    private org.exolab.castor.builder.binding.NamingType _modelGroupName;
 
 
       //----------------/
@@ -47,7 +55,7 @@ public final class NamingXMLType implements java.io.Serializable {
 
     public NamingXMLType() {
         super();
-    } //-- org.exolab.castor.builder.binding.NamingXMLType()
+    }
 
 
       //-----------/
@@ -57,107 +65,138 @@ public final class NamingXMLType implements java.io.Serializable {
     /**
      * Returns the value of field 'complexTypeName'.
      * 
-     * @return the value of field 'complexTypeName'.
-    **/
-    public NamingType getComplexTypeName() {
+     * @return the value of field 'ComplexTypeName'.
+     */
+    public org.exolab.castor.builder.binding.NamingType getComplexTypeName(
+    ) {
         return this._complexTypeName;
-    } //-- NamingType getComplexTypeName() 
+    }
 
     /**
      * Returns the value of field 'elementName'.
      * 
-     * @return the value of field 'elementName'.
-    **/
-    public NamingType getElementName() {
+     * @return the value of field 'ElementName'.
+     */
+    public org.exolab.castor.builder.binding.NamingType getElementName(
+    ) {
         return this._elementName;
-    } //-- NamingType getElementName() 
+    }
 
     /**
      * Returns the value of field 'modelGroupName'.
      * 
-     * @return the value of field 'modelGroupName'.
-    **/
-    public NamingType getModelGroupName() {
+     * @return the value of field 'ModelGroupName'.
+     */
+    public org.exolab.castor.builder.binding.NamingType getModelGroupName(
+    ) {
         return this._modelGroupName;
-    } //-- NamingType getModelGroupName() 
+    }
 
     /**
-    **/
-    public boolean isValid() {
+     * Method isValid.
+     * 
+     * @return true if this object is valid according to the schema
+     */
+    public boolean isValid(
+    ) {
         try {
             validate();
         } catch (org.exolab.castor.xml.ValidationException vex) {
             return false;
         }
         return true;
-    } //-- boolean isValid() 
+    }
 
     /**
      * 
      * 
      * @param out
-    **/
-    public void marshal(final java.io.Writer out)
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
+    public void marshal(
+            final java.io.Writer out)
     throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, out);
-    } //-- void marshal(java.io.Writer) 
+    }
 
     /**
      * 
      * 
      * @param handler
-    **/
-    public void marshal(final org.xml.sax.ContentHandler handler)
-    throws java.io.IOException, org.exolab.castor.xml.MarshalException,
-           org.exolab.castor.xml.ValidationException {
+     * @throws java.io.IOException if an IOException occurs during
+     * marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     */
+    public void marshal(
+            final org.xml.sax.ContentHandler handler)
+    throws java.io.IOException, org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
         Marshaller.marshal(this, handler);
-    } //-- void marshal(org.xml.sax.ContentHandler) 
+    }
 
     /**
      * Sets the value of field 'complexTypeName'.
      * 
      * @param complexTypeName the value of field 'complexTypeName'.
-    **/
-    public void setComplexTypeName(final NamingType complexTypeName) {
+     */
+    public void setComplexTypeName(
+            final org.exolab.castor.builder.binding.NamingType complexTypeName) {
         this._complexTypeName = complexTypeName;
-    } //-- void setComplexTypeName(NamingType) 
+    }
 
     /**
      * Sets the value of field 'elementName'.
      * 
      * @param elementName the value of field 'elementName'.
-    **/
-    public void setElementName(final NamingType elementName) {
+     */
+    public void setElementName(
+            final org.exolab.castor.builder.binding.NamingType elementName) {
         this._elementName = elementName;
-    } //-- void setElementName(NamingType) 
+    }
 
     /**
      * Sets the value of field 'modelGroupName'.
      * 
      * @param modelGroupName the value of field 'modelGroupName'.
-    **/
-    public void setModelGroupName(final NamingType modelGroupName) {
+     */
+    public void setModelGroupName(
+            final org.exolab.castor.builder.binding.NamingType modelGroupName) {
         this._modelGroupName = modelGroupName;
-    } //-- void setModelGroupName(NamingType) 
+    }
 
     /**
-     * 
+     * Method unmarshalNamingXMLType.
      * 
      * @param reader
-    **/
+     * @throws org.exolab.castor.xml.MarshalException if object is
+     * null or if any SAXException is thrown during marshaling
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     * @return the unmarshaled
+     * org.exolab.castor.builder.binding.NamingXMLType
+     */
     public static org.exolab.castor.builder.binding.NamingXMLType unmarshalNamingXMLType(
             final java.io.Reader reader)
-        throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
-        return (org.exolab.castor.builder.binding.NamingXMLType) Unmarshaller.unmarshal(
-                org.exolab.castor.builder.binding.NamingXMLType.class, reader);
-    } //-- org.exolab.castor.builder.binding.NamingXMLType unmarshalNamingXMLType(java.io.Reader) 
+    throws org.exolab.castor.xml.MarshalException, org.exolab.castor.xml.ValidationException {
+        return (org.exolab.castor.builder.binding.NamingXMLType) Unmarshaller.unmarshal(org.exolab.castor.builder.binding.NamingXMLType.class, reader);
+    }
 
     /**
-    **/
-    public void validate()
-        throws org.exolab.castor.xml.ValidationException {
+     * 
+     * 
+     * @throws org.exolab.castor.xml.ValidationException if this
+     * object is an invalid instance according to the schema
+     */
+    public void validate(
+    )
+    throws org.exolab.castor.xml.ValidationException {
         org.exolab.castor.xml.Validator validator = new org.exolab.castor.xml.Validator();
         validator.validate(this);
-    } //-- void validate() 
+    }
 
 }
