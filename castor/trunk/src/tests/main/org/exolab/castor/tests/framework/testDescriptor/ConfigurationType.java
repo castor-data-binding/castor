@@ -212,7 +212,7 @@ public class ConfigurationType implements java.io.Serializable {
      */
     public org.exolab.castor.tests.framework.testDescriptor.CallMethod removeCallMethodAt(
             final int index) {
-        Object obj = this._callMethodList.remove(index);
+        java.lang.Object obj = this._callMethodList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.CallMethod) obj;
     }
 

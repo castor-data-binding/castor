@@ -247,6 +247,8 @@
                 <xsd:element name="Comment" type="xsd:string" minOccurs="0" maxOccurs="unbounded"/>
                 <!-- Java source version for this test -->
                 <xsd:element name="JavaSourceVersion" type="xsd:float" minOccurs="0" maxOccurs="1"/>
+                <!-- For a source generator type of test case, should code be generated for imported schemas? -->
+                <xsd:element name="GenerateImported" type="xsd:boolean" minOccurs="0" maxOccurs="1"/>
             </xsd:sequence>
         </xsd:complexType>
     </xsd:element>

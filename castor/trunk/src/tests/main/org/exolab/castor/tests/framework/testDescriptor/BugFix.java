@@ -251,7 +251,7 @@ public class BugFix implements java.io.Serializable {
      */
     public java.lang.String removeCommentAt(
             final int index) {
-        Object obj = this._commentList.remove(index);
+        java.lang.Object obj = this._commentList.remove(index);
         return (java.lang.String) obj;
     }
 

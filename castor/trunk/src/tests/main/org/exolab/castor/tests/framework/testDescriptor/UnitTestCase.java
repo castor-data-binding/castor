@@ -101,6 +101,16 @@ public class UnitTestCase implements java.io.Serializable {
      */
     private boolean _has_javaSourceVersion;
 
+    /**
+     * Field _generateImported.
+     */
+    private boolean _generateImported;
+
+    /**
+     * keeps track of state for field: _generateImported
+     */
+    private boolean _has_generateImported;
+
 
       //----------------/
      //- Constructors -/
@@ -181,6 +191,13 @@ public class UnitTestCase implements java.io.Serializable {
         }
         
         this._schemaDifferencesList.add(index, vSchemaDifferences);
+    }
+
+    /**
+     */
+    public void deleteGenerateImported(
+    ) {
+        this._has_generateImported= false;
     }
 
     /**
@@ -291,6 +308,16 @@ public class UnitTestCase implements java.io.Serializable {
     public org.exolab.castor.tests.framework.testDescriptor.Failure getFailure(
     ) {
         return this._failure;
+    }
+
+    /**
+     * Returns the value of field 'generateImported'.
+     * 
+     * @return the value of field 'GenerateImported'.
+     */
+    public boolean getGenerateImported(
+    ) {
+        return this._generateImported;
     }
 
     /**
@@ -421,6 +448,16 @@ public class UnitTestCase implements java.io.Serializable {
     }
 
     /**
+     * Method hasGenerateImported.
+     * 
+     * @return true if at least one GenerateImported has been added
+     */
+    public boolean hasGenerateImported(
+    ) {
+        return this._has_generateImported;
+    }
+
+    /**
      * Method hasJavaSourceVersion.
      * 
      * @return true if at least one JavaSourceVersion has been added
@@ -438,6 +475,16 @@ public class UnitTestCase implements java.io.Serializable {
     public boolean hasSkip(
     ) {
         return this._has_skip;
+    }
+
+    /**
+     * Returns the value of field 'generateImported'.
+     * 
+     * @return the value of field 'GenerateImported'.
+     */
+    public boolean isGenerateImported(
+    ) {
+        return this._generateImported;
     }
 
     /**
@@ -531,7 +578,7 @@ public class UnitTestCase implements java.io.Serializable {
      */
     public java.lang.String removeCommentAt(
             final int index) {
-        Object obj = this._commentList.remove(index);
+        java.lang.Object obj = this._commentList.remove(index);
         return (java.lang.String) obj;
     }
 
@@ -555,7 +602,7 @@ public class UnitTestCase implements java.io.Serializable {
      */
     public org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences removeSchemaDifferencesAt(
             final int index) {
-        Object obj = this._schemaDifferencesList.remove(index);
+        java.lang.Object obj = this._schemaDifferencesList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences) obj;
     }
 
@@ -622,6 +669,17 @@ public class UnitTestCase implements java.io.Serializable {
     public void setFailure(
             final org.exolab.castor.tests.framework.testDescriptor.Failure failure) {
         this._failure = failure;
+    }
+
+    /**
+     * Sets the value of field 'generateImported'.
+     * 
+     * @param generateImported the value of field 'generateImported'
+     */
+    public void setGenerateImported(
+            final boolean generateImported) {
+        this._generateImported = generateImported;
+        this._has_generateImported = true;
     }
 
     /**

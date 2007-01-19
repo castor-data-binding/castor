@@ -565,6 +565,48 @@ public class UnitTestCaseDescriptor extends org.exolab.castor.xml.util.XMLClassD
             typeValidator.setMaxInclusive((float) 3.4028235E38);
         }
         desc.setValidator(fieldValidator);
+        //-- _generateImported
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(java.lang.Boolean.TYPE, "_generateImported", "GenerateImported", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                UnitTestCase target = (UnitTestCase) object;
+                if (!target.hasGenerateImported()) { return null; }
+                return (target.getGenerateImported() ? java.lang.Boolean.TRUE : java.lang.Boolean.FALSE);
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    UnitTestCase target = (UnitTestCase) object;
+                    // if null, use delete method for optional primitives 
+                    if (value == null) {
+                        target.deleteGenerateImported();
+                        return;
+                    }
+                    target.setGenerateImported( ((java.lang.Boolean) value).booleanValue());
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return null;
+            }
+        };
+        desc.setHandler(handler);
+        desc.setNameSpaceURI("http://castor.exolab.org/Test");
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        
+        //-- validation code for: _generateImported
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        { //-- local scope
+            org.exolab.castor.xml.validators.BooleanValidator typeValidator;
+            typeValidator = new org.exolab.castor.xml.validators.BooleanValidator();
+            fieldValidator.setValidator(typeValidator);
+        }
+        desc.setValidator(fieldValidator);
     }
 
 

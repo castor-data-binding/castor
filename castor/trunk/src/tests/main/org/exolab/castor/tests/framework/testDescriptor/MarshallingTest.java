@@ -244,7 +244,7 @@ public class MarshallingTest implements java.io.Serializable {
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCaseAt(
             final int index) {
-        Object obj = this._unitTestCaseList.remove(index);
+        java.lang.Object obj = this._unitTestCaseList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) obj;
     }
 

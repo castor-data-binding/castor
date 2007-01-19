@@ -61,12 +61,46 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                 a JDBC 4.0 compatible connector with this new JDK.
               </p>
 
+              <h3>Codegen</h3>
+
+              <p>
+                If you are using the Castor code generator to generate code
+                from schemas that use <tt>xsd:import<tt>, whether or not code
+                was generated from the imported schemas was controlled by a
+                combination of switches.  Now it is controlled only by the
+                "-generateImportedSchemas" option of SourceGeneratorMain, the
+                Ant task option of the same name, or if you are calling codegen
+                programmatically, the method
+                <tt>sgen.setGenerateImportedSchemas(true);</tt>.
+              </p>
+
             </summary>
             <bugs>
+                <bug id="1851" tool="jira">
+                    <description>
+                        Add to CTF the ability to control whether or not
+                        code is generated from imported schema
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>CTF</module>
+                    <date>20070118</date>
+                </bug>
                 <bug id="1839" tool="jira">
                     <description>
-					       Re-generated classes for binding files, in preparation for adding support for
-					       new &lt;componentBinding&gt;
+                           Re-generated classes for binding files, in preparation for adding support for
+                           new &lt;componentBinding&gt;
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
