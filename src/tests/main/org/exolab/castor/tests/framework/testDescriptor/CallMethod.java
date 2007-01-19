@@ -223,7 +223,7 @@ public class CallMethod implements java.io.Serializable {
      */
     public org.exolab.castor.tests.framework.testDescriptor.Value removeValueAt(
             final int index) {
-        Object obj = this._valueList.remove(index);
+        java.lang.Object obj = this._valueList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.Value) obj;
     }
 

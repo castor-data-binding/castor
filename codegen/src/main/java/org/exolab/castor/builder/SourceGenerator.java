@@ -676,7 +676,7 @@ public class SourceGenerator extends BuilderConfiguration {
     private void generateAllClassFiles(final Schema schema, final SGStateInfo sInfo)
                                                                  throws IOException {
         // Before processing the current schema, process its imported schemas
-        if (!_suppressNonFatalWarnings || _generateImported) {
+        if (_generateImported) {
             processImportedSchemas(schema, sInfo);
         }
 

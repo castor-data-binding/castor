@@ -392,7 +392,7 @@ public class SourceGeneratorTest implements java.io.Serializable {
      */
     public java.lang.String removeSchemaAt(
             final int index) {
-        Object obj = this._schemaList.remove(index);
+        java.lang.Object obj = this._schemaList.remove(index);
         return (java.lang.String) obj;
     }
 
@@ -416,7 +416,7 @@ public class SourceGeneratorTest implements java.io.Serializable {
      */
     public org.exolab.castor.tests.framework.testDescriptor.UnitTestCase removeUnitTestCaseAt(
             final int index) {
-        Object obj = this._unitTestCaseList.remove(index);
+        java.lang.Object obj = this._unitTestCaseList.remove(index);
         return (org.exolab.castor.tests.framework.testDescriptor.UnitTestCase) obj;
     }
 

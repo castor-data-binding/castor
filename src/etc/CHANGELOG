@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1851 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Add to CTF the ability to control whether or not code is generated from imported schema
+       Details: http://jira.codehaus.org/browse/CASTOR-1851
+       (Edward - 20070118)
+
 Gen:   Resolved issue CASTOR-1843 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Re-generated classes for binding files, in preparation for adding support for
        new <componentBinding>

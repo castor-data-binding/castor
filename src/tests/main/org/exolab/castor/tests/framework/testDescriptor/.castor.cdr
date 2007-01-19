@@ -1,4 +1,4 @@
-#Sat Jan 13 17:51:42 CST 2007
+#Thu Jan 18 00:10:42 CST 2007
 org.exolab.castor.tests.framework.testDescriptor.FailureType=org.exolab.castor.tests.framework.testDescriptor.descriptors.FailureTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.Unmarshal=org.exolab.castor.tests.framework.testDescriptor.descriptors.UnmarshalDescriptor
 org.exolab.castor.tests.framework.testDescriptor.CustomTestType=org.exolab.castor.tests.framework.testDescriptor.descriptors.CustomTestTypeDescriptor
@@ -16,8 +16,8 @@ org.exolab.castor.tests.framework.testDescriptor.UnitTestCaseChoice=org.exolab.c
 org.exolab.castor.tests.framework.testDescriptor.TestDescriptorChoice=org.exolab.castor.tests.framework.testDescriptor.descriptors.TestDescriptorChoiceDescriptor
 org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest=org.exolab.castor.tests.framework.testDescriptor.descriptors.OnlySourceGenerationTestDescriptor
 org.exolab.castor.tests.framework.testDescriptor.SourceGeneratorTest=org.exolab.castor.tests.framework.testDescriptor.descriptors.SourceGeneratorTestDescriptor
-org.exolab.castor.tests.framework.testDescriptor.CustomTest=org.exolab.castor.tests.framework.testDescriptor.descriptors.CustomTestDescriptor
 org.exolab.castor.tests.framework.testDescriptor.Marshal=org.exolab.castor.tests.framework.testDescriptor.descriptors.MarshalDescriptor
+org.exolab.castor.tests.framework.testDescriptor.CustomTest=org.exolab.castor.tests.framework.testDescriptor.descriptors.CustomTestDescriptor
 org.exolab.castor.tests.framework.testDescriptor.BugFix=org.exolab.castor.tests.framework.testDescriptor.descriptors.BugFixDescriptor
 org.exolab.castor.tests.framework.testDescriptor.ConfigurationType=org.exolab.castor.tests.framework.testDescriptor.descriptors.ConfigurationTypeDescriptor
 org.exolab.castor.tests.framework.testDescriptor.Listener=org.exolab.castor.tests.framework.testDescriptor.descriptors.ListenerDescriptor

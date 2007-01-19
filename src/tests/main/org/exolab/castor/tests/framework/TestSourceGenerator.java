@@ -53,6 +53,8 @@ public class TestSourceGenerator extends XMLTestCase {
     private final String[] _schemas;
     /** Package name for generated source. */
     private final String   _package;
+    /** Should we generate source from imported schemas? */
+    private final boolean  _genFromImported;
 
     public TestSourceGenerator(final CastorTestCase test, final UnitTestCase unit, final OnlySourceGenerationTest sourceGen) {
         super(test, unit);
@@ -61,6 +63,7 @@ public class TestSourceGenerator extends XMLTestCase {
         _bindingFileName      = sourceGen.getBindingFile();
         _schemas              = sourceGen.getSchema();
         _package              = sourceGen.getPackage();
+        _genFromImported      = unit.hasGenerateImported() && unit.getGenerateImported();
     }
 
     public TestSourceGenerator(final CastorTestCase test, final UnitTestCase unit, final SourceGeneratorTest sourceGen) {
@@ -70,6 +73,7 @@ public class TestSourceGenerator extends XMLTestCase {
         _bindingFileName      = sourceGen.getBindingFile();
         _schemas              = sourceGen.getSchema();
         _package              = sourceGen.getPackage();
+        _genFromImported      = unit.hasGenerateImported() && unit.getGenerateImported();
     }
 
     /**
@@ -220,7 +224,7 @@ public class TestSourceGenerator extends XMLTestCase {
         sourceGen.setTestable(true);
         sourceGen.setSuppressNonFatalWarnings(true);
         sourceGen.setFailOnFirstError(true);
-//      sourceGen.setGenerateImportedSchemas(true);
+        sourceGen.setGenerateImportedSchemas(_genFromImported);
         sourceGen.setDestDir(_outputRootFile.getAbsolutePath());
         return sourceGen;
     }
