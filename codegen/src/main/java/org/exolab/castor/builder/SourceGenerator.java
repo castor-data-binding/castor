@@ -296,7 +296,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @param verbose a boolean, when true indicates to print additional
      *        messages
      */
-    public final void setVerbose(final boolean verbose) {
+    public void setVerbose(final boolean verbose) {
         _verbose = verbose;
     } //-- setVerbose
 
@@ -711,7 +711,9 @@ public class SourceGenerator extends BuilderConfiguration {
         for (Enumeration cdrFiles = sInfo.getCDRFilenames(); cdrFiles.hasMoreElements(); ) {
             String filename = (String) cdrFiles.nextElement();
             Properties props = sInfo.getCDRFile(filename);
-            props.store(new FileOutputStream(new File(filename)), null);
+            final FileOutputStream fileOutputStream = new FileOutputStream(new File(filename));
+            props.store(fileOutputStream, null);
+            fileOutputStream.close();
         }
     } //-- createClasses
 
