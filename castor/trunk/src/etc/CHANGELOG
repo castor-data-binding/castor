@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1854 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with not closed file handles for '.castor.cdr' during code generation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1854
+       (Werner - 20070122)
+
 XML:   Resolved issue CASTOR-1851 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Add to CTF the ability to control whether or not code is generated from imported schema
        Details: http://jira.codehaus.org/browse/CASTOR-1851

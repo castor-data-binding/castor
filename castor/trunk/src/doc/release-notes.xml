@@ -76,6 +76,27 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
 
             </summary>
             <bugs>
+                <bug id="1854" tool="jira">
+                    <description>
+					       Fixed problem with not closed file handles for '.castor.cdr' during 
+					       code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070122</date>
+                </bug>
                 <bug id="1851" tool="jira">
                     <description>
                         Add to CTF the ability to control whether or not
