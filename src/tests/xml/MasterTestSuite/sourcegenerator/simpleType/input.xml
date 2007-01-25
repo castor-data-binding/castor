@@ -1,0 +1,129 @@
+<SyncItem xmlns="http://www.openapplications.org/oagis/9"
+	xmlns:clmIANAMIMEMediaTypes="http://www.openapplications.org/oagis/9/IANAMIMEMediaTypes:2003"
+	xmlns:oacl="http://www.openapplications.org/oagis/9/codelists"
+	xmlns:clm54217="http://www.openapplications.org/oagis/9/currencycode/54217:2001"
+	xmlns:clm5639="http://www.openapplications.org/oagis/9/languagecode/5639:1988"
+	xmlns:qdt="http://www.openapplications.org/oagis/9/qualifieddatatypes/1.1"
+	xmlns:clm66411="http://www.openapplications.org/oagis/9/unitcode/66411:2001"
+	xmlns:udt="http://www.openapplications.org/oagis/9/unqualifieddatatypes/1.1"
+	xmlns:ccts="urn:un:unece:uncefact:documentation:1.1"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://www.openapplications.org/oagis/9
+SyncItem.xsd"
+	systemEnvironmentCode="Production" releaseID="normalizedString"
+	versionID="normalizedString" languageCode="en-US">
+	<ApplicationArea>
+		<Sender>
+			<LogicalID schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</LogicalID>
+			<ComponentID schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</ComponentID>
+			<TaskID schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</TaskID>
+			<ReferenceID schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</ReferenceID>
+			<ConfirmationCode listID="normalizedString"
+				listSchemeURI="http://www.altova.com"
+				listVersionID="normalizedString" listName="String" name="String"
+				listURI="http://www.altova.com" listAgencyName="String"
+				listAgencyID="normalizedString" languageID="a-a">
+				Always
+			</ConfirmationCode>
+			<AuthorizationID schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</AuthorizationID>
+		</Sender>
+		<CreationDateTime>1967-08-13</CreationDateTime>
+		<Signature qualifyingAgencyId="normalizedString" />
+		<BODID schemeID="normalizedString" schemeAgencyName="String"
+			schemeAgencyID="normalizedString" schemeURI="http://www.altova.com"
+			schemeName="String" schemeVersionID="normalizedString"
+			schemeDataURI="http://www.altova.com">
+			normalizedString
+		</BODID>
+		<UserArea />
+	</ApplicationArea>
+	<ItemGrade>
+		<ExternalID schemeID="normalizedString"
+			schemeAgencyName="String" schemeAgencyID="normalizedString"
+			schemeURI="http://www.altova.com" schemeName="String"
+			schemeVersionID="normalizedString"
+			schemeDataURI="http://www.altova.com">
+			normalizedString
+		</ExternalID>
+		<InternalID schemeID="normalizedString"
+			schemeAgencyName="String" schemeAgencyID="normalizedString"
+			schemeURI="http://www.altova.com" schemeName="String"
+			schemeVersionID="normalizedString"
+			schemeDataURI="http://www.altova.com">
+			normalizedString
+		</InternalID>
+		<GradeReference>
+			<GradeName schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</GradeName>
+			<GradeStandard>
+				<ItemGradeStandardName schemeID="normalizedString"
+					schemeAgencyName="String" schemeAgencyID="normalizedString"
+					schemeURI="http://www.altova.com" schemeName="String"
+					schemeVersionID="normalizedString"
+					schemeDataURI="http://www.altova.com">
+					normalizedString
+				</ItemGradeStandardName>
+				<SequenceNo>-0</SequenceNo>
+				<UserArea />
+			</GradeStandard>
+			<UserArea />
+		</GradeReference>
+		<GradeReference>
+			<GradeName schemeID="normalizedString"
+				schemeAgencyName="String" schemeAgencyID="normalizedString"
+				schemeURI="http://www.altova.com" schemeName="String"
+				schemeVersionID="normalizedString"
+				schemeDataURI="http://www.altova.com">
+				normalizedString
+			</GradeName>
+			<GradeStandard>
+				<ItemGradeStandardName schemeID="normalizedString"
+					schemeAgencyName="String" schemeAgencyID="normalizedString"
+					schemeURI="http://www.altova.com" schemeName="String"
+					schemeVersionID="normalizedString"
+					schemeDataURI="http://www.altova.com">
+					normalizedString
+				</ItemGradeStandardName>
+				<SequenceNo>-0</SequenceNo>
+				<UserArea />
+			</GradeStandard>
+			<UserArea />
+		</GradeReference>
+		<UserArea />
+	</ItemGrade>
+</SyncItem>

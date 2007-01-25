@@ -137,11 +137,6 @@ public final class DescriptorJClass extends JClass {
 
         if (_type.getPackageName() != null && _type.getPackageName().length() > 0) {
             addImport(_type.getName());
-            if (extended) {
-                if (_type.getSuperClass() != null) {
-                    addImport(getSuperClassName());
-                }
-            }
         }
 
         addField(new JField(JType.BOOLEAN, "_elementDefinition"));
