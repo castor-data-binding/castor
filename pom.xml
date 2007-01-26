@@ -23,8 +23,8 @@
                 <groupId>org.apache.maven.plugins</groupId>
                 <artifactId>maven-compiler-plugin</artifactId>
                 <configuration>
-                    <source>1.4</source>
-                    <target>1.4</target>
+                    <source>1.3</source>
+                    <target>1.3</target>
                     <excludes>
                         <exclude implementation="java.lang.String">SourceGenerator/**</exclude>
                         <exclude implementation="java.lang.String">org/exolab/castor/builder/**</exclude>
@@ -350,6 +350,12 @@
             <url>https://maven-repository.dev.java.net/nonav/repository</url>
             <layout>legacy</layout>
         </repository>
+		<repository>
+			<id>maven2-repository.dev.java.net</id>
+			<name>Java.net Repository for Maven 2</name>
+			<url>https://maven2-repository.dev.java.net/nonav/repository</url>
+			<layout>default</layout>	  
+		</repository>        
     </repositories>
 
     <pluginRepositories>
