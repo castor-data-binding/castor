@@ -27,6 +27,7 @@ import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.castor.jdo.engine.SQLTypeInfos;
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.persist.spi.Identity;
 
 /**
@@ -142,8 +143,18 @@ public final class SQLHelper {
         for (Iterator iter = extendingClassDescriptors.iterator(); iter.hasNext(); ) {
             classDescriptor = (JDOClassDescriptor) iter.next(); 
             classDescriptorsToAdd.add (classDescriptor);
-            addExtendingClassDescriptors(classDescriptorsToAdd, classDescriptor.getExtendedBy());
+            addExtendingClassDescriptors(classDescriptorsToAdd, classDescriptor.getExtended());
         }
+    }
+    
+    public static String[] getIdentitySQLNames(final JDOClassDescriptor desc) {
+        FieldDescriptor[] identities = desc.getIdentities();
+        String[] sqlNames = new String[identities.length];
+        for (int i = 0; i < identities.length; i++) {
+            sqlNames[i] = ((JDOFieldDescriptor) identities[i]).getSQLName()[0];
+        }
+
+        return sqlNames;
     }
 
     private SQLHelper() { }

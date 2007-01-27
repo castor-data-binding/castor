@@ -461,8 +461,8 @@ public final class SQLQuery implements PersistenceQuery {
         // "multi field" each fetchRaw is called, we might reuse them.
 
         int originalFieldNumber = _requestedEngine.getInfo().length;
-        if (_requestedEngine.getDescriptor().isExtended()) {
-            Collection extendingClassDescriptors = _requestedEngine.getDescriptor().getExtendedBy();
+        Collection extendingClassDescriptors = _requestedEngine.getDescriptor().getExtended();
+        if (extendingClassDescriptors.size() > 0) {
             int numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(_requestedEngine.getDescriptor());
             JDOClassDescriptor leafDescriptor = null;
             Object[] returnValues = null;

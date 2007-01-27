@@ -33,6 +33,9 @@ public abstract class AbstractFieldDescriptor implements FieldDescriptor {
 
     /** True if the object described by this descriptor is multivalued. */
     private boolean _multivalued;
+    
+    /** True if the field is part of the identity of the class. */
+    private boolean _identity;
 
     //--------------------------------------------------------------------------
 
@@ -189,6 +192,24 @@ public abstract class AbstractFieldDescriptor implements FieldDescriptor {
      */
     public final boolean isMultivalued() {
         return _multivalued;
+    }
+    
+    /**
+     * Set wether the described field is part of the identity of the class it belongs to.
+     * 
+     * @param identity <code>true</code> if field is part of the classes identity.
+     */
+    public final void setIdentity(final boolean identity) {
+        _identity = identity;
+    }
+    
+    /**
+     * Is the described field is part of the identity of the class it belongs to?
+     * 
+     * @return <code>true</code> if field is part of the classes identity.
+     */
+    public final boolean isIdentity() {
+        return _identity;
     }
 
     //--------------------------------------------------------------------------

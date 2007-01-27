@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+All:   Resolved issue CASTOR-1644 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Refactored creation of ClassDescriptors through MappingLoader.
+       Details: http://jira.codehaus.org/browse/CASTOR-1644
+       (Ralf - 20070127)
+
 Gen:   Resolved issue CASTOR-1854 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with not closed file handles for '.castor.cdr' during code generation.
        Details: http://jira.codehaus.org/browse/CASTOR-1854

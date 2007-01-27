@@ -1205,7 +1205,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      *
      * @param type the Class type being described
      */
-    protected void setJavaClass(Class type) {
+    public void setJavaClass(Class type) {
         this._class = type;
     } //-- setJavaClass
 
