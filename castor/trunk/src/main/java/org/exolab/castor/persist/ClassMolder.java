@@ -1458,7 +1458,7 @@ public class ClassMolder {
      * @return The actual (OQL) statement 
      */
     public String getNamedQuery(String name) {
-        return ((JDOClassDescriptor) _clsDesc).getNamedQuery(name);
+        return (String) ((JDOClassDescriptor) _clsDesc).getNamedQueries().get(name);
     }
 }
 

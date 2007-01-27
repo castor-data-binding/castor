@@ -42,10 +42,7 @@
  *
  * $Id$
  */
-
-
 package org.exolab.castor.mapping;
-
 
 /**
  * Describes the properties of a class and its fields. Implementations
@@ -55,17 +52,13 @@ package org.exolab.castor.mapping;
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  * @see FieldDescriptor
  */
-public interface ClassDescriptor
-{
-
-
+public interface ClassDescriptor {
     /**
      * Returns the Java class represented by this descriptor.
      *
      * @return The Java class
      */
     public Class getJavaClass();
-
 
     /**
      * Returns a list of fields represented by this descriptor.
@@ -74,7 +67,6 @@ public interface ClassDescriptor
      */
     public FieldDescriptor[] getFields();
 
-
     /**
      * Returns the class descriptor of the class extended by this class.
      *
@@ -82,23 +74,12 @@ public interface ClassDescriptor
      */
     public ClassDescriptor getExtends();
 
-
     /**
      * Returns the identity field, null if this class has no identity.
      *
      * @return The identity field
      */
     public FieldDescriptor getIdentity();
-
-
-    /**
-     * Returns the access mode specified for this class.
-     *
-     * @return The access mode
-     */
-    public AccessMode getAccessMode();
-
-
 }
 
 

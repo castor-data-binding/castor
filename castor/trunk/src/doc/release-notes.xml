@@ -65,7 +65,7 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
 
               <p>
                 If you are using the Castor code generator to generate code
-                from schemas that use <tt>xsd:import<tt>, whether or not code
+                from schemas that use <tt>xsd:import</tt>, whether or not code
                 was generated from the imported schemas was controlled by a
                 combination of switches.  Now it is controlled only by the
                 "-generateImportedSchemas" option of SourceGeneratorMain, the
@@ -76,6 +76,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
 
             </summary>
             <bugs>
+                <bug id="1644" tool="jira">
+                    <description>
+                        Refactored creation of ClassDescriptors through MappingLoader.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>All</module>
+                    <date>20070127</date>
+                </bug>
                 <bug id="1854" tool="jira">
                     <description>
 					       Fixed problem with not closed file handles for '.castor.cdr' during 

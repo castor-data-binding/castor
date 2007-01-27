@@ -46,6 +46,7 @@ package org.exolab.castor.xml.util;
 
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.xml.NodeType;
@@ -61,6 +62,9 @@ import org.exolab.castor.xml.XMLNaming;
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
+    public XMLClassDescriptorAdapter() {
+        super();
+    }
 
     /**
      * Creates a new XMLClassDescriptorAdapter using the given ClassDescriptor.
@@ -82,7 +86,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
      */
     public XMLClassDescriptorAdapter(final ClassDescriptor classDesc,
             String xmlName, NodeType primitiveNodeType)
-            throws org.exolab.castor.mapping.MappingException {
+    throws MappingException {
         super();
 
         if (classDesc == null) {
@@ -104,20 +108,20 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
 
         if (xmlName == null) {
             if (classDesc instanceof XMLClassDescriptor) {
-                xmlName = ((XMLClassDescriptor)classDesc).getXMLName();
+                xmlName = ((XMLClassDescriptor) classDesc).getXMLName();
             } else {
                 XMLNaming naming = XMLNaming.getInstance();
                 String name = classDesc.getJavaClass().getName();
                 //-- strip package
                 int idx = name.lastIndexOf('.');
                 if (idx >= 0) {
-                    name = name.substring(idx+1);
+                    name = name.substring(idx + 1);
                 }
                 xmlName = naming.toXMLName(name);
             }
         }
         setXMLName(xmlName);
-    } //-- XMLClassDescriptorAdapter
+    }
 
     /**
      * Copies the fieldDescriptors of the given XMLClassDesctiptor into this
@@ -125,9 +129,8 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
      *
      * @param classDesc the XMLClassDescriptor to process
      */
-    private void process(final ClassDescriptor classDesc, final NodeType primitiveNodeType)
-        throws org.exolab.castor.mapping.MappingException {
-
+    private void process(ClassDescriptor classDesc, NodeType primitiveNodeType)
+    throws MappingException {
         if (classDesc instanceof XMLClassDescriptor) {
             //-- hopefully this won't happen, but we can't prevent it.
             process((XMLClassDescriptor)classDesc);
@@ -223,7 +226,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
                                                        primitiveNodeType));
             }
         }
-    } //-- process
+    }
 
     /**
      * Copies the fieldDescriptors of the given XMLClassDesctiptor into this
@@ -231,8 +234,7 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
      *
      * @param classDesc the XMLClassDescriptor to process
      */
-    private void process(final XMLClassDescriptor classDesc)
-                              throws org.exolab.castor.mapping.MappingException {
+    private void process(XMLClassDescriptor classDesc) {
         FieldDescriptor identity = classDesc.getIdentity();
         FieldDescriptor[] fields = classDesc.getFields();
         for (int i = 0; i < fields.length; i++) {
@@ -249,7 +251,6 @@ public class XMLClassDescriptorAdapter extends XMLClassDescriptorImpl {
             setIdentity((XMLFieldDescriptor)identity);
         }
         setXMLName(classDesc.getXMLName());
-        setExtendsWithoutFlatten((XMLClassDescriptor)classDesc.getExtends());
-    } //-- process
-
-} //-- XMLClassDescriptorAdapter
+        setExtendsWithoutFlatten((XMLClassDescriptor) classDesc.getExtends());
+    }
+}

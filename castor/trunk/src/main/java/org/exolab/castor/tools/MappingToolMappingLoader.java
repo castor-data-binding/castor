@@ -46,22 +46,17 @@ package org.exolab.castor.tools;
 
 import java.lang.reflect.Array;
 
-import org.castor.mapping.BindingType;
 import org.exolab.castor.mapping.loader.AbstractMappingLoader;
 import org.exolab.castor.xml.JavaNaming;
 
 /**
  * Extend mapping loader to give us access to the findAccessor method.
  */
-public final class MappingToolMappingLoader extends AbstractMappingLoader {
+public final class MappingToolMappingLoader {
     private static final String GET = "get";
     private static final String SET = "set";
     private static final String ADD = "add";
     
-    MappingToolMappingLoader() { super(null); }
-    
-    public BindingType getBindingType() { return null; }
-
     /**
      * Returns true if the get method returns an array.
      * This method is used for greater compatability with
@@ -69,7 +64,7 @@ public final class MappingToolMappingLoader extends AbstractMappingLoader {
      *
      * @return if get method returns an array.
     **/
-    boolean returnsArray(final Class clazz, final String fieldName, final Class type) {
+    public static boolean returnsArray(final Class clazz, final String fieldName, final Class type) {
         try {
             Class array = null;
             if (type.isArray()) {
@@ -81,7 +76,7 @@ public final class MappingToolMappingLoader extends AbstractMappingLoader {
             String prefix = JavaNaming.toJavaClassName(fieldName);
             String method = GET + prefix;
             boolean isGet = true;
-            if (findAccessor(clazz, method, array, isGet) != null) {
+            if (AbstractMappingLoader.findAccessor(clazz, method, array, isGet) != null) {
                 return true;
             }
         } catch(Exception ex) {
@@ -90,24 +85,24 @@ public final class MappingToolMappingLoader extends AbstractMappingLoader {
         return false;
     }
     
-    boolean canFindAccessors(final Class clazz, final String fieldName, final Class type) {
+    public static boolean canFindAccessors(final Class clazz, final String fieldName, final Class type) {
         try {
             //-- getMethod
             String prefix = JavaNaming.toJavaClassName(fieldName);
             String method = GET + prefix;
             boolean isGet = true;
-            if (findAccessor(clazz, method, type, isGet) != null) {
+            if (AbstractMappingLoader.findAccessor(clazz, method, type, isGet) != null) {
                 return true;
             }
                 
             //-- setMethod and/or addMethod
             isGet = false;
             method = SET + prefix;
-            if (findAccessor(clazz, method, type, isGet) != null) {
+            if (AbstractMappingLoader.findAccessor(clazz, method, type, isGet) != null) {
                 return true;
             }
             method = ADD + prefix;
-            if (findAccessor(clazz, method, type, isGet) != null) {
+            if (AbstractMappingLoader.findAccessor(clazz, method, type, isGet) != null) {
                 return true;                
             }
         } catch(Exception ex) {

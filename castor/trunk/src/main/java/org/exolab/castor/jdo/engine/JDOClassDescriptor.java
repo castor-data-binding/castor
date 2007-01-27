@@ -48,105 +48,51 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
 
-import org.castor.cache.Cache;
-import org.castor.cache.simple.CountLimited;
-import org.castor.cache.simple.TimeLimited;
-import org.castor.util.Messages;
-import org.exolab.castor.jdo.OQLQuery;
-import org.exolab.castor.jdo.QueryException;
-import org.exolab.castor.jdo.TimeStampable;
+import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
-import org.exolab.castor.mapping.MappingException;
+import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
-import org.exolab.castor.mapping.xml.CacheTypeMapping;
-import org.exolab.castor.mapping.xml.Param;
 
 /**
- * JDO class descriptors. Extends {@link ClassDescriptor} to include the
- * table name and other SQL-related information. All fields are of
- * type {@link JDOFieldDescriptor}, identity field is not included in the
- * returned field list, and contained fields are flattened out for
- * efficiency (thus all fields are directly accessible).
+ * JDO class descriptors. Extends {@link ClassDescriptor} to include the table name and
+ * other SQL-related information. All fields are of type {@link JDOFieldDescriptor},
+ * identity field is not included in the returned field list, and contained fields are
+ * flattened out for efficiency (thus all fields are directly accessible).
  *
- * @author <a href="arkin@intalio.com">Assaf Arkin</a>
+ * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class JDOClassDescriptor extends ClassDescriptorImpl {
+    //-----------------------------------------------------------------------------------
+
     /** The name of the SQL table. */
-    private final String  _tableName;
+    private String  _tableName;
 
-    /** The names of columns that the identity consists of. */
-    private final String[] _idnames;
-
-    /** The key generator specified for this class. */
-    private final KeyGeneratorDescriptor _keyGenDesc;
+    /** The access mode specified for this class. */
+    private AccessMode _accessMode = AccessMode.Shared;
 
     /** The properties defining cache type and parameters. */
     private final Properties _cacheParams = new Properties();
     
-    /**
-     * Associated named queries, keyed by their name 
-     */
-    private Map _namedQueries = new HashMap();
+    /** Associated named queries, keyed by their name. */
+    private final Map _namedQueries = new HashMap();
     
-    public JDOClassDescriptor(final ClassDescriptor clsDesc,
-            final KeyGeneratorDescriptor keyGenDesc)
-    throws MappingException {
-        super((ClassDescriptorImpl) clsDesc);
-        
-        _tableName = getMapping().getMapTo().getTable();
-        if (_tableName == null) {
-            throw new IllegalArgumentException("Argument 'tableName' is null");
-        }
-        
-        if (getIdentity() == null) {
-            throw new MappingException("mapping.noIdentity", getJavaClass().getName());
-        }
-        
-        if (!(getIdentity() instanceof JDOFieldDescriptor)) {
-            throw new IllegalArgumentException("Identity field must be of type JDOFieldDescriptor");
-        }
-        
-        if ((getExtends() != null) && !(getExtends() instanceof JDOClassDescriptor)) {
-            throw new IllegalArgumentException( "Extended class does not have a JDO descriptor" );
-        }
-        
-        _idnames = new String[_identities.length];
-        for (int i = 0; i < _idnames.length; i++) {
-        	String[] sqlNames = ((JDOFieldDescriptor) _identities[i]).getSQLName();
-        	if (sqlNames == null) {
-        		throw new MappingException("mapping.noSqlName", _identities[i].getFieldName(), getJavaClass().getName());
-        	}
-        	_idnames[i] = sqlNames[0];
-        }
+    /** The key generator specified for this class. */
+    private KeyGeneratorDescriptor _keyGenDesc;
 
-        _keyGenDesc = keyGenDesc;
+    //-----------------------------------------------------------------------------------
 
-        CacheTypeMapping cacheMapping = getMapping().getCacheTypeMapping();
-        if (cacheMapping != null) {
-            String capacity = Long.toString(cacheMapping.getCapacity());
-            _cacheParams.put(CountLimited.PARAM_CAPACITY, capacity);
-            _cacheParams.put(TimeLimited.PARAM_TTL, capacity);
-            
-            Param[] params = cacheMapping.getParam();
-            for (int i = 0; i < params.length; i++) {
-                _cacheParams.put(params[i].getName(), params[i].getValue());
-            }
-
-            String debug = new Boolean(cacheMapping.getDebug()).toString();
-            _cacheParams.put(Cache.PARAM_DEBUG, debug);
-
-            String type = cacheMapping.getType();
-            if ((TimeStampable.class.isAssignableFrom(getJavaClass()))
-                    && (type != null) && (type.equalsIgnoreCase("none"))) {
-                throw new MappingException(Messages.format("persist.wrongCacheTypeSpecified", getMapping().getName()));
-            }
-            _cacheParams.put(Cache.PARAM_TYPE, type);
-        }
-        
-        _cacheParams.put(Cache.PARAM_NAME, getMapping().getName());
+    public JDOClassDescriptor() {
+        super();
     }
+    
+    //-----------------------------------------------------------------------------------
 
+    protected void setTableName(final String tableName) {
+        _tableName = tableName;
+    }
+    
     /**
      * Returns the table name to which this object maps.
      *
@@ -155,82 +101,95 @@ public class JDOClassDescriptor extends ClassDescriptorImpl {
     public String getTableName() {
         return _tableName;
     }
+    
+    protected void setAccessMode(final AccessMode accessMode) {
+        _accessMode = accessMode;
+    }
+    
+    public AccessMode getAccessMode() {
+        return _accessMode;
+    }
+    
+    protected void addCacheParam(final String key, final String value) {
+        _cacheParams.put(key, value);
+    }
 
     public Properties getCacheParams() {
         return _cacheParams;
     }
 
-    /**
-     * Returns a JDOFieldDescriptor for the field with the name passed.  Null
-     * if named field does not exist.
-     *
-     * @param name The name of the field to return
-     * @return The field if it exists, otherwise null.
-     */
-    public JDOFieldDescriptor getField(String name) {
-        JDOFieldDescriptor field = null;
-        for (int i = 0 ; i < _fields.length ; ++i) {
-            if ((_fields[i] instanceof JDOFieldDescriptor)
-                    && (_fields[i].getFieldName().equals(name))) {
-                
-                field = (JDOFieldDescriptor) _fields[i];
-                break;
-            }
-        }
-        
-        if (field == null) {
-            for (int i = 0 ; i < _identities.length ; ++i) {
-                if ((_identities[i] instanceof JDOFieldDescriptor)
-                        && (_identities[i].getFieldName().equals(name))) {
-                    
-                    field = (JDOFieldDescriptor) _identities[i];
-                }
-            }
-        }
-
-        return field;
+    protected void addNamedQuery(final String name, final String query) {
+        _namedQueries.put(name, query);
     }
 
     /**
-     * Returns the key generator specified for this class.
+     * Get map of named query strings associated with their names.
+     * 
+     * @return Map of named query strings associated with their names.
+     */
+    public Map getNamedQueries() {
+        return _namedQueries;
+    }
+    
+    /**
+     * Set key generator specified for this class.
+     * 
+     * @param keyGenDesc Key generator descriptor.
+     */
+    protected void setKeyGeneratorDescriptor(final KeyGeneratorDescriptor keyGenDesc) {
+        _keyGenDesc = keyGenDesc;
+    }
+
+    /**
+     * Get key generator specified for this class.
      *
-     * @return The key generator descriptor
+     * @return Key generator descriptor.
      */
     public KeyGeneratorDescriptor getKeyGeneratorDescriptor() {
         return _keyGenDesc;
     }
-
-    /**
-     * @return The names of columns that the identity consists of.
-     */
-    public String[] getIdentityColumnNames() {
-        return _idnames;
-    }
-
-    public String toString() {
-        return super.toString() + " AS " + _tableName;
-    }
-
-    /**
-     * Returns the OQL statement from a named query instance associated with the given name
-     * @param name Name of the named query
-     * @return the OQL statement from a named query instance associated with the given name  
-     */
-    public String getNamedQuery(String name) {
-        String namedQuery = (String) _namedQueries.get(name);
-        return namedQuery;
-    }
     
+    //-----------------------------------------------------------------------------------
+
     /**
-     * Adds a new named query for the given name for future usage (through Database.getNamedQuery()).
-     * @param name Name of the named query.
-     * @param namedQuery Named query to be associated with the given name
-     * @throws QueryException If there's already a named query for the given name
+     * Returns a JDOFieldDescriptor for the field with the name passed. <code>null</code>
+     * if named field does not exist.
+     *
+     * @param name Name of the field to return.
+     * @return Field if it exists, otherwise <code>null</code>.
      */
-    public void addNamedQuery(final String name, final String namedQuery) throws QueryException {
-        if (_namedQueries.containsKey(name)) {
-            throw new QueryException ("Duplicate entry for named query " + name);
+    public JDOFieldDescriptor getField(String name) {
+        FieldDescriptor[] fields = getFields();
+        for (int i = 0 ; i < fields.length ; ++i) {
+            FieldDescriptor field = fields[i];
+            if ((field instanceof JDOFieldDescriptor)
+                    && (field.getFieldName().equals(name))) {
+                
+                return (JDOFieldDescriptor) field;
+            }
         }
-        _namedQueries.put(name, namedQuery);
+        
+        FieldDescriptor[] identities = getIdentities();
+        for (int i = 0 ; i < identities.length ; ++i) {
+            FieldDescriptor field = identities[i];
+            if ((field instanceof JDOFieldDescriptor)
+                    && (field.getFieldName().equals(name))) {
+                
+                return (JDOFieldDescriptor) field;
+            }
+        }
+
+        return null;
     }
+
+    //-----------------------------------------------------------------------------------
+
+    /**
+     * {@inheritDoc}
+     */
+    public String toString() {
+        return getJavaClass().getName() + " AS " + _tableName;
+    }
+
+    //-----------------------------------------------------------------------------------
 }

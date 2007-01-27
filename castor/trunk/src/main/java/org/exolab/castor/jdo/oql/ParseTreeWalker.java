@@ -26,6 +26,7 @@ import org.exolab.castor.jdo.QueryException;
 import org.exolab.castor.jdo.engine.JDOClassDescriptor;
 import org.exolab.castor.jdo.engine.JDOFieldDescriptor;
 import org.exolab.castor.jdo.engine.SQLEngine;
+import org.exolab.castor.jdo.engine.SQLHelper;
 import org.exolab.castor.mapping.loader.Types;
 import org.exolab.castor.persist.LockEngine;
 import org.exolab.castor.persist.spi.QueryExpression;
@@ -370,9 +371,11 @@ public class ParseTreeWalker {
                 tableAlias2 = buildTableAlias(tableAlias2, path, tableIndex);
             }
             expr.addTable(cd.getTableName(), tableAlias2);
+            String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(clsDesc);
+            String[] cdIdNames = SQLHelper.getIdentitySQLNames(cd);
             expr.addInnerJoin(
-                    clsDesc.getTableName(), clsDesc.getIdentityColumnNames(), tableAlias1,
-                    cd.getTableName(), cd.getIdentityColumnNames(), tableAlias2);
+                    clsDesc.getTableName(), clsDescIdNames, tableAlias1,
+                    cd.getTableName(), cdIdNames, tableAlias2);
         }
         return retVal;
     }

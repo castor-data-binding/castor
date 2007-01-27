@@ -80,7 +80,7 @@ public final class SQLStatementLoad {
 
         // obtain the number of ClassDescriptor that extend this one.
         _numberOfExtendLevels = SQLHelper.numberOfExtendingClassDescriptors(engine.getDescriptor());
-        _extendingClassDescriptors = engine.getDescriptor().getExtendedBy();
+        _extendingClassDescriptors = engine.getDescriptor().getExtended();
 
         buildStatement();
     }
@@ -97,8 +97,10 @@ public final class SQLStatementLoad {
             JDOClassDescriptor baseDesc;
             while (curDesc.getExtends() != null) {
                 baseDesc = (JDOClassDescriptor) curDesc.getExtends();
-                expr.addInnerJoin(curDesc.getTableName(), curDesc.getIdentityColumnNames(),
-                                  baseDesc.getTableName(), baseDesc.getIdentityColumnNames());
+                String[] curDescIdNames = SQLHelper.getIdentitySQLNames(curDesc);
+                String[] baseDescIdNames = SQLHelper.getIdentitySQLNames(baseDesc);
+                expr.addInnerJoin(curDesc.getTableName(), curDescIdNames,
+                                  baseDesc.getTableName(), baseDescIdNames);
                 joinTables.add(baseDesc.getTableName());
                 curDesc = baseDesc;
             }
@@ -118,7 +120,7 @@ public final class SQLStatementLoad {
 
                 // add id fields for root table if first field points to a separate table
                 if ((i == 0) && field.isJoined()) {
-                    String[] identities = _engine.getDescriptor().getIdentityColumnNames();
+                    String[] identities = SQLHelper.getIdentitySQLNames(_engine.getDescriptor());
                     for (int j = 0; j < identities.length; j++) {
                         expr.addColumn(curDesc.getTableName(), identities[j]);
                     }
@@ -130,7 +132,7 @@ public final class SQLStatementLoad {
                 if (!alias.equals(aliasOld) && !field.isJoined()) {
                     JDOClassDescriptor classDescriptor = (JDOClassDescriptor) 
                         field.getFieldDescriptor().getContainingClassDescriptor();
-                    String[] identities = classDescriptor.getIdentityColumnNames();
+                    String[] identities = SQLHelper.getIdentitySQLNames(classDescriptor);
                     for (int j = 0; j < identities.length; j++) {
                         boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(classDescriptor.getTableName()); 
                         if (!isTableNameAlreadyAdded) {
@@ -167,7 +169,7 @@ public final class SQLStatementLoad {
             // 'join' all the extending tables 
             List classDescriptorsToAdd = new LinkedList();
             JDOClassDescriptor classDescriptor = null;
-            SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd, _engine.getDescriptor().getExtendedBy());
+            SQLHelper.addExtendingClassDescriptors(classDescriptorsToAdd, _engine.getDescriptor().getExtended());
             
             if (classDescriptorsToAdd.size() > 0) {
                 for (Iterator iter = classDescriptorsToAdd.iterator(); iter.hasNext(); ) {
@@ -179,8 +181,10 @@ public final class SQLStatementLoad {
                                 + classDescriptor.getTableName());
                     }
                     
-                    expr.addOuterJoin(_mapTo, _engine.getDescriptor().getIdentityColumnNames(), 
-                            classDescriptor.getTableName(), classDescriptor.getIdentityColumnNames());
+                    String[] engDescIdNames = SQLHelper.getIdentitySQLNames(_engine.getDescriptor());
+                    String[] clsDescIdNames = SQLHelper.getIdentitySQLNames(classDescriptor);
+                    expr.addOuterJoin(_mapTo, engDescIdNames, 
+                            classDescriptor.getTableName(), clsDescIdNames);
 
                     Persistence persistenceEngine;
                     try {

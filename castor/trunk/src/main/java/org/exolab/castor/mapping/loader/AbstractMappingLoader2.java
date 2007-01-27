@@ -9,7 +9,6 @@ import java.util.Vector;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
-import org.exolab.castor.mapping.xml.MappingRoot;
 
 public abstract class AbstractMappingLoader2 implements MappingLoader {
     //--------------------------------------------------------------------------
@@ -126,32 +125,18 @@ public abstract class AbstractMappingLoader2 implements MappingLoader {
     //--------------------------------------------------------------------------
     
     /**
-     * Loads the mapping from the specified mapping object if not loaded previously.
-     *
-     * @param mapping The mapping information.
-     * @param param Arbitrary parameter that can be used by subclasses.
-     * @throws MappingException The mapping file is invalid.
+     * Return if mapping should be loaded with this MappingLoader instance or if another
+     * mapping have been loaded previously. If no mapping have been loaded previously
+     * then prevent any other mapping to be loaded later on.
+     * 
+     * @return <code>true</code> if mapping should be loaded, <code>false</code>
+     *         otherwise.
      */
-    public final void loadMapping(final MappingRoot mapping, final Object param)
-    throws MappingException {
-        if (!_loaded) {
-            _loaded = true;
-            
-            loadMappingInternal(mapping, param);
-        }
+    protected final boolean loadMapping() {
+        if (_loaded) { return false; }
+        _loaded = true;
+        return true;
     }
-    
-    /**
-     * Loads the mapping from the specified mapping object. Calls {@link #createDescriptor} to
-     * create each descriptor and {@link #addDescriptor} to store it. Also loads all the included
-     * mapping files.
-     *
-     * @param mapping The mapping information.
-     * @param param Arbitrary parameter that can be used by subclasses.
-     * @throws MappingException The mapping file is invalid.
-     */
-    protected abstract void loadMappingInternal(MappingRoot mapping, Object param)
-    throws MappingException;
     
     //--------------------------------------------------------------------------
 }

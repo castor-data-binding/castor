@@ -627,18 +627,5 @@ abstract class MarshalFramework {
         public FieldDescriptor getIdentity() {
             return _classDesc.getIdentity();
         } //-- getIdentity
-
-
-        /**
-         * Returns the access mode specified for this class.
-         *
-         * @return The access mode
-         */
-        public AccessMode getAccessMode() {
-            return _classDesc.getAccessMode();
-        } //-- getAccessMode
-        
     } //-- InternalXMLClassDescriptor
-
-
 } //-- MarshalFramework

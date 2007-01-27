@@ -58,9 +58,6 @@ import java.util.Iterator;
 import java.util.List;
 import java.util.Enumeration;
 
-import org.apache.commons.logging.Log;
-import org.apache.commons.logging.LogFactory;
-import org.castor.util.Messages;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
@@ -86,9 +83,7 @@ import org.exolab.castor.mapping.xml.FieldMapping;
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
-    /** The <a href="http://jakarta.apache.org/commons/logging/">Jakarta Commons
-     *  Logging </a> instance used for all logging. */
-    private static final Log LOG = LogFactory.getLog(AbstractMappingLoader.class);
+    //--------------------------------------------------------------------------
 
     /** The prefix for the "add" method. */
     private static final String ADD_METHOD_PREFIX = "add";
@@ -127,7 +122,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /** Factory method name for type-safe enumerations. */
     protected static final String VALUE_OF = "valueOf";
 
-    protected static final ClassDescriptor NO_DESCRIPTOR = new ClassDescriptorImpl(Class.class);
+    //--------------------------------------------------------------------------
 
     /**
      * Constructs a new mapping helper. This constructor is used by a derived class.
@@ -138,6 +133,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         super(loader);
     }
     
+    //--------------------------------------------------------------------------
+
     /**
      * {@inheritDoc}
      */
@@ -145,21 +142,19 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         return "CastorXmlMapping";
     }
 
-    /**
-     * Returns the Java class for the named type. The type name can be one of the
-     * accepted short names (e.g. <tt>integer</tt>) or the full Java class name (e.g.
-     * <tt>java.lang.Integer</tt>). If the short name is used, the primitive type might
-     * be returned.
-     */
-    protected final Class resolveType(final String typeName)
-    throws ClassNotFoundException {
-        return Types.typeFromName(getClassLoader(), typeName);
-    }
+    //--------------------------------------------------------------------------
 
     /**
-     * {@inheritDoc}
+     * Loads the mapping from the specified mapping object if not loaded previously.
+     *
+     * @param mapping The mapping information.
+     * @param param Arbitrary parameter that can be used by subclasses.
+     * @throws MappingException The mapping file is invalid.
      */
-    protected void loadMappingInternal(final MappingRoot mapping, final Object param)
+    public abstract void loadMapping(final MappingRoot mapping, final Object param)
+    throws MappingException;
+
+    protected final void createClassDescriptors(final MappingRoot mapping)
     throws MappingException {
         // Load the mapping for all the classes. This is always returned
         // in the same order as it appeared in the mapping file.
@@ -168,22 +163,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         List retryList = new ArrayList();
         while (enumeration.hasMoreElements()) {
             ClassMapping clsMap = (ClassMapping) enumeration.nextElement();
-            ClassDescriptor clsDesc = null;
-
             try {
-                clsDesc = createDescriptor(clsMap);
+                ClassDescriptor clsDesc = createClassDescriptor(clsMap);
+                if (clsDesc != null) { addDescriptor(clsDesc); }
             } catch (MappingException mx) {
                 // save for later for possible out-of-order mapping files...
                 retryList.add(clsMap); 
                 continue;
-            }
-
-            if (clsDesc != NO_DESCRIPTOR) {
-                addDescriptor(clsDesc);
-            } else {
-                // If the return value is NoDescriptor then the derived
-                // class was not successful in constructing a descriptor.
-                LOG.info(Messages.format("mapping.ignoringMapping", clsMap.getName()));
             }
         }
 
@@ -191,134 +177,19 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         // should change this to keep looping until we have no more success rate.
         for (Iterator i = retryList.iterator(); i.hasNext();) {
             ClassMapping clsMap = (ClassMapping) i.next();
-            ClassDescriptor clsDesc = createDescriptor(clsMap);
-            if (clsDesc != NO_DESCRIPTOR) {
-                addDescriptor(clsDesc);
-            } else {
-                // If the return value is NoDescriptor then the derived
-                // class was not successful in constructing a descriptor.
-                LOG.info(Messages.format("mapping.ignoringMapping", clsMap.getName()));
-            }
+            ClassDescriptor clsDesc = createClassDescriptor(clsMap);
+            if (clsDesc != null) { addDescriptor(clsDesc); }
         }
 
-        for (Iterator i = this.descriptorIterator(); i.hasNext();) {
-            ClassDescriptor clsDesc = (ClassDescriptor) i.next();
-            if (clsDesc != NO_DESCRIPTOR) { resolveRelations(clsDesc); }
+        // iterate over all class descriptors and resolve relations between them
+        for (Iterator i = descriptorIterator(); i.hasNext();) {
+            resolveRelations((ClassDescriptor) i.next());
         }
     }
-
-    protected void resolveRelations(final ClassDescriptor clsDesc) {
-        FieldDescriptor[] fields = clsDesc.getFields();
-        for ( int i = 0 ; i < fields.length ; ++i ) {
-            FieldDescriptor field = fields[i];
-            ClassDescriptor desc = getDescriptor(field.getFieldType().getName());
-            if (desc == NO_DESCRIPTOR) {
-                // XXX Error message should come here
-                continue;
-            } else if ((desc != null) && (field instanceof FieldDescriptorImpl)) {
-                ( (FieldDescriptorImpl) field ).setClassDescriptor( desc );
-            }
-        }
-    }
-
-    /**
-     * Creates a new descriptor. The class mapping information is used to create a new
-     * stock {@link ClassDescriptor}. Implementations may extend this class to create a
-     * more suitable descriptor.
-     *
-     * @param clsMap The class mapping information.
-     * @throws MappingException An exception indicating why mapping for the class cannot
-     *         be created.
-     */
-    protected ClassDescriptor createDescriptor(final ClassMapping clsMap)
-    throws MappingException {
-        // Obtain the Java class.
-        Class javaClass;
-        try {
-            javaClass = resolveType(clsMap.getName());
-        } catch (ClassNotFoundException ex) {
-            throw new MappingException("mapping.classNotFound", clsMap.getName());
-        }
-
-        // If this class extends another class, we need to obtain the extended
-        // class and make sure this class indeed extends it.
-        ClassDescriptor extend = getExtended(clsMap, javaClass.getName());
-
-        // If this class depends another class, need to obtain the depended class
-        ClassDescriptor depend = getDepended(clsMap, javaClass.getName());
-
-        // Get field descriptors first. Note: order must be preserved for fields, but not
-        // for relations or container fields. Add all the container fields in there.
-        FieldDescriptor[] fields = createFieldDescriptors(clsMap, javaClass);
-
-        // Make sure there are no two fields with the same name.
-        checkFieldNames(fields, javaClass.getName());
-
-        ClassMapping origin = getOrigin(clsMap);
-        String[] ids = getIdentityColumnNames(origin.getIdentity(), origin);
-
-        if ((ids == null) || (ids.length == 0)) {
-            return new ClassDescriptorImpl(
-                    clsMap, javaClass, fields, null, extend, depend);
-        }
-        
-        // Check that an XML mapping file does not declare more identity attributes for a
-        // given class than there are field elements defined for that class.
-        // (Patch submitted by Gabriel Richard Pack <gpack@electroneconomy.com>)
-        if ((origin == clsMap) && (ids.length > fields.length)) {
-            StringBuffer badIdentities = new StringBuffer();
-            for (int index = 0; index < ids.length; index++) {
-                if (index != 0) { badIdentities.append(" or "); }
-                badIdentities.append(ids[index]);
-            }
-            throw new MappingException(
-                    "mapping.identityMissing", badIdentities, javaClass.getName());
-        }
-
-        // Divide fields into identity fields and regular fields
-        FieldDescriptor[] identities = new FieldDescriptor[ids.length];
-        fields = divideFieldDescriptors(fields, ids, identities);
-
-        if (extend != null) {
-            // We allow identity fields to be re-defined in the extends class mapping to
-            // override some properties of the field, for example, <sql name="..."/>.
-            if (extend instanceof ClassDescriptorImpl) {
-                ClassDescriptorImpl extendImpl = (ClassDescriptorImpl) extend;
-                for (int i = 0; i < identities.length; i++) {
-                    if (identities[i] == null) {
-                        identities[i] = extendImpl.getIdentities()[i];
-                    }
-                }
-            } else {
-                // We leave things in the old way for the XML side
-                if (identities[0] == null) {
-                    if (extend.getIdentity() != null) {
-                        identities = new FieldDescriptor[] {extend.getIdentity()};
-                    } else {
-                        identities = new FieldDescriptor[0];
-                    }
-                }
-            }
-        }
-
-        // A general test of identities
-        if ((ids != null) && (ids.length > 0)) {
-            if ((identities == null) || (identities.length <= 0 )) {
-                StringBuffer badIdentities = new StringBuffer();
-                for (int i = 0; i < ids.length; i++) {
-                    if (i != 0) { badIdentities.append("/"); }
-                    badIdentities.append(ids[i]);
-                }
-                throw new MappingException(
-                        "mapping.identityMissing", badIdentities, javaClass.getName());
-            }
-        }
-        
-        // Create the class descriptor.
-        return new ClassDescriptorImpl(
-                clsMap, javaClass, fields, identities, extend, depend);
-    }
-
+    
+    protected abstract ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
+    throws MappingException;
+    
     /**
      * Gets the ClassDescriptor the given <code>classMapping</code> extends.
      * 
@@ -330,27 +201,26 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException If the given ClassMapping extends another ClassMapping but
      *         its descriptor could not be found.
      */
-    private ClassDescriptor getExtended(final ClassMapping clsMap, final String clsName)
+    protected final  ClassDescriptor getExtended(
+            final ClassMapping clsMap, final Class javaClass)
     throws MappingException {
         if (clsMap.getExtends() == null) { return null; }
 
-        try {
-            ClassMapping mapping = (ClassMapping) clsMap.getExtends();
-            Class type = resolveType(mapping.getName());
-            ClassDescriptor result = getDescriptor(type.getName());
+        ClassMapping mapping = (ClassMapping) clsMap.getExtends();
+        Class type = resolveType(mapping.getName());
+        ClassDescriptor result = getDescriptor(type.getName());
 
-            if (result == null) {
-                throw new MappingException("mapping.extendsMissing", mapping, clsName);
-            }
-
-            if (result == NO_DESCRIPTOR) {
-                throw new MappingException("mapping.extendsNoMapping", mapping, clsName);
-            }
-
-            return result;
-        } catch (ClassNotFoundException ex) {
-            throw new MappingException(ex);
+        if (result == null) {
+            throw new MappingException(
+                    "mapping.extendsMissing", mapping, javaClass.getName());
         }
+
+        if (!result.getJavaClass().isAssignableFrom(javaClass)) {
+            throw new MappingException("mapping.classDoesNotExtend",
+                    javaClass.getName(), result.getJavaClass().getName());
+        }
+
+        return result;
     }
 
     /**
@@ -364,23 +234,67 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException If the given ClassMapping depends on another ClassMapping
      *         but its descriptor could not be found.
      */
-    private ClassDescriptor getDepended(final ClassMapping clsMap, final String clsName)
+    protected final ClassDescriptor getDepended(
+            final ClassMapping clsMap, final Class javaClass)
     throws MappingException {
         if (clsMap.getDepends() == null) { return null; }
 
-        try {
-            ClassMapping mapping = (ClassMapping) clsMap.getDepends();
-            Class type = resolveType(mapping.getName());
-            ClassDescriptor result = getDescriptor(type.getName());
+        ClassMapping mapping = (ClassMapping) clsMap.getDepends();
+        Class type = resolveType(mapping.getName());
+        ClassDescriptor result = getDescriptor(type.getName());
 
-            if ((result == null) || (result == NO_DESCRIPTOR)) {
-                String msg = "Depends not found: " + mapping + " " + clsName;
-                throw new MappingException(msg);
+        if (result == null) {
+            throw new MappingException(
+                    "Depends not found: " + mapping + " " + javaClass.getName());
+        }
+
+        return result;
+    }
+
+    /**
+     * Checks all given fields for name equality and throws a MappingException if at
+     * least two fields have the same name.
+     * 
+     * @param fields The fields to be checked.
+     * @param cls Class that is checked (this is used for generating the exception).
+     * @throws MappingException If at least two fields have the same name.
+     */
+    protected final void checkFieldNameDuplicates(
+            final FieldDescriptor[] fields, final Class cls)
+    throws MappingException {
+        for (int i = 0; i < fields.length - 1; i++) {
+            String fieldName = fields[i].getFieldName();
+            for (int j = i + 1; j < fields.length; j++) {
+                if (fieldName.equals(fields[j].getFieldName())) {
+                    throw new MappingException("The field " + fieldName
+                            + " appears twice in the descriptor for " + cls.getName());
+                }
             }
+        }
+    }
+    
+    protected abstract void resolveRelations(final ClassDescriptor clsDesc);
 
-            return result;
-        } catch (ClassNotFoundException e) {
-            throw new MappingException(e);
+    //--------------------------------------------------------------------------
+    
+    
+    
+    
+    
+    
+    
+    /**
+     * Returns the Java class for the named type. The type name can be one of the
+     * accepted short names (e.g. <tt>integer</tt>) or the full Java class name (e.g.
+     * <tt>java.lang.Integer</tt>). If the short name is used, the primitive type might
+     * be returned.
+     */
+    protected final Class resolveType(final String typeName)
+    throws MappingException {
+        try {
+            return Types.typeFromName(getClassLoader(), typeName);
+        } catch (ClassNotFoundException ex) {
+            throw new MappingException("mapping.classNotFound", typeName);
         }
     }
 
@@ -395,7 +309,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException An exception indicating why mapping for the class cannot
      *         be created.
      */
-    private FieldDescriptor[] createFieldDescriptors(final ClassMapping clsMap,
+    protected final AbstractFieldDescriptor[] createFieldDescriptors(final ClassMapping clsMap,
             final Class javaClass) throws MappingException {
         FieldMapping[] fldMap = null;
 
@@ -404,38 +318,18 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         }
 
         if ((fldMap == null) || (fldMap.length == 0)) {
-            return new FieldDescriptor[0];
+            return new AbstractFieldDescriptor[0];
         }
 
-        FieldDescriptor[] fields = new FieldDescriptor[fldMap.length];
+        AbstractFieldDescriptor[] fields = new AbstractFieldDescriptor[fldMap.length];
         for (int i = 0; i < fldMap.length; i++) {
             fields[i] = createFieldDesc(javaClass, fldMap[i]);
+            
+            // set identity flag
+            fields[i].setIdentity(fldMap[i].getIdentity());
         }
 
         return fields;
-    }
-
-    /**
-     * Checks all given fields for name equality and throws a MappingException if at least
-     * two fields have the same name.
-     * 
-     * @param fields The fields to be checked.
-     * @param clsName The name of the class that is checked (this is used for generating
-     *        the exception).
-     * @throws MappingException If at least two fields have the same name.
-     */
-    private void checkFieldNames(final FieldDescriptor[] fields, final String clsName)
-    throws MappingException {
-        for (int i = 0; i < fields.length - 1; i++) {
-            String fieldName = fields[i].getFieldName();
-
-            for (int j = i + 1; j < fields.length; j++) {
-                if (fieldName.equals(fields[j].getFieldName())) {
-                    throw new MappingException("The field " + fieldName
-                            + " appears twice in the descriptor for " + clsName);
-                }
-            }
-        }
     }
 
     /**
@@ -446,7 +340,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @return The top-most extends of the given ClassMapping or the ClassMapping itself
      *         if it does not extend any other ClassMapping.
      */
-    private ClassMapping getOrigin(final ClassMapping clsMap) {
+    protected final ClassMapping getOrigin(final ClassMapping clsMap) {
         ClassMapping result = clsMap;
 
         while (result.getExtends() != null) {
@@ -456,7 +350,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         return result;
     }
 
-    private FieldDescriptor[] divideFieldDescriptors(final FieldDescriptor[] fields,
+    protected final FieldDescriptor[] divideFieldDescriptors(final FieldDescriptor[] fields,
             final String[] ids, final FieldDescriptor[] identities) {
         List fieldList = new ArrayList(fields.length);
         
@@ -492,7 +386,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @return The index of the id column name that matches the given field's name or
      *         <code>-1</code> if no such id column name exists.
      */
-    private int getIdColumnIndex(FieldDescriptor field, String[] ids) {
+    protected int getIdColumnIndex(FieldDescriptor field, String[] ids) {
         for (int i = 0; i < ids.length; i++) {
             if (field.getFieldName().equals(ids[i])) {
                 return i;
@@ -512,18 +406,14 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException The field or its accessor methods are not
      *         found, not accessible, not of the specified type, etc.
      */
-    protected FieldDescriptor createFieldDesc(final Class javaClass,
+    protected AbstractFieldDescriptor createFieldDesc(final Class javaClass,
             final FieldMapping fieldMap) throws MappingException {
         String fieldName = fieldMap.getName();
 
         // If the field type is supplied, grab it and use it to locate the field/accessor.
         Class fieldType = null;
         if (fieldMap.getType() != null) {
-            try {
-                fieldType = resolveType(fieldMap.getType());
-            } catch (ClassNotFoundException ex) {
-                throw new MappingException("mapping.classNotFound", fieldMap.getType());
-            }
+            fieldType = resolveType(fieldMap.getType());
         }
 
         // If the field is declared as a collection, grab the collection type as
@@ -543,12 +433,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         // Check for user supplied FieldHandler
         if (fieldMap.getHandler() != null) {
             Class handlerClass = null;
-            try {
-                handlerClass = resolveType(fieldMap.getHandler());
-            } catch (ClassNotFoundException ex) {
-                throw new MappingException(
-                        "mapping.classNotFound", fieldMap.getHandler());
-            }
+            handlerClass = resolveType(fieldMap.getHandler());
 
             if (!FieldHandler.class.isAssignableFrom(handlerClass)) {
                 String err = "The class '" + fieldMap.getHandler() + "' must implement "
@@ -1059,7 +944,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException The method is not accessible or is not of the
      *         specified type.
      */
-    protected static final Method findAccessor(final Class javaClass,
+    public static final Method findAccessor(final Class javaClass,
             final String methodName, Class fieldType, final boolean getMethod)
     throws MappingException {
         try {
