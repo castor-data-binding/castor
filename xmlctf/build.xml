@@ -17,6 +17,7 @@
         <pathelement location="${basedir}/../codegen/build/classes"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
         <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+        <pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
     </path>
 
     <target name="prepare.xmlctf" unless="prepare.xmlctf.executed">
