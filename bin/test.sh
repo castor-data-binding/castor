@@ -23,7 +23,5 @@ CLASSPATH=$CLASSPATH:$BUILD_D/tests:$BUILD_D/classes
 CLASSPATH=`echo $LIB_D/*.jar | tr ' ' ':'`:$CLASSPATH
 CLASSPATH=`echo $LIB_D/tests/*.jar | tr ' ' ':'`:$CLASSPATH
 
+#$JAVA -Xms256M -Xmx512M -cp $CLASSPATH MainApp -execute $1 $2 $3 $4 $5 $6
 $JAVA -cp $CLASSPATH MainApp -execute $1 $2 $3 $4 $5 $6
-
-
-

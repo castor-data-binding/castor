@@ -6,6 +6,11 @@
         This test checks the behavior of the include tag that allows to include
         mapping documents inside a mapping.
     </Comment>
+    <Comment>
+        Note:  The mapping files in this test explicitly assume that the CTF
+        is being run from the bin directory.  The directory structure of Castor
+        in SVN is hardcoded into the mapping files.  This is unfortunate.
+    </Comment>
 
     <Category>basic capability</Category>
 
