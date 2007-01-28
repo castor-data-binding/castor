@@ -1,6 +1,6 @@
-
+<?xml version="1.0"?>
 <mapping>
-        
+
         <class name="C">
                 <map-to xml="C"/>
                 <field name="price"
@@ -8,5 +8,5 @@
                         <bind-xml name="Price"/>
                 </field>
         </class>
-        
+
 </mapping>

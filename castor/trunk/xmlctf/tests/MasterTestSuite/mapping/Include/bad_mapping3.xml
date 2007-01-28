@@ -1,7 +1,7 @@
-
+<?xml version="1.0"?>
 <mapping>
         <!--include a local mapping -->
-        <include href="../src/tests/xml/MasterTestSuite/mapping/Include/mapping2.xml"/>
+        <include href="../xmlctf/tests/MasterTestSuite/mapping/Include/bad_mapping2.xml"/>
 
         <class name="B">
                 <map-to xml="B"/>
@@ -15,5 +15,6 @@
                 </field>
 
         </class>
+
 
 </mapping>

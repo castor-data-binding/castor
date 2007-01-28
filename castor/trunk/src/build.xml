@@ -57,17 +57,18 @@
         <fileset dir="${lib}/tests">
             <include name="*.jar"/>
         </fileset>
-    	<pathelement location="${basedir}/codegen/build/classes" />
-    	<pathelement location="${basedir}/anttask/build/classes" />
+        <pathelement location="${basedir}/codegen/build/classes" />
+        <pathelement location="${basedir}/anttask/build/classes" />
+        <pathelement location="${basedir}/xmlctf/build/classes" />
     </path>
 
     <path id="javadoc.classpath">
         <fileset dir="${lib}">
             <include name="*.jar"/>
         </fileset>
-    	<fileset dir="${basedir}/bin/lib">
-    		<include name="ant-1.6.jar" />
-    	</fileset>
+        <fileset dir="${basedir}/bin/lib">
+            <include name="ant-1.6.jar" />
+        </fileset>
     </path>
 
     <!-- ================================================================== -->
@@ -194,14 +195,16 @@
         <delete dir="${dist}"/>
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
-    	
-    	<ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
-    	<ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
-    	<ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
+
+        <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
+        <ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
+        <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
+        <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
     </target>
 
-    <target name="clean.tests" description="Removes the build artefacts related to test">
+    <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
+        <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -233,14 +236,14 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
-    	
-    	<ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false">
-    		<property name="version" value="${version}"/>
-			<property name="release" value="${release}"/>
+
+        <ant antfile="${basedir}/codegen/build.xml" target="compile.codegen" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
         </ant>
-    	<ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
-    		<property name="version" value="${version}"/>
-			<property name="release" value="${release}"/>
+        <ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
         </ant>
     </target>
 
@@ -271,10 +274,10 @@
             <include name="**/*.properties" />
             <include name="**/*.dtd" />
         </replace>
-        
-    	<ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
-    		<property name="version" value="${version}"/>
-			<property name="release" value="${release}"/>
+
+        <ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
         </ant>
     </target>
 
@@ -318,12 +321,9 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
-
     </target>
 
-    <target name="compile.tests" depends="prepare,compile"
-            description="Build the tests packages">
-
+    <target name="compile.tests" depends="prepare,compile" description="Build the tests packages">
         <!-- create directory for tests in ${build} directory -->
         <mkdir dir="${build}/tests"/>
 
@@ -347,6 +347,11 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
+
+        <ant antfile="${basedir}/xmlctf/build.xml" target="compile.xmlctf" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     </target>
 
     <target name="compile.bugs" depends="prepare,compile" description="Build the tests packages">
@@ -513,35 +518,27 @@
                        org/castor/messages.properties,
                        org/castor/util/**"/>
 
-        <!-- copy and filter MANIFEST file for Source generator -->
-<!--
-        <delete   file="${classes}/MANIFEST.MF" />
-        <copyfile src="${source}/etc/MANIFEST.SG.MF" dest="${classes}/MANIFEST.MF" />
-        <replace  file="${classes}/MANIFEST.MF" token="$$VERSION$$" value="${version}" />
-        <replace file="${classes}/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
--->
-    	<!-- create JAR for XML code generator, calling module build file recursively -->
-    	<ant antfile="${basedir}/codegen/build.xml" target="jar.codegen" inheritAll="false">
-    		<property name="project" value="${project}"/>
-    		<property name="version" value="${version}"/>
-			<property name="release" value="${release}"/>
-    	</ant>
-    	<!-- create JAR for source generator Ant task, calling module build file recursively -->
-    	<ant antfile="${basedir}/anttask/build.xml" target="jar.anttask" inheritAll="false">
-    		<property name="project" value="${project}"/>
-    		<property name="version" value="${version}"/>
-			<property name="release" value="${release}"/>
-    	</ant>
-    	<!-- create JAR for DDL generator, calling module build file recursively -->
-    	<ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
-    		<property name="project" value="${project}"/>
-    		<property name="version" value="${version}"/>
-			<property name="release" value="${release}"/>
-    	</ant>
-
+        <!-- create JAR for XML code generator, calling module build file recursively -->
+        <ant antfile="${basedir}/codegen/build.xml" target="jar.codegen" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for source generator Ant task, calling module build file recursively -->
+        <ant antfile="${basedir}/anttask/build.xml" target="jar.anttask" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for DDL generator, calling module build file recursively -->
+        <ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     </target>
 
-    <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file">
+    <target name="CTFjar" depends="compile.tests" description="Build the CTF.jar file for JDO and XMLCTF.jar for XML">
         <delete file="${dist}/CTF-${version}.jar"/>
         <copy todir="${classes}">
             <fileset dir="${source}/etc" includes="MANIFEST.MF" />
@@ -553,7 +550,14 @@
         </copy>
         <jar jarfile="${dist}/CTF-${version}.jar" basedir="${build}/tests"
              manifest="${classes}/MANIFEST.MF" includes="LICENCE,README,org/**"/>
-     </target>
+
+        <!-- create JAR for XML CTF, calling module build file recursively -->
+        <ant antfile="${basedir}/xmlctf/build.xml" target="jar.xmlctf" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+    </target>
 
     <target name="rss" depends="prepare" description="Copy the RSS feeds">
         <delete dir="${build}/doc/rss" />
@@ -656,12 +660,13 @@
                  windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true"
                  version="true" noindex="true" packagenames="${allpackagenames}"
                  classpathref="javadoc.classpath">
-        	<sourcepath>
-        		<pathelement location="${java}"/>
-        		<pathelement location="${basedir}/codegen/src/main/java" />
-        		<pathelement location="${basedir}/anttask/src/main/java" />
-        		<pathelement location="${basedir}/ddlgen/src/main/java" />
-        	</sourcepath>
+            <sourcepath>
+                <pathelement location="${java}"/>
+                <pathelement location="${basedir}/codegen/src/main/java" />
+                <pathelement location="${basedir}/anttask/src/main/java" />
+                <pathelement location="${basedir}/ddlgen/src/main/java" />
+                <pathelement location="${basedir}/xmlctf/src/main/java" />
+            </sourcepath>
         </javadoc>
     </target>
 
@@ -682,7 +687,7 @@
         <mkdir dir="${build}/${archive.name}/lib"/>
         <mkdir dir="${build}/${archive.name}/bin"/>
 
-    	<!-- directories for modules -->
+        <!-- directories for modules -->
         <mkdir dir="${build}/${archive.name}/anttask"/>
         <mkdir dir="${build}/${archive.name}/ddlgen"/>
         <mkdir dir="${build}/${archive.name}/codegen"/>
@@ -698,26 +703,26 @@
           <fileset dir="./bin" includes="*.sh,*.bat"/>
         </copy>
 
-    	<!-- copy individual modules across -->
+        <!-- copy individual modules across -->
         <copy todir="${build}/${archive.name}/anttask">
           <fileset dir="${basedir}/anttask">
-          	<exclude name="build/" />
-          	<exclude name="target/" />
-          	<exclude name="eclipse/" />
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
           </fileset>
         </copy>
         <copy todir="${build}/${archive.name}/ddlgen">
           <fileset dir="${basedir}/ddlgen">
-          	<exclude name="build/" />
-          	<exclude name="target/" />
-          	<exclude name="eclipse/" />
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
           </fileset>
         </copy>
         <copy todir="${build}/${archive.name}/codegen">
           <fileset dir="${basedir}/codegen">
-          	<exclude name="build/" />
-          	<exclude name="target/" />
-          	<exclude name="eclipse/" />
+              <exclude name="build/" />
+              <exclude name="target/" />
+              <exclude name="eclipse/" />
           </fileset>
         </copy>
 
@@ -766,7 +771,7 @@
              excludes="${archive.name}/*.tar,${archive.name}/*.tgz"/>
     </target>
 
-    <target name="oes" depends="prepare,compile" description="Call the XSDCompiler (org.exolab.castor.tools.XSDCompiler)">
+    <target name="oes" depends="prepare,compile" description="Build the OES example">
         <ant antfile="${source}/xsdcomp.xml" target="xsdcomp">
             <property name="schema" value="${source}/examples/oes/imports.xsd"/>
             <property name="package" value="oes.imports"/>
@@ -811,11 +816,11 @@
             <classpath refid="build.classpath"/>
         </javac>
     </target>
-	
-	<target name="gen.binding" depends="jar" description="Generates the class for binding.xsd">
-		<ant antfile="${basedir}/codegen/build.xml" target="gen.binding" inheritAll="false" />
-	</target>
-	
+
+    <target name="gen.binding" depends="jar" description="Generates the class for binding.xsd">
+        <ant antfile="${basedir}/codegen/build.xml" target="gen.binding" inheritAll="false" />
+    </target>
+
     <target name="gen.mapping" depends="jar"
             description="Use the Source Generator to create the Java classes for mapping.xsd">
         <delete dir="${gen.src}/mapping"/>

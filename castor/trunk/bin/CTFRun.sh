@@ -16,10 +16,14 @@ JAVA=$JAVA_HOME/bin/java
 
 DIRNAME=`dirname $0`
 CASTOR_HOME=`cd $DIRNAME/..; pwd`
-BUILD_D=$CASTOR_HOME/build
+BUILD_D=$CASTOR_HOME/xmlctf/build
 LIB_D=$CASTOR_HOME/lib
 
-CLASSPATH=$CLASSPATH:$BUILD_D/classes:$CASTOR_HOME/codegen/build/classes:$BUILD_D/tests:$JAVA_HOME/lib/tools.jar
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf/build/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/build/classes
+CLASSPATH=$CLASSPATH:$CASTOR_HOME/codegen/build/classes
+CLASSPATH=$CLASSPATH:$BUILD_D/tests
+CLASSPATH=$CLASSPATH:$JAVA_HOME/lib/tools.jar
 CLASSPATH=`echo $LIB_D/*.jar | tr ' ' ':'`:$CLASSPATH
 
 # Remove the output of the previous test
@@ -48,23 +52,23 @@ case "$1" in
         ;;
     '')
         shift
-        WHICHTESTS=../src/tests/xml/MasterTestSuite
+        WHICHTESTS=../xmlctf/tests/MasterTestSuite
         ;;
     master)
         shift
-        WHICHTESTS=../src/tests/xml/MasterTestSuite
+        WHICHTESTS=../xmlctf/tests/MasterTestSuite
         ;;
     regression)
         shift
-        WHICHTESTS=../src/tests/xml/RegressionTestSuite
+        WHICHTESTS=../xmlctf/tests/RegressionTestSuite
         ;;
     bugs)
         shift
-        WHICHTESTS=../src/tests/xml/KnownBugs
+        WHICHTESTS=../xmlctf/tests/KnownBugs
         ;;
     all)
         shift
-        WHICHTESTS=../src/tests/xml/
+        WHICHTESTS=../xmlctf/tests/
         ;;
     *)
         WHICHTESTS=
@@ -72,4 +76,5 @@ case "$1" in
 esac
 
 # run the test
+#$JAVA -Xms512M -Xmx512M -cp $CLASSPATH org.exolab.castor.tests.framework.CastorTestSuiteRunner $WHICHTESTS $*
 $JAVA -cp $CLASSPATH org.exolab.castor.tests.framework.CastorTestSuiteRunner $WHICHTESTS $*
