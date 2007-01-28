@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+CTF:   Resolved issue CASTOR-1858 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Move XML CTF from src/tests to xmlctf
+       Details: http://jira.codehaus.org/browse/CASTOR-1858
+       (Edward - 20070128)
+
 All:   Resolved issue CASTOR-1644 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Refactored creation of ClassDescriptors through MappingLoader.
        Details: http://jira.codehaus.org/browse/CASTOR-1644

@@ -74,8 +74,36 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                 <tt>sgen.setGenerateImportedSchemas(true);</tt>.
               </p>
 
+              <h3>XML CTF</h3>
+
+              <p>
+                The XML CTF has been moved to its own area.  It has been moved
+                from ./src/tests/ into ./xmlctf/.  All scripts to run the CTF
+                have been updated for this change.
+              </p>
+
             </summary>
             <bugs>
+                <bug id="1858" tool="jira">
+                    <description>
+                        Move XML CTF from src/tests to xmlctf
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>CTF</module>
+                    <date>20070128</date>
+                </bug>
                 <bug id="1644" tool="jira">
                     <description>
                         Refactored creation of ClassDescriptors through MappingLoader.
@@ -98,8 +126,8 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                 </bug>
                 <bug id="1854" tool="jira">
                     <description>
-					       Fixed problem with not closed file handles for '.castor.cdr' during 
-					       code generation.
+                        Fixed problem with not closed file handles for '.castor.cdr' during
+                        code generation.
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
