@@ -20,11 +20,10 @@ package org.exolab.castor.util;
 import java.util.Stack;
 
 /**
- * {@inheritDoc}
- *
- * The {@link Stack#search} method of {@link Stack} can throw a ClassCastException if
- * the items on the stack are not all the same type.  We override that method
- * so it compares on identity and not using <code>equals()</code>.
+ * The {@link Stack#search} method of {@link Stack} can throw a
+ * ClassCastException if the items on the stack are not all the same type. We
+ * override that method so it compares on identity and not using
+ * <code>equals()</code>.
  *
  * @author <a href="mailto:edward.kuns@aspect.com">Edward Kuns</a>
  * @version $Revision: 0000 $ $Date: $

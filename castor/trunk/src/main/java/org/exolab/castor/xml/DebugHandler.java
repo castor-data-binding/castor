@@ -96,7 +96,7 @@ public class DebugHandler implements DocumentHandler {
 
     /**
      * {@inheritDoc}
-     * Proxies the {@link org.sax.xml.DocumentHandler#characters(char[], int, int)}
+     * Proxies the org.sax.xml.DocumentHandler#characters(char[], int, int)
      * request to the proxy that is provided, printing debugging information
      * before doing the proxy.
      */
@@ -114,9 +114,9 @@ public class DebugHandler implements DocumentHandler {
     }
 
     /**
-     * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#endDocument()} request to the proxy
-     * that is provided, printing debugging information before doing the proxy.
+     * {@inheritDoc} Proxies the org.sax.xml.DocumentHandler#endDocument()
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
      */
     public void endDocument() throws org.xml.sax.SAXException {
         try {
@@ -132,10 +132,9 @@ public class DebugHandler implements DocumentHandler {
     }
 
     /**
-     * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#endElement(String)} request to the
-     * proxy that is provided, printing debugging information before doing the
-     * proxy.
+     * {@inheritDoc} Proxies the org.sax.xml.DocumentHandler#endElement(String)
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
      */
     public void endElement(final String name) throws org.xml.sax.SAXException {
         try {
@@ -154,9 +153,9 @@ public class DebugHandler implements DocumentHandler {
 
     /**
      * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#ignorableWhitespace(char[], int, int)}
-     * request to the proxy that is provided, printing debugging information
-     * before doing the proxy.
+     * org.sax.xml.DocumentHandler#ignorableWhitespace(char[], int, int) request
+     * to the proxy that is provided, printing debugging information before
+     * doing the proxy.
      */
     public void ignorableWhitespace(final char[] ch, final int start, final int length) throws org.xml.sax.SAXException {
         if (_handler != null) {
@@ -166,9 +165,9 @@ public class DebugHandler implements DocumentHandler {
 
     /**
      * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#processingInstruction(String, String)}
-     * request to the proxy that is provided, printing debugging information
-     * before doing the proxy.
+     * org.sax.xml.DocumentHandler#processingInstruction(String, String) request
+     * to the proxy that is provided, printing debugging information before
+     * doing the proxy.
      */
     public void processingInstruction(final String target, final String data) throws org.xml.sax.SAXException {
         try {
@@ -190,9 +189,9 @@ public class DebugHandler implements DocumentHandler {
 
     /**
      * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#setDocumentLocator(Locator)} request
-     * to the proxy that is provided, printing debugging information before
-     * doing the proxy.
+     * org.sax.xml.DocumentHandler#setDocumentLocator(Locator) request to the
+     * proxy that is provided, printing debugging information before doing the
+     * proxy.
      */
     public void setDocumentLocator(final Locator locator) {
         if (_handler != null) {
@@ -201,9 +200,9 @@ public class DebugHandler implements DocumentHandler {
     }
 
     /**
-     * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#startDocument()} request to the proxy
-     * that is provided, printing debugging information before doing the proxy.
+     * {@inheritDoc} Proxies the org.sax.xml.DocumentHandler#startDocument()
+     * request to the proxy that is provided, printing debugging information
+     * before doing the proxy.
      */
     public void startDocument() throws org.xml.sax.SAXException {
         try {
@@ -220,9 +219,9 @@ public class DebugHandler implements DocumentHandler {
 
     /**
      * {@inheritDoc} Proxies the
-     * {@link org.sax.xml.DocumentHandler#startElement(String, AttributeList)}
-     * request to the proxy that is provided, printing debugging information
-     * before doing the proxy.
+     * org.sax.xml.DocumentHandler#startElement(String, AttributeList) request
+     * to the proxy that is provided, printing debugging information before
+     * doing the proxy.
      */
     public void startElement(final String name, final AttributeList atts) throws org.xml.sax.SAXException {
         try {

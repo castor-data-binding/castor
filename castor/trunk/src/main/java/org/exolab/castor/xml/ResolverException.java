@@ -57,14 +57,15 @@ public class ResolverException extends XMLException {
     private static final long serialVersionUID = -8800218775708296399L;
 
     /**
-     * {@inheritdoc}
+     * Creates a new ResolverException with no message or nested Exception.
      */
     public ResolverException() {
         super();
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new ResolverException with the given message.
+     *
      * @param message the message for this Exception.
      */
     public ResolverException(final String message) {
@@ -72,7 +73,8 @@ public class ResolverException extends XMLException {
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new ResolverException with the given nested exception.
+     *
      * @param exception the nested exception
      */
     public ResolverException(final Throwable exception) {
@@ -80,7 +82,8 @@ public class ResolverException extends XMLException {
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new ResolverException with the given message and error code.
+     *
      * @param message the message for this Exception.
      * @param errorCode the error code for this Exception.
      */
@@ -89,7 +92,9 @@ public class ResolverException extends XMLException {
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new ResolverException with the given message and nested
+     * Exception.
+     *
      * @param message the message for this Exception.
      * @param exception the nested Exception.
      */
@@ -98,7 +103,9 @@ public class ResolverException extends XMLException {
     }
 
     /**
-     * {@inheritdoc}
+     * Creates a new ResolverException with the given message, nested Exception,
+     * and errorCode.
+     *
      * @param message the message for this Exception.
      * @param exception the nested Exception.
      * @param errorCode the error code for this Exception.

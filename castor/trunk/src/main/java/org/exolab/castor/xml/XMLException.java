@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,127 +42,118 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml;
 
 import org.exolab.castor.core.exceptions.CastorException;
 
 /**
- * An exception that is used to signal an error that
- * has occured during marshalling or unmarshalling.
+ * An exception that is used to signal an error that has occured during
+ * marshaling or unmarshaling.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
-**/
+ */
 public class XMLException extends CastorException {
     /** SerialVersionUID */
     private static final long serialVersionUID = 7512918645754995146L;
 
-    /**
-     * The location for this Exception
-     */
+    /** The location for this Exception. */
     private Location  _location   = null;
+    /** The error code for this Exception. */
+    private int errorCode = -1;
 
     /**
-     * The error code for this Exception
+     * Creates a new XMLException with no message or nested Exception.
      */
-    private int errorCode = -1;
-    
-    /**
-     * Creates a new XMLException with no message
-     * or nested Exception.
-    **/
     public XMLException() {
         super();
     } //-- XMLException
-    
+
     /**
      * Creates a new XMLException with the given message.
      *
      * @param message the message for this Exception
-    **/
-    public XMLException(String message) {
+     */
+    public XMLException(final String message) {
         super(message);
     } //-- XMLException(String)
 
-    
     /**
-     * Creates a new XMLException with the given nested
-     * exception.
+     * Creates a new XMLException with the given nested Exception.
      *
      * @param exception the nested exception
-    **/
-    public XMLException(Throwable exception) {
+     */
+    public XMLException(final Throwable exception) {
         super(exception);
     } //-- XMLException(Exception)
 
     /**
-     * Creates a new XMLException with the given message.
+     * Creates a new XMLException with the given message and error code.
      *
      * @param message the message for this Exception
      * @param errorCode the errorCode for this Exception
-    **/
-    public XMLException(String message, int errorCode) {
+     */
+    public XMLException(final String message, final int errorCode) {
         super(message);
         this.errorCode = errorCode;
     } //-- XMLException(String)
 
     /**
-     * Creates a new XMLException with the given message
-     * and nested exception.
+     * Creates a new XMLException with the given message and nested Exception.
      *
-     * @param message the detail message for this exception
+     * @param message the detail message for this Exception
      * @param exception the nested exception
-    **/
-    public XMLException(String message, Throwable exception) {
+     */
+    public XMLException(final String message, final Throwable exception) {
         super(message, exception);
     } //-- XMLException(String, Exception)
 
     /**
-     * Creates a new XMLException with the given message,
-     * nested exception, and errorCode.
+     * Creates a new XMLException with the given message, nested Exception, and
+     * errorCode.
      *
      * @param message the detail message for this exception
      * @param exception the nested exception
      * @param errorCode the errorCode for this Exception
-    **/
-    public XMLException
-        (String message, Throwable exception, int errorCode) 
-    {
-    		super(message, exception);
-    		this.errorCode = errorCode;
+     */
+    public XMLException(final String message, final Throwable exception, final int errorCode) {
+        super(message, exception);
+        this.errorCode = errorCode;
     } //-- XMLException(String, Exception, int)
-    
+
     /**
      * Sets the location information for this Exception.
      *
      * @param location The location information for this validation exception.
      */
-    public void setLocation(Location location) {
+    public void setLocation(final Location location) {
         _location = location;
     } //-- setLocation
-    
+
     /**
      * Returns the String representation of this Exception.
      *
      * @return the String representation of this Exception.
-    **/
+     */
     public String toString() {
         String message;
 
         Throwable t = getCause();
-        if (t==null)
+        if (t == null) {
             message = getMessage();
-        else
+        } else {
             message = t.getMessage();
-        
-        if (_location == null) return message;
+        }
+
+        if (_location == null) {
+            return message;
+        }
         return message + "{" + _location.toString() + "}";
     } //-- toString
 
     /**
      * Returns the error code for this Exception, or -1 if no error code exists.
-     * 
+     *
      * @return the error code for this Exception, or -1 if no error code exists
      */
     public int getErrorCode() {
@@ -170,12 +161,12 @@ public class XMLException extends CastorException {
     }
 
     /**
-     * Sets the error code for this Exception
-     * 
+     * Sets the error code for this Exception.
+     *
      * @param errorCode the error code
      */
-    public void setErrorCode(int errorCode) {
+    public void setErrorCode(final int errorCode) {
         this.errorCode = errorCode;
     }
-    
+
 } //-- XMLException

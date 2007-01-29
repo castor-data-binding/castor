@@ -86,7 +86,6 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      *            configuration file
      * @param marshalling a Marshalling test definition from a TestDescriptor
      *            configuration file
-     * @param outputRoot the Output directory for the test to be compiled/run in
      */
     public MarshallingFrameworkTestCase(final CastorTestCase test, final UnitTestCase unit,
                                         final MarshallingTest marshalling) {

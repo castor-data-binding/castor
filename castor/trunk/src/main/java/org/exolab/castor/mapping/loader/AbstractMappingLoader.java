@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -126,13 +126,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
 
     /**
      * Constructs a new mapping helper. This constructor is used by a derived class.
-     * 
+     *
      * @param loader The class loader to use, null for the default
      */
     protected AbstractMappingLoader(final ClassLoader loader) {
         super(loader);
     }
-    
+
     //--------------------------------------------------------------------------
 
     /**
@@ -159,7 +159,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         // Load the mapping for all the classes. This is always returned
         // in the same order as it appeared in the mapping file.
         Enumeration enumeration = mapping.enumerateClassMapping();
-        
+
         List retryList = new ArrayList();
         while (enumeration.hasMoreElements()) {
             ClassMapping clsMap = (ClassMapping) enumeration.nextElement();
@@ -168,7 +168,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 if (clsDesc != null) { addDescriptor(clsDesc); }
             } catch (MappingException mx) {
                 // save for later for possible out-of-order mapping files...
-                retryList.add(clsMap); 
+                retryList.add(clsMap);
                 continue;
             }
         }
@@ -186,24 +186,24 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             resolveRelations((ClassDescriptor) i.next());
         }
     }
-    
+
     protected abstract ClassDescriptor createClassDescriptor(final ClassMapping clsMap)
     throws MappingException;
-    
+
     /**
      * Gets the ClassDescriptor the given <code>classMapping</code> extends.
-     * 
+     *
      * @param clsMap The ClassMapping to find the required descriptor for.
-     * @param clsName The name of the class that is checked (this is used for generating
-     *        the exception).
-     * @return The ClassDescriptor the given ClassMapping extends or <code>null</code>
-     *         if the given ClassMapping does not extend any.
-     * @throws MappingException If the given ClassMapping extends another ClassMapping but
-     *         its descriptor could not be found.
+     * @param javaClass The name of the class that is checked (this is used for
+     *        generating the exception).
+     * @return The ClassDescriptor the given ClassMapping extends or
+     *         <code>null</code> if the given ClassMapping does not extend
+     *         any.
+     * @throws MappingException If the given ClassMapping extends another
+     *         ClassMapping but its descriptor could not be found.
      */
-    protected final  ClassDescriptor getExtended(
-            final ClassMapping clsMap, final Class javaClass)
-    throws MappingException {
+    protected final ClassDescriptor getExtended(final ClassMapping clsMap,
+                                                final Class javaClass) throws MappingException {
         if (clsMap.getExtends() == null) { return null; }
 
         ClassMapping mapping = (ClassMapping) clsMap.getExtends();
@@ -224,19 +224,20 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     }
 
     /**
-     * Gets the ClassDescriptor the given <code>classMapping</code> depends on.
-     * 
+     * Gets the ClassDescriptor the given <code>classMapping</code> depends
+     * on.
+     *
      * @param clsMap The ClassMapping to find the required ClassDescriptor for.
-     * @param clsName The name of the class that is checked (this is used for generating
-     *        the exception).
-     * @return The ClassDescriptor the given ClassMapping depends on or <code>null</code>
-     *         if the given ClassMapping does not depend on any.
-     * @throws MappingException If the given ClassMapping depends on another ClassMapping
-     *         but its descriptor could not be found.
+     * @param javaClass The name of the class that is checked (this is used for
+     *        generating the exception).
+     * @return The ClassDescriptor the given ClassMapping depends on or
+     *         <code>null</code> if the given ClassMapping does not depend on
+     *         any.
+     * @throws MappingException If the given ClassMapping depends on another
+     *         ClassMapping but its descriptor could not be found.
      */
-    protected final ClassDescriptor getDepended(
-            final ClassMapping clsMap, final Class javaClass)
-    throws MappingException {
+    protected final ClassDescriptor getDepended(final ClassMapping clsMap,
+                                                final Class javaClass) throws MappingException {
         if (clsMap.getDepends() == null) { return null; }
 
         ClassMapping mapping = (ClassMapping) clsMap.getDepends();
@@ -254,14 +255,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /**
      * Checks all given fields for name equality and throws a MappingException if at
      * least two fields have the same name.
-     * 
+     *
      * @param fields The fields to be checked.
      * @param cls Class that is checked (this is used for generating the exception).
      * @throws MappingException If at least two fields have the same name.
      */
-    protected final void checkFieldNameDuplicates(
-            final FieldDescriptor[] fields, final Class cls)
-    throws MappingException {
+    protected final void checkFieldNameDuplicates(final FieldDescriptor[] fields,
+                                                  final Class cls) throws MappingException {
         for (int i = 0; i < fields.length - 1; i++) {
             String fieldName = fields[i].getFieldName();
             for (int j = i + 1; j < fields.length; j++) {
@@ -272,17 +272,11 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             }
         }
     }
-    
+
     protected abstract void resolveRelations(final ClassDescriptor clsDesc);
 
     //--------------------------------------------------------------------------
-    
-    
-    
-    
-    
-    
-    
+
     /**
      * Returns the Java class for the named type. The type name can be one of the
      * accepted short names (e.g. <tt>integer</tt>) or the full Java class name (e.g.
@@ -303,14 +297,14 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * descriptors for all the fields in the class, except for container fields.
      * Implementations may extend this method to create more suitable descriptors, or
      * create descriptors only for a subset of the fields.
-     * 
+     *
      * @param clsMap The class to which the fields belong.
      * @param javaClass The field mappings.
      * @throws MappingException An exception indicating why mapping for the class cannot
      *         be created.
      */
     protected final AbstractFieldDescriptor[] createFieldDescriptors(final ClassMapping clsMap,
-            final Class javaClass) throws MappingException {
+                                                                     final Class javaClass) throws MappingException {
         FieldMapping[] fldMap = null;
 
         if (clsMap.getClassChoice() != null) {
@@ -324,7 +318,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         AbstractFieldDescriptor[] fields = new AbstractFieldDescriptor[fldMap.length];
         for (int i = 0; i < fldMap.length; i++) {
             fields[i] = createFieldDesc(javaClass, fldMap[i]);
-            
+
             // set identity flag
             fields[i].setIdentity(fldMap[i].getIdentity());
         }
@@ -335,7 +329,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /**
      * Gets the top-most (i.e. without any further 'extends') extends of the given
      * <code>classMapping</code>.
-     * 
+     *
      * @param clsMap The ClassMapping to get the origin for.
      * @return The top-most extends of the given ClassMapping or the ClassMapping itself
      *         if it does not extend any other ClassMapping.
@@ -353,7 +347,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     protected final FieldDescriptor[] divideFieldDescriptors(final FieldDescriptor[] fields,
             final String[] ids, final FieldDescriptor[] identities) {
         List fieldList = new ArrayList(fields.length);
-        
+
         for (int i = 0; i < fields.length; i++) {
             FieldDescriptor field = fields[i];
             final int index = getIdColumnIndex(field, ids);
@@ -380,7 +374,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     /**
      * Finds the index in the given <code>idColumnNames</code> that has the same name as
      * the given <code>field</code>.
-     * 
+     *
      * @param field The FieldDescriptor to find the column index for.
      * @param ids The id columnNames available.
      * @return The index of the id column name that matches the given field's name or
@@ -407,7 +401,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      *         found, not accessible, not of the specified type, etc.
      */
     protected AbstractFieldDescriptor createFieldDesc(final Class javaClass,
-            final FieldMapping fieldMap) throws MappingException {
+                                                      final FieldMapping fieldMap) throws MappingException {
         String fieldName = fieldMap.getName();
 
         // If the field type is supplied, grab it and use it to locate the field/accessor.
@@ -442,7 +436,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             }
 
             // Get default constructor to invoke. We can't use the newInstance method
-            // unfortunately becaue FieldHandler overloads this method 
+            // unfortunately becaue FieldHandler overloads this method
             try {
                 Constructor constructor = handlerClass.getConstructor(new Class[0]);
                 handler = (FieldHandler) constructor.newInstance(new Object[0]);
@@ -456,7 +450,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             if (handler instanceof ExtendedFieldHandler) {
                 exfHandler = (ExtendedFieldHandler) handler;
             }
-            
+
             // Fix for CastorJDO from Steve Vaughan, CastorJDO requires FieldHandlerImpl
             // or a ClassCastException will be thrown... [KV 20030131 - also make sure
             // this new handler doesn't use it's own CollectionHandler otherwise it'll
@@ -466,7 +460,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             handler = new FieldHandlerImpl(handler, typeInfo);
             typeInfo.setCollectionHandler(colHandler);
             // End Castor JDO fix
-        } 
+        }
 
         boolean generalized = (exfHandler instanceof GeneralizedFieldHandler);
 
@@ -475,7 +469,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         if (generalized) {
             fieldType = ((GeneralizedFieldHandler)exfHandler).getFieldType();
         }
-        
+
         if (generalized || (handler == null)) {
             // Create TypeInfoRef to get new TypeInfo from call to createFieldHandler
             FieldHandler custom = handler;
@@ -487,7 +481,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 handler = custom;
             } else {
                 boolean isTypeSafeEnum = false;
-            	// Check for type-safe enum style classes
+                // Check for type-safe enum style classes
                 if ((fieldType != null) && !isPrimitive(fieldType)) {
                     if (!hasPublicDefaultConstructor(fieldType)) {
                         Method method = getStaticValueOfMethod(fieldType);
@@ -515,10 +509,10 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
 
         return fieldDesc;
     }
-    
+
     /**
      * Does the given class has a public default constructor?
-     * 
+     *
      * @param type Class to check for a public default constructor.
      * @return <code>true</code> if class has a public default constructor.
      */
@@ -530,10 +524,10 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             return false;
         }
     }
-    
+
     /**
      * Get static valueOf(String) factory method of given class.
-     * 
+     *
      * @param type Class to check for a static valueOf(String) factory method.
      * @return Static valueOf(String) factory method or <code>null</code> if none could
      *         be found.
@@ -553,26 +547,26 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
 
     /**
      * Creates the FieldHandler for the given FieldMapping.
-     * 
+     *
      * @param javaClass the class type of the parent of the field.
      * @param fldType the Java class type for the field.
      * @param fldMap the field mapping.
      * @return the newly created FieldHandler.
      */
     protected final FieldHandler createFieldHandler(Class javaClass, Class fldType,
-            final FieldMapping fldMap, final TypeInfoReference typeInfoRef)
-    throws MappingException {
+                                                    final FieldMapping fldMap,
+                                                    final TypeInfoReference typeInfoRef) throws MappingException {
         // Prevent introspection of transient fields
         if (fldMap.getTransient()) {
             return new TransientFieldHandler();
         }
-        
+
         Class colType = null;
         CollectionHandler colHandler = null;
         boolean colRequireGetSet = true;
-        
+
         String fieldName = fldMap.getName();
-        
+
         // If the field is declared as a collection, grab the collection type as
         // well and use it to locate the field/accessor.
         if (fldMap.getCollection() != null) {
@@ -590,10 +584,10 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 colType = obj.getClass();
             }
         }
-        
-        
+
+
         FieldHandlerImpl  handler            = null;
-        
+
         // If get/set methods not specified, use field names to determine them.
         if (fldMap.getDirect()) {
             // No accessor, map field directly.
@@ -605,9 +599,9 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
             if (fldType == null) {
                 fldType = field.getType();
             }
-            
+
             typeInfoRef.typeInfo = getTypeInfo(fldType, colHandler, fldMap);
-            
+
             handler = new FieldHandlerImpl(field, typeInfoRef.typeInfo);
         } else if ((fldMap.getGetMethod() == null) && (fldMap.getSetMethod() == null)) {
             // If both methods (get/set) are not specified, determine them automatically
@@ -633,7 +627,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
 
                     // Getter method for parent field
                     String methodName = GET_METHOD_PREFIX + capitalize(parentField);
-                    Method method = javaClass.getMethod(methodName, (Class[]) null);                        
+                    Method method = javaClass.getMethod(methodName, (Class[]) null);
                     if (isAbstractOrStatic(method)) {
                         throw new MappingException("mapping.accessorNotAccessible",
                                 methodName, javaClass.getName());
@@ -837,7 +831,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 Method method = javaClass.getMethod(methodName, (Class[]) null);
                 handler.setCreateMethod(method);
             } catch (Exception ex) {
-            	// LOG.warn ("Unexpected exception", ex);
+                // LOG.warn ("Unexpected exception", ex);
             }
         }
 
@@ -849,11 +843,11 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                     methodName = HAS_METHOD_PREFIX + capitalize(fieldName);
                 }
                 Method hasMethod = javaClass.getMethod(methodName, (Class[]) null);
-                
+
                 if ((hasMethod.getModifiers() & Modifier.STATIC) != 0) {
                     hasMethod = null;
                 }
-                
+
                 Method deleteMethod = null;
                 try {
                     methodName = DELETE_METHOD_PREFIX + capitalize(fieldName);
@@ -861,19 +855,19 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                     if ((deleteMethod.getModifiers() & Modifier.STATIC) != 0) {
                         deleteMethod = null;
                     }
-                } catch (Exception ex) { 
+                } catch (Exception ex) {
                     // Purposely Ignore exception we're just seeing if the method exists
                 }
-                
+
                 handler.setHasDeleteMethod(hasMethod, deleteMethod);
-            } catch (Exception ex) { 
-            	// LOG.warn("Unexpected exception", ex);
+            } catch (Exception ex) {
+                // LOG.warn("Unexpected exception", ex);
             }
         }
-        
+
         return handler;
     }
-    
+
     private static boolean isAbstract(final Class cls) {
         return ((cls.getModifiers() & Modifier.ABSTRACT) != 0);
     }
@@ -884,8 +878,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     }
 
     protected TypeInfo getTypeInfo(final Class fieldType,
-            final CollectionHandler colHandler, final FieldMapping fieldMap)
-    throws MappingException {
+                                   final CollectionHandler colHandler,
+                                   final FieldMapping fieldMap) throws MappingException {
         return new TypeInfo(Types.typeFromPrimitive(fieldType), null, null, null,
                             fieldMap.getRequired(), null, colHandler, false);
     }
@@ -901,9 +895,8 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      * @throws MappingException The field is not accessible or is not of the
      *         specified type.
      */
-    private final Field findField(final Class javaClass,
-            final String fieldName, Class fieldType)
-    throws MappingException {
+    private final Field findField(final Class javaClass, final String fieldName,
+                                  Class fieldType) throws MappingException {
         try {
             // Look up the field based on its name, make sure it's only modifier
             // is public. If a type was specified, match the field type.
@@ -913,7 +906,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                 throw new MappingException(
                         "mapping.fieldNotAccessible", fieldName, javaClass.getName());
             }
-            
+
             if (fieldType == null) {
                 fieldType = Types.typeFromPrimitive(field.getType());
             } else {
@@ -945,11 +938,11 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
      *         specified type.
      */
     public static final Method findAccessor(final Class javaClass,
-            final String methodName, Class fieldType, final boolean getMethod)
-    throws MappingException {
+                                            final String methodName, Class fieldType,
+                                            final boolean getMethod) throws MappingException {
         try {
             Method method = null;
-            
+
             if (getMethod) {
                 // Get method: look for the named method or prepend get to the method
                 // name. Look up the field and potentially check the return type.
@@ -962,20 +955,20 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                     if (methodName.equals("getKey")) { return method; }
                     if (methodName.equals("getValue")) { return method; }
                 }
-                
+
                 if (fieldType == null) {
                     fieldType = Types.typeFromPrimitive(method.getReturnType());
                 } else {
                     fieldType = Types.typeFromPrimitive(fieldType);
                     Class returnType = Types.typeFromPrimitive( method.getReturnType());
-                    
+
                     //-- First check against whether the declared type is
                     //-- an interface or abstract class. We also check
                     //-- type as Serializable for CMP 1.1 compatibility.
                     if (fieldType.isInterface()
                             || ((fieldType.getModifiers() & Modifier.ABSTRACT) != 0)
                             || (fieldType == java.io.Serializable.class)) {
-                        
+
                         if (!fieldType.isAssignableFrom(returnType)) {
                             throw new MappingException(
                                     "mapping.accessorReturnTypeMismatch",
@@ -988,7 +981,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                                     method, fieldType.getName());
                         }
                     }
-                }                    
+                }
             } else {
                 // Set method: look for the named method or prepend set to the method
                 // name. If the field type is know, look up a suitable method. If the
@@ -1004,7 +997,7 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                             method = javaClass.getMethod(
                                     methodName, new Class[] {fieldTypePrimitive});
                         } catch (Exception ex2) {
-                        	// LOG.warn("Unexpected exception", ex2);
+                            // LOG.warn("Unexpected exception", ex2);
                         }
                     }
                 }
@@ -1015,9 +1008,9 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                         if (methods[i].getName().equals(methodName)) {
                             Class[] paramTypes = methods[i].getParameterTypes();
                             if (paramTypes.length != 1) { continue; }
-                            
+
                             Class paramType = Types.typeFromPrimitive(paramTypes[0]);
-                            
+
                             if (fieldType == null) {
                                 method = methods[i];
                                 break;
@@ -1032,11 +1025,11 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                             }
                         }
                     }
-                    
+
                     if (method == null) { return null; }
                 }
             }
-            
+
             // Make sure method is public and not static.
             // (note: Class.getMethod() returns only public methods).
             if ((method.getModifiers() & Modifier.STATIC) != 0) {
@@ -1056,19 +1049,19 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
         if (Character.isUpperCase(first)) { return name; }
         return Character.toUpperCase(first) + name.substring(1);
     }
-    
+
     /**
      * Returns a list of column names that are part of the identity.
-     * 
+     *
      * @param ids Known identity names.
      * @param clsMap Class mapping.
      * @return List of identity column names.
      */
-    public static final String[] getIdentityColumnNames(
-            final String[] ids, final ClassMapping clsMap) {
-        
+    public static final String[] getIdentityColumnNames(final String[] ids,
+                                                        final ClassMapping clsMap) {
+
         String[] idNames = ids;
-        
+
         if ((ids == null) || (ids.length == 0)) {
             ClassChoice classChoice = clsMap.getClassChoice();
             if (classChoice == null) { classChoice = new ClassChoice(); }
@@ -1081,13 +1074,13 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
                     idNamesList.add(fieldMappings[i].getName());
                 }
             }
-    
+
             if (idNamesList.size() > 0) {
-                idNames = new String[idNamesList.size()]; 
+                idNames = new String[idNamesList.size()];
                 idNames = (String[]) idNamesList.toArray(idNames);
             }
         }
-    
+
         return idNames;
     }
 
@@ -1110,4 +1103,5 @@ public abstract class AbstractMappingLoader extends AbstractMappingLoader2 {
     public class TypeInfoReference {
         public TypeInfo typeInfo = null;
     }
+
 }
