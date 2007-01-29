@@ -1,0 +1,42 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+	test with redefinition but with wrong namespace.
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+		targetNamespace="bar" xmlns="foo"
+		elementFormDefault="qualified">
+	
+	<xsd:redefine schemaLocation="xsd003.xsdmod">
+		
+		<xsd:simpleType name="simpleType">
+			<xsd:restriction base="simpleType">
+				<xsd:enumeration value="yes" />
+				<xsd:enumeration value="no" />
+			</xsd:restriction>
+		</xsd:simpleType>
+		
+		<xsd:group name="group">
+			<xsd:sequence>
+				<xsd:element name="in" />
+				<xsd:group ref="group" />
+				<xsd:element name="out" />
+			</xsd:sequence>
+		</xsd:group>
+		
+		<xsd:complexType name="complexType">
+			<xsd:complexContent>
+				<xsd:extension base="complexType">
+					<xsd:sequence>
+						<xsd:element name="tail" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+		
+		<xsd:attributeGroup name="attGroup">
+			<xsd:attributeGroup ref="attGroup" />
+			<xsd:attribute name="add" type="xsd:decimal" />
+		</xsd:attributeGroup>
+	</xsd:redefine>
+	
+</xsd:schema>

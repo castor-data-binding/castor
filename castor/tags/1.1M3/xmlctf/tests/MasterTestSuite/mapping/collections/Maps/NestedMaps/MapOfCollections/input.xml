@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<map-of-collections>
+	<map string1="key1">
+		<nested>key1_value1</nested>
+		<nested>key1_value2</nested>
+	</map>
+	<map string1="key2">
+		<nested>key2_value1</nested>
+		<nested>key2_value2</nested>
+	</map>
+</map-of-collections>

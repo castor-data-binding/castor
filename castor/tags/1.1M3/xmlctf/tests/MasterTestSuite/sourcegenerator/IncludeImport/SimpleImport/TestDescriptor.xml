@@ -1,0 +1,21 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test basic use of "import"</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>
+        For reasons that I do not understand, code is generated for the imported
+        schema even when GenerateImported is false.  This is not true for all
+        uses of import.  For other schemas making use of import, the
+        GenerateImported flag works as you would expect.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">Root</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+            <GenerateImported>true</GenerateImported>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

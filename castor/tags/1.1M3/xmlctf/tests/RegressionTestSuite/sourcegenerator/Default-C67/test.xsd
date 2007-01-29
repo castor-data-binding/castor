@@ -1,0 +1,28 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema"
+            elementFormDefault="unqualified" attributeFormDefault="unqualified">
+
+  <xsd:element name="defaultedElement" default="defaultValue">
+    <xsd:complexType>
+      <xsd:simpleContent>
+        <xsd:extension base="xsd:string"/>
+      </xsd:simpleContent>
+    </xsd:complexType>
+  </xsd:element>
+
+  <xsd:complexType name="defaultedType">
+    <xsd:simpleContent>
+      <xsd:extension base="xsd:string"/>
+    </xsd:simpleContent>
+  </xsd:complexType>
+
+  <xsd:element name="root">
+    <xsd:complexType>
+      <xsd:sequence>
+        <xsd:element ref="defaultedElement"/>
+        <xsd:element name="anotherDefault" type="defaultedType" default="defaultValue"/>
+      </xsd:sequence>
+    </xsd:complexType>
+  </xsd:element>
+
+</xsd:schema>

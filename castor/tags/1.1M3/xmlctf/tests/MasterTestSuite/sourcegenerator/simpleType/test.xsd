@@ -1,0 +1,316 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+
+
+-->
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema" xmlns="http://www.openapplications.org/oagis/9" xmlns:udt="http://www.openapplications.org/oagis/9/unqualifieddatatypes/1.1" xmlns:oacl="http://www.openapplications.org/oagis/9/codelists" xmlns:qdt="http://www.openapplications.org/oagis/9/qualifieddatatypes/1.1" targetNamespace="http://www.openapplications.org/oagis/9" elementFormDefault="qualified" attributeFormDefault="unqualified">
+	<xsd:import namespace="http://www.openapplications.org/oagis/9/unqualifieddatatypes/1.1" schemaLocation="www.openapplications.org_oagis_9_unqualifieddatatypes_1.1/UnqualifiedDataTypes.xsd"/>
+	<xsd:import namespace="http://www.openapplications.org/oagis/9/codelists" schemaLocation="www.openapplications.org_oagis_9_codelists/CodeLists.xsd"/>
+	<xsd:import namespace="http://www.openapplications.org/oagis/9/qualifieddatatypes/1.1" schemaLocation="www.openapplications.org_oagis_9_qualifieddatatypes_1.1/QualifiedDataTypes.xsd"/>
+	<xsd:element name="SyncItem" type="SyncItemType"/>
+	<xsd:complexType name="SyncItemType">
+		<xsd:complexContent>
+			<xsd:extension base="BusinessObjectDocumentType">
+				<xsd:sequence>
+					<xsd:element ref="ItemGrade"/>
+				</xsd:sequence>
+			</xsd:extension>
+		</xsd:complexContent>
+	</xsd:complexType>
+	<xsd:complexType name="BusinessObjectDocumentType">
+		<xsd:sequence>
+			<xsd:element ref="ApplicationArea"/>
+		</xsd:sequence>
+		<xsd:attribute name="releaseID" type="NormalizedStringType" use="required"/>
+		<xsd:attribute name="versionID" type="NormalizedStringType" use="optional"/>
+		<xsd:attribute name="systemEnvironmentCode" type="SystemEnvironmentCodeContentType" use="optional" default="Production"/>
+		<xsd:attribute name="languageCode" type="LanguageCodeType" use="optional" default="en-US"/>
+	</xsd:complexType>
+	<xsd:element name="ApplicationArea" type="ApplicationAreaType"/>
+	<xsd:complexType name="ApplicationAreaType">
+		<xsd:sequence>
+			<xsd:element ref="Sender" minOccurs="0"/>
+			<xsd:element ref="CreationDateTime"/>
+			<xsd:element ref="Signature" minOccurs="0"/>
+			<xsd:element ref="BODID" minOccurs="0"/>
+			<xsd:element ref="UserArea" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Sender" type="SenderType"/>
+	<xsd:complexType name="SenderType">
+		<xsd:sequence>
+			<xsd:element ref="LogicalID" minOccurs="0"/>
+			<xsd:element ref="ComponentID" minOccurs="0"/>
+			<xsd:element ref="TaskID" minOccurs="0"/>
+			<xsd:element ref="ReferenceID" minOccurs="0"/>
+			<xsd:element ref="ConfirmationCode" minOccurs="0"/>
+			<xsd:element ref="AuthorizationID" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="LogicalID" type="IdentifierType"/>
+	<xsd:complexType name="IdentifierType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:IdentifierType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:element name="ComponentID" type="IdentifierType"/>
+	<xsd:element name="TaskID" type="IdentifierType"/>
+	<xsd:element name="ReferenceID" type="IdentifierType"/>
+	<xsd:element name="ConfirmationCode" type="ConfirmationResponseCodeType"/>
+	<xsd:complexType name="ConfirmationResponseCodeType">
+		<xsd:simpleContent>
+			<xsd:extension base="ResponseCodeType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="ResponseCodeType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">QDT000000</ccts:UniqueID>
+				<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">QDT</ccts:CategoryCode>
+				<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Response_ Code. Type</ccts:DictionaryEntryName>
+				<ccts:VersionID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">1.0</ccts:VersionID>
+				<ccts:DefinitionText xmlns:ccts="urn:un:unece:uncefact:documentation:1.1"/>
+				<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code</ccts:RepresentationTermName>
+				<ccts:QualifierTerm xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Response</ccts:QualifierTerm>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="ResponseCodeContentType">
+				<xsd:attributeGroup ref="CodeListAttributeGroup"/>
+			</xsd:extension>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:simpleType name="ResponseCodeContentType">
+		<xsd:restriction base="oacl:ResponseCodeContentType"/>
+	</xsd:simpleType>
+	<xsd:attributeGroup name="CodeListAttributeGroup">
+		<xsd:attribute name="listID" type="xsd:normalizedString" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC2</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List. Identifier</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The identification of a list of codes.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identification</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identifier</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="listAgencyID" type="xsd:normalizedString" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC3</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List. Agency. Identifier</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">An agency that maintains one or more lists of codes.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Agency</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identifier</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+					<ccts:UsageRule xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Defaults to the UN/EDIFACT data element 3055 code list.</ccts:UsageRule>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="listAgencyName" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC4</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List. Agency Name. Text</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The name of the agency that maintains the list of codes.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Agency Name</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Text</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="listName" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC5</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List. Name. Text</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The name of a list of codes.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Name</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Text</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="listVersionID" type="xsd:normalizedString" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC6</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List. Version. Identifier</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The version of the list of codes.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Version</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identifier</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="name" type="xsd:string" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC7</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code. Name. Text</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The textual equivalent of the code content component.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Name</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Text</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="languageID" type="xsd:language" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC8</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Language. Identifier</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The identifier of the language used in the code name.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Language</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identification</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identifier</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="listURI" type="xsd:anyURI" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC9</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List. Uniform Resource. Identifier</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The Uniform Resource Identifier that identifies where the code list is located.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Uniform Resource Identifier</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identifier</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+		<xsd:attribute name="listSchemeURI" type="xsd:anyURI" use="optional">
+			<xsd:annotation>
+				<xsd:documentation xml:lang="en">
+					<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">UNDT000007-SC10</ccts:UniqueID>
+					<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">SC</ccts:CategoryCode>
+					<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List Scheme. Uniform Resource. Identifier</ccts:DictionaryEntryName>
+					<ccts:Definition xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">The Uniform Resource Identifier that identifies where the code list scheme is located.</ccts:Definition>
+					<ccts:ObjectClass xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Code List Scheme</ccts:ObjectClass>
+					<ccts:PropertyTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Uniform Resource Identifier</ccts:PropertyTermName>
+					<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Identifier</ccts:RepresentationTermName>
+					<ccts:PrimitiveType xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">string</ccts:PrimitiveType>
+				</xsd:documentation>
+			</xsd:annotation>
+		</xsd:attribute>
+	</xsd:attributeGroup>
+	<xsd:element name="AuthorizationID" type="IdentifierType"/>
+	<xsd:element name="CreationDateTime" type="DateTimeType"/>
+	<xsd:simpleType name="DateTimeType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">QDT000000</ccts:UniqueID>
+				<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">QDT</ccts:CategoryCode>
+				<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Month_ Date. Type</ccts:DictionaryEntryName>
+				<ccts:VersionID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">1.0</ccts:VersionID>
+				<ccts:DefinitionText xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">A particular point in the progression of time together with the relevant supplementary information.  Provides the XML Schema simpleType that allows either just the Date or the Date and Time to be provided in the elements that are based on this type and/or types that use this as their base.</ccts:DefinitionText>
+				<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Date</ccts:RepresentationTermName>
+				<ccts:QualifierTerm xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Month</ccts:QualifierTerm>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:union memberTypes="udt:DateType udt:TimeType udt:DateTimeType"/>
+	</xsd:simpleType>
+	<xsd:element name="Signature" type="SignatureType"/>
+	<xsd:complexType name="SignatureType">
+		<xsd:sequence>
+			<xsd:any namespace="##any" minOccurs="0"/>
+		</xsd:sequence>
+		<xsd:attribute name="qualifyingAgencyId" type="NormalizedStringType" use="optional"/>
+	</xsd:complexType>
+	<xsd:simpleType name="NormalizedStringType">
+		<xsd:restriction base="qdt:NormalizedStringType"/>
+	</xsd:simpleType>
+	<xsd:element name="BODID" type="IdentifierType"/>
+	<xsd:element name="UserArea" type="UserAreaType">
+		<xsd:annotation>
+			<xsd:documentation source="http://www.openapplications.org/oagis/9"/>
+			<xsd:documentation source="http://www.openapplications.org/oagis/9"/>
+			<xsd:documentation source="http://www.openapplications.org/oagis/9">The Open Applications Group will make best efforts to quickly consider all proposed submissions.The USERAREA is always the last element in all components, except where the component has been extended inline.</xsd:documentation>
+		</xsd:annotation>
+	</xsd:element>
+	<xsd:complexType name="UserAreaType" block="restriction">
+		<xsd:sequence>
+			<xsd:any namespace="##any" processContents="strict" minOccurs="0" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:simpleType name="SystemEnvironmentCodeContentType">
+		<xsd:restriction base="oacl:SystemEnvironmentCodeContentType"/>
+	</xsd:simpleType>
+	<xsd:simpleType name="LanguageCodeType">
+		<xsd:restriction base="qdt:LanguageCodeType"/>
+	</xsd:simpleType>
+	<xsd:complexType name="SyncItemDataAreaType">
+		<xsd:sequence>
+			<xsd:element ref="ItemGrade" maxOccurs="unbounded"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="Description" type="DescriptionType"/>
+	<xsd:complexType name="DescriptionType">
+		<xsd:annotation>
+			<xsd:documentation xml:lang="en">
+				<ccts:UniqueID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">QDT000000</ccts:UniqueID>
+				<ccts:CategoryCode xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">QDT</ccts:CategoryCode>
+				<ccts:DictionaryEntryName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Description_ Text. Type</ccts:DictionaryEntryName>
+				<ccts:VersionID xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">1.0</ccts:VersionID>
+				<ccts:DefinitionText xmlns:ccts="urn:un:unece:uncefact:documentation:1.1"/>
+				<ccts:RepresentationTermName xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Text</ccts:RepresentationTermName>
+				<ccts:QualifierTerm xmlns:ccts="urn:un:unece:uncefact:documentation:1.1">Description</ccts:QualifierTerm>
+			</xsd:documentation>
+		</xsd:annotation>
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:complexType name="TextType">
+		<xsd:simpleContent>
+			<xsd:extension base="udt:TextType"/>
+		</xsd:simpleContent>
+	</xsd:complexType>
+	<xsd:element name="ChangeDateTime" type="DateTimeType"/>
+	<xsd:simpleType name="StringType">
+		<xsd:restriction base="qdt:StringType"/>
+	</xsd:simpleType>
+	<xsd:element name="ItemGrade" type="GradeType"/>
+	<xsd:complexType name="GradeType">
+		<xsd:sequence>
+			<xsd:element name="ExternalID" type="IdentifierType"/>
+			<xsd:element name="InternalID" type="IdentifierType" minOccurs="0"/>
+			<xsd:element ref="GradeReference" minOccurs="0" maxOccurs="unbounded"/>
+			<xsd:element ref="UserArea" minOccurs="0"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GradeReferenceType">
+		<xsd:sequence>
+			<xsd:element name="GradeName" type="IdentifierType"/>
+			<xsd:element ref="GradeStandard"/>
+			<xsd:element ref="UserArea"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:complexType name="GradeStandardType">
+		<xsd:sequence>
+			<xsd:element name="ItemGradeStandardName" type="IdentifierType"/>
+			<xsd:element name="SequenceNo" type="xsd:integer" minOccurs="0"/>
+			<xsd:element ref="UserArea"/>
+		</xsd:sequence>
+	</xsd:complexType>
+	<xsd:element name="GradeStandard" type="GradeStandardType"/>
+	<xsd:element name="GradeReference" type="GradeReferenceType"/>
+</xsd:schema>

@@ -1,0 +1,1228 @@
+<?xml version="1.0" encoding="ISO-8859-1"?>
+
+<document url="http://castor.org/xml-mapping.xml">
+
+  <properties>
+    <title>Castor XML Mapping</title>
+    <author email="gignoux@intalio.com">Sebastien Gignoux</author>
+    <author email="kvisco@intalio.com">Keith Visco</author>
+    <abstract>
+       Describes how to use the Castor XML Mapping.
+    </abstract>
+    <status>Draft</status>
+  </properties>
+
+  <body>
+    <title>Castor XML Mapping</title>
+
+    <section title="1 Introduction">
+
+      <p>Castor XML mapping is a way to simplify the binding of java classes to
+      XML document. It allows to transform the data contained in a java object
+      model into/from an XML document.</p>
+
+      <p>Although it is possible to rely on Castor's default behavior to marshal and
+        unmarshal Java objects into an XML document, it might be necessary to have more
+        control over this behavior. For example, if a Java object model already exists,
+        Castor XML Mapping can be used as a bridge between the XML document and that
+        Java object model.</p>
+
+      <p>Castor allows one to specify some of its marshalling/unmarshalling behavior
+        using a mapping file. This file gives explicit information to Castor on how a
+        given XML document and a given set of Java objects relate to each other.</p>
+
+      <p>A Castor mapping file is a good way to dissociate the changes in the structure
+        of a Java object model from the changes in the corresponding XML document
+        format.</p>
+
+    </section>
+
+    <section title="2 Overview">
+
+      <p>The mapping information is specified by an XML document. This document is
+        written from the point of view of the Java object and describes how the
+        properties of the object have to be translated into XML. One constraint for the
+        mapping file is that Castor should be able to infer unambiguously from it how a
+        given XML element/attribute has to be translated into the object model during
+        unmarshalling.</p>
+
+      <p>The mapping file describes for each object how each of its fields have to be
+        mapped into XML. A field is an abstraction for a property of an object. It can
+        correspond directly to a public class variable or indirectly to a property via
+        some accessor methods (setters and getters).</p>
+
+      <p>It is possible to use the mapping and Castor default behavior in conjunction:
+        when Castor has to handle an object or an XML data but can't find information
+        about it in the mapping file, it will rely on its default behavior. Castor will
+        use the Java Reflection API to introspect the Java objects to determine what to do.</p>
+
+      <p><b>Note:</b> Castor can't handle all possible mappings. In some complex cases, it may be
+        necessary to rely on an XSL transformation in conjunction with Castor to adapt the
+        XML document to a more friendly format.</p>
+
+
+      <section title="2.1 Marshalling Behavior">
+
+        <p>For Castor, a Java class has to map into an XML element. When Castor marshals an
+          object, it will:</p>
+
+        <ul>
+          <li>use the mapping information, if any, to find the name of the element to create</li>
+        </ul>
+
+        <p>or</p>
+
+        <ul>
+          <li>by default, create a name using the name of the class</li>
+        </ul>
+
+        <p>It will then use the fields information from the mapping file to determine how a
+          given property of the object has to be translated into one and only one of the
+          following:</p>
+
+        <ul>
+          <li>an attribute</li>
+          <li>an element</li>
+          <li>text content</li>
+          <li>nothing, as we can choose to ignore a particular field</li>
+        </ul>
+
+        <p>This process will be recursive: if Castor finds a property that has a class type
+          specified elsewhere in the mapping file, it will use this information to marshal
+          the object.</p>
+
+        <p>By default, if Castor finds no information for a given class in the mapping
+          file, it will introspect the class and apply a set of default rules to guess the
+          fields and marshal them. The default rules are as follows:</p>
+
+        <ul>
+          <li>All primitive types, including the primitive type wrappers (Boolean,
+            Short, etc...) are marshalled as attributes.</li>
+          <li>All other objects are marshalled as elements with either text content
+            or element content.</li>
+        </ul>
+
+      </section>
+
+      <section title="2.2 Unmarshalling Behavior">
+
+        <p>When Castor finds an element while unmarshalling a document, it will try to use
+          the mapping information to determine which object to instantiate. If no mapping
+          information is present, Castor will use the name of the element to try to guess
+          the name of a class to instantiate (for example, for an element named
+          'test-element', Castor will try to instantiate a class named 'TestElement' if no
+          information is given in the mapping file). Castor will then use the field
+          information of the mapping file to handle the content of the element.</p>
+
+        <p>If the class is not described in the mapping file, Castor will instrospect the
+          class using the Java Reflection API to determine if there is any function of the
+          form getXxxYyy()/setXxxYyy(&lt;type> x). This accessor will be associated with XML
+          element/attribute named 'xxx-yyy'. In the future, we will provide a way to
+          override this default behavior.</p>
+
+        <p>Castor will introspect object variables and use direct access _only_ if no
+          get/set methods have been found in the class. In this case, Castor will look for
+          public variables of the form:</p>
+
+        <code>
+          public &lt;type> xxxYYY;
+        </code>
+
+        <p>and expect an element/attribute named 'xxx-yyy'. The only handled
+          collections for &lt;type> are java.lang.Vector and array. (up to version
+          0.8.10)</p>
+
+        <p>For primitive &lt;type>, Castor will look for an attribute first and then an
+          element. If &lt;type> is not a primitive type, Castor will look for an element
+          first and then an attribute.</p>
+
+      </section>
+    </section>
+
+
+    <section title="3. The Mapping File">
+
+      <section title="3.1 The &lt;mapping> element">
+
+        <code>
+          &lt;!ELEMENT mapping ( description?, include*, class*, key-generator* )>
+        </code>
+
+        <p>The &lt;mapping> element is the root element of a mapping file. It contains:</p>
+
+        <ul>
+          <li>an optional description</li>
+
+          <li>zero or more &lt;include> which facilitates reusing mapping files</li>
+
+          <li>zero or more &lt;class> descriptions: one for each class we intend to give
+            mapping information</li>
+
+          <li>zero or more &lt;key-generator>: not used for XML mapping</li>
+
+        </ul>
+
+        <p>A mapping file look like this:</p>
+
+        <code-panel><![CDATA[
+        <?xml version="1.0"?>
+
+        <!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                                 "http://castor.org/mapping.dtd">
+
+        <mapping>
+                <description>Description of the mapping</description>
+
+                <include href="other_mapping_file.xml"/>
+
+                <class name="A">
+                        .........
+                </class>
+
+                <class name="B">
+                        .........
+                </class>
+
+        </mapping>]]></code-panel>
+
+      </section>
+
+      <section title="3.2 The &lt;class> element">
+
+        <code-panel><![CDATA[
+        <!ELEMENT class ( description?, cache-type?, map-to?, field+ )>
+        <!ATTLIST class
+                  name            ID       #REQUIRED
+                  extends         IDREF    #IMPLIED
+                  depends         IDREF    #IMPLIED
+                  auto-complete   ( true |false ) "false"
+                  identity        CDATA    #IMPLIED
+                  access          ( read-only | shared | exclusive | db-locked )  "shared"
+                  key-generator   IDREF    #IMPLIED >]]></code-panel>
+
+
+        <p>The  <tt>&lt;class></tt> element contains all the information used to 
+           map a Java class into an XML document. The content of <tt>&lt;class></tt>
+           is mainly used to describe the fields that will be mapped.</p>
+
+        <p>Description of the attributes:</p>
+
+        <ul>
+          <li><b>name:</b> the name of the Java class that we want to map to. It should
+            look like 'mypackage.myclass'</li>
+
+          <li><b>extends:</b> should be used _only_ if this class extends another class
+            for which mapping information is provided. It should _not_ be used
+            if the extended class is not used in the mapping file.</li>
+
+          <li><b>depends:</b> for more information on this fields see JDO
+            documentation.</li>
+
+          <li><b>auto-complete:</b> if true, the class will be introspected to
+          determine its field and the fields specified in the mapping file will
+          be used to overide the field found during the introspection.</li>
+
+          <li><b>identity:</b> for more information on this fields see JDO
+            documentation</li>
+
+          <li><b>access:</b> for more information on this fields see JDO documentation</li>
+
+          <li><b>key-generator</b>: for more information on this fields see JDO
+            documentation</li>
+        </ul>
+
+        <p>The auto-complete attributes is interesting as it allow a fine degree
+           of control of the introspector: it is possible to specifiy only the
+           fields whose Castor default behavior does not suite our needs. These
+           feature should simplify the handling of complexe class containing many
+           fields.</p>
+
+        <p>Description of the content:</p>
+
+        <ul>
+             <li><b>description</b>: an optional &lt;description></li>
+
+             <li><b>cache-type:</b> used for Castor JDO only; for more information on this field, please 
+                 see the section on <a href="jdo-mapping.xml">Castor JDO mapping</a></li>
+
+             <li><b>an optional &lt;map-to></b>. Used if the name of the element is not the
+             name of the class. By default, Castor will infer the name of the
+             element to be mapped from the name of the class: a Java class named
+             'XxxYyy' will be transformed in 'xxx-yyy'. If you don't want Castor
+             to generate the name, you need to use &lt;map-to> to specify the name
+             you want to use. &lt;map-to> is only used for the root element.</li>
+
+             <li><b>field:</b> zero or more &lt;field> which are used to describe properties of the
+             Java objects.</li>
+        </ul>
+
+		<section title="Sample &lt;class&gt; mapping">
+		
+        <p>If you want to map the following class into the element '&lt;data&gt;':</p>
+
+        <code-panel>
+package mypackage
+
+public class MyClass {
+
+       public int foo;
+
+       public String getBar() { ... }
+
+       public void setBar(String bar) { ... }
+}</code-panel>
+
+        <p>Into an XML document like:</p>
+
+        <code-panel><![CDATA[
+  <data foo-like="12">
+     <something>...</something>
+  </data>]]></code-panel>
+
+        <p>You might use the following mapping file:</p>
+
+        <code-panel><![CDATA[
+  <mapping>
+     ...
+     <class name="mypackage.MyClass">
+                
+        <map-to xml="data"/>
+
+        <field name="foo" direct="true" ...>
+           <bind-xml name="foo-like" node="attribute"/>
+        </field>
+
+        </field name="bar" ....>
+           <bind-xml name="something" node="element"/>
+        </field>
+
+     </class>
+     ...
+  </mapping>]]></code-panel>
+  
+		</section>
+
+      </section>
+
+      <section title="3.3 The &lt;map-to> element">
+
+        <code-panel>
+        &lt;!ELEMENT map-to EMPTY>
+        &lt;!ATTLIST map-to
+                  table               NMTOKEN  #IMPLIED
+                  xml                 NMTOKEN  #IMPLIED
+                  ns-uri              NMTOKEN  #IMPLIED
+                  ns-prefix           NMTOKEN  #IMPLIED
+                  ldap-dn             NMTOKEN  #IMPLIED
+                  element-definition  (true|false) "false"     <font color="red"><b>NEW</b> as of 1.0M3</font>
+                  ldap-oc             NMTOKEN  #IMPLIED>
+        </code-panel>
+
+        <p><tt>&lt;map-to></tt> is used to specify the name of the element that should 
+           be associated with the given class. <tt>&lt;map-to></tt> is only used for 
+           the root class. If this information is not present, Castor will:</p>
+
+        <ul>
+          <li>for marshalling, infer the name of the element to be mapped from the name of
+            the class: a Java class named 'XxxYyy' will be transformed into 'xxx-yyy'.</li>
+
+          <li>for unmarshalling, infer the name of the class from the name of the element :
+            for an element named 'test-element' Castor will try to use a
+            class named 'TestElement'</li>
+        </ul>
+        
+        <p>Please note that it is possible to set the naming scheme used by Castor 
+           to translate between the XML name and the Java class name in the 
+           <tt>castor.properties</tt> file.</p>
+
+        <p>Description of the attributes:</p>
+
+        <ctable>
+        	<crow>
+        		<td><b>xml:</b></td>
+        		<td>Name of the element that the class is associated to.</td>
+        	</crow>
+        	<crow>
+	          <td><b>ns-uri</b>:</td>
+	          <td>Namespace URI</td>
+	         </crow>
+	         <crow>
+	          <td><b>ns-prefix:</b></td>
+	          <td>Desired namespace</td>
+	         </crow>
+	         <crow>
+	          <td><b>element-definition:</b></td>
+	          <td><tt>True</tt> if the descriptor as created from a schema definition that 
+	              was of type element (as opposed to a &lt;complexType&gt; definition). This 
+	              only is useful in the context of source code generation.</td>
+	         </crow>
+	         <crow>
+	          <td><b>ldap-dn:</b></td>
+	          <td>Not used for XML</td>
+	         </crow>
+	         <crow>
+	          <td><b>ldap-oc:</b></td>
+	          <td>Not used for XML</td>
+          </crow>
+        </ctable>
+
+      </section>
+
+      <section title="3.4 The &lt;field> element">
+
+        <code-panel><![CDATA[
+        <!ELEMENT field ( description?, sql?, bind-xml?, ldap? )>
+        <!ATTLIST field
+                  name           NMTOKEN  #REQUIRED
+                  type           NMTOKEN  #IMPLIED
+                  handler        NMTOKEN  #IMPLIED
+                  required       ( true | false )  "false"
+                  direct         ( true | false )  "false"
+                  lazy           ( true | false )  "false"
+                  transient      ( true | false )  "false"
+                  get-method     NMTOKEN  #IMPLIED
+                  set-method     NMTOKEN  #IMPLIED
+                  create-method  NMTOKEN  #IMPLIED
+                  collection     ( array | vector | hashtable | collection | set | map )  #IMPLIED>
+        ]]></code-panel>
+
+        <p><tt>&lt;field></tt> is used to describe a property of a Java object 
+           we want to marshal/unmarshal. It gives:</p>
+        <ul>
+          <li>its identity ('name')</li>
+          <li>its type (infered from 'type' and 'collection')</li>
+          <li>its access method (infered from 'direct', 'get-method', 'set-method')</li>
+        </ul>
+
+        <p>From this information, Castor is able to access a given property in the Java
+           class.</p>
+
+        <p>In order to determine the signature that Castor expects, there are two easy
+          rules to apply.</p>
+
+        <p><b>1. Determine &lt;type>.</b></p>
+
+        <ul>
+          <li><p><b>If there is no 'collection' attribute</b>, the &lt;type> is just the Java type
+            specified in &lt;type_attribute> (the value of the 'type' attribute in the XML
+            document). The value of &lt;type_attribute> can be a fully qualified Java object
+            like 'java.lang.String' or one of the allowed short name:</p>
+
+            <ctable border="1" cellpadding="4">
+              <cheader><th>short name</th><th>Primitive type?</th><th>Java Class</th></cheader>
+              <crow><td>other</td><td>N</td><td>java.lang.Object</td></crow>
+              <crow><td>string</td><td>N</td><td>java.lang.String</td></crow>
+              <crow><td>integer</td><td>Y</td><td>java.lang.Integer.TYPE</td></crow>
+              <crow><td>long</td><td>Y</td><td>java.lang.Long.TYPE</td></crow>
+              <crow><td>boolean</td><td>Y</td><td>java.lang.Boolean.TYPE</td></crow>
+              <crow><td>double</td><td>Y</td><td>java.lang.Double.TYPE</td></crow>
+              <crow><td>float</td><td>Y</td><td>java.lang.Float.TYPE</td></crow>
+              <crow><td>big-decimal</td><td>N</td><td>java.math.BigDecimal</td></crow>
+              <crow><td>byte</td><td>Y</td><td>java.lang.Byte.TYPE</td></crow>
+              <crow><td>date</td><td>N</td><td>java.util.Date</td></crow>
+              <crow><td>short</td><td>Y</td><td>java.lang.Short.TYPE</td></crow>
+              <crow><td>char</td><td>Y</td><td>java.lang.Character.TYPE</td></crow>
+              <crow><td>bytes</td><td>N</td><td>byte[]</td></crow>
+              <crow><td>chars</td><td>N</td><td>char[]</td></crow>
+              <crow><td>strings</td><td>N</td><td>String[]</td></crow>
+              <crow><td>locale</td><td>N</td><td>java.util.Locale</td></crow>
+            </ctable>
+
+            <p>Castor will try to cast the data in the XML file in the proper Java type.</p></li>
+
+
+          <li><b>If there is a collection attribute</b>, you can use the following table:
+
+            <ctable border="1" cellpadding="4">
+              <cheader>
+	              <th>name</th>
+	              <th>&lt;type></th>
+	              <th>default implementation</th>
+              </cheader>
+              <crow><td>array</td><td>&lt;type_attribute>[]</td><td>&lt;type_attribute>[]</td></crow>
+              <crow><td>arraylist</td><td>java.util.List</td><td>java.util.Arraylist </td></crow>
+              <crow><td>vector</td><td>java.util.Vector</td><td>java.util.Vector</td></crow>
+              <crow><td>hashtable</td><td>java.util.Hashtable</td><td>java.util.Hashtable</td></crow>
+              <crow><td>collection</td><td>java.util.Collection</td><td>java.util.Arraylist </td></crow>
+              <crow><td>set</td><td>java.util.Set</td><td>java.util.Hashset</td></crow>
+              <crow><td>map</td><td>java.util.Map</td><td>java.util.Hashmap</td></crow>
+              <crow><td>sortedset</td><td>java.util.SortedSet</td><td>java.util.TreeSet</td></crow>
+            </ctable>
+
+            <p>The type of the object inside the collection is &lt;type_attribute>. The 'default
+              implementation' is the type used if the object holding the collection is found
+              to be null and need to be instantiated.</p>
+
+            <p>For hashtable and maps (since 0.9.5.3), Castor will save both key and values.
+               When marshalling output &lt;key&gt; and &lt;value&gt;
+               elements. These names can be controlled by using a top-level or nested class mapping for
+               the org.exolab.castor.mapping.MapItem class.
+            </p>
+
+            <p>Note: for backward compatibility with prior versions of Castor, the <i>saveMapKeys</i>
+              property can be set to false in the castor.properties file.</p>
+
+            <p>For versions prior to 0.9.5.3, hashtable and maps, Castor will save only the value
+               during marshalling and during unmarshalling will add a map entry using the object as
+               both the key and value, e.g. map.put(object, object).
+            </p>
+          </li>
+        </ul>
+
+        <p>It is necessary to use a collection when the content model of the
+          element expects more than one element of the specified type.</p>
+
+
+        <p><b>2. Determine the signature of the function</b></p>
+
+        <li> <p><b>If 'direct' is set to true</b>, Castor expects to find a class variable with the
+            given signature:</p>
+
+          <code>
+            public &lt;type> &lt;name>;
+          </code>
+
+          <li><p><b>If 'direct' is set to false or omitted</b>, Castor will access the property
+              though accessor methods. Castor determines the signature of the accessors as
+              follow: If the 'get-method' or 'set-method' attributes are supplied, it will
+              try to find a function with the following signature:</p>
+
+            <code>
+              public &lt;type> &lt;get-method>();
+            </code>
+            or
+            <code>
+              public void &lt;set-method>(&lt;type> value);
+            </code>
+
+            <p>If 'get-method' and 'set-method' attributes are not provided, Castor will try to
+              find the following function:</p>
+            
+            <code>
+              public &lt;type> get&lt;capitalized-name>();
+            </code>
+            or
+            <code>
+              public void set&lt;capitalized-name>(&lt;type> value);
+            </code>
+
+            <p>&lt;capitalized-name> means that Castor takes the &lt;name> attribute and put its first
+              letter in uppercase without modifying the other letters.</p>
+
+            <p>The content of &lt;field> will contain the information on how to map this given
+              field to SQL, XML, ...</p>
+            </li>
+          
+            <li><p><b>Exceptions concerning collection fields:</b></p>
+            
+                <p>The default is to treat the 'get-method' as a simple getter returning 
+                   the collection field, and the 'set-method' as a simple getter used to set
+                   a new instance on the collection field.</p>
+
+                <ctable>
+                    <cheader>
+                        <th>Parameter</th>
+                        <th>Description</th>
+                    </cheader>
+                    <crow>
+                        <td>'get-method'</td>
+                        <td><p>If a 'get-method' is provided for a collection field, Castor 
+                   - in adition to the default behaviour described above - will deviate from the standard
+                   case for the following special prefixes:</p>
+            
+            <code>public Iterator iterate...();</code>
+            
+                <p>A 'get-method' starting with the prefix '<tt>iterate</tt>' is treated 
+                   as Iterator method for the given collection field.</p>
+            
+            <code>public Enumeration enum...();</code>
+            
+                <p>A 'get-method' starting with '<tt>enum</tt>' is treated as Enumeration 
+                   method for the given collection field.</p></td>
+                    </crow>
+                    <crow>
+                        <td>'set-method'</td>
+                        <td><p>If 'set-method' is provided for a collection field, Castor - 
+               in addition to the default behaviour described above - will accept an 'add' prefix 
+               and expect the following signature:</p>
+            
+            <code>public void add...(&lt;type&gt; value);</code>
+            
+                <p>This method is called for each collection element while unmarshalling.</p></td>
+                    </crow>
+                </ctable>
+          
+          </li>
+        </li>
+
+        <p>Description of the attributes: </p>
+
+        <ul>
+          <li><b>name:</b> The field 'name' is required even if no such field exists in the
+            class. If 'direct' access is used, 'name' should be the name of a public
+            variable in the object we are mapping (The field must be public, not
+            static and not transient). If no direct access and no 'get-/set-method'
+            is specified, this name will be used to infer the name of the accessors
+            methods.</li>
+
+          <li><b>type:</b> the Java type of the field. It is used to access the
+            field. Castor will use this information to cast the XML information
+            (like string into integer). It is also used to define the signature of
+            the accessors method. If a collection is specified, this is used to
+            specify the type of the object inside the collection. See description
+            above for more details.</li>
+
+          <li><b>required:</b> the field can the optional or required</li>
+
+          <li><b>transient:</b> if true, this field will be ignored during the
+          marshalling. This is usefull in when used with the auto-complete
+          option.</li>
+
+          <li><b>direct:</b> if true, Castor will expect a public variable in the object
+            and will modify it directly</li>
+
+          <li><b>collection:</b> if a parent expects more than one occurrence of
+            one of its element, it is necessary to specify which collection
+            Castor will use to handle them. The type specified is used to
+            define the type of the content inside the collection.</li>
+
+          <li><b>get-method:</b> optional name of the get method Castor should use. If
+            this attribute is not set and the set-method attribute is not set, then
+            Castor will try to guess the name with the algorithm described above.</li>
+
+          <li><b>set-method:</b> optional name of the set method Castor should use. If
+            this attribute is not set and the get-method attribute is not set, then
+            Castor will try to guess the name with the algorithm described above.
+            <p>
+               <a name="constructor-args"/>
+               <b>*Now supported (since 0.9.5) for <i>attribute</i> mapped fields, you may map a
+                  constructor field using the set-method attribute.</b>
+            </p>
+            <p>
+               To specify a constructor argument use "%1" - "%9" as the value of the
+               set-method attribute.
+            </p>
+            <p>
+               For example:<br/>
+               <code>
+               &lt;field name="foo" set-method="%1" get-method="getFoo" type="string"&gt;
+                  &lt;bind-xml node="attribute"/&gt;
+               &lt;/field&gt;
+               </code>
+               Note that because the set-method is specified, the get-method also must be
+               specified...a bit of an annoyance, but at least there is now a way to handle
+               this feature.
+           </p>
+          </li>
+
+          <li><b>create-method:</b> Factory method for instantiation of FieldHandler</li>
+        </ul>
+
+
+        <p>Description of the content:</p>
+
+        <p>In the case of XML mapping, the content of a field element should be one and
+          only one &lt;xml> element describing how this given field will be mapped into the
+          XML document.</p>
+      </section>
+
+
+      <section title="3.5 The &lt;bind-xml> element">
+
+        <code-panel><![CDATA[
+<!ELEMENT bind-xml (class?, property*)>
+<!ATTLIST bind-xml
+          name     NMTOKEN     #IMPLIED
+          type     NMTOKEN     #IMPLIED
+          location CDATA       #IMPLIED
+          matches  NMTOKENS    #IMPLIED
+          QName-prefix NMTOKEN #IMPLIED
+          reference   ( true | false ) "false"
+          node        ( attribute | element | text )    #IMPLIED
+          auto-naming ( deriveByClass | deriveByField ) #IMPLIED
+          transient   ( true | false ) "false">]]></code-panel>
+
+        <p><tt>&lt;bind-xml></tt> is used to describe how a given Java field 
+           should appear in an XML document. It is used both for marshalling and unmarshalling.</p>
+
+        <p>Description of the attributes:</p>
+        
+        <table cellpadding="2" cellspacing="2">
+        	<tr>
+        		<td valign="top"><b>name</b></td>
+        		<td>The name of the element or attribute.<br/>
+		              Note: The name is a QName, and a namespace prefix may be used to indicate the
+		              element or attribute belongs to a certain namespace. Note the prefix is not
+		              preserved or used during marshalling, it's simply used for
+		              qualification of which namespace the element or attribute belongs.</td>
+		    </tr>
+		    <tr>
+		    	<td valign="top"><b>auto-naming</b></td>
+		    	<td>If no name is specified, this attribute controls how castor will 
+		    	    automatically create a name for the field. Normally, the name is 
+		    	    created using the field name, however many times it is necessary 
+		    	    to create the name by using the class type instead (such as
+            		heterogenenous collections).</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>type</b></td>
+            	<td>XML Schema type (of the value of this field) that requires specific 
+            	    handling in the Castor Marshalling Framework (such as 'QName' for 
+            	    instance).</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>location</b><br/>(since 0.9.4.4)</td>
+            	<td>Allows the user to specify the "sub-path" for which the value
+                    should be marshalled to and from. This is useful for "wrapping" values in 
+                    elements or for mapping values that appear on sub-elements to the 
+                    current "element" represented by the class mapping. For more information,
+                    see the <a href="#6.-Location-attribute">Location attribute</a> below.</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>QName-prefix</b></td>
+            	<td>When the field represents a QName value, a prefix can be provided that
+                    is used when marshalling value of type QName. More information on the 
+                    use of 'QName-prefix' can be found in the 
+                    <a href="./SourceGeneratorUser.pdf">SourceGenerator Documentation</a></td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>reference</b></td>
+            	<td>Indicates if this field has to be treated as a reference by the 
+            	    unmarshaller. In order to work properly, you must specify the node 
+            	    type to 'attribute' for both the 'id' and the 'reference'. In 
+            	    newer versions of Castor, 'element' node for reference is allowed. 
+            	    Remember to make sure that an <i>identity</i> field is specified
+                    on the <tt>&lt;class&gt;</tt> mapping for the object type being 
+                    referenced so that Castor knows what the object's identity is.</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>matches</b></td>
+            	<td>Allows overriding the matches rules for the name of the element. It 
+            	    is a standard regular expression and will be used instead of the 'name'
+            	    field. A '*' will match any xml name, however it will only be matched 
+            	    if no other field exists that matches the xml name.</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>node</b></td>
+            	<td>Indicates if the name corresponds to an attribute, an element,
+                    or text content. By default, primitive types are assumed to be 
+                    an attribute, otherwise the node is assumed to be an elemen</td>
+            </tr>
+            <tr>
+            	<td valign="top"><b>transient</b></td>
+            	<td>Allows for making this field transient for XML. The default value is 
+            	    inherited from the &lt;field&gt; element.</td>
+            </tr>
+		</table>
+		
+		<section title="Nested class mapping">
+		
+          <p>Since 0.9.5.3, the bind-xml element supports a nested class mapping, which 
+             is often useful when needing to specify more than one mapping for a 
+             particular class. A good example of this is when mapping Hashtable/HashMap/Map.</p>
+              
+          <code-panel top-caption="Example"><![CDATA[
+<bind-xml ...>
+   <class name="org.exolab.castor.mapping.MapItem">
+      <field name="key" type="java.lang.String">
+        <bind-xml name="id"/>
+      </field>
+      <field name="value" type="com.acme.Foo"/>
+   </class>
+</bind-xml>]]></code-panel>
+
+		</section>
+		
+      </section>
+    </section>
+    
+    <section title="4. Usage Pattern">
+
+      <p>Here is an example of how Castor Mapping can be used. We want to map an XML
+        document like the following one (called 'order.xml').
+        model.</p>
+
+      <code-panel><![CDATA[
+<Order reference="12343-AHSHE-314159">
+  <Client>
+    <Name>Jean Smith</Name>
+    <Address>2000, Alameda de las Pulgas, San Mateo, CA 94403</Address>
+  </Client>
+
+  <Item reference="RF-0001">
+    <Description>Stuffed Penguin</Description>
+    <Quantity>10</Quantity>
+    <UnitPrice>8.95</UnitPrice>
+  </Item>
+
+  <Item reference="RF-0034">
+    <Description>Chocolate</Description>
+    <Quantity5</Quantity>
+    <UnitPrice>28.50</UnitPrice>
+  </Item>
+
+  <Item reference="RF-3341">
+     <Description>Cookie</Description>
+     <Quantity>30</Quantity>
+     <UnitPrice>0.85</UnitPrice>
+  </Item>
+</Order>]]></code-panel>
+
+      <p>Into the following object model composed of 3 classes:</p>
+      
+      <ul>
+        <li><b>MyOrder:</b> represent an order</li>
+        <li><b>Client:</b> used to store information on the client</li>
+        <li><b>Item:</b> used to store item in an order</li>
+      </ul>
+
+      <p>The sources of these classes follow.</p>
+
+      <code-panel top-caption="MyOrder.java">
+import java.util.Vector;
+import java.util.Enumeration;
+
+public class MyOrder {
+
+    private String _ref;
+    private ClientData _client;
+    private Vector _items;
+    private float _total;
+
+    public void setReference(String ref) {
+        _ref = ref;
+    }
+
+    public String getReference() {
+        return _ref;
+    }
+
+    public void setClientData(ClientData client) {
+        _client = client;
+    }
+
+    public ClientData getClientData() {
+        return _client;
+    }
+
+    public void setItemsList(Vector items) {
+        _items = items;
+    }
+
+    public Vector getItemsList() {
+        return _items;
+    }
+
+
+    public void setTotal(float total) {
+        _total = total;
+    }
+
+    public float getTotal() {
+        return _total;
+    }
+
+    // Do some processing on the data
+    public float getTotalPrice() {
+        float total = 0.0f;
+
+        for (Enumeration e = _items.elements() ; e.hasMoreElements() ;) {
+            Item item = (Item) e.nextElement();
+            total += item._quantity * item._unitPrice;
+        }
+
+        return total;
+    }
+}</code-panel>
+
+      <code-panel top-caption="ClientData.java">
+public class ClientData {
+
+    private String _name;
+    private String _address;
+
+    public void setName(String name) {
+        _name = name;
+    }
+
+    public String getName() {
+        return _name;
+    }
+
+    public void setAddress(String address) {
+        _address = address;
+    }
+
+    public String getAddress() {
+        return _address;
+    }
+}</code-panel>
+
+      <code-panel top-caption="Item.java">
+public class Item {
+    public String _reference;
+    public int    _quantity;
+    public float  _unitPrice;
+    public String _description;
+}</code-panel>
+
+      <p>The XML document and the java object model can be connected by using the
+        following mapping file:</p>
+
+      <code-panel top-caption="mapping.xml"><![CDATA[
+<?xml version="1.0"?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                         "http://castor.org/mapping.dtd">
+
+<mapping>
+  <class name="MyOrder">
+    <map-to xml="Order"/>
+
+    <field name="Reference"
+           type="java.lang.String">
+      <bind-xml name="reference" node="attribute"/>
+    </field>
+
+    <field name="Total"
+           type="float">
+      <bind-xml name="total-price" node="attribute"/>
+    </field>
+
+    <field name="ClientData"
+           type="ClientData">
+      <bind-xml name="Client"/>
+    </field>
+
+    <field name="ItemsList"
+           type="Item"
+              collection="vector">
+      <bind-xml name="Item"/>
+    </field>
+  </class>
+
+  <class name="ClientData">
+    <field name="Name"
+           type="java.lang.String">
+      <bind-xml name="Name" node="element"/>
+    </field>
+
+    <field name="Address"
+           type="java.lang.String">
+      <bind-xml name="Address" node="element"/>
+    </field>
+  </class>
+
+  <class name="Item">
+    <field name="_reference"
+           type="java.lang.String"
+           direct="true">
+      <bind-xml name="reference" node="attribute"/>
+    </field>
+
+    <field name="_quantity"
+           type="integer"
+           direct="true">
+      <bind-xml name="Quantity" node="element"/>
+    </field>
+
+    <field name="_unitPrice"
+           type="float"
+           direct="true">
+      <bind-xml name="UnitPrice" node="element"/>
+    </field>
+
+    <field name="_description"
+           type="string"
+           direct="true">
+      <bind-xml name="Description" node="element"/>
+    </field>
+  </class>
+
+</mapping>]]></code-panel>
+
+      <p>The following class is an example of how to use Castor XML Mapping to
+        manipulate the file 'order.xml'. It unmarshals the document 'order.xml',
+        computes the total price, sets the total price in the java object and
+        marshals the object model back into XML with the calculated price.</p>
+
+      <code-panel top-caption="main.java">
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.mapping.MappingException;
+
+import org.exolab.castor.xml.Unmarshaller;
+import org.exolab.castor.xml.Marshaller;
+
+import java.io.IOException;
+import java.io.FileReader;
+import java.io.OutputStreamWriter;
+
+import org.xml.sax.InputSource;
+
+public class main {
+
+    public static void main(String args[]) {
+
+        Mapping      mapping = new Mapping();
+
+        try {
+            <comment>// 1. Load the mapping information from the file</comment>
+            mapping.loadMapping( "mapping.xml" );
+
+            <comment>// 2. Unmarshal the data</comment>
+            Unmarshaller unmar = new Unmarshaller(mapping);
+            MyOrder order = (MyOrder)unmar.unmarshal(new InputSource(new FileReader("order.xml")));
+
+            <comment>// 3. Do some processing on the data</comment>
+            float total = order.getTotalPrice();
+            System.out.println("Order total price = " + total);
+            order.setTotal(total);
+
+            <comment>// 4. marshal the data with the total price back and print the XML in the console</comment>
+            Marshaller marshaller = new Marshaller(new OutputStreamWriter(System.out));
+            marshaller.setMapping(mapping);
+            marshaller.marshal(order);
+
+        } catch (Exception e) {
+            System.out.println(e);
+            return;
+        }
+    }
+}
+       </code-panel>
+
+    </section>
+
+    <section title="5. xsi:type">
+
+      <p>Ordinarily, a mapping will only reference types that are concrete classes (i.e. not interfaces
+        nor abstract classes).  The reason is that to unmarshal a type requires instantiating it and
+        one cannot instantiate an interface.  However, in many real situations, object models depend
+        on the use of interfaces.  Many class properties are defined to have interface types to support
+        the ability to swap implementations.  This is often the case in frameworks.</p>
+
+      <p>The problem is that a different mapping must be used each time the same model is to be
+       used to marshal/unmarshal an implementation that uses different concrete types.  This is
+       not convenient.  The mapping should represent the model and the specific concrete type
+       used to unmarshal a document is a configuration parameter; it should be specified in the
+       instance document to be unmarshalled, not the mapping.</p>
+
+      <p>For example, assume a very simple object model of an engine that has one property that
+      is a processor:</p>
+
+            <code-panel>
+  public interface IProcessor
+  {
+     public void process();
+  }
+
+  public class Engine
+  {
+     private IProcessor processor;
+     public IProcessor getProcessor()
+     {
+        return processor;
+     }
+     public void setProcessor(IProcessor processor)
+     {
+       this.processor = processor;
+     }
+  }
+            </code-panel>
+
+      <p>A typical mapping file for such a design may be:</p>
+
+            <code-panel><![CDATA[  
+  <mapping>
+     <class name="Engine">
+
+        <map-to xml="engine" />
+
+        <field name="processor" type="IProcessor" required="true">
+           <bind-xml name="processor" node="element" />
+        </field>
+
+     </class>
+  </mapping>]]></code-panel>
+
+      <p>It is possible to use such a mapping and still have the marshal/unmarshal process work
+       by specifying the concrete implementation of IProcessor in the document to be unmarshalled,
+       using the xsi:type attribute, as follows:</p>
+
+            <code-panel><![CDATA[
+  <engine>
+     <processor xsi:type="java:com.abc.MyProcessor" />
+  </engine>
+            ]]></code-panel>
+
+      <p>In this manner, one is still able to maintain only a single mapping, but vary the
+      manner in which the document is unmarshalled from one instance document to the next.
+      This flexibility is powerful because it enables the support of polymorphism within
+      the castor xml marshalling framework.</p>
+
+      <p>Suppose we wanted the following XML instead:</p>
+            <code-panel><![CDATA[
+  <engine>
+     <myProcessor/>
+  </engine>]]></code-panel>
+
+      <p>In the above output our XML name changed to match the type of the class used instead of
+         relying on the xsi:type attribute. This can be achieved by modifying the mapping
+         file as such:
+      </p>
+            <code-panel><![CDATA[
+  <mapping>
+     <class name="Engine">
+        <map-to xml="engine" />
+        <field name="processor" type="IProcessor" required="true">
+           <bind-xml auto-naming="deriveByClass" node="element" />
+        </field>
+     </class>
+
+     <class name="MyProcessor">
+        <map-to xml="myProcessor" />
+     </class>
+
+  </mapping>]]></code-panel>
+
+    </section>
+
+    <section title="6. Location attribute">
+
+       <p>Since 0.9.5</p>
+
+       <p>
+          The location attribute allows the user to map fields from nested
+          elements or specify a wrapper element for a given field. Wrapper
+          elements are simply elements which appear in the XML instance, but
+          do not have a direct mapping to an object or field within the
+          object model.
+        </p>
+        <p>
+          For example to map an instance of the following class:
+          
+          <code-panel>
+  public class Foo {
+
+     private Bar bar = null;
+
+     public Foo();
+
+     public getBar() {
+        return bar;
+     }
+
+     public void setBar(Bar bar) {
+        this.bar = bar;
+     }
+  }</code-panel>
+
+          into the following XML instance:
+
+          <code-panel><![CDATA[
+<?xml version="1.0"?>
+<foo>;
+   <abc>
+      <bar>...</bar>
+   </abc>
+</foo>]]></code-panel>
+
+          <i>(notice that an 'abc' field doesn't exist in the Bar class)</i>
+          <p/>
+          One would use the following mapping:
+          <code-panel>
+&lt;?xml version="1.0"?&gt;
+   ...
+   &lt;class name="Foo"&gt;
+      &lt;field name="bar" type="Bar"&gt;
+         &lt;bind-xml name="bar" <b>location="abc"</b>/&gt;
+      &lt;/field&gt;
+   &lt;/class&gt;
+   ...
+&lt;/mapping&gt;</code-panel>
+
+          Note the "location" attribute. The value of this attribute is the name
+          of the wrapper element. To use more than one wrapper element, the name
+          is separated by a forward-slash as such:
+
+          <code-panel><![CDATA[
+<bind-xml name="bar" location="abc/xyz" />]]></code-panel>
+
+          Note that the name of the element is not part of the location itself and
+          that the location is always relative to the class in which the field is
+          being defined.
+
+          This works for attributes also:
+
+          <code-panel><![CDATA[
+<bind-xml name="bar" location="abc" node="attribute" />]]></code-panel>
+          
+          will produce the following:
+
+          <code-panel><![CDATA[
+<?xml version="1.0"?>
+<foo>
+   <abc bar="..."/>;
+</foo>]]></code-panel>
+        </p>
+    </section>
+
+    <section title="7. Tips">
+       <p>Some helpful hints...</p>
+       <section title="7.1 Automatically create a mapping file">
+       <p>
+         Castor comes with a tool that can automatically create a mapping from
+         class files. Please see the <a href="xml-faq.xml">XML FAQ</a> for more
+         information.
+       </p>
+       </section>
+       <section title="7.2 Create your own FieldHandler">
+       <p>
+          Sometimes to handle complex situations you'll need to create your
+          own FieldHandler. Normally a FieldHandler deals with a specific class
+          and field, however generic, reusable FieldHandlers can also be created
+          by extending org.exolab.castor.mapping.GeneralizedFieldHandler or
+          org.exolab.castor.mapping.AbstractFieldHandler.
+          The FieldHandler can be specified on the &lt;field&gt; element.
+       </p>
+       <p>
+          For more information on writing a custom FieldHandler please
+          see the following:
+          <a href="xml-fieldhandlers.xml">XML FieldHandlers</a>.
+       </p>
+       </section>
+       <section title="7.3 Mapping constructor arguments">
+       Since: 0.9.5
+       <p>
+          You may map any attributes to constructor arguments. Mapping elements
+          to constructor arguments is not yet supported. For more information
+          on how to map constructor arguments see the information available
+          in the section on <a href="#constructor-args">set-method</a>
+          above.
+       </p>
+       </section>
+       <section title="7.4 Preventing Castor from checking for a default constructor">
+       Since: 0.9.5
+       <p>
+          Sometimes it's useful to prevent Castor from checking for a default constructor,
+          such as when trying to write a mapping for an interface or type-safe enum. You can use the
+          "undocumented" verify-constructable="false" attribute on the &lt;class&gt; element to
+          prevent Castor from looking for the default constructor.
+       </p>
+       </section>
+
+       <section title="7.5 Type safe enumeration mapping">
+       Since: 0.9.5
+       <p>
+          While you can always use your own custom FieldHandler for handling type-safe enumeration
+          classes, Castor does have a built-in approach to dealing with these types of classes.
+          If the type-safe enum class has a <b>public static &lt;type&gt; valueOf(String)</b> method
+          Castor will call that method so that the proper instance of the enumeration is returned.
+          Note: You'll also need to disable the default constructor check in the mapping file
+          (see section 7.4 above to see more on this).
+       </p>
+       </section>
+
+
+    </section>
+  </body>
+</document>

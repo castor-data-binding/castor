@@ -1,0 +1,61 @@
+<html>
+  <body>
+    <p><b>The XML Marshaller API</b></p>
+
+    <dl>
+      <dt><b>Version: </b></dt><dd>$Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $</dd>
+      <dt><b>Author: </b></dt><dd><a href="mailto:kvisco@exoffice.com">Keith Visco</a></dd>
+    </dl>
+
+    <p>{@link org.exolab.castor.xml.Marshaller} marshalls a Java object into an XML document.
+       {@link org.exolab.castor.xml.Unmarshaller} unmarshalls an XML document back into a Java
+       object.</p>
+
+    <p>The following example unmarshals the XML document <tt>product.xml</tt> into a
+       <tt>Product</tt> object, performs simple changes to the object and then marshals it
+       back into an XML document.</p>
+
+    <pre>
+  Product      prod;
+  File         file;
+
+  file = new File( "product.xml" );
+
+  <font color="red">// Unmarshal the document into an object</font>
+  prod = (Product) Unmarshaller.unmarshal( Product.class, new FileReader( file ) );
+
+  <font color="red">// A 25% mark down for each product and mark as sale</font>
+  prod.markDown( 0.25 );
+  prod.setOnSale( true );
+
+  <font color="red">// Marshal the object into a document</font>
+  Marshaller.marshal( Product, new FileWriter( file ) );
+    </pre>
+
+    <p>In addition to static methods, marshaller objects can be created and set with a variety
+       of options affecting how they will operation. The above example adapted to use a specific
+       mapping file:</p>
+    <pre>
+  Mapping      map;
+  Unmarshaller umr;
+  Marshaller   mar;
+
+  <font color="red">// Load the specified mapping file</font>
+  map = new Mapping();
+  map.loadMapping( "mapping.xml" );
+
+  <font color="red">// Unmarshal the document into an object</font>
+  umr = new Unmarshaller( Product.class );
+  umr.setMapping( mapping );
+  prod = (Product) umr.unmarshal( new FileReader( file ) );
+
+  : : :
+
+  <font color="red">// Marshal the object into a document</font>
+  mar = new Marshaller( new FileWriter( file ) );
+  mar.setMapping( mapping );
+  mar.marshal( Product );
+    </pre>
+
+  </body>
+</html>
