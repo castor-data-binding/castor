@@ -19,22 +19,22 @@ goto end
 
 :noargs
 :master
-echo using default arguments [-text ../src/tests/xml/MasterTestSuite]
+echo using default arguments [-text ../xmlctf/tests/MasterTestSuite]
 "%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text ../xmlctf/tests/MasterTestSuite
 goto end
 
 :master-verbose
-echo using default verbose arguments [-text -verbose ../src/tests/xml/MasterTestSuite]
+echo using default verbose arguments [-text -verbose ../xmlctf/tests/MasterTestSuite]
 "%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/MasterTestSuite
 goto end
 
 :regression
-echo using default arguments [-text -verbose ../src/tests/xml/RegressionTestSuite]
+echo using default arguments [-text -verbose ../xmlctf/tests/RegressionTestSuite]
 "%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text ../xmlctf/tests/RegressionTestSuite
 goto end
 
 :regression-verbose
-echo using default arguments [-text -verbose ../src/tests/xml/RegressionTestSuite]
+echo using default arguments [-text -verbose ../xmlctf/tests/RegressionTestSuite]
 "%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/RegressionTestSuite
 goto end
 
