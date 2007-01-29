@@ -32,7 +32,13 @@ goto end
 
 :regression
 echo using default arguments [-text -verbose ../src/tests/xml/RegressionTestSuite]
+"%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text ../xmlctf/tests/RegressionTestSuite
+goto end
+
+:regression-verbose
+echo using default arguments [-text -verbose ../src/tests/xml/RegressionTestSuite]
 "%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/RegressionTestSuite
+goto end
 
 :end
 set CLASSPATH=%OLDCP%

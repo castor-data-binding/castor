@@ -130,13 +130,13 @@
           org.exolab.castor.tests.framework.testDescriptor.types
         </pre>
         <p>
-          which can be found under <tt>src/tests/main/java</tt>.
+          which can be found under <tt>xmlctf/src/main/java</tt>.
         </p>
         <p>
           The tests for testing the behavior of Castor and its main features are located
-          in the directory tree starting at <tt>src/tests/MasterTestSuite</tt>.
+          in the directory tree starting at <tt>xmlctf/tests/MasterTestSuite</tt>.
           The tests needed to keep tracks of current reported, unfixed bugs are located
-          in the directory tree starting at <tt>src/tests/RegressionTestSuite</tt>.
+          in the directory tree starting at <tt>xmlctf/tests/RegressionTestSuite</tt>.
           The hierarchy of these test suites follows the main modules of Castor:
         </p>
         <pre>
@@ -325,7 +325,7 @@
       </p>
       <p>
         Under Windows, you can use a <tt>CMD.EXE</tt> "shell" window or you can use
-        CygWin.  Which shell you use is your preference.  Under UNIX, any shell will do. 
+        CygWin.  Which shell you use is your preference.  Under UNIX, any shell will do.
         Change directory so the current directory is the Castor bin directory, as
         described above.  Finally, to build the CTF, just run <tt>build.bat tests</tt> or
         <tt>./build.sh tests</tt>, depending on your operating system.  To be thorough,
@@ -412,7 +412,7 @@
       <p>
         For instance, to run all the tests from the MasterTestSuite:
       </p>
-      <pre>CTFRun.bat -verbose ../src/tests/MasterTestSuite/xml/sourcegenerator</pre>
+      <pre>CTFRun.bat -verbose ../xmlctf/tests/MasterTestSuite/sourcegenerator</pre>
       <p>
         This command will execute in GUI mode (the default mode) all the test cases
         written in the master test suite for the source generator, and will print
@@ -565,7 +565,7 @@
             and parsed, and then written to disk.  No marshaling or unmarshaling or source
             generation is performed.
           </p>
-  
+
           <table border="1" cellspacing="0">
             <tr>
               <th align="center">Tag</th>
@@ -1039,7 +1039,7 @@
         discussion below really only applies to a MarshallingTest type of CTF test.
       </p>
       <p>
-        The CTF needs your Root Object to override the equals() method of the 
+        The CTF needs your Root Object to override the equals() method of the
         <tt>java.lang.Object</tt> class.  This is required, not optional, and is used when
         comparing object models.
       </p>
@@ -1401,7 +1401,7 @@ public class PrimitivesBuilder implements ObjectBuilder {
           <p>
             Create a new directory under the appropriate test suite directory tree.
             For this test, an appropriate directory would be:
-            <tt>src/tests/xml/MasterTestSuite/sourcegenerator/PrimitivesWithoutFacets</tt>.
+            <tt>xmlctf/tests/MasterTestSuite/sourcegenerator/PrimitivesWithoutFacets</tt>.
             Copy all of the files that comprise your test into that directory.
           </p>
           <p>
@@ -1409,7 +1409,7 @@ public class PrimitivesBuilder implements ObjectBuilder {
             directory:
           </p>
           <pre>
-CTFRun -verbose ../src/tests/xml/MasterTestSuite/sourcegenerator/PrimitivesWithoutFacets
+CTFRun -verbose ../xmlctf/tests/MasterTestSuite/sourcegenerator/PrimitivesWithoutFacets
           </pre>
         </section>
       </section>

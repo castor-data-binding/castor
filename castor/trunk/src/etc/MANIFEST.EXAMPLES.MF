@@ -9,6 +9,4 @@ Class-Path: lib/castor-$VERSION$$RELEASE$.jar lib/commons-logging-1.1.jar lib/lo
 Main-Class: jdo.Test
 
 Name: org/exolab/castor
-Sealed: true
-
-
+Sealed: false
