@@ -3,7 +3,7 @@
                          "http://castor.org/mapping.dtd">
 <mapping>
 	<description>Description of the mapping</description>
-	<class name="org.castor.ddlgen.test.framework.Expected" identity="id">
+	<class name="org.castor.ddlgen.test.framework.Expected">
  		<field name="patterns" type="org.castor.ddlgen.test.framework.Match" collection="arraylist">
 			<bind-xml name="match"/>
 		</field>
