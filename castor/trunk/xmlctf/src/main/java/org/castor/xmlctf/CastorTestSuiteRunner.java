@@ -68,7 +68,7 @@ public class CastorTestSuiteRunner extends TestCase {
 
     /**
      * Name of the system property storing the root directory of all test cases.
-     * @see #TEST_ROOT
+     * @see #_testRoot
      */
     private static final String TEST_ROOT_PROPERTY = "org.exolab.castor.tests.TestRoot";
 
@@ -76,7 +76,7 @@ public class CastorTestSuiteRunner extends TestCase {
      * Root directory of all test cases we will process. We look for test cases
      * recursively starting in this directory.
      */
-    private static String TEST_ROOT;
+    private static String _testRoot;
 
     /**
      * Command line argument that causes the help/options to be displayed.
@@ -94,7 +94,7 @@ public class CastorTestSuiteRunner extends TestCase {
     private static final String TEXT_MODE_ARG = "-text";
 
     /**
-     * Command line argument to print or not the stack trace
+     * Command line argument to print or not the stack trace.
      */
     private static final String PRINT_STACK = "-printStack";
 
@@ -105,10 +105,10 @@ public class CastorTestSuiteRunner extends TestCase {
     private static final String SEED_ARG = "-seed";
 
     /**
-     * Default constructor that takes a name per test case
+     * Default constructor that takes a name per test case.
      * @param name test case name
      */
-    public CastorTestSuiteRunner(String name) {
+    public CastorTestSuiteRunner(final String name) {
         super(name);
     }
 
@@ -119,23 +119,23 @@ public class CastorTestSuiteRunner extends TestCase {
      * @return A non-null test suite.
      */
     public static Test suite() {
-        TEST_ROOT = System.getProperty(TEST_ROOT_PROPERTY);
+        _testRoot = System.getProperty(TEST_ROOT_PROPERTY);
 
-        if (TEST_ROOT.equals(".") || TEST_ROOT.equals("..")) {
+        if (_testRoot.equals(".") || _testRoot.equals("..")) {
             //-- convert relative directories "." and ".." to a Canonical path
-            File tmp = new File(TEST_ROOT);
+            File tmp = new File(_testRoot);
             try {
-                TEST_ROOT = tmp.getCanonicalPath();
+                _testRoot = tmp.getCanonicalPath();
             } catch (java.io.IOException iox) {
                 iox.printStackTrace();
                 System.exit(1);
             }
-        } else if (TEST_ROOT.startsWith("./") || TEST_ROOT.startsWith(".\\")) {
+        } else if (_testRoot.startsWith("./") || _testRoot.startsWith(".\\")) {
             //-- Remove leading ./ or .\ -- URLClassLoader can't handle such file URLs
-            TEST_ROOT = TEST_ROOT.substring(2);
+            _testRoot = _testRoot.substring(2);
         }
 
-        File testRoot = new File(TEST_ROOT);
+        File testRoot = new File(_testRoot);
 
         if (!testRoot.exists()) {
             System.out.println("\nUnable to locate the root directory for the test cases");
@@ -145,10 +145,10 @@ public class CastorTestSuiteRunner extends TestCase {
     }
 
     /**
-     * Runs the Castor Testing Framework
+     * Runs the Castor Testing Framework.
      * @param args the standard command-line arguments
      */
-    public static void main(String args[]) {
+    public static void main(final String[] args) {
         if (args.length == 0) {
             error(); // Does not return
         }
@@ -159,7 +159,7 @@ public class CastorTestSuiteRunner extends TestCase {
             error(); // Does not return
         }
 
-        System.out.println("Pseudo-random number generator seed:  '" + RandomHelper.getSeed() + "'");
+        System.out.println("Pseudo-random number generator seed:  " + RandomHelper.getSeed());
 
         String[] testCaseName = {CastorTestSuiteRunner.class.getName()};
 
@@ -177,10 +177,10 @@ public class CastorTestSuiteRunner extends TestCase {
      * @param args command-line arguments from main()
      * @return true if JUnit should be run in text mode, not GUI
      */
-    private static boolean processArguments(String[] args) {
+    private static boolean processArguments(final String[] args) {
         boolean textModeJUnit = false; // GUI by default
 
-        for (int i=0; i<args.length; ++i) {
+        for (int i = 0; i < args.length; ++i) {
             String argument = args[i];
             System.out.println("arg: '" + argument + "'");
 
@@ -216,7 +216,7 @@ public class CastorTestSuiteRunner extends TestCase {
     }
 
     /**
-     * Print usage and exit with a non-zero return code
+     * Print usage and exit with a non-zero return code.
      */
     private static void error() {
         usage();
@@ -224,17 +224,23 @@ public class CastorTestSuiteRunner extends TestCase {
     }
 
     /**
-     * Print usage
+     * Print usage.
      */
     private static void usage() {
         System.out.println("Castor Testing Framework ");
         System.out.println("------------------------ ");
-        System.out.println("argument: [" + VERBOSE_ARG + "] [" + TEXT_MODE_ARG + "] [" + PRINT_STACK + "] [" + SEED_ARG + " <seed value>] <root test directory or a castor jar test file>");
+        System.out.println("argument: [" + VERBOSE_ARG + "] [" + TEXT_MODE_ARG + "] ["
+                           + PRINT_STACK + "] [" + SEED_ARG
+                           + " <seed value>] <root test directory or a castor jar test file>");
         System.out.println("   " + HELP_ARG + " : displays this screen.");
-        System.out.println("   " + VERBOSE_ARG + " : give detailed execution information for the each test");
-        System.out.println("   " + TEXT_MODE_ARG + " : run the test without starting the swing gui");
-        System.out.println("   " + PRINT_STACK + " : Print the full stack trace on the console when an exception is thrown");
-        System.out.println("   " + SEED_ARG  + " <seed value> : force the use of a given seed for the pseudo-random number generator used for the random tests");
+        System.out.println("   " + VERBOSE_ARG
+                           + " : give detailed execution information for the each test");
+        System.out.println("   " + TEXT_MODE_ARG
+                           + " : run the test without starting the swing gui");
+        System.out.println("   " + PRINT_STACK
+                           + " : Print the full stack trace if an exception is thrown");
+        System.out.println("   " + SEED_ARG + " <seed value>: "
+                           + "set a specific seed for the pseudo-random number generator");
     }
 
 }

@@ -43,7 +43,7 @@
  * $Id$
  *
  */
-package org.castor.xmlctf;
+package org.castor.xmlctf.util;
 
 import java.io.StringReader;
 import java.util.HashMap;
@@ -62,8 +62,9 @@ import org.exolab.castor.xml.ValidationException;
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public class CTFUtils {
+
     /**
-     * The Java primitives
+     * The Java primitives.
      */
     public static final String BOOLEAN   = "boolean";
     public static final String BYTE      = "byte";
@@ -88,6 +89,13 @@ public class CTFUtils {
     }
 
     /**
+     * No-arg constructor.  Private as we're a static utility class.
+     */
+    private CTFUtils() {
+        // Nothing to do
+    }
+
+    /**
      * Compares two XML documents located at 2 given URLs, returning the number
      * of differences or 0 if both documents are 'XML equivalent'.
      *
@@ -98,7 +106,8 @@ public class CTFUtils {
      * @throws java.io.IOException if an error occurs reading either XML
      *             document
      */
-    public static int compare(String document1, String document2) throws java.io.IOException {
+    public static int compare(final String document1, final String document2)
+                                                         throws java.io.IOException {
         XMLDiff diff = new XMLDiff(document1, document2);
         return diff.compare();
     }
@@ -115,7 +124,8 @@ public class CTFUtils {
      * @throws ClassNotFoundException if the given class cannot be loaded using
      *             the provided class loader.
      */
-    public static Class getClass(String name, ClassLoader loader) throws ClassNotFoundException {
+    public static Class getClass(final String name, final ClassLoader loader)
+                                                       throws ClassNotFoundException {
         if (name == null) {
             throw new IllegalArgumentException("Name shouldn't be null.");
         }
@@ -143,7 +153,8 @@ public class CTFUtils {
      * @throws MarshalException if the type is not a recognized primitive type
      *             and no Marshaller can be found for that type
      */
-    public static Object instantiateObject(String type, String value, ClassLoader loader)
+    public static Object instantiateObject(final String type, final String value,
+                                           final ClassLoader loader)
                                         throws ClassNotFoundException, MarshalException {
         if (type.equals(STRING) || type.equals(String.class.getName())) {
             return value;

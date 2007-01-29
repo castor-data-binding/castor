@@ -61,6 +61,8 @@ import java.io.PrintWriter;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.castor.xmlctf.util.CTFUtils;
+import org.castor.xmlctf.util.FileServices;
 import org.exolab.castor.tests.framework.testDescriptor.SchemaDifferences;
 import org.exolab.castor.tests.framework.testDescriptor.UnitTestCase;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;

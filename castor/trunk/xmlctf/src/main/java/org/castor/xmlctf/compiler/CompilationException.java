@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.xmlctf;
+package org.castor.xmlctf.compiler;
 
 import java.io.PrintStream;
 import java.io.PrintWriter;
@@ -22,7 +22,7 @@ import java.io.PrintWriter;
  * Exception that signals a compilation error.
  */
 public class CompilationException extends RuntimeException {
-    /** SerialVersionUID */
+    /** SerialVersionUID. */
     private static final long serialVersionUID = -1459631801932567828L;
 
     /** The cause for this exception. */

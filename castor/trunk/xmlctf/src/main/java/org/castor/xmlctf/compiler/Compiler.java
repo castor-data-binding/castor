@@ -13,10 +13,13 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.xmlctf;
+package org.castor.xmlctf.compiler;
 
-
+/**
+ * A Compilation interface used by the Castor Testing Framework.
+ */
 public interface Compiler {
+
     /**
      * Compiles the content of a directory tree.
      * @throws CompilationException If the build fails.
@@ -30,8 +33,7 @@ public interface Compiler {
      * values higher than 4 will be converted to the proper value so for example
      * you can provide <tt>5</tt> as the Java source version.
      *
-     * @param javaSourceVersion
-     *            The Java source version.
+     * @param javaSourceVersion The Java source version.
      */
     void setJavaSourceVersion(float javaSourceVersion);
 

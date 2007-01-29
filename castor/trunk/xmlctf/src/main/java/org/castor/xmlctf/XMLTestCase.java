@@ -57,6 +57,7 @@ import java.util.List;
 
 import junit.framework.TestCase;
 
+import org.castor.xmlctf.util.CTFUtils;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.tests.framework.testDescriptor.CallMethod;
 import org.exolab.castor.tests.framework.testDescriptor.Configuration;
@@ -90,7 +91,7 @@ import org.xml.sax.InputSource;
 public abstract class XMLTestCase extends TestCase {
 
     /** True if we desire a lot of info on what happen. */
-    protected static boolean _verbose;
+    public static boolean _verbose;
     /** True if we dump the stack trace for any exception that occurs during testing. */
     protected static boolean _printStack;
 

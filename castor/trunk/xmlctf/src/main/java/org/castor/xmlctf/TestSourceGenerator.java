@@ -24,6 +24,10 @@ import java.net.URL;
 import java.net.URLClassLoader;
 import java.util.Properties;
 
+import org.castor.xmlctf.compiler.CompilationException;
+import org.castor.xmlctf.compiler.Compiler;
+import org.castor.xmlctf.compiler.SunJavaCompiler;
+import org.castor.xmlctf.util.FileServices;
 import org.exolab.castor.builder.FieldInfoFactory;
 import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest;
