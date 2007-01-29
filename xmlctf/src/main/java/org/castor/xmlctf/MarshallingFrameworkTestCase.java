@@ -52,6 +52,10 @@ import java.net.URLClassLoader;
 import junit.framework.Test;
 import junit.framework.TestSuite;
 
+import org.castor.xmlctf.compiler.CompilationException;
+import org.castor.xmlctf.compiler.Compiler;
+import org.castor.xmlctf.compiler.SunJavaCompiler;
+import org.castor.xmlctf.util.FileServices;
 import org.exolab.castor.mapping.Mapping;
 import org.exolab.castor.tests.framework.testDescriptor.ListenerType;
 import org.exolab.castor.tests.framework.testDescriptor.MarshallingTest;
@@ -152,10 +156,10 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
      */
     protected void setUp() throws java.lang.Exception {
         verbose("\n================================================");
-        verbose("Test suite '"+_test.getName()+"': setting up test '" + _name+"'");
+        verbose("Test suite '" + _test.getName() + "': setting up test '" + _name + "'");
         verbose("================================================\n");
 
-        FileServices.copySupportFiles(_test.getTestFile(),_outputRootFile);
+        FileServices.copySupportFiles(_test.getTestFile(), _outputRootFile);
 
         // Compile the source directory for this test, if not already done
         if (!_test.isDirectoryCompiled()) {
@@ -177,7 +181,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
 
         //-- Add outputRoot to classpath
         ClassLoader loader = _test.getClassLoader();
-        loader = new URLClassLoader(new URL[] { _outputRootFile.toURL() }, loader);
+        loader = new URLClassLoader(new URL[] {_outputRootFile.toURL()}, loader);
         _test.setClassLoader(loader);
 
         verbose("Root class specified in TestDescriptor...");
@@ -199,12 +203,12 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
     }
 
     /**
-     * Clean up after a test -- nothing to do except display output
+     * Clean up after a test -- nothing to do except display output.
      * @throws Exception if anything goes wrong
      */
     protected void tearDown() throws java.lang.Exception {
         verbose("\n================================================");
-        verbose("Test suite '"+_test.getName()+"': test '" + _name+"' complete.");
+        verbose("Test suite '" + _test.getName() + "': test '" + _name + "' complete.");
         verbose("================================================\n");
     }
 
@@ -230,7 +234,6 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
         InputSource source = new InputSource(mappingFile);
         source.setSystemId(mappingFilePath);
         _mapping.loadMapping(source);
-//      mappingFile.close(); // FIXME:  We never close this file!  (But cannot close it here)
 
         ListenerType listener = _unitTest.getListener();
         if (listener != null) {
@@ -244,7 +247,7 @@ public class MarshallingFrameworkTestCase extends XMLTestCase {
             } catch (InstantiationException iex) {
                 fail("The listener '" + listenerName + "' cannot be instantiated");
             } catch (IllegalAccessException iaex) {
-                fail("Constructing a '"+listenerName+"' failed: " + iaex);
+                fail("Constructing a '" + listenerName + "' failed: " + iaex);
             }
             verbose("##### TESTING LISTENER CLASS " + listenerName + " #####");
         } // listener != null;

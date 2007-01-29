@@ -57,6 +57,7 @@ import junit.framework.Test;
 import junit.framework.TestCase;
 import junit.framework.TestSuite;
 
+import org.castor.xmlctf.util.FileServices;
 import org.exolab.castor.tests.framework.testDescriptor.MarshallingTest;
 import org.exolab.castor.tests.framework.testDescriptor.OnlySourceGenerationTest;
 import org.exolab.castor.tests.framework.testDescriptor.SchemaTest;
@@ -92,11 +93,11 @@ public class CastorTestCase extends TestCase {
     /** Java version of the JVM we are running in. */
     private static final float JAVA_VERSION = Float.parseFloat(System.getProperty("java.specification.version"));
     /** True if we desire a lot of information on what is happening during the test. */
-    private static final boolean _verbose;
+    private static final boolean VERBOSE;
 
     static {
         String v = System.getProperty(TestCaseAggregator.VERBOSE_PROPERTY);
-        _verbose = (v != null && v.equals("true"));
+        VERBOSE = (v != null && v.equals("true"));
         v = null;
     }
 
@@ -129,7 +130,7 @@ public class CastorTestCase extends TestCase {
     private final String _directoryToHere;
 
     /**
-     * Constructs a CTF test case given only a test case name
+     * Constructs a CTF test case given only a test case name.
      * @param name the name of the test case
      */
     public CastorTestCase(final String name) {
@@ -165,9 +166,9 @@ public class CastorTestCase extends TestCase {
                 fileName = fileName.substring(0, fileName.lastIndexOf("."));
                 _outputRootFile = new File(outputRoot + FILE_SEPARATOR + fileName);
             } catch (java.util.zip.ZipException e) {
-                throw new IllegalStateException(file.getAbsolutePath()+" is not a valid JAR file.");
+                throw new IllegalStateException(file.getAbsolutePath() + " is not a valid JAR file.");
             } catch (java.io.IOException ie) {
-                throw new IllegalStateException(file.getAbsolutePath()+" is not a valid JAR file.");
+                throw new IllegalStateException(file.getAbsolutePath() + " is not a valid JAR file.");
             }
         }
 
@@ -214,7 +215,6 @@ public class CastorTestCase extends TestCase {
         return _compiled;
     } //-- isDirectoryCompiled
 
-
    /**
      * Sets the ClassLoader to use for loading the resources for this test case.
      *
@@ -238,8 +238,6 @@ public class CastorTestCase extends TestCase {
 
     /**
      * Assembles and returns a test suite containing all known tests.
-     *
-     * New tests should be added here!
      *
      * @return A non-null test suite if we can load the test descriptor
      */
@@ -366,7 +364,7 @@ public class CastorTestCase extends TestCase {
      */
     private void setUpSchemaTests(final String suiteName, final TestSuite suite,
                                   final SchemaTest schemaTest) {
-        for (int i = 0 ; i < schemaTest.getUnitTestCaseCount(); i++) {
+        for (int i = 0; i < schemaTest.getUnitTestCaseCount(); i++) {
             UnitTestCase tc = schemaTest.getUnitTestCase(i);
             // Little trick: getUnitTestCaseChoice should not be null at this point
             String name = tc.getUnitTestCaseChoice().getSchema();
@@ -426,7 +424,7 @@ public class CastorTestCase extends TestCase {
      * @param message The message to display if verbose is true.
      */
     private void verbose(final String message) {
-        if (_verbose) {
+        if (VERBOSE) {
             System.out.println(message);
         }
     }

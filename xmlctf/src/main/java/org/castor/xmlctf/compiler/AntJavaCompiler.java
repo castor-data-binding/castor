@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.xmlctf;
+package org.castor.xmlctf.compiler;
 
 import java.io.File;
 import java.util.HashSet;
@@ -22,12 +22,15 @@ import org.apache.tools.ant.BuildException;
 import org.apache.tools.ant.Project;
 import org.apache.tools.ant.taskdefs.Javac;
 import org.apache.tools.ant.types.Path;
+import org.castor.xmlctf.XMLTestCase;
+import org.castor.xmlctf.util.FileServices;
 
 /**
  * Compiles a directory tree, recursively. This class is built around the use of
  * the ANT JAVAC task.
  */
 public class AntJavaCompiler implements Compiler {
+    /** A Set of directories to ignore. */
     private static final HashSet IGNORE_DIRS = new HashSet();
 
     static {
@@ -41,8 +44,8 @@ public class AntJavaCompiler implements Compiler {
     private final File  _baseDirectory;
     private final File  _outputDirectory;
 
-    private String _javaVersion = null;
-    private Javac _compiler;
+    private String      _javaVersion = null;
+    private Javac       _compiler;
 
     /**
      * Creates a compiler for a given directory.
@@ -57,11 +60,16 @@ public class AntJavaCompiler implements Compiler {
         _outputDirectory = baseDirectory;
     }
 
-    public void setJavaSourceVersion(float javaSourceVersion) {
+    /**
+     * Sets the Java source version the current test will be using.
+     * @param javaSourceVersion The Java Source version to be used.
+     */
+    public void setJavaSourceVersion(final float javaSourceVersion) {
+        float srcVersion = javaSourceVersion;
         if (javaSourceVersion >= 5F && javaSourceVersion < 10F) {
-            javaSourceVersion = 1.0F + (javaSourceVersion / 10F);
+            srcVersion = 1.0F + (javaSourceVersion / 10F);
         }
-        _javaVersion = "" + javaSourceVersion;
+        _javaVersion = "" + srcVersion;
     }
 
     /**
@@ -75,6 +83,8 @@ public class AntJavaCompiler implements Compiler {
 
     /**
      * Creates and returns a Ant Javac compiler.
+     * @param srcDir Source directory for compiation.
+     * @param destDir Destination directory for compilation.
      *
      * @return Ant Javac compiler
      */

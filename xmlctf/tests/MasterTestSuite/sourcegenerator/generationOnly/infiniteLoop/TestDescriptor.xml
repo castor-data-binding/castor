@@ -9,7 +9,7 @@
         <Schema>test.xsd</Schema>
         <UnitTestCase>
             <Name>Test Source Generation</Name>
-            <Failure exception="org.castor.xmlctf.CompilationException"
+            <Failure exception="org.castor.xmlctf.compiler.CompilationException"
                      FailureStep="source-compilation">true</Failure>
         </UnitTestCase>
      </OnlySourceGenerationTest>

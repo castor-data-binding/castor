@@ -46,6 +46,8 @@ package org.castor.xmlctf;
 
 import java.io.File;
 
+import org.castor.xmlctf.util.FileServices;
+
 
 import junit.framework.Test;
 import junit.framework.TestCase;
@@ -115,6 +117,7 @@ public class TestCaseAggregator extends TestCase {
      * parameter.
      *
      * @param directory the directory to inspect for test case and subdirectory
+     * @param directoryToHere the directory path above "directory"
      * @param testOutputRoot the path to the directory where the test in this
      *            directory can put there temporary files.
      */
@@ -133,7 +136,8 @@ public class TestCaseAggregator extends TestCase {
      */
     public Test suite() {
         final TestSuite suite = new TestSuite();
-        final String suiteName = (_directoryToHere.length() == 0) ? _directory.getName() : _directoryToHere;
+        final String suiteName = (_directoryToHere.length() == 0) ? _directory.getName()
+                                                                  : _directoryToHere;
         suite.setName(suiteName);
 
         if (!_directory.isDirectory()) {
@@ -148,14 +152,14 @@ public class TestCaseAggregator extends TestCase {
         }
 
         String outputRoot = _testOutputRoot;
-        if ( outputRoot.endsWith("/") || outputRoot.endsWith(FILE_SEPARATOR)) {
+        if (outputRoot.endsWith("/") || outputRoot.endsWith(FILE_SEPARATOR)) {
             outputRoot = outputRoot + _directory.getName();
         } else {
             outputRoot = outputRoot + FILE_SEPARATOR + _directory.getName();
         }
 
         verbose("\n==================================================================");
-        verbose("Processing directory:\n"+_directory.getAbsolutePath());
+        verbose("Processing directory:\n" + _directory.getAbsolutePath());
         verbose("==================================================================\n");
 
         final File[] list = _directory.listFiles();
@@ -207,7 +211,7 @@ public class TestCaseAggregator extends TestCase {
     }
 
     /**
-     * Prints the provided message if verbose is true
+     * Prints the provided message if verbose is true.
      * @param message the message to print
      */
     private void verbose(final String message) {

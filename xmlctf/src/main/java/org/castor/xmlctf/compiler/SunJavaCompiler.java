@@ -13,7 +13,7 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.castor.xmlctf;
+package org.castor.xmlctf.compiler;
 
 import java.io.File;
 import java.lang.reflect.Method;
@@ -21,19 +21,27 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 
+import org.castor.xmlctf.XMLTestCase;
+import org.castor.xmlctf.util.FileServices;
 
 /**
- * Compiles a directory tree, recursively. This class is built to use the Sun Javac
- * compiler contained in tools.jar. A IllegalStateException will be thrown if tools.jar
- * is not on the classpath at construction of the class and execution of the
- * compileDirectory() method.
+ * Compiles a directory tree, recursively. This class is built to use the Sun
+ * Javac compiler contained in tools.jar. A IllegalStateException will be thrown
+ * if tools.jar is not on the classpath at construction of the class and
+ * execution of the compileDirectory() method.
  *
  * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0.5
  */
 public class SunJavaCompiler implements Compiler {
-    private static final String COMPILE_CLASSNAME = "com.sun.tools.javac.Main";
+    private static final int COMPILATION_SUCCESS  = 0;
+    private static final int COMPILATION_ERROR    = 1;
+    private static final int COMPILATION_CMDERR   = 2;
+    private static final int COMPILATION_SYSERR   = 3;
+    private static final int COMPILATION_ABNORMAL = 4;
+
+    private static final String COMPILE_CLASSNAME  = "com.sun.tools.javac.Main";
     private static final String COMPILE_METHODNAME = "compile";
     private static final Class[] COMPILE_PARAMTYPE = new Class[] {String[].class};
 
@@ -63,13 +71,21 @@ public class SunJavaCompiler implements Compiler {
         if (!_initialized) { initialize(); }
     }
 
-    public void setJavaSourceVersion(float javaSourceVersion) {
+    /**
+     * Sets the Java source version the current test will be using.
+     * @param javaSourceVersion The Java Source version to be used.
+     */
+    public void setJavaSourceVersion(final float javaSourceVersion) {
+        float srcVersion = javaSourceVersion;
         if (javaSourceVersion >= 5F && javaSourceVersion < 10F) {
-            javaSourceVersion = 1.0F + (javaSourceVersion / 10F);
+            srcVersion = 1.0F + (javaSourceVersion / 10F);
         }
-        _javaVersion = "" + javaSourceVersion;
+        _javaVersion = "" + srcVersion;
     }
 
+    /**
+     * Initialize.
+     */
     private void initialize() {
         IGNORE_DIRS.add(FileServices.CVS);
         IGNORE_DIRS.add(FileServices.SVN);
@@ -106,18 +122,24 @@ public class SunJavaCompiler implements Compiler {
             }
 
             switch (status) {
-            case 0: break;
-            case 1: throw new CompilationException("Compile status: ERROR");
-            case 2: throw new CompilationException("Compile status: CMDERR");
-            case 3: throw new CompilationException("Compile status: SYSERR");
-            case 4: throw new CompilationException("Compile status: ABNORMAL");
-            default: throw new CompilationException("Compile status: Unknown");
+            case COMPILATION_SUCCESS:  break;
+            case COMPILATION_ERROR:    throw new CompilationException("Compile status: ERROR");
+            case COMPILATION_CMDERR:   throw new CompilationException("Compile status: CMDERR");
+            case COMPILATION_SYSERR:   throw new CompilationException("Compile status: SYSERR");
+            case COMPILATION_ABNORMAL: throw new CompilationException("Compile status: ABNORMAL");
+            default:                   throw new CompilationException("Compile status: Unknown");
             }
         } else {
             throw new CompilationException("No files to compile: " + _baseDirectory);
         }
     }
 
+    /**
+     * Returns a list of arguments for the compiler.
+     * @param srcDir The source directory for compilation
+     * @param destDir The destination directory for compilation
+     * @return a list of arguments for the compiler.
+     */
     private List getCompileArguments(final File srcDir, final File destDir) {
         List args = new ArrayList();
 
@@ -148,6 +170,11 @@ public class SunJavaCompiler implements Compiler {
         return args;
     }
 
+    /**
+     * Recursively searches the provided directory, returning a list of all Java files found.
+     * @param srcDir A directory to search for Java files.
+     * @return a List of all Java files found in the provided directory
+     */
     private List findSourceFiles(final File srcDir) {
         List files = new ArrayList();
 

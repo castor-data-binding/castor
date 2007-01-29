@@ -24,6 +24,7 @@ import java.io.InputStream;
 
 import junit.framework.TestCase;
 
+import org.castor.xmlctf.util.CTFUtils;
 import org.exolab.castor.tests.framework.testDescriptor.FailureType;
 import org.exolab.castor.tests.framework.testDescriptor.types.FailureStepType;
 

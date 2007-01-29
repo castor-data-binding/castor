@@ -42,11 +42,10 @@
  *
  * $Id$
  */
-package org.castor.xmlctf;
+package org.castor.xmlctf.util;
 
 import java.io.File;
 import java.io.FileInputStream;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
@@ -61,14 +60,30 @@ import java.util.zip.ZipEntry;
  * @author <a href="mailto:blandin@intalio.com">Arnaud Blandin</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
-public class FileServices {
+public final class FileServices {
 
+    /** The string for a CVS subdirectory. */
     public static final String CVS  = "CVS";
+    /** The string for a Subversion subdirectory. */
     public static final String SVN  = ".svn";
+    /** The string for an extension for a XSD file. */
     public static final String XSD  = ".xsd";
+    /** The string for an extension for a XML file. */
     public static final String XML  = ".xml";
+    /** The string for an extension for a Java file. */
     public static final String JAVA = ".java";
+    /** The string for an extension for a JAR file. */
     public static final String JAR  = ".jar";
+
+    /** Buffer size used for copying files. */
+    private static final int BUF_SIZE = 16 * 1024;
+
+    /**
+     * No-arg constructor.  Private as we're a utility class.
+     */
+    private FileServices() {
+        // Nothing to do
+    }
 
     /**
      * Copy all the needed documents (java, xsd, xml file) of given file (jar or
@@ -77,9 +92,8 @@ public class FileServices {
      * @param file the file that contains the entries to copy
      * @param root the destination directory to copy files to
      * @throws IOException if an error occurs while copying files
-     * @throws FileNotFoundException if an already-located file cannot be found
      */
-    protected static void copySupportFiles(File file, File root) throws IOException, FileNotFoundException {
+    public static void copySupportFiles(final File file, final File root) throws IOException {
         if (file == null) {
             throw new IllegalArgumentException("The Entry file is null");
         }
@@ -105,12 +119,12 @@ public class FileServices {
      * @param file the file that contains the entries to copy
      * @param root the destination directory to copy files to
      * @throws IOException if an error occurs while copying files
-     * @throws FileNotFoundException if an already-located file cannot be found
      */
-    private static void copySupportFilesForJarFile(File file, File root) throws IOException, FileNotFoundException {
+    private static void copySupportFilesForJarFile(final File file, final File root)
+                                                                      throws IOException {
         JarFile jar = new JarFile(file);
         for (Enumeration e = jar.entries(); e.hasMoreElements(); ) {
-            ZipEntry entry = (ZipEntry)e.nextElement();
+            ZipEntry entry = (ZipEntry) e.nextElement();
             if (isSupportFile(entry.getName())) {
                 InputStream src = jar.getInputStream(entry);
                 File out = new File(root, entry.getName());
@@ -118,7 +132,7 @@ public class FileServices {
                 copy(src, new FileOutputStream(out));
                 src.close();
             }
-        }//for
+        }
     }
 
     /**
@@ -129,11 +143,11 @@ public class FileServices {
      * @param file the file that contains the entries to copy
      * @param root the destination directory to copy files to
      * @throws IOException if an error occurs while copying files
-     * @throws FileNotFoundException if an already-located file cannot be found
      */
-    private static void copySupportFilesForDirectory(File file, File root) throws FileNotFoundException, IOException {
+    private static void copySupportFilesForDirectory(final File file, final File root)
+                                                                      throws IOException {
         File[] entries = file.listFiles();
-        for (int i=0 ; i<entries.length; i++) {
+        for (int i = 0; i < entries.length; i++) {
             File tempEntry = entries[i];
             if (isSupportFile(tempEntry.getName())) {
                 File out = new File(root, tempEntry.getName());
@@ -149,7 +163,7 @@ public class FileServices {
                 out.mkdir();
                 copySupportFiles(tempEntry, out);
             }
-        }//for
+        }
     }
 
     /**
@@ -158,10 +172,8 @@ public class FileServices {
      * @param src Source input stream
      * @param dest Destination output stream
      * @throws IOException if an error occurs while copying files
-     * @throws FileNotFoundException if an already-located file cannot be found
      */
-    protected static void copy(InputStream src, OutputStream dest) throws FileNotFoundException, IOException {
-        final int BUF_SIZE = 16 * 1024;
+    private static void copy(final InputStream src, final OutputStream dest) throws IOException {
         byte[] buf = new byte[BUF_SIZE];
         int read;
         while (true) {
@@ -180,7 +192,7 @@ public class FileServices {
      * @param name File name to check to see if it represents a support file
      * @return true if the file is a support file for the test.
      */
-    private static boolean isSupportFile(String name) {
+    private static boolean isSupportFile(final String name) {
         return name.endsWith(XSD) || name.endsWith(JAVA) || name.endsWith(XML);
     }
 
@@ -190,7 +202,7 @@ public class FileServices {
      * @param name Name of a directory
      * @return true if the file provided is an SCM directory
      */
-    public static boolean isScmDirectory(String name) {
+    public static boolean isScmDirectory(final String name) {
         return name.endsWith(FileServices.CVS) || name.equals(FileServices.SVN);
     }
 
