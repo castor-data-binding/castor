@@ -12,9 +12,9 @@ fi
 
 JAVA=$JAVA_HOME/bin/java
 
-CLASSPATH=$CLASSPATH:../../build/classes:../../build/tests:../../codegen/build/classes
-CLASSPATH=`echo ../../lib/*.jar | tr ' ' ':'`:$CLASSPATH
+CLASSPATH=../build/classes:../build/tests:../codegen/build/classes
+CLASSPATH=`echo ../lib/*.jar | tr ' ' ':'`:$CLASSPATH
 
-rm -rf `find ./main/org/exolab/castor/tests/framework/testDescriptor/ -name "*.java"`
+rm -rf `find ./src/main/java/org/exolab/castor/tests/framework/testDescriptor/ -name "*.java"`
 
-$JAVA -classpath $CLASSPATH org.exolab.castor.builder.SourceGeneratorMain -i ./main/org/exolab/castor/tests/framework/TestDescriptor.xsd -dest ./main  -package org.exolab.castor.tests.framework.testDescriptor
+$JAVA -classpath $CLASSPATH org.exolab.castor.builder.SourceGeneratorMain -i ./src/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd -dest ./src/main/java  -package org.exolab.castor.tests.framework.testDescriptor
