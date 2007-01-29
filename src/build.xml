@@ -28,6 +28,7 @@
     <property name="build-howto"          value="build/doc/howto"/>
     <property name="classes"              value="${build}/classes"/>
     <property name="dist"                 value="dist"/>
+    <property name="target"               value="target"/>
     <property name="lib"                  value="lib"/>
     <property name="doc"                  value="${source}/doc"/>
     <property name="howto"                value="${source}/howto"/>
@@ -187,6 +188,10 @@
             description="An internal target to echo a message if a castor-build.properties exists in the user's home dir"
             if="castor-build.present">
         <echo message="Using ${user.home}/castor-build.properties" />
+    </target>
+
+    <target name="distclean" depends="clean" description="Remove everything generated">
+        <delete dir="${target}"/>
     </target>
 
     <target name="clean" description="Removes the build, check, dist and schema dirs">
@@ -659,7 +664,7 @@
         <javadoc destdir="${build}/doc/javadoc" doctitle="${name} JavaDoc"
                  windowtitle="${name} JavaDoc" bottom="${copyright}" package="true" author="true"
                  version="true" noindex="true" packagenames="${allpackagenames}"
-                 classpathref="javadoc.classpath">
+                 encoding="ISO-8859-1" classpathref="javadoc.classpath">
             <sourcepath>
                 <pathelement location="${java}"/>
                 <pathelement location="${basedir}/codegen/src/main/java" />
