@@ -1,7 +1,7 @@
 
 import java.util.Vector;
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class PrimitivesBuilder implements ObjectModelBuilder {
 
@@ -58,4 +58,5 @@ public class PrimitivesBuilder implements ObjectModelBuilder {
 
         return test;
     }
+
 }

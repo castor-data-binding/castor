@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -46,7 +46,7 @@
 
 import org.exolab.castor.xml.MarshalListener;
 import org.exolab.castor.xml.UnmarshalListener;
-import org.exolab.castor.tests.framework.CastorTestable;
+import org.castor.xmlctf.CastorTestable;
 
 import java.util.Vector;
 
@@ -55,8 +55,7 @@ import java.util.Vector;
  * that does nothing to the elements being marshaled/unmarshalled.
  * It merely stores them on a list for later reporting.
  */
-public class SimpleListener
-    implements MarshalListener, UnmarshalListener, CastorTestable {
+public class SimpleListener implements MarshalListener, UnmarshalListener, CastorTestable {
 
     private Vector _calls;
 
@@ -81,7 +80,6 @@ public class SimpleListener
             parent + "/" + parent.getClass().getName() + " " + field;
         log(msg);
     }
-
 
     /** MarshalListener */
     public boolean preMarshal (Object o) {
@@ -108,12 +106,11 @@ public class SimpleListener
     public void unmarshalled (Object o) {
         log(o, "Unmarshalled");
     }
-    
+
     /** UnmarshalListener */
     public void attributesProcessed(Object o) {
         log(o, "Attributes Processed");
     }
-    
 
     /** mapping.xml */
     public Vector getCalls () {
@@ -142,21 +139,16 @@ public class SimpleListener
         StringBuffer buf = new StringBuffer();
         buf.append("<" + getClass().getName() + ">");
         for (int i=0;i<_calls.size(); i++) {
-            buf.append(
-                "<call number=\"" + (i+1) + "\">" +
-                _calls.get(i).toString() + "</call>");
+            buf.append("<call number=\"" + (i+1) + "\">" +
+                       _calls.get(i).toString() + "</call>");
         }
         buf.append("</" + getClass().getName() + "/>");
         return buf.toString();
     }
 
     /** CastorTestable */
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
 
 }
-

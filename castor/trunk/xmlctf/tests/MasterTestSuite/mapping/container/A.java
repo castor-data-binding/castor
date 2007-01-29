@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,18 +42,15 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class A implements CastorTestable {
 
     private B     _b;
     private XandZ _xz;
 
-    //--
     public void setXandZ(XandZ xz) {
         _xz = xz;
     }
@@ -62,7 +59,6 @@ public class A implements CastorTestable {
         return _xz;
     }
 
-    //--
     public void setB(B b) {
         _b = b;
     }
@@ -71,34 +67,32 @@ public class A implements CastorTestable {
         return _b;
     }
 
-
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof A))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof A)) {
             return false;
+        }
 
         A a = (A)object;
-        
+
         if (!CompareHelper.equals(this.getB(),     a.getB()))     return false;
         if (!CompareHelper.equals(this.getXandZ(), a.getXandZ())) return false;
-        
+
         return true;
     }
-    
+
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[B=" + ((getB() == null)? "null" : ((CastorTestable)getB()).dumpFields()) + "]\n";
-        dump += "[XandZ=" + ((getXandZ() == null)? "null" : ((CastorTestable)getXandZ()).dumpFields()) + "]\n";
-        
-        return dump;
+        return "[B="
+               + ((getB() == null) ? "null" : ((CastorTestable) getB()).dumpFields())
+               + "]\n"
+               + "[XandZ="
+               + ((getXandZ() == null) ? "null" : ((CastorTestable) getXandZ()).dumpFields())
+               + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

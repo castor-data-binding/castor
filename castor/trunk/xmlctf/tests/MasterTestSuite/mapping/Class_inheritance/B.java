@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,17 +42,14 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class B extends A {
-    
+
     private String _id;
 
-    //--
     public void setId(String id) {
         _id = id;
     }
@@ -62,33 +59,25 @@ public class B extends A {
     }
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof B))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof B)) {
             return false;
+        }
 
         B b = (B)object;
         if (!getItem().equals(b.getItem())) return false;
         if (getNumber() != b.getNumber()) return false;
         if (!_id.equals(b.getId())) return false;
         return true;
-    
     }
-    
+
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Number=" + getNumber() + "]\n";
-        dump += "[Item=" + getItem() + "]\n";
-        dump += "[Id=" + _id + "]\n";
-        
-        return dump;
+        return "[Number=" + getNumber() + "]\n" + "[Item=" + getItem() + "]\n" + "[Id=" + _id + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

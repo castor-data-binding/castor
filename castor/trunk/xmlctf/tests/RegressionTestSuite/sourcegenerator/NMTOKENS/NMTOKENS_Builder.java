@@ -1,32 +1,21 @@
 
 import java.util.Vector;
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
-public class NMTOKENS_Builder implements ObjectModelBuilder
-{
+public class NMTOKENS_Builder implements ObjectModelBuilder {
 
     /**
-     * Build the object expected when unmarshalling 'input1.xml'
+     * Build the object expected when unmarshalling 'input1.xml'.
      */
     public Object buildInstance() {
-
         Test_NMTOKENS test = new Test_NMTOKENS();
-
         test.addBar("nm1");
-        
         test.addBar("nm2");
-        
         test.addBar("nm3");
-        
         test.addFoo("NMTOKEN1");
-        
         test.addFoo("NMTOKEN2");
-
         return test;
-
     }
 
 }
-
-

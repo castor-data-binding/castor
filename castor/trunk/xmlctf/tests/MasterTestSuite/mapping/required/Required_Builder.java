@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,23 +42,18 @@
  *
  */
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class Required_Builder implements ObjectModelBuilder {
-
-    public Required_Builder() {}
 
     /**
      * Build the object we expect when we unmarshal 'input.xml'
      */
     public Object buildInstance() {
-        
         Required_Root r = new Required_Root();
         r.setName("castor");
         r.setItem("beaver");
-
         return r;
-
     }
 
 }

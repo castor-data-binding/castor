@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,68 +42,52 @@
  *
  */
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class Builder implements ObjectModelBuilder {
 
-    public Builder() {}
-
     /**
-     * Build the object we expect when we unmarshal 'input.xml'
+     * Build the object we expect when we unmarshal 'input.xml'.
      */
     public Object buildInstance() {
-        
         A a = new A();
 
         XandZ xz = new XandZ();
         a.setXandZ(xz);
-        {
-            xz.setW("errt");
-            xz.setY(314159);
 
-            X x = new X();
-            xz.setX(x);
-            {
-                x.setId(12);
-                x.setContent(" content of X");
-            }
-            
-            X z = new X();
-            xz.setZ(z);
-            {
-                z.setId(34);
-                z.setContent("ZZZ");
-            }
+        xz.setW("errt");
+        xz.setY(314159);
 
-            RandS rs = new RandS();
-            xz.setRandS(rs);
-            {
-                rs.setT(32345);
-                rs.setU("This is U");
+        X x = new X();
+        xz.setX(x);
+        x.setId(12);
+        x.setContent(" content of X");
 
-                R r = new R();
-                rs.setR(r);
-                {
-                    r.setId(5454);
-                    r.setContent("Street");
-                }
+        X z = new X();
+        xz.setZ(z);
+        z.setId(34);
+        z.setContent("ZZZ");
 
-                R s = new R();
-                rs.setS(s);
-                {
-                    s.setId(4344);
-                    s.setContent("staire on top");
-                }
+        RandS rs = new RandS();
+        xz.setRandS(rs);
+        rs.setT(32345);
+        rs.setU("This is U");
 
-            }
+        R r = new R();
+        rs.setR(r);
+        r.setId(5454);
+        r.setContent("Street");
 
-        }
+        R s = new R();
+        rs.setS(s);
+        s.setId(4344);
+        s.setContent("staire on top");
 
         B b = new B();
         a.setB(b);
         b.setName("test for B");
 
-
         return a;
     }
+
 }

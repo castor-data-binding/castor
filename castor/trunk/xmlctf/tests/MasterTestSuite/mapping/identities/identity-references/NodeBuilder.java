@@ -1,16 +1,15 @@
 import java.util.List;
 import java.util.ArrayList;
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class NodeBuilder implements ObjectModelBuilder {
 
     /**
-     * Build the object we expect when we unmarshal 'input.xml'
+     * Build the object we expect when we unmarshal 'input.xml'.
      */
     public Object buildInstance() {
-    
-    	NodeList nodeList = new NodeList();
-    
+        NodeList nodeList = new NodeList();
+
         Node nodeOne = new Node();
         nodeOne.setNodeNum(1);
 
@@ -19,26 +18,27 @@ public class NodeBuilder implements ObjectModelBuilder {
 
         Node nodeThree = new Node();
         nodeThree.setNodeNum(3);
-        
+
         List siblings = new ArrayList();
-		siblings.add(nodeTwo);
-		siblings.add(nodeThree); 
+        siblings.add(nodeTwo);
+        siblings.add(nodeThree);
         nodeOne.setSiblings(siblings);
 
         siblings = new ArrayList();
-		siblings.add(nodeOne);
-		siblings.add(nodeThree); 
+        siblings.add(nodeOne);
+        siblings.add(nodeThree);
         nodeTwo.setSiblings(siblings);
 
         siblings = new ArrayList();
-		siblings.add(nodeOne);
-		siblings.add(nodeTwo); 
+        siblings.add(nodeOne);
+        siblings.add(nodeTwo);
         nodeThree.setSiblings(siblings);
-        
+
         nodeList.addNode(nodeOne);
         nodeList.addNode(nodeTwo);
         nodeList.addNode(nodeThree);
-        
+
         return nodeList;
     }
+
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,23 +42,21 @@
  *
  */
 
-
-public class QName_Root implements org.exolab.castor.tests.framework.CastorTestable {
+public class QName_Root implements org.castor.xmlctf.CastorTestable {
 
     private String _name  = "{http://www.castor.org/Mapping/QName}default value";
     private String _item = "{http://www.fooshop.com/Items}penguins";
     private String _value = "{http://blank.namespace.com}blank";
 
-    //--
-    public QName_Root() {}
+    public QName_Root() {
+        // Default constructor
+    }
 
-    //--
     public QName_Root(String name, String value) {
         _name  = name;
         _value = value;
     }
 
-    //--
     public String getItem() {
         return _item;
     }
@@ -68,7 +66,6 @@ public class QName_Root implements org.exolab.castor.tests.framework.CastorTesta
         _item = item;
     }
 
-    //--
     public String getName() {
         return _name;
     }
@@ -77,34 +74,33 @@ public class QName_Root implements org.exolab.castor.tests.framework.CastorTesta
         _name = name;
     }
 
-    //--
     public String getValue() {
         return _value;
     }
-    
+
     public void setValue(String value) {
        _value = value;
     }
-    
+
     //Castor Testable
+
     public String dumpFields() {
-    	String result = "";
-    	result += "\nField name:"+_name;
-    	result += "\nField item:"+_item;
-    	result += "\nField value:"+_value;
-    	return result;
+        return "\nField name:" + _name + "\nField item:" + _item + "\nField value:" + _value;
     }
-    public void randomizeFields()
-         throws InstantiationException, IllegalAccessException     
-    {}
-    
+
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
+        // Not implemented
+    }
+
     public boolean equals(Object obj) {
-       if (!(obj instanceof QName_Root))
+       if (!(obj instanceof QName_Root)) {
            return false;
+       }
+
        QName_Root temp = (QName_Root)obj;
-       return (temp.getName().equals(this.getName())) && 
-              (temp.getItem().equals(this.getItem())) && 
-              (temp.getValue().equals(this.getValue())); 
+       return (temp.getName().equals(this.getName())) &&
+              (temp.getItem().equals(this.getItem())) &&
+              (temp.getValue().equals(this.getValue()));
     }
 
 }

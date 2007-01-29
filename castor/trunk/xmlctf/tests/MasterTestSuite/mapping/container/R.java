@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,17 +42,15 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class R implements CastorTestable {
 
-    private int _id;
+    private int    _id;
     private String _content;
 
-    //--
     public void setId(int id) {
         _id = id;
     }
@@ -61,7 +59,6 @@ public class R implements CastorTestable {
         return _id;
     }
 
-    //--
     public void setContent(String content) {
         _content = content;
     }
@@ -71,32 +68,26 @@ public class R implements CastorTestable {
     }
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof R))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof R)) {
             return false;
+        }
 
         R r = (R)object;
 
         if (this.getId() != r.getId()) return false;
         if (!CompareHelper.equals(this.getContent(), r.getContent())) return false;
-    
+
         return true;
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Id=" + getId() + "]\n";
-        dump += "[Name=" + ((getContent() == null)? "null" : getContent()) + "]\n";
- 
-       return dump;
+        return "[Id=" + getId() + "]\n" + "[Name=" + ((getContent() == null)? "null" : getContent()) + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

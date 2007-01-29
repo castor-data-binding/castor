@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -39,21 +39,17 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 2002 (C) Intalio, Inc. All Rights Reserved.
- *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class A implements CastorTestable {
 
     private int _number;
     private String _item;
 
-    //--
     public void setNumber(int i) {
         _number = i;
     }
@@ -62,7 +58,6 @@ public class A implements CastorTestable {
         return _number;
     }
 
-    //--
     public void setItem(String item) {
         _item = item;
     }
@@ -71,32 +66,25 @@ public class A implements CastorTestable {
         return _item;
     }
 
-
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof A))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof A)) {
             return false;
+        }
 
         A a = (A)object;
         if (!_item.equals(a.getItem())) return false;
         if ( _number != a.getNumber() ) return false;
         return true;
     }
-    
+
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Number=" + _number + "]\n";
-        dump += "[Item=" + _item + "]\n";
-        
-        return dump;
+        return "[Number=" + _number + "]\n" + "[Item=" + _item + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,20 +42,17 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class RandS implements CastorTestable {
 
-    private R _r;
-    private R _s;
-    private int _t;
+    private R      _r;
+    private R      _s;
+    private int    _t;
     private String _u;
 
-    //--
     public void setT(int t) {
         _t = t;
     }
@@ -64,7 +61,6 @@ public class RandS implements CastorTestable {
         return _t;
     }
 
-    //--
     public void setU(String u) {
         _u = u;
     }
@@ -73,7 +69,6 @@ public class RandS implements CastorTestable {
         return _u;
     }
 
-    //--
     public void setR(R r) {
         _r = r;
     }
@@ -82,7 +77,6 @@ public class RandS implements CastorTestable {
         return _r;
     }
 
-    //--
     public void setS(R s) {
         _s = s;
     }
@@ -92,10 +86,11 @@ public class RandS implements CastorTestable {
     }
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof RandS))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof RandS)) {
             return false;
+        }
 
         RandS rs = (RandS)object;
 
@@ -103,25 +98,24 @@ public class RandS implements CastorTestable {
         if (!CompareHelper.equals(this.getS(), rs.getS())) return false;
         if (this.getT() != rs.getT()) return false;
         if (!CompareHelper.equals(this.getU(), rs.getU())) return false;
-    
+
         return true;
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[R=" + ((getR() == null)? "null" : ((CastorTestable)getR()).dumpFields()) + "]\n";
-        dump += "[S=" + ((getS() == null)? "null" : ((CastorTestable)getS()).dumpFields()) + "]\n";
-        dump += "[T=" + getT() + "]\n";
-        dump += "[U=" + ((getU() == null)? "null" : getU()) + "]\n";
-
-        return dump;
+        return "[R="
+               + ((getR() == null) ? "null" : ((CastorTestable) getR()).dumpFields())
+               + "]\n"
+               + "[S="
+               + ((getS() == null) ? "null" : ((CastorTestable) getS()).dumpFields())
+               + "]\n"
+               + "[T=" + getT() + "]\n"
+               + "[U="
+               + ((getU() == null) ? "null" : getU()) + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

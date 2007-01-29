@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,7 +42,7 @@
  *
  */
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 import java.util.Date;
 import java.text.DateFormat;
@@ -50,11 +50,9 @@ import java.text.DateFormat;
 public class Builder implements ObjectModelBuilder {
 
     /**
-     * Build the object we expect when we unmarshal 'input-1.xml'
+     * Build the object we expect when we unmarshal 'input-1.xml'.
      */
-    public Object buildInstance()
-     throws Exception {
-
+    public Object buildInstance() throws Exception {
         Root r = new Root();
 
         r.type_string = "This is a Test";
@@ -71,7 +69,6 @@ public class Builder implements ObjectModelBuilder {
         r.type_char = 'x';
 
         return r;
-
     }
 
 }

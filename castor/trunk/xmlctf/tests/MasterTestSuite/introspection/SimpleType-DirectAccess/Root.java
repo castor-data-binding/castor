@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -45,8 +45,8 @@
 import java.math.BigDecimal;
 import java.util.Date;
 
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
 
 public class Root implements CastorTestable {
 
@@ -63,21 +63,22 @@ public class Root implements CastorTestable {
 
     // private byte[]   type_bytes; ####################
 
-
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof Root))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof Root)) {
             return false;
+        }
 
         Root root = (Root)object;
 
         boolean result = true;
 
-        if ((type_string != null) && (root.type_string != null))
+        if ((type_string != null) && (root.type_string != null)) {
             result &= (type_string.equals(root.type_string));
-        else
+        } else {
             result &= (type_string == null) && (root.type_string == null);
+        }
 
         result &= (type_int     == root.type_int);
         result &= (type_long    == root.type_long);
@@ -85,26 +86,26 @@ public class Root implements CastorTestable {
         result &= (type_double  == root.type_double);
         result &= (type_float   == root.type_float);
 
-        if ((type_bigDecimal != null) && (root.type_bigDecimal != null))
+        if ((type_bigDecimal != null) && (root.type_bigDecimal != null)) {
             result &= (type_bigDecimal.equals(root.type_bigDecimal));
-        else
+        } else {
             result &= (type_bigDecimal == null) && (root.type_bigDecimal == null);
+        }
 
         result &= (type_byte == root.type_byte);
 
-        if ((type_date != null) && (root.type_date != null))
+        if ((type_date != null) && (root.type_date != null)) {
             result &= (type_date.equals(root.type_date));
-        else
+        } else {
             result &= (type_date == null) && (root.type_date == null);
+        }
 
         result &= (type_char == root.type_char);
 
         return result;
     }
 
-    public void randomizeFields() 
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         type_string  = RandomHelper.getRandom(type_string, String.class);
         type_int     = RandomHelper.getRandom(type_int);
         type_long    = RandomHelper.getRandom(type_long);
@@ -133,4 +134,5 @@ public class Root implements CastorTestable {
 
         return dump;
     }
+
 }

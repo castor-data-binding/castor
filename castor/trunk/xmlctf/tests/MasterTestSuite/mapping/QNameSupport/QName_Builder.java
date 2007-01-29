@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,20 +42,17 @@
  *
  */
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class QName_Builder implements ObjectModelBuilder {
 
-   
     /**
-     * Build the object we expect when we unmarshal 'input.xml'
+     * Build the object we expect when we unmarshal 'input.xml'.
      */
     public Object buildInstance() {
-        
         QName_Root r = new QName_Root("{http://www.castor.org/Mapping/QName}a name","{http://blank.namespace.com}black");
         r.setItem("{http://www.fooshop.com/Items}ball");
         return r;
-
     }
 
 }

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,18 +42,15 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class A implements CastorTestable {
 
     private int _number;
-    private B _b;
+    private B   _b;
 
-    //--
     public void setNumber(int i) {
         _number = i;
     }
@@ -62,7 +59,6 @@ public class A implements CastorTestable {
         return _number;
     }
 
-    //--
     public void setBelement(B b) {
         _b = b;
     }
@@ -71,32 +67,25 @@ public class A implements CastorTestable {
         return _b;
     }
 
-
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof A))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof A)) {
             return false;
+        }
 
         A a = (A)object;
         if (!_b.equals(a.getBelement())) return false;
         if ( _number != a.getNumber() ) return false;
         return true;
     }
-    
+
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Number=" + _number + "]\n";
-        dump += _b.dumpFields();
-        
-        return dump;
+        return "[Number=" + _number + "]\n" + _b.dumpFields();
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

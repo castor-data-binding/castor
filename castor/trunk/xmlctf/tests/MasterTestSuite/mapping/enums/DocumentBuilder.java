@@ -1,4 +1,4 @@
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class DocumentBuilder implements ObjectModelBuilder {
 

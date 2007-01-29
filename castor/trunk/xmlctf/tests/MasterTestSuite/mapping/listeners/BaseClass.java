@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,19 +42,16 @@
  *
  */
 
-
 /**
  * Simple implementation of some fields with a corresponding
  * mapping file to marshal/unmarshal.
  */
-public class BaseClass
-    implements org.exolab.castor.tests.framework.CastorTestable
-{
+public class BaseClass implements org.castor.xmlctf.CastorTestable {
 
-    private String _attribute = "";
-    private String _element;
+    private String      _attribute = "";
+    private String      _element;
     protected BaseClass _child;
-    private int _numMods = 0;
+    private int         _numMods   = 0;
 
     //--
     public void setElement (String element) {
@@ -90,41 +87,45 @@ public class BaseClass
         return _numMods;
     }
 
-    /* Testing depends on this, as the toString representation
-       of an object is used for logging the objects in the Listeners*/
+    /**
+     * Testing depends on this, as the toString representation of an object is
+     * used for logging the objects in the Listeners
+     */
     public String toString () {
         return _attribute;
     }
 
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if (object == null)
+    public boolean equals(Object object) {
+        if (object == null) {
             return false;
-            
-        if ( ! (object instanceof BaseClass))
+        }
+
+        if ( ! (object instanceof BaseClass)) {
             return false;
+        }
 
         BaseClass a = (BaseClass)object;
-        
+
         if (_child != null) {
-        	 if (a.getChild() == null)
-        	     return false;
-             else if (!_child.equals(a.getChild())) 
+             if (a.getChild() == null)
+                 return false;
+             else if (!_child.equals(a.getChild()))
                  return false;
         }
         if (_element != null) {
-        	if (a.getElement() == null)
-        	    return false;
-        	else if ( !_element.equals(a.getElement()) ) 
-        	     return false;
+            if (a.getElement() == null)
+                return false;
+            else if ( !_element.equals(a.getElement()) )
+                 return false;
         }
         if (_attribute != null) {
-        	if (a.getAttribute() == null)   
-        	    return false;
-        	else if ( !_attribute.equals(a.getAttribute()) ) 
-        	    return false;
+            if (a.getAttribute() == null)
+                return false;
+            else if ( !_attribute.equals(a.getAttribute()) )
+                return false;
         }
         return true;
     }
@@ -147,10 +148,8 @@ public class BaseClass
         return dump.toString();
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }
