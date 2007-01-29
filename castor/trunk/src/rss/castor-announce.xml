@@ -21,6 +21,27 @@
 -->
 
         <item>
+            <title>1.1 M3 release available</title>
+            <pubDate>Mon, 29 Jan 2006 22:23:24 +0100</pubDate>
+            <author>Werner Guttmann</author>
+            <link>http://castor.codehaus.org/news.html#item56</link>
+            <guid>http://castor.codehaus.org/news.html#item56</guid>
+            <description><![CDATA[
+                <p>
+                  The Castor 1.1 M3 release has been made available at
+                  http://dist.codehaus.org/castor/1.1/
+                </p>
+                <p>
+                  This is a second milestone build for the upcoming 1.1 release.
+                </p>
+                <p>
+                  For details about the features added and the bugs fixed,
+                  please have a look at the release notes at
+                  http://castor.codehaus.org/release-notes.html
+                </p>
+            ]]></description>
+        </item>
+        <item>
             <title>1.1 M2 release available</title>
             <pubDate>Fri, 29 Dec 2006 22:23:24 +0100</pubDate>
             <author>Werner Guttmann</author>
