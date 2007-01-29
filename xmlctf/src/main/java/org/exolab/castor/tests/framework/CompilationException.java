@@ -38,7 +38,7 @@ public class CompilationException extends RuntimeException {
     /**
      * Creates an instance of this exception type.
      * @param message The error message
-     * @param t The root cause
+     * @param cause The root cause
      */
     public CompilationException(final String message, final Throwable cause) {
         super(message);
@@ -55,7 +55,7 @@ public class CompilationException extends RuntimeException {
 
     /**
      * Creates an instance of this exception type.
-     * @param t The root cause
+     * @param cause The root cause
      */
     public CompilationException(final Throwable cause) {
         super();
@@ -64,13 +64,13 @@ public class CompilationException extends RuntimeException {
 
     /**
      * Match the JDK 1.4 Throwable version of getCause() on JDK<1.4 systems.
-     * 
+     *
      * @return The throwable cause of this exception.
      */
     public final Throwable getCause() {
         return _cause;
     }
-    
+
     /**
      * Print a stack trace to stderr.
      */
@@ -86,7 +86,7 @@ public class CompilationException extends RuntimeException {
 
     /**
      * Print a stack trace to the specified PrintStream.
-     * 
+     *
      * @param s The PrintStream to print a stack trace to.
      */
     public final void printStackTrace(final PrintStream s) {
@@ -101,7 +101,7 @@ public class CompilationException extends RuntimeException {
 
     /**
      * Print a stack trace to the specified PrintWriter.
-     * 
+     *
      * @param w The PrintWriter to print a stack trace to.
      */
     public final void printStackTrace(final PrintWriter w) {
@@ -113,4 +113,5 @@ public class CompilationException extends RuntimeException {
             _cause.printStackTrace(w);
         }
     }
+
 }

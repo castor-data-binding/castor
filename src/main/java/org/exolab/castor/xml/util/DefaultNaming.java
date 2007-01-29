@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,7 +42,6 @@
  *
  * $Id$
  */
-
 package org.exolab.castor.xml.util;
 
 import org.exolab.castor.xml.XMLNaming;
@@ -132,7 +131,7 @@ public final class DefaultNaming extends XMLNaming {
      * @return the xml name representation of the given String <BR>
      *         <B>examples:</B><BR>
      *         "Blob" becomes "blob" and "DataSource" becomes "data-source".
-     * @see org.exolab.castor.xml.Naming
+     * @see org.exolab.castor.xml.XMLNaming
      */
     public String toXMLName(final String name) {
         if (name == null) {

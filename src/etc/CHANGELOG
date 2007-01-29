@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1859 using contribution from Edward Kuns [edward.kuns@aspect.com]
+       Clean up JavaDoc build errors
+       Details: http://jira.codehaus.org/browse/CASTOR-1859
+       (Edward - 20070128)
+
 CTF:   Resolved issue CASTOR-1858 using contribution from Edward Kuns [edward.kuns@aspect.com]
        Move XML CTF from src/tests to xmlctf
        Details: http://jira.codehaus.org/browse/CASTOR-1858

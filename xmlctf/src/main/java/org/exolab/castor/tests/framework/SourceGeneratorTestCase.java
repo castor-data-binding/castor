@@ -76,8 +76,6 @@ public class SourceGeneratorTestCase extends XMLTestCase {
      * @param unit the UnitTestCase that wraps the configuration for this XML
      *            Test case.
      * @param sourceGen the Source Generator test to be executed
-     * @param outputRoot the directory that contains the files needed for the
-     *            test
      */
     public SourceGeneratorTestCase(final CastorTestCase test, final UnitTestCase unit,
                                    final SourceGeneratorTest sourceGen) {

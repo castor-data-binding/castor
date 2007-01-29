@@ -22,18 +22,18 @@ import java.util.HashMap;
  * <p>
  * <b>Sample usage </b>. Here is a code sketch showing how to exploit reentrancy
  * to perform lock downgrading after updating a cache:
- * 
+ *
  * <pre>
- * 
+ *
  *  class CachedData {
  *    Object data;
  *    volatile boolean cacheValid;
  *    ReentrantWriterPreferenceReadWriteLock rwl = ...
- * 
+ *
  *    void processCachedData() {
  *      rwl.readLock().acquire();
  *      if (!cacheValid) {
- * 
+ *
  *         // upgrade lock:
  *         rwl.readLock().release();   // must release first to obtain writelock
  *         rwl.writeLock().acquire();
@@ -45,21 +45,20 @@ import java.util.HashMap;
  *         rwl.readLock().acquire();  // reacquire read without giving up lock
  *         rwl.writeLock().release(); // release write, still hold read
  *      }
- * 
+ *
  *      use(data);
  *      rwl.readLock().release();
  *    }
  *  }
- *  
+ *
  * </pre>
- * 
+ *
  * <p>[ <a
  * href="http://gee.cs.oswego.edu/dl/classes/EDU/oswego/cs/dl/util/concurrent/intro.html">
  * Introduction to this package. </a>]
- * 
- * @see java.util.concurrent.locks.ReentrantLock
+ *
+ * @see "java.util.concurrent.locks.ReentrantLock in Java 5 or later JavaDoc"
  */
-
 public class ReentrantWriterPreferenceReadWriteLock
         extends WriterPreferenceReadWriteLock {
 

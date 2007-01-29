@@ -98,7 +98,6 @@ public class SchemaTestCase extends XMLTestCase {
      * Creates a new SchemaTest with the given name
      * @param castorTc the reference to the jar/directory
      * @param tc the UnitTestCase that wraps the configuration for this XML Test case.
-     * @param outputFile the directory that contains the files needed for the test
      */
     public SchemaTestCase(final CastorTestCase castorTc, final UnitTestCase tc) {
         super(castorTc, tc);

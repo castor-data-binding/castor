@@ -90,8 +90,6 @@ public class XMLDiff {
      * <p>
      * This is the only public method in this class.
      *
-     * @param file1 the location of the XML document to compare.
-     * @param file2 the location of the XML document to compare against url1.
      * @return 0, if no differences are found, otherwise a positive number
      *         indicating the number of differences.
      * @throws java.io.IOException an this occurs while reading

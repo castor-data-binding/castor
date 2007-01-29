@@ -84,6 +84,26 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
 
             </summary>
             <bugs>
+                <bug id="1859" tool="jira">
+                    <description>
+                        Clean up JavaDoc build errors
+                    </description>
+                    <contributor>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </submitter>
+                    <reporter>
+                        <name>Edward Kuns</name>
+                        <email>edward.kuns@aspect.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen</module>
+                    <date>20070128</date>
+                </bug>
                 <bug id="1858" tool="jira">
                     <description>
                         Move XML CTF from src/tests to xmlctf

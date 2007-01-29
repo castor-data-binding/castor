@@ -54,8 +54,8 @@ import org.exolab.castor.mapping.GeneralizedFieldHandler;
  *
  * @author <a href="kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2006-04-14 04:14:43 -0600 (Fri, 14 Apr 2006) $
- * @see FieldDescriptor
- * @see FieldHandler
+ * @see org.exolab.castor.mapping.FieldDescriptor
+ * @see org.exolab.castor.mapping.FieldHandler
  */
 public class SQLTimeFieldHandler extends GeneralizedFieldHandler {
 

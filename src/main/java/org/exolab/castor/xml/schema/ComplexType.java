@@ -75,7 +75,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     **/
     private AttributeGroupDecl _attributes = null;
 
-	/**
+    /**
      * The name of the base type used in <restriction> or <extension>
     **/
     private String _baseType = null;
@@ -86,10 +86,10 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     **/
     private BlockList _block = null;
 
-	/**
-	 * a flag set to true if this complexType is a complexContent
-	 */
-	private boolean _complexContent = true;
+    /**
+     * a flag set to true if this complexType is a complexContent
+     */
+    private boolean _complexContent = true;
 
     /**
      * The content type ("mixed", "simpleType","elemOnly") for this ComplexType.
@@ -113,16 +113,16 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     private Structure _parent = null;
 
     /**
-	 * a flag set to true if this complexType is a restriction
-	 */
-	private boolean _restricted = false;
+     * a flag set to true if this complexType is a restriction
+     */
+    private boolean _restricted = false;
 
-	/**
-	 * An attribute that indicates if this ComplexType is
-	 * a redefinition
-	 */
-	private boolean _redefinition = false;
-	
+    /**
+     * An attribute that indicates if this ComplexType is
+     * a redefinition
+     */
+    private boolean _redefinition = false;
+
     //------------------/
     //- Constructor(s) -/
     //------------------/
@@ -225,15 +225,15 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     **/
     public AttributeDecl getAttributeDecl(String name) {
         AttributeDecl result = _attributes.getAttribute(name);
-	    return result;
+        return result;
     } //-- getAttributeDecl
 
     /**
      * Returns an Enumeration of *all* the AttributeDecl objects
-     * declared within this ComplexType. The Enumeration 
+     * declared within this ComplexType. The Enumeration
      * will contain all AttributeDecl from AttributeGroup
      * references as well. To return only locally declared
-     * attributes make a call to 
+     * attributes make a call to
      * <code>getLocalAttributeDecls</code>.
      *
      * @return an Enumeration of all the AttributeDecl objects
@@ -245,9 +245,9 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
     /**
      * Returns an Enumeration of *all* locally defined AttributeDecl
-     * declared within this ComplexType. The Enumeration 
+     * declared within this ComplexType. The Enumeration
      * will not contain any AttributeDecl from AttributeGroup
-     * references. 
+     * references.
      *
      * @return an Enumeration of all locally declared AttributeDecl.
      */
@@ -279,21 +279,21 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
         return super.getBaseType();
     } //-- getBaseType
 
-	/**
-	 * Returns the value of the 'block' attribute for this element
-	 *
+    /**
+     * Returns the value of the 'block' attribute for this element
+     *
      * @return the value of the 'block' attribute for this element
-	 */
-	public BlockList getBlock() {
-		return _block;
-	} //-- getBlock
+     */
+    public BlockList getBlock() {
+        return _block;
+    } //-- getBlock
 
     /**
      * Returns the content type of this ComplexType.
      * The Content Type holds the information about the content of the complexType.
      * For instance, if this complexType is a simpleContent then the simpleType information
      * will be hold in the content type.
-     * 
+     *
      * @return the content type of this ComplexType
     **/
     public ContentType getContentType() {
@@ -368,13 +368,13 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
 
     /**
      * Returns true if this complexType is a redefinition.
-     * 
+     *
      * @return true if this complexType is a redefinition.
      */
     public boolean isRedefined() {
-    	return _redefinition;
+        return _redefinition;
     }
-    
+
     /**
      * Returns true if this is a top level Complextype
      * @return true if this is a top level Complextype
@@ -385,29 +385,29 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
         return (getSchema().getComplexType(getName()) == this);
     } //-- isTopLevel
 
-	/**
-	 * Returns true if this complexType is a 'complexContent'
-	 * @return true if this complexType is a 'complexContent'
-	 */
-	public boolean isComplexContent() {
-	       return _complexContent;
-	}
+    /**
+     * Returns true if this complexType is a 'complexContent'
+     * @return true if this complexType is a 'complexContent'
+     */
+    public boolean isComplexContent() {
+           return _complexContent;
+    }
 
-	/**
-	 * Returns true if this complexType is a 'simpleContent'
-	 * @return true if this complexType is a 'simpleContent'
-	 */
-	public boolean isSimpleContent() {
-	       return (!_complexContent);
-	}
+    /**
+     * Returns true if this complexType is a 'simpleContent'
+     * @return true if this complexType is a 'simpleContent'
+     */
+    public boolean isSimpleContent() {
+           return (!_complexContent);
+    }
 
-	/**
-	 * Returns true if this complexType is a restriction
-	 * @return true if this complexType is a restriction
-	 */
-	public boolean isRestricted() {
+    /**
+     * Returns true if this complexType is a restriction
+     * @return true if this complexType is a restriction
+     */
+    public boolean isRestricted() {
         return _restricted;
-	}
+    }
 
     /**
      * Sets whether or not this ComplexType should be abstract.
@@ -478,7 +478,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     /**
      * Sets the base type for this ComplexType
      *
-     * @param baseType the base type which this ComplexType 
+     * @param baseType the base type which this ComplexType
      * extends or restricts
      */
     public void setBaseType(XMLType baseType) {
@@ -502,48 +502,48 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
             }
         }
     } //-- setBaseType
-    
-	/**
-	 * Sets the value of the 'block' attribute for this ComplexType.
-	 *
-	 * @param block the value of the block attribute for this
-	 * ComplexType definition.
-	**/
-	public void setBlock(BlockList block) {
 
-	    if (block != null) {
-	        if (block.hasSubstitution()) {
-	            String err = "'substitution' is an illegal value of the "+
-	                "'block' attribute for a complexType definition.";
-	            throw new IllegalArgumentException(err);
-	        }
-	    }
-	    _block = block;
-	} //-- setBlock
+    /**
+     * Sets the value of the 'block' attribute for this ComplexType.
+     *
+     * @param block the value of the block attribute for this
+     * ComplexType definition.
+    **/
+    public void setBlock(BlockList block) {
 
-	/**
-	 * Sets the value of the 'block' attribute for this ComplexType.
-	 *
-	 * @param block the value of the block attribute for this
-	 * ComplexType definition.
-	**/
-	public void setBlock(String block) {
-	    if (block == null)
-	        _block = null;
-	    else {
-	        setBlock(new BlockList(block));
-	    }
-	} //-- setBlock
+        if (block != null) {
+            if (block.hasSubstitution()) {
+                String err = "'substitution' is an illegal value of the "+
+                    "'block' attribute for a complexType definition.";
+                throw new IllegalArgumentException(err);
+            }
+        }
+        _block = block;
+    } //-- setBlock
 
-	/**
-	 * Sets whether or not this complexType is a 'complexContent'
-	 * @param complexContent true if this complexType is a 'complexContent'
-	 */
-	public void setComplexContent(boolean complexContent) {
-	       this._complexContent = complexContent;
-	}
+    /**
+     * Sets the value of the 'block' attribute for this ComplexType.
+     *
+     * @param block the value of the block attribute for this
+     * ComplexType definition.
+    **/
+    public void setBlock(String block) {
+        if (block == null)
+            _block = null;
+        else {
+            setBlock(new BlockList(block));
+        }
+    } //-- setBlock
 
-	/**
+    /**
+     * Sets whether or not this complexType is a 'complexContent'
+     * @param complexContent true if this complexType is a 'complexContent'
+     */
+    public void setComplexContent(boolean complexContent) {
+           this._complexContent = complexContent;
+    }
+
+    /**
      * Sets the content type of this complexType.
      * The Content Type holds the information about the content of the complexType.
      * For instance, if this complexType is a simpleContent then the simpleType information
@@ -555,53 +555,53 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
         _content = contentType;
     } //-- setContentType
 
-	/**
-	 * Sets the value of the 'final' attribute for this ComplexType
-	 * definition.
-	 *
-	 * @param finalList the value of the final attribute for this
-	 * ComplexType definition.
-	**/
-	public void setFinal(FinalList finalList) {
-	        _final = finalList;
-	} //-- setFinal
+    /**
+     * Sets the value of the 'final' attribute for this ComplexType
+     * definition.
+     *
+     * @param finalList the value of the final attribute for this
+     * ComplexType definition.
+    **/
+    public void setFinal(FinalList finalList) {
+            _final = finalList;
+    } //-- setFinal
 
-	/**
-	 * Sets the value of the 'final' attribute for this ComplexType
-	 * definition.
-	 *
-	 * @param finalValue the value of the final attribute for this
-	 * ComplexType definition.
-	**/
-	public void setFinal(String finalValue) {
-	    if (finalValue == null)
-	        _final = null;
-	    else
-	        _final = new FinalList(finalValue);
-	} //-- setFinal
+    /**
+     * Sets the value of the 'final' attribute for this ComplexType
+     * definition.
+     *
+     * @param finalValue the value of the final attribute for this
+     * ComplexType definition.
+    **/
+    public void setFinal(String finalValue) {
+        if (finalValue == null)
+            _final = null;
+        else
+            _final = new FinalList(finalValue);
+    } //-- setFinal
 
 
-	/**
-	 * Sets this Group has redefined. 
-	 */
-	public void setRedefined() {
-		_redefinition = true;
-	}
-	/**
-	 * Sets whether or not this complexType is a 'simpleContent'
-	 * @param simpleContent true if this complexType is a 'simpleContent'
-	 */
-	public void setSimpleContent(boolean simpleContent) {
-	    _complexContent = (!simpleContent);
-	}
+    /**
+     * Sets this Group has redefined.
+     */
+    public void setRedefined() {
+        _redefinition = true;
+    }
+    /**
+     * Sets whether or not this complexType is a 'simpleContent'
+     * @param simpleContent true if this complexType is a 'simpleContent'
+     */
+    public void setSimpleContent(boolean simpleContent) {
+        _complexContent = (!simpleContent);
+    }
 
-	/**
-	 * Sets whether or not this complexType is a restriction
-	 * @param restricted true if this complexType is a restriction
-	 */
-	public void setRestriction(boolean restricted) {
-	       this._restricted = restricted;
-	}
+    /**
+     * Sets whether or not this complexType is a restriction
+     * @param restricted true if this complexType is a restriction
+     */
+    public void setRestriction(boolean restricted) {
+           this._restricted = restricted;
+    }
 
 
     public void useResolver(Resolver resolver) {
@@ -833,7 +833,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
                             //-- we'll check the type to be on the safe side
                             if (_parent.getStructureType() == Structure.ELEMENT)
                                 name += ((ElementDecl)_parent).getName();
-                            else 
+                            else
                                 name += _parent.toString();
                         }
                     }
@@ -844,12 +844,12 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
                     throw new ValidationException(err);
                 }
             }
-		    else if (type.getStructureType() == Structure.COMPLEX_TYPE) {
-             
+            else if (type.getStructureType() == Structure.COMPLEX_TYPE) {
+
                 if (!_complexContent) {
-   			        //we are now sure that the base is a ComplexType
+                       //we are now sure that the base is a ComplexType
                     //but is the base of this complexType a simpleType? (see 4.3.3->simpleContent->content type)
-                    if ( ((ComplexType)type).getContentType().getType() != ContentType.SIMPLE) 
+                    if ( ((ComplexType)type).getContentType().getType() != ContentType.SIMPLE)
                     {
                         String name = getName();
                         if (name == null) {
@@ -859,7 +859,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
                                 //-- we'll check the type to be on the safe side
                                 if (_parent.getStructureType() == Structure.ELEMENT)
                                     name += ((ElementDecl)_parent).getName();
-                                else 
+                                else
                                     name += _parent.toString();
                             }
                         }
@@ -869,7 +869,7 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
                         throw new ValidationException(err);
                     }
                 }
-		    }
+            }
         }
 
     } //-- validate
@@ -898,39 +898,30 @@ public class ComplexType extends XMLType implements ContentModelGroup, Referable
     } //-- setParent
 
     /**
-     * @return
+     * @return true if the content model for this ComplexType is emptiable.
      */
-    public boolean isEmptiable()
-    {
-      switch (getParticleCount()) 
-      {
-      case 0:
-        return true;
-      case 1:
-        Particle p = getParticle(0);
-        if (p.isEmptiable())
-        {
-          if ( (_baseType != null)  &&  !isRestricted() )
-          {
-            // derived by extension
-            XMLType baseType = getBaseType();
-            if (     (baseType != null)  
-                 &&  baseType.isComplexType()
-                 &&  ((ComplexType)baseType).isEmptiable() )
-            {
-              return true;
-            }
-          }
-          else
-          {
-            // derived by restriction (explicit or shorthand from xs:anyType
-            return true;
-          }
+    public boolean isEmptiable() {
+        switch (getParticleCount()) {
+            case 0:
+                return true;
+            case 1:
+                Particle p = getParticle(0);
+                if (p.isEmptiable()) {
+                    if ((_baseType != null) && !isRestricted()) {
+                        // derived by extension
+                        XMLType baseType = getBaseType();
+                        if ((baseType != null) && baseType.isComplexType()
+                            && ((ComplexType) baseType).isEmptiable()) {
+                            return true;
+                        }
+                    } else {
+                        // derived by restriction (explicit or shorthand from xs:anyType
+                        return true;
+                    }
+                }
+                break;
         }
-        break;
-      }
-      return false;
+        return false;
     }
-
 
 } //-- Complextype
