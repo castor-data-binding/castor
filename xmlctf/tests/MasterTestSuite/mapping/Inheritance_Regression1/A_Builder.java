@@ -42,11 +42,9 @@
  *
  */
 
-import org.exolab.castor.tests.framework.ObjectModelBuilder;
+import org.castor.xmlctf.ObjectModelBuilder;
 
 public class A_Builder implements ObjectModelBuilder {
-
-    public A_Builder() {}
 
     /**
      * Build the object we expect when we unmarshal 'input.xml'.

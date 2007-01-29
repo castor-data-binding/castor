@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -39,24 +39,20 @@
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
  * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
- *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class XandZ implements CastorTestable {
 
-    private X _x;
-    private X _z;
+    private X      _x;
+    private X      _z;
     private String _w;
-    private int _y;
-    private RandS _rs;
+    private int    _y;
+    private RandS  _rs;
 
-    //--
     public void setRandS(RandS rs) {
         _rs = rs;
     }
@@ -65,7 +61,6 @@ public class XandZ implements CastorTestable {
         return _rs;
     }
 
-    //--
     public void setX(X x) {
         _x = x;
     }
@@ -74,7 +69,6 @@ public class XandZ implements CastorTestable {
         return _x;
     }
 
-    //--
     public void setZ(X z) {
         _z = z;
     }
@@ -83,7 +77,6 @@ public class XandZ implements CastorTestable {
         return _z;
     }
 
-    //--
     public void setY(int y) {
         _y = y;
     }
@@ -92,7 +85,6 @@ public class XandZ implements CastorTestable {
         return _y;
     }
 
-    //--
     public void setW(String w) {
         _w = w;
     }
@@ -102,10 +94,11 @@ public class XandZ implements CastorTestable {
     }
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof XandZ))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof XandZ)) {
             return false;
+        }
 
         XandZ xz = (XandZ)object;
 
@@ -114,26 +107,20 @@ public class XandZ implements CastorTestable {
         if (!CompareHelper.equals(this.getZ(), xz.getZ())) return false;
         if (this.getY() != xz.getY()) return false;
         if (!CompareHelper.equals(this.getW(), xz.getW())) return false;
-    
+
         return true;
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[RandS=" + ((getRandS() == null)? "null" : ((CastorTestable)getRandS()).dumpFields()) + "]\n";
-        dump += "[X=" + ((getX() == null)? "null" : ((CastorTestable)getX()).dumpFields()) + "]\n";
-        dump += "[Z=" + ((getZ() == null)? "null" : ((CastorTestable)getZ()).dumpFields()) + "]\n";
-        dump += "[Y=" + getY() + "]\n";
-        dump += "[W=" + ((getW() == null)? "null" : getW()) + "]\n";
-
-        return dump;
+        return  "[RandS=" + ((getRandS() == null)? "null" : ((CastorTestable)getRandS()).dumpFields()) + "]\n" +
+                "[X=" + ((getX() == null)? "null" : ((CastorTestable)getX()).dumpFields()) + "]\n" +
+                "[Z=" + ((getZ() == null)? "null" : ((CastorTestable)getZ()).dumpFields()) + "]\n" +
+                "[Y=" + getY() + "]\n" +
+                "[W=" + ((getW() == null)? "null" : getW()) + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

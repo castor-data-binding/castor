@@ -15,29 +15,29 @@ if "%1"=="" goto noargs
 if "%1"=="regression" goto regression
 if "%1"=="master" goto master
 
-"%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner %1 %2 %3 %4 %5 %6 %7
+"%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner %1 %2 %3 %4 %5 %6 %7
 
 goto end
 
 :noargs
 :master
 echo using default arguments [-text ../src/tests/xml/MasterTestSuite]
-"%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text ../xmlctf/tests/MasterTestSuite
+"%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text ../xmlctf/tests/MasterTestSuite
 goto end
 
 :master-verbose
 echo using default verbose arguments [-text -verbose ../src/tests/xml/MasterTestSuite]
-"%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/MasterTestSuite
+"%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/MasterTestSuite
 goto end
 
 :regression
 echo using default arguments [-text -verbose ../src/tests/xml/RegressionTestSuite]
-"%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text ../xmlctf/tests/RegressionTestSuite
+"%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text ../xmlctf/tests/RegressionTestSuite
 goto end
 
 :regression-verbose
 echo using default arguments [-text -verbose ../src/tests/xml/RegressionTestSuite]
-"%JAVA%" -classpath "%CP%" org.exolab.castor.tests.framework.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/RegressionTestSuite
+"%JAVA%" -classpath "%CP%" org.castor.xmlctf.CastorTestSuiteRunner -text -verbose ../xmlctf/tests/RegressionTestSuite
 goto end
 
 :end

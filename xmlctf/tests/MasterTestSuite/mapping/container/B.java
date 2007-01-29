@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,10 +42,9 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class B implements CastorTestable {
 
@@ -60,30 +59,23 @@ public class B implements CastorTestable {
     }
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof B))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof B)) {
             return false;
+        }
 
         B b = (B)object;
 
-        if (!CompareHelper.equals(this.getName(), b.getName())) return false;
-    
-        return true;
+        return CompareHelper.equals(this.getName(), b.getName());
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Name=" + ((getName() == null)? "null" : getName()) + "]\n";
- 
-        return dump;
+        return "[Name=" + ((getName() == null) ? "null" : getName()) + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

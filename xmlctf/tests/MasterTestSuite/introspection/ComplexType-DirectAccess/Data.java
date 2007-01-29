@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,8 +42,8 @@
  *
  */
 
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
 
 public class Data implements CastorTestable {
     private static final int MAX_DEPTH = 30;

@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,18 +42,15 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class X implements CastorTestable {
 
-    private int _id;
+    private int     _id;
     private String _content;
 
-    //--
     public void setId(int id) {
         _id = id;
     }
@@ -62,7 +59,6 @@ public class X implements CastorTestable {
         return _id;
     }
 
-    //--
     public void setContent(String content) {
         _content = content;
     }
@@ -71,34 +67,28 @@ public class X implements CastorTestable {
         return _content;
     }
 
-
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof X))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof X)) {
             return false;
+        }
 
         X x = (X)object;
 
         if (this.getId() != x.getId()) return false;
         if (!CompareHelper.equals(this.getContent(), x.getContent())) return false;
-    
+
         return true;
     }
 
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Id=" + getId() + "]\n";
-        dump += "[Content=" + ((getContent() == null)? "null" : getContent()) + "]\n";
- 
-        return dump;
+        return "[Id=" + getId() + "]\n" +
+               "[Content=" + ((getContent() == null)? "null" : getContent()) + "]\n";
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

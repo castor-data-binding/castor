@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -123,7 +123,7 @@ public final class SourceFactory extends BaseFactory {
     private short _enumerationType = OBJECT_TYPE_ENUMERATION;
 
     /**
-     * A flag indicating whether or not to generate XML marshalling framework
+     * A flag indicating whether or not to generate XML marshaling framework
      * specific methods.
      */
     private boolean _createMarshalMethods = true;
@@ -161,12 +161,12 @@ public final class SourceFactory extends BaseFactory {
     } //-- SourceFactory
 
    /**
-     * Sets whether or not to create the XML marshalling framework specific
-     * methods (marshall, unmarshall, validate) in the generated classes. By
+     * Sets whether or not to create the XML marshaling framework specific
+     * methods (marshal, unmarshal, validate) in the generated classes. By
      * default, these methods are generated.
      *
      * @param createMarshalMethods
-     *            a boolean, when true indicates to generated the marshalling
+     *            a boolean, when true indicates to generated the marshaling
      *            framework methods
      *
      */
@@ -208,7 +208,7 @@ public final class SourceFactory extends BaseFactory {
      *            if true, indicates to implement CastorTestable
      */
     public void setTestable(final boolean testable) {
-           _testable = testable;
+        _testable = testable;
     }
 
    /**
@@ -490,7 +490,7 @@ public final class SourceFactory extends BaseFactory {
 
     /**
      * Generate methods for our class.
-     * 
+     *
      * @param component
      * @param sgState
      * @param state
@@ -1254,7 +1254,7 @@ public final class SourceFactory extends BaseFactory {
      } //CreateEqualsMethod
 
     /**
-     * Implement org.exolab.castor.tests.framework.CastorTestable im the given JClass.
+     * Implement org.castor.xmlctf.CastorTestable im the given JClass.
      *
      * @param jclass The JClass which will implement the CastorTestable Interface.
      * @param state our state, e.g., state of this Factory instance.
@@ -1264,9 +1264,9 @@ public final class SourceFactory extends BaseFactory {
             throw new IllegalArgumentException("JClass must not be null");
          }
 
-        jclass.addInterface("org.exolab.castor.tests.framework.CastorTestable");
-        jclass.addImport("org.exolab.castor.tests.framework.CastorTestable");
-        jclass.addImport("org.exolab.castor.tests.framework.RandomHelper");
+        jclass.addInterface("org.castor.xmlctf.CastorTestable");
+        jclass.addImport("org.castor.xmlctf.CastorTestable");
+        jclass.addImport("org.castor.xmlctf.RandomHelper");
 
         createRandomizeFields(jclass, state); // implementation of randomizeFields
         createDumpFields(jclass);             // implementation of dumpFields
@@ -1274,7 +1274,7 @@ public final class SourceFactory extends BaseFactory {
 
      /**
       * Creates the randomizeFields method for a class that implements the
-      * interface org.exolab.castor.tests.framework.CastorTestable.
+      * interface org.castor.xmlctf.CastorTestable.
       *
       * @param jclass The JClass which will implement the CastorTestable Interface.
       * @param state
@@ -1285,7 +1285,7 @@ public final class SourceFactory extends BaseFactory {
                              "if we try to instantiate an abstract class or interface");
         jMethod.addException(new JClass("IllegalAccessException"),
                              "if we do not have access to the field, for example if it is private");
-        jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
+        jMethod.setComment("implementation of org.castor.xmlctf.CastorTestable");
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
         JField[] fields = jclass.getFields();
@@ -1364,14 +1364,14 @@ public final class SourceFactory extends BaseFactory {
 
     /**
      * Creates the dumpFields method for a class that implements the interface
-     * org.exolab.castor.tests.framework.CastorTestable.
+     * org.castor.xmlctf.CastorTestable.
      *
      * @param jclass The JClass which will implement the CastorTestable Interface.
      */
     private void createDumpFields(final JClass jclass) {
         JMethod jMethod = new JMethod("dumpFields", SGTypes.STRING,
                 "a String representation of all of the fields for " + jclass.getName());
-        jMethod.setComment("implementation of org.exolab.castor.tests.framework.CastorTestable");
+        jMethod.setComment("implementation of org.castor.xmlctf.CastorTestable");
         jclass.addMethod(jMethod);
         JSourceCode jsc = jMethod.getSourceCode();
         jsc.add("StringBuffer result = new StringBuffer(\"DumpFields() for element: ");

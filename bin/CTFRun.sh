@@ -19,6 +19,7 @@ CASTOR_HOME=`cd $DIRNAME/..; pwd`
 BUILD_D=$CASTOR_HOME/xmlctf/build
 LIB_D=$CASTOR_HOME/lib
 
+CLASSPATH=$CASTOR_HOME/xmlctf/build
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/xmlctf/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/build/classes
 CLASSPATH=$CLASSPATH:$CASTOR_HOME/codegen/build/classes
@@ -77,4 +78,4 @@ esac
 
 # run the test
 #$JAVA -Xms512M -Xmx512M -cp $CLASSPATH org.exolab.castor.tests.framework.CastorTestSuiteRunner $WHICHTESTS $*
-$JAVA -cp $CLASSPATH org.exolab.castor.tests.framework.CastorTestSuiteRunner $WHICHTESTS $*
+$JAVA -cp $CLASSPATH org.castor.xmlctf.CastorTestSuiteRunner $WHICHTESTS $*

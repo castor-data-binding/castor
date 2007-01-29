@@ -1,4 +1,4 @@
-/**
+/*
  * Redistribution and use of this software and associated documentation
  * ("Software"), with or without modification, are permitted provided
  * that the following conditions are met:
@@ -42,14 +42,12 @@
  *
  */
 
-
-import org.exolab.castor.tests.framework.CastorTestable;
-import org.exolab.castor.tests.framework.RandomHelper;
-import org.exolab.castor.tests.framework.CompareHelper;
-
+import org.castor.xmlctf.CastorTestable;
+import org.castor.xmlctf.RandomHelper;
+import org.castor.xmlctf.CompareHelper;
 
 public class B {
-    
+
     private String _name;
     private C _c;
 
@@ -61,40 +59,34 @@ public class B {
     public String getName() {
         return _name;
     }
-    
+
     public void setCelement(C c) {
         _c = c;
     }
-    
+
     public C getCelement() {
         return _c;
-    } 
+    }
 
     // --- CastorTestable ------------------------
-    public boolean equals(Object object) {
 
-        if ( ! (object instanceof B))
+    public boolean equals(Object object) {
+        if ( ! (object instanceof B)) {
             return false;
+        }
 
         B b = (B)object;
         if (!_name.equals(b.getName())) return false;
         if (!_c.equals(b.getCelement())) return false;
         return true;
-    
     }
-    
+
     public String dumpFields() {
-        String dump = new String();
-
-        dump += "[Name=" + _name + "]\n";
-        dump += _c.dumpFields();
-        return dump;
+        return "[Name=" + _name + "]\n" + _c.dumpFields();
     }
 
-    public void randomizeFields()
-        throws InstantiationException, IllegalAccessException {
-
+    public void randomizeFields() throws InstantiationException, IllegalAccessException {
         // Not Implemented
-
     }
+
 }

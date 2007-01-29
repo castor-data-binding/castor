@@ -11,7 +11,7 @@
         <UnitTestCase>
             <Name>Test Source Generation</Name>
             <!-- No source is generated for this test right now, so there's nothing to fail -->
-            <Failure exception="org.exolab.castor.tests.framework.CompilationException"
+            <Failure exception="org.castor.xmlctf.CompilationException"
                      FailureStep="source-compilation">true</Failure>
         </UnitTestCase>
      </OnlySourceGenerationTest>
