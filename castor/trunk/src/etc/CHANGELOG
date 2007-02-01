@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1861 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added new functionality to XMLClassDescriptorResolver to pre-load class descriptors for a package.
+       Details: http://jira.codehaus.org/browse/CASTOR-1861
+       (Werner - 20070131)
+
 
 Version 1.1-M3, Jan 29, 2007
 -------------------------------

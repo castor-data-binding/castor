@@ -71,7 +71,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * @param type the Class to find the XMLClassDescriptor for
      * @return the XMLClassDescriptor for the given class
     **/
-    public XMLClassDescriptor resolveXML(Class type) 
+    XMLClassDescriptor resolveXML(Class type) 
         throws ResolverException;
     
     /**
@@ -80,7 +80,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * @param className the class name to find the XMLClassDescriptor for
      * @return the XMLClassDescriptor for the given class name
      */
-    public XMLClassDescriptor resolve(String className)
+    XMLClassDescriptor resolve(String className)
         throws ResolverException;
     
     /**
@@ -90,7 +90,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * @param loader the ClassLoader to use
      * @return the XMLClassDescriptor for the given class name
      */
-    public XMLClassDescriptor resolve(String className, ClassLoader loader)
+    XMLClassDescriptor resolve(String className, ClassLoader loader)
         throws ResolverException;
     
     /**
@@ -102,7 +102,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * @param loader The ClassLoader to use.
      * @return The XMLClassDescriptor for the given XML name.
      */
-    public XMLClassDescriptor resolveByXMLName
+    XMLClassDescriptor resolveByXMLName
         (String xmlName, String namespaceURI, ClassLoader loader)
         throws ResolverException;
 
@@ -114,7 +114,7 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * @param loader The ClassLoader to use.
      * @return An enumeration of XMLClassDescriptor objects.
      */
-    public ClassDescriptorEnumeration resolveAllByXMLName
+    ClassDescriptorEnumeration resolveAllByXMLName
         (String xmlName, String namespaceURI, ClassLoader loader)
         throws ResolverException;
     
@@ -122,6 +122,17 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      * Sets the ClassLoader to use when loading class descriptors
      * @param loader the ClassLoader to use
     **/
-   public void setClassLoader(ClassLoader loader);
+    void setClassLoader(ClassLoader loader);
+   
+    /**
+     * Loads class descriptors from the package specified. The use of this method is useful
+     * when no mapping is used, as happens when the domain classes hase been generated
+     * using the XML code generator (in which case instead of a mpping file class
+     * descriptor files will be generated).
+     * @param packageName The package name for the (descriptor) classes
+     * @throws ResolverException If there's a problem loading class descriptors for the given package. 
+     */
+    void loadClassDescriptors(final String packageName) 
+        throws ResolverException;   
    
 } //-- ClassDescriptorResolver

@@ -34,6 +34,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1861" tool="jira">
+                    <description>
+                        Added new functionality to XMLClassDescriptorResolver to pre-load class 
+                        descriptors for a package.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                    	<name>Nick Pilch</name>
+                        <email>npilch@speakeasy.org</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070131</date>
+                </bug>
             </bugs>
         </release>
 

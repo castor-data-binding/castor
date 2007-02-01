@@ -531,6 +531,13 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     }
 
     /**
+     * {@inheritDoc}
+     */
+    public void loadClassDescriptors(final String packageName) throws ResolverException {
+        _descriptorCache.loadCDRList(packageName, _loader);
+    }
+
+    /**
      * Gets the package name of the given class name.
      *
      * @param className
