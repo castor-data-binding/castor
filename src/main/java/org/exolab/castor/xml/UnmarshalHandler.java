@@ -2931,7 +2931,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (classDesc.getIdentity() == descriptor) {
             
             try {
-                _idResolver.bind(attValue, parent);
+                _idResolver.bind(attValue, parent, _validate);
             } catch (ValidationException e) {
                 throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }
