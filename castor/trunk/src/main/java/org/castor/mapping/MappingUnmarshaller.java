@@ -205,6 +205,7 @@ public final class MappingUnmarshaller {
         try {
             // Load the specificed mapping source
             Unmarshaller unm = new Unmarshaller(MappingRoot.class);
+            unm.setValidation(false);
             unm.setEntityResolver(resolver);
             unm.setClassLoader(Mapping.class.getClassLoader());
             unm.setIDResolver(_idResolver);

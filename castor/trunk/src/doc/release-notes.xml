@@ -34,6 +34,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1198" tool="jira">
+                    <description>
+                        ID resolution now takes validation configuration into account.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                    	<name>Stephen Bash</name>
+                        <email>scbash@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070201</date>
+                </bug>
                 <bug id="1861" tool="jira">
                     <description>
                         Added new functionality to XMLClassDescriptorResolver to pre-load class 

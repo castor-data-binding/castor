@@ -26,16 +26,18 @@ class IDResolverImpl implements IDResolver {
      *            Object identifier
      * @param object
      *            Object being identified by ID
+     * @param _validate True if validation is enabled.
      * @throws ValidationException
      *             If an ID is used more than once.
      */
-    void bind(final String id, final Object object) throws ValidationException {
+    void bind(final String id, final Object object, final boolean isValidating) 
+        throws ValidationException {
         
         if (id.equals("") || id == null) {
             throw new ValidationException ("Invalid (empty) ID value encountered");
         }
 
-        if (_idReferences.containsKey(id)) {
+        if (isValidating && _idReferences.containsKey(id)) {
             if (!(id.equals("org.exolab.castor.mapping.MapItem") ||
                     id.equals("HIGH-LOW"))) {
                 throw new ValidationException("Duplicate ID " + id + " encountered");
