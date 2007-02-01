@@ -107,7 +107,29 @@ unmarshaller.unmarshal(...);</code-panel>
 
       </section>
 
+      <section title="Use of ClassDescriptorResolver with no mappings">
+      
+      	<p>In the case where there's no mapping file, it is still possible 
+      	   to instruct the <tt>ClassDescriptorResolver</tt> to <i>pre-load</i>
+      	   class descriptors for a given package via the 
+      	   <tt>loadClassDescriptors(String)</tt> method.</p>
+
+        <p>
+          As above, create an instance of <tt>ClassDescriptorResolver</tt> using the
+          following code fragment:
+        </p>
+
+        <code-panel>
+XMLClassDescriptorResolver classDescriptorResolver = (XMlClassDescriptorResolver)
+   ClassDescriptorResolverFactory.createClassDescriptorResolver(BindingType.XML);
+classDescriptorResolver.setClassLoader(...);
+classDescriptorResolver.loadClassDescriptors("your.package.name");</code-panel>
+
+        <p>and then reuse this instance as shown above.</p>
+
     </section>
+    
+   </section>
 
   </body>
 
