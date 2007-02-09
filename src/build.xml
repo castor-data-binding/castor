@@ -592,7 +592,8 @@
            <fileset dir="${java}/org/exolab/castor/mapping" includes="mapping.dtd,mapping.xsd"/>
         </copy>
         <copy todir="${build}/doc">
-           <fileset dir="${java}/org/exolab/castor/builder/binding" includes="binding.xsd"/>
+           <fileset dir="codegen/src/main/resources/org/exolab/castor/builder/binding" 
+           	        includes="binding.xsd"/>
         </copy>
         <copy todir="${build}/doc/images">
            <fileset dir="${doc}/images" />
