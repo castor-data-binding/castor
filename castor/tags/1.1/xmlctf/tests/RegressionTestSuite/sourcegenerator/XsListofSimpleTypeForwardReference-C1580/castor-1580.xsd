@@ -1,0 +1,30 @@
+<?xml version='1.0'?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema">
+
+  <xs:element name="ForwardReference">
+    <xs:complexType>
+      <xs:sequence>
+        <xs:element name="reference" type="mytype1" />
+      </xs:sequence>
+    </xs:complexType>
+  </xs:element>
+
+  <!--
+    We have a simpletype that is a restriction based on xs:list.  The list contains
+    a simpletype that is defined by the user.  If this type is a forward reference,
+    then you get a NullPointerException during source generation.
+   -->
+  <xs:simpleType name="mytype1">
+    <xs:restriction>
+      <xs:simpleType>
+        <xs:list itemType="mytype2"/>
+      </xs:simpleType>
+      <xs:minLength value="1"/>
+    </xs:restriction>
+  </xs:simpleType>
+
+  <xs:simpleType name="mytype2">
+    <xs:restriction base="xs:string" />
+  </xs:simpleType>
+
+</xs:schema>

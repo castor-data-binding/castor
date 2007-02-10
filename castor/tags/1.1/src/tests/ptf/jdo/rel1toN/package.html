@@ -1,0 +1,121 @@
+<html>
+  <body>
+    <p><b>mysql.sql</b> is the script to set up tables on mysql database.</p>
+
+    <p>The data objects with relations to each other are:</p>
+    
+    <ol>
+        <li><b>Department.java</b></li>
+        <li><b>Equipment.java</b></li>
+        <li><b>Locked.java</b></li>
+        <li><b>Reason.java</b></li>
+        <li><b>Service.java</b></li>
+        <li><b>State.java</b></li>
+        <li><b>Supplier.java</b></li>
+        <li><b>Type.java</b></li>
+    </ol>
+
+    <p>The files with measurement result of different refactorings are:</p>
+
+    <ol>
+        <li><b>results-....txt</b></li>
+    </ol>
+
+    <p><b>OID.java</b> is a helper class for OID loading strategy.</p>
+
+    <p><b>TestAll.java</b>executes all tests starting with <b>TestCreate.java</b> 
+       which creates the test data and ends with <b>TestRemove.java</b> which removes 
+       all the test data.</p>
+
+    <p>To execute tests with different mappings between the data objects i needed
+       3 different jdo-conf files and mapping files.</p>
+
+    <dl>
+        <li><b>bi-jdo-conf.xml</b> and <b>bi-mapping.xml</b> are used for test
+           with bidirectional mapping. That means the n-side have a reference to 
+           the 1-side and also the 1-side has a reference to the n-side (ArrayList).
+           This jdo-conf and mapping is used at <b>TestLoadBi1toN.java</b> and 
+           <b>TestLoadBiNto1.java.</b>
+        </li>
+        <li><b>uni-jdo-conf.xml</b> and <b>uni-mapping.xml</b> are used for test
+           with unidirectional mapping. That means the n-side have a reference to
+           the 1-side but the 1-side has *no* reference to the n-side (ArrayList).
+           This jdo-conf and mapping is used at <b>TestLoadUni1toN.java</b> and 
+           <b>TestLoadUniNto1.java.</b>
+        </li>
+        <li><b>lazy-jdo-conf.xml</b> and lazy-mapping.xml are used for test with 
+           bidirectional mapping with lazy loading. That means the n-side have a 
+           reference to the 1-side and also the 1-side has a reference to the 
+           n-side (ArrayList). With this test the objects of the n-side are lazy 
+           fetched when accessed. This jdo-conf and mapping is used at
+           <b>TestLoadLazy1toN.java</b>.
+        </li>
+    </dl>
+
+    <p>The difference between the tests with postfix 1toN and Nto1 is how you 
+       access your objects.</p>
+
+    <dl>
+        <li><b>1toN</b> executes a query to load the objects of the 1-side and then 
+           walks through all referenced objects which is the n-side of the relation 
+           in this case. E.g. the query returns 10 A objects that each have references 
+           to 10 B objects having references to 10 C objects each, which leads to 
+           walk over 1000 C objects.
+        </li>
+        <li><b>Nto1</b> is the other direction. The objects of the n-side are loaded 
+           with a query and the code walks all the referenced objects. In above 
+           example the query returns all 1000 C objects and accesses the B object 
+           referenced by C and also the A objects referenced by B.
+        </li>
+    </dl>
+
+    <p>A <1----N> B <1----N> C<br/>
+       with 10 A objects<br/>
+       10 x 10 B objects<br/>
+       10 x 10 x 10 C objects
+    </p>
+
+    <p>The names of the test methods inside of the test classes are:</p>
+
+    <dl>
+        <li><b>testReadWriteEmpty</b><br/>
+           load objects with access mode 'ReadWrite' by standard OQL query, cache 
+           is empty when test begins.
+        </li>
+        <li><b>testReadWriteCached</b><br/>
+           load objects with access mode 'ReadWrite' by standard OQL query, cache 
+           contains all objects that are queried, loaded or accessed duringt the test.
+        </li>
+        <li><b>testReadWriteOidEmpty</b><br/>
+           load objects with access mode 'ReadWrite' by OID loading strategy, cache 
+           is empty when test begins.
+        </li>
+        <li><b>testReadWriteOidCached</b><br/>
+           load objects with access mode 'ReadWrite' by OID loading strategy, cache 
+           contains all objects that are queried, loaded or accessed duringt the test.
+        </li>
+        <li><b>testReadOnlyEmpty</b><br/>
+           load objects with access mode 'ReadOnly' by standard OQL query, cache is 
+           empty when test begins.
+        </li>
+        <li><b>testReadOnlyCached</b><br/>
+           load objects with access mode 'ReadOnly' by standard OQL query, cache 
+           contains all objects that are queried, loaded or accessed duringt the test.
+        </li>
+        <li><b>testReadOnlyOidEmpty</b><br/>
+           load objects with access mode 'ReadOnly' by OID loading strategy, cache 
+           is empty when test begins.
+        </li>
+        <li><b>testReadOnlyOidCached</b><br/>
+           load objects with access mode 'ReadOnly' by OID loading strategy, cache 
+           contains all objects that are queried, loaded or accessed duringt the test.
+        </li>
+        <li><b>testReadOnlyOidOnly</b><br/>
+           only execute the query to load OID but do not access any object.
+        </li>
+    </dl>
+
+    <p>Having said that the queries that need to be executed for the OID loading 
+       strategy are passthrough SQL statements.</p>
+  </body>
+</html>

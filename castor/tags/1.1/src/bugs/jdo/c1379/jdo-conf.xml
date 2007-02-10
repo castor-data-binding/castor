@@ -1,0 +1,22 @@
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                          "http://castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+<!--
+  <database name="ADSBV" engine="oracle" >
+    <driver class-name="oracle.jdbc.driver.OracleDriver" url="jdbc:oracle:thin:@afxdq009.itd.intradit.net:1521:dads">
+	  <param name="user" value="ads_parallel"/>
+	  <param name="password" value="uabv22"/>
+    </driver>
+    <mapping href="c1379/mapping.xml" />
+  </database>
+-->
+  <database name="ADSBV" engine="mysql" >
+    <driver url="jdbc:mysql://localhost/c1379" class-name="org.gjt.mm.mysql.Driver">
+       <param name="user" value="test" />
+       <param name="password" value="test" />
+    </driver>
+    <mapping href="c1379/mapping.xml" />
+  </database>
+  <transaction-demarcation mode="local" />
+</jdo-conf>

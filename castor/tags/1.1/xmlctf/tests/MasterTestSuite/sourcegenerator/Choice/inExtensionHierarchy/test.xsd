@@ -1,0 +1,987 @@
+<?xml version="1.0"?>
+
+<!--
+	- @(#)
+	-
+	- Configuration file schema definition
+	-
+-->
+
+<xsd:schema xmlns:xsd="http://www.w3.org/2001/XMLSchema">
+
+	<!-- remote execution profiles -->
+
+	<xsd:element name="remote-execution-profiles">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="remote-execution-profile"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="remote-execution-profile">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:element name="host" type="xsd:string" />
+				<xsd:element name="platform" type="xsd:string" />
+				<xsd:element name="userid" type="xsd:string" />
+				<xsd:element name="remote-execution-method"
+					type="xsd:string" />
+				<xsd:element name="sshport" type="xsd:positiveInteger"
+					minOccurs="0" default="22" />
+				<xsd:element name="temp-directory" type="xsd:string"
+					minOccurs="0" default="/tmp" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- preferences -->
+
+	<xsd:element name="preferences">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="internal-logging" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="log-type" minOccurs="0"
+								maxOccurs="unbounded">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="name"
+											type="xsd:string" />
+										<xsd:element name="days-to-keep"
+											type="xsd:positiveInteger" />
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- tracing -->
+
+	<xsd:element name="tracing">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="level" type="trace-level"
+					minOccurs="0" default="trace" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="trace-level">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="trace" />
+			<xsd:enumeration value="status" />
+			<xsd:enumeration value="warning" />
+			<xsd:enumeration value="error" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- auditing -->
+
+	<xsd:element name="auditing">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="app-id" minOccurs="0"
+					maxOccurs="unbounded" type="xsd:string" />
+				<xsd:element name="weekly-frequency" minOccurs="0"
+					default="1" type="weekly-frequency" />
+				<xsd:element name="dcs-url" minOccurs="0"
+					type="xsd:string" />
+				<xsd:element name="primary-contact-name" minOccurs="0"
+					type="xsd:string" />
+				<xsd:element name="primary-contact-email" minOccurs="0"
+					type="xsd:string" />
+				<xsd:element name="active" minOccurs="0" default="true"
+					type="xsd:boolean" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="weekly-frequency">
+		<xsd:restriction base="xsd:positiveInteger">
+			<xsd:maxInclusive value="5" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+
+	<!-- users -->
+
+	<xsd:element name="users">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="ldap-server" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="host" type="xsd:string" />
+							<xsd:element name="port"
+								type="xsd:positiveInteger" minOccurs="0" default="636" />
+							<xsd:element name="base" type="xsd:string"
+								minOccurs="0" default="" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="user" type="xsd:string" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xsd:element name="access-control-enabled"
+					type="xsd:boolean" minOccurs="0" maxOccurs="1" default="false" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<!-- schedules -->
+
+	<xsd:element name="schedules">
+		<xsd:complexType>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="schedule" />
+				<xsd:element ref="periodic-schedule" />
+				<xsd:element ref="composite-window" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="schedule">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:choice>
+					<xsd:element name="period" type="period" />
+					<xsd:element name="day" type="day"
+						maxOccurs="unbounded" />
+					<xsd:element name="date" type="sentryDate"
+						maxOccurs="unbounded" />
+					<xsd:element name="numbered-day"
+						maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="number" type="week" />
+								<xsd:element name="day" type="day" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:element name="month" type="month" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xsd:element name="sentryTime">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="hour" type="hour" />
+							<xsd:element name="minute" type="minute" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="duration"
+					type="xsd:nonNegativeInteger" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="periodic-schedule">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:element name="period" type="period" />
+				<xsd:element name="sentryTime" minOccurs="0">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="hour" type="hour" />
+							<xsd:element name="minute" type="minute" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="basic-window">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:element name="day" type="day"
+						maxOccurs="unbounded" />
+					<xsd:element name="date" type="sentryDate"
+						maxOccurs="unbounded" />
+					<xsd:element name="numbered-day"
+						maxOccurs="unbounded">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="number" type="week" />
+								<xsd:element name="day" type="day" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:element name="month" type="month" minOccurs="0"
+					maxOccurs="unbounded" />
+				<xsd:element name="sentryTime">
+					<xsd:complexType>
+						<xsd:sequence>
+							<xsd:element name="hour" type="hour" />
+							<xsd:element name="minute" type="minute" />
+						</xsd:sequence>
+					</xsd:complexType>
+				</xsd:element>
+				<xsd:element name="duration" type="xsd:positiveInteger" />
+				<xsd:element name="include-window" type="xsd:boolean"
+					minOccurs="0" default="true" />
+				<xsd:element name="notes" type="xsd:string"
+					minOccurs="0" default="" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="composite-window">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:element ref="basic-window" maxOccurs="10" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="period">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="1m" />
+			<xsd:enumeration value="2m" />
+			<xsd:enumeration value="5m" />
+			<xsd:enumeration value="10m" />
+			<xsd:enumeration value="15m" />
+			<xsd:enumeration value="20m" />
+			<xsd:enumeration value="30m" />
+			<xsd:enumeration value="1h" />
+			<xsd:enumeration value="2h" />
+			<xsd:enumeration value="3h" />
+			<xsd:enumeration value="4h" />
+			<xsd:enumeration value="6h" />
+			<xsd:enumeration value="8h" />
+			<xsd:enumeration value="12h" />
+			<xsd:enumeration value="24h" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="day">
+		<xsd:restriction base="xsd:positiveInteger">
+			<xsd:maxInclusive value="7" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="sentryDate">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-1" />
+			<xsd:maxInclusive value="31" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="week">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="-1" />
+			<xsd:maxInclusive value="4" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="month">
+		<xsd:restriction base="xsd:positiveInteger">
+			<xsd:maxInclusive value="12" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="hour">
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:maxExclusive value="24" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="minute">
+		<xsd:restriction base="xsd:nonNegativeInteger">
+			<xsd:maxExclusive value="60" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- triggers -->
+
+	<xsd:element name="triggers">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element ref="trigger" minOccurs="0"
+					maxOccurs="unbounded" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="trigger">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:element ref="event-matcher" minOccurs="0" />
+				<xsd:element name="time-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="severity-match" type="severity"
+					minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="host-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="os-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="process-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="user-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="application-match"
+					type="regex-pattern" minOccurs="0" default=".*" />
+				<xsd:element name="subsystem-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="identifier-match"
+					type="numeric-pattern" minOccurs="0" default="1-" />
+				<xsd:element name="object-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="message-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="classinfo-match" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element ref="suppression-control" minOccurs="0" />
+				<xsd:element ref="event-modifier" minOccurs="0" />
+				<xsd:element name="time-set" type="sentryTime"
+					minOccurs="0" />
+				<xsd:element name="severity-set" type="severity"
+					minOccurs="0" />
+				<xsd:element name="host-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="os-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="process-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="user-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="application-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="subsystem-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="identifier-set" type="xsd:integer"
+					minOccurs="0" default="-1" />
+				<xsd:element name="object-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="message-set" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="active" type="xsd:boolean"
+					minOccurs="0" default="true" />
+				<xsd:element name="continue-further" type="xsd:boolean"
+					minOccurs="0" default="true" />
+				<xsd:element name="instructions" type="xsd:string"
+					minOccurs="0" default="" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="couple">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="name" type="xsd:string" />
+				<xsd:element name="value" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="event-matcher">
+		<xsd:complexType>
+			<xsd:sequence>
+
+				<!--
+					Sequence of zero or more "couple" elements:            
+					This is a sequence of attribute-pattern pairs that are used to 
+					match events. This technique is currently used only for matching 
+					events raised from tasks before the events are processed by 
+					triggers. This is a flexible way to specify attribute-pattern 
+					pairs without mentioning actual names of the attributes, thus 
+					making it future-proof from ever needing to add/remove attribute-
+					specific tags. Therefore we don't need to make any change here for 
+					any update in the attribute list or their properties.          
+				-->
+				<xsd:element ref="couple" minOccurs="0"
+					maxOccurs="unbounded" />
+
+				<!--
+					Attribute-pattern pairs for a list of named attributes:            
+					This list is currently used for matching events in triggers and 
+					also in report generation. Explicit naming of the attributes makes 
+					this susceptible to changes when attribute list (names/properties) 
+					are updated in future. Therefore, updating attribute list or their 
+					properties will probably need an update here.               
+				-->
+				<xsd:element name="severity" type="severity"
+					minOccurs="0" maxOccurs="unbounded" />
+				<xsd:element name="application" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="subsystem" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="identifier" type="numeric-pattern"
+					minOccurs="0" default="0-" />
+				<xsd:element name="object" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="message" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="classinfo" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="sourcehost" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="sentryhost" type="regex-pattern"
+					minOccurs="0" default=".*" />
+				<xsd:element name="sentryport" type="numeric-pattern"
+					minOccurs="0" default="1-" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="event-modifier">
+		<xsd:complexType>
+			<xsd:sequence>
+
+				<!--
+					Sequence of zero or more "couple" elements:      
+					This is a sequence of attribute-value pairs that are used to 
+					modify events. This technique is currently used only for modifying 
+					events raised from tasks before the events are processed by 
+					triggers. This is a flexible way to specify attribute-value 
+					pairs without mentioning actual names of the attributes, thus 
+					making it future-proof from ever needing to add/remove attribute-
+					specific tags. Therefore we don't need to make any change here
+					for any update in the attribute list or their properties.    
+				-->
+				<xsd:element ref="couple" minOccurs="0"
+					maxOccurs="unbounded" />
+
+				<!--
+					Attribute-value pairs for a list of named attributes: 
+					This list is currently used for modifying events in triggers 
+					Explicit naming of the attributes makes this susceptible to 
+					changes when attribute list (names/properties) are updated in 
+					future. Therefore, updating attribute list or their properties 
+					will probably need an update here.                   
+				-->
+				<xsd:element name="severity" type="severity"
+					minOccurs="0" />
+				<xsd:element name="application" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="subsystem" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="identifier"
+					type="xsd:positiveInteger" minOccurs="0" default="1" />
+				<xsd:element name="object" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="message" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="classinfo" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="sourcehost" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="sentryhost" type="xsd:string"
+					minOccurs="0" />
+				<xsd:element name="sentryport"
+					type="xsd:positiveInteger" minOccurs="0" default="1" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="suppression-control">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:choice>
+					<xsd:element name="no-suppression"
+						type="empty-value" />
+					<xsd:element name="suppress-all" type="empty-value" />
+					<xsd:element name="publish-first">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="period"
+									type="xsd:positiveInteger" />
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+					<xsd:element name="defer-publish">
+						<xsd:complexType>
+							<xsd:sequence>
+								<xsd:element name="window"
+									type="xsd:positiveInteger" />
+								<xsd:element name="count"
+									type="xsd:positiveInteger" />
+								<xsd:element name="control-max-rate"
+									minOccurs="0">
+									<xsd:complexType>
+										<xsd:sequence>
+											<xsd:element name="period"
+												type="xsd:positiveInteger" />
+										</xsd:sequence>
+									</xsd:complexType>
+								</xsd:element>
+							</xsd:sequence>
+						</xsd:complexType>
+					</xsd:element>
+				</xsd:choice>
+				<xsd:element name="composite-window" type="xsd:string"
+					minOccurs="0" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="sentryTime">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\d{4}-\d{2}-\d{2}-\d{2}:\d{2}:\d{2}" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="empty-value">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="\s*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="severity">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="critical" />
+			<xsd:enumeration value="major" />
+			<xsd:enumeration value="minor" />
+			<xsd:enumeration value="warning" />
+			<xsd:enumeration value="normal" />
+			<xsd:enumeration value="unknown" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- tasks -->
+
+	<xsd:element name="tasks">
+		<xsd:complexType>
+			<xsd:choice minOccurs="0" maxOccurs="unbounded">
+				<xsd:element ref="log-file-monitor" />
+				<xsd:element ref="filesystem-monitor" />
+				<xsd:element ref="process-monitor" />
+				<xsd:element ref="website-monitor" />
+				<xsd:element ref="web-service-monitor" />
+				<xsd:element ref="email-notification" />
+				<xsd:element ref="qwest-net-notification" />
+				<xsd:element ref="hp-ov-notification" />
+				<xsd:element ref="log-file-notification" />
+				<xsd:element ref="external-command" />
+				<xsd:element ref="remote-sentry-notification" />
+			</xsd:choice>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:complexType name="task">
+		<xsd:sequence>
+			<xsd:element name="name" type="xsd:string" />
+			<xsd:element name="app-id" minOccurs="0" type="xsd:string" />
+			<xsd:element name="remote-execution-profile" minOccurs="0"
+				type="xsd:string" />
+			<xsd:element name="active" type="xsd:boolean" minOccurs="0"
+				default="false" />
+			<xsd:choice minOccurs="0">
+				<xsd:element name="periodic-schedule" type="xsd:string" />
+				<xsd:element name="frequency" type="xsd:string" />
+				<xsd:element name="trigger" type="xsd:string"
+					minOccurs="0" maxOccurs="unbounded" />
+			</xsd:choice>
+			<xsd:element name="window" type="xsd:string" minOccurs="0" />
+			<xsd:element name="composite-window" type="xsd:string"
+				minOccurs="0" />
+			<xsd:element name="during" type="xsd:boolean" minOccurs="0"
+				default="true" />
+			<xsd:element name="event-adjustment" minOccurs="0"
+				maxOccurs="unbounded">
+				<xsd:complexType>
+					<xsd:sequence>
+						<xsd:element ref="event-matcher" />
+						<xsd:element ref="event-modifier" />
+						<xsd:element name="suppress-if-match"
+							type="xsd:boolean" minOccurs="0" default="false" />
+					</xsd:sequence>
+				</xsd:complexType>
+			</xsd:element>
+			<xsd:element name="note" type="xsd:string" minOccurs="0" />
+		</xsd:sequence>
+	</xsd:complexType>
+
+	<xsd:element name="log-file-monitor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="file" type="xsd:string"
+							maxOccurs="unbounded" />
+						<xsd:element name="missing-file-event"
+							type="xsd:boolean" minOccurs="0" default="true" />
+						<xsd:element name="combine" type="combine"
+							minOccurs="0" default="none" />
+						<xsd:element name="read-position"
+							type="read-position" minOccurs="0" default="last-position" />
+						<xsd:element name="pattern" type="regex-pattern"
+							minOccurs="0" maxOccurs="unbounded" />
+						<xsd:element name="no-pattern-found-event"
+							type="xsd:boolean" minOccurs="0" default="false" />
+						<xsd:element name="correlate-matches"
+							type="xsd:boolean" minOccurs="0" default="false" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="filesystem-monitor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="filesystem"
+							maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="path"
+										type="xsd:string" minOccurs="1" maxOccurs="1" />
+									<xsd:element name="do-not-check"
+										type="xsd:boolean" minOccurs="0" maxOccurs="1"
+										default="false" />
+									<xsd:element name="missing-severity"
+										type="xsd:string" minOccurs="0" maxOccurs="1" />
+									<xsd:element name="event-threshold"
+										minOccurs="0" maxOccurs="1">
+										<xsd:complexType>
+											<xsd:sequence>
+												<xsd:element name="type"
+													type="xsd:string" minOccurs="1" maxOccurs="1"
+													default="percent-used" />
+												<xsd:element
+													name="threshold" minOccurs="0" maxOccurs="unbounded">
+													<xsd:complexType>
+														<xsd:sequence>
+															<xsd:element
+																name="severity" type="xsd:string" minOccurs="0"
+																maxOccurs="1" />
+															<xsd:element
+																name="value" type="xsd:string" minOccurs="1"
+																maxOccurs="1" />
+														</xsd:sequence>
+													</xsd:complexType>
+												</xsd:element>
+											</xsd:sequence>
+										</xsd:complexType>
+									</xsd:element>
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="process-monitor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="process"
+							maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="name-args"
+										type="xsd:string" minOccurs="0" />
+									<xsd:element name="user"
+										type="xsd:string" minOccurs="0" />
+									<xsd:element name="count"
+										type="xsd:string" minOccurs="0" default="1" />
+									<xsd:element name="notes"
+										type="xsd:string" minOccurs="0" maxOccurs="1" />
+									<xsd:element name="active"
+										type="xsd:boolean" minOccurs="0" maxOccurs="1"
+										default="false" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="website-monitor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="transaction"
+							maxOccurs="unbounded">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="url" type="url" />
+									<xsd:element name="post-data"
+										type="xsd:string" minOccurs="0" />
+									<xsd:element ref="credentials"
+										minOccurs="0" />
+									<xsd:element name="pattern"
+										type="regex-pattern" minOccurs="0" />
+									<xsd:element name="success"
+										type="numeric-pattern" minOccurs="0" default="200-299" />
+									<xsd:element name="timeout"
+										type="timeout" minOccurs="0" default="10" />
+									<xsd:element
+										name="custom-request-header" type="xsd:string" minOccurs="0"
+										maxOccurs="unbounded" />
+									<xsd:element name="custom-cookie"
+										type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="proxy" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="host"
+										type="xsd:string" />
+									<xsd:element name="port"
+										type="xsd:positiveInteger" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="user-agent" type="xsd:string"
+							minOccurs="0" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="web-service-monitor">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:choice>
+							<xsd:element name="direct" type="url"
+								maxOccurs="unbounded" />
+							<xsd:element name="uddi">
+								<xsd:complexType>
+									<xsd:sequence>
+										<xsd:element name="url"
+											type="url" />
+										<xsd:element name="business-key"
+											type="xsd:string" />
+										<xsd:element name="service-name"
+											type="xsd:string" />
+									</xsd:sequence>
+								</xsd:complexType>
+							</xsd:element>
+						</xsd:choice>
+						<xsd:element name="proxy" minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="host"
+										type="xsd:string" />
+									<xsd:element name="port"
+										type="xsd:positiveInteger" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="soap-action"
+							type="xsd:string" minOccurs="0" />
+						<xsd:element name="soap-request"
+							type="xsd:string" minOccurs="0" />
+						<xsd:element name="pattern" type="regex-pattern"
+							minOccurs="0" />
+						<xsd:element name="timeout" type="timeout"
+							minOccurs="0" default="10" />
+						<xsd:element ref="credentials" minOccurs="0" />
+						<xsd:element name="custom-request-header"
+							type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="email-notification">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="recipient" type="xsd:string" />
+						<xsd:element name="sender" type="xsd:string" />
+						<xsd:element name="smtp-server" maxOccurs="2">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="host"
+										type="xsd:string" />
+									<xsd:element name="port"
+										type="xsd:positiveInteger" minOccurs="0" default="25" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="qwest-net-notification">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="recipient" type="xsd:string" />
+						<xsd:element name="net-server" maxOccurs="2">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="host"
+										type="xsd:string" />
+									<xsd:element name="port"
+										type="xsd:positiveInteger" minOccurs="0" default="1922" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="notification-format"
+							minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="field"
+										type="xsd:string" minOccurs="1" maxOccurs="unbounded" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="hp-ov-notification">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence></xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="log-file-notification">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="file" type="xsd:string" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="remote-sentry-notification">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="host" type="xsd:string" />
+						<xsd:element name="port"
+							type="xsd:positiveInteger" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="external-command">
+		<xsd:complexType>
+			<xsd:complexContent>
+				<xsd:extension base="task">
+					<xsd:sequence>
+						<xsd:element name="command" type="xsd:string" />
+						<xsd:element name="environment" type="envvar"
+							minOccurs="0" maxOccurs="unbounded" />
+						<xsd:element name="input" type="xsd:string"
+							minOccurs="0" maxOccurs="unbounded" />
+						<xsd:element name="directory" type="xsd:string"
+							minOccurs="0" />
+						<xsd:element name="success"
+							type="numeric-pattern" minOccurs="0" default="0" />
+						<xsd:element name="dependent-tasks"
+							minOccurs="0">
+							<xsd:complexType>
+								<xsd:sequence>
+									<xsd:element name="disable-codes"
+										type="numeric-pattern" />
+									<xsd:element name="enable-codes"
+										type="numeric-pattern" />
+									<xsd:element name="task"
+										type="xsd:string" minOccurs="0" maxOccurs="unbounded" />
+								</xsd:sequence>
+							</xsd:complexType>
+						</xsd:element>
+						<xsd:element name="timeout" type="timeout"
+							minOccurs="0" default="60" />
+						<xsd:element name="configuration"
+							type="xsd:string" minOccurs="0" />
+					</xsd:sequence>
+				</xsd:extension>
+			</xsd:complexContent>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:element name="credentials">
+		<xsd:complexType>
+			<xsd:sequence>
+				<xsd:element name="user" type="xsd:string" />
+				<xsd:element name="password" type="xsd:string" />
+			</xsd:sequence>
+		</xsd:complexType>
+	</xsd:element>
+
+	<xsd:simpleType name="read-position">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="begin-always" />
+			<xsd:enumeration value="begin-first" />
+			<xsd:enumeration value="last-position" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="combine">
+		<xsd:restriction base="xsd:string">
+			<xsd:enumeration value="none" />
+			<xsd:enumeration value="chain" />
+			<xsd:enumeration value="primary" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="timeout">
+		<xsd:restriction base="xsd:integer">
+			<xsd:minInclusive value="1" />
+			<xsd:maxInclusive value="600" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+	<!-- general -->
+
+	<xsd:simpleType name="wildcard-pattern">
+		<xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="regex-pattern">
+		<xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="numeric-pattern">
+		<xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="url">
+		<xsd:restriction base="xsd:string"></xsd:restriction>
+	</xsd:simpleType>
+
+	<xsd:simpleType name="envvar">
+		<xsd:restriction base="xsd:string">
+			<xsd:pattern value="[^\s]+=.*" />
+		</xsd:restriction>
+	</xsd:simpleType>
+
+</xsd:schema>

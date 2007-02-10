@@ -1,0 +1,27 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test xsd:dateTime schema default and fixed attributes</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>CASTOR-1227</Comment>
+    <Category>basic capability</Category>
+    <BugFix>
+        <Reporter>toto@free.fr</Reporter>
+        <Date_Report>2005-09-26</Date_Report>
+        <Date_Fix>2006-11-15</Date_Fix>
+        <Comment>xsd:dateTime default generated uncompilable code</Comment>
+    </BugFix>
+
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">DateTimeTests</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+            <Comment>
+                The default values being filled in causes the XML comparison to fail.
+                Thus, we suppress XML comparison.
+            </Comment>
+            <GoldFile/> <!-- Suppress XML comparison -->
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

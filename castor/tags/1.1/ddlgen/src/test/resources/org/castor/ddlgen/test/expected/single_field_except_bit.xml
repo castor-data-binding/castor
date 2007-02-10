@@ -1,0 +1,5 @@
+<expected>
+	<match method="regexp" index="0" engine="db2">create table table_all \( fieldtinyint smallint, fieldsmallint smallint, fieldinteger integer, fieldbigint bigint, fieldfloat float\({4}\), fielddouble double, fieldreal real, fieldnumeric numeric\({10}, {11}\), fielddecimal decimal\({12}, {13}\), fieldchar char\({14}\), fieldvarchar varchar\({15}\), fieldlongvarchar long varchar, fielddate date, fieldtime time, fieldtimestamp timestamp, fieldbinary char\({18}\) for bit data, fieldvarbinary varchar\({19}\) for bit data, fieldlongvarbinary long varchar for bit data, fieldother blob\({20}\), fieldjavaobject blob\({21}\), fieldblob blob\({22}\), fieldclob clob\({23}\) \);</match>
+</expected>
+
+

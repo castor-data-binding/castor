@@ -1,0 +1,10 @@
+<root:Root xmlns:root="http://www.castor.org/root"
+           xmlns:imp="http://www.castor.org/imported">
+    <Initial>First</Initial>
+    <Subsequent>Words</Subsequent>
+    <ImportedElement>
+        <First>Hello</First>
+        <Second>World</Second>
+        <Third>Si</Third>
+    </ImportedElement>
+</root:Root>

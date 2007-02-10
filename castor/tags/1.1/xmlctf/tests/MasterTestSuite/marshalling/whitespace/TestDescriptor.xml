@@ -1,0 +1,29 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+
+    <Name>Unmarshalling-whitespace</Name>
+    <Author>Keith Visco</Author>
+
+    <Comment>
+        Tests that the unmarshaller will correctly handle whitespace stripping / preserving
+    </Comment>
+
+    <Category>basic capability</Category>
+
+    <MarshallingTest>
+        <Root_Object>org.acme.Foo</Root_Object>
+        <UnitTestCase>
+            <Configuration>
+                <Marshal>
+                    <Call-method name="setUseXSITypeAtRoot">
+                        <Value type="boolean">true</Value>
+                    </Call-method>
+                </Marshal>
+            </Configuration>
+            <Name>Whitespace-Preserving</Name>
+            <Input>input.xml</Input>
+            <GoldFile>input.xml</GoldFile>
+        </UnitTestCase>
+    </MarshallingTest>
+
+</TestDescriptor>

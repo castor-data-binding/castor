@@ -1,0 +1,15 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Tests name conflicts with Castor reserved name 'Content'</Name>
+    <Author>Edward Kuns</Author>
+    <Comment>Tests name conflicts with Castor reserved name 'Content'</Comment>
+    <Category>basic capability</Category>
+    <OnlySourceGenerationTest>
+        <Schema>test.xsd</Schema>
+        <UnitTestCase>
+            <Name>Test Source Generation</Name>
+            <Failure exception="java.lang.IllegalArgumentException"
+                     FailureStep="source-generation">true</Failure>
+        </UnitTestCase>
+     </OnlySourceGenerationTest>
+</TestDescriptor>

@@ -1,0 +1,24 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Test specification of an interface through the binding file</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>
+        Very basic test that ensures that it is possible - through the binding
+        file - to declare that a generated class should implement a given interface.
+    </Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <BindingFile>binding.xml</BindingFile>
+        <Root_Object random="false" dump="true">ExpUserProperties</Root_Object>
+        <UnitTestCase>
+            <Name>Test Generation</Name>
+            <Input>input.xml</Input>
+            <Comment>
+                The date/time type gets an unwanted time zone.  Until this bug
+                is fixed, suppress XML comparison.
+            </Comment>
+            <GoldFile/> <!-- Suppress XML comparison -->
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

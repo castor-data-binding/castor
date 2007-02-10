@@ -1,0 +1,38 @@
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                          "http://castor.org/mapping.dtd">
+<mapping>
+
+  <!--  Mapping for Product  -->
+  <class access="db-locked" name="jdo.c1379.Product" identity="id">
+    <description>Product definition</description>
+    <map-to table="prod" xml="product" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+      <bind-xml name="id" node="attribute"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+      <bind-xml name="name" node="element" />
+    </field>
+    <field name="price" type="float">
+      <sql name="price" type="numeric" />
+      <bind-xml name="price" node="element" />
+    </field>
+  </class>
+
+  <!--  Mapping for Computer, extending Product  -->
+  <class access="db-locked" name="jdo.c1379.Computer" extends="jdo.c1379.Product" identity="id">
+    <description>Computer definition, extends generic product</description>
+    <map-to table="computer" xml="computer" />
+    <field name="id" type="integer">
+      <sql name="id" type="integer" />
+      <bind-xml name="id" node="attribute"/>
+    </field>
+    <field name="cpu" type="string">
+      <sql name="cpu" type="char"/>
+      <bind-xml node="element" />
+    </field>
+  </class>
+
+</mapping>
+
