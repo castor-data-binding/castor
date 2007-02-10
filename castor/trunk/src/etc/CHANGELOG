@@ -1,6 +1,9 @@
 SVN
 -------------------------------
 
+Version 1.1, Feb 10, 2007
+-------------------------------
+
 XML:   Resolved issue CASTOR-1198 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        ID resolution now takes validation configuration into account.
        Details: http://jira.codehaus.org/browse/CASTOR-1198
