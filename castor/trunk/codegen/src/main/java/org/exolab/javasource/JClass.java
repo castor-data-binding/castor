@@ -247,5 +247,19 @@ public class JClass extends AbstractJClass {
         buffer.setLength(0);
     }
 
+        
+    /**
+     * Changes the local name of this class type.
+     * @param localName The new local name to be used.
+     */
+    public void changeLocalName(final String localName) {
+        String packageName = getPackageName();
+        if (packageName != null) {
+            setName(packageName + "." + localName);
+        } else {
+            setName(localName);
+        }
+    }
+
     //--------------------------------------------------------------------------
 }

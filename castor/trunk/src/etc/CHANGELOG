@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1852 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added an 'automatic class name conflict resolution' mode to the XML code generator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1852
+       (Werner - 20070211)
+
 XML:   Resolved issue CASTOR-1811 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added support for validation of correct order of elements of <xsd:sequence> during 
        unmarshalling

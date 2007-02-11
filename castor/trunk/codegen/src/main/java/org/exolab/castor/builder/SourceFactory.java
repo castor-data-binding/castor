@@ -56,6 +56,7 @@ import java.util.List;
 
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
+import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
@@ -146,18 +147,22 @@ public final class SourceFactory extends BaseFactory {
      * @param config the BuilderConfiguration instance (must not be null).
      * @param infoFactory the FieldInfoFactory to use
      * @param groupNaming Group naming scheme to be used.
+     * @param sourceGenerator the calling source generator.
      */
     public SourceFactory(final BuilderConfiguration config,
             final FieldInfoFactory infoFactory,
-            final GroupNaming groupNaming) {
-        super(config, infoFactory, groupNaming);
+            final GroupNaming groupNaming, 
+            final SourceGenerator sourceGenerator) {
+        super(config, infoFactory, groupNaming, sourceGenerator);
 
         // set the config into the info factory (CASTOR-1346)
         infoFactory.setBoundProperties(config.boundPropertiesEnabled());
 
-        this._memberFactory       = new MemberFactory(config, infoFactory, getGroupNaming());
-        this._typeConversion     = new TypeConversion(getConfig());
-        this._enumerationFactory = new EnumerationFactory(getConfig(), getGroupNaming());
+        this._memberFactory = 
+            new MemberFactory(config, infoFactory, getGroupNaming(), sourceGenerator);
+        this._typeConversion = new TypeConversion(getConfig());
+        this._enumerationFactory = 
+            new EnumerationFactory(getConfig(), getGroupNaming(), sourceGenerator);
     } //-- SourceFactory
 
    /**
@@ -296,7 +301,8 @@ public final class SourceFactory extends BaseFactory {
         }
 
         //3-- Create factoryState and chain it to sgState to prevent endless loop
-        FactoryState state = new FactoryState(className, sgState, packageName);
+        FactoryState state = 
+        	new FactoryState(className, sgState, packageName, component);
         state.setCreateGroupItem(createGroupItem);
         if (sgState.getCurrentFactoryState() != null) {
             state.setParent(sgState.getCurrentFactoryState());
@@ -388,7 +394,7 @@ public final class SourceFactory extends BaseFactory {
             }
             fInfo.setContainer(true);
             String newClassName = className.substring(0, className.length() - 4);
-            state     = new FactoryState(newClassName, sgState, packageName);
+            state = new FactoryState(newClassName, sgState, packageName, component);
             classInfo = state.getClassInfo();
             jClass    = state.getJClass();
             initialize(jClass);
@@ -754,7 +760,8 @@ public final class SourceFactory extends BaseFactory {
 
         className = resolveClassName(className, packageName);
 
-        FactoryState state = new FactoryState(className, sgState, packageName);
+        FactoryState state = new FactoryState(className, sgState, packageName, comp);
+
         state.setParent(sgState.getCurrentFactoryState());
 
         ClassInfo classInfo = state.getClassInfo();
@@ -1003,7 +1010,7 @@ public final class SourceFactory extends BaseFactory {
         //-- search for proper base class
         JClass returnType = findBaseClass(parent, sgState);
         JMethod jMethod = new JMethod(methodName, returnType,
-                                      "the unmarshaled " + returnType.getName());
+                                      "the unmarshaled " + returnType);
         jMethod.getModifiers().setStatic(true);
         jMethod.addException(SGTypes.MARSHAL_EXCEPTION,
                 "if object is null or if any SAXException is thrown during marshaling");

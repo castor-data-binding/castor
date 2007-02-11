@@ -139,8 +139,16 @@ public class UnmarshalState {
     
     boolean trailingWhitespaceRemoved = false;
     
-    /* For sequence validation */
+    /**
+     * Index of next expected sequence element; used during validation 
+     */
     public int expectedIndex = 0;
+    
+    /**
+     * Indicates (during validation) whether the current field descriptor 
+     * points to a multi-valued element.
+     */
+    public boolean withinMultivaluedElement = false;
     
     /**
      * The UnmarshalState which contains information

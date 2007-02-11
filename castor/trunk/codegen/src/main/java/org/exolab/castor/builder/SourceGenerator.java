@@ -65,6 +65,7 @@ import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
+import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.binding.xml.PackageType;
 import org.exolab.castor.builder.binding.xml.PackageTypeChoice;
 import org.exolab.castor.builder.binding.xml.types.BindingType;
@@ -145,7 +146,7 @@ public class SourceGenerator extends BuilderConfiguration {
     private final ConsoleDialog _dialog;
     /** A vector that keeps track of all the schemas processed. */
     private final Vector _schemasProcessed = new Vector(7);
-
+    
     /** True if we should suppress non-fatal warnings. */
     private boolean _suppressNonFatalWarnings = false;
     /** Determines whether or not to print extra messages. */
@@ -180,6 +181,8 @@ public class SourceGenerator extends BuilderConfiguration {
     private GroupNaming _groupNaming = null;
     /** Strategy for name conflict resolution. */
     private String _nameConflictStrategy = WarningViaDialogClassNameCRStrategy.NAME;
+    /** JClass to XPATH registry; used for class name conflict resolution. */
+    private JClassRegistry _xmlInfoRegistry;
 
     /**
      * Creates a SourceGenerator using the default FieldInfo factory.
@@ -220,6 +223,9 @@ public class SourceGenerator extends BuilderConfiguration {
         _singleClassGenerator = new SingleClassGenerator(_dialog, this, _nameConflictStrategy);
         _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
+        
+        _xmlInfoRegistry = new JClassRegistry();
+        
     } //-- SourceGenerator
 
     /**
@@ -535,7 +541,7 @@ public class SourceGenerator extends BuilderConfiguration {
      * @throws IOException if an IOException occurs writing the new source files
      */
     public void generateSource(final InputSource source, final String packageName)
-                                                                   throws IOException {
+    throws IOException {
         // -- get default parser from Configuration
         Parser parser = null;
         try {
@@ -630,7 +636,7 @@ public class SourceGenerator extends BuilderConfiguration {
         // has been fully parsed, create our SourceFactory.  (See CASTOR-1346.)
         // We will reuse this SourceFactory if we are invoked multiple times.
         if (_sourceFactory == null) {
-            _sourceFactory = new SourceFactory(this, _infoFactory, _groupNaming);
+            _sourceFactory = new SourceFactory(this, _infoFactory, _groupNaming, this);
             _sourceFactory.setCreateMarshalMethods(_createMarshalMethods);
             _sourceFactory.setTestable(_testable);
             _sourceFactory.setSAX1(_sax1);
@@ -683,6 +689,16 @@ public class SourceGenerator extends BuilderConfiguration {
         //-- ** Generate code for all TOP-LEVEL structures **
 
         Enumeration structures;
+
+        //-- register all global element names for name conflict resolution
+        for (structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
+            ElementDecl element = (ElementDecl) structures.nextElement();
+            _xmlInfoRegistry.prebindGlobalElement(XPathHelper.getSchemaLocation(element));
+        }
+        for (structures = schema.getModelGroups(); structures.hasMoreElements(); ) {
+            ModelGroup modelGroup = (ModelGroup) structures.nextElement();
+            _xmlInfoRegistry.prebindGlobalElement(XPathHelper.getSchemaLocation(modelGroup));
+        }
 
         //-- handle all top-level element declarations
         for (structures = schema.getElementDecls(); structures.hasMoreElements(); ) {
@@ -1098,6 +1114,14 @@ public class SourceGenerator extends BuilderConfiguration {
                 + "Please use org.exolab.castor.builder.SourceGeneratorMain#main() instead.");
 
         SourceGeneratorMain.main(args);
+    }
+
+    /**
+     * Returns the {@link JClassRegistry} instance associated with this source generator.
+     * @return  the {@link JClassRegistry} instance currently in use.
+     */
+    public JClassRegistry getXMLInfoRegistry() {
+        return _xmlInfoRegistry;
     }
 
 } //-- SourceGenerator
