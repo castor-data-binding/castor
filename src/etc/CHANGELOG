@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1811 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for validation of correct order of elements of <xsd:sequence> during 
+       unmarshalling
+       Details: http://jira.codehaus.org/browse/CASTOR-1811
+       (Werner - 20070211)
+
 Version 1.1, Feb 10, 2007
 -------------------------------
 

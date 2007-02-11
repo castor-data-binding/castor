@@ -50,7 +50,9 @@
 package org.exolab.castor.xml.util;
 
 import java.lang.reflect.Array;
+import java.util.ArrayList;
 import java.util.Collection;
+import java.util.List;
 
 import org.exolab.castor.mapping.AbstractFieldHandler;
 import org.exolab.castor.mapping.AccessMode;
@@ -60,6 +62,7 @@ import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.xml.FieldValidator;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.UnmarshalState;
 import org.exolab.castor.xml.ValidationContext;
 import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.Validator;
@@ -192,6 +195,17 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     private boolean            _introspected = false;
 
     private short              _compositor = ALL;
+    
+    /**
+     * Defines the sequence of elements for unmarshalling validation
+     * ( to be used with compositor == SEQUENCE only)
+     */
+    private List sequenceOfElements = new ArrayList();
+    
+    /**
+     * Indicates whether we are within a multi-valued element.
+     */
+    private boolean withinMultivaluedElement = false;
 
     //----------------/
     //- Constructors -/
@@ -312,6 +326,95 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     public XMLFieldDescriptor[]  getElementDescriptors() {
         return (XMLFieldDescriptor[]) getElementArray().clone();
     } // getElementDescriptors
+    
+    /**
+     * Checks whether the given XMLFieldDescriptor is the one actually expected,
+     * given the natural order as defined by a sequence definition
+     * @param elementDescriptor The XML field descriptor to be checked
+     * @throws ValidationException If the descriptor is not the one expected
+     */
+    public void checkDescriptorForCorrectOrderWithinSequence(
+            final XMLFieldDescriptor elementDescriptor, UnmarshalState parentState, String xmlName) throws ValidationException {
+        if (_compositor == SEQUENCE && sequenceOfElements.size() > 0) {
+        	
+        	if (parentState.expectedIndex == sequenceOfElements.size() ) {
+        		throw new ValidationException ("Element with name " + xmlName + " passed to type " + getXMLName() + " in incorrect order; It is not allowed to be the last element of this sequence!");
+        	}
+        	
+        	XMLFieldDescriptor expectedElementDescriptor = (XMLFieldDescriptor) sequenceOfElements.get(parentState.expectedIndex);
+            
+            String expectedElementName = expectedElementDescriptor.getXMLName();
+            String elementName = xmlName;
+
+            boolean anyNode = expectedElementDescriptor.getFieldName().equals("_anyObject") && expectedElementName == null;
+            
+            // choices
+            if (!anyNode && expectedElementDescriptor.getXMLName().equals("-error-if-this-is-used-")) {
+            	
+            	// find possible names
+            	ArrayList possibleNames = new ArrayList();
+            	fillPossibleNames(possibleNames, expectedElementDescriptor);
+            	
+            	// check name
+            	if (!possibleNames.contains(elementName)) {
+            		if (!expectedElementDescriptor.isRequired()) {
+            			 parentState.expectedIndex++;
+                         checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
+            		} else {
+            			throw new ValidationException ("Element with name " + elementName + " passed to type " + getXMLName() + " in incorrect order; expected element has to be member of the expected choice.");
+            		}
+            	} else {
+            		parentState.expectedIndex++;
+            	}
+                return;
+            }
+
+            // multi valued flag
+            if (expectedElementDescriptor.isMultivalued() && !withinMultivaluedElement) {
+                withinMultivaluedElement = true;
+            }
+            
+            if (!anyNode && !(expectedElementName).equals(elementName)) {
+                // handle multi-valued fields
+                if (expectedElementDescriptor.isMultivalued()) {
+                    withinMultivaluedElement = false;
+                    parentState.expectedIndex++;
+                    checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
+                    return;
+                }
+                // handle required fields
+                if (expectedElementDescriptor.isRequired()) {
+                    throw new ValidationException ("Element with name " + elementName + " passed to type " + getXMLName() + " in incorrect order; expected element with name '" + expectedElementName + "' or any other optional element declared prior to it.");
+                }
+                
+                // non required field, proceed until next required field
+                parentState.expectedIndex++;
+                checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
+                return;
+                
+            }
+            
+            if (!withinMultivaluedElement) {
+                parentState.expectedIndex++;
+            }
+        }
+   }
+    
+    
+    private void fillPossibleNames(List possibleNames, XMLFieldDescriptor descriptor) {
+    	XMLFieldDescriptor[] descriptors = ((XMLClassDescriptor)descriptor.getClassDescriptor()).getElementDescriptors();
+    	if (descriptors.length == 0) {
+    		return;
+    	}
+    	for (int i = 0; i < descriptors.length; i++) {
+    		if ("_items".equals(descriptors[i].getFieldName() ) 
+    				|| "-error-if-this-is-used-".equals(descriptors[i].getXMLName())) {
+        		fillPossibleNames(possibleNames, descriptors[i]);
+        	} else {
+        		possibleNames.add(descriptors[i].getXMLName());
+        	}
+    	}
+    }
 
     /**
      * Returns the XML field descriptor matching the given xml name and
@@ -350,8 +453,19 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
 
             if (elements == null) elements = getElementArray();
 
+//            if (_compositor == SEQUENCE && sequenceOfElements.size() > 0) {
+//                XMLFieldDescriptor elementDescriptor = (XMLFieldDescriptor) sequenceOfElements.get(sequenceElementCount);
+//                String elementName = elementDescriptor.getXMLName();
+//                if (!elementName.equals(name)) {
+//                    throw new IllegalArgumentException ("Element with name " + name + " passed to type " + getXMLName() + " in incorrect order; expected TODO.");
+//                } else {
+//                    sequenceElementCount++;
+//                }
+//            }
+            
             for (int i = 0; i < elements.length; i++) {
                 XMLFieldDescriptor desc = elements[i];
+                
                 if (desc == null) continue;
 
                 if (location != null) {
@@ -905,8 +1019,8 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
 
                 }
                 //-- handle attributes, not affected by choice
-                for (int i = 0; i < _attributes.size(); i++) {
-                    FieldValidator fieldValidator = _attributes.get(i).getValidator();
+                for (int i = 0; i < localAttributes.length; i++) {
+                    FieldValidator fieldValidator = localAttributes[i].getValidator();
                     if (fieldValidator != null)
                         fieldValidator.validate(object, context);
                 }
@@ -1301,5 +1415,15 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
         }
         return descriptors;
     }
-
+    
+    /**
+     * Adds a XMLFieldDescriptor instance to the internally maintained
+     * list of sequence elements.
+     * @param element An {@link XMLFieldDescriptor} instance for an element definition.
+     */
+    protected void addSequenceElement(XMLFieldDescriptor element) {
+        sequenceOfElements.add(element);
+    }
+    
+    
 } //-- XMLClassDescriptor

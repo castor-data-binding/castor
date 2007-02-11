@@ -49,6 +49,8 @@ import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.xml.NodeType;
 import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.UnmarshalState;
+import org.exolab.castor.xml.ValidationException;
 import org.exolab.castor.xml.XMLClassDescriptor;
 import org.exolab.castor.xml.XMLFieldDescriptor;
 
@@ -261,6 +263,17 @@ public class BaseDescriptor implements XMLClassDescriptor {
      */
     public boolean canAccept(String name, String namespace, Object object) {
         return false;
+    }
+
+    /**
+     * {@inheritDoc}
+     * 
+     * @see org.exolab.castor.xml.XMLClassDescriptor#checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor, org.exolab.castor.xml.UnmarshalState, java.lang.String)
+     */
+    public void checkDescriptorForCorrectOrderWithinSequence(final XMLFieldDescriptor elementDescriptor, 
+            final UnmarshalState parentState, 
+            final String xmlName) throws ValidationException {
+        // nothing to check, iow empty implementation
     }
 
 } //-- BaseDescriptor

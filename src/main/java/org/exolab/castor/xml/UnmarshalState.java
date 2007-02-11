@@ -53,7 +53,7 @@ import java.util.HashSet;
  * @author <a href="mailto:kvisco-at-intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2004-12-11 02:25:45 -0700 (Sat, 11 Dec 2004) $
  */
-class UnmarshalState {
+public class UnmarshalState {
     
     /**
      * Holds on to Constructor arguments
@@ -138,6 +138,9 @@ class UnmarshalState {
     boolean wsPreserve = false;
     
     boolean trailingWhitespaceRemoved = false;
+    
+    /* For sequence validation */
+    public int expectedIndex = 0;
     
     /**
      * The UnmarshalState which contains information

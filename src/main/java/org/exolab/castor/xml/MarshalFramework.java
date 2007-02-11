@@ -45,7 +45,6 @@
 
 package org.exolab.castor.xml;
 
-import org.exolab.castor.mapping.AccessMode;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.FieldDescriptor;
@@ -581,6 +580,18 @@ abstract class MarshalFramework {
             return _classDesc.canAccept(name, namespace, object);
         } //-- canAccept
 
+        /** 
+         * {@inheritDoc}
+         * 
+         * @see org.exolab.castor.xml.XMLClassDescriptor#checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor, org.exolab.castor.xml.UnmarshalState, java.lang.String)
+         */
+        public void checkDescriptorForCorrectOrderWithinSequence(
+                final XMLFieldDescriptor elementDescriptor, 
+                final UnmarshalState parentState, 
+                final String xmlName) 
+            throws ValidationException {
+            _classDesc.checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
+        }
 
         //-------------------------------------/
         //- Implementation of ClassDescriptor -/

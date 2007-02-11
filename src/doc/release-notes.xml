@@ -32,8 +32,39 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            
+            	<h2>Additions</h2>
+            	
+            	<h3>Validation of &lt;xs:sequence&gt; order</h3>
+            	
+            	<p>Added support for validation of correct order of elements of 
+                   &lt;xsd:sequence&gt; typed complex types during unmarshalling. A+
+                   <tt>ValidationException</tt> will be thrown if the expected order
+                   canno tbe matched.</p>
+                   
             </summary>
 			<bugs>
+                <bug id="1811" tool="jira">
+                    <description>
+                        Added support for validation of correct order of elements of 
+                        &lt;xsd:sequence&gt; during unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070211</date>
+                </bug>
 			</bugs>
 		</release>
  		
