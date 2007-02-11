@@ -14,7 +14,6 @@ package harness;
 
 import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.xml.*;
-import org.exolab.castor.xml.XMLFieldDescriptor;
 import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
 
 /**
@@ -354,4 +353,21 @@ public class CategoryDescriptor implements org.exolab.castor.xml.XMLClassDescrip
     public boolean canAccept(String name, String namespace, Object object) {
          return false;
     }
+    
+    /**
+     * Checks whether the given XMLFieldDescriptor is the one actually expected,
+     * given the natural order as defined by a sequence definition
+     * @param elementDescriptor The XML field descriptor to be checked
+     * @throws ValidationException If the descriptor is not the one expected
+     * @see org.exolab.castor.xml.XMLClassDescriptor#checkDescriptorForCorrectOrderWithinSequence(org.exolab.castor.xml.XMLFieldDescriptor, UnmarshalState, String)
+     */
+    public void checkDescriptorForCorrectOrderWithinSequence(XMLFieldDescriptor elementDescriptor, UnmarshalState parentState, String xmlName) throws ValidationException {
+        // nothing to check
+    }
+
+    public void resetElementCount() {
+        // nothng to reset
+    }
+    
+
 }

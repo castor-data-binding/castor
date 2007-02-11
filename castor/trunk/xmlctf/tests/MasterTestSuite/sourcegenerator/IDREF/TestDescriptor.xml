@@ -30,17 +30,6 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>Test valid XML document instance (different order) with IDREFs</Name>
-            <Input>input-alternate-order-ok.xml</Input>
-        </UnitTestCase>
-        <UnitTestCase>
-            <Configuration>
-                <Unmarshal>
-                    <Call-method name="setValidation">
-                        <Value type="boolean">true</Value>
-                    </Call-method>
-                </Unmarshal>
-            </Configuration>
             <Name>Unmarshal invalid XML document instance with empty IDREF value</Name>
             <Input>input-with-empty-idref.xml</Input>
             <Failure FailureStep="unmarshal-reference">true</Failure>

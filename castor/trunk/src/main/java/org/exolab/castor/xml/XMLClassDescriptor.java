@@ -154,6 +154,17 @@ public interface XMLClassDescriptor extends ClassDescriptor {
      */
     public boolean canAccept(String name, String namespace, Object object);
 
+    /**
+     * Checks whether the given XMLFieldDescriptor is the one actually expected,
+     * given the natural order as defined by a sequence definition
+     * @param elementDescriptor The XML field descriptor to be checked
+     * @param xmlName TODO
+     * @throws ValidationException If the descriptor is not the one expected
+     */
+    public void checkDescriptorForCorrectOrderWithinSequence(
+            final XMLFieldDescriptor elementDescriptor, 
+            UnmarshalState parentState, String xmlName) throws ValidationException;
+
 } //-- XMLClassDescriptor
 
 

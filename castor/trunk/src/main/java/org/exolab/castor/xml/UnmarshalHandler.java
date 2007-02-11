@@ -197,12 +197,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     * The unmarshaller listener
     */
     private UnmarshalListener _unmarshalListener = null;
-    /*
-    *
+    
+    /**
      * A flag indicating whether or not to perform validation
-    **/
-    private boolean          _validate     = true;
-
+     **/
+    private boolean _validate = true;
 
     private Hashtable _resolveTable = null;
     
@@ -884,7 +883,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
         //-- if we are at root....just validate and we are done
          if (_stateInfo.empty()) {
-             if (_validate) {
+             if (isValidating()) {
                 ValidationException first = null;
                 ValidationException last = null;
                 
@@ -911,6 +910,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     context.setResolver(_cdResolver);
                     context.setConfiguration(_config);
                     validator.validate(state.object, context);
+                    context.cleanup();
                 }
                 catch(ValidationException vEx) {
                     if (first == null)
@@ -991,6 +991,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (!state.isUsed(descriptor)) {
                 firstOccurance = true;
             }
+                
             //-- record usage of descriptor
             state.markAsUsed(descriptor);            
         }
@@ -1728,6 +1729,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             classDesc = (XMLClassDescriptor)parentState.fieldDesc.getClassDescriptor();
             if (classDesc == null)
                 classDesc = getClassDescriptor(parentState.object.getClass());
+        } else {
+            // classDesc.resetElementCount();
         }
 
         //----------------------------------------------------/
@@ -1765,6 +1768,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             
             if (descriptor == null) { 
                 descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Element);
+            }
+            
+            if (descriptor != null && isValidating()) {
+                try {
+                    classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
+                } catch (ValidationException e) {
+                    throw new SAXException(e);
+                }
             }
             
             //-- Namespace patch, should be moved to XMLClassDescriptor, but
@@ -2340,6 +2351,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
     /**
+     * Indicates whether validation is enabled or not.
+     * @return True if validation is enabled.
+     */
+    private boolean isValidating() {
+        return _validate;
+    }
+
+    /**
      * Signals to start the namespace - prefix mapping
      * 
      * @param prefix the namespace prefix to map
@@ -2609,15 +2628,19 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- Since many attributes represent primitive
                     //-- fields, we add an extra validation check here
                     //-- in case the class doesn't have a "has-method".
-                    if (descriptor.isRequired() && (_validate || debug)) {
+                    if (descriptor.isRequired() && (isValidating() || debug)) {
                         String err = classDesc.getXMLName() + " is missing " +
                             "required attribute: " + descriptor.getXMLName();
                         if (_locator != null) {
                             err += "\n  - line: " + _locator.getLineNumber() +
                                 " column: " + _locator.getColumnNumber();
                         }
-                        if (_validate) throw new SAXException(err);
-                        if (debug) message(err);
+                        if (isValidating()) {
+                            throw new SAXException(err);
+                        }
+                        if (debug) {
+                            message(err);
+                        }
                     }
                 }
             }
@@ -2915,7 +2938,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
              //-- Since many attributes represent primitive
              //-- fields, we add an extra validation check here
              //-- in case the class doesn't have a "has-method".
-             if (descriptor.isRequired() && _validate) {
+             if (descriptor.isRequired() && isValidating()) {
                 String err = classDesc.getXMLName() + " is missing " +
                     "required attribute: " + attName;
                 if (_locator != null) {
@@ -2931,7 +2954,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (classDesc.getIdentity() == descriptor) {
             
             try {
-                _idResolver.bind(attValue, parent, _validate);
+                _idResolver.bind(attValue, parent, isValidating());
             } catch (ValidationException e) {
                 throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }

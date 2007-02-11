@@ -291,7 +291,7 @@ public final class DescriptorSourceFactory {
             jsc.append("org.exolab.castor.xml.NodeType.Text);");
         }
         //--modify the validation code
-        validationCode(member, jsc);
+        addValidationCode(member, jsc);
     }
 
     /**
@@ -461,10 +461,13 @@ public final class DescriptorSourceFactory {
         }
 
         jsc.add("addFieldDescriptor(desc);");
+        if (isElement) {
+            jsc.add("addSequenceElement(desc);");
+        }
         jsc.add("");
 
         //-- Add Validation Code
-        validationCode(member, jsc);
+        addValidationCode(member, jsc);
     }
 
     /**
@@ -524,7 +527,7 @@ public final class DescriptorSourceFactory {
      * @param member the member for which to create the validation code.
      * @param jsc the JSourceCode to fill in.
      */
-    private static void validationCode(final FieldInfo member, final JSourceCode jsc) {
+    private static void addValidationCode(final FieldInfo member, final JSourceCode jsc) {
         if (member == null || jsc == null) {
             return;
         }
