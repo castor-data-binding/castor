@@ -32,15 +32,23 @@ public class BaseFactory {
     
     /** A GroupNaming helper class used to named anonymous groups. */
     private GroupNaming _groupNaming = null;
+    
+    /**
+     * The calling instance of {@link SourceGenerator}.
+     */
+    private SourceGenerator _sourceGenerator;
 
     /**
      * Creates an instance of this class.
      * @param config XML code generator configuration
      * @param infoFactory the FieldInfoFactory to use
      * @param groupNaming Group naming scheme to be used.
+     * @param sourceGenerator The calling source generator.
      */
     public BaseFactory(final BuilderConfiguration config,
-            final FieldInfoFactory infoFactory, final GroupNaming groupNaming) {
+            final FieldInfoFactory infoFactory, 
+            final GroupNaming groupNaming,
+            final SourceGenerator sourceGenerator) {
         if (config == null) {
             String err = "The 'BuilderConfiguration' argument must not be null.";
             throw new IllegalArgumentException(err);
@@ -53,6 +61,7 @@ public class BaseFactory {
             this._infoFactory = infoFactory;
         }
         _groupNaming = groupNaming;
+        _sourceGenerator = sourceGenerator;
     }
     
     /**
@@ -133,6 +142,14 @@ public class BaseFactory {
      */
     public final void setGroupNaming(final GroupNaming groupNaming) {
         _groupNaming = groupNaming;
+    }
+
+    /**
+     * Returns the calling {@link SourceGenerator} instance.
+     * @return the calling source generator 
+     */
+    protected SourceGenerator getSourceGenerator() {
+        return _sourceGenerator;
     }
 
 }

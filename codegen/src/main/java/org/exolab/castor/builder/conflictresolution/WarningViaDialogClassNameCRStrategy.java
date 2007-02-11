@@ -18,7 +18,7 @@ package org.exolab.castor.builder.conflictresolution;
 import java.util.Enumeration;
 
 import org.exolab.castor.builder.SGStateInfo;
-import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
@@ -102,7 +102,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
             if (a1 != null) {
                 error.append(SchemaNames.getStructureName(a1));
                 error.append(" '");
-                error.append(ExtendedBinding.getSchemaLocation(a1));
+                error.append(XPathHelper.getSchemaLocation(a1));
             } else {
                 error.append(newClassInfo.getNodeTypeName());
                 error.append(" '");
@@ -112,7 +112,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
             if (a2 != null) {
                 error.append(SchemaNames.getStructureName(a2));
                 error.append(" '");
-                error.append(ExtendedBinding.getSchemaLocation(a2));
+                error.append(XPathHelper.getSchemaLocation(a2));
             } else {
                 error.append(oldClassInfo.getNodeTypeName());
                 error.append(" '");

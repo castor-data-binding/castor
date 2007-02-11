@@ -116,7 +116,7 @@ public final class SingleClassGenerator {
      * The registry for {@link ClassNameCRStrategy} implementations.
      */
     private ClassNameCRStrategyRegistry _classNameConflictResolutionStrategyRegistry;
-
+    
     /**
      * Creates an instance of this class.
      * @param dialog A ConsoleDialog instance
@@ -450,6 +450,14 @@ public final class SingleClassGenerator {
                 .getClassNameConflictResolutionStrategy(nameConflictStrategy);
         this._conflictStrategy.setConsoleDialog(_dialog);
         this._conflictStrategy.setSingleClassGenerator(this);
+    }
+
+    /**
+     * Returns the {@link SourceGenerator} instance that created this class.
+     * @return the {@link SourceGenerator} instance that created this class.
+     */
+    public SourceGenerator getSourceGenerator() {
+        return _sourceGenerator;
     }
 
 }

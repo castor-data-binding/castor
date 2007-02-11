@@ -370,14 +370,14 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             }
 
             // multi valued flag
-            if (expectedElementDescriptor.isMultivalued() && !withinMultivaluedElement) {
-                withinMultivaluedElement = true;
+            if (expectedElementDescriptor.isMultivalued() && !parentState.withinMultivaluedElement) {
+            	parentState.withinMultivaluedElement = true;
             }
             
             if (!anyNode && !(expectedElementName).equals(elementName)) {
                 // handle multi-valued fields
                 if (expectedElementDescriptor.isMultivalued()) {
-                    withinMultivaluedElement = false;
+                	parentState.withinMultivaluedElement = false;
                     parentState.expectedIndex++;
                     checkDescriptorForCorrectOrderWithinSequence(elementDescriptor, parentState, xmlName);
                     return;
@@ -394,7 +394,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                 
             }
             
-            if (!withinMultivaluedElement) {
+            if (!parentState.withinMultivaluedElement) {
                 parentState.expectedIndex++;
             }
         }

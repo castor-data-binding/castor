@@ -34,16 +34,65 @@
             <summary>
             
             	<h2>Additions</h2>
+
+            	<h3><font color="red">Experimental</font> - Added support for substitution groups</h3>
             	
+				<p>Support for substitution groups has been added. This new feature is marked
+				   as <b>experimental</b> simply to indicate that we'd appreciate as much feedback
+				   and testing as possible.</p>
+				
+            	<h3><font color="red">Experimental</font> - Added 'automatic class name conflict resolution' mode</h3>
+            	
+            	<p>The XML code generator now support a new 'automatic class name
+            	   conflict resolution' mode that will minimize - if not completely 
+            	   prevent - class name conflicts during code generation.</p>
+            	   
+            	<p>To enable this mode, please set the following property in your
+            	   custom <tt>castorbuilder.properties</tt> file as shown below:</p>
+            	   
+            	<code-panel>
+# Specifies whether automatic class name conflict resolution
+# should be used or not; defaults to false.
+#
+org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
+
+				<p>This new mode will avoid class name conflicts by prepending XPATH
+				   fragments to the 'normal' class name as generated otherwise.</p>
+            	
+            	<p>Again, this new feature is marked as <b>experimental</b> simply to 
+            	   indicate that we'd appreciate as much feedback and testing as 
+            	   possible.</p>
+            	   
             	<h3>Validation of &lt;xs:sequence&gt; order</h3>
             	
             	<p>Added support for validation of correct order of elements of 
-                   &lt;xsd:sequence&gt; typed complex types during unmarshalling. A+
+                   &lt;xsd:sequence&gt; typed complex types during unmarshalling. A
                    <tt>ValidationException</tt> will be thrown if the expected order
                    canno tbe matched.</p>
                    
             </summary>
 			<bugs>
+                <bug id="1852" tool="jira">
+                    <description>
+                        Added an 'automatic class name conflict resolution' mode to the 
+                        XML code generator.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen</module>
+                    <date>20070211</date>
+                </bug>
                 <bug id="1811" tool="jira">
                     <description>
                         Added support for validation of correct order of elements of 

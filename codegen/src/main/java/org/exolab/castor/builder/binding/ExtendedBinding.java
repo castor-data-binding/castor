@@ -51,11 +51,7 @@ import org.exolab.castor.builder.binding.xml.Binding;
 import org.exolab.castor.builder.binding.xml.ComponentBindingType;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
-import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ElementDecl;
-import org.exolab.castor.xml.schema.Group;
-import org.exolab.castor.xml.schema.ModelGroup;
-import org.exolab.castor.xml.schema.SimpleType;
 import org.exolab.castor.xml.schema.Structure;
 
 /**
@@ -94,11 +90,26 @@ public final class ExtendedBinding extends Binding {
      * Constants needed to create the XPath.
      */
     protected static final String PATH_SEPARATOR   = "/";
+    /**
+     * Prefix used to identify an attribute.
+     */
     protected static final String ATTRIBUTE_PREFIX = "@";
-    protected static final String COMPLEXTYPE_ID = "complexType:";
-    protected static final String SIMPLETYPE_ID = "simpleType:";
-    protected static final String ENUMTYPE_ID = "enumType:";
-    protected static final String GROUP_ID = "group:";
+    /**
+     * Prefix used to identify a complexType.
+     */
+    public static final String COMPLEXTYPE_ID = "complexType:";
+    /**
+     * Prefix used to identity a simplyType.
+     */
+    public static final String SIMPLETYPE_ID = "simpleType:";
+    /**
+     * Prefix used to identify an enumeration.
+     */
+    public static final String ENUMTYPE_ID = "enumType:";
+    /**
+     * Prefix used to identify a model group.
+     */
+    public static final String GROUP_ID = "group:";
 
     private static final short ATTRIBUTE   = 10;
     private static final short ELEMENT     = 11;
@@ -152,7 +163,7 @@ public final class ExtendedBinding extends Binding {
             processBindingComponents();
         }
 
-        String xPath = getSchemaLocation(annotated);
+        String xPath = XPathHelper.getSchemaLocation(annotated);
         ComponentBindingType result = lookupComponentBindingType(xPath);
         if (result == null) {
             //--handle reference
@@ -164,7 +175,7 @@ public final class ExtendedBinding extends Binding {
                     if (result == null) {
                         ElementDecl element = (ElementDecl) annotated;
                         if (element.isReference()) {
-                            xPath = getSchemaLocation(element.getReference());
+                            xPath = XPathHelper.getSchemaLocation(element.getReference());
                             result = lookupComponentBindingType(xPath);
                         }
                         //--discard the element
@@ -178,7 +189,7 @@ public final class ExtendedBinding extends Binding {
                         //--global element then we use the global binding
                         AttributeDecl attribute = (AttributeDecl) annotated;
                         if (attribute.isReference()) {
-                            xPath = getSchemaLocation(attribute.getReference());
+                            xPath = XPathHelper.getSchemaLocation(attribute.getReference());
                             result = lookupComponentBindingType(xPath);
                         }
                         attribute = null;
@@ -203,7 +214,7 @@ public final class ExtendedBinding extends Binding {
      * @return The ComponentBindingType that correspond to the given Schema
      *         Location XPath, Null is returned when no ComponentBindingType is
      *         found.
-     * @see org.exolab.castor.builder.binding.ExtendedBinding#getSchemaLocation(Structure)
+     * @see org.exolab.castor.builder.binding.XPathHelper#getSchemaLocation(Structure)
      */
     private ComponentBindingType lookupComponentBindingType(final String xPath) {
         if (xPath == null) {
@@ -277,7 +288,7 @@ public final class ExtendedBinding extends Binding {
      *
      * @param binding the ComponentBindingType for which we want to process the
      *        children.
-     * @param currentPath the current XPath location that points to the parent of the
+     * @param xPath the current XPath location that points to the parent of the
      *        given ComponentBindingType.
      * @param type an integer that indicates the type of the given
      *        ComponentBindingType
@@ -405,138 +416,6 @@ public final class ExtendedBinding extends Binding {
 
         temp = null;
         tempBindings = null;
-    }
-
-    /**
-     * Returns a string representation of an XML Schema Component. This
-     * representation is directly adapted from XPath and will used as a key to
-     * store the component bindings.
-     * <p>
-     * The location of a structure is composed of two parts:
-     * <ol>
-     *   <li>the location of the parent structure</li>
-     *   <li>the local location of the structure itself</li>
-     * </ol>
-     * <p>
-     * The local location is defined by:
-     * <ul>
-     *   <li>If the structure is an <b>Element</b>: the location is the XPath
-     *       representation "/element_name"</li>
-     *   <li>If the structure is an <b>Attribute</b>: the location is the XPath
-     *       representation "/@attribute_name"</li>
-     *   <li>If the structure is a <b>ComplexType</b>: the location is
-     *       "complexType:complexType_name"</li>
-     *   <li>If the structure is a <b>SimpleType</b>: the location is
-     *       "simpleType:simpleType_name"</li>
-     *   <li>If the structure is a <b>Enumeration</b>: the location is
-     *       "enumType:enumType_name"</li>
-     *   <li>If the structure is a <b>ModelGroup</b>: the location is
-     *       "group:group_name"</li>
-     * </ul>
-     * Note that only top-level groups and complexTypes are named and thus will
-     *
-     * @param structure the structure for which to return a representation.
-     * @return a string representation of an XML Schema Component.
-     */
-    public static String getSchemaLocation(final Structure structure) {
-        if (structure == null) {
-            return null;
-        }
-        StringBuffer buffer = new StringBuffer(30);
-        getSchemaLocation(structure, buffer);
-        return buffer.toString();
-    }
-
-    private static void getSchemaLocation(final Structure structure, final StringBuffer location) {
-        if (structure == null) {
-            throw new IllegalArgumentException("Structure cannot be null");
-        }
-
-        if (location == null) {
-            throw new IllegalArgumentException("location cannot be null");
-        }
-
-        Structure parent = null;
-        switch (structure.getStructureType()) {
-            case Structure.ELEMENT:
-                parent = ((ElementDecl) structure).getParent();
-                if (parent.getStructureType() != Structure.SCHEMA) {
-                   getSchemaLocation(parent, location);
-                }
-                location.append(PATH_SEPARATOR);
-                location.append(((ElementDecl) structure).getName());
-                break;
-
-            case Structure.COMPLEX_TYPE:
-                ComplexType complexType = (ComplexType) structure;
-                parent = (complexType).getParent();
-                if (parent.getStructureType() != Structure.SCHEMA) {
-                   getSchemaLocation(parent, location);
-                }
-                if (complexType.getName() != null) {
-                    location.append(PATH_SEPARATOR);
-                    location.append(COMPLEXTYPE_ID);
-                    location.append(((ComplexType) structure).getName());
-                }
-//                else {
-//                    location.append(PATH_SEPARATOR);
-//                    location.append(COMPLEXTYPE_ID);
-//                    location.append("anonymous");
-//                }
-                break;
-
-            case Structure.SIMPLE_TYPE:
-                SimpleType simpleType = (SimpleType) structure;
-                parent = simpleType.getParent();
-                if (parent != null && parent.getStructureType() != Structure.SCHEMA) {
-                   getSchemaLocation(parent, location);
-                }
-
-                if (parent != null && simpleType.getName() != null) {
-                    location.append(PATH_SEPARATOR);
-                    location.append(ENUMTYPE_ID);
-                    location.append(((SimpleType) structure).getName());
-                }
-//                else {
-//                    location.append(PATH_SEPARATOR);
-//                    location.append(ENUMTYPE_ID);
-//                    location.append("anonymous");
-//                }
-                break;
-
-            case Structure.MODELGROUP:
-                ModelGroup group = (ModelGroup) structure;
-                parent = group.getParent();
-                if (parent.getStructureType() != Structure.SCHEMA) {
-                   getSchemaLocation(parent, location);
-                }
-                if (group.getName() != null) {
-                    location.append(GROUP_ID);
-                    location.append(group.getName());
-                }
-                break;
-
-            case Structure.ATTRIBUTE:
-                parent = ((AttributeDecl) structure).getParent();
-                if (parent.getStructureType() != Structure.SCHEMA) {
-                   getSchemaLocation(parent, location);
-                }
-                location.append(PATH_SEPARATOR);
-                location.append(ATTRIBUTE_PREFIX);
-                location.append(((AttributeDecl) structure).getName());
-                break;
-
-            case Structure.GROUP:
-                //--we are inside a complexType
-                getSchemaLocation(((Group) structure).getParent(), location);
-                break;
-
-//            case Structure.ATTRIBUTE_GROUP:
-//                //handle the real location
-
-            default:
-                break;
-        }
     }
 
 }

@@ -61,15 +61,10 @@ import org.exolab.javasource.JClass;
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public final class ClassInfo extends XMLInfo {
-    /** Default initial number of attributes to make room for. */
-    private static final int ATTR_VECTOR_LENGTH = 3;
-    /** Default initial number of elements to make room for. */
-    private static final int ELEMENT_VECTOR_LENGTH = 5;
-
     /** Vector of FieldInfo's for all attributes that are members of this Class. */
-    private Vector    _atts      = null;
+    private Vector _atts = new Vector();
     /** Vector of FieldInfo's for all elements that are members of this Class. */
-    private Vector    _elements  = null;
+    private Vector _elements = new Vector();
     /** if this ClassInfo represents a TextField, this is this TextField's FieldInfo. */
     private FieldInfo _textField = null;
     /** The base class. */
@@ -119,9 +114,6 @@ public final class ClassInfo extends XMLInfo {
 
         switch(fieldInfo.getNodeType()) {
             case XMLInfo.ATTRIBUTE_TYPE:
-                if (_atts == null) {
-                    _atts = new Vector(ATTR_VECTOR_LENGTH);
-                }
                 if (!_atts.contains(fieldInfo)) {
                     _atts.addElement(fieldInfo);
                 }
@@ -130,9 +122,6 @@ public final class ClassInfo extends XMLInfo {
                 _textField = fieldInfo;
                 break;
             default:
-                if (_elements == null) {
-                    _elements = new Vector(ELEMENT_VECTOR_LENGTH);
-                }
                 if (!_elements.contains(fieldInfo)) {
                     _elements.addElement(fieldInfo);
                 }

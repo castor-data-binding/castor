@@ -9,12 +9,12 @@
      </cbf:package>
 
      <!-- Binding the Invoice element to a class -->
-     <cbf:elementBinding name="invoice">
+     <cbf:elementBinding name="/invoice">
         <cbf:java-class name="MyInvoice" final="true" equals="true"/>
      </cbf:elementBinding>
 
     <!-- Binding for the Item element -->
-    <cbf:elementBinding name="item">
+    <cbf:elementBinding name="/item">
         <cbf:java-class package="test.business" final="true" equals="true">
             <!--<cbf:extends>ItemLogic</cbf:extends>-->
         </cbf:java-class>
@@ -29,7 +29,7 @@
         <cbf:java-class name="AddressElement"/>
     </cbf:elementBinding>
 
-    <cbf:complexTypeBinding name="address">
+    <cbf:complexTypeBinding name="/complexType:address">
        <cbf:java-class name="MyAddress"/>
        <!--special name for the second street -->
        <cbf:elementBinding name='street2'>

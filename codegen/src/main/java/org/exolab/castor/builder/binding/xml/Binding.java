@@ -11,6 +11,7 @@ package org.exolab.castor.builder.binding.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
+import org.exolab.castor.builder.binding.xml.types.BindingType;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
@@ -103,6 +104,8 @@ public class Binding implements java.io.Serializable {
         this._groupBindingList = new java.util.ArrayList();
         this._enumBindingList = new java.util.ArrayList();
         this._simpleTypeBindingList = new java.util.ArrayList();
+        
+        this._defaultBindingType = BindingType.ELEMENT;
     }
 
 

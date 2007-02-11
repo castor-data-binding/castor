@@ -321,7 +321,8 @@ public final class XMLFieldHandlerFactory {
         if (any || forGeneralizedHandler || isEnumerated
                 || xsType.isPrimitive()
                 || xsType.getJType().isArray()
-                || (xsType.getType() == XSType.STRING_TYPE) || isAbstract) {
+                || (xsType.getType() == XSType.STRING_TYPE) 
+                || isAbstract) {
             jsc.append("null;");
         } else {
             jsc.append(xsType.newInstanceCode());

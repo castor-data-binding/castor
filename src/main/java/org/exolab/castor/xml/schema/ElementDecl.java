@@ -452,6 +452,9 @@ public class ElementDecl extends Particle implements Referable {
      * @return true if this element definition is abstract
     **/
     public boolean isAbstract() {
+        if (isReference()) {
+            return _referencedElement.isAbstract();
+        }
         return _isAbstract;
     } //-- isAbstract
 

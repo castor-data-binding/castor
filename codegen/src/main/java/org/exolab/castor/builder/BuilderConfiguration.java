@@ -222,6 +222,17 @@ public class BuilderConfiguration {
          */
         public static final String NAME_CONFLICT_STRATEGIES =
             "org.exolab.castor.builder.nameConflictStrategies";
+
+        /**
+         * Property specifying whether automatic class name conflict resolution
+         * should be used or not; defaults to false.
+         *
+         * <pre>
+         * automaticConflictResolution
+         * </pre>
+         */
+        public static final String AUTOMATIC_CONFLICT_RESOLUTION = 
+            "org.exolab.castor.builder.automaticConflictResolution";
     } //--Property
 
     /**
@@ -657,5 +668,16 @@ public class BuilderConfiguration {
             _nspackages.put(ns, javaPackage);
         }
     } //-- processNamespacePackageMappings
+
+    /**
+     * indicates whether automatic class name conflict resolution during 
+     * XML code generation should take place or not.
+     * @return True if automatic mode should be used.
+     */
+    public boolean isAutomaticConflictResolution() {
+        String automaticConflictResolutionProperty = 
+            _localProps.getProperty(Property.AUTOMATIC_CONFLICT_RESOLUTION, "false");
+        return "true".equalsIgnoreCase(automaticConflictResolutionProperty);
+    }
 
 } //-- BuilderProperties

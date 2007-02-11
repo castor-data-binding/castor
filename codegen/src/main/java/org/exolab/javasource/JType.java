@@ -91,7 +91,7 @@ public class JType {
     protected JType(final String name) {
         super();
         
-        _name = name;
+        setName(name);
     }
 
     //--------------------------------------------------------------------------
@@ -132,6 +132,14 @@ public class JType {
     public final boolean isPrimitive() {
         return (this instanceof JPrimitiveType);
     }
+    
+    /**
+     * Sets the qualified name of this type.
+     * @param name the (qualified) name of the type
+     */
+    protected void setName(final String name) {
+        this._name = name;
+    }    
 
     //--------------------------------------------------------------------------
 }

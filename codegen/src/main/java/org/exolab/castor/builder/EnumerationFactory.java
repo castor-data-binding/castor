@@ -72,9 +72,12 @@ public final class EnumerationFactory extends BaseFactory {
      * Creates a new EnumerationFactory for the builder configuration given.
      * @param config the current BuilderConfiguration instance.
      * @param groupNaming The group naming scheme to be used.
+     * @param sourceGenerator the calling source generator. 
      */
-    public EnumerationFactory(final BuilderConfiguration config, final GroupNaming groupNaming) {
-        super(config, null, groupNaming);
+    public EnumerationFactory(final BuilderConfiguration config, 
+            final GroupNaming groupNaming,
+            final SourceGenerator sourceGenerator) {
+        super(config, null, groupNaming, sourceGenerator);
         _typeConversion = new TypeConversion(getConfig());
 
         // TODO[WG]: add code to read in max. value from builder property file
@@ -84,7 +87,7 @@ public final class EnumerationFactory extends BaseFactory {
     /**
      * Creates all the necessary enumeration code for a given SimpleType.
      *
-     * @param binding
+     * @param binding Extended binding instance
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      * @see #processEnumerationAsBaseType
@@ -457,7 +460,7 @@ public final class EnumerationFactory extends BaseFactory {
      *         public {type} valueOf(String strValue);
      *     }
      * </pre>
-     * @param binding
+     * @param binding Extended binding instance
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */

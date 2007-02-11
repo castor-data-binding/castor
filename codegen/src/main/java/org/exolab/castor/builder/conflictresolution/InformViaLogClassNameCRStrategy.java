@@ -20,7 +20,7 @@ import java.util.Enumeration;
 import org.apache.commons.logging.Log;
 import org.apache.commons.logging.LogFactory;
 import org.exolab.castor.builder.SGStateInfo;
-import org.exolab.castor.builder.binding.ExtendedBinding;
+import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
@@ -97,7 +97,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
         if (a1 != null) {
             message.append(SchemaNames.getStructureName(a1));
             message.append(" '");
-            message.append(ExtendedBinding.getSchemaLocation(a1));
+            message.append(XPathHelper.getSchemaLocation(a1));
         } else {
             message.append(newClassInfo.getNodeTypeName());
             message.append(" '");
@@ -107,7 +107,7 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
         if (a2 != null) {
             message.append(SchemaNames.getStructureName(a2));
             message.append(" '");
-            message.append(ExtendedBinding.getSchemaLocation(a2));
+            message.append(XPathHelper.getSchemaLocation(a2));
         } else {
             message.append(oldClassInfo.getNodeTypeName());
             message.append(" '");

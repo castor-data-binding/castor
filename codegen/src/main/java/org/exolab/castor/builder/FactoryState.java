@@ -51,6 +51,7 @@ package org.exolab.castor.builder;
 
 import java.util.Vector;
 
+import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.xml.schema.Annotated;
@@ -97,6 +98,11 @@ class FactoryState implements ClassInfoResolver {
     /** Keeps track of the different FactoryState. */
     private FactoryState _parent = null;
 
+    /**
+     * {@link JClassRegistry} instance used for automatic class name conflict resolution.
+     */
+    private JClassRegistry _xmlInfoRegistry = null;
+
     //----------------/
     //- Constructors -/
     //----------------/
@@ -106,9 +112,12 @@ class FactoryState implements ClassInfoResolver {
      * @param className Class name of the class currently being generated.
      * @param sgState Source Generator State object
      * @param packageName package name for generated code.
+     * @param component TODO
      */
-    protected FactoryState(final String className, final SGStateInfo sgState,
-                           final String packageName) {
+    protected FactoryState(final String className, 
+            final SGStateInfo sgState,
+            final String packageName, 
+            final XMLBindingComponent component) {
         if (sgState == null) {
             throw new IllegalArgumentException("SGStateInfo cannot be null.");
         }
@@ -122,14 +131,22 @@ class FactoryState implements ClassInfoResolver {
         //}
 
         _jClass       = new JClass(className);
-        _classInfo    = new ClassInfo(_jClass);
 
+        // if configured, try automatic class name conflict resolution
+        if (_sgState.getSourceGenerator().isAutomaticConflictResolution()) {
+            _xmlInfoRegistry = sgState.getSourceGenerator().getXMLInfoRegistry(); 
+            _xmlInfoRegistry.bind(_jClass, component, "class");
+        }        
+        
+        _classInfo    = new ClassInfo(_jClass);
+        
         _resolver = sgState;
 
         _packageName = packageName;
 
         //-- boundProperties
         _bound = sgState.getSourceGenerator().boundPropertiesEnabled();
+        
     } //-- FactoryState
 
     //-----------/

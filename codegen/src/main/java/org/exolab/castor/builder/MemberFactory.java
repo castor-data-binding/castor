@@ -93,10 +93,13 @@ public final class MemberFactory extends BaseFactory {
      * @param config the BuilderConfiguration
      * @param infoFactory the FieldInfoFactory to use
      * @param groupNaming Grou pnaming scheme to be used.
+     * @param sourceGenerator Calling source generator
      */
     public MemberFactory(final BuilderConfiguration config,
-            final FieldInfoFactory infoFactory, final GroupNaming groupNaming) {
-        super(config, infoFactory, groupNaming);
+            final FieldInfoFactory infoFactory,
+            final GroupNaming groupNaming,
+            final SourceGenerator sourceGenerator) {
+        super(config, infoFactory, groupNaming, sourceGenerator);
 
         if (getConfig().generateExtraCollectionMethods()) {
             this.getInfoFactory().setCreateExtraMethods(true);
@@ -334,10 +337,17 @@ public final class MemberFactory extends BaseFactory {
         if (xsType == null) {
             String className = component.getQualifiedName();
             JClass jClass = new JClass(className);
+            if (component.isAbstract()) {
+                jClass.getModifiers().setAbstract(true);
+            }
+            if (getConfig().isAutomaticConflictResolution()) {
+                getSourceGenerator().getXMLInfoRegistry().bind(jClass, 
+                        component, "field");
+            }
             xsType = new XSClass(jClass);
             if (xmlType != null && xmlType.isComplexType()) {
                 ComplexType complexType = (ComplexType) xmlType;
-                if (complexType.isAbstract()) {
+                if (complexType.isAbstract() || getConfig().mappingSchemaElement2Java()) {
                     jClass.getModifiers().setAbstract(true);
                 }
             }

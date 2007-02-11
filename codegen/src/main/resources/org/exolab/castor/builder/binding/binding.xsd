@@ -42,7 +42,7 @@
                 <xsd:element ref="simpleTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
             </xsd:sequence>
             <!-- the binding type: 'element' approach or 'type' approach -->
-            <xsd:attribute name="defaultBindingType" type="bindingType"/>
+            <xsd:attribute name="defaultBindingType" type="bindingType" default="element"/>
         </xsd:complexType>
     </xsd:element>
     

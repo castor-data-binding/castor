@@ -160,7 +160,13 @@ public class ElementUnmarshaller extends ComponentReader {
 
         //-- @final
         _element.setFinal(atts.getValue(SchemaNames.FINAL_ATTR));
-        
+
+        //-- @abstract
+        final boolean isAbstract = new Boolean(atts.getValue(SchemaNames.ABSTRACT)).booleanValue();
+        if (isAbstract) {
+            _element.setAbstract(isAbstract);
+        }
+
         //-- @fixed
         attValue = atts.getValue(SchemaNames.FIXED_ATTR);
         if (attValue != null) {
