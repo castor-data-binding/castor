@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    
             </summary>
 			<bugs>
+                <bug id="1865" tool="jira">
+                    <description>
+                        Fixed problem with 'required' attributes in the context of 
+                        containers.
+                    </description>
+                    <contributor>
+                        <name>Guy Coleman</name>
+                        <email>guy.coleman@prolog.uk.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Guy Coleman</name>
+                        <email>guy.coleman@prolog.uk.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen</module>
+                    <date>20070211</date>
+                </bug>
                 <bug id="1852" tool="jira">
                     <description>
                         Added an 'automatic class name conflict resolution' mode to the 
