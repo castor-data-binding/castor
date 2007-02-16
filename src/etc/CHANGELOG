@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1865 using contribution from Guy Coleman [guy.coleman@prolog.uk.com]
+       Fixed problem with 'required' attributes in the context of containers.
+       Details: http://jira.codehaus.org/browse/CASTOR-1865
+       (Werner - 20070216)
+
 XML:   Resolved issue CASTOR-1852 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added an 'automatic class name conflict resolution' mode to the XML code generator.
        Details: http://jira.codehaus.org/browse/CASTOR-1852

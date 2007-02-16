@@ -2678,16 +2678,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
             int index = atts.getIndex(name, namespace);
 
-
+            String attValue = null;
             if (index >= 0) {
+                attValue = atts.getValue(index);
                 processedAtts[index] = true;
             }
-            //-- otherwise...for now just continue, this code needs to
-            //-- change when we upgrade to new event API
-            else continue;
 
             try {
-                processAttribute(name, namespace, atts.getValue(index), descriptor, classDesc, object);
+                processAttribute(name, namespace, attValue, descriptor, classDesc, object);
             }
             catch(java.lang.IllegalStateException ise) {
                 String err = "unable to add attribute \"" + name + "\" to '";
