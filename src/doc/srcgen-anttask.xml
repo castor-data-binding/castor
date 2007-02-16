@@ -111,6 +111,13 @@
             <td>No</td>
           </crow>
           <crow>
+            <td><b>nameConflictStrategy</b></td>
+            <td>If used, sets the name conflict strategy to use during XML code generation; 
+                possible values are '<tt>warnViaConsoleDialog</tt>' and 
+                '<tt>informViaLog</tt>'.</td>
+            <td>No</td>
+          </crow>
+          <crow>
             <td><b>properties</b></td>
             <td>Location of file defining a set of properties to be used during source code
                 generation. This overrides the default mechanisms of configuring the source
@@ -134,7 +141,7 @@
              description="Generate Java source files from XSD.">
 
     <taskdef name="castor-srcgen"
-             classname="org.exolab.castor.tools.ant.taskdefs.CastorSourceGenTask"
+             classname="oorg.castor.anttask.CastorCodeGenTask"
              classpathref="castor.class.path" />
     <mkdir dir="generated" />
     <castor-srcgen file="src/schema/sample.xsd"
