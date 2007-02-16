@@ -50,6 +50,15 @@
       </p>
 
     </section>
+    
+    <section title="Useful links">
+    
+    	<ul>
+    		<li><url title="How to run CTF test suite">how-to-run-xml-ctf-suite.html</url></li>
+    		<li><url title="How to submit an XML-specific bug report">how-to-submit-an-xml-bug.html</url></li>
+    		<li><url title="How to prepare a patch">how-to-prepare-a-patch.html</url></li>
+    	</ul>
+    </section>
 
     <section title="Guidelines For Code Contribution">
 
