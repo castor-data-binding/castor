@@ -154,6 +154,9 @@ public final class CastorCodeGenTask extends MatchingTask {
     /** CastorBuilderProperties file. */
     private String _properties;
     
+    /** The name conflict strategy to use */
+    private String _nameConflictStrategy = "warnViaConsoleDialog";
+    
     /** SourceGenerator instance. */
     private SourceGenerator _sgen;
 
@@ -248,6 +251,15 @@ public final class CastorCodeGenTask extends MatchingTask {
      */
     public void setVerbose(final boolean b) {
         _verbose = b;
+    }
+
+    /**
+     * Sets the name conflict strategy to use.
+     * 
+     * @param nameConflictStrategy The name conflict strategy to use
+     */
+    public void setNameConflictStrategy(final String nameConflictStrategy) {
+        _nameConflictStrategy = nameConflictStrategy;
     }
 
     /**
@@ -387,6 +399,8 @@ public final class CastorCodeGenTask extends MatchingTask {
         _sgen.setSAX1(_sax1);
 
         _sgen.setCaseInsensitive(_caseInsensitive);
+        
+        _sgen.setNameConflictStrategy(_nameConflictStrategy);
 
         _sgen.setTestable(_testable);
         if (this._testable) { log(CASTOR_TESTABLE_MSG); }

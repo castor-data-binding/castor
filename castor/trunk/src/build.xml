@@ -18,6 +18,7 @@
     <property name="build.sh.class.path"  value="${env.CLASSPATH}" />
     <property name="name"                 value="Castor"/>
     <property name="source"               value="${basedir}/src"/>
+    <property name="xmlctf-source"        value="${basedir}/xmlctf/src"/>
     <property name="java"                 value="${source}/main/java"/>
     <property name="main.resources"       value="${source}/main/resources" />
     <property name="test-resources"       value="${source}/test/resources" />
@@ -854,7 +855,7 @@
         <mkdir dir="${gen.src}/testdescriptor"/>
         <taskdef name="castor-srcgen" classname="org.castor.anttask.CastorCodeGenTask"
                  classpathref="build.classpath"/>
-        <castor-srcgen file="${source}/tests/main/org/exolab/castor/tests/framework/TestDescriptor.xsd"
+        <castor-srcgen file="xmlctf-source}/main/resources/org/exolab/castor/tests/framework/TestDescriptor.xsd"
                        todir="${gen.src}/testdescriptor"
                        package="org.exolab.castor.tests.framework.testDescriptor"
                        lineseparator="unix"
