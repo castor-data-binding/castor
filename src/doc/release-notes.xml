@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    
             </summary>
 			<bugs>
+                <bug id="1870" tool="jira">
+                    <description>
+                        Moved Performance Test Framework of Castor Persistence to its own module.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070217</date>
+                </bug>
                 <bug id="1866" tool="jira">
                     <description>
                         Fixed problem with 'required' attributes in the context of 
