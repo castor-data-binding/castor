@@ -236,7 +236,7 @@
         </p>
 
         <pre>
-            [1]Path         ::= LocationPath('/'LocationPath)*
+            [1]Path         ::= '/'LocationPath('/'LocationPath)*
             [2]LocationPath ::= (Complex|ModelGroup|Attribute|Element|Enumeration)
             [3]Complex      ::= 'complexType:'(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
             [4]ModelGroup   ::= 'group:'<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
@@ -244,6 +244,11 @@
             [6]Element      ::= <a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>
             [7]Enumeration  ::= 'enumType':(<a href="http://www.w3.org/TR/2001/REC-xmlschema-2-20010502/datatypes.html#NCName">NCName</a>)
         </pre>
+        
+        <p>
+          Please note that <font color="red">as of Castor 1.1</font>, all values 
+          for the <tt>name</tt> attribute have to start with a '/'.
+        </p>
 
         <p>
           The second option to identify an XML Schema Component is to embed
@@ -257,12 +262,12 @@
         </p>
 
         <code-panel><![CDATA[
-<elementBinding name="complexType:fooType/foo>
+<elementBinding name="/complexType:fooType/foo>
    <member name="MyFoo" handler="mypackage.myHandler"/>
 </elementBinding>
 
-<complexTypeBinding name="fooType">
-   <elementBinding name="foo>
+<complexTypeBinding name="/fooType">
+   <elementBinding name="/foo>
       <member name="MyFoo" handler="mypackage.myHandler"/>
    </elementBinding>
 <complexTypeBinding>]]></code-panel>
@@ -280,7 +285,7 @@
           </p>
 
           <code-panel>
-&lt;elementBinding name="complexType:fooType/foo/enumType:<b>anonymous</b>">
+&lt;elementBinding name="/complexType:fooType/foo/enumType:<b>anonymous</b>">
    &lt;member name="MyFoo" handler="mypackage.myHandler"/>
 &lt;/elementBinding></code-panel>
 
@@ -537,6 +542,7 @@ public class Root {
 
         </section>
 
+<!-- 
         <section title="Sample -- Nested (anonymous) &lt;simpleType&gt; enumeration">
 
           <p>
@@ -570,7 +576,6 @@ public class Root {
             definition.
           </p>
 
-          <!-- We cannot use CDATA for this code panel; we want the <b> to work -->
           <code-panel>
 &lt;enumBinding name="<b>/processDefinition/complexType:anonymous/@duration/enumType:anonymous</b>">
   &lt;enum-def>
@@ -582,6 +587,7 @@ public class Root {
 &lt;/enumBinding></code-panel>
 
         </section>
+        -->
 
       </section>
 
@@ -808,11 +814,11 @@ SkuTypeDescriptor.java</code-panel>
       <java-class name="OrderReceiptLineItem"/>
    </elementBinding>
 
-   <elementBinding name="complexType:ReceiptLineItemType/Sku">
+   <elementBinding name="/complexType:ReceiptLineItemType/Sku">
       <java-class name="OrderReceiptSku"/>
    </elementBinding>
 
-   <elementBinding name="complexType:LineItemType/Sku">
+   <elementBinding name="/complexType:LineItemType/Sku">
       <java-class name="PurchaseOrderSku"/>
    </elementBinding>
 
