@@ -255,6 +255,12 @@ java org.exolab.castor.builder.SourceGeneratorMain -i foo-schema.xsd \
             <td>Optional</td>
           </crow>
           <crow>
+            <td align="center">nameConflictStrategy</td>
+            <td>Name conflict strategy.</td>
+            <td>Sets the name conflict strategy to use during XML code generation</td>
+            <td>Optional</td>
+          </crow>
+          <crow>
             <td align="center">fail</td>
             <td><br/></td>
             <td>

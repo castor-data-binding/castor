@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    
             </summary>
 			<bugs>
+                <bug id="1866" tool="jira">
+                    <description>
+                        Fixed problem with 'required' attributes in the context of 
+                        containers.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>Gen</module>
+                    <date>20070217</date>
+                </bug>
                 <bug id="1865" tool="jira">
                     <description>
                         Fixed problem with 'required' attributes in the context of 
