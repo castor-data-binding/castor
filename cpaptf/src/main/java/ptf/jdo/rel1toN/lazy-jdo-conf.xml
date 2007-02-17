@@ -4,7 +4,7 @@
 
 <jdo-conf>
     <database name="rel1toN_lazy" engine="mysql" >
-        <driver url="jdbc:mysql://localhost/test" class-name="org.gjt.mm.mysql.Driver">
+        <driver url="jdbc:mysql://localhost/cpaptf" class-name="org.gjt.mm.mysql.Driver">
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>
