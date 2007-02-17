@@ -3,12 +3,12 @@
                            "http://castor.org/jdo-conf.dtd">
 
 <jdo-conf>
-    <database name="rel1toN_bi" engine="mysql" >
-        <driver url="jdbc:mysql://localhost/test" class-name="org.gjt.mm.mysql.Driver">
+    <database name="rel1toN_uni" engine="mysql" >
+        <driver url="jdbc:mysql://localhost/cpaptf" class-name="org.gjt.mm.mysql.Driver">
             <param name="user" value="test" />
             <param name="password" value="test" />
         </driver>
-        <mapping href="bi-mapping.xml" />
+        <mapping href="uni-mapping.xml" />
     </database>
     <transaction-demarcation mode="local" />
 </jdo-conf>

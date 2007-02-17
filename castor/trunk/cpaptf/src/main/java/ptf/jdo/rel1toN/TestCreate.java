@@ -41,7 +41,7 @@ public final class TestCreate extends TestCase {
     /** Factor that influences how much test objects are created. Defaults to 1.0 which
      *  means that 10000 service objects are created. Minimum is 0.2 and maximum depends
      *  onthe amount of memory you have available for your virtual machine. */
-    private static final double FACTOR = 1.0;
+    private static final double FACTOR = 0.2;
     
     private static final int LOCKED_MAX = 4;
     
