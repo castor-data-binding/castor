@@ -1,0 +1,14 @@
+<?xml version="1.0" ?>
+<!DOCTYPE jdo-conf PUBLIC "-//EXOLAB/Castor JDO Configuration DTD Version 1.0//EN"
+                           "http://castor.org/jdo-conf.dtd">
+
+<jdo-conf>
+    <database name="rel1toN_lazy" engine="mysql" >
+        <driver url="jdbc:mysql://localhost/cpaptf" class-name="org.gjt.mm.mysql.Driver">
+            <param name="user" value="test" />
+            <param name="password" value="test" />
+        </driver>
+        <mapping href="lazy-mapping.xml" />
+    </database>
+    <transaction-demarcation mode="local" />
+</jdo-conf>

@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1871 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+       Changed package name of performance test framework.
+       Details: http://jira.codehaus.org/browse/CASTOR-1871
+       (Ralf - 20070217)
+
 JDO:   Resolved issue CASTOR-1870 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Moved Performance Test Framework of Castor Persistence to its own module.
        Details: http://jira.codehaus.org/browse/CASTOR-1870
