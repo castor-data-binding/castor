@@ -37,6 +37,5 @@
 	<classpathentry kind="lib" path="lib/commons-logging-1.1.jar"/>
 	<classpathentry kind="lib" path="lib/junit_3.8.2.jar"/>
 	<classpathentry kind="lib" path="bin/lib/ant-1.6.jar"/>
-	<classpathentry kind="lib" path="C:/Java/castor/lib/run/mysql-connector-java-3.1.13-bin.jar"/>
 	<classpathentry kind="output" path="eclipse"/>
 </classpath>
