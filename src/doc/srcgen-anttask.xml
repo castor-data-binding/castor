@@ -25,7 +25,7 @@
         An alternative to using the command line as shown in the previous section,
         the Castor Source Generator Ant Task can be used to call the source
         generator for class generation. The only requirement is that the
-        castor-&lt;version&gt;-srcgen-ant-task.jar must be on the CLASSPATH.
+        castor-&lt;version&gt;-codegen-antask.jar must be on the CLASSPATH.
       </p>
 
       <section title="Configuration">
@@ -141,7 +141,7 @@
              description="Generate Java source files from XSD.">
 
     <taskdef name="castor-srcgen"
-             classname="oorg.castor.anttask.CastorCodeGenTask"
+             classname="org.castor.anttask.CastorCodeGenTask"
              classpathref="castor.class.path" />
     <mkdir dir="generated" />
     <castor-srcgen file="src/schema/sample.xsd"
