@@ -1,4 +1,3 @@
-<?xml version="1.0" encoding="ISO-8859-1"?>
 <document url="http://castor.codehaus.org/download.xml">
 
   <properties>
@@ -44,7 +43,7 @@
             </li>
             <li>
               <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
-              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-codegen-anttask.jar</url>
+              <url>http://dist.codehaus.org/castor/$STABLE_VERSION$/castor-$STABLE_VERSION$$STABLE_RELEASE$-anttasks.jar</url>
               <br/>&#xA0;
             </li>
             <li>
@@ -67,6 +66,13 @@
         </section>
 
         <section title="Download sets">
+        
+          <p><font color="red"><b>Note:</b></font> Please note that as part of the 
+             1.1 release, the new JARs for the XML code generator, its Ant task and 
+             the DDL generator have <font color="red"><b>not</b></font> been included as 
+             part of download sets enlisted below. This will be fixed with 
+             Castor 1.1.1. For the time being, please download these files 
+             as required from the links provided above.</p>
 
           <ul>
             <li>
@@ -222,7 +228,7 @@
             </li>
             <li>
               <font color="red"><b>*** NEW ***</b></font> Ant task definition for Castor XML code generator<br/>
-              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-codegen-anttask.jar</url>
+              <url>http://dist.codehaus.org/castor/$VERSION$/castor-$VERSION$$RELEASE$-anttasks.jar</url>
               <br/>&#xA0;
             </li>
             <li>
