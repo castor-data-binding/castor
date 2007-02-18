@@ -32,46 +32,46 @@
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-            
-            	<h2>Additions</h2>
 
-            	<h3><font color="red">Experimental</font> - Added support for substitution groups</h3>
-            	
-				<p>Support for substitution groups has been added. This new feature is marked
-				   as <b>experimental</b> simply to indicate that we'd appreciate as much feedback
-				   and testing as possible.</p>
-				
-            	<h3><font color="red">Experimental</font> - Added 'automatic class name conflict resolution' mode</h3>
-            	
-            	<p>The XML code generator now support a new 'automatic class name
-            	   conflict resolution' mode that will minimize - if not completely 
-            	   prevent - class name conflicts during code generation.</p>
-            	   
-            	<p>To enable this mode, please set the following property in your
-            	   custom <tt>castorbuilder.properties</tt> file as shown below:</p>
-            	   
-            	<code-panel>
+                <h2>Additions</h2>
+
+                <h3><font color="red">Experimental</font> - Added support for substitution groups</h3>
+
+                <p>Support for substitution groups has been added. This new feature is marked
+                   as <b>experimental</b> simply to indicate that we'd appreciate as much feedback
+                   and testing as possible.</p>
+
+                <h3><font color="red">Experimental</font> - Added 'automatic class name conflict resolution' mode</h3>
+
+                <p>The XML code generator now support a new 'automatic class name
+                   conflict resolution' mode that will minimize - if not completely
+                   prevent - class name conflicts during code generation.</p>
+
+                <p>To enable this mode, please set the following property in your
+                   custom <tt>castorbuilder.properties</tt> file as shown below:</p>
+
+                <code-panel>
 # Specifies whether automatic class name conflict resolution
 # should be used or not; defaults to false.
 #
 org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
-				<p>This new mode will avoid class name conflicts by prepending XPATH
-				   fragments to the 'normal' class name as generated otherwise.</p>
-            	
-            	<p>Again, this new feature is marked as <b>experimental</b> simply to 
-            	   indicate that we'd appreciate as much feedback and testing as 
-            	   possible.</p>
-            	   
-            	<h3>Validation of &lt;xs:sequence&gt; order</h3>
-            	
-            	<p>Added support for validation of correct order of elements of 
-                   &lt;xsd:sequence&gt; typed complex types during unmarshalling. A
+                <p>This new mode will avoid class name conflicts by prepending XPATH
+                   fragments to the 'normal' class name as generated otherwise.</p>
+
+                <p>Again, this new feature is marked as <b>experimental</b> simply to
+                   indicate that we'd appreciate as much feedback and testing as
+                   possible.</p>
+
+                <h3>Validation of &lt;xs:sequence&gt; order</h3>
+
+                <p>Added support for validation of correct order of elements of
+                   &lt;xsd:sequence&gt; typed complex types during unmarshaling. A
                    <tt>ValidationException</tt> will be thrown if the expected order
-                   canno tbe matched.</p>
-                   
+                   cannot be matched.</p>
+
             </summary>
-			<bugs>
+            <bugs>
                 <bug id="1872" tool="jira">
                     <description>
                         Fixed problem with completeness of tarballs in the download area.
@@ -134,7 +134,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1866" tool="jira">
                     <description>
-                        Fixed problem with 'required' attributes in the context of 
+                        Fixed problem with 'required' attributes in the context of
                         containers.
                     </description>
                     <contributor>
@@ -155,7 +155,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1865" tool="jira">
                     <description>
-                        Fixed problem with 'required' attributes in the context of 
+                        Fixed problem with 'required' attributes in the context of
                         containers.
                     </description>
                     <contributor>
@@ -176,7 +176,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1852" tool="jira">
                     <description>
-                        Added an 'automatic class name conflict resolution' mode to the 
+                        Added an 'automatic class name conflict resolution' mode to the
                         XML code generator.
                     </description>
                     <contributor>
@@ -197,7 +197,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1811" tool="jira">
                     <description>
-                        Added support for validation of correct order of elements of 
+                        Added support for validation of correct order of elements of
                         &lt;xsd:sequence&gt; during unmarshalling.
                     </description>
                     <contributor>
@@ -216,23 +216,23 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     <module>Gen</module>
                     <date>20070211</date>
                 </bug>
-			</bugs>
-		</release>
- 		
+            </bugs>
+        </release>
+
         <release version="1.1">
             <description>Release of Castor 1.1 GA</description>
             <date>February 10, 2007</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
-            
-            	<h2>Additions</h2>
-            	
-            	<h3>Extended XMLClassDescriptorResolver</h3>
-            	
-            	<p>Added new functionality to XMLClassDescriptorResolver to pre-load class 
-                   descriptors for a package. Please find details about this new feature at 
+
+                <h2>Additions</h2>
+
+                <h3>Extended XMLClassDescriptorResolver</h3>
+
+                <p>Added new functionality to XMLClassDescriptorResolver to pre-load class
+                   descriptors for a package. Please find details about this new feature at
                    <a href="xml-best-practice.xml">the best practises for Castor XML</a>.</p>
-                   
+
             </summary>
             <bugs>
                 <bug id="1198" tool="jira">
@@ -248,7 +248,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                    	<name>Stephen Bash</name>
+                        <name>Stephen Bash</name>
                         <email>scbash@gmail.com</email>
                     </reporter>
                     <type>Bug</type>
@@ -257,7 +257,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1861" tool="jira">
                     <description>
-                        Added new functionality to XMLClassDescriptorResolver to pre-load class 
+                        Added new functionality to XMLClassDescriptorResolver to pre-load class
                         descriptors for a package.
                     </description>
                     <contributor>
@@ -269,7 +269,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                         <email>werner.guttmann@gmx.net</email>
                     </submitter>
                     <reporter>
-                    	<name>Nick Pilch</name>
+                        <name>Nick Pilch</name>
                         <email>npilch@speakeasy.org</email>
                     </reporter>
                     <type>Enh.</type>
@@ -284,7 +284,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
             <date>January 29, 2007</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
- 
+
               <h2>Changes</h2>
 
               <h3>XML serialization with JDK 5.0</h3>
