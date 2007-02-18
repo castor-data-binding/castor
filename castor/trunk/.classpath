@@ -12,7 +12,6 @@
 	<classpathentry output="codegen/eclipse" kind="src" path="codegen/src/main/java"/>
 	<classpathentry output="codegen/eclipse" kind="src" path="codegen/src/main/resources"/>
 	<classpathentry output="cpactf/eclipse" kind="src" path="cpactf/src/main/java"/>
-	<classpathentry output="cpactf/eclipse" kind="src" path="cpactf/src/main/resources"/>
 	<classpathentry output="cpaptf/eclipse" kind="src" path="cpaptf/src/main/java"/>
 	<classpathentry output="cpaptf/eclipse" kind="src" path="cpaptf/src/main/resources"/>
 	<classpathentry output="ddlgen/eclipse" kind="src" path="ddlgen/src/main/java"/>
