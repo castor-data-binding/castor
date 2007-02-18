@@ -752,7 +752,13 @@
             <fileset dir="${etc}" includes="README,LICENSE,CHANGELOG,sourceGen*"/>
         </copy>
         <copy todir="${build}/${archive.name}">
-            <fileset dir="${dist}" includes="${archive.name}.jar,${archive.name}-xml.jar"/>
+            <fileset dir="${dist}">
+            	<include name="${archive.name}.jar"/>
+            	<include name="${archive.name}-xml.jar"/>
+            	<include name="${archive.name}-codegen.jar"/>
+                <include name="${archive.name}-codegen-anttask.jar"/>
+            	<include name="${archive.name}-ddlgen.jar"/>
+        	</fileset>
         </copy>
         <copy todir="${build}/${archive.name}">
             <fileset dir="${lib}" includes="jdbc-se2.0.jar,jndi.jar,jta1.0.1.jar,xerces.jar,ldapjdk.jar,xslp.jar"/>
