@@ -543,7 +543,7 @@ public class Root {
         </section>
 
 <!-- 
-        <section title="Sample -- Nested (anonymous) &lt;simpleType&gt; enumeration">
+        <section title="Sample - Nested (anonymous) &lt;simpleType&gt; enumeration">
 
           <p>
             For instance, given the following <b>nested</b> (anonymous) XML schema
