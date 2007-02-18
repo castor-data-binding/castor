@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    
             </summary>
 			<bugs>
+                <bug id="1872" tool="jira">
+                    <description>
+                        Fixed problem with completeness of tarballs in the download area.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>David M. Karr</name>
+                        <email>david.karr@wamu.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070218</date>
+                </bug>
                 <bug id="1871" tool="jira">
                     <description>
                         Changed package name of performance test framework.

@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1872 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with completeness of tarballs in the download area.
+       Details: http://jira.codehaus.org/browse/CASTOR-1872
+       (Werner - 20070218)
+
 JDO:   Resolved issue CASTOR-1871 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Changed package name of performance test framework.
        Details: http://jira.codehaus.org/browse/CASTOR-1871
