@@ -44,7 +44,7 @@
                 <filter token="RELEASE" value="${release}"/>
             </filterset>
         </copy>
-        <copy todir="${build}" file="../src/test/resources/log4j.xml"/>
+        <copy todir="${build}" file="src/test/resources/log4j.xml"/>
     </target>
 
     <target name="jar.xmlctf" depends="compile.xmlctf" description="Build XML CTF JAR file">
