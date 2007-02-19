@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1869 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with identifying 'identity' field in the context of extension hierarchies.
+       Details: http://jira.codehaus.org/browse/CASTOR-1869
+       (Ralf - 20070219)
+
 JDO:   Resolved issue CASTOR-1873 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
        Moved Performance Test Framework of Castor Persistence to its own module.
        Details: http://jira.codehaus.org/browse/CASTOR-1873

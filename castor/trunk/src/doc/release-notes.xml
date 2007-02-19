@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1869" tool="jira">
+                    <description>
+                        Fixed problem with identifying 'identity' field in the context of 
+                        extension hierarchies.
+                    </description>
+                    <contributor>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Uwe Langbecker</name>
+                        <email>Uwe.Langbecker@gl-group.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070219</date>
+                </bug>
                 <bug id="1873" tool="jira">
                     <description>
                         Moved Test Framework of Castor Persistence to its own module.
