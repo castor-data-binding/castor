@@ -279,6 +279,10 @@
         <url>ddlgen-properties.xml</url>
         <display>Properties</display>
       </navLink>
+      <navLink>
+        <url>ddlgen-anttask.xml</url>
+        <display>Ant task</display>
+      </navLink>
       <navLink highlighted="true">
         <url>ddlgen-mapping.xml</url>
         <display>Type Mapping</display>

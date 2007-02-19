@@ -105,11 +105,11 @@
         <td>1.1-M2</td>
             </crow>
             <crow>
-               <td>Ant task definition for Castor XML code generator</td>
+               <td>Ant task definitions for Castor</td>
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
-   <artifactId>castor-codegen-anttask</artifactId>
+   <artifactId>castor-anttasks</artifactId>
    <version>1.1-M2</version>
 </dependency>]]></pre></td>
         <td>1.1-M2</td>
@@ -173,11 +173,11 @@
         <td>1.1-M2_SNAPSHOT</td>
             </crow>
             <crow>
-               <td>Ant task definition for Castor XML code generator</td>
+               <td>Ant task definitions for Castor</td>
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
-   <artifactId>castor-codegen-anttask</artifactId>
+   <artifactId>castor-anttasks</artifactId>
    <version>1.1-M2-SNAPSHOT</version>
 </dependency>]]></pre></td>
         <td>1.1-M2-SNAPSHOT</td>
