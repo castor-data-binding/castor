@@ -756,7 +756,7 @@
             	<include name="${archive.name}.jar"/>
             	<include name="${archive.name}-xml.jar"/>
             	<include name="${archive.name}-codegen.jar"/>
-                <include name="${archive.name}-codegen-anttask.jar"/>
+                <include name="${archive.name}-anttasks.jar"/>
             	<include name="${archive.name}-ddlgen.jar"/>
         	</fileset>
         </copy>

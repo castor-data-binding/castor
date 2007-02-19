@@ -6,7 +6,7 @@
     <property name="main.resources"       value="${source}/main/resources" />
     <property name="build"                value="${basedir}/build"/>
     <property name="classes"              value="${build}/classes"/>
-    <property name="archive"         value="${project}-${version}${release}-codegen-anttask"/>
+    <property name="archive"              value="${project}-${version}${release}-anttasks"/>
 
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
