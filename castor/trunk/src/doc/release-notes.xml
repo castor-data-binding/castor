@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1787" tool="jira">
+                    <description>
+                        Added ant task for DDL generator.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070219</date>
+                </bug>
                 <bug id="1869" tool="jira">
                     <description>
                         Fixed problem with identifying 'identity' field in the context of 

@@ -10,6 +10,7 @@
 
     <path id="build.classpath">
         <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../ddlgen/build/classes"/>
         <pathelement location="${basedir}/../codegen/build/classes"/>
     </path>
 
