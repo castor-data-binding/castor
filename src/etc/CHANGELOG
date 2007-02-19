@@ -1,12 +1,17 @@
 SVN
 -------------------------------
 
-XML:   Resolved issue CASTOR-1869 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+JDO:   Resolved issue CASTOR-1787 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added ant task for DDL generator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1787
+       (Ralf - 20070218)
+
+XML:   Resolved issue CASTOR-1869 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Fixed problem with identifying 'identity' field in the context of extension hierarchies.
        Details: http://jira.codehaus.org/browse/CASTOR-1869
-       (Ralf - 20070219)
+       (Werner - 20070219)
 
-JDO:   Resolved issue CASTOR-1873 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+JDO:   Resolved issue CASTOR-1873 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Moved Performance Test Framework of Castor Persistence to its own module.
        Details: http://jira.codehaus.org/browse/CASTOR-1873
        (Ralf - 20070218)
@@ -16,12 +21,12 @@ Gen:   Resolved issue CASTOR-1872 using contribution from Werner Guttmann [werne
        Details: http://jira.codehaus.org/browse/CASTOR-1872
        (Werner - 20070218)
 
-JDO:   Resolved issue CASTOR-1871 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+JDO:   Resolved issue CASTOR-1871 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Changed package name of performance test framework.
        Details: http://jira.codehaus.org/browse/CASTOR-1871
        (Ralf - 20070217)
 
-JDO:   Resolved issue CASTOR-1870 using contribution from Ralf Joachim [Ralf.joachim@syscon-world.de]
+JDO:   Resolved issue CASTOR-1870 using contribution from Ralf Joachim [ralf.joachim@syscon-world.de]
        Moved Performance Test Framework of Castor Persistence to its own module.
        Details: http://jira.codehaus.org/browse/CASTOR-1870
        (Ralf - 20070217)

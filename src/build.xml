@@ -59,6 +59,7 @@
         <fileset dir="${lib}/tests">
             <include name="*.jar"/>
         </fileset>
+        <pathelement location="${basedir}/ddlgen/build/classes" />
         <pathelement location="${basedir}/codegen/build/classes" />
         <pathelement location="${basedir}/anttask/build/classes" />
         <pathelement location="${basedir}/xmlctf/build/classes" />
@@ -202,9 +203,9 @@
         <delete dir="${schema}"/>
         <delete dir="${gen.src}"/>
 
+        <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
         <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
         <ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
-        <ant antfile="${basedir}/ddlgen/build.xml" target="clean.ddlgen" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
     </target>
 
@@ -247,10 +248,6 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
-        <ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
     </target>
 
     <target name="compile.jdo" depends="prepare,compile.commons,compile.xml"
@@ -282,6 +279,10 @@
         </replace>
 
         <ant antfile="${basedir}/ddlgen/build.xml" target="compile.ddlgen" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <ant antfile="${basedir}/anttask/build.xml" target="compile.anttask" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
@@ -524,6 +525,12 @@
                        org/castor/messages.properties,
                        org/castor/util/**"/>
 
+        <!-- create JAR for DDL generator, calling module build file recursively -->
+        <ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
         <!-- create JAR for XML code generator, calling module build file recursively -->
         <ant antfile="${basedir}/codegen/build.xml" target="jar.codegen" inheritAll="false">
             <property name="project" value="${project}"/>
@@ -532,12 +539,6 @@
         </ant>
         <!-- create JAR for source generator Ant task, calling module build file recursively -->
         <ant antfile="${basedir}/anttask/build.xml" target="jar.anttask" inheritAll="false">
-            <property name="project" value="${project}"/>
-            <property name="version" value="${version}"/>
-            <property name="release" value="${release}"/>
-        </ant>
-        <!-- create JAR for DDL generator, calling module build file recursively -->
-        <ant antfile="${basedir}/ddlgen/build.xml" target="jar.ddlgen" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
@@ -669,9 +670,9 @@
                  encoding="ISO-8859-1" classpathref="javadoc.classpath">
             <sourcepath>
                 <pathelement location="${java}"/>
+                <pathelement location="${basedir}/ddlgen/src/main/java" />
                 <pathelement location="${basedir}/codegen/src/main/java" />
                 <pathelement location="${basedir}/anttask/src/main/java" />
-                <pathelement location="${basedir}/ddlgen/src/main/java" />
                 <pathelement location="${basedir}/xmlctf/src/main/java" />
             </sourcepath>
         </javadoc>
@@ -696,8 +697,8 @@
 
         <!-- directories for modules -->
         <mkdir dir="${build}/${archive.name}/anttask"/>
-        <mkdir dir="${build}/${archive.name}/ddlgen"/>
         <mkdir dir="${build}/${archive.name}/codegen"/>
+        <mkdir dir="${build}/${archive.name}/ddlgen"/>
 
         <!-- <copydir src="${source}" dest="${build}/${archive.name}/src" defaultexcludes="true"/> -->
         <copy todir="${build}/${archive.name}/src">
@@ -718,15 +719,15 @@
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-        <copy todir="${build}/${archive.name}/ddlgen">
-          <fileset dir="${basedir}/ddlgen">
+        <copy todir="${build}/${archive.name}/codegen">
+          <fileset dir="${basedir}/codegen">
               <exclude name="build/" />
               <exclude name="target/" />
               <exclude name="eclipse/" />
           </fileset>
         </copy>
-        <copy todir="${build}/${archive.name}/codegen">
-          <fileset dir="${basedir}/codegen">
+        <copy todir="${build}/${archive.name}/ddlgen">
+          <fileset dir="${basedir}/ddlgen">
               <exclude name="build/" />
               <exclude name="target/" />
               <exclude name="eclipse/" />
@@ -755,9 +756,9 @@
             <fileset dir="${dist}">
             	<include name="${archive.name}.jar"/>
             	<include name="${archive.name}-xml.jar"/>
+            	<include name="${archive.name}-ddlgen.jar"/>
             	<include name="${archive.name}-codegen.jar"/>
                 <include name="${archive.name}-anttasks.jar"/>
-            	<include name="${archive.name}-ddlgen.jar"/>
         	</fileset>
         </copy>
         <copy todir="${build}/${archive.name}">

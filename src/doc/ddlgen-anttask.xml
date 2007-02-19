@@ -45,7 +45,7 @@
           <crow>
             <td><b>ddlFileName</b></td>
             <td>The name of the DDL file to be generated.</td>
-            <td>No; by default, a file will be created at the same location as the mapping file with an extension of '<tt>.sql</tt>'.</td>
+            <td>Yes</td>
           </crow>
           <crow>
             <td><b>databaseEngine</b></td>
