@@ -265,14 +265,11 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
         FieldDescriptor xmlId = null;
         if (idList.size() != 0) { xmlId = (FieldDescriptor) idList.get(0); }
         
-        for (int i = 0; i < allFields.length; i++) {
-            FieldDescriptor fieldDesc = allFields[i];
+        if (xmlId != null) { xmlClassDesc.setIdentity((XMLFieldDescriptorImpl) xmlId); }
+        for (int i = 0; i < fieldList.size(); i++) {
+            FieldDescriptor fieldDesc = (FieldDescriptor) fieldList.get(i);
             if (fieldDesc != null) {
-                if (fieldDesc == xmlId) {
-                    xmlClassDesc.setIdentity((XMLFieldDescriptorImpl) fieldDesc);
-                } else {
-                    xmlClassDesc.addFieldDescriptor((XMLFieldDescriptorImpl) fieldDesc);
-                }
+                xmlClassDesc.addFieldDescriptor((XMLFieldDescriptorImpl) fieldDesc);
             }
         }
         
