@@ -13,6 +13,13 @@
 
     <body>
         <title>How to use the Spring FactoryBeans for Castor XML</title>
+        
+        <section title="Requirements">
+        
+	        <p>For the following example configuration to work, release <tt>1.0-SNAPSHOT</tt>
+	           or above is required.</p>
+           
+        </section>
 
         <section name="Prerequisites">
         
