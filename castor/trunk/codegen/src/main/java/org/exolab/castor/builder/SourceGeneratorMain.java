@@ -91,6 +91,7 @@ public final class SourceGeneratorMain {
     private static final String ARGUMENT_TYPES_JAVA2               = "j2";
     private static final String ARGUMENT_VERBOSE                   = "verbose";
     private static final String ARGUMENT_FAIL_ON_ERROR             = "fail";
+    private static final String ARGUMENT_NAME_CONFLICT_STRATEGY    = "nameConflictStrategy";
 
     private static final String ARG_VALUE_LINE_SEPARATION_MAC      = "mac";
     private static final String ARG_VALUE_LINE_SEPARATION_UNIX     = "unix";
@@ -161,6 +162,9 @@ public final class SourceGeneratorMain {
 
     private static final String INVALID_LINE_SEPARATOR_MSG =
         "Invalid option for line-separator: ";
+
+    private static final String NAME_CONFLICT_STRATEGY_MSG =
+        "Using name conflict strategy ";
 
     /** The full set of command-line options. */
     private static final CommandLineOptions ALL_OPTIONS     = setupCommandLineOptions();
@@ -258,6 +262,13 @@ public final class SourceGeneratorMain {
             sgen.setCaseInsensitive(true);
             System.out.print("-- ");
             System.out.println(CASE_INSENSITIVE_MSG);
+        }
+
+        String nameConflictStrategy = options.getProperty(ARGUMENT_NAME_CONFLICT_STRATEGY);
+        if (nameConflictStrategy != null) {
+            sgen.setNameConflictStrategy(nameConflictStrategy);
+            System.out.print("-- ");
+            System.out.println(CASE_INSENSITIVE_MSG + nameConflictStrategy);
         }
 
         String bindingFilename = options.getProperty(ARGUMENT_BINDING_FILENAME);
@@ -458,6 +469,10 @@ public final class SourceGeneratorMain {
         //-- Sets enumerated type to use a case insensitive lookup
         desc = "Sets enumerated types to use a case insensitive lookup.";
         allOptions.addFlag(ARGUMENT_CASE_INSENSITIVE, "", desc);
+
+        //-- Sets enumerated type to use a case insensitive lookup
+        desc = "Sets name conflict strategy to use.";
+        allOptions.addFlag(ARGUMENT_NAME_CONFLICT_STRATEGY, "", desc);
 
         return allOptions;
     }

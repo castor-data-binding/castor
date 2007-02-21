@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1875 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added new command line parameter 'nameConflictStrategy' to SourceGeneratorMain.
+       Details: http://jira.codehaus.org/browse/CASTOR-1875
+       (Ralf - 20070221)
+       
 JDO:   Resolved issue CASTOR-1787 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added ant task for DDL generator.
        Details: http://jira.codehaus.org/browse/CASTOR-1787

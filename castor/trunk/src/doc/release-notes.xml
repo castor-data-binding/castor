@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1875" tool="jira">
+                    <description>
+                        Added new command line parameter 'nameConflictStrategy' to 
+                        SourceGeneratorMain.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>David M. Karr</name>
+                        <email>david.karr@wamu.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>JDO</module>
+                    <date>20070219</date>
+                </bug>
                 <bug id="1787" tool="jira">
                     <description>
                         Added ant task for DDL generator.
