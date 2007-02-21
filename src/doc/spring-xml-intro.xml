@@ -134,8 +134,8 @@ Unmarshaller unmarshaller = (Unmarshaller) this.context.getBean("unmarshaller");
             <source><![CDATA[
 <?xml version="1.0" encoding="UTF-8"?>
 <product>
-	<name>blah</name>
-	<id>1</id>
+   <name>blah</name>
+   <id>1</id>
 </product>
             ]]></source>
                
@@ -157,11 +157,27 @@ assertEquals("name", product.getName());
 	   	   
 	   	<source><![CDATA[
 <bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean">
-  <property name="castorProperties">
-    <props>
-      <prop key="mappingLocation">src/test/resources/mapping.xml</prop>
-    </props>
-  </property>
+   <property name="mappingLocations">
+      <list>
+         <value>mapping.xml</value>
+      </list>
+   </property>
+</bean>	   	
+	   	]]></source>
+        
+        <p>Please note that the mapping file location is relative to your CLASSPATH.</p>
+        
+        <p>To use more than one mapping file, please add a bean definition for the
+           '<tt>resolver</tt>' as follows:</p>
+
+	   	<source><![CDATA[
+<bean id="resolver" class="org.springframework.xml.castor.CastorResolverFactoryBean">
+   <property name="mappingLocations">
+      <list>
+         <value>mapping1.xml</value>
+         <value>mapping2.xml</value>
+      </list>
+   </property>
 </bean>	   	
 	   	]]></source>
 	   	
