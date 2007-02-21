@@ -471,7 +471,8 @@ public final class SourceGeneratorMain {
         allOptions.addFlag(ARGUMENT_CASE_INSENSITIVE, "", desc);
 
         //-- Sets enumerated type to use a case insensitive lookup
-        desc = "Sets name conflict strategy to use.";
+        desc = "Sets name conflict strategy to use (possible values are " 
+            + "'informViaLog', 'warnViaConsoleDialog').";
         allOptions.addFlag(ARGUMENT_NAME_CONFLICT_STRATEGY, "", desc);
 
         return allOptions;
