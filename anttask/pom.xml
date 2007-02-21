@@ -80,6 +80,12 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 		</dependency>
 
 		<dependency>
+			<groupId>org.codehaus.castor</groupId>
+			<artifactId>castor-ddlgen</artifactId>
+			<version>1.1.1-SNAPSHOT</version>
+		</dependency>
+
+		<dependency>
 			<groupId>ant</groupId>
 			<artifactId>ant</artifactId>
 			<version>1.6</version>
