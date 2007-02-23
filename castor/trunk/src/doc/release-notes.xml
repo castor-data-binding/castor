@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1877" tool="jira">
+                    <description>
+                        Fixed problem with build scripts (Windows) related to blanks as 
+                        part of ENV variables.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Guy Coleman</name>
+                        <email>guy.coleman@prolog.uk.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070223</date>
+                </bug>
                 <bug id="1879" tool="jira">
                     <description>
                         Added 'setClass(Class)' method to Unmarshaller to allow sepecification 
