@@ -910,6 +910,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     context.setResolver(_cdResolver);
                     context.setConfiguration(_config);
                     validator.validate(state.object, context);
+                    validator.checkUnresolvedIdrefs(context);
                     context.cleanup();
                 }
                 catch(ValidationException vEx) {

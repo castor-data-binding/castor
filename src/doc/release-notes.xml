@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1882" tool="jira">
+                    <description>
+                        Fixed problem with IDREF validation with 'forward references'.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070223</date>
+                </bug>
                 <bug id="1877" tool="jira">
                     <description>
                         Fixed problem with build scripts (Windows) related to blanks as 

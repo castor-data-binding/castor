@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1882 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with IDREF validation with 'forward references'.
+       Details: http://jira.codehaus.org/browse/CASTOR-1882
+       (Werner - 20070223)
+
 Gen:   Resolved issue CASTOR-1877 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with build scripts (Windows) related to blanks as part of ENV variables.
        Details: http://jira.codehaus.org/browse/CASTOR-1877
