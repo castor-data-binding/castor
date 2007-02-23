@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1880" tool="jira">
+                    <description>
+                        Fixed problem with illegal field name suffix 'Choice'.
+                    </description>
+                    <contributor>
+                        <name>Steven Dolg</name>
+                        <email>stevendolg@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Steven Dolg</name>
+                        <email>stevendolg@gmx.at</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070223</date>
+                </bug>
                 <bug id="1882" tool="jira">
                     <description>
                         Fixed problem with IDREF validation with 'forward references'.
