@@ -67,6 +67,8 @@ import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.Documentation;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
+import org.exolab.castor.xml.schema.Group;
+import org.exolab.castor.xml.schema.Order;
 import org.exolab.castor.xml.schema.Schema;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.castor.xml.schema.SimpleType;
@@ -359,7 +361,7 @@ public final class MemberFactory extends BaseFactory {
         int maxOccurs = component.getUpperBound();
         int minOccurs = component.getLowerBound();
         if (simpleTypeCollection
-                || ((maxOccurs < 0 || maxOccurs > 1) && !(memberName.endsWith("Choice")))) {
+                || ((maxOccurs < 0 || maxOccurs > 1) && !this.isChoice(component))) {
             String vName = memberName + "List";
 
             // if xmlName is null it means that
@@ -451,6 +453,43 @@ public final class MemberFactory extends BaseFactory {
         }
 
         return fieldInfo;
+    }
+
+    /**
+     * Determines if the given <code>component</code> represents a choice.
+     * 
+     * @param component The XMLBindingComponent to check.
+     * @return <code>true</code> if and only if the given XMLBindingComponent represents a choice. Otherwise returns <code>false</code>
+     */
+    private boolean isChoice(XMLBindingComponent component) {
+        Group group = this.getGroup(component.getAnnotated());
+        if (group == null || group.getOrder() == null) {
+            return false;
+        }
+        
+        return group.getOrder().getType() == Order.CHOICE;
+    }
+
+    /**
+     * Returns the given <code>structure</code> as Group if it represents one.<br>
+     * <br>
+     * If the given <code>structure</code> has the structure type <code>GROUP</code> this method returns the given
+     * <code>structure</code> itself (casted to Group). If the structure is of any other type or is <code>null</code> this method
+     * will return <code>null</code>
+     * 
+     * @param structure The Structure to be returned as Group.
+     * @return The given <code>structure</code> if and only if it is a group. Otherwise returns <code>null</code>.
+     */
+    private Group getGroup(Structure structure) {
+        if (structure == null) {
+            return null;
+        }
+        
+        if (structure.getStructureType() == Structure.GROUP) {
+            return (Group) structure;
+        }
+        
+        return null;
     }
 
     /**

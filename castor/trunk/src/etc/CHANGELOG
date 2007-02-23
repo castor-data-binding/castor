@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1880 using contribution from Steven Dolg [stevendolg@gmx.at]
+       Fixed problem with illegal field name suffix 'Choice'.
+       Details: http://jira.codehaus.org/browse/CASTOR-1880
+       (Werner - 20070223)
+
 Gen:   Resolved issue CASTOR-1882 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with IDREF validation with 'forward references'.
        Details: http://jira.codehaus.org/browse/CASTOR-1882
