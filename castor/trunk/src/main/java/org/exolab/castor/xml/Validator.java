@@ -157,7 +157,12 @@ public class Validator implements ClassValidator {
             }
             throw vx;
         }
+        
+//        checkUnresolvedIdrefs(context);
 
+    }
+    
+    public void checkUnresolvedIdrefs(ValidationContext context) throws ValidationException {
         if (context.getUnresolvedIdRefs().size() > 0) {
             String err = "Unresolved IDREfs: " + context.getUnresolvedIdRefs().toString();
             throw new ValidationException(err);
