@@ -20,7 +20,8 @@
                     </Call-method>
                 </Unmarshal>
             </Configuration>
-            <Name>Test valid XML document instance with IDREFs that has forward references</Name>
+            <Name>TestValidXMLDocument</Name>
+            <Comment>Test valid XML document instance with IDREFs that has forward references</Comment>
             <Input>input.xml</Input>
         </UnitTestCase>
     </SourceGeneratorTest>
