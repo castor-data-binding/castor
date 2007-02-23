@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1877 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with build scripts (Windows) related to blanks as part of ENV variables.
+       Details: http://jira.codehaus.org/browse/CASTOR-1877
+       (Werner - 20070223)
+
 XML:   Resolved issue CASTOR-1879 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added 'setClass(Class)' method to Unmarshaller to allow sepecification of an 'expected' class.
        Details: http://jira.codehaus.org/browse/CASTOR-1879
