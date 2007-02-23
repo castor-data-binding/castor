@@ -229,7 +229,7 @@ public class Unmarshaller {
     public Unmarshaller(Class c, ClassLoader loader) {
         super();
         initConfig();
-        this._class = c;
+        setClass(c);
         _loader = loader;
         if ((loader == null) && (c != null)) {
             _loader = c.getClassLoader();
@@ -267,8 +267,9 @@ public class Unmarshaller {
     public Unmarshaller(Object root) {
         initConfig();
         if (root != null) {
-            _class = root.getClass();
-            _loader = _class.getClassLoader();
+            final Class clazz = root.getClass();
+            setClass(clazz);
+            _loader = clazz.getClassLoader();
         }
         _instanceObj = root;
     } //-- Unmarshaller(Class)
@@ -380,6 +381,17 @@ public class Unmarshaller {
     public boolean isValidating() {
         return _validate;
     }
+
+    /**
+     * Sets the 'expected' {@link Class} instance on the Unmarshaller.
+     *
+     * @param clazz the Class to create the Unmarshaller for, this
+     * may be null, if the Unmarshaller#setMapping is called
+     * to load a mapping for the root element of xml document.
+     */
+    public void setClass(Class clazz) {
+        _class = clazz;
+    } //-- Unmarshaller(Class)
 
     /**
      * Sets the ClassLoader to use when loading new classes.

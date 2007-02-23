@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1879" tool="jira">
+                    <description>
+                        Added 'setClass(Class)' method to Unmarshaller to allow sepecification 
+                        of an 'expected' class.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Saladin Sharif</name>
+                        <email>al_zawiah@yahoo.com</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070223</date>
+                </bug>
                 <bug id="1875" tool="jira">
                     <description>
                         Added new command line parameter 'nameConflictStrategy' to 
