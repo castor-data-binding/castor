@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1879 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added 'setClass(Class)' method to Unmarshaller to allow sepecification of an 'expected' class.
+       Details: http://jira.codehaus.org/browse/CASTOR-1879
+       (Werner - 20070223)
+
 JDO:   Resolved issue CASTOR-1875 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added new command line parameter 'nameConflictStrategy' to SourceGeneratorMain.
        Details: http://jira.codehaus.org/browse/CASTOR-1875
