@@ -63,6 +63,7 @@
         <pathelement location="${basedir}/codegen/build/classes" />
         <pathelement location="${basedir}/anttask/build/classes" />
         <pathelement location="${basedir}/xmlctf/build/classes" />
+        <pathelement location="${basedir}/cpactf/build/classes" />
     </path>
 
     <path id="javadoc.classpath">
@@ -207,11 +208,13 @@
         <ant antfile="${basedir}/codegen/build.xml" target="clean.codegen" inheritAll="false" />
         <ant antfile="${basedir}/anttask/build.xml" target="clean.anttask" inheritAll="false" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
+        <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
         <delete dir="${build}/tests" />
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
+        <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
     </target>
 
     <target name="compile"
@@ -356,6 +359,10 @@
         </copy>
 
         <ant antfile="${basedir}/xmlctf/build.xml" target="compile.xmlctf" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <ant antfile="${basedir}/cpactf/build.xml" target="compile.cpactf" inheritAll="false">
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
@@ -560,6 +567,11 @@
 
         <!-- create JAR for XML CTF, calling module build file recursively -->
         <ant antfile="${basedir}/xmlctf/build.xml" target="jar.xmlctf" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <ant antfile="${basedir}/cpactf/build.xml" target="jar.cpactf" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
