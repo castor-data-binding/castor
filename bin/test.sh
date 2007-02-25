@@ -18,8 +18,10 @@ DIRNAME=`dirname $0`
 CASTOR_HOME=`cd $DIRNAME/..; pwd`
 BUILD_D=$CASTOR_HOME/build
 LIB_D=$CASTOR_HOME/lib
+CPACTF_BUILD_D=$CASTOR_HOME/cpactf/build
 
 CLASSPATH=$CLASSPATH:$BUILD_D/tests:$BUILD_D/classes
+CLASSPATH=$CLASSPATH:$CPACTF_BUILD_D/classes
 CLASSPATH=`echo $LIB_D/*.jar | tr ' ' ':'`:$CLASSPATH
 CLASSPATH=`echo $LIB_D/tests/*.jar | tr ' ' ':'`:$CLASSPATH
 
