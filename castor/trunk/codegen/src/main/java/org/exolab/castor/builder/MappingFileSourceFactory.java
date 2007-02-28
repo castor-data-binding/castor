@@ -226,7 +226,11 @@ public final class MappingFileSourceFactory {
             fieldName = fieldName.substring(1);
         }
         fieldMap.setName(fieldName);
-        fieldMap.setType(getClassName(xsType.getJType()));
+        String className = getClassName(xsType.getJType());
+        if (className.equals("byte[]")) {
+            className = "bytes";
+        }
+        fieldMap.setType(className);
 
         BindXml bindXml = new BindXml();
         fieldMap.setBindXml(bindXml);
@@ -253,7 +257,7 @@ public final class MappingFileSourceFactory {
                 break;
             case XSType.QNAME_TYPE :
                 bindXml.setType("QName");
-            default :
+            default:
                 break;
         }
 
