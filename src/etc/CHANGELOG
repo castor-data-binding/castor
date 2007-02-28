@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1886 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with ClassChoice() creation in MappingFileSourceFactory.
+       Details: http://jira.codehaus.org/browse/CASTOR-1886
+       (Werner - 20070228)
+
 Gen:   Resolved issue CASTOR-1880 using contribution from Steven Dolg [stevendolg@gmx.at]
        Fixed problem with illegal field name suffix 'Choice'.
        Details: http://jira.codehaus.org/browse/CASTOR-1880
