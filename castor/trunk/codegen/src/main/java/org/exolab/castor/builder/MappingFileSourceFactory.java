@@ -213,7 +213,10 @@ public final class MappingFileSourceFactory {
 
         //-- create class choice on demand
         ClassChoice classChoice = classMapping.getClassChoice();
-        if (classChoice == null) { classChoice = new ClassChoice(); }
+        if (classChoice == null) { 
+            classChoice = new ClassChoice();
+            classMapping.setClassChoice(classChoice);
+        }
 
         //-- create field mapping
         FieldMapping fieldMap = new FieldMapping();

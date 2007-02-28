@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1886" tool="jira">
+                    <description>
+                        Fixed problem with ClassChoice() creation in MappingFileSourceFactory.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Michele Lazzeri</name>
+                        <email>mlazzeri@sapient.it</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen.</module>
+                    <date>20070228</date>
+                </bug>
                 <bug id="1880" tool="jira">
                     <description>
                         Fixed problem with illegal field name suffix 'Choice'.
