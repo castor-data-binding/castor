@@ -190,6 +190,10 @@
         <display>Introduction</display>
       </navLink>
       <navLink>
+        <url>jdo-starter-tutorial.xml</url>
+        <display>First steps</display>
+      </navLink>
+      <navLink>
         <url>jdo.xml</url>
         <display>Using JDO</display>
       </navLink>
