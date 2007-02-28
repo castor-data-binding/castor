@@ -390,7 +390,7 @@
                         <exclude>org/exolab/castor/jdo/oql/LexTest.java</exclude>
                         <exclude>org/exolab/castor/jdo/oql/ParseTest.java</exclude>
                         <exclude>org/exolab/castor/jdo/drivers/TestConnectionProxies.java</exclude>
-                        <exclude>org/castor/cache/TestCacheFactoryRegistry</exclude>
+                        <exclude>org/castor/cache/TestCacheFactoryRegistry.java</exclude>
                         <exclude>**/TestAll.java</exclude>
                         <exclude>xml/**/*.java</exclude>
                         <exclude>harness/**</exclude>
