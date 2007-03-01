@@ -442,7 +442,7 @@
         </jar>
         <!-- Create JAR for the sources of the Castor examples -->
         <jar jarfile="${dist}/${archive.name}-examples-sources.jar">
-            <fileset dir="${basedir}" includes="${source}/examples/**" />
+        	<fileset dir="${source}/examples" />
         </jar>
     </target>
 
