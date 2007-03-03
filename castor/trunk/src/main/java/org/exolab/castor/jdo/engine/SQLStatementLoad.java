@@ -24,10 +24,12 @@ import java.sql.SQLException;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.Vector;
 
 import org.apache.commons.logging.Log;
@@ -128,16 +130,16 @@ public final class SQLStatementLoad {
                 }
                 
                 // add id columns to select statement
-                // TODO does not work if first (non-identity) field mapping is not a plain field
                 if (!alias.equals(aliasOld) && !field.isJoined()) {
                     JDOClassDescriptor classDescriptor = (JDOClassDescriptor) 
                         field.getFieldDescriptor().getContainingClassDescriptor();
-                    String[] identities = SQLHelper.getIdentitySQLNames(classDescriptor);
-                    for (int j = 0; j < identities.length; j++) {
-                        boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(classDescriptor.getTableName()); 
-                        if (!isTableNameAlreadyAdded) {
+                    boolean isTableNameAlreadyAdded = identitiesUsedForTable.containsKey(classDescriptor.getTableName());
+                    if (!isTableNameAlreadyAdded) {
+                        String[] identities = SQLHelper.getIdentitySQLNames(classDescriptor);
+                        for (int j = 0; j < identities.length; j++) {
                             expr.addColumn(alias, identities[j]);
                         }
+                        identitiesUsedForTable.put(classDescriptor.getTableName(), Boolean.TRUE);
                     }
                 }
 
@@ -326,18 +328,22 @@ public final class SQLStatementLoad {
             // the identity columns
             int columnIndex = ids.length + 1;
             
-            // index in fields[] for storing result of SQLTypes.getObject()
+            Set processedTables = new HashSet();
+            if (fields[0].isJoined()) {
+                processedTables.add(_engine.getDescriptor().getTableName());
+            }
             boolean notNull;
+            // index in fields[] for storing result of SQLTypes.getObject()
             fieldIndex = 1;
             String tableName = null;
-            String tableNameOld = tableName;
             for (int i = 0 ; i < fields.length ; ++i) {
                 SQLFieldInfo field = fields[i];
                 SQLColumnInfo[] columns = field.getColumnInfo();
                 tableName = field.getTableName();
-                if ((i > 0) && !tableName.equals(tableNameOld) && !field.isJoined()) {
-                    columnIndex = columnIndex + ids.length; 
+                if (i>0 && !field.isJoined() && !processedTables.contains(tableName)) {
+                    columnIndex = columnIndex + ids.length;
                 }
+                processedTables.add(tableName);
                 
                 if (!field.isJoined() && (field.getJoinFields() == null)) {
                     entity.setField(columns[0].toJava(SQLTypeInfos.getValue(rs, columnIndex++, columns[0].getSqlType())), i);
@@ -364,24 +370,24 @@ public final class SQLStatementLoad {
                     if (notNull) { res.add(new Identity(id)); }
                     entity.setField(res, i);
                 }
-                
-                tableNameOld = tableName;
             }
 
             while (rs.next()) {
                 fieldIndex = 1;
                 columnIndex = ids.length + 1;
-
-                tableName = null;
-                tableNameOld = tableName;
+                processedTables.clear();
+                if (fields[0].isJoined()) {
+                    processedTables.add(_engine.getDescriptor().getTableName());
+                }
 
                 for (int i = 0; i < fields.length ; ++i) {
                     SQLFieldInfo field = fields[i];
                     SQLColumnInfo[] columns = field.getColumnInfo();
                     tableName = field.getTableName();
-                    if ((i > 0) && !tableName.equals(tableNameOld) && !field.isJoined()) {
+                    if (i > 0 && !field.isJoined() && !processedTables.contains(tableName)) {
                         columnIndex = columnIndex + ids.length;
                     }
+                    processedTables.add(tableName);
                     
                     if (field.isMulti()) {
                         ArrayList res = (ArrayList) entity.getField(i);
@@ -401,8 +407,6 @@ public final class SQLStatementLoad {
                         fieldIndex++;
                         columnIndex += columns.length;
                     }
-
-                    tableNameOld = tableName;
                 }
             }
         } catch (SQLException except) {
