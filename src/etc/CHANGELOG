@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1812 using contribution from Steven Dolg [stevendolg@gmx.at]
+       Fixed problem with SQLException: Column Index out of range.
+       Details: http://jira.codehaus.org/browse/CASTOR-1812
+       (Ralf - 20070303)
+
 Gen:   Resolved issue CASTOR-1886 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with ClassChoice() creation in MappingFileSourceFactory.
        Details: http://jira.codehaus.org/browse/CASTOR-1886

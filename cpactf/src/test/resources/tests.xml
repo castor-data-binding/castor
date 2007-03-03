@@ -94,7 +94,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="hsql" class="jdo.JDOCategory">
@@ -199,7 +199,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="mssql" class="jdo.JDOCategory">
@@ -297,7 +297,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="mysql" class="jdo.JDOCategory">
@@ -397,7 +397,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/>
   </category>
 
   <category name="oracle" class="jdo.JDOCategory">
@@ -498,7 +498,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="postgresql" class="jdo.JDOCategory">
@@ -597,7 +597,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="sapdb" class="jdo.JDOCategory">
@@ -695,7 +695,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="sybase" class="jdo.JDOCategory">
@@ -793,7 +793,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="derby" class="jdo.JDOCategory">
@@ -895,7 +895,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="pointbase" class="jdo.JDOCategory">
@@ -998,7 +998,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
   <category name="progress" class="jdo.JDOCategory">
@@ -1095,7 +1095,7 @@
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
-
+    <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
   </category>
 
 <!--

@@ -57,5 +57,28 @@
         </field>
     </class>
 
+	<class name="ctf.jdo.tc20x.ForeignKeyFirstEntity1" identity="id">
+		<map-to table="tc202_foreign_key_first_entity_1"/>
+		<field name="entities" type="ctf.jdo.tc20x.ForeignKeyFirstEntityN" collection="collection">
+			<sql many-key="entity"/>
+		</field>
+		<field name="number" type="java.lang.Integer">
+			<sql name="number" type="integer"/>
+		</field>
+		<field name="id" type="java.lang.Integer">
+			<sql name="id" type="integer"/>
+		</field>
+	</class>
+    
+	<class name="ctf.jdo.tc20x.ForeignKeyFirstEntityN" identity="id">
+		<map-to table="tc202_foreign_key_first_entity_n"/>
+		<field name="entity" type="ctf.jdo.tc20x.ForeignKeyFirstEntity1">
+			<sql name="entity"/>
+		</field>
+		<field name="id" type="java.lang.Integer">
+			<sql name="id" type="integer"/>
+		</field>
+	</class>
+
 </mapping>
 

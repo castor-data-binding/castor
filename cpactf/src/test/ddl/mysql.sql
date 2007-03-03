@@ -1275,9 +1275,8 @@ CREATE TABLE tc9x_poly_depend_object (
 
 INSERT INTO tc9x_poly_depend_object VALUES(1, 1, 'This is a description');
 
-# TC129 
 
--- TC20x - self-referential relations 
+-- TC20x
  
 drop table if exists tc200_self_relation_folder;
 create table tc200_self_relation_folder (
@@ -1298,3 +1297,18 @@ create table tc200_self_relation_folder_extend (
   id          int		     	not null,  
   parent_id	  int				null
 );
+
+drop table if exists tc202_foreign_key_first_entity_1;
+create table tc202_foreign_key_first_entity_1 (
+	id int NOT NULL,
+	number int NULL
+);
+
+drop table if exists tc202_foreign_key_first_entity_n;
+create table tc202_foreign_key_first_entity_n (
+	id int NOT NULL,
+	entity int NOT NULL,
+	number int NULL
+);
+
+insert into tc202_foreign_key_first_entity_1 VALUES (1, 1);
