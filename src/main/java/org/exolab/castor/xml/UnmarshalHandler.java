@@ -1771,14 +1771,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 descriptor = classDesc.getFieldDescriptor(name, namespace, NodeType.Element);
             }
             
-            if (descriptor != null && isValidating()) {
-                try {
-                    classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
-                } catch (ValidationException e) {
-                    throw new SAXException(e);
-                }
-            }
-            
             //-- Namespace patch, should be moved to XMLClassDescriptor, but
             //-- this is the least intrusive patch at the moment. kv - 20030423
             if ((descriptor != null) && (!descriptor.isContainer())) {
@@ -1857,6 +1849,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 isWrapper = (isWrapper || hasFieldsAtLocation(pathBuf.toString(), classDesc));
             }
             
+            if (descriptor != null && isValidating()) {
+                try {
+                    classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
+                } catch (ValidationException e) {
+                    throw new SAXException(e);
+                }
+            }
+
             //-- Make sure there are more parent classes on stack
             //-- otherwise break, since there is nothing to do
             //if (pIdx == 0) break;
