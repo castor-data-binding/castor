@@ -186,7 +186,9 @@ public class ElementUnmarshaller extends ComponentReader {
         
         //-- @substitutionGroup
         attValue = atts.getValue(SchemaNames.SUBSTITUTION_GROUP_ATTR);
-        _element.setSubstitutionGroup(attValue);
+        if (attValue != null) {
+            _element.setSubstitutionGroup(attValue);
+        }
         
         //-- @type
         attValue = atts.getValue(SchemaNames.TYPE_ATTR);

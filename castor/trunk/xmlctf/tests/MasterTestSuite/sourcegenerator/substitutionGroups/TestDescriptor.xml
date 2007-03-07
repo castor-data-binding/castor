@@ -15,5 +15,24 @@
             <Input>input-1.xml</Input>
             <GoldFile/>
         </UnitTestCase>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyer2</Name>
+            <Input>input-2.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyer3</Name>
+            <Input>input-3.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+        <UnitTestCase>
+			<GenerateImported>true</GenerateImported>
+            <Name>TestSingleUnderlyerWithWrongSequence</Name>
+            <Input>input-4.xml</Input>
+            <GoldFile/>
+            <Failure>true</Failure>
+        </UnitTestCase>
     </SourceGeneratorTest>
 </TestDescriptor>

@@ -49,7 +49,9 @@
  */
 package org.exolab.castor.builder;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.List;
 
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
@@ -451,6 +453,25 @@ public final class MemberFactory extends BaseFactory {
             String visibility = component.getVisiblity();
             fieldInfo.setVisibility(visibility);
         }
+        
+        // deal with substitution groups
+        switch (component.getAnnotated().getStructureType()) {
+        case Structure.ELEMENT:
+            ElementDecl elementDeclaration = (ElementDecl) component.getAnnotated();
+            if (elementDeclaration.isReference()) {
+                elementDeclaration = elementDeclaration.getReference();
+            }
+            Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers(); 
+            if (possibleSubstitutes.hasMoreElements()) {
+                List substitutionGroupMembers = new ArrayList();
+                while (possibleSubstitutes.hasMoreElements()) {
+                    ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
+                    substitutionGroupMembers.add(substitute.getName());
+                }
+                fieldInfo.setSubstitutionGroupMembers(substitutionGroupMembers);
+            }
+        default:
+        }
 
         return fieldInfo;
     }
@@ -458,10 +479,12 @@ public final class MemberFactory extends BaseFactory {
     /**
      * Determines if the given <code>component</code> represents a choice.
      * 
-     * @param component The XMLBindingComponent to check.
-     * @return <code>true</code> if and only if the given XMLBindingComponent represents a choice. Otherwise returns <code>false</code>
+     * @param component
+     *            The XMLBindingComponent to check.
+     * @return <code>true</code> if and only if the given XMLBindingComponent
+     *         represents a choice. Otherwise returns <code>false</code>
      */
-    private boolean isChoice(XMLBindingComponent component) {
+    private boolean isChoice(final XMLBindingComponent component) {
         Group group = this.getGroup(component.getAnnotated());
         if (group == null || group.getOrder() == null) {
             return false;
@@ -473,14 +496,17 @@ public final class MemberFactory extends BaseFactory {
     /**
      * Returns the given <code>structure</code> as Group if it represents one.<br>
      * <br>
-     * If the given <code>structure</code> has the structure type <code>GROUP</code> this method returns the given
-     * <code>structure</code> itself (casted to Group). If the structure is of any other type or is <code>null</code> this method
-     * will return <code>null</code>
+     * If the given <code>structure</code> has the structure type
+     * <code>GROUP</code> this method returns the given <code>structure</code>
+     * itself (casted to Group). If the structure is of any other type or is
+     * <code>null</code> this method will return <code>null</code>
      * 
-     * @param structure The Structure to be returned as Group.
-     * @return The given <code>structure</code> if and only if it is a group. Otherwise returns <code>null</code>.
+     * @param structure
+     *            The Structure to be returned as Group.
+     * @return The given <code>structure</code> if and only if it is a group;
+     *         otherwise returns <code>null</code>.
      */
-    private Group getGroup(Structure structure) {
+    private Group getGroup(final Structure structure) {
         if (structure == null) {
             return null;
         }

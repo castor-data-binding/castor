@@ -49,6 +49,9 @@
  */
 package org.exolab.castor.builder.info;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.javasource.JClass;
@@ -129,6 +132,11 @@ public class FieldInfo extends XMLInfo {
     private String _validator;
     /** Visibility of this FieldInfo. */
     private String _visibility = "private";
+    
+    /**
+     * Holds the possible substitution groups for this class.
+     */
+    private List _substitutionGroupMembers = new LinkedList();
 
     /**
      * Creates a new FieldInfo with the given XML Schema type and the given
@@ -865,6 +873,22 @@ public class FieldInfo extends XMLInfo {
      */
     public final void setVisibility(final String visibility) {
         _visibility = visibility;
+    }
+
+    /**
+     * Sets the possible substitution groups for this class.
+     * @param substitutionGroupMembers Possible substitution groups for this class.
+     */
+    public void setSubstitutionGroupMembers(final List substitutionGroupMembers) {
+        this._substitutionGroupMembers = substitutionGroupMembers;
+    }
+
+    /**
+     * Returns the possible substitution groups for this class.
+     * @return the possible substitution groups for this class.
+     */
+     public List getSubstitutionGroupMembers() {
+        return this._substitutionGroupMembers;
     }
 
 }

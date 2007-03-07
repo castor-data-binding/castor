@@ -426,7 +426,13 @@ public class ElementDecl extends Particle implements Referable {
      * declaration, or null if absent.
     **/
     public String getSubstitutionGroup() {
-        return _substitutionGroup;
+        if (isReference()) {
+            ElementDecl elem = getReference();
+            if (elem != null && elem.getSubstitutionGroup() != null) {
+                return elem.getSubstitutionGroup();
+            }
+        }
+       return _substitutionGroup;
     } //-- getSubstitutionGroup
     
     /**

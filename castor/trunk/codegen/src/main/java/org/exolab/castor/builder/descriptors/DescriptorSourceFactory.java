@@ -49,6 +49,9 @@
  */
 package org.exolab.castor.builder.descriptors;
 
+import java.util.Iterator;
+import java.util.List;
+
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.SGTypes;
 import org.exolab.castor.builder.XMLFieldHandlerFactory;
@@ -56,9 +59,7 @@ import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
-import org.exolab.castor.builder.types.XSIdRefs;
 import org.exolab.castor.builder.types.XSListType;
-import org.exolab.castor.builder.types.XSNMTokens;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.XMLConstants;
 import org.exolab.javasource.JClass;
@@ -162,6 +163,21 @@ public final class DescriptorSourceFactory {
             jsc.add("setCompositorAsSequence();");
         }
 
+        
+        // handle substitution groups
+        List substitutionGroups = classInfo.getSubstitutionGroups();
+        if (!substitutionGroups.isEmpty()) {
+            jsc.add("java.util.List substitutionGroupes = new java.util.ArrayList();");
+            Iterator substitutionGroupIter = substitutionGroups.iterator();
+            while (substitutionGroupIter.hasNext()) {
+                String substitutionGroup = (String) substitutionGroupIter.next();
+                jsc.add("substitutionGroupes.add(\"");
+                jsc.append(substitutionGroup);
+                jsc.append("\");");
+            }
+            jsc.add("setSubstitutes(substitutionGroupes);");
+        }
+                
         //-- To prevent compiler warnings...make sure
         //-- we don't declare temp variables if field count is 0;
         if (classInfo.getFieldCount() == 0) {
@@ -465,7 +481,23 @@ public final class DescriptorSourceFactory {
             jsc.add("addSequenceElement(desc);");
         }
         jsc.add("");
-
+        
+        if (isElement) {
+            // handle substitution groups
+            List substitutionGroupMembers = member.getSubstitutionGroupMembers();
+            jsc.add("java.util.List substitutionGroupes" + member.getName() 
+                    + " = new java.util.ArrayList();");
+            Iterator substitutionGroupIter = substitutionGroupMembers.iterator();
+            while (substitutionGroupIter.hasNext()) {
+                String substitutionGroup = (String) substitutionGroupIter.next();
+                jsc.add("substitutionGroupes" + member.getName() + ".add(\"");
+                jsc.append(substitutionGroup);
+                jsc.append("\");");
+            }
+            jsc.add("desc.setSubstitutes(substitutionGroupes" + member.getName() + ");");
+            
+        }
+        
         //-- Add Validation Code
         addValidationCode(member, jsc);
     }
