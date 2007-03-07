@@ -177,7 +177,7 @@ public class JClassRegistry {
         // register JClass instance for XPATH
         _xpathToJClass.put(xPath, jClass);
 
-        LOG.warn("Binding JClass[" + jClass.getName() + "] for XML schema structure " + xPath);
+        LOG.debug("Binding JClass[" + jClass.getName() + "] for XML schema structure " + xPath);
 
         // global elements don't need to change
         final boolean isGlobalElement = _globalElements.contains(xPath);
@@ -214,7 +214,7 @@ public class JClassRegistry {
         final boolean conflictExistsWithGlobalElement = _globalElements
                 .contains("/" + localXPath);
         if (conflictExistsWithGlobalElement) {
-            LOG.warn("resolving global element conflict for " + xPath);
+            LOG.info("resolving global element conflict for " + xPath);
             changeClassInfoAsResultOfConflict(jClass, untypedXPath);
             return;
         }
