@@ -49,6 +49,7 @@
  */
 package org.exolab.castor.builder;
 
+import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
 import java.util.LinkedList;
@@ -56,7 +57,6 @@ import java.util.List;
 
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
-import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.builder.info.XMLInfo;
@@ -302,7 +302,7 @@ public final class SourceFactory extends BaseFactory {
 
         //3-- Create factoryState and chain it to sgState to prevent endless loop
         FactoryState state = 
-        	new FactoryState(className, sgState, packageName, component);
+            new FactoryState(className, sgState, packageName, component);
         state.setCreateGroupItem(createGroupItem);
         if (sgState.getCurrentFactoryState() != null) {
             state.setParent(sgState.getCurrentFactoryState());
@@ -342,7 +342,22 @@ public final class SourceFactory extends BaseFactory {
 
         //-- created from element definition information
         classInfo.setElementDefinition(creatingForAnElement);
-
+        
+        // deal with substitution groups
+        if (creatingForAnElement) {
+            ElementDecl elementDeclaration = (ElementDecl) component.getAnnotated();
+            Enumeration possibleSubstitutes = elementDeclaration.getSubstitutionGroupMembers(); 
+            if (possibleSubstitutes.hasMoreElements()) {
+                List substitutionGroupMembers = new ArrayList();
+                while (possibleSubstitutes.hasMoreElements()) {
+                    ElementDecl substitute = (ElementDecl) possibleSubstitutes.nextElement();
+                    substitutionGroupMembers.add(substitute.getName());
+                }
+                classInfo.setSubstitutionGroups(substitutionGroupMembers);
+            }
+        }
+                 
+        
         if (type != null) {
             if (type.isComplexType()) {
                 processComplexType(component, sgState, state);
@@ -658,7 +673,7 @@ public final class SourceFactory extends BaseFactory {
     /**
      * Creates the Java source code to support the given Simpletype.
      *
-     * @param binding
+     * @param binding Current XML binding
      * @param simpleType the Simpletype to create the Java source for
      * @param sgState the current SGStateInfo (cannot be null).
      * @return the JClass representation of the given Simpletype
@@ -1737,10 +1752,11 @@ public final class SourceFactory extends BaseFactory {
      * creating FieldInfos (or sometimes ClassInfos) for elements and
      * model group contained in the given ContentModelGroup.
      *
-     * @param contentModel the ContentModelGroup to process
+     * @param model the ContentModelGroup to process
      * @param state the current FactoryState.
      */
-    private void processContentModel(final ContentModelGroup model, final FactoryState state) {
+    private void processContentModel(final ContentModelGroup model, 
+            final FactoryState state) {
         //------------------------------/
         //- handle elements and groups -/
         //------------------------------/
@@ -1856,7 +1872,7 @@ public final class SourceFactory extends BaseFactory {
      * necessary enumeration code from the given SimpleType. Enumerations are
      * handled a couple ways.
      *
-     * @param binding
+     * @param binding CUrrent XML binding
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      * @see #processEnumerationAsBaseType
@@ -1883,7 +1899,7 @@ public final class SourceFactory extends BaseFactory {
      * Creates all the necessary enumeration code from the given SimpleType. Delegates
      * to EnumerationFactory.
      *
-     * @param binding
+     * @param binding Current XML binding
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      * @see #processEnumerationAsBaseType
@@ -1896,7 +1912,7 @@ public final class SourceFactory extends BaseFactory {
     /**
      * Delegates creation of enumeration code to EnumerationFactory.
      *
-     * @param binding
+     * @param binding Current XML binding
      * @param simpleType the SimpleType we are processing an enumeration for
      * @param state our current state
      */

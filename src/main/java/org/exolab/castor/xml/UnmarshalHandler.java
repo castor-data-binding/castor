@@ -1849,14 +1849,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 isWrapper = (isWrapper || hasFieldsAtLocation(pathBuf.toString(), classDesc));
             }
             
-            if (descriptor != null && isValidating()) {
-                try {
-                    classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
-                } catch (ValidationException e) {
-                    throw new SAXException(e);
-                }
-            }
-
             //-- Make sure there are more parent classes on stack
             //-- otherwise break, since there is nothing to do
             //if (pIdx == 0) break;
@@ -1883,6 +1875,15 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             classDesc = targetState.classDesc;
             count++;
         }
+        
+        if (descriptor != null && isValidating()) {
+            try {
+                classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
+            } catch (ValidationException e) {
+                throw new SAXException(e);
+            }
+        }
+        
         
         //-- The field descriptor is still null, we face a problem
         if (descriptor == null) {

@@ -30,6 +30,7 @@ import org.exolab.castor.xml.descriptors.CoreDescriptors;
 import org.exolab.castor.xml.handlers.DateFieldHandler;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.StringTokenizer;
 import java.util.Properties;
 
@@ -113,6 +114,9 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
      * include the name of the field itself.
      */
     private String _xmlPath    = null;
+
+	private List _substitutes;
+	
 
     //----------------/
     //- Constructors -/
@@ -762,6 +766,23 @@ public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements X
 
     private static boolean isMappedItem(final Class fieldType) {
         return (fieldType == MapItem.class);
+    }
+    
+    /**
+     * Returns the possible substitution groups for this class.
+     * @return the possible substitution groups for this class.
+     */
+    public List getSubstitutes()
+    {
+        return _substitutes;
+    }
+
+    /**
+     * Sets the possible substitution groups for this class.
+     * @param substitutes Possible substitution groups for this class.
+     */
+    public void setSubstitutes(List substitutes) {
+        _substitutes = substitutes;
     }
 
 }

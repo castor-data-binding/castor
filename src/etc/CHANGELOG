@@ -2,6 +2,11 @@ SVN
 -------------------------------
 
 Gen:   Resolved issue CASTOR-1893 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with sequence validation and substitution groups (again).
+       Details: http://jira.codehaus.org/browse/CASTOR-1893
+       (Werner - 20070307)
+
+Gen:   Resolved issue CASTOR-1893 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with sequence validation and substitution groups.
        Details: http://jira.codehaus.org/browse/CASTOR-1893
        (Werner - 20070304)

@@ -49,6 +49,8 @@
  */
 package org.exolab.castor.builder.info;
 
+import java.util.LinkedList;
+import java.util.List;
 import java.util.Vector;
 
 import org.exolab.javasource.JClass;
@@ -82,6 +84,11 @@ public final class ClassInfo extends XMLInfo {
     private boolean _abstract    = false;
 
     /**
+     * Holds the possible substitution groups for this class.
+     */
+    private List _substitutionGroups = new LinkedList();
+    
+     /**
      * Creates a new ClassInfo.
      * @param jClass the JClass which this ClassInfo describes
      */
@@ -384,4 +391,20 @@ public final class ClassInfo extends XMLInfo {
         _isContainer = isContainer;
     } //-- setContainer
 
+    /**
+     * Returns the possible substitution groups for this class.
+     * @return the possible substitution groups for this class.
+     */
+    public List getSubstitutionGroups() {
+        return _substitutionGroups;
+    }
+
+    /**
+     * Sets the possible substitution groups for this class.
+     * @param substitutionGroups Possible substitution groups for this class.
+     */
+    public void setSubstitutionGroups(final List substitutionGroups) {
+        _substitutionGroups = substitutionGroups;
+    }
+        
 } //-- ClassInfo

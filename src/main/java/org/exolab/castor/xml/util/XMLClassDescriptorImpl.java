@@ -52,6 +52,7 @@ package org.exolab.castor.xml.util;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.LinkedList;
 import java.util.List;
 
 import org.exolab.castor.mapping.AbstractFieldHandler;
@@ -202,10 +203,7 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
      */
     private List sequenceOfElements = new ArrayList();
     
-    /**
-     * Indicates whether we are within a multi-valued element.
-     */
-    private boolean withinMultivaluedElement = false;
+    private List _substitutes = new LinkedList();    
 
     //----------------/
     //- Constructors -/
@@ -375,6 +373,15 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
             }
             
             if (!anyNode && !(expectedElementName).equals(elementName)) {
+                
+                // handle substitution groups !!! 
+                List substitutes =  expectedElementDescriptor.getSubstitutes();
+                if (!substitutes.isEmpty()) {
+                    if (substitutes.contains(elementName)) {
+                        parentState.expectedIndex++;
+                        return;
+                    }
+                }
                 // handle multi-valued fields
                 if (expectedElementDescriptor.isMultivalued()) {
                 	parentState.withinMultivaluedElement = false;
@@ -1424,6 +1431,16 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
     protected void addSequenceElement(XMLFieldDescriptor element) {
         sequenceOfElements.add(element);
     }
+
     
+    public List getSubstitutes()
+    {
+        return _substitutes;
+    }
+
+    public void setSubstitutes(List substitutes) {
+        _substitutes = substitutes;
+    }
+         
     
 } //-- XMLClassDescriptor

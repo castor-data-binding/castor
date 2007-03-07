@@ -15,6 +15,8 @@
  */
 package org.exolab.castor.xml;
 
+import java.util.List;
+
 import org.exolab.castor.mapping.FieldDescriptor;
 
 /**
@@ -234,5 +236,17 @@ public interface XMLFieldDescriptor extends FieldDescriptor {
      *         attributes with the given XML name.
      */
     boolean matches(String xmlName, String namespace);
+    
+    /**
+     * Returns the possible substitution groups for this class.
+     * @return the possible substitution groups for this class.
+     */
+    public List getSubstitutes();
+
+    /**
+     * Sets the possible substitution groups for this class.
+     * @param substitutes Possible substitution groups for this class.
+     */
+    public void setSubstitutes(List substitutes); 
 
 }
