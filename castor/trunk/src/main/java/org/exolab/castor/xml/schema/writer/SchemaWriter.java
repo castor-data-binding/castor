@@ -287,6 +287,7 @@ public class SchemaWriter {
         enumeration = annotation.getDocumentation();
         String ELEM_DOCUMENTATION = schemaPrefix + DOCUMENTATION;
         while (enumeration.hasMoreElements()) {
+            _atts.clear();
             Documentation doc = (Documentation) enumeration.nextElement();
             String source = doc.getSource();
             String sourceName = _atts.getName(0);
