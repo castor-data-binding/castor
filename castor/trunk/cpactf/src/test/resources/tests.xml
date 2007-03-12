@@ -95,6 +95,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="hsql" class="jdo.JDOCategory">
@@ -200,6 +201,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="mssql" class="jdo.JDOCategory">
@@ -298,6 +300,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="mysql" class="jdo.JDOCategory">
@@ -398,6 +401,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/>
+    <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/>
   </category>
 
   <category name="oracle" class="jdo.JDOCategory">
@@ -499,6 +503,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="postgresql" class="jdo.JDOCategory">
@@ -598,6 +603,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="sapdb" class="jdo.JDOCategory">
@@ -629,7 +635,7 @@
 
     <!-- tc2x -->
     <case id="TC20" class="ctf.jdo.tc2x.TestKeyGenGeneric"/>
-    <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/>
+    <!-- <case id="TC21" class="ctf.jdo.tc2x.TestKeyGenSequence"/> -->
     <!-- <case id="TC22" class="ctf.jdo.tc2x.TestKeyGenReturning"/> -->
     <case id="TC23" class="ctf.jdo.tc2x.TestKeyGenIdentity"/>
     <case id="TC24" class="ctf.jdo.tc2x.TestKeyGenUuid"/>
@@ -637,11 +643,11 @@
     <case id="TC26" class="ctf.jdo.tc2x.TestDependentKeyGen"/>
     <case id="TC27" class="ctf.jdo.tc2x.TestDependentUpdate"/>
     <case id="TC28" class="ctf.jdo.tc2x.TestDependentKeyGenUpdate"/>
-    <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/>
+    <!-- <case id="TC29" class="ctf.jdo.tc2x.TestDependentOrder"/> -->
 
     <!-- tc3x -->
     <case id="TC30" class="ctf.jdo.tc3x.TestOql"/>
-    <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/>
+    <!-- <case id="TC31" class="ctf.jdo.tc3x.TestOqlExtends"/> -->
     <!-- <case id="TC32" class="ctf.jdo.tc3x.TestLimitClause"/> -->
     <!-- <case id="TC33" class="ctf.jdo.tc3x.TestLimitWithOffsetClause"/> -->
     <!-- <case id="TC34" class="ctf.jdo.tc3x.TestLimitWithOffsetExtend"/> -->
@@ -657,34 +663,34 @@
     <!-- tc6x -->
     <!-- tc7x -->
 
-    <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/>
-	<case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/>
+    <!-- <case id="TC70" class="ctf.jdo.tc7x.TestCollections"/> -->
+	<!-- <case id="TC71" class="ctf.jdo.tc7x.TestSpecialCollections"/> -->
 	<case id="TC72" class="ctf.jdo.tc7x.TestSortedContainer"/>
     <case id="TC73" class="ctf.jdo.tc7x.TestManyToMany"/>
     <case id="TC74" class="ctf.jdo.tc7x.TestManyToManyKeyGen"/>
     <case id="TC75" class="ctf.jdo.tc7x.TestExpireManyToMany"/>
-    <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/>
-    <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/>
+    <!-- <case id="TC76" class="ctf.jdo.tc7x.TestCachedOid"/> -->
+    <!-- <case id="TC77" class="ctf.jdo.tc7x.TestQueryFinalize"/> -->
 	<case id="TC78" class="ctf.jdo.tc7x.TestGetJdbcConnection"/>
 	<case id="TC79" class="ctf.jdo.tc7x.TestIsLocked"/>
-	<case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/>
+	<!-- <case id="TC79a" class="ctf.jdo.tc7x.TestAutostore"/> -->
 	<case id="TC79aa" class="ctf.jdo.tc7x.TestAutostoreMany"/>
 	<case id="TC79b" class="ctf.jdo.tc7x.TestIsPersistent"/>
 
     <!-- tc8x -->
     <case id="TC80" class="ctf.jdo.tc8x.TestSelfReferentialExtend"/>
-    <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/>
-    <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/>
+    <!-- <case id="TC81" class="ctf.jdo.tc8x.TestDepends"/> -->
+    <!-- <case id="TC82" class="ctf.jdo.tc8x.TestDependsNoKeyGen"/> -->
     <case id="TC83" class="ctf.jdo.tc8x.TestIdentityPerFieldMapping"/>
-    <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/>
+    <!-- <case id="TC84" class="ctf.jdo.tc8x.TestTransientAttribute"/> -->
     <case id="TC85" class="ctf.jdo.tc8x.TestEnum"/>
     <!-- <case id="TC86" class="ctf.jdo.tc8x.TestCircularRef"/> -->
     <!-- <case id="TC87" class="ctf.jdo.tc8x.TestLazy1to1"/> -->
     <case id="TC88" class="ctf.jdo.tc8x.TestLazyLoading"/>
-    <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/>
+    <!-- <case id="TC89" class="ctf.jdo.tc8x.TestLazyEmployeeExpiration"/> -->
 
     <!-- tc9x -->
-    <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/>
+    <!-- <case id="TC93" class="ctf.jdo.tc9x.TestPolymorphismDegenerated"/> -->
     <case id="TC94" class="ctf.jdo.tc9x.TestPolymorphismWithUpdates"/>
     <case id="TC95" class="ctf.jdo.tc9x.TestPolymorphismWithKeyGen"/>
     <case id="TC96" class="ctf.jdo.tc9x.TestPolymorphismDependendObjects"/>
@@ -694,8 +700,9 @@
 
     <!-- tc20x -->
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
-    <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
+    <!-- <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/> -->
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/>
   </category>
 
   <category name="sybase" class="jdo.JDOCategory">
@@ -794,6 +801,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="derby" class="jdo.JDOCategory">
@@ -896,6 +904,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="pointbase" class="jdo.JDOCategory">
@@ -999,6 +1008,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
   <category name="progress" class="jdo.JDOCategory">
@@ -1096,6 +1106,7 @@
     <case id="TC200" class="ctf.jdo.tc20x.TestSelfRelation"/>
     <case id="TC201" class="ctf.jdo.tc20x.TestSelfRelationExtend"/>
     <!-- <case id="TC202" class="ctf.jdo.tc20x.TestForeignKeyFirst"/> -->
+    <!-- <case id="TC203" class="ctf.jdo.tc20x.TestTimezone"/> -->
   </category>
 
 <!--

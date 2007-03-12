@@ -1312,3 +1312,15 @@ create table tc202_foreign_key_first_entity_n (
 );
 
 insert into tc202_foreign_key_first_entity_1 VALUES (1, 1);
+
+drop table if exists tc203_timezone_entity;
+
+create table tc203_timezone_entity (
+  id          int not null,
+  name        varchar(200) not null,
+  start_date  date,
+  start_time  time,
+  start_stamp datetime
+);
+
+insert into tc203_timezone_entity (id, name) values (1, 'entity1');
