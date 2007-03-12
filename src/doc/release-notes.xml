@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1895" tool="jira">
+                    <description>
+                        Fixed problem with printing annotations correctly (schema writer).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Oliver Fourman</name>
+                        <email>oliver.fourman@dfki.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070312</date>
+                </bug>
                 <bug id="1893" tool="jira">
                     <description>
                         Fixed problem with sequence validation and substitution groups (again).

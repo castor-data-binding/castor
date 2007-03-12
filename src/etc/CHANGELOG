@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1895 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with printing annotations in XML schma (schema writer)
+       Details: http://jira.codehaus.org/browse/CASTOR-1895
+       (Werner - 20070312)
+
 Gen:   Resolved issue CASTOR-1893 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with sequence validation and substitution groups (again).
        Details: http://jira.codehaus.org/browse/CASTOR-1893
