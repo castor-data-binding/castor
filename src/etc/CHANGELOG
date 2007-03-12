@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+JDO:   Resolved issue CASTOR-1276 using contribution from Brian Schlining [bschlining@gmail.com]
+       Added a method for forcing the timezone for dates written to the database.
+       Details: http://jira.codehaus.org/browse/CASTOR-1276
+       (Ralf - 20070316)
+
 Gen:   Resolved issue CASTOR-1895 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with printing annotations in XML schma (schema writer)
        Details: http://jira.codehaus.org/browse/CASTOR-1895
@@ -10,11 +15,6 @@ Gen:   Resolved issue CASTOR-1893 using contribution from Werner Guttmann [werne
        Fixed problem with sequence validation and substitution groups (again).
        Details: http://jira.codehaus.org/browse/CASTOR-1893
        (Werner - 20070307)
-
-Gen:   Resolved issue CASTOR-1893 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
-       Fixed problem with sequence validation and substitution groups.
-       Details: http://jira.codehaus.org/browse/CASTOR-1893
-       (Werner - 20070304)
 
 JDO:   Resolved issue CASTOR-1812 using contribution from Steven Dolg [stevendolg@gmx.at]
        Fixed problem with SQLException: Column Index out of range.

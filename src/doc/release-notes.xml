@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1276" tool="jira">
+                    <description>
+                        Added a method for forcing the timezone for dates written to the database.
+                    </description>
+                    <contributor>
+                        <name>Brian Schlining</name>
+                        <email>bschlining@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Ralf Joachim</name>
+                        <email>ralf.joachim@syscon-world.de</email>
+                    </submitter>
+                    <reporter>
+                        <name>Brian Schlining</name>
+                        <email>bschlining@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20070316</date>
+                </bug>
                 <bug id="1895" tool="jira">
                     <description>
                         Fixed problem with printing annotations correctly (schema writer).
@@ -94,26 +114,6 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 </bug>
                 <bug id="1893" tool="jira">
                     <description>
-                        Fixed problem with sequence validation and substitution groups (again).
-                    </description>
-                    <contributor>
-                        <name>Werner Guttmann</name>
-                        <email>werner.guttmann@gmx.net</email>
-                    </contributor>
-                    <submitter>
-                        <name>Werner Guttmann</name>
-                        <email>werner.guttmann@gmx.net</email>
-                    </submitter>
-                    <reporter>
-                        <name>Werner Guttmann</name>
-                        <email>werner.guttmann@gmx.net</email>
-                    </reporter>
-                    <type>Bug</type>
-                    <module>XML</module>
-                    <date>20070307</date>
-                </bug>
-                <bug id="1893" tool="jira">
-                    <description>
                         Fixed problem with sequence validation and substitution groups.
                     </description>
                     <contributor>
@@ -130,7 +130,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
-                    <date>20070304</date>
+                    <date>20070307</date>
                 </bug>
                 <bug id="1812" tool="jira">
                     <description>

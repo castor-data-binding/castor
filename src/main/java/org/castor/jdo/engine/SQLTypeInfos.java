@@ -23,6 +23,7 @@ import java.sql.Date;
 import java.sql.PreparedStatement;
 import java.sql.ResultSet;
 import java.sql.SQLException;
+import java.sql.Time;
 import java.sql.Timestamp;
 import java.sql.Types;
 import java.util.Calendar;
@@ -230,7 +231,7 @@ public final class SQLTypeInfos {
         case Types.TIME:
             return rs.getTime(index, getCalendar());
         case Types.DATE:
-            return rs.getDate(index, getCalendar());
+            return rs.getDate(index);
         case Types.TIMESTAMP:
             return rs.getTimestamp(index, getCalendar());
         case Types.FLOAT:
@@ -292,11 +293,14 @@ public final class SQLTypeInfos {
                 case Types.REAL:
                     stmt.setFloat(index, ((Float) value).floatValue());
                     break;
+                case Types.TIME:
+                    stmt.setTime(index, (Time) value, getCalendar());
+                    break;
                 case Types.DATE:
                     stmt.setDate(index, (Date) value);
                     break;
                 case Types.TIMESTAMP:
-                    stmt.setTimestamp(index, (Timestamp) value);
+                    stmt.setTimestamp(index, (Timestamp) value, getCalendar());
                     break;
                 case Types.BLOB:
                     try {

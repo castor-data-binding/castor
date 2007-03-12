@@ -80,5 +80,25 @@
 		</field>
 	</class>
 
+    <class name="ctf.jdo.tc20x.TimezoneEntity" identity="id">
+        <description>TimezoneEntity</description>
+        <map-to table="tc203_timezone_entity"/>
+        <field name="id" type="integer">
+            <sql name="id" type="integer"/>
+        </field>
+        <field name="name" type="string">
+            <sql name="name" type="char"/>
+        </field>
+        <field name="startDate" type="date">
+            <sql name="start_date" type="date"/>
+        </field>
+        <field name="startTime" type="date">
+            <sql name="start_time" type="time"/>
+        </field>
+        <field name="startTimestamp" type="date">
+            <sql name="start_stamp" type="timestamp"/>
+        </field>
+    </class>
+    
 </mapping>
 

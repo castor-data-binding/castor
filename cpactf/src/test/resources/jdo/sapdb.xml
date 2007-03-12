@@ -3,7 +3,7 @@
                            "http://castor.org/jdo-conf.dtd">
 <jdo-conf>                         
     <database name="sapdb" engine="sapdb" >
-        <driver url="jdbc:sapdb://localhost/test" class-name="com.sap.dbtech.jdbc.DriverSapDB">
+        <driver url="jdbc:sapdb://localhost/maxdb" class-name="com.sap.dbtech.jdbc.DriverSapDB">
             <param name="user" value="admin" />
             <param name="password" value="secure" />
         </driver>
