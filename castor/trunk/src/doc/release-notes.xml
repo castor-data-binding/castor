@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1902" tool="jira">
+                    <description>
+                        Fixed problem with validation of empty choices during unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Pascal Maugeri</name>
+                        <email>pascal.maugeri@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070314</date>
+                </bug>
                 <bug id="1276" tool="jira">
                     <description>
                         Added a method for forcing the timezone for dates written to the database.
