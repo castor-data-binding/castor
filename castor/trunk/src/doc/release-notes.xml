@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1899" tool="jira">
+                    <description>
+                        Fixed problem in ElementDecl.getSubstitutionGroup() related to global 
+                        element references.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070313</date>
+                </bug>
                 <bug id="1902" tool="jira">
                     <description>
                         Fixed problem with validation of empty choices during unmarshalling.
@@ -90,7 +111,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
-                    <date>20070314</date>
+                    <date>20070313</date>
                 </bug>
                 <bug id="1276" tool="jira">
                     <description>
