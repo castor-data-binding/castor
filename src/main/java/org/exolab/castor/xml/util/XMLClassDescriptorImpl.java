@@ -994,11 +994,11 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                     }
                 }//for
 
-                //if there is nothing, we check if at least one field is required
-                //and print the grammar that the choice must match.
+                // if all elements are mandatory, print the grammar that the choice 
+                // must match.
                 if ((!found) && (hasLocalDescs))  {
                     StringBuffer buffer = new StringBuffer(40);
-                    boolean error = false;
+                    boolean existsOptionalElement = false;
                     buffer.append('(');
                     String sep = " | ";
                     for (int i = 0; i < localElements.length; i++) {
@@ -1006,24 +1006,20 @@ public class XMLClassDescriptorImpl extends Validator implements XMLClassDescrip
                         if (desc == null) continue;
 
                         FieldValidator fieldValidator = desc.getValidator();
-                        if (fieldValidator.getMinOccurs() > 0) {
-                            if (error) {
-                                buffer.append(sep);
-                            }
-                            else {
-                                error = true;
-                            }
-                            buffer.append(desc.getXMLName());
+                        if (fieldValidator.getMinOccurs() == 0) {
+                            existsOptionalElement = true;
+                            break;
                         }
+                        buffer.append(sep);
+                        buffer.append(desc.getXMLName());
                     }
                     buffer.append(')');
-                    if (error) {
+                    if (!existsOptionalElement) {
                         String err = "In the choice contained in <"+ this.getXMLName()
                                      +">, at least one of these elements must appear:\n"
                                      + buffer.toString();
                         throw new ValidationException(err);
                     }
-
                 }
                 //-- handle attributes, not affected by choice
                 for (int i = 0; i < localAttributes.length; i++) {
