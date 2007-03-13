@@ -420,17 +420,15 @@ public class ElementDecl extends Particle implements Referable {
 
     /**
      * Returns the substitutionGroup for this element declaration, or
-     * null if it's absent.
+     * null if it's absent; if this {@link ElementDecl} instance is a reference
+     * to a global element definition, return its substitution group
      *
      * @return the substitutionGroup membership for this element
      * declaration, or null if absent.
     **/
     public String getSubstitutionGroup() {
         if (isReference()) {
-            ElementDecl elem = getReference();
-            if (elem != null && elem.getSubstitutionGroup() != null) {
-                return elem.getSubstitutionGroup();
-            }
+            return getReference().getSubstitutionGroup();
         }
        return _substitutionGroup;
     } //-- getSubstitutionGroup

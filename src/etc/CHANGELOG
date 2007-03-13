@@ -1,10 +1,15 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1899 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem in ElementDecl.getSubstitutionGroup() related to global element references.
+       Details: http://jira.codehaus.org/browse/CASTOR-1899
+       (Werner - 20070313)
+
 XML:   Resolved issue CASTOR-1902 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with validation of empty choices during unmarshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-1902
-       (Werner - 20070314)
+       (Werner - 20070313)
 
 JDO:   Resolved issue CASTOR-1276 using contribution from Brian Schlining [bschlining@gmail.com]
        Added a method for forcing the timezone for dates written to the database.
