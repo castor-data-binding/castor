@@ -17,113 +17,127 @@
 
     <section title="Overview">
 
-            <p>Please find below a list of properties that can be set in the
-               <tt>castor-builder.properties</tt> file to control various advanced
-               options of the source generator. By default, the Castor XML code
-               will look for such a property file in the following places:</p>
-
-            <p><ol>
-              <li>If no custom property file is specified, the Castor XML code
-                  generator will use the default builder configuration
-                  properties at
-                  <tt>org/exolab/castor/builder/castorbuilder.properties</tt>.</li>
-              <li>If a file named <tt>castorbuilder.properties</tt> is available
-                  on the CLASSPATH, the Castor XML code generator will use each of the
-                  defined property values to override the default value as explained
-                  above. This fiel is commonly referred to as a <b>custom</b>
-                  builder configuration file.</li>
-            </ol></p>
-
-            <ctable>
-              <cheader>
-                 <th align="center">Option</th>
-                 <th>Description</th>
-                 <th>Values</th>
-                 <th>Default</th>
-                 <th>Since<br/>Version</th>
-              </cheader>
-              <crow>
-                <td>org.exolab.castor.builder.javaVersion</td>
-                <td>Compliance with Java version</td>
-                <td><tt>1.4</tt> or <tt>5.0</tt></td>
-                <td>1.4</td>
-                <td>1.0.2</td>
-              </crow>
-              <crow>
-                <td>org.exolab.castor.builder.boundproperties</td>
-                <td>Generation of bound properties</td>
-                <td><tt>true</tt> or <tt>false</tt></td>
-                <td><tt>false</tt></td>
-                <td>0.8.9</td>
-              </crow>
-              <crow>
-                <td>org.exolab.castor.builder.javaclassmapping</td>
-                <td>Class generation mode</td>
-                <td><tt>element</tt> or <tt>type</tt></td>
-                <td><tt>element</tt></td>
-                <td>0.9.1</td>
-              </crow>
-              <crow>
-                <td>org.exolab.castor.builder.superclass</td>
-                <td>Global super class (for all classes generated)</td>
-                <td>Any valid class name</td>
-                <td>-</td>
-                <td>0.8.9</td>
-              </crow>
-              <crow>
-                <td>org.exolab.castor.builder.nspackages</td>
-                <td>XML namespace to package name mapping</td>
-                <td>A series of mappings</td>
-                <td>-</td>
-                <td>0.8.9</td>
-              </crow>
-              <crow>
-                <td>org.exolab.castor.builder.equalsmethod</td>
-                <td>Generation of <tt>equals</tt> method</td>
-                <td><tt>true</tt> or <tt>false</tt></td>
-                <td><tt>false</tt></td>
-                <td>0.9.1</td>
-              </crow>
-              <crow>
-                <td>org.exolab.castor.builder.primitivetowrapper</td>
-                <td>Generation of Object wrappers instead of primitives</td>
-                <td><tt>true</tt> or <tt>false</tt></td>
-                <td><tt>false</tt></td>
-                <td>0.9.4</td>
-              </crow>
-            </ctable>
+	    <p>Please find below a list of properties that can be configured through 
+	       the builder configuration properties, as defined in either the default
+	       or a custom XML code generator configuration file. These properties allow you 
+	       to control various advanced options of the XML source generator.</p>
+	       
+        <ctable>
+          <cheader>
+             <th align="center">Option</th>
+             <th>Description</th>
+             <th>Values</th>
+             <th>Default</th>
+             <th>Since<br/>Version</th>
+          </cheader>
+          <crow>
+            <td><a href="#Source-generation-&amp;-Java-5.0">org.exolab.castor.builder.javaVersion</a></td>
+            <td>Compliance with Java version</td>
+            <td><tt>1.4</tt>/<tt>5.0</tt></td>
+            <td>1.4</td>
+            <td><font color="red">1.0.2</font></td>
+          </crow>
+          <crow>
+            <td><a href="#Bound-Properties">org.exolab.castor.builder.boundproperties</a></td>
+            <td>Generation of bound properties</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.8.9</td>
+          </crow>
+          <crow>
+            <td><a href="#Class-Creation/Mapping">org.exolab.castor.builder.javaclassmapping</a></td>
+            <td>Class generation mode</td>
+            <td><tt>element</tt>/<tt>type</tt></td>
+            <td><tt>element</tt></td>
+            <td>0.9.1</td>
+          </crow>
+          <crow>
+            <td><a href="#Setting-a-super-class">org.exolab.castor.builder.superclass</a></td>
+            <td>Global super class (for all classes generated)</td>
+            <td>Any valid class name</td>
+            <td>-</td>
+            <td>0.8.9</td>
+          </crow>
+          <crow>
+            <td><a href="#Mapping-XML-namespaces-to-Java-packages">org.exolab.castor.builder.nspackages</a></td>
+            <td>XML namespace to package name mapping</td>
+            <td>A series of mappings</td>
+            <td>-</td>
+            <td>0.8.9</td>
+          </crow>
+          <crow>
+            <td><a href="#Generate-equals()-method">org.exolab.castor.builder.equalsmethod</a></td>
+            <td>Generation of <tt>equals</tt> method</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.9.1</td>
+          </crow>
+          <crow>
+            <td><a href="#Maps-java-primitive-types-to-wrapper-object">org.exolab.castor.builder.primitivetowrapper</a></td>
+            <td>Generation of Object wrappers instead of primitives</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td>0.9.4</td>
+          </crow>
+          <crow>
+            <td><a href="#Automatic-class-name-conflict-resolution">org.exolab.castor.builder.automaticConflictResolution</a></td>
+            <td>Specifies whether <b>automatic class name conflict resolution</b> 
+                should be used or not</td>
+            <td><tt>true</tt>/<tt>false</tt></td>
+            <td><tt>false</tt></td>
+            <td><font color="red">1.1.1</font></td>
+          </crow>
+        </ctable>
 
     </section>
 
-       <section title="Available properties">
+	<section title="Customization - Lookup mechanism">
+	
+	    <p>By default, the Castor XML code generator will look for such a property file 
+	       in the following places:</p>
 
-        <section title="News: Source generation &amp; Java 5.0">
+	    <p><ol>
+	      <li>If no custom property file is specified, the Castor XML code
+	          generator will use the default builder configuration
+	          properties at <tt>org/exolab/castor/builder/castorbuilder.properties</tt>
+	          as shipped as part of the XML code generator JAR.</li>
+	      <li>If a file named <tt>castorbuilder.properties</tt> is available
+	          on the CLASSPATH, the Castor XML code generator will use each of the
+	          defined property values to override the default value as defined
+	          in the default builder configuration properties. This file is commonly 
+	          referred to as a <b>custom</b> builder configuration file.</li>
+	    </ol></p>
+	
+	</section>
+	
+    <section title="Detailed descriptions">
 
-            <p>As of <b>Castor 1.0.2</b>, the Castor source generator now supports the
-               generation of Java 5.0 compliant code. The generated code - with the
-               new feature enabled - will make use of the following Java 5.0-specific
-               artifacts:
-
-               <ul>
-                <li>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</li>
-                <li>Use of @Override annotations with the generated methods
-                    that require it.</li>
-                <li>Use of @SupressWarnings with "unused" method parameters
-                    on the generated methods that needed it.</li>
-                <li>Added "enum" to the list of reserved keywords.</li>
-               </ul></p>
-
-            <p>To enable this feature (off by default), please uncomment the
-               following property in your custom <tt>castorbuilder.properties</tt>
-               file:</p>
-
-            <code-panel>
-    # This property specifies whether the sources generated
-    # should comply with java 1.4 or 5.0; defaults to 1.4
-    org.exolab.castor.builder.javaVersion=5.0
-            </code-panel>
-
-        </section>
+		<section title="Source generation &amp; Java 5.0">
+	
+	            <p>As of <b>Castor 1.0.2</b>, the Castor source generator now supports the
+	               generation of Java 5.0 compliant code. The generated code - with the
+	               new feature enabled - will make use of the following Java 5.0-specific
+	               artifacts:
+	
+	               <ul>
+	                <li>Use of parameterized collections, e.g. ArrayList&lt;String&gt;.</li>
+	                <li>Use of @Override annotations with the generated methods
+	                    that require it.</li>
+	                <li>Use of @SupressWarnings with "unused" method parameters
+	                    on the generated methods that needed it.</li>
+	                <li>Added "enum" to the list of reserved keywords.</li>
+	               </ul></p>
+	
+	            <p>To enable this feature (off by default), please uncomment the
+	               following property in your custom <tt>castorbuilder.properties</tt>
+	               file:</p>
+	
+	            <code-panel>
+# This property specifies whether the sources generated
+# should comply with java 1.4 or 5.0; defaults to 1.4
+org.exolab.castor.builder.javaVersion=5.0</code-panel>
+	
+		</section>
 
             <section title="Bound Properties">
 
@@ -147,8 +161,7 @@ org.exolab.castor.builder.boundproperties=true</code-panel>
                    created as follows:</p>
 
                 <code-panel>
-<comment>
-/**
+<comment>/**
  * Registers a PropertyChangeListener with this class.
  * @param pcl The PropertyChangeListener to register.
  **/
@@ -286,6 +299,27 @@ org.exolab.castor.builder.superclass=com.xyz.BaseObject</code-panel>
 # false by default.
 #org.exolab.castor.builder.primitivetowrapper=false</code-panel>
        </p>
+
+     </section>
+
+        <section title="Automatic class name conflict resolution">
+            <p>Since version 1.1.1</p>
+             
+            <p>With this property enabled, the XML code generator will use 
+               a new automatic class name resolution mode that has special
+               logic implemented to automatically resolve class name conflicts.</p>
+                
+            <p>This new mode deals with various class name conflicts where previously
+               a binding file had to be used to resolve these conflicts manually.</p>
+                
+            <p>To enable this feature (turned off by default), please add the 
+               following property definitio to your custom <tt>castorbuilder.properties</tt>
+               file:</p>
+        <code-panel>
+# Specifies whether automatic class name conflict resolution
+# should be used or not; defaults to false.
+#
+org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
      </section>
 
