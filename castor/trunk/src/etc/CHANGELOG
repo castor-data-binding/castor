@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1897 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added documentation for 'org.exolab.castor.builder.automaticConflictResolution' property
+       Details: http://jira.codehaus.org/browse/CASTOR-1897
+       (Werner - 20070313)
+
 Gen:   Resolved issue CASTOR-1899 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem in ElementDecl.getSubstitutionGroup() related to global element references.
        Details: http://jira.codehaus.org/browse/CASTOR-1899
