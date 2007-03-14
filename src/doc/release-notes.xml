@@ -72,6 +72,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1905" tool="jira">
+                    <description>
+                        Fixed bug in string normalization during code generation.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Simon Lord</name>
+                        <email>simon.lord@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070313</date>
+                </bug>
                 <bug id="1897" tool="jira">
                     <description>
                         Added documentation for 'org.exolab.castor.builder.automaticConflictResolution' 

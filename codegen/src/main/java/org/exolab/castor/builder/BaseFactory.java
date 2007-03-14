@@ -109,7 +109,7 @@ public class BaseFactory {
                 }
                 skip = true;
             } else if (ch == '*') {
-                if (chars[i] == '/') {
+                if (i < chars.length && chars[i] == '/') {
                     newChars[count++] = ch;
                     newChars[count++] = '\\';
                 }
