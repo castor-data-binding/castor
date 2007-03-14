@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+Gen:   Resolved issue CASTOR-1905 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed bug in string normalization during code generation.
+       Details: http://jira.codehaus.org/browse/CASTOR-1905
+       (Werner - 20070314)
+
 Gen:   Resolved issue CASTOR-1897 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added documentation for 'org.exolab.castor.builder.automaticConflictResolution' property
        Details: http://jira.codehaus.org/browse/CASTOR-1897
