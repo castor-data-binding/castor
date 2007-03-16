@@ -49,11 +49,8 @@
  */
 package org.exolab.castor.xml.util;
 
-import java.io.IOException;
-import java.io.InputStream;
 import java.net.URL;
 import java.util.ArrayList;
-import java.util.ConcurrentModificationException;
 import java.util.Enumeration;
 import java.util.HashMap;
 import java.util.Iterator;
@@ -421,12 +418,24 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      *            The preferred <code>ClassLoader</code>
      * @return The <code>XMLClassDescriptor</code> loaded from the
      *         corresponding .class file or <code>null</code> if the .class
-     *         file does not exist or does not containa valid
+     *         file does not exist or does not contain a valid
      *         <code>XMLClassDescriptor</code>.
      */
     private XMLClassDescriptor loadDescriptorClass(String className, ClassLoader loader) {
-        String descriptorClassName = className + XMLConstants.DESCRIPTOR_SUFFIX;
-        Class descriptorClass = _classCache.loadClass(descriptorClassName, this.getClassLoader(loader));
+    	StringBuffer descriptorClassName = new StringBuffer(className);
+    	descriptorClassName.append(XMLConstants.DESCRIPTOR_SUFFIX);
+        Class descriptorClass = _classCache.loadClass(descriptorClassName.toString(), this.getClassLoader(loader));
+
+        // If we didn't find the descriptor, look in descriptor package
+        if (descriptorClass == null) {
+        	int offset = descriptorClassName.lastIndexOf(".");
+        	if (offset != -1) {
+        		descriptorClassName.insert(offset , ".");
+        		descriptorClassName.insert(offset + 1, XMLConstants.DESCRIPTOR_PACKAGE);
+                descriptorClass = _classCache.loadClass(descriptorClassName.toString(), this.getClassLoader(loader));
+        	}
+        }
+        
         if (descriptorClass == null) {
             return null;
         }
@@ -514,15 +523,6 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
 
         // try loading the descriptor from .class file
         descriptor = this.loadDescriptorClass(className, loader);
-        if (descriptor == null) {
-            // If we didn't find the descriptor, look in a lower package
-            int offset = className.lastIndexOf(".");
-            if (offset > 0 && !className.endsWith(".")) {
-                String newClassName = className.substring(0, offset+1)
-                        + XMLConstants.DESCRIPTOR_PACKAGE + className.substring(offset);
-                descriptor = this.loadDescriptorClass(newClassName, loader);
-            }
-        }
         if (descriptor != null) {
             return descriptor;
         }

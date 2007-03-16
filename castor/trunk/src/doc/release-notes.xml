@@ -72,6 +72,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1910" tool="jira">
+                    <description>
+                        Fixed problem with (incorrectly) caching class descriptors in 
+                        XMLClassDescriptorResolver.
+                    </description>
+                    <contributor>
+                        <name>Steven Dolg</name>
+                        <email>stevendolg@gmx.at</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Simon Lord</name>
+                        <email>simon.lord@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070316</date>
+                </bug>
                 <bug id="1905" tool="jira">
                     <description>
                         Fixed bug in string normalization during code generation.
