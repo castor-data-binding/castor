@@ -66,7 +66,6 @@ import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.Configuration.Property;
-import org.exolab.castor.xml.ClassDescriptorEnumeration;
 import org.exolab.castor.xml.Introspector;
 import org.exolab.castor.xml.MarshalException;
 import org.exolab.castor.xml.ResolverException;
@@ -282,14 +281,14 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
      *
      * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolveAllByXMLName(java.lang.String, java.lang.String, java.lang.ClassLoader)
      */
-    public ClassDescriptorEnumeration resolveAllByXMLName(String xmlName, String namespaceURI, ClassLoader loader) {
+    public Iterator resolveAllByXMLName(String xmlName, String namespaceURI, ClassLoader loader) {
         if (xmlName == null || xmlName.length() == 0) {
             String error = "Cannot resolve a null or zero-length xml name.";
             throw new IllegalArgumentException(error);
         }
 
         // get all descriptors with the correct xml name
-        return new XCDEnumerator(_descriptorCache.getDescriptors(xmlName));
+        return _descriptorCache.getDescriptors(xmlName);
     } //-- resolveAllByXMLName
 
 
@@ -1053,40 +1052,5 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
             }
         }
     }
-
-    /**
-     * A locally used implementation of ClassDescriptorEnumeration
-     */
-    static class XCDEnumerator implements ClassDescriptorEnumeration {
-
-        private final Iterator _descriptors;
-
-        /**
-         * Creates an XCDEnumerator
-         */
-        XCDEnumerator(Iterator descriptors) {
-            super();
-
-            _descriptors = descriptors;
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @see org.exolab.castor.xml.ClassDescriptorEnumeration#getNext()
-         */
-        public XMLClassDescriptor getNext() {
-            return (XMLClassDescriptor) _descriptors.next();
-        }
-
-        /**
-         * {@inheritDoc}
-         *
-         * @see org.exolab.castor.xml.ClassDescriptorEnumeration#hasNext()
-         */
-        public boolean hasNext() {
-            return _descriptors.hasNext();
-        }
-    } //-- ClassDescriptorEnumeration
 
 } // -- ClassDescriptorResolverImpl

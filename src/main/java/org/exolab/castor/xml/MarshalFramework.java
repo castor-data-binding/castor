@@ -51,6 +51,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.MappingException;
 import org.exolab.castor.mapping.loader.CollectionHandlers;
 
+import java.util.Iterator;
 import java.util.Vector;
 
 
@@ -322,7 +323,7 @@ abstract class MarshalFramework {
     public static InheritanceMatch[] searchInheritance(String name, String namespace,
             XMLClassDescriptor classDesc, XMLClassDescriptorResolver cdResolver)
     throws MarshalException {
-        ClassDescriptorEnumeration cde = null;
+        Iterator classDescriptorIterator = null;
         
         try {
             //-- A little required logic for finding Not-Yet-Loaded
@@ -346,7 +347,7 @@ abstract class MarshalFramework {
             //-- end Not-Yet-Loaded descriptor logic
             
             //-- resolve all by XML name + namespace URI
-            cde = cdResolver.resolveAllByXMLName(name, namespace, null);
+            classDescriptorIterator = cdResolver.resolveAllByXMLName(name, namespace, null);
         }
         catch(ResolverException rx) {
             Throwable actual = rx.getCause();
@@ -364,9 +365,9 @@ abstract class MarshalFramework {
         XMLFieldDescriptor[] descriptors = classDesc.getElementDescriptors();
         XMLClassDescriptor cdInherited = null;
 
-        if (cde.hasNext()) {
-            while (cde.hasNext() && (descriptor == null)) {
-                cdInherited = cde.getNext();
+        if (classDescriptorIterator.hasNext()) {
+            while (classDescriptorIterator.hasNext() && (descriptor == null)) {
+                cdInherited = (XMLClassDescriptor) classDescriptorIterator.next();
                 Class subclass = cdInherited.getJavaClass();
 
                 for (int i = 0; i < descriptors.length; i++) {

@@ -51,6 +51,8 @@
 
 package org.exolab.castor.xml;
 
+import java.util.Iterator;
+
 /**
  * An interface for finding or "resolving" XMLClassDescriptor classes.
  * 
@@ -112,9 +114,9 @@ public interface XMLClassDescriptorResolver extends ClassDescriptorResolver {
      *
      * @param xmlName The class name to find the XMLClassDescriptor for.
      * @param loader The ClassLoader to use.
-     * @return An enumeration of XMLClassDescriptor objects.
+     * @return An Iterator of XMLClassDescriptor objects.
      */
-    ClassDescriptorEnumeration resolveAllByXMLName
+    Iterator resolveAllByXMLName
         (String xmlName, String namespaceURI, ClassLoader loader)
         throws ResolverException;
     
