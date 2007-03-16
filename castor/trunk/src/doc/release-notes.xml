@@ -79,6 +79,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1914" tool="jira">
+                    <description>
+                        Replaced custom java.util.Enumeration implementation with java.util.Iterator.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Enh.</type>
+                    <module>XML</module>
+                    <date>20070316</date>
+                </bug>
                 <bug id="1911" tool="jira">
                     <description>
                         Improved and stream-lined public interface of XMLClassDescriptorResolver.

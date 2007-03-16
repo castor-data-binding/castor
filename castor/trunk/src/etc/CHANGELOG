@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1914 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Replaced custom java.util.Enumeration implementation with java.util.Iterator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1914
+       (Werner - 20070316)
+
 XML:   Resolved issue CASTOR-1911 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improved and stream-lined public interface of XMLClassDescriptorResolver.
        Details: http://jira.codehaus.org/browse/CASTOR-1911

@@ -88,6 +88,7 @@ import java.io.Writer;
 import java.lang.reflect.Array;
 import java.util.ArrayList;
 import java.util.Enumeration;
+import java.util.Iterator;
 import java.util.List;
 import java.util.Stack;
 
@@ -1180,9 +1181,9 @@ public class Marshaller extends MarshalFramework {
              if ((xmlElementName != null) && (xmlElementNameClassDesc != null)) {
                  // More than one class can map to a given element name
                  try {
-                     ClassDescriptorEnumeration cdEnum = _cdResolver.resolveAllByXMLName(xmlElementName, null, null);
-                     for (; cdEnum.hasNext();) {
-                         xmlElementNameClassDesc = cdEnum.getNext();
+                     Iterator classDescriptorIter = _cdResolver.resolveAllByXMLName(xmlElementName, null, null);
+                     for (; classDescriptorIter.hasNext();) {
+                         xmlElementNameClassDesc = (XMLClassDescriptor) classDescriptorIter.next();
                          if (_class == xmlElementNameClassDesc.getJavaClass())
                              break;
                           //reset the classDescriptor --> none has been found
