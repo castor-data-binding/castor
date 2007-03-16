@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1910 using contribution from Steven Dolg [stevendolg@gmx.at]
+       Fixed problem with (incorrectly) caching class descriptors in XMLClassDescriptorResolver
+       Details: http://jira.codehaus.org/browse/CASTOR-1910
+       (Werner - 20070316)
+
 Gen:   Resolved issue CASTOR-1905 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed bug in string normalization during code generation.
        Details: http://jira.codehaus.org/browse/CASTOR-1905
