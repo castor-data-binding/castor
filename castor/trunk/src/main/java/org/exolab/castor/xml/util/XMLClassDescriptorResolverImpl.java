@@ -533,6 +533,39 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * {@inheritDoc}
      */
+    public void addClass(final String className) { 
+        loadDescriptorClass(className, _loader);
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addClasses(final String[] classNames) {
+        for (int i = 0; i < classNames.length; i++) {
+            addClass(classNames[i]);
+        }
+    }
+
+    /**
+     * {@inheritDoc}
+     */
+    public void addPackage(final String packageName) throws ResolverException { 
+        _descriptorCache.loadCDRList(packageName, _loader); 
+    }
+
+    /**
+     * {@inheritDoc}
+
+     */
+    public void addPackages(final String[] packageNames) throws ResolverException { 
+        for (int i = 0; i < packageNames.length; i++) { 
+            _descriptorCache.loadCDRList(packageNames[i], _loader); 
+        } 
+    }
+       
+    /**
+     * {@inheritDoc}
+     */
     public void loadClassDescriptors(final String packageName) throws ResolverException {
         _descriptorCache.loadCDRList(packageName, _loader);
     }

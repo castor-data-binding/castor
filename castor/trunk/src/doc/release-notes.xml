@@ -69,9 +69,36 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    &lt;xsd:sequence&gt; typed complex types during unmarshaling. A
                    <tt>ValidationException</tt> will be thrown if the expected order
                    cannot be matched.</p>
+                   
+                <h3>Improved interface of XMLClassDescriptorResolver</h3>
+                
+                <p>The public interface of <tt>XMLClassDescriptorResolver</tt> has been improved
+                   and stream-lined, adding various new methods for pre-loading class
+                   descriptors. Please check <a href="xml-best-practise.html">here</a> for
+                   details.</p>
 
             </summary>
             <bugs>
+                <bug id="1911" tool="jira">
+                    <description>
+                        Improved and stream-lined public interface of XMLClassDescriptorResolver.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070316</date>
+                </bug>
                 <bug id="1910" tool="jira">
                     <description>
                         Fixed problem with (incorrectly) caching class descriptors in 
