@@ -179,14 +179,14 @@ public class ElementDecl extends Particle implements Referable {
      * @param name the name of the Element being declared
     **/
     public ElementDecl(Schema schema, String name) {
-        super(1,1);
+        super();
+        setName(name);
         if (schema == null) {
             String err = NULL_ARGUMENT + "; 'schema' must not be null.";
             throw new IllegalArgumentException(err);
         }
-        _schema = schema;
+        setSchema(schema);
         _constraints = new Vector(3);
-        setName(name);
     } //-- ElementDecl
 
     /**
@@ -798,12 +798,12 @@ public class ElementDecl extends Particle implements Referable {
         //--do you really allow parent to be null???
         if (getParent() != null) {
             if (getParent().getStructureType() == Structure.SCHEMA) {
-                if (getMinOccurs() > 1) {
-                    String err = "'minOccurs' declaration is prohibited on top level element.";
+                if (isMinOccursSet()) {
+                    String err = "'minOccurs' declaration is prohibited on top level element '/" + getName() + "'.";
                     throw new ValidationException(err);
                 }
-                if ((getMaxOccurs() >1) || (getMaxOccurs() < 0) ) {
-                    String err = "'maxOccurs' declaration is prohibited on top level element.";
+                if (isMaxOccursSet()) {
+                    String err = "'maxOccurs' declaration is prohibited on top level element '/" + getName() + "'.";
                     throw new ValidationException(err);
                 }
             }
@@ -852,6 +852,15 @@ public class ElementDecl extends Particle implements Referable {
             
         }
 
-    } //-- validate 
+    } //-- validate
+    
+    /**
+     * Sets the XMl schema to where this element has been defined
+     * @param schema The defining XML schema
+     */
+    private void setSchema(final Schema schema) {
+        _schema = schema;
+    }
+    
    
 } //-- Element

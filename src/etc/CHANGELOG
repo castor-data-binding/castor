@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1909 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Improved validation for global elements during XML schema processing 
+       Details: http://jira.codehaus.org/browse/CASTOR-1909
+       (Werner - 20070318)
+
 XML:   Resolved issue CASTOR-1914 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Replaced custom java.util.Enumeration implementation with java.util.Iterator.
        Details: http://jira.codehaus.org/browse/CASTOR-1914
