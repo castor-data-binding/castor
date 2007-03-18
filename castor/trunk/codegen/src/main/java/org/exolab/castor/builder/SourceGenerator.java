@@ -601,6 +601,13 @@ public class SourceGenerator extends BuilderConfiguration {
         }
 
         Schema schema = schemaUnmarshaller.getSchema();
+        
+        try {
+            schema.validate();
+        } catch (ValidationException vx) {
+            throw new NestedIOException(vx);
+        }
+        
         generateSource(schema, packageName);
     } //-- generateSource
 

@@ -79,6 +79,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1909" tool="jira">
+                    <description>
+                        Improved validation for global elements during XML schema processing 
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Stoil Valchkov</name>
+                        <email>svalchkov@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070318</date>
+                </bug>
                 <bug id="1914" tool="jira">
                     <description>
                         Replaced custom java.util.Enumeration implementation with java.util.Iterator.

@@ -62,11 +62,21 @@ public abstract class Particle extends Annotated {
      * The maximum occurance
     **/
     private int _maxOccurs = 1;
+    
+    /**
+     * Indicates whether maxOccurs has been set.
+     */
+    private boolean _maxOccursSet = false;
 
     /**
      * The minimum occurance
     **/
     private int _minOccurs  = 1;
+
+    /**
+     * Indicates whether minOccurs has been set.
+     */
+    private boolean _minOccursSet = false;
 
     /**
      * A constant to represent an UNBOUNDED particle
@@ -78,19 +88,6 @@ public abstract class Particle extends Annotated {
     **/
     protected Particle() {
         super();
-    } //-- Particle
-
-    /**
-     * Constructor for Particle which allows setting the values for
-     * maximum and minimum occurances
-     *
-     * @param minOccurs the minimum occurance
-     * @param maxOccurs the maximum occurance ( -1 for unbounded)
-    **/
-    protected Particle(int minOccurs, int maxOccurs) {
-        super();
-        setMinOccurs(minOccurs);
-        setMaxOccurs(maxOccurs);
     } //-- Particle
 
     /**
@@ -124,6 +121,7 @@ public abstract class Particle extends Annotated {
     **/
     public final void setMaxOccurs(int maxOccurs) {
         _maxOccurs = maxOccurs;
+        _maxOccursSet = true;
     } //-- setMaxOccurs
 
     /**
@@ -135,6 +133,7 @@ public abstract class Particle extends Annotated {
     **/
     public final void setMinOccurs(int minOccurs) {
         _minOccurs = minOccurs;
+        _minOccursSet = true;
     } //-- setMinOccurs
 
     /**
@@ -148,5 +147,21 @@ public abstract class Particle extends Annotated {
       }
       return false;
     }
+    
+    /**
+     * Indicates whetehr maxOccurs has been set.
+     * @return True if maxOccurs has been set.
+     */
+    protected final boolean isMaxOccursSet() {
+        return _maxOccursSet;
+    }
 
+    /**
+     * Indicates whether minOccurs has been set.
+     * @return True if minOccurs has been set. 
+     */
+    protected final boolean isMinOccursSet() {
+        return _minOccursSet;
+    }
+    
 } //-- CMParticle

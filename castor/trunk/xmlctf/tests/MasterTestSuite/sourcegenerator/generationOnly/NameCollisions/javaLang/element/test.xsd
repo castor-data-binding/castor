@@ -4,6 +4,6 @@
            elementFormDefault="qualified"
            attributeFormDefault="unqualified">
 
-    <xs:element name="string" type="xs:string" minOccurs="0"/>
+    <xs:element name="string" type="xs:string" />
 
 </xs:schema>

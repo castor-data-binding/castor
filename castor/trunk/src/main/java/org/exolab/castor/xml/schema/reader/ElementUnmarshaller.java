@@ -113,7 +113,7 @@ public class ElementUnmarshaller extends ComponentReader {
      * @param resolver the resolver being used for reference resolving
     **/
     public ElementUnmarshaller
-        (Schema schema, AttributeSet atts, Resolver resolver)
+        (final Schema schema, final AttributeSet atts, final Resolver resolver)
         throws XMLException
     {
         super();
@@ -122,9 +122,9 @@ public class ElementUnmarshaller extends ComponentReader {
         this._schema = schema;
 
         _element = new ElementDecl(schema);
-
+        
         String attValue = null;
-
+        
         //-- @ref
         attValue = atts.getValue(SchemaNames.REF_ATTR);
         if (attValue != null) {
@@ -234,11 +234,8 @@ public class ElementUnmarshaller extends ComponentReader {
             if (MAX_OCCURS_WILDCARD.equals(attValue)) attValue = "-1";
             int maxOccurs = toInt(attValue);
             _element.setMaxOccurs(maxOccurs);
-        }
-        else if (minOccurs > 0)
+        } else if (minOccurs > 1)
             _element.setMaxOccurs(minOccurs);
-        else
-            _element.setMaxOccurs(1);
 
         charUnmarshaller = new CharacterUnmarshaller();
     } //-- ElementUnmarshaller
