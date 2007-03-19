@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1891 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with using enum types as constructor arguments
+       Details: http://jira.codehaus.org/browse/CASTOR-1891
+       (Werner - 20070319)
+
 XML:   Resolved issue CASTOR-1900 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with choices during automatic name conflict resolution.
        Details: http://jira.codehaus.org/browse/CASTOR-1900
