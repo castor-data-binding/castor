@@ -79,6 +79,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1891" tool="jira">
+                    <description>
+                        Fixed problem with using enum types as constructor arguments
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Uwe Langbecker</name>
+                        <email>Uwe.Langbecker@gl-group.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070319</date>
+                </bug>
                 <bug id="1900" tool="jira">
                     <description>
                         Fixed problem with choices during automatic name conflict resolution

@@ -3106,8 +3106,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 Object value = atts.getValue(index);
                 //-- check for proper type and do type
                 //-- conversion
-                if (isPrimitive(args.types[argIndex]))
+                if (isPrimitive(args.types[argIndex])) {
                     value = toPrimitiveObject(args.types[argIndex], (String)value, descriptor);
+                } else {
+                    // check whether we are looking at an enum-style object, and if so,
+                    // convert the (string) value
+                    value = convertToEnumObject(descriptor, value);
+                }
+                
                 //check if the value is a QName that needs to
                 //be resolved (ns:value -> {URI}value)
                 String valueType = descriptor.getSchemaType();
@@ -3122,6 +3128,40 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         }
         return args;
     } //-- processConstructorArgs
+
+    /**
+     * Checks whether the actual value passed in should be converted to an enum-style class
+     * instance
+     * @param descriptor The {@link XMLFieldDescriptor} instance in question.
+     * @param value The actual value (which might need conversion).
+     * @return The value, potentially converted to an enum-style class.
+     */
+    private Object convertToEnumObject(XMLFieldDescriptor descriptor, Object value) {
+        Class fieldType = descriptor.getFieldType();
+        Method valueOfMethod;
+        try {
+            valueOfMethod = fieldType.getMethod("valueOf", new Class[] { String.class });
+            if (valueOfMethod != null 
+                    && Modifier.isStatic(valueOfMethod.getModifiers())) {
+                Class returnType = valueOfMethod.getReturnType();
+                if (returnType.isAssignableFrom(fieldType)) {
+                    Object enumObject = valueOfMethod.invoke(null, new Object[] { value });
+                    value = enumObject;
+                }
+            }
+        } catch (SecurityException e) {
+            // TODO: well, cannot do anything about it 
+        } catch (NoSuchMethodException e) {
+            // TODO: nothing to do, as it simply isn't an enum-style class
+        } catch (IllegalArgumentException e) {
+            // TODO: cannot really happen
+        } catch (IllegalAccessException e) {
+            // TODO: indicates that the valueOf() method isn't public
+        } catch (InvocationTargetException e) {
+            // TODO: hmm .. what else
+        }
+        return value;
+    }
 
     /**
      * Processes the given IDREF
