@@ -32,7 +32,9 @@ import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Group;
 import org.exolab.castor.xml.schema.ModelGroup;
+import org.exolab.castor.xml.schema.Order;
 import org.exolab.castor.xml.schema.XMLType;
 import org.exolab.javasource.JClass;
 
@@ -105,6 +107,12 @@ public class JClassRegistry {
             ElementDecl element = (ElementDecl) annotated;
             String typexPath = XPathHelper.getSchemaLocation(element.getType());
             xPath += "[" + typexPath  + "]";
+        } else if (annotated instanceof Group) {
+            Group group = (Group) annotated;
+            if (group.getOrder().getType() == Order.CHOICE 
+                    && !_globalElements.contains("/" + localXPath)) {
+                xPath += "/#choice";
+            }
         }
         
         String jClassLocalName = jClass.getLocalName();
