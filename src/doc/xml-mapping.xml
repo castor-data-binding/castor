@@ -593,26 +593,6 @@ public class MyClass {
           <li><b>set-method:</b> optional name of the set method Castor should use. If
             this attribute is not set and the get-method attribute is not set, then
             Castor will try to guess the name with the algorithm described above.
-            <p>
-               <a name="constructor-args"/>
-               <b>*Now supported (since 0.9.5) for <i>attribute</i> mapped fields, you may map a
-                  constructor field using the set-method attribute.</b>
-            </p>
-            <p>
-               To specify a constructor argument use "%1" - "%9" as the value of the
-               set-method attribute.
-            </p>
-            <p>
-               For example:<br/>
-               <code>
-               &lt;field name="foo" set-method="%1" get-method="getFoo" type="string"&gt;
-                  &lt;bind-xml node="attribute"/&gt;
-               &lt;/field&gt;
-               </code>
-               Note that because the set-method is specified, the get-method also must be
-               specified...a bit of an annoyance, but at least there is now a way to handle
-               this feature.
-           </p>
           </li>
 
           <li><b>create-method:</b> Factory method for instantiation of FieldHandler</li>
@@ -624,6 +604,34 @@ public class MyClass {
         <p>In the case of XML mapping, the content of a field element should be one and
           only one &lt;xml> element describing how this given field will be mapped into the
           XML document.</p>
+          
+          <section title="Mapping constructor arguments (since 0.9.5)">
+            <p>
+               <a name="constructor-args"/>Starting with release 0.9.5, for <i>attribute</i> 
+               mapped fields, support has been added to map a constructor field using 
+               the <tt>set-method</tt> attribute.
+            </p>
+            <p>
+               To specify that a field (mapped to an attribute) should be used as a constructor 
+               argument during object initialization, please specify a <tt>set-method</tt> attribute on the
+               <tt>&lt;field&gt;</tt> mapping and use "%1" - "%9" as the value of the
+               <tt>set-method</tt> attribute.
+            </p>
+            <p>For example:</p>
+            <code-panel>
+&lt;field name="foo" <b>set-method="%1"</b> get-method="getFoo" type="string"&gt;
+   &lt;bind-xml node="attribute"/&gt;
+&lt;/field&gt;</code-panel>
+               
+           <p>
+              Note that because the <tt>set-method</tt> is specified, the <tt>get-method</tt> also 
+              must be specified.
+           </p>
+	       <p>
+	          <b>Tip</b>: the <a href="">XML HOW-TO section</a> has a HOW-TO document for 
+	          mapping constructor arguments, incl. a fully working mapping.
+	       </p>
+          </section>
       </section>
 
 
@@ -1190,18 +1198,22 @@ public class main {
           <a href="xml-fieldhandlers.xml">XML FieldHandlers</a>.
        </p>
        </section>
-       <section title="7.3 Mapping constructor arguments">
-       Since: 0.9.5
+       <section title="7.3 Mapping constructor arguments (since 0.9.5)">
        <p>
-          You may map any attributes to constructor arguments. Mapping elements
-          to constructor arguments is not yet supported. For more information
+          You may map any attributes to constructor arguments. For more information
           on how to map constructor arguments see the information available
           in the section on <a href="#constructor-args">set-method</a>
           above.
        </p>
+       <p>Please note that mapping <b>elements</b> to constructor arguments is 
+          not yet supported.
+       </p>
+       <p>
+          <b>Tip</b>: the <a href="">XML HOW-TO section</a> has a HOW-TO document for 
+          mapping constructor arguments.
+       </p>
        </section>
-       <section title="7.4 Preventing Castor from checking for a default constructor">
-       Since: 0.9.5
+       <section title="7.4 Preventing Castor from checking for a default constructor (since 0.9.5)">
        <p>
           Sometimes it's useful to prevent Castor from checking for a default constructor,
           such as when trying to write a mapping for an interface or type-safe enum. You can use the
@@ -1210,9 +1222,8 @@ public class main {
        </p>
        </section>
 
-       <section title="7.5 Type safe enumeration mapping">
-       Since: 0.9.5
-       <p>
+       <section title="7.5 Type safe enumeration mapping (since 0.9.5)">
+      <p>
           While you can always use your own custom FieldHandler for handling type-safe enumeration
           classes, Castor does have a built-in approach to dealing with these types of classes.
           If the type-safe enum class has a <b>public static &lt;type&gt; valueOf(String)</b> method

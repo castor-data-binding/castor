@@ -50,7 +50,7 @@ package org.exolab.castor.xml;
  * The exception class thrown by the ClassDescriptorResolver
  *
  * @author <a href="mailto:keith (at) kvisco (dot) com">Keith Visco</a>
- * @version $Revision: $ $Date: $
+ * @version $Revision$ $Date: $
  */
 public class ResolverException extends XMLException {
     /** SerialVersionUID. */
