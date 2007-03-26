@@ -806,7 +806,7 @@ public class SchemaWriter {
         }
 
         //-- @abstract
-        if (element.isAbstract()) {
+        if (element.isAbstract() && !element.isReference()) {
             _atts.addAttribute(SchemaNames.ABSTRACT, CDATA, VALUE_TRUE);
         }
 
