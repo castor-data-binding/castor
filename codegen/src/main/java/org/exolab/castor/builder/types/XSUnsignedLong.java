@@ -23,7 +23,7 @@ import org.exolab.javasource.JType;
  * The xsd:unsignedLong XML Schema type.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 6317 $ $Date: 2006-04-25 15:08:23 -0600 (Tue, 25 Apr 2006) $
  */
 public final class XSUnsignedLong extends AbstractDigitsFacet {

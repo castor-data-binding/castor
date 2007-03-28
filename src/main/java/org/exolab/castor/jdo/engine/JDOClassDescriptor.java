@@ -60,7 +60,7 @@ import org.exolab.castor.mapping.loader.ClassDescriptorImpl;
  * flattened out for efficiency (thus all fields are directly accessible).
  *
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-10 16:39:24 -0600 (Mon, 10 Apr 2006) $
  */
 public class JDOClassDescriptor extends ClassDescriptorImpl {

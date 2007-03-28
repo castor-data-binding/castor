@@ -84,7 +84,7 @@ import java.util.Set;
  * from the mapping file.
  *
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 07:37:49 -0600 (Thu, 13 Apr 2006) $
  */
 public final class JDOMappingLoader extends AbstractMappingLoader {

@@ -26,7 +26,7 @@ import org.castor.cache.CacheAcquireException;
 import org.castor.cache.CacheFactory;
 
 /**
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-29 04:11:14 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */

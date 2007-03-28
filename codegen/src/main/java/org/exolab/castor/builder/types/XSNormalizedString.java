@@ -25,7 +25,7 @@ import org.exolab.javasource.JType;
  * specific validation.
  * 
  * @author <a href="mailto:blandin AT intalio DOT com">Arnaud Blandin</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-03-16 10:34:22 -0700 (Thu, 16 Mar 2006) $
  */
 public final class XSNormalizedString extends AbstractLengthFacet {

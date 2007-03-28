@@ -292,7 +292,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Brian Schlining</name>
@@ -352,7 +352,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Igarki San Millan</name>
@@ -495,7 +495,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Werner Guttmann</name>
@@ -512,7 +512,7 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -532,15 +532,15 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -572,15 +572,15 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -592,15 +592,15 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -877,15 +877,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -1183,15 +1183,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1323,15 +1323,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1344,11 +1344,11 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -1364,15 +1364,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1384,15 +1384,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1404,15 +1404,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1424,15 +1424,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1444,15 +1444,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1504,15 +1504,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1524,15 +1524,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1544,15 +1544,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1565,15 +1565,15 @@ org.exolab.castor.xml.serializer.factory=org.exolab.castor.xml.XercesJDK5XMLSeri
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -1737,7 +1737,7 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Erwin Bolwidt</name>
@@ -2620,7 +2620,7 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>James Abley</name>
@@ -3004,15 +3004,15 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>All</module>
@@ -3206,11 +3206,11 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -3332,7 +3332,7 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Pawel Pesz</name>
@@ -3417,7 +3417,7 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </submitter>
                     <reporter>
                          <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
@@ -3437,7 +3437,7 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </submitter>
                     <reporter>
                          <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
@@ -3449,11 +3449,11 @@ java org.castor.ddlgen.Main -m mapping.xml</code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -3898,7 +3898,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Holger West</name>
@@ -4136,11 +4136,11 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>M.-Leander Reimer</name>
@@ -4176,15 +4176,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -4241,11 +4241,11 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -4359,15 +4359,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -4379,15 +4379,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -4399,15 +4399,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -4931,7 +4931,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -4951,7 +4951,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -4991,7 +4991,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -5294,15 +5294,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -5338,7 +5338,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -5354,15 +5354,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -5378,7 +5378,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -5418,7 +5418,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Edward Kuns</name>
@@ -5634,7 +5634,7 @@ CastorAppender.flush();]]></code-panel>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Le Duc Bao</name>
@@ -5933,15 +5933,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>XML</module>
@@ -5953,15 +5953,15 @@ CastorAppender.flush();]]></code-panel>
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -6075,11 +6075,11 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Gregory Block</name>
@@ -6095,7 +6095,7 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -6103,7 +6103,7 @@ org.castor.mapping.Loaders=\
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
@@ -6115,15 +6115,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>XML</module>
@@ -6156,15 +6156,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -6260,7 +6260,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Dave Brosius</name>
@@ -6297,15 +6297,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -6337,15 +6337,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
@@ -6437,15 +6437,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -6461,7 +6461,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Dave Brosius</name>
@@ -6481,7 +6481,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Dave Brosius</name>
@@ -6501,7 +6501,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Dave Brosius</name>
@@ -6522,7 +6522,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Dave Brosius</name>
@@ -6539,15 +6539,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -6599,15 +6599,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -6790,15 +6790,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -6811,11 +6811,11 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -6831,15 +6831,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -7039,7 +7039,7 @@ org.castor.mapping.Loaders=\
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -7115,7 +7115,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>David Green</name>
@@ -7135,7 +7135,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Raúl Sanz de Acedo Pérez</name>
@@ -7151,15 +7151,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -7211,15 +7211,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -7275,7 +7275,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -7291,15 +7291,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -7351,15 +7351,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -7375,7 +7375,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -7395,7 +7395,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -7435,7 +7435,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -7455,7 +7455,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Henk van Voorthujsen</name>
@@ -7471,15 +7471,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -7539,7 +7539,7 @@ org.castor.mapping.Loaders=\
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
@@ -7551,15 +7551,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -7591,15 +7591,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -7611,15 +7611,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>
@@ -7631,15 +7631,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>All</module>
@@ -7688,11 +7688,11 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Christoph Ernst</name>
@@ -7712,7 +7712,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Matt Secoske</name>
@@ -7733,7 +7733,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Daniel Dyer</name>
@@ -7754,7 +7754,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Barbara Prechtl</name>
@@ -7774,7 +7774,7 @@ org.castor.mapping.Loaders=\
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Barbara Prechtl</name>
@@ -7790,15 +7790,15 @@ org.castor.mapping.Loaders=\
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Enh.</type>
                     <module>JDO</module>

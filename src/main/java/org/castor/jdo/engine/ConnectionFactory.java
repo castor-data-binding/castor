@@ -22,7 +22,7 @@ import java.sql.SQLException;
  * Interface for creation of new JDBC Connection instances.
  * 
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-07-24 14:37:16 -0600 (Sun, 24 Jul 2005) $
  * @since 0.9.9
  */

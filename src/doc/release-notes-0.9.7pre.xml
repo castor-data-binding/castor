@@ -93,7 +93,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Nick Stuart</name>
@@ -405,15 +405,15 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Ref.</type>
                     <module>JDO</module>
@@ -545,7 +545,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Emir Causevic</name>
@@ -566,7 +566,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Emir Causevic</name>
@@ -699,7 +699,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Gregory Block</name>
@@ -719,7 +719,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Martin Fuchs</name>
@@ -735,11 +735,11 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Nick Stuart</name>
@@ -755,15 +755,15 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Ref.</type>
                     <module>All</module>
@@ -800,7 +800,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Stefan Rotman</name>
@@ -836,15 +836,15 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Ref.</type>
                     <module>JDO</module>
@@ -860,7 +860,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Werner Guttmann</name>
@@ -881,7 +881,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Howard Pelling</name>
@@ -924,7 +924,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Tim Telcik</name>
@@ -946,7 +946,7 @@
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Tim Telcik</name>
@@ -982,11 +982,11 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Hugo Ferreira</name>
@@ -1003,15 +1003,15 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </submitter>
                     <reporter>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </reporter>
                     <type>Bug</type>
                     <module>JDO</module>
@@ -1137,7 +1137,7 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -1157,7 +1157,7 @@
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -1380,7 +1380,7 @@
                     <description>Overloaded jdo.Size with Oracle-specific test case.</description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <reporter>Ralf Joachim</reporter>
                     <submitter>
@@ -1563,7 +1563,7 @@
                     <description>Fixed problem with resetting the capacity of CountLimited? cache.</description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -2166,7 +2166,7 @@ JDO2 jdo = JDO2.createInstance ("test");
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -2832,7 +2832,7 @@ JDO2 jdo = JDO2.createInstance ("test");
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -2851,7 +2851,7 @@ JDO2 jdo = JDO2.createInstance ("test");
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>
@@ -2870,7 +2870,7 @@ JDO2 jdo = JDO2.createInstance ("test");
                     </description>
                     <contributor>
                         <name>Ralf Joachim</name>
-                        <email>ralf.joachim@syscon-world.de</email>
+                        <email>ralf.joachim@syscon.eu</email>
                     </contributor>
                     <submitter>
                         <name>Werner Guttmann</name>

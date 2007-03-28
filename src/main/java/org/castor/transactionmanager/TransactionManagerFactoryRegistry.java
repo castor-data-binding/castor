@@ -31,7 +31,7 @@ import org.castor.util.Configuration;
  * 
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:Werner.Guttmann@morganstanley.com">Werner Guttmann</a>
- * @author <a href=" mailto:ralf.joachim@syscon-world.de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
  * @since 1.0
  */

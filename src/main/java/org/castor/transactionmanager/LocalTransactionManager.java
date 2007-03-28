@@ -23,7 +23,7 @@ import javax.transaction.TransactionManager;
  * Default transaction manager when Castor is used in standalone mode,
  * in other words not within a J2EE container.
  *  
- * @author <a href=" mailto:ralf.joachim@syscon-world.de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
  * @since 1.0
  */

@@ -4,7 +4,7 @@
 
   <properties>
     <title>Castor DDL Generator</title>
-    <author email="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</author>
+    <author email="ralf DOT joachim AT syscon DOT eu">Ralf Joachim</author>
     <abstract>
        Describes how to use the DDL Generator, and what features and options are
        currently supported.

@@ -52,7 +52,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 	<developers>
 		<developer>
 			<name>Ralf Joachim</name>
-			<email>ralf.joachim@syscon-world.de</email>
+			<email>ralf.joachim@syscon.eu</email>
 			<organization>Syscon</organization>
 			<roles>
 				<role>Castor JDO committer</role>

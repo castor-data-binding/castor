@@ -42,7 +42,7 @@ import java.util.Properties;
  * handler and descriptor need to return the same result.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  */
 public class XMLFieldDescriptorImpl extends AbstractFieldDescriptor implements XMLFieldDescriptor {

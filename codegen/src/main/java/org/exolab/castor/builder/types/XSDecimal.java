@@ -23,7 +23,7 @@ import org.exolab.javasource.JType;
  * The xsd:decimal XML Schema datatype.
  * 
  * @author <a href="mailto:andrew DOT fawcett AT coda DOT com">Andrew Fawcett</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-12-13 14:58:48 -0700 (Tue, 13 Dec 2005) $
  */
 public final class XSDecimal extends AbstractDigitsFacet {

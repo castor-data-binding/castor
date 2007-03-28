@@ -42,7 +42,7 @@ import org.exolab.castor.mapping.MappingException;
  * Utility class to translate SQL type by integer value or name into corresponding
  * Java type.
  * 
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-08 08:58:10 -0600 (Sat, 08 Apr 2006) $
  * @since 1.0
  */

@@ -21,7 +21,7 @@ import java.io.ByteArrayOutputStream;
  * Class decodes a Base64 encoded string back into the original byte representation
  * that can be read as byte array.
  *
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-08-05 13:58:36 -0600 (Fri, 05 Aug 2005) $
  * @since 0.9.9
  */

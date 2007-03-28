@@ -21,7 +21,7 @@ import org.exolab.javasource.JSourceCode;
 /**
  * A base class for types which support the range, whiteSpace and pattern facets.
  * 
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 6623 $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  * @since 1.1
  */

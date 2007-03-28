@@ -4,7 +4,7 @@
 
   <properties>
     <title>Castor DDL Generator - Type Mapping</title>
-    <author email="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</author>
+    <author email="ralf DOT joachim AT syscon DOT eu">Ralf Joachim</author>
     <abstract>
        Describes mapping between Castor SQL type, java data type and SQL type of
        supported database.

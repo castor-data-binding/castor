@@ -56,7 +56,7 @@ import org.exolab.castor.mapping.xml.ClassMapping;
  * additional functionality.
  *
  * @author <a href="mailto:arkin AT intalio DOT com">Assaf Arkin</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-01-07 15:48:31 -0700 (Sat, 07 Jan 2006) $
  */
 public class ClassDescriptorImpl implements ClassDescriptor {

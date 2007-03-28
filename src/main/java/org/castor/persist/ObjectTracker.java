@@ -47,7 +47,7 @@ import org.exolab.castor.persist.spi.Identity;
  * Sidenote: Objects identified as read only are not updated 
  * when the transaction commits.
  * 
- * @author <a href="mailto: ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
  * @author <a href="mailto:gblock AT ctoforaday DOT COM">Gregory Block</a>
  * @version $Revision$ $Date: 2006-04-29 09:15:50 -0600 (Sat, 29 Apr 2006) $

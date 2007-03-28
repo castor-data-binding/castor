@@ -96,7 +96,7 @@
 
   <contributor type="Committer">
     <name surname="Joachim" given="Ralf" />
-    <email>ralf.joachim@syscon-world.de</email>
+    <email>ralf.joachim@syscon.eu</email>
     <project>JDO</project>
     <company id="syscon"/>
     <description>
@@ -1405,7 +1405,7 @@
 
   <company id="syscon">
      <name>Syscon</name>
-     <url>www.syscon-informatics.de/index.html</url>
+     <url>www.syscon.eu/index.html</url>
   </company>
 
   <!-- Company Names (T-Z) -->
