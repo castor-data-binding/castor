@@ -23,7 +23,7 @@ import org.exolab.javasource.JType;
  * The xsd:IDREF XML Schema type.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSIdRef extends AbstractLengthFacet {

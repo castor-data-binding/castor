@@ -24,7 +24,7 @@ import org.exolab.javasource.JType;
  * The XML Schema user-defined archetype.
  * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
 public final class XSClass extends XSType {

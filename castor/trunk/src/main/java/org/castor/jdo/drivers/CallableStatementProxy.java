@@ -36,7 +36,7 @@ import org.apache.commons.logging.LogFactory;
  * Proxy class for JDBC CallableStatement class, to allow information gathering
  * for the purpose of SQL statement logging.
  * 
- * @author <a href="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date$
  * @since 1.0.4
  */

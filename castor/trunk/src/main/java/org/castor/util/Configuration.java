@@ -35,7 +35,7 @@ import org.exolab.castor.core.exceptions.CastorRuntimeException;
 /**
  * Class to hold Castor configuration properties.
  * 
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-03-21 12:26:52 -0700 (Tue, 21 Mar 2006) $
  * @since 1.0
  */

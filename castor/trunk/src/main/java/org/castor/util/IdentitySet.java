@@ -25,7 +25,7 @@ import java.util.Set;
  * to its special function it violates some design contracts of the <code>Set</code>
  * interface.
  * 
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 10:49:49 -0600 (Thu, 13 Apr 2006) $
  * @since 0.9.9
  */

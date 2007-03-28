@@ -3,7 +3,7 @@
 
   <properties>
     <title>Castor DDL Generator -- Properties</title>
-    <author email="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</author>
+    <author email="ralf DOT joachim AT syscon DOT eu">Ralf Joachim</author>
     <abstract>
        Describes properties of the Castor DDL Generator.
     </abstract>

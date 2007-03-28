@@ -13,9 +13,7 @@ import java.util.Date;
  * A <code>LogEntry</code> holds all information of a <code>LoggingEvent</code> which has
  * to be saved to the database.
  *
- * @version $Id: TNSAddress.java,v 1.2 2006/08/08 14:42:48 holger Exp $
- * @author  <a href="mailto:holger.west@syscon-informatics.de">Holger West</a>, 
- *          Syscon Ingenieurbüro für Mess- und Datentechnik GmbH.
+ * @author  <a href="mailto:holger.west@syscon-informatics.de">Holger West</a>
  */
 public class LogEntry {
     // -----------------------------------------------------------------------------------

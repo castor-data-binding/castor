@@ -29,7 +29,7 @@ import org.castor.util.Configuration;
  * classes. The proxies allow to gather information for the purpose of SQL statement
  * logging.
  * 
- * @author <a href="ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date$
  * @since 1.0.4
  */

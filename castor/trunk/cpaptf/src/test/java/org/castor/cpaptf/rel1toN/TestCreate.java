@@ -31,7 +31,7 @@ import org.exolab.castor.jdo.OQLQuery;
 import org.exolab.castor.jdo.QueryResults;
 
 /**
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision:6814 $ $Date: 2005-06-24 19:41:08 -0600 (Fri, 24 Jun 2005) $
  */
 public final class TestCreate extends TestCase {

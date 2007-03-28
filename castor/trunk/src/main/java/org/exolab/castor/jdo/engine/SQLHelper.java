@@ -35,7 +35,7 @@ import org.exolab.castor.persist.spi.Identity;
  * @author <a href="mailto:yip AT intalio DOT com">Thomas Yip</a>
  * @author <a href="mailto:ferret AT frii DOT com">Bruce Snyder</a>
  * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-13 06:47:36 -0600 (Thu, 13 Apr 2006) $
  * @since 1.0
  */

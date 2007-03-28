@@ -19,7 +19,7 @@ import org.exolab.castor.mapping.FieldDescriptor;
 import org.exolab.castor.mapping.TypeConvertor;
 
 /**
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-12-06 14:55:28 -0700 (Tue, 06 Dec 2005) $
  */
 public interface JDOFieldDescriptor extends FieldDescriptor {

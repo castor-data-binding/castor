@@ -28,7 +28,7 @@ import java.util.Map;
  * the implementations of the hashbelt rely on this object to be threadsafe.
  * 
  * @author <a href="mailto:gblock AT ctoforaday DOT com">Gregory Block</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0
  */

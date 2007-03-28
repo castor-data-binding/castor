@@ -30,7 +30,7 @@ import org.castor.xmlctf.util.FileServices;
  * if tools.jar is not on the classpath at construction of the class and
  * execution of the compileDirectory() method.
  *
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 5951 $ $Date: 2006-04-25 16:09:10 -0600 (Tue, 25 Apr 2006) $
  * @since 1.0.5
  */

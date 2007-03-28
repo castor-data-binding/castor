@@ -32,9 +32,7 @@ import junit.framework.TestSuite;
 /**
  * Test for <code>CastorAppender</code> to showcase its usage.
  *
- * @version $Id: TestExecutionContextFactory.java,v 1.3 2006/02/22 18:34:29 jens Exp $
- * @author  <a href="mailto:holger.west@syscon-informatics.de">holger</a>, 
- *          Syscon Ingenieurbüro für Mess- und Datentechnik GmbH.
+ * @author  <a href="mailto:holger.west@syscon-informatics.de">Holger West</a>
  */
 public final class TestCastorAppender extends TestCase {
     // -----------------------------------------------------------------------------------

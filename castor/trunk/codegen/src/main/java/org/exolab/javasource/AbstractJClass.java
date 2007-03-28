@@ -21,7 +21,7 @@ import java.util.Vector;
 /**
  * A abstract base class for representations of the Java Source code for a Java Class.
  *
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision: 6668 $ $Date: 2005-05-08 12:32:06 -0600 (Sun, 08 May 2005) $
  * @since 1.1
  */

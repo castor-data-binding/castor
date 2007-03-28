@@ -19,7 +19,7 @@ package org.castor.cache.distributed;
  * CacheFactory to test access to distributed caches without having their
  * implementations available.
  * 
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2006-04-29 03:57:35 -0600 (Sat, 29 Apr 2006) $
  * @since 1.0
  */

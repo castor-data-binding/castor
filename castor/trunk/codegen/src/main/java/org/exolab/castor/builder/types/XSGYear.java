@@ -23,7 +23,7 @@ import org.exolab.javasource.JType;
  * The xsd:gYear XML Schema type.
  * 
  * @author <a href="mailto:blandin AT intalio DOT com">Arnaud Blandin</a>
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision $ $Date: 2005-03-05 06:42:06 -0700 (Sat, 05 Mar 2005) $
  */
 public final class XSGYear extends AbstractRangeFacet {

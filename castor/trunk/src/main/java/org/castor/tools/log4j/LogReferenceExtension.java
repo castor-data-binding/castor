@@ -25,9 +25,7 @@ package org.castor.tools.log4j;
  * 3. The castor mapping file must be customized for the new class. As base the existing
  *    one can be used.
  *
- * @version $Id: TNSAddress.java,v 1.2 2006/08/08 14:42:48 holger Exp $
- * @author  <a href="mailto:holger.west@syscon-informatics.de">Holger West</a>, 
- *          Syscon Ingenieurbüro für Mess- und Datentechnik GmbH.
+ * @author  <a href="mailto:holger.west@syscon-informatics.de">Holger West</a>
  */
 public final class LogReferenceExtension extends LogEntry {
     // -----------------------------------------------------------------------------------

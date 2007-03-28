@@ -20,7 +20,7 @@ package org.castor.util;
  * The encoded string can be retrieved by as a whole by the toString() method or
  * splited into lines of 72 characters by the toStringArray() method.
  *
- * @author <a href="mailto:ralf DOT joachim AT syscon-world DOT de">Ralf Joachim</a>
+ * @author <a href="mailto:ralf DOT joachim AT syscon DOT eu">Ralf Joachim</a>
  * @version $Revision$ $Date: 2005-08-05 13:58:36 -0600 (Fri, 05 Aug 2005) $
  * @since 0.9.9
  */
