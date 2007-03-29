@@ -125,6 +125,13 @@
                 placed on the CLASSPATH)</td>
             <td>No</td>
           </crow>
+          <crow>
+            <td><b>automaticConflictStrategy</b></td>
+            <td>If used, sets the name conflict resolution strategy used during XML 
+                code generation; possible values are '<tt>type</tt>' and '<tt>xpath</tt>'
+                (default being '<tt>xpath</tt>').</td>
+            <td>No</td>
+          </crow>
         </ctable>
 
       </section>

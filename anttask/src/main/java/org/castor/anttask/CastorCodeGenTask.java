@@ -157,6 +157,9 @@ public final class CastorCodeGenTask extends MatchingTask {
     /** The name conflict strategy to use */
     private String _nameConflictStrategy = "warnViaConsoleDialog";
     
+    /** Name of the automatic clas name conflict strategy to use */
+    private String _automaticConflictStrategy = "xpath";
+    
     /** SourceGenerator instance. */
     private SourceGenerator _sgen;
 
@@ -262,6 +265,16 @@ public final class CastorCodeGenTask extends MatchingTask {
         _nameConflictStrategy = nameConflictStrategy;
     }
 
+    /**
+     * Sets the name conflict strategy to use.
+     * 
+     * @param automaticConflictStrategy The automatic class name conflict strategy to use
+     */
+    public void setAutomaticConflictStrategy(final String automaticConflictStrategy) {
+        _automaticConflictStrategy = automaticConflictStrategy;
+    }
+
+    
     /**
      * Sets whether or not non-fatal warnings should be suppressed.
      * 
@@ -401,6 +414,8 @@ public final class CastorCodeGenTask extends MatchingTask {
         _sgen.setCaseInsensitive(_caseInsensitive);
         
         _sgen.setNameConflictStrategy(_nameConflictStrategy);
+        
+        _sgen.setClassNameConflictResolver(_automaticConflictStrategy);
 
         _sgen.setTestable(_testable);
         if (this._testable) { log(CASTOR_TESTABLE_MSG); }

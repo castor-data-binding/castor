@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -139,7 +139,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_includeList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_includeList);
         //-- validation code for: _includeList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -181,7 +184,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_packageList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_packageList);
         //-- validation code for: _packageList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -215,8 +221,47 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_namingXML = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_namingXML);
         //-- validation code for: _namingXML
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        { //-- local scope
+        }
+        desc.setValidator(fieldValidator);
+        //-- _automaticNaming
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.xml.AutomaticNamingType.class, "_automaticNaming", "automaticNaming", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                Binding target = (Binding) object;
+                return target.getAutomaticNaming();
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    Binding target = (Binding) object;
+                    target.setAutomaticNaming( (org.exolab.castor.builder.binding.xml.AutomaticNamingType) value);
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return new org.exolab.castor.builder.binding.xml.AutomaticNamingType();
+            }
+        };
+        desc.setHandler(handler);
+        desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        addSequenceElement(desc);
+        
+        java.util.List substitutionGroupes_automaticNaming = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_automaticNaming);
+        //-- validation code for: _automaticNaming
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         { //-- local scope
         }
@@ -256,7 +301,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_componentBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_componentBindingList);
         //-- validation code for: _componentBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -298,7 +346,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_elementBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_elementBindingList);
         //-- validation code for: _elementBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -340,7 +391,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_attributeBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_attributeBindingList);
         //-- validation code for: _attributeBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -382,7 +436,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_complexTypeBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_complexTypeBindingList);
         //-- validation code for: _complexTypeBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -424,7 +481,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_groupBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_groupBindingList);
         //-- validation code for: _groupBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -466,7 +526,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_enumBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_enumBindingList);
         //-- validation code for: _enumBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);
@@ -508,7 +571,10 @@ public class BindingDescriptor extends org.exolab.castor.xml.util.XMLClassDescri
         desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
         desc.setMultivalued(true);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_simpleTypeBindingList = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_simpleTypeBindingList);
         //-- validation code for: _simpleTypeBindingList
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(0);

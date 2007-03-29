@@ -805,33 +805,49 @@ public class SchemaWriter {
             }
         }
 
-        //-- @abstract
-        if (element.isAbstract() && !element.isReference()) {
-            _atts.addAttribute(SchemaNames.ABSTRACT, CDATA, VALUE_TRUE);
-        }
-
-        //-- @block
-        if (element.getBlock() != null) {
-            _atts.addAttribute(SchemaNames.BLOCK_ATTR, CDATA,
-                element.getBlock().toString());
-        }
-
-        //-- @default
-        if (element.getDefaultValue() != null) {
-            _atts.addAttribute(SchemaNames.DEFAULT_ATTR, CDATA,
-                element.getDefaultValue());
-        }
-
-        //-- @fixed
-        if (element.getFixedValue() != null) {
-            _atts.addAttribute(SchemaNames.FIXED_ATTR, CDATA,
-                element.getFixedValue());
-        }
-
-        //-- @final
-        if (element.getFinal() != null) {
-            _atts.addAttribute(SchemaNames.FINAL_ATTR, CDATA,
-                element.getFinal().toString());
+        // add various attributes if we are looking at a local element definition; iow, 
+        // for an element reference, this values should be specified on the
+        // referenced (global) element definition only.
+        if (!element.isReference()) {
+            
+            //-- @abstract
+            if (element.isAbstract()) {
+                _atts.addAttribute(SchemaNames.ABSTRACT, CDATA, VALUE_TRUE);
+            }
+            
+            //-- @block
+            if (element.getBlock() != null) {
+                _atts.addAttribute(SchemaNames.BLOCK_ATTR, CDATA,
+                        element.getBlock().toString());
+            }
+            
+            //-- @default
+            String defaultValue = element.getDefaultValue();
+            if (defaultValue != null) {
+                _atts.addAttribute(SchemaNames.DEFAULT_ATTR, CDATA,
+                        defaultValue);
+            }
+            
+            //-- @fixed
+            String fixedValue = element.getFixedValue();
+            if (fixedValue != null) {
+                _atts.addAttribute(SchemaNames.FIXED_ATTR, CDATA,
+                        fixedValue);
+            }
+            
+            //-- @final
+            FinalList finalValue = element.getFinal();
+            if (finalValue != null) {
+                _atts.addAttribute(SchemaNames.FINAL_ATTR, CDATA,
+                        finalValue.toString());
+            }
+            
+            //-- @substitutionGroup
+            String substitutionGroup = element.getSubstitutionGroup();
+            if (substitutionGroup != null) {
+                _atts.addAttribute(SchemaNames.SUBSTITUTION_GROUP_ATTR, CDATA,
+                        substitutionGroup);
+            }
         }
 
         //-- @form
@@ -841,9 +857,10 @@ public class SchemaWriter {
         }
 
         //-- @id
-        if (element.getId() != null) {
+        String id = element.getId();
+        if (id != null) {
             _atts.addAttribute(SchemaNames.ID_ATTR, CDATA,
-                element.getId());
+                id);
         }
 
         //-- @nillable
@@ -852,11 +869,6 @@ public class SchemaWriter {
                 VALUE_TRUE);
         }
 
-        //-- @substitutionGroup
-        if (element.getSubstitutionGroup() != null) {
-            _atts.addAttribute(SchemaNames.SUBSTITUTION_GROUP_ATTR, CDATA,
-                element.getSubstitutionGroup());
-        }
 
         _handler.startElement(ELEMENT_NAME, _atts);
 

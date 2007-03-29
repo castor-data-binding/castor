@@ -3,12 +3,12 @@
       defaultBindingType="type">
 	<!-- avoid name collisions -->
 	<cbf:namingXML>
-		<cbf:complexTypeName>
-			<cbf:prefix>CT_</cbf:prefix>
-		</cbf:complexTypeName>
 		<cbf:elementName>
 			<cbf:prefix>E_</cbf:prefix>
 		</cbf:elementName>
+		<cbf:complexTypeName>
+			<cbf:prefix>CT_</cbf:prefix>
+		</cbf:complexTypeName>
 		<cbf:modelGroupName>
 			<cbf:prefix>G_</cbf:prefix>
 		</cbf:modelGroupName>

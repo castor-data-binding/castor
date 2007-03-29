@@ -33,13 +33,15 @@
                 <xsd:element name="include" type="includeType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="package" type="packageType" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element name="namingXML" type="namingXMLType" minOccurs="0" maxOccurs="1"/> 
+               	<xsd:element name="automaticNaming" type="automaticNamingType" minOccurs="0" maxOccurs="1"/>
                 <xsd:element ref="componentBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="elementBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="attributeBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="complexTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
-                <xsd:element ref="groupBinding" minOccurs="0" maxOccurs="unbounded"/>
+                <xsd:element ref="groupBinding" minOccurs= "0" maxOccurs="unbounded"/>
                 <xsd:element ref="enumBinding" minOccurs="0" maxOccurs="unbounded"/>
                 <xsd:element ref="simpleTypeBinding" minOccurs="0" maxOccurs="unbounded"/>
+                 
             </xsd:sequence>
             <!-- the binding type: 'element' approach or 'type' approach -->
             <xsd:attribute name="defaultBindingType" type="bindingType" default="element"/>
@@ -54,7 +56,7 @@
     <xsd:element name="groupBinding" type="componentBindingType"/>
     <xsd:element name="enumBinding" type="componentBindingType"/>
     <xsd:element name="simpleTypeBinding" type="componentBindingType"/>
-                
+
     <!--ComplexTypes definitions-->
     <xsd:complexType name="includeType">
         <xsd:annotation>
@@ -263,5 +265,31 @@
              <xsd:enumeration value="type"/>
          </xsd:restriction>
      </xsd:simpleType>
+
+    <xsd:complexType name="automaticNamingType">
+         <xsd:sequence>
+             <xsd:element name="forces" minOccurs="0" maxOccurs="1">
+                 <xsd:complexType>
+                     <xsd:sequence>
+                         <xsd:element name="force" type="xsd:string" minOccurs="1" maxOccurs="unbounded" />
+                     </xsd:sequence>
+                 </xsd:complexType>
+             </xsd:element>
+             <xsd:element name="excludes" minOccurs="0" maxOccurs="1">
+                 <xsd:complexType>
+                     <xsd:sequence>
+                         <xsd:element name="exclude" minOccurs="1" maxOccurs="unbounded">
+                         	<xsd:complexType>
+                         		<xsd:sequence>
+                         			<xsd:element name="name" type="xsd:string" />
+                         			<xsd:element name="class-name" type="xsd:string" minOccurs="0"/>
+                         		</xsd:sequence>
+                         	</xsd:complexType>
+                         </xsd:element>
+                     </xsd:sequence>
+                 </xsd:complexType>
+             </xsd:element>
+         </xsd:sequence>
+     </xsd:complexType>
      
 </xsd:schema>

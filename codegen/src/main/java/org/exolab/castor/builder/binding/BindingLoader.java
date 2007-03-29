@@ -50,6 +50,7 @@ import java.net.MalformedURLException;
 import java.net.URL;
 import java.util.Enumeration;
 
+import org.exolab.castor.builder.binding.xml.AutomaticNamingType;
 import org.exolab.castor.builder.binding.xml.Binding;
 import org.exolab.castor.builder.binding.xml.ComponentBindingType;
 import org.exolab.castor.builder.binding.xml.IncludeType;
@@ -146,6 +147,13 @@ public final class BindingLoader {
                 _binding.setNamingXML(naming);
             }
 
+            //--NamingXML
+            AutomaticNamingType automaticNaming = loaded.getAutomaticNaming();
+            if (automaticNaming != null) {
+                _binding.setAutomaticNaming(automaticNaming);
+                _binding.handleAutomaticNaming(automaticNaming);
+            }
+            
             //--elementBindings
             Enumeration elements = loaded.enumerateElementBinding();
             while (elements.hasMoreElements()) {

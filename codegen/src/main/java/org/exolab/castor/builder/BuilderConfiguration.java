@@ -228,11 +228,23 @@ public class BuilderConfiguration {
          * should be used or not; defaults to false.
          *
          * <pre>
-         * automaticConflictResolution
+         * org.exolab.castor.builder.automaticConflictResolution
          * </pre>
          */
         public static final String AUTOMATIC_CONFLICT_RESOLUTION = 
             "org.exolab.castor.builder.automaticConflictResolution";
+
+        /**
+         * Property specifying the 'string' used in type strategy to be inserted 
+         * between the actual element name and the type name (during automatic class name 
+         * conflict resolution); defaults to 'By'.
+         *
+         * <pre>
+         * org.exolab.castor.builder.automaticConflictResolutionTypeSuffix
+         * </pre>
+         */
+        public static final String AUTOMATIC_CONFLICT_RESOLUTION_TYPE_SUFFIX = 
+            "org.exolab.castor.builder.automaticConflictResolutionTypeSuffix";
     } //--Property
 
     /**
@@ -678,6 +690,15 @@ public class BuilderConfiguration {
         String automaticConflictResolutionProperty = 
             _localProps.getProperty(Property.AUTOMATIC_CONFLICT_RESOLUTION, "false");
         return "true".equalsIgnoreCase(automaticConflictResolutionProperty);
+    }
+
+    /**
+     * Returns the type 'suffix' used for the type strategy during automatic class name 
+     * conflict resolution during XML code generation; default to "" unless a value is specified.
+     * @return The type suffix to be inserted between element name and type name
+     */
+    public String getAutomaticConflictResolutionTypeSuffix() {
+        return _localProps.getProperty(Property.AUTOMATIC_CONFLICT_RESOLUTION_TYPE_SUFFIX, "");
     }
 
 } //-- BuilderProperties
