@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -11,7 +11,6 @@ package org.exolab.castor.builder.binding.xml;
  //- Imported classes and packages -/
 //---------------------------------/
 
-import org.exolab.castor.builder.binding.xml.types.BindingType;
 import org.exolab.castor.xml.Marshaller;
 import org.exolab.castor.xml.Unmarshaller;
 
@@ -36,7 +35,7 @@ public class Binding implements java.io.Serializable {
     /**
      * Field _defaultBindingType.
      */
-    private org.exolab.castor.builder.binding.xml.types.BindingType _defaultBindingType;
+    private org.exolab.castor.builder.binding.xml.types.BindingType _defaultBindingType = org.exolab.castor.builder.binding.xml.types.BindingType.valueOf("element");
 
     /**
      * Field _includeList.
@@ -52,6 +51,11 @@ public class Binding implements java.io.Serializable {
      * Field _namingXML.
      */
     private org.exolab.castor.builder.binding.xml.NamingXMLType _namingXML;
+
+    /**
+     * Field _automaticNaming.
+     */
+    private org.exolab.castor.builder.binding.xml.AutomaticNamingType _automaticNaming;
 
     /**
      * Field _componentBindingList.
@@ -95,6 +99,7 @@ public class Binding implements java.io.Serializable {
 
     public Binding() {
         super();
+        setDefaultBindingType(org.exolab.castor.builder.binding.xml.types.BindingType.valueOf("element"));
         this._includeList = new java.util.ArrayList();
         this._packageList = new java.util.ArrayList();
         this._componentBindingList = new java.util.ArrayList();
@@ -104,8 +109,6 @@ public class Binding implements java.io.Serializable {
         this._groupBindingList = new java.util.ArrayList();
         this._enumBindingList = new java.util.ArrayList();
         this._simpleTypeBindingList = new java.util.ArrayList();
-        
-        this._defaultBindingType = BindingType.ELEMENT;
     }
 
 
@@ -471,8 +474,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getAttributeBinding(
             final int index)
@@ -512,14 +515,24 @@ public class Binding implements java.io.Serializable {
     }
 
     /**
+     * Returns the value of field 'automaticNaming'.
+     * 
+     * @return the value of field 'AutomaticNaming'.
+     */
+    public org.exolab.castor.builder.binding.xml.AutomaticNamingType getAutomaticNaming(
+    ) {
+        return this._automaticNaming;
+    }
+
+    /**
      * Method getComplexTypeBinding.
      * 
      * @param index
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getComplexTypeBinding(
             final int index)
@@ -565,8 +578,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getComponentBinding(
             final int index)
@@ -622,8 +635,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getElementBinding(
             final int index)
@@ -669,8 +682,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getEnumBinding(
             final int index)
@@ -715,8 +728,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getGroupBinding(
             final int index)
@@ -762,8 +775,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.IncludeType at the given
-     * index
+     * org.exolab.castor.builder.binding.xml.IncludeType at the
+     * given index
      */
     public org.exolab.castor.builder.binding.xml.IncludeType getInclude(
             final int index)
@@ -818,8 +831,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.PackageType at the given
-     * index
+     * org.exolab.castor.builder.binding.xml.PackageType at the
+     * given index
      */
     public org.exolab.castor.builder.binding.xml.PackageType getPackage(
             final int index)
@@ -864,8 +877,8 @@ public class Binding implements java.io.Serializable {
      * @throws java.lang.IndexOutOfBoundsException if the index
      * given is outside the bounds of the collection
      * @return the value of the
-     * org.exolab.castor.builder.binding.ComponentBindingType at
-     * the given index
+     * org.exolab.castor.builder.binding.xml.ComponentBindingType
+     * at the given index
      */
     public org.exolab.castor.builder.binding.xml.ComponentBindingType getSimpleTypeBinding(
             final int index)
@@ -1365,6 +1378,16 @@ public class Binding implements java.io.Serializable {
     }
 
     /**
+     * Sets the value of field 'automaticNaming'.
+     * 
+     * @param automaticNaming the value of field 'automaticNaming'.
+     */
+    public void setAutomaticNaming(
+            final org.exolab.castor.builder.binding.xml.AutomaticNamingType automaticNaming) {
+        this._automaticNaming = automaticNaming;
+    }
+
+    /**
      * 
      * 
      * @param index
@@ -1674,7 +1697,7 @@ public class Binding implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      * @return the unmarshaled
-     * org.exolab.castor.builder.binding.Binding
+     * org.exolab.castor.builder.binding.xml.Binding
      */
     public static org.exolab.castor.builder.binding.xml.Binding unmarshalBinding(
             final java.io.Reader reader)

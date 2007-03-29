@@ -86,6 +86,8 @@ import java.io.PrintWriter;
 //import java.io.Serializable;
 import java.io.Writer;
 import java.lang.reflect.Array;
+import java.lang.reflect.Method;
+import java.math.BigDecimal;
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.Iterator;
@@ -1678,8 +1680,13 @@ public class Marshaller extends MarshalFramework {
             }
             /* special case for Strings and primitives */
             else if (isPrimitive(_class)) {
-
-                char[] chars = object.toString().toCharArray();
+                
+                char[] chars;
+                if (_class == java.math.BigDecimal.class) {
+                    chars = convertBigDecimalToString(object).toCharArray();
+                } else {
+                    chars = object.toString().toCharArray();
+                }
                 try {
                     handler.characters(chars,0,chars.length);
                 }
@@ -1975,6 +1982,36 @@ public class Marshaller extends MarshalFramework {
             _marshalListener.postMarshal(object);
 
     } //-- void marshal(DocumentHandler)
+
+
+    /**
+     * Converts a {@link BigDecimal} instance value to its String representation. This
+     * method will take into into account the Java version number, as the semantics of
+     * BigDecimal.toString() have changed between Java 1.4 and Java 5.0 and above.
+     * @param object The {@link BigDecimal} instance
+     * @return The String representation of the {@link BigDecimal} instance
+     * @throws MarshalException If invocation of BigDecimal#toPlainString() fails.
+     */
+    private String convertBigDecimalToString(Object object) throws MarshalException {
+        String stringValue;
+        float javaVersion = Float.parseFloat(System.getProperty("java.specification.version"));
+        if (javaVersion > 5.0) {
+            // as of Java 5.0 and above, BigDecimal.toPlainString() should be used.
+            // TODO: reconsider if we start using BigDecimal for XSTypes that can hold scientific values
+            Method method;
+            try {
+                method = java.math.BigDecimal.class.getMethod("toPlainString", (Class[]) null);
+                stringValue = (String) method.invoke(object, (Object[]) null);
+            } catch (Exception e) {
+                LOG.error("Problem accessing java.math.BigDecimal.toPlainString().", e);
+                throw new MarshalException("Problem accessing java.math.BigDecimal.toPlainString().", e);
+            }
+        } else {
+            // use BigDecimal.toString() with Java 1.4 and below
+            stringValue = object.toString();
+        }
+        return stringValue;
+    }
 
     /**
      * Retrieves the ID for the given Object

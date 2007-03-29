@@ -46,6 +46,19 @@ public class XPathHelper {
     public static void getSchemaLocation(
             final Structure structure,
             final StringBuffer location) {
+        getSchemaLocation(structure, location, false);
+    }
+
+    /**
+     * Deduces an XPATH expression qualifying the path from the schema root
+     * to the given structure in question.
+     * @param structure AN XML structure.
+     * @param location The XPATH expression to be created.
+     */
+    public static void getSchemaLocation(
+            final Structure structure,
+            final StringBuffer location,
+            final boolean dealWithAnonTypes) {
         if (structure == null) {
             throw new IllegalArgumentException("Structure cannot be null");
         }
@@ -59,7 +72,7 @@ public class XPathHelper {
         case Structure.ELEMENT:
             parent = ((ElementDecl) structure).getParent();
             if (parent.getStructureType() != Structure.SCHEMA) {
-                getSchemaLocation(parent, location);
+                getSchemaLocation(parent, location, dealWithAnonTypes);
             }
             location.append(ExtendedBinding.PATH_SEPARATOR);
             location.append(((ElementDecl) structure).getName());
@@ -69,25 +82,25 @@ public class XPathHelper {
             ComplexType complexType = (ComplexType) structure;
             parent = (complexType).getParent();
             if (parent.getStructureType() != Structure.SCHEMA) {
-                getSchemaLocation(parent, location);
+                getSchemaLocation(parent, location, dealWithAnonTypes);
             }
             if (complexType.getName() != null) {
                 location.append(ExtendedBinding.PATH_SEPARATOR);
                 location.append(ExtendedBinding.COMPLEXTYPE_ID);
                 location.append(((ComplexType) structure).getName());
-            }
-            // else {
-            // location.append(PATH_SEPARATOR);
-            // location.append(COMPLEXTYPE_ID);
-            // location.append("anonymous");
-            // }
+            } 
+//            else if (dealWithAnonTypes){
+//                location.append(ExtendedBinding.PATH_SEPARATOR);
+//                location.append(ExtendedBinding.COMPLEXTYPE_ID);
+//                location.append("anonymous");
+//            }
             break;
 
         case Structure.SIMPLE_TYPE:
             SimpleType simpleType = (SimpleType) structure;
             parent = simpleType.getParent();
             if (parent != null && parent.getStructureType() != Structure.SCHEMA) {
-                getSchemaLocation(parent, location);
+                getSchemaLocation(parent, location, dealWithAnonTypes);
             }
 
             if (parent != null && simpleType.getName() != null) {
@@ -95,18 +108,18 @@ public class XPathHelper {
                 location.append(ExtendedBinding.ENUMTYPE_ID);
                 location.append(((SimpleType) structure).getName());
             }
-            // else {
-            // location.append(PATH_SEPARATOR);
-            // location.append(ENUMTYPE_ID);
-            // location.append("anonymous");
-            // }
+//            else if (dealWithAnonTypes){
+//                location.append(ExtendedBinding.PATH_SEPARATOR);
+//                location.append(ExtendedBinding.ENUMTYPE_ID);
+//                location.append("anonymous");
+//            }
             break;
 
         case Structure.MODELGROUP:
             ModelGroup group = (ModelGroup) structure;
             parent = group.getParent();
             if (parent.getStructureType() != Structure.SCHEMA) {
-                getSchemaLocation(parent, location);
+                getSchemaLocation(parent, location, dealWithAnonTypes);
             }
             if (group.getName() != null) {
                 location.append(ExtendedBinding.PATH_SEPARATOR);
@@ -118,7 +131,7 @@ public class XPathHelper {
         case Structure.ATTRIBUTE:
             parent = ((AttributeDecl) structure).getParent();
             if (parent.getStructureType() != Structure.SCHEMA) {
-                getSchemaLocation(parent, location);
+                getSchemaLocation(parent, location, dealWithAnonTypes);
             }
             location.append(ExtendedBinding.PATH_SEPARATOR);
             location.append(ExtendedBinding.ATTRIBUTE_PREFIX);
@@ -127,7 +140,7 @@ public class XPathHelper {
 
         case Structure.GROUP:
             // --we are inside a complexType
-            getSchemaLocation(((Group) structure).getParent(), location);
+            getSchemaLocation(((Group) structure).getParent(), location, dealWithAnonTypes);
             break;
 
         // case Structure.ATTRIBUTE_GROUP:
@@ -169,12 +182,21 @@ public class XPathHelper {
      * @param structure the structure for which to return a representation.
      * @return a string representation of an XML Schema component.
      */
+    public static String getSchemaLocation(final Structure structure, final boolean dealWithAnonTypes) {
+        if (structure == null) {
+            return null;
+        }
+        StringBuffer buffer = new StringBuffer(INITIAL_XPATH_SIZE);
+        getSchemaLocation(structure, buffer, dealWithAnonTypes);
+        return buffer.toString();
+    }
+
     public static String getSchemaLocation(final Structure structure) {
         if (structure == null) {
             return null;
         }
         StringBuffer buffer = new StringBuffer(INITIAL_XPATH_SIZE);
-        getSchemaLocation(structure, buffer);
+        getSchemaLocation(structure, buffer, false);
         return buffer.toString();
     }
 

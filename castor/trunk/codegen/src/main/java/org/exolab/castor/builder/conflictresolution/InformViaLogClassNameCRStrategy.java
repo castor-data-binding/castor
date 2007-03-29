@@ -24,6 +24,7 @@ import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.util.dialog.ConsoleDialog;
 import org.exolab.castor.xml.schema.Annotated;
+import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.SchemaNames;
 import org.exolab.javasource.JClass;
 
@@ -92,12 +93,22 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
             }
         }
 
+        String annotated1XPath;
+        String annotated2XPath;
+        
         StringBuffer message = new StringBuffer();
         message.append("Warning: A class name generation conflict has occured between ");
         if (a1 != null) {
             message.append(SchemaNames.getStructureName(a1));
             message.append(" '");
-            message.append(XPathHelper.getSchemaLocation(a1));
+            if (a1 instanceof ElementDecl) {
+                ElementDecl element = (ElementDecl) a1;
+                annotated1XPath = XPathHelper.getSchemaLocation(a1) + "[/complexType:" 
+                + element.getType().getName() + "]";
+                message.append(annotated1XPath);
+            } else {
+                message.append(XPathHelper.getSchemaLocation(a1));
+            }
         } else {
             message.append(newClassInfo.getNodeTypeName());
             message.append(" '");
@@ -107,7 +118,14 @@ extends BaseClassNameCRStrategy implements ClassNameCRStrategy {
         if (a2 != null) {
             message.append(SchemaNames.getStructureName(a2));
             message.append(" '");
-            message.append(XPathHelper.getSchemaLocation(a2));
+            if (a2 instanceof ElementDecl) {
+                ElementDecl element = (ElementDecl) a2;
+                annotated2XPath = XPathHelper.getSchemaLocation(a2) + "[/complexType:" 
+                + element.getType().getName() + "]";
+                message.append(annotated2XPath);
+            } else {
+                message.append(XPathHelper.getSchemaLocation(a2));
+            }
         } else {
             message.append(oldClassInfo.getNodeTypeName());
             message.append(" '");

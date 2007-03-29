@@ -45,10 +45,18 @@
 package org.exolab.castor.builder.binding;
 
 //--Castor imports
+import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Hashtable;
+import java.util.Map;
+import java.util.Set;
 
+import org.exolab.castor.builder.binding.xml.AutomaticNamingType;
 import org.exolab.castor.builder.binding.xml.Binding;
 import org.exolab.castor.builder.binding.xml.ComponentBindingType;
+import org.exolab.castor.builder.binding.xml.Exclude;
+import org.exolab.castor.builder.binding.xml.Excludes;
+import org.exolab.castor.builder.binding.xml.Forces;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ElementDecl;
@@ -128,6 +136,17 @@ public final class ExtendedBinding extends Binding {
      * processed.
      */
     private boolean _bindingProcessed = false;
+    
+    /**
+     * Maintains a list of element names where automatic name conflict resolution should be 
+     * used all times, incl. the first one.
+     */
+    private Set _automaticNameResolutionForced = new HashSet();
+    
+    /**
+     * Maintains a map of exclusions from the automatic name conflict.  
+     */
+   private Map _automaticNameResolutionExcludes = new HashMap();
 
     /**
      * Default constructor.
@@ -284,6 +303,31 @@ public final class ExtendedBinding extends Binding {
     }
 
     /**
+     * Process automatic name conflict resolution section, and memorize definitions.
+     * @param type {@link AutomaticNamingType} instance
+     */
+    void handleAutomaticNaming(final AutomaticNamingType type) {
+        Forces forcesOuter = type.getForces();
+        if (forcesOuter != null) {
+            String[] forces = forcesOuter.getForce();
+            for (int i = 0; i < forces.length; i++) {
+                String elementName = forces[i];     
+                _automaticNameResolutionForced.add(elementName);
+
+            }
+        }
+        
+        Excludes excludesOuter = type.getExcludes();
+        if (excludesOuter != null) {
+            Exclude[] excludes = excludesOuter.getExclude();
+            for (int i = 0; i < excludes.length; i++) {
+                Exclude exclude = excludes[i];
+                _automaticNameResolutionExcludes.put(exclude.getName(), exclude);
+            }
+        }
+    }
+
+    /**
      * Processes the given ComponentBindingType given its type.
      *
      * @param binding the ComponentBindingType for which we want to process the
@@ -414,8 +458,25 @@ public final class ExtendedBinding extends Binding {
             handleComponent(temp, currentPath, ENUM_TYPE);
         }
 
+        //
         temp = null;
         tempBindings = null;
+    }
+    
+    public boolean existsExclusion(final String localName) {
+        return _automaticNameResolutionExcludes.containsKey(localName);
+    }
+
+    public Exclude getExclusion(final String localName) {
+        return (Exclude) _automaticNameResolutionExcludes.get(localName);
+    }
+
+    public boolean existsForce(String localName) {
+        return _automaticNameResolutionForced.contains(localName);
+    }
+    
+    public Set getForces() {
+        return _automaticNameResolutionForced;
     }
 
 }

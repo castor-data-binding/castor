@@ -184,6 +184,9 @@ public class SourceGenerator extends BuilderConfiguration {
     /** JClass to XPATH registry; used for class name conflict resolution. */
     private JClassRegistry _xmlInfoRegistry;
 
+    private ClassNameConflictResolver _conflictResolver = 
+        new XPATHClassNameConflictResolver();
+
     /**
      * Creates a SourceGenerator using the default FieldInfo factory.
      */
@@ -224,7 +227,8 @@ public class SourceGenerator extends BuilderConfiguration {
         _bindingComponent = new XMLBindingComponent(this, _groupNaming);
         setBinding(binding);
         
-        _xmlInfoRegistry = new JClassRegistry();
+        _conflictResolver.setSourceGenerator(this);
+        _xmlInfoRegistry = new JClassRegistry(_conflictResolver);
         
     } //-- SourceGenerator
 
@@ -306,6 +310,25 @@ public class SourceGenerator extends BuilderConfiguration {
         _verbose = verbose;
     } //-- setVerbose
 
+    /**
+     * Sets the ClassNameConflictResolver instance to be used for automatic class name
+     * conflict resolution.
+    *
+     * @param resolverName The name of the resolver to be used for automatic class name
+     * conflict resolution
+     */
+    public void setClassNameConflictResolver(final String resolverName) {
+        if (resolverName.equals("type")) {
+            _conflictResolver = new TypeClassNameConflictResolver();
+            _conflictResolver.setSourceGenerator(this);
+        } else if (resolverName.equals("xpath")) {
+            // leave default
+        } else {
+            throw new IllegalArgumentException("Invalid resolver type.");
+        }
+        _xmlInfoRegistry.setClassNameConflictResolver(_conflictResolver);
+    } //-- setClassNameConflictResolver
+    
     /**
      * Sets whether or not to create ClassDescriptors for the generated classes.
      * By default, descriptors are generated.
@@ -670,6 +693,11 @@ public class SourceGenerator extends BuilderConfiguration {
         //-- TODO Cleanup integration (what does this comment mean?)
         if (!_createDescriptors && _generateMapping) {
             generateMappingFile(packageName, sInfo);
+        }
+        
+        // output statistical information from JClassRegistry in 'automatic'mode only
+        if (isAutomaticConflictResolution()) {
+            _xmlInfoRegistry.printStatistics(_bindingComponent);
         }
     } //-- generateSource
 

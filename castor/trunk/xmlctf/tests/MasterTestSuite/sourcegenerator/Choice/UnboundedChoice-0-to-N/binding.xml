@@ -3,12 +3,12 @@
 	defaultBindingType='element'>
 
 	<cbf:namingXML>
-		<cbf:complexTypeName>
-			<cbf:suffix>Type</cbf:suffix>
-		</cbf:complexTypeName>
 		<cbf:elementName>
 			<cbf:suffix>Element</cbf:suffix>
 		</cbf:elementName>
+		<cbf:complexTypeName>
+			<cbf:suffix>Type</cbf:suffix>
+		</cbf:complexTypeName>
 	</cbf:namingXML>
 	
 </cbf:binding>
