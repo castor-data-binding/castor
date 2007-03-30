@@ -402,7 +402,7 @@ public class JClassRegistry {
                     xmlFragment.append("</force>\n");
                 }
             }
-            xmlFragment.append("<forces>");
+            xmlFragment.append("</forces>");
             
             LOG.info(xmlFragment.toString());
         }
