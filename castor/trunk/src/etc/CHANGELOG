@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1926 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Renamed XMLClassDescriptorResolver.resolveXML(Class) back to resolve(Class).
+       Details: http://jira.codehaus.org/browse/CASTOR-1926
+       (Werner - 20070331)
+
 XML:   Resolved issue CASTOR-1925 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed syntax of closing <forces> tag in JClassRegistry.printSummary().
        Details: http://jira.codehaus.org/browse/CASTOR-1925
