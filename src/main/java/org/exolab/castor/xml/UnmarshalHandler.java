@@ -3387,7 +3387,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
 
         try {
-            classDesc = _cdResolver.resolveXML(_class);
+            classDesc = (XMLClassDescriptor) _cdResolver.resolve(_class);
         }
         catch(ResolverException rx) {
             // TODO

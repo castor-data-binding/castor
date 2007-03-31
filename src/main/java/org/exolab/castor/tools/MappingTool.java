@@ -262,7 +262,7 @@ public class MappingTool {
                 xmlClass = _introspector.generateClassDescriptor( cls );
                 introspected = true;
             } else {
-                xmlClass = _resolver.resolveXML( cls );
+                xmlClass = (XMLClassDescriptor) _resolver.resolve( cls );
                 introspected = Introspector.introspected(xmlClass);
             }
         } catch ( Exception except ) {

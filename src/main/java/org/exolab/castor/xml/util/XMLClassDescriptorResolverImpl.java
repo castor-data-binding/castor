@@ -153,9 +153,9 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
     /**
      * {@inheritDoc}
      *
-     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolveXML(java.lang.Class)
+     * @see org.exolab.castor.xml.XMLClassDescriptorResolver#resolve(java.lang.Class)
      */
-    public XMLClassDescriptor resolveXML(Class type) throws ResolverException {
+    public ClassDescriptor resolve(Class type) throws ResolverException {
         if (type == null) {
             return null;
         }
@@ -184,15 +184,6 @@ public class XMLClassDescriptorResolverImpl implements XMLClassDescriptorResolve
         _descriptorCache.addMissingDescriptor(className);
         return null;
     } // -- resolve
-
-    /**
-     * {@inheritDoc}
-     *
-     * @see org.exolab.castor.xml.ClassDescriptorResolver#resolve(java.lang.Class)
-     */
-    public ClassDescriptor resolve(Class type) throws ResolverException {
-        return resolveXML(type);
-    }
 
     /**
      * {@inheritDoc}

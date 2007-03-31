@@ -282,7 +282,7 @@ public final class XMLMappingLoader extends AbstractMappingLoader {
             //-- check compiled descriptors 
             if (_cdResolver == null) { createResolver(); }
             try {
-                referenceDesc = _cdResolver.resolveXML(type);
+                referenceDesc = (XMLClassDescriptor) _cdResolver.resolve(type);
             } catch (ResolverException rx) {
                 throw new MappingException(rx);
             }

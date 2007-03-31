@@ -2224,7 +2224,7 @@ public class Marshaller extends MarshalFramework {
 
         try {
             if (!isPrimitive(_class))
-                classDesc = _cdResolver.resolveXML(_class);
+                classDesc = (XMLClassDescriptor) _cdResolver.resolve(_class);
         }
         catch(ResolverException rx) {
             Throwable actual = rx.getCause();

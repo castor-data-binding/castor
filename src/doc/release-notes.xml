@@ -79,9 +79,30 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1926" tool="jira">
+                    <description>
+                        Renamed XMLClassDescriptorResolver.resolveXML(Class) back to 
+                        resolve(Class).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Task</type>
+                    <module>XML</module>
+                    <date>20070331</date>
+                </bug>
                 <bug id="1925" tool="jira">
                     <description>
-                        Fixed syntax of closing <forces> tag in JClassRegistry.printSummary().
+                        Fixed syntax of closing &lt;forces&gt; tag in JClassRegistry.printSummary().
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>

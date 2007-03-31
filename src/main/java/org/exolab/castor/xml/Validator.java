@@ -105,7 +105,7 @@ public class Validator implements ClassValidator {
 
         if (! MarshalFramework.isPrimitive(object.getClass())) {
             try {
-                classDesc = context.getResolver().resolveXML(object.getClass());
+                classDesc = (XMLClassDescriptor) context.getResolver().resolve(object.getClass());
             } catch (ResolverException rx) {
                 throw new ValidationException(rx);
             }
