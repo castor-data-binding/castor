@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-423 using contribution from Johan Lindquist [johan@kawoo.co.uk]
+       Added support for <xs:hexBinary>; for XML code generation and support for
+       HEX en-/decoding during (un)marshalling.
+       Details: http://jira.codehaus.org/browse/CASTOR-423
+       (Werner - 20070401)
+
 XML:   Resolved issue CASTOR-1926 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Renamed XMLClassDescriptorResolver.resolveXML(Class) back to resolve(Class).
        Details: http://jira.codehaus.org/browse/CASTOR-1926

@@ -55,6 +55,7 @@ import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.castor.util.Base64Encoder;
 import org.castor.util.Messages;
+import org.castor.util.HexDecoder;
 import org.exolab.castor.mapping.CollectionHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.Mapping;
@@ -1636,8 +1637,13 @@ public class Marshaller extends MarshalFramework {
                     char[] chars = null;
                     Class objType = obj.getClass();
                     if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
-                        //-- handle base64 content
-                        chars = Base64Encoder.encode((byte[]) obj);
+                        //-- handle base64/hexbinary content
+                        final String schemaType = descriptor.getSchemaType();
+                        if (HexDecoder.DATA_TYPE.equals(schemaType)) {
+                            chars = new String(HexDecoder.encode((byte[]) obj)).toCharArray();
+                        } else {
+                            chars = Base64Encoder.encode((byte[]) obj);
+                        }
                     } else {
                         //-- all other types
                         String str = obj.toString();
@@ -1670,11 +1676,17 @@ public class Marshaller extends MarshalFramework {
             }
             // special case for byte[]
             else if (byteArray) {
-                //-- Base64Encoding
-                char[] chars = Base64Encoder.encode((byte[]) object);
+                //-- Base64Encoding / HexBinary
+                String schemaType = descriptor.getSchemaType();
+                char[] chars = new char[0];
+                if (HexDecoder.DATA_TYPE.equals(schemaType)) {
+                    chars = new String(HexDecoder.encode((byte[]) object)).toCharArray();
+                } else {
+                    chars = Base64Encoder.encode((byte[]) object);
+                }
                 try {
                     handler.characters(chars, 0, chars.length);
-                } catch (org.xml.sax.SAXException sx) {
+                }  catch (org.xml.sax.SAXException sx) {
                     throw new MarshalException(sx);
                 }
             }
@@ -2364,10 +2376,15 @@ public class Marshaller extends MarshalFramework {
             else value = null;
         }
         else if (value != null) {
-            //-- handle base64 content
+            //-- handle hex/base64 content
             Class objType = value.getClass();
             if (objType.isArray() && (objType.getComponentType() == Byte.TYPE)) {
-                value = Base64Encoder.encode((byte[]) value);
+                final String schemaType = attDescriptor.getSchemaType();
+                if (HexDecoder.DATA_TYPE.equals(schemaType)) {
+                    value = new String(HexDecoder.encode((byte[]) value));
+                } else {
+                    value = new String(Base64Encoder.encode((byte[]) value));
+                }
             }
         }
 

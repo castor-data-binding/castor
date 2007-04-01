@@ -50,6 +50,7 @@ package org.exolab.castor.xml;
 //-- Castor imports
 import org.castor.mapping.BindingType;
 import org.castor.util.Base64Decoder;
+import org.castor.util.HexDecoder;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.util.DefaultObjectFactory;
@@ -801,8 +802,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if (str == null)
                     state.object = new byte[0];
                 else {
-                    //-- Base64 decoding
-                    state.object = Base64Decoder.decode(str);
+                    //-- Base64/HexBinary decoding
+                    if (HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
+                        state.object = HexDecoder.decode(str);
+                    } else {
+                        state.object = Base64Decoder.decode(str);
+                    }
                 }
             }
             else if (state.args != null) {
@@ -827,10 +832,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     value = toPrimitiveObject(cdesc.getFieldType(), (String)value, state.fieldDesc);
                 else {
                     Class valueType = cdesc.getFieldType();
-                    //-- handle base64
+                    //-- handle base64/hexBinary
                     if (valueType.isArray()
                             && (valueType.getComponentType() == Byte.TYPE)) {
-                        value = Base64Decoder.decode((String) value);
+                        if (HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
+                            value = HexDecoder.decode((String) value);
+                        } else {
+                            value = Base64Decoder.decode((String) value);
+                        }
                     }
                 }
 
@@ -3024,8 +3033,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 if (attValue == null)
                     value = new byte[0];
                 else {
-                    //-- Base64 decoding
-                    value = Base64Decoder.decode(attValue);
+                    //-- Base64/hexbinary decoding
+                    if (HexDecoder.DATA_TYPE.equals(descriptor.getSchemaType())) {
+                        value = HexDecoder.decode(attValue);
+                    } else {
+                        value = Base64Decoder.decode(attValue);
+                    }
                 }
             }
             
