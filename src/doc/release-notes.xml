@@ -75,6 +75,12 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                 <p>Added support for the XML schema type &lt;xs:hexBinary&gt; during
                    XML code generation.</p>
                    
+                <h3>Added new &lt;contentMember&gt; element to binding filesupport for the <tt>hexBinary</tt> data type</h3>
+                
+                <p>This new element (child of a &lt;componentBinding&gt;) allows to 
+                   specify a custom member name for the <tt>content</tt> member as generated
+                   for a mixed mode complex type definition.</p>
+                
                 <h3>Added support for the <tt>hexBinary</tt> data type</h3>
                 
                 <p>The XML (Un-)Marshaller now supports the data type <tt>hexBinary</tt>.</p>
@@ -88,6 +94,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="238" tool="jira">
+                    <description>
+                        Added support for 'overriding' the name of the Java 'content' member.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070401</date>
+                </bug>
                 <bug id="423" tool="jira">
                     <description>
                         Added support for &lt;xs:hexBinary&gt; for XML code 

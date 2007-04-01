@@ -46,6 +46,11 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
      */
     private org.exolab.castor.builder.binding.xml.EnumBindingType _enumDef;
 
+    /**
+     * Field _contentMember.
+     */
+    private org.exolab.castor.builder.binding.xml.ContentMemberType _contentMember;
+
 
       //----------------/
      //- Constructors -/
@@ -59,6 +64,16 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
       //-----------/
      //- Methods -/
     //-----------/
+
+    /**
+     * Returns the value of field 'contentMember'.
+     * 
+     * @return the value of field 'ContentMember'.
+     */
+    public org.exolab.castor.builder.binding.xml.ContentMemberType getContentMember(
+    ) {
+        return this._contentMember;
+    }
 
     /**
      * Returns the value of field 'enumDef'.
@@ -148,6 +163,16 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
     }
 
     /**
+     * Sets the value of field 'contentMember'.
+     * 
+     * @param contentMember the value of field 'contentMember'.
+     */
+    public void setContentMember(
+            final org.exolab.castor.builder.binding.xml.ContentMemberType contentMember) {
+        this._contentMember = contentMember;
+    }
+
+    /**
      * Sets the value of field 'enumDef'.
      * 
      * @param enumDef the value of field 'enumDef'.
@@ -197,7 +222,7 @@ public class ComponentBindingTypeChoice implements java.io.Serializable {
      * @throws org.exolab.castor.xml.ValidationException if this
      * object is an invalid instance according to the schema
      * @return the unmarshaled
-     * org.exolab.castor.builder.binding.ComponentBindingTypeChoice
+     * org.exolab.castor.builder.binding.xml.ComponentBindingTypeChoice
      */
     public static org.exolab.castor.builder.binding.xml.ComponentBindingTypeChoice unmarshalComponentBindingTypeChoice(
             final java.io.Reader reader)
