@@ -1,6 +1,6 @@
 /*
  * This class was automatically generated with 
- * <a href="http://www.castor.org">Castor 1.1-M2</a>, using an XML
+ * <a href="http://www.castor.org">Castor 1.1</a>, using an XML
  * Schema.
  * $Id$
  */
@@ -97,7 +97,10 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_javaClass = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_javaClass);
         //-- validation code for: _javaClass
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
@@ -132,7 +135,10 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_interface = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_interface);
         //-- validation code for: _interface
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
@@ -167,7 +173,10 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_member = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_member);
         //-- validation code for: _member
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
@@ -202,8 +211,49 @@ public class ComponentBindingTypeChoiceDescriptor extends org.exolab.castor.xml.
         desc.setRequired(true);
         desc.setMultivalued(false);
         addFieldDescriptor(desc);
+        addSequenceElement(desc);
         
+        java.util.List substitutionGroupes_enumDef = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_enumDef);
         //-- validation code for: _enumDef
+        fieldValidator = new org.exolab.castor.xml.FieldValidator();
+        fieldValidator.setMinOccurs(1);
+        { //-- local scope
+        }
+        desc.setValidator(fieldValidator);
+        //-- _contentMember
+        desc = new org.exolab.castor.xml.util.XMLFieldDescriptorImpl(org.exolab.castor.builder.binding.xml.ContentMemberType.class, "_contentMember", "contentMember", org.exolab.castor.xml.NodeType.Element);
+        handler = new org.exolab.castor.xml.XMLFieldHandler() {
+            public java.lang.Object getValue( java.lang.Object object ) 
+                throws IllegalStateException
+            {
+                ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
+                return target.getContentMember();
+            }
+            public void setValue( java.lang.Object object, java.lang.Object value) 
+                throws IllegalStateException, IllegalArgumentException
+            {
+                try {
+                    ComponentBindingTypeChoice target = (ComponentBindingTypeChoice) object;
+                    target.setContentMember( (org.exolab.castor.builder.binding.xml.ContentMemberType) value);
+                } catch (java.lang.Exception ex) {
+                    throw new IllegalStateException(ex.toString());
+                }
+            }
+            public java.lang.Object newInstance(java.lang.Object parent) {
+                return new org.exolab.castor.builder.binding.xml.ContentMemberType();
+            }
+        };
+        desc.setHandler(handler);
+        desc.setNameSpaceURI("http://www.castor.org/SourceGenerator/Binding");
+        desc.setRequired(true);
+        desc.setMultivalued(false);
+        addFieldDescriptor(desc);
+        addSequenceElement(desc);
+        
+        java.util.List substitutionGroupes_contentMember = new java.util.ArrayList();
+        desc.setSubstitutes(substitutionGroupes_contentMember);
+        //-- validation code for: _contentMember
         fieldValidator = new org.exolab.castor.xml.FieldValidator();
         fieldValidator.setMinOccurs(1);
         { //-- local scope

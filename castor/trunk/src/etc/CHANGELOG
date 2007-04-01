@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-238 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added support for 'overriding' the name of the Java 'content' member.
+       Details: http://jira.codehaus.org/browse/CASTOR-238
+       (Werner - 20070401)
+
 XML:   Resolved issue CASTOR-423 using contribution from Johan Lindquist [johan@kawoo.co.uk]
        Added support for <xs:hexBinary>; for XML code generation and support for
        HEX en-/decoding during (un)marshalling.
