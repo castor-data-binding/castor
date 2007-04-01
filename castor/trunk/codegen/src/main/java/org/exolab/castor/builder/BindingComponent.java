@@ -84,6 +84,8 @@ public interface BindingComponent {
     short MEMBER    = 2;
     /** An enum binding component. */
     short ENUM_TYPE = 3;
+    /** A content member binding component. */
+    short CONTENT_MEMBER_TYPE = 4;
 
     /**
      * Returns true if the given Object is equal to this instance of

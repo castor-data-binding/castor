@@ -422,7 +422,7 @@ public final class SourceFactory extends BaseFactory {
                     component.setView(saved);
                     if (complexType.getContentType() == ContentType.mixed) {
                         FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
-                                new XSString(), getConfig().useJava50());
+                                component, new XSString(), getConfig().useJava50());
                         handleField(fieldInfo, state);
                     } else if (complexType.getContentType().getType() == ContentType.SIMPLE) {
                         SimpleContent simpleContent = (SimpleContent) complexType.getContentType();
@@ -430,7 +430,7 @@ public final class SourceFactory extends BaseFactory {
                         XSType xsType = _typeConversion.convertType(
                                 temp, packageName, getConfig().useJava50());
                         FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
-                                xsType, getConfig().useJava50());
+                                component, xsType, getConfig().useJava50());
                         handleField(fieldInfo, state);
                         temp = null;
                     } else {
@@ -1693,7 +1693,7 @@ public final class SourceFactory extends BaseFactory {
                 if ((baseType != null) && extendsSimpleType(state.getJClass(), baseType, state)) {
                     if (xsType.isEnumerated()) {
                         fieldInfo = _memberFactory.createFieldInfoForContent(
-                                xsType, getConfig().useJava50());
+                                component, xsType, getConfig().useJava50());
                         fieldInfo.setBound(false);
                         handleField(fieldInfo, state);
 
@@ -1722,7 +1722,7 @@ public final class SourceFactory extends BaseFactory {
                     xsType = _typeConversion.convertType(
                             temp, state.getPackageName(), getConfig().useJava50());
                     fieldInfo = _memberFactory.createFieldInfoForContent(
-                            xsType, getConfig().useJava50());
+                            component, xsType, getConfig().useJava50());
                     handleField(fieldInfo, state);
                 }
             }
@@ -1739,7 +1739,7 @@ public final class SourceFactory extends BaseFactory {
             component.setView(complexType);
             if (complexType.getContentType() == ContentType.mixed) {
                 FieldInfo fieldInfo = _memberFactory.createFieldInfoForContent(
-                        new XSString(), getConfig().useJava50());
+                        component, new XSString(), getConfig().useJava50());
                 handleField(fieldInfo, state);
             }
         }
