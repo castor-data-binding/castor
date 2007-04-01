@@ -94,6 +94,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1928" tool="jira">
+                    <description>
+                        Fixed problem with not-specified binding file during automatic 
+                        naming collision resolution.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>David M. Karr</name>
+                        <email>david.karr@wamu.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070401</date>
+                </bug>
                 <bug id="238" tool="jira">
                     <description>
                         Added support for 'overriding' the name of the Java 'content' member.

@@ -137,35 +137,37 @@ public class JClassRegistry {
         
         // deal with explicit exclusions
         ExtendedBinding binding = component.getBinding();
-        if (binding.existsExclusion(typedLocalName)) {
-            Exclude exclusion = binding.getExclusion(typedLocalName);
-            if (exclusion.getClassName() != null) {
-                LOG.info("Dealing with exclusion for local element " + xPath 
-                        + " as per binding file.");
-                jClass.changeLocalName(exclusion.getClassName());
-            }
-            return;
-        }
-
-        // deal with explicit forces
-        if (binding.existsForce(localName)) {
-            
-            List localNamesList = (List) _localNames.get(localName);
-            if (localNamesList == null) {
-                // this name never occured before
-                ArrayList arrayList = new ArrayList();
-                arrayList.add(xPath);
-                _localNames.put(localName, arrayList);
-            } else {
-                if (!localNamesList.contains(xPath)) {
-                    localNamesList.add(xPath);
+        if (binding != null) {
+            if (binding.existsExclusion(typedLocalName)) {
+                Exclude exclusion = binding.getExclusion(typedLocalName);
+                if (exclusion.getClassName() != null) {
+                    LOG.info("Dealing with exclusion for local element " + xPath 
+                            + " as per binding file.");
+                    jClass.changeLocalName(exclusion.getClassName());
                 }
+                return;
             }
-            
-            LOG.info("Changing class name for local element " + xPath
-                    + " as per binding file (force).");
-            changeClassInfoAsResultOfConflict(jClass, untypedXPath, typedLocalName, annotated);
-            return;
+
+            // deal with explicit forces
+            if (binding.existsForce(localName)) {
+
+                List localNamesList = (List) _localNames.get(localName);
+                if (localNamesList == null) {
+                    // this name never occured before
+                    ArrayList arrayList = new ArrayList();
+                    arrayList.add(xPath);
+                    _localNames.put(localName, arrayList);
+                } else {
+                    if (!localNamesList.contains(xPath)) {
+                        localNamesList.add(xPath);
+                    }
+                }
+
+                LOG.info("Changing class name for local element " + xPath
+                        + " as per binding file (force).");
+                changeClassInfoAsResultOfConflict(jClass, untypedXPath, typedLocalName, annotated);
+                return;
+            }
         }
                 
         
