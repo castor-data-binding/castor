@@ -21,10 +21,6 @@
         examples, how to use it.
       </p>
 
-    </section>
-
-    <section title="Binding File">
-
       <p>
         The default binding used to generate the Java Object Model from an XML
         schema may not meet your expectations. For instance, the default
@@ -42,6 +38,10 @@
         implementing your own validator and passing it to the Source Generator.
       </p>
 
+    </section>
+
+    <section title="Binding File">
+
       <p>
         The Binding declaration is an XML-based language that allows the user
         to control and tweak details about source generation for the generated
@@ -56,7 +56,8 @@
         (PDF).</a>
       </p>
 
-      <section title="&lt;binding> element">
+      <section title="&lt;binding&gt; element">
+      
         <code-panel><![CDATA[
 <binding
     defaultBindingType = (element|type)>
@@ -93,7 +94,7 @@
         
       </section>
 
-      <section title="&lt;include> element">
+      <section title="&lt;include&gt; element">
         <code-panel>
 &lt;include
     URI = xsd:anyURI/></code-panel>
@@ -109,7 +110,8 @@
         </p>
       </section>
 
-      <section title="&lt;package> element">
+      <section title="&lt;package&gt; element">
+      
         <code-panel><![CDATA[
 <package>
     name = xsd:string
@@ -152,7 +154,8 @@
         </p>
       </section>
 
-      <section title="&lt;namingXML> element">
+      <section title="&lt;namingXML&gt; element">
+      
         <code-panel><![CDATA[
 <namingXML>
    (elementName,complexTypeName,modelGroupName)
@@ -191,30 +194,29 @@
         </p>
       </section>
 
-      <section title="&lt;componentBinding> element">
+      <section title="&lt;componentBinding&gt; element">
         <code-panel><![CDATA[
 <elementBinding|attributeBinding|complexTypeBinding|groupBinding
     name = xsd:string>
-   ((java-class|interface|member),
+   ((java-class|interface|member|contentMember),
      elementBinding*,
      attributeBinding*,
      complexTypeBinding*,
      groupBinding*)
 </elementBinding|attributeBinding|complexTypeBinding|groupBinding>]]></code-panel>
 
-        <ul>
-          <li>
-            <b>name:</b>The name of the XML schema component for which we
-            are defining a binding.
-          </li>
-        </ul>
+        <dl>
+          <dt class="bodyGrey"><b>name:</b></dt>
+          <dd class="bodyGrey">The name of the XML schema component for which we
+            are defining a binding.</dd>
+        </dl>
 
         <p>
           These elements are the tenets of the binding file since they contain
           the binding definition for an XML Schema element, attribute,
           complexType and modelGroup definition. The first child element
-          (<tt>&lt;java-class/></tt>, <tt>&lt;interface></tt> or
-          <tt>&lt;member></tt>) will determine the type of binding one is
+          (<tt>&lt;java-class/></tt>, <tt>&lt;interface></tt>, <tt>&lt;member></tt>
+          or <tt>&lt;contentMember/></tt>) will determine the type of binding one is
           defining. Please note that defining a <tt>&lt;java-class></tt>
           binding on an XML Schema attribute will have absolutely no effect.
         </p>
@@ -293,7 +295,7 @@
  -->
        </section>
 
-      <section title="&lt;java-class> element">
+      <section title="&lt;java-class&gt; element">
         <code-panel><![CDATA[
 <java-class
     name? = xsd:string
@@ -311,19 +313,24 @@
           so on.
         </p>
 
-        <ul>
-          <li><b>name:</b>The name of the class that will be generated.</li>
-          <li><b>package:</b>The package of the class to be generated. if set,
+        <dl>
+          <dt class="bodyGrey"><b>name:</b></dt>
+          <dd class="bodyGrey">The name of the class that will be generated.</dd>
+          <dt class="bodyGrey"><b>package:</b></dt>
+          <dd class="bodyGrey">The package of the class to be generated. if set,
               this option overrides the mapping defined in the
-              <tt>&lt;package/></tt> element.</li>
-          <li><b>final:</b>If true, the generated class will be final.</li>
-          <li><b>abstract:</b>If true, the generated class will be
-              abstract.</li>
-          <li><b>equals:</b>If true, the generated class will implement the
-              <tt>equals()</tt> and <tt>hashCode()</tt> method.</li>
-          <li><b>bound:</b>If true, the generated class will implement bound
-              properties, allowing property change notification.</li>
-        </ul>
+              <tt>&lt;package/></tt> element.</dd>
+          <dt class="bodyGrey"><b>final:</b></dt>
+          <dd class="bodyGrey">If true, the generated class will be final.</dd>
+          <dt class="bodyGrey"><b>abstract:</b></dt>
+          <dd class="bodyGrey">If true, the generated class will be abstract.</dd>
+          <dt class="bodyGrey"><b>equals:</b></dt>
+          <dd class="bodyGrey">If true, the generated class will implement the
+              <tt>equals()</tt> and <tt>hashCode()</tt> method.</dd>
+          <dt class="bodyGrey"><b>bound:</b></dt>
+          <dd class="bodyGrey">If true, the generated class will implement bound
+              properties, allowing property change notification.</dd>
+        </dl>
 
         <p>
           For instance, the following binding definition instructs the source
@@ -333,9 +340,9 @@
         </p>
 
         <code-panel><![CDATA[
-   <elementBinding name="/test">
-      <java-class name="CustomTest" final="true"/>
-   </elementBinding>]]></code-panel>
+<elementBinding name="/test">
+   <java-class name="CustomTest" final="true"/>
+</elementBinding>]]></code-panel>
 
         <p>
           In addition to the properties listed above, it is possible to define
@@ -351,11 +358,11 @@
         </p>
 
         <code-panel><![CDATA[
-   <elementBinding name="/test">
-      <java-class name="TestWithInterface">
-         <implements>org.castor.sample.SomeInterface</implements>
-      </java-class>
-   </elementBinding>]]></code-panel>
+<elementBinding name="/test">
+   <java-class name="TestWithInterface">
+      <implements>org.castor.sample.SomeInterface</implements>
+   </java-class>
+</elementBinding>]]></code-panel>
 
         <p>
           The subsequent binding definition instructs the source generator to
@@ -366,12 +373,12 @@
         </p>
 
         <code-panel><![CDATA[
-   <elementBinding name="/test">
-      <java-class name="TestWithExtendsAndInterface">
-         <extends>org.castor.sample.SomeAbstractBaseClass</extends>
-         <implements>org.castor.sample.SomeInterface</implements>
-      </java-class>
-   </elementBinding>]]></code-panel>
+<elementBinding name="/test">
+   <java-class name="TestWithExtendsAndInterface">
+      <extends>org.castor.sample.SomeAbstractBaseClass</extends>
+      <implements>org.castor.sample.SomeInterface</implements>
+   </java-class>
+</elementBinding>]]></code-panel>
 
         <p>
           The generated class <tt>SomeAbstractBaseClass</tt> will have a class
@@ -379,17 +386,17 @@
         </p>
 
         <code-panel>
-   ...
+...
 
-   public class TestWithExtendsAndInterface
-      extends SomeAbstractBaseClass
-      implements SomeInterface, java.io.Serializable {
-      ...
+public class TestWithExtendsAndInterface
+   extends SomeAbstractBaseClass
+   implements SomeInterface, java.io.Serializable {
+   ...
         </code-panel>
 
       </section>
 
-      <section title="&lt;member> element">
+      <section title="&lt;member&gt; element">
 
         <code-panel>
  &lt;member
@@ -397,6 +404,7 @@
   java-type? = xsd:string
   wrapper? = xsd:boolean
   handler? = xsd:string
+  visibility? = (public|protected|private)
   collection? = (array|vector|arraylist|hashtable|collection|odmg|set|map|sortedset)
   validator? = xsd:string/></code-panel>
 
@@ -408,20 +416,29 @@
           the validator and the fieldHandler must be fully qualified.
         </p>
 
-        <ul>
-          <li><b>name:</b>The name of the class member that will be
-              generated.</li>
-          <li><b>java-type:</b>the fully qualified name of the java type.</li>
-          <li><b>wrapper:</b>If true, a wrapper object will be generated in
-              case the Java type is a java primitive.</li>
-          <li><b>handler:</b>The fully qualified name of the FieldHandler to
-              use.</li>
-          <li><b>collection:</b>If the schema component can occur more than
+        <dl>
+          <dt class="bodyGrey"><b>name:</b></dt>
+          <dd class="bodyGrey">The name of the class member that will be
+              generated.</dd>
+          <dt class="bodyGrey"><b>java-type:</b></dt>
+          <dd class="bodyGrey">the fully qualified name of the java type.</dd>
+          <dt class="bodyGrey"><b>wrapper:</b></dt>
+          <dd class="bodyGrey">If true, a wrapper object will be generated in
+              case the Java type is a java primitive.</dd>
+          <dt class="bodyGrey"><b>handler:</b></dt>
+          <dd class="bodyGrey">The fully qualified name of the FieldHandler to
+              use.</dd>
+          <dt class="bodyGrey"><b>collection:</b></dt>
+          <dd class="bodyGrey">If the schema component can occur more than
               once then this attribute allows specifying the collection to use
-              to represent the component in Java.</li>
-          <li><b>validator:</b>The fully qualified name of the FieldValidator
-              to use.</li>
-        </ul>
+              to represent the component in Java.</dd>
+          <dt class="bodyGrey"><b>validator:</b></dt>
+          <dd class="bodyGrey">The fully qualified name of the FieldValidator
+              to use.</dd>
+          <dt class="bodyGrey"><b>visibility:</b></dt>
+          <dd class="bodyGrey">A custom visibility of the content class member generated, with 
+              the default being <tt>public</tt>.</dd>
+        </dl>
 
         <p>For instance, the following binding definition:</p>
 
@@ -471,7 +488,75 @@ public class Root {
 
       </section>
 
-      <section title="&lt;enumBinding&gt;">
+      <section title="&lt;contentMember&gt; element">
+
+		<section title="Syntax">
+		
+        <code-panel>
+ &lt;contentMember
+  name? = xsd:string
+  visiblity? = (public|protected|private)</code-panel>
+
+		</section>
+		
+		<section title="Description">
+		
+        <p>
+          This element represents the binding for <i>content</i> class member
+          generated as a result of a mixed mode declaraiton of a complex type definition. 
+          It allows the definition of its name and its visibility
+        </p>
+
+        <dl>
+          <dt class="bodyGrey"><b>name:</b></dt>
+          <dd class="bodyGrey">The name of the class member that will be
+              generated, overriding the default name of <tt>_content</tt>.</dd>
+          <dt class="bodyGrey"><b>visibility:</b></dt>
+          <dd class="bodyGrey">A custom visibility of the content class member generated, with 
+              the default being <tt>public</tt>.</dd>
+        </dl>
+        
+        </section>
+        
+		<section title="Example">
+		
+        <p>
+          For complex type definition declared to be <i>mixed</i> such as follows ...
+        </p>
+        
+        <code-panel>
+&lt;complexType name="RootType" <b>mixed="true"</b>>
+   &lt;sequence>
+      ...
+   &gt;/sequence>
+&gt;/complexType></code-panel>
+          
+        <p>... the following binding definition ...</p>
+
+        <code-panel><![CDATA[
+   <elementBinding name="/complexType:RootType">
+      <contentMember name="customContentMember"/>
+   </elementBinding>]]></code-panel>
+
+        <p>
+          instructs the source generator to generate -- within a class
+          <tt>RootType</tt> -- a Java member named <tt>customContentMember</tt> 
+          of type java.lang.String:
+        </p>
+
+        <code-panel>
+public class RootType {
+
+   private java.util.String <b>customContentMember</b>;
+
+   ...
+}</code-panel>
+
+		</section>
+
+      </section>
+
+      <section title="&lt;enumBinding&gt; element">
 
         <code-panel><![CDATA[
 <enumBinding>
@@ -493,7 +578,7 @@ public class Root {
           represent an XML Schema <tt>&lt;simpleType&gt;</tt> enumeration.
         </p>
 
-        <section title="Sample -- Global &lt;simpleType&gt; enumeration">
+        <section title="Example">
 
           <p>
             For instance, given the following XML schema enumeration definition:
