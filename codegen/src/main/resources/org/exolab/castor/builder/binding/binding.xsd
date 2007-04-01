@@ -129,6 +129,7 @@
                  </xsd:element>
                  <xsd:element name="member" type="fieldType"/>
                  <xsd:element name="enum-def" type="enumBindingType"/>
+                 <xsd:element name="contentMember" type="contentMemberType"/>
              </xsd:choice>
              <xsd:element ref="componentBinding" minOccurs="0" maxOccurs="unbounded"/>
              <xsd:element ref="elementBinding" minOccurs="0" maxOccurs="unbounded"/>
@@ -209,7 +210,27 @@
 	     </xsd:attribute>        
 	     <xsd:attribute name="validator" type="xsd:string"/>
      </xsd:complexType>
-     
+
+     <xsd:complexType name="contentMemberType">
+         <xsd:annotation>
+            <xsd:documentation>
+                This type represents the binding for the 'content' member generated
+                as part of a 'mixed' complex type definition. It allows the definition
+                of its name.
+            </xsd:documentation>  
+         </xsd:annotation>
+         <xsd:attribute name="name" type="xsd:string"/>
+         <xsd:attribute name="visibility" type="VisibilityType"/>
+     </xsd:complexType>
+
+     <xsd:simpleType name="VisibilityType">
+        <xsd:restriction base="xsd:string">
+               <xsd:enumeration value="public"/>
+               <xsd:enumeration value="protected"/>
+            <xsd:enumeration value="private"/>
+           </xsd:restriction>
+    </xsd:simpleType> 
+	     
     <xsd:complexType name="enumBindingType">
          <xsd:annotation>
             <xsd:documentation>

@@ -196,13 +196,18 @@ public final class MemberFactory extends BaseFactory {
 
     /**
      * Creates a FieldInfo for content.
-     *
+     * @param component {@link XMLBindingComponent} instance for accessing binding information.
      * @param xsType the type of content
      * @param useJava50 if true, code will be generated for Java 5
+     *
      * @return the new FieldInfo
      */
-    public FieldInfo createFieldInfoForContent(final XSType xsType, final boolean useJava50) {
-        String fieldName = "_content";               //new xsType()???
+    public FieldInfo createFieldInfoForContent(final XMLBindingComponent component, 
+            final XSType xsType, final boolean useJava50) {
+        String fieldName = "_content"; //new xsType()???
+        if (component.getContentMemberName() != null) {
+            fieldName = component.getContentMemberName();
+        }
         FieldInfo fInfo = null;
         if (xsType.isCollection()) {
             fInfo = this.getInfoFactory().createCollection(

@@ -187,6 +187,8 @@ public final class XMLBindingComponent implements BindingComponent {
      */
     private TypeConversion _typeConversion = null;
 
+    private String _contentMemberName;
+
     /**
      * Constructs an XMLBindingComponent from an XML Schema Component.
      *
@@ -300,6 +302,9 @@ public final class XMLBindingComponent implements BindingComponent {
             } else if (choice.getEnumDef() != null) {
                 _type = ENUM_TYPE;
                 _enum = choice.getEnumDef();
+            } else if (choice.getContentMember() != null) {
+                _type = CONTENT_MEMBER_TYPE;
+                _contentMemberName = choice.getContentMember().getName();
             } else {
                 String err = "Illegal Binding component:";
                 err += "it does not define a class, an interface or a member binding.";
@@ -1385,6 +1390,14 @@ public final class XMLBindingComponent implements BindingComponent {
      */
     public EnumBindingType getEnumBinding() {
         return _enum;
+    }
+
+    /**
+     * Returns the name 'override' of a content member as specified in a binding file.
+     * @return the name of the name 'override' for the content member.
+     */
+    public String getContentMemberName() {
+        return _contentMemberName;
     }
 
 } //-- class: XMLBindingComponent
