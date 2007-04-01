@@ -431,6 +431,8 @@ public final class DescriptorSourceFactory {
             addSpecialHandlerLogic(member, xsType, jsc);
         }
 
+        // Add the schema type as defined in the schema
+        jsc.add("desc.setSchemaType(\"" + xsType.getName() + "\");");
         jsc.add("desc.setHandler(handler);");
 
         //-- container

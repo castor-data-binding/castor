@@ -70,6 +70,15 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    <tt>ValidationException</tt> will be thrown if the expected order
                    cannot be matched.</p>
                    
+                <h3>Added support for &lt;xs:hexBinary&gt;</h3>
+                
+                <p>Added support for the XML schema type &lt;xs:hexBinary&gt; during
+                   XML code generation.</p>
+                   
+                <h3>Added support for the <tt>hexBinary</tt> data type</h3>
+                
+                <p>The XML (Un-)Marshaller now supports the data type <tt>hexBinary</tt>.</p>
+                   
                 <h3>Improved interface of XMLClassDescriptorResolver</h3>
                 
                 <p>The public interface of <tt>XMLClassDescriptorResolver</tt> has been improved
@@ -79,6 +88,28 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="423" tool="jira">
+                    <description>
+                        Added support for &lt;xs:hexBinary&gt; for XML code 
+                        generation and support for HEX en-/decoding during 
+                        (un)marshalling.
+                    </description>
+                    <contributor>
+                        <name>Johan Lindquist</name>
+                        <email>johan@kawoo.co.uk</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Johan Lindquist</name>
+                        <email>johan@kawoo.co.uk</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070401</date>
+                </bug>
                 <bug id="1926" tool="jira">
                     <description>
                         Renamed XMLClassDescriptorResolver.resolveXML(Class) back to 
