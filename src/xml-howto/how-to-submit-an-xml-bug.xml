@@ -106,6 +106,48 @@
 				
 			</section>
 
+		<section title="XML code generator templates">
+				
+				<p>To facilitate creation of a fully featured but report/patch for the
+				   XML code generator, we have provided you with an already existing bug 
+				   template at 'codegen/src/test/java' and 'codegen/src/test/resources'.</p>
+				   
+				<p><b>Note:</b>Please note that these directories are distributed only as part of the 
+				   source archive(s).</p>
+					
+				<p>These directory holds some of the artefacts mentioned above, and is structured 
+				   as follows (all paths shown relative to <tt>codegen/src/test</tt>):</p>
+				   
+				<ctable cellpadding="3">	
+					<cheader>
+						<td>File</td>
+						<td>Description</td>
+					</cheader>
+                    <crow><td>java/xml/srcgen/template/TestSourceGenerator.java</td><td>JUnit test case.</td></crow>
+                    <crow><td>resources/xml/srcgen/template/test.xsd</td><td>XML schema file</td></crow>
+				</ctable>
+				
+				<p>To create you own bug report, please copy '<tt>xml.srcgen.template</tt>' in both 
+				   locations to e.g. <tt>xml.bug1368</tt>, assuming that 1368 is the number assigned to 
+				   your Jira issue). Subsequently, please amend the files provided to match your own 
+				   requirements. After you have consolidated your changes, the original directory 
+				   structure in codegen/src/test could look as follows:</p>
+
+				<ctable cellpadding="3">	
+					<cheader>
+						<td>File</td>
+						<td>Description</td>
+					</cheader>
+                    <crow><td>java/xml/srcgen/template/TestSourceGenerator.java</td><td>JUnit test case.</td></crow>
+                    <crow><td>java/xml/bug1368/TestSourceGenerator.java</td><td>JUnit test case.</td></crow>
+                    <crow><td>resources/xml/srcgen/template/test.xsd</td><td>XML schema file</td></crow>
+                    <crow><td>resources/xml/bug1368/test.xsd</td><td>XML schema file</td></crow>
+                    <crow><td>resources/xml/bug1368/binding.xml</td><td>XML code generator binding file</td></crow>
+                    <crow><td>resources/xml/bug1368/builder.properties</td><td>Code generator properties</td></crow>
+				</ctable>
+				   
+			</section>
+
 			<section title="Creating the patch">
 				
 				<p>As a last step, we ask you submit your code changes in the form of  a unified patch 
