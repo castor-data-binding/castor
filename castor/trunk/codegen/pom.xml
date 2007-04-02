@@ -62,7 +62,7 @@ http://maven.apache.org/maven-v4_0_0.xsd">
 					</includes>
 				</configuration>
 			</plugin>
-			
+
 			<plugin>
 				<groupId>org.apache.maven.plugins</groupId>
 				<artifactId>maven-jar-plugin</artifactId>
