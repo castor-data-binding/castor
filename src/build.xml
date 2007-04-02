@@ -380,6 +380,9 @@
                 <patternset refid="support.files" />
             </fileset>
         </copy>
+        	
+        <ant antfile="${basedir}/codegen/build.xml" target="compile.bugs.codegen" inheritAll="false"/>
+        	
     </target>
 
     <target name="tests" depends="compile.bugs,compile.tests" description="Build the tests packages"/>

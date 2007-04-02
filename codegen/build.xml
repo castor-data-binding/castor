@@ -13,6 +13,7 @@
         <pathelement location="${basedir}/build/classes"/>
         <pathelement location="${basedir}/../build/classes"/>
     	<pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+    	<pathelement location="${basedir}/../lib/junit_3.8.2.jar"/>
         <pathelement location="${basedir}/../anttask/build/classes"/>
     </path>
 
@@ -46,6 +47,18 @@
         <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**"
              manifest="${classes}/META-INF/MANIFEST.MF"/>
         <copy file="${build}/${archive}.jar" tofile="${basedir}/../dist/${archive}.jar"/>
+    </target>
+
+    <target name="compile.bugs.codegen" depends="prepare.codegen,compile.codegen" description="Build the tests packages">
+        <mkdir dir="${build}/test"/>
+        <javac srcdir="${source}/test/java" destdir="${build}/test"
+               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}">
+            <classpath refid="build.classpath"/>
+        </javac>
+
+        <copy todir="${build}/test">
+            <fileset dir="${source}/test/resources"/>
+        </copy>
     </target>
 	
     <target name="gen.binding" depends="compile.codegen"
