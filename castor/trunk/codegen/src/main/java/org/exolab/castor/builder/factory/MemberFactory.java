@@ -47,12 +47,17 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.factory;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
 import java.util.List;
 
+import org.exolab.castor.builder.BuilderConfiguration;
+import org.exolab.castor.builder.ClassInfoResolver;
+import org.exolab.castor.builder.GroupNaming;
+import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;

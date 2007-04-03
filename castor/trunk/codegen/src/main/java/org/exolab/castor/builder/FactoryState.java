@@ -57,7 +57,7 @@ import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
 
-/**
+public /**
  * A class used to save State information for the SourceFactory.
  *
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
@@ -114,7 +114,7 @@ class FactoryState implements ClassInfoResolver {
      * @param packageName package name for generated code.
      * @param component TODO
      */
-    protected FactoryState(final String className, 
+    public FactoryState(final String className, 
             final SGStateInfo sgState,
             final String packageName, 
             final XMLBindingComponent component) {
@@ -158,7 +158,7 @@ class FactoryState implements ClassInfoResolver {
      * 
      * @return JClass for which we are currently generating code.
      */
-    protected final JClass getJClass() {
+    public final JClass getJClass() {
         return _jClass;
     }
     
@@ -167,7 +167,7 @@ class FactoryState implements ClassInfoResolver {
      * 
      * @return ClassInfo for <code>_jClass</code>.
      */
-    protected final ClassInfo getClassInfo() {
+    public final ClassInfo getClassInfo() {
         return _classInfo;
     }
     
@@ -176,7 +176,7 @@ class FactoryState implements ClassInfoResolver {
      * 
      * @return FieldInfo used to handle <code>xsd:choice</code>.
      */
-    protected final FieldInfo getFieldInfoForChoice() {
+    public final FieldInfo getFieldInfoForChoice() {
         return _fieldInfoForChoice;
     }
     
@@ -185,7 +185,7 @@ class FactoryState implements ClassInfoResolver {
      * 
      * @param fieldInfoForChoice FieldInfo used to handle <code>xsd:choice</code>.
      */
-    protected final void setFieldInfoForChoice(final FieldInfo fieldInfoForChoice) {
+    public final void setFieldInfoForChoice(final FieldInfo fieldInfoForChoice) {
         _fieldInfoForChoice = fieldInfoForChoice;
     }
     
@@ -194,7 +194,7 @@ class FactoryState implements ClassInfoResolver {
      * 
      * @return Package for the class currently being generated.
      */
-    protected final String getPackageName() {
+    public final String getPackageName() {
         return _packageName;
     }
 
@@ -210,7 +210,7 @@ class FactoryState implements ClassInfoResolver {
         _resolver.bindReference(key, classInfoRef);
     } //-- bindReference
 
-    /**
+    public /**
      * Returns the SGStateInfo.
      *
      * @return the SGStateInfo.
@@ -219,7 +219,7 @@ class FactoryState implements ClassInfoResolver {
         return _sgState;
     } //-- getSGStateInfo
 
-    /**
+    public /**
      * Marks the given Annotated XML Schema structure as having been processed.
      *
      * @param annotated
@@ -230,7 +230,7 @@ class FactoryState implements ClassInfoResolver {
         _processed.addElement(annotated);
     } //-- markAsProcessed
 
-    /**
+    public /**
      * Returns true if the given Annotated XML Schema structure has been marked
      * as processed.
      *
@@ -248,7 +248,7 @@ class FactoryState implements ClassInfoResolver {
         return result;
     } //-- processed
 
-    /**
+    public /**
      * Returns true if any bound properties have been found.
      *
      * @return true if any bound properties have been found.
@@ -257,7 +257,7 @@ class FactoryState implements ClassInfoResolver {
         return _bound;
     } //-- hasBoundProperties
 
-    /**
+    public /**
      * Allows setting the bound properties flag.
      *
      * @param bound
@@ -279,7 +279,7 @@ class FactoryState implements ClassInfoResolver {
         return _resolver.resolve(key);
     } //-- resolve
 
-    /**
+    public /**
      * Returns true if we are currently in the state of creating a group item
      * class.
      *
@@ -290,7 +290,7 @@ class FactoryState implements ClassInfoResolver {
         return _createGroupItem;
     }
 
-    /**
+    public /**
      * Sets to true if we are currently generating a class to represent items in
      * a group.
      *
@@ -313,7 +313,7 @@ class FactoryState implements ClassInfoResolver {
          return _parent;
      }
 
-     /**
+     public /**
       * Sets the parent of this FactoryState.
       *
       * @param parent

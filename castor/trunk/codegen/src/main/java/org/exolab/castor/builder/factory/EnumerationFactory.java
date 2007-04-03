@@ -13,10 +13,16 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.factory;
 
 import java.util.Enumeration;
 
+import org.exolab.castor.builder.BuilderConfiguration;
+import org.exolab.castor.builder.FactoryState;
+import org.exolab.castor.builder.GroupNaming;
+import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.builder.SourceGenerator;
+import org.exolab.castor.builder.TypeConversion;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.binding.xml.EnumBindingType;

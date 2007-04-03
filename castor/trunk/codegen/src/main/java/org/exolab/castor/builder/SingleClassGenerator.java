@@ -58,6 +58,7 @@ import java.util.Properties;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategy;
 import org.exolab.castor.builder.conflictresolution.ClassNameCRStrategyRegistry;
 import org.exolab.castor.builder.descriptors.DescriptorSourceFactory;
+import org.exolab.castor.builder.factory.MappingFileSourceFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.mapping.xml.MappingRoot;
 import org.exolab.castor.util.dialog.ConsoleDialog;

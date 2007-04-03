@@ -54,7 +54,7 @@ import java.util.List;
 
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.SGTypes;
-import org.exolab.castor.builder.XMLFieldHandlerFactory;
+import org.exolab.castor.builder.factory.XMLFieldHandlerFactory;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;

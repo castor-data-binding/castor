@@ -42,10 +42,11 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.factory;
 
 import java.security.InvalidParameterException;
 
+import org.exolab.castor.builder.SourceGeneratorConstants;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.CollectionInfoJ2;
 import org.exolab.castor.builder.info.CollectionInfoJ2Collection;
