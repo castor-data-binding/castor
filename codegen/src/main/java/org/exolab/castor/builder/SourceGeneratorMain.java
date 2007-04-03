@@ -54,6 +54,7 @@ import java.util.Properties;
 
 import org.exolab.castor.builder.binding.BindingException;
 import org.exolab.castor.builder.binding.BindingLoader;
+import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.util.CommandLineOptions;
 
 /**

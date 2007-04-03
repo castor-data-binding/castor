@@ -42,8 +42,9 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.factory;
 
+import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.info.ClassInfo;
 import org.exolab.castor.builder.info.CollectionInfo;
 import org.exolab.castor.builder.info.FieldInfo;

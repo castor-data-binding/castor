@@ -47,7 +47,7 @@
  *
  * $Id$
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.factory;
 
 import java.util.ArrayList;
 import java.util.Enumeration;
@@ -55,6 +55,14 @@ import java.util.Iterator;
 import java.util.LinkedList;
 import java.util.List;
 
+import org.exolab.castor.builder.BuilderConfiguration;
+import org.exolab.castor.builder.FactoryState;
+import org.exolab.castor.builder.GroupNaming;
+import org.exolab.castor.builder.SGStateInfo;
+import org.exolab.castor.builder.SGTypes;
+import org.exolab.castor.builder.SourceGenerator;
+import org.exolab.castor.builder.SourceGeneratorConstants;
+import org.exolab.castor.builder.TypeConversion;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.info.ClassInfo;

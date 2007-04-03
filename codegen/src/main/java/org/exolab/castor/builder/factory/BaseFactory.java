@@ -13,7 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.factory;
+
+import org.exolab.castor.builder.BuilderConfiguration;
+import org.exolab.castor.builder.GroupNaming;
+import org.exolab.castor.builder.SourceGenerator;
 
 /**
  * This class defines a base type for the source generator code factory classes.
