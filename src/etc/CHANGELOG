@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1931 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with enum bindings for interger-based enumerations.
+       Details: http://jira.codehaus.org/browse/CASTOR-1931
+       (Werner - 20070403)
+
 XML:   Resolved issue CASTOR-1928 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with not-specified binding file during automatic naming collision resolution.
        Details: http://jira.codehaus.org/browse/CASTOR-1928

@@ -574,12 +574,27 @@ public final class EnumerationFactory extends BaseFactory {
         String enumValue = facet.getValue();
 
         try {
+            String enumerationValue = null; 
             int intVal = Integer.parseInt(facet.getValue());
-            if (intVal >= 0) {
-                return "VALUE_" + intVal;
+            
+            String customMemberName = null; 
+            if (enumBinding != null) {
+                customMemberName = 
+                    getCustomMemberName(enumBinding, String.valueOf(intVal));
             }
-
-            return "VALUE_NEG_" + Math.abs(intVal);
+            
+            if (customMemberName != null) {
+                enumerationValue = customMemberName;
+            } else {
+                if (intVal >= 0) {
+                    enumerationValue = "VALUE_" + intVal;
+                } else {
+                    enumerationValue = "VALUE_NEG_" + Math.abs(intVal);
+                }
+            }
+            
+            
+            return enumerationValue;
         } catch (NumberFormatException e) {
             // just keep going
         }
@@ -587,14 +602,8 @@ public final class EnumerationFactory extends BaseFactory {
         StringBuffer sb = new StringBuffer();
         String customMemberName = null;
 
-        // check whether there's a custom binding for the member name
         if (enumBinding != null) {
-            EnumMember[] enumMembers = enumBinding.getEnumMember();
-            for (int i = 0; i < enumMembers.length; i++) {
-                if (enumMembers[i].getValue().equals(enumValue)) {
-                    customMemberName = enumMembers[i].getJavaName();
-                }
-            }
+            customMemberName = getCustomMemberName(enumBinding, enumValue);
         }
 
         if (customMemberName != null) {
@@ -616,6 +625,25 @@ public final class EnumerationFactory extends BaseFactory {
         return sb.toString();
     }
 
+    /**
+     * Returns a custom member name (if defined).
+     * @param enumBinding The {@link EnumBindingType} instance
+     * @param enumValue The enumeration value.
+     * @return the custom member name
+     */
+    private String getCustomMemberName(final EnumBindingType enumBinding, 
+            final String enumValue) {
+        // check whether there's a custom binding for the member name
+        String customMemberName = null;
+        EnumMember[] enumMembers = enumBinding.getEnumMember();
+        for (int i = 0; i < enumMembers.length; i++) {
+            if (enumMembers[i].getValue().equals(enumValue)) {
+                customMemberName = enumMembers[i].getJavaName();
+            }
+        }
+        return customMemberName;
+    }    
+    
     /**
      * Set to true if enumerated type lookups should be performed in a case
      * insensitive manner.

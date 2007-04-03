@@ -94,6 +94,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1931" tool="jira">
+                    <description>
+                        Fixed problem with enum bindings for interger-based enumerations.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Scott C Arnold</name>
+                        <email>organizations@distantvisions.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070403</date>
+                </bug>
                 <bug id="1928" tool="jira">
                     <description>
                         Fixed problem with not-specified binding file during automatic 
