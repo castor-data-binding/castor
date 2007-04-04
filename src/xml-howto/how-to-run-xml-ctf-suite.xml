@@ -72,6 +72,14 @@ cd &lt;castor-root&gt;/bin
 build clean
 build tests
 CTFrun</code-panel>
+
+        <p>To execute just a subset of the master test suite, please change this to:</p>
+
+        <code-panel>
+cd &lt;castor-root&gt;/bin
+build clean
+build tests
+CTFrun ../xmlctf/tests/MasterTestSuite/schema</code-panel>
         
         <p>To execute just the regression test suite, please change this to:</p>
            
