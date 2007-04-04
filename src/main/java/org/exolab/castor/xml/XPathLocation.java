@@ -53,8 +53,13 @@ import java.util.Vector;
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class XPathLocation implements Location {
+public class XPathLocation implements Location, java.io.Serializable {
 
+    /**
+     * <code>serialVersionUID</code> TODO Write field description
+     */
+    private static final long serialVersionUID = 1L;
+    
     /** Our XPath, built up one String at a time. */
     private final Vector path                = new Vector();
     /** If we have reached the logical end of XPath (i.e., an attribute), set to false. */
