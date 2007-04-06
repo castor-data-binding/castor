@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1935 using contribution from Chris Keller [chris.keller@active-endpoints.com]
+       Fixed problem with importing from same namespace multiple times where one import actually includes 
+       the other.
+       Details: http://jira.codehaus.org/browse/CASTOR-1935
+       (Werner - 20070406)
+
 XML:   Resolved issue CASTOR-1938 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed NPE for extended types with <xs:any> members
        Details: http://jira.codehaus.org/browse/CASTOR-1938

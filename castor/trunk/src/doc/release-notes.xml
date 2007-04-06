@@ -94,9 +94,30 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1935" tool="jira">
+                    <description>
+                        Fixed problem with importing from same namespace multiple times where 
+                        one import actually includes the other.
+                    </description>
+                    <contributor>
+                        <name>Chris Keller</name>
+                        <email>chris.keller@active-endpoints.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Chris Keller</name>
+                        <email>chris.keller@active-endpoints.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070406</date>
+                </bug>
                 <bug id="1938" tool="jira">
                     <description>
-                        Fixed NPE for extended types with <xs:any> members
+                        Fixed NPE for extended types with &lt;xs:any&gt; members
                     </description>
                     <contributor>
                         <name>Werner Guttmann</name>
