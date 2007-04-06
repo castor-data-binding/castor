@@ -147,12 +147,15 @@ public class ImportUnmarshaller extends ComponentReader
             }
         }
         else {
-            //-- check schema location, if different, allow merge
-            if (hasLocation) {
-                String tmpLocation = importedSchema.getSchemaLocation();
-                alreadyLoaded = schemaLocation.equals(tmpLocation);
-            }
-            else {
+            // check schema location, if different, allow merge
+            if (hasLocation) { 
+                String tmpLocation = importedSchema.getSchemaLocation(); 
+                alreadyLoaded = schemaLocation.equals(tmpLocation) || importedSchema.includeProcessed(schemaLocation); 
+                //-- keep track of the original schemaLocation as an include 
+                if(! alreadyLoaded) {
+                    importedSchema.addInclude(tmpLocation);
+                }
+            } else {
                 //-- only namespace can be used, no way to distinguish
                 //-- multiple imports...mark as alreadyLoaded
                 //-- see W3C XML Schema 1.0 Recommendation (part 1)
