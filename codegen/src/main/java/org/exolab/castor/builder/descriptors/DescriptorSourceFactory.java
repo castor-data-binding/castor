@@ -245,7 +245,9 @@ public final class DescriptorSourceFactory {
 
             if (base != null) {
                 String baseNodeName = member.getNodeName();
-                if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
+                if (baseNodeName == null) {
+                    createDescriptor(classDesc, member, localClassName, nsURI, jsc);
+                } else if (baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION)) {
                     createDescriptor(classDesc, member, localClassName, nsURI, jsc);
                 } else {
                     if (base.getElementField(baseNodeName) != null) {

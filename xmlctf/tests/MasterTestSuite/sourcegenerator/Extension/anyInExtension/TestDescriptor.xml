@@ -1,0 +1,16 @@
+<?xml version='1.0'?>
+<TestDescriptor>
+    <Name>Testing XML Schema extensions with any as member</Name>
+    <Author>Werner Guttmann</Author>
+    <Comment>Test that ensures that extensions of complex types are correctly handled when there's an any as a member</Comment>
+    <Category>basic capability</Category>
+    <SourceGeneratorTest>
+        <Schema>test.xsd</Schema>
+        <Root_Object random="false" dump="true">ExtendedType</Root_Object>
+        <UnitTestCase>
+            <Name>TestGenerationOK</Name>
+            <Input>input.xml</Input>
+            <GoldFile/>
+        </UnitTestCase>
+    </SourceGeneratorTest>
+</TestDescriptor>

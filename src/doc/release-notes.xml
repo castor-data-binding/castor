@@ -94,6 +94,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1938" tool="jira">
+                    <description>
+                        Fixed NPE for extended types with <xs:any> members
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dave Hauver</name>
+                        <email>dave_hauver@natureserve.org</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070406</date>
+                </bug>
                 <bug id="1936" tool="jira">
                     <description>
                         Made XPathLocation implement java.io.Serializable.
