@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1938 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed NPE for extended types with <xs:any> members
+       Details: http://jira.codehaus.org/browse/CASTOR-1938
+       (Werner - 20070406)
+
 XML:   Resolved issue CASTOR-1936 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Made XPathLocation implement java.io.Serializable.
        Details: http://jira.codehaus.org/browse/CASTOR-1936

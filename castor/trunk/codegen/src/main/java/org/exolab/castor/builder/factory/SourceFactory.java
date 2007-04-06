@@ -1974,7 +1974,8 @@ public final class SourceFactory extends BaseFactory {
                 case XMLInfo.ELEMENT_TYPE:
                     String baseNodeName = fieldInfo.getNodeName();
                     // TODO[WG]: replace this eror check with something more meaningful
-                    if (!(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
+                    if (baseNodeName != null 
+                            && !(baseNodeName.equals(XMLInfo.CHOICE_NODE_NAME_ERROR_INDICATION))) {
                         present = (base.getElementField(baseNodeName) != null);
                     }
                     break;
