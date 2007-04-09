@@ -53,43 +53,90 @@ import org.exolab.javasource.JType;
  * @version $Revision$ $Date: 2005-10-10 06:35:52 -0600 (Mon, 10 Oct 2005) $
  */
 public class SGTypes {
+    
     /**
-     * As a static utility class, we want a private constructor.
+     * Represents a {@link JClass} instance of type 'org.exolab.castor.xml.MarshalException'.
      */
-    private SGTypes() { }
-
     public static final JClass MARSHAL_EXCEPTION =
         new JClass("org.exolab.castor.xml.MarshalException");
 
+    /**
+     * Represents a {@link JClass} instance of type 
+     * 'org.exolab.castor.xml.ValidationException'.
+     */
     public static final JClass VALIDATION_EXCEPTION =
         new JClass("org.exolab.castor.xml.ValidationException");
 
+    /**
+     * Represents a {@link JClass} instance of type 'java.lang.IndexOutOfBoundsException'.
+     */
     public static final JClass INDEX_OUT_OF_BOUNDS_EXCEPTION =
         new JClass("java.lang.IndexOutOfBoundsException");
 
+    /**
+     * Represents a {@link JClass} instance of type 'java.lang.Class'.
+     */
     public static final JClass CLASS = new JClass("java.lang.Class");
 
+    /**
+     * Represents a {@link JClass} instance of type 'java.lang.Object'.
+     */
     public static final JClass OBJECT = new JClass("java.lang.Object");
     
+    /**
+     * Represents a {@link JClass} instance of type 'java.lang.String'.
+     */
     public static final JClass STRING = new JClass("java.lang.String");
 
+    /**
+     * Represents a {@link JClass} instance of type 'java.io.IOException'.
+     */
     public static final JClass IO_EXCEPTION = new JClass("java.io.IOException");
 
+    /**
+     * Represents a {@link JClass} instance of type 'java.io.Reader'.
+     */
     public static final JClass READER = new JClass("java.io.Reader");
     
+    /**
+     * Represents a {@link JClass} instance of type 'java.lang.Writer'.
+     */
     public static final JClass WRITER = new JClass("java.io.Writer");
 
+    /**
+     * Represents a {@link JClass} instance of type 'java.beans.PropertyChangeSupport'.
+     */
     public static final JClass PROPERTY_CHANGE_SUPPORT =
         new JClass("java.beans.PropertyChangeSupport");
 
+    /**
+     * Factory method for creating a {@link JCollectionType} instance representing 
+     * an enumeration.
+     * @param jType The content type of the collection.
+     * @param usejava50 Whether Java 5.0 is the target JVM. 
+     * @return {@link JCollectionType} instance representing an enumeration
+     */
     public static final JType createEnumeration(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.Enumeration", jType, usejava50);
     }
 
+    /**
+     * Factory method for creating a {@link JCollectionType} instance representing 
+     * an {@link Iterator} instance.
+     * @param jType The content type of the collection.
+     * @param usejava50 Whether Java 5.0 is the target JVM. 
+     * @return {@link JCollectionType} instance representing an {@link Iterator}
+     */
     public static final JType createIterator(final JType jType, final boolean usejava50) {
         return new JCollectionType("java.util.Iterator", jType, usejava50);
     }
 
+    /**
+     * Factory method for creating a {@link JCollectionType} instance representing 
+     * an {@link Hashtable} instance.
+     * @param useJava50 Whether Java 5.0 is the target JVM. 
+     * @return {@link JCollectionType} instance representing a {@link Hashtable}
+     */
     public static final JType createHashtable(final boolean useJava50) {
         if (useJava50) {
             return new JClass("java.util.Hashtable<Object,Object>");
