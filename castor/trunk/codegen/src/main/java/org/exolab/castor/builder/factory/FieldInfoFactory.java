@@ -100,6 +100,11 @@ public class FieldInfoFactory {
         _default = collectionName;
     }
 
+    /**
+     * Creates an {@link IdentityInfo} instance for the given name. 
+     * @param name Identity field name.
+     * @return The {@link IdentityInfo} instance just created.
+     */
     public IdentityInfo createIdentity (final String name) {
         IdentityInfo idInfo = new IdentityInfo(name);
         if (_bound) { idInfo.setBound(_bound); }
@@ -107,11 +112,29 @@ public class FieldInfoFactory {
     }
 
 
+    /**
+     * Creates a {@link CollectionInfo} instance based upon the various parameters provided.
+     * @param contentType Content type of the collection.
+     * @param name Name of the collection member.
+     * @param elementName Name of the (content) element.
+     * @param usejava50 Whether we are targeting Java 5.0 or above or not
+     * @return A {@link CollectionInfo} instance representing a collection typed member.
+     * @see #createCollection(XSType, String, String, String, boolean)
+     */
     public CollectionInfo createCollection(final XSType contentType, final String name,
                                            final String elementName, final boolean usejava50) {
         return createCollection(contentType, name, elementName, _default, usejava50);
     }
 
+    /**
+     * Creates a {@link CollectionInfo} instance based upon the various parameters provided.
+     * @param contentType Content type of the collection.
+     * @param name Name of the collection member.
+     * @param elementName Name of the (content) element.
+     * @param collectionName Name of the collection.
+     * @param useJava50 Whether we are targeting Java 5.0 or above or not
+     * @return A {@link CollectionInfo} instance representing a collection typed member.
+     */
     public CollectionInfo createCollection(final XSType contentType, final String name,
                                            final String elementName, final String collectionName,
                                            final boolean useJava50) {
@@ -145,6 +168,13 @@ public class FieldInfoFactory {
         return cInfo;
     }
 
+    /**
+     * Creates a {@link FieldInfo} instance for the given {@link XSType} and
+     * its name. 
+     * @param type {@link XSType} of the field.
+     * @param name Field name.
+     * @return The {@link FieldInfo} instance just created.
+     */
     public FieldInfo createFieldInfo(final XSType type, final String name) {
         FieldInfo fieldInfo = new FieldInfo(type, name);
         if (_bound) { fieldInfo.setBound(true); }
