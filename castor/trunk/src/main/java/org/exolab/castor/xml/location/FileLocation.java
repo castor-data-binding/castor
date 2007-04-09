@@ -42,7 +42,8 @@
  *
  * $Id$
  */
-package org.exolab.castor.xml;
+package org.exolab.castor.xml.location;
+
 
 /**
  * A simple FileLocation class used for finer grained detail of exceptions.

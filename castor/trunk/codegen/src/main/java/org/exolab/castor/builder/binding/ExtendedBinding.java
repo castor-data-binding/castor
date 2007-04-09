@@ -463,18 +463,39 @@ public final class ExtendedBinding extends Binding {
         tempBindings = null;
     }
     
+    /**
+     * Indicates whether an &lt;exclude&gt; element has been specified in a binding
+     * file for the given 'local name' of an element definition.
+     * @param localName 'local name' of an element definition
+     * @return True if an &lt;exclude&gt; element has been specified
+     */
     public boolean existsExclusion(final String localName) {
         return _automaticNameResolutionExcludes.containsKey(localName);
     }
 
+    /**
+     * Returns the {@link Exclude} instance for the element identified by the given local name.
+     * @param localName Local name for an element (definition).
+     * @return The {@link Exclude} instance.
+     */
     public Exclude getExclusion(final String localName) {
         return (Exclude) _automaticNameResolutionExcludes.get(localName);
     }
 
-    public boolean existsForce(String localName) {
+    /**
+     * Indicates whether an &lt;force&gt; element has been specified in a binding
+     * file for the given 'local name' of an element definition.
+     * @param localName 'local name' of an element definition
+     * @return True if an &lt;force&gt; element has been specified
+     */
+    public boolean existsForce(final String localName) {
         return _automaticNameResolutionForced.contains(localName);
     }
     
+    /**
+     * Returns all &lt;force&gt; elements defined in the binding file.
+     * @return all &lt;force&gt; elements defined in the binding file
+     */
     public Set getForces() {
         return _automaticNameResolutionForced;
     }

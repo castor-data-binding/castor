@@ -69,6 +69,9 @@ import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.binding.xml.PackageType;
 import org.exolab.castor.builder.binding.xml.PackageTypeChoice;
 import org.exolab.castor.builder.binding.xml.types.BindingType;
+import org.exolab.castor.builder.conflict.strategy.ClassNameConflictResolver;
+import org.exolab.castor.builder.conflict.strategy.TypeClassNameConflictResolver;
+import org.exolab.castor.builder.conflict.strategy.XPATHClassNameConflictResolver;
 import org.exolab.castor.builder.conflictresolution.WarningViaDialogClassNameCRStrategy;
 import org.exolab.castor.builder.factory.FieldInfoFactory;
 import org.exolab.castor.builder.factory.SourceFactory;
@@ -186,6 +189,9 @@ public class SourceGenerator extends BuilderConfiguration {
     /** JClass to XPATH registry; used for class name conflict resolution. */
     private JClassRegistry _xmlInfoRegistry;
 
+    /**
+     * Strategy implementation for resolving class name conflicts.
+     */
     private ClassNameConflictResolver _conflictResolver = 
         new XPATHClassNameConflictResolver();
 
@@ -1096,7 +1102,7 @@ public class SourceGenerator extends BuilderConfiguration {
                     tempLocation = tempLocation.substring(1);
                     tempLocation = currentDir + tempLocation;
                 } else if (tempLocation.startsWith("../")) {
-                     tempLocation = tempLocation.substring(3);
+                     tempLocation = tempLocation.substring("../".length());
                      int lastDir = currentDir.lastIndexOf('/');
                      currentDir = currentDir.substring(0, lastDir + 1);
                      tempLocation = currentDir + tempLocation;

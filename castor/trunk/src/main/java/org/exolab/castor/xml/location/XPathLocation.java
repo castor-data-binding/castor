@@ -38,28 +38,82 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 2001 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
-package org.exolab.castor.xml;
+package org.exolab.castor.xml.location;
+
+import java.util.Vector;
+
 
 /**
- * The validation interface used for validating class instances.
+ * A very simple XPath location class for use with the ValidationException. This
+ * class only supports the parent "/" operator and element names.
  *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public interface ClassValidator extends TypeValidator {
+public class XPathLocation implements Location, java.io.Serializable {
 
     /**
-     * Validates the given Object. An exception should be thrown when the first
-     * invalid field is discovered.
-     *
-     * @param object the Object to validate
-     * @param context the ValidationContext
-     * @throws ValidationException when the class is not valid.
+     * <code>serialVersionUID</code> TODO Write field description
      */
-    public void validate(Object object, ValidationContext context) throws ValidationException;
+    private static final long serialVersionUID = 1L;
+    
+    /** Our XPath, built up one String at a time. */
+    private final Vector path                = new Vector();
+    /** If we have reached the logical end of XPath (i.e., an attribute), set to false. */
+    private boolean      allowChildrenOrAtts = true;
+
+    /**
+     * Creates a default XPathLocation.
+     */
+    public XPathLocation() {
+        super();
+    }
+
+    /**
+     * Adds an attribute to the XPath location.
+     * @param name the name of the attribute
+     */
+    public void addAttribute(final String name) {
+        if (allowChildrenOrAtts) {
+            allowChildrenOrAtts = false;
+            path.addElement("@" + name);
+        }
+    }
+
+    /**
+     * Adds the given element name as a child of the current path.
+     * @param name the name to add as a child
+     */
+    public void addChild(final String name) {
+        if (allowChildrenOrAtts) {
+            path.addElement(name);
+        }
+    }
+
+    /**
+     * Adds the name as a parent of the current path.
+     * @param name the name to add as a parent
+     */
+    public void addParent(final String name) {
+        path.insertElementAt(name, 0);
+    }
+
+    /**
+     * Returns the String representation of this XPathLocation.
+     * @return the String representation of this XPathLocation.
+     */
+    public String toString() {
+        StringBuffer buf = new StringBuffer("XPATH: ");
+
+        for (int i = 0; i < path.size(); i++) {
+            buf.append('/');
+            buf.append((String)path.elementAt(i));
+        }
+        return buf.toString();
+    }
 
 }

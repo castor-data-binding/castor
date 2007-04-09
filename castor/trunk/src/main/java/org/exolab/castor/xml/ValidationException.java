@@ -44,6 +44,8 @@
  */
 package org.exolab.castor.xml;
 
+import org.exolab.castor.xml.location.Location;
+
 /**
  * An Exception that can be used to signal XML validation errors.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
@@ -196,7 +198,7 @@ public class ValidationException extends XMLException {
      * @param exception the ValidationException to set as the next Exception in
      *        the list.
      */
-    protected void setNext(final ValidationException exception) {
+    public void setNext(final ValidationException exception) {
         _next = exception;
     }
 

@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+
+XML:   Resolved issue CASTOR-1939 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed regression issue with automatic conflict resolution and global element conflicts.
+       Details: http://jira.codehaus.org/browse/CASTOR-1939
+       (Werner - 20070409)
+
 XML:   Resolved issue CASTOR-1935 using contribution from Chris Keller [chris.keller@active-endpoints.com]
        Fixed problem with importing from same namespace multiple times where one import actually includes 
        the other.

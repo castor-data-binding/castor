@@ -38,23 +38,32 @@
  * ARISING IN ANY WAY OUT OF THE USE OF THIS SOFTWARE, EVEN IF ADVISED
  * OF THE POSSIBILITY OF SUCH DAMAGE.
  *
- * Copyright 1999 (C) Intalio, Inc. All Rights Reserved.
+ * Copyright 2001 (C) Intalio, Inc. All Rights Reserved.
  *
  * $Id$
  */
-package org.exolab.castor.xml;
+package org.exolab.castor.xml.validators;
+
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
 
 /**
- * A simple Location class used for fine grained detail of exceptions.
+ * The validation interface used for validating class instances.
+ *
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public interface Location {
+public interface ClassValidator extends TypeValidator {
 
     /**
-     * Returns the String representation of this Location.
-     * @return the String representation of this Location.
+     * Validates the given Object. An exception should be thrown when the first
+     * invalid field is discovered.
+     *
+     * @param object the Object to validate
+     * @param context the ValidationContext
+     * @throws ValidationException when the class is not valid.
      */
-    public String toString();
+    public void validate(Object object, ValidationContext context) throws ValidationException;
 
 }

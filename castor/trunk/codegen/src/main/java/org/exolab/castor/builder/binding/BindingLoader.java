@@ -90,6 +90,12 @@ public final class BindingLoader {
         // Nothing to do
     }
 
+    /**
+     * Loads the binding file from the {@link URL} given, and populates
+     * the {@link ExtendedBinding} instance from the values given.
+     * @param url The URL for the binding file to process.
+     * @throws BindingException If the binding file cannnot be processed properly.
+     */
     public void loadBinding(final String url) throws BindingException {
         InputSource source;
         try {
@@ -193,7 +199,6 @@ public final class BindingLoader {
             Enumeration enums = loaded.enumerateEnumBinding();
             while (enums.hasMoreElements()) {
                 ComponentBindingType tempEnum = (ComponentBindingType) enums.nextElement();
-//              EnumBinding tempEnum = (EnumBinding)enums.nextElement();
                 _binding.addEnumBinding(tempEnum);
             }
 
@@ -257,6 +262,13 @@ public final class BindingLoader {
        return loader.getBinding();
     }
 
+    /**
+     * Factory method for unmarshalling an {@link ExtendedBinding} instance from the 
+     * binding file as identified by the given file name. 
+     * @param fileName Binding file name.
+     * @return An {@link ExtendedBinding} instance populated from the given binding file (name).
+     * @throws BindingException If the binding file cannot be processed properly.
+     */
     public static ExtendedBinding createBinding(final String fileName) throws BindingException {
         BindingLoader loader = new BindingLoader();
         InputSource source = new InputSource(fileName);
@@ -264,23 +276,47 @@ public final class BindingLoader {
         return loader.getBinding();
     }
 
+    /**
+     * EntityResolver specific to resolving entities related to the Castor XML
+     * code generator binding file.
+     * @author <a href="mailto:werner DOT guttmann AT gmx DOT net">Werner Guttmann</a>
+     */
     class BindingResolver implements EntityResolver {
+        
+        /**
+         * PUBLIC ID for the Castor XML code generator binding file.
+         */
         private static final String BINDING_PUBLICID =
             "-//EXOLAB/Castor Binding Schema Version 1.0//EN";
+        /**
+         * SYSTEM ID for the Castor XML code generator binding file.
+         */
         private static final String BINDING_SYSTEMID =
             "http://exolab.castor.org/binding.xsd";
+        /**
+         * Classpath-based URL to the binding XML schema as shipped in the 
+         * Castor XML code generator binary JAR.
+         */
         private static final String BINDING_RESOURCE =
             "/org/exolab/castor/builder/binding/binding.xsd";
 
         /**
          * Base URL, if known.
          */
-        private URL            _baseUrl;
+        private URL _baseUrl;
 
+        /**
+         * Sets a base URL for relative processing.
+         * @param baseUrl Base URL for relative processing.
+         */
         public void setBaseURL(final URL baseUrl) {
             _baseUrl = baseUrl;
         }
 
+        /**
+         * Returns the base URL for relative processing.
+         * @return base URL for relative processing
+         */
         public URL getBaseURL() {
             return _baseUrl;
         }

@@ -55,6 +55,7 @@ import org.exolab.castor.mapping.MappingLoader;
 import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.ObjectFactory;
+import org.exolab.castor.xml.location.FileLocation;
 import org.exolab.castor.xml.util.*;
 
 //-- misc xml related imports

@@ -42,11 +42,15 @@
  *
  * $Id$
  */
-package org.exolab.castor.xml;
+package org.exolab.castor.xml.validators;
 
 import java.lang.reflect.Array;
 import java.util.Enumeration;
 import java.util.Vector;
+
+import org.exolab.castor.xml.TypeValidator;
+import org.exolab.castor.xml.ValidationContext;
+import org.exolab.castor.xml.ValidationException;
 
 /**
  * A class for defining simple rules used for validating a content model.
@@ -56,11 +60,11 @@ import java.util.Vector;
 public class SimpleTypeValidator implements TypeValidator {
 
     /** The minimum number of occurences allowed. */
-    private int minOccurs = 0;
+    private int _minOccurs = 0;
     /** The maximum number of occurences allowed. */
-    private int maxOccurs = -1;
+    private int _maxOccurs = -1;
     /** The type validate to delegate validation to. */
-    private TypeValidator validator = null;
+    private TypeValidator _validator = null;
 
     /**
      * Creates a default SimpleTypeValidator.
@@ -76,7 +80,7 @@ public class SimpleTypeValidator implements TypeValidator {
      */
     public SimpleTypeValidator(final TypeValidator validator) {
         super();
-        this.validator = validator;
+        this._validator = validator;
     }
 
     /**
@@ -86,7 +90,7 @@ public class SimpleTypeValidator implements TypeValidator {
      *        occur.
      */
     public void setMaxOccurs(final int maxOccurs) {
-        this.maxOccurs = maxOccurs;
+        this._maxOccurs = maxOccurs;
     }
 
     /**
@@ -96,7 +100,7 @@ public class SimpleTypeValidator implements TypeValidator {
      *        occur.
      */
     public void setMinOccurs(final int minOccurs) {
-        this.minOccurs = minOccurs;
+        this._minOccurs = minOccurs;
     }
 
     /**
@@ -105,7 +109,7 @@ public class SimpleTypeValidator implements TypeValidator {
      * @param validator the TypeValidator to delegate validation to.
      */
     public void setValidator(final TypeValidator validator) {
-        this.validator = validator;
+        this._validator = validator;
     }
 
     /**
@@ -116,7 +120,7 @@ public class SimpleTypeValidator implements TypeValidator {
      * @throws ValidationException if validation fails.
      */
     public void validate(final Object object, final ValidationContext context) throws ValidationException {
-        boolean required = (minOccurs > 0);
+        boolean required = (_minOccurs > 0);
 
         if (object == null && required) {
             String err = "This field is required and cannot be null.";
@@ -136,45 +140,45 @@ public class SimpleTypeValidator implements TypeValidator {
             }
 
             //-- check minimum
-            if (size < minOccurs) {
-                String err = "A minimum of " + minOccurs
+            if (size < _minOccurs) {
+                String err = "A minimum of " + _minOccurs
                              + " instance(s) of this field is required.";
                 throw new ValidationException(err);
             }
 
             //-- check maximum
-            if (maxOccurs >= 0 && size > maxOccurs) {
-                String err = "A maximum of " + maxOccurs
+            if (_maxOccurs >= 0 && size > _maxOccurs) {
+                String err = "A maximum of " + _maxOccurs
                              + " instance(s) of this field are allowed.";
                 throw new ValidationException(err);
             }
 
-            if (validator == null) {
+            if (_validator == null) {
                 return;
             }
 
             //-- check type
             if (isPrimitive(type) || (type == String.class)) {
-                validator.validate(object, context);
+                _validator.validate(object, context);
             } else if (byteArray) {
                 //-- do nothing for now
             } else if (type.isArray()) {
                 size = Array.getLength(object);
                 for (int i = 0; i < size; i++) {
-                    validator.validate(Array.get(object, i), context);
+                    _validator.validate(Array.get(object, i), context);
                 }
             } else if (object instanceof java.util.Enumeration) {
                 Enumeration enumeration = (Enumeration)object;
                 while (enumeration.hasMoreElements()) {
-                    validator.validate(enumeration.nextElement(), context);
+                    _validator.validate(enumeration.nextElement(), context);
                 }
             } else if (object instanceof java.util.Vector) {
                 Vector vector = (Vector)object;
                 for (int i = 0; i < vector.size(); i++) {
-                    validator.validate(vector.elementAt(i), context);
+                    _validator.validate(vector.elementAt(i), context);
                 }
             } else {
-                validator.validate(object, context);
+                _validator.validate(object, context);
             }
         }
     }

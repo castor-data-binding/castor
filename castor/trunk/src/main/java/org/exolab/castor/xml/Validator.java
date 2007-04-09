@@ -51,6 +51,9 @@ package org.exolab.castor.xml;
 
 import org.castor.mapping.BindingType;
 import org.exolab.castor.mapping.FieldDescriptor;
+import org.exolab.castor.xml.location.XPathLocation;
+import org.exolab.castor.xml.validators.ClassValidator;
+import org.exolab.castor.xml.TypeValidator;
 
 /**
  * A class which can perform Validation on an Object model. This class uses the

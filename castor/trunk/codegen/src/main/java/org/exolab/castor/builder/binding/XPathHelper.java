@@ -50,10 +50,16 @@ public class XPathHelper {
     }
 
     /**
-     * Deduces an XPATH expression qualifying the path from the schema root
-     * to the given structure in question.
-     * @param structure AN XML structure.
-     * @param location The XPATH expression to be created.
+     * Deduces an XPATH expression qualifying the path from the schema root to
+     * the given structure in question.
+     * 
+     * @param structure
+     *            AN XML structure.
+     * @param location
+     *            The XPATH expression to be created.
+     * @param dealWithAnonTypes
+     *            Indicates whether to include XPATH fragments for anonymous
+     *            types.
      */
     public static void getSchemaLocation(
             final Structure structure,
@@ -180,9 +186,13 @@ public class XPathHelper {
      * Note that only top-level groups and complexTypes are named and thus will
      *
      * @param structure the structure for which to return a representation.
+     * @param dealWithAnonTypes
+     *            Indicates whether to include XPATH fragments for anonymous
+     *            types.
      * @return a string representation of an XML Schema component.
      */
-    public static String getSchemaLocation(final Structure structure, final boolean dealWithAnonTypes) {
+    public static String getSchemaLocation(final Structure structure, 
+            final boolean dealWithAnonTypes) {
         if (structure == null) {
             return null;
         }
@@ -191,6 +201,14 @@ public class XPathHelper {
         return buffer.toString();
     }
 
+    /**
+     * Returns a string (XPATH) representation of an XML Schema component. This
+     * representation is directly adapted from XPath and will used as a key to
+     * store the component bindings.
+     * @param structure the structure for which to return a representation
+     * @return a string representation of the XPATH identifying an XML Schema component
+     * @see #getSchemaLocation(Structure, boolean)
+     */
     public static String getSchemaLocation(final Structure structure) {
         if (structure == null) {
             return null;

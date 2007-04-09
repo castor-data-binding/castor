@@ -42,77 +42,19 @@
  *
  * $Id$
  */
-package org.exolab.castor.xml;
-
-import java.util.Vector;
+package org.exolab.castor.xml.location;
 
 /**
- * A very simple XPath location class for use with the ValidationException. This
- * class only supports the parent "/" operator and element names.
- *
+ * A simple Location class used for fine grained detail of exceptions.
  * @author <a href="mailto:kvisco@intalio.com">Keith Visco</a>
  * @version $Revision$ $Date: 2003-03-03 00:05:44 -0700 (Mon, 03 Mar 2003) $
  */
-public class XPathLocation implements Location, java.io.Serializable {
+public interface Location {
 
     /**
-     * <code>serialVersionUID</code> TODO Write field description
+     * Returns the String representation of this Location.
+     * @return the String representation of this Location.
      */
-    private static final long serialVersionUID = 1L;
-    
-    /** Our XPath, built up one String at a time. */
-    private final Vector path                = new Vector();
-    /** If we have reached the logical end of XPath (i.e., an attribute), set to false. */
-    private boolean      allowChildrenOrAtts = true;
-
-    /**
-     * Creates a default XPathLocation.
-     */
-    public XPathLocation() {
-        super();
-    }
-
-    /**
-     * Adds an attribute to the XPath location.
-     * @param name the name of the attribute
-     */
-    public void addAttribute(final String name) {
-        if (allowChildrenOrAtts) {
-            allowChildrenOrAtts = false;
-            path.addElement("@" + name);
-        }
-    }
-
-    /**
-     * Adds the given element name as a child of the current path.
-     * @param name the name to add as a child
-     */
-    public void addChild(final String name) {
-        if (allowChildrenOrAtts) {
-            path.addElement(name);
-        }
-    }
-
-    /**
-     * Adds the name as a parent of the current path.
-     * @param name the name to add as a parent
-     */
-    public void addParent(final String name) {
-        path.insertElementAt(name, 0);
-    }
-
-    /**
-     * Returns the String representation of this XPathLocation.
-     * @return the String representation of this XPathLocation.
-     */
-    public String toString() {
-        StringBuffer buf = new StringBuffer("XPATH: ");
-
-        for (int i = 0; i < path.size(); i++) {
-            buf.append('/');
-            buf.append((String)path.elementAt(i));
-        }
-        return buf.toString();
-    }
+    public String toString();
 
 }

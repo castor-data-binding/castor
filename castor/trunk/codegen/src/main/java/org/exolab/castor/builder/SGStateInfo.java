@@ -361,11 +361,11 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         return _schema;
     } //-- getSchema
 
-    public /**
+    /**
      * Returns the SourceGenerator instance being used.
      * @return the SourceGenerator instance being used.
      */
-    SourceGenerator getSourceGenerator() {
+    public SourceGenerator getSourceGenerator() {
         return _sgen;
     } //-- getSourceGenerator
 
@@ -432,12 +432,12 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         }
     } //-- setMapping
 
-    public /**
+    /**
      * Returns the Dialog used for interacting with the user.
      *
      * @return the Dialog, or null if none has been set.
      */
-    Dialog getDialog() {
+    public Dialog getDialog() {
         return _dialog;
     } //-- getConsoleDialog
 
@@ -486,32 +486,32 @@ public final class SGStateInfo extends ClassInfoResolverImpl {
         this._verbose = verbose;
     } //-- setVerbose
 
-    public /**
+    /**
      * Returns the value of the verbose flag. A true value indicates that
      * additional messages may be printed during processing.
      *
      * @return the value of the verbose flag.
      */
-    boolean verbose() {
+    public boolean verbose() {
         return this._verbose;
     } //-- verbose
 
-    public /**
+    /**
      * Returns the current FactoryState that holds information about the classes
      * being generated.
      *
      * @return the current FactoryState
      */
-    FactoryState getCurrentFactoryState() {
+    public FactoryState getCurrentFactoryState() {
         return _currentFactoryState;
     }
 
-    public /**
+    /**
      * Sets the current FactoryState.
      * @param state the current FactoryState
      * @see #getCurrentFactoryState
      */
-    void setCurrentFactoryState(final FactoryState state) {
+    public void setCurrentFactoryState(final FactoryState state) {
        _currentFactoryState = state;
     }
 
