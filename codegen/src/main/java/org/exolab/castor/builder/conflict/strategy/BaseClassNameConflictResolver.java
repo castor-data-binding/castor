@@ -13,10 +13,11 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.conflict.strategy;
 
 import java.util.StringTokenizer;
 
+import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
@@ -90,7 +91,7 @@ public abstract class BaseClassNameConflictResolver implements ClassNameConflict
      * Returns the calling {@link SourceGenerator} instance.
      * @return the calling {@link SourceGenerator} instance
      */
-    public SourceGenerator getSourceGenerator() {
+    protected SourceGenerator getSourceGenerator() {
         return _sourceGenerator;
     }
 

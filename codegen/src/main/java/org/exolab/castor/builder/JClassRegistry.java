@@ -30,6 +30,8 @@ import org.exolab.castor.builder.binding.ExtendedBinding;
 import org.exolab.castor.builder.binding.XMLBindingComponent;
 import org.exolab.castor.builder.binding.XPathHelper;
 import org.exolab.castor.builder.binding.xml.Exclude;
+import org.exolab.castor.builder.conflict.strategy.ClassNameConflictResolver;
+import org.exolab.castor.builder.conflict.strategy.XPATHClassNameConflictResolver;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.castor.xml.schema.ElementDecl;
@@ -69,6 +71,13 @@ public class JClassRegistry {
      * otherwise rooted XPATH.
      */
     private Map _localNames = new HashMap();
+
+    /**
+     * Registry for recording naming collisions, keyed by the typed local part of an
+     * otherwise rooted XPATH.
+     */
+    private Map _typedLocalNames = new HashMap();
+
 
     /**
      * Class name conflict resolver.
@@ -135,9 +144,9 @@ public class JClassRegistry {
             }
         }
         
-        // deal with explicit exclusions
         ExtendedBinding binding = component.getBinding();
         if (binding != null) {
+            // deal with explicit exclusions
             if (binding.existsExclusion(typedLocalName)) {
                 Exclude exclusion = binding.getExclusion(typedLocalName);
                 if (exclusion.getClassName() != null) {
@@ -152,20 +161,11 @@ public class JClassRegistry {
             if (binding.existsForce(localName)) {
 
                 List localNamesList = (List) _localNames.get(localName);
-                if (localNamesList == null) {
-                    // this name never occured before
-                    ArrayList arrayList = new ArrayList();
-                    arrayList.add(xPath);
-                    _localNames.put(localName, arrayList);
-                } else {
-                    if (!localNamesList.contains(xPath)) {
-                        localNamesList.add(xPath);
-                    }
-                }
+                memorizeCollision(xPath, localName, localNamesList);
 
                 LOG.info("Changing class name for local element " + xPath
                         + " as per binding file (force).");
-                changeClassInfoAsResultOfConflict(jClass, untypedXPath, typedLocalName, annotated);
+                checkAndChange(jClass, annotated, untypedXPath, typedLocalName);
                 return;
             }
         }
@@ -244,7 +244,7 @@ public class JClassRegistry {
         LOG.debug("Binding JClass[" + jClass.getName() + "] for XML schema structure " + xPath);
 
         // global elements don't need to change
-        final boolean isGlobalElement = _globalElements.contains(xPath);
+        final boolean isGlobalElement = _globalElements.contains(untypedXPath);
         if (isGlobalElement) {
             return;
         }
@@ -279,25 +279,75 @@ public class JClassRegistry {
                 .contains("/" + localXPath);
         if (conflictExistsWithGlobalElement) {
             LOG.info("Resolving conflict for local element " + xPath + " against global element.");
-            changeClassInfoAsResultOfConflict(jClass, untypedXPath, typedLocalName, annotated);
+
+            checkAndChange(jClass, annotated, untypedXPath, typedLocalName);
+
+            // remember that we had a collision for this local element
+            List localNamesList = (List) _localNames.get(localName);
+            memorizeCollision(xPath, localName, localNamesList);
             return;
         }
 
-        // resolve conflict with another element
         List localNamesList = (List) _localNames.get(localName);
+        memorizeCollision(xPath, localName, localNamesList);
+        if (localNamesList == null) {
+            String typedJClassName = (String) _typedLocalNames.get(typedLocalName);
+            if (typedJClassName == null) {
+                _typedLocalNames.put(typedLocalName, jClass.getName());
+            }
+        } else {
+            LOG.info("Resolving conflict for local element " + xPath 
+                    + " against another local element of the same name.");
+            checkAndChange(jClass, annotated, untypedXPath, typedLocalName);
+        }
+    }
+
+    /**
+     * Memorize that we have a collision for the 'local name' given. 
+     * @param xPath Full (typed) XPATH identifier for the local element definition.
+     * @param localName Local element name
+     * @param localNamesList Collection store for collisions for that 'local name'.
+     */
+    private void memorizeCollision(final String xPath, final String localName, 
+            final List localNamesList) {
+        // resolve conflict with another element
         if (localNamesList == null) {
             // this name never occured before
             ArrayList arrayList = new ArrayList();
             arrayList.add(xPath);
             _localNames.put(localName, arrayList);
+            
         } else {
             // this entry should be renamed
             if (!localNamesList.contains(xPath)) {
                 localNamesList.add(xPath);
             }
-            LOG.info("Resolving conflict for local element " + xPath 
-                    + " against another local element of the same name.");
+        }
+    }
+
+    /**
+     * Check and change (suggested) class name.
+     * @param jClass {@link JClass} instance
+     * @param annotated {@link Annotated} instance
+     * @param untypedXPath blah
+     * @param typedLocalName blah
+     */
+    private void checkAndChange(final JClass jClass, final Annotated annotated, 
+            final String untypedXPath, final String typedLocalName) {
+        
+        // check whether we have seen that typed local name already
+        String typedJClassName = (String) _typedLocalNames.get(typedLocalName);
+        if (typedJClassName != null) {
+            // if so, simple re-use it by changing the local class name
+            String localClassName = 
+                typedJClassName.substring(typedJClassName.lastIndexOf(".") + 1);
+            jClass.changeLocalName(localClassName);
+        } else {
+            // 'calculate' a new class name
             changeClassInfoAsResultOfConflict(jClass, untypedXPath, typedLocalName, annotated);
+
+            // store it for further use
+            _typedLocalNames.put(typedLocalName, jClass.getName());
         }
     }
 

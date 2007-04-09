@@ -94,6 +94,27 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
             </summary>
             <bugs>
+                <bug id="1939" tool="jira">
+                    <description>
+                        Fixed regression issue with automatic conflict resolution and 
+                        global element conflicts.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070409</date>
+                </bug>
                 <bug id="1935" tool="jira">
                     <description>
                         Fixed problem with importing from same namespace multiple times where 

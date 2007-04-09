@@ -13,8 +13,10 @@
  * See the License for the specific language governing permissions and
  * limitations under the License.
  */
-package org.exolab.castor.builder;
+package org.exolab.castor.builder.conflict.strategy;
 
+
+import org.exolab.castor.builder.SourceGenerator;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
 

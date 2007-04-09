@@ -3,13 +3,13 @@
 <document url="http://castor.org/srcgen-anttask.xml">
 
 	<properties>
-		<title>The Castor XML Code Generator- Example</title>
+		<title>The Castor XML Code Generator - Examples</title>
 		<author email="werner DOT guttmann AT gmx DOT net">
 			Werner Guttmann
 		</author>
 		<abstract>
-			Describes a fully blown example that shows how to use the
-			XML code generator to create Java source code from an XML
+			Presents the user 0036with fully blown examples that show how to 
+			use the XML code generator to create Java source code from various XML
 			schema.
 		</abstract>
 		<status>Final</status>
@@ -17,7 +17,7 @@
 
 	<body>
 
-		<title>Example using the Castor XML code generator</title>
+		<title>Using the Castor XML code generator - Examples</title>
 		<header>
 			<p>
 				API Reference:
@@ -30,14 +30,15 @@
 		<section title="Introduction">
 
 			<p>
-				In this section we illustrate the use of the Source
-				Generator by explaining the generated classes from a
-				given XML schema. The XML code generator is going to be used
-				with the “java class mapping” property set to <i>element</i> 
-				(default value).
+				In this section we illustrate the use of the XML code generator by 
+				discussing the classes generated from given XML schemas. The XML code 
+				generator is going to be used with the “java class mapping” property 
+				set to <i>element</i> (default value).
 			</p>
 			
-			</section>
+		</section>
+		
+		<section title="The invoice XML schema">
 			
 		<section title="The schema file">
 		
@@ -229,15 +230,15 @@
 			
 		</section>
 		
-		<section title="Running the XMl code generator">
+		<section title="Running the XML code generator">
 			
 			<p>To run the source generator and create the source from the 
 			<tt>invoice.xsd</tt> file in a package <tt>test</tt>, we just call 
 			in the command line:</p>
 			
 			<code-panel>
-java -cp %CP% org.exolab.castor.builder.SourceGenerator -i invoice.xsd -package test 
-</code-panel>
+java -cp %CP% org.exolab.castor.builder.SourceGeneratorMain -i invoice.xsd -package test</code-panel>
+
 		</section>
 			
 		<section title="The generated code">
@@ -564,6 +565,255 @@ public class Invoice implements java.io.Serializable {
 
 			</section>
 		</section>
+		
+		</section>
+
+    <section title="Non-trivial real world example">
+
+      <section title="Background">
+        <p>
+          Two companies wish to trade with each other using a Supply Chain
+          messaging system. This system sends and receives Purchase Orders and
+          Order Receipt messages. After many months of discussion they have
+          finally decided upon the structure of the Version 1.0 of their
+          message XSD and both are presently developing solutions for it. One
+          of the companies decides to use Java and Castor XML support for
+          (un)marshaling and Castor's code generator to accelerate their
+          development process.
+        </p>
+      </section>
+
+      <section title="The Supply Chain XSD">
+
+        <code-panel top-caption="supplyChainV1.0.xsd"><![CDATA[
+<?xml version="1.0" encoding="UTF-8"?>
+<xs:schema xmlns:xs="http://www.w3.org/2001/XMLSchema"
+           elementFormDefault="qualified"
+           attributeFormDefault="unqualified">
+
+    <xs:element name="Data">
+      <xs:annotation>
+        <xs:documentation>
+          This section contains the supply chain message data
+        </xs:documentation>
+      </xs:annotation>
+      <xs:complexType>
+        <xs:choice>
+          <xs:element name="PurchaseOrder">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="LineItem" type="LineItemType" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:attribute name="OrderNumber" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+          <xs:element name="OrderReceipt">
+            <xs:complexType>
+              <xs:sequence>
+                <xs:element name="LineItem" type="ReceiptLineItemType" maxOccurs="unbounded"/>
+              </xs:sequence>
+              <xs:attribute name="OrderNumber" type="xs:string" use="required"/>
+            </xs:complexType>
+          </xs:element>
+        </xs:choice>
+      </xs:complexType>
+    </xs:element>
+
+    <xs:complexType name="SkuType">
+      <xs:annotation>
+        <xs:documentation>Contains Product Identifier</xs:documentation>
+      </xs:annotation>
+      <xs:sequence>
+        <xs:element name="Number" type="xs:integer"/>
+        <xs:element name="ID" type="xs:string"/>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReceiptSkuType">
+      <xs:annotation>
+        <xs:documentation>Contains Product Identifier</xs:documentation>
+      </xs:annotation>
+      <xs:complexContent>
+        <xs:extension base="SkuType">
+          <xs:sequence>
+            <xs:element name="InternalID" type="xs:string"/>
+          </xs:sequence>
+        </xs:extension>
+      </xs:complexContent>
+    </xs:complexType>
+
+    <xs:complexType name="LineItemType">
+      <xs:sequence>
+        <xs:element name="Sku" type="SkuType"/>
+        <xs:element name="Value" type="xs:double"/>
+        <xs:element name="BillingInstructions" type="xs:string"/>
+        <xs:element name="DeliveryDate" type="xs:date"/>
+        <xs:element name="Number" type="xs:integer"/>
+      </xs:sequence>
+    </xs:complexType>
+
+    <xs:complexType name="ReceiptLineItemType">
+      <xs:sequence>
+        <xs:element name="Sku" type="ReceiptSkuType"/>
+        <xs:element name="Value" type="xs:double"/>
+        <xs:element name="PackingDescription" type="xs:string"/>
+        <xs:element name="ShipDate" type="xs:dateTime"/>
+        <xs:element name="Number" type="xs:integer"/>
+      </xs:sequence>
+    </xs:complexType>
+</xs:schema>]]></code-panel>
+      </section>
+
+      <section title="Binding file? -- IT IS REQUIRED!">
+
+        <p>
+          If you run the Castor CodeGenerator on the above XSD you end up
+          with the following set of classes. (You also get lots of warning
+          messages with the present version.)
+        </p>
+
+        <code-panel>
+Data.java
+DataDescriptor.java
+LineItem.java
+LineItemDescriptor.java
+LineItemType.java
+LineItemTypeDescriptor.java
+OrderReceipt.java
+OrderReceiptDescriptor.java
+PurchaseOrder.java
+PurchaseOrderDescriptor.java
+ReceiptLineItemType.java
+ReceiptLineItemTypeDescriptor.java
+ReceiptSkuType.java
+ReceiptSkuTypeDescriptor.java
+Sku.java
+SkuDescriptor.java
+SkuType.java
+SkuTypeDescriptor.java</code-panel>
+
+        <p>
+          The problem here is that there are two different elements with the
+          same name in different locations in the XSD. This causes a Java code
+          generation conflict. By default, Castor uses the element name as the name 
+          of the class. So the second class generated for the LineItem definition,
+          which is different than the first, overwrites the first class
+          generated.
+        </p>
+
+        <p>
+          A binding file is therefore necessary to help the Castor code
+          generator differentiate between these generated classes and as such avoid
+          such generation conflicts. That is, you can 'bind' an element in the XML schema 
+          to a differently named class file that you want to generate. This keeps different 
+          elements separate and ensures that source is properly generated for 
+          each XML Schema object.
+        </p>
+
+        <tip>
+          <p>
+            The warning messages for Castor 0.99+ are very useful in assisting
+            you in your creation of the binding file. For the example the
+            warning messages for the example are:
+          </p>
+
+          <code-panel>
+    Warning: A class name generation conflict has occurred between element
+            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            '/Data/OrderReceipt/LineItem' and element '/Data/PurchaseOrder/LineItem'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+    Warning: A class name generation conflict has occurred between element
+            'complexType:ReceiptLineItemType/Sku' and element 'complexType:LineItemType/Sku'.
+            Please use a Binding file to solve this problem.Continue anyway [not recommended] (y|n|?)y
+          </code-panel>
+        </tip>
+
+        <p>
+          The following binding file definition will overcome the naming
+          issues for the generated classes:
+        </p>
+
+        <code-panel top-caption="binding.xml"><![CDATA[
+<binding xmlns="http://www.castor.org/SourceGenerator/Binding"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://www.castor.org/SourceGenerator/Binding C:\\Castor\\xsd\\binding.xsd"
+         defaultBinding="element">
+
+   <elementBinding name="/Data/PurchaseOrder/LineItem">
+      <java-class name="PurchaseOrderLineItem"/>
+   </elementBinding>
+
+   <elementBinding name="/Data/OrderReceipt/LineItem">
+      <java-class name="OrderReceiptLineItem"/>
+   </elementBinding>
+
+   <elementBinding name="/complexType:ReceiptLineItemType/Sku">
+      <java-class name="OrderReceiptSku"/>
+   </elementBinding>
+
+   <elementBinding name="/complexType:LineItemType/Sku">
+      <java-class name="PurchaseOrderSku"/>
+   </elementBinding>
+
+</binding>]]></code-panel>
+
+        <p>
+          One thing to notice in the above <tt>binding.xml</tt> file is that
+          the name path used is relative to the root of the XSD <b>and not</b>
+          the root of the target XML. Also notice that the two complex types
+          have the "complexType:" prefix to identify them followed by the name
+          path relative to the root of the XSD.
+        </p>
+
+        <p>The new list of generated classes is:</p>
+
+        <code-panel>
+Data.java
+DataDescriptor.java
+LineItem.java
+LineItemDescriptor.java
+LineItemType.java
+LineItemTypeDescriptor.java
+OrderReceipt.java
+OrderReceiptDescriptor.java
+<b><font color="red">OrderReceiptLineItem.java</font></b>
+OrderReceiptLineItemDescriptor.java
+<b><font color="red">OrderReceiptSku.java</font></b>
+OrderReceiptSkuDescriptor.java
+PurchaseOrder.java
+PurchaseOrderDescriptor.java
+<b><font color="red">PurchaseOrderLineItem.java</font></b>
+PurchaseOrderLineItemDescriptor.java
+<b><font color="red">PurchaseOrderSku.java</font></b>
+PurchaseOrderSkuDescriptor.java
+ReceiptLineItemType.java
+ReceiptLineItemTypeDescriptor.java
+ReceiptSkuType.java
+ReceiptSkuTypeDescriptor.java
+Sku.java
+SkuDescriptor.java
+SkuType.java
+SkuTypeDescriptor.java</code-panel>
+
+        <p>
+          The developers can now use these generated classes with Castor to
+          (un)marshal the supply chain messages sent by their business
+          partner.
+        </p>
+      </section>
+
+    </section>
 
 	</body>
 

@@ -57,102 +57,98 @@ import org.exolab.castor.builder.info.FieldInfo;
 import org.exolab.castor.xml.schema.Annotated;
 import org.exolab.javasource.JClass;
 
-public /**
+/**
  * A class used to save State information for the SourceFactory.
- *
+ * 
  * @author <a href="mailto:keith AT kvisco DOT com">Keith Visco</a>
  */
-class FactoryState implements ClassInfoResolver {
-
-    //--------------------/
-    //- Member Variables -/
-    //--------------------/
+public class FactoryState implements ClassInfoResolver {
 
     /** The JClass for which we are currently generating code. */
     private final JClass _jClass;
-    
+
     /** A ClassInfo for <code>_jClass</code>. */
     private final ClassInfo _classInfo;
-    
+
     /** A FieldInfo used to handle <code>xsd:choice</code>. */
     private FieldInfo _fieldInfoForChoice = null;
-    
+
     /** Package for the class currently being generated. */
     private final String _packageName;
 
     /** Our ClassInfoResolver to keep track of ClassInfos for easy lookup. */
-    private ClassInfoResolver _resolver  = null;
-    
-    /** Keeps track of which classes have been processed. */
-    private Vector            _processed = null;
-    
-    /** SourceGenerator state. */
-    private SGStateInfo       _sgState   = null;
-    
-    /** If true, we are currently generating code for a group. */
-    private boolean           _createGroupItem = false;
+    private ClassInfoResolver _resolver = null;
 
-    /** Keeps track of whether or not the BoundProperties methods have been created. */
-    private boolean           _bound = false;
+    /** Keeps track of which classes have been processed. */
+    private Vector _processed = null;
+
+    /** SourceGenerator state. */
+    private SGStateInfo _sgState = null;
+
+    /** If true, we are currently generating code for a group. */
+    private boolean _createGroupItem = false;
+
+    /**
+     * Keeps track of whether or not the BoundProperties methods have been
+     * created.
+     */
+    private boolean _bound = false;
 
     /** Keeps track of the different FactoryState. */
     private FactoryState _parent = null;
 
     /**
-     * {@link JClassRegistry} instance used for automatic class name conflict resolution.
+     * {@link JClassRegistry} instance used for automatic class name conflict
+     * resolution.
      */
     private JClassRegistry _xmlInfoRegistry = null;
 
-    //----------------/
-    //- Constructors -/
-    //----------------/
-
     /**
      * Constructs a new FactoryState.
-     * @param className Class name of the class currently being generated.
-     * @param sgState Source Generator State object
-     * @param packageName package name for generated code.
-     * @param component TODO
+     * 
+     * @param className
+     *            Class name of the class currently being generated.
+     * @param sgState
+     *            Source Generator State object
+     * @param packageName
+     *            package name for generated code.
+     * @param component
+     *            TODO
      */
-    public FactoryState(final String className, 
-            final SGStateInfo sgState,
-            final String packageName, 
-            final XMLBindingComponent component) {
+    public FactoryState(final String className, final SGStateInfo sgState,
+            final String packageName, final XMLBindingComponent component) {
         if (sgState == null) {
             throw new IllegalArgumentException("SGStateInfo cannot be null.");
         }
 
-        _sgState     = sgState;
-        _processed   = new Vector();
+        _sgState = sgState;
+        _processed = new Vector();
 
-        //keep the elements and complexType already processed
-        //if (resolver instanceof FactoryState) {
-        //   _processed = ((FactoryState)resolver)._processed;
-        //}
+        // keep the elements and complexType already processed
+        // if (resolver instanceof FactoryState) {
+        // _processed = ((FactoryState)resolver)._processed;
+        // }
 
-        _jClass       = new JClass(className);
+        _jClass = new JClass(className);
 
         // if configured, try automatic class name conflict resolution
         if (_sgState.getSourceGenerator().isAutomaticConflictResolution()) {
-            _xmlInfoRegistry = sgState.getSourceGenerator().getXMLInfoRegistry(); 
+            _xmlInfoRegistry = sgState.getSourceGenerator()
+                    .getXMLInfoRegistry();
             _xmlInfoRegistry.bind(_jClass, component, "class");
-        }        
-        
-        _classInfo    = new ClassInfo(_jClass);
-        
+        }
+
+        _classInfo = new ClassInfo(_jClass);
+
         _resolver = sgState;
 
         _packageName = packageName;
 
-        //-- boundProperties
+        // -- boundProperties
         _bound = sgState.getSourceGenerator().boundPropertiesEnabled();
-        
-    } //-- FactoryState
 
-    //-----------/
-    //- Methods -/
-    //-----------/
-    
+    } // -- FactoryState
+
     /**
      * Get JClass for which we are currently generating code.
      * 
@@ -161,7 +157,7 @@ class FactoryState implements ClassInfoResolver {
     public final JClass getJClass() {
         return _jClass;
     }
-    
+
     /**
      * Get ClassInfo for <code>_jClass</code>.
      * 
@@ -170,7 +166,7 @@ class FactoryState implements ClassInfoResolver {
     public final ClassInfo getClassInfo() {
         return _classInfo;
     }
-    
+
     /**
      * Get FieldInfo used to handle <code>xsd:choice</code>.
      * 
@@ -179,16 +175,17 @@ class FactoryState implements ClassInfoResolver {
     public final FieldInfo getFieldInfoForChoice() {
         return _fieldInfoForChoice;
     }
-    
+
     /**
      * Set FieldInfo used to handle <code>xsd:choice</code>.
      * 
-     * @param fieldInfoForChoice FieldInfo used to handle <code>xsd:choice</code>.
+     * @param fieldInfoForChoice
+     *            FieldInfo used to handle <code>xsd:choice</code>.
      */
     public final void setFieldInfoForChoice(final FieldInfo fieldInfoForChoice) {
         _fieldInfoForChoice = fieldInfoForChoice;
     }
-    
+
     /**
      * Get package for the class currently being generated.
      * 
@@ -200,7 +197,7 @@ class FactoryState implements ClassInfoResolver {
 
     /**
      * Adds the given Reference to this ClassInfo resolver.
-     *
+     * 
      * @param key
      *            the key to bind a reference to
      * @param classInfoRef
@@ -208,120 +205,120 @@ class FactoryState implements ClassInfoResolver {
      */
     public void bindReference(final Object key, final ClassInfo classInfoRef) {
         _resolver.bindReference(key, classInfoRef);
-    } //-- bindReference
+    } // -- bindReference
 
-    public /**
+    /**
      * Returns the SGStateInfo.
-     *
+     * 
      * @return the SGStateInfo.
      */
-    SGStateInfo getSGStateInfo() {
+    public SGStateInfo getSGStateInfo() {
         return _sgState;
-    } //-- getSGStateInfo
+    } // -- getSGStateInfo
 
-    public /**
+    /**
      * Marks the given Annotated XML Schema structure as having been processed.
-     *
+     * 
      * @param annotated
      *            the Annotated XML Schema structure to mark as having been
      *            processed.
      */
-    void markAsProcessed(final Annotated annotated) {
+    public void markAsProcessed(final Annotated annotated) {
         _processed.addElement(annotated);
-    } //-- markAsProcessed
+    } // -- markAsProcessed
 
-    public /**
+    /**
      * Returns true if the given Annotated XML Schema structure has been marked
      * as processed.
-     *
+     * 
      * @param annotated
      *            the Annotated XML Schema structure to check for being marked
      *            as processed
      * @return true if the given Annotated XML Schema structure has been marked
      *         as processed
      */
-    boolean processed(final Annotated annotated) {
+    public boolean processed(final Annotated annotated) {
         boolean result = _processed.contains(annotated);
         if (!result && _parent != null) {
             return _parent.processed(annotated);
         }
         return result;
-    } //-- processed
+    } // -- processed
 
-    public /**
+    /**
      * Returns true if any bound properties have been found.
-     *
+     * 
      * @return true if any bound properties have been found.
      */
-    boolean hasBoundProperties() {
+    public boolean hasBoundProperties() {
         return _bound;
-    } //-- hasBoundProperties
+    } // -- hasBoundProperties
 
-    public /**
+    /**
      * Allows setting the bound properties flag.
-     *
+     * 
      * @param bound
      *            the new value of the bound properties flag
      * @see #hasBoundProperties
      */
-    void setBoundProperties(final boolean bound) {
+    public void setBoundProperties(final boolean bound) {
         _bound = bound;
-    } //-- setBoundProperties
+    } // -- setBoundProperties
 
     /**
      * Returns the ClassInfo which has been bound to the given key.
-     *
+     * 
      * @param key
      *            the object to which the ClassInfo has been bound
      * @return the ClassInfo which has been bound to the given key
      */
     public ClassInfo resolve(final Object key) {
         return _resolver.resolve(key);
-    } //-- resolve
+    } // -- resolve
 
-    public /**
+    /**
      * Returns true if we are currently in the state of creating a group item
      * class.
-     *
+     * 
      * @return true if we are currently in the state of creating a group item
      *         class.
      */
-    boolean isCreateGroupItem() {
+    public boolean isCreateGroupItem() {
         return _createGroupItem;
     }
 
-    public /**
+    /**
      * Sets to true if we are currently generating a class to represent items in
      * a group.
-     *
+     * 
      * @param createGroupItem
      *            true if we are currently generating a class to represent items
      *            in a group.
      */
-     void setCreateGroupItem(final boolean createGroupItem) {
-         _createGroupItem = createGroupItem;
-     }
+    public void setCreateGroupItem(final boolean createGroupItem) {
+        _createGroupItem = createGroupItem;
+    }
 
-     /**
-      * Returns the parent of this FactoryState. The parent of a factory
-      * state is the previous item of the list that contained all the created
-      * factory states.
-      *
-      * @return the parent of this FactoryState.
-      */
-     FactoryState getParent() {
-         return _parent;
-     }
+    /**
+     * Returns the parent of this FactoryState. The parent of a factory state is
+     * the previous item of the list that contained all the created factory
+     * states.
+     * 
+     * @return the parent of this FactoryState.
+     */
+    FactoryState getParent() {
+        return _parent;
+    }
 
-     public /**
-      * Sets the parent of this FactoryState.
-      *
-      * @param parent
-      *            the parent FactoryState
-      * @see #getParent
-      */
-     void setParent(final FactoryState parent) {
-         _parent = parent;
-     }
+    /**
+     * Sets the parent of this FactoryState.
+     * 
+     * @param parent
+     *            the parent FactoryState
+     * @see #getParent
+     */
+    public void setParent(final FactoryState parent) {
+        _parent = parent;
+    }
 
-} //-- FactoryState
+} // -- FactoryState

@@ -45,6 +45,7 @@
 package org.exolab.castor.xml;
 
 import org.exolab.castor.core.exceptions.CastorException;
+import org.exolab.castor.xml.location.Location;
 
 /**
  * An exception that is used to signal an error that has occured during
