@@ -1,6 +1,10 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1943 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Added Unmarshaller.setObject(Object) to allow setting of a root object for unmarshalling.
+       Details: http://jira.codehaus.org/browse/CASTOR-1943
+       (Werner - 20070412)
 
 XML:   Resolved issue CASTOR-1939 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed regression issue with automatic conflict resolution and global element conflicts.
