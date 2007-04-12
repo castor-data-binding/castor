@@ -392,8 +392,20 @@ public class Unmarshaller {
      */
     public void setClass(Class clazz) {
         _class = clazz;
-    } //-- Unmarshaller(Class)
+    } //-- setClass(Class)
 
+    /**
+     * Sets the 'expected' {@link Object} instance on the Unmarshaller, into
+     * which will be unmarshalled.
+     *
+     * @param root the instance to unmarshal into. This
+     * may be null, if the Unmarshaller#setMapping is called
+     * to load a mapping for the root element of xml document.
+     */
+    public void setObject(Object root) {
+        _instanceObj = root;
+    } //-- setObject(Object)
+    
     /**
      * Sets the ClassLoader to use when loading new classes.
      * <br />

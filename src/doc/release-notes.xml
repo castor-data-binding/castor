@@ -92,8 +92,36 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    descriptors. Please check <a href="xml-best-practise.html">here</a> for
                    details.</p>
 
+                 <h3>Added Unmarshaller.setObject(Object)</h3>
+                
+                <p>To specify an existing root object to be used during unmarshalling,
+                   <api class="org.exolab.castor.xml.Unmarshaller">setObject(Object)</api> has been 
+                   added, alternatively to the <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller(Object)</api> 
+                   constructor.</p>
+                   
             </summary>
             <bugs>
+                <bug id="1943" tool="jira">
+                    <description>
+                        Added Unmarshaller.setObject(Object) to allow setting of a root object 
+                        for unmarshalling.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070409</date>
+                </bug>
                 <bug id="1939" tool="jira">
                     <description>
                         Fixed regression issue with automatic conflict resolution and 
