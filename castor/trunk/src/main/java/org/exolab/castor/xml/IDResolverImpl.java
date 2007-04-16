@@ -33,8 +33,12 @@ class IDResolverImpl implements IDResolver {
     void bind(final String id, final Object object, final boolean isValidating) 
         throws ValidationException {
         
-        if (id.equals("") || id == null) {
-            throw new ValidationException ("Invalid (empty) ID value encountered");
+        if (isValidating && id == null) {
+            throw new ValidationException ("Invalid ID value 'null' encountered");
+        }
+        
+        if (isValidating && id.equals("")) {
+            throw new ValidationException ("Empty ID value encountered");
         }
 
         if (isValidating && _idReferences.containsKey(id)) {

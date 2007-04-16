@@ -1,6 +1,12 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1937 using contribution from Paul Croarkin [paul_croarkin@yahoo.com]
+       Relaxed various checks in the default ID resolver implementation so that those
+       are executed only when the Unmarshaller is configured to be 'validating'.
+       Details: http://jira.codehaus.org/browse/CASTOR-1937
+       (Werner - 20070416)
+
 XML:   Resolved issue CASTOR-1943 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Added Unmarshaller.setObject(Object) to allow setting of a root object for unmarshalling.
        Details: http://jira.codehaus.org/browse/CASTOR-1943
