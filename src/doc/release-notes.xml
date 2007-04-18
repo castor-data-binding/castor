@@ -101,6 +101,26 @@ org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
                    
             </summary>
             <bugs>
+                <bug id="1945" tool="jira">
+                    <description>
+                    	Fixed problem with 'time' type handling in XML instance to schema generator.
+                    </description>
+                    <contributor>
+                        <name>Doug Daniels</name>
+                        <email>Daniels.Douglas@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Doug Daniels</name>
+                        <email>Daniels.Douglas@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070418</date>
+                </bug>
                 <bug id="1937" tool="jira">
                     <description>
                     	Relaxed various checks in the default ID resolver implementation so 

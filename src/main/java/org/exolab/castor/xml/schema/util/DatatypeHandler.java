@@ -189,6 +189,7 @@ public class DatatypeHandler {
             return TIME_TYPE;
         }
         catch(ParseException px) {}
+        catch(IllegalArgumentException ex) {}
 
         //-- check for dateTime
         DateFormat df = null;
