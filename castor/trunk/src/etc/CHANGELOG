@@ -1,6 +1,11 @@
 SVN
 -------------------------------
 
+XML:   Resolved issue CASTOR-1945 using contribution from Doug Daniels [Daniels.Douglas@gmail.com]
+       Fixed problem with 'time' type handling in XML instance to schema generator.
+       Details: http://jira.codehaus.org/browse/CASTOR-1945
+       (Werner - 20070418)
+
 XML:   Resolved issue CASTOR-1937 using contribution from Paul Croarkin [paul_croarkin@yahoo.com]
        Relaxed various checks in the default ID resolver implementation so that those
        are executed only when the Unmarshaller is configured to be 'validating'.
