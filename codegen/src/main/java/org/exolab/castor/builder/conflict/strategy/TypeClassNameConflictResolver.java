@@ -53,6 +53,9 @@ implements ClassNameConflictResolver {
             if (element.getParent() == element.getSchema()) {
                 return;
             }
+            if (element.isReference()) {
+                return;
+            }
             XMLType xmlType = element.getType();
             if (xmlType.isComplexType() && xmlType.getName() == null) {
                 typeString = "/complexType:anon";
