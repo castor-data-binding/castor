@@ -197,7 +197,7 @@
                <td><pre><![CDATA[
 <dependency>
    <groupId>org.codehaus.castor</groupId>
-   <artifactId>castor-spring</artifactId>
+   <artifactId>spring-orm</artifactId>
    <version>1.0-SNAPSHOT</version>
 </dependency>]]></pre></td>
         <td>-</td>
