@@ -85,7 +85,7 @@
 	</bean>
 
 	<bean id="myJDOManager"
-		class="org.springframework.orm.castor.LocalCastorFactoryBean">
+		class="org.castor.spring.orm.LocalCastorFactoryBean">
 	    <props>
 	      <prop key="databaseName">test</prop>
 	      <prop key="configLocation">src/test/resources/jdo-conf.xml</prop>
@@ -186,10 +186,9 @@ public class ProductDaoImpl extends CastorTemplate
    }
 }</code-panel>
 		   
-<!-- 
 		<p>Furthermore, Spring provides a convenient CastorDaoSupport base class that
 		   provides a setJDOManager(..) method for receiving a JDOManager,
-		   and getJDOManager() and getCastorTemplate()for use by subclasses.</p>
+		   and getJDOManager() and getCastorTemplate() for use by subclasses.</p>
 		   
 		<p>In combination, this allows for very simple DAO implementations for
 		   typical requirements:</p>
@@ -204,7 +203,7 @@ public class ProductDaoImpl extends CastorDaoSupport
 test.Product product where p.category=?", category);
    }
 }</code-panel>
--->
+
 	</section>
 	
 <!-- 
@@ -345,7 +344,7 @@ while still being able to participate in Spring-managed transactions.
 <beans>
 
 	<bean id="myTxManager"
-		class="org.springframework.orm.castor.CastorTransactionManager">
+		class="org.castor.spring.orm.CastorTransactionManager">
 		<property name="jdoManager" ref="myJDOManager" />
 	</bean>
 
@@ -402,7 +401,7 @@ public class ProductServiceImpl implements ProductService {
 <beans>
 
 	<bean id="myTxManager"
-		class="org.springframework.orm.castor.CastorTransactionManager">
+		class="org.castor.spring.orm.CastorTransactionManager">
 		<property name="jdoManager" ref="myJDOManager" />
 	</bean>
 
@@ -472,7 +471,7 @@ public class ProductServiceImpl implements ProductService {
 	<!-- JDOManager, DataSource, etc. omitted -->
 
 	<bean id="myTxManager"
-		class="org.springframework.orm.castor.CastorTransactionManager">
+		class="org.castor.spring.orm.CastorTransactionManager">
 		<property name="jdoManager" ref="myJDOManager" />
 	</bean>
 
@@ -540,7 +539,7 @@ public class ProductServiceImpl implements ProductService {
 	</bean>
 
 	<bean id="myJDOManager1"
-		class="org.springframework.orm.castor.LocalCastorFactoryBean">
+		class="org.castor.spring.orm.LocalCastorFactoryBean">
 	    <props>
 	      <prop key="databaseName">test1</prop>
 	      <prop key="configLocation">src/test/resources/jdo-conf-1.xml</prop>
@@ -548,7 +547,7 @@ public class ProductServiceImpl implements ProductService {
 	</bean>
 
 	<bean id="myJDOManager2"
-		class="org.springframework.orm.castor.LocalCastorFactoryBean">
+		class="org.castor.spring.orm.LocalCastorFactoryBean">
 	    <props>
 	      <prop key="databaseName">test2</prop>
 	      <prop key="configLocation">src/test/resources/jdo-conf-2.xml</prop>
