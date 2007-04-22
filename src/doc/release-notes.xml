@@ -25,23 +25,33 @@
                     <module></module>
                     <date></date>
                 </bug>
--->
-
         <release version="SVN">
             <description>New and on-going development</description>
             <date>tbd</date>
             <managed-by>Werner Guttmann</managed-by>
             <summary>
+            </summary>
+            <bugs>
+            </bugs>
+        </release>
+
+-->
+
+        <release version="1.1.1">
+            <description>Maintenance release for Castor 1.1</description>
+            <date>April 22, 2007</date>
+            <managed-by>Werner Guttmann</managed-by>
+            <summary>
 
                 <h2>Additions</h2>
 
-                <h3><font color="red">Experimental</font> - Added support for substitution groups</h3>
+                <h3>Added support for substitution groups</h3>
 
                 <p>Support for substitution groups has been added. This new feature is marked
                    as <b>experimental</b> simply to indicate that we'd appreciate as much feedback
                    and testing as possible.</p>
 
-                <h3><font color="red">Experimental</font> - Added 'automatic class name conflict resolution' mode</h3>
+                <h3>Added 'automatic class name conflict resolution' mode</h3>
 
                 <p>The XML code generator now support a new 'automatic class name
                    conflict resolution' mode that will minimize - if not completely
@@ -57,11 +67,7 @@
 org.exolab.castor.builder.automaticConflictResolution=true</code-panel>
 
                 <p>This new mode will avoid class name conflicts by prepending XPATH
-                   fragments to the 'normal' class name as generated otherwise.</p>
-
-                <p>Again, this new feature is marked as <b>experimental</b> simply to
-                   indicate that we'd appreciate as much feedback and testing as
-                   possible.</p>
+                   fragments or type suffices to the 'normal' class name as generated otherwise.</p>
 
                 <h3>Validation of &lt;xs:sequence&gt; order</h3>
 
