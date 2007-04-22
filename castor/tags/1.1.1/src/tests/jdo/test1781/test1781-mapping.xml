@@ -1,0 +1,18 @@
+<?xml version="1.0" ?>
+<!DOCTYPE mapping PUBLIC "-//EXOLAB/Castor Mapping DTD Version 1.0//EN"
+                           "http://castor.org/mapping.dtd">
+<mapping>
+
+  <class name="jdo.test1781.EntityOne" identity="id">
+    <description>Entite one</description>
+    <map-to table="entity1"/>
+    <field name="id" type="integer" >
+      <sql name="id" type="integer"/>
+    </field>
+    <field name="name" type="string">
+      <sql name="name" type="char" />
+    </field>
+  </class>
+
+</mapping>
+

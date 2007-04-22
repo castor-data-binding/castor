@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<test:extended xmlns:test="http://test" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://test test.xsd ">
+	<test:prop1>property 1</test:prop1>
+	<test:prop2>property 2</test:prop2>
+	<test:anything>blah</test:anything>
+</test:extended>

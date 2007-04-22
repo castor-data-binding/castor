@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<root xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:noNamespaceSchemaLocation="test.xsd">
+	<list>integer1</list>
+	<list>integer3</list>
+	<list>integer5</list>
+	<list>integer2</list>
+	<list>integer4</list>
+</root>
