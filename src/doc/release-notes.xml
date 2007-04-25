@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1954" tool="jira">
+                    <description>
+                    	XML code generator does not create property* methods for enumerations anymore.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Godmar Back</name>
+                        <email>godmar@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070425</date>
+                </bug>
             </bugs>
         </release>
         
