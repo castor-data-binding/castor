@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1921 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed incorrect Java version number (as used in Marshaller).
+       Details: http://jira.codehaus.org/browse/CASTOR-1921
+       (Werner - 20070425)
+
 XML:   Resolved issue CASTOR-1954 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        XML code generator does not create property* methods for enumerations anymore.
        Details: http://jira.codehaus.org/browse/CASTOR-1954
