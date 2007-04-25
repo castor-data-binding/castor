@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1921" tool="jira">
+                    <description>
+                    	Fixed incorrect Java version number (as used in Marshaller).
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Dmitry Savenko</name>
+                        <email>dmitry.savenko@db.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070425</date>
+                </bug>
                 <bug id="1954" tool="jira">
                     <description>
                     	XML code generator does not create property* methods for enumerations anymore.

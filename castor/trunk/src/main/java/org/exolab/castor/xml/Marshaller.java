@@ -2007,7 +2007,7 @@ public class Marshaller extends MarshalFramework {
     private String convertBigDecimalToString(Object object) throws MarshalException {
         String stringValue;
         float javaVersion = Float.parseFloat(System.getProperty("java.specification.version"));
-        if (javaVersion > 5.0) {
+        if (javaVersion >= 1.5) {
             // as of Java 5.0 and above, BigDecimal.toPlainString() should be used.
             // TODO: reconsider if we start using BigDecimal for XSTypes that can hold scientific values
             Method method;
