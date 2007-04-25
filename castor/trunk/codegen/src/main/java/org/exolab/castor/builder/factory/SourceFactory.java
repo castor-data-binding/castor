@@ -814,7 +814,7 @@ public final class SourceFactory extends BaseFactory {
         }
 
         //-- create Bound Properties code
-        if (state.hasBoundProperties()) {
+        if (state.hasBoundProperties() && !enumeration) {
             createPropertyChangeMethods(jClass);
         }
 

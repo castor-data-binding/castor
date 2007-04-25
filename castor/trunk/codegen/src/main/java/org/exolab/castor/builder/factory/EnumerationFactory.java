@@ -260,7 +260,7 @@ public final class EnumerationFactory extends BaseFactory {
 
         //-- add internal type
         field = new JField(JType.INT, "type");
-        field.setInitString("-1");
+        field.getModifiers().setFinal(true);
         jClass.addField(field);
 
         //-- add internal stringValue
