@@ -50,13 +50,25 @@ implements ClassNameConflictResolver {
                 typedXPath.indexOf("]"));
         if (annotated instanceof ElementDecl) {
             ElementDecl element = (ElementDecl) annotated;
+            // keep the suggested names for global elements
             if (element.getParent() == element.getSchema()) {
                 return;
             }
+            // keep the suggested name for element references
             if (element.isReference()) {
                 return;
             }
+            // keep the suggested class name if the local element is of the same
+            // type as the global one
             XMLType xmlType = element.getType();
+            ElementDecl globalElement = element.getSchema().getElementDecl(element.getName());
+            if (globalElement != null) {
+                XMLType globalElementType = globalElement.getType();
+                if (globalElementType.getName() != null 
+                        && globalElementType.getName().equals(xmlType.getName())) {
+                    return;
+                }
+            }
             if (xmlType.isComplexType() && xmlType.getName() == null) {
                 typeString = "/complexType:anon";
             }
