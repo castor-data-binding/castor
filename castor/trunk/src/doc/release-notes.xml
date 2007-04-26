@@ -35,6 +35,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1955" tool="jira">
+                    <description>
+                    	Improved handling of global/local element collisions with identical 
+                    	type for automatic class conflict resolution
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070426</date>
+                </bug>
                 <bug id="1921" tool="jira">
                     <description>
                     	Fixed incorrect Java version number (as used in Marshaller).

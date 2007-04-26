@@ -2,6 +2,12 @@ SVN
 ---
 
 XML:   Resolved issue CASTOR-1921 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Improved handling of global/local element collisions with identical type for automatic class 
+       conflict resolution.
+       Details: http://jira.codehaus.org/browse/CASTOR-1955
+       (Werner - 20070426)
+
+XML:   Resolved issue CASTOR-1921 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed incorrect Java version number (as used in Marshaller).
        Details: http://jira.codehaus.org/browse/CASTOR-1921
        (Werner - 20070425)
