@@ -280,6 +280,15 @@ public abstract class Configuration {
          * </pre>
          */
         public static final String SqlServerAnsiCompliant = "org.exolab.castor.jdo.sqlserver.ansi-compliant";
+
+        /**
+         * Property specifying whether sequence order validation should be lenient
+         * <pre>
+         * org.exolab.castor.xml.lenient.sequence.order=false
+         * </pre>
+         */
+        public static final String LenientSequenceOrder = "org.exolab.castor.xml.lenient.sequence.order";
+
     } //-- class: Property
 
 
@@ -520,6 +529,30 @@ public abstract class Configuration {
      */
     public Parser getParser() {
         return getDefaultParser();
+    } //-- getParser
+    
+    /**
+     * Indicates whether (by default) sequence order validation is lenient.
+     *
+     * @return True of sequence order validation is lenient.
+     * @see #getLenientSequenceOrder()
+     */
+    public static boolean getDefaultLenientSequenceOrder()
+    {
+        return Boolean.valueOf(_defaultProps.getProperty(Property.LenientSequenceOrder, "false")).booleanValue();
+    } //-- getDefaultParser
+
+    /**
+     * Indicates whether sequence order validation is lenient.
+     *
+     * Design note: This method should be overloaded by any 
+     * sub-classes.
+     * 
+     * @return True of sequence order validation is lenient.
+     * @see #getDefaultLenientSequenceOrder()
+     */
+    public boolean getLenientSequenceOrder() {
+        return getDefaultLenientSequenceOrder();
     } //-- getParser
     
     /**
