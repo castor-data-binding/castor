@@ -216,7 +216,8 @@ public final class EHCache extends AbstractBaseCache {
         try {
             Object elementInCache = _getMethod.invoke(_cache, new Object[] {key});
             if (elementInCache == null) { return null; }
-            if (_isExpiredMethod.invoke(elementInCache, (Object[]) null) == Boolean.FALSE) {
+            Boolean isExpired = (Boolean) _isExpiredMethod.invoke(elementInCache, (Object[]) null);
+            if (isExpired.equals(Boolean.FALSE)) {
                 result = _getValueMethod.invoke(elementInCache, (Object[]) null);
             }
         } catch (Exception e) {
