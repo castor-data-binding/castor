@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1947 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with access to values stored in ehcache related to expiration.
+       Details: http://jira.codehaus.org/browse/CASTOR-1947
+       (Werner - 20070429)
+
 XML:   Resolved issue CASTOR-1921 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Improved handling of global/local element collisions with identical type for automatic class 
        conflict resolution.

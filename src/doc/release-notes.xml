@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1947" tool="jira">
+                    <description>
+                    	Fixed problem with access to values stored in ehcache related to expiration.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gonzalo Abollado</name>
+                        <email>gabollado@gabollado.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20070429</date>
+                </bug>
                 <bug id="1955" tool="jira">
                     <description>
                     	Improved handling of global/local element collisions with identical 
