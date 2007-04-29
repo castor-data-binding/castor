@@ -1885,7 +1885,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             count++;
         }
         
-        if (descriptor != null && isValidating()) {
+        if (descriptor != null && isValidating() && !_config.getLenientSequenceOrder()) {
             try {
                 classDesc.checkDescriptorForCorrectOrderWithinSequence(descriptor, parentState, name);
             } catch (ValidationException e) {

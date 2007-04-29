@@ -583,6 +583,17 @@ public final class LocalConfiguration extends Configuration {
     }
 
     /**
+     * Indicates whether validation for sequence order should be lenient.
+     *
+     * @return True if sequence order validation should be lenient.
+     */
+    public boolean getLenientSequenceOrder()
+    {
+        return Boolean.valueOf(getProperties().getProperty(Property.LenientSequenceOrder, "false")).booleanValue();
+    } //-- getDefaultParser
+
+
+    /**
      * Calls {@link #getDefault()} to load the configuration the
      * first time and then looks for a local configuration to
      * merge in with the defaults. Will not complain about inability 
