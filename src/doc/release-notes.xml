@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1957" tool="jira">
+                    <description>
+                    	Switched logging for Unmarshaller/UnmarshalHandler to commons-logging.
+                    </description>
+                    <contributor>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Paul Philion</name>
+                        <email>philion@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070430</date>
+                </bug>
                 <bug id="1947" tool="jira">
                     <description>
                     	Fixed problem with access to values stored in ehcache related to expiration.
