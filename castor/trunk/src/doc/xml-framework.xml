@@ -35,37 +35,30 @@
          <api>org.exolab.castor.xml.Marshaller</api> and
          <api>org.exolab.castor.xml.Unmarshaller</api>.
       </p>
+
      <p>
-         Lets walk through a very simple example. Assume we have a simple Person
+        Lets walk through a very simple example. Assume we have a simple Person
         class as follows:
-<code>
+     </p>
+        
+		<code-panel>
 import java.util.Date;
 
-<comment>/**
- * An simple person class
- */</comment>
+<comment>/** An simple person class */</comment>
 public class Person implements java.io.Serializable {
 
-   <comment>/**
-     * The name of the person
-     */</comment>
+   <comment>/** The name of the person */</comment>
    private String name = null;
 
-   <comment>/**
-     * The Date of birth
-     */</comment>
+   <comment>/** The Date of birth */</comment>
    private Date dob = null;
 
-   <comment>/**
-     * Creates a Person with no name
-     */</comment>
+   <comment>/** Creates a Person with no name */</comment>
    public Person() {
       super();
    }
 
-   <comment>/**
-     * Creates a Person with the given name
-     */</comment>
+   <comment>/** Creates a Person with the given name */</comment>
    public Person(String name) {
       this.name  = name;
    }
@@ -99,15 +92,14 @@ public class Person implements java.io.Serializable {
    public void setName(String name) {
       this.name = name;
    }
-}
+}</code-panel>
 
-</code>
+         <p>
+            To marshal an instance of the person class you simply call the Marshaller
+            as follows:
+         </p>
 
-         To marshal an instance of the person class you simply call the Marshaller
-         as follows:
-
-         <code>
-
+         <code-panel>
 <comment>// Create a new Person</comment>
 Person person = new Person("Ryan 'Mad Dog' Madden");
 person.setDateOfBirth(new Date(1955, 8, 15));
@@ -116,37 +108,38 @@ person.setDateOfBirth(new Date(1955, 8, 15));
 writer = new FileWriter("test.xml");
 
 <comment>// Marshal the person object</comment>
-Marshaller.marshal(person, writer);
+Marshaller.marshal(person, writer);</code-panel>
 
-         </code>
+         <p>
+            To unmarshal an instance of the person class you simply call the Unmarshaller
+            as follows:
+         </p>
 
-         To unmarshal an instance of the person class you simply call the Unmarshaller
-         as follows:
-
-         <code>
-
+         <code-panel>
 <comment>// Create a Reader to the file to unmarshal from</comment>
 reader = new FileReader("test.xml");
 
 <comment>// Marshal the person object</comment>
-Person person = (Person)Unmarshaller.unmarshal(Person.class, reader);
+Person person = (Person) Unmarshaller.unmarshal(Person.class, reader);</code-panel>
 
-         </code>
-      </p>
-
-      <b><i>Marshalling and Unmarshalling is basically that simple!</i></b>
-      <p/>
-      <b>
-         Note: A common mistake when using a Mapping file is to call
-         the Marshaller or Unmarshaller as in the above example. This won't work
-         because the mapping will be ignored. The above example
-         uses the <i>static</i> methods of the marshalling framework.
-         If you are using a mapping file simply call the Marshaller or Unmarshaller
-         as follows:
-      </b>
-       <p>
-         <code>
-
+         <p><b><i>Marshalling and Unmarshalling is basically that simple!</i></b></p>
+         
+		<p>
+	       Note: The above example uses the <i>static</i> methods of the marshalling 
+	       framework, and as such no Marshaller and/or Unmarshaller instances need to 
+	       be created. A common mistake in this context when using a <b>mapping file</b> is 
+	       to call the <tt>Marshaller</tt> or <tt>Unmarshaller</tt> as in the above 
+	       example. This won't work, as the mapping will be ignored.
+	    </p>
+	    
+	    <p>
+	       As such, if you are using a mapping file, use one of the <b>non-static</b> (un)marshal
+	       methods on the <api>org.exolab.castor.xml.Marshaller</api> and
+           <api>org.exolab.castor.xml.Unmarshaller</api> classes and call the Marshaller 
+           or Unmarshaller as follows:
+		</p>
+		
+         <code-panel>
 <comment>// Load Mapping</comment>
 Mapping mapping = new Mapping();
 mapping.loadMapping("mapping.xml");
@@ -158,14 +151,70 @@ reader = new FileReader("test.xml");
 Unmarshaller unmarshaller = new Unmarshaller(Person.class);
 unmarshaller.setMapping(mapping);
 <comment>// Unmarshal the person object</comment>
-Person person = (Person)unmarshaller.unmarshal(reader);
+Person person = (Person) unmarshaller.unmarshal(reader);</code-panel>
 
-         </code>
+    </section>
+    
+    <section title="Using XMLContext to bootstrap Castor">
 
-      </p>
+		<p>
+		   With Castor 1.1.2, the <api class="org.exolab.castor.xml.XMLContext">XMLContext</api> 
+		   class has been added to the Castor marshalling framework. This new class provides a 
+		   bootstrap mechanism for Castor XML, and allows easy (and efficient) instantiation of     
+		   <api class="org.exolab.castor.xml.Marshaller">Marshaller</api> and 
+		   <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> 
+		   instances as needed.
+		</p>
+		
+		<p>
+		   Above code sample for umarshalling a <tt>Person</tt> instance using an 
+		   <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> would 
+		   change to:
+		</p>
+		
+		<code-panel>
+import org.exolab.castor.xml.XMLContext;
+import org.exolab.castor.mapping.Mapping;
+import org.exolab.castor.xml.Unmarshaller;
+		
+<comment>//create a Mapping instance</comment>
+Mapping mapping = <b>XMLContext.createMapping()</b>;
+mapping.loadMapping("mapping.xml");
+
+<comment>// create an XMLContext instance and set mapping</comment>
+XMLContext context = new XMLContext();
+context.addMapping(mapping);
+
+<comment>// create a new Unmarshaller</comment>
+Unmarshaller unmarshaller = <b>context.createUnmarshaller()</b>;
+unmarshaller.setClass(Person.class);
+
+<comment>// Create a Reader to the file to unmarshal from</comment>
+Reader reader = new FileReader("test.xml");
+
+<comment>// Unmarshal the person object</comment>
+Person person = (Person) unmarshaller.unmarshal(reader);</code-panel>
+		   
+		<p>
+		   As shown above, the <api class="org.exolab.castor.xml.XMLContext">XMLContext</api> 
+		   class offers various factory methods to obtain a new 
+		   <api class="org.exolab.castor.xml.Marshaller">Marshaller</api>, 
+		   <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> or 
+		   <api class="org.exolab.castor.mapping.Mapping">Mapping</api> instance.
+		</p>
+		
+		<p>
+		   When you need more than one <api class="org.exolab.castor.xml.Unmarshaller">Unmarshaller</api> 
+		   instance in your application, please call 
+		   <api class="org.exolab.castor.xml.XMLContext">createUnmarshaller</api> as required. As all 
+		   <tt>Unmarshaller</tt> instances are created from the very same <tt>XMLContext</tt> 
+		   instance, overhead will be minimal. Please note, though, that an 
+		   <tt>Unmarshaller</tt> instance is not thread-safe.
+		</p>
+		
     </section>
 
-    <section title="Using Existing Classes/Objects">
+    <section title="Using existing Classes/Objects">
       <p>
         Castor can marshal "almost" any arbitrary Object to and from XML. When descriptors
         are not available for a specfic Class, the marshalling framework uses reflection
