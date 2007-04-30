@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1957 using contribution from Paul Philion [philion@gmail.com]
+       Switched logging for Unmarshaller/UnmarshalHandler to commons-logging.
+       Details: http://jira.codehaus.org/browse/CASTOR-1957
+       (Werner - 20070430)
+
 XML:   Resolved issue CASTOR-1947 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with access to values stored in ehcache related to expiration.
        Details: http://jira.codehaus.org/browse/CASTOR-1947

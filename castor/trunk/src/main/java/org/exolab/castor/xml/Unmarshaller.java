@@ -47,6 +47,14 @@ package org.exolab.castor.xml;
 
 
 //-- castor imports
+import java.io.PrintWriter;
+import java.io.Reader;
+import java.util.HashMap;
+import java.util.Iterator;
+import java.util.StringTokenizer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.mapping.MappingUnmarshaller;
 import org.exolab.castor.mapping.Mapping;
@@ -56,9 +64,7 @@ import org.exolab.castor.util.Configuration;
 import org.exolab.castor.util.LocalConfiguration;
 import org.exolab.castor.util.ObjectFactory;
 import org.exolab.castor.xml.location.FileLocation;
-import org.exolab.castor.xml.util.*;
-
-//-- misc xml related imports
+import org.exolab.castor.xml.util.DOMEventProducer;
 import org.w3c.dom.Node;
 import org.xml.sax.ContentHandler;
 import org.xml.sax.EntityResolver;
@@ -66,13 +72,6 @@ import org.xml.sax.InputSource;
 import org.xml.sax.Parser;
 import org.xml.sax.SAXException;
 import org.xml.sax.XMLReader;
-
-//-- Java imports
-import java.io.Reader;
-import java.io.PrintWriter;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.StringTokenizer;
 /**
  * An unmarshaller to allowing unmarshalling of XML documents to
  * Java Objects. The Class must specify
@@ -83,6 +82,11 @@ import java.util.StringTokenizer;
  * @version $Revision$ $Date: 2006-02-23 14:16:51 -0700 (Thu, 23 Feb 2006) $
  */
 public class Unmarshaller {
+
+    /**
+     * Logger from commons-logging
+     */
+    private static final Log LOG = LogFactory.getLog(Unmarshaller.class);
 
     //----------------------------/
     //- Private Member Variables -/
@@ -144,16 +148,6 @@ public class Unmarshaller {
      * The class loader to use
      */
     private ClassLoader _loader = null;
-
-    /**
-     * The print writer used for log information
-     */
-    private PrintWriter _pw = null;
-
-    /**
-     * The flag indicating whether or not to display debug information
-     */
-    private boolean _debug = false;
 
     /**
      * A boolean to indicate that objects should
@@ -280,7 +274,6 @@ public class Unmarshaller {
      */
     private void initConfig() {
         _config   = LocalConfiguration.getInstance();
-        _debug    = _config.debug();
         _validate = _config.marshallingValidation();
         _ignoreExtraElements = (!_config.strictElements());
         
@@ -335,9 +328,7 @@ public class Unmarshaller {
             _cdResolver.setClassLoader(_loader);
         }
         handler.setResolver(_cdResolver);
-        handler.setLogWriter(_pw);
         handler.setClearCollections(_clearCollections);
-        handler.setDebug(_debug);
         handler.setReuseObjects(_reuseObjects);
         handler.setValidation(_validate);
         handler.setIgnoreExtraAttributes(_ignoreExtraAtts);
@@ -437,14 +428,11 @@ public class Unmarshaller {
     } //-- setClearCollections
 
     /**
-     * Turns debuging on or off. If no Log Writer has been set, then
-     * System.out will be used to display debug information
-     * @param debug the flag indicating whether to generate debug information.
-     * A value of true, will turn debuggin on.
-     * @see #setLogWriter
+	 * Custom debugging is replaced with commons-logging
+     * @deprecated
     **/
     public void setDebug(boolean debug) {
-        _debug = debug;
+    	//  no-op
     } //-- setDebug
 
     /**
@@ -496,11 +484,12 @@ public class Unmarshaller {
     } //-- setIgnoreExtraElements
 
     /**
-     * Sets the PrintWriter used for logging
+     * Logging is replaced with commons-logging.
      * @param printWriter the PrintWriter to use for logging
+     * @deprecated
     **/
     public void setLogWriter(PrintWriter printWriter) {
-        _pw = printWriter;
+		// no-op
     } //-- setLogWriter
 
     /**
@@ -699,15 +688,7 @@ public class Unmarshaller {
                 reader.setEntityResolver(entityResolver);
         }
         catch(RuntimeException rx) {
-            if (_debug) {
-                String err = "Unable to create SAX XMLReader, attempting SAX Parser.";
-                if (_pw != null) {
-                    _pw.println(err);
-                }
-                else {
-                    System.out.println(err);
-                }
-            }
+        	LOG.debug("Unable to create SAX XMLReader, attempting SAX Parser.");
         }
         
         if (reader == null) {
@@ -819,10 +800,10 @@ public class Unmarshaller {
     {
         Unmarshaller unmarshaller = new Unmarshaller(c);
         
-        if (unmarshaller._debug) {
-            String warning = "debug: *static* unmarshal method called, this will " +
-                "ignore any mapping files or changes made to an Unmarshaller instance.";
-            System.out.println(warning);
+        // TODO: Should this be at level INFO?
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("*static* unmarshal method called, this will ignore any " +
+            		"mapping files or changes made to an Unmarshaller instance.");
         }
         
         //-- for backward compatibility with Castor versions
@@ -851,10 +832,11 @@ public class Unmarshaller {
         throws MarshalException, ValidationException
     {
         Unmarshaller unmarshaller = new Unmarshaller(c);
-        if (unmarshaller._debug) {
-            String warning = "debug: *static* unmarshal method called, this will " +
-                "ignore any mapping files or changes made to an Unmarshaller instance.";
-            System.out.println(warning);
+        
+        // TODO: Should this be at level INFO?
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("*static* unmarshal method called, this will ignore any " +
+            		"mapping files or changes made to an Unmarshaller instance.");
         }
         
         //-- for backward compatibility with Castor versions
@@ -882,10 +864,11 @@ public class Unmarshaller {
     public static Object unmarshal(Class c, Node node)
     throws MarshalException, ValidationException {
         Unmarshaller unmarshaller = new Unmarshaller(c);
-        if (unmarshaller._debug) {
-            String warning = "debug: *static* unmarshal method called, this will " +
-                "ignore any mapping files or changes made to an Unmarshaller instance.";
-            System.out.println(warning);
+        
+        // TODO: Should this be at level INFO?
+        if (LOG.isDebugEnabled()) {
+            LOG.debug("*static* unmarshal method called, this will ignore any " +
+            		"mapping files or changes made to an Unmarshaller instance.");
         }
         
         //-- for backward compatibility with Castor versions

@@ -48,36 +48,48 @@
 package org.exolab.castor.xml;
 
 //-- Castor imports
+import java.io.PrintWriter;
+import java.io.Serializable;
+import java.io.StringWriter;
+import java.lang.reflect.Array;
+import java.lang.reflect.InvocationTargetException;
+import java.lang.reflect.Method;
+import java.lang.reflect.Modifier;
+import java.util.ArrayList;
+import java.util.Enumeration;
+import java.util.HashMap;
+import java.util.Hashtable;
+import java.util.Stack;
+import java.util.StringTokenizer;
+
+import org.apache.commons.logging.Log;
+import org.apache.commons.logging.LogFactory;
 import org.castor.mapping.BindingType;
 import org.castor.util.Base64Decoder;
 import org.castor.util.HexDecoder;
-import org.exolab.castor.util.Configuration;
-import org.exolab.castor.util.ObjectFactory;
-import org.exolab.castor.util.DefaultObjectFactory;
-import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
-import org.exolab.castor.xml.descriptors.StringClassDescriptor;
-import org.exolab.castor.xml.util.*;
 import org.exolab.castor.mapping.ClassDescriptor;
 import org.exolab.castor.mapping.ExtendedFieldHandler;
 import org.exolab.castor.mapping.FieldHandler;
 import org.exolab.castor.mapping.MapItem;
 import org.exolab.castor.mapping.loader.FieldHandlerImpl;
-
-//-- xml related imports
-import org.xml.sax.*;
-
-import java.io.PrintWriter;
-import java.io.Serializable;
-import java.io.StringWriter;
-
-import java.lang.reflect.*;
-
-import java.util.ArrayList;
-import java.util.HashMap;
-import java.util.Hashtable;
-import java.util.Stack;
-import java.util.Enumeration;
-import java.util.StringTokenizer;
+import org.exolab.castor.util.Configuration;
+import org.exolab.castor.util.DefaultObjectFactory;
+import org.exolab.castor.util.ObjectFactory;
+import org.exolab.castor.xml.descriptors.PrimitivesClassDescriptor;
+import org.exolab.castor.xml.descriptors.StringClassDescriptor;
+import org.exolab.castor.xml.util.AttributeSetImpl;
+import org.exolab.castor.xml.util.ContainerElement;
+import org.exolab.castor.xml.util.SAX2ANY;
+import org.exolab.castor.xml.util.XMLClassDescriptorImpl;
+import org.exolab.castor.xml.util.XMLFieldDescriptorImpl;
+import org.xml.sax.AttributeList;
+import org.xml.sax.Attributes;
+import org.xml.sax.ContentHandler;
+import org.xml.sax.DocumentHandler;
+import org.xml.sax.ErrorHandler;
+import org.xml.sax.Locator;
+import org.xml.sax.SAXException;
+import org.xml.sax.SAXParseException;
 
 /**
  * An unmarshaller to allowing unmarshaling of XML documents to
@@ -90,6 +102,10 @@ import java.util.StringTokenizer;
  */
 public final class UnmarshalHandler extends MarshalFramework
 implements ContentHandler, DocumentHandler, ErrorHandler {
+    /**
+     * Logger from commons-logging
+     */
+    private static final Log LOG = LogFactory.getLog(UnmarshalHandler.class);
 
     //---------------------------/
     //- Private Class Variables -/
@@ -145,12 +161,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     private Object           _topObject    = null;
 
     /**
-     * A StringBuffer used to created Debug/Log messages
-    **/
-    //private StringBuffer     buf           = null;
-
-
-    /**
      * Indicates whether or not collections should be cleared
      * upon first use (to remove default values, or old values).
      * False by default for backward compatibility.
@@ -161,27 +171,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      * The Castor configuration
      */
     private Configuration    _config       = null;
-    
-    /**
-     * A flag to indicate whether or not to generate debug information
-    **/
-    private boolean          debug         = false;
-
-    /**
-     * A flag to indicate we need to kill the _logWriter when
-     * debug mode is false
-    **/
-    private boolean          killWriter    = false;
 
     /**
      * The SAX Document Locator
     **/
     private Locator          _locator      = null;
-
-    /**
-     * The PrintWriter to print log information to
-    **/
-    private PrintWriter      _logWriter    = null;
 
     /**
      * The ClassDescriptorResolver which is used to "resolve"
@@ -390,26 +384,14 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _clearCollections = clear;
     } //-- setClearCollections
 
-    
     /**
-     * Turns debuging on or off. If no Log Writer has been set, then
-     * System.out will be used to display debug information
-     * @param debug the flag indicating whether to generate debug information.
-     * A value of true, will turn debuggin on.
-     * @see #setLogWriter
+	 * Included for backward compatibility. Debug is replaced with 
+	 * commons-logging.
+	 * @deprecated
     **/
     public void setDebug(boolean debug) {
-        this.debug = debug;
-
-        if (this.debug && (_logWriter == null)) {
-            _logWriter = new PrintWriter(System.out, true);
-            killWriter = true;
-        }
-        if ((!this.debug) && killWriter) {
-            _logWriter = null;
-            killWriter = false;
-        }
-    } //-- setDebug
+    	// no-op
+    }
 
     /**
      * Sets the IDResolver to use when resolving IDREFs for
@@ -450,15 +432,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         _strictElements = (!ignoreExtraElems);
     } //-- setIgnoreExtraElements
 
-
     /**
-     * Sets the PrintWriter used for printing log messages
-     * @param printWriter the PrintWriter to use when printing
-     * log messages
+     * Custom logging replaced with commons-logging.
+     * @deprecated
     **/
     public void setLogWriter(PrintWriter printWriter) {
-        this._logWriter = printWriter;
-        killWriter = false;
+    	// no-op
     } //-- setLogWriter
 
     /**
@@ -536,12 +515,12 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
     public void characters(char[] ch, int start, int length)
         throws SAXException
     {
-        if (debug) {
+    	if (LOG.isTraceEnabled()) {
             StringBuffer sb = new StringBuffer(21 + length);
             sb.append("#characters: ");
             sb.append(ch, start, length);
-            message(sb.toString());
-        }
+            LOG.trace(sb.toString());
+    	}
         
         //-- If we are skipping elements that have appeared in the XML but for
         //-- which we have no mapping, skip the text and return
@@ -635,9 +614,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         throws org.xml.sax.SAXException
     {
         
-        
-        if (debug) {
-            message("#endElement: " + name);
+        if (LOG.isTraceEnabled()) {
+        	LOG.trace("#endElement: " + name);
         }
         
         //-- If we are skipping elements that have appeared in the XML but for
@@ -721,7 +699,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- this message will only show up if debug
                 //-- is turned on...how should we handle this case?
                 //-- should it be a fatal error?
-                message("Ignoring " + state.elementName + " no descriptor was found");
+                LOG.info("Ignoring " + state.elementName + " no descriptor was found");
             }
             
             //-- handle possible location text content
@@ -1214,11 +1192,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void startElement(String namespaceURI, String localName, String qName, Attributes atts)
     throws org.xml.sax.SAXException {
-        if (debug) {
+        if (LOG.isTraceEnabled()) {
             if ((qName != null) && (qName.length() > 0))
-                message("#startElement: " + qName);
+                LOG.trace("#startElement: " + qName);
             else
-                message("#startElement: " + localName);
+            	LOG.trace("#startElement: " + localName);
         }
         
         //-- If we are skipping elements that have appeared in the XML but for
@@ -1385,8 +1363,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
      */
     public void startElement(String name, AttributeList attList)
     throws org.xml.sax.SAXException {
-        if (debug) {
-            message("#startElement: " + name);
+        if (LOG.isTraceEnabled()) {
+        	LOG.trace("#startElement: " + name);
         }
         
         //-- If we are skipping elements that have appeared in the XML but for
@@ -1904,8 +1882,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             if (isWrapper) {
                 state.classDesc = new XMLClassDescriptorImpl(ContainerElement.class, name);
                 state.wrapper = true;
-                if (debug) {
-                    message("wrapper-element: " + name);
+                if (LOG.isDebugEnabled()) {
+                	LOG.debug("wrapper-element: " + name);
                 }
                 //-- process attributes
                 processWrapperAttributes(atts);
@@ -1927,8 +1905,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 ++_ignoreElementDepth;
                 //-- remove the StateInfo we just added
                 _stateInfo.pop();
-                if (debug) {
-                    message(mesg + " - ignoring extra element.");
+                if (LOG.isDebugEnabled()) {
+                	LOG.debug(mesg + " - ignoring extra element.");
                 }
                 return;
             }
@@ -1936,8 +1914,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //the class descriptor was introspected
             //just log it
             else if (Introspector.introspected(classDesc)) {
-                //if (warn)
-                message(mesg);
+                LOG.warn(mesg);
                 return;
             }
             //-- otherwise report error since we cannot find a suitable 
@@ -1961,8 +1938,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             //create a new state to set the container as the object
             //don't save the current state, it will be recreated later
             
-            if (debug) {
-                message("#container: " + descriptor.getFieldName());
+            if (LOG.isDebugEnabled()) {
+            	LOG.debug("#container: " + descriptor.getFieldName());
             }
             
             //-- clear current state and re-use for the container
@@ -2291,7 +2268,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             state.type = _class;
         }
         catch (java.lang.IllegalStateException ise) {
-            message(ise.toString());
+            LOG.error(ise.toString());
             throw new SAXException(ise);
         }
 
@@ -2313,8 +2290,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         //-- assign object, if incremental
 
         if (descriptor.isIncremental()) {
-            if (debug) {
-                message("debug: Processing incrementally for element: " + name);
+            if (LOG.isDebugEnabled()) {
+            	LOG.debug("debug: Processing incrementally for element: " + name);
             }
             try {
                 handler.setValue(parentState.object, state.object);
@@ -2345,7 +2322,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 buffer.append(name);
                 buffer.append("\' is null. Processing attributes as location");
                 buffer.append("/wrapper only and ignoring all other attribtes.");
-                message(buffer.toString());
+                LOG.warn(buffer.toString());
             }
         }
         else {
@@ -2639,7 +2616,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     //-- Since many attributes represent primitive
                     //-- fields, we add an extra validation check here
                     //-- in case the class doesn't have a "has-method".
-                    if (descriptor.isRequired() && (isValidating() || debug)) {
+                    if (descriptor.isRequired() && (isValidating() || LOG.isDebugEnabled())) {
                         String err = classDesc.getXMLName() + " is missing " +
                             "required attribute: " + descriptor.getXMLName();
                         if (_locator != null) {
@@ -2649,8 +2626,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                         if (isValidating()) {
                             throw new SAXException(err);
                         }
-                        if (debug) {
-                            message(err);
+                        if (LOG.isDebugEnabled()) {
+                            LOG.debug(err);
                         }
                     }
                 }
@@ -2736,11 +2713,11 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                 //-- XML specification specific attribute
                 //-- It should be safe to ignore these...but
                 //-- if you think otherwise...let use know!
-                if (debug) {
+                if (LOG.isDebugEnabled()) {
                     String msg = "ignoring attribute '" + name +
                         "' for class: " +
                             state.classDesc.getJavaClass().getName();
-                    message(msg);
+                    LOG.debug(msg);
                 }
                 continue;
             }
@@ -3335,19 +3312,6 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
 
     }
 
-
-    /**
-     * Sends a message to all observers. Currently the only observer is
-     * the logger.
-     * @param msg the message to send to all message observers
-    **/
-    private void message(String msg) {
-        if (_logWriter != null) {
-            _logWriter.println(msg);
-            _logWriter.flush();
-        }
-    } //-- message
-
     /**
      * Finds and returns an XMLClassDescriptor for the given class name.
      * If a ClassDescriptor could not be found one will attempt to
@@ -3410,8 +3374,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return new InternalXMLClassDescriptor(classDesc);
         }
 
-        if (debug) {
-            message(ERROR_DID_NOT_FIND_CLASSDESCRIPTOR + _class.getName());
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug(ERROR_DID_NOT_FIND_CLASSDESCRIPTOR + _class.getName());
         }
         
         return classDesc;
@@ -3446,8 +3410,8 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
             return new InternalXMLClassDescriptor(classDesc);
         }
 
-        if (debug) {
-            message(ERROR_DID_NOT_FIND_CLASSDESCRIPTOR + className);
+        if (LOG.isDebugEnabled()) {
+        	LOG.debug(ERROR_DID_NOT_FIND_CLASSDESCRIPTOR + className);
         }
         
         return classDesc;
