@@ -352,7 +352,8 @@ public class FieldInfo extends XMLInfo {
         jClass.addMethod(method);
         jsc = method.getSourceCode();
         jsc.add("return this._has");
-        jsc.append(getName());
+        String fieldName = getName();
+        jsc.append(fieldName);
         jsc.append(";");
 
         //-- create delete method
@@ -360,16 +361,20 @@ public class FieldInfo extends XMLInfo {
         jClass.addMethod(method);
         jsc = method.getSourceCode();
         jsc.add("this._has");
-        jsc.append(getName());
+        jsc.append(fieldName);
         jsc.append("= false;");
         //-- bound properties
         if (_bound) {
             //notify listeners
             jsc.add("notifyPropertyChangeListeners(\"");
-            jsc.append(getName());
+            if (fieldName.startsWith("_")) {
+                jsc.append(fieldName.substring(1));
+            } else {
+                jsc.append(fieldName);
+            }
             jsc.append("\", ");
             //-- 'this.' ensures this refers to the class member not the parameter
-            jsc.append(xsType.createToJavaObjectCode("this." + getName()));
+            jsc.append(xsType.createToJavaObjectCode("this." + fieldName));
             jsc.append(", null");
             jsc.append(");");
         }
@@ -451,6 +456,7 @@ public class FieldInfo extends XMLInfo {
         createSetterComment(method.getJDocComment());
         jsc = method.getSourceCode();
 
+        String fieldName = getName();
         //-- bound properties
         if (_bound) {
             // save old value
@@ -458,13 +464,13 @@ public class FieldInfo extends XMLInfo {
             jsc.append(mname);
             jsc.append(" = ");
             //-- 'this.' ensures this refers to the class member not the parameter
-            jsc.append(xsType.createToJavaObjectCode("this." + getName()));
+            jsc.append(xsType.createToJavaObjectCode("this." + fieldName));
             jsc.append(";");
         }
 
         //-- set new value
         jsc.add("this.");
-        jsc.append(getName());
+        jsc.append(fieldName);
         jsc.append(" = ");
         jsc.append(paramName);
         jsc.append(";");
@@ -494,7 +500,7 @@ public class FieldInfo extends XMLInfo {
         //-- hasProperty
         if (isHasAndDeleteMethods()) {
             jsc.add("this._has");
-            jsc.append(getName());
+            jsc.append(fieldName);
             jsc.append(" = true;");
         }
 
@@ -502,12 +508,16 @@ public class FieldInfo extends XMLInfo {
         if (_bound) {
             //notify listeners
             jsc.add("notifyPropertyChangeListeners(\"");
-            jsc.append(getName());
+            if (fieldName.startsWith("_")) {
+                jsc.append(fieldName.substring(1));
+            } else {
+                jsc.append(fieldName);
+            }
             jsc.append("\", old");
             jsc.append(mname);
             jsc.append(", ");
             //-- 'this.' ensures this refers to the class member not the parameter
-            jsc.append(xsType.createToJavaObjectCode("this." + getName()));
+            jsc.append(xsType.createToJavaObjectCode("this." + fieldName));
             jsc.append(");");
         }
     } //-- createSetterMethod
