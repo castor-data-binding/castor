@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1896" tool="jira">
+                    <description>
+                    	Removed (illegal) underscores from calls to PropertyChangeListeners.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Azgard</name>
+                        <email>codehaus@lnx.de</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070430</date>
+                </bug>
                 <bug id="1957" tool="jira">
                     <description>
                     	Switched logging for Unmarshaller/UnmarshalHandler to commons-logging.

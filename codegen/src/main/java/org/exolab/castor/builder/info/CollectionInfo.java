@@ -313,9 +313,14 @@ public class CollectionInfo extends FieldInfo {
      */
     protected final void createBoundPropertyCode(final JSourceCode sourceCode) {
         sourceCode.add("notifyPropertyChangeListeners(\"");
-        sourceCode.append(getName());
+        String fieldName = getName();
+        if (fieldName.startsWith("_")) {
+            sourceCode.append(fieldName.substring(1));
+        } else {
+            sourceCode.append(fieldName);
+        }
         sourceCode.append("\", null, ");
-        sourceCode.append(getName());
+        sourceCode.append(fieldName);
         sourceCode.append(");");
     } // -- createBoundPropertyCode
 

@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1896 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Removed (illegal) underscores from calls to PropertyChangeListeners.
+       Details: http://jira.codehaus.org/browse/CASTOR-1896
+       (Werner - 20070502)
+
 XML:   Resolved issue CASTOR-1957 using contribution from Paul Philion [philion@gmail.com]
        Switched logging for Unmarshaller/UnmarshalHandler to commons-logging.
        Details: http://jira.codehaus.org/browse/CASTOR-1957
