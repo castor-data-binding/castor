@@ -289,6 +289,15 @@ public abstract class Configuration {
          */
         public static final String LenientSequenceOrder = "org.exolab.castor.xml.lenient.sequence.order";
 
+        /**
+         * Property specifying whether id/href validation should be lenient;
+         * defaults to false
+         * <pre>
+         * org.exolab.castor.xml.lenient.id.validation=false
+         * </pre>
+         */
+        public static final String LenientIdValidation = "org.exolab.castor.xml.lenient.id.validation";
+
     } //-- class: Property
 
 
@@ -540,7 +549,7 @@ public abstract class Configuration {
     public static boolean getDefaultLenientSequenceOrder()
     {
         return Boolean.valueOf(_defaultProps.getProperty(Property.LenientSequenceOrder, "false")).booleanValue();
-    } //-- getDefaultParser
+    }
 
     /**
      * Indicates whether sequence order validation is lenient.
@@ -554,7 +563,31 @@ public abstract class Configuration {
     public boolean getLenientSequenceOrder() {
         return getDefaultLenientSequenceOrder();
     } //-- getParser
-    
+
+    /**
+     * Indicates whether (by default) id/href validation is lenient.
+     *
+     * @return True if id/href validation is lenient.
+     * @see #getLenientIdValidation()
+     */
+    public static boolean getDefaultLenientIdValidation()
+    {
+        return Boolean.valueOf(_defaultProps.getProperty(Property.LenientIdValidation, "false")).booleanValue();
+    }
+
+    /**
+     * Indicates whether id/href validation is lenient.
+     *
+     * Design note: This method should be overloaded by any 
+     * sub-classes.
+     * 
+     * @return True if id/href validation is lenient.
+     * @see #getDefaultLenientIdValidation()
+     */
+    public boolean getLenientIdValidation() {
+        return getDefaultLenientIdValidation();
+    }
+
     /**
      * Return an XML document parser implementing the feature list
      * specified in the default configuration file.

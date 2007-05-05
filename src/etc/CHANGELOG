@@ -2,6 +2,12 @@ SVN
 ---
 
 XML:   Resolved issue CASTOR-1896 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Introduced new 'lenient' properties in castor.properties so that new sequence order and id/href
+       validation can be selectively turned off.
+       Details: http://jira.codehaus.org/browse/CASTOR-1962
+       (Werner - 20070505)
+
+XML:   Resolved issue CASTOR-1896 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Removed (illegal) underscores from calls to PropertyChangeListeners.
        Details: http://jira.codehaus.org/browse/CASTOR-1896
        (Werner - 20070502)

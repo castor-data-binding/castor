@@ -897,7 +897,9 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
                     context.setResolver(_cdResolver);
                     context.setConfiguration(_config);
                     validator.validate(state.object, context);
-                    validator.checkUnresolvedIdrefs(context);
+                    if (!_config.getLenientIdValidation()) {
+                        validator.checkUnresolvedIdrefs(context);
+                    }
                     context.cleanup();
                 }
                 catch(ValidationException vEx) {
@@ -2940,7 +2942,7 @@ implements ContentHandler, DocumentHandler, ErrorHandler {
         if (classDesc.getIdentity() == descriptor) {
             
             try {
-                _idResolver.bind(attValue, parent, isValidating());
+                _idResolver.bind(attValue, parent, isValidating() && !_config.getLenientIdValidation());
             } catch (ValidationException e) {
                 throw new SAXException("Duplicate ID " + attValue + " encountered.", e);
             }
