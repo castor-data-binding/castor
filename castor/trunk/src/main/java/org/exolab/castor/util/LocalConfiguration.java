@@ -590,8 +590,17 @@ public final class LocalConfiguration extends Configuration {
     public boolean getLenientSequenceOrder()
     {
         return Boolean.valueOf(getProperties().getProperty(Property.LenientSequenceOrder, "false")).booleanValue();
-    } //-- getDefaultParser
+    }
 
+    /**
+     * Indicates whether id/href validation should be lenient.
+     *
+     * @return True if id/href validation should be lenient.
+     */
+    public boolean getLenientIdValidation()
+    {
+        return Boolean.valueOf(getProperties().getProperty(Property.LenientIdValidation, "false")).booleanValue();
+    }
 
     /**
      * Calls {@link #getDefault()} to load the configuration the
