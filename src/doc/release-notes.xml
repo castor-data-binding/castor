@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1964" tool="jira">
+                    <description>
+                    	Fixed problem with picking up SAX features from custom castor.properties.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Anti Orgla</name>
+                        <email>apunkto@gmail.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>XML</module>
+                    <date>20070506</date>
+                </bug>
                 <bug id="1962" tool="jira">
                     <description>
                     	Introduced new 'lenient' properties in castor.properties so that new 

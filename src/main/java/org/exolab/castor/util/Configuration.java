@@ -673,7 +673,7 @@ public abstract class Configuration {
 
         if (parser instanceof XMLReader) {
             XMLReader xmlReader = (XMLReader) parser;
-            setFeaturesOnXmlReader(features, validation, namespaces, xmlReader);
+            setFeaturesOnXmlReader(getDefault(), features, validation, namespaces, xmlReader);
         }
         
         return parser;
@@ -686,15 +686,15 @@ public abstract class Configuration {
      * @param namespaces Whether to enable namespace support for not.
      * @param xmlReader The XMLReader instance to configure.
      */
-    protected static void setFeaturesOnXmlReader(String features, 
+    protected static void setFeaturesOnXmlReader(final Properties properties, 
+            String features, 
             final boolean validation, 
             final boolean namespaces, 
             final XMLReader xmlReader) {
-        StringTokenizer token;
         try {
             xmlReader.setFeature(Features.Validation, validation);
             xmlReader.setFeature(Features.Namespaces, namespaces);
-            features = getDefault().getProperty(Property.ParserFeatures, features);
+            features = properties.getProperty(Property.ParserFeatures, features);
             enableFeatures(features, xmlReader);
             String featuresToDisable = getDefault().getProperty(Property.ParserFeaturesToDisable, "");
             disableFeatures(featuresToDisable, xmlReader);
@@ -878,7 +878,7 @@ public abstract class Configuration {
         }
 
         StringTokenizer token;
-        setFeaturesOnXmlReader(features, validation, namespaces, reader);
+        setFeaturesOnXmlReader(getDefault(), features, validation, namespaces, reader);
         return reader;
     } //-- getDefaultXMLReader
 
