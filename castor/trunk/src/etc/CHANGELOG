@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1964 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Fixed problem with picking up SAX features from custom castor.properties.
+       Details: http://jira.codehaus.org/browse/CASTOR-1964
+       (Werner - 200705056)
+
 XML:   Resolved issue CASTOR-1896 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Introduced new 'lenient' properties in castor.properties so that new sequence order and id/href
        validation can be selectively turned off.
