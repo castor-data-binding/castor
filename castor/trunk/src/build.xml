@@ -65,6 +65,7 @@
         <pathelement location="${basedir}/xmlctf/build/classes" />
         <pathelement location="${basedir}/cpactf/build/classes" />
         <pathelement location="${basedir}/cpaptf/build/classes" />
+        <pathelement location="${basedir}/examples/build/classes" />
     </path>
 
     <path id="javadoc.classpath">
@@ -211,6 +212,7 @@
         <ant antfile="${basedir}/xmlctf/build.xml" target="clean.xmlctf" inheritAll="false" />
         <ant antfile="${basedir}/cpactf/build.xml" target="clean.cpactf" inheritAll="false" />
         <ant antfile="${basedir}/cpaptf/build.xml" target="clean.cpaptf" inheritAll="false" />
+        <ant antfile="${basedir}/examples/build.xml" target="clean.examples" inheritAll="false" />
     </target>
 
     <target name="clean.tests" description="Removes the build artifacts related to tests">
@@ -292,9 +294,13 @@
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
         </ant>
+        <ant antfile="${basedir}/examples/build.xml" target="compile.examples" inheritAll="false">
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
     </target>
 
-    <target name="all" depends="clean,compile,compile.examples,compile.tests"
+    <target name="all" depends="clean,compile,compile.tests"
             description="Same as the default target, but also calls clean, compile, compile.examples and compile.tests targets"/>
 
     <target name="main.opt" depends="prepare"
@@ -314,29 +320,7 @@
         </copy>
     </target>
 
-    <target name="compile.examples" depends="prepare, compile"
-            description="Builds the example packages (including debugging info)">
-        <mkdir dir="${build}/examples"/>
-        <mkdir dir="${build}/examples/META-INF"/>
-        <javac srcdir="${source}/examples" destdir="${build}/examples"
-               debug="on" encoding="ISO-8859-1" deprecation="${deprecation}"
-               excludes="${exampleexcludes}">
-            <classpath refid="build.classpath"/>
-        </javac>
-
-        <!-- copy manifest file to expected location -->
-        <copy file="${source}/etc/MANIFEST.EXAMPLES.MF" tofile="${build}/examples/META-INF/MANIFEST.MF"/>
-        <replace file="${build}/examples/META-INF/MANIFEST.MF" token="$$VERSION$$" value="${version}"/>
-        <replace file="${build}/examples/META-INF/MANIFEST.MF" token="$$RELEASE$$" value="${release}"/>
-
-        <copy todir="${build}/examples">
-            <fileset dir="${source}/examples">
-                <patternset refid="support.files" />
-            </fileset>
-        </copy>
-    </target>
-
-    <target name="compile.tests" depends="prepare,compile" description="Build the tests packages">
+	<target name="compile.tests" depends="prepare,compile" description="Build the tests packages">
         <!-- create directory for tests in ${build} directory -->
         <mkdir dir="${build}/tests"/>
 
@@ -441,22 +425,7 @@
              excludes="xml" />
     </target>
 
-    <target name="jar.examples" depends="compile.examples"
-            description="Creates a JAR file for the JDO examples.">
-        <delete file="${dist}/${archive.name}-examples.jar" />
-        <delete file="${dist}/${archive.name}-examples-sources.jar" />
-
-        <!-- Create JAR for Castor examples -->
-        <jar jarfile="${dist}/${archive.name}-examples.jar" manifest="${build}/examples/META-INF/MANIFEST.MF">
-             <fileset dir="${build}/examples"/>
-        </jar>
-        <!-- Create JAR for the sources of the Castor examples -->
-        <jar jarfile="${dist}/${archive.name}-examples-sources.jar">
-        	<fileset dir="${source}/examples" />
-        </jar>
-    </target>
-
-    <target name="zip.examples" depends="jar.examples">
+    <target name="zip.examples" depends="jar">
       <delete dir="target" />
       <mkdir dir="target" />
       <mkdir dir="target/lib" />
@@ -556,6 +525,12 @@
         </ant>
         <!-- create JAR for source generator Ant task, calling module build file recursively -->
         <ant antfile="${basedir}/anttask/build.xml" target="jar.anttask" inheritAll="false">
+            <property name="project" value="${project}"/>
+            <property name="version" value="${version}"/>
+            <property name="release" value="${release}"/>
+        </ant>
+        <!-- create JAR for example code -->
+        <ant antfile="${basedir}/examples/build.xml" target="jar.examples" inheritAll="false">
             <property name="project" value="${project}"/>
             <property name="version" value="${version}"/>
             <property name="release" value="${release}"/>
@@ -762,7 +737,7 @@
         <zip zipfile="${dist}/${archive.name}-src.zip" basedir="${build}" includes="${archive.name}/**"/>
     </target>
 
-    <target name="release" depends="clean,jar,jar.examples,source,docs,tarball,zip.examples"
+    <target name="release" depends="clean,jar,source,docs,tarball,zip.examples"
             description="An alias to call the clean, jar, source, docs and tarball targets"/>
 
     <target name="tarball" depends="prepare,doc,jar"
