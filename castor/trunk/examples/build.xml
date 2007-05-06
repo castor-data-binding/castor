@@ -1,0 +1,51 @@
+<project name="Castor CPA - PTF" default="compile.examples" basedir=".">
+
+    <!-- $Id: build.xml 0000 2007-01-19 21:12:08Z ekuns $ -->
+
+    <property environment="env" />
+    <property name="source"               value="${basedir}/src"/>
+    <property name="main.java"            value="${source}/main/java"/>
+    <property name="main.resources"       value="${source}/main/resources"/>
+    <property name="test.java"            value="${source}/test/java"/>
+    <property name="test.resources"       value="${source}/test/resources"/>
+    <property name="build"                value="${basedir}/build"/>
+    <property name="classes"              value="${build}/classes"/>
+    <property name="archive"              value="${project}-${version}${release}-examples"/>
+
+	<property name="exampleexcludes"      value="codegen/*,**/dax/**"/>
+
+    <path id="build.classpath">
+        <pathelement location="${basedir}/build/classes"/>
+        <pathelement location="${basedir}/../build/classes"/>
+        <pathelement location="${basedir}/../lib/commons-logging-1.1.jar"/>
+        <pathelement location="${basedir}/../lib/ldapjdk_4.1.jar"/>
+    </path>
+
+    <target name="prepare.examples" unless="prepare.examples.executed">
+        <mkdir dir="${build}"/>
+        <mkdir dir="${classes}"/>
+        <property name="prepare.examples.executed" value="true"/>
+    </target>
+
+    <target name="clean.examples" description="Removes examples build directory">
+        <delete dir="${build}"/>
+    </target>
+
+    <target name="compile.examples" depends="prepare.examples" description="Compile example code">
+        <javac srcdir="${main.java}" destdir="${classes}"
+               debug="on" encoding="ISO-8859-1" deprecation="false"
+        	   excludes="${exampleexcludes}">
+            <classpath refid="build.classpath"/>
+        </javac>
+        <copy todir="${classes}">
+            <fileset dir="${main.resources}">
+                <include name="**"/>
+            </fileset>
+        </copy>
+    </target>
+
+    <target name="jar.examples" depends="compile.examples" description="Build examples JAR file">
+        <jar jarfile="${build}/${archive}.jar" basedir="${classes}" includes="**" />
+    </target>
+
+</project>
