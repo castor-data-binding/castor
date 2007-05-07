@@ -67,11 +67,7 @@ import org.exolab.castor.builder.types.XSListType;
 import org.exolab.castor.builder.types.XSClass;
 import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
-import org.exolab.castor.xml.schema.Annotated;
-import org.exolab.castor.xml.schema.Annotation;
-import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.ComplexType;
-import org.exolab.castor.xml.schema.Documentation;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Group;
@@ -618,59 +614,5 @@ public final class MemberFactory extends BaseFactory {
         }
         return value;
     }
-
-    /**
-     * Creates a comment to be used in Javadoc from the given Annotated
-     * Structure.
-     *
-     * @param annotated the Annotated structure to process
-     * @return the generated comment
-     */
-    private String createComment(final Annotated annotated) {
-        //-- process annotations
-        Enumeration enumeration = annotated.getAnnotations();
-        if (enumeration.hasMoreElements()) {
-            //-- just use first annotation
-            return createComment((Annotation) enumeration.nextElement());
-        }
-        //-- there were no annotations...try possible references
-        switch(annotated.getStructureType()) {
-            case Structure.ELEMENT:
-                ElementDecl elem = (ElementDecl) annotated;
-                if (elem.isReference()) {
-                    return createComment(elem.getReference());
-                }
-                break;
-            case Structure.ATTRIBUTE:
-                AttributeDecl att = (AttributeDecl) annotated;
-                if (att.isReference()) {
-                    return createComment(att.getReference());
-                }
-                break;
-            default:
-                break;
-        }
-        return null;
-    } //-- createComment
-
-    /**
-     * Creates a comment to be used in Javadoc from the given Annotation.
-     *
-     * @param annotation the Annotation to create the comment from
-     * @return the generated comment
-     */
-    private String createComment(final Annotation annotation) {
-        if (annotation == null) {
-            return null;
-        }
-
-        Enumeration enumeration = annotation.getDocumentation();
-        if (enumeration.hasMoreElements()) {
-            //-- just use first <info>
-            Documentation documentation = (Documentation) enumeration.nextElement();
-            return normalize(documentation.getContent());
-        }
-        return null;
-    } //-- createComment
 
 } //-- MemberFactory

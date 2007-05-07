@@ -15,9 +15,17 @@
  */
 package org.exolab.castor.builder.factory;
 
+import java.util.Enumeration;
+
 import org.exolab.castor.builder.BuilderConfiguration;
 import org.exolab.castor.builder.GroupNaming;
 import org.exolab.castor.builder.SourceGenerator;
+import org.exolab.castor.xml.schema.Annotated;
+import org.exolab.castor.xml.schema.Annotation;
+import org.exolab.castor.xml.schema.AttributeDecl;
+import org.exolab.castor.xml.schema.Documentation;
+import org.exolab.castor.xml.schema.ElementDecl;
+import org.exolab.castor.xml.schema.Structure;
 
 /**
  * This class defines a base type for the source generator code factory classes.
@@ -154,6 +162,57 @@ public class BaseFactory {
      */
     protected SourceGenerator getSourceGenerator() {
         return _sourceGenerator;
+    }
+
+    /**
+     * Creates and returns a Javadoc comment from the given annotations.
+     * @param annotated The {@link Annotated} instance holding annotations.
+     * @return The Javadoc comment created from the annotations.  
+     */
+    protected String createComment(final Annotated annotated) {
+        //-- process annotations
+        Enumeration enumeration = annotated.getAnnotations();
+        if (enumeration.hasMoreElements()) {
+            //-- just use first annotation
+            return createComment((Annotation) enumeration.nextElement());
+        }
+        //-- there were no annotations...try possible references
+        switch(annotated.getStructureType()) {
+            case Structure.ELEMENT:
+                ElementDecl elem = (ElementDecl) annotated;
+                if (elem.isReference()) {
+                    return createComment(elem.getReference());
+                }
+                break;
+            case Structure.ATTRIBUTE:
+                AttributeDecl att = (AttributeDecl) annotated;
+                if (att.isReference()) {
+                    return createComment(att.getReference());
+                }
+                break;
+            default:
+                break;
+        }
+        return null;
+    } //-- createComment
+
+    /**
+     * Creates and returns a Javadoc comment from a given {@link Annotation}.
+     * @param annotation The {@link Annotation} instance to be used for comment creation.
+     * @return The Javdoc comment assembled from the AnnotationItem instance
+     */
+    private String createComment(final Annotation annotation) {
+        if (annotation == null) {
+            return null;
+        }
+    
+        Enumeration enumeration = annotation.getDocumentation();
+        if (enumeration.hasMoreElements()) {
+            //-- just use first <info>
+            Documentation documentation = (Documentation) enumeration.nextElement();
+            return normalize(documentation.getContent());
+        }
+        return null;
     }
 
 }
