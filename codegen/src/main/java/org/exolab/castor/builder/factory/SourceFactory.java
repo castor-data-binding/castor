@@ -500,11 +500,7 @@ public final class SourceFactory extends BaseFactory {
             classInfo.setAbstract(true);
         }
 
-        //-- process annotation
-        String comment  = processAnnotations(component.getAnnotated());
-        if (comment != null) {
-            jClass.getJDocComment().setComment(comment);
-        }
+        extractAnnotations(component.getAnnotated(), jClass);
 
         makeMethods(component, sgState, state, jClass, baseClass);
 
@@ -515,6 +511,19 @@ public final class SourceFactory extends BaseFactory {
         sgState.bindSourceCode(component.getAnnotated(), classes);
 
         return classes;
+    }
+
+    /**
+     * Extract 'dcoumentation' annotations from the {@link Annotated} instance given.
+     * @param annotated {@link Annotated} instance to extract annotattions from. 
+     * @param jClass {@link JClass} instance to inject annotations into.
+     */
+    private void extractAnnotations(final Annotated annotated, final JClass jClass) {
+        //-- process annotation
+        String comment  = processAnnotations(annotated);
+        if (comment != null) {
+            jClass.getJDocComment().setComment(comment);
+        }
     }
 
     /**
@@ -797,11 +806,7 @@ public final class SourceFactory extends BaseFactory {
         classInfo.setNamespaceURI(schema.getTargetNamespace());
         classInfo.setNodeName(typeName);
 
-        //-- process annotation
-        String comment  = processAnnotations(simpleType);
-        if (comment != null) {
-            jClass.getJDocComment().setComment(comment);
-        }
+        extractAnnotations(simpleType, jClass);
 
         XSClass xsClass = new XSClass(jClass, typeName);
 
