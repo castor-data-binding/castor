@@ -73,13 +73,11 @@ import org.exolab.castor.builder.types.XSString;
 import org.exolab.castor.builder.types.XSType;
 import org.exolab.castor.xml.JavaNaming;
 import org.exolab.castor.xml.schema.Annotated;
-import org.exolab.castor.xml.schema.Annotation;
 import org.exolab.castor.xml.schema.AttributeDecl;
 import org.exolab.castor.xml.schema.AttributeGroupDecl;
 import org.exolab.castor.xml.schema.ComplexType;
 import org.exolab.castor.xml.schema.ContentModelGroup;
 import org.exolab.castor.xml.schema.ContentType;
-import org.exolab.castor.xml.schema.Documentation;
 import org.exolab.castor.xml.schema.ElementDecl;
 import org.exolab.castor.xml.schema.Facet;
 import org.exolab.castor.xml.schema.Group;
@@ -520,7 +518,7 @@ public final class SourceFactory extends BaseFactory {
      */
     private void extractAnnotations(final Annotated annotated, final JClass jClass) {
         //-- process annotation
-        String comment  = processAnnotations(annotated);
+        String comment  = extractCommentsFromAnnotations(annotated);
         if (comment != null) {
             jClass.getJDocComment().setComment(comment);
         }
@@ -1526,32 +1524,6 @@ public final class SourceFactory extends BaseFactory {
     //Note: This code is XML specific, it has to be moved somehow in XMLBindingComponent.
     //The aim of the SourceFactory is to generate code from a BindingComponent.
     ///////////////////////////////////////////////
-
-    /**
-     * Creates Comments from Schema annotations.
-     * @param annotated the Annotated structure to process
-     * @return the generated comment.
-     */
-    private String processAnnotations(final Annotated annotated) {
-        //-- process annotations
-        Enumeration enumeration = annotated.getAnnotations();
-        if (enumeration.hasMoreElements()) {
-            StringBuffer comment = new StringBuffer();
-            while (enumeration.hasMoreElements()) {
-                Annotation ann = (Annotation) enumeration.nextElement();
-                Enumeration documentations = ann.getDocumentation();
-                while (documentations.hasMoreElements()) {
-                    Documentation documentation = (Documentation) documentations.nextElement();
-                    String content = documentation.getContent();
-                    if (content != null) {
-                        comment.append(content);
-                    }
-                }
-            }
-            return normalize(comment.toString());
-        }
-        return null;
-    } //-- processAnnotations
 
     /**
      * Process the attributes contained in this complexType.
