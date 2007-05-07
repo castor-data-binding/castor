@@ -215,4 +215,32 @@ public class BaseFactory {
         return null;
     }
 
+    /**
+     * Creates Comments from Schema annotations.
+     * @param annotated the Annotated structure to process
+     * @return the generated comment.
+     * 
+     */
+    // TODO: refactor to avoid duplication with createComment() methods
+    protected String extractCommentsFromAnnotations(final Annotated annotated) {
+        //-- process annotations
+        Enumeration enumeration = annotated.getAnnotations();
+        if (enumeration.hasMoreElements()) {
+            StringBuffer comment = new StringBuffer();
+            while (enumeration.hasMoreElements()) {
+                Annotation ann = (Annotation) enumeration.nextElement();
+                Enumeration documentations = ann.getDocumentation();
+                while (documentations.hasMoreElements()) {
+                    Documentation documentation = (Documentation) documentations.nextElement();
+                    String content = documentation.getContent();
+                    if (content != null) {
+                        comment.append(content);
+                    }
+                }
+            }
+            return normalize(comment.toString());
+        }
+        return null;
+    }
+
 }
