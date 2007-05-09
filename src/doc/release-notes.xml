@@ -35,6 +35,26 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1971" tool="jira">
+                    <description>
+                    	Made org.exolab.castor.persists.spi.Identity implement java.io.Serializable.
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Gonzalo Abollado</name>
+                        <email>gabollado@gabollado.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>JDO</module>
+                    <date>20070509</date>
+                </bug>
                 <bug id="1964" tool="jira">
                     <description>
                     	Fixed problem with picking up SAX features from custom castor.properties.

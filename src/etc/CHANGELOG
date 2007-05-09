@@ -1,6 +1,11 @@
 SVN
 ---
 
+XML:   Resolved issue CASTOR-1971 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
+       Made org.exolab.castor.persists.spi.Identity implement java.io.Serializable.
+       Details: http://jira.codehaus.org/browse/CASTOR-1971
+       (Werner - 20070509)
+
 XML:   Resolved issue CASTOR-1964 using contribution from Werner Guttmann [werner.guttmann@gmx.net]
        Fixed problem with picking up SAX features from custom castor.properties.
        Details: http://jira.codehaus.org/browse/CASTOR-1964
