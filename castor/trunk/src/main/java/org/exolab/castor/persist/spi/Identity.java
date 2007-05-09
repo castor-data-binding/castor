@@ -1,10 +1,20 @@
 package org.exolab.castor.persist.spi;
 
-public final class Identity {
+public final class Identity implements java.io.Serializable {
+    
+    /**
+     * <code>serialVersionUID</code>
+     */
+    private static final long serialVersionUID = 1L;
+
     private final Object[] _all;
 
     private int _hashCode;
 
+    /**
+     * Creates an instance of this class, based upon the parameter passed in.
+     * @param o Either a {@link Complex}, an {@link Identity} instance, or an Object[] instance.
+     */
     public Identity(final Object o) {
         if (o instanceof Complex) {
             Complex complex = (Complex) o;
