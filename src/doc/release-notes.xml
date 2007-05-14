@@ -35,6 +35,27 @@
             <summary>
             </summary>
             <bugs>
+                <bug id="1981" tool="jira">
+                    <description>
+                    	Fixed a problem with the processing of substitution groups if sequence +
+                    	order validation enabled..
+                    </description>
+                    <contributor>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </contributor>
+                    <submitter>
+                        <name>Werner Guttmann</name>
+                        <email>werner.guttmann@gmx.net</email>
+                    </submitter>
+                    <reporter>
+                        <name>Ted Troccola</name>
+                        <email>ttroccola@viecorefsd.com</email>
+                    </reporter>
+                    <type>Bug</type>
+                    <module>Gen</module>
+                    <date>20070514</date>
+                </bug>
                 <bug id="1971" tool="jira">
                     <description>
                     	Made org.exolab.castor.persists.spi.Identity implement java.io.Serializable.
