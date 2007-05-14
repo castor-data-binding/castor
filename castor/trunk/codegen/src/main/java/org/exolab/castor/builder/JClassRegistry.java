@@ -216,6 +216,7 @@ public class JClassRegistry {
                             XMLBindingComponent temp = component;
                             temp.setView(referredType);
                             jClass.changeLocalName(temp.getJavaClassName());
+                            component.setView(annotated);
                         }
 //                        String typeXPath = XPathHelper
 //                                .getSchemaLocation(referredElement);
